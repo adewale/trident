@@ -1,0 +1,439 @@
+{
+  "schema": "terminal-independent-retained-validation-v1",
+  "baseSource": "41583164c64d99fbd71181fe573596de5ea32ca9",
+  "selection": "Purposive stratification by expected outcome, family, interface and equivalent style;19retained outputs. These are source-and-cell validation controls, not an error-rate estimate or league table. Manual findings were written from the literal source and actual output before rerunning the observer.",
+  "rendererCalls": 0,
+  "sourceReferenceCalls": 0,
+  "b0ArchiveSha256": "847b77bccf695944e4d7a0842617dc450ea9a4413f901c1a67cdcade2dffa8f8",
+  "b0RawSha256": "cc78d35abb772d19ea4607156dc824e43a16f904fd5809ed027ca9ae36ca0e3d",
+  "b0ResultSha256": "2685ec54c370c20b5b262c67ad20656a3952e707c008c3c84c92db6becef9866",
+  "b0Policy": "All B0 input, capture and result bytes remain immutable; later scoped observer decisions are separate.",
+  "rows": [
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "caseId": "terminal:f78157ede4e2d1ab",
+      "family": "er",
+      "sourceSha256": "f78157ede4e2d1abc7fb60523935120f011ad25848334481258778fe115400d0",
+      "outputSha256": "f00860a6c4b502fc212494e7200128bd058b150a82deef04ef9e019c770d577d",
+      "b0ArchiveMember": "terminal/f00860a6c4b502fc212494e7200128bd058b150a82deef04ef9e019c770d577d.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/er-cli-literal-stars.txt"
+      },
+      "manualVerdict": "correct",
+      "manualFinding": "One BOOK header owns string/title and id/the_Primary_Key; both leading name stars encode the documented PK alternative; no relationship ink.",
+      "artifact": {
+        "declaredEntrySha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "caseId": "terminal:f78157ede4e2d1ab",
+      "family": "er",
+      "sourceSha256": "f78157ede4e2d1abc7fb60523935120f011ad25848334481258778fe115400d0",
+      "outputSha256": "d49ea8d861dc883adf46d85ca2acd700bc4e94734a549df040205f555e4af8a4",
+      "b0ArchiveMember": "terminal/d49ea8d861dc883adf46d85ca2acd700bc4e94734a549df040205f555e4af8a4.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/er-python-literal-stars.txt"
+      },
+      "manualVerdict": "correct",
+      "manualFinding": "Same two source fields and PK semantics in undivided inline rows; padding and absent column dividers change no field role.",
+      "artifact": {
+        "declaredEntrySha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "revision": null,
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "caseId": "terminal:f78157ede4e2d1ab",
+      "family": "er",
+      "sourceSha256": "f78157ede4e2d1abc7fb60523935120f011ad25848334481258778fe115400d0",
+      "outputSha256": "e2cd20bd1ef0fbd52ce03c3a0636158dec66281c24ebf719ccfd7a79b89d70d1",
+      "b0ArchiveMember": "terminal/e2cd20bd1ef0fbd52ce03c3a0636158dec66281c24ebf719ccfd7a79b89d70d1.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/er-module-literal-stars.txt"
+      },
+      "manualVerdict": "correct",
+      "manualFinding": "Same BOOK field/key facts in indented inline rows; every required field remains in the one owned entity table.",
+      "artifact": {
+        "declaredEntrySha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+        "revision": null,
+        "integrity": "sha512-zMtVJmT4HRE6hsVxI1VNQ+TWTjN/vR2JcGXob2tMzVlVFK1a7idXifMuabXFGn3wZahovBFiiTI7YWWEG9KJOw==",
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "caseId": "terminal:1c0f33b5035768f2",
+      "family": "flowchart",
+      "sourceSha256": "1c0f33b5035768f269ecf82930876ed3963720c0a22c8916b5de2b200583c264",
+      "outputSha256": "88ca5364ec3d901490291ec61db5d03dde108744a92981f3a64f2e968ae538a4",
+      "b0ArchiveMember": "terminal/88ca5364ec3d901490291ec61db5d03dde108744a92981f3a64f2e968ae538a4.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/lines-cli.txt"
+      },
+      "manualVerdict": "correct",
+      "manualFinding": "First and Second occupy separate ordered owned row runs; Line1/2/3 retain three separate ordered row runs; the sole directed stem reaches B.",
+      "artifact": {
+        "declaredEntrySha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "caseId": "terminal:1c0f33b5035768f2",
+      "family": "flowchart",
+      "sourceSha256": "1c0f33b5035768f269ecf82930876ed3963720c0a22c8916b5de2b200583c264",
+      "outputSha256": "e6fcbcde0cbfebe36adca6baa91e5a87c3b1e3f7e39b8b20ab9264118da160c1",
+      "b0ArchiveMember": "terminal/e6fcbcde0cbfebe36adca6baa91e5a87c3b1e3f7e39b8b20ab9264118da160c1.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/lines-module.txt"
+      },
+      "manualVerdict": "correct",
+      "manualFinding": "The same authored breaks and A-to-B direction survive tighter padding and different arrow attachment height.",
+      "artifact": {
+        "declaredEntrySha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+        "revision": null,
+        "integrity": "sha512-zMtVJmT4HRE6hsVxI1VNQ+TWTjN/vR2JcGXob2tMzVlVFK1a7idXifMuabXFGn3wZahovBFiiTI7YWWEG9KJOw==",
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "caseId": "terminal:1c0f33b5035768f2",
+      "family": "flowchart",
+      "sourceSha256": "1c0f33b5035768f269ecf82930876ed3963720c0a22c8916b5de2b200583c264",
+      "outputSha256": "c426faf231c434a0c6cd542f2af04743d04aed9ef255cbaeb0383b8c4878718f",
+      "b0ArchiveMember": "terminal/c426faf231c434a0c6cd542f2af04743d04aed9ef255cbaeb0383b8c4878718f.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/lines-python-literal-tags.txt"
+      },
+      "manualVerdict": "incorrect",
+      "manualFinding": "Literal <br/> and <br> tokens replace the authored hard breaks; required distinct lines are not rendered.",
+      "artifact": {
+        "declaredEntrySha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "revision": null,
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "caseId": "terminal:87325fd383c3b1af",
+      "family": "flowchart",
+      "sourceSha256": "87325fd383c3b1af9b79168d4c8174d5e0b4ed4341d8c9f804b1249cd0de76c1",
+      "outputSha256": "ecef4fd94300e584ce8dde7cc76c1ef3fd40a69c50146b7be861efc05a65c014",
+      "b0ArchiveMember": "terminal/ecef4fd94300e584ce8dde7cc76c1ef3fd40a69c50146b7be861efc05a65c014.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/primitive-cli-lost-decision.txt"
+      },
+      "manualVerdict": "incorrect",
+      "manualFinding": "Approve? is a plain rectangle with no decision boundary or owned decision marker, despite the source diamond declaration.",
+      "artifact": {
+        "declaredEntrySha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "caseId": "terminal:87325fd383c3b1af",
+      "family": "flowchart",
+      "sourceSha256": "87325fd383c3b1af9b79168d4c8174d5e0b4ed4341d8c9f804b1249cd0de76c1",
+      "outputSha256": "e734d16e8bf935a21542de3bb034287d75f73d16b277574187617467e4da97ae",
+      "b0ArchiveMember": "terminal/e734d16e8bf935a21542de3bb034287d75f73d16b277574187617467e4da97ae.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/primitive-python-midpoint.txt"
+      },
+      "manualVerdict": "correct",
+      "manualFinding": "Matching top/bottom diamond markers own Approve?; both directed links and the owned yes caption survive.",
+      "artifact": {
+        "declaredEntrySha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "revision": null,
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "caseId": "terminal:bd36b029775eba8c",
+      "family": "state",
+      "sourceSha256": "bd36b029775eba8c0cfbf4cd6d765414c9ae7840a8cc1d9557326c9a59f152dd",
+      "outputSha256": "705d6c6d895084c717a1efaf779c27746ab1e403214e83d4439688cead402011",
+      "b0ArchiveMember": "terminal/705d6c6d895084c717a1efaf779c27746ab1e403214e83d4439688cead402011.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/state-python-cycle.txt"
+      },
+      "manualVerdict": "correct",
+      "manualFinding": "Three owned state labels form the complete continuous State1→State2→State3→State1 cycle; no source label selects a crossing.",
+      "artifact": {
+        "declaredEntrySha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "revision": null,
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "caseId": "terminal:11426c4cad392dc7",
+      "family": "flowchart",
+      "sourceSha256": "11426c4cad392dc7fbd5e7f471d586c1830876daac3f50a098d6c61ea48006df",
+      "outputSha256": "18f51a299797d7e75c6e97de6a1d8066fe542dc483b350f6194c9aaeeaccf119",
+      "b0ArchiveMember": "terminal/18f51a299797d7e75c6e97de6a1d8066fe542dc483b350f6194c9aaeeaccf119.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/graph-dotted-cli.txt"
+      },
+      "manualVerdict": "correct",
+      "manualFinding": "Separate Mermaid.js solid and MermaidASCII dotted routes reach BeautifulMermaid with their respective owned captions; all source identities and stroke roles agree.",
+      "artifact": {
+        "declaredEntrySha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "caseId": "terminal:4e4550d086c4e288",
+      "family": "flowchart",
+      "sourceSha256": "4e4550d086c4e288c1fb103e0e2bc7aa6a21b3e0d21e19f55b605c5ef4132959",
+      "outputSha256": "0e5aabb35de182d07eed7a77ab5573016db3404cf0422d0ebb8164609b14b105",
+      "b0ArchiveMember": "terminal/0e5aabb35de182d07eed7a77ab5573016db3404cf0422d0ebb8164609b14b105.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/graph-hexagon-python.txt"
+      },
+      "manualVerdict": "unknown",
+      "manualFinding": "Node primitives and Backend membership are visible, but shared source/head junctions and captions do not uniquely determine every requested directed route.",
+      "artifact": {
+        "declaredEntrySha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "revision": null,
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "caseId": "terminal:6f0f134c3b965095",
+      "family": "pie",
+      "sourceSha256": "6f0f134c3b9650951860340f7c708d12fe621a4edaeeed112c37c4f50dea6852",
+      "outputSha256": "a3944a0297e1cf2b116bbdb2bf3814bfb3c53ba5f7e578965e30a7e6f720d888",
+      "b0ArchiveMember": "terminal/a3944a0297e1cf2b116bbdb2bf3814bfb3c53ba5f7e578965e30a7e6f720d888.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/strip-equal-python.txt"
+      },
+      "manualVerdict": "correct",
+      "manualFinding": "Three equal owned glyph segments and legend bars/33.3% values retain equal relative weights; no inverse claim about unprinted absolute values.",
+      "artifact": {
+        "declaredEntrySha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "revision": null,
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "caseId": "terminal:da9198e1adbc1c14",
+      "family": "timeline",
+      "sourceSha256": "da9198e1adbc1c144a6b287850dadc08466027af7dc2dc9e4c896145221fb099",
+      "outputSha256": "07cc8440b4ebb034a256e55f7d2c3119c14d306177786688251ecd62438acc03",
+      "b0ArchiveMember": "terminal/07cc8440b4ebb034a256e55f7d2c3119c14d306177786688251ecd62438acc03.txt",
+      "evidence": {
+        "kind": "file",
+        "path": "tests/fixtures/terminal/timeline-tree-python.txt"
+      },
+      "manualVerdict": "incorrect",
+      "manualFinding": "The returned extra period bullet named :Testing is distinct from the requested continuation event under2024; source event ownership is lost.",
+      "artifact": {
+        "declaredEntrySha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "revision": null,
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "caseId": "terminal:c64d9c102f509905",
+      "family": "gitgraph",
+      "sourceSha256": "c64d9c102f509905e22a19cbe0f5ca253426727f7bb86d22249581941f31a935",
+      "outputSha256": "7772a4555278cf85c4d560cee211b238306fa456f2f874b27b2fd0a999fcb9a1",
+      "b0ArchiveMember": "terminal/7772a4555278cf85c4d560cee211b238306fa456f2f874b27b2fd0a999fcb9a1.txt",
+      "evidence": {
+        "kind": "gap-record",
+        "path": "docs/evidence/terminal-present-gaps-2026-11-01/minimum50-dispositions.json.gz"
+      },
+      "manualVerdict": "unknown",
+      "manualFinding": "Owned A/B/B-cherry labels and branches are visible; the parent stem begins beneath an overwritten commit-label row. No hidden continuation is credited.",
+      "artifact": {
+        "declaredEntrySha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "revision": null,
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "caseId": "terminal:aaf86b713c100b5a",
+      "family": "gantt",
+      "sourceSha256": "aaf86b713c100b5a41d8242ebfaa5faa3e96f75b598a365e88d1d497fbc61798",
+      "outputSha256": "0ce3787dd076175b7f5539b7dbfe21e7e846c8c6777a74411bf2b5fdf08961a0",
+      "b0ArchiveMember": "terminal/0ce3787dd076175b7f5539b7dbfe21e7e846c8c6777a74411bf2b5fdf08961a0.txt",
+      "evidence": {
+        "kind": "gap-record",
+        "path": "docs/evidence/terminal-present-gaps-2026-11-01/minimum50-dispositions.json.gz"
+      },
+      "manualVerdict": "unknown",
+      "manualFinding": "The source interval matches the visible day axis; source year/ID are not required to print. The native block glyph cannot distinguish normal from critical status.",
+      "artifact": {
+        "declaredEntrySha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "revision": null,
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "caseId": "terminal:049722f83e7a31e0",
+      "family": "c4",
+      "sourceSha256": "049722f83e7a31e037c83bde72aaf6e9b458b2155b21df6c4bc7de5eb77adfd7",
+      "outputSha256": "1b66798677ce4915374729f642aee96eae55293e573d3376250b243c1897a645",
+      "b0ArchiveMember": "terminal/1b66798677ce4915374729f642aee96eae55293e573d3376250b243c1897a645.txt",
+      "evidence": {
+        "kind": "gap-record",
+        "path": "docs/evidence/terminal-present-gaps-2026-11-01/minimum50-dispositions.json.gz"
+      },
+      "manualVerdict": "unknown",
+      "manualFinding": "The rounded box contains raw s, \"S\" text; no independently observable System-role encoding establishes the C4 kind.",
+      "artifact": {
+        "declaredEntrySha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "revision": null,
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "caseId": "terminal:908bfa4128c34006",
+      "family": "flowchart",
+      "sourceSha256": "908bfa4128c34006189696960e49e04cf55642036e1110a27cd3d79b3272a419",
+      "outputSha256": "85c67330fcada7842be1f98992767aef47ad3ee47461a3f7a2d48f2a2137e7e5",
+      "b0ArchiveMember": "terminal/85c67330fcada7842be1f98992767aef47ad3ee47461a3f7a2d48f2a2137e7e5.txt",
+      "evidence": {
+        "kind": "gap-record",
+        "path": "docs/evidence/terminal-present-gaps-2026-11-01/minimum50-dispositions.json.gz"
+      },
+      "manualVerdict": "unknown",
+      "manualFinding": "A/B share repeated source contacts and a cycle before the C/D heads. Its source/target pairing and multiplicity cannot be selected from expected edges.",
+      "artifact": {
+        "declaredEntrySha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "caseId": "terminal:9e4e5a5e072642e8",
+      "family": "state",
+      "sourceSha256": "9e4e5a5e072642e8268139c9c8ae318b3361f867333f73e0d19e9d32ce41c5e3",
+      "outputSha256": "37732b51b69dd386986891556bcf65cfae695da0afd17866a86210a76d2a0b02",
+      "b0ArchiveMember": "terminal/37732b51b69dd386986891556bcf65cfae695da0afd17866a86210a76d2a0b02.txt",
+      "evidence": {
+        "kind": "gzip-file",
+        "path": "tests/fixtures/terminal/validation-merman-final.txt.gz"
+      },
+      "manualVerdict": "correct",
+      "manualFinding": "The complete Hebrew ordinary-state caption lies in its own box, between a filled initial point and a distinct double-circle final endpoint; two continuous headed stems establish the entire source chain. No stored state ID or hidden route supplies the final role.",
+      "artifact": {
+        "declaredEntrySha256": "f1e16af45f4c43e2c7d69a48c2f3bc286b061b84dca994fa83da98593705793d",
+        "revision": null,
+        "integrity": "sha512-SqKB/VjkjxNgyxAkvGGbTQACrTpPkg5udiDtJswYEnSkOjKdRISYKtK2Hzi/Y8TjK3beHMHyOQeoCS10V+AD4g==",
+        "bindingLimit": "Entry file and npm integrity were declared; imported package files were not fully enumerated in this retained artifact."
+      }
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.0.26",
+      "caseId": "terminal:9e4e5a5e072642e8",
+      "family": "state",
+      "sourceSha256": "9e4e5a5e072642e8268139c9c8ae318b3361f867333f73e0d19e9d32ce41c5e3",
+      "outputSha256": "fba35e810be235f2770200e81dabe8f222dcb56e6646cf73594eb2afe917f0fc",
+      "b0ArchiveMember": "terminal/fba35e810be235f2770200e81dabe8f222dcb56e6646cf73594eb2afe917f0fc.txt",
+      "evidence": {
+        "kind": "gzip-file",
+        "path": "tests/fixtures/terminal/validation-opencode-final.txt.gz"
+      },
+      "manualVerdict": "correct",
+      "manualFinding": "The complete Hebrew ordinary-state caption lies in its own box, between a filled initial point and a distinct double-circle final endpoint; two continuous headed stems establish the entire source chain. No stored state ID or hidden route supplies the final role.",
+      "artifact": {
+        "declaredEntrySha256": null,
+        "revision": "4617210822bdbb31e5749751afbfb4584ccedac8",
+        "integrity": null,
+        "bindingLimit": "Retained B0 declaration; output-byte ownership is independently checked against the immutable archive."
+      }
+    }
+  ],
+  "limits": [
+    "Does not independently validate the other retained cases or all combinations of layouts, Unicode, controls and families.",
+    "The KitMerman sample retains output-byte ownership and its declared entry/integrity; no newly authenticated imported-module closure is claimed.",
+    "Unknowns reflect missing representation ownership or noninjective/occluded information, never a generic inference that the renderer is wrong."
+  ],
+  "publicStyleEvidence": [
+    {
+      "project": "anomalyco/opencode",
+      "revision": "4617210822bdbb31e5749751afbfb4584ccedac8",
+      "path": "packages/merman/src/state/parser.ts",
+      "gitBlob": "c02a5af881acdb42a9a6fb72ce2f257801316651",
+      "sha256": "cfbb93327e19f45c680a48b431edd81bf65cdad59ec7eeda19d8b7ed88f9c607",
+      "lines": "184-185",
+      "url": "https://github.com/anomalyco/opencode/blob/4617210822bdbb31e5749751afbfb4584ccedac8/packages/merman/src/state/parser.ts#L184",
+      "finding": "The public state encoder maps the start pseudostate to filledpoint and the end pseudostate to doublecircle. This supports interpreting the endpoint style; no parser/model result defines source expected facts.",
+      "captureBinding": "This source blob appears in the retained artifact sourceFiles declaration."
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "path": "dist/state/parser.mjs",
+      "sha256": "c5d33b9464dfa55b982612154794b1f71fec43686bbae92e342b89909105891b",
+      "lines": "145-146",
+      "finding": "Published module uses the same filledpoint/doublecircle roles; byte-only inspection, no module execution.",
+      "captureBinding": "Not a B0 captured-member seal: the B0 manifest lists only dist/index.mjs. This is public format context, not retroactive imported-closure authentication."
+    }
+  ]
+}

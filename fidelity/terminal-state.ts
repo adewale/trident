@@ -1,3 +1,4 @@
+import { observedTerminalDoubleCircleEnd } from './terminal-state-markers.ts'
 import { interpretTerminal } from './terminal-display.ts'
 import { terminalRectangles } from './terminal-rectangles.ts'
 import { inspectTerminalMeaning, type TerminalMeaning } from './terminal.ts'
@@ -17,24 +18,26 @@ export function inspectTerminalState(output: string, contract: TerminalSourceCon
   if (states.some(state => groupIds.includes(state.id) && state.id !== state.label)) return checks
   if (states.every(state => !state.scope.length)) {
     const initial = transitions.some(edge => edge.source === '[*]'), final = transitions.some(edge => edge.target === '[*]'), start = '\0initial', end = '\0final'
-    const verdict = inspectTerminalMeaning(output, { nodes: [...states.map(({ id, label }) => ({ id, label })), ...(initial ? [{ id: start, label: '●' }] : []), ...(final ? [{ id: end, label: '◉' }] : [])], edges: transitions.map(edge => ({ source: edge.source === '[*]' ? start : edge.source, target: edge.target === '[*]' ? end : edge.target, ...(edge.caption ? { label: edge.caption } : {}) })) }, { primitiveShapes: true })
+    if ((initial || final) && (states.some(state => /[●◉◎]/.test(state.label)) || transitions.some(edge => /[●◉◎]/.test(edge.caption)))) { checks.forEach(check => check.detail = 'Literal source captions contain state-marker glyphs; literal/role ownership is outside this marker profile'); return checks }
+    const display = interpretTerminal(output, { columns: 4096, rows: 2048, inputBytes: 2_000_000 }), boxes = display.status === 'available' ? terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true, cornerPorts: true }) : []
+    const ordinaryOwners = boxes.filter(box => states.some(state => normalizedTerminalText(state.label) === normalizedTerminalText(box.lines.join(' ')))), doubleCircle = final && transitions.filter(edge => edge.target === '[*]').length === 1 && display.status === 'available' ? observedTerminalDoubleCircleEnd(display.cells, boxes, ordinaryOwners) : undefined, finalGlyph = doubleCircle?.glyph ?? '◉', markerGlyphs = new Set(['●', finalGlyph])
+    const verdict = inspectTerminalMeaning(output, { nodes: [...states.map(({ id, label }) => ({ id, label })), ...(initial ? [{ id: start, label: '●' }] : []), ...(final ? [{ id: end, label: finalGlyph }] : [])], edges: transitions.map(edge => ({ source: edge.source === '[*]' ? start : edge.source, target: edge.target === '[*]' ? end : edge.target, ...(edge.caption ? { label: edge.caption } : {}) })) }, { primitiveShapes: true, pointMarkers: [...markerGlyphs] })
     for (const criterion of ['states', 'transitions']) set(criterion, verdict.status === 'correct' ? 'passed' : verdict.status === 'incorrect' && (/node labelled|node inventory|node line breaks/.test(verdict.reason) ? criterion === 'states' : criterion === 'transitions') ? 'failed' : 'unknown', 'Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: ' + verdict.reason, verdict.edges)
     // A crossing cannot erase independently owned ordinary-state identities.
     // Initial/final glyphs remain transition obligations, not invented states.
-    const display = interpretTerminal(output, { columns: 4096, rows: 2048, inputBytes: 2_000_000 })
     if (display.status === 'available') {
-      const boxes = terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true, cornerPorts: true }), ordinary = boxes.map(box => ({ ...box, label: normalizedTerminalText(box.lines.join(' ')) })).filter(box => !/^[●◉]$/.test(box.label))
+      const ordinary = boxes.map(box => ({ ...box, label: normalizedTerminalText(box.lines.join(' ')) })).filter(box => !markerGlyphs.has(box.label))
       const disjoint = boxes.every((box, at) => boxes.every((other, n) => at === n || box.right < other.x || other.right < box.x || box.bottom < other.y || other.bottom < box.y))
       const exactOrdinary = disjoint && ordinary.length === states.length && states.every(state => ordinary.filter(box => box.label === normalizedTerminalText(state.label)).length === 1)
       if (exactOrdinary) set('states', 'passed', 'Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing', ordinary.map(box => ({ label: box.label, scope: [] })))
-      const markers = boxes.map(box => normalizedTerminalText(box.lines.join(' '))).filter(label => /^[●◉]$/.test(label))
-      if (exactOrdinary && markers.length === Number(initial) + Number(final) && boxes.length === ordinary.length + markers.length && (markers.filter(label => label === '●').length !== Number(initial) || markers.filter(label => label === '◉').length !== Number(final))) set('transitions', 'failed', 'The complete independently closed known-role marker inventory has the wrong initial/final roles; ordinary-state identity credit cannot erase a typed pseudostate defect', markers)
+      const markers = boxes.map(box => normalizedTerminalText(box.lines.join(' '))).filter(label => markerGlyphs.has(label))
+      if (exactOrdinary && markers.length === Number(initial) + Number(final) && boxes.length === ordinary.length + markers.length && (markers.filter(label => label === '●').length !== Number(initial) || markers.filter(label => label === finalGlyph).length !== Number(final))) set('transitions', 'failed', 'The complete independently closed known-role marker inventory has the wrong initial/final roles; ordinary-state identity credit cannot erase a typed pseudostate defect', markers)
       const chain = framedStateChain(display.cells, boxes)
-      if (chain && transitions.every(edge => !edge.scope.length) && !states.some(state => /^[●◉]$/.test(state.label))) {
-        const wantedStates = states.map(state => normalizedTerminalText(state.label)).sort(), actualStates = chain.frames.filter(frame => !/^[●◉]$/.test(frame.label)).map(frame => frame.label).sort(), equal = JSON.stringify(wantedStates) === JSON.stringify(actualStates)
+      if (chain && transitions.every(edge => !edge.scope.length) && !states.some(state => markerGlyphs.has(state.label))) {
+        const wantedStates = states.map(state => normalizedTerminalText(state.label)).sort(), actualStates = chain.frames.filter(frame => !markerGlyphs.has(frame.label)).map(frame => frame.label).sort(), equal = JSON.stringify(wantedStates) === JSON.stringify(actualStates)
         set('states', equal ? 'passed' : 'failed', 'Disjoint complete rails and one continuous side own each single literal state caption; a ragged unused side supplies no port or shape credit', actualStates)
         if (equal) {
-          const label = (id: string) => states.find(state => state.id === id)?.label, wanted = transitions.map(edge => [edge.source === '[*]' ? '●' : label(edge.source), edge.target === '[*]' ? '◉' : label(edge.target), edge.caption]), canonical = (items: unknown[][]) => items.map(item => JSON.stringify(item)).sort()
+          const label = (id: string) => states.find(state => state.id === id)?.label, wanted = transitions.map(edge => [edge.source === '[*]' ? '●' : label(edge.source), edge.target === '[*]' ? finalGlyph : label(edge.target), edge.caption]), canonical = (items: unknown[][]) => items.map(item => JSON.stringify(item)).sort()
           set('transitions', chain.broken || JSON.stringify(canonical(chain.edges)) !== JSON.stringify(canonical(wanted)) ? 'failed' : 'passed', 'Actual continuous vertical stems and adjacent directed heads meet existing top/bottom rails; missing side cells are never reconstructed or used as endpoints', chain.edges)
         }
       }
