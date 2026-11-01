@@ -1,3 +1,4 @@
+import { readBehaviourEvidence } from './mermaid-behaviour-evidence.ts'
 import { drawingObservationsForCase, drawingOutcomeCells, drawingOutcomeColumns, drawingStatisticsColumns, retainedDrawingOutcome, summarizeDrawingOutcomes } from './drawing-outcomes.ts'
 import { documentationPopulation } from './docs-population.ts'
 import { createHash } from 'node:crypto'
@@ -30,6 +31,18 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   for (const boundary of report.results) {
     if (!boundary.out) continue
     const cohort = (boundary as typeof boundary & { cohort?: string }).cohort ?? 'core'
+    if (boundary.suite === 'mermaid-behaviour') {
+      const evidence = readBehaviourEvidence(boundary.out), planned = evidence.corpus.cases.length
+      for (const target of evidence.targets) {
+        const counts = target.counts, hasRecordedCall = target.rows.some((row: any) => row.evidence && row.status !== 'unrun') || evidence.captureMode !== 'retained-upstream-public-calls' && evidence.rawInvocations > 0
+        add(['mermaid-behaviour', evidence.protocol, evidence.report.corpusSha256], 'mermaid-behaviour', evidence.measuredAt ?? evidence.assessedAt,
+          `Corpus: ${planned} whole source-derived observable behaviours from pinned Mermaid ${evidence.sourceCommit}. Every ordered stimulus and declared check in a case must pass; detail checks are not extra votes. Source adaptations compare explicit diagram-family aliases and static SVG accessible naming through native public returns, without private model/API-shape requirements. Unavailable and unrun observations remain unresolved, not unsupported or failed. Actual Mermaid reference qualification: ${evidence.referenceQualification.qualified ? 'qualified' : 'unresolved'}; its actual artifact and raw checks remain in the owning evidence, and no reference target row is invented. Dates use the retained owning public-call collection or native invocation journal; targets without recorded calls keep an unknown clock. If no call clock exists, the table date is explicitly the assessment publication date. Assessment publication: ${evidence.assessedAt}. This finite corpus supplies no whole-library conformance, drawing-accuracy or timing claim.`,
+          ['Version', 'Passed', 'Failed', 'Unavailable', 'Unrun', 'Planned', 'Measured'], projectId(target.project),
+          [target.version ?? 'unavailable', counts.passed, counts.failed, counts.unavailable, counts.unrun, planned, hasRecordedCall && evidence.measuredAt ? evidence.measuredAt : 'Unknown; no recorded public call'],
+          { column: 'Passed', direction: 'descending' }, { cohort, summary: true, unit: 'whole observable behaviour cases', comparisonKey: hash(['mermaid-behaviour', evidence.protocol, evidence.report.corpusSha256]), population: { total: 'Planned', outcomes: ['Passed', 'Failed', 'Unavailable', 'Unrun'] }, ...(candidate ? {} : { overview: { numerator: 'Passed', denominator: 'Planned', suffix: '' } }) })
+      }
+      continue
+    }
     if (boundary.suite === 'public-conformance') {
       for (const table of publicTestTables(boundary.out, receipt, report.updatedAt)) tables.set(table.id, table)
       continue
