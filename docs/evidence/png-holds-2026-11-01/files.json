@@ -192,7 +192,7 @@
       "bytes": 8898
     },
     {
-      "path": "probes/measure-font-requests.ts",
+      "path": "probes/measure-font-requests.ts.txt",
       "sha256": "b84395cfe9129d79997eab87c2f71c6900d664403a74cc28e5dcad98a12bedc1",
       "bytes": 4675
     },
@@ -222,7 +222,7 @@
       "bytes": 4077
     },
     {
-      "path": "probes/measure-usecase492-fonts-pure.ts",
+      "path": "probes/measure-usecase492-fonts-pure.ts.txt",
       "sha256": "8bb90d87f1a8862b6a10e2536f61b706af04e72097acfc0f536ab49aaa11f648",
       "bytes": 5084
     },

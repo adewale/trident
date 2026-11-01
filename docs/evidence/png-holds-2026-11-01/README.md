@@ -84,3 +84,5 @@ renderer. Raw absolute paths remain historical provenance. Actual call ownership
 and original public dates/clocks remain bound to the unchanged
 [base archive](../png-full-corpus-2026-10-31/publication-manifest.json); regrading
 creates no new call or timing sample. Native PNG requires no SVG capability.
+
+The two `*.ts.txt` probe files preserve the exact historical producer bytes and original workspace paths. They are source snapshots, not portable repository commands; the imported review receipts and measurement outputs retain their original hashes. The admission and reduction scripts use repository-relative imports.
