@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Publish the full 27-project campaign with separate SVG, PNG, terminal and behaviour tables, scoped timing and downloadable raw evidence; preserve B0.
+- Import standard timing bundles through normal reporting, retaining each pair’s controls and withholding unqualified speed ranks.
+- Fix terminal report serialization and SVG journal lookup; replay blocked stylesheet imports under the collection policy.
+- Regrade selected formats without changing the others, retain prior completion receipts and avoid hashing an immutable SVG context for every case.
+
 - Make DaveBench coverage one retained call per input and format, without warmups; reserve repetition for qualified timing.
 - Remove unused reverse PNG-to-SVG scoring machinery; keep historical evidence intact.
 - Consolidate benchmark descriptions and current PNG evidence links; distinguish core workloads from maintenance diagnostics.

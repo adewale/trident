@@ -6,10 +6,10 @@ The unchanged Mermaid Public API Tests remain an optional compatibility diagnost
 Public Model Contracts retain their separate API scope. SVG inspection and cost measurement are shared machinery.
 There is no combined renderer-quality score or validated production holdout.
 
-The [current minimum-cohort qualification results](docs/qualification-results-2026-10-31.md)
-rank verified counts and separately qualified timing comparisons on named inputs.
-They are the frozen B0 baseline, with explicit unknowns and their original observer.
-New grading and historical ecosystem campaigns retain separate identities.
+The [current campaign results](RESULTS.md) rank verified counts and separately
+qualified timing comparisons on named inputs. The [frozen B0 report](docs/qualification-results-2026-10-31.md)
+keeps its original minimum cohorts, unknowns and observer. Later campaigns and
+new grading retain separate identities.
 
 ```sh
 bun commands.ts bench --projects OWNER/TOOL,... --profile full --plan
@@ -87,14 +87,11 @@ semantic oracle. PNG and SVG are graded directly; ordinary scoring never transfe
 credit into SVG. Historical transfer records retain their original protocol.
 Content without an admissible current review stays unknown. Settings-only
 sources have no nonblank-drawing requirement. New PNG clocks remain descriptive
-unless every timed output and A/A calibration qualify. The retained two-project PNG cohort contains actual Mermaid conversions and native
-Flutter returns, inspected at native dimensions. Current admitted decisions,
-required-fact holds and native no-image outcomes are separate in the
-[benchmark report](docs/qualification-results-2026-10-31.md),
-[summary](results/tables/docs-1.md) and
-[all grades](results/current-outcomes-2026-11-01/normal/png-result.json.gz).
-[Independent image evidence](docs/evidence/png-full-corpus-2026-10-31/README.md)
-preserves repairs and review histories. No viewing count supplies a correctness pass.
+unless every timed output and A/A calibration qualify. The PNG lane contains actual SVG conversions and native Flutter returns.
+The [current tables](RESULTS.md) retain their output and pipeline boundaries;
+the [raw archive](https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-11-01)
+contains every grade and its owning output. [Original image-review histories](docs/evidence/png-full-corpus-2026-10-31/README.md)
+remain available. A viewing count supplies no correctness credit.
 
 The replaced v1 standalone PNG exporter and old studies retain their own protocols;
 their counts and timings are not silently imported into the new output lanes.

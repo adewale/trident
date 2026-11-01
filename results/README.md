@@ -1,8 +1,7 @@
 # Publishing benchmark results
 
 [RESULTS.md](../RESULTS.md) is the repository's ecosystem overview. It lists all
-eligible projects and the latest corpus comparisons. The 31 October campaign
-separates DaveBench SVG/PNG returns and content, pinned public API tests and
+eligible projects and the latest corpus comparisons. The 1 November campaign covers the 27 eligible projects and separates DaveBench SVG/PNG returns and content, pinned public API tests and
 Terminal Rendering. Authored SVG feature/edit cases remain unscored diagnostics;
 optional public-model contracts retain separate reports. Historical studies and
 the previous overview remain linked at immutable revisions.
@@ -103,6 +102,13 @@ retain outcomes and evidence without ranks or comparative charts. There is no pe
 `SnapshotTable` values. Hand-entered historical tables remain immutable legacy
 imports; they are not a template for adding fresh campaign results. Pilot campaigns
 are rejected by the ecosystem importer.
+
+Regrade saved outputs when a checker or review changes. Use
+`bun unified/recheck-rendering.ts --campaign DIR --out FRESH_DIR --formats png --png-reviews FILE`
+to update PNG alone, or `--formats svg` to update SVG alone. Unselected formats
+keep their grades and observer identities. Changed source-review facts require
+rechecking all affected formats. A completion receipt appears only after the
+regrade succeeds; prior receipts remain in its history.
 
 Keep failure outputs, artifact identities and actual measurement dates. A
 campaign invocation date can be newer than reused measurements; the linked

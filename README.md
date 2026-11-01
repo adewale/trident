@@ -15,18 +15,17 @@ Trident compares Mermaid tools on input compatibility, diagram meaning and rende
 - [Comparison contracts](FAIRNESS.md): planning, independent inputs and comparable result rankings.
 - [Ecosystem results](RESULTS.md): benchmark tables and charts, measurement dates and missing results for every eligible project.
 
-The [31 October campaign](docs/ecosystem-campaign-2026-10-31.md) covers the current
-27-project selection, with separate return and content results and comparisons
-against Mermaid. The [30 October campaign](https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md)
-publishes the original 39-project results and raw download, including projects
-later excluded from regular campaigns. The rolling overview uses the current
-27-project selection.
+The [1 November campaign](RESULTS.md) covers the 27 eligible projects: 548
+documentation inputs in SVG and PNG, 120 terminal inputs and 49 adapted Mermaid
+behaviour cases. Tables show recorded artifact versions, verified counts,
+missing bindings and unresolved content. The [raw archive](https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-11-01)
+keeps public-call records, outputs, source provenance and failed attempts.
 
-The [current minimum-cohort report](docs/qualification-results-2026-10-31.md)
-reports the frozen [B0 baseline](results/baseline.json): verified counts, explicit
-unknowns and three separate qualified timing comparisons. It reuses retained
-outputs from the minimum verification cohorts; it is separate from the historical
-27-project campaign. A verified count is a lower bound while unknowns remain.
+The [frozen B0 report](docs/qualification-results-2026-10-31.md) retains its
+original minimum cohorts, observer and separate timing comparisons.
+[31 October](docs/ecosystem-campaign-2026-10-31.md) and
+[30 October](https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md)
+remain historical campaigns. A verified count is a lower bound while unknowns remain.
 
 ## Benchmarks
 
@@ -51,8 +50,8 @@ Ordinary DaveBench coverage makes one call per occurrence and format, with no
 warmups. It retains output before grading. Regrade those bytes when a checker
 changes; recollect only missing or unusable evidence. Qualified timing runs are
 separate and check every timed output plus A/A controls. Current PNG evidence is
-in the [summary](results/tables/docs-1.md) and
-[grade ledger](results/current-outcomes-2026-11-01/normal/png-result.json.gz).
+in the [ranked tables](RESULTS.md) and
+[raw evidence](https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-11-01).
 Hashes bind a review to an image; they do not prove that its judgement is right.
 
 The 154 unchanged public API callbacks, authored feature/edit cases, legacy
