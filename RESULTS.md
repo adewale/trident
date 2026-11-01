@@ -32,13 +32,13 @@ Overview order: verified-count rank, DaveBench — Documentation Rendering, high
 | ASCII Mermaid | — | [28/116 verified; bounds 28–79/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | N/A | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap |
 | Beautiful Mermaid | — | [35/116 verified; bounds 35–94/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-9a96366653e648f12e77acbc) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-9a96366653e648f12e77acbc) | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap |
 | Bezel | — | N/A | [failed · 2026-10-31](results/tables/docs-1.md#attempt-a6748232ce76288c20c61b31) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-a6748232ce76288c20c61b31) | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap |
-| Crafter Mermaid | — | [0/116 verified; bounds 0–116/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-e5ca8c8ca57bc72dd2071a6f) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-e5ca8c8ca57bc72dd2071a6f) | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap |
+| Crafter Mermaid | — | [No verified terminal drawing observations · 2026-10-31](#run-3ffc7bedce92721e135091b1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-e5ca8c8ca57bc72dd2071a6f) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-e5ca8c8ca57bc72dd2071a6f) | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap |
 | DSH Mermaid GB SVG | — | N/A | [failed · 2026-10-31](results/tables/docs-1.md#attempt-469dcf8bd485eea7a5d83cff) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-469dcf8bd485eea7a5d83cff) | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap |
 | Figurehead | — | [18/116 verified; bounds 18–89/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | N/A | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap |
 | Frankenmermaid | — | [0/116 verified; bounds 0–115/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-61a0031e58fd695b92b4e474) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-61a0031e58fd695b92b4e474) | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap |
 | Grok renderer | — | [0/116 verified; bounds 0–93/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | N/A | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap |
 | Kitlangton Merman | — | [16/116 verified; bounds 16–85/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | N/A | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap |
-| Latias Merman | — | [0/116 verified; bounds 0–116/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-e18e34ca3933153fc166c7a1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-e18e34ca3933153fc166c7a1) | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap |
+| Latias Merman | — | [No verified terminal drawing observations · 2026-10-31](#run-3ffc7bedce92721e135091b1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-e18e34ca3933153fc166c7a1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-e18e34ca3933153fc166c7a1) | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap |
 | Loom renderer | — | [43/116 verified; bounds 43–90/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | N/A | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap |
 | Mermaid ASCII | — | [42/116 verified; bounds 42–54/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | N/A | N/A | [recorded · 2026-11-01](results/tables/portable-1.md#b0-attempt-ba629e0813ae752105d3059e) | Unmeasured: binding gap | Unmeasured: binding gap |
 | Mermaid Dart | — | N/A | [failed · 2026-10-31](results/tables/docs-1.md#attempt-963caf565e2c5c904b69fcbd) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-963caf565e2c5c904b69fcbd) | Unmeasured: binding gap | Unmeasured: binding gap | Unmeasured: binding gap |
@@ -46,7 +46,7 @@ Overview order: verified-count rank, DaveBench — Documentation Rendering, high
 | MermaidText | — | [40/116 verified; bounds 40–93/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | N/A | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap |
 | MermaidTUI | — | [7/116 verified; bounds 7–110/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | N/A | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap |
 | Merslim | — | [16/116 verified; bounds 16–69/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-3adecc711b1ff1bcba322613) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-3adecc711b1ff1bcba322613) | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap |
-| Ondine | — | [0/116 verified; bounds 0–116/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-3cdb20cdfb3f304ac86acdc1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-3cdb20cdfb3f304ac86acdc1) | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap |
+| Ondine | — | [No verified terminal drawing observations · 2026-10-31](#run-3ffc7bedce92721e135091b1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-3cdb20cdfb3f304ac86acdc1) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-3cdb20cdfb3f304ac86acdc1) | Unmeasured | Unmeasured: binding gap | Unmeasured: binding gap |
 | OpenCode Merman | — | [20/116 verified; bounds 20–84/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | N/A | N/A | N/A | Unmeasured: binding gap | Unmeasured: binding gap |
 | Pele | — | N/A | [failed · 2026-10-31](results/tables/docs-1.md#attempt-afe4ad86129eda1dd1b8dd92) | [failed · 2026-10-31](results/tables/docs-1.md#attempt-afe4ad86129eda1dd1b8dd92) | [recorded · 2026-11-01](results/tables/portable-1.md#b0-attempt-8a5058429ae6e2615a186285) | Unmeasured: binding gap | Unmeasured: binding gap |
 | Termaid | — | [65/116 verified; bounds 65–83/116 · 2026-10-31](#run-3ffc7bedce92721e135091b1) | N/A | N/A | [recorded · 2026-11-01](results/tables/portable-1.md#b0-attempt-ad0d55e6d45d3ff2ec2d82f4) | Unmeasured: binding gap | Unmeasured: binding gap |
@@ -70,30 +70,30 @@ Current retained-evidence outcome reduction. Only the explicitly listed saved-ou
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
-Ranks order verified correct counts, including zero. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
+Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
 
 Comparisons claim superiority only when correctness bounds are disjoint; otherwise they describe verified-count differences. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
 
-| Project | Verified-count rank | Version | Correct | Incorrect drawing | Invalid format | Unsupported | Renderer failure | Unassessed | Unrun | Harness failure | Planned | Observer coverage (%) | Correctness lower (%) | Correctness upper (%) | Measured | vs Mermaid ASCII |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Termaid | 1 | 0.10.0 | 65 | 33 | 0 | 0 | 0 | 18 | 0 | 0 | 116 | 84.5 | 56.0 | 71.6 | 2026-10-31T19:49:40.725094Z | Higher on this corpus (+23 verified); disjoint bounds |
-| Zombie Mermaid | 2 | 5.10.2 | 60 | 12 | 0 | 0 | 0 | 44 | 0 | 0 | 116 | 62.1 | 51.7 | 89.7 | Unknown; recovered text, see receipt | Higher on this corpus (+18 verified); disjoint bounds |
-| Agentic Mermaid | 3 | 0.4.1 | 58 | 16 | 0 | 0 | 0 | 42 | 0 | 0 | 116 | 63.8 | 50.0 | 86.2 | 2026-10-31T19:49:41.622Z | Higher on this corpus (+16 verified); disjoint bounds |
-| Loom renderer | 4 | 0.10.0 | 43 | 26 | 0 | 0 | 0 | 47 | 0 | 0 | 116 | 59.5 | 37.1 | 77.6 | Unknown; recovered text, see receipt | More verified (+1); bounds overlap |
-| Mermaid ASCII | 5 | 1.6.1 | 42 | 24 | 0 | 38 | 0 | 12 | 0 | 0 | 116 | 56.9 | 36.2 | 46.6 | 2026-10-31T19:49:40.519Z | Baseline |
-| MermaidText | 6 | git-a6b0c7657b94 | 40 | 23 | 0 | 0 | 0 | 53 | 0 | 0 | 116 | 54.3 | 34.5 | 80.2 | Unknown; recovered text, see receipt | Fewer verified (-2); bounds overlap |
-| Beautiful Mermaid | 7 | 1.1.3 | 35 | 22 | 0 | 0 | 0 | 59 | 0 | 0 | 116 | 49.1 | 30.2 | 81.0 | Unknown; recovered text, see receipt | Fewer verified (-7); bounds overlap |
-| ASCII Mermaid | 8 | 0.1.0 | 28 | 37 | 0 | 0 | 0 | 51 | 0 | 0 | 116 | 56.0 | 24.1 | 68.1 | Unknown; recovered text, see receipt | Fewer verified (-14); bounds overlap |
-| OpenCode Merman | 9 | 2.0.26 | 20 | 32 | 0 | 0 | 0 | 64 | 0 | 0 | 116 | 44.8 | 17.2 | 72.4 | Unknown; recovered text, see receipt | Fewer verified (-22); bounds overlap |
-| Figurehead | 10 | v0.4.3 | 18 | 27 | 0 | 0 | 0 | 71 | 0 | 0 | 116 | 38.8 | 15.5 | 76.7 | Unknown; recovered text, see receipt | Fewer verified (-24); bounds overlap |
-| Kitlangton Merman | 11 | 0.2.1 | 16 | 31 | 0 | 0 | 0 | 69 | 0 | 0 | 116 | 40.5 | 13.8 | 73.3 | Unknown; recovered text, see receipt | Fewer verified (-26); bounds overlap |
-| Merslim | 11 | 0.2.3 | 16 | 47 | 0 | 0 | 0 | 53 | 0 | 0 | 116 | 54.3 | 13.8 | 59.5 | Unknown; recovered text, see receipt | Fewer verified (-26); bounds overlap |
-| MermaidTUI | 13 | 0.0.6 | 7 | 6 | 0 | 0 | 0 | 103 | 0 | 0 | 116 | 11.2 | 6.0 | 94.8 | Unknown; recovered text, see receipt | Fewer verified (-35); bounds overlap |
-| Crafter Mermaid | 14 | 0.0.3 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
-| Frankenmermaid | 14 | 0.4.0 | 0 | 1 | 0 | 0 | 0 | 115 | 0 | 0 | 116 | 0.9 | 0.0 | 99.1 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
-| Grok renderer | 14 | git-2bdd1d6a6369 | 0 | 23 | 0 | 0 | 0 | 93 | 0 | 0 | 116 | 19.8 | 0.0 | 80.2 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
-| Latias Merman | 14 | 0.9.2 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
-| Ondine | 14 | 0.0.3 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
+| Project | Verified-count rank | Version | Correct | Incorrect drawing | Invalid format | Unsupported | Renderer failure | Unassessed | Unrun | Harness failure | Planned | Observer coverage (%) | Correctness lower (%) | Correctness upper (%) | Measured | vs Mermaid ASCII | Ranking note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Termaid | 1 | 0.10.0 | 65 | 33 | 0 | 0 | 0 | 18 | 0 | 0 | 116 | 84.5 | 56.0 | 71.6 | 2026-10-31T19:49:40.725094Z | Higher on this corpus (+23 verified); disjoint bounds |  |
+| Zombie Mermaid | 2 | 5.10.2 | 60 | 12 | 0 | 0 | 0 | 44 | 0 | 0 | 116 | 62.1 | 51.7 | 89.7 | Unknown; recovered text, see receipt | Higher on this corpus (+18 verified); disjoint bounds |  |
+| Agentic Mermaid | 3 | 0.4.1 | 58 | 16 | 0 | 0 | 0 | 42 | 0 | 0 | 116 | 63.8 | 50.0 | 86.2 | 2026-10-31T19:49:41.622Z | Higher on this corpus (+16 verified); disjoint bounds |  |
+| Loom renderer | 4 | 0.10.0 | 43 | 26 | 0 | 0 | 0 | 47 | 0 | 0 | 116 | 59.5 | 37.1 | 77.6 | Unknown; recovered text, see receipt | More verified (+1); bounds overlap |  |
+| Mermaid ASCII | 5 | 1.6.1 | 42 | 24 | 0 | 38 | 0 | 12 | 0 | 0 | 116 | 56.9 | 36.2 | 46.6 | 2026-10-31T19:49:40.519Z | Baseline |  |
+| MermaidText | 6 | git-a6b0c7657b94 | 40 | 23 | 0 | 0 | 0 | 53 | 0 | 0 | 116 | 54.3 | 34.5 | 80.2 | Unknown; recovered text, see receipt | Fewer verified (-2); bounds overlap |  |
+| Beautiful Mermaid | 7 | 1.1.3 | 35 | 22 | 0 | 0 | 0 | 59 | 0 | 0 | 116 | 49.1 | 30.2 | 81.0 | Unknown; recovered text, see receipt | Fewer verified (-7); bounds overlap |  |
+| ASCII Mermaid | 8 | 0.1.0 | 28 | 37 | 0 | 0 | 0 | 51 | 0 | 0 | 116 | 56.0 | 24.1 | 68.1 | Unknown; recovered text, see receipt | Fewer verified (-14); bounds overlap |  |
+| OpenCode Merman | 9 | 2.0.26 | 20 | 32 | 0 | 0 | 0 | 64 | 0 | 0 | 116 | 44.8 | 17.2 | 72.4 | Unknown; recovered text, see receipt | Fewer verified (-22); bounds overlap |  |
+| Figurehead | 10 | v0.4.3 | 18 | 27 | 0 | 0 | 0 | 71 | 0 | 0 | 116 | 38.8 | 15.5 | 76.7 | Unknown; recovered text, see receipt | Fewer verified (-24); bounds overlap |  |
+| Kitlangton Merman | 11 | 0.2.1 | 16 | 31 | 0 | 0 | 0 | 69 | 0 | 0 | 116 | 40.5 | 13.8 | 73.3 | Unknown; recovered text, see receipt | Fewer verified (-26); bounds overlap |  |
+| Merslim | 11 | 0.2.3 | 16 | 47 | 0 | 0 | 0 | 53 | 0 | 0 | 116 | 54.3 | 13.8 | 59.5 | Unknown; recovered text, see receipt | Fewer verified (-26); bounds overlap |  |
+| MermaidTUI | 13 | 0.0.6 | 7 | 6 | 0 | 0 | 0 | 103 | 0 | 0 | 116 | 11.2 | 6.0 | 94.8 | Unknown; recovered text, see receipt | Fewer verified (-35); bounds overlap |  |
+| Frankenmermaid | 14 | 0.4.0 | 0 | 1 | 0 | 0 | 0 | 115 | 0 | 0 | 116 | 0.9 | 0.0 | 99.1 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |  |
+| Grok renderer | 14 | git-2bdd1d6a6369 | 0 | 23 | 0 | 0 | 0 | 93 | 0 | 0 | 116 | 19.8 | 0.0 | 80.2 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |  |
+| Crafter Mermaid | — | 0.0.3 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap | No verified terminal drawing observations |
+| Latias Merman | — | 0.9.2 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap | No verified terminal drawing observations |
+| Ondine | — | 0.0.3 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap | No verified terminal drawing observations |
 
 ### DaveBench — Documentation Rendering
 
@@ -107,7 +107,7 @@ Current retained-evidence outcome reduction. Only the explicitly listed saved-ou
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
-Ranks order verified correct counts, including zero. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
+Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
 
 Comparisons claim superiority only when correctness bounds are disjoint; otherwise they describe verified-count differences. This is a comparison of the named metric, not overall project quality.
 
@@ -123,7 +123,7 @@ Current retained-evidence outcome reduction. Only the explicitly listed saved-ou
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
-Ranks order verified correct counts, including zero. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
+Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
 
 Comparisons claim superiority only when correctness bounds are disjoint; otherwise they describe verified-count differences. This is a comparison of the named metric, not overall project quality.
 

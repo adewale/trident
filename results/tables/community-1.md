@@ -10,30 +10,30 @@ Current retained-evidence outcome reduction. Only the explicitly listed saved-ou
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
-Ranks order verified correct counts, including zero. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
+Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
 
 Comparisons claim superiority only when correctness bounds are disjoint; otherwise they describe verified-count differences. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
 
-| Project | Verified-count rank | Version | Correct | Incorrect drawing | Invalid format | Unsupported | Renderer failure | Unassessed | Unrun | Harness failure | Planned | Observer coverage (%) | Correctness lower (%) | Correctness upper (%) | Measured | vs Mermaid ASCII |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Termaid | 1 | 0.10.0 | 65 | 33 | 0 | 0 | 0 | 18 | 0 | 0 | 116 | 84.5 | 56.0 | 71.6 | 2026-10-31T19:49:40.725094Z | Higher on this corpus (+23 verified); disjoint bounds |
-| Zombie Mermaid | 2 | 5.10.2 | 60 | 12 | 0 | 0 | 0 | 44 | 0 | 0 | 116 | 62.1 | 51.7 | 89.7 | Unknown; recovered text, see receipt | Higher on this corpus (+18 verified); disjoint bounds |
-| Agentic Mermaid | 3 | 0.4.1 | 58 | 16 | 0 | 0 | 0 | 42 | 0 | 0 | 116 | 63.8 | 50.0 | 86.2 | 2026-10-31T19:49:41.622Z | Higher on this corpus (+16 verified); disjoint bounds |
-| Loom renderer | 4 | 0.10.0 | 43 | 26 | 0 | 0 | 0 | 47 | 0 | 0 | 116 | 59.5 | 37.1 | 77.6 | Unknown; recovered text, see receipt | More verified (+1); bounds overlap |
-| Mermaid ASCII | 5 | 1.6.1 | 42 | 24 | 0 | 38 | 0 | 12 | 0 | 0 | 116 | 56.9 | 36.2 | 46.6 | 2026-10-31T19:49:40.519Z | Baseline |
-| MermaidText | 6 | git-a6b0c7657b94 | 40 | 23 | 0 | 0 | 0 | 53 | 0 | 0 | 116 | 54.3 | 34.5 | 80.2 | Unknown; recovered text, see receipt | Fewer verified (-2); bounds overlap |
-| Beautiful Mermaid | 7 | 1.1.3 | 35 | 22 | 0 | 0 | 0 | 59 | 0 | 0 | 116 | 49.1 | 30.2 | 81.0 | Unknown; recovered text, see receipt | Fewer verified (-7); bounds overlap |
-| ASCII Mermaid | 8 | 0.1.0 | 28 | 37 | 0 | 0 | 0 | 51 | 0 | 0 | 116 | 56.0 | 24.1 | 68.1 | Unknown; recovered text, see receipt | Fewer verified (-14); bounds overlap |
-| OpenCode Merman | 9 | 2.0.26 | 20 | 32 | 0 | 0 | 0 | 64 | 0 | 0 | 116 | 44.8 | 17.2 | 72.4 | Unknown; recovered text, see receipt | Fewer verified (-22); bounds overlap |
-| Figurehead | 10 | v0.4.3 | 18 | 27 | 0 | 0 | 0 | 71 | 0 | 0 | 116 | 38.8 | 15.5 | 76.7 | Unknown; recovered text, see receipt | Fewer verified (-24); bounds overlap |
-| Kitlangton Merman | 11 | 0.2.1 | 16 | 31 | 0 | 0 | 0 | 69 | 0 | 0 | 116 | 40.5 | 13.8 | 73.3 | Unknown; recovered text, see receipt | Fewer verified (-26); bounds overlap |
-| Merslim | 11 | 0.2.3 | 16 | 47 | 0 | 0 | 0 | 53 | 0 | 0 | 116 | 54.3 | 13.8 | 59.5 | Unknown; recovered text, see receipt | Fewer verified (-26); bounds overlap |
-| MermaidTUI | 13 | 0.0.6 | 7 | 6 | 0 | 0 | 0 | 103 | 0 | 0 | 116 | 11.2 | 6.0 | 94.8 | Unknown; recovered text, see receipt | Fewer verified (-35); bounds overlap |
-| Crafter Mermaid | 14 | 0.0.3 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
-| Frankenmermaid | 14 | 0.4.0 | 0 | 1 | 0 | 0 | 0 | 115 | 0 | 0 | 116 | 0.9 | 0.0 | 99.1 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
-| Grok renderer | 14 | git-2bdd1d6a6369 | 0 | 23 | 0 | 0 | 0 | 93 | 0 | 0 | 116 | 19.8 | 0.0 | 80.2 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
-| Latias Merman | 14 | 0.9.2 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
-| Ondine | 14 | 0.0.3 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
+| Project | Verified-count rank | Version | Correct | Incorrect drawing | Invalid format | Unsupported | Renderer failure | Unassessed | Unrun | Harness failure | Planned | Observer coverage (%) | Correctness lower (%) | Correctness upper (%) | Measured | vs Mermaid ASCII | Ranking note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Termaid | 1 | 0.10.0 | 65 | 33 | 0 | 0 | 0 | 18 | 0 | 0 | 116 | 84.5 | 56.0 | 71.6 | 2026-10-31T19:49:40.725094Z | Higher on this corpus (+23 verified); disjoint bounds |  |
+| Zombie Mermaid | 2 | 5.10.2 | 60 | 12 | 0 | 0 | 0 | 44 | 0 | 0 | 116 | 62.1 | 51.7 | 89.7 | Unknown; recovered text, see receipt | Higher on this corpus (+18 verified); disjoint bounds |  |
+| Agentic Mermaid | 3 | 0.4.1 | 58 | 16 | 0 | 0 | 0 | 42 | 0 | 0 | 116 | 63.8 | 50.0 | 86.2 | 2026-10-31T19:49:41.622Z | Higher on this corpus (+16 verified); disjoint bounds |  |
+| Loom renderer | 4 | 0.10.0 | 43 | 26 | 0 | 0 | 0 | 47 | 0 | 0 | 116 | 59.5 | 37.1 | 77.6 | Unknown; recovered text, see receipt | More verified (+1); bounds overlap |  |
+| Mermaid ASCII | 5 | 1.6.1 | 42 | 24 | 0 | 38 | 0 | 12 | 0 | 0 | 116 | 56.9 | 36.2 | 46.6 | 2026-10-31T19:49:40.519Z | Baseline |  |
+| MermaidText | 6 | git-a6b0c7657b94 | 40 | 23 | 0 | 0 | 0 | 53 | 0 | 0 | 116 | 54.3 | 34.5 | 80.2 | Unknown; recovered text, see receipt | Fewer verified (-2); bounds overlap |  |
+| Beautiful Mermaid | 7 | 1.1.3 | 35 | 22 | 0 | 0 | 0 | 59 | 0 | 0 | 116 | 49.1 | 30.2 | 81.0 | Unknown; recovered text, see receipt | Fewer verified (-7); bounds overlap |  |
+| ASCII Mermaid | 8 | 0.1.0 | 28 | 37 | 0 | 0 | 0 | 51 | 0 | 0 | 116 | 56.0 | 24.1 | 68.1 | Unknown; recovered text, see receipt | Fewer verified (-14); bounds overlap |  |
+| OpenCode Merman | 9 | 2.0.26 | 20 | 32 | 0 | 0 | 0 | 64 | 0 | 0 | 116 | 44.8 | 17.2 | 72.4 | Unknown; recovered text, see receipt | Fewer verified (-22); bounds overlap |  |
+| Figurehead | 10 | v0.4.3 | 18 | 27 | 0 | 0 | 0 | 71 | 0 | 0 | 116 | 38.8 | 15.5 | 76.7 | Unknown; recovered text, see receipt | Fewer verified (-24); bounds overlap |  |
+| Kitlangton Merman | 11 | 0.2.1 | 16 | 31 | 0 | 0 | 0 | 69 | 0 | 0 | 116 | 40.5 | 13.8 | 73.3 | Unknown; recovered text, see receipt | Fewer verified (-26); bounds overlap |  |
+| Merslim | 11 | 0.2.3 | 16 | 47 | 0 | 0 | 0 | 53 | 0 | 0 | 116 | 54.3 | 13.8 | 59.5 | Unknown; recovered text, see receipt | Fewer verified (-26); bounds overlap |  |
+| MermaidTUI | 13 | 0.0.6 | 7 | 6 | 0 | 0 | 0 | 103 | 0 | 0 | 116 | 11.2 | 6.0 | 94.8 | Unknown; recovered text, see receipt | Fewer verified (-35); bounds overlap |  |
+| Frankenmermaid | 14 | 0.4.0 | 0 | 1 | 0 | 0 | 0 | 115 | 0 | 0 | 116 | 0.9 | 0.0 | 99.1 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |  |
+| Grok renderer | 14 | git-2bdd1d6a6369 | 0 | 23 | 0 | 0 | 0 | 93 | 0 | 0 | 116 | 19.8 | 0.0 | 80.2 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |  |
+| Crafter Mermaid | — | 0.0.3 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap | No verified terminal drawing observations |
+| Latias Merman | — | 0.9.2 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap | No verified terminal drawing observations |
+| Ondine | — | 0.0.3 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0.0 | 0.0 | 100.0 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap | No verified terminal drawing observations |
 
 <a id="run-e387dc3612390b84c63aeb27"></a>
 
