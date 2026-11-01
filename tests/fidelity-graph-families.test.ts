@@ -258,3 +258,13 @@ test('note line breaks need the actual owned note body and separate physical gly
   const collapsed = value.replace('<text><tspan x="100" y="87">Line one</tspan><tspan x="100" y="107">Line two</tspan></text>', '<text x="100" y="100">Line one Line two</text>')
   expect(status((await inspect(collapsed, 'sequence', expected)).checks, 'source-fact:text-line-breaks')).toBe('failed')
 })
+
+// Independent SVG controls: inherited fill does not paint a collinear border,
+// while a later opaque stroke really can erase that border before its label.
+test('stroke-only outline exposure rejects full and partial opaque stroke overpaint', async () => {
+  const outline = 'M20 20C40 20 80 20 120 20M120 20L120 80M120 80L20 80M20 80L20 20', expected = { labels: ['Alpha'], nodes: [{ id: 'A', label: 'Alpha' }] }
+  const drawing = (cover: string) => svg('<g><path d="' + outline + '" fill="red" stroke="black" stroke-width="2"/>' + cover + '<text x="45" y="55">Alpha</text></g>', 160, 110)
+  expect(status((await inspect(drawing(''), 'flowchart', expected)).checks, 'painted-node-visibility')).toBe('passed')
+  for (const path of [outline, 'M20 20L20 80']) expect(status((await inspect(drawing('<path d="' + path + '" fill="none" stroke="white" stroke-width="8"/>'), 'flowchart', expected)).checks, 'painted-node-visibility')).not.toBe('passed')
+  expect(status((await inspect(drawing('<path d="' + outline + '" fill="none" stroke="black" stroke-width="2"/>'), 'flowchart', expected)).checks, 'painted-node-visibility')).toBe('passed')
+})

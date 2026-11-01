@@ -55,10 +55,10 @@ test('retained class cardinalities belong to the uniquely nearest actual route e
   }
 })
 
-for (const index of [364, 400, 401]) test('retained filled concave sequence chevron ' + index + ' remains unqualified instead of becoming a false solid triangle', async () => {
+for (const index of [364, 400, 401]) test('retained filled concave sequence chevron ' + index + ' has a source-consistent open V contour independent of SVG fill syntax', async () => {
   const original = await inspect(index)
-  expect(status(original, 'painted-relationship-markers')).toBe('unavailable')
-  expect(status(original, 'painted-relationship-label-ownership')).toBe('unavailable')
+  expect(status(original, 'painted-relationship-markers')).toBe('passed')
+  expect(status(original, 'painted-relationship-label-ownership')).toBe('passed')
   const triangle = await inspect(index, page => page.evaluate(() => {
     const shapes = [...document.querySelectorAll('marker path')].filter(element => element.getAttribute('d')?.replace(/\s/g, '') === 'M18,7L9,13L14,7L9,1Z')
     if (shapes.length !== 1) throw Error('Expected the actual concave four-vertex marker')
@@ -70,6 +70,35 @@ for (const index of [364, 400, 401]) test('retained filled concave sequence chev
     shape.setAttribute('d', 'M9 1 L18 7 L9 13'); shape.setAttribute('style', 'fill:none!important;stroke:#28253D!important;stroke-width:2')
   }))
   expect(status(open, 'painted-relationship-markers')).toBe('passed')
+  const covered = await inspect(index, page => page.evaluate(() => {
+    const shape = [...document.querySelectorAll('marker path')].find(element => element.getAttribute('d')?.replace(/\s/g, '') === 'M18,7L9,13L14,7L9,1Z')!
+    shape.parentElement!.insertAdjacentHTML('beforeend', '<path d="M9 1L18 7L9 13Z" fill="black"/>')
+  }))
+  expect(status(covered, 'painted-relationship-markers')).not.toBe('passed')
+  const tiny = await inspect(index, page => page.evaluate(() => {
+    const shape = [...document.querySelectorAll('marker path')].find(element => element.getAttribute('d')?.replace(/\s/g, '') === 'M18,7L9,13L14,7L9,1Z')!
+    shape.parentElement!.setAttribute('markerWidth', '.01'); shape.parentElement!.setAttribute('markerHeight', '.01')
+  }))
+  expect(status(tiny, 'painted-relationship-markers')).not.toBe('passed')
+  const closedNotch = await inspect(index, page => page.evaluate(() => {
+    const shape = [...document.querySelectorAll('marker path')].find(element => element.getAttribute('d')?.replace(/\s/g, '') === 'M18,7L9,13L14,7L9,1Z')!
+    shape.setAttribute('style', 'stroke:black!important;stroke-width:20!important;stroke-linejoin:round')
+  }))
+  expect(status(closedNotch, 'painted-relationship-markers')).not.toBe('passed')
+  const distorted = await inspect(index, page => page.evaluate(() => { (document.querySelector('svg') as SVGElement).style.transform = 'scaleX(1.5)' }))
+  expect(status(distorted, 'painted-relationship-markers')).not.toBe('passed')
+  const faint = await inspect(index, page => page.evaluate(() => {
+    const shape = [...document.querySelectorAll('marker path')].find(element => element.getAttribute('d')?.replace(/\s/g, '') === 'M18,7L9,13L14,7L9,1Z')!
+    shape.setAttribute('fill-opacity', '.1')
+    const host = [...document.querySelectorAll('[marker-end]')].find(element => (element.getAttribute('marker-end') ?? '').includes(shape.parentElement!.id))!
+    host.setAttribute('opacity', '.01')
+  }))
+  expect(status(faint, 'painted-relationship-markers')).not.toBe('passed')
+  const white = await inspect(index, page => page.evaluate(() => {
+    const shape = [...document.querySelectorAll('marker path')].find(element => element.getAttribute('d')?.replace(/\s/g, '') === 'M18,7L9,13L14,7L9,1Z')!
+    shape.setAttribute('style', 'fill:white!important;stroke:none!important')
+  }))
+  expect(status(white, 'painted-relationship-markers')).not.toBe('passed')
 })
 
 for (const index of [394, 395]) test('retained sequence condition ' + index + ' has a complete bracketed soft-wrapped caption', async () => {

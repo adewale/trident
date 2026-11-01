@@ -687,6 +687,46 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!(positive === 1 && negative === 3 || negative === 1 && positive === 3)) return undefined
     return points[(turns.findIndex(turn => turn === (positive === 1 ? 1 : -1)) + 2) % 4]
   }
+  // Open async arrows describe their visible V contour, not SVG fill syntax.
+  // A finite ribbon V has two symmetric rear arms and a distinct central
+  // notch; a convex solid triangle never enters this profile.
+  const openChevron = (points: Point[], measured = false) => {
+    const tip = concaveArrowTip(points); if (!tip) return false
+    const index = points.indexOf(tip), notch = points[(index + 2) % 4]!, a = points[(index + 1) % 4]!, b = points[(index + 3) % 4]!, base = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }, dx = tip.x - base.x, dy = tip.y - base.y, length = Math.hypot(dx, dy), width = Math.hypot(a.x - b.x, a.y - b.y)
+    if (!(length > 0 && width > 0)) return false
+    const along = (p: Point) => ((p.x - base.x) * dx + (p.y - base.y) * dy) / length, across = (p: Point) => ((p.x - base.x) * dy - (p.y - base.y) * dx) / length
+    const depth = along(notch), arm = (p: Point) => Math.abs((tip.x - p.x) * (notch.y - p.y) - (tip.y - p.y) * (notch.x - p.x)) / Math.hypot(tip.x - p.x, tip.y - p.y)
+    return Math.abs(along(a) - along(b)) <= length * .03 && Math.abs(across(notch)) <= width * .03 && depth >= length * .2 && depth <= length * .8 && width >= length * .25 && width <= length * 4 && (!measured || depth >= .75 && length - depth >= .75 && Math.min(arm(a), arm(b)) >= .35)
+  }
+  const exposedRibbonPaint = (shape: Element, host: Element) => {
+    const css = getComputedStyle(shape), alpha = colorAlpha(css.fill)
+    if (!(shape.localName === 'polygon' || /z\s*$/i.test(shape.getAttribute('d') ?? '')) || alpha === null || alpha <= 0 || Number(css.fillOpacity) <= 0 || colorAlpha(css.stroke) !== 0 && Number(css.strokeOpacity) > 0 && Number.parseFloat(css.strokeWidth) > 0) return false
+    let opacity = alpha * Number(css.fillOpacity); const ancestors = new Set<Element>()
+    for (const root of [shape, host]) for (let parent: Element | null = root; parent; parent = parent.parentElement) {
+      const style = getComputedStyle(parent)
+      if (style.filter !== 'none' || style.clipPath !== 'none' || style.maskImage !== 'none' || ['hidden', 'collapse'].includes(style.visibility) || style.display === 'none') return false
+      if (!ancestors.has(parent)) { opacity *= Number(style.opacity); ancestors.add(parent) }
+      if (parent === svg) break
+    }
+    const matrix = (host as SVGGraphicsElement).getScreenCTM(), a = matrix ? Math.hypot(matrix.a, matrix.b) : 0, b = matrix ? Math.hypot(matrix.c, matrix.d) : 0
+    return opacity >= .999 && getComputedStyle(host).vectorEffect === 'none' && !!matrix && a > 0 && Math.abs(a - b) <= a * 1e-6 && Math.abs(matrix.a * matrix.c + matrix.b * matrix.d) <= a * b * 1e-6
+  }
+  const exposedRibbonBackdrop = (shape: Element, host: Element, polygon: Point[]) => {
+    // This finite carrier profile uses the exposed stem's paint on a clear
+    // white canvas. Other backdrops stay unknown instead of inventing contrast.
+    const ink = getComputedStyle(shape).fill
+    if (ink !== getComputedStyle(host).stroke || ink === 'rgb(255, 255, 255)') return false
+    for (const element of [document.documentElement, document.body, svg]) { const css = getComputedStyle(element), alpha = colorAlpha(css.backgroundColor); if (css.backgroundImage !== 'none' || alpha === null || alpha > 0 && css.backgroundColor !== 'rgb(255, 255, 255)') return false }
+    const tip = concaveArrowTip(polygon); if (!tip) return false
+    const index = polygon.indexOf(tip), notch = polygon[(index + 2) % 4]!, probes = [polygon[(index + 1) % 4]!, polygon[(index + 3) % 4]!].map(arm => ({ x: (tip.x + notch.x + arm.x) / 3, y: (tip.y + notch.y + arm.y) / 3 }))
+    for (const prior of svg.querySelectorAll('rect,circle,ellipse,path,polygon,polyline,line,image,use,foreignObject')) {
+      if (prior === host || prior.closest('defs,marker,clipPath,mask') || !(prior.compareDocumentPosition(host) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(prior)) continue
+      const b = rect(prior), css = getComputedStyle(prior), matrix = (prior as SVGGraphicsElement).getScreenCTM?.(), geometry = prior instanceof SVGGeometryElement ? prior : null
+      const fill = colorAlpha(css.fill), stroke = colorAlpha(css.stroke), padding = Number.parseFloat(css.strokeWidth) * (matrix ? Math.hypot(matrix.a, matrix.b, matrix.c, matrix.d) : 1) / 2
+      if (probes.some(p => p.x >= b.x - padding && p.x <= b.x + b.width + padding && p.y >= b.y - padding && p.y <= b.y + b.height + padding && (!geometry || !matrix || (() => { const local = new DOMPoint(p.x, p.y).matrixTransform(matrix.inverse()); return fill !== 0 && Number(css.fillOpacity) > 0 && geometry.isPointInFill(local) || stroke !== 0 && Number(css.strokeOpacity) > 0 && geometry.isPointInStroke(local) })()))) return false
+    }
+    return true
+  }
   const shapeKind = (element: Element): string => {
     if (element.localName === 'circle') return 'circle'
     const points = vertices(element)
@@ -749,8 +789,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!shapes.length) return { kind: 'none', point: endpoint }
     if (input.family === 'er') return { kind: 'decoration', point: endpoint, clearance: Math.min(8, Number(marker.getAttribute('markerWidth') ?? 3) / 2) }
     if (shapes.length !== 1 || shapes[0]!.hasAttribute('transform')) return { kind: 'unknown', point: endpoint, unknown: 'Compound or transformed marker needs a reviewed geometry projection' }
-    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), polygon = vertices(shape), chevron = input.family === 'sequence' && polygon && concaveArrowTip(polygon), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = chevron ? 'unknown' : open ? 'open-arrow' : rawKind, owner = marker as unknown as SVGMarkerElement
-    if (chevron) return { kind, point: endpoint, unknown: 'A filled concave sequence chevron is visibly distinct from a solid triangle, but this profile qualifies only an unfilled open V; its exact arrow ink remains unavailable' }
+    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), polygon = vertices(shape), chevron = input.family === 'sequence' && polygon && concaveArrowTip(polygon), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = chevron ? openChevron(polygon!) && exposedRibbonPaint(shape, element) ? 'open-arrow' : 'unknown' : open ? 'open-arrow' : rawKind, owner = marker as unknown as SVGMarkerElement
+    if (chevron && kind === 'unknown') return { kind, point: endpoint, unknown: 'The concave arrow has no qualified symmetric two-arm open contour' }
     if (!polygon || kind === 'unknown') return { kind, point: endpoint, unknown: 'Marker tip projection is unavailable' }
     const reference = { x: owner.refX.baseVal.value, y: owner.refY.baseVal.value }
     const directional = ['arrow', 'triangle', 'open-arrow'].includes(kind)
@@ -759,9 +799,14 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const orient = marker.getAttribute('orient'), automatic = ['auto', 'auto-start-reverse'].includes(orient ?? '')
     if (!automatic && !((orient === null || /^0(?:deg)?$/.test(orient)) && tangent.localPositiveX)) return { kind, point: endpoint, unknown: 'Fixed/default marker rotation is qualified only where zero degrees equals the measured local positive-X tangent; omitted orient never implies automatic rotation' }
     const box = owner.viewBox.baseVal, viewScale = box.width && box.height ? Math.min(owner.markerWidth.baseVal.value / box.width, owner.markerHeight.baseVal.value / box.height) : 1
+    if (chevron && getComputedStyle(marker).overflow !== 'visible') {
+      const viewport = box.width > 0 && box.height > 0 ? { x: box.x, y: box.y, width: box.width, height: box.height } : { x: 0, y: 0, width: owner.markerWidth.baseVal.value, height: owner.markerHeight.baseVal.value }
+      if (!(viewport.width > 0 && viewport.height > 0) || polygon.some(p => p.x < viewport.x || p.x > viewport.x + viewport.width || p.y < viewport.y || p.y > viewport.y + viewport.height)) return { kind: 'unknown', point: endpoint, unknown: 'The open-arrow contour is clipped by its actual marker viewport' }
+    }
     const units = marker.getAttribute('markerUnits') === 'userSpaceOnUse' ? 1 : Number.parseFloat(getComputedStyle(element).strokeWidth)
     const reverse = side === 'start' && marker.getAttribute('orient') === 'auto-start-reverse' ? -1 : 1
     const projectVertex = (p: Point) => { const dx = (p.x - reference.x) * viewScale * units * tangent.scale * reverse, dy = (p.y - reference.y) * viewScale * units * tangent.scale * reverse; return { x: endpoint.x + tangent.x * dx - tangent.y * dy, y: endpoint.y + tangent.y * dx + tangent.x * dy } }
+    if (chevron && (!openChevron(polygon.map(projectVertex), true) || !exposedRibbonBackdrop(shape, element, polygon.map(projectVertex)))) return { kind: 'unknown', point: endpoint, unknown: 'The open-arrow notch, ribbon paint or backdrop lacks a qualified exposed carrier' }
     const tip = directional ? pointedVertex(polygon) : [...polygon].sort((a, b) => Math.min(...[...anchors.values()].map(node => distanceToNode(projectVertex(a), node))) - Math.min(...[...anchors.values()].map(node => distanceToNode(projectVertex(b), node))))[0]
     if (!tip) return { kind, point: endpoint, unknown: 'No reviewed arrow tip for marker placement' }
     const dx = (tip.x - reference.x) * viewScale * units * tangent.scale * reverse, dy = (tip.y - reference.y) * viewScale * units * tangent.scale * reverse
@@ -777,8 +822,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!shapes.length) return { kind: 'none', point: endpoint }
     if (input.family === 'er') return { kind: 'decoration', point: endpoint, clearance: 4 }
     if (shapes.length !== 1) return { kind: 'unknown', point: endpoint, unknown: 'Compound inline decoration needs a reviewed projection' }
-    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), points = vertices(shape), chevron = input.family === 'sequence' && points && concaveArrowTip(points), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = chevron ? 'unknown' : open ? 'open-arrow' : rawKind, matrix = (shape as SVGGraphicsElement).getScreenCTM()
-    if (chevron) return { kind, point: endpoint, unknown: 'A filled concave sequence chevron is visibly distinct from a solid triangle, but this profile qualifies only an unfilled open V; its exact arrow ink remains unavailable' }
+    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), points = vertices(shape), chevron = input.family === 'sequence' && points && concaveArrowTip(points), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = chevron ? openChevron(points!) && exposedRibbonPaint(shape, element) ? 'open-arrow' : 'unknown' : open ? 'open-arrow' : rawKind, matrix = (shape as SVGGraphicsElement).getScreenCTM()
+    if (chevron && kind === 'unknown') return { kind, point: endpoint, unknown: 'The concave arrow has no qualified symmetric two-arm open contour' }
     if (!points || !matrix || kind === 'unknown') return { kind, point: endpoint, unknown: 'Inline marker tip projection is unavailable' }
     const local = new DOMPoint(endpoint.x, endpoint.y).matrixTransform(matrix.inverse()), ink = shape as SVGGeometryElement, style = getComputedStyle(shape)
     const filled = style.fill !== 'none' && Number(style.fillOpacity) > 0 && colorAlpha(style.fill) !== 0
@@ -786,6 +831,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const touches = filled && ink.isPointInFill?.(local) || stroked && ink.isPointInStroke?.(local) || distanceToInk(endpoint, shape) <= 2
     if (!touches) return { kind: 'detached-marker', point: endpoint }
     const screen = points.map(point => new DOMPoint(point.x, point.y).matrixTransform(matrix))
+    if (chevron && (!openChevron(screen, true) || !exposedRibbonBackdrop(shape, element, screen))) return { kind: 'unknown', point: endpoint, unknown: 'The open-arrow notch, ribbon paint or backdrop lacks a qualified exposed carrier' }
     if (['arrow', 'triangle', 'open-arrow'].includes(kind)) {
       const tip = pointedVertex(screen), tangent = tangentAt(element, side)
       if (!tip || !tangent) return { kind, point: endpoint, unknown: 'Inline arrow has no uniquely projected tip/orientation' }
@@ -871,7 +917,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const actual = connections.map(edge => keyFor(edge)).sort(), expected = input.expected.edges.map(edge => keyFor(edge)).sort()
       const equal = JSON.stringify(expected) === JSON.stringify(actual)
       const openAmbiguity = input.expected.edges.some(edge => edge.startMarker === 'open-arrow' || edge.endMarker === 'open-arrow') && connections.some(edge => edge.startMarker === 'triangle' || edge.endMarker === 'triangle')
-      check('painted-relationship-markers', expected, actual, missingNodes.length || unresolvedProjection || openAmbiguity || equal && unboundRelations ? null : equal, 'Actual triangle/arrow/diamond/circle glyph geometry and marker ownership; sequence open-arrow profiles qualify an actual unfilled open V, while other outlined variants remain unverified. Unbound relations preclude exact multiplicity and a decoration is not automatically a directed arrow')
+      check('painted-relationship-markers', expected, actual, missingNodes.length || unresolvedProjection || openAmbiguity || equal && unboundRelations ? null : equal, 'Actual triangle/arrow/diamond/circle glyph geometry and marker ownership; sequence open-arrow profiles qualify an exposed unfilled V or an unstroked filled-ribbon V with measured rear notch and two arms; clipped, subpixel, stroked-over or unqualified transformed variants remain unknown. Unbound relations preclude exact multiplicity and a decoration is not automatically a directed arrow')
     }
     const labels = input.expected.edges.filter(edge => edge.label).map(edge => edge.label!)
     const counts = new Map<string, number>()

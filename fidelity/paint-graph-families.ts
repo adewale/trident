@@ -997,6 +997,18 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
           }).length
           return { layer, count }
         }).filter(item => item.count > 0)
+        // An opaque stroke can erase another outline even when its fill is
+        // none. Inspect the actual later stroke region, including paint laid
+        // down before the label, rather than accepting exposed centerlines.
+        if (stroke?.[3] && strokeWidth > 0) {
+          const sourceGraphicStroke = (element: Element) => { for (let parent: Element | null = element; parent; parent = parent.parentElement) { const filter = getComputedStyle(parent).filter; if (filter !== 'none' && !/^drop-shadow\((?:rgba?\([^)]*\)|[^()])*\)$/.test(filter) && !(/^url\(["']?#([^\s"')]+)["']?\)$/.test(filter) && evidence.get('paint-opacity-and-color')?.status === 'passed')) return false; if (parent === svg) break }; return true }
+          const overpaint = layers.filter(layer => layer.element !== shape && !known.has(layer.element as SVGGeometryElement) && !!(shape.compareDocumentPosition(layer.element) & Node.DOCUMENT_POSITION_FOLLOWING) && layer.stroke?.[3] === 255 && layer.strokeOpacity >= .999 && layer.width > 0 && layer.matrix && layer.element instanceof SVGGeometryElement).filter(layer => {
+            if (same(stroke, layer.stroke) && Math.abs(strokeWidth - layer.width) < .1 && !!matrix && (['a','b','c','d'] as const).every(key => Math.abs(matrix[key] - layer.matrix![key]) < 1e-8) && getComputedStyle(layer.element).vectorEffect === css.vectorEffect && Math.abs((layers.find(item => item.element === shape)?.strokeOpacity ?? 0) - layer.strokeOpacity) < 1 / 255 && sourceGraphicStroke(shape) && sourceGraphicStroke(layer.element)) return false
+            const padding = layer.width / 2 * Math.hypot(layer.matrix!.a, layer.matrix!.b, layer.matrix!.c, layer.matrix!.d), b = layer.box
+            return points.some(point => point.x >= b.x - padding && point.x <= b.x + b.width + padding && point.y >= b.y - padding && point.y <= b.y + b.height + padding && (getComputedStyle(layer.element).vectorEffect !== 'none' || (layer.element as SVGGeometryElement).isPointInStroke(new DOMPoint(point.x, point.y).matrixTransform(layer.matrix!.inverse()))))
+          })
+          if (overpaint.length) coveredParts.push({ part: { tag: shape.localName, box: box(shape) }, opaqueStrokeCovers: overpaint.map(layer => ({ tag: layer.element.localName, box: layer.box })) })
+        }
         const solidStroke = css.strokeDasharray === 'none' || css.strokeDasharray.split(/[ ,]+/).every(value => Number.parseFloat(value) === 0)
         const actualLayer = layers.find(layer => layer.element === shape), trace = matrix ? matrix.a ** 2 + matrix.b ** 2 + matrix.c ** 2 + matrix.d ** 2 : 0, determinant = matrix ? matrix.a * matrix.d - matrix.b * matrix.c : 0, screenScale = Math.sqrt(Math.max(0, (trace - Math.sqrt(Math.max(0, trace ** 2 - 4 * determinant ** 2))) / 2))
         const exposedStrokeOnly = zeroFillArea(shape) && shape.getTotalLength() > 0 && solidStroke && css.vectorEffect === 'none' && !!stroke?.[3] && stroke[3]! * (actualLayer?.strokeOpacity ?? 0) >= 1 && strokeWidth * screenScale >= .25
