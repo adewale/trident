@@ -1,0 +1,792 @@
+{
+  "schema": "trident-current-outcome-publication-v1",
+  "publishedAt": "2026-11-01T08:26:26.317Z",
+  "rendererInvocations": 0,
+  "scope": "Mixed exact retained per-case source/observer epochs. Zero new renderer/API calls. Unchanged cases keep their original producer and review identity.",
+  "generatorClosure": [
+    "100644 blob 46a6436ea29e11fa5d713b39ddb63acd9ae791cf\tci-policy.ts",
+    "100644 blob 06e294bacd11203c39892452fc79c70dc0b2ab96\tcorpus/docs-source-registry.json",
+    "100644 blob 8d01777f9606a5923228e79bfa6bf394cd0ca2c9\tcorpus/mermaid-public-tests-expanded-153.json",
+    "100644 blob 184622aa082a48b3b90efb13386d5302dbdd8fc5\tcorpus/mermaid-public-tests-expanded.json",
+    "100644 blob 83ed1bed65412141100bd0d652d692b4cb5d8f88\tcorpus/mermaid-public-tests.json",
+    "100644 blob 8f8e92736ab18ac4cc782c8218f551a13bbf4e09\tfidelity/configuration-expectation.ts",
+    "100644 blob 23cc08da21759f955c916e56e429a4187cff8cc6\tfidelity/edge-pattern-expectation.ts",
+    "100644 blob df8c69266e087644f4271d7ef5f3d9f93ffb5487\tfidelity/event-data-expectation.ts",
+    "100644 blob 1ac1b2fd48b462b84ec83f413c117f6eaacc5aca\tfidelity/ledger.ts",
+    "100644 blob 6646212b98553311bf33835bf3f9a0ee25cd2529\tfidelity/meaning.ts",
+    "100644 blob 7721275e1dde349937caf92680530638c7885cee\tfidelity/paint-facts.ts",
+    "100644 blob d3c9f13266ec62fffbb41e127ef2e8d1ff8eb86e\tfidelity/paint-graph-families.ts",
+    "100644 blob d8453e558ac514fe8f03b8b17b979d6e3e40037e\tfidelity/paint-values.ts",
+    "100644 blob a965793cd4a3b58fffe793425441ab1f8b89c259\tfidelity/paint.ts",
+    "100644 blob 9650cf38842937be6ce0506095b2019ddcb5013a\tfidelity/selection.ts",
+    "100644 blob 30881d2b108022b91fbfd05448d5555ebe155c6e\tfidelity/source-contract.ts",
+    "100644 blob 3311b6ef09e5da11b48d7557d68f9d46d05015e6\tfidelity/source-metadata-expectation.ts",
+    "100644 blob f9ba27d0fe8fd959e9e09e3bf4152b315bea37f2\tfidelity/style-expectation.ts",
+    "100644 blob 292a003d95ca4a2172ac8354c9fdd3541d414811\tfidelity/svg-assessment.ts",
+    "100644 blob ab18613c44c6be2b2fb95ae8008551287e4cb52d\tfidelity/theme-source-policy.ts",
+    "100644 blob 7347b699337eebd4bfafd88064570c86a0b4fc3d\tfidelity/visual-expectation.ts",
+    "100644 blob a865874cfc792441448bca480dc66e30de228524\tportable/artifact-dependencies.ts",
+    "100644 blob 188b51c409212e9d617d3881428237dbbb2d4235\tportable/checkpoint.ts",
+    "100644 blob 5813f9b7c09528e50b77f9003f16b828a625081c\tportable/ci-policy.ts",
+    "100644 blob 050919dfdb8004485ac9cc2a651b81a0a5e3faab\tportable/evidence-contract.ts",
+    "100644 blob 734dd1cc4b0f006089598a461e8772fd4a7c8843\tportable/invocation-journal.ts",
+    "100644 blob 3c4999e57c8016ec651a548f0b8ba696165410ba\tportable/mermaid-oracle.ts",
+    "100644 blob b1731be5ead03172bf3015ca76513287e5973657\tportable/project-records.ts",
+    "100644 blob 2ded90e3f187b0bb2f2b648127551893e21df344\tportable/protocol.ts",
+    "100644 blob fd8f5efdb05407e1ea05e3fa5085b4428aa20cd4\tportable/qualified-timing-collection.ts",
+    "100644 blob 6d953d98ecc265cca3670bf7d60c5ef4da3a0c34\tportable/qualified-timing.ts",
+    "100644 blob 34d38e1e910058b5884f1fc26e959393f66e81ea\tportable/statistics.ts",
+    "100644 blob 1ab9a4fa6ecc0954a2abefd57ce0d5a6ce97c55d\tportable/timing-grading.ts",
+    "100644 blob 0c32ab27bb57a0c4ba9ffb37863d2775ef4dfb72\treference/source.ts",
+    "100644 blob f95fb7a418cef16b70a50c63cbf10168e2a3a1dd\ttool-versions.json",
+    "100644 blob ff51e22ba9ca2e2a776934a86dec5c66317599c1\ttool-versions.ts",
+    "100644 blob 57f9c7caf187a31dd2721708321e532730cfd3ac\tunified/benchmark-skip.ts",
+    "100644 blob 5c344e3fa5205152b774395e39581e5fee7e8993\tunified/campaign-publication.ts",
+    "100644 blob 40cc375d5a1a6f9aef5e29ad33d727a24b5c2865\tunified/campaign-tables.ts",
+    "100644 blob 187f85a8ca61e51fff4c3e87b0a908988f5a88c5\tunified/docs-population.ts",
+    "100644 blob 4083af881ab62ddf76d53a834c7b8551ecb18fc7\tunified/docs-source-admission.ts",
+    "100644 blob 1cd59c10b913895a170dbdbe769d88cd43899abe\tunified/docs-source-review.ts",
+    "100644 blob 7171f96986bcd18bd30b1105108df2abdc424b53\tunified/drawing-outcomes.ts",
+    "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+    "100644 blob eb110035690a9ca42b94b19fb270c5ddb2835421\tunified/lineage.ts",
+    "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+    "100644 blob 631d87bc042b6c0a932004ca628fc2703bad8308\tunified/public-conformance-expansion.ts",
+    "100644 blob 3595d50db62c5307c9b6013a1f60e316f3b5ff79\tunified/public-conformance-inventory.ts",
+    "100644 blob 225957554680b59c555e588c456f971834d14f33\tunified/public-conformance-scope.ts",
+    "100644 blob 5b0784930d9a7b95972fb1dbbdea5e1a90b4d0f9\tunified/public-conformance-union.ts",
+    "100644 blob 6a3de17d6743ec36f9f43a47d4a8780c10c471e6\tunified/public-conformance.ts",
+    "100644 blob 717b77a3a939b617dafd3d031b8f66a8ae8a7b98\tunified/public-test-reporting.ts",
+    "100644 blob 1f821758d92de67740e1e80f7ada5e0014af8ca2\tunified/publication-methods.ts",
+    "100644 blob ce99ebfe9fce91e34f1eb57e13ef3c8592007201\tunified/qualify-timing.ts",
+    "100644 blob 526c92c6c3595fd943d2608301dee963d00123f8\tunified/result-ranking.ts",
+    "100644 blob 563c39b82b0c7abf7933209e98ab8143a9b10a0b\tunified/results-snapshot.ts",
+    "100644 blob 69febeb6095970cf919c169558c21e4ac2fae8ca\tunified/support.ts",
+    "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts",
+    "100644 blob a9f121773ac3dff462b42a60369fbb6af1a50592\tunified/upstream-runtime-qualification.ts"
+  ],
+  "files": [
+    {
+      "path": "docs/evidence/b0/normal/png-inventory.json",
+      "sha256": "e5452b26593266222c6f8184c03a9b3928fb654bef8597e7b93ac63b511157cd",
+      "role": "unchanged B0 normal input"
+    },
+    {
+      "path": "docs/evidence/b0/normal/png-result.json.gz",
+      "sha256": "5c023068912c28884165a807a38fee10f844990cfb507befb3d32f0e9ff68011",
+      "role": "unchanged B0 normal input"
+    },
+    {
+      "path": "docs/evidence/b0/normal/svg-inventory.json",
+      "sha256": "8b67dffc324c473cc0c74c42bfd786e1e946a3937b6f71972253a8bfcd27c836",
+      "role": "unchanged B0 normal input"
+    },
+    {
+      "path": "docs/evidence/b0/normal/svg-result.json.gz",
+      "sha256": "b3c5bed2698ee8cbc725144fa5516c8633cda436783bbbf05c3e68c9e0c8d24b",
+      "role": "unchanged B0 normal input"
+    },
+    {
+      "path": "docs/evidence/b0/normal/terminal-result.json.gz",
+      "sha256": "f1eacd26602787f0de0ba6cb6ce47e61220e18512ac02908b65cb4f470e0f5c1",
+      "role": "unchanged B0 normal input"
+    },
+    {
+      "path": "docs/evidence/b0/receipt.json",
+      "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d",
+      "role": "original raw/source/outcome ownership"
+    },
+    {
+      "path": "results/baseline.json",
+      "sha256": "81a8e3e0da0e813b33e77f01615d89464079aa2936a80103379c0ed2b7024feb",
+      "role": "immutable baseline, unchanged"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/current-docs-source-contracts.json.gz",
+      "sha256": "419e0a298335335f3ca80d92f36f56ea7ccd605d89491fd4556a3c032d5aaac6",
+      "role": "current reviewed source contracts; no inherited grades (gzip preserves exact original bytes; uncompressed SHA256 deb6f5506e66a329464a3f80f5c0738c899ca98a296d9209bd947aaa56c5bfe9)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/epochs.json",
+      "sha256": "1fe5072547770f6fcf0fdf7b199887ebb7c09bc4f036ea624cb696bec0bf929b",
+      "role": "derived ordinary retained-result projection"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/executed-publisher.ts.txt",
+      "sha256": "b8487c0b7335958ffe2f9e970dcb7ce8adf58b8d48d2c1a6904dcf01019978a6",
+      "role": "finite reporting-only publication source"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/latest-before-current.json.gz",
+      "sha256": "54239fd769ac43f5ac9bd7f003aa73411523326a8dcc3d274eb9a92893c1f31a",
+      "role": "unchanged rolling snapshot input (gzip preserves exact original bytes; uncompressed SHA256 01141f2e0df49b09415be273cb19c6e17407c432a8cef40f27e769a884c998c5)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/normal/png-inventory.json.gz",
+      "sha256": "176d6af9e7d34fd1667bb9699e45f94829228fc0f2f4665d967f7ed4a0ae9b0b",
+      "role": "derived ordinary retained-result projection"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/normal/png-result.json.gz",
+      "sha256": "d5dc77fa899f104e41e7c4408c1bacb6d29c9f940a92caad760175e9079ffbe1",
+      "role": "derived ordinary retained-result projection"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/normal/svg-inventory.json.gz",
+      "sha256": "8e8134e03953755d86e2fedf412f7b092a2cdbeb7ddbc694eb7fe87991789495",
+      "role": "derived ordinary retained-result projection"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/normal/svg-result.json.gz",
+      "sha256": "a7786b06f6c2caa851bf202832dcf27d577acd3bc7b47ae92b1ad12657b9c714",
+      "role": "derived ordinary retained-result projection"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/normal/terminal-result.json.gz",
+      "sha256": "fa01eed3ba371af79bbdff69dc13d1c76d59ee5741d430e210c67dffbfb7b5e3",
+      "role": "derived ordinary retained-result projection"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/png-review-epochs.json",
+      "sha256": "abd3f57948ebe67ab62d79bc365ed5792db938b758df759a2675cccc4da04924",
+      "role": "derived ordinary retained-result projection"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/admission.json.gz",
+      "sha256": "720f1d6d25281d163695ae7618814a61b25e5a46a49dfd1abc1e462b947adaae",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 5093be571458733b0c55da836dff65a0d5dbbd2412993c9ed3ec98f178191a3d)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/152-flutter.png",
+      "sha256": "bd2656785df377448add945a47904c186892513983ae4fdafb945b48bcba4553",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/152-mermaid.png",
+      "sha256": "6fdd9e04ddeac3d1934e3dd8dcc45ee4417f1150c8fe33ba2cc428b43c18b17f",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/248-mermaid.png",
+      "sha256": "ea14f9b68a6569712b889fdc09577f7a2efaf999f9577f5fdc18eff6505637a9",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/323-flutter.png",
+      "sha256": "959a3cb8af47616dc9f8958779ea4a4c068fe247649ad416615f928e0c8ab7b0",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/323-mermaid.png",
+      "sha256": "afbec05092c5d705feb99274509515915e1fd087e81e46ee1c5b3c5c81ee1e38",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/325-flutter.png",
+      "sha256": "1da65df6bdf387a68465d1db294fdaf30a4b39715b5809925825407fe5854467",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/325-mermaid.png",
+      "sha256": "f37c631694ef837d6d0d2edd73a73a9589253bc847672aed4b6769a39550ea6f",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/352-flutter.png",
+      "sha256": "75800741feb46fc013b75168ff9a430d339d10d863a206fd5176ffd81ba12752",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/352-mermaid.png",
+      "sha256": "d0b9ff29cfd76ee7ead05f5736bbf8a99c2420abc901557eeb8f2b3b6e0da3e1",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/382-flutter.png",
+      "sha256": "ca27ac1e775328bf0fe63db785e4b232fdb0dbe942d5a2d58d143b74e526fa42",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/382-mermaid.png",
+      "sha256": "1ffc2e89035b356acc1b3d6c4acf4686300c030f87273310a28ecb1c91e9bf45",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/411-flutter.png",
+      "sha256": "8721b35a4f0374f8690fb58a603e81dbc13f03fadd0c1dbf439dc86a9f42aa78",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/411-mermaid.png",
+      "sha256": "140cff5d9fe025ebcfa14d453983054ecf0838c3592509b80376f72917671d47",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/467-flutter.png",
+      "sha256": "537726c17f28f4c52c568d449f4629c68cd3e2245df2416448017156e77b72d2",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/467-mermaid.png",
+      "sha256": "939c739055691913686e822e8f96fe0a051844ce81decd8d62a34d150e14a9b0",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/images/512-mermaid.png",
+      "sha256": "81c490e5919616c1c1c44e7d9fcf8321e5e818ff776d4333070200fb622f398e",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/prior-352-reviews.jsonl.gz",
+      "sha256": "d98dbca8c3736fe83fa9fd4587db295082a1f54b687676754e627a5ff7fe4da0",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 ea9d6ec9dc71c4a43b7d40baa9cfd059e49cd275af439266b60b9e135a5b46b2)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/README.md",
+      "sha256": "09c4fb1ea179682990419d21d9fe0c8f78c7e54a66e9d62b9d3f2bce03aa49c3",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/reviews.jsonl.gz",
+      "sha256": "114f96ef8fe23af4f521a60e9bba4ec2b6d6f1a339f24c2dcd4626212a13b48a",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 e057afdea7bb93a32dd353737154d00aa4a4b3e6952b95a6a2c7c2c615cc1973)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/direct-reviews/sample.json.gz",
+      "sha256": "7b0aba632a7f99329878c548604897242ee693fc2819a93b38429bceb734e5f8",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 48a949b77a8d6300de355a967b091a3f6b0cd8abd6eea52142a22ad0fd9bbc4a)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/inventory.json.gz",
+      "sha256": "6add81e5e0f394c35ba8e109de2083b3fb923a1c69dd1ca6e4ddfa8f5ef6c23b",
+      "role": "independent two-image contract correction (gzip preserves exact original bytes; uncompressed SHA256 8142f7466245e55e746c2489fceae1700c34dde3c6a742f41868c745f1232e00)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/producer.json.gz",
+      "sha256": "650d7d7b3c4cd81ee4cef9a2cad91e597c3c58a1e212efd3cddff8f2e4195faf",
+      "role": "independent two-image contract correction (gzip preserves exact original bytes; uncompressed SHA256 5b9cf4bbd02f50aeb6b314492d7baa8876200dd2228e60ad2667664ba3779ab5)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-png/result.json.gz",
+      "sha256": "1b94fa0f720a5b3952560a26451d81a1e9c02e490f3d7228f90afd2aa26d2834",
+      "role": "independent two-image contract correction (gzip preserves exact original bytes; uncompressed SHA256 c7f585dcaa53dd0fc9958be5a20bc3ca14f434f9f7c551ad8dc406a374d2db3e)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/drawings/4fd24d344a37fcddecb44f20dd6433d6278b9e05361c1a977f103c8c04f40f95.svg.gz",
+      "sha256": "c7bb02b2b20913a1f3601224da7a7cae48e840913bce9c2c0f822b3dcb996178",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/drawings/8fc1c15a441d16191b1d514cfb7650477ca87a6868d20d6b70b1491fac300f89.svg.gz",
+      "sha256": "2bd82cbff58d8eefcac6667aa3bddbfdaaee442ea76d29ab3d19b03efcbf6313",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/drawings/937ba598692e686d24338e0392f99e42ec07fbd7f059fd1f86969b52745569b4.svg.gz",
+      "sha256": "4c01df52cb56bdd8f876211b3ab5593ab580635b0b7a3b49a53360af8bebcb7a",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/drawings/a9905384effc85d0359120f74e77a12991a6fd4c822f7f73c05f1d43167ae686.svg.gz",
+      "sha256": "da4c92aec9e054c82502efda2e3388822a54a263caea4b7c43c3bc858e31e383",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/drawings/ad6c9c39b6f1b499af3893baaf1a541b6b6baf820d5cf78a4bb09e4bd96bec20.svg.gz",
+      "sha256": "e1894311cfdefff2069fc93298652223ef51386b00f37a4067c94dd1e7287051",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/drawings/b3fa7b0b355fb0215e8f2c23fd9a3d675da7a3b086fdfe68649ab144cf53577e.svg.gz",
+      "sha256": "132ddec8c6e80a20bff4a0fad3ec41bd32f9428b4f5a0f8499ce2704ee952cb1",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/drawings/d4e12f91645a3ef64e6ce7349df16a69f3afcd9648d937cf0a5ed901c5ec3028.svg.gz",
+      "sha256": "ea3b61f2dcb47f898ea4835b158466d43bacc8a8e17266094c9869a452697bb7",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/drawings/e09415578ddc0bc4889b743880f2c08cfeca2407e0be6dd262483b3f89b569b1.svg.gz",
+      "sha256": "f3fb2d86b89d6d9afa92175ca8a15e049efe4e091892fe22223874e280d50a3f",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/executed-replay-selected.ts.txt",
+      "sha256": "b3ea92bfd05732254bab2f1640d4693425cf5ae2a102d97c8768874f7203c125",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/producer.json.gz",
+      "sha256": "3aac248ccee2c9e5673dfe8999610e9f316e04bff79bd00c86ba6f52e7422b15",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/result.json.gz",
+      "sha256": "9d448eb82154115b8741c3d647db93d440542c3b3e2602d7d7c8ea9296a28991",
+      "role": "direct scoped saved-output recheck proof"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-svg/summary.json.gz",
+      "sha256": "09df90815d0fee4ceb9f86aad46963755c74f89bf8fa00a00525f8e7b298d7f8",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 cb0adcf0f82f8a08462598701f5615af016512654b6970b9494ff46b5bc89f2c)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/after.json.gz",
+      "sha256": "68b5452ad3c5ba41adab253f941654affcfea9001077e79589110b443f938bfd",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 daf5b6a36a5dfb003715850aa65abdd61d08cf7bb22005df72d07e5d32c33666)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/after.log.gz",
+      "sha256": "63c93f8ffc44706c8165bb4ce81fcf731d521e5cad5e69ec5f98a06c75c48394",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 cb13a7c121fc97f823bb3e5cc2f6bf7e69877ad9c2342c7614809834e9e60a92)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/before.json.gz",
+      "sha256": "557aad72e17a2fa31dd73da639072057c0b6d4fe4bb4b78d080db5ac8d1252e6",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 170db0021e3590a0125737633a83a55a0db128dedc2a9dee8e5f575d6365c363)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/before.log.gz",
+      "sha256": "0c9477546f2165c6618ed1f4484a18db7e24b6f8fc3d3dfd66f6fe8a239006a0",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 7bbb1a4b4a8cb75567bed6d2d00845c6d15b39b94a786c6562002b0cb69fef5d)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/delta.json.gz",
+      "sha256": "11c35ec665307e545ad460e6692bfa100ed49cf35ee74fefd92642f1652ecd66",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 dd314cb80c10cfb05e1113529d795309d3f9973d0354f92a71f73f101f700494)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/inputs.json.gz",
+      "sha256": "538dd2f025b73097701e090379de71019b7deb0c36887c4b30dc162a1cd3baf5",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 3e1d0d408aa411cc1b7a7d93cfc9cd39ba7621212f7ca955cb9e7a9978ff253a)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/manifest.json.gz",
+      "sha256": "f42b8fd52f400b0d6adff13fd6e14f763c552a5898146d48cc5bdb1b8fc73048",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 ebbd84d6dc304ec0760725c92ce3f39f439003e5aeb3f1dca63ec334f76a3ec5)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/03782d1cfe2d365eaeafdcf238637c7decbe8911ac31cdd26593b68e2f4f2e62.gz",
+      "sha256": "c4f12412b9671cfa9a6f08bba5dca435921d9c0784ebe1b2850fcf05bb30021f",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 03782d1cfe2d365eaeafdcf238637c7decbe8911ac31cdd26593b68e2f4f2e62)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/07c26a36d7b28ca8af3046036df821d6af4d8510d8821a177feef391773c8f15.gz",
+      "sha256": "054705951998c5a5643c9d53540c5dc43753ed44d0d72ff6096c4ff6ff1923a2",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 07c26a36d7b28ca8af3046036df821d6af4d8510d8821a177feef391773c8f15)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/0a057594f1d706da4fe1ebd6592d8ce65b2ce25780eee78f46a81a98f3b7d0f9.gz",
+      "sha256": "4404d259fda9f3d2b4478d979a973c701be3588fd0f6e6d4bd55af3b71c6f34b",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 0a057594f1d706da4fe1ebd6592d8ce65b2ce25780eee78f46a81a98f3b7d0f9)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/0c189da017e0859a849272e27019f51662c8b4aaee2d7630add3bddbcc042839.gz",
+      "sha256": "d8cb4ca91455bff3fbbebc2f5e9424581058992da5020c7e1aeecdb8f7a282e9",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 0c189da017e0859a849272e27019f51662c8b4aaee2d7630add3bddbcc042839)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/0d59b52eb6750435185283527d5af7766266b192c69d797ffa13c95cafb74c78.gz",
+      "sha256": "e781579a6227b401016d375ee68304f1e2874b73e87a21c59d1f57897ee8ded4",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 0d59b52eb6750435185283527d5af7766266b192c69d797ffa13c95cafb74c78)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/0ef63f407a15bf01227755feddfd76eb84d657ee6d17bc4567376357b6895453.gz",
+      "sha256": "8c2f35a433c4fb838d77646ad75713c7677b77a67fb30c292919ff57de25a2e8",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 0ef63f407a15bf01227755feddfd76eb84d657ee6d17bc4567376357b6895453)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/12ebff06595a45e494f2662cac364491f72072424cb65bdd408f30a7bafed70a.gz",
+      "sha256": "1685e0acccaec0c70bea6488442ec70c132136ade832236ccba9fd2f31007dd7",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 12ebff06595a45e494f2662cac364491f72072424cb65bdd408f30a7bafed70a)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/174f9627bb2a4c34bc9dfd1c4e68747d64820ae9eb10d918711585b8032797fa.gz",
+      "sha256": "92d304e41200f3a40f6bf80e10b23c70e8ccbca79760e2de81003e7e768b36a4",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 174f9627bb2a4c34bc9dfd1c4e68747d64820ae9eb10d918711585b8032797fa)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/192a174cc376cf72cc8a05fa073c0682f0ca2583e66d50132e1a586a76fb0473.gz",
+      "sha256": "0ba6d931db3c41aae57f9e0d43120b90eb8f7491d39757b880325c365c60e5bf",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 192a174cc376cf72cc8a05fa073c0682f0ca2583e66d50132e1a586a76fb0473)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/21920814280c261b1b208da3d9c8e204aae95e919dbeac5ffc005182d02e3dcf.gz",
+      "sha256": "0fcd0bb9b3d385c14ee5e3a2b5a59b3df6987faf9e34395d24c52ada386ce750",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 21920814280c261b1b208da3d9c8e204aae95e919dbeac5ffc005182d02e3dcf)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/2ab1a68f0c3bc4e11a3945e19fbe577367efc1955adde31400320ee81bcc447b.gz",
+      "sha256": "fee5fbde64a3967737b02037c9078836d23513fcb4a6fa3182c7ba81a852f020",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 2ab1a68f0c3bc4e11a3945e19fbe577367efc1955adde31400320ee81bcc447b)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/2b266e5b545bb3cded0b322e3bdff2909d2ff2f14b77006929ae2cb2a96d08a6.gz",
+      "sha256": "cb0ab03665f94b3127e782c070b6e2208e847ff8c4f867b52157e9d4156972e8",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 2b266e5b545bb3cded0b322e3bdff2909d2ff2f14b77006929ae2cb2a96d08a6)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/34848aafb0b17854fe684ee5bd17e1d9d1798867755c5ba387862e6613200da8.gz",
+      "sha256": "5fe41533bb1c8a79d9c94cf1b427d428449563b6e316e3518d294b4c2bf415f2",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 34848aafb0b17854fe684ee5bd17e1d9d1798867755c5ba387862e6613200da8)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/36a9e7f1c95b82ffb99743e0c5c4ce95d83c9a430aac59f84ef3cbfab6145068.gz",
+      "sha256": "560e7e6603e98f268c30b08c81635323c2bce9a2a8c584aae5d9dfc2068da6c9",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 36a9e7f1c95b82ffb99743e0c5c4ce95d83c9a430aac59f84ef3cbfab6145068)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/37732b51b69dd386986891556bcf65cfae695da0afd17866a86210a76d2a0b02.gz",
+      "sha256": "837de4f0dbef38455ffc60ca60939f82056f0929e6d5e5ed881f43a1db877f35",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 37732b51b69dd386986891556bcf65cfae695da0afd17866a86210a76d2a0b02)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/43b252e9c68340088bfc86576ae72e83d7613209668256ffd3b2b40a4654530c.gz",
+      "sha256": "9556b20a275c69e8faff4cb60036a3eee1ab425112d1966c93f9ecabebc7aca2",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 43b252e9c68340088bfc86576ae72e83d7613209668256ffd3b2b40a4654530c)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/4bac43f203142e0963453974567abed0441d2fde6cd5a0c3eaba06e3edde1bec.gz",
+      "sha256": "2b95868413abe2268706121e83049884403d11ce471fd71e0be4114ced114c44",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 4bac43f203142e0963453974567abed0441d2fde6cd5a0c3eaba06e3edde1bec)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/4cb132006bdff1dc770bd7c2e09982a7d55cb31d45f09b124255eabd8daf4ee1.gz",
+      "sha256": "7487c0dadc95f5b3c69f5db0343d635807a912f70e48c6fb319a45bf25f2b7f2",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 4cb132006bdff1dc770bd7c2e09982a7d55cb31d45f09b124255eabd8daf4ee1)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/4ddfea6398e1d095698487837f58842fff73ec7619ee79628f7a912849224968.gz",
+      "sha256": "b9df9daab6517e18614e039371cf1eb3b2e28d61ff0803cb83699ef3df1c7ba8",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 4ddfea6398e1d095698487837f58842fff73ec7619ee79628f7a912849224968)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/4e33c4f56547d40cd9a33bea5ba67e6929ee7c7a17f61f3d8035b1213a735e85.gz",
+      "sha256": "998923a74717eec4ffd9ac79d01587e026424c728039adb5e31d50a95a90f80a",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 4e33c4f56547d40cd9a33bea5ba67e6929ee7c7a17f61f3d8035b1213a735e85)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/50f957f0fc73f801ab2358538693f46a9aecec1c6cadb4e02f815a7f1b68657c.gz",
+      "sha256": "5118561f7ffe830d5a76163a667179f986c74c424c3e67373532ab56039e2ade",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 50f957f0fc73f801ab2358538693f46a9aecec1c6cadb4e02f815a7f1b68657c)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/5534cfe7cb2dca1c0a1cf7cfb8deec85b172b003aac8de6ecf24d8cda3c1f5bd.gz",
+      "sha256": "7c23934dcea45daf5faba3744eb92f309067098658b137a7192f55fef62b3cdf",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 5534cfe7cb2dca1c0a1cf7cfb8deec85b172b003aac8de6ecf24d8cda3c1f5bd)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/558ec94ccc780b3eaabb34748ad9df724eeea8aec9a676a7b9e1fcca6b9cdb04.gz",
+      "sha256": "f8c639e3f585e9c858f11d24ed7da3447823d60e927d8b721072498f90f73cfd",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 558ec94ccc780b3eaabb34748ad9df724eeea8aec9a676a7b9e1fcca6b9cdb04)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/5879fec4aa8e0b1533a500f194d31a9b7386f27f51655ae6877dac5f7a207d0e.gz",
+      "sha256": "7fb67168a6e5677a741aac8d6d6c6a2eaa1c5aa4f3f0f0eb1465be77b1b6df12",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 5879fec4aa8e0b1533a500f194d31a9b7386f27f51655ae6877dac5f7a207d0e)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/58f5bc87cdb93557474f6ba05a5e80b2c3c7ebc0665e7bf2845d7f9ebd5a5923.gz",
+      "sha256": "449cd6c65fbc6a9a83e05fe589e3cefdf65b7b62d1e4390b8787d05167e1c7c0",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 58f5bc87cdb93557474f6ba05a5e80b2c3c7ebc0665e7bf2845d7f9ebd5a5923)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/5b4e92ad214446b07d2022ec06f038f0ef2e569b27f95886bedacc37829d03ed.gz",
+      "sha256": "e78448cf0eb9550165d53a982d031c9a99ca09ce3ef446c73935be9a8b62c8a9",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 5b4e92ad214446b07d2022ec06f038f0ef2e569b27f95886bedacc37829d03ed)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/5e4adad3355935050656676e5078e2bd80d0ced0498a63c6afdeade7dbca69d8.gz",
+      "sha256": "e3b1f43a85ce1c89d9e3b022841e4f594652d1450687b27e5f722a03c77d9d56",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 5e4adad3355935050656676e5078e2bd80d0ced0498a63c6afdeade7dbca69d8)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/6b78df6970f77d9ad8d8e7e7f857b01ce0557318959f95633d86eb2c8f081510.gz",
+      "sha256": "84d1a8021ac6d6b1a264ab9286446c05e244bfa54d0b3e14497bd105efcc3652",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 6b78df6970f77d9ad8d8e7e7f857b01ce0557318959f95633d86eb2c8f081510)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/6bbae7bf3f31333318f0124882b8af98516ff6fe42025dcd70b0cd5a1ea54f4a.gz",
+      "sha256": "913003612528f5d04f9b116dd9d91312c6864cd0a71e497000754acbc31c41c1",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 6bbae7bf3f31333318f0124882b8af98516ff6fe42025dcd70b0cd5a1ea54f4a)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/6dbbaabe292a5dc96bea8c60e16c838c8e102f9a107006a506f9d35c364b8731.gz",
+      "sha256": "8d5de7f022c44e4334db8b8fe2de37b937366956982f5f391c2a8867453f4dbb",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 6dbbaabe292a5dc96bea8c60e16c838c8e102f9a107006a506f9d35c364b8731)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/6e557fafb4a967bfc102d25d480942031d6b6dae76805139e1b9f8c34b6bf598.gz",
+      "sha256": "56459c08fd8b53695d3fa512b42f7c8e5a5bc3cc7833446be24507498eeef74f",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 6e557fafb4a967bfc102d25d480942031d6b6dae76805139e1b9f8c34b6bf598)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/705d6c6d895084c717a1efaf779c27746ab1e403214e83d4439688cead402011.gz",
+      "sha256": "1befab22d5450a4c1f1b538dfd83a0354aa7d162aa6bbeade7e3accf61efdf37",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 705d6c6d895084c717a1efaf779c27746ab1e403214e83d4439688cead402011)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/76dfc39bf2ccd0e4acab89913b33125cd994ab734f814d7d896295ad3cd4f072.gz",
+      "sha256": "3b85bad9d7d8d666900af7510300933da376bd2199131468232fcf9eba33f6c2",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 76dfc39bf2ccd0e4acab89913b33125cd994ab734f814d7d896295ad3cd4f072)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/77185453a790102fb95e58f88ee6b5a1ac7bafb253f8149e7d1440350f113a1a.gz",
+      "sha256": "d7a7cfffecab11828611e62da57bf0cf9d9781ecb991ac47ea0814dc660ca3b3",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 77185453a790102fb95e58f88ee6b5a1ac7bafb253f8149e7d1440350f113a1a)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/7750cee4966d73b4092e9351440c9a79d767c1fd6c38f76c2ef6561dd8823661.gz",
+      "sha256": "45f6887eb15270a9b98bdcbfee5e995dddf01c8ca0c305c8fa1012ccc2d6d857",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 7750cee4966d73b4092e9351440c9a79d767c1fd6c38f76c2ef6561dd8823661)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/77c30706ddcaf75dd81122553367b7c9a88f55c85824bc5fa680a0ca15f99bc4.gz",
+      "sha256": "f12696d9b5ee2d776ed6ad268862e4257050312c00b8b27ec19ec675a3072fea",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 77c30706ddcaf75dd81122553367b7c9a88f55c85824bc5fa680a0ca15f99bc4)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/7b88a40cc77e3132e86831d174a4518e2666ef5e022185ba5d87b47c0fd2ba19.gz",
+      "sha256": "379d86e1b492fdc0900fc85c85d7c031af164a3cd3538a868146451ea66cef41",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 7b88a40cc77e3132e86831d174a4518e2666ef5e022185ba5d87b47c0fd2ba19)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/7cf9407736458aff382c7571539f4ff6a6d441e91bd134ff16b51de03fcad957.gz",
+      "sha256": "b7d8b4b12f21328ac6b108829f3627422690c555ba81f284b8daccb0f2888a15",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 7cf9407736458aff382c7571539f4ff6a6d441e91bd134ff16b51de03fcad957)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/7fdcd51972ddc69e5a2cd2b18959a1f4d3fdc834dbb54ead8ca661faa542c6c7.gz",
+      "sha256": "70182e917d20285002c5c303b67abcf7510496b9e392ab7dcaa88c276d91fabc",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 7fdcd51972ddc69e5a2cd2b18959a1f4d3fdc834dbb54ead8ca661faa542c6c7)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/80155f841884fb005cc72f845f510654250eaae48ca28dd1e216b9254dff0bdd.gz",
+      "sha256": "40bc7cace0270436b06327805ea2305ef70faf59c08bbb7c683b70c620afac15",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 80155f841884fb005cc72f845f510654250eaae48ca28dd1e216b9254dff0bdd)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/829e3a1b386c66cc8f8c1ab94f3acd254230865cecfbd633e1877373dd8f46ec.gz",
+      "sha256": "10167ba3fa2915ad004e9d056c22baa54d038640738639fb8b890a13e542137f",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 829e3a1b386c66cc8f8c1ab94f3acd254230865cecfbd633e1877373dd8f46ec)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/8338ca3506b26ed80c12f08825358388627c5416e39a77fcd361f9a63abc3936.gz",
+      "sha256": "02ededa2eb4b9111859668fc3686ba323617d257415b736ea1d1902226e0260b",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 8338ca3506b26ed80c12f08825358388627c5416e39a77fcd361f9a63abc3936)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/8879114a359a0d315c899676a90c8d4317b7e296ebef6351c38783d4a1845c44.gz",
+      "sha256": "ac9c47b1f88313c42c8922545a0ed8e97c3b0111ecbc55639838eaba1800cf5e",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 8879114a359a0d315c899676a90c8d4317b7e296ebef6351c38783d4a1845c44)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/89c7a467289c3ce73443fc69e53bcb20279d35c9bd2f799c7c0b3f5beaf40457.gz",
+      "sha256": "c99c9ec859d86b720ea529f748adea2fad32e0c0c915dd30cd24c3ca0817ce73",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 89c7a467289c3ce73443fc69e53bcb20279d35c9bd2f799c7c0b3f5beaf40457)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/8db592b58d216ec9b84b4767fec92f86523b52bdb6e3a01aeb64bbcd44bd0abf.gz",
+      "sha256": "7a07260bd96e0cb8e3a14d95330163bf9082a6efdc0dcdd6d05c19ae0db58de8",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 8db592b58d216ec9b84b4767fec92f86523b52bdb6e3a01aeb64bbcd44bd0abf)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/9000accdd4a202482c0188708ddd74f13b412cf73ec42b653290e542116a31c7.gz",
+      "sha256": "d2650a5b8bc13b0b2ee76bddf245aef6fdc2a6c40971b7c84693cdbf0f0838f3",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 9000accdd4a202482c0188708ddd74f13b412cf73ec42b653290e542116a31c7)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/90fb876dd604658e16564f9b60c559227fb1ca572353af978d5aaeb4a673c344.gz",
+      "sha256": "c3349fc02c76b6c4a5f5946cea77e4f1d7a03746460a618df61228e3d1c700d3",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 90fb876dd604658e16564f9b60c559227fb1ca572353af978d5aaeb4a673c344)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/9478b0897c0fd312b4c6c0f8c2a75003b54b418a48d3b7bbee2a2aa8f21019f6.gz",
+      "sha256": "12521a77960fcca43a3054c97821b81664557a267fa9c43be8f84e6f0716fffe",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 9478b0897c0fd312b4c6c0f8c2a75003b54b418a48d3b7bbee2a2aa8f21019f6)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/98309966ea02f90f23f6bf9d61f43f50009ff08a5f182edd3bf3d1b609f84fe1.gz",
+      "sha256": "dcfbc0f45797f864df4444e39e24a236e4a5e039c8eac3b8dbe575253238d3ae",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 98309966ea02f90f23f6bf9d61f43f50009ff08a5f182edd3bf3d1b609f84fe1)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/9ba1051463e12f5edfe7ec803e47a965649c92d160cf36f6340d0b920e7f810c.gz",
+      "sha256": "0d12282b1293f6e06a7664bad1574c2eab142a13904dcc898f58c33f11033057",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 9ba1051463e12f5edfe7ec803e47a965649c92d160cf36f6340d0b920e7f810c)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/9f7552486634b48a128711fa5d5940027187164fd22a7c15ddacb11045e42601.gz",
+      "sha256": "8f2f3bcf0e727d6d3bef2bc4644f4b4e07905c345ddb6edb05e12509fc449571",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 9f7552486634b48a128711fa5d5940027187164fd22a7c15ddacb11045e42601)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/a21cf1e4a77be0639ff7d0d81e2967bb9bcbf30fd655927eaafb5b058f65b3fc.gz",
+      "sha256": "e007c5f5dc937071dc972364e1cecb88488d2ad284170375f7156dc4986f9fa1",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 a21cf1e4a77be0639ff7d0d81e2967bb9bcbf30fd655927eaafb5b058f65b3fc)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/a4884b67f60cec3fcc7fb8c08024f14ef28cf564a68acb939d3b1eb0f7c30700.gz",
+      "sha256": "f0cc928906f0fc43edbc29a2ec1b3c606696b8a73cf94fe4f10dba5c17a16d55",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 a4884b67f60cec3fcc7fb8c08024f14ef28cf564a68acb939d3b1eb0f7c30700)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/a877dc0c1e6f6c15341579f25d9e8054cfc0f140dd6f1a54a89e2db57d127488.gz",
+      "sha256": "6d879d286a40965cd35131d8ad1a8c7923a93c77e1f24f3977f6e59cb78262bb",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 a877dc0c1e6f6c15341579f25d9e8054cfc0f140dd6f1a54a89e2db57d127488)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/add2ce9b922e55e70e85114ca29503463099563a76ceb7792cb10663bc833229.gz",
+      "sha256": "d2a7d96884b042c9db957c6ea7fd5ca7dac514a24249cb5cc9763d08b6c046ac",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 add2ce9b922e55e70e85114ca29503463099563a76ceb7792cb10663bc833229)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/aefa53f89233213fe949302604973bd0d2758379c8c8b1b08fa4bcb24b956551.gz",
+      "sha256": "96a2bcc818364e43d3de593f52734cd8b7cb68d25328ce701346390962b4a1ee",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 aefa53f89233213fe949302604973bd0d2758379c8c8b1b08fa4bcb24b956551)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/b2248df92f4eee50d9f428fde351b99d2335d99d1f4cd436ba9f57bb955aec46.gz",
+      "sha256": "2c3af82a68d16394e3fec864c25185bb750198c0403139b18c97f51ee2b7fd75",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 b2248df92f4eee50d9f428fde351b99d2335d99d1f4cd436ba9f57bb955aec46)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/b269869db19ce6f3b380fe264c1d69a9fafc6a46c1f0a6fdc498f370e5ad9239.gz",
+      "sha256": "b60188629787767d298afebf9c2d6631b735ef4094b5947d616511006b2fd09c",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 b269869db19ce6f3b380fe264c1d69a9fafc6a46c1f0a6fdc498f370e5ad9239)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/b7a9d126e7cf5ed45e73f45f0804d7d313d904fe47aa57660f937fc72954235b.gz",
+      "sha256": "0138f563a2107823d29986a6c3a42c794078937ba3c721db874ae22d62aeca3f",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 b7a9d126e7cf5ed45e73f45f0804d7d313d904fe47aa57660f937fc72954235b)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/b876239ed9656ee6605b10103c4a2e682b7fe4647484bcf79a376e79d6e47146.gz",
+      "sha256": "6eafed58f61805089cd275a4cc7f2383f6c5f374dc3339d5c5df83f9be6290e5",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 b876239ed9656ee6605b10103c4a2e682b7fe4647484bcf79a376e79d6e47146)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/c0990c0aed435179c99d082cdf3acdabdea8cedf3bfe9d136cc5f4a74dbb4bf8.gz",
+      "sha256": "0943ed663a8f296f895424eb5532a68302afcfc4b759bfb76b2ae937c6dcda89",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 c0990c0aed435179c99d082cdf3acdabdea8cedf3bfe9d136cc5f4a74dbb4bf8)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/c178356c3843f7a38646f938ddae74f18d04eb9375d7909f1203c5ee46cbdc27.gz",
+      "sha256": "d75760844a681e99544b8bd01a5a4bf404bc2aa60abebd3868e3d61c6bbef0e1",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 c178356c3843f7a38646f938ddae74f18d04eb9375d7909f1203c5ee46cbdc27)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/c2fef2a2d673d8d1d53f7312317108df642e710d8c8c1043f32c1e1a2607aabc.gz",
+      "sha256": "389486558bc48fda70b58c3e258d56d9a36f8113d813e63609bf29047346b536",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 c2fef2a2d673d8d1d53f7312317108df642e710d8c8c1043f32c1e1a2607aabc)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/c4c8bbdcf1258f6c1710a33e14b346e4ac078049253ebf2d2d96bc7b0cc3965d.gz",
+      "sha256": "7c31ea2f2cd0b896e6dd01c7ebdbebabe7641333ba2e4ab59a7ef630b86aa335",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 c4c8bbdcf1258f6c1710a33e14b346e4ac078049253ebf2d2d96bc7b0cc3965d)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/c51ad7e69d4dacfcf7e09cc59d079e7de3cccdae968b24084bfebd674ab63767.gz",
+      "sha256": "fac830d88023938976057e6aac111a500852adeca1c1942e2e8a7b83d605a7ca",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 c51ad7e69d4dacfcf7e09cc59d079e7de3cccdae968b24084bfebd674ab63767)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/c57733b635b8217bc3cf0be40d2b28105adf7d00f19a14c0cf2d56523fb692f3.gz",
+      "sha256": "4df78b2a24eb53785e6fc98718f94823637cdc3bfbfda1338db501773424c316",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 c57733b635b8217bc3cf0be40d2b28105adf7d00f19a14c0cf2d56523fb692f3)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/cac81362d294cd765d25d9acca496882c0ca83f9fa248b18d0a01e4eb7799e75.gz",
+      "sha256": "6da93db425af1e30ffcf5739e322a798a801429c75d9bbbcec8340db7af13162",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 cac81362d294cd765d25d9acca496882c0ca83f9fa248b18d0a01e4eb7799e75)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/cddadfdb0336f08ad77ea0c64b8c01c560ab5ec1247e97d73f7655a8fdfbaf60.gz",
+      "sha256": "63a498e90e24deff3f2c722a0548bf4b192b753b7944f41f906aa705d9e79c4e",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 cddadfdb0336f08ad77ea0c64b8c01c560ab5ec1247e97d73f7655a8fdfbaf60)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/cef9149fe979d79b60a414befe2a6d777471ad5c0c0d410fba183c562f5a3d15.gz",
+      "sha256": "16603f2225e50dda921ad26d5b83d86247a6e75fb8174db1ec1706dfe4c215d4",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 cef9149fe979d79b60a414befe2a6d777471ad5c0c0d410fba183c562f5a3d15)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/cfee9be713f104479034e5247dc1ad7e6d67e202e1e1915877b4f7ec4881d45b.gz",
+      "sha256": "5ce260f7b8825d4e637a65a2eb53c4fa9b9276fefc830d23bf9fdb94c5ce5ede",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 cfee9be713f104479034e5247dc1ad7e6d67e202e1e1915877b4f7ec4881d45b)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/d0ddf13dacca18d3963b39333fef8434d25a6ec2b3b2702971b24a0e3dfbfc9d.gz",
+      "sha256": "cd163de349882002583780b0b501d172ee58f99b952fba64fa6369cc08050694",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 d0ddf13dacca18d3963b39333fef8434d25a6ec2b3b2702971b24a0e3dfbfc9d)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/d35179bdcca48f16db3725b440c87b09f1bbe9a34feaa4bd413342afd68a1f1d.gz",
+      "sha256": "97d47e8e29b1bd090584f93fb8f812c058f28ad03e05f84facd5eb9b7b19b7c7",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 d35179bdcca48f16db3725b440c87b09f1bbe9a34feaa4bd413342afd68a1f1d)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/d43f94589223725c4ebb6352d52c6dc870dd718f08db133407ff42cabd30d606.gz",
+      "sha256": "a3c9746766492030b0b6e2a0470c48f1231ce9195e743d941e079c2ea9abf048",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 d43f94589223725c4ebb6352d52c6dc870dd718f08db133407ff42cabd30d606)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/de3a7b3aee7d431365939bb2c9971133e981623e3ed6a0154d1afafcd4cd7f38.gz",
+      "sha256": "00941d940b67dd88fc3c21b2ee68f4e06e0e1f3d9094cc2181eeeb8588759a9d",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 de3a7b3aee7d431365939bb2c9971133e981623e3ed6a0154d1afafcd4cd7f38)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/ded824babbfeab9ae7faf02dbb384e2687d90064bd4979b9296f3fdd294c9377.gz",
+      "sha256": "bddc60d82cc0e02ef55f365046f6ac2f72c711950d8d85fb27e447286cb2b589",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 ded824babbfeab9ae7faf02dbb384e2687d90064bd4979b9296f3fdd294c9377)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/e229ec90141cb42131329e5520b277ed44577224f8cb702178e62236196cdefe.gz",
+      "sha256": "d762a9d18bc57080c18b1648072cea259d8104eed26943482390aad1bf787210",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 e229ec90141cb42131329e5520b277ed44577224f8cb702178e62236196cdefe)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/e9103ff81b1b75784ddbd6ae87ea3fc1e752d20cf1a6514cb205e705eab8e2fe.gz",
+      "sha256": "6ca6d526d8c071e63aeb6c9bfbf7b0cd13013ebee25bc3f4a88979f57f9f9b22",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 e9103ff81b1b75784ddbd6ae87ea3fc1e752d20cf1a6514cb205e705eab8e2fe)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/ec520e54b01890ccce4be932ec8827586f8c24ff303e1df657ff43e507e3f7f6.gz",
+      "sha256": "be5a0c4480c295aeafd640edee226af4b18a821b777c25c16f9fa2890b1afb53",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 ec520e54b01890ccce4be932ec8827586f8c24ff303e1df657ff43e507e3f7f6)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/f1fe1d3c98d6193eba48ba8833f150927eaae73f86db241ebbef11f548e68d63.gz",
+      "sha256": "9a4b8dba3e4409c0c5ae39d8813b3c605adc8fdf934bb0975cff7889de51ba18",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 f1fe1d3c98d6193eba48ba8833f150927eaae73f86db241ebbef11f548e68d63)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/fb19bf06aad06075a9875803b48912bc494a90f27bd8933b370640d9c343ebfd.gz",
+      "sha256": "f2b1445256c92edb8c03fb26aee775edf4c635616ea3c14270c872913d115811",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 fb19bf06aad06075a9875803b48912bc494a90f27bd8933b370640d9c343ebfd)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/fba35e810be235f2770200e81dabe8f222dcb56e6646cf73594eb2afe917f0fc.gz",
+      "sha256": "07cfed6daee470e4e5684bb2aea6282b1790f36404d82114797ad2e717b9cd01",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 fba35e810be235f2770200e81dabe8f222dcb56e6646cf73594eb2afe917f0fc)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/fcbfcc8dcdf6eb7205805148492cbcaa00bd9a2087d68e94da4507a12f53145f.gz",
+      "sha256": "bbdcf0a867ef149994aae35b76e7da4a1ad584600af23581c8fb91c907947501",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 fcbfcc8dcdf6eb7205805148492cbcaa00bd9a2087d68e94da4507a12f53145f)"
+    },
+    {
+      "path": "results/current-outcomes-2026-11-01/scoped-terminal/witnesses/fe50f0bee09eed495116136b3c42a1b205ce3994a41e2b5a9767b31256dcabc0.gz",
+      "sha256": "912b8be7734ce33bd1a2533615aaf5dff46aaec93d74b624cf1f108e23f1f482",
+      "role": "direct scoped saved-output recheck proof (gzip preserves exact original bytes; uncompressed SHA256 fe50f0bee09eed495116136b3c42a1b205ce3994a41e2b5a9767b31256dcabc0)"
+    }
+  ],
+  "tableData": {
+    "ids": [
+      "run-254dfd3bc1261d7b8e4edfc8",
+      "run-4c98b569db43bffecf6f3193",
+      "run-3ffc7bedce92721e135091b1"
+    ],
+    "valuesSha256": "c4c858a0fa60d1197c59abcff607269427e5e39e4cd06dd134d8e6a28bc62ac0"
+  }
+}

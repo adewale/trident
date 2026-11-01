@@ -1,0 +1,195 @@
+{
+  "schema": "trident-independent-svg-validation-summary-v1",
+  "scope": "Small source-derived mechanism validation, plus only eight full ordinary original-SVG rechecks. This is not a new corpus ranking or a claim that a sample validates all cases.",
+  "runtimeCommit": "24b0d849f56fb7a2d7065fd9fc9d4470cac0a47a",
+  "sourceContractsSha256": "deb6f5506e66a329464a3f80f5c0738c899ca98a296d9209bd947aaa56c5bfe9",
+  "observerSha256": "5a06de3a2bcaa1ebd80d9aeea9d3c4754effb3676d3cd1ba6ecc1f36cc62d381",
+  "result": "result.json.gz",
+  "resultSha256": "9d448eb82154115b8741c3d647db93d440542c3b3e2602d7d7c8ea9296a28991",
+  "producer": "producer.json.gz",
+  "producerSha256": "3aac248ccee2c9e5673dfe8999610e9f316e04bff79bd00c86ba6f52e7422b15",
+  "mechanismTest": "tests/independent-svg-validation.test.ts",
+  "findings": [
+    {
+      "mechanism": "packet absolute spans versus relative proportions",
+      "before": "A 30px short field could pass the 4%-ratio predicate and fail the absolute bit-unit predicate under the same criterion, throwing at merge.",
+      "after": "Relative ratios are a supplementary finite-profile criterion. Absolute span/offset/row proof stays required; complete wrapped-segment proof can replace only its unavailable relative projection."
+    },
+    {
+      "mechanism": "actual overpaint versus source-fact credit",
+      "before": "A fully opaque intrinsic image over a saved packet left source-fact:fields passed. This was an individual-fact false positive; the generic whole-drawing check was already unknown.",
+      "after": "Later overlapping image/use extents withhold domain/chart/quantity carrier credit. Hidden and outside images retain positives; no image transparency or pixel decoder is invented."
+    },
+    {
+      "mechanism": "explicit requirement layout",
+      "before": "Pinned source explicitly requests LR, but direction had been treated as advisory.",
+      "after": "Source policy independently restored the required fact. Owned row/column box ranks with exposed captions qualify a connected simple chain; wrong-axis controls fail and ambiguous layouts stay unknown."
+    },
+    {
+      "mechanism": "document wave-bounded rails",
+      "before": "An arbitrary 70%-height rail cutoff left valid document outlines unqualified when the actual wave joined a side higher.",
+      "after": "Independently reviewed graph observer07b77eb1 measures the complete actual top-to-wave side and inset divider; genuine divider/ridge mutations remain negative."
+    }
+  ],
+  "cases": [
+    {
+      "index": 3,
+      "id": "packages/mermaid/src/docs/syntax/agentflow.md:127",
+      "priorStatus": "unknown",
+      "status": "correct",
+      "failedChecks": [],
+      "unknownChecks": [],
+      "sourceSha256": "72ddb9fc72ab937a4f84d8377bdbee6f9004c00ff7b7c9852334cba35efe5bbe",
+      "originalSvgSha256": "937ba598692e686d24338e0392f99e42ec07fbd7f059fd1f86969b52745569b4",
+      "originalSvgWitness": "drawings/937ba598692e686d24338e0392f99e42ec07fbd7f059fd1f86969b52745569b4.svg.gz",
+      "parentInvocationId": "6a1be06b-c650-4314-9f05-adef31ac1713",
+      "parentMeasuredAt": "2026-10-31T19:20:37.075Z",
+      "binding": {
+        "sourceSha256": "72ddb9fc72ab937a4f84d8377bdbee6f9004c00ff7b7c9852334cba35efe5bbe",
+        "expectationsSha256": "550a9d565cc6b3d78ec3631bca6e903eeac5248b27afbcd11d58eac68d8b4596",
+        "svgSha256": "937ba598692e686d24338e0392f99e42ec07fbd7f059fd1f86969b52745569b4",
+        "observerSha256": "5a06de3a2bcaa1ebd80d9aeea9d3c4754effb3676d3cd1ba6ecc1f36cc62d381"
+      }
+    },
+    {
+      "index": 6,
+      "id": "packages/mermaid/src/docs/syntax/agentflow.md:189",
+      "priorStatus": "unknown",
+      "status": "correct",
+      "failedChecks": [],
+      "unknownChecks": [],
+      "sourceSha256": "f5eb8cfb8dfe794987a95159f436b41d72d3c9fcc57cedb33ede5518f7a33464",
+      "originalSvgSha256": "e09415578ddc0bc4889b743880f2c08cfeca2407e0be6dd262483b3f89b569b1",
+      "originalSvgWitness": "drawings/e09415578ddc0bc4889b743880f2c08cfeca2407e0be6dd262483b3f89b569b1.svg.gz",
+      "parentInvocationId": "06d477fe-e35a-4be7-b64a-52d2f64453fd",
+      "parentMeasuredAt": "2026-10-31T19:20:38.227Z",
+      "binding": {
+        "sourceSha256": "f5eb8cfb8dfe794987a95159f436b41d72d3c9fcc57cedb33ede5518f7a33464",
+        "expectationsSha256": "eccd4ab400b4a97273f7fa27f63595f1c98451c9f42bad22f9f2bedc41627a97",
+        "svgSha256": "e09415578ddc0bc4889b743880f2c08cfeca2407e0be6dd262483b3f89b569b1",
+        "observerSha256": "5a06de3a2bcaa1ebd80d9aeea9d3c4754effb3676d3cd1ba6ecc1f36cc62d381"
+      }
+    },
+    {
+      "index": 199,
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:549",
+      "priorStatus": "unknown",
+      "status": "correct",
+      "failedChecks": [],
+      "unknownChecks": [],
+      "sourceSha256": "59f0daf6279490b4b0645d0b252a06e4712270f109e2e83e1acb05130da6c910",
+      "originalSvgSha256": "ad6c9c39b6f1b499af3893baaf1a541b6b6baf820d5cf78a4bb09e4bd96bec20",
+      "originalSvgWitness": "drawings/ad6c9c39b6f1b499af3893baaf1a541b6b6baf820d5cf78a4bb09e4bd96bec20.svg.gz",
+      "parentInvocationId": "d57b77f9-c8c4-47b9-ba84-f424ac0016da",
+      "parentMeasuredAt": "2026-10-31T19:22:43.077Z",
+      "binding": {
+        "sourceSha256": "59f0daf6279490b4b0645d0b252a06e4712270f109e2e83e1acb05130da6c910",
+        "expectationsSha256": "b82808f6ce35c1c7cf1dcca00a4613b671aedaec736843720ba06af24dd4f979",
+        "svgSha256": "ad6c9c39b6f1b499af3893baaf1a541b6b6baf820d5cf78a4bb09e4bd96bec20",
+        "observerSha256": "5a06de3a2bcaa1ebd80d9aeea9d3c4754effb3676d3cd1ba6ecc1f36cc62d381"
+      }
+    },
+    {
+      "index": 321,
+      "id": "packages/mermaid/src/docs/syntax/packet.md:34",
+      "priorStatus": "correct",
+      "status": "correct",
+      "failedChecks": [],
+      "unknownChecks": [],
+      "sourceSha256": "48358a7c12b012d991051f4eb2143b72941245d1959ef90cba4f6b6aa2df5d41",
+      "originalSvgSha256": "a9905384effc85d0359120f74e77a12991a6fd4c822f7f73c05f1d43167ae686",
+      "originalSvgWitness": "drawings/a9905384effc85d0359120f74e77a12991a6fd4c822f7f73c05f1d43167ae686.svg.gz",
+      "parentInvocationId": "7d3199d7-ad88-4963-aa85-1e5f78c5143c",
+      "parentMeasuredAt": "2026-10-31T19:23:26.965Z",
+      "binding": {
+        "sourceSha256": "48358a7c12b012d991051f4eb2143b72941245d1959ef90cba4f6b6aa2df5d41",
+        "expectationsSha256": "3ddcbcba7283a244806100112b3878d0cd1307c89eb8e8e75d3fb6043baab6d2",
+        "svgSha256": "a9905384effc85d0359120f74e77a12991a6fd4c822f7f73c05f1d43167ae686",
+        "observerSha256": "5a06de3a2bcaa1ebd80d9aeea9d3c4754effb3676d3cd1ba6ecc1f36cc62d381"
+      }
+    },
+    {
+      "index": 322,
+      "id": "packages/mermaid/src/docs/syntax/packet.md:58",
+      "priorStatus": "correct",
+      "status": "correct",
+      "failedChecks": [],
+      "unknownChecks": [],
+      "sourceSha256": "fb4fdb7915186d14afc27515403449129c1f0390d74f483bcddeaf730b827ce5",
+      "originalSvgSha256": "4fd24d344a37fcddecb44f20dd6433d6278b9e05361c1a977f103c8c04f40f95",
+      "originalSvgWitness": "drawings/4fd24d344a37fcddecb44f20dd6433d6278b9e05361c1a977f103c8c04f40f95.svg.gz",
+      "parentInvocationId": "80aaf613-e8f3-4159-999a-19b11c0198ae",
+      "parentMeasuredAt": "2026-10-31T19:23:27.630Z",
+      "binding": {
+        "sourceSha256": "fb4fdb7915186d14afc27515403449129c1f0390d74f483bcddeaf730b827ce5",
+        "expectationsSha256": "73ab506022044b96cc7a537914c881ecc5704f26debe350f72670dc90d75728b",
+        "svgSha256": "4fd24d344a37fcddecb44f20dd6433d6278b9e05361c1a977f103c8c04f40f95",
+        "observerSha256": "5a06de3a2bcaa1ebd80d9aeea9d3c4754effb3676d3cd1ba6ecc1f36cc62d381"
+      }
+    },
+    {
+      "index": 323,
+      "id": "packages/mermaid/src/docs/syntax/packet.md:77",
+      "priorStatus": "correct",
+      "status": "correct",
+      "failedChecks": [],
+      "unknownChecks": [],
+      "sourceSha256": "16d2b45d5aab2633aade4fab58149b9f5b7d78fd96e6b5e644ab615e4a4be4e6",
+      "originalSvgSha256": "b3fa7b0b355fb0215e8f2c23fd9a3d675da7a3b086fdfe68649ab144cf53577e",
+      "originalSvgWitness": "drawings/b3fa7b0b355fb0215e8f2c23fd9a3d675da7a3b086fdfe68649ab144cf53577e.svg.gz",
+      "parentInvocationId": "6d258cac-63d9-4a82-8f4b-c6f1465d7015",
+      "parentMeasuredAt": "2026-10-31T19:23:27.932Z",
+      "binding": {
+        "sourceSha256": "16d2b45d5aab2633aade4fab58149b9f5b7d78fd96e6b5e644ab615e4a4be4e6",
+        "expectationsSha256": "84c16c499d9fdbf69c497e6faf2bc38a78551367b28b4929f8b01bbc5393790e",
+        "svgSha256": "b3fa7b0b355fb0215e8f2c23fd9a3d675da7a3b086fdfe68649ab144cf53577e",
+        "observerSha256": "5a06de3a2bcaa1ebd80d9aeea9d3c4754effb3676d3cd1ba6ecc1f36cc62d381"
+      }
+    },
+    {
+      "index": 324,
+      "id": "packages/mermaid/src/docs/syntax/packet.md:121",
+      "priorStatus": "incorrect",
+      "status": "incorrect",
+      "failedChecks": [
+        "source-fact:authored-config"
+      ],
+      "unknownChecks": [],
+      "sourceSha256": "3567105d88bb41a5410baee609b4562e85c000198de3e270817aa60bb1f2ad64",
+      "originalSvgSha256": "d4e12f91645a3ef64e6ce7349df16a69f3afcd9648d937cf0a5ed901c5ec3028",
+      "originalSvgWitness": "drawings/d4e12f91645a3ef64e6ce7349df16a69f3afcd9648d937cf0a5ed901c5ec3028.svg.gz",
+      "parentInvocationId": "8c66030e-3359-49bb-84b3-67b0ca153f41",
+      "parentMeasuredAt": "2026-10-31T19:23:28.104Z",
+      "binding": {
+        "sourceSha256": "3567105d88bb41a5410baee609b4562e85c000198de3e270817aa60bb1f2ad64",
+        "expectationsSha256": "a7a4c34bdf7d7288a3c083f3ecb4e1d004182a2b1192040e680c04c19b2c53f8",
+        "svgSha256": "d4e12f91645a3ef64e6ce7349df16a69f3afcd9648d937cf0a5ed901c5ec3028",
+        "observerSha256": "5a06de3a2bcaa1ebd80d9aeea9d3c4754effb3676d3cd1ba6ecc1f36cc62d381"
+      }
+    },
+    {
+      "index": 352,
+      "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:258",
+      "priorStatus": "unknown",
+      "status": "unknown",
+      "failedChecks": [],
+      "unknownChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "sourceSha256": "4bff091ab718b957ce1a1c2960676f6feed8121dd48e1b550466524b7407eee0",
+      "originalSvgSha256": "8fc1c15a441d16191b1d514cfb7650477ca87a6868d20d6b70b1491fac300f89",
+      "originalSvgWitness": "drawings/8fc1c15a441d16191b1d514cfb7650477ca87a6868d20d6b70b1491fac300f89.svg.gz",
+      "parentInvocationId": "e9970ae2-86fd-4f43-8b1f-3f3b9c476180",
+      "parentMeasuredAt": "2026-10-31T19:23:49.552Z",
+      "binding": {
+        "sourceSha256": "4bff091ab718b957ce1a1c2960676f6feed8121dd48e1b550466524b7407eee0",
+        "expectationsSha256": "a9603820897265f274fe3f423ac42bb8ff22ca9857ae83673647d47af1f35c1b",
+        "svgSha256": "8fc1c15a441d16191b1d514cfb7650477ca87a6868d20d6b70b1491fac300f89",
+        "observerSha256": "5a06de3a2bcaa1ebd80d9aeea9d3c4754effb3676d3cd1ba6ecc1f36cc62d381"
+      }
+    }
+  ],
+  "otherCases": "Every other original548 case retains its prior observer epoch; no B0 artifact is replaced or relabelled.",
+  "projectRendererInvocations": 0,
+  "aggregateCorpusResultUpdated": false
+}

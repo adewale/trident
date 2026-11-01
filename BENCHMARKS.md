@@ -1,14 +1,15 @@
 # Benchmarks: tasks, evidence and limits
 
 Trident compares public rendering artifacts. The current workloads are
-Documentation Examples (DaveBench), pinned Mermaid Public API Tests and Terminal
-Rendering. Authored harness/observer regressions are unscored diagnostics; optional
+DaveBench (SVG and PNG), Mermaid Behaviour Tests and Terminal Rendering.
+The unchanged Mermaid Public API Tests remain an optional compatibility diagnostic. Authored harness/observer regressions are unscored diagnostics; optional
 Public Model Contracts retain their separate API scope. SVG inspection and cost measurement are shared machinery.
 There is no combined renderer-quality score or validated production holdout.
 
 The [current minimum-cohort qualification results](docs/qualification-results-2026-10-31.md)
 rank verified counts and separately qualified timing comparisons on named inputs.
-They retain unknowns and do not replace the historical ecosystem baseline.
+They are the frozen B0 baseline, with explicit unknowns and their original observer.
+New grading and historical ecosystem campaigns retain separate identities.
 
 ```sh
 bun commands.ts bench --projects OWNER/TOOL,... --profile full --plan
@@ -25,7 +26,7 @@ require explicit selection. `full` applies to the selected inputs and sampling.
 Preparation freezes artifacts once; collection performs no latest-version lookup.
 [Baseline](BASELINE.md) and [report conventions](REPORTING.md) describe reuse.
 
-## Documentation Examples — DaveBench
+## DaveBench — Documentation Rendering
 
 Task: accurately render the examples in the pinned Mermaid syntax documentation
 as SVG and PNG, and measure completed rendering on matched verified work. Both
@@ -60,10 +61,9 @@ Source transcription coverage cannot establish full DaveBench correctness. A
 small qualified subset supplies a score only for that named subset. First-round
 inspection does not qualify every later timed return.
 
-A one-round coverage run makes one call per occurrence with no warmups.
-The repeated return diagnostic uses 30 warmups and six rounds. Project order reverses
-after each round, then rotates after each pair; positions balance over 2N rounds
-for N participants. Public-call clocks stop at SVG return, before validation and
+Coverage makes one call per selected occurrence and format, with no warmups.
+`--rounds 1` is required, including full-profile coverage. Repeated return-only
+diagnostics are retired; use a qualified timing collector for repetitions. Public-call clocks stop at SVG return, before validation and
 cleanup. These clocks lack A/A and per-call semantic qualification, so there is
 no qualified overall speed score. The [bounded repair campaign](docs/benchmark-repair-2026-10-30.md)
 uses one pass to improve the checks rather than repeat performance collection.
@@ -83,21 +83,16 @@ SVG-to-PNG certificate additionally requires the exact rasterized SVG, every
 source fact, frozen rasterizer/fonts and an independently reviewed reference
 raster with matching decoded pixels. These are
 [separate evidence paths](docs/png-correctness.md), not a general native-PNG
-semantic oracle. An independent review of the actual same-call PNG may also
-supply only existing unavailable planned static painted checks for its exact
-SVG. This reverse transfer binds source, both expectation contracts, original
-and rasterized SVG bytes, actual PNG, capture inputs and invocation. HTML repair
-requires namespace/content equivalence before transferring to the original SVG.
-It preserves failed checks and cannot supply structural, font, resource,
-metadata or motion facts; it is not an SVG-to-PNG preservation certificate.
+semantic oracle. PNG and SVG are graded directly; ordinary scoring never transfers PNG review
+credit into SVG. Historical transfer records retain their original protocol.
 Content without an admissible current review stays unknown. Settings-only
 sources have no nonblank-drawing requirement. New PNG clocks remain descriptive
 unless every timed output and A/A calibration qualify. The retained two-project PNG cohort contains actual Mermaid conversions and native
 Flutter returns, inspected at native dimensions. Current admitted decisions,
 required-fact holds and native no-image outcomes are separate in the
 [benchmark report](docs/qualification-results-2026-10-31.md),
-[summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json) and
-[all grades](docs/evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz).
+[summary](results/tables/docs-1.md) and
+[all grades](results/current-outcomes-2026-11-01/normal/png-result.json.gz).
 [Independent image evidence](docs/evidence/png-full-corpus-2026-10-31/README.md)
 preserves repairs and review histories. No viewing count supplies a correctness pass.
 
@@ -146,6 +141,48 @@ separate tables. Comment-varied sources are cache diagnostics. A/A calibration
 cannot supply missing correctness evidence. No single-call p95/p99 or production
 forecast follows from batch means. CPU, RSS, JS heap and native/WASM memory keep
 their separate scopes. [Measurement rules](MEASUREMENT.md) give the clock details.
+
+## Mermaid Behaviour Tests
+
+Task: pass portable, observable behaviours adapted from Mermaid's tests. The
+[committed selection](corpus/mermaid-behaviour-tests.json) contains **49 whole
+cases, 56 ordered source stimuli and 75 individual checks**: 30 family/keyword
+precedence cases and 19 structural SVG accessible-name/description cases. A case
+passes only when every required check passes. The original test files and callback
+hashes come from Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b`.
+All 154 parent callbacks have an explicit selected/excluded disposition.
+
+These are adaptations, not unchanged upstream tests. Family aliases remove
+backend names such as `flowchart-v2`. SVG naming accepts qualified native
+`title`/`desc` and ARIA references without Mermaid's generated IDs, role-description
+strings or jsdom geometry mocks. Active content, hidden or unfamiliar naming
+representations remain unassessed. Structural naming is not a complete
+accessibility audit or a drawing-quality score. The excluded parse/configuration
+snapshots remain in the exact API diagnostic; generic SVG-return work is already
+covered by DaveBench.
+
+```sh
+bun commands.ts mermaid:behaviour --plan
+bun commands.ts mermaid:behaviour --replay-public QUALIFIED154_DIR --out FRESH_DIR
+bun commands.ts mermaid:behaviour --adapter ADAPTER.json --reference MERMAID_BEHAVIOUR_DIR --out FRESH_DIR
+bun commands.ts mermaid:behaviour --replay-capture NATIVE_CAPTURE_DIR --reference MERMAID_BEHAVIOUR_DIR --out FRESH_DIR
+```
+
+The reference must pass all 49 cases from its actual retained Mermaid returns;
+a saved pass flag or project name cannot qualify it. A native adapter receives
+only the operation and literal source, then returns its actual public family or
+SVG. The included Node bridge calls configured public functions. Collection
+retains stdout, stderr and outcomes before grading and verifies declared
+executable, adapter, configuration and artifact bytes. It makes one process call
+per supported stimulus, with no warmups, retries or speed claim. Generic bridges
+must declare their execution inputs; the manifest does not prove an undeclared
+runtime dependency closure. No source checkout, Vitest or model API is required
+for new peers.
+
+Tables stack-rank passed whole cases over the same 49; failed, unavailable and
+unrun cases remain visible. Missing capabilities earn no pass and no invented
+failure. Retained replay re-evaluates actual values rather than copying the old
+154-callback diagnostic's verdicts.
 
 ## Mermaid Public API Tests — diagnostic
 
@@ -241,7 +278,7 @@ adaptation calls and 15 uncollected project coordinates. The [dated earlier
 results](docs/terminal-results-2026-10-31.md) retain their original 16-drawing
 scope and cannot be relabelled with the new contracts.
 
-## Public Model Contracts — optional
+## Public Model Contracts — maintenance diagnostic
 
 Task: preserve declared identities, relationships and values through public
 parsing, inspection, edits and configuration changes. Reviewed bindings currently
@@ -251,7 +288,7 @@ other product-specific workflows belong in their owning projects. This collector
 uses only public Node models and performs no duplicate SVG rendering. A failed prerequisite prevents workflow
 credit for later postconditions. Model results do not establish painted meaning.
 
-## Fixed PNG export profiles
+## Historical fixed PNG export profiles
 
 A finished image is a distinct application task. The [reviewed seven-implementation
 study](docs/davebench-png-seven-results.md) retained all 548 coverage attempts and

@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { beginDocsPngCapture, completeDocsPngCapture } from '../unified/docs-png-capture.ts'
-import { readBrowserPngCaptureProfile } from '../unified/docs-png-svg-static.ts'
+import { readBrowserPngCaptureProfile } from '../unified/docs-png-capture.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
 import { chromium } from 'playwright'
 

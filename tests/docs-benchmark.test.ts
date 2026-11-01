@@ -3,6 +3,9 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { docsArtifactServer, docsRoundOrder } from '../unified/docs-benchmark.ts'
+import { parseOptions } from '../unified/options.ts'
+import { runDocsBenchmark } from '../unified/docs-benchmark.ts'
+import { runDocsPngLane } from '../unified/docs-png-lane.ts'
 import { chromium } from 'playwright'
 import { publicSvgBrowserAction } from '../unified/public-svg-browser.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
@@ -124,4 +127,12 @@ test('a copied recheck resolves original provenance roots only into its own outp
     expect(() => retainedPath(extracted, out, ['/workspace/collected'], '/workspace/other/secrets')).toThrow('outside its recorded')
     expect(() => retainedPath(extracted, out, ['/workspace/collected'], '../outside')).toThrow('outside its recorded')
   } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+test('full coverage defaults to one call and rejects repeated lanes before admission or acquisition', async () => {
+  const options = parseOptions(['--profile', 'full'])
+  expect(options.rounds).toBe(1)
+  const repeated = { ...options, rounds: 6 }
+  await expect(runDocsBenchmark(repeated)).rejects.toThrow('coverage requires --rounds 1')
+  await expect(runDocsPngLane(repeated, {} as any, [], [])).rejects.toThrow('coverage requires --rounds 1')
 })

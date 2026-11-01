@@ -3,7 +3,7 @@ import { evidenceDigest, evidenceBytesDigest } from '../portable/evidence-contra
 import { gzipSync } from 'node:zlib'
 import { readDocsResources, routeDocsResource } from './docs-resources.ts'
 import { artifactVariants, selectArtifactVariant } from './artifact-variants.ts'
-import { selectDocsCases } from './docs-selection.ts'
+import { assertDocsCoverage, selectDocsCases } from './docs-selection.ts'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -40,6 +40,7 @@ export function docsPngTransport(peer?: PreparedCommunity, browser?: PreparedCom
 /** PNG has exactly the same literal source inventory as the SVG lane. Native
  * PNG producers are admitted without an SVG API or SVG browser preparation. */
 export async function runDocsPngLane(options: UnifiedRunOptions, inventory: ReturnType<typeof docsInventory>, sourceReviews: readonly DocsDrawingReview[], imageReviews: readonly DocsPngReview[]): Promise<UnifiedSuiteResult> {
+  assertDocsCoverage(options.rounds)
   assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: false })
   const selectedCases = selectDocsCases(inventory.cases, options)
   const resources = readDocsResources(options.docsResourcesFile)

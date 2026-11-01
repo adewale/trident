@@ -16,6 +16,11 @@ verified counts and explicit limits; it makes no full-accuracy or new 27-project
 campaign claim. Its [receipt](docs/evidence/b0/receipt.json) checks the exact
 input and outcome files, not just transcribed scores.
 
+B0 is immutable. Its exact API diagnostic and original outcome categories remain
+historical evidence when the active benchmark portfolio or grader changes. New
+portable behaviour assertions and direct-format reviews carry their own source
+and observer identities; they never inherit a B0 pass or overwrite its bytes.
+
 ## Verify Trident with the smallest cohort
 
 The fixed [harness profile](qualification/harness-profile.json) covers six

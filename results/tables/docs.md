@@ -1,4 +1,4 @@
-# DaveBench: Documentation Examples
+# DaveBench — Documentation Rendering
 
 [Ecosystem overview](../../RESULTS.md)
 

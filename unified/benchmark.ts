@@ -13,6 +13,7 @@ import { runCommunityFidelitySuite } from '../fidelity/community.ts'
 import { runMermaidFidelitySuite } from './fidelity-suite.ts'
 import { runUpstreamFidelitySuite } from './upstream-fidelity.ts'
 import { runUpstreamOriginalSuite } from './upstream-fidelity-original.ts'
+import { assertDocsCoverage } from './docs-selection.ts'
 import { runDocsBenchmark } from './docs-benchmark.ts'
 import { selectCommunityProjects } from './community.ts'
 import type { PreparedCommunity } from './community-types.ts'
@@ -72,7 +73,7 @@ export async function main(argv = process.argv.slice(2)) {
   --budget-minutes N --resume     add an explicitly recorded allowance to a paused campaign
   --suites ${CAMPAIGN_SUITES.join(',')}  default: ${DEFAULT_SUITES.join(',')}
   --suites upstream-original      explicit reference-environment validation only
-  --rounds N --executable CHROMIUM --upstream-runner-root INSTALLED_VITEST_KIT
+  --rounds N (default 1; DaveBench coverage requires 1) --executable CHROMIUM --upstream-runner-root INSTALLED_VITEST_KIT
   --docs-cases FILE              optional repair IDs; unselected corpus inputs stay unmeasured
   --docs-review FILE             source-hashed drawing expectations (default: corpus/docs-reviewed.json)
   --docs-formats svg,png         same corpus, separate output lanes (default: both)
@@ -80,7 +81,7 @@ export async function main(argv = process.argv.slice(2)) {
   --docs-png-review FILE         reviewed PNG/source/expectation hashes; absent images remain unknown
   --list --include-excluded-descendants
   --pilot-summary CONTROLLER_JSON --out DIR  reduce owning pilot reports without collection
-Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples} warm means and ${FULL_SAMPLING.coldSamples} fresh processes per replica/round/case. Missing bindings, failures and unqualified timing remain visible. Measurements run locally and serially. Budgets stop new work at collector checkpoints; active workers retain their deadlines.`)
+Legacy portable diagnostics with --profile full --rounds ${FULL_SAMPLING.rounds}: ${FULL_SAMPLING.samples} warm means and ${FULL_SAMPLING.coldSamples} fresh processes per replica/round/case. Missing bindings, failures and unqualified timing remain visible. Measurements run locally and serially. Budgets stop new work at collector checkpoints; active workers retain their deadlines.`)
     return
   }
   const forwarded: string[] = [], selected: string[] = [], seen = new Set<string>()
@@ -109,6 +110,7 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
     if (!['--community-force', '--allow-incomplete'].includes(flag)) forwarded.push(take(index++))
   }
   if (selected.some(id => !PUBLIC_SUITES.includes(id as PublicSuite)) || new Set(selected).size !== selected.length) throw Error('Unknown or duplicate suite')
+  if (selected.includes('mermaid-behaviour')) throw Error('Use mermaid:behaviour with an explicit native adapter or saved capture, then results:snapshot --campaign for its retained evidence.')
   if (selected.includes('public-conformance')) throw Error('PublicTests is a standalone diagnostic until frozen public bindings, source and original runtime are enrolled. Use mermaid:public-tests, then results:snapshot --campaign for its retained evidence.')
   if (selected.includes('upstream-fidelity')) throw Error('Mermaid Assertion Replay is retired as a comparative benchmark. Read its retained evidence or use explicit model/feature contracts.')
   if (cutoff && (!Number.isFinite(Date.parse(cutoff)) || Date.parse(cutoff) > Date.now())) throw Error('Cutoff must be a valid past timestamp')
@@ -137,6 +139,7 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
   }
   if (pilotOnly && selected.length) throw Error('--pilot selects its diagnostic portable cases; do not supply --suites')
   const chosen = previous?.requestedSuites ?? (pilotOnly ? ['portable'] : selected.length ? selected : [...DEFAULT_SUITES])
+  if (chosen.includes('docs')) assertDocsCoverage(options.rounds)
   if (allProjects && options.communityProjects && !preparedFile) throw Error('Use --projects or --all-projects, not both')
   if (!list && !options.communityProjects && !allProjects) throw Error('Choose --projects OWNER/TOOL,..., explicitly --all-projects, or --prepared before starting')
   let catalog = read(options.communityCatalogFile ?? communityCatalogFile)

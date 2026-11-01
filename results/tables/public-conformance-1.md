@@ -8,7 +8,7 @@
 
 Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Diagnostic public API subset: 154 expanded callbacks from 37 eligible declarations; 4060 original declarations in 368 files. Corpus: unchanged Mermaid tests at 1fb7869866dd619168d840291c9c54b4f129758b. Original and delegated public Mermaid controls both pass every selected callback. This complete selected scope joins disjoint retained callback scopes; every parent native receipt, callback, producer and public invocation is revalidated without new API calls. Original assertions retain exact diagnostic wording, configuration expectations, accessibility roles and caller-ID conventions, including upstream jsdom geometry mocks. Public parse returns/configuration are snapshotted as JSON before assertions, with explicit loss for unserializable values; invocation events are fsynced. The uninstrumented original control retains native callback outcomes. This is strict API compatibility, not drawing accuracy, speed or whole-suite conformance. Binding gaps include unavailable public fields and incomplete invocation evidence. Unmeasured projects receive no zero.
 
-Ranked by **Passed / Planned eligible**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Ranked by **Passed / Planned eligible**, highest first. Equal values share a rank; unavailable values are unranked.
 
 “Higher” and “Lower” compare **Passed** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
 

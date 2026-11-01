@@ -29,8 +29,11 @@ transport changes. It covers 16 paths and 56 output calls within a five-minute
 collection budget, after preparation. It is an unscored invocation check. Reuse
 its existing witnesses when their artifact, inputs and producer remain applicable.
 
-For correctness changes, recheck retained outputs with the new observer and its
-independent positive and broken-output controls. Each correct verdict must bind
+For correctness changes, independently review a small stratified sample of retained
+outputs against explicit source facts, including existing positives, failures and
+unknowns. Include equivalent representations and meaningful wrong-output controls.
+Record disagreements and unresolved limits; sample agreement does not establish
+whole-corpus accuracy. Recheck retained outputs with the changed observer. Each correct verdict must bind
 all required facts to the actual source, output bytes and producer. Unsupported
 facts stay unknown. Source extraction coverage and a passing reference renderer
 are not independent correctness proof.
@@ -53,9 +56,10 @@ Before a release, check each advertised claim against its actual evidence:
 | Claim | Concrete prerequisite |
 |---|---|
 | Full DaveBench accuracy | Keep all 548 occurrences: 546 drawings, one invalid control and one configuration-only input. The [source census](docs/docs-source-expectations.md) has 547 complete contracts and one held duplicate-commit interpretation. Regrade every required fact against exact retained outputs; the held drawing stays planned and unknown. |
-| Mermaid test compatibility | Publish the exact 154-callback/37-declaration diagnostic and all nonpasses, with original/public-reference controls and owned `expanded-154-bundle-v2` parents. Preserve historical 41-callback evidence separately. Broader assertions require independent source and reference qualification. |
+| Portable Mermaid behaviours | Keep the 49-case adapted scope and all 154 origin dispositions; qualify every selected assertion on actual Mermaid reference returns. Reopen raw peer returns when publishing; show unavailable and unrun cases, never copied exact-API verdicts. |
+| Mermaid test compatibility — diagnostic | Publish the exact 154-callback/37-declaration diagnostic and all nonpasses, with original/public-reference controls and owned `expanded-154-bundle-v2` parents. Preserve historical 41-callback evidence separately. Broader assertions require independent source and reference qualification. |
 | Terminal accuracy | Use the named active v3 manifest: 116 drawings and four typed invalid controls; preserve the ambiguous original separately in 121 research entries. All active source profiles have bounded observers; missing or uninspectable outputs still supply no correctness pass. Original v1/v2 saved cohorts keep their original IDs. |
-| PNG correctness | Bind independent actual-image reviews to current source/format contracts, exact image bytes and inspection evidence; keep held facts unknown. Strict SVG-to-PNG preservation is a separate certificate. Same-call PNG-to-SVG transfer fills only unavailable planned painted checks and preserves contrary observations; it supplies no structural/font/resource/motion proof. A decoded image or correct SVG alone is insufficient. |
+| PNG correctness | Bind independent actual-image reviews to current source/format contracts, exact image bytes and inspection evidence; keep held facts unknown. Strict SVG-to-PNG preservation is a separate certificate. Grade each output format directly; historical PNG-to-SVG transfer supplies no new scoring credit. A decoded image or correct SVG alone is insufficient. |
 | Comparative performance | Qualify the same matched successful tasks and every actual timed sample; retain intervals, A/A controls, runtime and call boundary. |
 
 A narrower supported claim must be stated as that exact scope in the README,
@@ -63,6 +67,11 @@ results and release notes. It cannot be described as full-corpus support. The
 current gaps remain visible in the owning reports rather than being waived by
 another campaign or a passing packaging check. Historical checks remain bound
 to their original revisions; current runtime checks are identified above.
+
+Use affected checks while implementing; run the full suite once the runtime is
+frozen. Recollect only missing or unusable output. Keep raw returns, source
+provenance, failed attempts and A/A controls; no repair-report chain or broad
+renderer campaign is required for an observer-only change.
 
 ## Check and package the intended revision
 

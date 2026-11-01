@@ -36,10 +36,10 @@ test('documentation SVG return and reviewed drawing correctness retain separate 
   const drawings = snapshot.tables.find(table => table.columns.includes('Correct'))!
   expect(drawings).toBeDefined()
   expect(drawings.chart).toBeUndefined()
-  expect(drawings.rows.find(row => row.project === 'fixture/a')!.values.slice(1, 5)).toEqual([0, 1, 1, 2])
+  expect(drawings.rows.find(row => row.project === 'fixture/a')!.values.slice(1, 10)).toEqual([0, 1, 0, 0, 0, 1, 0, 0, 2])
   expect(rankedRows(drawings, value => value).map(row => row.project)).toEqual(['fixture/b', 'fixture/a'])
   expect(rankedRows(drawings, value => value).map(row => row.rank)).toEqual([1, 2])
-  expect(drawings.caption).toContain('unknown')
+  expect(drawings.caption).toContain('Unassessed')
   const returns = snapshot.tables.find(table => table.columns.includes('Returned in all rounds'))!
   expect(returns.rows.find(row => row.project === 'fixture/a')!.values[1]).toBe(2)
 })
@@ -120,10 +120,10 @@ test('a one-project docs rerun updates its row while comparable peer scores, dat
   expect(comparison.rows.find(row => row.project === 'fixture/a')?.receipt?.url).toBe('https://example.org/rerun/report.json')
   expect(data.tables.find(table => table.id === original!.id)).toEqual(original!)
   expect(overview(data).rank).toBe('2')
-  expect(overview(data).docs).toContain('0.0%')
+  expect(overview(data).docs).toContain('0/2 verified; bounds 0–0/2')
   expect(overview(data).docs).toContain('2026-02-02')
   expect(overview(data, 'fixture/b').rank).toBe('1')
-  expect(overview(data, 'fixture/b').docs).toContain('50.0%')
+  expect(overview(data, 'fixture/b').docs).toContain('1/2 verified; bounds 1–2/2')
   expect(overview(data, 'fixture/b').docs).toContain('2026-01-01')
   data = importCampaign(data, oneProjectRerun({ updatedAt: '2026-02-03T00:00:00Z', partial: true }), 'https://example.org/interrupted', catalog)
   expect(overview(data).rank).toBe('—')
@@ -155,15 +155,15 @@ test('a newer multi-project run cannot keep an omitted project score alive throu
   expect(overview(data).rank).toBe('—')
   expect(overview(data).docs).toContain('unavailable')
   expect(overview(data, 'fixture/b').rank).toBe('1')
-  expect(overview(data, 'fixture/b').docs).toContain('50.0%')
+  expect(overview(data, 'fixture/b').docs).toContain('1/2 verified; bounds 1–2/2')
 })
 
-test('fresh generated docs tables supply their own overview rank and literal percentage', () => {
+test('fresh generated docs tables supply their own verified-count rank and correctness bounds', () => {
   const data = importCampaign(empty(), campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/fresh', catalog)
   expect(overview(data).rank).toBe('1')
-  expect(overview(data).docs).toContain('100.0%')
+  expect(overview(data).docs).toContain('2/2 verified; bounds 2–2/2')
   expect(overview(data, 'fixture/b').rank).toBe('2')
-  expect(overview(data, 'fixture/b').docs).toContain('50.0%')
+  expect(overview(data, 'fixture/b').docs).toContain('1/2 verified; bounds 1–2/2')
   expect(data.tables[0]!.measuredAt).toBe('2026-01-01T00:00:00Z')
 })
 
@@ -174,7 +174,7 @@ test('a genuinely later partial attempt hides older scores, but a later owning i
   expect(overview(data).docs).toContain('unavailable')
   data = importCampaign(data, campaign(temp(), { updatedAt: '2026-02-03T00:00:00Z' }), 'https://example.org/resumed', catalog)
   expect(overview(data).rank).toBe('1')
-  expect(overview(data).docs).toContain('100.0%')
+  expect(overview(data).docs).toContain('2/2 verified; bounds 2–2/2')
   expect(data.tables.find(table => table.id === data.overviewRanking)!.measuredAt).toBe('2026-01-01T00:00:00Z')
 })
 
@@ -184,20 +184,20 @@ test('candidate study tables and attempts cannot replace or suppress release sco
   data = importCampaign(data, campaign(temp(), { candidate: true, updatedAt: '2026-02-02T00:00:00Z' }), 'https://example.org/candidate', catalog)
   expect(data.overviewRanking).toBe(primary)
   expect(overview(data).rank).toBe('1')
-  expect(overview(data).docs).toContain('100.0%')
+  expect(overview(data).docs).toContain('2/2 verified; bounds 2–2/2')
   expect(data.attempts.filter(attempt => attempt.receipt.url.includes('/candidate/')).every(attempt => attempt.artifactRole === 'candidate')).toBe(true)
   expect(data.tables.filter(table => table.receipt.url.includes('/candidate/')).every(table => table.artifactRole === 'candidate' && !table.overview)).toBe(true)
   data = importCampaign(data, campaign(temp(), { candidate: true, partial: true, updatedAt: '2026-02-03T00:00:00Z' }), 'https://example.org/candidate-partial', catalog)
   expect(overview(data).rank).toBe('1')
-  expect(overview(data).docs).toContain('100.0%')
+  expect(overview(data).docs).toContain('2/2 verified; bounds 2–2/2')
   expect(renderSnapshot(data, catalog)).toContain('**Source candidate study**')
 })
 
-test('fully blocked generated docs data stays blocked and unranked rather than showing zero percent', () => {
+test('fully blocked generated docs data remains unranked with its full unresolved interval', () => {
   const data = importCampaign(empty(), campaign(temp(), { blocked: true, updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/blocked', catalog)
   expect(overview(data).rank).toBe('—')
   expect(overview(data).docs).toContain('No verified drawing-content observations')
-  expect(overview(data).docs).not.toContain('0.0%')
+  expect(overview(data).docs).not.toContain('0/2 verified; bounds 0–0/2')
 })
 
 test('an interrupted docs round retains partial observations without a fabricated zero rank or chart bar', () => {
@@ -215,7 +215,7 @@ test('an interrupted docs round retains partial observations without a fabricate
   expect(rankedRows(table, id => id).map(row => [row.project, row.rank])).toEqual([['fixture/b', 1], ['fixture/a', null]])
   // First-round content evidence remains valid; later raw-return gaps withhold return/timing claims.
   expect(overview(data).rank).toBe('1')
-  expect(overview(data).docs).toContain('100.0%')
+  expect(overview(data).docs).toContain('2/2 verified; bounds 2–2/2')
   const output = renderSnapshot(data, catalog)
   expect(output).toContain('bar [50]')
   expect(output).not.toContain('bar [50, 0]')
@@ -246,7 +246,7 @@ test('copied campaign evidence reads its own reports even while the original dir
   expect(readCampaign(copy).results[0]!.out).toBe(join(copy, 'docs'))
   const data = importCampaign(empty(), copy, 'https://example.org/extracted', catalog)
   expect(data.tables.find(table => table.suite === 'docs')?.rows).toHaveLength(2)
-  expect(overview(data).docs).toContain('100.0%')
+  expect(overview(data).docs).toContain('2/2 verified; bounds 2–2/2')
   const raw = JSON.parse(readFileSync(join(copy, 'report.json'), 'utf8'))
   expect(raw.results[0].out).toBe(join(root, 'docs'))
 })
@@ -320,4 +320,46 @@ test('original SVG companions report owning PNG call dates and keep observer pub
     expect(table.caption).toContain('owning PNG-export calls')
     expect(table.caption).toContain('no independent SVG clock')
   }
+})
+
+test('ordinary drawing rows reconcile format, native failure, evidence gaps and recorded unrun cases', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), out = join(root, 'docs'), ids = ['good', 'wrong', 'bad-svg', 'unsupported', 'renderer-failure', 'unassessed', 'unrun', 'harness-failure']
+  write(join(out, 'inventory.json'), { cases: ids.map(id => ({ id })) })
+  const project = 'fixture/a', observation = (caseId: string, operation: string, status: string) => ({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: 'flowchart', caseId, operation, status, format: 'svg', mode: 'one-public-output-call', metrics: { project, version: '1.0.0', round: 1 } })
+  const observations = ids.filter(id => id !== 'unrun').flatMap(id => [observation(id, 'render', ['unsupported', 'renderer-failure', 'harness-failure'].includes(id) ? 'blocked' : 'passed'), observation(id, 'drawing-checks', id === 'good' ? 'passed' : ['wrong', 'bad-svg'].includes(id) ? 'failed' : 'blocked')])
+  observations.push(observation('harness-failure', 'artifact-admission', 'blocked'))
+  write(join(out, 'result.json'), { id: 'docs', startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z', observations, cases: [
+    { project, id: 'bad-svg', admission: { ok: false, scope: 'format-only' } },
+    { project, id: 'unsupported', publicOutcomeClassification: { category: 'proven-unsupported-source-input', publicApiEntryProved: true } },
+    { project, id: 'renderer-failure', publicOutcomeClassification: { category: 'actual-renderer-failure', publicApiEntryProved: true } },
+  ] })
+  const data = importCampaign(empty(), root, 'https://example.test/outcomes', catalog), table = data.tables.find(table => table.drawingOutcomePolicy)!, values = table.rows[0]!.values
+  expect(table.rows).toHaveLength(1)
+  expect(values.slice(1, 10)).toEqual([1, 1, 1, 1, 1, 1, 1, 1, 8])
+  expect(values.slice(10, 13)).toEqual([37.5, 12.5, 50])
+})
+
+test('project-scoped artifact admission is a harness failure for each planned source, not an inferred engine failure or unrun', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), out = join(root, 'docs')
+  write(join(out, 'inventory.json'), { cases: ['one', 'two'].map(id => ({ id, source: 'flowchart LR; A-->B' })) })
+  write(join(out, 'result.json'), { id: 'docs', startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z', observations: [{ suite: 'docs', surface: 'harness:artifact', runtime: 'Node', family: '*', format: 'svg', operation: 'artifact-admission', mode: 'frozen-public-artifact', caseId: 'fixture/a', status: 'blocked', metrics: { project: 'fixture/a', runtimeExecuted: false } }] })
+  const data = importCampaign(empty(), root, 'https://example.test/admission', catalog), table = data.tables.find(table => table.drawingOutcomePolicy)!, values = table.rows[0]!.values
+  expect(values.slice(1, 10)).toEqual([0, 0, 0, 0, 0, 0, 0, 2, 2])
+  expect(values.slice(10, 13)).toEqual([0, 0, 100])
+})
+
+
+test('a complete literal source inventory keeps unrun drawings even before any content observer succeeds', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), out = join(root, 'docs'), file = join(out, 'result.json'), result = JSON.parse(readFileSync(file, 'utf8'))
+  write(join(out, 'inventory.json'), { cases: ['one', 'two'].map(id => ({ id, source: 'flowchart LR; A-->B' })) })
+  result.observations = result.observations.filter((row: any) => row.metrics.project === 'fixture/a' && row.operation === 'render' && row.caseId === 'one')
+  write(file, result)
+  const unassessed = importCampaign(empty(), root, 'https://example.test/source-inventory', catalog).tables.find(table => table.drawingOutcomePolicy)!
+  expect(unassessed.rows[0]!.values.slice(1, 10)).toEqual([0, 0, 0, 0, 0, 1, 1, 0, 2])
+  expect(rankedRows(unassessed, id => id)[0]!.rank).toBeNull()
+  result.observations.push({ ...result.observations[0], operation: 'drawing-checks', status: 'passed' })
+  write(file, result)
+  const checked = importCampaign(empty(), root, 'https://example.test/source-inventory', catalog).tables.find(table => table.drawingOutcomePolicy)!
+  expect(checked.rows[0]!.values.slice(1, 10)).toEqual([1, 0, 0, 0, 0, 0, 1, 0, 2])
+  expect(rankedRows(checked, id => id)[0]!.rank).toBe(1)
 })

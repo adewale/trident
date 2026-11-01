@@ -39,6 +39,15 @@ export function inspectQuantitativePaint(input: { family: string; expected: Mean
       if (clipped === null || style.maskImage && style.maskImage !== 'none' || style.filter && style.filter !== 'none') uncertain.add('unprojected geometry clip/mask/filter')
       if (current === svg) break
     }
+    const bounds = element.getBoundingClientRect()
+    for (const cover of svg.querySelectorAll('image,use')) {
+      if (cover === element || cover.contains(element) || element.contains(cover) || cover.closest('defs,marker,clipPath,mask') || !(element.compareDocumentPosition(cover) & Node.DOCUMENT_POSITION_FOLLOWING)) continue
+      const b = cover.getBoundingClientRect()
+      if (b.width <= 0 || b.height <= 0 || b.x >= bounds.right || b.right <= bounds.x || b.y >= bounds.bottom || b.bottom <= bounds.y) continue
+      let opacity = 1, shown = true
+      for (let owner: Element | null = cover; owner; owner = owner.parentElement) { const css = getComputedStyle(owner); opacity *= Number(css.opacity); if (css.display === 'none' || ['hidden','collapse'].includes(css.visibility)) shown = false; if (owner === svg) break }
+      if (shown && opacity > 0) { uncertain.add('overlapping intrinsic image/use paint'); return false }
+    }
     const style = getComputedStyle(element)
     return alpha(style.fill) * Number(style.fillOpacity) > 0 || alpha(style.stroke) * Number(style.strokeOpacity) > 0 && Number.parseFloat(style.strokeWidth) > 0
   }
@@ -95,7 +104,8 @@ export function inspectQuantitativePaint(input: { family: string; expected: Mean
     const bitOrder = facts['authored-config']?.packet?.bitOrder ?? 'ascending', available = ['ascending', 'descending'].includes(bitOrder) && actual.every(field => field.box)
     const ordered = actual.every((field, index) => !index || !field.box || !actual[index - 1]!.box || field.box.y > actual[index - 1]!.box!.y + 2 || Math.abs(field.box.y - actual[index - 1]!.box!.y) <= 2 && (bitOrder === 'descending' ? field.box.x < actual[index - 1]!.box!.x : field.box.x > actual[index - 1]!.box!.x))
     const ratios = actual.map(field => { const row = actual.filter(other => field.box && other.box && Math.abs(field.box.y - other.box.y) <= 2); return { label: field.label, actual: field.box ? field.box.width / row.reduce((sum, item) => sum + item.box!.width, 0) : null, expected: (field.end - field.start + 1) / row.reduce((sum, item) => sum + item.end - item.start + 1, 0) } })
-    add('painted-bit-field-spans', fields, { fields: actual, ratios, ordered, bitOrder }, available ? ordered && ratios.every(ratio => Math.abs(ratio.actual! - ratio.expected) <= .04) : null, 'Owned field rectangles retain within-row bit-span proportions and the source-declared ascending or mirrored descending order (packet docs:75–94); rows still progress downward and declarations remain lowest-bit first. Unsupported order conventions remain unknown. Four percentage-point padding tolerance, not cross-renderer coordinates.')
+    if (available) add('painted-bit-field-ratios', fields, { fields: actual, ratios, ordered, bitOrder }, ordered && ratios.every(ratio => Math.abs(ratio.actual! - ratio.expected) <= .04), 'Supplementary within-row proportions and source-declared ascending or mirrored descending order (packet docs:75–94), with four percentage-point padding tolerance. This does not prove absolute bit offsets, row placement or common bit-unit width; the separately required painted-bit-field-spans check retains those obligations.')
+    else add('painted-bit-field-spans', fields, { fields: actual }, null, 'This relative profile cannot bind every actual field to one complete body, including wrapped or repeated captions. Absolute bit spans remain REQUIRED; a separately qualified complete segment/offset observer may prove them. No unavailable supplementary ratio finding is asserted outside its finite profile.')
   }
   if (input.family === 'quadrant' && facts.points) {
     const candidates = rectangles.filter(element => alpha(getComputedStyle(element).fill) > 0).map(box)

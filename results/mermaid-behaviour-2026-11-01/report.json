@@ -1,0 +1,3478 @@
+{
+  "schema": "trident-mermaid-behaviour-report-v1",
+  "protocol": "mermaid-observable-behaviour-v1",
+  "captureMode": "retained-upstream-public-calls",
+  "scope": "49 adapted observable semantic behaviours from the154-callback upstream API diagnostic; not unchanged tests, exact API compatibility, whole Mermaid conformance, drawing quality or timing.",
+  "sourceCommit": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "assessedAt": "2026-11-01T08:42:38.604Z",
+  "parentMeasuredAt": "2026-10-31T19:15:43.111Z",
+  "corpusSha256": "7ed77157812c1abb8961cac042992028c9e88f820111fedb6a8dabad27b66906",
+  "producerSha256": "2a673ffcde7b1421e87fa2875b2511352193cee6d36f92336be663797ed3a32e",
+  "referenceQualification": {
+    "qualified": true,
+    "cases": 49,
+    "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+    "rawChecksPassed": 49
+  },
+  "parent": {
+    "directory": "parent-public-tests",
+    "contextSha256": "b83de4baa12c135390f5281ecccc45c5e4f6d02c09231a9604cc2ef131484d61",
+    "inventorySha256": "fa06eb7da2458e5aa777321b14f28b57f5f3c1a5b77259151d6863f296d87298",
+    "reportSha256": "0ab091024f88f03b4e2dd6cf3de3b144784fbce40b9ffe87eaebc70ef83590b9",
+    "nativeCallbacks": 154
+  },
+  "adaptations": {
+    "selected": 49,
+    "originalApiCompatibility": false,
+    "originalAssertionsReexecuted": false,
+    "acceptanceOnlyAssertions": 0,
+    "structuralSvgNaming": 19,
+    "orderedFamilySemantics": 30,
+    "excludesJsdomGeometry": true
+  },
+  "targets": [
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "artifact": {
+        "binding": {
+          "project": "mermaid-js/mermaid",
+          "packageRoot": "/workspace/.cloud-tools/mermaid-reference/node_modules/mermaid",
+          "publicImport": "mermaid",
+          "kind": "mermaid-api"
+        },
+        "entry": "/workspace/.cloud-tools/mermaid-reference/node_modules/mermaid/dist/mermaid.core.mjs",
+        "version": "12.2.0",
+        "entrySha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+        "identitySha256": "7c0180eb31f2634fa532566e071cce7d1d527ea9832d8a5a8db456b598f89838"
+      },
+      "planned": 49,
+      "counts": {
+        "passed": 49,
+        "failed": 0,
+        "unavailable": 0,
+        "unrun": 0
+      },
+      "rows": [
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:graph%20TD%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:graph%20TD%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "graph TD;"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "d52550a201aca9cb600ccbf131a38be609ef5cfea62515a0a4bd522e15d46dab",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart%20TD%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart%20TD%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "flowchart TD;"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "9faa7e6c0752b16d008f63acc003c5cde04150957b112fc29cf5743c22571cfd",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-v2%20TD%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-v2%20TD%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "flowchart-v2 TD;"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "c71d2768e70b1cfb22c7fb1258c5d02697f854268933cfb2d348415b17c56205",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-elk%20TD%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-elk%20TD%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "flowchart-elk TD;"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-elk",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "09e69cc430b0e0c82a46b25a5669fc50f5b1af6b103e9d2c0eda032e3f8fb80d",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:swimlane-beta%20TD%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:swimlane-beta%20TD%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "swimlane-beta TD;"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "swimlane",
+              "actual": {
+                "native": "swimlane",
+                "family": "swimlane"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "94cf21959f902f7e37ff2ca63a7dfb1c93c14dd29c143055c77e342b455ad797",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:C4Context%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:C4Context%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "C4Context;"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "c4",
+              "actual": {
+                "native": "c4",
+                "family": "c4"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "a3d0480ec4d4e049aef1fa0fb934b4e07edb3a62e2b74ab2a5acd92495c00c84",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "classDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "class",
+              "actual": {
+                "native": "classDiagram",
+                "family": "class"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "94d1b46ff02d9949ea695b24e17eaa203c4885557abc6175cc6ef1f79169b625",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram-v2",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram-v2",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "classDiagram-v2"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "class",
+              "actual": {
+                "native": "classDiagram",
+                "family": "class"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "90a80a0b454a51ea47b8b2f39cb13a95a2df403bac003ae67bf93bef930d5e24",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:erDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:erDiagram",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "erDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "er",
+              "actual": {
+                "native": "er",
+                "family": "er"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "14a9a6b12896e79d00dd831e44fe812b1ed95f4ba154fd5b36c88e019b7b635e",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:journey",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:journey",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "journey"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "journey",
+              "actual": {
+                "native": "journey",
+                "family": "journey"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "ecefe39798d0cf3495c0c21a9a056a2124103919408d0858d4154ba5f189f232",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gantt",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gantt",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "gantt"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "gantt",
+              "actual": {
+                "native": "gantt",
+                "family": "gantt"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "39097184a9d501a34b0dc3b13179b1e216795a5d9fb896588aa10f4661555109",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:pie",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:pie",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "pie"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "pie",
+              "actual": {
+                "native": "pie",
+                "family": "pie"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "30f35c63fa33538da53f97d2f352a7181b3bd54c06a0a645f88a07bbd986ea01",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:requirementDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:requirementDiagram",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "requirementDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "requirement",
+              "actual": {
+                "native": "requirement",
+                "family": "requirement"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "e9cc49d2796dd94bd4bbaca9550e9f22197f64ff9fc575f6f6f8c93bc1ce0808",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:info",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:info",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "info"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "info",
+              "actual": {
+                "native": "info",
+                "family": "info"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "0712428a2d73de60f97fd1949d4f8508be81a89a345a14852007f7ce5e51411a",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:sequenceDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:sequenceDiagram",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "sequenceDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "sequence",
+              "actual": {
+                "native": "sequence",
+                "family": "sequence"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "33c062ebc5689c0ad41cf0d41f899af3ed2c124f3c7a59c152edf89046fa83d8",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:mindmap",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:mindmap",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "mindmap"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "mindmap",
+              "actual": {
+                "native": "mindmap",
+                "family": "mindmap"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "86f123820bc9af1eb7e73050501afb603fb2a5a4d88ecfb3dd6ab39a79cd30ba",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:timeline",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:timeline",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "timeline"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "timeline",
+              "actual": {
+                "native": "timeline",
+                "family": "timeline"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "6356a326cba1a36fd30e22e51ddd5aa01c665b31c744be1ef38504c827f9a91c",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gitGraph",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gitGraph",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "gitGraph"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "gitgraph",
+              "actual": {
+                "native": "gitGraph",
+                "family": "gitgraph"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "631ba1388094d42cb4942e6de43a4dfa2ebe42c4a2ce9e8c8095ecaad6d889d2",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "stateDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "state",
+              "actual": {
+                "native": "stateDiagram",
+                "family": "state"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "4ea6ddcc483497c47dd46cebcd08f031c5fa2f020fddc2b1492f5238bccf38cf",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram-v2",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram-v2",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "stateDiagram-v2"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "state",
+              "actual": {
+                "native": "stateDiagram",
+                "family": "state"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "a717e8147f81a62606742e4dc7f88ea3c27d47b09befadbf631bc06472dc3bdd",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:46",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:46",
+            "callbackSha256": "a1a05b22e13fa2b7a499c88da8d4ca934d0afcc25908495b21464a6a64bcec53",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 46
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            },
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 1
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "5acf53a67f0b2bfd936b096131df5c3241fcadda2d94a26c666c533248913f14",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:53",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:53",
+            "callbackSha256": "6029b74802f9f0dd9151bfb761bfdeadbb8e71281e71e46fce5a129637ff6974",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 53
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-elk",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            },
+            {
+              "criterion": "diagram-family",
+              "expected": "swimlane",
+              "actual": {
+                "native": "swimlane",
+                "family": "swimlane"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 1
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "d46ca07544f998eb08ff46739310cfe3944b5bc03eb2e9ff4ea3354aa46a09bd",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:60",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:60",
+            "callbackSha256": "f044aa9296391ba6beeca8ee17fb745ef02b0c526d8752b74bacfbfc38c28a3b",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 60
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "class",
+              "actual": {
+                "native": "classDiagram",
+                "family": "class"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            },
+            {
+              "criterion": "diagram-family",
+              "expected": "class",
+              "actual": {
+                "native": "classDiagram",
+                "family": "class"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 1
+            },
+            {
+              "criterion": "diagram-family",
+              "expected": "state",
+              "actual": {
+                "native": "stateDiagram",
+                "family": "state"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 2
+            },
+            {
+              "criterion": "diagram-family",
+              "expected": "state",
+              "actual": {
+                "native": "stateDiagram",
+                "family": "state"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 3
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "629a7f92472428a8a0228fbe21a5d97c789b31bb0ac828496f447ae22f765ef3",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:67",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:67",
+            "callbackSha256": "5ac904d8c91b563e9afbccd5bb5a416fa7702c8841f1174deb03a6d1e2f8bd95",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 67
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "mindmap",
+              "actual": {
+                "native": "mindmap",
+                "family": "mindmap"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            },
+            {
+              "criterion": "diagram-family",
+              "expected": "class",
+              "actual": {
+                "native": "classDiagram",
+                "family": "class"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 1
+            },
+            {
+              "criterion": "diagram-family",
+              "expected": "er",
+              "actual": {
+                "native": "er",
+                "family": "er"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 2
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "d7cc3f347e7e3a863ea513da6ab3af0bde083aea6a878c398855124e3caa35a4",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:91",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:91",
+            "callbackSha256": "1e28cb89d112e4886ab2c702e9830eefb4225b92d6d5f87a791e96a2d99a5bcf",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 91
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "pie",
+              "actual": {
+                "native": "pie",
+                "family": "pie"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "10524670e9fbf00ed2ab0008e0206679916a3bdc582368f9e602fe6053f3cb02",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "classDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "ec99362eb62022ca67b9b87b9c0b74e31bbc305acd4717490555980e2e5e7575",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram-v2",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram-v2",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "classDiagram-v2"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "9bf1db6eb96ac4292fe607aea5d51efe717774f58bc8880b42c75160dc0bf30a",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:erDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:erDiagram",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "erDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "3c5e9d784c8e8d88894d3f02a8b247663d0250f2f63d4a5a8aa89ef321743235",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:graph",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:graph",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "graph"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "b3e17b96fe8647622f471cc52a841bc1dd4364af0e93645e237f8fb7615a5cf3",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:flowchart",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:flowchart",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "flowchart"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "0eb1e07315e20970656318758509881e6295cb4f098b2cf3754f5e937537e8ea",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gitGraph",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gitGraph",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "gitGraph"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "f9d2e8c1b5a90afaeb8b619a5e275d80f763ff16b7a5bc8c940c012bb24d30b7",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gantt",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gantt",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "gantt"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "f6ab1923af5b2ab5d3b8ed8ca9f1177818f68e1b002edd5bf1dbe0bb1a95f8f9",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:journey",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:journey",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "journey"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "4f852607d2c237659b37619cbe7ede0968b666595c914ca43268141d256a680a",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:pie",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:pie",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "pie"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "e89c8926883769e537960f9013214daec3a8ef62d633ddd22fa6294150f71f8b",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "packet"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "1d04e8346107ee1c04bf3f514c197405cc0554402344ed4bd15cc52215e0e4dd",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet-beta",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet-beta",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "packet-beta"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "ba11037928056fc3f50019abacdcdbc089e25895203b3cd9915f650b3898f8ea",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart-beta",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart-beta",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "xychart-beta"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "d237e3d3ba17d4beb30f9d1ff3be90538cf53d60ba71f0f0bae9004b1e32a2a4",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "xychart"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "437ea342688f862ef8c6191d8149f0ae2ed39eedcf40aa6cfbfcd2b737bfc8fa",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:requirementDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:requirementDiagram",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "requirementDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "49c726e55d4c11e3ebbbc6873f62ad7bea32757228697feaefb2aae13aee74e4",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:sequenceDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:sequenceDiagram",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "sequenceDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "0af1c983c6f5c6d28c49fcfb83849498e495c0c618bf8c2f5de4557859bdaec4",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:stateDiagram-v2",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:stateDiagram-v2",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "stateDiagram-v2"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "601df91ab6cc1c4b4b01fafb2d93ca897e10aca097f1f6410b0861c3a2b4c092",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:treeView-beta",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:treeView-beta",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "treeView-beta"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "2a9a29300796c770b05bc7c460d16419ea927a8e119866260c6808f5f4964697",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:radar-beta",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:radar-beta",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "radar-beta"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "31630b822565ad8034869bf340e14423f1a405f7ceb0a8807756d530b61402cf",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:architecture-beta",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:architecture-beta",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "architecture-beta"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "3e7e8f95b3cd8d39584289a9f6cc0e7ff5a90baf1de00f5b15b0f687ee5737c0",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/utils.spec.ts:188",
+          "origin": {
+            "callbackId": "packages/mermaid/src/utils.spec.ts:188",
+            "callbackSha256": "37c65d7e3ed376e082beea85c12ef5443023f5a5202740ac4204cc16d36f6348",
+            "sourcePath": "packages/mermaid/src/utils.spec.ts",
+            "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+            "line": 188
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "eb3ff52486d7d8e960b38898d071aebf4c8f6ee21d56cc9f5fac1e2cff606d63",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/utils.spec.ts:278",
+          "origin": {
+            "callbackId": "packages/mermaid/src/utils.spec.ts:278",
+            "callbackSha256": "6d12f7259741abcfcf8cd67e48fa7111d15923029bd280c6496f9de3a315eac5",
+            "sourcePath": "packages/mermaid/src/utils.spec.ts",
+            "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+            "line": 278
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "c7175b0ca60ed64c49740c77d38b284c46ff92b6695a95e10afa15ec61d70a60",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/utils.spec.ts:284",
+          "origin": {
+            "callbackId": "packages/mermaid/src/utils.spec.ts:284",
+            "callbackSha256": "6df19ead2c8bec71daa5cd6d598e815f8b22f385c1d292b862b4508618252ee8",
+            "sourcePath": "packages/mermaid/src/utils.spec.ts",
+            "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+            "line": 284
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "fa71a2649bfc18208f96862ccddecd52270a6a7aa885ff7d70637f23f9362b0c",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/utils.spec.ts:289",
+          "origin": {
+            "callbackId": "packages/mermaid/src/utils.spec.ts:289",
+            "callbackSha256": "6604f2137229f69ff4a1d05a0a0d55fca425210ab9e6fc9ae3945c5f84a02be1",
+            "sourcePath": "packages/mermaid/src/utils.spec.ts",
+            "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+            "line": 289
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "gitgraph",
+              "actual": {
+                "native": "gitGraph",
+                "family": "gitgraph"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "e8d38a488ff69f18ba051d1e32d4b9fd8865fde8a5de966571ecd327f2cb5053",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/utils.spec.ts:294",
+          "origin": {
+            "callbackId": "packages/mermaid/src/utils.spec.ts:294",
+            "callbackSha256": "66f48a5ad873dc488177ebc252625fe5f48a051197b58ccd1b6c9e3b9322de48",
+            "sourcePath": "packages/mermaid/src/utils.spec.ts",
+            "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+            "line": 294
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "gitgraph",
+              "actual": {
+                "native": "gitGraph",
+                "family": "gitgraph"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/reference-public-binding/calls.jsonl",
+            "fileSha256": "c1b217fc39266a207e3d02507c790569c38c292ffe7ae39513fad0706a3d2777",
+            "rawEventsSha256": "d1ab8d55f10050e72166612b3794ab077297711ad879300452c9f7bb79cf2173",
+            "artifactSha256": "4d085c790146a42c65d51ea21170427b24bc706de970df570331321996cbdbaf",
+            "bindingSha256": "062a1f2e21bc21b961b1bdb34c4df2b81c54113d33705e7f88957651e3dc6506"
+          }
+        }
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "artifact": {
+        "binding": {
+          "project": "adewale/agentic-mermaid",
+          "packageRoot": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid",
+          "publicImport": "agentic-mermaid/agent/core",
+          "kind": "result-parser",
+          "export": "parseRegisteredMermaid",
+          "familyPath": "kind",
+          "familyAliases": {
+            "flowchart": "flowchart-v2",
+            "state": "stateDiagram",
+            "class": "classDiagram",
+            "sequence": "sequence"
+          },
+          "detection": {
+            "export": "classifyMermaidFamilyFromFirstLine",
+            "familyPath": "familyId",
+            "kindPath": "kind",
+            "acceptedKind": "registered"
+          },
+          "render": {
+            "export": "renderMermaidSVG",
+            "options": {
+              "security": "strict",
+              "embedFontImport": false
+            }
+          }
+        },
+        "entry": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.4.1/node_modules/agentic-mermaid/dist/agent-core.js",
+        "version": "0.4.1",
+        "entrySha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+        "identitySha256": "e2292e49384b4c50bf5693efa6350a7209cdd98242cb8968bc453d77f751da83"
+      },
+      "planned": 49,
+      "counts": {
+        "passed": 29,
+        "failed": 0,
+        "unavailable": 20,
+        "unrun": 0
+      },
+      "rows": [
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:graph%20TD%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:graph%20TD%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "graph TD;"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "d52550a201aca9cb600ccbf131a38be609ef5cfea62515a0a4bd522e15d46dab",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart%20TD%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart%20TD%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "flowchart TD;"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "9faa7e6c0752b16d008f63acc003c5cde04150957b112fc29cf5743c22571cfd",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-v2%20TD%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-v2%20TD%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "flowchart-v2 TD;"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "detect-family",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "7897bd7c323247d4a08f6f7759429fc4d3f34d74503aa6aecea3954770024b45",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-elk%20TD%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-elk%20TD%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "flowchart-elk TD;"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "detect-family",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "cdd0825d009ee8287028ffdf3473afa649ece48dd4e75bc32db8c3ee0f158b42",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:swimlane-beta%20TD%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:swimlane-beta%20TD%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "swimlane-beta TD;"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "detect-family",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "c8953e18482098263653c927b2dfb1835ba33b6b0d48e92a89f6318e7c47366a",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:C4Context%3B",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:C4Context%3B",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "C4Context;"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "detect-family",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "b3dc1091bb4cb7ca5a419b2687035a2a138594453754bc3bd415351261904b49",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "classDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "class",
+              "actual": {
+                "native": "classDiagram",
+                "family": "class"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "94d1b46ff02d9949ea695b24e17eaa203c4885557abc6175cc6ef1f79169b625",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram-v2",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram-v2",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "classDiagram-v2"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "detect-family",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "82ab81abd47123a3762bea407b1a83220691ff4df93fa8c38553f1a0933ad858",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:erDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:erDiagram",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "erDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "er",
+              "actual": {
+                "native": "er",
+                "family": "er"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "14a9a6b12896e79d00dd831e44fe812b1ed95f4ba154fd5b36c88e019b7b635e",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:journey",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:journey",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "journey"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "journey",
+              "actual": {
+                "native": "journey",
+                "family": "journey"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "ecefe39798d0cf3495c0c21a9a056a2124103919408d0858d4154ba5f189f232",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gantt",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gantt",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "gantt"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "gantt",
+              "actual": {
+                "native": "gantt",
+                "family": "gantt"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "39097184a9d501a34b0dc3b13179b1e216795a5d9fb896588aa10f4661555109",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:pie",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:pie",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "pie"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "pie",
+              "actual": {
+                "native": "pie",
+                "family": "pie"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "30f35c63fa33538da53f97d2f352a7181b3bd54c06a0a645f88a07bbd986ea01",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:requirementDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:requirementDiagram",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "requirementDiagram"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "detect-family",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "b6cfbf95f5c49d55393bcbaaf9c8d5036db5954553222cceefb33786351d89e3",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:info",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:info",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "info"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "detect-family",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "f0fc4ed74117bef0b020a0b6a37d5b8ac6acc73d626159b14f959981169fe988",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:sequenceDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:sequenceDiagram",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "sequenceDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "sequence",
+              "actual": {
+                "native": "sequence",
+                "family": "sequence"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "33c062ebc5689c0ad41cf0d41f899af3ed2c124f3c7a59c152edf89046fa83d8",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:mindmap",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:mindmap",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "mindmap"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "mindmap",
+              "actual": {
+                "native": "mindmap",
+                "family": "mindmap"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "86f123820bc9af1eb7e73050501afb603fb2a5a4d88ecfb3dd6ab39a79cd30ba",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:timeline",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:timeline",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "timeline"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "timeline",
+              "actual": {
+                "native": "timeline",
+                "family": "timeline"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "6356a326cba1a36fd30e22e51ddd5aa01c665b31c744be1ef38504c827f9a91c",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gitGraph",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gitGraph",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "gitGraph"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "gitgraph",
+              "actual": {
+                "native": "gitgraph",
+                "family": "gitgraph"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "039c1268a9ba2509208a2ebd1a39e9f1c8ab56544d0a15821d40852f7ab9464a",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "stateDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "state",
+              "actual": {
+                "native": "stateDiagram",
+                "family": "state"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "4ea6ddcc483497c47dd46cebcd08f031c5fa2f020fddc2b1492f5238bccf38cf",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram-v2",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram-v2",
+            "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 17,
+            "parameter": "stateDiagram-v2"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "state",
+              "actual": {
+                "native": "stateDiagram",
+                "family": "state"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "a717e8147f81a62606742e4dc7f88ea3c27d47b09befadbf631bc06472dc3bdd",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:46",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:46",
+            "callbackSha256": "a1a05b22e13fa2b7a499c88da8d4ca934d0afcc25908495b21464a6a64bcec53",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 46
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            },
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 1
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "5acf53a67f0b2bfd936b096131df5c3241fcadda2d94a26c666c533248913f14",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:53",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:53",
+            "callbackSha256": "6029b74802f9f0dd9151bfb761bfdeadbb8e71281e71e46fce5a129637ff6974",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 53
+          },
+          "status": "unavailable",
+          "checks": [],
+          "reason": "Actual call count differs from the source-derived ordered stimuli",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "e4eb189491434f793e7dd51246bbe6a57578d54d7d866af54468b5c00c8329ac",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:60",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:60",
+            "callbackSha256": "f044aa9296391ba6beeca8ee17fb745ef02b0c526d8752b74bacfbfc38c28a3b",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 60
+          },
+          "status": "unavailable",
+          "checks": [],
+          "reason": "Actual call count differs from the source-derived ordered stimuli",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "2dcc53f399263e07183a9d89d372d2dc42f81b28464a4d061536f074e06d9cc5",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:67",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:67",
+            "callbackSha256": "5ac904d8c91b563e9afbccd5bb5a416fa7702c8841f1174deb03a6d1e2f8bd95",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 67
+          },
+          "status": "unavailable",
+          "checks": [],
+          "reason": "Actual call count differs from the source-derived ordered stimuli",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "0a9a4faa2bb08bfba97be464a19feb950e90dc1b39098e35cd3b2a7b63101576",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:91",
+          "origin": {
+            "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:91",
+            "callbackSha256": "1e28cb89d112e4886ab2c702e9830eefb4225b92d6d5f87a791e96a2d99a5bcf",
+            "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+            "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+            "line": 91
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "pie",
+              "actual": {
+                "native": "pie",
+                "family": "pie"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "240aa63c2bf1f333b2ac79f72b053ac413781492d0a8c8e1b194e7a15e26b731",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "classDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "265086eb26e57d7f9ca4916b2f9e404e377c6cbe16f07e3b2c8551b3786feec2",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram-v2",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram-v2",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "classDiagram-v2"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "svg-accessibility",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "53334c9ae48332d7bed2e9b7bb6815f9e85a17b512d3142b6dfb5b617e6bb919",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:erDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:erDiagram",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "erDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "dfd5a8bb9c66b960bfd6b30c8e2e6d3024446119f062a01c726397803987e8dd",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:graph",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:graph",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "graph"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "svg-accessibility",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "0855974d328efe34cc84bd87b13d5629620625fa028f2fa160f7f64448804fa8",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:flowchart",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:flowchart",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "flowchart"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "1b699fe0666e5ef84966ffbfb0b962011ae12a3223117efc9915f5370dcb8a26",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gitGraph",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gitGraph",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "gitGraph"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "2467616e336687683ab09c545b76a81d2fcbf1914b65e5c4ac991a012fdabe05",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gantt",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gantt",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "gantt"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "svg-accessibility",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "cf13fc7119a16fad62a522e21cbdb8bb40195058fdf53ef026709d8e5a9d53ff",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:journey",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:journey",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "journey"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "a7243a22356071b7d8a42890195c712691fb20ebfc581259768743a9306113ea",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:pie",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:pie",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "pie"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "svg-accessibility",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "044dc8c6aec66f119dddb20487cdf2db4e489b13340472214525cc8ba7e2fb75",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "packet"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "svg-accessibility",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "58c38d47982b2f2f1840ff810403f28d19c69c3dac103cbeba290c9defa7fea8",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet-beta",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet-beta",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "packet-beta"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "svg-accessibility",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "7fe248a954aea07b9510aed5c6bae37b1978e81235872e48ee93029a08dfc846",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart-beta",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart-beta",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "xychart-beta"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "ef7b6499ef1fb67d1c017e26e637f01722dc315356bcbed66fe978b56f354c73",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "xychart"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "e3630ba85b4669f36901137dc30f28a48832cd4683838df6f7bdd2a6c6c198a4",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:requirementDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:requirementDiagram",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "requirementDiagram"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "svg-accessibility",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "5f188a2ebb36f0aa05795f1a0573fcffa1ecb801b3ccb7b52e935d412cd42e16",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:sequenceDiagram",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:sequenceDiagram",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "sequenceDiagram"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "a6a578c687a7dd9d2a7e63233d634ebc81cfcc6a2eb4df4baab76354ee79ef20",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:stateDiagram-v2",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:stateDiagram-v2",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "stateDiagram-v2"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "81ae56e3a8323d1dce2dfa8d0ee47b16811650e9f497ac7a53e43fb2afcb6926",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:treeView-beta",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:treeView-beta",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "treeView-beta"
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "svg-accessibility",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "76cd4d8bcc825824739c108f2fc14a4c322f2853a972cc599160db7a5ebdf609",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:radar-beta",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:radar-beta",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "radar-beta"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "abd58aa8379968ad727a2505e831742420f76fc221ae17e604134bfabf9392c9",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:architecture-beta",
+          "origin": {
+            "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:architecture-beta",
+            "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+            "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+            "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+            "line": 918,
+            "parameter": "architecture-beta"
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "accessible-name",
+              "expected": "a11y title",
+              "actual": "a11y title",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            },
+            {
+              "criterion": "accessible-description",
+              "expected": "a11y description",
+              "actual": "a11y description",
+              "status": "passed",
+              "detail": "Finite static SVG root title/desc or resolved ARIA naming, with XML entity decoding and whitespace normalization; no generated-ID or Mermaid role-description requirement and no browser/AT accessibility certification",
+              "step": 0
+            }
+          ],
+          "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "49954a9c9f550fcc579a7844dc2bf99c8333a274f36ad5230aed6542f0fedef0",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/utils.spec.ts:188",
+          "origin": {
+            "callbackId": "packages/mermaid/src/utils.spec.ts:188",
+            "callbackSha256": "37c65d7e3ed376e082beea85c12ef5443023f5a5202740ac4204cc16d36f6348",
+            "sourcePath": "packages/mermaid/src/utils.spec.ts",
+            "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+            "line": 188
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "eb3ff52486d7d8e960b38898d071aebf4c8f6ee21d56cc9f5fac1e2cff606d63",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/utils.spec.ts:278",
+          "origin": {
+            "callbackId": "packages/mermaid/src/utils.spec.ts:278",
+            "callbackSha256": "6d12f7259741abcfcf8cd67e48fa7111d15923029bd280c6496f9de3a315eac5",
+            "sourcePath": "packages/mermaid/src/utils.spec.ts",
+            "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+            "line": 278
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "c7175b0ca60ed64c49740c77d38b284c46ff92b6695a95e10afa15ec61d70a60",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/utils.spec.ts:284",
+          "origin": {
+            "callbackId": "packages/mermaid/src/utils.spec.ts:284",
+            "callbackSha256": "6df19ead2c8bec71daa5cd6d598e815f8b22f385c1d292b862b4508618252ee8",
+            "sourcePath": "packages/mermaid/src/utils.spec.ts",
+            "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+            "line": 284
+          },
+          "status": "passed",
+          "checks": [
+            {
+              "criterion": "diagram-family",
+              "expected": "flowchart",
+              "actual": {
+                "native": "flowchart-v2",
+                "family": "flowchart"
+              },
+              "status": "passed",
+              "detail": "Explicit family aliases only; source is never reparsed to manufacture a returned family",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "fa71a2649bfc18208f96862ccddecd52270a6a7aa885ff7d70637f23f9362b0c",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/utils.spec.ts:289",
+          "origin": {
+            "callbackId": "packages/mermaid/src/utils.spec.ts:289",
+            "callbackSha256": "6604f2137229f69ff4a1d05a0a0d55fca425210ab9e6fc9ae3945c5f84a02be1",
+            "sourcePath": "packages/mermaid/src/utils.spec.ts",
+            "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+            "line": 289
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "detect-family",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "7f091f2ff4a954eb149e1a68151dcf050ef1eb53bc5a84c0134485bd8cb10f81",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        },
+        {
+          "id": "behaviour:packages/mermaid/src/utils.spec.ts:294",
+          "origin": {
+            "callbackId": "packages/mermaid/src/utils.spec.ts:294",
+            "callbackSha256": "66f48a5ad873dc488177ebc252625fe5f48a051197b58ccd1b6c9e3b9322de48",
+            "sourcePath": "packages/mermaid/src/utils.spec.ts",
+            "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+            "line": 294
+          },
+          "status": "unavailable",
+          "checks": [
+            {
+              "criterion": "observable-return",
+              "expected": "detect-family",
+              "actual": null,
+              "status": "unavailable",
+              "detail": "The native public boundary did not return this observable value; generic exceptions and unsupported bindings earn no semantic credit",
+              "step": 0
+            }
+          ],
+          "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required.",
+          "evidence": {
+            "file": "scopes/0/YWRld2FsZS9hZ2VudGljLW1lcm1haWQ/calls.jsonl",
+            "fileSha256": "9b00aa40d08b9e9c8e7607ea1ed0825177032a0f945714bc5115dee7f073c58b",
+            "rawEventsSha256": "2e4d9c756b96c4c7f11a7c634179d778359f3c5c423aa579d6cc4b5cc668192e",
+            "artifactSha256": "753017cded1654bb6ac652c20b8c85bfc623fada4ede46d3c4ca81a251adffef",
+            "bindingSha256": "f3555ce812cdfd34a7b48ebdd05b9e4dffc082e12a4eb9f717288cadc6acac8a"
+          }
+        }
+      ]
+    }
+  ],
+  "projectInvocations": 0,
+  "timing": "No new project calls or performance claim. Actual values retain their source/artifact-bound native parent evidence; observer assessment time is separate.",
+  "limits": [
+    "Only detector-family and structural SVG naming behaviours are implemented; other154-callback surfaces are explicitly excluded in the corpus.",
+    "Missing API capabilities, absent raw values and incomplete parent invocations remain unavailable/unrun; original callback pass/fail is never substituted.",
+    "PNG/terminal output cannot prove SVG accessible naming. These results do not certify drawing content, full accessibility or whole Mermaid conformance."
+  ]
+}

@@ -51,9 +51,8 @@ sentence interpreting each result.
 | Legacy compatibility diagnostic | Project/version, within one format and runtime | Passed, failed, unsupported, blocked and missing inputs; planned total | Inputs |
 | DaveBench | Project/version on the same documentation inventory, separately for SVG and PNG | Output return separately from reviewed content; correct, incorrect, unknown, configuration-only and planned occurrences | Occurrences |
 | Qualified render cost | Project/version on a fixed matched source set, output format and public boundary | Per-call checked population, median time, uncertainty and A/A qualification; missing proof withholds comparison | ms |
-| Mermaid Feature Cases | Project/version on the same authored SVG cases | Correct, incorrect, unsupported and unknown diagrams; per-criterion details separately | Diagrams |
-| Public Model Contracts | Project/version on the same authored sources | Correct, incorrect and unknown whole cases; raw criterion details remain in evidence | Cases |
 | Terminal Rendering | Project/version on the same pinned project corpus | Correct, incorrect, unsupported, unknown, planned and measured inputs; reviewed and full populations separately | Diagrams |
+| Mermaid Behaviour Tests | Project/version on the same explicitly adapted upstream cases | Passed, failed, unavailable and unrun whole cases; ordered assertions and adaptation links in evidence | Cases |
 | Mermaid Public API Tests — diagnostic | Project/version on the same selected unchanged original callbacks | Passed, failed, unsupported, binding gaps and planned expanded callbacks; exact public scope | Callbacks |
 | Reference environment validation | Reference/version and original runner | Files, passed, failed, pending and todo callbacks; no peer-project score | Files and callbacks |
 | Legacy fixed-core/adaptive cost diagnostics | Project/version, case/size and one call mode | Descriptive samples/means and original limits; no current qualified speed rank | ms |
@@ -73,14 +72,19 @@ correctness or qualify every timed call. Retired replay remains outside the
 comparative lineup. Original-runner environment validation stays separate from
 the qualified public-callback comparison.
 
-Each comparative count table includes its difference from Mermaid on that exact
-metric and population. If either row has unknown outcomes, a Correct comparison
-reads `More verified (+n); accuracy unresolved`, `Fewer verified (-n); accuracy unresolved`
-or `Same verified count; accuracy unresolved`. These compare verified counts;
-they do not establish an accuracy lead. Missing numeric values sort after observed
-counts, including zero, and remain unranked. Terminal comparisons use Mermaid ASCII: Mermaid has no terminal
-output and remains an unscored source reference. Timing receives no better/worse
-label without equivalent work and qualification.
+Each comparative table names its reference: Mermaid for SVG/PNG and behaviour,
+Mermaid ASCII for terminal output. Alongside verified counts, show correctness
+bounds over the full planned population and observer coverage. The lower bound
+is verified correct / planned. The upper bound also includes unresolved outputs,
+unrun work and harness failures; proven unsupported, invalid or incorrect outcomes
+do not earn potential credit. These are logical bounds, not confidence intervals.
+
+A project's lower bound exceeding the reference's upper bound establishes more
+correct outcomes on that exact workload; the reverse establishes fewer. When
+bounds overlap, compare verified counts and label accuracy unresolved. Sort
+verified counts best first even then, without describing that order as a proven
+accuracy league. Missing values remain unranked; an observed zero is a result.
+Timing receives no better/worse label without matched work and qualification.
 
 SVG and PNG have separate tables, output reviews, timing boundaries and import
 histories. A newer PNG-only attempt cannot suppress retained SVG scores, or the
@@ -88,16 +92,30 @@ reverse. Native PNG and SVG-plus-conversion paths are identified explicitly.
 
 ## Keep the full population visible
 
-| Display | Meaning |
+New drawing tables use one disjoint outcome ledger:
+
+| Outcome | Meaning |
 |---|---|
-| Passed | The declared input or criterion passed its check. |
-| Failed | The operation ran and violated a declared requirement. |
-| Unsupported | The tested interface rejected this family or operation. |
-| Blocked | Setup, execution or observation could not complete; retain the reason. |
-| Unavailable / missing | No usable observation exists for a planned cell. |
-| Not applicable | This table requests work the project does not declare, such as SVG from a terminal-only tool. |
-| Withheld | A measurement exists or was attempted, but prerequisites do not permit the displayed comparison. |
-| 0 | An observed numeric zero, never a substitute for missing data. |
+| Correct | Every required fact is verified on the actual output. |
+| Incorrect drawing | A qualified observation contradicts required visible meaning. |
+| Invalid format | Returned bytes violate the declared output-format contract. |
+| Unsupported input | Public evidence establishes unsupported work for that input. |
+| Renderer failure | A supported invocation fails to return output; attribution is explicit. |
+| Unassessed output | Output exists, but required facts or evidence remain unresolved. |
+| Unrun | No recorded attempt exists for the planned input. |
+| Harness failure | Identified Trident preparation, invocation or observation failure. |
+
+The eight counts sum to the planned population. Invalid-source controls and
+configuration-only inputs have separate denominators. Generic errors with
+uncertain attribution remain unresolved rather than being guessed into a product
+failure. Preserve the original raw status alongside the normalized outcome.
+Historical tables retain their original categories and protocol.
+
+Observer coverage is the share with a resolved drawing/format judgement, not
+the rate of correct drawings. Resolution coverage additionally includes proven
+unsupported inputs and renderer failures. Neither substitutes for correctness.
+Not-applicable formats stay outside their inapplicable table; missing numeric
+values, blocked work and withheld timing never become zero.
 
 Counts must reconcile with the planned inventory. If a rate cannot be established
 because inventory or intent is unknown, show it as unavailable. A missing adapter

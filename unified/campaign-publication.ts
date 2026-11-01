@@ -1,3 +1,4 @@
+import { readBehaviourEvidence } from './mermaid-behaviour-evidence.ts'
 import { cpSync, existsSync, lstatSync, mkdirSync, realpathSync, writeFileSync } from 'node:fs'
 import { basename, dirname, isAbsolute, join, relative, resolve } from 'node:path'
 import { readBenchmarkDocument } from '../portable/project-records.ts'
@@ -8,6 +9,7 @@ import { readPublicTestEvidence } from './public-test-reporting.ts'
 import { copyPublicationMethods } from './publication-methods.ts'
 
 export interface CampaignEnvelope {
+  schema?: string
   startedAt: string; updatedAt: string; projects: string[]; profile: string; rounds: number
   artifactRole?: 'candidate'
   results: { suite: string; project?: string; cohort?: string; status: string; disposition?: string; detail?: string; out?: string; observations?: number; counts?: Record<string, unknown>; gaps?: string[] }[]
@@ -17,6 +19,11 @@ export function campaignReportFile(directory: string) {
 }
 export function readCampaign(directory: string): CampaignEnvelope {
   const file = campaignReportFile(directory), value = readBenchmarkDocument(join(directory, file)) as any
+  if (value.schema === 'trident-mermaid-behaviour-report-v1') {
+    const evidence = readBehaviourEvidence(directory)
+    return { schema: 'trident-campaign-v2', startedAt: evidence.measuredAt ?? evidence.assessedAt, updatedAt: evidence.assessedAt, projects: evidence.targets.map(target => target.project), profile: evidence.protocol, rounds: 1,
+      results: [{ suite: 'mermaid-behaviour', cohort: evidence.protocol, out: resolve(directory), status: evidence.targets.some(target => target.counts.failed) ? 'failed' : evidence.targets.some(target => target.counts.unavailable || target.counts.unrun) ? 'blocked' : 'passed', detail: 'Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.' }] }
+  }
   if (file === 'public-conformance-report.json') {
     const evidence = readPublicTestEvidence(directory), context = evidence.context
     if (value.result?.id !== 'public-conformance' || !Array.isArray(context.targets)) throw Error('Not retained public-test evidence: ' + directory)
@@ -37,6 +44,11 @@ const cell = (value: unknown) => String(value).replaceAll('|', '/').replaceAll('
 const link = (root: string, path: string) => encodeURI(relative(root, path)).replaceAll('#', '%23')
 export function campaignResults(row: CampaignEnvelope['results'][number]): UnifiedSuiteResult[] {
   if (!row.out) return []
+  if (row.suite === 'mermaid-behaviour') {
+    const evidence = readBehaviourEvidence(row.out)
+    const observations: BenchmarkObservation[] = evidence.targets.flatMap(target => target.rows.map((input: any) => ({ suite: 'mermaid-behaviour', surface: 'native-public-return', runtime: 'see owning public-call capture', family: evidence.corpus.cases.find(source => source.id === input.id)?.operation ?? 'observable-behaviour', caseId: input.id, operation: 'whole-behaviour-case', format: 'public-return', mode: evidence.protocol, status: input.status === 'passed' ? 'passed' : input.status === 'failed' ? 'failed' : 'blocked', detail: JSON.stringify(input), metrics: { project: target.project, version: target.version ?? 'unavailable', caseOutcome: input.status, measuredAt: input.status === 'unrun' ? null : evidence.measuredAt, observerAssessedAt: evidence.assessedAt, sourceCommit: evidence.sourceCommit, evidenceReportSha256: evidence.reportSha256 } })))
+    return [{ id: 'mermaid-behaviour', status: observations.some(row => row.status === 'failed') ? 'failed' : observations.some(row => row.status === 'blocked') ? 'blocked' : 'passed', startedAt: evidence.measuredAt ?? evidence.assessedAt, finishedAt: evidence.assessedAt, observations, gaps: evidence.report.limits ?? [] }]
+  }
   if (row.suite === 'public-conformance') {
     const evidence = readPublicTestEvidence(row.out), result = evidence.saved.result as UnifiedSuiteResult
     return [{ ...result, ...(!evidence.qualification.qualified ? { status: 'blocked' as const, observations: [], gaps: [...result.gaps, 'Original/public reference qualification is unresolved; no peer score was imported.'] } : {}) }]

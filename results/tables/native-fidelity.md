@@ -1,4 +1,4 @@
-# Public Model Contracts
+# Public Model Regressions (unscored)
 
 [Ecosystem overview](../../RESULTS.md)
 

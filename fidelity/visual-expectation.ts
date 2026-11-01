@@ -183,7 +183,11 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
     let cursor = roots[0]?.id
     while (cursor && !visited.has(cursor)) { visited.add(cursor); cursor = edges.find(edge => edge.source === cursor)?.target }
     const chain = family === 'flowchart' && nodes.length > 1 && edges.length === nodes.length - 1 && roots.length === 1 && visited.size === nodes.length && [...indegree.values(), ...outdegree.values()].every(degree => degree <= 1) && !expected.groups?.length && !facts['layout-constraints']
-    if (!chain) { (expected.advisoryFacts ??= {}).direction = facts.direction; delete facts.direction; projections.push('Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence') }
+    // Requirement documentation explicitly defines LR/RL/TB/BT as the diagram's
+    // rendered direction (requirementDiagram.md247–255). Preserve that global
+    // request independently of relationship arrow direction and graph shape.
+    if (family === 'requirement') projections.push('Explicit requirement direction remains a required global layout request (requirementDiagram.md247–255); relationship arrow direction is a separate obligation and does not determine the global axis')
+    else if (!chain) { (expected.advisoryFacts ??= {}).direction = facts.direction; delete facts.direction; projections.push('Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence') }
   }
   for (const key of ['edge-length-requests', 'subgraph-direction-requests', 'group-directions']) if (Object.hasOwn(facts, key)) { (expected.advisoryFacts ??= {})[key] = facts[key]; delete facts[key]; projections.push('Literal ' + key + ' is retained as advisory layout intent; its own syntax does not establish a strict per-edge/rank obligation') }
   if (family === 'sequence' && Array.isArray(facts['message-order']) && Array.isArray(facts['message-style'])) {

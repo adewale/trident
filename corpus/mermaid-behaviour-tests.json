@@ -1,0 +1,1938 @@
+{
+  "schema": "trident-mermaid-behaviour-corpus-v1",
+  "protocol": "mermaid-observable-behaviour-v1",
+  "sourceCommit": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "originalInventorySha256": "dcf4fbf6b95649f9bfca1fc6b21793748752322fe6f626f73b79a2cbcd05ea5c",
+  "originalCallbacks": 154,
+  "scope": "49 adapted observable semantic behaviours from the154-callback upstream API diagnostic; not unchanged tests, exact API compatibility, whole Mermaid conformance, drawing quality or timing.",
+  "familyAliases": {
+    "flowchart-v2": "flowchart",
+    "flowchart-elk": "flowchart",
+    "graph": "flowchart",
+    "classDiagram": "class",
+    "classDiagram-v2": "class",
+    "erDiagram": "er",
+    "gitGraph": "gitgraph",
+    "stateDiagram": "state",
+    "stateDiagram-v2": "state",
+    "sequenceDiagram": "sequence",
+    "requirementDiagram": "requirement",
+    "swimlane-beta": "swimlane",
+    "treeView": "treeview",
+    "treeView-beta": "treeview",
+    "packet-beta": "packet",
+    "xychart-beta": "xychart",
+    "radar-beta": "radar",
+    "architecture-beta": "architecture"
+  },
+  "cases": [
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:graph%20TD%3B",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "graph TD;",
+          "sourceSha256": "2667ffc37142011f223157d4d994e7131a7ee4f927c81127b69cd319560e7851",
+          "expected": {
+            "family": "flowchart"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:graph%20TD%3B",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "graph TD;"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart%20TD%3B",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "flowchart TD;",
+          "sourceSha256": "68a5b750419ef8ead88789ea4538ce9eb87239635989a532151382d1b16ee09b",
+          "expected": {
+            "family": "flowchart"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart%20TD%3B",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "flowchart TD;"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-v2%20TD%3B",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "flowchart-v2 TD;",
+          "sourceSha256": "e9121c5a799b6e98019a8c84e767f231111942bb549b38d8fa69f0513b93f931",
+          "expected": {
+            "family": "flowchart"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-v2%20TD%3B",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "flowchart-v2 TD;"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-elk%20TD%3B",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "flowchart-elk TD;",
+          "sourceSha256": "25220bd5d9ff540619821ee5566ad8a560a88eb8ed9dcb40f41a5e0c9308b796",
+          "expected": {
+            "family": "flowchart"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-elk%20TD%3B",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "flowchart-elk TD;"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:swimlane-beta%20TD%3B",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "swimlane-beta TD;",
+          "sourceSha256": "0b485ca3bd030431e3f3ccab0afb81822963087b3bf98f43dea2576191660c68",
+          "expected": {
+            "family": "swimlane"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:swimlane-beta%20TD%3B",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "swimlane-beta TD;"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:C4Context%3B",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "C4Context;",
+          "sourceSha256": "f9eb9771cdaf24e8acf984d4468a46192290813388f45b8824c8ec8772d4a37e",
+          "expected": {
+            "family": "c4"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:C4Context%3B",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "C4Context;"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "classDiagram",
+          "sourceSha256": "417505ab8c45275b4cc90eba0216e14698bfc9b3d27c19b32ee7b322d99a7867",
+          "expected": {
+            "family": "class"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "classDiagram"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram-v2",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "classDiagram-v2",
+          "sourceSha256": "3efe59b37c432602a522d873541c22b948dd1c06c0e86e659004735b7c97859d",
+          "expected": {
+            "family": "class"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram-v2",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "classDiagram-v2"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:erDiagram",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "erDiagram",
+          "sourceSha256": "bb1724dfac14e06528bc76a84ef1e6645bdb1230ea31b8224fdb42c1e1bb6c58",
+          "expected": {
+            "family": "er"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:erDiagram",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "erDiagram"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:journey",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "journey",
+          "sourceSha256": "cde56892bbebbf6c5fe56cf3317f558aec67aeb0ba19504ca3c9e6801cb45b28",
+          "expected": {
+            "family": "journey"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:journey",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "journey"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gantt",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "gantt",
+          "sourceSha256": "ddc56d7239508b8e5c0e7b782d06096332a6503bfa0b718100dd061c11e93f73",
+          "expected": {
+            "family": "gantt"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gantt",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "gantt"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:pie",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "pie",
+          "sourceSha256": "558211ed72b2d6967037419dff6f1e7cfd002d178c8fdeeb1239760d4e4c4059",
+          "expected": {
+            "family": "pie"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:pie",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "pie"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:requirementDiagram",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "requirementDiagram",
+          "sourceSha256": "add331b104948909d0b5488554392cc12967d12036fab57edf8fea002ad6c588",
+          "expected": {
+            "family": "requirement"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:requirementDiagram",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "requirementDiagram"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:info",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "info",
+          "sourceSha256": "06271baf49532c879aa3c58b48671884bcc858f09197412d682750496c33e1e1",
+          "expected": {
+            "family": "info"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:info",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "info"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:sequenceDiagram",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "sequenceDiagram",
+          "sourceSha256": "536f52ac1f79d0918360fd422c6ac8467d8c9747024ff84bcb9598cea84d5567",
+          "expected": {
+            "family": "sequence"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:sequenceDiagram",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "sequenceDiagram"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:mindmap",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "mindmap",
+          "sourceSha256": "0e8309dff245264cfe5854f8184c2ed1e98dcb3fa6a4f69b99fd29e0689f62d4",
+          "expected": {
+            "family": "mindmap"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:mindmap",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "mindmap"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:timeline",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "timeline",
+          "sourceSha256": "94d192b3a326be1f019b71ef13ea5a367ffe939c5e9a88f1b270e53753d9569a",
+          "expected": {
+            "family": "timeline"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:timeline",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "timeline"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gitGraph",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "gitGraph",
+          "sourceSha256": "a0655f0ceb954df5ace678113540df69d72898311d00edefa56ba2bfa13fff8a",
+          "expected": {
+            "family": "gitgraph"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gitGraph",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "gitGraph"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "stateDiagram",
+          "sourceSha256": "c1fbc714097adbb0ca1a62e61f4324160213a5d3260cce3117ffa9237c69573f",
+          "expected": {
+            "family": "state"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "stateDiagram"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram-v2",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "stateDiagram-v2",
+          "sourceSha256": "b4a65dfdd9dede1028b6508b01f1a713bec8364051282b3732d26929b2b76113",
+          "expected": {
+            "family": "state"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram-v2",
+        "callbackSha256": "1c7a8a8faafd86197e8829031266cb51bd341c49761ef38822a73ef976bf085e",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 17,
+        "parameter": "stateDiagram-v2"
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:46",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "graph TD; A-->B",
+          "sourceSha256": "c18237e0a535bdb73d9c241d24e7905bd72b7e64ca3ece4b5c241eb4fd8c7546",
+          "expected": {
+            "family": "flowchart"
+          }
+        },
+        {
+          "source": "flowchart TD; A-->B",
+          "sourceSha256": "bc9fd7c12a2ec14b823cbfe2b4b958e92d31ef6f753cbb0113d7c38eb0f9bf46",
+          "expected": {
+            "family": "flowchart"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:46",
+        "callbackSha256": "a1a05b22e13fa2b7a499c88da8d4ca934d0afcc25908495b21464a6a64bcec53",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 46
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:53",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "flowchart-elk TD; A-->B",
+          "sourceSha256": "a786fcd98b7d98883cc4dd37fdbc210f0ed8497bb5b51a168a08a316113161bb",
+          "expected": {
+            "family": "flowchart"
+          }
+        },
+        {
+          "source": "swimlane-beta TD; A-->B",
+          "sourceSha256": "4cc4cdc13fc9877760270c3962abab6a0fb835b4a614bc2fdf78e167712dd4ac",
+          "expected": {
+            "family": "swimlane"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:53",
+        "callbackSha256": "6029b74802f9f0dd9151bfb761bfdeadbb8e71281e71e46fce5a129637ff6974",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 53
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:60",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "classDiagram",
+          "sourceSha256": "417505ab8c45275b4cc90eba0216e14698bfc9b3d27c19b32ee7b322d99a7867",
+          "expected": {
+            "family": "class"
+          }
+        },
+        {
+          "source": "classDiagram-v2",
+          "sourceSha256": "3efe59b37c432602a522d873541c22b948dd1c06c0e86e659004735b7c97859d",
+          "expected": {
+            "family": "class"
+          }
+        },
+        {
+          "source": "stateDiagram\n  [*] --> A",
+          "sourceSha256": "9713ddd56ad64c845e40c787ac799d6fc95a6639c11bc507d5e4e40bee12deed",
+          "expected": {
+            "family": "state"
+          }
+        },
+        {
+          "source": "stateDiagram-v2\n  [*] --> A",
+          "sourceSha256": "dea2b0365e662cac0783905495f21c9f7333f570938e35dfb5e29f9d863d25aa",
+          "expected": {
+            "family": "state"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:60",
+        "callbackSha256": "f044aa9296391ba6beeca8ee17fb745ef02b0c526d8752b74bacfbfc38c28a3b",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 60
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:67",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "mindmap\n  root\n    Photograph\n      Waterfall",
+          "sourceSha256": "3fd79f5a9f2ea51d31b617ce49113f89fac8e3ce3c00f03f935acc95a2691b56",
+          "expected": {
+            "family": "mindmap"
+          }
+        },
+        {
+          "source": "\n          classDiagram\n            class Person {\n              +String name\n              -Int id\n            }\n          ",
+          "sourceSha256": "876ccaca86c0330eb099222a34d5ed10509d776572221f1f7b95cd089bdefc37",
+          "expected": {
+            "family": "class"
+          }
+        },
+        {
+          "source": "\n          erDiagram\n            p[Photograph] {\n              varchar(12) jobId\n              date dateCreated\n            }\n          ",
+          "sourceSha256": "ffd9ba326da1c15b66e19526884b0b03cd8afce5987dde28668052046779eb35",
+          "expected": {
+            "family": "er"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:67",
+        "callbackSha256": "5ac904d8c91b563e9afbccd5bb5a416fa7702c8841f1174deb03a6d1e2f8bd95",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 67
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:91",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "pie title: \"flowchart\"\n      flowchart: 1 \"pie\" pie: 2 \"pie\"",
+          "sourceSha256": "ae55e26bb09410ca14b1179ac8de2927ee7599877cead1e1aecb288b8b1476bd",
+          "expected": {
+            "family": "pie"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:91",
+        "callbackSha256": "1e28cb89d112e4886ab2c702e9830eefb4225b92d6d5f87a791e96a2d99a5bcf",
+        "sourcePath": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+        "sourceSha256": "fb3520c388665770aaf88a5c5b6a1d89cb1e56f61dd8a9e4c99769e744558710",
+        "line": 91
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "classDiagram\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "c64cb5d27461ebb416424ed32fde463d86883e28c67499e144a4df773bb9cb2e",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "classDiagram"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram-v2",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "classDiagram-v2\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "35d291c21d1a37327099f1b19f33d84b13b1517363694e7f85e8c5cdeeab9f0d",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram-v2",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "classDiagram-v2"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:erDiagram",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "erDiagram\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "869424c47d348d7e8cd801e6a3d0105135e9a9fbe1cf37c7772e1b5d081dcbde",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:erDiagram",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "erDiagram"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:graph",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "graph\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "cfc10a74dd0fd1c14f38425673211cf280e1f965f4b28c6e0a1f4d18dee1c4a8",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:graph",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "graph"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:flowchart",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "flowchart\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "f6fad659bda66b2ec3d5ddaa3c961886436fe649b69bd155090b4c05924da988",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:flowchart",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "flowchart"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gitGraph",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "gitGraph\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "a6080ab06d70a13a538fe445efbd7f2558f4ff08b39ee2e7700fdd48eb8f91a7",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gitGraph",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "gitGraph"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gantt",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "gantt\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "bf15093a9b470acbd40eb3498defcfbccfa0b934f061b0cac7af1e2f95d5e731",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gantt",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "gantt"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:journey",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "journey\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "0d7b9a6882f8ae5e0e0fde310795f3d65b950fc446b2c738896d3cd47f526776",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:journey",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "journey"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:pie",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "pie\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "44e6cd5ba4e665df3a12103f1574874b8e4bfb1ee41afa9d1609a0e2a4b49306",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:pie",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "pie"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "packet\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "20330fced4eefb5664797deb89a2c0c3920ed6933d2b8a45e41491c1268f101d",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "packet"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet-beta",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "packet-beta\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "b0ecf8cafc41fc44a09c65d9928823c9469f76c74577b2686b3c006f5adc6ae1",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet-beta",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "packet-beta"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart-beta",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "xychart-beta\n accTitle: a11y title\n accDescr: a11y description\nx-axis \"Attempts\" 10000 --> 10000\ny-axis \"Passing tests\" 1 --> 1\nbar [1]",
+          "sourceSha256": "77ef744aaad8dd2351d59d2b1f0d0b835500f8baf56d0f3ca601ef49d28d2e8d",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart-beta",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "xychart-beta"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "xychart\n accTitle: a11y title\n accDescr: a11y description\nx-axis \"Attempts\" 10000 --> 10000\ny-axis \"Passing tests\" 1 --> 1\nbar [1]",
+          "sourceSha256": "3763956a3f92c8588d10a3856ad6de660ff94b367e9f85d4b7e0bc1c1172639a",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "xychart"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:requirementDiagram",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "requirementDiagram\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "52a5777af46bf2acb687b622effdb1ac38082035832e4608270e9fcf4e099dc5",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:requirementDiagram",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "requirementDiagram"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:sequenceDiagram",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "sequenceDiagram\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "0b8640e37f7f543cf9eaf8d18ae6ab83d579415257527c37bf8fd6cd18d9017f",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:sequenceDiagram",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "sequenceDiagram"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:stateDiagram-v2",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "stateDiagram-v2\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "032f6bc1b950a8971bd0f725e9b3f371037264b90f16a4b370b4faea8bda3bc3",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:stateDiagram-v2",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "stateDiagram-v2"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:treeView-beta",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "treeView-beta\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "f11dbf3781b70a5c895c0262e3f89c7df9dcea0605538326d508e73d006439da",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:treeView-beta",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "treeView-beta"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:radar-beta",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "radar-beta\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "e1c230326a30d09ba06fc6b5309ce45dd0222c0dd2d926d77004a0ca69525060",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:radar-beta",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "radar-beta"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:architecture-beta",
+      "operation": "svg-accessibility",
+      "steps": [
+        {
+          "source": "architecture-beta\n accTitle: a11y title\n accDescr: a11y description\n",
+          "sourceSha256": "b7ce0c62d7565a132412943338cbd642f3a74808d4a7e3757a4e286398ee6aad",
+          "expected": {
+            "title": "a11y title",
+            "description": "a11y description"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:architecture-beta",
+        "callbackSha256": "c8ce7ef5004e2b9e41f529b291858da89a4c8b5df0ea8381af368ba2c25537d5",
+        "sourcePath": "packages/mermaid/src/mermaidAPI.spec.ts",
+        "sourceSha256": "e7eefc1f2f48d6af579f0f44064b6328870639c821ef47e31336bc2eb6ba6884",
+        "line": 918,
+        "parameter": "architecture-beta"
+      },
+      "adaptation": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/utils.spec.ts:188",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "graph TB\nbfs1:queue",
+          "sourceSha256": "100d6ac5c55a026a66aabb56b07ebb42a75b49e1a79ed4fb27fdd1a2b6a63f88",
+          "expected": {
+            "family": "flowchart"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/utils.spec.ts:188",
+        "callbackSha256": "37c65d7e3ed376e082beea85c12ef5443023f5a5202740ac4204cc16d36f6348",
+        "sourcePath": "packages/mermaid/src/utils.spec.ts",
+        "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+        "line": 188
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/utils.spec.ts:278",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "    graph TB\nbfs1:queue",
+          "sourceSha256": "4251ffebfe4348ea0c3d3e1ebda900b8e22f9c8404ed6c13aed7d718f4c91dc8",
+          "expected": {
+            "family": "flowchart"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/utils.spec.ts:278",
+        "callbackSha256": "6d12f7259741abcfcf8cd67e48fa7111d15923029bd280c6496f9de3a315eac5",
+        "sourcePath": "packages/mermaid/src/utils.spec.ts",
+        "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+        "line": 278
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/utils.spec.ts:284",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "  \n  graph TB\nbfs1:queue",
+          "sourceSha256": "a249e097989db72575b495c8c8d7b29cbd21f6bb4f9f766244c8d053c9a2e439",
+          "expected": {
+            "family": "flowchart"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/utils.spec.ts:284",
+        "callbackSha256": "6df19ead2c8bec71daa5cd6d598e815f8b22f385c1d292b862b4508618252ee8",
+        "sourcePath": "packages/mermaid/src/utils.spec.ts",
+        "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+        "line": 284
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/utils.spec.ts:289",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "  \n  gitGraph TB:\nbfs1:queue",
+          "sourceSha256": "22f12bd202e4f8a6a924e780d5c915711811b930cd271c8a0dc5c91cb6cd6628",
+          "expected": {
+            "family": "gitgraph"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/utils.spec.ts:289",
+        "callbackSha256": "6604f2137229f69ff4a1d05a0a0d55fca425210ab9e6fc9ae3945c5f84a02be1",
+        "sourcePath": "packages/mermaid/src/utils.spec.ts",
+        "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+        "line": 289
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "id": "behaviour:packages/mermaid/src/utils.spec.ts:294",
+      "operation": "detect-family",
+      "steps": [
+        {
+          "source": "---\ntitle: foo\n---\n  gitGraph TB:\nbfs1:queue",
+          "sourceSha256": "abb5f6fad65c5ab4fd3a9c1013ef2b34e05f1447fa41b178a192bc431527296a",
+          "expected": {
+            "family": "gitgraph"
+          }
+        }
+      ],
+      "origin": {
+        "callbackId": "packages/mermaid/src/utils.spec.ts:294",
+        "callbackSha256": "66f48a5ad873dc488177ebc252625fe5f48a051197b58ccd1b6c9e3b9322de48",
+        "sourcePath": "packages/mermaid/src/utils.spec.ts",
+        "sourceSha256": "f707dfcce66261c41914fe046e6e372a129894e6e1a10c8e1c954e3276fd33c5",
+        "line": 294
+      },
+      "adaptation": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    }
+  ],
+  "origins": [
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:flowchart-v2:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:flowchart-v2:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:flowchart-v2:2",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:flowchart-v2:3",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:c4:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:c4:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:ishikawa:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:ishikawa:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:kanban:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:kanban:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:classDiagram:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:classDiagram:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:sequence:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:sequence:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:sequence:2",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:pie:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:pie:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:journey:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:journey:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:mindmap:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:mindmap:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:requirement:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:radar:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:radar:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:stateDiagram:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:stateDiagram:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:stateDiagram:2",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:er:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:er:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:gitGraph:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:gitGraph:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:gitGraph:2",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:architecture:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:architecture:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:architecture:2",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:xychart:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:xychart:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:xychart:2",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:sankey:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:sankey:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:sankey:2",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:gantt:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:gantt:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:timeline:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:timeline:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:quadrantChart:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:quadrantChart:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:packet:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:packet:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:block:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:block:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:treemap:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:treemap:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:usecase:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:usecase:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:usecase:2",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:eventmodeling:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:eventmodeling:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:venn:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:venn:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:treeView:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:treeView:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:treeView:2",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:treeView:3",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:treeView:4",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:wardley:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:wardley:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:wardley:2",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:wardley:3",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:cynefin:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:cynefin:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:railroad:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:railroad:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:railroadEbnf:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:railroadEbnf:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:railroadAbnf:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:railroadAbnf:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:railroadPeg:0",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/examples/src/example.spec.ts:91#parameter:railroadPeg:1",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:graph%20TD%3B",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart%20TD%3B",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-v2%20TD%3B",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:flowchart-elk%20TD%3B",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:swimlane-beta%20TD%3B",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:error",
+      "disposition": "excluded",
+      "reason": "Mermaid-native detector sentinel identity has no portable diagram-family obligation."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:C4Context%3B",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:classDiagram-v2",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:erDiagram",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:journey",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gantt",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:pie",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:requirementDiagram",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:info",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:sequenceDiagram",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:mindmap",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:timeline",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:gitGraph",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:17#parameter:stateDiagram-v2",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:46",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:53",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:60",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:67",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts:91",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts:95",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:913",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2388#parameter:__proto__",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2388#parameter:constructor",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2598",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2615",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js:2631",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts:31",
+      "disposition": "excluded",
+      "reason": "Generic SVG-return callback overlaps the documentation drawing benchmark and supplies no additional semantic assertion here."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaid.spec.ts:159",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaid.spec.ts:167",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaid.spec.ts:172",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaid.spec.ts:181",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaid.spec.ts:195",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:743",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:749",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:762",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:767",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:774",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:779",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:788",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:796",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:818",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:832",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:855",
+      "disposition": "excluded",
+      "reason": "Acceptance/configuration snapshots are not portable observable semantic assertions; exact API diagnostic remains separate."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:classDiagram-v2",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:erDiagram",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:graph",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:flowchart",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gitGraph",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:gantt",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:journey",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:pie",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:packet-beta",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart-beta",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:xychart",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:requirementDiagram",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:sequenceDiagram",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:stateDiagram-v2",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:treeView-beta",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:radar-beta",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/mermaidAPI.spec.ts:918#parameter:architecture-beta",
+      "disposition": "adapted",
+      "reason": "Check source-authored SVG accessible name and description through native root title/desc or valid ARIA references. Caller-selected IDs, Mermaid-specific role-description strings and jsdom geometry mocks are not required. This is structural naming, not a visual or complete accessibility audit."
+    },
+    {
+      "callbackId": "packages/mermaid/src/utils.spec.ts:188",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/utils.spec.ts:278",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/utils.spec.ts:284",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/utils.spec.ts:289",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/utils.spec.ts:294",
+      "disposition": "adapted",
+      "reason": "Compare ordered source-derived diagram families using the explicit public family-alias table; renderer/backend implementation names are not required."
+    },
+    {
+      "callbackId": "packages/mermaid/src/utils.spec.ts:299",
+      "disposition": "excluded",
+      "reason": "Mermaid-native detector sentinel identity has no portable diagram-family obligation."
+    }
+  ]
+}

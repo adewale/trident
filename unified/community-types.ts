@@ -64,6 +64,7 @@ export interface CommunityArtifact {
   revision?: string
   sha256?: string
   integrity?: string
+  installedClosureSha256?: string
   runtime?: string
   python?: string
   wasm?: string
