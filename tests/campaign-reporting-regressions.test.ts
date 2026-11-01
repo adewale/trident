@@ -338,3 +338,11 @@ test('ordinary drawing rows reconcile format, native failure, evidence gaps and 
   expect(values.slice(1, 10)).toEqual([1, 1, 1, 1, 1, 1, 1, 1, 8])
   expect(values.slice(10, 13)).toEqual([37.5, 12.5, 50])
 })
+
+test('project-scoped artifact admission is a harness failure for each planned source, not an inferred engine failure or unrun', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), out = join(root, 'docs')
+  write(join(out, 'result.json'), { id: 'docs', startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z', observations: [{ suite: 'docs', surface: 'harness:artifact', runtime: 'Node', family: '*', format: 'svg', operation: 'artifact-admission', mode: 'frozen-public-artifact', caseId: 'fixture/a', status: 'blocked', metrics: { project: 'fixture/a', runtimeExecuted: false } }] })
+  const data = importCampaign(empty(), root, 'https://example.test/admission', catalog), table = data.tables.find(table => table.drawingOutcomePolicy)!, values = table.rows[0]!.values
+  expect(values.slice(1, 10)).toEqual([0, 0, 0, 0, 0, 0, 0, 2, 2])
+  expect(values.slice(10, 13)).toEqual([0, 0, 100])
+})

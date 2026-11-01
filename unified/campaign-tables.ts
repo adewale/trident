@@ -1,4 +1,4 @@
-import { drawingOutcomeCells, drawingOutcomeColumns, drawingStatisticsColumns, retainedDrawingOutcome, summarizeDrawingOutcomes } from './drawing-outcomes.ts'
+import { drawingObservationsForCase, drawingOutcomeCells, drawingOutcomeColumns, drawingStatisticsColumns, retainedDrawingOutcome, summarizeDrawingOutcomes } from './drawing-outcomes.ts'
 import { documentationPopulation } from './docs-population.ts'
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
@@ -89,7 +89,8 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             if (project === 'mermaid-js/mermaid') throw Error('Mermaid source reference cannot receive a terminal renderer score')
             const own = result.observations.filter(row => projectId(row.metrics?.project) === project && row.format === 'terminal' && row.operation === 'graph-correctness')
             const clock = own.length && own.every(row => row.metrics?.measuredAt === null) ? 'Unknown; recovered text, see receipt' : measuredAt(own, result.finishedAt)
-            const outcomes = summarizeDrawingOutcomes(cases.map((input: any) => retainedDrawingOutcome({ verdict: input.status, record: input, observations: own.filter(row => row.caseId === input.caseId) })))
+            const projectRows = result.observations.filter(row => projectId(row.metrics?.project) === project && row.format === 'terminal')
+            const outcomes = summarizeDrawingOutcomes(cases.map((input: any) => retainedDrawingOutcome({ verdict: input.status, record: input, observations: drawingObservationsForCase(projectRows, input.caseId, project) })))
             add(['terminal-case-verdicts', 'drawing-outcomes-v1', cohort, scope, hash(terminalProfile)], 'community', measuredAt(own, result.finishedAt),
               (scope === 'full' ? 'Full planned terminal drawing corpus, retaining unmeasured and unreviewed inputs.' : 'Bounded observer profile, kept separately from the full drawing corpus.') + ` Corpus: ${allIds.length} drawings from ${rawIds.length} selected source inputs in pinned terminal-project research, without selection on renderer outcomes. Any authored adaptations have separate content identities and independent source review. ${terminalProfile.diagnosticSources?.length ?? 0} source diagnostics are retained separately and receive no drawing score. Invalid-source controls are separate from drawing accuracy. Source/review hashes and all origins remain in the owning receipt. Ranks order verified correct counts only; unknown work prevents a complete accuracy claim. Mermaid source reference is unscored; no speed or aesthetics score.`,
               ['Version', ...drawingOutcomeColumns, 'Planned', ...drawingStatisticsColumns, 'Measured'], project,
@@ -221,7 +222,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             }
             const outcomes = summarizeDrawingOutcomes([...population.drawings].map(caseId => {
               const observation = drawings.find(row => row.caseId === caseId)
-              return retainedDrawingOutcome({ verdict: observation?.status === 'passed' ? 'correct' : observation?.status === 'failed' ? 'incorrect' : observation ? 'unknown' : undefined, record: records.get(caseId), observations: own.filter(row => row.caseId === caseId) })
+              return retainedDrawingOutcome({ verdict: observation?.status === 'passed' ? 'correct' : observation?.status === 'failed' ? 'incorrect' : observation ? 'unknown' : undefined, record: records.get(caseId), observations: drawingObservationsForCase(own, caseId, project) })
             }))
             add(['docs-drawings', 'drawing-outcomes-v1', ...laneKey, cohort, hash(inventory.cases), hash(inventory.drawingReview ?? null), hash(inventory.producers ?? []), ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])], 'docs', measuredAt(drawings, result.finishedAt),
               `Corpus: the same pinned Mermaid documentation inventory. First-round actual ${format.toUpperCase()} witnesses checked against source expectations. ${format === 'svg' ? 'Shared SVG paint/meaning observer.' : 'PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit.'} Rank counts verified correct drawings out of ${population.drawings.size}; ${population.configuration} configuration example(s) and ${population.invalid.size} independently invalid-source control(s) are separate. Unassessed sources/observers, unrun work and typed failures remain separate. Bounds span unresolved cases only; observer coverage counts actual drawing or format verdicts. Overlapping bounds establish no accuracy winner. Complete accuracy requires zero unresolved cases; speed requires its own qualified timing evidence.${clockScope}`,

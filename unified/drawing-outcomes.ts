@@ -53,12 +53,18 @@ export function invalidDrawingFormat(record: any, observations: readonly Benchma
     || failed(record?.checks, ['svg-root', 'svg-unique-ids'])
     || failed(observations, ['svg-root', 'svg-unique-ids'])
 }
+const admissionOperations = ['artifact-admission', 'invocation-admission', 'harness-admission']
+/** A project-wide typed admission failure owns every source that could not run.
+ * A different source's ordinary render failure owns no other source. */
+export function drawingObservationsForCase(rows: readonly BenchmarkObservation[], caseId: string, project: string) {
+  return rows.filter(row => row.caseId === caseId || admissionOperations.includes(row.operation) && [project, String(row.metrics?.project ?? row.metrics?.implementation)].includes(row.caseId))
+}
 export function retainedDrawingOutcome(input: { verdict?: string; record?: any; execution?: any; observations: readonly BenchmarkObservation[] }): DrawingOutcome {
   const { record, observations, execution } = input
   const render = observations.filter(row => row.operation === 'render'), publicClassification = record?.publicOutcomeClassification
   const classification = publicClassification?.publicApiEntryProved === true ? publicClassification.category
     : render.find(row => row.metrics?.noImagePublicApiEntryProved === true)?.metrics?.noImageClassification
-  const harnessFailure = observations.some(row => ['artifact-admission', 'invocation-admission', 'harness-admission'].includes(row.operation) && ['failed', 'blocked'].includes(row.status))
+  const harnessFailure = observations.some(row => admissionOperations.includes(row.operation) && ['failed', 'blocked'].includes(row.status))
   const returned = !!(record?.pngSha256 || record?.originalSvgSha256 || record?.svgSha256 || record?.witness || record?.sha256 || execution?.witness) || render.some(row => row.status === 'passed')
   const verdict = input.verdict ?? record?.assessment?.status
   return classifyDrawingOutcome({ verdict, formatRejected: invalidDrawingFormat(record, observations),
