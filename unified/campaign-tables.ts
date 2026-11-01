@@ -1,4 +1,5 @@
-import { documentationPopulation, documentationDrawingScore } from './docs-population.ts'
+import { drawingOutcomeCells, drawingOutcomeColumns, drawingStatisticsColumns, retainedDrawingOutcome, summarizeDrawingOutcomes } from './drawing-outcomes.ts'
+import { documentationPopulation } from './docs-population.ts'
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -21,10 +22,10 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   const tables = new Map<string, SnapshotTable>()
   const add = (key: unknown[], suite: PublicSuite, measuredAt: string, caption: string, columns: string[], project: string, values: (string | number)[], ranking: SnapshotTable['ranking'], extra: Partial<SnapshotTable> = {}, unrankedReason?: string) => {
     const id = 'run-' + hash([receipt.sha256, ...key]).slice(0, 24)
-    const entry = tables.get(id) ?? { id, suite, measuredAt, campaignUpdatedAt: report.updatedAt, historical: (report as any).schema !== 'trident-campaign-v2', unit: 'observations', caption, columns, rows: [], receipt, ranking: suite === 'fidelity' ? undefined : ranking, ...(artifactRole ? { artifactRole } : {}), ...extra, ...(suite === 'fidelity' ? { diagnostic: true, ranking: undefined, overview: undefined, chart: undefined, summary: false, caption: 'Unscored harness/observer regressions from AM and Trident development fixtures. Counts retain raw diagnostic outcomes; they are not comparative renderer scores. ' + caption } : {}) }
+    const entry = tables.get(id) ?? { id, suite, measuredAt, campaignUpdatedAt: report.updatedAt, historical: (report as any).schema !== 'trident-campaign-v2', unit: 'observations', caption, columns, rows: [], receipt, ranking: ['fidelity', 'native-fidelity'].includes(suite) ? undefined : ranking, ...(artifactRole ? { artifactRole } : {}), ...extra, ...(['fidelity', 'native-fidelity'].includes(suite) ? { diagnostic: true, ranking: undefined, overview: undefined, chart: undefined, summary: false, caption: 'Unscored harness/observer and public-model regressions from AM and Trident development fixtures. Counts retain raw diagnostic outcomes; they are not comparative renderer scores. ' + caption } : {}) }
     if (entry.rows.some(row => row.project === project)) throw Error('Duplicate project in reduced campaign cohort')
     if (Date.parse(measuredAt) > Date.parse(entry.measuredAt)) entry.measuredAt = measuredAt
-    entry.rows.push({ project, values, ...(suite === 'fidelity' ? { unrankedReason: 'Unscored harness/observer regressions' } : {}), ...(unrankedReason ? { unrankedReason } : {}) }); tables.set(id, entry)
+    entry.rows.push({ project, values, ...(['fidelity', 'native-fidelity'].includes(suite) ? { unrankedReason: 'Unscored harness/observer regressions' } : {}), ...(unrankedReason ? { unrankedReason } : {}) }); tables.set(id, entry)
   }
   for (const boundary of report.results) {
     if (!boundary.out) continue
@@ -84,16 +85,17 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             const cases = assessment.cases
             if (!Array.isArray(cases) || JSON.stringify(cases.map((input: any) => input.caseId).sort()) !== JSON.stringify([...planned].sort()) || cases.some((input: any) => !['correct', 'incorrect', 'unsupported', 'unknown'].includes(input.status))) throw Error('Terminal verdicts omit or duplicate planned inputs')
             if (scope === 'reviewed' && sameDrawingPopulation) continue
-            const project = projectId(assessment.project), count = (status: string) => cases.filter((input: any) => input.status === status).length, unknown = count('unknown')
+            const project = projectId(assessment.project)
             if (project === 'mermaid-js/mermaid') throw Error('Mermaid source reference cannot receive a terminal renderer score')
             const own = result.observations.filter(row => projectId(row.metrics?.project) === project && row.format === 'terminal' && row.operation === 'graph-correctness')
             const clock = own.length && own.every(row => row.metrics?.measuredAt === null) ? 'Unknown; recovered text, see receipt' : measuredAt(own, result.finishedAt)
-            add(['terminal-case-verdicts', cohort, scope, hash(terminalProfile)], 'community', measuredAt(own, result.finishedAt),
+            const outcomes = summarizeDrawingOutcomes(cases.map((input: any) => retainedDrawingOutcome({ verdict: input.status, record: input, observations: own.filter(row => row.caseId === input.caseId) })))
+            add(['terminal-case-verdicts', 'drawing-outcomes-v1', cohort, scope, hash(terminalProfile)], 'community', measuredAt(own, result.finishedAt),
               (scope === 'full' ? 'Full planned terminal drawing corpus, retaining unmeasured and unreviewed inputs.' : 'Bounded observer profile, kept separately from the full drawing corpus.') + ` Corpus: ${allIds.length} drawings from ${rawIds.length} selected source inputs in pinned terminal-project research, without selection on renderer outcomes. Any authored adaptations have separate content identities and independent source review. ${terminalProfile.diagnosticSources?.length ?? 0} source diagnostics are retained separately and receive no drawing score. Invalid-source controls are separate from drawing accuracy. Source/review hashes and all origins remain in the owning receipt. Ranks order verified correct counts only; unknown work prevents a complete accuracy claim. Mermaid source reference is unscored; no speed or aesthetics score.`,
-              ['Version', 'Correct', 'Incorrect', 'Unsupported', 'Unknown', 'Planned', 'Measured'], project,
-              [assessment.version, count('correct'), count('incorrect'), count('unsupported'), unknown, planned.length, clock],
+              ['Version', ...drawingOutcomeColumns, 'Planned', ...drawingStatisticsColumns, 'Measured'], project,
+              [assessment.version, ...drawingOutcomeCells(outcomes), clock],
               { column: 'Correct', direction: 'descending' },
-              { cohort, unit: 'terminal input cases', ...(scope === 'full' ? { summary: true, overview: { numerator: 'Correct', denominator: 'Planned', suffix: '' } } : {}), population: { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unsupported', 'Unknown'] } }, !planned.length || !count('correct') && !count('incorrect') && !count('unsupported') ? 'No verified terminal drawing observations' : undefined)
+              { cohort, unit: 'terminal input cases', ...(scope === 'full' ? { summary: true, overview: { numerator: 'Correct', denominator: 'Planned', suffix: '' } } : {}), drawingOutcomePolicy: 'drawing-outcomes-v1', population: { total: 'Planned', outcomes: [...drawingOutcomeColumns] } })
           }
         }
         if (Array.isArray(rejectionIds) && rejectionIds.length) {
@@ -206,15 +208,27 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
               [String(version), passed, failed, population.invalid.size - passed - failed, population.invalid.size, controlClock],
               { column: 'Correct rejection', direction: 'descending' }, { outputFormat: format as 'svg' | 'png', unit: 'invalid-source controls', population: { total: 'Planned controls', outcomes: ['Correct rejection', 'Accepted invalid source', 'Unknown'] } }, passed + failed ? undefined : 'No qualified source-control observation')
           }
-          if (drawings.length) {
+          if (population.drawings.size) {
             if (new Set(drawings.map(row => row.caseId)).size !== drawings.length || drawings.some(row => !inventory.cases.some((input: any) => input.id === row.caseId))) throw Error('Documentation drawing observations do not match the inventory')
-            const { correct, incorrect, unknown } = documentationDrawingScore(own, population)
-            add(['docs-drawings', ...laneKey, cohort, hash(inventory.cases), hash(inventory.drawingReview ?? null), hash(inventory.producers ?? []), ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])], 'docs', measuredAt(drawings, result.finishedAt),
-              `Corpus: the same pinned Mermaid documentation inventory. First-round actual ${format.toUpperCase()} witnesses checked against source expectations. ${format === 'svg' ? 'Shared SVG paint/meaning observer.' : 'PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit.'} Rank counts verified correct drawings out of ${population.drawings.size}; ${population.configuration} configuration example(s) and ${population.invalid.size} independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence.${clockScope}`,
-              ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned drawings', 'Measured'], project,
-              [String(version), correct, incorrect, unknown, population.drawings.size, measuredAt(drawings, result.finishedAt)],
+            if (drawings.some(row => row.status === 'not-applicable')) throw Error('A registered drawing was excluded from correctness scoring')
+            const records = new Map<string, any>()
+            for (const record of (result as any).cases ?? []) {
+              const owner = record.project ?? record.baseObservation?.metrics?.project
+              if (owner ? projectId(owner) !== project : projects.size !== 1) continue
+              const id = record.id ?? record.caseId
+              if (records.has(id)) throw Error('Duplicate documentation case record')
+              records.set(id, record)
+            }
+            const outcomes = summarizeDrawingOutcomes([...population.drawings].map(caseId => {
+              const observation = drawings.find(row => row.caseId === caseId)
+              return retainedDrawingOutcome({ verdict: observation?.status === 'passed' ? 'correct' : observation?.status === 'failed' ? 'incorrect' : observation ? 'unknown' : undefined, record: records.get(caseId), observations: own.filter(row => row.caseId === caseId) })
+            }))
+            add(['docs-drawings', 'drawing-outcomes-v1', ...laneKey, cohort, hash(inventory.cases), hash(inventory.drawingReview ?? null), hash(inventory.producers ?? []), ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])], 'docs', measuredAt(drawings, result.finishedAt),
+              `Corpus: the same pinned Mermaid documentation inventory. First-round actual ${format.toUpperCase()} witnesses checked against source expectations. ${format === 'svg' ? 'Shared SVG paint/meaning observer.' : 'PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit.'} Rank counts verified correct drawings out of ${population.drawings.size}; ${population.configuration} configuration example(s) and ${population.invalid.size} independently invalid-source control(s) are separate. Unassessed sources/observers, unrun work and typed failures remain separate. Bounds span unresolved cases only; observer coverage counts actual drawing or format verdicts. Overlapping bounds establish no accuracy winner. Complete accuracy requires zero unresolved cases; speed requires its own qualified timing evidence.${clockScope}`,
+              ['Version', ...drawingOutcomeColumns, 'Planned drawings', ...drawingStatisticsColumns, 'Measured'], project,
+              [String(version), ...drawingOutcomeCells(outcomes), measuredAt(drawings, measuredAt(own, result.finishedAt))],
               { column: 'Correct', direction: 'descending' },
-              { outputFormat: format as 'svg' | 'png', comparisonKey: hash(['docs-drawings', format, cohort, inventory.pin ?? null, inventory.cases, inventory.drawingReview ?? null, inventory.producers ?? [], ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])]), summary: true, ...(candidate ? { artifactRole: 'candidate' as const } : { overview: { numerator: 'Correct', denominator: 'Planned drawings', suffix: '%' } }), unit: 'documentation drawings', population: { total: 'Planned drawings', outcomes: ['Correct', 'Incorrect', 'Unknown'] } }, correct + incorrect === 0 ? 'No verified drawing-content observations' : undefined)
+              { outputFormat: format as 'svg' | 'png', comparisonKey: hash(['docs-drawings', 'drawing-outcomes-v1', format, cohort, inventory.pin ?? null, inventory.cases, inventory.drawingReview ?? null, inventory.producers ?? [], ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])]), summary: true, ...(candidate ? { artifactRole: 'candidate' as const } : { overview: { numerator: 'Correct', denominator: 'Planned drawings', suffix: '%' } }), unit: 'documentation drawings', drawingOutcomePolicy: 'drawing-outcomes-v1', population: { total: 'Planned drawings', outcomes: [...drawingOutcomeColumns] } })
             const reviewedIds = new Set((inventory.drawingReview?.cases ?? []).filter((input: any) => input.registeredProfileEligible ?? input.intent === 'drawing').map((input: any) => input.id))
             if (reviewedIds.size && reviewedIds.size < population.drawings.size) {
               const subset = drawings.filter(row => reviewedIds.has(row.caseId)), passed = subset.filter(row => row.status === 'passed').length, failed = subset.filter(row => row.status === 'failed').length, missing = reviewedIds.size - passed - failed

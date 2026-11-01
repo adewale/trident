@@ -1,3 +1,4 @@
+import { drawingOutcomeColumns, drawingOutcomeStatistics, drawingStatisticsColumns, type DrawingOutcomeCounts } from './drawing-outcomes.ts'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { isAbsolute, join, relative, resolve } from 'node:path'
@@ -27,6 +28,7 @@ export interface SnapshotTable {
   campaignUpdatedAt?: string
   columns: string[]; rows: { project: string; values: Cell[]; unrankedReason?: string; receipt?: { url: string; sha256: string }; campaignUpdatedAt?: string }[]
   receipt: { url: string; sha256: string }
+  drawingOutcomePolicy?: 'drawing-outcomes-v1'
   population?: { total: string; outcomes: string[] }
   overview?: { numerator: string; denominator?: string; suffix: string }
   chart?: { numerator: string; denominator?: string; title: string; axis: string; maximum: number }
@@ -53,17 +55,18 @@ export interface ResultsSnapshot {
 }
 export const benchmarkNames: Record<PublicSuite, string> = {
   community: 'Mermaid Compatibility', docs: 'DaveBench: Documentation Examples', fidelity: 'Harness and Observer Regressions (unscored)',
-  'native-fidelity': 'Public Model Contracts', 'upstream-fidelity': 'Mermaid Assertion Replay',
+  'native-fidelity': 'Public Model Regressions (unscored)', 'upstream-fidelity': 'Mermaid Assertion Replay',
   'upstream-original': 'Mermaid Reference Tests', portable: 'Render Cost and Scaling', 'public-conformance': 'Mermaid Public API Tests (diagnostic)',
 }
+const unscoredSuite = (suite: PublicSuite) => ['fidelity', 'native-fidelity'].includes(suite)
 const regressionNote = 'Unscored harness/observer regressions'
 /** Reclassify presentation without rewriting retained values or receipt identity. */
-const regressionTable = (entry: SnapshotTable): SnapshotTable => entry.suite !== 'fidelity' ? entry : { ...entry, ranking: undefined, overview: undefined, chart: undefined, summary: false,
+const regressionTable = (entry: SnapshotTable): SnapshotTable => !unscoredSuite(entry.suite) ? entry : { ...entry, ranking: undefined, overview: undefined, chart: undefined, summary: false,
   caption: (entry.caption.startsWith(regressionNote) ? entry.caption : regressionNote + ': AM/Trident-authored feature, reset and edit cases; not a comparative renderer benchmark. Original retained report context: ' + entry.caption).replace('Ranks count verified correct diagrams; unknown observations leave complete accuracy unresolved. ', ''),
   rows: entry.rows.map(row => ({ ...row, unrankedReason: row.unrankedReason?.startsWith(regressionNote) ? row.unrankedReason : regressionNote + (row.unrankedReason ? '; ' + row.unrankedReason : '') })) }
 const regressionSnapshot = (snapshot: ResultsSnapshot): ResultsSnapshot => {
   const tables = snapshot.tables.map(regressionTable), previous = tables.find(entry => entry.id === snapshot.overviewRanking)
-  return { ...snapshot, tables, ...(previous?.suite === 'fidelity' ? { overviewRanking: tables.find(entry => entry.suite === 'docs' && entry.outputFormat !== 'png' && entry.overview && entry.ranking)?.id } : {}) }
+  return { ...snapshot, tables, ...(previous && unscoredSuite(previous.suite) ? { overviewRanking: tables.find(entry => entry.suite === 'docs' && entry.outputFormat !== 'png' && entry.overview && entry.ranking)?.id } : {}) }
 }
 const sha256 = (value: string | Buffer) => createHash('sha256').update(value).digest('hex')
 const md = (value: unknown) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('|', '&#124;').replaceAll('\n', ' ')
@@ -123,6 +126,14 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
         if (counts.some(count => typeof count !== 'number' || !Number.isInteger(count) || count < 0) || counts[0] !== (counts.slice(1) as number[]).reduce((sum, count) => sum + count, 0)) throw Error('Table population does not reconcile')
       }
     }
+    if (entry.drawingOutcomePolicy !== undefined) {
+      if (entry.drawingOutcomePolicy !== 'drawing-outcomes-v1' || !entry.population || JSON.stringify(entry.population.outcomes) !== JSON.stringify(drawingOutcomeColumns) || entry.ranking?.column !== 'Correct' || entry.ranking.direction !== 'descending' || entry.ranking.denominator) throw Error('Invalid drawing outcome policy')
+      for (const row of entry.rows) {
+        const bounds = drawingBounds(entry, row)!
+        const expected = [bounds.observerCoverage, bounds.lowerPercent, bounds.upperPercent].map(value => value === null ? 'unavailable' : Number(value.toFixed(6)))
+        if (drawingStatisticsColumns.some((column, index) => row.values[entry.columns.indexOf(column)] !== expected[index])) throw Error('Drawing coverage or bounds do not match outcome counts')
+      }
+    }
     if (entry.chart) {
       if (!(entry.chart.maximum > 0) || !Number.isFinite(entry.chart.maximum)) throw Error('Invalid chart range')
       for (const row of entry.rows) chartValue(entry, row)
@@ -169,10 +180,17 @@ function terminalOnly(snapshot: ResultsSnapshot) {
 }
 const snapshotBenchmarkNames = (snapshot: ResultsSnapshot) => ({ ...benchmarkNames, ...(terminalOnly(snapshot) ? { community: 'Terminal Rendering' } : {}) })
 
+/** Bounds use the planned corpus, never just the outputs the observer handled. */
+export function drawingBounds(entry: SnapshotTable, row: SnapshotTable['rows'][number]) {
+  if (!entry.drawingOutcomePolicy || !entry.population) return null
+  const counts = Object.fromEntries(drawingOutcomeColumns.map(key => [key, row.values[entry.columns.indexOf(key)]])) as DrawingOutcomeCounts
+  const total = row.values[entry.columns.indexOf(entry.population.total)] as number
+  return { total, ...drawingOutcomeStatistics(counts, total) }
+}
 /** Compare the named count only. Unknown work and unlike populations cannot
  * become a claim that a project is worse, or an unqualified speed comparison. */
 export function baselineComparison(entry: SnapshotTable, row: SnapshotTable['rows'][number], baseline = 'mermaid-js/mermaid'): string {
-  if (entry.suite === 'fidelity') return regressionNote
+  if (unscoredSuite(entry.suite)) return regressionNote
   const reference = entry.rows.find(item => item.project === baseline)
   if (!reference) return 'No reference score'
   if (row.project === baseline) return 'Baseline'
@@ -181,6 +199,14 @@ export function baselineComparison(entry: SnapshotTable, row: SnapshotTable['row
   const number = (item: typeof row, name: string) => measurementNumber(item.values[entry.columns.indexOf(name)])
   const total = number(row, entry.population.total), referenceTotal = number(reference, entry.population.total)
   if (!(total && referenceTotal) || total !== referenceTotal) return 'Different populations'
+  if (entry.drawingOutcomePolicy) {
+    const own = drawingBounds(entry, row)!, other = drawingBounds(entry, reference)!
+    const difference = own.lower - other.lower, delta = `${difference > 0 ? '+' : ''}${difference}`
+    if (own.lower > other.upper) return `Higher on this corpus (${delta}); disjoint bounds`
+    if (own.upper < other.lower) return `Lower on this corpus (${delta}); disjoint bounds`
+    if (own.lower === own.upper && other.lower === other.upper && own.lower === other.lower) return 'Tie on this corpus; fully resolved'
+    return `${difference === 0 ? 'Same verified count' : (difference > 0 ? 'More' : 'Fewer') + ' verified (' + delta + ')'}; bounds overlap`
+  }
   const unknown = (item: typeof row) => entry.population!.outcomes.filter(name => /^(Unknown|Blocked|Binding gaps|Unavailable|Unexecuted|Unmeasured|Missing|N\/A|Skipped)$/.test(name)).reduce((sum, name) => sum + (number(item, name) ?? 0), 0)
   if (unknown(reference) >= referenceTotal || column !== 'Correct' && reference.unrankedReason) return 'Reference unresolved'
   if (unknown(row) >= total || column !== 'Correct' && row.unrankedReason) return 'Unresolved'
@@ -195,6 +221,11 @@ export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
   entry = regressionTable(entry)
   const numeric = (value: Cell | undefined) => measurementNumber(value) ?? NaN
   const ranked = rankResults(entry.rows, { direction: entry.ranking?.direction ?? 'descending', name: row => name(row.project), score: row => {
+    if (entry.drawingOutcomePolicy) {
+      const total = numeric(row.values[entry.columns.indexOf(entry.population!.total)])
+      const correct = numeric(row.values[entry.columns.indexOf('Correct')])
+      return total > 0 && Number.isFinite(correct) ? correct : null
+    }
     if (row.unrankedReason) return null
     const metric = entry.ranking
     const numerator = metric ? numeric(row.values[entry.columns.indexOf(metric.column)]) : NaN
@@ -267,7 +298,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
   const tables = new Map(snapshot.tables.map(table => [table.id, table]))
   const generated = campaignTables(report, { url: evidenceUrl.replace(/\/$/, '') + '/' + reportFile, sha256: digest })
   for (const table of generated) tables.set(table.id, table)
-  const overviewEligible = (table: SnapshotTable) => table.suite !== 'fidelity' && !table.diagnostic && table.artifactRole !== 'candidate' && !!table.overview
+  const overviewEligible = (table: SnapshotTable) => !unscoredSuite(table.suite) && !table.diagnostic && table.artifactRole !== 'candidate' && !!table.overview
   let overview = generated.find(table => overviewEligible(table) && table.outputFormat === 'svg' && table.unit === 'documentation drawings') ?? generated.find(table => overviewEligible(table) && table.outputFormat === 'svg') ?? (!snapshot.overviewRanking ? generated.find(overviewEligible) : undefined)
   if (overview?.comparisonKey) {
     const key = overview.comparisonKey
@@ -297,9 +328,9 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   const name = (id: string) => snapshot.projectNames?.[id] ?? nodes.get(id)?.comparisonBranding?.name ?? id
   const titles = snapshotBenchmarkNames(snapshot)
   const activeSuites = PUBLIC_SUITES.filter(suite => snapshot.tables.some(entry => entry.suite === suite) || snapshot.attempts.some(entry => entry.suite === suite))
-  const overviewColumns: { suite: PublicSuite; format?: 'svg' | 'png'; title: string }[] = activeSuites.filter(suite => suite !== 'fidelity').flatMap<{ suite: PublicSuite; format?: 'svg' | 'png'; title: string }>(suite => suite === 'docs' && snapshot.tables.some(entry => entry.suite === 'docs' && entry.outputFormat === 'png') ? [{ suite, format: 'svg' as const, title: 'DaveBench SVG' }, { suite, format: 'png' as const, title: 'DaveBench PNG' }] : [{ suite, ...(suite === 'docs' ? { format: 'svg' as const } : {}), title: titles[suite] }])
+  const overviewColumns: { suite: PublicSuite; format?: 'svg' | 'png'; title: string }[] = activeSuites.filter(suite => !unscoredSuite(suite)).flatMap<{ suite: PublicSuite; format?: 'svg' | 'png'; title: string }>(suite => suite === 'docs' && snapshot.tables.some(entry => entry.suite === 'docs' && entry.outputFormat === 'png') ? [{ suite, format: 'svg' as const, title: 'DaveBench SVG' }, { suite, format: 'png' as const, title: 'DaveBench PNG' }] : [{ suite, ...(suite === 'docs' ? { format: 'svg' as const } : {}), title: titles[suite] }])
   const alphabetical = <T extends { project: string }>(rows: T[]) => [...rows].sort((a, b) => name(a.project).localeCompare(name(b.project)))
-  const primary = snapshot.tables.find(entry => entry.suite !== 'fidelity' && entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))
+  const primary = snapshot.tables.find(entry => !unscoredSuite(entry.suite) && entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))
   if (snapshot.overviewRanking && !primary) throw Error('Unknown overview ranking table')
   if (primary && !primary.ranking) throw Error('Overview ranking table needs a named metric')
   const attemptsFor = (project: string, suite: PublicSuite, format?: 'svg' | 'png') => snapshot.attempts.filter(attempt => (!format || (attempt.outputFormats ?? ['svg']).includes(format)) && attempt.project === project && attempt.suite === suite && attempt.artifactRole !== 'candidate' && (suite !== 'community' || terminalOnly(snapshot) || attempt.cohort === undefined || ['core', 'external'].includes(attempt.cohort))).sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))
@@ -319,7 +350,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
     '## Ecosystem overview', '',
     includeRecordedProjects ? `${projects.length} originally recorded projects are listed below, including projects later excluded from regular campaigns. This archive preserves the measured selection; it does not change current benchmark eligibility.` : `${projects.length} eligible projects are listed below. ${lineage.excludedProjects.length} catalog entries outside core comparison scope are listed separately. Results are never inherited through lineage.`, '',
     'Each cell links its latest recorded attempt, or a dated retained table. New failed, blocked and partial attempts take precedence over earlier tables. Different suites have different units; there is no combined score. “Unmeasured” is missing evidence; “N/A” follows the declared output or reference scope, not a measured failure.', '',
-    `Overview order: ${primary ? titles[primary.suite] + ', ' + (primary.ranking?.direction === 'ascending' ? 'lowest' : 'highest') + ' ' + primary.ranking?.column + (primary.ranking?.denominator ? ' / ' + primary.ranking.denominator : '') + ' first (' + date(primary.measuredAt) + ').' : 'No comparable ranking measure is available.'} Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking. The overview’s ranked benchmark cell uses this same table and population.`, '',
+    `Overview order: ${primary?.drawingOutcomePolicy ? 'verified-count rank, ' : ''}${primary ? titles[primary.suite] + ', ' + (primary.ranking?.direction === 'ascending' ? 'lowest' : 'highest') + ' ' + primary.ranking?.column + (primary.ranking?.denominator ? ' / ' + primary.ranking.denominator : '') + ' first (' + date(primary.measuredAt) + ').' : 'No comparable ranking measure is available.'} Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking. The overview’s ranked benchmark cell uses this same table and population.`, '',
     '| Project | Overview rank | ' + overviewColumns.map(column => column.title).join(' | ') + ' |',
     '|---|---|' + overviewColumns.map(() => '---|').join('')]
   for (const { project } of projects) {
@@ -337,15 +368,16 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
       if (entry) {
         const row = entry.rows.find(row => row.project === project)!, projection = entry.overview!
         const observedAt = entry.rolling ? String(row.values[entry.columns.indexOf('Measured')]) : entry.measuredAt
-        if (row.unrankedReason) return `[${md(row.unrankedReason)} · ${date(observedAt)}](#${anchor(entry.id)})`
+        if (row.unrankedReason && !entry.drawingOutcomePolicy) return `[${md(row.unrankedReason)} · ${date(observedAt)}](#${anchor(entry.id)})`
         if (projection.suffix === '%' && entry.ranking && rankedRows(entry, name).find(row => row.project === project)?.rank === null) {
           const owner = attempts.find(attempt => attempt.receipt.sha256 === entry.receipt.sha256 && attempt.receipt.url === entry.receipt.url)
           return owner ? attemptCell(owner) : 'Unmeasured'
         }
         const value = row.values[entry.columns.indexOf(projection.numerator)]
         const denominator = projection.denominator ? '/' + row.values[entry.columns.indexOf(projection.denominator)] : ''
-        const display = projection.suffix === '%' && projection.denominator ? (100 * Number(value) / Number(row.values[entry.columns.indexOf(projection.denominator)])).toFixed(1) + '%' : md(value) + denominator + (projection.suffix ? ' ' + md(projection.suffix) : '')
-        return `[${display}${entry.historical ? ' · historical' : ''} · ${date(observedAt)}](#${anchor(entry.id)})`
+        const display = entry.drawingOutcomePolicy ? md(value) + denominator : projection.suffix === '%' && projection.denominator ? (100 * Number(value) / Number(row.values[entry.columns.indexOf(projection.denominator)])).toFixed(1) + '%' : md(value) + denominator + (projection.suffix ? ' ' + md(projection.suffix) : '')
+        const bounds = drawingBounds(entry, row)
+        return `[${display}${bounds ? ' verified; bounds ' + bounds.lower + '–' + bounds.upper + '/' + bounds.total : ''}${entry.historical ? ' · historical' : ''} · ${date(observedAt)}](#${anchor(entry.id)})`
       }
       const state = support.suites[suite]
       return state.state === 'reference-only' || state.state === 'project-unsupported' ? 'N/A' : state.state === 'disabled' ? 'Skipped: release disabled' : state.state === 'adapter-missing' ? 'Unmeasured: binding gap' : 'Unmeasured'
@@ -363,16 +395,17 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
     if (!entries.length) lines.push('No comparative result table has been published.', '')
     if (detailLinks) lines.push(`[All ${entries.length} tables and recorded attempts](${detailLinks.get('suite:' + suite)})`, '')
     for (const entry of entries.filter(entry => !detailLinks || entry.summary || entry.id === primary?.id)) {
-      const unscored = entry.suite === 'fidelity'
+      const unscored = unscoredSuite(entry.suite)
       lines.push(`<a id="${anchor(entry.id)}"></a>`, '', `**${entry.id}** · ${date(entry.measuredAt)}${entry.historical ? ' · Historical' : ''}${entry.diagnostic ? ' · **Diagnostic subset**' : ''}${entry.artifactRole === 'candidate' ? ' · **Source candidates**' : ''} · unit: ${md(entry.unit)} · ${entry.rolling ? '[latest source run](' + entry.receipt.url + ')' : receiptLink(entry.receipt)}`, '', entry.caption, '')
       const rows = rankedRows(entry, name)
       lines.push(unscored ? 'Unscored harness/observer regressions; rows are alphabetical.' : entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.` : 'No comparable numeric ranking measure is available.', '')
+      if (entry.drawingOutcomePolicy) lines.push('Ranks order verified correct counts, including zero. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.', '')
       const rate = entry.chart?.denominator
       const notes = rows.some(row => row.unrankedReason)
       const reference = entry.cohort?.startsWith('terminal-') ? 'AlexanderGrooff/mermaid-ascii' : 'mermaid-js/mermaid'
       const compare = entry.population && entry.ranking?.direction === 'descending' && entry.rows.some(row => row.project === reference)
-      if (compare) lines.push(`${entry.ranking!.column === 'Correct' ? 'Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes.' : `“Higher” and “Lower” compare **${md(entry.ranking!.column)}** on this population. Unknown evidence remains unresolved.`} ${reference === 'AlexanderGrooff/mermaid-ascii' ? 'Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.' : 'This is a comparison of the named metric, not overall project quality.'}`, '')
-      lines.push(table(['Project', ...(unscored ? [] : ['Rank']), ...entry.columns, ...(compare ? [reference === 'mermaid-js/mermaid' ? 'vs Mermaid' : 'vs Mermaid ASCII'] : []), ...(rate ? [entry.chart!.axis] : []), ...(notes ? [unscored ? 'Diagnostic note' : 'Ranking note'] : []), ...(entry.rolling ? ['Row evidence'] : [])], rows.map(row => [name(row.project), ...(unscored ? [] : [row.rank ?? '—']), ...row.values, ...(compare ? [baselineComparison(entry, row, reference)] : []), ...(rate ? [row.rank === null ? '—' : chartValue(entry, row).toFixed(1) + '%'] : []), ...(notes ? [row.unrankedReason ?? ''] : []), ...(entry.rolling ? [receiptLink(row.receipt!)] : [])])), '')
+      if (compare) lines.push(`${entry.drawingOutcomePolicy ? 'Comparisons claim superiority only when correctness bounds are disjoint; otherwise they describe verified-count differences.' : entry.ranking!.column === 'Correct' ? 'Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes.' : `“Higher” and “Lower” compare **${md(entry.ranking!.column)}** on this population. Unknown evidence remains unresolved.`} ${reference === 'AlexanderGrooff/mermaid-ascii' ? 'Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.' : 'This is a comparison of the named metric, not overall project quality.'}`, '')
+      lines.push(table(['Project', ...(unscored ? [] : [entry.drawingOutcomePolicy ? 'Verified-count rank' : 'Rank']), ...entry.columns, ...(compare ? [reference === 'mermaid-js/mermaid' ? 'vs Mermaid' : 'vs Mermaid ASCII'] : []), ...(rate ? [entry.chart!.axis] : []), ...(notes ? [unscored ? 'Diagnostic note' : 'Ranking note'] : []), ...(entry.rolling ? ['Row evidence'] : [])], rows.map(row => [name(row.project), ...(unscored ? [] : [row.rank ?? '—']), ...row.values, ...(compare ? [baselineComparison(entry, row, reference)] : []), ...(rate ? [row.rank === null ? '—' : chartValue(entry, row).toFixed(1) + '%'] : []), ...(notes ? [row.unrankedReason ?? ''] : []), ...(entry.rolling ? [receiptLink(row.receipt!)] : [])])), '')
       const chartRows = rows.filter(row => row.rank !== null)
       if (entry.chart && chartRows.length) {
         const quote = (value: string) => JSON.stringify(value.replace(/[\r\n]/g, ' '))
@@ -452,7 +485,7 @@ export function retainedTableValues(snapshot: ResultsSnapshot, ids: string[]) {
   return [...ids].sort().map(id => {
     const entry = snapshot.tables.find(table => table.id === id)
     if (!entry) throw Error('Missing retained table: ' + id)
-    return { id: entry.id, suite: entry.suite, ...(entry.diagnostic ? { diagnostic: true } : {}), measuredAt: entry.measuredAt, historical: entry.historical, ...(entry.artifactRole ? { artifactRole: entry.artifactRole } : {}), unit: entry.unit, columns: entry.columns,
+    return { id: entry.id, suite: entry.suite, ...(entry.diagnostic ? { diagnostic: true } : {}), ...(entry.drawingOutcomePolicy ? { drawingOutcomePolicy: entry.drawingOutcomePolicy } : {}), measuredAt: entry.measuredAt, historical: entry.historical, ...(entry.artifactRole ? { artifactRole: entry.artifactRole } : {}), unit: entry.unit, columns: entry.columns,
       rows: [...entry.rows].sort((a, b) => a.project < b.project ? -1 : a.project > b.project ? 1 : 0).map(row => ({ project: row.project, values: row.values })) }
   })
 }
