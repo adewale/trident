@@ -177,7 +177,7 @@
       "bytes": 8250
     },
     {
-      "path": "probes/audit-current-review-membership.ts",
+      "path": "probes/audit-current-review-membership.ts.txt",
       "sha256": "f7dbea030b0d010a03ba4f8e1fc98cbf6dd7b2509ca83be2e056ce3c2cc4cf94",
       "bytes": 2960
     },
@@ -187,7 +187,7 @@
       "bytes": 25635
     },
     {
-      "path": "probes/grade-admitted-delta.ts",
+      "path": "probes/grade-admitted-delta.ts.txt",
       "sha256": "2194cdf71be29c43a298880e9c361385516367f642272f2002e4642892520c08",
       "bytes": 8898
     },
