@@ -1,0 +1,258 @@
+{
+  "schema": "trident-campaign-v2",
+  "startedAt": "2026-11-01T14:35:59.282Z",
+  "updatedAt": "2026-11-01T15:19:30.283Z",
+  "projects": [
+    "Dicklesworthstone/frankenmermaid",
+    "wevm/ondine",
+    "orestesgaolin/mermaid",
+    "pub:mermaid_flutter",
+    "adewale/agentic-mermaid",
+    "dfadler/zombie-mermaid",
+    "1jehuang/mermaid-rs-renderer",
+    "AlexanderGrooff/mermaid-ascii",
+    "anomalyco/opencode",
+    "crafter-station/mermaid",
+    "emtyty/merslim",
+    "evangwt/xmermaid",
+    "fasouto/termaid",
+    "kitlangton/merman",
+    "KlangHaus/vitepress-plugin-diagram",
+    "Latias94/merman",
+    "lukilabs/beautiful-mermaid",
+    "Mootikins/figurehead-rs",
+    "obsidianmd/pele",
+    "sandyyst/dsh-plugin-mermaid-gb-svg",
+    "tariqshams/mermaidtui",
+    "xai-org/grok-build",
+    "Yassimba/loom",
+    "kais-radwan/ascii-mermaid",
+    "spacedock-dev/mermaidtext",
+    "mermaid-js/mermaid",
+    "crabtalk/bezel"
+  ],
+  "profile": "full",
+  "rounds": 1,
+  "options": {
+    "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign"
+  },
+  "results": [
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/00",
+      "status": "failed",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "Dicklesworthstone/frankenmermaid"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/01",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "wevm/ondine"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/02",
+      "status": "failed",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "orestesgaolin/mermaid"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/03",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "pub:mermaid_flutter"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/04",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "adewale/agentic-mermaid"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/05",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "dfadler/zombie-mermaid"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/06",
+      "status": "failed",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "1jehuang/mermaid-rs-renderer"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/07",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "AlexanderGrooff/mermaid-ascii"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/08",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "anomalyco/opencode"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/09",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "crafter-station/mermaid"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/10",
+      "status": "failed",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "emtyty/merslim"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/11",
+      "status": "failed",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "evangwt/xmermaid"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/12",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "fasouto/termaid"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/13",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "kitlangton/merman"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/14",
+      "status": "failed",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "KlangHaus/vitepress-plugin-diagram"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/15",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "Latias94/merman"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/16",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "lukilabs/beautiful-mermaid"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/17",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "Mootikins/figurehead-rs"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/18",
+      "status": "passed",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "obsidianmd/pele"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/19",
+      "status": "failed",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/20",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "tariqshams/mermaidtui"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/21",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "xai-org/grok-build"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/22",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "Yassimba/loom"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/23",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "kais-radwan/ascii-mermaid"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/24",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "spacedock-dev/mermaidtext"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/25",
+      "status": "passed",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "mermaid-js/mermaid"
+    },
+    {
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/26",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+      "project": "crabtalk/bezel"
+    }
+  ],
+  "scope": "Native public captures under one shared adapted corpus; each boundary revalidates its own raw calls. The superseded Frankenmermaid binding attempt is retained in campaign-context."
+}

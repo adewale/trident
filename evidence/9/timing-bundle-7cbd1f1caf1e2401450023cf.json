@@ -1,0 +1,2499 @@
+{
+  "schema": "trident-qualified-timing-bundle-v1",
+  "plan": {
+    "schema": "trident-qualified-timing-plan-v1",
+    "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+    "format": "png",
+    "track": "first-use",
+    "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+    "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+    "rounds": 6,
+    "samplesPerRound": 1,
+    "maximumControlSpread": 0.25,
+    "cases": [
+      {
+        "schema": "trident-case-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+        "expectationsSha256": "988686af35b19a77d97f598486cf33884ceddf08f2a71eea405a1f6e7669ed6d",
+        "requiredChecks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review"
+          }
+        ]
+      },
+      {
+        "schema": "trident-case-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+        "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+        "expectationsSha256": "90e1d1847472e6df6e531297574785748933a0205258c17dc8828968757e3b09",
+        "requiredChecks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review"
+          }
+        ]
+      },
+      {
+        "schema": "trident-case-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+        "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+        "expectationsSha256": "6681637355bfe1559cb5655345833c807edc019f49c5aa13afa3b8739078c546",
+        "requiredChecks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review"
+          }
+        ]
+      }
+    ],
+    "artifacts": {
+      "A0": {
+        "project": "mermaid-js/mermaid",
+        "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+        "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135"
+      },
+      "A1": {
+        "project": "mermaid-js/mermaid",
+        "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+        "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135"
+      },
+      "B": {
+        "project": "pub:mermaid_flutter",
+        "artifactSha256": "3872a782c80a471eecb38750a57edfa19dbd7c9935107d0a3792a458919ac552",
+        "bindingSha256": "06260c4dea3555799799a82650c88241dce4bef9bcec997ff510d3df53abb713"
+      }
+    }
+  },
+  "samples": [
+    {
+      "round": 1,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "cb3a6b46-4812-4333-96ac-a403c19977da",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+          "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",1,\"A0\",\"packages/mermaid/src/docs/syntax/flowchart.md:686\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1487510:54be33e3-196b-43cb-b60a-618dc07bf459",
+          "sequence": 0,
+          "monotonicStartNs": "9035042458",
+          "monotonicFinishNs": "10894048453",
+          "apiStartNs": "9043027919",
+          "apiFinishNs": "10893615888"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:42:33.393Z",
+        "startedAt": "2026-11-01T17:42:31.531Z",
+        "finishedAt": "2026-11-01T17:42:33.393Z",
+        "durationMs": 1850.587969,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "sha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "bytes": 1739
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "88e2450eed883df6a470ea2fb1b90809059020e2089208f6e52457a537a03915"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+        "expectationsSha256": "988686af35b19a77d97f598486cf33884ceddf08f2a71eea405a1f6e7669ed6d",
+        "outputSha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57\",\"outputSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"outputBytes\":1739,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly A and B are boxed left-to-right with one solid A-to-B arrow and no source marker or caption.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"actualPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 1,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "de19bb8a-2863-4587-ac07-981d692b5611",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+          "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",1,\"A1\",\"packages/mermaid/src/docs/syntax/flowchart.md:686\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1487642:d2477383-8422-422a-99bf-1ca039f6bacb",
+          "sequence": 1,
+          "monotonicStartNs": "11476764151",
+          "monotonicFinishNs": "13269598615",
+          "apiStartNs": "11480449284",
+          "apiFinishNs": "13269563571"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:42:35.766Z",
+        "startedAt": "2026-11-01T17:42:33.972Z",
+        "finishedAt": "2026-11-01T17:42:35.766Z",
+        "durationMs": 1789.114287,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "sha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "bytes": 1739
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "64ecdf6f671de1511451ebacf1006c9cd1b5db7a9a3764af87b95805741bad9c"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+        "expectationsSha256": "988686af35b19a77d97f598486cf33884ceddf08f2a71eea405a1f6e7669ed6d",
+        "outputSha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57\",\"outputSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"outputBytes\":1739,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly A and B are boxed left-to-right with one solid A-to-B arrow and no source marker or caption.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"actualPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 1,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "9109e70c-5910-4842-b6ee-60a72b6cae5a",
+        "identity": {
+          "project": "pub:mermaid_flutter",
+          "artifactSha256": "3872a782c80a471eecb38750a57edfa19dbd7c9935107d0a3792a458919ac552",
+          "bindingSha256": "06260c4dea3555799799a82650c88241dce4bef9bcec997ff510d3df53abb713",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+          "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",1,\"B\",\"packages/mermaid/src/docs/syntax/flowchart.md:686\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1487782:2a2714fb-9e2c-4a15-af54-0417a7042e92",
+          "sequence": 2,
+          "monotonicStartNs": "13837306701",
+          "monotonicFinishNs": "23954828783",
+          "apiStartNs": "13842711068",
+          "apiFinishNs": "23954771108"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:42:46.453Z",
+        "startedAt": "2026-11-01T17:42:36.333Z",
+        "finishedAt": "2026-11-01T17:42:46.453Z",
+        "durationMs": 10112.06004,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89",
+          "sha256": "a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89",
+          "bytes": 1239
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "1fb3418fc73615667cba7975716cd9cff913668fad57f6d6461d88fccaee62b0"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+        "expectationsSha256": "988686af35b19a77d97f598486cf33884ceddf08f2a71eea405a1f6e7669ed6d",
+        "outputSha256": "a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"native\",\"calls\":1,\"sourceSha256\":\"85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57\",\"outputSha256\":\"a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89\",\"outputBytes\":1239,\"nativePid\":1487798,\"ledgerRows\":2,\"cleanup\":{\"status\":\"passed\",\"nativePid\":1487798,\"nativeExitCode\":null,\"nativeSignal\":\"SIGKILL\",\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":208,\"height\":65,\"visiblePixels\":13520,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"26ba3d90c1e94106a328b1690c83be947ed4704170bb640c6ae361a80aba773f\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only two boxes, arranged LR and joined by one solid arrow whose head meets B; no additional link is drawn.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89\",\"actualPngSha256\":\"a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"26ba3d90c1e94106a328b1690c83be947ed4704170bb640c6ae361a80aba773f\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 1,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "3506c94b-6083-434d-ab49-62853354335a",
+        "identity": {
+          "project": "pub:mermaid_flutter",
+          "artifactSha256": "3872a782c80a471eecb38750a57edfa19dbd7c9935107d0a3792a458919ac552",
+          "bindingSha256": "06260c4dea3555799799a82650c88241dce4bef9bcec997ff510d3df53abb713",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+          "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",1,\"B\",\"packages/mermaid/src/docs/syntax/flowchart.md:728\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1487854:091d152a-a185-4a2e-8cf7-4592e6d7e850",
+          "sequence": 3,
+          "monotonicStartNs": "24485146207",
+          "monotonicFinishNs": "25205326461",
+          "apiStartNs": "24491991223",
+          "apiFinishNs": "25205276508"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:42:47.704Z",
+        "startedAt": "2026-11-01T17:42:46.981Z",
+        "finishedAt": "2026-11-01T17:42:47.704Z",
+        "durationMs": 713.285285,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f",
+          "sha256": "0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f",
+          "bytes": 1297
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "c0e381ba99bd65b6b3be725ddc8a3bdb1a908baa9623fd8c800e656cf741790b"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+        "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+        "expectationsSha256": "90e1d1847472e6df6e531297574785748933a0205258c17dc8828968757e3b09",
+        "outputSha256": "0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"native\",\"calls\":1,\"sourceSha256\":\"1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d\",\"outputSha256\":\"0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f\",\"outputBytes\":1297,\"nativePid\":1487869,\"ledgerRows\":2,\"cleanup\":{\"status\":\"passed\",\"nativePid\":1487869,\"nativeExitCode\":null,\"nativeSignal\":\"SIGKILL\",\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":208,\"height\":65,\"visiblePixels\":13520,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"51fba57167ecbd1ef6fc7765a47a22bb2dd33f8cebc09aac28809b007e68ca57\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly one dotted connection runs from A on the left to an arrowhead at B on the right, retaining the authored dotted stroke.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f\",\"actualPngSha256\":\"0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"51fba57167ecbd1ef6fc7765a47a22bb2dd33f8cebc09aac28809b007e68ca57\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 1,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "8f0b073d-c5b6-45c7-87a9-eba9b8232df4",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+          "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",1,\"A1\",\"packages/mermaid/src/docs/syntax/flowchart.md:728\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1487907:b4c5d851-acbe-4361-a8b1-32ad5dede411",
+          "sequence": 4,
+          "monotonicStartNs": "25840604138",
+          "monotonicFinishNs": "27706876164",
+          "apiStartNs": "25847155816",
+          "apiFinishNs": "27706849849"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:42:50.207Z",
+        "startedAt": "2026-11-01T17:42:48.336Z",
+        "finishedAt": "2026-11-01T17:42:50.207Z",
+        "durationMs": 1859.694033,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "sha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "bytes": 1813
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "ffcde8bb10abb4c3ab6e499808607091ad749be67273c002fcb37b8221b4f4cf"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+        "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+        "expectationsSha256": "90e1d1847472e6df6e531297574785748933a0205258c17dc8828968757e3b09",
+        "outputSha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d\",\"outputSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"outputBytes\":1813,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order; a dotted A-to-B route has its arrow at B and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"actualPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 1,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "503d08cb-e58f-4abf-a30b-2837577d71e5",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+          "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",1,\"A0\",\"packages/mermaid/src/docs/syntax/flowchart.md:728\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1488043:b13ee238-4aca-4e41-a66e-941bee944b62",
+          "sequence": 5,
+          "monotonicStartNs": "28671923129",
+          "monotonicFinishNs": "30578408447",
+          "apiStartNs": "28677456074",
+          "apiFinishNs": "30578377617"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:42:53.075Z",
+        "startedAt": "2026-11-01T17:42:51.167Z",
+        "finishedAt": "2026-11-01T17:42:53.075Z",
+        "durationMs": 1900.921543,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "sha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "bytes": 1813
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "71dd16dac8c82578536288f7cfe00f2d9ca850fc438f1188b826a2ea5047fcff"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+        "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+        "expectationsSha256": "90e1d1847472e6df6e531297574785748933a0205258c17dc8828968757e3b09",
+        "outputSha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d\",\"outputSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"outputBytes\":1813,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order; a dotted A-to-B route has its arrow at B and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"actualPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 1,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "b6c9e8f1-e7ee-444c-b354-83b4e786c177",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+          "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",1,\"A1\",\"packages/mermaid/src/docs/syntax/flowchart.md:742\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1488187:4218f27a-3244-4524-b9b7-7344a131a10f",
+          "sequence": 6,
+          "monotonicStartNs": "31159273972",
+          "monotonicFinishNs": "32900190592",
+          "apiStartNs": "31163147169",
+          "apiFinishNs": "32900173633"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:42:55.401Z",
+        "startedAt": "2026-11-01T17:42:53.655Z",
+        "finishedAt": "2026-11-01T17:42:55.401Z",
+        "durationMs": 1737.026464,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "sha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "bytes": 1735
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "8b35adf6d5b5d449431a46386ebed4ed4c52ae10a55f8b5b3df18fe69092ec82"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+        "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+        "expectationsSha256": "6681637355bfe1559cb5655345833c807edc019f49c5aa13afa3b8739078c546",
+        "outputSha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134\",\"outputSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"outputBytes\":1735,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order, and the sole A-to-B arrow has a visibly thick solid stroke and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"actualPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 1,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "29947fd1-606e-4b94-93cf-0cec9a241b09",
+        "identity": {
+          "project": "pub:mermaid_flutter",
+          "artifactSha256": "3872a782c80a471eecb38750a57edfa19dbd7c9935107d0a3792a458919ac552",
+          "bindingSha256": "06260c4dea3555799799a82650c88241dce4bef9bcec997ff510d3df53abb713",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+          "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",1,\"B\",\"packages/mermaid/src/docs/syntax/flowchart.md:742\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1488321:b68a1cb1-091a-4b5c-ac29-09b39a9a411f",
+          "sequence": 7,
+          "monotonicStartNs": "33620312307",
+          "monotonicFinishNs": "43499881089",
+          "apiStartNs": "33636002365",
+          "apiFinishNs": "43499840439"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:05.998Z",
+        "startedAt": "2026-11-01T17:42:56.116Z",
+        "finishedAt": "2026-11-01T17:43:05.998Z",
+        "durationMs": 9863.838074,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21",
+          "sha256": "fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21",
+          "bytes": 1248
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "655071cb4831e90659bdf8f2d1e8077e4b6195132a78f77b09618d85edff322e"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+        "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+        "expectationsSha256": "6681637355bfe1559cb5655345833c807edc019f49c5aa13afa3b8739078c546",
+        "outputSha256": "fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"native\",\"calls\":1,\"sourceSha256\":\"2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134\",\"outputSha256\":\"fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21\",\"outputBytes\":1248,\"nativePid\":1488336,\"ledgerRows\":2,\"cleanup\":{\"status\":\"passed\",\"nativePid\":1488336,\"nativeExitCode\":null,\"nativeSignal\":\"SIGKILL\",\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":208,\"height\":65,\"visiblePixels\":13520,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"0541d5da2b6fb64d2735e488cadce17e4ad98685cb3463eac05c9e5b59139284\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly A then B are joined by one thick solid arrow into B, preserving the authored thick-edge appearance and endpoint role.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21\",\"actualPngSha256\":\"fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"0541d5da2b6fb64d2735e488cadce17e4ad98685cb3463eac05c9e5b59139284\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 1,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "2be7ed4b-8595-4ad6-b1bb-cebeb08bee84",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+          "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",1,\"A0\",\"packages/mermaid/src/docs/syntax/flowchart.md:742\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1488391:74c238af-4e70-420e-87a5-d09e1164c24c",
+          "sequence": 8,
+          "monotonicStartNs": "44201652059",
+          "monotonicFinishNs": "46181570604",
+          "apiStartNs": "44212440357",
+          "apiFinishNs": "46181514559"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:08.678Z",
+        "startedAt": "2026-11-01T17:43:06.697Z",
+        "finishedAt": "2026-11-01T17:43:08.678Z",
+        "durationMs": 1969.074202,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "sha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "bytes": 1735
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "721accda7a4e28656ceb17e81c09c3d710bb0479aed78c555928476a459b6128"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+        "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+        "expectationsSha256": "6681637355bfe1559cb5655345833c807edc019f49c5aa13afa3b8739078c546",
+        "outputSha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134\",\"outputSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"outputBytes\":1735,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order, and the sole A-to-B arrow has a visibly thick solid stroke and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"actualPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "400aa45c-fd2f-4243-8dd7-05f3cc8b0848",
+        "identity": {
+          "project": "pub:mermaid_flutter",
+          "artifactSha256": "3872a782c80a471eecb38750a57edfa19dbd7c9935107d0a3792a458919ac552",
+          "bindingSha256": "06260c4dea3555799799a82650c88241dce4bef9bcec997ff510d3df53abb713",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+          "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",2,\"B\",\"packages/mermaid/src/docs/syntax/flowchart.md:686\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1488530:398cec61-1c1f-486c-ba3f-b0e58c094dff",
+          "sequence": 9,
+          "monotonicStartNs": "46731980915",
+          "monotonicFinishNs": "56420697615",
+          "apiStartNs": "46748579010",
+          "apiFinishNs": "56420677204"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:18.917Z",
+        "startedAt": "2026-11-01T17:43:09.228Z",
+        "finishedAt": "2026-11-01T17:43:18.917Z",
+        "durationMs": 9672.098194,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89",
+          "sha256": "a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89",
+          "bytes": 1239
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "2c6e62239076662a70d33ff6040e6d01ed348e41a5b1c1baa4652c220bc5e486"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+        "expectationsSha256": "988686af35b19a77d97f598486cf33884ceddf08f2a71eea405a1f6e7669ed6d",
+        "outputSha256": "a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"native\",\"calls\":1,\"sourceSha256\":\"85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57\",\"outputSha256\":\"a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89\",\"outputBytes\":1239,\"nativePid\":1488547,\"ledgerRows\":2,\"cleanup\":{\"status\":\"passed\",\"nativePid\":1488547,\"nativeExitCode\":null,\"nativeSignal\":\"SIGKILL\",\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":208,\"height\":65,\"visiblePixels\":13520,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"26ba3d90c1e94106a328b1690c83be947ed4704170bb640c6ae361a80aba773f\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only two boxes, arranged LR and joined by one solid arrow whose head meets B; no additional link is drawn.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89\",\"actualPngSha256\":\"a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"26ba3d90c1e94106a328b1690c83be947ed4704170bb640c6ae361a80aba773f\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "853b5084-78db-430e-b2f8-45e78997f732",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+          "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",2,\"A1\",\"packages/mermaid/src/docs/syntax/flowchart.md:686\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1488602:1b5c8034-726d-4716-a39a-448c17b9db1e",
+          "sequence": 10,
+          "monotonicStartNs": "56937502315",
+          "monotonicFinishNs": "58572528052",
+          "apiStartNs": "56948203832",
+          "apiFinishNs": "58572494634"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:21.069Z",
+        "startedAt": "2026-11-01T17:43:19.433Z",
+        "finishedAt": "2026-11-01T17:43:21.069Z",
+        "durationMs": 1624.290802,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "sha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "bytes": 1739
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "712f569f3152e99b2d2d4cdfb57f73884721aec0c627480ade6cdb3c3a212684"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+        "expectationsSha256": "988686af35b19a77d97f598486cf33884ceddf08f2a71eea405a1f6e7669ed6d",
+        "outputSha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57\",\"outputSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"outputBytes\":1739,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly A and B are boxed left-to-right with one solid A-to-B arrow and no source marker or caption.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"actualPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "5bac31f2-19b0-4f28-9af0-ff01735a7e6a",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+          "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",2,\"A0\",\"packages/mermaid/src/docs/syntax/flowchart.md:686\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1488735:d45be61e-4088-4c6b-b283-4f5727e8a168",
+          "sequence": 11,
+          "monotonicStartNs": "59122227142",
+          "monotonicFinishNs": "60831811886",
+          "apiStartNs": "59127048958",
+          "apiFinishNs": "60831478214"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:23.328Z",
+        "startedAt": "2026-11-01T17:43:21.618Z",
+        "finishedAt": "2026-11-01T17:43:23.328Z",
+        "durationMs": 1704.429256,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "sha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "bytes": 1739
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "49c0720e206a770aca4f28e6385941674e5f01dea77e0d4a015381ad17808cc7"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+        "expectationsSha256": "988686af35b19a77d97f598486cf33884ceddf08f2a71eea405a1f6e7669ed6d",
+        "outputSha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57\",\"outputSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"outputBytes\":1739,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly A and B are boxed left-to-right with one solid A-to-B arrow and no source marker or caption.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"actualPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "339e8f5e-b799-40df-8508-f22838a57f56",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+          "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",2,\"A1\",\"packages/mermaid/src/docs/syntax/flowchart.md:728\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1488876:6e0295e2-f3f9-4f89-b924-4e9ea8420c35",
+          "sequence": 12,
+          "monotonicStartNs": "61389737346",
+          "monotonicFinishNs": "63114620771",
+          "apiStartNs": "61398955911",
+          "apiFinishNs": "63114577580"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:25.612Z",
+        "startedAt": "2026-11-01T17:43:23.885Z",
+        "finishedAt": "2026-11-01T17:43:25.612Z",
+        "durationMs": 1715.621669,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "sha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "bytes": 1813
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "0e6a7715aa895d7b4a83263b243613ef7a683719bcfe39e92ef450d51582b731"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+        "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+        "expectationsSha256": "90e1d1847472e6df6e531297574785748933a0205258c17dc8828968757e3b09",
+        "outputSha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d\",\"outputSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"outputBytes\":1813,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order; a dotted A-to-B route has its arrow at B and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"actualPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "f3ff70ca-c312-42de-8a4b-ae3aa4996bba",
+        "identity": {
+          "project": "pub:mermaid_flutter",
+          "artifactSha256": "3872a782c80a471eecb38750a57edfa19dbd7c9935107d0a3792a458919ac552",
+          "bindingSha256": "06260c4dea3555799799a82650c88241dce4bef9bcec997ff510d3df53abb713",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+          "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",2,\"B\",\"packages/mermaid/src/docs/syntax/flowchart.md:728\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1489012:f33a2865-a848-4667-8c05-4aa28f08c796",
+          "sequence": 13,
+          "monotonicStartNs": "63682753870",
+          "monotonicFinishNs": "73302848454",
+          "apiStartNs": "63691608009",
+          "apiFinishNs": "73302746223"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:35.800Z",
+        "startedAt": "2026-11-01T17:43:26.178Z",
+        "finishedAt": "2026-11-01T17:43:35.800Z",
+        "durationMs": 9611.138214,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f",
+          "sha256": "0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f",
+          "bytes": 1297
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "5ee55adc1d42783ee39cf4f6f6664b99e81a911706ef1c154c35e3cf1a4500f3"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+        "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+        "expectationsSha256": "90e1d1847472e6df6e531297574785748933a0205258c17dc8828968757e3b09",
+        "outputSha256": "0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"native\",\"calls\":1,\"sourceSha256\":\"1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d\",\"outputSha256\":\"0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f\",\"outputBytes\":1297,\"nativePid\":1489028,\"ledgerRows\":2,\"cleanup\":{\"status\":\"passed\",\"nativePid\":1489028,\"nativeExitCode\":null,\"nativeSignal\":\"SIGKILL\",\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":208,\"height\":65,\"visiblePixels\":13520,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"51fba57167ecbd1ef6fc7765a47a22bb2dd33f8cebc09aac28809b007e68ca57\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly one dotted connection runs from A on the left to an arrowhead at B on the right, retaining the authored dotted stroke.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f\",\"actualPngSha256\":\"0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"51fba57167ecbd1ef6fc7765a47a22bb2dd33f8cebc09aac28809b007e68ca57\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "c5d4daa4-ee1f-4bf9-a5a5-748c8c9d8518",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+          "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",2,\"A0\",\"packages/mermaid/src/docs/syntax/flowchart.md:728\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1489117:a80481ef-5a8f-4a6d-84e9-61b245e53d5b",
+          "sequence": 14,
+          "monotonicStartNs": "73759763600",
+          "monotonicFinishNs": "75705229570",
+          "apiStartNs": "73767310516",
+          "apiFinishNs": "75705174581"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:38.202Z",
+        "startedAt": "2026-11-01T17:43:36.255Z",
+        "finishedAt": "2026-11-01T17:43:38.202Z",
+        "durationMs": 1937.864065,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "sha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "bytes": 1813
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "ee0efe41361e082cb3ebde11f1bed75f5dffb04c6f532f935406bde69c897e0f"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+        "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+        "expectationsSha256": "90e1d1847472e6df6e531297574785748933a0205258c17dc8828968757e3b09",
+        "outputSha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d\",\"outputSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"outputBytes\":1813,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order; a dotted A-to-B route has its arrow at B and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"actualPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "4c53e9ab-39ac-4fa4-9e85-43c6bcfd5e09",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+          "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",2,\"A0\",\"packages/mermaid/src/docs/syntax/flowchart.md:742\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1489249:603e3d01-32cb-47f3-a282-b1c6c8ac50a3",
+          "sequence": 15,
+          "monotonicStartNs": "76227497177",
+          "monotonicFinishNs": "77881023389",
+          "apiStartNs": "76233055868",
+          "apiFinishNs": "77880984306"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:40.377Z",
+        "startedAt": "2026-11-01T17:43:38.723Z",
+        "finishedAt": "2026-11-01T17:43:40.377Z",
+        "durationMs": 1647.928438,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "sha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "bytes": 1735
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "1d13f4b8559e6e2b60d03f669b13e90fe79ccffbf91dcdb01eb4c3de25dc227a"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+        "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+        "expectationsSha256": "6681637355bfe1559cb5655345833c807edc019f49c5aa13afa3b8739078c546",
+        "outputSha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134\",\"outputSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"outputBytes\":1735,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order, and the sole A-to-B arrow has a visibly thick solid stroke and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"actualPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "8cec5a13-2dc5-4c05-acf2-43577ae1266d",
+        "identity": {
+          "project": "pub:mermaid_flutter",
+          "artifactSha256": "3872a782c80a471eecb38750a57edfa19dbd7c9935107d0a3792a458919ac552",
+          "bindingSha256": "06260c4dea3555799799a82650c88241dce4bef9bcec997ff510d3df53abb713",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+          "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",2,\"B\",\"packages/mermaid/src/docs/syntax/flowchart.md:742\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1489385:3ad461bf-732d-48b6-b02c-37d05cf4292e",
+          "sequence": 16,
+          "monotonicStartNs": "78445472204",
+          "monotonicFinishNs": "88019889357",
+          "apiStartNs": "78454011660",
+          "apiFinishNs": "88019844766"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:50.516Z",
+        "startedAt": "2026-11-01T17:43:40.941Z",
+        "finishedAt": "2026-11-01T17:43:50.516Z",
+        "durationMs": 9565.833106,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21",
+          "sha256": "fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21",
+          "bytes": 1248
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "07570e51c3985c01c1a23b601a78eeb2183cb34b93fd3b602489f82198dc6c75"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+        "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+        "expectationsSha256": "6681637355bfe1559cb5655345833c807edc019f49c5aa13afa3b8739078c546",
+        "outputSha256": "fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"native\",\"calls\":1,\"sourceSha256\":\"2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134\",\"outputSha256\":\"fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21\",\"outputBytes\":1248,\"nativePid\":1489404,\"ledgerRows\":2,\"cleanup\":{\"status\":\"passed\",\"nativePid\":1489404,\"nativeExitCode\":null,\"nativeSignal\":\"SIGKILL\",\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":208,\"height\":65,\"visiblePixels\":13520,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"0541d5da2b6fb64d2735e488cadce17e4ad98685cb3463eac05c9e5b59139284\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly A then B are joined by one thick solid arrow into B, preserving the authored thick-edge appearance and endpoint role.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21\",\"actualPngSha256\":\"fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"0541d5da2b6fb64d2735e488cadce17e4ad98685cb3463eac05c9e5b59139284\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "9555dbe1-c966-4c0e-9f4e-dfcc87bcdc0f",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+          "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",2,\"A1\",\"packages/mermaid/src/docs/syntax/flowchart.md:742\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1489460:44da2e7f-356f-4313-8c92-a5c6bcb06bc8",
+          "sequence": 17,
+          "monotonicStartNs": "88556656417",
+          "monotonicFinishNs": "90157191130",
+          "apiStartNs": "88563505333",
+          "apiFinishNs": "90157150905"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:52.654Z",
+        "startedAt": "2026-11-01T17:43:51.052Z",
+        "finishedAt": "2026-11-01T17:43:52.654Z",
+        "durationMs": 1593.645572,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "sha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "bytes": 1735
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "39242520e29e89a3686d78d38a0f5be43966860e420d7f4e4e7ba4233375a9ee"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+        "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+        "expectationsSha256": "6681637355bfe1559cb5655345833c807edc019f49c5aa13afa3b8739078c546",
+        "outputSha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134\",\"outputSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"outputBytes\":1735,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order, and the sole A-to-B arrow has a visibly thick solid stroke and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"actualPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "9c13fddc-2a43-4a9e-9073-bcc301e9aaf4",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+          "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",3,\"A1\",\"packages/mermaid/src/docs/syntax/flowchart.md:686\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1489595:2ec7d264-9a0e-4408-8c16-3fe5caa43676",
+          "sequence": 18,
+          "monotonicStartNs": "90708916126",
+          "monotonicFinishNs": "92461153366",
+          "apiStartNs": "90714317607",
+          "apiFinishNs": "92461129318"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:43:54.957Z",
+        "startedAt": "2026-11-01T17:43:53.204Z",
+        "finishedAt": "2026-11-01T17:43:54.957Z",
+        "durationMs": 1746.811711,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "sha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "bytes": 1739
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "f7f408caa4e037d3a5f903df600494ea447ab60713b7ec75a7d20de88d424c36"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+        "expectationsSha256": "988686af35b19a77d97f598486cf33884ceddf08f2a71eea405a1f6e7669ed6d",
+        "outputSha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57\",\"outputSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"outputBytes\":1739,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly A and B are boxed left-to-right with one solid A-to-B arrow and no source marker or caption.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"actualPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "ef2dfdd6-a78e-48b0-8c39-0e90d1448c0d",
+        "identity": {
+          "project": "pub:mermaid_flutter",
+          "artifactSha256": "3872a782c80a471eecb38750a57edfa19dbd7c9935107d0a3792a458919ac552",
+          "bindingSha256": "06260c4dea3555799799a82650c88241dce4bef9bcec997ff510d3df53abb713",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+          "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",3,\"B\",\"packages/mermaid/src/docs/syntax/flowchart.md:686\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1489731:3dd544fd-c480-4eb5-a9f7-cb44e165be5f",
+          "sequence": 19,
+          "monotonicStartNs": "93072669757",
+          "monotonicFinishNs": "102684295451",
+          "apiStartNs": "93087298079",
+          "apiFinishNs": "102684263914"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:44:05.180Z",
+        "startedAt": "2026-11-01T17:43:55.568Z",
+        "finishedAt": "2026-11-01T17:44:05.180Z",
+        "durationMs": 9596.965835,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89",
+          "sha256": "a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89",
+          "bytes": 1239
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "96ee99d441035bab878235a32b35346e19162967b26bdbab016b6098abd5cdc8"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+        "expectationsSha256": "988686af35b19a77d97f598486cf33884ceddf08f2a71eea405a1f6e7669ed6d",
+        "outputSha256": "a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"native\",\"calls\":1,\"sourceSha256\":\"85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57\",\"outputSha256\":\"a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89\",\"outputBytes\":1239,\"nativePid\":1489746,\"ledgerRows\":2,\"cleanup\":{\"status\":\"passed\",\"nativePid\":1489746,\"nativeExitCode\":null,\"nativeSignal\":\"SIGKILL\",\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":208,\"height\":65,\"visiblePixels\":13520,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"26ba3d90c1e94106a328b1690c83be947ed4704170bb640c6ae361a80aba773f\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only two boxes, arranged LR and joined by one solid arrow whose head meets B; no additional link is drawn.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89\",\"actualPngSha256\":\"a0b3619233b8b483b34374eb86d5d4617324e7641441718e680a1ebacb74ba89\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"26ba3d90c1e94106a328b1690c83be947ed4704170bb640c6ae361a80aba773f\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "091eca1f-44e2-4548-8ff6-551f5a7fc9c7",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+          "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",3,\"A0\",\"packages/mermaid/src/docs/syntax/flowchart.md:686\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1489802:7451f6d3-1d8e-4f99-ba06-6d395b3d77b6",
+          "sequence": 20,
+          "monotonicStartNs": "103242752922",
+          "monotonicFinishNs": "104968385500",
+          "apiStartNs": "103249163406",
+          "apiFinishNs": "104968368774"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:44:07.465Z",
+        "startedAt": "2026-11-01T17:44:05.738Z",
+        "finishedAt": "2026-11-01T17:44:07.465Z",
+        "durationMs": 1719.205368,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "sha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "bytes": 1739
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "4d88e64ab92e7ed5f532e643a3ec5c27f24f4fb3dae1fedb268d0f1fee18df5a"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+        "expectationsSha256": "988686af35b19a77d97f598486cf33884ceddf08f2a71eea405a1f6e7669ed6d",
+        "outputSha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57\",\"outputSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"outputBytes\":1739,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly A and B are boxed left-to-right with one solid A-to-B arrow and no source marker or caption.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"actualPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "b68af6cd-9737-4541-8314-5ac3e0b0c149",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+          "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",3,\"A0\",\"packages/mermaid/src/docs/syntax/flowchart.md:728\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1489934:60453ee7-2760-4d05-8eed-9b4d8532649d",
+          "sequence": 21,
+          "monotonicStartNs": "105563980113",
+          "monotonicFinishNs": "107146583759",
+          "apiStartNs": "105575196246",
+          "apiFinishNs": "107146566872"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:44:09.643Z",
+        "startedAt": "2026-11-01T17:44:08.060Z",
+        "finishedAt": "2026-11-01T17:44:09.643Z",
+        "durationMs": 1571.370626,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "sha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "bytes": 1813
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "c2dccefe113fabe2bbec085b8c5c299f3d1bd5658ebf1903d4e432607576c5dd"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+        "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+        "expectationsSha256": "90e1d1847472e6df6e531297574785748933a0205258c17dc8828968757e3b09",
+        "outputSha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d\",\"outputSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"outputBytes\":1813,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order; a dotted A-to-B route has its arrow at B and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"actualPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "fe56a0ed-6026-4d0b-a759-4ecec4006c15",
+        "identity": {
+          "project": "pub:mermaid_flutter",
+          "artifactSha256": "3872a782c80a471eecb38750a57edfa19dbd7c9935107d0a3792a458919ac552",
+          "bindingSha256": "06260c4dea3555799799a82650c88241dce4bef9bcec997ff510d3df53abb713",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+          "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",3,\"B\",\"packages/mermaid/src/docs/syntax/flowchart.md:728\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1490071:1203a5a1-2f04-430e-828f-a69f790e273a",
+          "sequence": 22,
+          "monotonicStartNs": "107691864084",
+          "monotonicFinishNs": "117317176650",
+          "apiStartNs": "107695251127",
+          "apiFinishNs": "117317153166"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:44:19.814Z",
+        "startedAt": "2026-11-01T17:44:10.187Z",
+        "finishedAt": "2026-11-01T17:44:19.814Z",
+        "durationMs": 9621.902039,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f",
+          "sha256": "0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f",
+          "bytes": 1297
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "234222bb02295b26a02df47e079be23465a3c8d4b709f77afd8cf3cc2fdcb0f5"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+        "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+        "expectationsSha256": "90e1d1847472e6df6e531297574785748933a0205258c17dc8828968757e3b09",
+        "outputSha256": "0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"native\",\"calls\":1,\"sourceSha256\":\"1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d\",\"outputSha256\":\"0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f\",\"outputBytes\":1297,\"nativePid\":1490086,\"ledgerRows\":2,\"cleanup\":{\"status\":\"passed\",\"nativePid\":1490086,\"nativeExitCode\":null,\"nativeSignal\":\"SIGKILL\",\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":208,\"height\":65,\"visiblePixels\":13520,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"51fba57167ecbd1ef6fc7765a47a22bb2dd33f8cebc09aac28809b007e68ca57\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly one dotted connection runs from A on the left to an arrowhead at B on the right, retaining the authored dotted stroke.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f\",\"actualPngSha256\":\"0740209f31c03950429fae6bbc8d5517915a484a0100a815b62505b29b844e8f\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"51fba57167ecbd1ef6fc7765a47a22bb2dd33f8cebc09aac28809b007e68ca57\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "87b42923-684b-4075-98f0-42f52c43900a",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+          "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",3,\"A1\",\"packages/mermaid/src/docs/syntax/flowchart.md:728\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1490141:b5cbbed1-55a8-4dfe-9b57-4a95b5150bbe",
+          "sequence": 23,
+          "monotonicStartNs": "117874495749",
+          "monotonicFinishNs": "119542291395",
+          "apiStartNs": "117877328279",
+          "apiFinishNs": "119542273174"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:44:22.039Z",
+        "startedAt": "2026-11-01T17:44:20.370Z",
+        "finishedAt": "2026-11-01T17:44:22.039Z",
+        "durationMs": 1664.944895,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "sha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+          "bytes": 1813
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "5505b46f60742f509f8bdff13493d6a67829f422562baa0ecf2f198ec33827bf"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+        "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+        "expectationsSha256": "90e1d1847472e6df6e531297574785748933a0205258c17dc8828968757e3b09",
+        "outputSha256": "f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d\",\"outputSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"outputBytes\":1813,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order; a dotted A-to-B route has its arrow at B and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"actualPngSha256\":\"f6984b08b6b86cefa8ec57e461c463b19aa9bc70fa2ca7e96d1775f441c18951\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"d7a11c472faa8b158b2ebafccdcaefbcb4553626cc3fcec388cb804c2a54db3b\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "784f33ad-88fc-4c83-b4ac-ec49eab6aed9",
+        "identity": {
+          "project": "pub:mermaid_flutter",
+          "artifactSha256": "3872a782c80a471eecb38750a57edfa19dbd7c9935107d0a3792a458919ac552",
+          "bindingSha256": "06260c4dea3555799799a82650c88241dce4bef9bcec997ff510d3df53abb713",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+          "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",3,\"B\",\"packages/mermaid/src/docs/syntax/flowchart.md:742\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1490272:1fd75cfc-7562-4685-8525-880d0388fd1c",
+          "sequence": 24,
+          "monotonicStartNs": "120060856014",
+          "monotonicFinishNs": "123586848853",
+          "apiStartNs": "120063874488",
+          "apiFinishNs": "123586827938"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:44:26.083Z",
+        "startedAt": "2026-11-01T17:44:22.556Z",
+        "finishedAt": "2026-11-01T17:44:26.083Z",
+        "durationMs": 3522.95345,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21",
+          "sha256": "fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21",
+          "bytes": 1248
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "f646e79a6621f7072eaf9f64372da51b69f68a1d39c1ec17a1c7708cd57c5027"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+        "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+        "expectationsSha256": "6681637355bfe1559cb5655345833c807edc019f49c5aa13afa3b8739078c546",
+        "outputSha256": "fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"native\",\"calls\":1,\"sourceSha256\":\"2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134\",\"outputSha256\":\"fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21\",\"outputBytes\":1248,\"nativePid\":1490287,\"ledgerRows\":2,\"cleanup\":{\"status\":\"passed\",\"nativePid\":1490287,\"nativeExitCode\":null,\"nativeSignal\":\"SIGKILL\",\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":208,\"height\":65,\"visiblePixels\":13520,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"0541d5da2b6fb64d2735e488cadce17e4ad98685cb3463eac05c9e5b59139284\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly A then B are joined by one thick solid arrow into B, preserving the authored thick-edge appearance and endpoint role.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21\",\"actualPngSha256\":\"fa92ea3f943ecbb39650f22bedcd9400aa5482c051d2e2d5932b09377a62df21\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":208,\"height\":65,\"sha256\":\"0541d5da2b6fb64d2735e488cadce17e4ad98685cb3463eac05c9e5b59139284\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "e88f8b18-265a-434c-982f-09c1d4023d36",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+          "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",3,\"A0\",\"packages/mermaid/src/docs/syntax/flowchart.md:742\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1490332:b77102d9-e327-4422-a57a-eb98bb30e532",
+          "sequence": 25,
+          "monotonicStartNs": "124129635827",
+          "monotonicFinishNs": "125721570547",
+          "apiStartNs": "124138582836",
+          "apiFinishNs": "125721550732"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:44:28.218Z",
+        "startedAt": "2026-11-01T17:44:26.625Z",
+        "finishedAt": "2026-11-01T17:44:28.218Z",
+        "durationMs": 1582.967896,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "sha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "bytes": 1735
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "cb4f8a19b6d4a283041d2fcca56c3b541f484d78412152f6b9d5b5c304852ea1"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+        "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+        "expectationsSha256": "6681637355bfe1559cb5655345833c807edc019f49c5aa13afa3b8739078c546",
+        "outputSha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134\",\"outputSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"outputBytes\":1735,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order, and the sole A-to-B arrow has a visibly thick solid stroke and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"actualPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 3,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "913c11f4-0749-4541-b57b-55c807a4d423",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+          "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",3,\"A1\",\"packages/mermaid/src/docs/syntax/flowchart.md:742\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1490468:ec596f82-50bc-4a2c-ba34-1a0693c83249",
+          "sequence": 26,
+          "monotonicStartNs": "126172903253",
+          "monotonicFinishNs": "127780314219",
+          "apiStartNs": "126177193316",
+          "apiFinishNs": "127780297193"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:44:30.276Z",
+        "startedAt": "2026-11-01T17:44:28.668Z",
+        "finishedAt": "2026-11-01T17:44:30.276Z",
+        "durationMs": 1603.103877,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "sha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+          "bytes": 1735
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "213506ba26a05e0bd071ab2b23edb398d10a2aa0c974b3b60bf683d5c31e2b58"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+        "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+        "expectationsSha256": "6681637355bfe1559cb5655345833c807edc019f49c5aa13afa3b8739078c546",
+        "outputSha256": "a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134\",\"outputSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"outputBytes\":1735,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"A and B are the only nodes, in LR order, and the sole A-to-B arrow has a visibly thick solid stroke and no start marker.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"actualPngSha256\":\"a290de434f63a747d2aeeac27227c2a0385bb2969586711ce6ca562ed532f50a\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"4a49f2201477e3576372c7b3d40ed856a8f1a5a737e85341c0bfe772d650f3ce\"}}}"
+          }
+        ]
+      }
+    },
+    {
+      "round": 4,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "invocation": {
+        "schema": "trident-invocation-evidence-v1",
+        "attemptId": "7509765f-a670-4d49-9518-a9e66353e5ed",
+        "identity": {
+          "project": "mermaid-js/mermaid",
+          "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+          "bindingSha256": "63bc51a1179b7dbc4ad5408d7a26560ef67ad541fc32f8cd7018107f936c4135",
+          "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+          "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+          "format": "png",
+          "coordinate": "[\"e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179\",4,\"A0\",\"packages/mermaid/src/docs/syntax/flowchart.md:686\",0]"
+        },
+        "measurement": {
+          "captureProtocolSha256": "68a87c8e0d061b2a2d86d930f33d8c61e7177e3044f446d226b314aafaac6b78",
+          "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+          "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+          "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+          "track": "first-use",
+          "clockDomainId": "c840a058-db4c-401b-b2d6-4428f5e5bd77",
+          "executionInstanceId": "child-process:1490603:7922b65c-becf-4381-b22c-6708e0c01e61",
+          "sequence": 27,
+          "monotonicStartNs": "128212993415",
+          "monotonicFinishNs": "129855142371",
+          "apiStartNs": "128221191524",
+          "apiFinishNs": "129855125195"
+        },
+        "state": "returned",
+        "recordedAt": "2026-11-01T17:44:32.351Z",
+        "startedAt": "2026-11-01T17:44:30.709Z",
+        "finishedAt": "2026-11-01T17:44:32.351Z",
+        "durationMs": 1633.933671,
+        "output": {
+          "path": "/workspace/trident-complete-2026-11-01/timing/png-flutter/raw/outputs/88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "sha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+          "bytes": 1739
+        },
+        "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+        "startedReceiptSha256": "ae1022213116b1ee4f50ecf17962830c93ac6257a9b980617be358e10cad1ed9"
+      },
+      "checked": {
+        "schema": "trident-checked-evidence-v1",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+        "expectationsSha256": "988686af35b19a77d97f598486cf33884ceddf08f2a71eea405a1f6e7669ed6d",
+        "outputSha256": "88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968",
+        "observerSha256": "124e7accfa6ea0c9bc8e82ee447a39bc5fbef889f8be00518802915610cd7b34",
+        "checks": [
+          {
+            "surface": "png:public-export",
+            "criterion": "one-complete-png-return",
+            "status": "passed",
+            "detail": "{\"kind\":\"browser\",\"calls\":1,\"sourceSha256\":\"85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57\",\"outputSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"outputBytes\":1739,\"width\":360,\"height\":61,\"cleanup\":{\"status\":\"passed\",\"nativePid\":null,\"nativeExitCode\":null,\"nativeSignal\":null,\"browserConnected\":false}}"
+          },
+          {
+            "surface": "png:decoded-image",
+            "criterion": "complete-png-decode",
+            "status": "passed",
+            "detail": "{\"findings\":[],\"scope\":\"decoded-raster-content\",\"width\":360,\"height\":61,\"visiblePixels\":21960,\"distinctCompositedColors\":2,\"pixelIdentity\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}"
+          },
+          {
+            "surface": "png:source-content",
+            "criterion": "full-source-image-review",
+            "status": "passed",
+            "detail": "{\"status\":\"correct\",\"reason\":\"Exactly A and B are boxed left-to-right with one solid A-to-B arrow and no source marker or caption.\",\"reviewedBy\":\"OpenAI Codex offline visual source review, 2026-10-31\",\"evidence\":{\"method\":\"reviewed-exact-png-bytes\",\"reviewedPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"actualPngSha256\":\"88c713cdfbe4f6c565d8bc3cafc2890e8d99d70ba4d246a7181d496894e8f968\",\"pixels\":{\"protocol\":\"png-rgba16-and-display-metadata-v1\",\"width\":360,\"height\":61,\"sha256\":\"a6df14824ef49b6f503b5b52f691d6b519f39daf07137e9f1051fbce4e0368a3\"}}}"
+          }
+        ]
+      }
+    }
+  ],
+  "sourcesFile": "sources.json",
+  "captureProtocol": {
+    "name": "fresh-instance-per-call-six-orders-v1",
+    "coordinateScheduleSha256": "4083e23f4c6156daebddfae737ebdc0a87f26715a047577fae5691fdd764358b",
+    "maximumCallMs": 30000,
+    "collectionBudgetMs": 600000,
+    "openTimeoutMs": 30000,
+    "closeTimeoutMs": 5000,
+    "observerTimeoutMs": 30000,
+    "imports": "Initialized before timing without public calls",
+    "measuredBoundary": "Controller request through returned public bytes; declared RPC overhead included"
+  },
+  "journalDirectory": "raw",
+  "collectionDirectory": "collection",
+  "executionInstances": [
+    {
+      "round": 1,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "executionInstanceId": "child-process:1487510:54be33e3-196b-43cb-b60a-618dc07bf459",
+      "kind": "child-process",
+      "pid": 1487510,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 1,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "executionInstanceId": "child-process:1487642:d2477383-8422-422a-99bf-1ca039f6bacb",
+      "kind": "child-process",
+      "pid": 1487642,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 1,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "executionInstanceId": "child-process:1487782:2a2714fb-9e2c-4a15-af54-0417a7042e92",
+      "kind": "child-process",
+      "pid": 1487782,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 1,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "executionInstanceId": "child-process:1487854:091d152a-a185-4a2e-8cf7-4592e6d7e850",
+      "kind": "child-process",
+      "pid": 1487854,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 1,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "executionInstanceId": "child-process:1487907:b4c5d851-acbe-4361-a8b1-32ad5dede411",
+      "kind": "child-process",
+      "pid": 1487907,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 1,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "executionInstanceId": "child-process:1488043:b13ee238-4aca-4e41-a66e-941bee944b62",
+      "kind": "child-process",
+      "pid": 1488043,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 1,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "executionInstanceId": "child-process:1488187:4218f27a-3244-4524-b9b7-7344a131a10f",
+      "kind": "child-process",
+      "pid": 1488187,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 1,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "executionInstanceId": "child-process:1488321:b68a1cb1-091a-4b5c-ac29-09b39a9a411f",
+      "kind": "child-process",
+      "pid": 1488321,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 1,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "executionInstanceId": "child-process:1488391:74c238af-4e70-420e-87a5-d09e1164c24c",
+      "kind": "child-process",
+      "pid": 1488391,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 2,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "executionInstanceId": "child-process:1488530:398cec61-1c1f-486c-ba3f-b0e58c094dff",
+      "kind": "child-process",
+      "pid": 1488530,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 2,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "executionInstanceId": "child-process:1488602:1b5c8034-726d-4716-a39a-448c17b9db1e",
+      "kind": "child-process",
+      "pid": 1488602,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 2,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "executionInstanceId": "child-process:1488735:d45be61e-4088-4c6b-b283-4f5727e8a168",
+      "kind": "child-process",
+      "pid": 1488735,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 2,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "executionInstanceId": "child-process:1488876:6e0295e2-f3f9-4f89-b924-4e9ea8420c35",
+      "kind": "child-process",
+      "pid": 1488876,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 2,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "executionInstanceId": "child-process:1489012:f33a2865-a848-4667-8c05-4aa28f08c796",
+      "kind": "child-process",
+      "pid": 1489012,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 2,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "executionInstanceId": "child-process:1489117:a80481ef-5a8f-4a6d-84e9-61b245e53d5b",
+      "kind": "child-process",
+      "pid": 1489117,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 2,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "executionInstanceId": "child-process:1489249:603e3d01-32cb-47f3-a282-b1c6c8ac50a3",
+      "kind": "child-process",
+      "pid": 1489249,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 2,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "executionInstanceId": "child-process:1489385:3ad461bf-732d-48b6-b02c-37d05cf4292e",
+      "kind": "child-process",
+      "pid": 1489385,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 2,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "executionInstanceId": "child-process:1489460:44da2e7f-356f-4313-8c92-a5c6bcb06bc8",
+      "kind": "child-process",
+      "pid": 1489460,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 3,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "executionInstanceId": "child-process:1489595:2ec7d264-9a0e-4408-8c16-3fe5caa43676",
+      "kind": "child-process",
+      "pid": 1489595,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 3,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "executionInstanceId": "child-process:1489731:3dd544fd-c480-4eb5-a9f7-cb44e165be5f",
+      "kind": "child-process",
+      "pid": 1489731,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 3,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "executionInstanceId": "child-process:1489802:7451f6d3-1d8e-4f99-ba06-6d395b3d77b6",
+      "kind": "child-process",
+      "pid": 1489802,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 3,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "executionInstanceId": "child-process:1489934:60453ee7-2760-4d05-8eed-9b4d8532649d",
+      "kind": "child-process",
+      "pid": 1489934,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 3,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "executionInstanceId": "child-process:1490071:1203a5a1-2f04-430e-828f-a69f790e273a",
+      "kind": "child-process",
+      "pid": 1490071,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 3,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sample": 0,
+      "executionInstanceId": "child-process:1490141:b5cbbed1-55a8-4dfe-9b57-4a95b5150bbe",
+      "kind": "child-process",
+      "pid": 1490141,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 3,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "executionInstanceId": "child-process:1490272:1fd75cfc-7562-4685-8525-880d0388fd1c",
+      "kind": "child-process",
+      "pid": 1490272,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 3,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "executionInstanceId": "child-process:1490332:b77102d9-e327-4422-a57a-eb98bb30e532",
+      "kind": "child-process",
+      "pid": 1490332,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 3,
+      "replica": "A1",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sample": 0,
+      "executionInstanceId": "child-process:1490468:ec596f82-50bc-4a2c-ba34-1a0693c83249",
+      "kind": "child-process",
+      "pid": 1490468,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 4,
+      "replica": "A0",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "executionInstanceId": "child-process:1490603:7922b65c-becf-4381-b22c-6708e0c01e61",
+      "kind": "child-process",
+      "pid": 1490603,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    },
+    {
+      "round": 4,
+      "replica": "B",
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sample": 0,
+      "executionInstanceId": "child-process:1490737:18c7f467-032c-489f-8d70-25264b5d9c8f",
+      "kind": "child-process",
+      "pid": 1490737,
+      "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe"
+    }
+  ],
+  "rawComplete": false,
+  "errors": [
+    {
+      "phase": "public-call-or-retention",
+      "detail": "Error: Error: Native PNG export exited or timed out: \n(com.example.native_bench:1490752): Gtk-WARNING **: 17:44:35.967: cannot open display: :99\n",
+      "coordinate": {
+        "round": 4,
+        "replica": "B",
+        "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+        "sample": 0
+      },
+      "attemptId": "f71eebd4-f136-496b-8127-a451ce1c603b"
+    }
+  ],
+  "qualification": {
+    "schema": "trident-qualified-timing-v1",
+    "status": "unqualified",
+    "planSha256": "e0715366a982bec8613cebecd6b8cba237c684484b90c345c88f950701ec8179",
+    "samplesSha256": "871ff588c06e5dc6fa5df3e8ff888fce237826a8bfaa99e0f6c27e80f23fa762",
+    "comparisonKey": "2ec4b828ae9de0e58f25d83831c53fb0bccab15b8da5f2af0202cafa318b0842",
+    "project": "pub:mermaid_flutter",
+    "caseIds": [
+      "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "packages/mermaid/src/docs/syntax/flowchart.md:742"
+    ],
+    "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+    "format": "png",
+    "track": "first-use",
+    "environmentSha256": "53a22c60f2af73429746f47cf956d16a1c53754528edea9138db526f767b214f",
+    "planned": 54,
+    "checked": 28,
+    "gaps": [
+      "Raw journal includes missing, duplicated, extra or interrupted attempts",
+      "The fixed case/replica/round/sample population is incomplete",
+      "Every replica/round needs the declared finite positive sample count",
+      "Raw timing capture did not complete; resumed controllers cannot fill an interrupted capture",
+      "Capture public-call-or-retention: Error: Error: Native PNG export exited or timed out: \n(com.example.native_bench:1490752): Gtk-WARNING **: 17:44:35.967: cannot open display: :99\n"
+    ],
+    "perRoundMs": null,
+    "medianMs": null,
+    "calibration": {
+      "status": "uncalibrated",
+      "gaps": [
+        "Every replica/round needs the declared finite positive sample count"
+      ],
+      "controlRatios": [],
+      "candidateRatios": [],
+      "controlBand": null,
+      "candidateRatio": null,
+      "roundRatioUncertainty": null
+    },
+    "interpretation": "Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim."
+  }
+}

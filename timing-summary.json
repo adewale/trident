@@ -1,0 +1,1080 @@
+{
+  "schema": "trident-complete-campaign-qualified-timing-summary-v1",
+  "formats": [
+    {
+      "format": "svg",
+      "ranked": [
+        {
+          "rank": 1,
+          "project": "wevm/ondine",
+          "baseline": "mermaid-js/mermaid",
+          "cases": [
+            "packages/mermaid/src/docs/syntax/flowchart.md:45",
+            "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+            "packages/mermaid/src/docs/syntax/userJourney.md:7",
+            "packages/mermaid/src/docs/syntax/pie.md:8",
+            "packages/mermaid/src/docs/syntax/packet.md:34",
+            "packages/mermaid/src/docs/syntax/treemap.md:63"
+          ],
+          "rounds": 6,
+          "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+          "medianCandidateWorkloadMs": 125.054671,
+          "medianControlWorkloadMs": 1458.243882,
+          "ratio": 0.08523873550987235,
+          "interval": {
+            "lower": 0.06921566547108297,
+            "upper": 0.10070715129587977,
+            "confidence": 0.96875
+          },
+          "correctTimedReturns": 108,
+          "plannedTimedReturns": 108,
+          "bundle": {
+            "path": "timing/svg-wevm%2Fondine/timing-bundle-61c17619018ebfe1fd24cfd3.json",
+            "sha256": "64bca906148915a6e3f12bbe4095284109082147becf0033442c4f9ec0de46da"
+          },
+          "qualification": {
+            "schema": "trident-qualified-timing-v1",
+            "status": "qualified",
+            "planSha256": "44cebf71b4caa3c6e99fb3e050a68c35549c118b87c73f5a3ad03be49cac16f7",
+            "samplesSha256": "add5b6eb5c73d8435c34af622ef8631399dff694574a03d858741e6646940185",
+            "comparisonKey": "da567ec8521706ebedbc354d0c3918afba7d61bae91c76c4580b1bb66edc9ea5",
+            "project": "wevm/ondine",
+            "caseIds": [
+              "packages/mermaid/src/docs/syntax/flowchart.md:45",
+              "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+              "packages/mermaid/src/docs/syntax/userJourney.md:7",
+              "packages/mermaid/src/docs/syntax/pie.md:8",
+              "packages/mermaid/src/docs/syntax/packet.md:34",
+              "packages/mermaid/src/docs/syntax/treemap.md:63"
+            ],
+            "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+            "format": "svg",
+            "track": "first-use",
+            "environmentSha256": "17923cad7e10273bb411c54fd89b4fd41351b2ea52d80988ba388bcff848e929",
+            "planned": 108,
+            "checked": 108,
+            "gaps": [],
+            "perRoundMs": [
+              116.428894,
+              125.01377000000001,
+              125.09557199999999,
+              152.41674799999998,
+              141.02923399999997,
+              111.075364
+            ],
+            "medianMs": 125.054671,
+            "calibration": {
+              "status": "calibrated",
+              "gaps": [],
+              "controlRatios": [
+                1.044042379614503,
+                1.0852020632052655,
+                0.9243183790814236,
+                0.8302364818211507,
+                0.9987767104494272,
+                1.2299726512955325
+              ],
+              "candidateRatios": [
+                0.0792244660308346,
+                0.08214934394975326,
+                0.08832812706999144,
+                0.10070715129587977,
+                0.09694254712363663,
+                0.06921566547108297
+              ],
+              "controlBand": {
+                "lower": 0.8130262074906285,
+                "upper": 1.2299726512955325
+              },
+              "candidateRatio": 0.08523873550987235,
+              "roundRatioUncertainty": {
+                "controls": {
+                  "independentRounds": 6,
+                  "medianRatio": 1.0214095450319651,
+                  "interval": {
+                    "lower": 0.8302364818211507,
+                    "upper": 1.2299726512955325,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                },
+                "replicaB": {
+                  "independentRounds": 6,
+                  "medianRatio": 0.08523873550987235,
+                  "interval": {
+                    "lower": 0.06921566547108297,
+                    "upper": 0.10070715129587977,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                }
+              },
+              "interpretation": "below observed control band; advisory"
+            },
+            "interpretation": "Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.",
+            "driverFinalizationSha256": "41df701fa691388b1ede8dba8d0908c6524cbc6c2e429488248cf0723a47cd83"
+          },
+          "firstStartedAt": "2026-11-01T16:13:39.825Z",
+          "lastReturnedAt": "2026-11-01T16:15:57.281Z"
+        },
+        {
+          "rank": 2,
+          "project": "crabtalk/bezel",
+          "baseline": "mermaid-js/mermaid",
+          "cases": [
+            "packages/mermaid/src/docs/syntax/flowchart.md:45",
+            "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+            "packages/mermaid/src/docs/syntax/userJourney.md:7",
+            "packages/mermaid/src/docs/syntax/pie.md:8",
+            "packages/mermaid/src/docs/syntax/packet.md:34",
+            "packages/mermaid/src/docs/syntax/treemap.md:63"
+          ],
+          "rounds": 6,
+          "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+          "medianCandidateWorkloadMs": 229.5774005,
+          "medianControlWorkloadMs": 1434.3678225,
+          "ratio": 0.1595717049481109,
+          "interval": {
+            "lower": 0.14437694393278214,
+            "upper": 0.1930668527748263,
+            "confidence": 0.96875
+          },
+          "correctTimedReturns": 108,
+          "plannedTimedReturns": 108,
+          "bundle": {
+            "path": "timing/svg-crabtalk%2Fbezel/timing-bundle-faef08653bc195e68bbc8c90.json",
+            "sha256": "59daefc274716ac815366934e10cd3e2884bc7653e5b55b46b2bba4d69ef1c68"
+          },
+          "qualification": {
+            "schema": "trident-qualified-timing-v1",
+            "status": "qualified",
+            "planSha256": "0df5ec24b4a45796a571ab80630ab44f80ad9673267a636f8afb5b902aaffb9c",
+            "samplesSha256": "b419cc075f2abf46a610760029499a7c6b27dfafbfee7c699b7c72888efcce42",
+            "comparisonKey": "da567ec8521706ebedbc354d0c3918afba7d61bae91c76c4580b1bb66edc9ea5",
+            "project": "crabtalk/bezel",
+            "caseIds": [
+              "packages/mermaid/src/docs/syntax/flowchart.md:45",
+              "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+              "packages/mermaid/src/docs/syntax/userJourney.md:7",
+              "packages/mermaid/src/docs/syntax/pie.md:8",
+              "packages/mermaid/src/docs/syntax/packet.md:34",
+              "packages/mermaid/src/docs/syntax/treemap.md:63"
+            ],
+            "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+            "format": "svg",
+            "track": "first-use",
+            "environmentSha256": "17923cad7e10273bb411c54fd89b4fd41351b2ea52d80988ba388bcff848e929",
+            "planned": 108,
+            "checked": 108,
+            "gaps": [],
+            "perRoundMs": [
+              223.716962,
+              267.89012,
+              212.486745,
+              260.44340800000003,
+              216.130395,
+              235.437839
+            ],
+            "medianMs": 229.5774005,
+            "calibration": {
+              "status": "calibrated",
+              "gaps": [],
+              "controlRatios": [
+                0.9257126710647758,
+                1.0444107096986188,
+                1.1192294123775415,
+                0.899524334257592,
+                0.908235780603936,
+                0.9625868580147966
+              ],
+              "candidateRatios": [
+                0.14893094062841036,
+                0.1930668527748263,
+                0.14437694393278214,
+                0.18644327007746864,
+                0.15906463892708936,
+                0.16007877096913245
+              ],
+              "controlBand": {
+                "lower": 0.8934718735417555,
+                "upper": 1.1192294123775415
+              },
+              "candidateRatio": 0.1595717049481109,
+              "roundRatioUncertainty": {
+                "controls": {
+                  "independentRounds": 6,
+                  "medianRatio": 0.9441497645397863,
+                  "interval": {
+                    "lower": 0.899524334257592,
+                    "upper": 1.1192294123775415,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                },
+                "replicaB": {
+                  "independentRounds": 6,
+                  "medianRatio": 0.1595717049481109,
+                  "interval": {
+                    "lower": 0.14437694393278214,
+                    "upper": 0.1930668527748263,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                }
+              },
+              "interpretation": "below observed control band; advisory"
+            },
+            "interpretation": "Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.",
+            "driverFinalizationSha256": "ef2ccf5078826d0a9a6627d571b82cc28a47fb6ea501144513c7efdbf2ce802a"
+          },
+          "firstStartedAt": "2026-11-01T16:23:00.073Z",
+          "lastReturnedAt": "2026-11-01T16:25:44.614Z"
+        },
+        {
+          "rank": 3,
+          "project": "mermaid-js/mermaid",
+          "ratio": 1,
+          "control": true
+        }
+      ],
+      "pairs": [
+        {
+          "project": "wevm/ondine",
+          "baseline": "mermaid-js/mermaid",
+          "cases": [
+            "packages/mermaid/src/docs/syntax/flowchart.md:45",
+            "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+            "packages/mermaid/src/docs/syntax/userJourney.md:7",
+            "packages/mermaid/src/docs/syntax/pie.md:8",
+            "packages/mermaid/src/docs/syntax/packet.md:34",
+            "packages/mermaid/src/docs/syntax/treemap.md:63"
+          ],
+          "rounds": 6,
+          "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+          "medianCandidateWorkloadMs": 125.054671,
+          "medianControlWorkloadMs": 1458.243882,
+          "ratio": 0.08523873550987235,
+          "interval": {
+            "lower": 0.06921566547108297,
+            "upper": 0.10070715129587977,
+            "confidence": 0.96875
+          },
+          "correctTimedReturns": 108,
+          "plannedTimedReturns": 108,
+          "bundle": {
+            "path": "timing/svg-wevm%2Fondine/timing-bundle-61c17619018ebfe1fd24cfd3.json",
+            "sha256": "64bca906148915a6e3f12bbe4095284109082147becf0033442c4f9ec0de46da"
+          },
+          "qualification": {
+            "schema": "trident-qualified-timing-v1",
+            "status": "qualified",
+            "planSha256": "44cebf71b4caa3c6e99fb3e050a68c35549c118b87c73f5a3ad03be49cac16f7",
+            "samplesSha256": "add5b6eb5c73d8435c34af622ef8631399dff694574a03d858741e6646940185",
+            "comparisonKey": "da567ec8521706ebedbc354d0c3918afba7d61bae91c76c4580b1bb66edc9ea5",
+            "project": "wevm/ondine",
+            "caseIds": [
+              "packages/mermaid/src/docs/syntax/flowchart.md:45",
+              "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+              "packages/mermaid/src/docs/syntax/userJourney.md:7",
+              "packages/mermaid/src/docs/syntax/pie.md:8",
+              "packages/mermaid/src/docs/syntax/packet.md:34",
+              "packages/mermaid/src/docs/syntax/treemap.md:63"
+            ],
+            "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+            "format": "svg",
+            "track": "first-use",
+            "environmentSha256": "17923cad7e10273bb411c54fd89b4fd41351b2ea52d80988ba388bcff848e929",
+            "planned": 108,
+            "checked": 108,
+            "gaps": [],
+            "perRoundMs": [
+              116.428894,
+              125.01377000000001,
+              125.09557199999999,
+              152.41674799999998,
+              141.02923399999997,
+              111.075364
+            ],
+            "medianMs": 125.054671,
+            "calibration": {
+              "status": "calibrated",
+              "gaps": [],
+              "controlRatios": [
+                1.044042379614503,
+                1.0852020632052655,
+                0.9243183790814236,
+                0.8302364818211507,
+                0.9987767104494272,
+                1.2299726512955325
+              ],
+              "candidateRatios": [
+                0.0792244660308346,
+                0.08214934394975326,
+                0.08832812706999144,
+                0.10070715129587977,
+                0.09694254712363663,
+                0.06921566547108297
+              ],
+              "controlBand": {
+                "lower": 0.8130262074906285,
+                "upper": 1.2299726512955325
+              },
+              "candidateRatio": 0.08523873550987235,
+              "roundRatioUncertainty": {
+                "controls": {
+                  "independentRounds": 6,
+                  "medianRatio": 1.0214095450319651,
+                  "interval": {
+                    "lower": 0.8302364818211507,
+                    "upper": 1.2299726512955325,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                },
+                "replicaB": {
+                  "independentRounds": 6,
+                  "medianRatio": 0.08523873550987235,
+                  "interval": {
+                    "lower": 0.06921566547108297,
+                    "upper": 0.10070715129587977,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                }
+              },
+              "interpretation": "below observed control band; advisory"
+            },
+            "interpretation": "Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.",
+            "driverFinalizationSha256": "41df701fa691388b1ede8dba8d0908c6524cbc6c2e429488248cf0723a47cd83"
+          },
+          "firstStartedAt": "2026-11-01T16:13:39.825Z",
+          "lastReturnedAt": "2026-11-01T16:15:57.281Z"
+        },
+        {
+          "project": "crabtalk/bezel",
+          "baseline": "mermaid-js/mermaid",
+          "cases": [
+            "packages/mermaid/src/docs/syntax/flowchart.md:45",
+            "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+            "packages/mermaid/src/docs/syntax/userJourney.md:7",
+            "packages/mermaid/src/docs/syntax/pie.md:8",
+            "packages/mermaid/src/docs/syntax/packet.md:34",
+            "packages/mermaid/src/docs/syntax/treemap.md:63"
+          ],
+          "rounds": 6,
+          "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+          "medianCandidateWorkloadMs": 229.5774005,
+          "medianControlWorkloadMs": 1434.3678225,
+          "ratio": 0.1595717049481109,
+          "interval": {
+            "lower": 0.14437694393278214,
+            "upper": 0.1930668527748263,
+            "confidence": 0.96875
+          },
+          "correctTimedReturns": 108,
+          "plannedTimedReturns": 108,
+          "bundle": {
+            "path": "timing/svg-crabtalk%2Fbezel/timing-bundle-faef08653bc195e68bbc8c90.json",
+            "sha256": "59daefc274716ac815366934e10cd3e2884bc7653e5b55b46b2bba4d69ef1c68"
+          },
+          "qualification": {
+            "schema": "trident-qualified-timing-v1",
+            "status": "qualified",
+            "planSha256": "0df5ec24b4a45796a571ab80630ab44f80ad9673267a636f8afb5b902aaffb9c",
+            "samplesSha256": "b419cc075f2abf46a610760029499a7c6b27dfafbfee7c699b7c72888efcce42",
+            "comparisonKey": "da567ec8521706ebedbc354d0c3918afba7d61bae91c76c4580b1bb66edc9ea5",
+            "project": "crabtalk/bezel",
+            "caseIds": [
+              "packages/mermaid/src/docs/syntax/flowchart.md:45",
+              "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+              "packages/mermaid/src/docs/syntax/userJourney.md:7",
+              "packages/mermaid/src/docs/syntax/pie.md:8",
+              "packages/mermaid/src/docs/syntax/packet.md:34",
+              "packages/mermaid/src/docs/syntax/treemap.md:63"
+            ],
+            "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+            "format": "svg",
+            "track": "first-use",
+            "environmentSha256": "17923cad7e10273bb411c54fd89b4fd41351b2ea52d80988ba388bcff848e929",
+            "planned": 108,
+            "checked": 108,
+            "gaps": [],
+            "perRoundMs": [
+              223.716962,
+              267.89012,
+              212.486745,
+              260.44340800000003,
+              216.130395,
+              235.437839
+            ],
+            "medianMs": 229.5774005,
+            "calibration": {
+              "status": "calibrated",
+              "gaps": [],
+              "controlRatios": [
+                0.9257126710647758,
+                1.0444107096986188,
+                1.1192294123775415,
+                0.899524334257592,
+                0.908235780603936,
+                0.9625868580147966
+              ],
+              "candidateRatios": [
+                0.14893094062841036,
+                0.1930668527748263,
+                0.14437694393278214,
+                0.18644327007746864,
+                0.15906463892708936,
+                0.16007877096913245
+              ],
+              "controlBand": {
+                "lower": 0.8934718735417555,
+                "upper": 1.1192294123775415
+              },
+              "candidateRatio": 0.1595717049481109,
+              "roundRatioUncertainty": {
+                "controls": {
+                  "independentRounds": 6,
+                  "medianRatio": 0.9441497645397863,
+                  "interval": {
+                    "lower": 0.899524334257592,
+                    "upper": 1.1192294123775415,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                },
+                "replicaB": {
+                  "independentRounds": 6,
+                  "medianRatio": 0.1595717049481109,
+                  "interval": {
+                    "lower": 0.14437694393278214,
+                    "upper": 0.1930668527748263,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                }
+              },
+              "interpretation": "below observed control band; advisory"
+            },
+            "interpretation": "Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.",
+            "driverFinalizationSha256": "ef2ccf5078826d0a9a6627d571b82cc28a47fb6ea501144513c7efdbf2ce802a"
+          },
+          "firstStartedAt": "2026-11-01T16:23:00.073Z",
+          "lastReturnedAt": "2026-11-01T16:25:44.614Z"
+        }
+      ],
+      "unresolved": [
+        {
+          "format": "svg",
+          "project": "Dicklesworthstone/frankenmermaid",
+          "status": "unqualified",
+          "reason": "Fresh correctness does not pass all six fixed documentation cases; no timing calls."
+        },
+        {
+          "format": "svg",
+          "project": "orestesgaolin/mermaid",
+          "status": "unqualified",
+          "reason": "Fresh correctness does not pass all six fixed documentation cases; no timing calls."
+        },
+        {
+          "format": "svg",
+          "project": "pub:mermaid_flutter",
+          "status": "not-applicable",
+          "reason": "No declared SVG output in the eligible project configuration."
+        },
+        {
+          "format": "svg",
+          "project": "adewale/agentic-mermaid",
+          "status": "unqualified",
+          "reason": "Fresh correctness does not pass all six fixed documentation cases; no timing calls."
+        },
+        {
+          "format": "svg",
+          "project": "dfadler/zombie-mermaid",
+          "status": "unqualified",
+          "reason": "Fresh correctness does not pass all six fixed documentation cases; no timing calls."
+        },
+        {
+          "format": "svg",
+          "project": "1jehuang/mermaid-rs-renderer",
+          "status": "unavailable",
+          "reason": "No frozen browser SVG timing binding; unlike CLI/native boundaries are separate."
+        },
+        {
+          "format": "svg",
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "status": "not-applicable",
+          "reason": "No declared SVG output in the eligible project configuration."
+        },
+        {
+          "format": "svg",
+          "project": "anomalyco/opencode",
+          "status": "not-applicable",
+          "reason": "No declared SVG output in the eligible project configuration."
+        },
+        {
+          "format": "svg",
+          "project": "crafter-station/mermaid",
+          "status": "unqualified",
+          "reason": "Fresh correctness does not pass all six fixed documentation cases; no timing calls."
+        },
+        {
+          "format": "svg",
+          "project": "emtyty/merslim",
+          "status": "unqualified",
+          "reason": "Fresh correctness does not pass all six fixed documentation cases; no timing calls."
+        },
+        {
+          "format": "svg",
+          "project": "evangwt/xmermaid",
+          "status": "unqualified",
+          "reason": "Fresh correctness does not pass all six fixed documentation cases; no timing calls."
+        },
+        {
+          "format": "svg",
+          "project": "fasouto/termaid",
+          "status": "not-applicable",
+          "reason": "No declared SVG output in the eligible project configuration."
+        },
+        {
+          "format": "svg",
+          "project": "kitlangton/merman",
+          "status": "not-applicable",
+          "reason": "No declared SVG output in the eligible project configuration."
+        },
+        {
+          "format": "svg",
+          "project": "KlangHaus/vitepress-plugin-diagram",
+          "status": "unqualified",
+          "reason": "Fresh correctness does not pass all six fixed documentation cases; no timing calls."
+        },
+        {
+          "format": "svg",
+          "project": "Latias94/merman",
+          "status": "unqualified",
+          "reason": "Fresh correctness does not pass all six fixed documentation cases; no timing calls."
+        },
+        {
+          "format": "svg",
+          "project": "lukilabs/beautiful-mermaid",
+          "status": "unqualified",
+          "reason": "Fresh correctness does not pass all six fixed documentation cases; no timing calls."
+        },
+        {
+          "format": "svg",
+          "project": "Mootikins/figurehead-rs",
+          "status": "not-applicable",
+          "reason": "No declared SVG output in the eligible project configuration."
+        },
+        {
+          "format": "svg",
+          "project": "obsidianmd/pele",
+          "out": "/workspace/trident-complete-2026-11-01/timing/svg-obsidianmd%2Fpele",
+          "bundleFile": "/workspace/trident-complete-2026-11-01/timing/svg-obsidianmd%2Fpele/timing-bundle-2818be639c8a16f60e39c81e.json",
+          "status": "unqualified",
+          "qualification": {
+            "schema": "trident-qualified-timing-v1",
+            "status": "unqualified",
+            "planSha256": "e7f856c70870d51aba092dca75bc5506444d9adb29ba4d5a136a7a005182d5d0",
+            "samplesSha256": "780f43753c3849e979e670aa02837264b7f90f1afa34237c325545db3b3b6e38",
+            "comparisonKey": "da567ec8521706ebedbc354d0c3918afba7d61bae91c76c4580b1bb66edc9ea5",
+            "project": "obsidianmd/pele",
+            "caseIds": [
+              "packages/mermaid/src/docs/syntax/flowchart.md:45",
+              "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+              "packages/mermaid/src/docs/syntax/userJourney.md:7",
+              "packages/mermaid/src/docs/syntax/pie.md:8",
+              "packages/mermaid/src/docs/syntax/packet.md:34",
+              "packages/mermaid/src/docs/syntax/treemap.md:63"
+            ],
+            "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+            "format": "svg",
+            "track": "first-use",
+            "environmentSha256": "17923cad7e10273bb411c54fd89b4fd41351b2ea52d80988ba388bcff848e929",
+            "planned": 108,
+            "checked": 108,
+            "gaps": [
+              "Observed A/A control spread exceeds the declared noise ceiling"
+            ],
+            "perRoundMs": null,
+            "medianMs": null,
+            "calibration": {
+              "status": "uncalibrated",
+              "gaps": [
+                "Observed A/A control spread exceeds the declared noise ceiling"
+              ],
+              "controlRatios": [
+                1.2146059397965787,
+                0.9141280903078037,
+                1.0397014266749343,
+                0.9350353184672536,
+                0.6153420910788725,
+                1.5227263499293873
+              ],
+              "candidateRatios": [
+                0.15809416583870556,
+                0.10663872392928105,
+                0.1411003655613365,
+                0.11800072240466902,
+                0.13184754948226998,
+                0.14063569678909982
+              ],
+              "controlBand": {
+                "lower": 0.6153420910788725,
+                "upper": 1.6251122985049031
+              },
+              "candidateRatio": 0.1362416231356849,
+              "roundRatioUncertainty": {
+                "controls": {
+                  "independentRounds": 6,
+                  "medianRatio": 0.987368372571094,
+                  "interval": {
+                    "lower": 0.6153420910788725,
+                    "upper": 1.5227263499293873,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                },
+                "replicaB": {
+                  "independentRounds": 6,
+                  "medianRatio": 0.1362416231356849,
+                  "interval": {
+                    "lower": 0.10663872392928105,
+                    "upper": 0.15809416583870556,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                }
+              },
+              "interpretation": "below observed control band; advisory"
+            },
+            "interpretation": "Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim.",
+            "driverFinalizationSha256": "4bf156e36d71c89d1dc31332c48251514f7993f090d1924dc8b62b279f13da02"
+          },
+          "reason": "Observed A/A control spread exceeds the declared noise ceiling"
+        },
+        {
+          "format": "svg",
+          "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+          "status": "unqualified",
+          "reason": "Fresh correctness does not pass all six fixed documentation cases; no timing calls."
+        },
+        {
+          "format": "svg",
+          "project": "tariqshams/mermaidtui",
+          "status": "not-applicable",
+          "reason": "No declared SVG output in the eligible project configuration."
+        },
+        {
+          "format": "svg",
+          "project": "xai-org/grok-build",
+          "status": "not-applicable",
+          "reason": "No declared SVG output in the eligible project configuration."
+        },
+        {
+          "format": "svg",
+          "project": "Yassimba/loom",
+          "status": "not-applicable",
+          "reason": "No declared SVG output in the eligible project configuration."
+        },
+        {
+          "format": "svg",
+          "project": "kais-radwan/ascii-mermaid",
+          "status": "not-applicable",
+          "reason": "No declared SVG output in the eligible project configuration."
+        },
+        {
+          "format": "svg",
+          "project": "spacedock-dev/mermaidtext",
+          "status": "not-applicable",
+          "reason": "No declared SVG output in the eligible project configuration."
+        }
+      ]
+    },
+    {
+      "format": "terminal",
+      "ranked": [],
+      "pairs": [],
+      "unresolved": [
+        {
+          "format": "terminal",
+          "project": "Dicklesworthstone/frankenmermaid",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "wevm/ondine",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "adewale/agentic-mermaid",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "dfadler/zombie-mermaid",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "anomalyco/opencode",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "crafter-station/mermaid",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "emtyty/merslim",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "fasouto/termaid",
+          "out": "/workspace/trident-complete-2026-11-01/timing/terminal-fasouto%2Ftermaid",
+          "bundleFile": "/workspace/trident-complete-2026-11-01/timing/terminal-fasouto%2Ftermaid/timing-bundle-f9a2724cdb046cd29a26887a.json",
+          "status": "unqualified",
+          "qualification": {
+            "schema": "trident-qualified-timing-v1",
+            "status": "unqualified",
+            "planSha256": "b8cd26ff2d532c63fafbb77091d2f27203a2c3724beab414602d6393656aaaf2",
+            "samplesSha256": "baea565d916421e56e4f6f7346a9b55546fd8ff2b72333010e501681f9e8e0cb",
+            "comparisonKey": "456db0e181084cb299b54c47b2a067e9180d4c821731f5435fed77df31e2372e",
+            "project": "fasouto/termaid",
+            "caseIds": [
+              "terminal:e977db2dd4ba0536",
+              "terminal:837336a6e0f8f27c",
+              "terminal:b4c60f465d6bcb5b",
+              "terminal:48d7ff23dee1b343",
+              "terminal:b23c0856e157b1f2",
+              "terminal:d3cc8b77d097ec56"
+            ],
+            "boundary": "Host request through fresh owned Node-worker RPC, cold public CLI process startup/import/render, complete drained stdout bytes and RPC return; worker initialization, artifact verification, retention and full output grading excluded. Filesystem/OS caches uncontrolled; frozen package bytecode caches retained; no warm renderer.",
+            "format": "terminal",
+            "track": "first-use",
+            "environmentSha256": "3e8f1097a6b918d27774b083dcbecf1a593cb8856edf0202b959ea4867ce1af5",
+            "planned": 108,
+            "checked": 108,
+            "gaps": [
+              "Observed A/A control spread exceeds the declared noise ceiling"
+            ],
+            "perRoundMs": null,
+            "medianMs": null,
+            "calibration": {
+              "status": "uncalibrated",
+              "gaps": [
+                "Observed A/A control spread exceeds the declared noise ceiling"
+              ],
+              "controlRatios": [
+                0.6823105505144982,
+                1.115995143443693,
+                1.2018892257903349,
+                0.6501118115360315,
+                0.9421323382034426,
+                0.9282704013896551
+              ],
+              "candidateRatios": [
+                4.354854028363434,
+                6.37128382139024,
+                6.244786161636768,
+                6.485192506114635,
+                7.353615244532222,
+                7.439977326823983
+              ],
+              "controlBand": {
+                "lower": 0.6501118115360315,
+                "upper": 1.5381969412881165
+              },
+              "candidateRatio": 6.428238163752438,
+              "roundRatioUncertainty": {
+                "controls": {
+                  "independentRounds": 6,
+                  "medianRatio": 0.9352013697965489,
+                  "interval": {
+                    "lower": 0.6501118115360315,
+                    "upper": 1.2018892257903349,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                },
+                "replicaB": {
+                  "independentRounds": 6,
+                  "medianRatio": 6.428238163752438,
+                  "interval": {
+                    "lower": 4.354854028363434,
+                    "upper": 7.439977326823983,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                }
+              },
+              "interpretation": "above observed control band; advisory"
+            },
+            "interpretation": "Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim."
+          },
+          "reason": "Observed A/A control spread exceeds the declared noise ceiling"
+        },
+        {
+          "format": "terminal",
+          "project": "kitlangton/merman",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "Latias94/merman",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "lukilabs/beautiful-mermaid",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "Mootikins/figurehead-rs",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "tariqshams/mermaidtui",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "xai-org/grok-build",
+          "status": "unqualified",
+          "reason": "Fresh actual CLI prerequisites do not pass the full fixed six-case workload; no timing calls."
+        },
+        {
+          "format": "terminal",
+          "project": "Yassimba/loom",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "kais-radwan/ascii-mermaid",
+          "status": "unavailable",
+          "reason": "No binding for this timing driver’s default-argument stdin CLI boundary; warm APIs and configured CLIs are not mixed."
+        },
+        {
+          "format": "terminal",
+          "project": "spacedock-dev/mermaidtext",
+          "status": "unqualified",
+          "reason": "Fresh actual CLI prerequisites do not pass the full fixed six-case workload; no timing calls."
+        }
+      ]
+    },
+    {
+      "format": "png",
+      "ranked": [],
+      "pairs": [],
+      "unresolved": [
+        {
+          "format": "png",
+          "project": "pub:mermaid_flutter",
+          "out": "/workspace/trident-complete-2026-11-01/timing/png-flutter-private-display",
+          "bundleFile": "/workspace/trident-complete-2026-11-01/timing/png-flutter-private-display/timing-bundle-32ddd35546775875c757119c.json",
+          "status": "unqualified",
+          "qualification": {
+            "schema": "trident-qualified-timing-v1",
+            "status": "unqualified",
+            "planSha256": "8a400801a59bc4451aff8488c6d4f9e2f3ae18c8a10f11939270be68060b8ee5",
+            "samplesSha256": "682eaa2b6afaa3a6634996825b2eb0bcb2ddb4848c58fdd448f925fef5f4992b",
+            "comparisonKey": "7442bc303242a2b36602c8b39f538d135bcc0a806c1cba3263de111f9dc3dc9e",
+            "project": "pub:mermaid_flutter",
+            "caseIds": [
+              "packages/mermaid/src/docs/syntax/flowchart.md:686",
+              "packages/mermaid/src/docs/syntax/flowchart.md:728",
+              "packages/mermaid/src/docs/syntax/flowchart.md:742"
+            ],
+            "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+            "format": "png",
+            "track": "first-use",
+            "environmentSha256": "d49e289e10d906923e1ba1a9f3bca483e59472d04e29e95cf80ba877c57f30aa",
+            "planned": 54,
+            "checked": 54,
+            "gaps": [
+              "Observed A/A control spread exceeds the declared noise ceiling"
+            ],
+            "perRoundMs": null,
+            "medianMs": null,
+            "calibration": {
+              "status": "uncalibrated",
+              "gaps": [
+                "Observed A/A control spread exceeds the declared noise ceiling"
+              ],
+              "controlRatios": [
+                0.8630728870508491,
+                1.2359265607672931,
+                1.4051945569966984,
+                1.0955126048955288,
+                1.092128530339525,
+                0.8107171685045576
+              ],
+              "candidateRatios": [
+                2.564744909581513,
+                3.7770186076763683,
+                3.4319379485132053,
+                5.2622515005563555,
+                2.963326463906871,
+                3.110530813040149
+              ],
+              "controlBand": {
+                "lower": 0.7116452273607473,
+                "upper": 1.4051945569966984
+              },
+              "candidateRatio": 3.271234380776677,
+              "roundRatioUncertainty": {
+                "controls": {
+                  "independentRounds": 6,
+                  "medianRatio": 1.0938205676175268,
+                  "interval": {
+                    "lower": 0.8107171685045576,
+                    "upper": 1.4051945569966984,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                },
+                "replicaB": {
+                  "independentRounds": 6,
+                  "medianRatio": 3.271234380776677,
+                  "interval": {
+                    "lower": 2.564744909581513,
+                    "upper": 5.2622515005563555,
+                    "confidence": 0.96875
+                  },
+                  "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+                  "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+                }
+              },
+              "interpretation": "above observed control band; advisory"
+            },
+            "interpretation": "Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim."
+          },
+          "reason": "Observed A/A control spread exceeds the declared noise ceiling"
+        },
+        {
+          "format": "png",
+          "project": "Dicklesworthstone/frankenmermaid",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "wevm/ondine",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "orestesgaolin/mermaid",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "adewale/agentic-mermaid",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "dfadler/zombie-mermaid",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "1jehuang/mermaid-rs-renderer",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "crafter-station/mermaid",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "emtyty/merslim",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "evangwt/xmermaid",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "KlangHaus/vitepress-plugin-diagram",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "Latias94/merman",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "lukilabs/beautiful-mermaid",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "obsidianmd/pele",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        },
+        {
+          "format": "png",
+          "project": "crabtalk/bezel",
+          "status": "unavailable",
+          "reason": "No supported cold PNG export timing driver for this binding; coverage PNG clocks remain descriptive."
+        }
+      ]
+    }
+  ],
+  "rendererInvocations": 0,
+  "scope": "Offline reduction through the ordinary timing qualifier. No hand-entered scores, invented clocks, hidden failed pairs or combined format score."
+}

@@ -1,0 +1,204 @@
+[
+  {
+    "directory": "/workspace/trident-complete-2026-11-01/publication-svg",
+    "copied": "evidence/1",
+    "report": "report.json",
+    "sha256": "9541ebe96b112e0048f6368ed7a6ede9e6132b53d8bcc1e0819c26fd9db1bbe4",
+    "projects": [
+      "Dicklesworthstone/frankenmermaid",
+      "wevm/ondine",
+      "orestesgaolin/mermaid",
+      "adewale/agentic-mermaid",
+      "dfadler/zombie-mermaid",
+      "1jehuang/mermaid-rs-renderer",
+      "crafter-station/mermaid",
+      "emtyty/merslim",
+      "evangwt/xmermaid",
+      "KlangHaus/vitepress-plugin-diagram",
+      "Latias94/merman",
+      "lukilabs/beautiful-mermaid",
+      "obsidianmd/pele",
+      "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "mermaid-js/mermaid",
+      "crabtalk/bezel"
+    ],
+    "startedAt": "2026-11-01T11:25:15.438Z",
+    "updatedAt": "2026-11-01T17:05:34.206Z"
+  },
+  {
+    "directory": "/workspace/trident-complete-2026-11-01/publication-png",
+    "copied": "evidence/2",
+    "report": "report.json",
+    "sha256": "20ac49a96803a1e1c2d0b053c4195cf7516592945c5b983dc2a430590e3a7a96",
+    "projects": [
+      "1jehuang/mermaid-rs-renderer",
+      "adewale/agentic-mermaid",
+      "crabtalk/bezel",
+      "crafter-station/mermaid",
+      "dfadler/zombie-mermaid",
+      "Dicklesworthstone/frankenmermaid",
+      "emtyty/merslim",
+      "evangwt/xmermaid",
+      "KlangHaus/vitepress-plugin-diagram",
+      "Latias94/merman",
+      "lukilabs/beautiful-mermaid",
+      "obsidianmd/pele",
+      "orestesgaolin/mermaid",
+      "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "wevm/ondine",
+      "mermaid-js/mermaid",
+      "pub:mermaid_flutter"
+    ],
+    "startedAt": "2026-11-01T11:25:15.438Z",
+    "updatedAt": "2026-11-01T17:38:08.771Z"
+  },
+  {
+    "directory": "/workspace/trident-complete-2026-11-01/terminal-recovered",
+    "copied": "evidence/3",
+    "report": "report.json",
+    "sha256": "226f7000c4e4d1de6f4480cc60e9407bc0080a782448d6b22a394b7e64537993",
+    "projects": [
+      "Dicklesworthstone/frankenmermaid",
+      "wevm/ondine",
+      "adewale/agentic-mermaid",
+      "dfadler/zombie-mermaid",
+      "AlexanderGrooff/mermaid-ascii",
+      "anomalyco/opencode",
+      "crafter-station/mermaid",
+      "emtyty/merslim",
+      "fasouto/termaid",
+      "kitlangton/merman",
+      "Latias94/merman",
+      "lukilabs/beautiful-mermaid",
+      "Mootikins/figurehead-rs",
+      "tariqshams/mermaidtui",
+      "xai-org/grok-build",
+      "Yassimba/loom",
+      "kais-radwan/ascii-mermaid",
+      "spacedock-dev/mermaidtext"
+    ],
+    "startedAt": "2026-11-01T14:28:03.387Z",
+    "updatedAt": "2026-11-01T14:40:31.374Z"
+  },
+  {
+    "directory": "/workspace/trident-complete-2026-11-01/behaviour-campaign",
+    "copied": "evidence/4",
+    "report": "report.json",
+    "sha256": "b2ce2c4c4ca2aca4c824a05676a5cc735f996e273917ad283bfddc31084c2cd6",
+    "projects": [
+      "Dicklesworthstone/frankenmermaid",
+      "wevm/ondine",
+      "orestesgaolin/mermaid",
+      "pub:mermaid_flutter",
+      "adewale/agentic-mermaid",
+      "dfadler/zombie-mermaid",
+      "1jehuang/mermaid-rs-renderer",
+      "AlexanderGrooff/mermaid-ascii",
+      "anomalyco/opencode",
+      "crafter-station/mermaid",
+      "emtyty/merslim",
+      "evangwt/xmermaid",
+      "fasouto/termaid",
+      "kitlangton/merman",
+      "KlangHaus/vitepress-plugin-diagram",
+      "Latias94/merman",
+      "lukilabs/beautiful-mermaid",
+      "Mootikins/figurehead-rs",
+      "obsidianmd/pele",
+      "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "tariqshams/mermaidtui",
+      "xai-org/grok-build",
+      "Yassimba/loom",
+      "kais-radwan/ascii-mermaid",
+      "spacedock-dev/mermaidtext",
+      "mermaid-js/mermaid",
+      "crabtalk/bezel"
+    ],
+    "startedAt": "2026-11-01T14:35:59.282Z",
+    "updatedAt": "2026-11-01T15:19:30.283Z"
+  },
+  {
+    "directory": "/workspace/trident-complete-2026-11-01/timing/svg-wevm%2Fondine",
+    "copied": "evidence/5",
+    "report": "timing-bundle-61c17619018ebfe1fd24cfd3.json",
+    "sha256": "64bca906148915a6e3f12bbe4095284109082147becf0033442c4f9ec0de46da",
+    "projects": [
+      "mermaid-js/mermaid",
+      "wevm/ondine"
+    ],
+    "startedAt": "2026-11-01T16:13:39.825Z",
+    "updatedAt": "2026-11-01T16:15:57.281Z"
+  },
+  {
+    "directory": "/workspace/trident-complete-2026-11-01/timing/svg-obsidianmd%2Fpele",
+    "copied": "evidence/6",
+    "report": "timing-bundle-2818be639c8a16f60e39c81e.json",
+    "sha256": "931ee1ac67584b96b1618c9e7126d3d3eadbe8fc478641d909b49457ffa5c37a",
+    "projects": [
+      "mermaid-js/mermaid",
+      "obsidianmd/pele"
+    ],
+    "startedAt": "2026-11-01T16:18:04.157Z",
+    "updatedAt": "2026-11-01T16:20:47.248Z"
+  },
+  {
+    "directory": "/workspace/trident-complete-2026-11-01/timing/svg-crabtalk%2Fbezel",
+    "copied": "evidence/7",
+    "report": "timing-bundle-faef08653bc195e68bbc8c90.json",
+    "sha256": "59daefc274716ac815366934e10cd3e2884bc7653e5b55b46b2bba4d69ef1c68",
+    "projects": [
+      "mermaid-js/mermaid",
+      "crabtalk/bezel"
+    ],
+    "startedAt": "2026-11-01T16:23:00.073Z",
+    "updatedAt": "2026-11-01T16:25:44.614Z"
+  },
+  {
+    "directory": "/workspace/trident-complete-2026-11-01/timing/terminal-fasouto%2Ftermaid",
+    "copied": "evidence/8",
+    "report": "timing-bundle-f9a2724cdb046cd29a26887a.json",
+    "sha256": "c050ddb7211f3064bb94e271448da045e5c2c85d843cc6d5af3aa88b49c70cbc",
+    "projects": [
+      "AlexanderGrooff/mermaid-ascii",
+      "fasouto/termaid"
+    ],
+    "startedAt": "2026-11-01T17:05:40.513Z",
+    "updatedAt": "2026-11-01T17:05:55.241Z"
+  },
+  {
+    "directory": "/workspace/trident-complete-2026-11-01/timing/png-flutter",
+    "copied": "evidence/9",
+    "report": "timing-bundle-7cbd1f1caf1e2401450023cf.json",
+    "sha256": "cb8a20b55ba376db76d64d58a80843447bffbe938090fd1d964f3a5a4ae8c8e2",
+    "projects": [
+      "mermaid-js/mermaid",
+      "pub:mermaid_flutter"
+    ],
+    "startedAt": "2026-11-01T17:42:31.531Z",
+    "updatedAt": "2026-11-01T17:44:32.351Z"
+  },
+  {
+    "directory": "/workspace/trident-complete-2026-11-01/timing/png-flutter-display-repair",
+    "copied": "evidence/10",
+    "report": "timing-bundle-3da055b522db8e2f59400966.json",
+    "sha256": "f0f9f59aae5775417042201cafb5331b30d1a9944bd6cc9e66edd2f061396f35",
+    "projects": [
+      "mermaid-js/mermaid",
+      "pub:mermaid_flutter"
+    ],
+    "startedAt": "2026-11-01T17:50:49.427Z",
+    "updatedAt": "2026-11-01T17:51:57.244Z"
+  },
+  {
+    "directory": "/workspace/trident-complete-2026-11-01/timing/png-flutter-private-display",
+    "copied": "evidence/11",
+    "report": "timing-bundle-32ddd35546775875c757119c.json",
+    "sha256": "2ee7ba753137ae9511a491cd46dd0369400bc94cf55268528177a957b919530f",
+    "projects": [
+      "mermaid-js/mermaid",
+      "pub:mermaid_flutter"
+    ],
+    "startedAt": "2026-11-01T17:55:48.395Z",
+    "updatedAt": "2026-11-01T18:00:24.828Z"
+  }
+]

@@ -1,0 +1,99 @@
+{
+  "schema": "trident-campaign-v2",
+  "startedAt": "2026-11-01T11:25:15.438Z",
+  "updatedAt": "2026-11-01T17:38:08.771Z",
+  "projects": [
+    "1jehuang/mermaid-rs-renderer",
+    "adewale/agentic-mermaid",
+    "crabtalk/bezel",
+    "crafter-station/mermaid",
+    "dfadler/zombie-mermaid",
+    "Dicklesworthstone/frankenmermaid",
+    "emtyty/merslim",
+    "evangwt/xmermaid",
+    "KlangHaus/vitepress-plugin-diagram",
+    "Latias94/merman",
+    "lukilabs/beautiful-mermaid",
+    "obsidianmd/pele",
+    "orestesgaolin/mermaid",
+    "sandyyst/dsh-plugin-mermaid-gb-svg",
+    "wevm/ondine",
+    "mermaid-js/mermaid",
+    "pub:mermaid_flutter"
+  ],
+  "profile": "full",
+  "rounds": 1,
+  "options": {
+    "out": "/workspace/trident-complete-2026-11-01/publication-png",
+    "docsFormats": [
+      "png"
+    ]
+  },
+  "results": [
+    {
+      "suite": "docs",
+      "out": "/workspace/trident-complete-2026-11-01/publication-png/sources/0/docs",
+      "status": "failed"
+    },
+    {
+      "suite": "docs",
+      "out": "/workspace/trident-complete-2026-11-01/publication-png/sources/1/docs",
+      "status": "failed"
+    },
+    {
+      "suite": "docs",
+      "out": "/workspace/trident-complete-2026-11-01/publication-png/sources/2/docs",
+      "status": "failed"
+    }
+  ],
+  "view": {
+    "rendererInvocations": 0,
+    "sources": [
+      {
+        "source": "/workspace/trident-complete-2026-11-01/docs-published",
+        "reportSha256": "f2f5b72472567d0dc7f03e79e928d6ae2841816e7ad8f6ae0dc61b73b35016c2",
+        "format": "png",
+        "projects": [
+          "1jehuang/mermaid-rs-renderer",
+          "adewale/agentic-mermaid",
+          "crabtalk/bezel",
+          "crafter-station/mermaid",
+          "dfadler/zombie-mermaid",
+          "Dicklesworthstone/frankenmermaid",
+          "emtyty/merslim",
+          "evangwt/xmermaid",
+          "KlangHaus/vitepress-plugin-diagram",
+          "Latias94/merman",
+          "lukilabs/beautiful-mermaid",
+          "obsidianmd/pele",
+          "orestesgaolin/mermaid",
+          "sandyyst/dsh-plugin-mermaid-gb-svg",
+          "wevm/ondine"
+        ],
+        "startedAt": "2026-11-01T11:25:15.438Z",
+        "updatedAt": "2026-11-01T17:05:34.206Z"
+      },
+      {
+        "source": "/workspace/trident-complete-2026-11-01/png-runtime-repair",
+        "reportSha256": "bbc4d85b9edf091e3e1a875ddc333c87af157cb56827ec083c903e5d70a9aaae",
+        "format": "png",
+        "projects": [
+          "mermaid-js/mermaid"
+        ],
+        "startedAt": "2026-11-01T15:58:02.055Z",
+        "updatedAt": "2026-11-01T16:13:29.045Z"
+      },
+      {
+        "source": "/workspace/trident-complete-2026-11-01/png-native-current",
+        "reportSha256": "1e274c58a41bf4c755a35c4f68a3bd54d3b7806416393d3278d6994eeef7821b",
+        "format": "png",
+        "projects": [
+          "pub:mermaid_flutter"
+        ],
+        "startedAt": "2026-11-01T17:33:01.786Z",
+        "updatedAt": "2026-11-01T17:38:08.771Z"
+      }
+    ],
+    "scope": "Whole format/project selections over retained calls. Measurement dates and original files are preserved; this view supplies no cross-run timing comparison."
+  }
+}

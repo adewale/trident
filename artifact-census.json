@@ -1,0 +1,164 @@
+[
+  {
+    "project": "Dicklesworthstone/frankenmermaid",
+    "version": "0.4.0",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "db51c571cf4280d84110aa7de917f0cbcd59311768b256161aebee4add78c129"
+  },
+  {
+    "project": "wevm/ondine",
+    "version": "0.0.3",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "0fd78e745464a2776da4a7dd702cd91c18126d5ec02a5c3258c14bf8683d9311"
+  },
+  {
+    "project": "orestesgaolin/mermaid",
+    "version": "0.3.2",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "43f43e3f0968f0c1f198c4b43ee91c6a2e4c4a94b92be646b73aa0363f68c4f9"
+  },
+  {
+    "project": "pub:mermaid_flutter",
+    "version": "0.3.2",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "f70c72f534cf94c1cfcecbfbb894d8d5edf794d0a65aa62189bf6f4423bd6f2e"
+  },
+  {
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "383bea7e4c1971e485c0bbb9d92fc9e0876bc66aa928f8101fdb2e713b5c348b"
+  },
+  {
+    "project": "dfadler/zombie-mermaid",
+    "version": "5.10.2",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "fb8191fd1f4e968995589a82e79a3db078adc4f7006c52abc2e67b48e32371ea"
+  },
+  {
+    "project": "1jehuang/mermaid-rs-renderer",
+    "version": "0.3.1",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "f65f8ca9a71f90aaa2c899059170923709666d84855aaade1000ae6a51c4f16f"
+  },
+  {
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "1f289d53618556d688506087c3d15bf5d2cc90fbef8e8b0d4046a30c88f4797c"
+  },
+  {
+    "project": "anomalyco/opencode",
+    "version": "2.0.26",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "06fdcb58f3cb80647a47f33de84d9ffcf1375163c9b42181393ee1c19e7a424f"
+  },
+  {
+    "project": "crafter-station/mermaid",
+    "version": "0.0.3",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "b3eda1b5bff779ee8e9e15491ad21f63251bcc976a5b86e366cc0c69c528d88b"
+  },
+  {
+    "project": "emtyty/merslim",
+    "version": "0.2.3",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "bb83b9646b53cf20def46cdd9ad16873a5f83a99882baa985f304145ef540ea1"
+  },
+  {
+    "project": "evangwt/xmermaid",
+    "version": "0.4.2",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "85b07601926a089d5d35182f6218b872c2fc408b4b66546b09749fb0e4fd2d82"
+  },
+  {
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "df429dc795af2c306f85323523dcfe5c247d9074d9dd17bcafbe35d48e9f06ab"
+  },
+  {
+    "project": "kitlangton/merman",
+    "version": "0.2.1",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "80e7456899b7b2e7b49639173a228f818008983b588053bc6345354c78820d87"
+  },
+  {
+    "project": "KlangHaus/vitepress-plugin-diagram",
+    "version": "0.3.2",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "8693788dcbb12cfcb29982db73e283a95342a24e6405421b76b2f31759fc0770"
+  },
+  {
+    "project": "Latias94/merman",
+    "version": "0.9.2",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "3153cc6b6d0ff0c465d30363b5f7e5cd26c7a3cd3ae0d2d111835b2a484bcc9a"
+  },
+  {
+    "project": "lukilabs/beautiful-mermaid",
+    "version": "1.1.3",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "9f016fb42431f01250c46951e4fae19b976f2a8987f1ef6f56b1f150277bb7d7"
+  },
+  {
+    "project": "Mootikins/figurehead-rs",
+    "version": "v0.4.3",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "2245948bfc22c5ee4f83ae4c702a4e6c0664f6d3b8d844e4bad0c41247fd4d6e"
+  },
+  {
+    "project": "obsidianmd/pele",
+    "version": "1.9.0",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "860c578c0204184ebc6e14b7bf9b5b01f8fc4643dbf43873e3905946c9c99f9a"
+  },
+  {
+    "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+    "version": "0.1.4",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "a034e53ecd2af930954c4c4f29f275e0778f3f079601b652d9a4232f4fdb6040"
+  },
+  {
+    "project": "tariqshams/mermaidtui",
+    "version": "0.0.6",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "9a22941bf68612b881a504d85c02ffbf76390167deda9fff5685c0b0b6291ebf"
+  },
+  {
+    "project": "xai-org/grok-build",
+    "version": "git-2bdd1d6a6369",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "5bdd2e7514d5e7c33c020bffd65a245e36be74854d0df2b770fcdc3cebf7934c"
+  },
+  {
+    "project": "Yassimba/loom",
+    "version": "0.10.0",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "3dea6a54460878fe97a4ca4051b3c903435ea9dc38197f77a6fffde8087a7bbb"
+  },
+  {
+    "project": "kais-radwan/ascii-mermaid",
+    "version": "0.1.0",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "e9529eb2c33b786e40ebd97b8442bbb6ad76c2a7678b1b0852abba0618b5d7f1"
+  },
+  {
+    "project": "spacedock-dev/mermaidtext",
+    "version": "git-a6b0c7657b94",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "56486b809f1841640c537283ecc4e2c156d293aec6575eefaf6b63433b3e4d8a"
+  },
+  {
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "205788e1232c3c78499cd47f22b413ba91ef7a77bc9e6dc880867a4a2ac7d773"
+  },
+  {
+    "project": "crabtalk/bezel",
+    "version": "0.2.21",
+    "status": "verified installed bytes; newly frozen for this collection",
+    "identitySha256": "690b52613c7e56f5eb7fdd05a924ffdaeefd63d1852e4a3b06a268139ab8a9cb"
+  }
+]

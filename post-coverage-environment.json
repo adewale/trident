@@ -1,0 +1,10 @@
+{
+  "DISPLAY": ":99",
+  "LD_LIBRARY_PATH": "/workspace/trident-complete-2026-11-01/runtime",
+  "LIBGL_ALWAYS_SOFTWARE": "1",
+  "suppliedRuntime": {
+    "path": "/workspace/trident-complete-2026-11-01/runtime/libGLESv2.so.2",
+    "sha256": "a705c66de30ca4e883120c70acae0f1011d7c3f97605eef331e03493beae3812"
+  },
+  "scope": "The same supplied runtime and software-rendering selector apply to Mermaid controls and candidates. Display service starts before clocked export requests."
+}

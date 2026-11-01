@@ -1,0 +1,560 @@
+{
+  "publishedAt": "2026-11-01T18:07:46.580Z",
+  "copyEvidence": true,
+  "campaigns": [
+    {
+      "source": "/workspace/trident-complete-2026-11-01/publication-svg",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-11-01T11:25:15.438Z",
+      "lastRecordedUpdate": "2026-11-01T17:05:34.206Z",
+      "profile": "full",
+      "rounds": 1,
+      "projects": [
+        "Dicklesworthstone/frankenmermaid",
+        "wevm/ondine",
+        "orestesgaolin/mermaid",
+        "adewale/agentic-mermaid",
+        "dfadler/zombie-mermaid",
+        "1jehuang/mermaid-rs-renderer",
+        "crafter-station/mermaid",
+        "emtyty/merslim",
+        "evangwt/xmermaid",
+        "KlangHaus/vitepress-plugin-diagram",
+        "Latias94/merman",
+        "lukilabs/beautiful-mermaid",
+        "obsidianmd/pele",
+        "sandyyst/dsh-plugin-mermaid-gb-svg",
+        "mermaid-js/mermaid",
+        "crabtalk/bezel"
+      ],
+      "complete": "collection completed; qualification may fail",
+      "results": [
+        {
+          "suite": "docs",
+          "out": "/workspace/trident-complete-2026-11-01/publication-svg/sources/0/docs",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "source": "/workspace/trident-complete-2026-11-01/publication-png",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-11-01T11:25:15.438Z",
+      "lastRecordedUpdate": "2026-11-01T17:38:08.771Z",
+      "profile": "full",
+      "rounds": 1,
+      "projects": [
+        "1jehuang/mermaid-rs-renderer",
+        "adewale/agentic-mermaid",
+        "crabtalk/bezel",
+        "crafter-station/mermaid",
+        "dfadler/zombie-mermaid",
+        "Dicklesworthstone/frankenmermaid",
+        "emtyty/merslim",
+        "evangwt/xmermaid",
+        "KlangHaus/vitepress-plugin-diagram",
+        "Latias94/merman",
+        "lukilabs/beautiful-mermaid",
+        "obsidianmd/pele",
+        "orestesgaolin/mermaid",
+        "sandyyst/dsh-plugin-mermaid-gb-svg",
+        "wevm/ondine",
+        "mermaid-js/mermaid",
+        "pub:mermaid_flutter"
+      ],
+      "complete": "collection completed; qualification may fail",
+      "results": [
+        {
+          "suite": "docs",
+          "out": "/workspace/trident-complete-2026-11-01/publication-png/sources/0/docs",
+          "status": "failed"
+        },
+        {
+          "suite": "docs",
+          "out": "/workspace/trident-complete-2026-11-01/publication-png/sources/1/docs",
+          "status": "failed"
+        },
+        {
+          "suite": "docs",
+          "out": "/workspace/trident-complete-2026-11-01/publication-png/sources/2/docs",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "source": "/workspace/trident-complete-2026-11-01/terminal-recovered",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-11-01T14:28:03.387Z",
+      "lastRecordedUpdate": "2026-11-01T14:40:31.374Z",
+      "profile": "full",
+      "rounds": 1,
+      "projects": [
+        "Dicklesworthstone/frankenmermaid",
+        "wevm/ondine",
+        "adewale/agentic-mermaid",
+        "dfadler/zombie-mermaid",
+        "AlexanderGrooff/mermaid-ascii",
+        "anomalyco/opencode",
+        "crafter-station/mermaid",
+        "emtyty/merslim",
+        "fasouto/termaid",
+        "kitlangton/merman",
+        "Latias94/merman",
+        "lukilabs/beautiful-mermaid",
+        "Mootikins/figurehead-rs",
+        "tariqshams/mermaidtui",
+        "xai-org/grok-build",
+        "Yassimba/loom",
+        "kais-radwan/ascii-mermaid",
+        "spacedock-dev/mermaidtext"
+      ],
+      "complete": "no completion receipt: partial",
+      "results": [
+        {
+          "suite": "community",
+          "cohort": "terminal-project-corpus-v3",
+          "out": "/workspace/trident-complete-2026-11-01/terminal-recovered/terminal",
+          "status": "blocked",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "source": "/workspace/trident-complete-2026-11-01/behaviour-campaign",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-11-01T14:35:59.282Z",
+      "lastRecordedUpdate": "2026-11-01T15:19:30.283Z",
+      "profile": "full",
+      "rounds": 1,
+      "projects": [
+        "Dicklesworthstone/frankenmermaid",
+        "wevm/ondine",
+        "orestesgaolin/mermaid",
+        "pub:mermaid_flutter",
+        "adewale/agentic-mermaid",
+        "dfadler/zombie-mermaid",
+        "1jehuang/mermaid-rs-renderer",
+        "AlexanderGrooff/mermaid-ascii",
+        "anomalyco/opencode",
+        "crafter-station/mermaid",
+        "emtyty/merslim",
+        "evangwt/xmermaid",
+        "fasouto/termaid",
+        "kitlangton/merman",
+        "KlangHaus/vitepress-plugin-diagram",
+        "Latias94/merman",
+        "lukilabs/beautiful-mermaid",
+        "Mootikins/figurehead-rs",
+        "obsidianmd/pele",
+        "sandyyst/dsh-plugin-mermaid-gb-svg",
+        "tariqshams/mermaidtui",
+        "xai-org/grok-build",
+        "Yassimba/loom",
+        "kais-radwan/ascii-mermaid",
+        "spacedock-dev/mermaidtext",
+        "mermaid-js/mermaid",
+        "crabtalk/bezel"
+      ],
+      "complete": "collection completed; qualification may fail",
+      "results": [
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/00",
+          "status": "failed",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "Dicklesworthstone/frankenmermaid"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/01",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "wevm/ondine"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/02",
+          "status": "failed",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "orestesgaolin/mermaid"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/03",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "pub:mermaid_flutter"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/04",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "adewale/agentic-mermaid"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/05",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "dfadler/zombie-mermaid"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/06",
+          "status": "failed",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "1jehuang/mermaid-rs-renderer"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/07",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "AlexanderGrooff/mermaid-ascii"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/08",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "anomalyco/opencode"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/09",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "crafter-station/mermaid"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/10",
+          "status": "failed",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "emtyty/merslim"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/11",
+          "status": "failed",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "evangwt/xmermaid"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/12",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "fasouto/termaid"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/13",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "kitlangton/merman"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/14",
+          "status": "failed",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "KlangHaus/vitepress-plugin-diagram"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/15",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "Latias94/merman"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/16",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "lukilabs/beautiful-mermaid"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/17",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "Mootikins/figurehead-rs"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/18",
+          "status": "passed",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "obsidianmd/pele"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/19",
+          "status": "failed",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "sandyyst/dsh-plugin-mermaid-gb-svg"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/20",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "tariqshams/mermaidtui"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/21",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "xai-org/grok-build"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/22",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "Yassimba/loom"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/23",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "kais-radwan/ascii-mermaid"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/24",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "spacedock-dev/mermaidtext"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/25",
+          "status": "passed",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "mermaid-js/mermaid"
+        },
+        {
+          "suite": "mermaid-behaviour",
+          "cohort": "mermaid-observable-behaviour-v1",
+          "out": "/workspace/trident-complete-2026-11-01/behaviour-campaign/projects/26",
+          "status": "blocked",
+          "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.",
+          "project": "crabtalk/bezel"
+        }
+      ]
+    },
+    {
+      "source": "/workspace/trident-complete-2026-11-01/timing/svg-wevm%2Fondine",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-11-01T16:13:39.825Z",
+      "lastRecordedUpdate": "2026-11-01T16:15:57.281Z",
+      "profile": "native-timing:svg:46396f0063bf",
+      "rounds": 6,
+      "projects": [
+        "mermaid-js/mermaid",
+        "wevm/ondine"
+      ],
+      "complete": "no completion receipt: partial",
+      "results": [
+        {
+          "suite": "portable",
+          "cohort": "native-timing:svg:46396f0063bf",
+          "out": "/workspace/trident-complete-2026-11-01/timing/svg-wevm%2Fondine",
+          "status": "passed",
+          "detail": "SVG; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 6 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+          "gaps": []
+        }
+      ]
+    },
+    {
+      "source": "/workspace/trident-complete-2026-11-01/timing/svg-obsidianmd%2Fpele",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-11-01T16:18:04.157Z",
+      "lastRecordedUpdate": "2026-11-01T16:20:47.248Z",
+      "profile": "native-timing:svg:46396f0063bf",
+      "rounds": 6,
+      "projects": [
+        "mermaid-js/mermaid",
+        "obsidianmd/pele"
+      ],
+      "complete": "no completion receipt: partial",
+      "results": [
+        {
+          "suite": "portable",
+          "cohort": "native-timing:svg:46396f0063bf",
+          "out": "/workspace/trident-complete-2026-11-01/timing/svg-obsidianmd%2Fpele",
+          "status": "blocked",
+          "detail": "SVG; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 6 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+          "gaps": [
+            "Observed A/A control spread exceeds the declared noise ceiling"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "/workspace/trident-complete-2026-11-01/timing/svg-crabtalk%2Fbezel",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-11-01T16:23:00.073Z",
+      "lastRecordedUpdate": "2026-11-01T16:25:44.614Z",
+      "profile": "native-timing:svg:46396f0063bf",
+      "rounds": 6,
+      "projects": [
+        "mermaid-js/mermaid",
+        "crabtalk/bezel"
+      ],
+      "complete": "no completion receipt: partial",
+      "results": [
+        {
+          "suite": "portable",
+          "cohort": "native-timing:svg:46396f0063bf",
+          "out": "/workspace/trident-complete-2026-11-01/timing/svg-crabtalk%2Fbezel",
+          "status": "passed",
+          "detail": "SVG; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 6 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+          "gaps": []
+        }
+      ]
+    },
+    {
+      "source": "/workspace/trident-complete-2026-11-01/timing/terminal-fasouto%2Ftermaid",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-11-01T17:05:40.513Z",
+      "lastRecordedUpdate": "2026-11-01T17:05:55.241Z",
+      "profile": "native-timing:terminal:d54f8f86420b",
+      "rounds": 6,
+      "projects": [
+        "AlexanderGrooff/mermaid-ascii",
+        "fasouto/termaid"
+      ],
+      "complete": "no completion receipt: partial",
+      "results": [
+        {
+          "suite": "portable",
+          "cohort": "native-timing:terminal:d54f8f86420b",
+          "out": "/workspace/trident-complete-2026-11-01/timing/terminal-fasouto%2Ftermaid",
+          "status": "blocked",
+          "detail": "TERMINAL; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host request through fresh owned Node-worker RPC, cold public CLI process startup/import/render, complete drained stdout bytes and RPC return; worker initialization, artifact verification, retention and full output grading excluded. Filesystem/OS caches uncontrolled; frozen package bytecode caches retained; no warm renderer. Corpus: Terminal project documentation and regression fixtures: tariqshams/mermaidtui@ca59dd9115c290be846c2bd62925b8bd44331d51; crafter-station/mermaid@1bac24116826233c3b0ad8da589d7223d77a451a; dfadler/zombie-mermaid@8cc982128bed11d976fb38164c4cdb47be7bd34d; spacedock-dev/mermaidtext@a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12; kais-radwan/ascii-mermaid@a91a0c7baec6392212c59221bc67389bb617feb7; 6 exact inputs matched to the committed corpus. Per-file origins and any authored adaptations are retained in the source inventory and terminal-inputs.json; exact source IDs and hashes are in the plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+          "gaps": [
+            "Observed A/A control spread exceeds the declared noise ceiling"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "/workspace/trident-complete-2026-11-01/timing/png-flutter",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-11-01T17:42:31.531Z",
+      "lastRecordedUpdate": "2026-11-01T17:44:32.351Z",
+      "profile": "native-timing:png:39e7a0bbfd11",
+      "rounds": 6,
+      "projects": [
+        "mermaid-js/mermaid",
+        "pub:mermaid_flutter"
+      ],
+      "complete": "no completion receipt: partial",
+      "results": [
+        {
+          "suite": "portable",
+          "cohort": "native-timing:png:39e7a0bbfd11",
+          "out": "/workspace/trident-complete-2026-11-01/timing/png-flutter",
+          "status": "blocked",
+          "detail": "PNG; first-use; 3 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running. Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 3 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+          "gaps": [
+            "Raw journal includes missing, duplicated, extra or interrupted attempts",
+            "The fixed case/replica/round/sample population is incomplete",
+            "Every replica/round needs the declared finite positive sample count",
+            "Raw timing capture did not complete its full fixed schedule",
+            "Capture public-call-or-retention: Error: Error: Native PNG export exited or timed out: \n(com.example.native_bench:1490752): Gtk-WARNING **: 17:44:35.967: cannot open display: :99\n",
+            "Raw calls differ from the captured protocol, controller or predeclared order"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "/workspace/trident-complete-2026-11-01/timing/png-flutter-display-repair",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-11-01T17:50:49.427Z",
+      "lastRecordedUpdate": "2026-11-01T17:51:57.244Z",
+      "profile": "native-timing:png:39e7a0bbfd11",
+      "rounds": 6,
+      "projects": [
+        "mermaid-js/mermaid",
+        "pub:mermaid_flutter"
+      ],
+      "complete": "no completion receipt: partial",
+      "results": [
+        {
+          "suite": "portable",
+          "cohort": "native-timing:png:39e7a0bbfd11",
+          "out": "/workspace/trident-complete-2026-11-01/timing/png-flutter-display-repair",
+          "status": "blocked",
+          "detail": "PNG; first-use; 3 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running. Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 3 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+          "gaps": [
+            "Raw journal includes missing, duplicated, extra or interrupted attempts",
+            "The fixed case/replica/round/sample population is incomplete",
+            "Every replica/round needs the declared finite positive sample count",
+            "Raw timing capture did not complete its full fixed schedule",
+            "Capture public-call-or-retention: Error: Error: Native PNG export exited or timed out: \n(com.example.native_bench:1493110): Gtk-WARNING **: 17:52:00.874: cannot open display: :99\n",
+            "Raw calls differ from the captured protocol, controller or predeclared order"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "/workspace/trident-complete-2026-11-01/timing/png-flutter-private-display",
+      "selectedSuites": "all recorded suites",
+      "measuredFrom": "2026-11-01T17:55:48.395Z",
+      "lastRecordedUpdate": "2026-11-01T18:00:24.828Z",
+      "profile": "native-timing:png:df71a086e7ef",
+      "rounds": 6,
+      "projects": [
+        "mermaid-js/mermaid",
+        "pub:mermaid_flutter"
+      ],
+      "complete": "no completion receipt: partial",
+      "results": [
+        {
+          "suite": "portable",
+          "cohort": "native-timing:png:df71a086e7ef",
+          "out": "/workspace/trident-complete-2026-11-01/timing/png-flutter-private-display",
+          "status": "blocked",
+          "detail": "PNG; first-use; 3 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running. Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 3 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+          "gaps": [
+            "Observed A/A control spread exceeds the declared noise ceiling"
+          ]
+        }
+      ]
+    }
+  ]
+}

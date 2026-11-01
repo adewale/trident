@@ -1,0 +1,43 @@
+{
+  "schema": "trident-campaign-v2",
+  "options": {
+    "out": "/workspace/trident-complete-2026-11-01/terminal-recovered"
+  },
+  "startedAt": "2026-11-01T14:28:03.387Z",
+  "updatedAt": "2026-11-01T14:40:31.374Z",
+  "projects": [
+    "Dicklesworthstone/frankenmermaid",
+    "wevm/ondine",
+    "adewale/agentic-mermaid",
+    "dfadler/zombie-mermaid",
+    "AlexanderGrooff/mermaid-ascii",
+    "anomalyco/opencode",
+    "crafter-station/mermaid",
+    "emtyty/merslim",
+    "fasouto/termaid",
+    "kitlangton/merman",
+    "Latias94/merman",
+    "lukilabs/beautiful-mermaid",
+    "Mootikins/figurehead-rs",
+    "tariqshams/mermaidtui",
+    "xai-org/grok-build",
+    "Yassimba/loom",
+    "kais-radwan/ascii-mermaid",
+    "spacedock-dev/mermaidtext"
+  ],
+  "profile": "full",
+  "rounds": 1,
+  "requestedSuites": [
+    "community"
+  ],
+  "results": [
+    {
+      "suite": "community",
+      "cohort": "terminal-project-corpus-v3",
+      "out": "/workspace/trident-complete-2026-11-01/terminal-recovered/terminal",
+      "status": "blocked",
+      "completed": true
+    }
+  ],
+  "scope": "Real project examples; full inventory retains unmeasured/unknown cells. Reviewed subset is separately bounded. Mermaid reference is unscored. Unlike invocation boundaries are not compared."
+}
