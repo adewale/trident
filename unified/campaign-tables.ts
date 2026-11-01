@@ -11,6 +11,7 @@ import type { PublicSuite } from './support.ts'
 import { summarizeSvgCases } from '../fidelity/svg-assessment.ts'
 import { publicTestTables } from './public-test-reporting.ts'
 import { qualifyRetainedTimingBundle } from './qualify-timing.ts'
+import { readNativeTiming } from './native-timing-report.ts'
 
 const owningPngClock = (row: any): string | undefined => row.format === 'svg' && row.metrics?.measuredAt === null && row.metrics?.transport === 'owned-original-svg-companion-of-png-export' && row.metrics?.parentInvocationFormat === 'png' && row.metrics?.witnessRole === 'actual-original-public-svg-return' && typeof row.metrics?.parentMeasuredAt === 'string' && Number.isFinite(Date.parse(row.metrics.parentMeasuredAt)) ? row.metrics.parentMeasuredAt : undefined
 const measuredAt = (rows: any[], fallback: string): string => rows.map(row => row.metrics?.measuredAt ?? owningPngClock(row)).filter((value): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value))).sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? fallback
@@ -48,6 +49,14 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
       continue
     }
     if (boundary.suite === 'portable') {
+      const native = readNativeTiming(boundary.out)
+      if (native) {
+        for (const row of native.rows) add(['native-public-timing', native.cohort, native.bundle.plan.artifacts], 'portable', row.measuredAt ?? native.finishedAt, native.scope,
+          ['Artifact SHA-256 prefix', 'Examples', 'Rounds', 'Retained samples', 'Planned samples', 'Median replica-round ms', 'Ratio to reference', 'Ratio interval', 'Qualification', 'Measured'], projectId(row.project),
+          [row.artifact.artifactSha256.slice(0, 16), native.bundle.plan.cases.length, native.bundle.plan.rounds, row.calls, row.plannedSamples, row.medianWorkloadMs ?? 'withheld', row.ratio ?? 'withheld', row.interval ? `${row.interval.lower}–${row.interval.upper}` : !native.qualified ? 'withheld' : row.replicas.includes('B') ? 'unavailable' : 'reference', native.status, row.measuredAt ?? 'Unknown; no retained sample clock'],
+          { column: 'Ratio to reference', direction: 'ascending' }, { cohort: native.cohort, unit: 'paired normalized workload time', summary: true }, native.qualified ? undefined : 'Timing qualification is unresolved: ' + native.gaps.join('; '))
+        continue
+      }
       const file = join(boundary.out, 'report.json')
       if (!existsSync(file)) continue
       const result = readBenchmarkDocument(file) as any

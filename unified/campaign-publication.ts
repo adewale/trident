@@ -7,6 +7,7 @@ import type { BenchmarkObservation, UnifiedSuiteResult } from './types.ts'
 import { PUBLIC_SUITES } from './support.ts'
 import { readPublicTestEvidence } from './public-test-reporting.ts'
 import { copyPublicationMethods } from './publication-methods.ts'
+import { nativeTimingFile, readNativeTiming } from './native-timing-report.ts'
 
 export interface CampaignEnvelope {
   schema?: string
@@ -15,10 +16,17 @@ export interface CampaignEnvelope {
   results: { suite: string; project?: string; cohort?: string; status: string; disposition?: string; detail?: string; out?: string; observations?: number; counts?: Record<string, unknown>; gaps?: string[] }[]
 }
 export function campaignReportFile(directory: string) {
-  return existsSync(join(directory, 'report.json')) || existsSync(join(directory, 'report.json.gz')) ? 'report.json' : 'public-conformance-report.json'
+  if (existsSync(join(directory, 'report.json')) || existsSync(join(directory, 'report.json.gz'))) return 'report.json'
+  if (existsSync(join(directory, 'public-conformance-report.json')) || existsSync(join(directory, 'public-conformance-report.json.gz'))) return 'public-conformance-report.json'
+  return nativeTimingFile(directory) ?? 'public-conformance-report.json'
 }
 export function readCampaign(directory: string): CampaignEnvelope {
   const file = campaignReportFile(directory), value = readBenchmarkDocument(join(directory, file)) as any
+  if (file.startsWith('timing-bundle-')) {
+    const timing = readNativeTiming(directory)!
+    return { schema: 'trident-campaign-v2', startedAt: timing.startedAt, updatedAt: timing.finishedAt, projects: timing.rows.map(row => row.project), profile: timing.cohort, rounds: timing.bundle.plan.rounds,
+      results: [{ suite: 'portable', cohort: timing.cohort, out: resolve(directory), status: timing.qualified ? 'passed' : 'blocked', detail: timing.scope, gaps: timing.gaps }] }
+  }
   if (value.schema === 'trident-mermaid-behaviour-report-v1') {
     const evidence = readBehaviourEvidence(directory)
     return { schema: 'trident-campaign-v2', startedAt: evidence.measuredAt ?? evidence.assessedAt, updatedAt: evidence.assessedAt, projects: evidence.targets.map(target => target.project), profile: evidence.protocol, rounds: 1,
@@ -44,6 +52,9 @@ const cell = (value: unknown) => String(value).replaceAll('|', '/').replaceAll('
 const link = (root: string, path: string) => encodeURI(relative(root, path)).replaceAll('#', '%23')
 export function campaignResults(row: CampaignEnvelope['results'][number]): UnifiedSuiteResult[] {
   if (!row.out) return []
+  const timing = row.suite === 'portable' ? readNativeTiming(row.out) : undefined
+  if (timing) return [{ id: 'portable', startedAt: timing.startedAt, finishedAt: timing.finishedAt, status: timing.qualified ? 'passed' : 'blocked', gaps: timing.gaps,
+    observations: timing.rows.map(value => ({ suite: 'portable', surface: timing.bundle.plan.boundary, runtime: 'owned public timing driver', family: 'fixed workload', caseId: timing.cohort, operation: 'workload-timing-qualification', format: timing.bundle.plan.format, mode: timing.bundle.plan.track, status: timing.qualified ? 'passed' : 'blocked', detail: timing.scope, metrics: { project: value.project, measuredAt: value.measuredAt, artifactSha256: value.artifact.artifactSha256, retainedSamples: value.calls, plannedSamples: value.plannedSamples, ...(value.medianWorkloadMs !== null ? { medianWorkloadMs: value.medianWorkloadMs, normalizedRatio: value.ratio! } : {}) } })) }]
   if (row.suite === 'mermaid-behaviour') {
     const evidence = readBehaviourEvidence(row.out)
     const observations: BenchmarkObservation[] = evidence.targets.flatMap(target => target.rows.map((input: any) => ({ suite: 'mermaid-behaviour', surface: 'native-public-return', runtime: 'see owning public-call capture', family: evidence.corpus.cases.find(source => source.id === input.id)?.operation ?? 'observable-behaviour', caseId: input.id, operation: 'whole-behaviour-case', format: 'public-return', mode: evidence.protocol, status: input.status === 'passed' ? 'passed' : input.status === 'failed' ? 'failed' : 'blocked', detail: JSON.stringify(input), metrics: { project: target.project, version: target.version ?? 'unavailable', caseOutcome: input.status, measuredAt: input.status === 'unrun' ? null : evidence.measuredAt, observerAssessedAt: evidence.assessedAt, sourceCommit: evidence.sourceCommit, evidenceReportSha256: evidence.reportSha256 } })))

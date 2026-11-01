@@ -69,6 +69,14 @@ bun commands.ts results:snapshot --campaign /evidence/run \
 bun commands.ts results:snapshot --check
 ```
 
+These commands also accept a single attempt directory from `timing:browser`,
+`timing:png` or `timing:terminal`. The importer reads its native bundle and
+revalidates the owned raw journal and A/A controls. Speed ranks also require the
+full current source contracts; output-only checks cannot qualify them. Each
+table keeps its output format, clock boundary, corpus and exact artifact hashes.
+Unqualified attempts remain visible with speed values withheld. Keep separate
+attempts in separate directories so the importer never chooses one silently.
+
 Commit `RESULTS.md` and `results/latest.json` together. Repeat the
 `--campaign DIR --evidence-url URL` pair to import multiple campaigns. Reimporting
 an unchanged campaign does not duplicate its attempts. A changed or partial
