@@ -166,7 +166,7 @@ export function readPublicBehaviourTargets(directory: string, selected?: string[
       return { ...assessment, ...(file ? { evidence: { file: file.file, fileSha256: file.sha256, rawEventsSha256: retained!.rawEventsSha256, artifactSha256: identity.entrySha256, bindingSha256: hash(JSON.stringify(identity.binding)) } } : {}) }
     })
     const counts = Object.fromEntries(['passed', 'failed', 'unavailable', 'unrun'].map(status => [status, rows.filter(row => row.status === status).length]))
-    return { project, version: identity?.version ?? null, artifact: identity ?? null, planned: corpus.cases.length, counts, rows }
+    return { project, version: identity?.version ?? null, artifact: identity ? { binding: identity.binding, entry: identity.entry, version: identity.version, entrySha256: identity.entrySha256, identitySha256: hash(JSON.stringify(identity)) } : null, planned: corpus.cases.length, counts, rows }
   })
 }
 
