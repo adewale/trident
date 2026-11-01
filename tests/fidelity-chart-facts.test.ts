@@ -67,7 +67,7 @@ test('multiple named lines use legend ownership; swapping names cannot preserve 
   const svg = fixture('multiline')
   const checks = await inspect('xychart', { expected, svg })
   expect(check(checks, 'source-fact:series')?.status).toBe('passed')
-  expect(check(checks, 'source-fact:y-range')?.status).toBe('unavailable')
+  expect(check(checks, 'source-fact:y-range')?.status).toBe('passed')
   const change = `const a=[...document.querySelectorAll('text')].find(e=>e.textContent==='avg'),b=[...document.querySelectorAll('text')].find(e=>e.textContent==='p50');a.textContent='p50';b.textContent='avg'`
   expect(check(await inspect('xychart', { expected, svg, change }), 'source-fact:series')?.status).toBe('failed')
 })
@@ -88,7 +88,11 @@ test('an extra partial line cannot disappear from the XY series inventory', asyn
 
 test('numeric range and category labels must own actual ticks rather than borrow other text', async () => {
   const change = `const t=[...document.querySelectorAll('text')].find(e=>e.textContent==='10');t.textContent='';document.querySelector('svg').insertAdjacentHTML('beforeend','<text x="400" y="30">10</text>')`
-  expect(check(await inspect('xychart', { change }), 'source-fact:y-range')?.status).not.toBe('passed')
+  // An authored range does not require its endpoint glyph. The remaining
+  // real ticks and complete actual axis still independently establish0..10.
+  expect(check(await inspect('xychart', { change }), 'source-fact:y-range')?.status).toBe('passed')
+  const borrowedTicks = `document.querySelectorAll('.left-axis .label text').forEach(e=>e.textContent='');document.querySelector('svg').insertAdjacentHTML('beforeend','<text x="400" y="30">0</text><text x="450" y="30">5</text><text x="500" y="30">10</text>')`
+  expect(check(await inspect('xychart', { change: borrowedTicks }), 'source-fact:y-range')?.status).not.toBe('passed')
   const missingCategoryTick = `const ticks=[...document.querySelector('.bottom-axis .ticks').querySelectorAll('path')];ticks[0].remove()`
   expect(check(await inspect('xychart', { change: missingCategoryTick }), 'source-fact:series')?.status).not.toBe('passed')
 })

@@ -6,6 +6,7 @@ import { chromium } from 'playwright'
 import { inspectSvgDrawing } from '../fidelity/inspect-svg.ts'
 import { inspectFidelityPaint } from '../fidelity/paint.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
+import { retainedGraphFonts } from './helpers/retained-graph-fonts.ts'
 
 setDefaultTimeout(30_000)
 let browser: any
@@ -20,6 +21,7 @@ async function inspect(index: number, change?: string) {
   const page = await browser.newPage({ viewport: { width: 1600, height: 1200 } })
   try {
     await page.setContent(svgFor(index))
+    if ([48,49,503,504].includes(index)) await retainedGraphFonts(page)
     if (change) await page.evaluate(change)
     return await inspectSvgDrawing(page, { family: docs[index].family, source: sources[index].source, expected: docs[index].expected })
   } finally { await page.close() }
@@ -141,7 +143,8 @@ test('absolute Gantt calendars also prove excluded-day durations and clock miles
 })
 
 for (const index of [48, 49]) test('C4 actual route-midpoint caption offsets: ' + index, async () => {
-  expect(status(await inspect(index), 'source-fact:authored-style')).toBe('passed')
+  const result=await inspect(index),check=result.checks.find(check=>check.criterion==='source-fact:authored-style'),issues=Array.isArray(check?.actual)?check.actual.flatMap((rule:any)=>(rule.attributes??[]).filter((attribute:any)=>attribute.matches!==true).map((attribute:any)=>({kind:rule.kind,positions:rule.positions,...attribute}))):[{actual:check?.actual,scope:check?.scope}]
+  expect({status:check?.status,issues}).toEqual({status:'passed',issues:[]})
 })
 test('a moved C4 caption cannot retain its source offset', async () => {
   const wrong = await inspect(48, `const e=[...document.querySelectorAll('text')].find(e=>e.textContent==='Uses'&&getComputedStyle(e).fill==='rgb(0, 0, 255)');e.setAttribute('x',String(Number(e.getAttribute('x'))+10))`)
@@ -202,8 +205,8 @@ test('curved multiply ribbons require bound ports, resolved alpha and actual con
 })
 
 test('transparent HTML space cannot be mistaken for paint over Venn captions', async () => {
-  expect((await inspect(503)).passed).toBe(true)
-  expect((await inspect(504)).passed).toBe(true)
+  expect((await inspect(503)).checks.filter(check=>check.status!=='passed')).toEqual([])
+  expect((await inspect(504)).checks.filter(check=>check.status!=='passed')).toEqual([])
   const opaque = await inspect(503, `document.querySelector('foreignObject span').style.background='white'`)
   expect(status(opaque, 'unclipped-authored-labels')).not.toBe('passed')
   const ownerOpaque = await inspect(503, `document.querySelector('foreignObject').style.background='white'`)

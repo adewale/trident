@@ -32,5 +32,7 @@ test('compact mode admits nonoverlapping row reuse without disabling calendar or
   const overlap=`const body=document.querySelector('rect[id$="-a2"]'),label=document.querySelector('text[id$="-a2-text"]');body.setAttribute('y','50');label.setAttribute('y','63.5')`
   expect(fact(await inspect('compact',undefined,overlap),'tasks').status).not.toBe('passed')
   const ordinary=rows.find((row:any)=>row.file==='compact.svg.gz').source.replace(/^---\n[\s\S]*?\n---\n/,'')
-  expect(fact(await inspect('compact',ordinary),'tasks').status).toBe('failed')
+  const ordinaryResult=await inspect('compact',ordinary)
+  expect(fact(ordinaryResult,'tasks').status).toBe('failed')
+  expect(ordinaryResult.checks.find(check=>check.criterion==='painted-duration-ratios')?.status).toBe('passed')
 })
