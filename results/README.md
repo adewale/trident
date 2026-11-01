@@ -73,8 +73,10 @@ These commands also accept a single attempt directory from `timing:browser`,
 revalidates the owned raw journal and A/A controls. Speed ranks also require the
 full current source contracts; output-only checks cannot qualify them. Each
 table keeps its output format, clock boundary, corpus and exact artifact hashes.
-Unqualified attempts remain visible with speed values withheld. Keep separate
-attempts in separate directories so the importer never chooses one silently.
+Unqualified attempts remain visible with speed values withheld. Provisional and
+final summaries of one capture are accepted only when every recorded input,
+sample and ownership field agrees. Distinct attempts need separate directories;
+the importer never chooses the best saved verdict.
 
 Commit `RESULTS.md` and `results/latest.json` together. Repeat the
 `--campaign DIR --evidence-url URL` pair to import multiple campaigns. Reimporting

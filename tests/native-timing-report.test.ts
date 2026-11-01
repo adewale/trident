@@ -75,9 +75,23 @@ test('unqualified native returns remain visible and withhold both projects’ sp
   expect(() => importCampaign(empty(), f.out, 'https://example.test/tampered', catalog)).toThrow(/changed/)
 }, 20_000)
 
+test('driver qualification revisions of one capture import without trusting their cached verdict', async () => {
+  const f = await capture('svg'), revision = join(f.out, 'timing-bundle-ffffffffffffffffffffffff.json')
+  const finalization = Buffer.from(JSON.stringify({ scope: 'Synthetic selection marker; no driver-finalization policy or renderer claim' }))
+  writeFileSync(join(f.out, 'driver-finalization.json'), finalization)
+  const bundle = JSON.parse(readFileSync(f.result.bundleFile, 'utf8'))
+  bundle.qualification = { status: 'unqualified', gaps: ['Deliberately false saved verdict'], driverFinalizationSha256: hash(finalization) }
+  writeFileSync(revision, JSON.stringify(bundle))
+  expect(nativeTimingFile(f.out)).toBe(basename(revision))
+  expect(readCampaign(f.out).results[0]!.status).toBe('passed')
+  expect(importCampaign(empty(), f.out, 'https://example.test/revisions', catalog).tables[0]!.rows).toHaveLength(2)
+}, 20000)
+
 test('native publication rejects ambiguous attempts and preserves legacy report routing', async () => {
   const f = await capture('svg')
-  copyFileSync(f.result.bundleFile, join(f.out, 'timing-bundle-deadbeef.json'))
+  const other = JSON.parse(readFileSync(f.result.bundleFile, 'utf8'))
+  other.plan.environmentSha256 = '1'.repeat(64)
+  writeFileSync(join(f.out, 'timing-bundle-deadbeef.json'), JSON.stringify(other))
   expect(() => readCampaign(f.out)).toThrow(/each native timing attempt/)
   writeFileSync(join(f.out, 'report.json'), JSON.stringify({ schema: 'trident-campaign-v2', startedAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z', projects: ['fixture/a'], profile: 'legacy', rounds: 1, results: [] }))
   expect(nativeTimingFile(f.out)).toBeUndefined()

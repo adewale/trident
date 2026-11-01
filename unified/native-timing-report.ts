@@ -17,8 +17,22 @@ import { qualifyRetainedTiming } from './qualify-timing.ts'
 export function nativeTimingFile(directory: string): string | undefined {
   if (!existsSync(directory)) return undefined
   if (existsSync(join(directory, 'report.json')) || existsSync(join(directory, 'report.json.gz'))) return undefined
-  const files = readdirSync(directory).filter(name => /^timing-bundle-[a-f0-9]+\.json$/.test(name))
-  if (files.length > 1) throw Error('Publish each native timing attempt from its own directory')
+  const files = readdirSync(directory).filter(name => /^timing-bundle-[a-f0-9]+\.json$/.test(name)).sort()
+  if (files.length > 1) {
+    // Real drivers retain provisional and finalized qualification summaries.
+    // They are one capture only when every non-qualification field agrees,
+    // including sample IDs, raw ownership, source and execution instances.
+    const captures = files.map(file => {
+      const { qualification, ...capture } = readBenchmarkDocument(owned(directory, file))
+      return { file, qualification, identity: evidenceDigest(capture) }
+    })
+    if (new Set(captures.map(capture => capture.identity)).size !== 1) throw Error('Publish each native timing attempt from its own directory')
+    const receipt = join(directory, 'driver-finalization.json')
+    const finalizedSha256 = existsSync(receipt) ? evidenceBytesDigest(readFileSync(owned(directory, 'driver-finalization.json'))) : undefined
+    // This picks a useful revision, never a winning verdict. readNativeTiming
+    // revalidates the raw journal and actual closure after selecting the file.
+    return captures.find(capture => finalizedSha256 && capture.qualification?.driverFinalizationSha256 === finalizedSha256)?.file ?? files[0]
+  }
   return files[0]
 }
 const owned = (directory: string, file: string) => {
