@@ -54,6 +54,12 @@ test('foreign interior covers and unrelated text cannot borrow endpoint-caption 
     expect(status(await inspect(272, change), 'commits')).not.toBe('passed')
   }
 })
+test('unprojected images and uses, and primitive strokes, cannot hide an owned Git parent route', async () => {
+  const image = (x: number) => `<image x="${x}" y="83" width="12" height="12" fill="none" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27%3E%3Crect width=%2712%27 height=%2712%27 fill=%27white%27/%3E%3C/svg%3E"/>`
+  const change = (cover: string) => `const svg=document.querySelector('svg'),e=document.querySelector('path[d*="68 A"]'),g=document.createElementNS(svg.namespaceURI,'g');g.setAttribute('transform',e.getAttribute('transform')||'');g.innerHTML=${JSON.stringify(cover)};e.parentNode.append(g);new Promise(resolve=>setTimeout(resolve,100))`
+  expect(status(await inspect(272, change(image(800))), 'commits')).toBe('passed')
+  for (const cover of [image(80), `<defs><rect id="independent-cover" width="12" height="12" fill="white"/></defs><use href="#independent-cover" x="80" y="83" fill="none"/>`, `<line x1="80" y1="89" x2="92" y2="89" fill="none" stroke="white" stroke-width="12"/>`, `<polyline points="80,89 92,89" fill="none" stroke="white" stroke-width="12"/>`]) expect(status(await inspect(272, change(cover)), 'commits')).not.toBe('passed')
+})
 test('actual authored label/tag ownership and generated-ID independence', async () => {
   expect(status(await inspect(275, `for(const e of document.querySelectorAll('[id]'))if(e!==document.querySelector('svg'))e.id='unrelated-'+Math.random()`), 'commits')).toBe('passed')
   expect(status(await inspect(275, `const a=[...document.querySelectorAll('text')].find(e=>e.textContent==='3'),b=[...document.querySelectorAll('text')].find(e=>e.textContent==='4');a.textContent='4';b.textContent='3'`), 'commits')).toBe('failed')
