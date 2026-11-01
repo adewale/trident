@@ -64,13 +64,13 @@ export function retainedDrawingOutcome(input: { verdict?: string; record?: any; 
   const render = observations.filter(row => row.operation === 'render'), publicClassification = record?.publicOutcomeClassification
   const classification = publicClassification?.publicApiEntryProved === true ? publicClassification.category
     : render.find(row => row.metrics?.noImagePublicApiEntryProved === true)?.metrics?.noImageClassification
-  const harnessFailure = observations.some(row => admissionOperations.includes(row.operation) && ['failed', 'blocked'].includes(row.status))
+  const harnessFailure = observations.some(row => row.metrics?.observerFailure === true || row.metrics?.harnessFailure === true || admissionOperations.includes(row.operation) && ['failed', 'blocked'].includes(row.status))
   const returned = !!(record?.pngSha256 || record?.originalSvgSha256 || record?.svgSha256 || record?.witness || record?.sha256 || execution?.witness) || render.some(row => row.status === 'passed')
   const verdict = input.verdict ?? record?.assessment?.status
   return classifyDrawingOutcome({ verdict, formatRejected: invalidDrawingFormat(record, observations),
     unsupported: classification === 'proven-unsupported-source-input' || render.some(row => row.status === 'unsupported'),
     rendererFailure: classification === 'actual-renderer-failure', harnessFailure,
-    runtimeExecuted: typeof execution?.runtimeExecuted === 'boolean' ? execution.runtimeExecuted : typeof record?.runtimeExecuted === 'boolean' ? record.runtimeExecuted : undefined,
+    runtimeExecuted: typeof execution?.runtimeExecuted === 'boolean' ? execution.runtimeExecuted : typeof record?.runtimeExecuted === 'boolean' ? record.runtimeExecuted : render.length && render.every(row => row.metrics?.runtimeExecuted === false) ? false : undefined,
     returned, recorded: !!record || !!execution || observations.length > 0 })
 }
 /** Reporting tables carry counts and bounds in ordinary cells. Missing ratios
