@@ -86,6 +86,7 @@ export async function runPngExportTiming(options: Options) {
   }, options.out, { collectionBudgetMs: 600_000 })
 }
 if (import.meta.main) {
+  if (process.argv[2] === '--help') { console.log('timing:png CONFIG.json\nCompare cold PNG exports using frozen Mermaid and native Flutter artifacts.\nConfig keys: preparedFile, nativeLaunch, prerequisites, caseIds, displayExecutable, out.\nEvery timed image needs a matching source-bound content review.'); process.exit(0) }
   const config = JSON.parse(readFileSync(process.argv[2]!, 'utf8')) as Options
   console.log(JSON.stringify(await runPngExportTiming(config), null, 2))
 }
