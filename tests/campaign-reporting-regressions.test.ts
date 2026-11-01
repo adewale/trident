@@ -298,3 +298,26 @@ test('recovered terminal content keeps a lost measurement clock unknown instead 
   expect(table.rows[0]!.values[table.columns.indexOf('Measured')]).toBe('Unknown; recovered text, see receipt')
   expect(table.rows[0]!.values[table.columns.indexOf('Correct')]).toBe(1)
 })
+
+
+test('original SVG companions report owning PNG call dates and keep observer publication separate', () => {
+  const publication = '2026-04-01T00:00:00Z', root = campaign(temp(), { updatedAt: publication }), file = join(root, 'docs/result.json'), result = JSON.parse(readFileSync(file, 'utf8'))
+  result.finishedAt = '2026-03-01T00:00:00Z'
+  for (const row of result.observations) row.metrics = { ...row.metrics, measuredAt: null, parentMeasuredAt: row.caseId === 'one' ? '2026-01-01T00:00:02Z' : '2026-01-01T00:00:04Z', transport: 'owned-original-svg-companion-of-png-export', parentInvocationFormat: 'png', witnessRole: 'actual-original-public-svg-return' }
+  // A typed rejection row has no independent SVG witness role. Its original
+  // same-source render still supplies that source's owning PNG-call date.
+  result.observations.push(...result.observations.filter((row: any) => row.operation === 'render' && row.caseId === 'two').map((row: any) => ({ ...row, operation: 'source-rejection', status: 'failed', metrics: { ...row.metrics, witnessRole: undefined } })))
+  result.observations.push({ ...result.observations[0], operation: 'artifact-admission', metrics: { ...result.observations[0].metrics, parentMeasuredAt: '2030-01-01T00:00:00Z', witnessRole: 'unqualified-parent-hint' } })
+  write(file, result)
+  write(join(root, 'docs/inventory.json'), { cases: [{ id: 'one' }, { id: 'two' }], drawingReview: { cases: [{ id: 'one', intent: 'drawing' }, { id: 'two', intent: 'invalid-source' }] } })
+  const tables = importCampaign(empty(), root, 'https://example.test/owned-companion-clocks', catalog).tables
+  expect(tables).toHaveLength(3)
+  for (const table of tables) {
+    const expected = table.columns.includes('Correct') ? '2026-01-01T00:00:02Z' : '2026-01-01T00:00:04Z'
+    expect(table.measuredAt).toBe(expected)
+    expect(table.campaignUpdatedAt).toBe(publication)
+    expect(table.rows.map(row => row.values[table.columns.indexOf('Measured')])).toEqual([expected, expected])
+    expect(table.caption).toContain('owning PNG-export calls')
+    expect(table.caption).toContain('no independent SVG clock')
+  }
+})

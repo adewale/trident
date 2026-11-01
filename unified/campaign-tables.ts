@@ -10,7 +10,8 @@ import { summarizeSvgCases } from '../fidelity/svg-assessment.ts'
 import { publicTestTables } from './public-test-reporting.ts'
 import { qualifyRetainedTimingBundle } from './qualify-timing.ts'
 
-const measuredAt = (rows: any[], fallback: string): string => rows.map(row => row.metrics?.measuredAt).filter((value): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value))).sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? fallback
+const owningPngClock = (row: any): string | undefined => row.format === 'svg' && row.metrics?.measuredAt === null && row.metrics?.transport === 'owned-original-svg-companion-of-png-export' && row.metrics?.parentInvocationFormat === 'png' && row.metrics?.witnessRole === 'actual-original-public-svg-return' && typeof row.metrics?.parentMeasuredAt === 'string' && Number.isFinite(Date.parse(row.metrics.parentMeasuredAt)) ? row.metrics.parentMeasuredAt : undefined
+const measuredAt = (rows: any[], fallback: string): string => rows.map(row => row.metrics?.measuredAt ?? owningPngClock(row)).filter((value): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value))).sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? fallback
 const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex')
 /** Tables are reductions of owning observations, with interfaces and observed
  * populations separated. No hand-transcribed numbers or pooled overall score. */
@@ -185,9 +186,10 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
           const unrankedReason = incomplete ? `${counts.blocked === inventory.cases.length ? 'blocked' : 'incomplete'} (${completeRounds}/${report.rounds} complete rounds)` : undefined
           const version = own.find(row => typeof row.metrics?.version === 'string')?.metrics?.version ?? result.toolVersions?.find(row => projectId(row.tool) === project)?.version ?? 'unavailable'
           const laneKey = format === 'svg' ? [] : ['png']
+          const clockScope = format === 'svg' && own.some(row => owningPngClock(row)) ? ' Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.' : ''
           const laneProtocol = inventory.protocol === 'public-docs-output-lanes-v2' ? (format === 'svg' ? 'public-docs-svg-return-v1' : 'public-docs-png-return-v2') : inventory.protocol ?? 'public-docs-svg-return-v1'
           add(['docs', ...laneKey, cohort, hash(inventory.cases), report.rounds], 'docs', measuredAt(own, result.finishedAt),
-            `Corpus: Mermaid syntax documentation at ${inventory.pin?.commit ?? 'the owning inventory pin'}; ${inventory.cases.length} occurrences, retaining duplicates. ${format.toUpperCase()} output lane. Returned means the occurrence returned ${format.toUpperCase()} in all ${report.rounds} declared rounds. Failures and unexecuted work retain the full inventory. Output return does not certify drawing content.`,
+            `Corpus: Mermaid syntax documentation at ${inventory.pin?.commit ?? 'the owning inventory pin'}; ${inventory.cases.length} occurrences, retaining duplicates. ${format.toUpperCase()} output lane. Returned means the occurrence returned ${format.toUpperCase()} in all ${report.rounds} declared rounds. Failures and unexecuted work retain the full inventory. Output return does not certify drawing content.${clockScope}`,
             ['Version', 'Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed', 'Planned', 'Measured'], project,
             [String(version), counts.passed, counts.failed, counts.unsupported, counts.blocked, counts.missing, counts.partial, inventory.cases.length, measuredAt(own, result.finishedAt)],
             { column: 'Returned in all rounds', denominator: 'Planned', direction: 'descending' },
@@ -197,17 +199,18 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             const controls = own.filter(row => row.operation === 'source-rejection' && population.invalid.has(row.caseId))
             if (new Set(controls.map(row => row.caseId)).size !== controls.length) throw Error('Duplicate invalid-source controls')
             const passed = controls.filter(row => row.status === 'passed').length, failed = controls.filter(row => row.status === 'failed').length
-            add(['docs-source-controls', ...laneKey, cohort, hash(inventory.cases), hash(inventory.drawingReview ?? null)], 'docs', measuredAt(controls, result.finishedAt),
-              `Corpus: ${population.invalid.size} invalid-source documentation example(s), retained verbatim in the ${inventory.cases.length}-occurrence inventory. A source-bound typed native rejection passes; an actual public return fails. Generic exceptions and missing evidence remain unknown.`,
+            const controlClock = measuredAt(controls, measuredAt(own.filter(row => row.operation === 'render' && population.invalid.has(row.caseId)), result.finishedAt))
+            add(['docs-source-controls', ...laneKey, cohort, hash(inventory.cases), hash(inventory.drawingReview ?? null)], 'docs', controlClock,
+              `Corpus: ${population.invalid.size} invalid-source documentation example(s), retained verbatim in the ${inventory.cases.length}-occurrence inventory. A source-bound typed native rejection passes; an actual public return fails. Generic exceptions and missing evidence remain unknown.${clockScope}`,
               ['Version', 'Correct rejection', 'Accepted invalid source', 'Unknown', 'Planned controls', 'Measured'], project,
-              [String(version), passed, failed, population.invalid.size - passed - failed, population.invalid.size, measuredAt(controls, result.finishedAt)],
+              [String(version), passed, failed, population.invalid.size - passed - failed, population.invalid.size, controlClock],
               { column: 'Correct rejection', direction: 'descending' }, { outputFormat: format as 'svg' | 'png', unit: 'invalid-source controls', population: { total: 'Planned controls', outcomes: ['Correct rejection', 'Accepted invalid source', 'Unknown'] } }, passed + failed ? undefined : 'No qualified source-control observation')
           }
           if (drawings.length) {
             if (new Set(drawings.map(row => row.caseId)).size !== drawings.length || drawings.some(row => !inventory.cases.some((input: any) => input.id === row.caseId))) throw Error('Documentation drawing observations do not match the inventory')
             const { correct, incorrect, unknown } = documentationDrawingScore(own, population)
             add(['docs-drawings', ...laneKey, cohort, hash(inventory.cases), hash(inventory.drawingReview ?? null), hash(inventory.producers ?? []), ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])], 'docs', measuredAt(drawings, result.finishedAt),
-              `Corpus: the same pinned Mermaid documentation inventory. First-round actual ${format.toUpperCase()} witnesses checked against source expectations. ${format === 'svg' ? 'Shared SVG paint/meaning observer.' : 'PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit.'} Rank counts verified correct drawings out of ${population.drawings.size}; ${population.configuration} configuration example(s) and ${population.invalid.size} independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence.`,
+              `Corpus: the same pinned Mermaid documentation inventory. First-round actual ${format.toUpperCase()} witnesses checked against source expectations. ${format === 'svg' ? 'Shared SVG paint/meaning observer.' : 'PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit.'} Rank counts verified correct drawings out of ${population.drawings.size}; ${population.configuration} configuration example(s) and ${population.invalid.size} independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence.${clockScope}`,
               ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned drawings', 'Measured'], project,
               [String(version), correct, incorrect, unknown, population.drawings.size, measuredAt(drawings, result.finishedAt)],
               { column: 'Correct', direction: 'descending' },
@@ -216,7 +219,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             if (reviewedIds.size && reviewedIds.size < population.drawings.size) {
               const subset = drawings.filter(row => reviewedIds.has(row.caseId)), passed = subset.filter(row => row.status === 'passed').length, failed = subset.filter(row => row.status === 'failed').length, missing = reviewedIds.size - passed - failed
               add(['docs-reviewed-profile', ...laneKey, cohort, hash(inventory.drawingReview), hash(inventory.producers ?? []), ...(format === 'png' ? [inventory.pngReviewSha256 ?? null] : [])], 'docs', measuredAt(subset, result.finishedAt),
-                `Corpus: reviewed ${reviewedIds.size}-occurrence subset of ${inventory.cases.length} Mermaid documentation occurrences, bound to exact source hashes; ${format.toUpperCase()} lane. This development-exposed profile ranks verified correct counts and keeps unresolved observations explicit. It supplies no full DaveBench accuracy, holdout or speed claim.`,
+                `Corpus: reviewed ${reviewedIds.size}-occurrence subset of ${inventory.cases.length} Mermaid documentation occurrences, bound to exact source hashes; ${format.toUpperCase()} lane. This development-exposed profile ranks verified correct counts and keeps unresolved observations explicit. It supplies no full DaveBench accuracy, holdout or speed claim.${clockScope}`,
                 ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned reviewed', 'Measured'], project,
                 [String(version), passed, failed, missing, reviewedIds.size, measuredAt(subset, result.finishedAt)],
                 { column: 'Correct', denominator: 'Planned reviewed', direction: 'descending' },
