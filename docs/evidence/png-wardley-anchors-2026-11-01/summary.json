@@ -3,7 +3,7 @@
   "sourceContractsSha256": "821c47a699a6ee7d753f03eb22632d3d7ad9ce35c6f34b2b43daaf12123524bc",
   "priorSummary": "../png-holds-2026-11-01/summary.json",
   "priorSummarySha256": "432c7be4516c0d61200f1ccf7fd2fe62569aca855d338adf222c3588019955f5",
-  "priorNormalDeltaUncompressedSha256": "749b49e78af9ecc7532c12523805298d801dffc9d6585a9614ca3c2dfc3466af",
+  "priorNormalDeltaUncompressedSha256": "f8a53f5a8223ce85deac4c686c40cfd19dc5f73352a21e58b778ba720bf7c760",
   "normalDeltaResult": "normal-delta.json.gz",
   "uncompressedDeltaResultSha256": "3856c7d69a9442635729b6e7d25534ea960caddebd7795b4560b8bafb11acd6f",
   "producerSha256": "0d0cf1d1c4e6f0a70dc107a4be3304c9d7339384610693d5f07f18989827f5e7",
@@ -79,5 +79,6 @@
   },
   "scope": "Only521 Mermaid and native actual PNGs receive new v2 source-and-actual-image reviews, official admission and normal affected grades. The existing963-origin selection and prior13 supplemental receipts remain unchanged. No old951/963 image reimport/decode, renderer/API call or archive rebuild occurred. Both519 notes remain unknown because the fixed positive-only glyph decoder did not fully qualify them.520 and every other hold are untouched. Original per-row clocks/ownership are preserved; timing is unqualified.",
   "rendererInvocations": 0,
-  "codexApiInvocations": 0
+  "codexApiInvocations": 0,
+  "priorSourceNormalResultSha256": "749b49e78af9ecc7532c12523805298d801dffc9d6585a9614ca3c2dfc3466af"
 }

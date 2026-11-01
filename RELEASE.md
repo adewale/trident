@@ -7,23 +7,12 @@ shipped bytes at the intended revision. It does not mean rerunning every project
 The 0.1 release remains blocked on the initial [baseline](BASELINE.md) and its
 bounded accuracy claims. The [current qualification report](docs/qualification-results-2026-10-31.md)
 records active v3 terminal results, the 154-callback API diagnostic, retained SVG
-regrading and the minimum PNG cohort. The [summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json)
-and [all grades](docs/evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz)
-preserve those separate populations. Full drawing accuracy and whole-suite
-conformance remain unresolved.
+regrading and the minimum PNG cohort, with each current score linked to its source/output evidence. Full drawing accuracy and whole-suite conformance remain unresolved.
 
-Runtime revision `8aa1238a1a7b487fae42ff5c39a3f80dbe976bf2` passed the actual
-source/extracted-kit `package-parity-verified` check. Its archive SHA-256 is
-`d80afdf89ce70b10d232cb2880fc650e5048ab1604de7a8f3c6f192f5c43dbe9`.
-[Linux and macOS fixture CI](https://github.com/adewale/trident/actions/runs/41252220020)
-passed for that revision. Its browser-enabled full suite passed 1,243 tests with
-zero failures and 9,738 assertions across 167 files. Lint, typecheck, source/public
-manifest regeneration and snapshot checks also passed. [Complete evidence and
-restoration checks](https://github.com/adewale/trident/blob/586bc66045cf4f1400b2d2d4aef40b525387b27f/qualification-evidence/completion-2026-10-31/README.md) are retained; the initial baseline remains open. These runtime checks
-do not assert CI for a later documentation revision or declare the 0.1 release
-ready. Earlier `1ba6f812` checks and the [published `79777b7` foundation](https://github.com/adewale/trident/blob/79777b738e4bb5292a31b11dc405c42f6c90d323/qualification-evidence/README.md)
-remain historical evidence with their original producers. The development
-archives were not released.
+Run the checks below on the intended release revision. Keep their actual commit,
+archive checksum and CI results with the release evidence. Earlier development
+archive and restoration checks remain [historical evidence](https://github.com/adewale/trident/blob/586bc66045cf4f1400b2d2d4aef40b525387b27f/qualification-evidence/completion-2026-10-31/README.md);
+they do not qualify later revisions. Development archives were not released.
 Renderer failures are findings; a missing or incorrect Trident observer is a
 harness limitation and must not be reported as a renderer defect.
 

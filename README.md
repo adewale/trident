@@ -22,7 +22,7 @@ publishes the original 39-project results and raw download, including projects
 later excluded from regular campaigns. The rolling overview uses the current
 27-project selection.
 
-The [current minimum-cohort results](docs/qualification-results-2026-10-31.md)
+The [current minimum-cohort report](docs/qualification-results-2026-10-31.md)
 reports current verified counts, explicit unknowns and qualified scoped
 timing comparisons. It is separate from the 27-project campaign and does not
 declare a new baseline or a ready 0.1 release.
