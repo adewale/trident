@@ -13,6 +13,7 @@ import { runCommunityFidelitySuite } from '../fidelity/community.ts'
 import { runMermaidFidelitySuite } from './fidelity-suite.ts'
 import { runUpstreamFidelitySuite } from './upstream-fidelity.ts'
 import { runUpstreamOriginalSuite } from './upstream-fidelity-original.ts'
+import { assertDocsCoverage } from './docs-selection.ts'
 import { runDocsBenchmark } from './docs-benchmark.ts'
 import { selectCommunityProjects } from './community.ts'
 import type { PreparedCommunity } from './community-types.ts'
@@ -80,7 +81,7 @@ export async function main(argv = process.argv.slice(2)) {
   --docs-png-review FILE         reviewed PNG/source/expectation hashes; absent images remain unknown
   --list --include-excluded-descendants
   --pilot-summary CONTROLLER_JSON --out DIR  reduce owning pilot reports without collection
-Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples} warm means and ${FULL_SAMPLING.coldSamples} fresh processes per replica/round/case. Missing bindings, failures and unqualified timing remain visible. Measurements run locally and serially. Budgets stop new work at collector checkpoints; active workers retain their deadlines.`)
+Legacy portable diagnostics with --profile full --rounds ${FULL_SAMPLING.rounds}: ${FULL_SAMPLING.samples} warm means and ${FULL_SAMPLING.coldSamples} fresh processes per replica/round/case. Missing bindings, failures and unqualified timing remain visible. Measurements run locally and serially. Budgets stop new work at collector checkpoints; active workers retain their deadlines.`)
     return
   }
   const forwarded: string[] = [], selected: string[] = [], seen = new Set<string>()
@@ -137,6 +138,7 @@ Full portable sampling: ${FULL_SAMPLING.rounds} rounds, ${FULL_SAMPLING.samples}
   }
   if (pilotOnly && selected.length) throw Error('--pilot selects its diagnostic portable cases; do not supply --suites')
   const chosen = previous?.requestedSuites ?? (pilotOnly ? ['portable'] : selected.length ? selected : [...DEFAULT_SUITES])
+  if (chosen.includes('docs')) assertDocsCoverage(options.rounds)
   if (allProjects && options.communityProjects && !preparedFile) throw Error('Use --projects or --all-projects, not both')
   if (!list && !options.communityProjects && !allProjects) throw Error('Choose --projects OWNER/TOOL,..., explicitly --all-projects, or --prepared before starting')
   let catalog = read(options.communityCatalogFile ?? communityCatalogFile)
