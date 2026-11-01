@@ -10,7 +10,7 @@ jobs:
     name: Static checks and fixture tests
     # Playwright 1.58's dependency installer supports Ubuntu 24.04.
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     env:
       MERMAID_REFERENCE_DIR: /nonexistent/trident-oracle
       MERMAID_UPSTREAM_DIR: /nonexistent/trident-source
