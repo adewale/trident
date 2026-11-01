@@ -44701,12 +44701,16 @@
   ],
   "publications": [
     {
-      "title": "1 November: fresh 27-project campaign — ranked tables",
-      "url": "https://github.com/adewale/trident/blob/ecosystem-evidence-2026-11-01/RESULTS.md"
+      "title": "Illustrated results: correct, incorrect and unassessed PNG outputs",
+      "url": "docs/results-examples-2026-11-01.md"
     },
     {
-      "title": "1 November: complete raw archive and checksums",
-      "url": "https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-11-01"
+      "title": "1 November: fresh 27-project campaign — ranked tables",
+      "url": "https://github.com/adewale/trident/blob/evidence/full-campaign-2026-11-01/RESULTS.md"
+    },
+    {
+      "title": "1 November raw archive: prepared; asset upload pending",
+      "url": "https://github.com/adewale/trident/pull/74"
     },
     {
       "title": "1 November: qualified time and excluded timing bindings",

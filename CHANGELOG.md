@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Replace the results overview with separate compact benchmark rankings, explicit paired timing tables, unassessed states and illustrated retained PNG examples. Keep detailed diagnostics linked and explain what archive verification establishes.
+
 - Publish the full 27-project campaign with separate SVG, PNG, terminal and behaviour tables, scoped timing and downloadable raw evidence; preserve B0.
 - Import standard timing bundles through normal reporting, retaining each pair’s controls and withholding unqualified speed ranks.
 - Fix terminal report serialization and SVG journal lookup; replay blocked stylesheet imports under the collection policy.

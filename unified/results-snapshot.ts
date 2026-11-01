@@ -454,6 +454,112 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   }) : output
 }
 
+/** Reader-facing results; detailed tables and capture history stay linked. */
+export function renderPublicResults(snapshot: ResultsSnapshot, catalog: LineageCatalog, links: Map<string, string>, includeRecordedProjects = false) {
+  snapshot = regressionSnapshot(snapshot)
+  validateSnapshot(snapshot, catalog)
+  const nodes = new Map(catalog.nodes.map(node => [node.id, node]))
+  const visible = (project: string) => includeRecordedProjects || !coreScopeReason(nodes.get(project)!)
+  const name = (project: string) => snapshot.projectNames?.[project] ?? nodes.get(project)?.comparisonBranding?.name ?? project
+  const recent = (a: SnapshotTable, b: SnapshotTable) => stamp(b.campaignUpdatedAt ?? b.measuredAt) - stamp(a.campaignUpdatedAt ?? a.measuredAt) || a.id.localeCompare(b.id)
+  const current = (entry: SnapshotTable) => ({ ...entry, rows: entry.rows.filter(row => visible(row.project) && (entry.suite === 'portable' || !supersedingAttempt(snapshot.attempts, entry, row.project))) })
+  const detail = (entry: SnapshotTable) => (links.get(anchor(entry.id)) ?? links.get('suite:' + entry.suite) ?? '') + '#' + anchor(entry.id)
+  const number = (entry: SnapshotTable, row: SnapshotTable['rows'][number], column: string) => measurementNumber(row.values[entry.columns.indexOf(column)])
+  const latest = [...snapshot.tables.map(entry => entry.measuredAt), ...snapshot.attempts.map(entry => entry.updatedAt)].sort((a, b) => stamp(a) - stamp(b)).at(-1)
+  const lines = ['# Mermaid ecosystem benchmark results', '', `Updated **${latest ? date(latest) : 'no measurements'}**. Each benchmark has its own ranking; there is no overall project rank.`, '',
+    '[DaveBench SVG](#davebench-svg) · [DaveBench PNG](#davebench-png) · [Terminal rendering](#terminal-rendering) · [Behaviour tests](#mermaid-behaviour-tests) · [Rendering time](#rendering-time)', '',
+    'Rank counts verified correct results, highest first; ties share a rank. **Unresolved results can change the accuracy order.** “Better” or “Worse” means the correctness bounds do not overlap. “Uncertain” means they do. Unassessed projects receive no rank.', '',
+    'Failed includes incorrect drawings, invalid output, proven unsupported input and renderer errors. Unresolved includes missing assessments, unrun work and Trident failures. Invalid-source and configuration-only controls are in the details.', '',
+    '[Methods and corpus provenance](BENCHMARKS.md) · [Machine-readable results](results/latest.json) · [Supported projects](CATALOG.md)', '']
+  const lanes: { title: string; suite: PublicSuite; format?: 'svg' | 'png'; drawing: boolean; source: string }[] = [
+    { title: 'DaveBench SVG', suite: 'docs', format: 'svg', drawing: true, source: 'Mermaid syntax documentation' },
+    { title: 'DaveBench PNG', suite: 'docs', format: 'png', drawing: true, source: 'The same Mermaid syntax documentation as SVG; PNG images are assessed separately' },
+    { title: 'Terminal rendering', suite: 'community', drawing: true, source: '[Pinned terminal-project docs, tests, issues and PRs, with explicit adaptations](BENCHMARKS.md#terminal-rendering--project-examples)' },
+    { title: 'Mermaid Behaviour Tests', suite: 'mermaid-behaviour', drawing: false, source: '[Adapted Mermaid upstream tests](BENCHMARKS.md#mermaid-behaviour-tests), covering syntax-family detection and SVG accessible names/descriptions' },
+  ]
+  for (const lane of lanes) {
+    lines.push('## ' + lane.title, '')
+    const entry = snapshot.tables.filter(entry => entry.suite === lane.suite && entry.artifactRole !== 'candidate' && !entry.diagnostic && (lane.drawing ? !!entry.drawingOutcomePolicy : entry.ranking?.column === 'Passed') && (!lane.format || (entry.outputFormat ?? 'svg') === lane.format) && (lane.suite !== 'community' || entry.cohort?.startsWith('terminal-'))).sort(recent)[0]
+    if (!entry) { lines.push('No assessed result table is available.', ''); continue }
+    const shown = current(entry), rows = rankedRows(shown, name)
+    const reference = lane.suite === 'community' ? 'AlexanderGrooff/mermaid-ascii' : 'mermaid-js/mermaid'
+    const totalColumn = entry.population?.total ?? 'Planned'
+    const totals = [...new Set(entry.rows.map(row => number(entry, row, totalColumn)))]
+    if (totals.length !== 1) { lines.push(`Different planned populations cannot share a compact ranking. [Original populations and outcomes](${detail(entry)}).`, ''); continue }
+    // Provenance must come from this report, never an unrelated newer inventory.
+    const provenance = snapshot.tables.filter(other => other.receipt.sha256 === entry.receipt.sha256 && other.outputFormat === entry.outputFormat).map(other => other.caption).join(' ')
+    const pin = /(?:documentation at|pinned Mermaid) ([a-f0-9]{40})/.exec(provenance)?.[1]
+    const source = lane.suite === 'docs' && pin ? `[Mermaid syntax documentation at ${pin.slice(0, 7)}](https://github.com/mermaid-js/mermaid/tree/${pin}/packages/mermaid/src/docs/syntax)${lane.format === 'png' ? '; PNG images are assessed separately' : ''}` : lane.suite === 'docs' ? 'Exact documentation revision not recorded in this table; consult the linked source evidence' : lane.source + (pin ? ` at [${pin.slice(0, 7)}](https://github.com/mermaid-js/mermaid/tree/${pin})` : '')
+    lines.push(`**Corpus:** ${source}. **Population:** ${totals.length === 1 ? totals[0] : 'see each row’s original population'} ${lane.drawing ? 'drawings' : 'whole behaviour cases'} per project. **Date:** ${date(entry.measuredAt)}.`, '')
+    if (lane.suite === 'docs' && lane.format === 'svg') {
+      const returned = snapshot.tables.find(other => other.receipt.sha256 === entry.receipt.sha256 && other.outputFormat === entry.outputFormat && other.columns.includes('Returned in all rounds') && other.rows.length)
+      const occurrences = returned ? number(returned, returned.rows[0]!, 'Planned') : null
+      if (occurrences && occurrences !== totals[0]) lines.push(`The full inventory has ${occurrences} documentation occurrences; invalid-source and configuration-only controls are reported separately from drawings.`, '')
+    }
+    if (!lane.drawing) lines.push('A case passes only when all its assertions pass. Unavailable includes missing public bindings and unrun cases. These are selected behaviours, not the entire Mermaid test suite.', '')
+    const compare = (row: typeof entry.rows[number], rank: number | null) => {
+      if (row.project === reference) return rank === null ? 'Reference not assessed' : 'Reference'
+      if (rank === null) return 'Not assessed'
+      const baseline = shown.rows.find(row => row.project === reference)
+      if (!baseline) return 'No reference result'
+      if (lane.drawing) {
+        const a = drawingBounds(entry, row)!, b = drawingBounds(entry, baseline)!
+        return a.lower > b.upper ? 'Better' : a.upper < b.lower ? 'Worse' : a.lower === a.upper && b.lower === b.upper && a.lower === b.lower ? 'Tie' : 'Uncertain'
+      }
+      return baselineComparison(shown, row, reference).startsWith('Tie') ? 'Tie' : baselineComparison(shown, row, reference).includes('unresolved') ? 'Uncertain' : (number(entry, row, 'Passed') ?? 0) > (number(entry, baseline, 'Passed') ?? 0) ? 'Better' : 'Worse'
+    }
+    lines.push(table(['Rank', 'Project', 'Version', lane.drawing ? 'Correct' : 'Passed', 'Failed', lane.drawing ? 'Unresolved' : 'Unavailable', 'vs ' + name(reference)], rows.map(row => {
+      const bounds = drawingBounds(entry, row)
+      const unresolved = bounds ? bounds.upper - bounds.lower : (number(entry, row, 'Unavailable') ?? 0) + (number(entry, row, 'Unrun') ?? 0)
+      const passed = number(entry, row, lane.drawing ? 'Correct' : 'Passed') ?? 0
+      const total = number(entry, row, totalColumn) ?? 0
+      return [row.rank ?? '—', name(row.project), row.values[0]!, row.rank === null ? '—' : passed, row.rank === null ? '—' : total - passed - unresolved, unresolved, compare(row, row.rank)]
+    })), '')
+    const superseded = entry.rows.filter(row => visible(row.project) && !shown.rows.includes(row))
+    if (superseded.length) lines.push('Newer attempts supersede these scores: ' + superseded.map(row => name(row.project)).join(', ') + '. See the collection details; old scores are not substituted.', '')
+    lines.push(`[Full outcomes, correctness bounds and collection details](${detail(entry)}) · [Source evidence](${entry.receipt.url})`, '')
+  }
+  lines.push('## Rendering time', '', 'Lower ratios are faster. The latest attempt for each project pair and format is shown; older workloads remain in the details. Each table compares one fixed workload against its own reference in the same run. Workload times are median replica-round totals; ratios are medians of paired round ratios. Times include the stated public-call boundary and do not describe the full DaveBench corpus. Only runs with correct sampled outputs and sufficiently stable repeated reference measurements receive a rank.', '')
+  const latestPairs = new Map<string, SnapshotTable>()
+  for (const entry of snapshot.tables.filter(entry => entry.suite === 'portable' && entry.artifactRole !== 'candidate' && entry.cohort?.startsWith('native-timing:')).sort(recent)) {
+    const format = entry.cohort!.split(':')[1]!
+    const key = JSON.stringify([format, entry.rows.map(row => row.project).sort()])
+    if (!latestPairs.has(key)) latestPairs.set(key, current(entry))
+  }
+  for (const format of ['svg', 'png', 'terminal']) {
+    lines.push('### ' + format.toUpperCase(), '')
+    const entries = [...latestPairs.values()].filter(entry => entry.cohort!.split(':')[1] === format)
+    const qualified = entries.filter(entry => entry.rows.length === 2 && entry.rows.every(row => (number(entry, row, 'Ratio to reference') ?? 0) > 0 && (number(entry, row, 'Median replica-round ms') ?? 0) > 0 && !row.unrankedReason && row.values[entry.columns.indexOf('Qualification')] === 'qualified'))
+    if (!qualified.length) lines.push('No paired run qualified. No speed ranking is available.', '')
+    for (const entry of qualified.sort((a, b) => {
+      const ratio = (e: SnapshotTable) => Math.min(...e.rows.filter(row => row.project !== 'mermaid-js/mermaid' && row.project !== 'AlexanderGrooff/mermaid-ascii').map(row => number(e, row, 'Ratio to reference')!))
+      return ratio(a) - ratio(b)
+    })) {
+      const count = number(entry, entry.rows[0]!, 'Examples'), rounds = number(entry, entry.rows[0]!, 'Rounds')
+      const boundary = entry.caption.split(' Corpus: ')[0]!.replace(/^[\s\S]*?Host /, 'Host ')
+      lines.push(`**${entry.rows.map(row => name(row.project)).join(' / ')}** · ${count} examples · ${rounds} rounds · ${date(entry.measuredAt)}`, '', 'Corpus and selection: ' + (entry.caption.split(' Corpus: ')[1]?.split(' Ranks use')[0] ?? 'See the linked source plan for exact input IDs.') + '', '',
+        table(['Rank', 'Project', 'Workload (ms)', 'Ratio to reference', 'Ratio interval'], rankedRows(entry, name).map(row => [row.rank ?? '—', name(row.project), Number(number(entry, row, 'Median replica-round ms')!.toFixed(1)), number(entry, row, 'Ratio to reference')!.toFixed(3), String(row.values[entry.columns.indexOf('Ratio interval')]).split('–').map(value => Number.isFinite(Number(value)) ? Number(value).toFixed(3) : value).join('–')])), '',
+        '**Clock:** ' + boundary, '', `[Exact artifacts, samples and timing method](${detail(entry)})`, '')
+    }
+    const withheld = entries.filter(entry => !qualified.includes(entry))
+    if (withheld.length) lines.push(table(['Unranked pair', 'Reason', 'Details'], withheld.map(entry => {
+      const reason = entry.rows.map(row => row.unrankedReason ?? '').join(' ')
+      return [entry.rows.map(row => name(row.project)).join(' / '), /noise ceiling/.test(reason) ? 'Reference measurements too noisy' : /incomplete|interrupted/.test(reason) ? 'Capture incomplete' : /source contract/.test(reason) ? 'Correctness not fully verified' : 'Timing not qualified', `[Run details](${detail(entry)})`]
+    })), '')
+  }
+  lines.push('## Evidence and previous runs', '', 'Detailed pages retain return-rate diagnostics, invalid-input controls, every outcome category and superseded attempts. Original measurements and the frozen B0 baseline are unchanged.', '')
+  for (const [key, link] of links) if (key.startsWith('suite:') && ['docs', 'community', 'mermaid-behaviour', 'portable'].includes(key.slice(6))) lines.push(`- [${snapshotBenchmarkNames(snapshot)[key.slice(6) as PublicSuite]} details](${link})`)
+  const diagnostics = [...links].filter(([key]) => key.startsWith('suite:') && !['docs', 'community', 'mermaid-behaviour', 'portable'].includes(key.slice(6)))
+  if (diagnostics.length) {
+    lines.push('', '<details>', '<summary>Historical and maintenance diagnostics</summary>', '')
+    for (const [key, link] of diagnostics) lines.push(`- [${snapshotBenchmarkNames(snapshot)[key.slice(6) as PublicSuite]}](${link})`)
+    lines.push('', '</details>', '')
+  }
+  for (const publication of snapshot.publications ?? []) lines.push(`- [${md(publication.title)}](${publication.url})`)
+  lines.push('', 'The raw benchmark evidence archive preserves captured outputs and the reports generated at collection time. Checking its hashes and rebuilding its tables verifies preservation and reproducibility; it does not validate every drawing or grading decision.', '')
+  return lines.join('\n').trimEnd() + '\n'
+}
+
 export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog, root: string, check = false, includeRecordedProjects = false) {
   const frozen = join(root, 'results/baseline.json')
   if (existsSync(frozen) && (snapshot.baseline?.url !== 'results/baseline.json' || snapshot.baseline.sha256 !== sha256(readFileSync(frozen)))) throw Error('Results must preserve the existing frozen baseline reference')
@@ -462,8 +568,7 @@ export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog
   const outputs: [string, string][] = [], links = new Map<string, string>()
   // Keep GitHub pages below its rendering limit. The complete numeric snapshot
   // stays in one JSON file; detail pages preserve every table and attempt.
-  const split = Buffer.byteLength(full) > 120000
-  if (split) {
+  { // Always put diagnostics behind a link, even for a small campaign.
     for (const suite of PUBLIC_SUITES) {
       const heading = `### ${snapshotBenchmarkNames(snapshot)[suite]}\n\n`, start = full.indexOf(heading, full.indexOf('## Results by benchmark'))
       if (start < 0) continue
@@ -492,7 +597,7 @@ export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog
       outputs.push([join(root, index), indexLines.join('\n') + '\n'])
     }
   }
-  outputs.push([join(root, 'RESULTS.md'), split ? renderSnapshot(snapshot, catalog, links, includeRecordedProjects) : full], [join(root, 'results/latest.json'), json])
+  outputs.push([join(root, 'RESULTS.md'), renderPublicResults(snapshot, catalog, links, includeRecordedProjects)], [join(root, 'results/latest.json'), json])
   if (check) {
     for (const [path, expected] of outputs) if (!existsSync(path) || readFileSync(path, 'utf8') !== expected) throw Error('Results snapshot is stale: ' + path)
   } else {

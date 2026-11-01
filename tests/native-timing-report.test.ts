@@ -53,7 +53,7 @@ for (const format of ['svg', 'png', 'terminal'] as const) test(`native ${format}
   // Exercise the generated pages, whose schema also constrains column names.
   const rendered = temp.dir()
   writeSnapshot(snapshot, catalog, rendered)
-  expect(readFileSync(join(rendered, 'RESULTS.md'), 'utf8')).toContain('artifact ')
+  expect(readFileSync(join(rendered, 'results/tables/portable-1.md'), 'utf8')).toContain('artifact ')
   expect(table.caption).toContain(format === 'terminal' ? 'Terminal project documentation and regression fixtures' : 'Mermaid syntax documentation')
   const ratios = table.rows.map(row => row.values[table.columns.indexOf('Ratio to reference')]) as number[]
   expect(ratios[0]).toBe(1)

@@ -78,6 +78,11 @@ final summaries of one capture are accepted only when every recorded input,
 sample and ownership field agrees. Distinct attempts need separate directories;
 the importer never chooses the best saved verdict.
 
+The generated landing page has separate compact benchmark rankings. Full outcome
+ledgers and attempted runs are always written to `results/tables/`, including for
+small campaigns. Presentation changes reuse the saved snapshot; they require no
+renderer calls or raw-archive rebuild.
+
 Commit `RESULTS.md` and `results/latest.json` together. Repeat the
 `--campaign DIR --evidence-url URL` pair to import multiple campaigns. Reimporting
 an unchanged campaign does not duplicate its attempts. A changed or partial
