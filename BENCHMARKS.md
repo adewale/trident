@@ -142,6 +142,48 @@ cannot supply missing correctness evidence. No single-call p95/p99 or production
 forecast follows from batch means. CPU, RSS, JS heap and native/WASM memory keep
 their separate scopes. [Measurement rules](MEASUREMENT.md) give the clock details.
 
+## Mermaid Behaviour Tests
+
+Task: pass portable, observable behaviours adapted from Mermaid's tests. The
+[committed selection](corpus/mermaid-behaviour-tests.json) contains **49 whole
+cases, 56 ordered source stimuli and 75 individual checks**: 30 family/keyword
+precedence cases and 19 structural SVG accessible-name/description cases. A case
+passes only when every required check passes. The original test files and callback
+hashes come from Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b`.
+All 154 parent callbacks have an explicit selected/excluded disposition.
+
+These are adaptations, not unchanged upstream tests. Family aliases remove
+backend names such as `flowchart-v2`. SVG naming accepts qualified native
+`title`/`desc` and ARIA references without Mermaid's generated IDs, role-description
+strings or jsdom geometry mocks. Active content, hidden or unfamiliar naming
+representations remain unassessed. Structural naming is not a complete
+accessibility audit or a drawing-quality score. The excluded parse/configuration
+snapshots remain in the exact API diagnostic; generic SVG-return work is already
+covered by DaveBench.
+
+```sh
+bun commands.ts mermaid:behaviour --plan
+bun commands.ts mermaid:behaviour --replay-public QUALIFIED154_DIR --out FRESH_DIR
+bun commands.ts mermaid:behaviour --adapter ADAPTER.json --reference MERMAID_BEHAVIOUR_DIR --out FRESH_DIR
+bun commands.ts mermaid:behaviour --replay-capture NATIVE_CAPTURE_DIR --reference MERMAID_BEHAVIOUR_DIR --out FRESH_DIR
+```
+
+The reference must pass all 49 cases from its actual retained Mermaid returns;
+a saved pass flag or project name cannot qualify it. A native adapter receives
+only the operation and literal source, then returns its actual public family or
+SVG. The included Node bridge calls configured public functions. Collection
+retains stdout, stderr and outcomes before grading and verifies declared
+executable, adapter, configuration and artifact bytes. It makes one process call
+per supported stimulus, with no warmups, retries or speed claim. Generic bridges
+must declare their execution inputs; the manifest does not prove an undeclared
+runtime dependency closure. No source checkout, Vitest or model API is required
+for new peers.
+
+Tables stack-rank passed whole cases over the same 49; failed, unavailable and
+unrun cases remain visible. Missing capabilities earn no pass and no invented
+failure. Retained replay re-evaluates actual values rather than copying the old
+154-callback diagnostic's verdicts.
+
 ## Mermaid Public API Tests — diagnostic
 
 Task: pass the unchanged public-behaviour assertions in Mermaid's own tests.
