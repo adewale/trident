@@ -1,0 +1,905 @@
+{
+  "schema": "trident-results-snapshot-v1",
+  "tables": [
+    {
+      "id": "community-node:public-api",
+      "suite": "community",
+      "measuredAt": "2026-10-28",
+      "historical": true,
+      "unit": "inputs",
+      "caption": "Selected smoke campaign; public Node SVG API; one round; 33 feature inputs. Six core inputs are separate. Output admission does not establish diagram meaning.",
+      "columns": [
+        "Version",
+        "Passed inputs",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Planned inputs"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.1",
+            14,
+            1,
+            18,
+            0,
+            33
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            32,
+            0,
+            1,
+            0,
+            33
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "population": {
+        "total": "Planned inputs",
+        "outcomes": [
+          "Passed inputs",
+          "Failed",
+          "Unsupported",
+          "Blocked"
+        ]
+      },
+      "ranking": {
+        "column": "Passed inputs",
+        "direction": "descending",
+        "denominator": "Planned inputs"
+      }
+    },
+    {
+      "id": "community-browser:public-api",
+      "suite": "community",
+      "measuredAt": "2026-10-28",
+      "historical": true,
+      "unit": "inputs",
+      "caption": "Selected smoke campaign; browser SVG API; one round; 33 feature inputs. Six core inputs are separate. Mermaid.js is the language reference.",
+      "columns": [
+        "Version",
+        "Passed inputs",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Planned inputs"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.1",
+            14,
+            1,
+            18,
+            0,
+            33
+          ]
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            33,
+            0,
+            0,
+            0,
+            33
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            32,
+            0,
+            1,
+            0,
+            33
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "overview": {
+        "numerator": "Passed inputs",
+        "denominator": "Planned inputs",
+        "suffix": "SVG inputs"
+      },
+      "population": {
+        "total": "Planned inputs",
+        "outcomes": [
+          "Passed inputs",
+          "Failed",
+          "Unsupported",
+          "Blocked"
+        ]
+      },
+      "ranking": {
+        "column": "Passed inputs",
+        "direction": "descending",
+        "denominator": "Planned inputs"
+      }
+    },
+    {
+      "id": "docs-coverage",
+      "suite": "docs",
+      "measuredAt": "2026-10-27",
+      "historical": true,
+      "unit": "documentation occurrences",
+      "caption": "Browser SVG; 548 documentation occurrences, 546 distinct sources, 34 pages; five rounds with identical per-round coverage. A returned SVG does not establish correct paint. Mermaid.js is the reference.",
+      "columns": [
+        "Version",
+        "SVG returned",
+        "Failed",
+        "Planned occurrences"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.1",
+            340,
+            208,
+            548
+          ]
+        },
+        {
+          "project": "lukilabs/beautiful-mermaid",
+          "values": [
+            "1.1.3",
+            231,
+            317,
+            548
+          ]
+        },
+        {
+          "project": "Dicklesworthstone/frankenmermaid",
+          "values": [
+            "0.4.0",
+            548,
+            0,
+            548
+          ]
+        },
+        {
+          "project": "orestesgaolin/mermaid",
+          "values": [
+            "0.3.2",
+            449,
+            99,
+            548
+          ]
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            547,
+            1,
+            548
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            532,
+            16,
+            548
+          ]
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "values": [
+            "5.10.2",
+            245,
+            303,
+            548
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "overview": {
+        "numerator": "SVG returned",
+        "denominator": "Planned occurrences",
+        "suffix": "SVG returned"
+      },
+      "chart": {
+        "numerator": "SVG returned",
+        "denominator": "Planned occurrences",
+        "title": "DaveBench SVG returns",
+        "axis": "SVG returned (%)",
+        "maximum": 100
+      },
+      "population": {
+        "total": "Planned occurrences",
+        "outcomes": [
+          "SVG returned",
+          "Failed"
+        ]
+      },
+      "ranking": {
+        "column": "SVG returned",
+        "direction": "descending",
+        "denominator": "Planned occurrences"
+      }
+    },
+    {
+      "id": "docs-one-input-time",
+      "suite": "docs",
+      "measuredAt": "2026-10-27",
+      "historical": true,
+      "unit": "milliseconds",
+      "caption": "Browser SVG; one shared input: packages/mermaid/src/docs/syntax/flowchart.md:23. Median of five calls after warmup. Not calibrated; failed output withholds timing. This is not a whole-docs speed comparison.",
+      "columns": [
+        "Version",
+        "Median call time (ms)",
+        "Successful calls",
+        "Comparison qualification"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.1",
+            "20.2",
+            "5/5",
+            "Not calibrated"
+          ]
+        },
+        {
+          "project": "lukilabs/beautiful-mermaid",
+          "values": [
+            "1.1.3",
+            "Withheld",
+            "0/5",
+            "SVG return failed"
+          ]
+        },
+        {
+          "project": "Dicklesworthstone/frankenmermaid",
+          "values": [
+            "0.4.0",
+            "0.4",
+            "5/5",
+            "Not calibrated"
+          ]
+        },
+        {
+          "project": "orestesgaolin/mermaid",
+          "values": [
+            "0.3.2",
+            "3",
+            "5/5",
+            "Not calibrated"
+          ]
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            "78.3",
+            "5/5",
+            "Not calibrated"
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            "0.6",
+            "5/5",
+            "Not calibrated"
+          ]
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "values": [
+            "5.10.2",
+            "Withheld",
+            "0/5",
+            "SVG return failed"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "ranking": {
+        "column": "Median call time (ms)",
+        "direction": "ascending"
+      }
+    },
+    {
+      "id": "svg-meaning",
+      "suite": "fidelity",
+      "measuredAt": "2026-10-27",
+      "historical": true,
+      "unit": "SVG criteria",
+      "caption": "Browser SVG; the same 1,180 SVG criterion identities per project. Native-model checks are excluded. The older observer needs fresh qualification; these counts are not current bug findings or an overall visual-quality score.",
+      "columns": [
+        "Version",
+        "Passed criteria",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Planned criteria"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.1",
+            716,
+            13,
+            0,
+            451,
+            1180
+          ]
+        },
+        {
+          "project": "lukilabs/beautiful-mermaid",
+          "values": [
+            "1.1.3",
+            356,
+            18,
+            0,
+            806,
+            1180
+          ]
+        },
+        {
+          "project": "Dicklesworthstone/frankenmermaid",
+          "values": [
+            "0.4.0",
+            1112,
+            6,
+            0,
+            62,
+            1180
+          ]
+        },
+        {
+          "project": "orestesgaolin/mermaid",
+          "values": [
+            "0.3.2",
+            1025,
+            45,
+            0,
+            110,
+            1180
+          ]
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            1068,
+            16,
+            0,
+            96,
+            1180
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            1118,
+            5,
+            14,
+            43,
+            1180
+          ]
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "values": [
+            "5.10.2",
+            477,
+            13,
+            0,
+            690,
+            1180
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "overview": {
+        "numerator": "Passed criteria",
+        "denominator": "Planned criteria",
+        "suffix": "criteria"
+      },
+      "chart": {
+        "numerator": "Passed criteria",
+        "title": "Diagram Meaning checks passed",
+        "axis": "Passed criteria out of 1180",
+        "maximum": 1180
+      },
+      "population": {
+        "total": "Planned criteria",
+        "outcomes": [
+          "Passed criteria",
+          "Failed",
+          "Unsupported",
+          "Blocked"
+        ]
+      },
+      "ranking": {
+        "column": "Passed criteria",
+        "direction": "descending",
+        "denominator": "Planned criteria"
+      }
+    },
+    {
+      "id": "shared-model",
+      "suite": "native-fidelity",
+      "measuredAt": "2026-10-27",
+      "historical": true,
+      "unit": "shared model criteria",
+      "caption": "Reviewed public models; the same 561 criterion identities for each bound project. Shared identity digest: c959c18ab2dd3a76b2f4a0f4be5744ff60a3a44d7e0e80722785694df0cf01e6. A missing Trident projection does not prove a missing project API.",
+      "columns": [
+        "Version",
+        "Passed criteria",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "Planned shared criteria"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.1",
+            374,
+            7,
+            179,
+            1,
+            561
+          ]
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            555,
+            0,
+            6,
+            0,
+            561
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            555,
+            0,
+            6,
+            0,
+            561
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "overview": {
+        "numerator": "Passed criteria",
+        "denominator": "Planned shared criteria",
+        "suffix": "shared checks"
+      },
+      "population": {
+        "total": "Planned shared criteria",
+        "outcomes": [
+          "Passed criteria",
+          "Failed",
+          "Unsupported",
+          "Blocked"
+        ]
+      },
+      "ranking": {
+        "column": "Passed criteria",
+        "direction": "descending",
+        "denominator": "Planned shared criteria"
+      }
+    },
+    {
+      "id": "additional-model",
+      "suite": "native-fidelity",
+      "measuredAt": "2026-10-27",
+      "historical": true,
+      "unit": "additional API criteria",
+      "caption": "Additional serializer/readback checks on the public API that exposes them. Separate from the shared-model comparison; these checks confer no comparison bonus.",
+      "columns": [
+        "Version",
+        "Passed criteria",
+        "Failed",
+        "Unsupported",
+        "Blocked",
+        "API-specific criteria"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.1",
+            117,
+            0,
+            0,
+            1,
+            118
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "population": {
+        "total": "API-specific criteria",
+        "outcomes": [
+          "Passed criteria",
+          "Failed",
+          "Unsupported",
+          "Blocked"
+        ]
+      },
+      "ranking": {
+        "column": "Passed criteria",
+        "direction": "descending",
+        "denominator": "API-specific criteria"
+      }
+    },
+    {
+      "id": "replay-declarations",
+      "suite": "upstream-fidelity",
+      "measuredAt": "2026-10-27",
+      "historical": true,
+      "unit": "source declarations",
+      "caption": "Pinned Mermaid source; 3,995 inventoried declarations across 368 files; 85 files selected for public-parser projection. Declaration dispositions are separate from expanded callbacks and raw matcher counts.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unavailable",
+        "Outside projection",
+        "Skipped",
+        "Unregistered",
+        "Planned declarations"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.1",
+            160,
+            151,
+            1213,
+            2453,
+            15,
+            3,
+            3995
+          ]
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            477,
+            0,
+            1047,
+            2453,
+            15,
+            3,
+            3995
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            381,
+            16,
+            1127,
+            2453,
+            15,
+            3,
+            3995
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "overview": {
+        "numerator": "Passed",
+        "denominator": "Planned declarations",
+        "suffix": "declarations"
+      },
+      "population": {
+        "total": "Planned declarations",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unavailable",
+          "Outside projection",
+          "Skipped",
+          "Unregistered"
+        ]
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending",
+        "denominator": "Planned declarations"
+      }
+    },
+    {
+      "id": "replay-callbacks",
+      "suite": "upstream-fidelity",
+      "measuredAt": "2026-10-27",
+      "historical": true,
+      "unit": "expanded callbacks",
+      "caption": "Expanded callbacks from the same replay inventory. Parameterization expands declarations into callbacks. Raw matcher counters include unavailable callbacks and are not a headline pass rate.",
+      "columns": [
+        "Version",
+        "Passed callbacks",
+        "Failed",
+        "Unavailable",
+        "Skipped",
+        "Recorded callbacks"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.1",
+            694,
+            586,
+            1408,
+            12,
+            2700
+          ]
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            1555,
+            0,
+            1133,
+            12,
+            2700
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            1452,
+            16,
+            1220,
+            12,
+            2700
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "population": {
+        "total": "Recorded callbacks",
+        "outcomes": [
+          "Passed callbacks",
+          "Failed",
+          "Unavailable",
+          "Skipped"
+        ]
+      },
+      "ranking": {
+        "column": "Passed callbacks",
+        "direction": "descending",
+        "denominator": "Recorded callbacks"
+      }
+    },
+    {
+      "id": "original-runner",
+      "suite": "upstream-original",
+      "measuredAt": "2026-10-28",
+      "historical": true,
+      "unit": "original callbacks",
+      "caption": "Mermaid reference only; 331 files through the genuine original core Vitest runner in a sealed npm environment. Docs-site and browser/e2e tests are outside this table.",
+      "columns": [
+        "Version",
+        "Files",
+        "Passed callbacks",
+        "Failed",
+        "Pending",
+        "Todo",
+        "Total callbacks"
+      ],
+      "rows": [
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            331,
+            6677,
+            0,
+            16,
+            2,
+            6695
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "overview": {
+        "numerator": "Passed callbacks",
+        "denominator": "Total callbacks",
+        "suffix": "callbacks"
+      },
+      "population": {
+        "total": "Total callbacks",
+        "outcomes": [
+          "Passed callbacks",
+          "Failed",
+          "Pending",
+          "Todo"
+        ]
+      },
+      "ranking": {
+        "column": "Passed callbacks",
+        "direction": "descending",
+        "denominator": "Total callbacks"
+      }
+    },
+    {
+      "id": "portable-times",
+      "suite": "portable",
+      "measuredAt": "2026-10-27",
+      "historical": true,
+      "unit": "milliseconds",
+      "caption": "Public Node SVG; authored family:flowchart; protocol portable-svg-processes-v3; five rounds. First calls exclude import (100 samples); repeat and new-source medians use 155 batch means each. Failed or uncalibrated campaigns: no qualified speed comparison or ratios.",
+      "columns": [
+        "Version",
+        "First call median (ms)",
+        "Repeat median (ms)",
+        "New-source median (ms)",
+        "Declared flowchart checks",
+        "Campaign qualification"
+      ],
+      "rows": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.1",
+            "330",
+            "30.5",
+            "20.3",
+            "Incomplete",
+            "Failed"
+          ]
+        },
+        {
+          "project": "lukilabs/beautiful-mermaid",
+          "values": [
+            "1.1.3",
+            "206",
+            "7.46",
+            "4.78",
+            "Incomplete",
+            "Failed"
+          ]
+        },
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            "17.1",
+            "0.35",
+            "0.11",
+            "Complete",
+            "Uncalibrated"
+          ]
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "values": [
+            "5.10.2",
+            "326",
+            "8.96",
+            "5.72",
+            "Incomplete",
+            "Failed"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "overview": {
+        "numerator": "Campaign qualification",
+        "suffix": ""
+      },
+      "ranking": {
+        "column": "Repeat median (ms)",
+        "direction": "ascending"
+      }
+    },
+    {
+      "id": "portable-resources",
+      "suite": "portable",
+      "measuredAt": "2026-10-27",
+      "historical": true,
+      "unit": "MiB; CPU unavailable",
+      "caption": "Same historical Pele flowchart; round 1; API-return checkpoint. Process RSS and JS heap have different scopes. CPU was unavailable; it is not zero.",
+      "columns": [
+        "Version",
+        "Checkpoint",
+        "Process RSS (MiB)",
+        "JS heap used (MiB)",
+        "CPU (ms)"
+      ],
+      "rows": [
+        {
+          "project": "obsidianmd/pele",
+          "values": [
+            "1.9.0",
+            "At API return",
+            "67.61",
+            "11.48",
+            "Unavailable"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "docs/evidence/benchmark-examples.json",
+        "sha256": "df07e9a3119836c9d2a904b5cecbea44a8c0ab4a279d015ca11c0866f460e364"
+      },
+      "ranking": {
+        "column": "Process RSS (MiB)",
+        "direction": "ascending"
+      }
+    }
+  ],
+  "attempts": [],
+  "projectNames": {
+    "adewale/agentic-mermaid": "Agentic Mermaid",
+    "lukilabs/beautiful-mermaid": "Beautiful Mermaid",
+    "Dicklesworthstone/frankenmermaid": "Frankenmermaid",
+    "orestesgaolin/mermaid": "Mermaid Dart",
+    "mermaid-js/mermaid": "Mermaid.js",
+    "obsidianmd/pele": "Pele",
+    "dfadler/zombie-mermaid": "Zombie Mermaid",
+    "xai-org/grok-build": "Grok renderer"
+  },
+  "overviewRanking": "docs-coverage",
+  "publications": []
+}

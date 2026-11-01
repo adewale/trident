@@ -1,0 +1,37 @@
+                           
+      System Context       
+                           
+                           
+     ╭────────────╮        
+     │     o      │        
+     │    /|\     │        
+     │    / \     │        
+     │    User    │        
+     │  [Person]  │        
+     │            │        
+     │ A customer │        
+     ╰────────────╯        
+            │              
+            │              
+            │ Uses         
+            ▼              
+  ┌───────────────────┐    
+  │      Web App      │    
+  │ [Software System] │    
+  │                   │    
+  │  Serves content   │    
+  └───────────────────┘    
+            │              
+            │              
+            │ Sends emails 
+            ▼ using        
+  ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┐    
+  ┆   Email System    ┆    
+  ┆ [Software System] ┆    
+  ┆                   ┆    
+  ┆   Sends emails    ┆    
+  └┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┘    
+                           
+                           
+                           
+                           

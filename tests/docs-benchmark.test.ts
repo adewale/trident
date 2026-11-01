@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { docsArtifactServer, docsRoundOrder } from '../unified/docs-benchmark.ts'
@@ -28,6 +28,28 @@ test('docs rounds balance pairwise order after each round pair and positions ove
   expect(docsRoundOrder(['a'], 3)).toEqual(['a'])
 })
 
+test('a method name supplies no option contract; reviewed browser mappings reach the actual public renderer', async () => {
+  const browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable })
+  try {
+    const page = await browser.newPage()
+    await page.evaluate(() => {
+      const host = globalThis as any
+      host.calls = 0
+      host.publicRenderer = { renderMermaidSVG(_source: string, options: any) { host.calls++; host.actualOptions = options; return '<svg xmlns="http://www.w3.org/2000/svg"/>' } }
+      host.publicPele = { render(_source: string, options: any) { host.actualOptions = options; return { svg: '<svg xmlns="http://www.w3.org/2000/svg"/>' } } }
+    })
+    expect((await page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine: { kind: 'beautiful', global: 'publicRenderer' } })).fontOptions).toBe(false)
+    expect((await page.evaluate(publicSvgBrowserAction, { type: 'render', source: 'source', id: 'unmapped', options: { fontSize: 24 } })).kind).toBe('unavailable')
+    expect(await page.evaluate(() => (globalThis as any).calls)).toBe(0)
+    await page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine: { kind: 'beautiful', global: 'publicRenderer' }, fontSizePath: ['style', 'roles', 'node', 'fontSize'] })
+    expect((await page.evaluate(publicSvgBrowserAction, { type: 'render', source: 'source', id: 'mapped', options: { fontSize: 24 } })).kind).toBe('returned')
+    expect(await page.evaluate(() => (globalThis as any).actualOptions)).toEqual({ style: { roles: { node: { fontSize: 24 } } } })
+    await page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine: { kind: 'pele', global: 'publicPele' }, fontSizePath: ['fontSize'] })
+    await page.evaluate(publicSvgBrowserAction, { type: 'render', source: 'source', id: 'pele', options: { fontSize: 18 } })
+    expect(await page.evaluate(() => (globalThis as any).actualOptions)).toEqual({ fontSize: 18 })
+  } finally { await browser.close() }
+})
+
 test('UTF-8 public bundles initialize before docs clocks await the real public return and exclude post-call cleanup; failures earn no successful sample', async () => {
   const root = mkdtempSync(join(tmpdir(), 'docs-artifact-'))
   const server = docsArtifactServer(root, { root })
@@ -46,12 +68,13 @@ test('UTF-8 public bundles initialize before docs clocks await the real public r
     })
     await page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine: { kind: 'function', global: 'fixture' } })
     const started = performance.now()
-    const value = await page.evaluate(publicSvgBrowserAction, { type: 'measure-docs', source: 'accepted', id: 'actual' })
+    const value = await page.evaluate(publicSvgBrowserAction, { type: 'measure-docs', source: 'accepted', id: 'actual', retainSvg: true })
     const wallMs = performance.now() - started
     expect(wallMs - value.durationMs).toBeGreaterThanOrEqual(30)
     expect(value.status).toBe('passed')
     expect(value.durationMs).toBeGreaterThanOrEqual(20)
     expect(value.bytes).toBeGreaterThan(0)
+    expect(value.svg).toBe('<svg xmlns="http://www.w3.org/2000/svg"/>')
     const cleanupElapsed = await page.evaluate(() => performance.now() - (globalThis as any).cleanupAt)
     expect(cleanupElapsed).toBeGreaterThanOrEqual(35)
     for (const source of ['bad', 'throw']) {
@@ -67,4 +90,38 @@ test('UTF-8 public bundles initialize before docs clocks await the real public r
     const addonRender = await page.evaluate(publicSvgBrowserAction, { type: 'render', source: 'backend-owned diagram', id: 'addon' })
     expect(addonRender.kind).toBe('returned')
   } finally { await browser.close(); await new Promise<void>(done => server.close(() => done())); rmSync(root, { recursive: true, force: true }) }
+})
+
+
+import { withDocsDeadline, closeDocsContext } from '../unified/docs-benchmark.ts'
+test('script loading and cleanup have host deadlines and close HTTP connections before awaiting context teardown', async () => {
+  let cancelled = 0
+  await expect(withDocsDeadline(() => new Promise<never>(() => {}), () => { cancelled++ }, 5)).rejects.toThrow('host deadline')
+  expect(cancelled).toBe(1)
+  const events: string[] = []
+  const context = { close: async () => { events.push('context'); await new Promise<never>(() => {}) } }
+  const server = { closeAllConnections: () => { events.push('connections') }, close: (done: () => void) => { events.push('server'); done() } }
+  await expect(closeDocsContext(context, server as any, 5)).rejects.toThrow('host deadline')
+  expect(events[0]).toBe('connections')
+  expect(events).toContain('server')
+})
+
+import { selectDocsCases } from '../unified/docs-selection.ts'
+test('a repair selects missing literal documentation IDs without changing or reordering the corpus', () => {
+  const cases = [{ id: 'a' }, { id: 'b' }, { id: 'c' }]
+  expect(selectDocsCases(cases, { docsCaseIds: ['c', 'a'] })).toEqual([cases[0]!, cases[2]!])
+  expect(cases).toHaveLength(3)
+  for (const ids of [[], ['a', 'a'], ['invented']]) expect(() => selectDocsCases(cases, { docsCaseIds: ids })).toThrow('literal IDs')
+})
+
+import { retainedPath } from '../unified/recheck-rendering.ts'
+test('a copied recheck resolves original provenance roots only into its own output and rejects unowned paths', () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-retained-path-')), extracted = join(root, 'extracted'), out = join(root, 'new')
+  mkdirSync(extracted); mkdirSync(out)
+  try {
+    expect(retainedPath(extracted, out, ['/workspace/collected', '/workspace/rechecked'], '/workspace/collected/fidelity/a.svg.gz')).toBe(join(out, 'fidelity/a.svg.gz'))
+    expect(retainedPath(extracted, out, ['/workspace/collected'], join(extracted, 'docs/svg/a.svg.gz'))).toBe(join(out, 'docs/svg/a.svg.gz'))
+    expect(() => retainedPath(extracted, out, ['/workspace/collected'], '/workspace/other/secrets')).toThrow('outside its recorded')
+    expect(() => retainedPath(extracted, out, ['/workspace/collected'], '../outside')).toThrow('outside its recorded')
+  } finally { rmSync(root, { recursive: true, force: true }) }
 })

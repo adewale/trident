@@ -1,0 +1,107 @@
+{
+  "schema": "trident-final-qualified-png-publication-proof-v1",
+  "publicationPath": "qualification-evidence/completion-2026-10-31/png-evidence",
+  "archive": {
+    "schema": "trident-png-evidence-archive-manifest-v1",
+    "archive": "trident-png-qualified-evidence-final-2026-10-31.tar.gz",
+    "archiveSha256": "71ba76991800ef79942463bd59f67f1ddc1b905d8b82df6e17a036db9ed1426e",
+    "archiveBytes": 174383266,
+    "indexSha256": "ead5f143b39d9a0fd7b0d4d90cc66b12009e569b2d907d5cd8057cc5d8e053b0",
+    "logicalFiles": 16143,
+    "newByteObjects": 9799,
+    "newObjectBytes": 680184536,
+    "priorFoundationReferences": 571,
+    "foundationGitCommit": "79777b7",
+    "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "rendererInvocations": 0,
+    "codexApiInvocations": 0,
+    "verification": "Every archived object SHA and every prior-foundation reference was re-read and matched; original review/call receipt bytes preserved."
+  },
+  "transport": {
+    "schema": "trident-standard-gzip-transport-parts-v1",
+    "archive": "trident-png-qualified-evidence-final-2026-10-31.tar.gz",
+    "archiveSha256": "71ba76991800ef79942463bd59f67f1ddc1b905d8b82df6e17a036db9ed1426e",
+    "archiveBytes": 174383266,
+    "chunkBytes": 83886080,
+    "parts": [
+      {
+        "file": "trident-png-qualified-evidence-final-2026-10-31.tar.gz.part-000",
+        "sha256": "f0f31e7b2d78cf397b3b964f61c1d0e7a4f13089373eeee28af6411d40058282",
+        "bytes": 83886080
+      },
+      {
+        "file": "trident-png-qualified-evidence-final-2026-10-31.tar.gz.part-001",
+        "sha256": "55b01ca70f5b6fc3ff37238e4243688f3a6d0553a3923485428be7a62729176d",
+        "bytes": 83886080
+      },
+      {
+        "file": "trident-png-qualified-evidence-final-2026-10-31.tar.gz.part-002",
+        "sha256": "b75aa053e897333a22809516fe98b8d60f6bf89ec259d24664fc11cfe6d13f61",
+        "bytes": 6611106
+      }
+    ],
+    "scope": "Standard byte chunks of the one unchanged gzip tar archive. Concatenate in numeric filename order and verify the whole SHA256 before restoration."
+  },
+  "foundation": {
+    "gitCommit": "79777b7",
+    "path": "qualification-evidence"
+  },
+  "frozenObserverCodeCommit": "8aa1238a1a7b487fae42ff5c39a3f80dbe976bf2",
+  "sourceContractsSha256": "2aa8a9ad10d72a5738a52b917c3e14611c99c5b5c514b7767f6b76561612cf6c",
+  "currentReviewOriginsSha256": "6ebd681222941da0dbda40d518f96885e0e1291efbcf9a2b87d1d9d09ba48f98",
+  "currentMaterializedReviewsSha256": "f8e7b8c411396bb7a79b84b40846a2e22eb5e72cde7707dc2d496cc7839c0ccb",
+  "pngNormalResult": {
+    "logicalPath": "workspaces/trident-png-full-2026-10-31/png-content-final-effective-style/result.json",
+    "sha256": "1b7eabab143f186925ef572fde6a1b1d57446257f550d76cf7f288a0e3972be0"
+  },
+  "originalSvgCompanionNormalResult": {
+    "logicalPath": "workspaces/trident-png-full-2026-10-31/static-svg-final-8aa1238/result.json",
+    "sha256": "5f2097c7b4745bd319c790baa857a238f322c98452dc2a5e07af94000bf74b8a",
+    "transport": "owned-original-svg-companion-of-png-export",
+    "timingQualified": false
+  },
+  "crossSurfaceCensus": {
+    "logicalPath": "workspaces/trident-png-full-2026-10-31/static-svg-final-8aa1238/cross-surface-census.json",
+    "sha256": "420ce9a88be7e85bfa34fa056286c12a38f7d00312f8eccf9aac147fb70705e9",
+    "unexplainedCases": 0,
+    "pngCorrectOriginalSvgIncorrect": {
+      "malformedXml": 12,
+      "duplicateIdentifiers": 10
+    },
+    "pngCorrectRasterizedSvgIncorrect": {
+      "duplicateIdentifiers": 10
+    }
+  },
+  "freshRestore": {
+    "logicalFiles": 16143,
+    "verifiedNewByteObjects": 9799,
+    "nativeReturnsOwned": 449,
+    "currentReviewOriginsVerified": 951,
+    "currentImagePacketBindingsVerified": 951,
+    "receipts": [
+      {
+        "file": "restore.json",
+        "sha256": "864bc2177108b04f45c4ab27ca875f563f4f6173cb0a3c2ac66cc9e5983d9bb4",
+        "bytes": 178
+      },
+      {
+        "file": "native-ownership.json",
+        "sha256": "5fe8fe7471cadcc3e880c29a879a716899ca403b5115c7cf1d8a656928a4374e",
+        "bytes": 667588
+      },
+      {
+        "file": "current-review-bindings.json",
+        "sha256": "efb1811a9216a4d707515b637b4a8149be02aadc7094bba6f9651342b64fa5d9",
+        "bytes": 972
+      }
+    ]
+  },
+  "scope": "One final gzip tar archive preserves full raw/source/image/review/check/producer history, including rejected/stale receipts and incomplete runs. Every byte object/foundation reference was verified and one fresh complete restore succeeded. Original native ownership449 and exact current selected origin/image/packet bindings951 were independently replayed using restored bytes only. Full951 PNG decoding/admission and normal1096PNG/548originalSVG grades preceded packaging; the light restored951 check preserves that exact full admission by SHA without manufacturing image judgments or decoding again. NativePNG needs noSVG. No project renderer/Codex/API or new performance sample is used by grading, packaging, restoration or these proofs.",
+  "limits": [
+    "Unknown content remains unknown:40 source-complete image evidence gaps plus2 source-incomplete outputs and99 native no-image outcomes.",
+    "Original publicSVG is a nested owned PNG-export companion, not an independentSVGcall/timing witness; the normalized rasterized frame remains diagnostic.",
+    "The separate same-budget raster429 retry completedunknown with one unavailable painted-node-visibility criterion; original timeout and fullprimary grades remain unchanged.",
+    "Independent resvg preservation is a separate stricter metric and is not conferred by direct PNG correctness or rasterized-SVG content evidence."
+  ],
+  "publicationUrl": "https://github.com/adewale/trident/blob/586bc66045cf4f1400b2d2d4aef40b525387b27f/qualification-evidence/completion-2026-10-31/png-evidence/README.md"
+}

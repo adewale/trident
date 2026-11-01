@@ -1,0 +1,96 @@
+{
+  "schema": "trident-targeted-png-hold-completion-producer-v1",
+  "launcherSha256": "2194cdf71be29c43a298880e9c361385516367f642272f2002e4642892520c08",
+  "normalPngObserver": [
+    "100644 blob 9cc256b3786e4ac55a6f15c2d577096b91cac448\tcorpus/docs-source-registry.json",
+    "100644 blob 8f8e92736ab18ac4cc782c8218f551a13bbf4e09\tfidelity/configuration-expectation.ts",
+    "100644 blob 23cc08da21759f955c916e56e429a4187cff8cc6\tfidelity/edge-pattern-expectation.ts",
+    "100644 blob df8c69266e087644f4271d7ef5f3d9f93ffb5487\tfidelity/event-data-expectation.ts",
+    "100644 blob 1ac1b2fd48b462b84ec83f413c117f6eaacc5aca\tfidelity/ledger.ts",
+    "100644 blob 6646212b98553311bf33835bf3f9a0ee25cd2529\tfidelity/meaning.ts",
+    "100644 blob a6f2f162ff996d7896a7966251c12c9d47d20ec1\tfidelity/paint-facts.ts",
+    "100644 blob c8cb97be450fd524a51c5864e3e3d7f1ca9dc914\tfidelity/paint-graph-families.ts",
+    "100644 blob d8453e558ac514fe8f03b8b17b979d6e3e40037e\tfidelity/paint-values.ts",
+    "100644 blob e520e44cc932b644dd645db3c632b7216b531191\tfidelity/paint.ts",
+    "100644 blob 30881d2b108022b91fbfd05448d5555ebe155c6e\tfidelity/source-contract.ts",
+    "100644 blob 6c8234752478f22b59a1f2f09225feff3b21d2e5\tfidelity/source-metadata-expectation.ts",
+    "100644 blob f9ba27d0fe8fd959e9e09e3bf4152b315bea37f2\tfidelity/style-expectation.ts",
+    "100644 blob 292a003d95ca4a2172ac8354c9fdd3541d414811\tfidelity/svg-assessment.ts",
+    "100644 blob ab18613c44c6be2b2fb95ae8008551287e4cb52d\tfidelity/theme-source-policy.ts",
+    "100644 blob b4a49b3a160dc132b829a9c73e060a5bcba91682\tfidelity/visual-expectation.ts",
+    "100644 blob 050919dfdb8004485ac9cc2a651b81a0a5e3faab\tportable/evidence-contract.ts",
+    "100644 blob b1731be5ead03172bf3015ca76513287e5973657\tportable/project-records.ts",
+    "100644 blob ae48336760c64b1408836496997209f5f68c9102\tunified/docs-drawings.ts",
+    "100644 blob 56e635bae8e1a293fcf9249ef7319ed101ce97ab\tunified/docs-png-clearance-contract.ts",
+    "100644 blob 3123617895ef6d38451a070f44333c78ab6072f2\tunified/docs-png-drawings.ts",
+    "100644 blob f52ad5ed5cc66666ead2a1b7982e64b31d3c7067\tunified/docs-png-offline-review.ts",
+    "100644 blob b14f6a678ffeeb3272fb3b3adcc82579629dac8e\tunified/docs-png-static-contract.ts",
+    "100644 blob 4083af881ab62ddf76d53a834c7b8551ecb18fc7\tunified/docs-source-admission.ts",
+    "100644 blob 1cd59c10b913895a170dbdbe769d88cd43899abe\tunified/docs-source-review.ts",
+    "100644 blob 5e508df049cb7a6f130d8a33e00c95395f23f532\tunified/png-inspection.ts"
+  ],
+  "baseNormalResultSha256": "1b7eabab143f186925ef572fde6a1b1d57446257f550d76cf7f288a0e3972be0",
+  "sourceContractsSha256": "821c47a699a6ee7d753f03eb22632d3d7ad9ce35c6f34b2b43daaf12123524bc",
+  "proofs": [
+    {
+      "receipts": "/workspace/trident-png-held-2026-11-01/reviews-fonts.jsonl",
+      "receiptsSha256": "122b7990533c158b7e1a823c90e72abb7220da84250f26d6788914000b043819",
+      "admitted": "/workspace/trident-png-held-2026-11-01/admitted-font-reviews.json",
+      "admittedSha256": "8b237c482afcb5d3149f3145b848095ac534abc5b8966676a99015d3b465a77b",
+      "admissionReceipt": "/workspace/trident-png-held-2026-11-01/admitted-font-reviews.json.receipt.json",
+      "admissionReceiptSha256": "7e6e67cd50a5c0124e0761e57aa8d1a310df836bb07ceda3f3aec29101994ced"
+    },
+    {
+      "receipts": "/workspace/trident-png-held-graphs-2026-11-01/reviews-held-graphs.jsonl",
+      "receiptsSha256": "fd457aaa30b5b42169ec68e7aaa012151f0872ed5943e711064a0576527e9ecd",
+      "admitted": "/workspace/trident-png-held-graphs-2026-11-01/imported-new-reviews.json",
+      "admittedSha256": "0db47b48ed944bc8e27e00743cc13876f5698d7ae3b5aea02e371946bfcd97c8",
+      "admissionReceipt": "/workspace/trident-png-held-graphs-2026-11-01/import-receipt.json",
+      "admissionReceiptSha256": "e83fc326d256ab3393b8b069aa20860a6b0832dd1f05c1afdc3260bb0622ecee"
+    },
+    {
+      "receipts": "/workspace/trident-png-held-2026-11-01/reviews-tree.jsonl",
+      "receiptsSha256": "1b426e72c2c28a186acb0e9166115f0ca170bfaeb496b6d5ad1e0d049b47d7f5",
+      "admitted": "/workspace/trident-png-held-2026-11-01/admitted-tree-reviews.json",
+      "admittedSha256": "ec8710744a5f3583d807a14bced550438fd8b44ab7dab4abe871ae6a49088149",
+      "admissionReceipt": "/workspace/trident-png-held-2026-11-01/admitted-tree-reviews.json.receipt.json",
+      "admissionReceiptSha256": "6098b13c31e6803a2f132c02f40345bf2fec6059902bf573dcd2c84bc603d0ea"
+    },
+    {
+      "receipts": "/workspace/trident-png-held-2026-11-01/reviews-standalone.jsonl",
+      "receiptsSha256": "571c4e51e055bfab1cdbd8339bafb7b5b4b5c6c18703beacee717b8a109bd606",
+      "admitted": "/workspace/trident-png-held-2026-11-01/admitted-standalone-reviews.json",
+      "admittedSha256": "7dfbc46d02836887bda2faab3585b88c9246461b5f7c88a0e2e9409ce598d0dc",
+      "admissionReceipt": "/workspace/trident-png-held-2026-11-01/admitted-standalone-reviews.json.receipt.json",
+      "admissionReceiptSha256": "811171928d23dea0f9f6d3bb3b2d11282d15e4c54b9afd310e84c98e22662294"
+    },
+    {
+      "receipts": "/workspace/trident-png-held-2026-11-01/reviews-native304.jsonl",
+      "receiptsSha256": "66f0cb46bb6cde701da12b88939283421b71c8e8807f04e9704a6addf6415b77",
+      "admitted": "/workspace/trident-png-held-2026-11-01/admitted-native304-reviews.json",
+      "admittedSha256": "76f4d69d96bab33008660fbc812452df9307622c5bc87dd157da7d0c3d9d9f98",
+      "admissionReceipt": "/workspace/trident-png-held-2026-11-01/admitted-native304-reviews.json.receipt.json",
+      "admissionReceiptSha256": "d031e294c3e58cbaa6c0fb209d3d426cc5e6438e7e4082da93bacc354609b849"
+    },
+    {
+      "receipts": "/workspace/trident-png-held-2026-11-01/reviews-radar.jsonl",
+      "receiptsSha256": "aedabc3dda60a86c7c5da796a5bc0aa3777fddd7c2ab8bd5aa54dc7c4ea3069f",
+      "admitted": "/workspace/trident-png-held-2026-11-01/admitted-radar-reviews.json",
+      "admittedSha256": "945aa7d55bf45a2c59ad68fc526834a528a8757b0b25b1d400363ff317b3e220",
+      "admissionReceipt": "/workspace/trident-png-held-2026-11-01/admitted-radar-reviews.json.receipt.json",
+      "admissionReceiptSha256": "bee5ce99594182f728ee92f169ac34e7062a44f73d9aecc34fadf1f5efc7dbdb"
+    },
+    {
+      "receipts": "/workspace/trident-png-held-2026-11-01/reviews-usecase492.jsonl",
+      "receiptsSha256": "cfdeda64e74c4e99a8aa3a1abda3aee0b7a6527aeb44aef9735b241b626b44b2",
+      "admitted": "/workspace/trident-png-held-2026-11-01/admitted-usecase492-reviews.json",
+      "admittedSha256": "96da1504f4f4fac58feb90741b3cc4247407d9afe599f0d91ff2497fd188a39f",
+      "admissionReceipt": "/workspace/trident-png-held-2026-11-01/admitted-usecase492-reviews.json.receipt.json",
+      "admissionReceiptSha256": "8f0b09abdb6be9329f7f99b10530937ae6765d724d64bb8b3b036283fea39c52"
+    }
+  ],
+  "scope": "Normal PNG assessor runs only13newly admitted affected actual-image rows and3source-changed unknown/no-image rows. Unchanged951 historical admissions are not decoded/imported again. Exact same source/image ownership is retained from the pinned base normal result; no new call clock is fabricated. Full original source/image review and exact official admission precede each new decision.",
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0,
+  "producerSha256": "08843862c7daad2c7bb68965fa50505d03fa9fc994d9fac29453823d65d0a0f1"
+}

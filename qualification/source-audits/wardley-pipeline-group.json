@@ -1,0 +1,22 @@
+{
+  "schema": "trident-independent-source-interpretation-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "sourceReader": "/root/resolve_sources_and_tests",
+  "independentReviewer": "/root",
+  "reviewStatus": "approved",
+  "approvedFullDiffSha256": "3395b85c331017b7d7d33c8b99ece90b8e52f16075884dda4a23186a0e10fe47",
+  "independence": "Root independently reviewed complete literal source deltas, retained concrete obligations, full native profiles and exact owned-role palette/group semantics before admission. No renderer/model output supplied the source oracle.",
+  "rendererInvocations": 0,
+  "referenceModelInvocations": 0,
+  "literalInventoryChanged": false,
+  "sourcePolicy": "fidelity/configuration-expectation.ts; fidelity/theme-source-policy.ts; fidelity/visual-expectation.ts",
+  "sourceProvenance": "docs/source-theme-policy.md and docs/evidence/source-theme-policy.json retain pinned source literals/formulas and file hashes; Git parser50-57/native specs345-375 distinguish commit message from displayed ID; Wardley docs230-232 and explicit reviewed group/range encoding retain original point natively",
+  "rows": [
+    {
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:234",
+      "sourceSha256": "16bd41b8a1695cacd246fc314605faa1a0b63b48057f618d15869437039ae904",
+      "beforeSemanticSha256": "6d72c09d56d432ba432e7f8a311c481f45b031b048fc28fc9b77f47f43bab870",
+      "afterSemanticSha256": "613c5bafbeb0c39a8327cc11a1a17bfb9c48c2f0e38022c7e9cdf6bb38475a33"
+    }
+  ]
+}

@@ -2,10 +2,103 @@
 
 ## Unreleased
 
-The first public 0.1 release is still in preparation. The changes below describe
-current main; baseline reconciliation and release publication remain pending.
+The first public 0.1 release has not been published. B0 freezes the bounded
+benchmark results and their observation limits; release publication remains a
+separate step.
 
 ### Benchmarks and measurement
+
+- Freeze [B0](results/baseline.json) with exact corpora, contract epochs, owned
+  outcomes and raw evidence. Generate current tables through the ordinary
+  reducers, and verify B0 input/output hashes alongside the rolling results.
+- Extend SVG graph, sequence, grammar and chart observers with independent
+  wrong-output controls. Correct two PNG false positives and terminal failures
+  based on unqualified marker spellings. Regrade saved outputs instead of
+  repeating renderer campaigns; preserve prior verdicts and actual call dates.
+
+- Retain every authored prelude and main return before grading. Replay completed
+  workflows without new calls, preserve interrupted attempts, and keep shared-session
+  claims unknown across separate CLI processes. Verify recovery after a grading crash.
+- Add cold terminal-CLI and complete PNG-export timing through the shared collector
+  and offline qualifier. Keep their workloads, startup boundaries and intervals
+  separate from first-use browser SVG timing. Sealed timing targets need no extra
+  Mermaid oracle installation.
+- Correct quadrant canvas dimensions and unrequested axis-side assumptions; admit
+  only qualified C4 connector endpoint contact and reject foreign overpaint. Prune
+  disjoint contour layers before route matching. Extend Git cover checks to images,
+  instances and primitive strokes, and verify source-defined radar curve controls.
+
+- Make the 100 AM/Trident-authored feature/edit cases unscored harness/observer
+  regressions. Keep sources, raw evidence and historical reports; remove their
+  renderer ranks, charts and overview score. Ordinary collection defaults to
+  DaveBench; regressions require explicit `--suites fidelity`. Pinned public API
+  tests and terminal results retain their separate populations, and timing stays
+  in qualified scoped tables.
+
+- Publish the [minimum-cohort qualification results](docs/qualification-results-2026-10-31.md)
+  and restorable source/output evidence. Tables rank named verified counts and
+  retain unresolved facts. Re-review source-frozen PNG holds from actual pixels,
+  with admitted decisions, required-fact gaps and native no-image outcomes kept
+  separate in the owning report. Historical restoration checks retain their
+  exact revisions and original review populations.
+
+- Freeze all 548 DaveBench syntax-documentation occurrences, including 546
+  whitespace-trimmed sources (547 exact bodies), with exact source hashes and structured expectations. The
+  [source census](docs/docs-source-expectations.md) records drawing contracts,
+  configuration-only inputs, unresolved interpretations and review scope. Source
+  coverage supplies no output pass.
+- Require every declared drawing fact, actual output hash and observer identity
+  for correctness. Missing projections remain unknown instead of shrinking the
+  criterion denominator. Independent source audits fixed grammar, geometry,
+  containment, activation and source-order transcription defects.
+- Bind reviewed PNG evidence to exact canonical RGBA16 samples and display
+  metadata. Strict SVG-to-PNG preservation additionally requires the actual
+  rasterized SVG, frozen rasterizer/fonts and an independently reviewed reference
+  image. A native PNG without complete content evidence remains unknown.
+- Qualify 154 unchanged Mermaid public callbacks from 37 declarations against
+  original-source and installed-reference controls. Keep the 4,060-declaration
+  census and historical 41-callback scope separate; this is public API evidence.
+- Use the versioned active terminal corpus in ordinary benchmark collection:
+  115 original drawings, one reviewed adaptation and four invalid controls.
+  Preserve all 120 original sources and the ambiguous original state example
+  in the 121-entry research inventory. Historical runs keep their original IDs.
+- Separate visible drawing facts from native metadata, including raw Git
+  operation history and layout identifiers. Keep one ambiguous documentation
+  example unknown without removing it from the 546-drawing denominator.
+- Allow each renderer's default skin. Require explicit paint overrides and named
+  palette tokens without imposing Mermaid's unrequested opacity, border widths
+  or brightness. Keep visible-owner checks and monochrome relationships required.
+- Inspect all 997 returned images in the two-project PNG qualification cohort.
+  Bind each accepted judgment to its current source contract and actual pixels;
+  unresolved facts remain unknown. Review files can be authored without Codex.
+- Embed frozen image resources during browser PNG conversion. The targeted
+  favicon example now retains its image; the former blank export was a Trident
+  conversion defect, with the same Mermaid artifact before and after.
+- Prevent hidden node bodies, covered connectors and erased arrowheads from
+  earning a complete SVG certificate. Measure dash paint using actual path
+  lengths and cap scaling; omitted marker orientation is fixed zero degrees.
+- Dispose of timed-out documentation pages before later calls, and bind frozen
+  capture inputs to calls that actually entered after the capture began.
+- Verify 16 public execution paths across six complementary project artifacts,
+  using 56 output calls and separate model operations. Bound harness collection
+  to five minutes after preparation; invocation coverage is not a quality score.
+- Add first-use browser SVG collection from sealed artifact pairs, with fresh
+  contexts, actual fontconfig inputs, retained returns and a declared RPC/public
+  call boundary. Offline timing qualification checks every captured output and
+  A/A controls. Fresh grading reuses unchanged raw outputs and clocks, including
+  returns omitted by a crashed observer. Historical return-only clocks remain
+  unqualified.
+
+- Retain first-round DaveBench SVG witnesses and bind reviewed content checks to
+  exact source bytes. Missing expectations remain unknown; successful SVG return
+  cannot supply a correctness pass. Separate full inventory and reviewed-subset tables.
+- Fix the shared paint observer for bounded SourceGraphic-preserving drop shadows
+  and group-container ownership. Check explicitly hidden source content, including
+  collapsed-group members, with positive and broken-output regression controls.
+- Retire Assertion Replay and the nonblank-only PNG exporter from new comparative
+  runs. Performance, optional models and reference tests require explicit selection.
+- Retain the earlier terminal flowchart prototype and its original results;
+  expanded terminal contracts do not rewrite that evidence.
 
 - Complete a targeted six-round Mermaid 12.2.0 DaveBench rerun: 547/548 SVG
   returns in every round, with the original image-decoding failure retained.
@@ -17,9 +110,10 @@ current main; baseline reconciliation and release publication remain pending.
 - Keep interrupted DaveBench rounds unranked, distinguish partial observations
   from unexecuted inputs, retain CLI variant ownership, and resolve owning reports
   relative to an extracted evidence archive.
-- Seven documented suites cover Mermaid compatibility, DaveBench documentation
-  examples, diagram meaning, public models and editing, original assertion replay,
-  the genuine Mermaid reference tests, and portable SVG render cost/scaling.
+- Historical results retain the seven original suite identities. Current
+  comparisons use documentation SVG/PNG, pinned public API tests and terminal
+  rendering. Authored feature/edit cases are unscored diagnostics; optional
+  public-model contracts and qualified timing tracks retain separate scopes.
 - Portable SVG process protocol v7 separates output admission, public-model facts,
   painted evidence and timing calibration. Its bounded route/marker checks inspect
   actual ink; unavailable projections and failed qualification remain visible.
@@ -99,20 +193,23 @@ current main; baseline reconciliation and release publication remain pending.
 - `release:check` builds once and verifies source collection/reporting and the
   extracted shipped archive, producing one receipt alongside checksums. Separate
   manually coordinated smoke checks are no longer the documented release path.
-  Its format checks require actual SVG and terminal output, and every declared
-  kit case needs an owning worker attempt. Temporary build staging preserves
-  clean-source provenance when the chosen output directory is inside the checkout.
+  Its `package-parity-verified` receipt requires source/extracted-kit workflow
+  parity against the same frozen artifact and rechecked SVG admission. It
+  preserves witnessed renderer findings and rejects unclassified host failures;
+  it does not establish full source-harness or benchmark correctness. Temporary
+  build staging preserves clean-source provenance when the chosen output directory
+  is inside the checkout.
 - Peer admission uses each artifact's recorded version while retaining reference
   and tool pins. OpenCode seals its actual renderer runtime dependencies. Public
   release CLIs accept reviewed dot-prefixed archive members; versionless executables
   explicitly bind their version to a matching release tag and archive checksum.
   CLI resource passes preserve output-specific arguments and file/stdin bindings
   when GNU time wraps the command.
-- BASELINE.md defines the required initial ecosystem baseline, B0: all normally
-  selected brands and applicable benchmarks, uniform release cutoff, frozen
-  artifacts/inputs, a pilot before sampling/budget freeze, and immutable evidence.
-  B0 is not collected yet. Every later release must assess baseline compatibility
-  and retain any required fresh measurements or bridge runs.
+- BASELINE.md defines B0 as immutable evidence for the declared benchmark scopes,
+  with frozen artifacts, inputs, observers, raw witnesses and limits. It separates
+  six-project transport verification from correctness, matched timing and
+  packaging. B0 retains every unknown in its declared populations. Later releases reuse unchanged evidence and
+  recheck only affected claims; an ecosystem campaign is not an automatic gate.
 
 The original 0.1 invocation receipt exercised 37 of 42 selected entries. Later
 bindings and brand-specific verification are separate dated evidence in

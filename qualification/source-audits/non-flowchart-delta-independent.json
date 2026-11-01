@@ -1,0 +1,626 @@
+{
+  "schema": "trident-independent-source-delta-review-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "originalReviewRevision": "2cc55cf",
+  "reviewedDeltaRevision": "c9dd0b5",
+  "deltaFileSha256": "a41fb69c0dac45733996814838a2a31cac5702600ff7c91a9945c47a1c7ec596",
+  "cases": 56,
+  "scope": "Independent second read of each of the 56 source/expectation deltas, plus pinned prose supporting changed semantics. No renderer/reference output, model or Codex oracle supplied expectations. This is source-contract delta review, not output-oracle or full benchmark qualification.",
+  "openFindings": [],
+  "rows": [
+    {
+      "index": 0,
+      "id": "packages/mermaid/src/docs/syntax/c4.md:225",
+      "sourceSha256": "96b1a834b23451a341a0991d5327a833e705801ea1bb53c90afb98165035cf2e",
+      "reviewedExpectationsSha256": "9c8316b41085d8af1ac04c3b954042d100c8a6b97e59e4a1876b1d9a6f4314e7",
+      "updatedExpectationsSha256": "b640c962a6eed172e6822ef1fd81764607738580961461ced69034b8db87d30e",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 1,
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:362",
+      "sourceSha256": "bc06236e060fb61456347036418cc597f4128e50a624a8e20969c204aa0e7b45",
+      "reviewedExpectationsSha256": "015a94262736453cd2c847b34d7607b14cfbc8c7cc2f07d2a2eedbae4cc4e84f",
+      "updatedExpectationsSha256": "94fa5cd95205771e87ffa6314596c991519bbedef40d1e36cf312431a3c4c8a8",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 2,
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:367",
+      "sourceSha256": "b06c5b3c315577675c074030e9148240d6aa071553fbbb27b6ea0ca47fffdcea",
+      "reviewedExpectationsSha256": "f35937bef53fcce637439e4132814afbf4dddf2dd60b8a6014f4330bd5787750",
+      "updatedExpectationsSha256": "658ca5415ed1f56413e9c50778becf97dc7682a717a89f1a90ad7cc879f49c4b",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 3,
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:383",
+      "sourceSha256": "570ea6adde22d184fa0f4cff73ecd7681bd942bb6124eddf874cbcd1d20ec3e2",
+      "reviewedExpectationsSha256": "aa4d6f303d782c91fd99f30aa0f93bf3ae3b5a36f65444056218bab773f19d80",
+      "updatedExpectationsSha256": "a8587d8fd3254602991920c97620c0952a98d7189cbac319f69a8ecc7332beac",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 4,
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:398",
+      "sourceSha256": "09461b572f3e64fdd7b6dfc3e1c2ff108e81c29f2b7a35c5f3b16df97044ae63",
+      "reviewedExpectationsSha256": "16b26d72a8d35d2e5787b6e4ac6c6e7cfd474103d07009c8ddc2e76d76a4e420",
+      "updatedExpectationsSha256": "7d7db8c0cd19b7785ce339d470d60b9ec55c3fc86c710141c990f8233c58deaf",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 5,
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:416",
+      "sourceSha256": "0d65c6d0a5ad4ca15f66a44254deae81b8ace4dd7957db07b9e1ad365656b54b",
+      "reviewedExpectationsSha256": "70b95fac64a72d4f48213e98694bb16751b76c62654a1ef1315f1059a14fb89e",
+      "updatedExpectationsSha256": "4c37a17d4cb41287fd05c5e5ca02cd1ff163e387a944732c70725f7f6b130286",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 6,
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:439",
+      "sourceSha256": "f609930d3f256adb0e383d5c08e56ec595fe79f710a64ba6ffb08a19095722a4",
+      "reviewedExpectationsSha256": "e21626ff52a40a0ecb3bca7188590555a105f110750f9953fa896b07cb102da1",
+      "updatedExpectationsSha256": "6175e6b706651b13c8bf95def57d430a901a4a6c924424eb580194106a427047",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 7,
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:470",
+      "sourceSha256": "6ae0bb98620e85b714fc1c5ebdb56038e67ef107d005054cca30f8c93cfe964e",
+      "reviewedExpectationsSha256": "44c8b78c9ad907c072517956fd0f2b245731075b26081b40516669aead9177db",
+      "updatedExpectationsSha256": "5a2e8c40632eb6c427e7eaa076b69552d8785e0e2a1c95c04c491a05b6348bb8",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 8,
+      "id": "packages/mermaid/src/docs/syntax/cynefin.md:93",
+      "sourceSha256": "4fb60908c114c6b9de99bada4c8fef8313803485baf1710b05a48d7ea97afe1f",
+      "reviewedExpectationsSha256": "28b4ccebd1c2a0449adcea1ab682414a692f18d76bfd8e8f5a23cdc0968e7170",
+      "updatedExpectationsSha256": "52be3b8b69befbec628fcad31641f3465ed6ec3936d1a31724ec087a9d8201cf",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly. Additional pinned-prose boundary/cliff obligation raised for review; no observer completeness claimed."
+    },
+    {
+      "index": 9,
+      "id": "packages/mermaid/src/docs/syntax/cynefin.md:118",
+      "sourceSha256": "1065e06731e402659b34812e745185f06b3dca903d134d601efc9878c9b3ca46",
+      "reviewedExpectationsSha256": "35738f354ab39d09532b4dc6ca081d10c06a9a0c12fb32b87a5893d4b7e48971",
+      "updatedExpectationsSha256": "30a1b3b2cce31555d9c72f986bc4dd75331409860f303a23c832ef7bbcacdf27",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly. Additional pinned-prose boundary/cliff obligation raised for review; no observer completeness claimed."
+    },
+    {
+      "index": 10,
+      "id": "packages/mermaid/src/docs/syntax/cynefin.md:144",
+      "sourceSha256": "c41ec80b216c2903964da56bfa712d0877bc80fcc57c3e4584dc1ce3c86a53ec",
+      "reviewedExpectationsSha256": "92ec19744e2d79ec55c4d2a2b6f567a1969bc536b9283cad47e81cdd398e2a27",
+      "updatedExpectationsSha256": "912cee4e7a884663ac465783c5d83da7b5145c97841d191485bc763734de0ffc",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly. Additional pinned-prose boundary/cliff obligation raised for review; no observer completeness claimed."
+    },
+    {
+      "index": 11,
+      "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:158",
+      "sourceSha256": "d5199c1220398e920a21c5716cb364ac2af1a43d9669072dadce903ab28f6062",
+      "reviewedExpectationsSha256": "7591cab2c6ab7f018815b05a9c9b599953c42c7b756bc1dfe05553e614808eb4",
+      "updatedExpectationsSha256": "7ec78f8d94ba62f77ec16ef2d793db5d92fe3f0d37b81753d7aeb07c5f243a36",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 12,
+      "id": "packages/mermaid/src/docs/syntax/gantt.md:519",
+      "sourceSha256": "15ddee045061b8dfc286609f16abd649f7cb7816cae2b2d578c6527447eec1dc",
+      "reviewedExpectationsSha256": "2e0a8414d038039a54a8cdf9e8c803a244ea7d195a4301c4078f18c43e3d8309",
+      "updatedExpectationsSha256": "c10d7805237ab025dd1a2248546e9d21ac78893494db145ed38cc89ed3c77156",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 13,
+      "id": "packages/mermaid/src/docs/syntax/gitgraph.md:292",
+      "sourceSha256": "2b5676bb24021917bba6738e0bdb3e3f0bde1b7ceb6fd8e3dcc702a6c7d54728",
+      "reviewedExpectationsSha256": "c2ed53f0cc1c6380c61432a7533447babea1db4440bb2e2e29340648e77b9861",
+      "updatedExpectationsSha256": "de4b8811891d084eac64c02d0f7fcf7ad8e25065547af239b28b2fd23051c292",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 14,
+      "id": "packages/mermaid/src/docs/syntax/gitgraph.md:412",
+      "sourceSha256": "c24fff4aa6e688a0d4cadce29acfce4b3bb31aa71186fa18b7db0574392af9c7",
+      "reviewedExpectationsSha256": "3299503737189c70d9ea7c3096d2d0c6eed805467a39f61011cb5bcf08954bb3",
+      "updatedExpectationsSha256": "1335efec1bbfb8c3c019aadbe08de4027ebb21eb31f61daea8bb27507fa3db05",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 15,
+      "id": "packages/mermaid/src/docs/syntax/ishikawa.md:13",
+      "sourceSha256": "b3ea7b01b554303df1a9a770154f4c9c2481fc734f9ccd6fa31857f3cb576c61",
+      "reviewedExpectationsSha256": "4842a085536646e94907138d27be1e085af017742450923686412eac56ef98ab",
+      "updatedExpectationsSha256": "9f35ba277bb5e785da6890246a36c0d965d158cf114df70d3bb2b3ceaf184e4e",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 16,
+      "id": "packages/mermaid/src/docs/syntax/mindmap.md:233",
+      "sourceSha256": "d34688197fc3593a7b62592bfac23991f50dcb4342d310979f24e94754941123",
+      "reviewedExpectationsSha256": "371252a6e92b9205f4b0466febc1623f89d39c76ab794e1e187c11a6476f8a05",
+      "updatedExpectationsSha256": "d1d74b42cd2e0d718404d43cddd44086205588ee1df0c49a0a95e792263c4b95",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 17,
+      "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:140",
+      "sourceSha256": "6aee0ba9c47a09ff640c89824038ce73be3c7db8e10aab8ce0b0a02f36866a80",
+      "reviewedExpectationsSha256": "a747ae113b481fbe2d03fc7427b6cb6913a350c278d0fc09197d3e285a9ba501",
+      "updatedExpectationsSha256": "c8d9947093f88f5d36e50e508e332ed67b270700190b7c3aeaabd6e584a20d10",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 18,
+      "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:156",
+      "sourceSha256": "885c8b1b173cbaf7f8bc07d0ca01f5ab8e132e23da6339a0de2d78f390154622",
+      "reviewedExpectationsSha256": "a0a67983bdef8810a0ac78348a938537c7b0a7d9c7ebe4db2e122c30ebec617c",
+      "updatedExpectationsSha256": "6013ac05752b788d320a73f1ecdcd56c81dc10afeb3d278db9a2b8a33767fc0c",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 19,
+      "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:222",
+      "sourceSha256": "8b4cf7c3adaa9c5f03a2cd872d4df54f7ae0f605807d79a020d5f3063153369d",
+      "reviewedExpectationsSha256": "fbdb769ac3584f8a5350f74f332b0d2aecace1ac244f61141d5ccdeb0d0824d5",
+      "updatedExpectationsSha256": "791b3082a91a4abf6fa3ad8d510e3f12ed2f4689cf3b7c66baf68e0817556ae6",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 20,
+      "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:235",
+      "sourceSha256": "9e139d5ea8476442387183b8db8a38de9ba330f3193ae0a46e395cea968e26bf",
+      "reviewedExpectationsSha256": "0137eac9180f73e4f2c984d507185b623f1643cdb342b4764e06ad999f8a0a4c",
+      "updatedExpectationsSha256": "4883c59a60fae83abb137b3185756f722e45d8e804f96d0bbded9d4c2eff103f",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 21,
+      "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:270",
+      "sourceSha256": "17d68bbfe39896a12f203e29a754680b1a71aab56d3644f705e46edffee2fdbb",
+      "reviewedExpectationsSha256": "c5530232db42b36f60e1ce4e5e40c98cec7cfd16feb175133a4836a2170d8eb2",
+      "updatedExpectationsSha256": "1118ea6fe2fb54ea322a6a6ac1290f69f26dbf1795cf381ec0b8282192cab06d",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 22,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:7",
+      "sourceSha256": "00339c496aec5a45f8f5caf77b60b01088186cac9d7fdf4773d046e5d289bc46",
+      "reviewedExpectationsSha256": "d31d8de814192deba233b35fffaa02aca1fc0d4d4706e76d08d0b8d0e02dda23",
+      "updatedExpectationsSha256": "138838c7c55ccbff2d0d6802d7544e7ea1929213d8f1c352ee2195f069206c71",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 23,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:29",
+      "sourceSha256": "1c58ec981dc2f11e1856ace6c9fdf478ab247087956e0b8468c6fe6030d68082",
+      "reviewedExpectationsSha256": "0c788841db32158567d83d8fefc9aa73f5e813fb751f6ac129d7cf410bfdbcac",
+      "updatedExpectationsSha256": "cd9c768fd0188f9e016314f51754e592590fcd4a433f79b846979a2c6f2ccf65",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 24,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:53",
+      "sourceSha256": "3706b150f6b68e125a13b24cd6d4b90ac050f1b4fdb77cf4e75cebf82fc0afb0",
+      "reviewedExpectationsSha256": "cc30d7fb38a454e271e1348471c804a7072ee4ff9d17913a95cfdddc100b8a7e",
+      "updatedExpectationsSha256": "a6a173fa464fd901f97e97f02e669c20e3361c596237eca9320088b27739c94e",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 25,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:161",
+      "sourceSha256": "cc7884f2722a02607d0942262daddfdef1b9ea0c9763d3b181a8a028487f4364",
+      "reviewedExpectationsSha256": "f3aa70919034ff08e817242b58f35fa88799253f0a32d1a89425b58d8d3691d1",
+      "updatedExpectationsSha256": "6a03553fb8c14207f160b3a0dd24254f129c679a1443bf0a3bfa3ed354c74879",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 26,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:263",
+      "sourceSha256": "9cb66c38e51b5a4d4c1df093ab10bd1d29dfd87a17df32adeda57d9e30dcbb33",
+      "reviewedExpectationsSha256": "e45c4e0bcc8fed5fb281a82d93e2d5f2bd41269484c3589b34a8e5710e9da84c",
+      "updatedExpectationsSha256": "1349bf510afc9f473865374e6f34a4a5356ae47555e2ed2256fed6f646fb2724",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 27,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:282",
+      "sourceSha256": "5b4f68379af67286393c263396555c7306309d01a38545bcb01eac8953632995",
+      "reviewedExpectationsSha256": "fea841e9a7f62ad993d8267db3df2ec8378c3d95278306ccab872292a17dc369",
+      "updatedExpectationsSha256": "53636357e6e6b7a746577bb1979ddf06926d6e279e070b8357429a780b398857",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 28,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:306",
+      "sourceSha256": "ddec036429b837799e8f06afee06ca9a14aab1b0f54138fddec561d3667276fb",
+      "reviewedExpectationsSha256": "3bf629e9417bc3522a416505efd7b57444524e815fdb49b0044d5031e7018f8a",
+      "updatedExpectationsSha256": "bc2e1a88787c8f0609aadbe518c196da5ffa04fc1dbd269f0328ce45c82faf00",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 29,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:407",
+      "sourceSha256": "9f28c6340d44d92b81ca481f9a19c89a50822f1be0f4fde52e3e188ca19d8999",
+      "reviewedExpectationsSha256": "eccfc26d20843c6948677e6fc137c25311ae51813eb2793ab266b402423ad76f",
+      "updatedExpectationsSha256": "3031ede9fa48d5a1053dfff18f5adc0245efd5ca7efd5f226a61d91c957ad7a1",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 30,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:439",
+      "sourceSha256": "b59e41d6c3ba23c6711c4df43423f7ebc52ec6d3caefb37d6fafb5800276a72d",
+      "reviewedExpectationsSha256": "993a07abb71e17b027329f632be8795edd85950e16cdb8a8a31ae5493a6a8a1d",
+      "updatedExpectationsSha256": "4ad328bd7385dd2c8d1cd8c8fd964486a48f388de480490d554f6d24e335d823",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 31,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:478",
+      "sourceSha256": "38e641131baa170758528c711e49193e862a4146835785c093013682c11bce72",
+      "reviewedExpectationsSha256": "caf0e62c87f029968727c1863c75647be82406af98833ed05a2f88cbe7708213",
+      "updatedExpectationsSha256": "60360bc821b638451ba25830793ecc8af6613598bbc48264698e460154a45472",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 32,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:527",
+      "sourceSha256": "e4fb4f72cd84fab78673e2b844b78727eab6143008b3fcdf4d85d7cbfb126070",
+      "reviewedExpectationsSha256": "5633e1951c91b8861b65308006a2585d2e0bf083a72b6fa286ca0484628b3910",
+      "updatedExpectationsSha256": "038aa45b8f0f852ab757fed884ebf4ab63d98a876939405ead8f0be0ddcdbfd0",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 33,
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:579",
+      "sourceSha256": "ad6a3a578b0f599b315a6d705db8f098f6f3a7ddcd43bb892a067e4624fbbf91",
+      "reviewedExpectationsSha256": "5cf7f18ed0780ecdb4470284dbf28b507f9bf954f8faed3008d9e7c3c4827bf8",
+      "updatedExpectationsSha256": "8299ddf952276e583d85031e64ae2ed6170b90cb8cc62ddcf09279a26d82074a",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 34,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:21",
+      "sourceSha256": "ee7968c51b2dfc9443b85181069d6e7ce0e88e16f41da8bc63f8f815316a1f33",
+      "reviewedExpectationsSha256": "81e444c387cab3356f09029dc66b0ad4b2a25af3c92624502bac105ef35a1a09",
+      "updatedExpectationsSha256": "b9d9699ac61a2f0dfc15ff5f7331645b83053058b936cc202ba5613d58d08a24",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 35,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:50",
+      "sourceSha256": "30bd5186b8416c3fb616fdae8d8ce7e18c7c61a1051241fb9dbf8a0c409b9d84",
+      "reviewedExpectationsSha256": "268b33f452de63859b6ce051c2a98cdab66e551267f25ef80d03a597c20fae0e",
+      "updatedExpectationsSha256": "9d645e9a0a4ce1181c2612079440868e901d940ae114918192707be446384924",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 36,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:69",
+      "sourceSha256": "c8a676b374edb4685f898083fda07254e83d20a99b6c0714691de2edc25275a1",
+      "reviewedExpectationsSha256": "ea3eeaa295d74bf1f602b4df6900e1b34726cf930da1bc6845417d81d5cb37b1",
+      "updatedExpectationsSha256": "5642df6d6b2b12fa89f9cf6b0d3e9c96f8987c824bea6b3984ace30597521a1f",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 37,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:90",
+      "sourceSha256": "24cf67f618fb8e525cff0e19dc150e3aaa5f2c9da202dab5286b7ef4f777aeac",
+      "reviewedExpectationsSha256": "9ff4c563c613bd96c634cd4886fa5160e6db9b53a9771b2e19bf7748bec07a37",
+      "updatedExpectationsSha256": "9fcd09589b0364ed892ec9e0b52d0664bfaf71f6bfdd10c82906d49d36d5cd9e",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 38,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:101",
+      "sourceSha256": "f8939bf3c47509e8035cbb9d4ad6bb2aab271053ce06e3e70053e9836053e9a0",
+      "reviewedExpectationsSha256": "b9081a501f70bb275dd7ff1f5309062c4aa48e3dc9844765a27325462ad909a4",
+      "updatedExpectationsSha256": "35608efed4acb755529027f92685053d53f20833aba71adbb4b0550d8f282b2d",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 39,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:115",
+      "sourceSha256": "0dba7eb5e8a69ad3fdcbba439fdee4c109d6fa1cc43c70b6cad38894a8fce8cf",
+      "reviewedExpectationsSha256": "19281d9d8fca39b19a91d63b16b0583f395b26d3d62856237f4886a9a8e4560c",
+      "updatedExpectationsSha256": "c0d6b10a6a3915fd9868d16d46b6a92aeacf075027faf71cfe3ee94ecec837c6",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 40,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:134",
+      "sourceSha256": "eaade9886d10fc14ed5d82780730416074b7ede8a5c1a400b8b56447f0a5fc51",
+      "reviewedExpectationsSha256": "c8c24cb31ab7bc634201eb3f6885e1863e2a13e5b4980d4360174659422d944b",
+      "updatedExpectationsSha256": "23dbd5d453ba3d13b2306d8a1d40682ee0e6b4dc965d3054166ec66dbb2e54f5",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 41,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:153",
+      "sourceSha256": "6ac86d29b6ee9eca20e2937209965a23fb16c4215db589cda223257a527502cb",
+      "reviewedExpectationsSha256": "7fb4ab06949f4afbd9bffcca398db33676f085936a9e8e83b95a485d870b7f3c",
+      "updatedExpectationsSha256": "ae5ae4a0350923ea0105bbfaa44f33c1511474f04026115a4d298b6a79a5cb40",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 42,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:184",
+      "sourceSha256": "d1f89162a665f281c200fdf9e51f7cf0ffb906ad95f07139350b8cce8eddbc04",
+      "reviewedExpectationsSha256": "20979b4787525e8b37a61af77126e340cd6977d97c39305ccdc6f42efdcbb61f",
+      "updatedExpectationsSha256": "dab68c4486b1ff47ddcb80c540cb9aad0e1f760f6a652f75413efde22f5fb084",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 43,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:207",
+      "sourceSha256": "bd99ec4274a9f135a1a53d676b84c16b339061161a6ddd26365e69101900efdd",
+      "reviewedExpectationsSha256": "9b059b98814e2d7f4e95349de55a9263497692f44c09aa00c07d1b6322e3a60f",
+      "updatedExpectationsSha256": "5decd92216e112248e7e6655a199a05338f0ac779324e4b2bfcb010e64caa9d7",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 44,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:234",
+      "sourceSha256": "16bd41b8a1695cacd246fc314605faa1a0b63b48057f618d15869437039ae904",
+      "reviewedExpectationsSha256": "455ca811a671148ccf0b4fc17c207374fd17d5b471c23dd56861eeffa99f7f24",
+      "updatedExpectationsSha256": "00060ffad1bca668e6dd9fe02c449928d16f11d2d708ea9d2aa544a1b01089cd",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 45,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:252",
+      "sourceSha256": "29e13a0716dacc33a519c53c2e1938d1ff10b1d7816f8670c36a8d809536fc95",
+      "reviewedExpectationsSha256": "8e6952d67eb91001fb1216d17011d1dfa6de99f6f058440d0245b5b2071d287c",
+      "updatedExpectationsSha256": "447458f2aa400484ff377b5a5b21aac099d6cd974393146fb161cb7720cb224e",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 46,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:265",
+      "sourceSha256": "78f1f8e0586b761be1117216c419c04b8052a2bafeb249167bc9f46d54262114",
+      "reviewedExpectationsSha256": "4f6587dd5ba71a3486f3c3065cf3b12c28ab3ec341d7e9b01addf085b58a6e77",
+      "updatedExpectationsSha256": "da66f0e02122cc3a2f4c759e5b87033d8413d6ce77f5d5f91e81673a368f0d0f",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 47,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:281",
+      "sourceSha256": "fa9bb1266991355279e56a195611875db2ee1d573bec561ad6d003205bcaec97",
+      "reviewedExpectationsSha256": "63b7931ff3e629517831f96102890cbd5145ca6f23c6a2909935455528579f2d",
+      "updatedExpectationsSha256": "430c98042cb2e4cf9eeee22b35311fa5726f8a354990acc36488b031b71c9b3f",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 48,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:305",
+      "sourceSha256": "6ba6230ffb4f7a616f755efbead5d064a3f8f736344bc3a58edcf9b0e4bca3bd",
+      "reviewedExpectationsSha256": "7f4f925da7bbc7de0a28f9672d861bb74f022a9d2f8628c914ad836cd8c3c3f1",
+      "updatedExpectationsSha256": "b5082c7a3adea84e8f2cb3eacf66174e9b714dcd82d053ccce4a7cffdb18ff23",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 49,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:329",
+      "sourceSha256": "c5d091f2bc8cb332f8c664b1b6ef7f5d84180de70b408ab9a554378ebe7575c4",
+      "reviewedExpectationsSha256": "83738d1161531701ad3299134a84fd59f4e58f410f976f421042c3c0a8a103f8",
+      "updatedExpectationsSha256": "939fd3d9339bc34cc5372c61fd38c4cd0bfdd5df4bd211e087a5b3f1ee080153",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 50,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:352",
+      "sourceSha256": "fcf464d599f56ace59801857adef1ddfd91e5f55d45fd99d531f29d10669ca1d",
+      "reviewedExpectationsSha256": "5e6eb25a4b1aed09801bd1b4deacdf726594a88e812141ef8356698ce4f7123f",
+      "updatedExpectationsSha256": "f33b87528300ea5f5d5f0aa48df95630d0640abd9acbd3f4f7ba28c79a9ebf82",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 51,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:382",
+      "sourceSha256": "d85436bace2b6f1942183f8e730102db8c071db9b7f178683dfacfdb7db03b42",
+      "reviewedExpectationsSha256": "fb523f61d6b7882ff4bef6efb71db6a6ce67343f7e6eec526a79f6a2b4e5f2ba",
+      "updatedExpectationsSha256": "f4f09268136749488d3a3612874e567b4a8f4e8206f9b64baae7ee42e7670a45",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 52,
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:390",
+      "sourceSha256": "4be02ccb84d6157ab23d3230ed66a7404d181d8bc950328e46d460d142c21d81",
+      "reviewedExpectationsSha256": "1e1d2fb8698d8313f2ca5975247906df88e4ec9c92b9b25b335c262a6ca9d101",
+      "updatedExpectationsSha256": "9da33c7944ee811e06d1f483b136d4c6f61c3d50c8b072cdf4c3ad7cacc3ebb0",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 53,
+      "id": "packages/mermaid/src/docs/syntax/xyChart.md:206",
+      "sourceSha256": "ade44d5c559d10e3c56d74fc864fe1361e1a8c7705a607a11a9e9b541b33dceb",
+      "reviewedExpectationsSha256": "569ac51d1221a56a6e9345d5f10e55ad27def583a89e8e11980f44a6ce42e981",
+      "updatedExpectationsSha256": "7bf1a9508f7d469d3ef88c1ea96afb834b43907758061aecced26a24e750d78e",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 54,
+      "id": "packages/mermaid/src/docs/syntax/xyChart.md:221",
+      "sourceSha256": "55d282bc9b85f6b3291748e9d93f8926ac4f7fda958b9292742e0da38485002b",
+      "reviewedExpectationsSha256": "d931ce15f6a220d8e07fda9729333380f2a8083248460162b8f5d78a0d02d294",
+      "updatedExpectationsSha256": "862bb4b1d413b001c83f46d07aecf2091cd8f7d2ac9a3a390a67f8d38bb3fe9b",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    },
+    {
+      "index": 55,
+      "id": "packages/mermaid/src/docs/syntax/xyChart.md:265",
+      "sourceSha256": "4191b7b5dc6ecbe6b73464417555919ff9b13c4c17be733fe9032b25f572fd6b",
+      "reviewedExpectationsSha256": "b0b292e9ea9d22cb37625ceb251d78c7f51e2a235ba2f58642e63201ceed8b3b",
+      "updatedExpectationsSha256": "9592f59d0a80eb7a3fde53df030806a469280a0842ef8760ab8527c1014228ae",
+      "review": "delta agrees with literal source and pinned syntax documentation",
+      "note": "Full literal and changed expectation fields independently read; source bytes match pinned fence exactly."
+    }
+  ],
+  "resolvedFindings": [
+    {
+      "id": "CYNEFIN-SIGNATURE-BOUNDARIES",
+      "resolutionRevision": "9803c9c",
+      "sourceAuthority": "Pinned cynefin.md:17 and 203–207, independently read from pinned documentation prose",
+      "resolution": "All three unchanged Cynefin sources now require a wavy boundary separating unordered Complex/Chaotic from ordered Complicated/Clear, plus a Clear/Chaotic cliff. Exact source hashes remain unchanged and framework-boundaries is mandatory. No output observer qualification is inferred.",
+      "cases": [
+        {
+          "id": "packages/mermaid/src/docs/syntax/cynefin.md:93",
+          "sourceSha256": "4fb60908c114c6b9de99bada4c8fef8313803485baf1710b05a48d7ea97afe1f",
+          "updatedExpectationsSha256": "9870eb99951463fdd260e4eaa0d1712136b05165eb57d7c15f1c689b32967694",
+          "boundaries": [
+            {
+              "kind": "wavy",
+              "unordered": [
+                "complex",
+                "chaotic"
+              ],
+              "ordered": [
+                "complicated",
+                "clear"
+              ]
+            },
+            {
+              "kind": "cliff",
+              "domains": [
+                "clear",
+                "chaotic"
+              ]
+            }
+          ],
+          "requiredObligations": [
+            "visible-labels",
+            "fact:domain-entries",
+            "fact:domain-transitions",
+            "fact:framework-boundaries",
+            "fact:framework-domains",
+            "fact:title"
+          ]
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/cynefin.md:118",
+          "sourceSha256": "1065e06731e402659b34812e745185f06b3dca903d134d601efc9878c9b3ca46",
+          "updatedExpectationsSha256": "fc178e34a5df25a468dfae8991569ab00401161a34d49a67065e8613f7120e49",
+          "boundaries": [
+            {
+              "kind": "wavy",
+              "unordered": [
+                "complex",
+                "chaotic"
+              ],
+              "ordered": [
+                "complicated",
+                "clear"
+              ]
+            },
+            {
+              "kind": "cliff",
+              "domains": [
+                "clear",
+                "chaotic"
+              ]
+            }
+          ],
+          "requiredObligations": [
+            "visible-labels",
+            "fact:domain-entries",
+            "fact:domain-transitions",
+            "fact:framework-boundaries",
+            "fact:framework-domains",
+            "fact:title"
+          ]
+        },
+        {
+          "id": "packages/mermaid/src/docs/syntax/cynefin.md:144",
+          "sourceSha256": "c41ec80b216c2903964da56bfa712d0877bc80fcc57c3e4584dc1ce3c86a53ec",
+          "updatedExpectationsSha256": "a87beb4b2f9aebe0c5e2d4733e19ff56793a362852901ae220db09fe23e89114",
+          "boundaries": [
+            {
+              "kind": "wavy",
+              "unordered": [
+                "complex",
+                "chaotic"
+              ],
+              "ordered": [
+                "complicated",
+                "clear"
+              ]
+            },
+            {
+              "kind": "cliff",
+              "domains": [
+                "clear",
+                "chaotic"
+              ]
+            }
+          ],
+          "requiredObligations": [
+            "visible-labels",
+            "fact:domain-entries",
+            "fact:domain-transitions",
+            "fact:framework-boundaries",
+            "fact:framework-domains",
+            "fact:title"
+          ]
+        }
+      ]
+    }
+  ],
+  "c4TagExclusion": "Pinned c4.md:82–85/136–138 explicitly documents tags as unsupported. Current sourceReview.excludedNonvisual retains $tags requests as metadata; they are not falsely required as painted text."
+}

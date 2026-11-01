@@ -1,0 +1,179 @@
+{
+  "schema": "trident-terminal-qualification-v1",
+  "scope": "Real-source coverage corpus and bounded reviewed drawing qualification. Verified-count ranks do not establish complete accuracy, aesthetics, production frequency or speed.",
+  "evidence": {
+    "commit": "c5887b2f789fcdb4924d3204b38f6371c830f32e",
+    "readme": "https://github.com/adewale/trident/blob/c5887b2f789fcdb4924d3204b38f6371c830f32e/README.md",
+    "archive": "https://raw.githubusercontent.com/adewale/trident/c5887b2f789fcdb4924d3204b38f6371c830f32e/terminal-corpus.tar.gz",
+    "archiveSha256": "b937b66f2811b54d0f89c5940b6e79a608c44a941cf12357d8e0cb7f6614d894",
+    "archiveBytes": 1055053,
+    "internalFilesVerifiedAfterPublicDownload": 169
+  },
+  "sources": {
+    "originalCollection": "3b9bc966a1b77dc7b81db5308025c4cb1f7e8ba1",
+    "finalObserver": "4a39de66e89c3d3854da690c3b2f3e012ef7a083",
+    "corpusSnapshot": "76ddd6da80b11863ef1ad327c32552e43a158137"
+  },
+  "corpus": {
+    "researchedRepositories": 18,
+    "selectedContributors": 17,
+    "selectedInputs": 120,
+    "candidates": 488,
+    "diagramFamilies": 20,
+    "independentlyReviewedContracts": 22,
+    "reviewedObservableDrawings": 16,
+    "unreviewedInputs": 98,
+    "originRoleSupplement": {
+      "terminalSpecific": 67,
+      "sharedRendererRobustness": 53,
+      "terminalEvidencedDiagramFamilies": 14,
+      "sharedOnlyDiagramFamilies": [
+        "architecture",
+        "journey",
+        "kanban",
+        "mindmap",
+        "quadrant",
+        "zenuml"
+      ],
+      "sourceBytesChanged": false
+    },
+    "corpusSha256": "e37fc22f33fe4966338a97aeca8add5a25ec68b8dd44152bd5218cd53d1f0497",
+    "independentReviewsSha256": "a73ddd93169a17c6bb192d765a21d6e906e9a799117af6300b2fe08c859ba43d"
+  },
+  "collection": {
+    "startedAt": "2026-10-31T02:31:44.133Z",
+    "finishedAt": "2026-10-31T02:31:46.512Z",
+    "terminalCalls": 32,
+    "sourceReferenceCalls": 120,
+    "sourceReference": "Mermaid 12.2.0, unscored",
+    "artifactAcquisition": false,
+    "warmups": 0,
+    "performanceQualification": false,
+    "sourceReferenceAgreementOnReviewedDrawings": 16,
+    "originalArtifacts": [
+      {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "version": "git-5f00e3d9ac9f",
+        "artifact": {
+          "kind": "cli",
+          "executable": "/workspace/trident/node_modules/.cache/unified-community/AlexanderGrooff--mermaid-ascii@5f00e3d9ac9fc96a19859d502333e35b87d2ffea/bin/mermaid-ascii",
+          "args": [],
+          "input": "stdin",
+          "format": "terminal",
+          "defaults": "Public CLI stdin with default Unicode diagram output, non-TTY color policy.",
+          "version": "git-5f00e3d9ac9f",
+          "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+          "sha256": "42f116149cc3485a72bb4eea174a71ca52179d8eb8c6fdb9c87e62d62151f1e2",
+          "sourceRoot": "/workspace/trident/node_modules/.cache/unified-community/AlexanderGrooff--mermaid-ascii@5f00e3d9ac9fc96a19859d502333e35b87d2ffea/source",
+          "buildCommand": [
+            "go",
+            "build",
+            "-trimpath",
+            "-o",
+            "/workspace/trident/node_modules/.cache/unified-community/AlexanderGrooff--mermaid-ascii@5f00e3d9ac9fc96a19859d502333e35b87d2ffea/bin/mermaid-ascii",
+            "."
+          ],
+          "boundary": "cold-public-cli"
+        }
+      },
+      {
+        "project": "fasouto/termaid",
+        "version": "0.10.0",
+        "artifact": {
+          "kind": "python",
+          "python": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/venv/bin/python",
+          "executable": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/venv/bin/python",
+          "version": "0.10.0",
+          "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+          "files": [
+            {
+              "path": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/wheels/termaid-0.10.0-py3-none-any.whl",
+              "sha256": "b884a616d30071643f8e93528b0ad68bd5696b41a7b5d31cd0554d2f990f28f2"
+            }
+          ],
+          "runtime": "Python public termaid.render API; process startup recorded separately",
+          "detail": "Exact PyPI version in an isolated venv; every resolved dependency wheel is retained and hashed. No Python model/provider integration is implied."
+        }
+      }
+    ]
+  },
+  "results": {
+    "reviewedSubset": [
+      {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "version": "git-5f00e3d9ac9f",
+        "correct": 11,
+        "incorrect": 3,
+        "unsupported": 0,
+        "unknown": 2,
+        "planned": 16
+      },
+      {
+        "project": "fasouto/termaid",
+        "version": "0.10.0",
+        "correct": 12,
+        "incorrect": 1,
+        "unsupported": 0,
+        "unknown": 3,
+        "planned": 16
+      }
+    ],
+    "fullInventory": [
+      {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "version": "git-5f00e3d9ac9f",
+        "correct": 11,
+        "incorrect": 3,
+        "unsupported": 0,
+        "unknown": 106,
+        "planned": 120
+      },
+      {
+        "project": "fasouto/termaid",
+        "version": "0.10.0",
+        "correct": 12,
+        "incorrect": 1,
+        "unsupported": 0,
+        "unknown": 107,
+        "planned": 120
+      }
+    ],
+    "rankMeaning": "Verified-correct count within reviewed16 only; full120 accuracy unknown."
+  },
+  "rechecks": {
+    "rendererInvocations": 0,
+    "pointerRecovery": "16 existing Python worker text witnesses linked from original JSONL after controller omitted paths; original source, timestamps, transport observations and bytes preserved separately.",
+    "observerFixes": [
+      "Vertical inline and adjacent captions",
+      "Arrow-like letters inside captions",
+      "Unique-source shared stems",
+      "Overpainted caption spaces remain unknown",
+      "Independent layout-order constraints"
+    ],
+    "command": "bun commands.ts bench --terminal --saved-terminal EXTRACTED/publication/evidence/1 --out FRESH_DIR",
+    "requiresRendererOrMermaid": false
+  },
+  "checks": {
+    "fullLocalSuiteBeforeFinalNarrowIntegration": {
+      "passed": 561,
+      "failed": 0
+    },
+    "finalAffectedSuite": {
+      "passed": 46,
+      "failed": 0
+    },
+    "typecheck": "passed",
+    "lint": "passed",
+    "existingTrackedSnapshot": "unchanged/check passed",
+    "publicationAndSnapshotReduction": "passed",
+    "publicDownloadArchiveAndEveryInternalHash": "verified"
+  },
+  "limits": [
+    "98 inputs lack independent expectations; four reviewed drawings retain observer gaps; typed invalid-source rejection is unmeasured.",
+    "Full120 has 104 deliberately unattempted inputs per renderer, plus observed measurement gaps.",
+    "Shared/SVG fixtures do not establish terminal usage or demand. Latias issues231/232 are SVG/PNG theme reports.",
+    "Cached ASCII source build git-5f00e3d9ac9f is not the earlier release executable.",
+    "Cold CLI and warm Python API clocks have no shared speed rank.",
+    "Node path was verified with a synthetic fixture, not an additional renderer campaign."
+  ]
+}

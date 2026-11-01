@@ -1,0 +1,161 @@
+[
+  {
+    "fixture": "merge-ascii-retained.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "caseId": "terminal:bf9642a4ab479973",
+    "outputSha256": "08d76ddd3f779814dd55e5580d318fdb5038ac208f0e4598429768549b5c8894",
+    "originalOutput": {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:bf9642a4ab479973",
+      "witness": "witnesses/08d76ddd3f779814dd55e5580d318fdb5038ac208f0e4598429768549b5c8894.txt",
+      "sha256": "08d76ddd3f779814dd55e5580d318fdb5038ac208f0e4598429768549b5c8894",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    },
+    "artifact": {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "artifact": {
+        "kind": "cli",
+        "root": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+        "executable": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+        "args": [],
+        "input": "stdin",
+        "outputBindings": {
+          "terminal": {
+            "args": [],
+            "input": "stdin"
+          }
+        },
+        "version": "1.6.1",
+        "versionSource": "release-tag",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "files": [
+          {
+            "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+            "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8"
+          },
+          {
+            "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii_Linux_x86_64.tar.gz",
+            "sha256": "9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41"
+          }
+        ],
+        "runtime": "linux-x64 public native CLI",
+        "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+        "detail": "Archive https://github.com/AlexanderGrooff/mermaid-ascii/releases/download/1.6.1/mermaid-ascii_Linux_x86_64.tar.gz; SHA-256 9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41. Version identity: release-tag. Source revision names the release tag, not a reproducible-build assertion."
+      }
+    },
+    "retainedSource": "trident-terminal-saved-reproduction-2026-10-31-final-audit/active-raw.json",
+    "retainedRawSha256": "4228b4cd023e00e389dbaace2499ba25e2904a57247e74ef91ed337acbd165a4"
+  },
+  {
+    "fixture": "extra-node-ascii-retained.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "caseId": "terminal:4ab6c5415bc7a24c",
+    "outputSha256": "a6c2d9d62fce37ae5a2516605d5e8ca71aa52f7db0690f6059d44938526094d2",
+    "originalOutput": {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:4ab6c5415bc7a24c",
+      "witness": "witnesses/a6c2d9d62fce37ae5a2516605d5e8ca71aa52f7db0690f6059d44938526094d2.txt",
+      "sha256": "a6c2d9d62fce37ae5a2516605d5e8ca71aa52f7db0690f6059d44938526094d2",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    },
+    "artifact": {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "artifact": {
+        "kind": "cli",
+        "root": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+        "executable": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+        "args": [],
+        "input": "stdin",
+        "outputBindings": {
+          "terminal": {
+            "args": [],
+            "input": "stdin"
+          }
+        },
+        "version": "1.6.1",
+        "versionSource": "release-tag",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "files": [
+          {
+            "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+            "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8"
+          },
+          {
+            "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii_Linux_x86_64.tar.gz",
+            "sha256": "9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41"
+          }
+        ],
+        "runtime": "linux-x64 public native CLI",
+        "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+        "detail": "Archive https://github.com/AlexanderGrooff/mermaid-ascii/releases/download/1.6.1/mermaid-ascii_Linux_x86_64.tar.gz; SHA-256 9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41. Version identity: release-tag. Source revision names the release tag, not a reproducible-build assertion."
+      }
+    },
+    "retainedSource": "trident-terminal-saved-reproduction-2026-10-31-final-audit/active-raw.json",
+    "retainedRawSha256": "4228b4cd023e00e389dbaace2499ba25e2904a57247e74ef91ed337acbd165a4"
+  },
+  {
+    "fixture": "invented-node-ascii-retained.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "caseId": "terminal:29fc1dab07164509",
+    "outputSha256": "801afece29fe443226a818268ff15a5703963889b078002f3d969f050b47ee6e",
+    "originalOutput": {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:29fc1dab07164509",
+      "witness": "witnesses/801afece29fe443226a818268ff15a5703963889b078002f3d969f050b47ee6e.txt",
+      "sha256": "801afece29fe443226a818268ff15a5703963889b078002f3d969f050b47ee6e",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    },
+    "artifact": {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "artifact": {
+        "kind": "cli",
+        "root": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+        "executable": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+        "args": [],
+        "input": "stdin",
+        "outputBindings": {
+          "terminal": {
+            "args": [],
+            "input": "stdin"
+          }
+        },
+        "version": "1.6.1",
+        "versionSource": "release-tag",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "files": [
+          {
+            "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+            "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8"
+          },
+          {
+            "path": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii_Linux_x86_64.tar.gz",
+            "sha256": "9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41"
+          }
+        ],
+        "runtime": "linux-x64 public native CLI",
+        "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+        "detail": "Archive https://github.com/AlexanderGrooff/mermaid-ascii/releases/download/1.6.1/mermaid-ascii_Linux_x86_64.tar.gz; SHA-256 9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41. Version identity: release-tag. Source revision names the release tag, not a reproducible-build assertion."
+      }
+    },
+    "retainedSource": "trident-terminal-saved-reproduction-2026-10-31-final-audit/active-raw.json",
+    "retainedRawSha256": "4228b4cd023e00e389dbaace2499ba25e2904a57247e74ef91ed337acbd165a4"
+  }
+]

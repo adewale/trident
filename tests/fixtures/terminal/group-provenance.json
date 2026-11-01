@@ -1,0 +1,68 @@
+[
+  {
+    "file": "group-cli-quoted-label.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "caseId": "terminal:1b492a74df0fc4b6",
+    "sha256": "176e1de355d72ad4eeec4f176244ac38e21efd3d26086a1e86c3f44ec335425c",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; group ownership checker control"
+  },
+  {
+    "file": "group-python-passthrough.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:1b492a74df0fc4b6",
+    "sha256": "4f3e318dbf89e1095c8717d1784c215d003aedd567826d1e9c7d940dd3ba6af0",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; group ownership checker control"
+  },
+  {
+    "file": "group-module-passthrough.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "caseId": "terminal:1b492a74df0fc4b6",
+    "sha256": "55b20445c72c56e0c9b25ac4ccc46387dca83d3cecb0c14b051a1125bf9f4055",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; group ownership checker control"
+  },
+  {
+    "file": "group-cli-two-scopes.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "caseId": "terminal:22e97a0fc1fff023",
+    "sha256": "3868dd6f09cf179d3e4acfa3dd4ddbe12350c8a2e35e87e886dd54a2e7cb9a97",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; group ownership checker control"
+  },
+  {
+    "file": "group-python-two-scopes.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "caseId": "terminal:22e97a0fc1fff023",
+    "sha256": "6083b54c91af926b104fdd64c7bc70f09a1f6bce2493af2e7f7d4a7296765011",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; group ownership checker control"
+  },
+  {
+    "file": "group-module-source-port.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "caseId": "terminal:de6e8bf0fd559efc",
+    "sha256": "6cafd1d8ce4ab7cfb8b72ad46874f4b04a03c5d2a7b6fce7196d203bb27764b1",
+    "rawReceiptSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d",
+    "originalStartedAt": "2026-10-31T09:25:33.746Z",
+    "originalFinishedAt": "2026-10-31T09:28:24.742Z",
+    "role": "Original retained terminal output; group ownership checker control"
+  }
+]

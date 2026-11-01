@@ -1,10 +1,11 @@
 /** Runs inside Chromium after the existing public SVG adapter initializes. */
-export async function publicDocsPngAction(input: { source: string; id: string }): Promise<any> {
+export async function publicDocsPngAction(input: { source: string; id: string; ownedImages?: { url: string; contentType: string; bytesBase64: string }[] }): Promise<any> {
   const state = (globalThis as any).__fidelityCommunity
   const stages: Record<string, number> = {}
   const started = performance.now()
   let stage = 'public-svg',
     svg: string | undefined,
+    rasterizedSvg: string | undefined,
     url: string | undefined
   try {
     const value = await state.render(input.source, input.id)
@@ -34,9 +35,20 @@ export async function publicDocsPngAction(input: { source: string; id: string })
     root.setAttribute('width', String(width))
     root.setAttribute('height', String(height))
     root.style.maxWidth = 'none'
+    // SVG decoded as an Image cannot fetch nested external image URLs. Inline
+    // only collector-owned immutable resource bytes; retain the original SVG.
+    stage = 'owned-image-inlining'
+    const inlineStarted = performance.now()
+    for (const node of root.querySelectorAll('image,img')) {
+      const attribute = node.tagName.toLowerCase() === 'img' ? 'src' : node.hasAttribute('href') ? 'href' : 'xlink:href'
+      const url = node.getAttribute(attribute), owned = input.ownedImages?.find(resource => resource.url === url)
+      if (owned) node.setAttribute(attribute, 'data:' + owned.contentType + ';base64,' + owned.bytesBase64)
+    }
+    stages.ownedImageInliningMs = performance.now() - inlineStarted
     const serialized = new XMLSerializer().serializeToString(root)
+    rasterizedSvg = serialized
     url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(serialized)
-    stages.svgPreparationMs = performance.now() - t
+    stages.svgPreparationMs = Math.max(0, performance.now() - t - stages.ownedImageInliningMs!)
     stage = 'svg-decode'
     t = performance.now()
     const image = new Image()
@@ -62,9 +74,10 @@ export async function publicDocsPngAction(input: { source: string; id: string })
     const outputBytes = bytes.byteLength
     stages.pngProductionMs = performance.now() - t
     const totalMs = performance.now() - started
-    return { status: 'ok', totalMs, stages, width, height, outputBytes, png: Array.from(bytes), svg }
-  } catch (error) {
-    return { status: stage === 'raster-budget' ? 'blocked' : 'error', stage, detail: String(error), stages, svg }
+    return { status: 'ok', totalMs, stages, width, height, outputBytes, png: Array.from(bytes), svg, originalSvg: svg, rasterizedSvg }
+  } catch (error: any) {
+    const nativeError = stage === 'public-svg' ? { name: String(error?.name ?? 'Error'), message: String(error?.message ?? error), ...(typeof error?.code === 'string' ? { code: error.code } : {}), ...(typeof error?.identifier === 'string' ? { identifier: error.identifier } : {}) } : undefined
+    return { status: stage === 'raster-budget' ? 'blocked' : 'error', stage, detail: String(error), stages, svg, originalSvg: svg, rasterizedSvg, ...(nativeError ? { nativeError } : {}) }
   } finally {
     ;(globalThis as any).__communityAfterCall?.()
     for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove()

@@ -1,0 +1,312 @@
+{
+  "schema": "trident-qualified-png-export-timing-result-v1",
+  "bundle": {
+    "file": "timing-bundle-1e276f38a6fe762180fe3167.json",
+    "sha256": "bbf6e1272752fe57ac58c8b5175a82fb80f4fe370494900f0e9bc516fba3cc78"
+  },
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+  "track": "first-use",
+  "observerSha256": "5227e336902606806cea3ca2a9b409f706ad0f98d338f9de04894a7e485d3ff0",
+  "environmentSha256": "faea424db92442338e6cfb0baffa3f52ed35db8eaa3c38ace27dbdbdeb853447",
+  "producerFiles": [
+    "100644 blob 403ff7ba062a20a4610b46468f04a028222d4ca1\tci-policy-enforce.ts",
+    "100644 blob 46a6436ea29e11fa5d713b39ddb63acd9ae791cf\tci-policy.ts",
+    "100644 blob 9cc256b3786e4ac55a6f15c2d577096b91cac448\tcorpus/docs-source-registry.json",
+    "100644 blob 05a5d4f8bf54c048e2b313b5b4b55f68028ef155\tdata/upstream-mermaid-policy.json",
+    "100644 blob ba0b06d7ac26232aa075a25015dfa0530d22fef5\tfidelity/cases.ts",
+    "100644 blob 34a04686366ee85126fecb3c885a5822ec8fc02c\tfidelity/community.ts",
+    "100644 blob 8f8e92736ab18ac4cc782c8218f551a13bbf4e09\tfidelity/configuration-expectation.ts",
+    "100644 blob 23cc08da21759f955c916e56e429a4187cff8cc6\tfidelity/edge-pattern-expectation.ts",
+    "100644 blob df8c69266e087644f4271d7ef5f3d9f93ffb5487\tfidelity/event-data-expectation.ts",
+    "100644 blob e5db6b74f237c2aa80b9b72625f6a14b58433a2c\tfidelity/inspect-svg.ts",
+    "100644 blob 1ac1b2fd48b462b84ec83f413c117f6eaacc5aca\tfidelity/ledger.ts",
+    "100644 blob 6646212b98553311bf33835bf3f9a0ee25cd2529\tfidelity/meaning.ts",
+    "100644 blob 5702c2b586830fffbbc8522f0b0afbee34ddb80b\tfidelity/paint-chart-facts.ts",
+    "100644 blob 1079eb17d5412c2b0a325603ae1e5db709722831\tfidelity/paint-domain-facts.ts",
+    "100644 blob a6f2f162ff996d7896a7966251c12c9d47d20ec1\tfidelity/paint-facts.ts",
+    "100644 blob ea59d106c958b13d6296629996f229f2f9ac6019\tfidelity/paint-graph-families.ts",
+    "100644 blob d8453e558ac514fe8f03b8b17b979d6e3e40037e\tfidelity/paint-values.ts",
+    "100644 blob 78a768b6d9dd7d8e37b0ba7d7c955d913c57381f\tfidelity/paint.ts",
+    "100644 blob c81659e30c133dfc6b65edc4470b0f06e9d3e8fa\tfidelity/protocol.ts",
+    "100644 blob 30881d2b108022b91fbfd05448d5555ebe155c6e\tfidelity/source-contract.ts",
+    "100644 blob 6c8234752478f22b59a1f2f09225feff3b21d2e5\tfidelity/source-metadata-expectation.ts",
+    "100644 blob f9ba27d0fe8fd959e9e09e3bf4152b315bea37f2\tfidelity/style-expectation.ts",
+    "100644 blob 292a003d95ca4a2172ac8354c9fdd3541d414811\tfidelity/svg-assessment.ts",
+    "100644 blob c6bd2e5bb66e9528e3e8476eaccdc913f451f658\tfidelity/terminal-display.ts",
+    "100644 blob ab18613c44c6be2b2fb95ae8008551287e4cb52d\tfidelity/theme-source-policy.ts",
+    "100644 blob b4a49b3a160dc132b829a9c73e060a5bcba91682\tfidelity/visual-expectation.ts",
+    "100644 blob 3d90dd1334ebdfa75999dffa2d737aeae3133475\tnative-flutter/community-launch.mjs",
+    "100644 blob a865874cfc792441448bca480dc66e30de228524\tportable/artifact-dependencies.ts",
+    "100644 blob 52dbeddf77b74d3c859812c9f4b55bcbda1e8138\tportable/artifacts.ts",
+    "100644 blob 188b51c409212e9d617d3881428237dbbb2d4235\tportable/checkpoint.ts",
+    "100644 blob 5813f9b7c09528e50b77f9003f16b828a625081c\tportable/ci-policy.ts",
+    "100644 blob 73da43d3fea40796d04fe7fe9906501d1d59d67a\tportable/cohorts.ts",
+    "100644 blob e3ec7de9b28f9f54be323560527fda0cf9f5a78f\tportable/configuration.ts",
+    "100644 blob d808f7ec9e356de70b8b33d0805755cc577e62d1\tportable/environment.ts",
+    "100644 blob 050919dfdb8004485ac9cc2a651b81a0a5e3faab\tportable/evidence-contract.ts",
+    "100644 blob 734dd1cc4b0f006089598a461e8772fd4a7c8843\tportable/invocation-journal.ts",
+    "100644 blob 3c4999e57c8016ec651a548f0b8ba696165410ba\tportable/mermaid-oracle.ts",
+    "100644 blob b1731be5ead03172bf3015ca76513287e5973657\tportable/project-records.ts",
+    "100644 blob fd8f5efdb05407e1ea05e3fa5085b4428aa20cd4\tportable/qualified-timing-collection.ts",
+    "100644 blob 6d953d98ecc265cca3670bf7d60c5ef4da3a0c34\tportable/qualified-timing.ts",
+    "100644 blob 34d38e1e910058b5884f1fc26e959393f66e81ea\tportable/statistics.ts",
+    "100644 blob b6e2112969be7aefb804478246a1e84d36cf5b7d\tportable/time-observer.ts",
+    "100644 blob 1ab9a4fa6ecc0954a2abefd57ce0d5a6ce97c55d\tportable/timing-grading.ts",
+    "100644 blob f95fb7a418cef16b70a50c63cbf10168e2a3a1dd\ttool-versions.json",
+    "100644 blob ff51e22ba9ca2e2a776934a86dec5c66317599c1\ttool-versions.ts",
+    "100644 blob 3a220a70e2d8305287fb83d7b27178745a22bb16\tunified/baseline-measurement-context.ts",
+    "100644 blob 4201a44529c5858c4b2296fe77baa92b94da4061\tunified/benchmark-context.ts",
+    "100644 blob 57f9c7caf187a31dd2721708321e532730cfd3ac\tunified/benchmark-skip.ts",
+    "100644 blob eacfa7f30a1a1925538ba704f73cb59f80fa44f3\tunified/browser-process-memory.ts",
+    "100644 blob b4b4ca9a7105aa04a60a0add90861e6237ff59b6\tunified/candidate-packages.ts",
+    "100644 blob aa10f449699fafb6430719483ddfd6a1079131e3\tunified/catalog-eligibility.ts",
+    "100644 blob 9cf11fbbab5c2ca8e8bdaf09481bda28c67ce796\tunified/community-artifact-prepare.ts",
+    "100644 blob b53cb6fcfb6772ba8542ab1f9ac1ef6f3fe990b2\tunified/community-browser.ts",
+    "100644 blob 24e5325acddbef7112485da1d757d31fc41911d9\tunified/community-cli-request.ts",
+    "100644 blob fc44b2a7c0f89d4110efe6d6d053a30cb087dd34\tunified/community-cli.ts",
+    "100644 blob 96fc9d3e581a458b36f156a8e936e63ed9a6b8f1\tunified/community-external.ts",
+    "100644 blob 19c946f793e79bfaa036c26db7cf26876f5f8ed1\tunified/community-extra-adapters.mjs",
+    "100644 blob 630557c945c9cb05c27272b7a41f7108869be905\tunified/community-extra-source.ts",
+    "100644 blob d9dfab66016cdc4bd0f89adc58ad1359b3944234\tunified/community-process.ts",
+    "100644 blob 114b71891d71dc30faa27e88aa7e4ca0ba3f0267\tunified/community-source-prepare.ts",
+    "100644 blob 5ef6354edf9d8f60eed95a51e4dd9253bfed2e90\tunified/community-worker-evidence.ts",
+    "100644 blob 6d1e5cb9bbb93bca761cd778451652e97d8463bf\tunified/community.ts",
+    "100644 blob ff13967087b5a60fb3037fc0b55eb9caa0041de0\tunified/corpus.ts",
+    "100644 blob ae48336760c64b1408836496997209f5f68c9102\tunified/docs-drawings.ts",
+    "100644 blob fe375b54615bbbd2a5abc08d844b539073bf2745\tunified/docs-png-browser.ts",
+    "100644 blob b1f7d6b9f57785dda197e0a89116f64ef876505b\tunified/docs-png-capture.ts",
+    "100644 blob 56e635bae8e1a293fcf9249ef7319ed101ce97ab\tunified/docs-png-clearance-contract.ts",
+    "100644 blob 3123617895ef6d38451a070f44333c78ab6072f2\tunified/docs-png-drawings.ts",
+    "100644 blob b14f6a678ffeeb3272fb3b3adcc82579629dac8e\tunified/docs-png-static-contract.ts",
+    "100644 blob 257e042c0aae7c85e26c1f2c43d3288b6fac3256\tunified/docs-resources.ts",
+    "100644 blob 377f28cbee37fdb27ccfe026f380e7c108ae8f0b\tunified/docs-runtime.ts",
+    "100644 blob 4083af881ab62ddf76d53a834c7b8551ecb18fc7\tunified/docs-source-admission.ts",
+    "100644 blob 1cd59c10b913895a170dbdbe769d88cd43899abe\tunified/docs-source-review.ts",
+    "100644 blob 544f7ff011c74bd3eda0b4845456f7f4b5ae8c55\tunified/external-invocations.ts",
+    "100644 blob 2740a1a29fc5a3726e16f38ef6f522420e6285e7\tunified/failure-outputs.ts",
+    "100644 blob 9b4c6d41fcdff1e95f34584cae7699387b9ef24a\tunified/family-support.ts",
+    "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+    "100644 blob d50649b756b6334786b215c341776b37ace0cef1\tunified/oracle-labels.ts",
+    "100644 blob 56573f0717c5cace1b380ff8b7fb62fe0e8374c6\tunified/png-export-timing-worker.ts",
+    "100644 blob 5e508df049cb7a6f130d8a33e00c95395f23f532\tunified/png-inspection.ts",
+    "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+    "100644 blob be22a5b2dbf4bd44f19c6580774b5993b92aa40c\tunified/public-svg-browser.ts",
+    "100644 blob 368cb14d601ecda74fac76202831ae7bd1bd71f8\tunified/qualification-visible-source.ts",
+    "100644 blob b6666ce077a99de7bf13989b7c039ed22e07b5e5\tunified/qualification.ts",
+    "100644 blob 719c7a3ba6e57955fe11607cd3ca7443a6c536d7\tunified/release-cli.ts",
+    "100644 blob 196a8d5a769a12de84ec59aad9e885d509761a75\tunified/retained-suite.ts",
+    "100644 blob c4f18a219650acdfddc476454860ce6cdd3a0b2d\tunified/svg-text-inspection.ts",
+    "100644 blob a280ea577bdd2f8fdc16a9a738257c5ec7822119\tunified/timing-png.ts",
+    "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts",
+    "100644 blob b4645079ec5f8b4a939360b735e7eb9ac7daf31a\tunified/workload-intent.ts"
+  ],
+  "ordinaryQualifier": {
+    "schema": "trident-qualified-timing-v1",
+    "status": "qualified",
+    "planSha256": "a53e866fd853908f5a9c0370c4b6d8c1073e6f21fc1383dc58670bc4343e6e03",
+    "samplesSha256": "75f1e318552741fba54eb93d45b0e24e86250c597349f33a56f8eb8e63c5a2ea",
+    "comparisonKey": "6bf3e033dbc7e1b2048172f35d9528237b7f2c4e8e16fd4a238652bbe813988c",
+    "project": "pub:mermaid_flutter",
+    "caseIds": [
+      "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "packages/mermaid/src/docs/syntax/flowchart.md:742"
+    ],
+    "boundary": "Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running.",
+    "format": "png",
+    "track": "first-use",
+    "environmentSha256": "faea424db92442338e6cfb0baffa3f52ed35db8eaa3c38ace27dbdbdeb853447",
+    "planned": 54,
+    "checked": 54,
+    "gaps": [],
+    "perRoundMs": [
+      19697.182738000003,
+      22797.909380999998,
+      19641.074492999996,
+      19763.502013,
+      19532.180203,
+      19508.541720999998
+    ],
+    "medianMs": 19669.128615499998,
+    "calibration": {
+      "status": "calibrated",
+      "gaps": [],
+      "controlRatios": [
+        0.9995246021281972,
+        0.8202120068225657,
+        0.9984260459548311,
+        0.9975901274976504,
+        1.0767367316396121,
+        1.0430553579034618
+      ],
+      "candidateRatios": [
+        4.373107465208976,
+        4.625846742753526,
+        4.253531829794992,
+        4.356498838405399,
+        4.236613511772392,
+        4.435034467925357
+      ],
+      "controlBand": {
+        "lower": 0.8202120068225657,
+        "upper": 1.2191969779544174
+      },
+      "candidateRatio": 4.3648031518071875,
+      "roundRatioUncertainty": {
+        "controls": {
+          "independentRounds": 6,
+          "medianRatio": 0.9989753240415141,
+          "interval": {
+            "lower": 0.8202120068225657,
+            "upper": 1.0767367316396121,
+            "confidence": 0.96875
+          },
+          "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+          "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+        },
+        "replicaB": {
+          "independentRounds": 6,
+          "medianRatio": 4.3648031518071875,
+          "interval": {
+            "lower": 4.236613511772392,
+            "upper": 4.625846742753526,
+            "confidence": 0.96875
+          },
+          "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+          "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+        }
+      },
+      "interpretation": "above observed control band; advisory"
+    },
+    "interpretation": "Time for the exact fixed corpus through the declared boundary. All sampled outputs are independently checked. A/A spread and median round uncertainty remain separate; calibration alone is not a confidence claim."
+  },
+  "actualWindow": {
+    "firstStartedAt": "2026-11-01T01:49:27.760Z",
+    "lastReturnedAt": "2026-11-01T01:52:50.914Z",
+    "contexts": 54,
+    "clockDomains": [
+      "cf73712f-530b-4118-ac02-346266869471"
+    ]
+  },
+  "rankMetric": "Median sum of three actual cold public export durations per replica-round; baseline has twelve control replica-rounds, native six candidate rounds. Shared result-ranking.ts, ascending.",
+  "ranked": [
+    {
+      "rank": 1,
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "replicas": [
+        "A0",
+        "A1"
+      ],
+      "corpusRoundMs": [
+        4505.232621,
+        4503.090843,
+        5441.77676,
+        4463.410636999999,
+        4621.230221,
+        4613.956617,
+        4542.032406,
+        4531.086687,
+        4443.008162,
+        4783.950087,
+        4306.992625999999,
+        4492.431735
+      ],
+      "medianCorpusMs": 4518.159654,
+      "calls": 36,
+      "correct": 36
+    },
+    {
+      "rank": 2,
+      "project": "pub:mermaid_flutter",
+      "version": "0.3.2",
+      "replicas": [
+        "B"
+      ],
+      "corpusRoundMs": [
+        19697.182738000003,
+        22797.909380999998,
+        19641.074492999996,
+        19763.502013,
+        19532.180203,
+        19508.541720999998
+      ],
+      "medianCorpusMs": 19669.128615499998,
+      "calls": 18,
+      "correct": 18
+    }
+  ],
+  "counts": [
+    {
+      "project": "mermaid-js/mermaid",
+      "calls": 36,
+      "correct": 36
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "calls": 18,
+      "correct": 18
+    }
+  ],
+  "perCase": [
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:686",
+      "sourceSha256": "85a2f8b3229ec602dc46b93885a70c09a6552bdeccb80078f6ca1e453100de57",
+      "family": "flowchart",
+      "measured": [
+        {
+          "project": "mermaid-js/mermaid",
+          "calls": 12,
+          "correct": 12,
+          "medianCallMs": 1513.1006845
+        },
+        {
+          "project": "pub:mermaid_flutter",
+          "calls": 6,
+          "correct": 6,
+          "medianCallMs": 9559.2214135
+        }
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:728",
+      "sourceSha256": "1bb084024e89e351488468f8e7240fa2cdc8a70a846adbd8725aa7961791f18d",
+      "family": "flowchart",
+      "measured": [
+        {
+          "project": "mermaid-js/mermaid",
+          "calls": 12,
+          "correct": 12,
+          "medianCallMs": 1513.8208705
+        },
+        {
+          "project": "pub:mermaid_flutter",
+          "calls": 6,
+          "correct": 6,
+          "medianCallMs": 9537.020650999999
+        }
+      ]
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+      "sourceSha256": "2b838b9975e215d252cbf950b5922529cd1afb4b6ac0ccaf097cf95b566fc134",
+      "family": "flowchart",
+      "measured": [
+        {
+          "project": "mermaid-js/mermaid",
+          "calls": 12,
+          "correct": 12,
+          "medianCallMs": 1517.2211149999998
+        },
+        {
+          "project": "pub:mermaid_flutter",
+          "calls": 6,
+          "correct": 6,
+          "medianCallMs": 9556.2521345
+        }
+      ]
+    }
+  ],
+  "scope": "Correctness-conditioned three-document flowchart edge-style export cohort: solid, dotted and thick A→B. This is not a representative multi-family PNG workload or an isolated render API benchmark; setup exclusions and actual cold complete-export clock are explicit. Filesystem/OS caches uncontrolled. Six balanced rounds and A/A controls do not eliminate systematic host/workload effects."
+}

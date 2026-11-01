@@ -1,0 +1,80 @@
+{
+  "schema": "trident-dated-qualification-receipt-v1",
+  "measuredDate": "2026-10-30",
+  "publishedAt": "2026-10-31T00:01:02.673577+00:00",
+  "scope": "Repair existing benchmark correctness checks; development-exposed qualification, not a full ecosystem baseline or speed campaign.",
+  "evidence": {
+    "commit": "73bd6509cb70d221ccb17a86012254614fa6abf0",
+    "readme": "https://github.com/adewale/trident/blob/73bd6509cb70d221ccb17a86012254614fa6abf0/qualification/2026-10-30/README.md",
+    "summary": "https://github.com/adewale/trident/blob/73bd6509cb70d221ccb17a86012254614fa6abf0/qualification/2026-10-30/summary.json",
+    "archive": "https://raw.githubusercontent.com/adewale/trident/73bd6509cb70d221ccb17a86012254614fa6abf0/qualification/2026-10-30/benchmark-repair.tar.gz",
+    "archiveSha256": "616313cf3e63174f1dc20e182f038771a309005a2e4523a4c2505c7808b01677",
+    "archiveBytes": 5969822,
+    "fileChecksums": "SHA256SUMS inside the archive"
+  },
+  "sources": {
+    "originalSvgCollection": "1fd3d15c09ae2fcfcf0c13e723bcf26ffbf21b36",
+    "originalTerminalCollection": "f06ce2cd6b81356b393f872bc3cb08afc7c66b3e",
+    "configurationFollowUp": "8b879bbc09f4f17cd941942f0b972505d8d619ed",
+    "finalObserverRecheck": "348deb191a00ae07d33680e66c1b0423a49fd103"
+  },
+  "measurement": {
+    "svgProjects": 5,
+    "initialFeatureCasesPerProject": 30,
+    "configurationFollowUpCases": 10,
+    "documentationOccurrencesPerProject": 548,
+    "documentationWarmups": 150,
+    "svgCollectionSeconds": 111.764,
+    "distinctRetainedDocumentationSvgs": 2023,
+    "documentationReview": {
+      "drawingOccurrences": 16,
+      "configurationOnlyOccurrences": 1,
+      "unreviewedOccurrences": 531,
+      "families": 4,
+      "developmentExposed": true,
+      "reviewEvolution": "Initial 14 drawing contracts plus configuration-only source were present at collection. Two group/collapse contracts reused the existing controlled-PNG source facts for the saved-output recheck."
+    },
+    "terminal": {
+      "outputProjects": [
+        "AlexanderGrooff/mermaid-ascii@1.6.1",
+        "fasouto/termaid@0.10.0"
+      ],
+      "casesPerProject": 4,
+      "sourceReference": "mermaid-js/mermaid@12.2.0",
+      "sourceReferenceReceivesTerminalScore": false
+    },
+    "artifactAcquisition": false,
+    "comparativePerformanceCampaign": false
+  },
+  "recheck": {
+    "command": "bun EXTRACTED/recheck.ts ABSOLUTE_EXTRACTED_DIRECTORY ABSOLUTE_TRIDENT_CHECKOUT",
+    "requirements": "Trident 348deb1 or descendant, frozen Bun dependencies and /usr/bin/chromium.",
+    "rendererInvocations": 0,
+    "integrity": "Archive and all internal file hashes verified after public download; independent extracted-directory recheck reproduces the bounded counts.",
+    "originalRecords": "Original rendering reports and clocks stay unchanged. Derived observer verdicts are stored separately."
+  },
+  "verification": {
+    "fullTests": {
+      "passed": 537,
+      "failed": 0,
+      "skipped": 0,
+      "files": 79,
+      "browserTestsEnabled": true
+    },
+    "focusedReportingAndWorkflowTests": 26,
+    "typecheck": "passed",
+    "lint": "passed",
+    "negativeControls": [
+      "Original drop-shadow observer fails the retained Mermaid SVG regression.",
+      "Original group/hidden-content observer fails the new regressions.",
+      "Original public option assumption fails the configuration regression.",
+      "Label-only admission accepts reversed arrows, broken stems and swapped topology; the terminal observer rejects them."
+    ]
+  },
+  "limitations": [
+    "531 documentation occurrences still lack source expectations.",
+    "All five 30-case feature rows have unknown observations and no correctness rank.",
+    "One common verified documentation source cannot support an overall comparative speed claim.",
+    "Terminal prototype covers four single-cell rectangular flowcharts; ambiguous shared stems and terminal display/state remain unknown."
+  ]
+}

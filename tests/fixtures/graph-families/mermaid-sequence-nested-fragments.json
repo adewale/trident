@@ -1,0 +1,162 @@
+{
+  "schema": "trident-retained-graph-fragment-witness-v1",
+  "caseId": "packages/mermaid/src/docs/syntax/examples.md:76",
+  "source": "sequenceDiagram\n    loop Daily query\n        Alice->>Bob: Hello Bob, how are you?\n        alt is sick\n            Bob->>Alice: Not so good :(\n        else is well\n            Bob->>Alice: Feeling fresh like a daisy\n        end\n\n        opt Extra response\n            Bob->>Alice: Thanks for asking\n        end\n    end\n",
+  "sourceSha256": "c6681aebec310400ed7c61ecc1869b7957a6eb8e8526bdb09b765fcf0a30e21d",
+  "expected": {
+    "labels": [
+      "Daily query",
+      "Hello Bob, how are you?",
+      "is sick",
+      "Not so good :(",
+      "is well",
+      "Feeling fresh like a daisy",
+      "Extra response",
+      "Thanks for asking",
+      "Alice",
+      "Bob"
+    ],
+    "facts": {
+      "message-order": [
+        {
+          "from": "Alice",
+          "to": "Bob",
+          "text": "Hello Bob, how are you?"
+        },
+        {
+          "from": "Bob",
+          "to": "Alice",
+          "text": "Not so good :("
+        },
+        {
+          "from": "Bob",
+          "to": "Alice",
+          "text": "Feeling fresh like a daisy"
+        },
+        {
+          "from": "Bob",
+          "to": "Alice",
+          "text": "Thanks for asking"
+        }
+      ],
+      "message-style": [
+        "->>",
+        "->>",
+        "->>",
+        "->>"
+      ],
+      "participant-order": [
+        "Alice",
+        "Bob"
+      ],
+      "participant-kinds": [
+        {
+          "id": "Alice",
+          "kind": "participant"
+        },
+        {
+          "id": "Bob",
+          "kind": "participant"
+        }
+      ],
+      "fragments": [
+        {
+          "kind": "loop",
+          "caption": "Daily query",
+          "beginMessage": 0,
+          "nesting": [],
+          "endMessage": 4
+        },
+        {
+          "kind": "alt",
+          "caption": "is sick",
+          "beginMessage": 1,
+          "nesting": [
+            0
+          ],
+          "endMessage": 3
+        },
+        {
+          "kind": "else",
+          "caption": "is well",
+          "beginMessage": 2,
+          "parent": 1,
+          "endMessage": 3
+        },
+        {
+          "kind": "opt",
+          "caption": "Extra response",
+          "beginMessage": 3,
+          "nesting": [
+            0
+          ],
+          "endMessage": 4
+        }
+      ]
+    },
+    "nodes": [
+      {
+        "id": "Alice",
+        "label": "Alice"
+      },
+      {
+        "id": "Bob",
+        "label": "Bob"
+      }
+    ],
+    "edges": [
+      {
+        "source": "Alice",
+        "target": "Bob",
+        "directed": true,
+        "label": "Hello Bob, how are you?",
+        "startMarker": "none",
+        "endMarker": "arrow"
+      },
+      {
+        "source": "Bob",
+        "target": "Alice",
+        "directed": true,
+        "label": "Not so good :(",
+        "startMarker": "none",
+        "endMarker": "arrow"
+      },
+      {
+        "source": "Bob",
+        "target": "Alice",
+        "directed": true,
+        "label": "Feeling fresh like a daisy",
+        "startMarker": "none",
+        "endMarker": "arrow"
+      },
+      {
+        "source": "Bob",
+        "target": "Alice",
+        "directed": true,
+        "label": "Thanks for asking",
+        "startMarker": "none",
+        "endMarker": "arrow"
+      }
+    ]
+  },
+  "svgSha256": "c8d94ff447f1be2e9a10bac397da23ab0d3d37e5164f253c1973722439677523",
+  "copiedFrom": "/workspace/trident-png-full-2026-10-31/docs/png/rasterizedSvg/c8d94ff447f1be2e9a10bac397da23ab0d3d37e5164f253c1973722439677523.svg.gz",
+  "publicReturn": {
+    "schema": "trident-docs-png-return-v1",
+    "project": "mermaid-js/mermaid",
+    "caseId": "packages/mermaid/src/docs/syntax/examples.md:76",
+    "round": 1,
+    "variant": "primary",
+    "attemptId": "b4d1cad2-e392-4a06-86b9-23ef94131544",
+    "sourceSha256": "c6681aebec310400ed7c61ecc1869b7957a6eb8e8526bdb09b765fcf0a30e21d",
+    "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+    "bindingSha256": "21acd377699a70e6e285cfa35453b6968ad283c413102e172d8448241a5db19f",
+    "originalSvgSha256": "68ff66a43642753b281491d3806daf973b01126e64b75d8975c5be9090268481",
+    "rasterizedSvgSha256": "c8d94ff447f1be2e9a10bac397da23ab0d3d37e5164f253c1973722439677523",
+    "pngSha256": "b794ceca8ecb9d0b40a1dc2e9941116aa9f41bbe8fdb3cd80cae57dced29de8f",
+    "rawUnitSha256": "534c7ddb504e9cd4823d9aea56a1b671514fe8e865bf8673b7482faa23e27a8a",
+    "startedFrameSha256": "89994d5ad8b9382a099a72a7fcff2b687f7d443ef443b7fa2646460fdaa6340b",
+    "returnedFrameSha256": "d39dfe5a9bf5ea3a462427d71c826a11a004f4898ceac17f6ad0ee1c9e6232dc"
+  },
+  "scope": "Literal registered source and independent source-review expectations, with exact same-call PNG-rasterized SVG. No project rerender, source change or expected hash restamp."
+}

@@ -1,0 +1,222 @@
+[
+  {
+    "file": "corner-self-python.txt",
+    "caseId": "terminal:5eee7283ba095288",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "outputSha256": "4cc9301f679d869fec086670351d14426d229fb7fd1f938bde9da72c2fb7a578",
+    "retainedRawSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+    "originalOutput": {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:5eee7283ba095288",
+      "witness": "witnesses/4cc9301f679d869fec086670351d14426d229fb7fd1f938bde9da72c2fb7a578.txt",
+      "sha256": "4cc9301f679d869fec086670351d14426d229fb7fd1f938bde9da72c2fb7a578",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
+  },
+  {
+    "file": "corner-graph-python.txt",
+    "caseId": "terminal:53e2d239ed8df992",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "outputSha256": "99c3ad4e7d5782ebdaa84fe97bfddfc49970a039dc5bf4fb2f12436bda068bdb",
+    "retainedRawSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+    "originalOutput": {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:53e2d239ed8df992",
+      "witness": "witnesses/99c3ad4e7d5782ebdaa84fe97bfddfc49970a039dc5bf4fb2f12436bda068bdb.txt",
+      "sha256": "99c3ad4e7d5782ebdaa84fe97bfddfc49970a039dc5bf4fb2f12436bda068bdb",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
+  },
+  {
+    "file": "strip-equal-python.txt",
+    "caseId": "terminal:6f0f134c3b965095",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "outputSha256": "a3944a0297e1cf2b116bbdb2bf3814bfb3c53ba5f7e578965e30a7e6f720d888",
+    "retainedRawSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+    "originalOutput": {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:6f0f134c3b965095",
+      "witness": "witnesses/a3944a0297e1cf2b116bbdb2bf3814bfb3c53ba5f7e578965e30a7e6f720d888.txt",
+      "sha256": "a3944a0297e1cf2b116bbdb2bf3814bfb3c53ba5f7e578965e30a7e6f720d888",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
+  },
+  {
+    "file": "strip-unicode-python.txt",
+    "caseId": "terminal:704f69aae7273edd",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "outputSha256": "7a03f323e35c122f1021343507345d36ef959e414e9f417248396c56e2d8d982",
+    "retainedRawSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+    "originalOutput": {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:704f69aae7273edd",
+      "witness": "witnesses/7a03f323e35c122f1021343507345d36ef959e414e9f417248396c56e2d8d982.txt",
+      "sha256": "7a03f323e35c122f1021343507345d36ef959e414e9f417248396c56e2d8d982",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
+  },
+  {
+    "file": "strip-title-python.txt",
+    "caseId": "terminal:587429a5094fbb28",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "outputSha256": "eeb1df1a8b54a2faa853cf5155347d1db45f8b7796c20f16d7e2d80656c2589b",
+    "retainedRawSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+    "originalOutput": {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:587429a5094fbb28",
+      "witness": "witnesses/eeb1df1a8b54a2faa853cf5155347d1db45f8b7796c20f16d7e2d80656c2589b.txt",
+      "sha256": "eeb1df1a8b54a2faa853cf5155347d1db45f8b7796c20f16d7e2d80656c2589b",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
+  },
+  {
+    "file": "strip-pets-python.txt",
+    "caseId": "terminal:61cc5e1150412252",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "outputSha256": "3ecf492833507f1b782912910bccead275015a2902c61a3d74a1a0d748215de0",
+    "retainedRawSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+    "originalOutput": {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:61cc5e1150412252",
+      "witness": "witnesses/3ecf492833507f1b782912910bccead275015a2902c61a3d74a1a0d748215de0.txt",
+      "sha256": "3ecf492833507f1b782912910bccead275015a2902c61a3d74a1a0d748215de0",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
+  },
+  {
+    "file": "timeline-tree-python.txt",
+    "caseId": "terminal:da9198e1adbc1c14",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "outputSha256": "07cc8440b4ebb034a256e55f7d2c3119c14d306177786688251ecd62438acc03",
+    "retainedRawSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+    "originalOutput": {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:da9198e1adbc1c14",
+      "witness": "witnesses/07cc8440b4ebb034a256e55f7d2c3119c14d306177786688251ecd62438acc03.txt",
+      "sha256": "07cc8440b4ebb034a256e55f7d2c3119c14d306177786688251ecd62438acc03",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
+  },
+  {
+    "file": "note-hardbreak-ascii.txt",
+    "caseId": "terminal:75a4be6507dd75fe",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+    "outputSha256": "ede7dfa85d061fce10e738839e40345f1359cf6f63fa508775c352339814a9b7",
+    "retainedRawSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+    "originalOutput": {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:75a4be6507dd75fe",
+      "witness": "witnesses/ede7dfa85d061fce10e738839e40345f1359cf6f63fa508775c352339814a9b7.txt",
+      "sha256": "ede7dfa85d061fce10e738839e40345f1359cf6f63fa508775c352339814a9b7",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
+  },
+  {
+    "file": "quadrant-cross-python.txt",
+    "caseId": "terminal:25e166249d24378d",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "outputSha256": "5157fa7241518289a190be80d3be9b1a57e052565fb6eeb33c8526fd9af215c6",
+    "retainedRawSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+    "originalOutput": {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:25e166249d24378d",
+      "witness": "witnesses/5157fa7241518289a190be80d3be9b1a57e052565fb6eeb33c8526fd9af215c6.txt",
+      "sha256": "5157fa7241518289a190be80d3be9b1a57e052565fb6eeb33c8526fd9af215c6",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
+  },
+  {
+    "file": "stadium-rectangle-ascii.txt",
+    "caseId": "terminal:9516272260e4c69d",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+    "outputSha256": "71108fa51947d5804be7f6e2c89ef20692229fcbeffc2a9ec2f0ea6bcf1895fd",
+    "retainedRawSha256": "75790426895ccd3d75d8b8a5da9a08fdd3612bfee889f38e2fefe5a77b9677c7",
+    "originalOutput": {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:9516272260e4c69d",
+      "witness": "witnesses/71108fa51947d5804be7f6e2c89ef20692229fcbeffc2a9ec2f0ea6bcf1895fd.txt",
+      "sha256": "71108fa51947d5804be7f6e2c89ef20692229fcbeffc2a9ec2f0ea6bcf1895fd",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
+  },
+  {
+    "file": "er-caption-clipped-python.txt",
+    "caseId": "terminal:94e514f9f375364c",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "outputSha256": "ad1f2853415dde265f0697fd1507cb4ddba738876b65484ff5ee482932b91a3a",
+    "retainedRawSha256": "75790426895ccd3d75d8b8a5da9a08fdd3612bfee889f38e2fefe5a77b9677c7",
+    "originalOutput": {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:94e514f9f375364c",
+      "witness": "witnesses/ad1f2853415dde265f0697fd1507cb4ddba738876b65484ff5ee482932b91a3a.txt",
+      "sha256": "ad1f2853415dde265f0697fd1507cb4ddba738876b65484ff5ee482932b91a3a",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
+  }
+]

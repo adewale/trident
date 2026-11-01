@@ -1,0 +1,1 @@
+time="2026-10-31T19:49:40Z" level=fatal msg="failed to parse graph diagram: unsupported graph type 'stateDiagram-v2'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)"

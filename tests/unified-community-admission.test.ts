@@ -23,7 +23,11 @@ describe('community benchmark artifact admission', () => {
       writeFileSync(
         executable,
         `#!/usr/bin/env node
-import fs from 'node:fs';const job=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));for(const w of job.workloads){if(w.source==='CRASH')process.exit(42);fs.appendFileSync(process.argv[3],JSON.stringify({workload:w.id,status:'ok',samplesMs:[1],outputBytes:2})+'\\n')}
+import fs from 'node:fs';
+import {InvocationJournal} from ${JSON.stringify(new URL('../portable/invocation-journal.ts', import.meta.url).href)};
+const job=JSON.parse(fs.readFileSync(process.argv[2],'utf8')),result=process.argv[3],journal=new InvocationJournal(result+'.fixture-journal');
+const emit=(file,value)=>{const fd=fs.openSync(file,'a');try{fs.writeSync(fd,JSON.stringify(value)+'\\n');fs.fsyncSync(fd)}finally{fs.closeSync(fd)}};
+for(const w of job.workloads){if(w.source==='CRASH')process.exit(42);const started=journal.start(w.invocationIdentity);emit(result+'.invocations.jsonl',started);const returned=journal.returned(started,'<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><text>Start</text><text>End</text></svg>',1);emit(result+'.invocations.jsonl',returned);emit(result,{workload:w.id,invocationId:returned.attemptId,status:'ok',samplesMs:[1],outputBytes:returned.output.bytes})}
 `,
       )
       chmodSync(executable, 0o755)
@@ -111,7 +115,7 @@ import fs from 'node:fs';const job=JSON.parse(fs.readFileSync(process.argv[2],'u
         ['header-only', 'passed'],
         ['empty', 'failed'],
         ['source-echo', 'failed'],
-        ['crash', 'failed'],
+        ['crash', 'blocked'],
         ['after-crash', 'passed'],
       ])
       expect(rows.find(row => row.caseId === 'source-echo')?.detail).toContain('raw source/sidecars excluded')
@@ -126,13 +130,13 @@ import fs from 'node:fs';const job=JSON.parse(fs.readFileSync(process.argv[2],'u
 })
 
 describe('matched family evidence and artifact alias guards', () => {
-  test('qualifies a complete existing flowchart cohort while withholding broader/missing/duplicate/failed/zero claims', () => {
+  test('legacy output-only samples cannot qualify speed even when every initial output passed', () => {
     const rows: BenchmarkObservation[] = [1, 2, 3].flatMap(round =>
       communityCoreWorkloads()
         .filter(workload => workload.family === 'flowchart')
         .map(workload => ({ suite: 'community', surface: 'node:public-api', runtime: 'fixture runtime', family: workload.family, caseId: workload.id, operation: 'render', format: 'svg', mode: 'core-api-repeat', status: 'passed', samplesMs: [4, 5, 6], metrics: { implementation: 'fixture/flow-only', round } })),
     )
-    expect(rankCommunityFamilyObservations(rows, 3)[0]).toMatchObject({ family: 'flowchart', qualified: true, medianMs: 10, requiredCaseIds: ['core:flow5', 'core:tree50'] })
+    expect(rankCommunityFamilyObservations(rows, 3)[0]).toMatchObject({ family: 'flowchart', qualified: false, medianMs: null, requiredCaseIds: ['core:flow5', 'core:tree50'] })
     expect(rankCommunityObservations(rows, 3)[0]?.qualified).toBe(false)
     expect(rankCommunityFamilyObservations(rows.slice(1), 3)[0]?.qualified).toBe(false)
     expect(rankCommunityFamilyObservations([...rows, rows[0]!], 3)[0]?.qualified).toBe(false)
@@ -153,7 +157,7 @@ describe('matched family evidence and artifact alias guards', () => {
         rows.map(row => ({ ...row, metrics: { ...row.metrics, evidenceImplementation: 'fixture/representative', evidenceReuse: true } })),
         3,
       )[0],
-    ).toMatchObject({ qualified: true, independentMeasurement: false, evidenceImplementation: 'fixture/representative' })
+    ).toMatchObject({ qualified: false, independentMeasurement: false, evidenceImplementation: 'fixture/representative' })
   })
   test('same Git pin and equal bytes never alias interpreted programs or different reviewed protocols', () => {
     const directory = mkdtempSync(join(tmpdir(), 'am-artifact-alias-'))

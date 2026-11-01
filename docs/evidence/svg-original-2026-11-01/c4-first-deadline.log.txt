@@ -1,0 +1,12 @@
+{"index":48,"id":"packages/mermaid/src/docs/syntax/c4.md:7","priorStatus":"unknown","status":"unknown","outputSha256":"1471de7c09ccde8cda0c6094eb7f5de5435c0b05306171c331be697a93c8e104","binding":{"sourceSha256":"f96d24037e03cbf93c7027ba4a5dc84f351183e98b68b854a78d223aec22823f","expectationsSha256":"b219ad8e5cc6c422be369916393090bf3391ca8ae2b0833a71d93ff72631b0a2","svgSha256":"1471de7c09ccde8cda0c6094eb7f5de5435c0b05306171c331be697a93c8e104","observerSha256":"c75f85442a8dc760adce7804a4eabedc1620c31ac938fe46f995d9370cc23b2a"}}
+38 |   return value
+39 | }
+40 | 
+41 | export async function withDocsDeadline<T>(operation: () => Promise<T>, cancel: () => void, deadlineMs = 20_000): Promise<T> {
+42 |   let timer: ReturnType<typeof setTimeout> | undefined
+43 |   try { return await Promise.race([operation(), new Promise<never>((_, reject) => { timer = setTimeout(() => { cancel(); reject(Error('Browser call exceeded its declared host deadline')) }, deadlineMs) })]) }
+                                                                                                                                     ^
+error: Browser call exceeded its declared host deadline
+      at <anonymous> (/workspace/trident-svg-c4-observer-2026-11-01/unified/docs-runtime.ts:43:129)
+
+Bun v1.4.2 (Linux x64)

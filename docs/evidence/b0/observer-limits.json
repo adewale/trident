@@ -1,0 +1,2176 @@
+{
+  "schema": "trident-b0-observer-limits-v1",
+  "scope": "Unknowns are unresolved observations, not passes or renderer defects. This census does not assert that every missing predicate is inherently unobservable.",
+  "svg": {
+    "unknown": 165,
+    "families": {
+      "agentflow": 9,
+      "architecture": 5,
+      "block": 3,
+      "c4": 5,
+      "classDiagram": 6,
+      "cynefin": 1,
+      "entityRelationshipDiagram": 18,
+      "examples": 2,
+      "flowchart": 34,
+      "gantt": 5,
+      "gitgraph": 12,
+      "ishikawa": 1,
+      "mindmap": 4,
+      "radar": 1,
+      "requirementDiagram": 9,
+      "sankey": 1,
+      "stateDiagram": 11,
+      "timeline": 2,
+      "treeView": 10,
+      "usecase": 21,
+      "wardley": 2,
+      "xyChart": 2,
+      "zenuml": 1
+    },
+    "cases": [
+      {
+        "index": 1,
+        "id": "packages/mermaid/src/docs/syntax/agentflow.md:41",
+        "family": "agentflow",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:edge-appearance",
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 2,
+        "id": "packages/mermaid/src/docs/syntax/agentflow.md:67",
+        "family": "agentflow",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 3,
+        "id": "packages/mermaid/src/docs/syntax/agentflow.md:127",
+        "family": "agentflow",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 4,
+        "id": "packages/mermaid/src/docs/syntax/agentflow.md:151",
+        "family": "agentflow",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:edge-appearance",
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 5,
+        "id": "packages/mermaid/src/docs/syntax/agentflow.md:170",
+        "family": "agentflow",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 6,
+        "id": "packages/mermaid/src/docs/syntax/agentflow.md:189",
+        "family": "agentflow",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 7,
+        "id": "packages/mermaid/src/docs/syntax/agentflow.md:212",
+        "family": "agentflow",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:dialect-kinds",
+          "source-fact:node-attributes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 8,
+        "id": "packages/mermaid/src/docs/syntax/agentflow.md:279",
+        "family": "agentflow",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:dialect-kinds"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 9,
+        "id": "packages/mermaid/src/docs/syntax/agentflow.md:294",
+        "family": "agentflow",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:dialect-kinds",
+          "source-fact:edge-appearance",
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 12,
+        "id": "packages/mermaid/src/docs/syntax/architecture.md:7",
+        "family": "architecture",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-group:api",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:icons",
+          "source-fact:ports"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 13,
+        "id": "packages/mermaid/src/docs/syntax/architecture.md:146",
+        "family": "architecture",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-group:api",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:alignments",
+          "source-fact:icons",
+          "source-fact:ports"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 14,
+        "id": "packages/mermaid/src/docs/syntax/architecture.md:161",
+        "family": "architecture",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:alignments",
+          "source-fact:icons",
+          "source-fact:ports"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 15,
+        "id": "packages/mermaid/src/docs/syntax/architecture.md:181",
+        "family": "architecture",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-group:sources",
+          "painted-group:storage",
+          "painted-group:output",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:alignments",
+          "source-fact:icons",
+          "source-fact:ports"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 16,
+        "id": "packages/mermaid/src/docs/syntax/architecture.md:228",
+        "family": "architecture",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:icons",
+          "source-fact:junctions",
+          "source-fact:ports"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 33,
+        "id": "packages/mermaid/src/docs/syntax/block.md:253",
+        "family": "block",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-node-visibility",
+          "source-fact:grid-cell-order",
+          "source-fact:grid-columns",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 35,
+        "id": "packages/mermaid/src/docs/syntax/block.md:278",
+        "family": "block",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-node-visibility",
+          "source-fact:dialect-kinds",
+          "source-fact:grid-cell-order",
+          "source-fact:grid-columns",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 43,
+        "id": "packages/mermaid/src/docs/syntax/block.md:422",
+        "family": "block",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "visible-authored-labels",
+          "labels-within-canvas",
+          "unclipped-authored-labels",
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-node-visibility",
+          "source-fact:dialect-kinds",
+          "source-fact:grid-cell-order",
+          "source-fact:grid-columns",
+          "source-fact:node-paint",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 48,
+        "id": "packages/mermaid/src/docs/syntax/c4.md:7",
+        "family": "c4",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:elements"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 49,
+        "id": "packages/mermaid/src/docs/syntax/c4.md:175",
+        "family": "c4",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:elements"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 51,
+        "id": "packages/mermaid/src/docs/syntax/c4.md:267",
+        "family": "c4",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationship-label-ownership",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "source-fact:authored-style",
+          "source-fact:elements",
+          "source-fact:relations"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 52,
+        "id": "packages/mermaid/src/docs/syntax/c4.md:309",
+        "family": "c4",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationship-label-ownership",
+          "painted-node-visibility",
+          "source-fact:authored-style",
+          "source-fact:elements",
+          "source-fact:relations"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 53,
+        "id": "packages/mermaid/src/docs/syntax/c4.md:331",
+        "family": "c4",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "visible-authored-labels",
+          "labels-within-canvas",
+          "unclipped-authored-labels",
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-group:plc",
+          "painted-group:apache",
+          "painted-group:apache2",
+          "painted-group:bigbankdb01",
+          "painted-group:oracle",
+          "painted-group:bigbankdb02",
+          "painted-group:oracle2",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:authored-style",
+          "source-fact:elements",
+          "source-fact:relations",
+          "source-fact:title"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 56,
+        "id": "packages/mermaid/src/docs/syntax/classDiagram.md:78",
+        "family": "classDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:cardinalities",
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 69,
+        "id": "packages/mermaid/src/docs/syntax/classDiagram.md:362",
+        "family": "classDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-node-visibility",
+          "painted-route-visibility",
+          "source-fact:edge-appearance",
+          "source-fact:lollipop-interfaces"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 70,
+        "id": "packages/mermaid/src/docs/syntax/classDiagram.md:367",
+        "family": "classDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-node-visibility",
+          "painted-route-visibility",
+          "source-fact:edge-appearance",
+          "source-fact:lollipop-interfaces"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 75,
+        "id": "packages/mermaid/src/docs/syntax/classDiagram.md:470",
+        "family": "classDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:authored-config"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 86,
+        "id": "packages/mermaid/src/docs/syntax/classDiagram.md:735",
+        "family": "classDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-visibility"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 91,
+        "id": "packages/mermaid/src/docs/syntax/classDiagram.md:848",
+        "family": "classDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:authored-config"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 93,
+        "id": "packages/mermaid/src/docs/syntax/cynefin.md:118",
+        "family": "cynefin",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:domain-transitions"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 95,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:9",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 96,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:25",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "painted-route-visibility",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 97,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:57",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "painted-route-visibility",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 98,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:85",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "painted-node-visibility",
+          "painted-route-visibility",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 100,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:158",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:markdown-source-labels"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 101,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:213",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 102,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:219",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 103,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:229",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 105,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:264",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 106,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:280",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "painted-route-visibility",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 107,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:310",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "painted-route-visibility",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 108,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:333",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "painted-route-visibility",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 109,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:376",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 113,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:442",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-cardinality-decorations",
+          "painted-route-visibility",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 114,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:465",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-cardinality-decorations",
+          "painted-route-visibility",
+          "source-fact:cardinalities",
+          "source-fact:layout-constraints"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 117,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:558",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "painted-route-visibility",
+          "source-fact:cardinalities",
+          "source-fact:node-paint"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 118,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:594",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "painted-route-visibility",
+          "source-fact:cardinalities",
+          "source-fact:node-paint"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 119,
+        "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:632",
+        "family": "entityRelationshipDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-cardinality-decorations",
+          "source-fact:cardinalities"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 135,
+        "id": "packages/mermaid/src/docs/syntax/examples.md:26",
+        "family": "examples",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:message-order",
+          "source-fact:message-style",
+          "source-fact:notes",
+          "source-fact:text-line-breaks"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 137,
+        "id": "packages/mermaid/src/docs/syntax/examples.md:50",
+        "family": "examples",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-text-inventory",
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-group:A",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:edge-appearance",
+          "source-fact:node-shapes",
+          "source-fact:text-line-breaks"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 145,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:66",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:markdown-source-labels"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 163,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:293",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 175,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:381",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-visibility",
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 179,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:409",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-text-inventory",
+          "painted-relationships",
+          "painted-node-visibility",
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 186,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:458",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-visibility",
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 187,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:465",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-visibility",
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 188,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:472",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-visibility",
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 190,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:486",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 192,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:500",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 194,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:514",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 199,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:549",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 203,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:577",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 204,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:584",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 206,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:598",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 208,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:612",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 209,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:619",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 211,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:674",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-text-inventory",
+          "painted-relationships",
+          "painted-node-visibility",
+          "source-fact:node-attributes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 220,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:742",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 221,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:749",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 222,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:758",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:layout-constraints"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 227,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:807",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 228,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:818",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:edge-appearance",
+          "source-fact:edge-attributes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 229,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:832",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:edge-attributes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 231,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:869",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 232,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:876",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 233,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:885",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 240,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:998",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 241,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:1019",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 242,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:1040",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-text-inventory",
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-group:subgraph1",
+          "painted-group:subgraph2",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 243,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:1065",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-text-inventory",
+          "source-fact:direction",
+          "source-fact:node-attributes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 244,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:1096",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-text-inventory",
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-group:One",
+          "painted-group:Two",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:markdown-source-labels",
+          "source-fact:node-shapes",
+          "source-fact:text-line-breaks"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 248,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:1277",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:edge-appearance",
+          "source-fact:edge-attributes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 253,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:1381",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-text-inventory",
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-node-visibility",
+          "painted-route-visibility",
+          "source-fact:embedded-icons",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 254,
+        "id": "packages/mermaid/src/docs/syntax/flowchart.md:1435",
+        "family": "flowchart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:embedded-icons"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 257,
+        "id": "packages/mermaid/src/docs/syntax/gantt.md:33",
+        "family": "gantt",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-duration-ratios",
+          "source-fact:calendar-settings",
+          "source-fact:sections",
+          "source-fact:tasks"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 258,
+        "id": "packages/mermaid/src/docs/syntax/gantt.md:117",
+        "family": "gantt",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-duration-ratios",
+          "source-fact:calendar-settings",
+          "source-fact:sections",
+          "source-fact:tasks"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 261,
+        "id": "packages/mermaid/src/docs/syntax/gantt.md:186",
+        "family": "gantt",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-duration-ratios",
+          "source-fact:calendar-settings",
+          "source-fact:sections",
+          "source-fact:tasks"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 265,
+        "id": "packages/mermaid/src/docs/syntax/gantt.md:500",
+        "family": "gantt",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-duration-ratios",
+          "source-fact:calendar-settings",
+          "source-fact:sections",
+          "source-fact:tasks"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 266,
+        "id": "packages/mermaid/src/docs/syntax/gantt.md:519",
+        "family": "gantt",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "labels-within-canvas",
+          "unclipped-authored-labels",
+          "painted-duration-ratios",
+          "source-fact:authored-config",
+          "source-fact:calendar-settings",
+          "source-fact:frontmatter:displayMode",
+          "source-fact:sections",
+          "source-fact:tasks",
+          "source-fact:title"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 278,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:354",
+        "family": "gitgraph",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "unclipped-authored-labels",
+          "source-fact:authored-config",
+          "source-fact:branches",
+          "source-fact:commits",
+          "source-fact:theme-paint"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 279,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:381",
+        "family": "gitgraph",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "unclipped-authored-labels",
+          "source-fact:authored-config",
+          "source-fact:branches",
+          "source-fact:commits",
+          "source-fact:theme-paint"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 281,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:471",
+        "family": "gitgraph",
+        "sourceComplete": null,
+        "unknownChecks": [],
+        "observerError": null
+      },
+      {
+        "index": 286,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:630",
+        "family": "gitgraph",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "unclipped-authored-labels",
+          "source-fact:branches",
+          "source-fact:commits"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 289,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:708",
+        "family": "gitgraph",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:theme-paint"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 290,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:760",
+        "family": "gitgraph",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:theme-paint"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 292,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:864",
+        "family": "gitgraph",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:theme-paint"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 293,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:916",
+        "family": "gitgraph",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:theme-paint"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 295,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1009",
+        "family": "gitgraph",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:theme-paint"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 298,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1123",
+        "family": "gitgraph",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:authored-config",
+          "source-fact:branches",
+          "source-fact:commits"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 299,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1157",
+        "family": "gitgraph",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:commits"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 301,
+        "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1225",
+        "family": "gitgraph",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:authored-config"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 302,
+        "id": "packages/mermaid/src/docs/syntax/ishikawa.md:13",
+        "family": "ishikawa",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:cause-hierarchy",
+          "source-fact:effect"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 311,
+        "id": "packages/mermaid/src/docs/syntax/mindmap.md:85",
+        "family": "mindmap",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:hierarchy"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 312,
+        "id": "packages/mermaid/src/docs/syntax/mindmap.md:92",
+        "family": "mindmap",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:hierarchy"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 313,
+        "id": "packages/mermaid/src/docs/syntax/mindmap.md:99",
+        "family": "mindmap",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:hierarchy"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 320,
+        "id": "packages/mermaid/src/docs/syntax/mindmap.md:233",
+        "family": "mindmap",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:markdown-source-labels"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 331,
+        "id": "packages/mermaid/src/docs/syntax/radar.md:41",
+        "family": "radar",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "labels-within-canvas"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 347,
+        "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:7",
+        "family": "requirementDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "standalone-svg-and-labels"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 348,
+        "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:34",
+        "family": "requirementDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "standalone-svg-and-labels",
+          "painted-relationships",
+          "painted-relationship-label-ownership"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 349,
+        "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:60",
+        "family": "requirementDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "standalone-svg-and-labels",
+          "painted-relationships",
+          "painted-relationship-label-ownership"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 350,
+        "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:140",
+        "family": "requirementDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "standalone-svg-and-labels",
+          "source-fact:definitions",
+          "source-fact:markdown-source-labels"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 351,
+        "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:177",
+        "family": "requirementDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "standalone-svg-and-labels",
+          "painted-relationships",
+          "painted-relationship-label-ownership"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 352,
+        "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:258",
+        "family": "requirementDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "standalone-svg-and-labels"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 353,
+        "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:285",
+        "family": "requirementDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "standalone-svg-and-labels",
+          "source-fact:authored-style"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 354,
+        "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:307",
+        "family": "requirementDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "standalone-svg-and-labels"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 355,
+        "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:363",
+        "family": "requirementDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "standalone-svg-and-labels",
+          "source-fact:authored-style",
+          "source-fact:definitions"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 356,
+        "id": "packages/mermaid/src/docs/syntax/sankey.md:15",
+        "family": "sankey",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "paint-opacity-and-color",
+          "painted-node-ownership",
+          "painted-link-weights",
+          "source-fact:links"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 404,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:52",
+        "family": "stateDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-group:Review",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:pseudostates",
+          "source-fact:state-kinds"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 405,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:71",
+        "family": "stateDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-group:Review",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:pseudostates",
+          "source-fact:state-kinds"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 412,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:156",
+        "family": "stateDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-group:First",
+          "painted-group:NamedComposite",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:pseudostates",
+          "source-fact:state-kinds"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 413,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:175",
+        "family": "stateDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-group:First",
+          "painted-group:Second",
+          "painted-group:Third",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:pseudostates",
+          "source-fact:state-kinds"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 414,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:196",
+        "family": "stateDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-group:First",
+          "painted-group:Second",
+          "painted-group:Third",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:pseudostates",
+          "source-fact:state-kinds"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 415,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:222",
+        "family": "stateDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-node-visibility",
+          "painted-route-visibility",
+          "source-fact:pseudostates",
+          "source-fact:state-kinds"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 416,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:235",
+        "family": "stateDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-node-visibility",
+          "painted-route-visibility",
+          "source-fact:pseudostates",
+          "source-fact:state-kinds"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 418,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:270",
+        "family": "stateDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-group:Active",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:parallel-regions",
+          "source-fact:pseudostates",
+          "source-fact:state-kinds"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 419,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:294",
+        "family": "stateDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-visibility"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 422,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:433",
+        "family": "stateDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:state-classes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 423,
+        "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:461",
+        "family": "stateDiagram",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:state-classes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 442,
+        "id": "packages/mermaid/src/docs/syntax/timeline.md:128",
+        "family": "timeline",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "unclipped-authored-labels",
+          "source-fact:title"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 450,
+        "id": "packages/mermaid/src/docs/syntax/timeline.md:337",
+        "family": "timeline",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "paint-opacity-and-color",
+          "source-fact:theme-paint"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 451,
+        "id": "packages/mermaid/src/docs/syntax/treeView.md:39",
+        "family": "treeView",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 453,
+        "id": "packages/mermaid/src/docs/syntax/treeView.md:62",
+        "family": "treeView",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "source-fact:hierarchy"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 454,
+        "id": "packages/mermaid/src/docs/syntax/treeView.md:83",
+        "family": "treeView",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "source-fact:decorations"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 455,
+        "id": "packages/mermaid/src/docs/syntax/treeView.md:95",
+        "family": "treeView",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "source-fact:decorations"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 456,
+        "id": "packages/mermaid/src/docs/syntax/treeView.md:107",
+        "family": "treeView",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "source-fact:authored-config",
+          "source-fact:hierarchy"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 459,
+        "id": "packages/mermaid/src/docs/syntax/treeView.md:167",
+        "family": "treeView",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "source-fact:authored-config",
+          "source-fact:decorations",
+          "source-fact:hierarchy"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 460,
+        "id": "packages/mermaid/src/docs/syntax/treeView.md:183",
+        "family": "treeView",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "source-fact:decorations",
+          "source-fact:hierarchy"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 461,
+        "id": "packages/mermaid/src/docs/syntax/treeView.md:210",
+        "family": "treeView",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 462,
+        "id": "packages/mermaid/src/docs/syntax/treeView.md:222",
+        "family": "treeView",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 463,
+        "id": "packages/mermaid/src/docs/syntax/treeView.md:235",
+        "family": "treeView",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 472,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:7",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 473,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:29",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:dialect-kinds",
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 474,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:53",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:dialect-kinds",
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 475,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:88",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 477,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:131",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-node-visibility",
+          "painted-route-visibility",
+          "source-fact:dialect-kinds",
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 478,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:150",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-route-visibility"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 479,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:161",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:markdown-source-labels"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 480,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:181",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 481,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:197",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:node-attributes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 482,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:213",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:node-attributes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 483,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:233",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 484,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:250",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-route-visibility"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 485,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:263",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:dialect-kinds",
+          "source-fact:edge-appearance"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 486,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:282",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:dialect-kinds",
+          "source-fact:edge-appearance",
+          "source-fact:edge-attributes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 487,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:306",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:markdown-source-labels"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 488,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:321",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:dialect-kinds",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 490,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:407",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:dialect-kinds",
+          "source-fact:edge-appearance",
+          "source-fact:theme-paint"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 492,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:478",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:authored-config"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 493,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:507",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 494,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:527",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-node-ownership",
+          "painted-relationships",
+          "painted-relationship-label-ownership",
+          "painted-relationship-markers",
+          "painted-node-visibility",
+          "painted-group-membership",
+          "painted-route-visibility",
+          "source-fact:dialect-kinds",
+          "source-fact:edge-appearance",
+          "source-fact:edge-attributes",
+          "source-fact:markdown-source-labels",
+          "source-fact:node-attributes",
+          "source-fact:node-shapes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 495,
+        "id": "packages/mermaid/src/docs/syntax/usecase.md:579",
+        "family": "usecase",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-relationships",
+          "painted-relationship-markers",
+          "painted-route-visibility",
+          "source-fact:markdown-source-labels"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 513,
+        "id": "packages/mermaid/src/docs/syntax/wardley.md:184",
+        "family": "wardley",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:links"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 520,
+        "id": "packages/mermaid/src/docs/syntax/wardley.md:329",
+        "family": "wardley",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "source-fact:annotation-legend-position",
+          "source-fact:annotations",
+          "source-fact:components",
+          "source-fact:links",
+          "source-fact:map-axes"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 526,
+        "id": "packages/mermaid/src/docs/syntax/xyChart.md:181",
+        "family": "xyChart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "painted-series-values",
+          "source-fact:authored-config",
+          "source-fact:orientation",
+          "source-fact:series",
+          "source-fact:x-axis-label",
+          "source-fact:x-categories",
+          "source-fact:y-axis-label",
+          "source-fact:y-range"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 530,
+        "id": "packages/mermaid/src/docs/syntax/xyChart.md:249",
+        "family": "xyChart",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "labels-within-canvas",
+          "unclipped-authored-labels",
+          "source-fact:title"
+        ],
+        "observerError": null
+      },
+      {
+        "index": 539,
+        "id": "packages/mermaid/src/docs/syntax/zenuml.md:110",
+        "family": "zenuml",
+        "sourceComplete": true,
+        "unknownChecks": [
+          "labels-within-canvas",
+          "unclipped-authored-labels",
+          "source-fact:zenuml-event-order",
+          "source-fact:zenuml-message-comments"
+        ],
+        "observerError": null
+      }
+    ]
+  }
+}

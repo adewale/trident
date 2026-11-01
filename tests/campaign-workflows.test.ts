@@ -1,6 +1,6 @@
 import { afterEach, expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { execFileSync } from 'node:child_process'
@@ -16,12 +16,19 @@ import { importCampaign, rankedRows, validateSnapshot } from '../unified/results
 import { stableReleaseBefore, resolveReleaseCatalog } from '../unified/release-selection.ts'
 import { loadCampaignPreparation } from '../unified/campaign-preparation.ts'
 import { verifyReleaseArchive } from '../scripts/package-release.ts'
+import { DEFAULT_SUITES } from '../unified/support.ts'
+import { main as benchmarkMain } from '../unified/benchmark.ts'
 
 const directories: string[] = []
 const temp = () => { const root = mkdtempSync(join(tmpdir(), 'trident-workflow-')); directories.push(root); return root }
 const write = (file: string, value: unknown) => writeFileSync(file, JSON.stringify(value))
 const sha = (file: string) => createHash('sha256').update(readFileSync(file)).digest('hex')
 afterEach(() => { for (const directory of directories.splice(0)) rmSync(directory, { recursive: true, force: true }) })
+
+test('default collection excludes expensive clocks, optional models and retired replay', async () => {
+  expect([...DEFAULT_SUITES]).toEqual(['docs'])
+  await expect(benchmarkMain(['--suites', 'upstream-fidelity', '--projects', 'mermaid-js/mermaid'])).rejects.toThrow('retired')
+})
 
 test('pilot headlines use owning counts, reconcile pauses, and reject foreign/duplicate evidence', () => {
   const root = temp(), rows: any[] = []
@@ -53,9 +60,10 @@ test('a shared deadline retains complete units, resumes them once, and binds ide
   expect(resumed.startedAt).toBe(first.startedAt)
   expect(await resumed.collect('round-2', async () => ({ calls: ++calls }))).toEqual({ calls: 2 })
   expect(() => new CollectionCheckpoint(root, { ...identity, artifact: 'b' })).toThrow('identity changed')
-  const file = join(root, 'checkpoint.jsonl.gz'), data = gunzipSync(readFileSync(file)).toString().trim().split('\n').map(line => JSON.parse(line))
-  data[0].value.calls = 99
-  writeFileSync(file, gzipSync(data.map(row => JSON.stringify(row)).join('\n') + '\n'))
+  const unit = readdirSync(join(root, 'checkpoint-units')).find(file => file.endsWith('.json.gz'))!
+  const file = join(root, 'checkpoint-units', unit), data = JSON.parse(gunzipSync(readFileSync(file)).toString())
+  data.value.calls = 99
+  writeFileSync(file, gzipSync(JSON.stringify(data)))
   expect(() => new CollectionCheckpoint(root, identity)).toThrow('changed')
 })
 
@@ -84,7 +92,7 @@ function docsFixture(root: string) {
   return { out, observations, report }
 }
 
-test('campaign imports generate ranked tables and charts from the full docs inventory without transcription', () => {
+test('campaign imports retain ranked return diagnostics without promoting them to correctness overview', () => {
   const root = temp(), { report } = docsFixture(root)
   const tables = campaignTables(report, receipt), entry = tables[0]!
   expect(tables).toHaveLength(1)
@@ -96,7 +104,8 @@ test('campaign imports generate ranked tables and charts from the full docs inve
   const imported = importCampaign({ schema: 'trident-results-snapshot-v1', tables: [], attempts: [] }, root, 'https://example.org/evidence', catalog)
   expect(imported.tables).toHaveLength(1)
   expect(imported.attempts.find(attempt => attempt.project === 'Fixture/A')!.groups.length).toBeGreaterThan(0)
-  expect(imported.overviewRanking).toBe(imported.tables[0]!.id)
+  expect(imported.overviewRanking).toBeUndefined()
+  expect(imported.tables[0]!.overview).toBeUndefined()
   expect(() => validateSnapshot(imported, catalog)).not.toThrow()
   report.pilot = true; write(join(root, 'report.json'), report)
   expect(() => importCampaign(imported, root, 'https://example.org/evidence', catalog)).toThrow('Pilot')
@@ -122,7 +131,6 @@ test('observation counts compare equal populations and keep incompatible populat
   const tables = campaignTables(report, receipt)
   expect(tables).toHaveLength(1)
   expect(tables[0]!.rows.map(row => row.project)).toEqual(['Fixture/A', 'fixture/b'])
-  expect(rankedRows(tables[0]!, id => id)[0]!.project).toBe('fixture/b')
   rows.push(observation('fixture/b', 'extra', 'passed'))
   write(join(out, 'result.json'), { finishedAt: '2026-01-02', observations: rows })
   expect(campaignTables(report, receipt)).toHaveLength(2)

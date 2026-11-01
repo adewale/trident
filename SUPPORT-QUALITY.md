@@ -91,7 +91,7 @@ Rusty Mermaid’s published 0.42.0 package cannot run. The public source at `ce9
 
 Whole-editor application workflows are outside core requirements. Mermaid-to-Excalidraw retains its historical conversion-API receipt and is excluded from current renderer campaigns. See [scope](SCOPE.md).
 
-Additional claims require their applicable documentation, meaning, invalid-control and timing checks. Optional models and undeclared formats are not mandatory for every project. The six-case check establishes invocation only. The first public 0.1 release requires [B0](BASELINE.md) across the current 27-renderer selection and applicable configured benchmarks, retaining explicit gaps and qualification; it does not require every product to expose every interface. The maintainer maintains both Trident and Agentic Mermaid; common output observers, independent input contributions and external adapter review remain necessary.
+Additional claims require their applicable documentation, drawing, invalid-control and per-call timing checks. Optional models and undeclared formats are not mandatory for every project. The dated six-case check establishes invocation only. Current qualification and release prerequisites are defined in [BASELINE.md](BASELINE.md) and [RELEASE.md); this historical matrix is not a demand for another full-ecosystem campaign. The maintainer maintains both Trident and Agentic Mermaid; common output observers, independent inputs and external adapter review remain necessary.
 
 ## Current invocation-check protocol
 

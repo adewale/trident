@@ -1,0 +1,901 @@
+{
+  "schema": "terminal-final-retained-summary-v1",
+  "resultSha256": "ec87d2e1114d260f43e45462ec3212edf32262128cbe9303f54594c21412622e",
+  "observerSource": "aa6096737cb916b7e95b5b73fdb26d09b9ce5059",
+  "regrade": {
+    "parentSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+    "originalSource": "939a050114630522155126d9cc38ef28ae7cc719",
+    "observerSource": "aa6096737cb916b7e95b5b73fdb26d09b9ce5059",
+    "checkedAt": "2026-11-01T02:11:35.357Z",
+    "rendererInvocations": 0,
+    "sourceReferenceCalls": 0,
+    "originalProfile": "terminal-project-corpus-v3"
+  },
+  "ranking": "Best-first verified correct count; shared ties; all116drawing obligations retained; complete accuracy unresolved",
+  "rows": [
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "rank": 1,
+      "correct": 63,
+      "incorrect": 26,
+      "unknown": 27,
+      "planned": 116,
+      "presentOutputUnverified": 27,
+      "missingRetainedOutput": 0,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 4,
+        "unknown": 0,
+        "planned": 4
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.10.2",
+      "rank": 2,
+      "correct": 60,
+      "incorrect": 12,
+      "unknown": 44,
+      "planned": 116,
+      "presentOutputUnverified": 23,
+      "missingRetainedOutput": 21,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "rank": 3,
+      "correct": 58,
+      "incorrect": 20,
+      "unknown": 38,
+      "planned": 116,
+      "presentOutputUnverified": 27,
+      "missingRetainedOutput": 11,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "rank": 4,
+      "correct": 43,
+      "incorrect": 23,
+      "unknown": 50,
+      "planned": 116,
+      "presentOutputUnverified": 32,
+      "missingRetainedOutput": 18,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "rank": 5,
+      "correct": 42,
+      "incorrect": 23,
+      "unknown": 51,
+      "planned": 116,
+      "presentOutputUnverified": 11,
+      "missingRetainedOutput": 40,
+      "actualUnsupportedCliDiagnostic": 38,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 2,
+        "incorrect": 0,
+        "unknown": 2,
+        "planned": 4
+      }
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "rank": 6,
+      "correct": 40,
+      "incorrect": 21,
+      "unknown": 55,
+      "planned": 116,
+      "presentOutputUnverified": 28,
+      "missingRetainedOutput": 27,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 26,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "rank": 7,
+      "correct": 35,
+      "incorrect": 24,
+      "unknown": 57,
+      "planned": 116,
+      "presentOutputUnverified": 27,
+      "missingRetainedOutput": 30,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "rank": 8,
+      "correct": 28,
+      "incorrect": 34,
+      "unknown": 54,
+      "planned": 116,
+      "presentOutputUnverified": 29,
+      "missingRetainedOutput": 25,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.0.26",
+      "rank": 9,
+      "correct": 19,
+      "incorrect": 34,
+      "unknown": 63,
+      "planned": 116,
+      "presentOutputUnverified": 20,
+      "missingRetainedOutput": 43,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "rank": 10,
+      "correct": 18,
+      "incorrect": 21,
+      "unknown": 77,
+      "planned": 116,
+      "presentOutputUnverified": 21,
+      "missingRetainedOutput": 56,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "rank": 11,
+      "correct": 16,
+      "incorrect": 41,
+      "unknown": 59,
+      "planned": 116,
+      "presentOutputUnverified": 38,
+      "missingRetainedOutput": 21,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "rank": 12,
+      "correct": 15,
+      "incorrect": 32,
+      "unknown": 69,
+      "planned": 116,
+      "presentOutputUnverified": 16,
+      "missingRetainedOutput": 53,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "rank": 13,
+      "correct": 7,
+      "incorrect": 6,
+      "unknown": 103,
+      "planned": 116,
+      "presentOutputUnverified": 102,
+      "missingRetainedOutput": 1,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "rank": 14,
+      "correct": 0,
+      "incorrect": 1,
+      "unknown": 115,
+      "planned": 116,
+      "presentOutputUnverified": 113,
+      "missingRetainedOutput": 2,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "rank": 14,
+      "correct": 0,
+      "incorrect": 21,
+      "unknown": 95,
+      "planned": 116,
+      "presentOutputUnverified": 68,
+      "missingRetainedOutput": 27,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 26,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "rank": null,
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 116,
+      "planned": 116,
+      "presentOutputUnverified": 0,
+      "missingRetainedOutput": 116,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.2",
+      "rank": null,
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 116,
+      "planned": 116,
+      "presentOutputUnverified": 0,
+      "missingRetainedOutput": 116,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "rank": null,
+      "correct": 0,
+      "incorrect": 0,
+      "unknown": 116,
+      "planned": 116,
+      "presentOutputUnverified": 0,
+      "missingRetainedOutput": 116,
+      "actualUnsupportedCliDiagnostic": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "rejection": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    }
+  ],
+  "changes": [
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:2091f6913743bcab",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "d175e16ed85566158fc8299a7a3ff197b6259ee3a66651c08640aa4d37ae73a8"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:25e166249d24378d",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: quadrant-chart",
+      "sha256": "5157fa7241518289a190be80d3be9b1a57e052565fb6eeb33c8526fd9af215c6"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:478ab66bb4c7e4f5",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: nodes",
+      "sha256": "47a5c40ce21f6a03ca80c47376c9c482b7128804543954dbc2145d943896d4fa"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:53e2d239ed8df992",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "99c3ad4e7d5782ebdaa84fe97bfddfc49970a039dc5bf4fb2f12436bda068bdb"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:587429a5094fbb28",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: title",
+      "sha256": "eeb1df1a8b54a2faa853cf5155347d1db45f8b7796c20f16d7e2d80656c2589b"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:5d18804ad5e0e31f",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "5d246ba382ab356c14475a91e26b57a6864dbd73a6fd467c2ccbaf64d2ac58f8"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:5eee7283ba095288",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "4cc9301f679d869fec086670351d14426d229fb7fd1f938bde9da72c2fb7a578"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:61cc5e1150412252",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: title",
+      "sha256": "3ecf492833507f1b782912910bccead275015a2902c61a3d74a1a0d748215de0"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:6f0f134c3b965095",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "a3944a0297e1cf2b116bbdb2bf3814bfb3c53ba5f7e578965e30a7e6f720d888"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:704f69aae7273edd",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "7a03f323e35c122f1021343507345d36ef959e414e9f417248396c56e2d8d982"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:94e514f9f375364c",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: entity-relations",
+      "sha256": "ad1f2853415dde265f0697fd1507cb4ddba738876b65484ff5ee482932b91a3a"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:da9198e1adbc1c14",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: timeline-periods",
+      "sha256": "07cc8440b4ebb034a256e55f7d2c3119c14d306177786688251ecd62438acc03"
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:e54c4b6195e240be",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: nodes",
+      "sha256": "07c08c43fddb3b2ba3947dce5dd3a33a9d92479e3e38608cf6c284ffaa4fcca0"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "terminal:2091f6913743bcab",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "7fe55ea96ba9aa446cd438ff887a67dc09215a776ece0f2b3255fe21339a8ace"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "terminal:25b4a684eb0b6e31",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "9c4f7b40bf5f30abd45835732bdaaf727af48a6234881e1b278011c8761fc3fb"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "terminal:435d2e71f8557532",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "1da0015c7a45371846eda5bed7b4d724e918cab77029c623107d5e204be62b05"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "terminal:5d18804ad5e0e31f",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "c9bb8da35bd3bf482e5b3b9b405d3a7b8c4fad7c9d215f5948c20d2b2c2544e8"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "terminal:9516272260e4c69d",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: node-shapes",
+      "sha256": "56c3d9d69e9d32ae684774a463d38ae28e82c6842da6e2d6203ef66508112ed0"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "terminal:9cdc849ecf29b4d2",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "2521f1bd899d3c3a149f68a58e6adc16264e5540b77381f5299ba8e7d33991d0"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "terminal:a2118d0582abef57",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "0c1ae0b3649b9c7018bf1919f513dbbf9537e544fdfc9febfa68b1fc35076fec"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "terminal:bf9642a4ab479973",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "f153f5bc5c2ad193cac0ca9a7ea5cc67b49f779f3fd9265ccefc8ee08182a0cf"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "df0ebebfbfe2fbe3a54d616d9d7455e6c725c7c79dfba5f6155a59ad367f84a9"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "terminal:25b4a684eb0b6e31",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "d786e080eb4e595dde4fddc445aee649c07227fe7c0c7bddcb64c40fa7cc7409"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "terminal:435d2e71f8557532",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "d612066b07b774e6c19c6b9dac1090596320e0d5ab3b87441ec48107376d6710"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "terminal:9cdc849ecf29b4d2",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "1d372283631bd1f4ea6ce95d05e88a75ed3939e149b6ffc445b9202376e7876d"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "terminal:a2118d0582abef57",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "62eb0ce0724dc6b34a34420d615844ab4b6b6e6d495fa7e44b8613ca496660e0"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "0e16cd13567b6c362ed1b8241a6c9ef698bc689bf590afabf15eca766fe11db4"
+    },
+    {
+      "project": "Yassimba/loom",
+      "caseId": "terminal:2091f6913743bcab",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "04f044cff37f58dbf5698012439253e81b1f526237ab4b9142276d671ff2f406"
+    },
+    {
+      "project": "Yassimba/loom",
+      "caseId": "terminal:435d2e71f8557532",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "c0cf4d6d1cae652ff6acaab015292872ca81a45ab490bfc8d6a8644bacbda2f8"
+    },
+    {
+      "project": "Yassimba/loom",
+      "caseId": "terminal:529e14e4d09b944a",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "c10131f27965ab81e36845f7e2c0471fdc23424649781af7a6e3659ec0848284"
+    },
+    {
+      "project": "Yassimba/loom",
+      "caseId": "terminal:5d18804ad5e0e31f",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "e48508c2b63fada76c93d06c0916037ed5d10c7da9b790678c23638c01a39daa"
+    },
+    {
+      "project": "Yassimba/loom",
+      "caseId": "terminal:7801c75b869778fe",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "1de27d94e3f6ff9c461a91e997b28571b21ea1ff758ae405f8f91b2741b73b8d"
+    },
+    {
+      "project": "Yassimba/loom",
+      "caseId": "terminal:bf9642a4ab479973",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "e90ca06f33eb9c1b1d4bd817b36e108a5dbf0d83eecaec420aba734e8d244386"
+    },
+    {
+      "project": "Yassimba/loom",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "6555476644fb954d8a4d695c63e5cb86ff43a38424d02a8bb744f0f85d0d5531"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:29fc1dab07164509",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: nodes, layout-order",
+      "sha256": "801afece29fe443226a818268ff15a5703963889b078002f3d969f050b47ee6e"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:4ab6c5415bc7a24c",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: nodes",
+      "sha256": "a6c2d9d62fce37ae5a2516605d5e8ca71aa52f7db0690f6059d44938526094d2"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:75a4be6507dd75fe",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: owned-notes",
+      "sha256": "ede7dfa85d061fce10e738839e40345f1359cf6f63fa508775c352339814a9b7"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:9516272260e4c69d",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: node-shapes",
+      "sha256": "71108fa51947d5804be7f6e2c89ef20692229fcbeffc2a9ec2f0ea6bcf1895fd"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:bf9642a4ab479973",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "08d76ddd3f779814dd55e5580d318fdb5038ac208f0e4598429768549b5c8894"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:e54c4b6195e240be",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: nodes",
+      "sha256": "712b1a32134b7512981b4d16a79b2bdb0ad7e2d548a63645dbcf126f08474289"
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "caseId": "terminal:2091f6913743bcab",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "cbb3de8d2b0ab8c3e3bb2accd5cb75bf7ab450e8be863f6a91281c25403a0975"
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "caseId": "terminal:435d2e71f8557532",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "3f9458a23f300426262a9b7fcb2723393c058b6fcf5654feb600fdcc5a96189e"
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "caseId": "terminal:529e14e4d09b944a",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "3e45d38a4fe1f11762790128ca2dfdef683338688f17b2fdd7c8b3c0532b50ae"
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "caseId": "terminal:5d18804ad5e0e31f",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "0ec7ab025c927a264165d48db2492980d892bf80608a10350adb2159a0de98cf"
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "caseId": "terminal:bf9642a4ab479973",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "e237adc9f2a1b709c1d108b191cbc6dfadb6b46be731e8f00bf641982af98ad3"
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "a58f08fcd3569e675f916e921ada4b5e4000914ff2b3bbc8834d693efbdc6c79"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:25b4a684eb0b6e31",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "d786e080eb4e595dde4fddc445aee649c07227fe7c0c7bddcb64c40fa7cc7409"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:435d2e71f8557532",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "d612066b07b774e6c19c6b9dac1090596320e0d5ab3b87441ec48107376d6710"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:9cdc849ecf29b4d2",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "1d372283631bd1f4ea6ce95d05e88a75ed3939e149b6ffc445b9202376e7876d"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:a2118d0582abef57",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "cc078ac2ca12bba8ce79062a20a5c80a034dfacd6eb1315f3129eee4fa20caf0"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "0e16cd13567b6c362ed1b8241a6c9ef698bc689bf590afabf15eca766fe11db4"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:dbc553f665d05c10",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: nodes",
+      "sha256": "76f2fa9c0578d7d9bf450041f0e6e9bc40e7fc2c0d36bffea401550415b04386"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:e84af4bd39ddf3eb",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: transitions",
+      "sha256": "b2248df92f4eee50d9f428fde351b99d2335d99d1f4cd436ba9f57bb955aec46"
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "caseId": "terminal:9cdc849ecf29b4d2",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: node-shapes",
+      "sha256": "781a1c7fe911bd9aa193defc609a2338c971c58db9db074f039ed814eac1251d"
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "caseId": "terminal:bf9642a4ab479973",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "08d76ddd3f779814dd55e5580d318fdb5038ac208f0e4598429768549b5c8894"
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "caseId": "terminal:dbc553f665d05c10",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: nodes",
+      "sha256": "76f2fa9c0578d7d9bf450041f0e6e9bc40e7fc2c0d36bffea401550415b04386"
+    },
+    {
+      "project": "anomalyco/opencode",
+      "caseId": "terminal:908bfa4128c34006",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: relationships",
+      "sha256": "95f52ae4d2c61b80bf34badaf0b10739386977431d347567c32fec4d95e589b6"
+    },
+    {
+      "project": "anomalyco/opencode",
+      "caseId": "terminal:9516272260e4c69d",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: node-shapes",
+      "sha256": "18bb75ff4b4176b6d00552e70297156ad60cef55a28347f872f5d37c259f6d19"
+    },
+    {
+      "project": "anomalyco/opencode",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "6510ef6455ceae009810b15b2d176007248e9654b1b2c6744962a195de7f3c3c"
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:2091f6913743bcab",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "5d9c1c33f512cc796ef316e3029275256eff40317b9be2ecf46da85bf2293a47"
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:435d2e71f8557532",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "b43e3b7c9f5d68826c14f97af2b59ee5bb7b2f1f9b7d47a56c03bd554bd9350c"
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:5d18804ad5e0e31f",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "d7507f09836939e435a1dffd8ea03ea4f72f9d261175195851587d22b8c2f071"
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "81d44cc5e3a2ad1b5edf975f308c8a6e46ce607ad9280b25723bc279d9bb707a"
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "terminal:9516272260e4c69d",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: node-shapes",
+      "sha256": "20c6edc54f3ddb8f140a9362bf823b0bf3d271a6ab8ced84cce23b7d2e247cbc"
+    },
+    {
+      "project": "kitlangton/merman",
+      "caseId": "terminal:9516272260e4c69d",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "Declared source facts failed: node-shapes",
+      "sha256": "d31309b23b289c651e931f0651e081bbffcbde28a732e38aa7adf9bf713549d9"
+    },
+    {
+      "project": "kitlangton/merman",
+      "caseId": "terminal:bfad6c5a05be093a",
+      "from": "unknown",
+      "to": "correct",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "sha256": "02cc4c5e6211c4baf0561b190124f44c6661ad7a95487dd64d4c2768c101a706"
+    }
+  ],
+  "changeCounts": {
+    "unknown→correct": 45,
+    "unknown→incorrect": 21
+  },
+  "minimumPresentScope": {
+    "before": 50,
+    "resolved": 12,
+    "correct": 4,
+    "incorrect": 8,
+    "remaining": 38
+  },
+  "scope": "One final offline regrade of all18 existing artifacts. Zero renderer or source-reference calls. Original capture/grades retained in earlier evidence; only8invalid controls and12console timing prerequisites were newly collected before the108timing calls."
+}

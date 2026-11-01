@@ -1,0 +1,24 @@
+[
+  {
+    "source": "flowchart LR\n A[\"\u001b[31mX\"] --> B",
+    "origin": {
+      "kind": "issue",
+      "repository": "fasouto/termaid",
+      "number": 16,
+      "url": "https://github.com/fasouto/termaid/issues/16",
+      "title": "Sanitize terminal control characters in rendered diagram labels",
+      "author": "developingchet",
+      "state": "open",
+      "createdAt": "2026-10-30T19:01:50Z",
+      "updatedAt": "2026-10-30T19:01:50Z",
+      "closedAt": null,
+      "retrievedAt": "2026-10-31T02:04:59.486929+00:00",
+      "bodySha256": "ee85366c85acefdff03977c7d67e890376f0c75b04d0d1611222929725924f23",
+      "channel": "issue-reproducer",
+      "line": 20,
+      "extraction": "independently-materialized-literal-concatenation",
+      "adaptation": "The issue gives Python literal concatenation with chr(27). Materialized exactly by inspection; no renderer or project code executed.",
+      "researchSnapshotSha256": "6967a61f029c4e07c68fc08be5bae8b6997f7be9245c01ed13f97cec51943d83"
+    }
+  }
+]

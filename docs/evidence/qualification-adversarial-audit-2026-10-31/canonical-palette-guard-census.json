@@ -1,0 +1,23 @@
+{
+  "schema": "trident-independent-canonical-palette-guard-audit-v1",
+  "method": "Apply old and guarded projectSourceConfiguration functions to separate structured clones of the exact same profileExpected or expected contract for every canonical source row, comparing both resulting contracts and returned projections. Other source-agent semantic edits are held fixed as shared input. No renderer calls and no registry rewrite.",
+  "inputs": {
+    "beforeModule": {
+      "path": "/workspace/trident-terminal-graphs/fidelity/configuration-expectation.ts",
+      "sha256": "6ef7532f2105a9b6717d314871f9bc55c46033a11fa08d57c774fc963de9e15e"
+    },
+    "afterModule": {
+      "path": "/workspace/trident-source-controls/fidelity/configuration-expectation.ts",
+      "sha256": "9f2af4b9ae8e1ab2da5488a30ca95e905f41ad907ffc4153b1aadf85391073fa"
+    },
+    "canonicalContracts": {
+      "path": "/workspace/trident-source-controls/corpus/docs-reviewed.json",
+      "sha256": "417b7888653a88a22e10f9bae15a0255ab4a593a6c9f07165cb6ae96132db720"
+    }
+  },
+  "canonicalRows": 548,
+  "comparedDrawingContracts": 546,
+  "otherRowsWithoutDrawingExpectation": 2,
+  "changedByGuard": [],
+  "sourceOwnerCommit": "2fda7299fe037bb996e4d666718c26c373b96222"
+}

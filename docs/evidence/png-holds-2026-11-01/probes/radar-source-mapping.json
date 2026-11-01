@@ -1,0 +1,85 @@
+{
+  "schema": "trident-pinned-radar-source-mapping-v1",
+  "profile": "mermaid-radar-cubic-coefficient-1fb7869-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "scope": "Only explicitly authored Mermaid radar.curveTension, with the named parameter interpreted by its pinned versioned public renderer definition. This is not a universal definition of Catmull-Rom tension, not a default palette/layout match and not a candidate/reference agreement oracle. Default0.17 is never imposed when unrequested.",
+  "sources": [
+    {
+      "file": "packages/mermaid/src/schemas/config.schema.yaml",
+      "firstLine": 2932,
+      "lastLine": 2937,
+      "sha256": "855e6fbb5d278f190f15a7660b44dca6a4699ca8077ab8b35579a4e8a64be019",
+      "purpose": "Names the public Catmull-Rom-to-cubic-Bezier conversion factor, bounds0..1; does not alone define its coefficient convention."
+    },
+    {
+      "file": "packages/mermaid/src/docs/syntax/radar.md",
+      "firstLine": 134,
+      "lastLine": 136,
+      "sha256": "61f9c4575b76df9f4af264cd29b4987543df227952f6daddfd28ca5f1ab40808",
+      "purpose": "Documents rounded-curve tension as an authored rendering option."
+    },
+    {
+      "file": "packages/mermaid/src/diagrams/radar/renderer.ts",
+      "firstLine": 185,
+      "lastLine": 207,
+      "sha256": "974e4b3d3d9ce5c7cdf5f283085a0e7a9ca2d68bffb22eee1577aaa15c34629c",
+      "purpose": "Versioned definition of the named Mermaid public parameter: direct coefficient of neighbor differences in cubic controls, independently transcribed below."
+    }
+  ],
+  "definition": {
+    "segment": "Pi to P(i+1), indices cyclic",
+    "control1": "Pi + t*(P(i+1)-P(i-1))",
+    "control2": "P(i+1) - t*(P(i+2)-Pi)",
+    "cardinalConvention": "Equivalent cardinal spline tension tau=1-6*t. Generic tension conventions alone cannot establish this mapping."
+  },
+  "independentControls": [
+    {
+      "vertices": [
+        [
+          0,
+          0
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          10,
+          10
+        ],
+        [
+          0,
+          10
+        ]
+      ],
+      "t": 0.1,
+      "firstSegment": {
+        "start": [
+          0,
+          0
+        ],
+        "control1": [
+          1,
+          -1
+        ],
+        "control2": [
+          9,
+          -1
+        ],
+        "end": [
+          10,
+          0
+        ]
+      }
+    },
+    {
+      "t": 0,
+      "effect": "All cubic controls coincide with segment endpoints; geometric locus is the straight polygon."
+    }
+  ],
+  "analyticProperties": [
+    "Translation, rotation and uniform scaling preserve the mapped curve.",
+    "Adjacent cyclic cubic derivatives agree: both are3*t*(P(i+1)-P(i-1)) at vertexPi."
+  ],
+  "observationRule": "Reconstruct the plot center/radius/axis rays from independently painted grid and labels; derive vertices from complete literal data/range. Compare actual visible owned cubic controls or actual curve pixels to fixed source t. Do not fit the requested t or grid anchors from the curve being graded. Unsupported path/paint/ownership remains unknown; wrong explicit coefficient must fail."
+}

@@ -1,0 +1,387 @@
+{
+  "expectationsSha256": "0c21931a6792b1495f139c83f4c977d4c2bc4d4d21ad6f67731138fa94c37f20",
+  "projection": {
+    "protocol": "documentation-png-static-invariants-v1",
+    "sourceSemanticSha256": "f87a7418bdf6947df23138533181a65bc5b4147d48d02e659bac0720df6cbe1d",
+    "originalExpectedSha256": "d481e880ae066f6597f186a04372b3e7853db435619dba9764e216baaa00ffda",
+    "expected": {
+      "labels": [
+        "Customer",
+        "Browse catalog"
+      ],
+      "facts": {
+        "authored-config": {
+          "usecase": {
+            "actorFontSize": 16,
+            "actorFontFamily": "Arial",
+            "actorFontWeight": "bold",
+            "usecaseFontSize": 14,
+            "usecaseFontFamily": "Georgia",
+            "usecaseFontWeight": "normal",
+            "colorScheme": "role"
+          }
+        },
+        "node-shapes": [
+          {
+            "id": "Browse",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
+          }
+        ],
+        "dialect-kinds": [
+          {
+            "id": "Customer",
+            "kind": "actor"
+          }
+        ],
+        "minimum-canvas-clearance": {
+          "minimum": 24,
+          "unit": "px-at-frozen-pixelRatio-1",
+          "sides": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "bounds": "owned-visible-geometry-excluding-stroke-outset"
+        }
+      },
+      "nodes": [
+        {
+          "id": "Customer",
+          "label": "Customer"
+        },
+        {
+          "id": "Browse",
+          "label": "Browse catalog"
+        }
+      ],
+      "edges": [
+        {
+          "source": "Customer",
+          "target": "Browse",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        }
+      ],
+      "advisoryFacts": {
+        "subgraph-direction-requests": [
+          {
+            "group": null,
+            "direction": "LR"
+          }
+        ],
+        "direction": "TB",
+        "standalone-input-provenance": {
+          "usecase.nodeSpacing": 60,
+          "usecase.rankSpacing": 70
+        },
+        "source-diagram-padding": {
+          "value": 24,
+          "unit": "source-unit",
+          "exactInternalValueInverseInferable": false
+        },
+        "png-inaccessible-metadata": [
+          {
+            "owner": "diagram",
+            "property": "usecase.diagramPadding.exactInternalValue",
+            "value": 24,
+            "reason": "The exact source/native/SVG24 setting remains retained; PNG requires its forward minimum24px geometry clearance on all four sides, without inverse-identifying internal padding"
+          },
+          {
+            "owner": "diagram",
+            "property": "usecase.useMaxWidth",
+            "value": false,
+            "reason": "One fixed PNG cannot prove whether its originating SVG scales to a different parent width; the exact false setting remains in the complete original SVG/native contract"
+          }
+        ]
+      }
+    },
+    "nativeProfileExpected": {
+      "labels": [
+        "Customer",
+        "Browse catalog"
+      ],
+      "facts": {
+        "authored-config": {
+          "usecase": {
+            "actorFontSize": 16,
+            "actorFontFamily": "Arial",
+            "actorFontWeight": "bold",
+            "usecaseFontSize": 14,
+            "usecaseFontFamily": "Georgia",
+            "usecaseFontWeight": "normal",
+            "nodeSpacing": 60,
+            "rankSpacing": 70,
+            "diagramPadding": 24,
+            "colorScheme": "role",
+            "useMaxWidth": false
+          }
+        },
+        "node-shapes": [
+          {
+            "id": "Browse",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
+          }
+        ],
+        "dialect-kinds": [
+          {
+            "id": "Customer",
+            "kind": "actor"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "Customer",
+          "label": "Customer"
+        },
+        {
+          "id": "Browse",
+          "label": "Browse catalog"
+        }
+      ],
+      "edges": [
+        {
+          "source": "Customer",
+          "target": "Browse",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        }
+      ],
+      "advisoryFacts": {
+        "subgraph-direction-requests": [
+          {
+            "group": null,
+            "direction": "LR"
+          }
+        ],
+        "direction": "TB"
+      }
+    },
+    "excludedTemporal": [],
+    "excludedMetadata": [
+      {
+        "owner": "diagram",
+        "property": "usecase.diagramPadding.exactInternalValue",
+        "value": 24,
+        "reason": "The exact source/native/SVG24 setting remains retained; PNG requires its forward minimum24px geometry clearance on all four sides, without inverse-identifying internal padding"
+      },
+      {
+        "owner": "diagram",
+        "property": "usecase.useMaxWidth",
+        "value": false,
+        "reason": "One fixed PNG cannot prove whether its originating SVG scales to a different parent width; the exact false setting remains in the complete original SVG/native contract"
+      }
+    ],
+    "canvasClearance": {
+      "protocol": "documentation-png-minimum-canvas-clearance-v1",
+      "sourceSemanticSha256": "f87a7418bdf6947df23138533181a65bc5b4147d48d02e659bac0720df6cbe1d",
+      "originalExpectedSha256": "d481e880ae066f6597f186a04372b3e7853db435619dba9764e216baaa00ffda",
+      "expected": {
+        "labels": [
+          "Customer",
+          "Browse catalog"
+        ],
+        "facts": {
+          "authored-config": {
+            "usecase": {
+              "actorFontSize": 16,
+              "actorFontFamily": "Arial",
+              "actorFontWeight": "bold",
+              "usecaseFontSize": 14,
+              "usecaseFontFamily": "Georgia",
+              "usecaseFontWeight": "normal",
+              "colorScheme": "role",
+              "useMaxWidth": false
+            }
+          },
+          "node-shapes": [
+            {
+              "id": "Browse",
+              "shape": "ellipse"
+            },
+            {
+              "id": "Customer",
+              "shape": "actor-stick"
+            }
+          ],
+          "dialect-kinds": [
+            {
+              "id": "Customer",
+              "kind": "actor"
+            }
+          ],
+          "minimum-canvas-clearance": {
+            "minimum": 24,
+            "unit": "px-at-frozen-pixelRatio-1",
+            "sides": [
+              "left",
+              "top",
+              "right",
+              "bottom"
+            ],
+            "bounds": "owned-visible-geometry-excluding-stroke-outset"
+          }
+        },
+        "nodes": [
+          {
+            "id": "Customer",
+            "label": "Customer"
+          },
+          {
+            "id": "Browse",
+            "label": "Browse catalog"
+          }
+        ],
+        "edges": [
+          {
+            "source": "Customer",
+            "target": "Browse",
+            "directed": true,
+            "startMarker": "none",
+            "endMarker": "arrow"
+          }
+        ],
+        "advisoryFacts": {
+          "subgraph-direction-requests": [
+            {
+              "group": null,
+              "direction": "LR"
+            }
+          ],
+          "direction": "TB",
+          "standalone-input-provenance": {
+            "usecase.nodeSpacing": 60,
+            "usecase.rankSpacing": 70
+          },
+          "source-diagram-padding": {
+            "value": 24,
+            "unit": "source-unit",
+            "exactInternalValueInverseInferable": false
+          }
+        }
+      },
+      "nativeProfileExpected": {
+        "labels": [
+          "Customer",
+          "Browse catalog"
+        ],
+        "facts": {
+          "authored-config": {
+            "usecase": {
+              "actorFontSize": 16,
+              "actorFontFamily": "Arial",
+              "actorFontWeight": "bold",
+              "usecaseFontSize": 14,
+              "usecaseFontFamily": "Georgia",
+              "usecaseFontWeight": "normal",
+              "nodeSpacing": 60,
+              "rankSpacing": 70,
+              "diagramPadding": 24,
+              "colorScheme": "role",
+              "useMaxWidth": false
+            }
+          },
+          "node-shapes": [
+            {
+              "id": "Browse",
+              "shape": "ellipse"
+            },
+            {
+              "id": "Customer",
+              "shape": "actor-stick"
+            }
+          ],
+          "dialect-kinds": [
+            {
+              "id": "Customer",
+              "kind": "actor"
+            }
+          ]
+        },
+        "nodes": [
+          {
+            "id": "Customer",
+            "label": "Customer"
+          },
+          {
+            "id": "Browse",
+            "label": "Browse catalog"
+          }
+        ],
+        "edges": [
+          {
+            "source": "Customer",
+            "target": "Browse",
+            "directed": true,
+            "startMarker": "none",
+            "endMarker": "arrow"
+          }
+        ],
+        "advisoryFacts": {
+          "subgraph-direction-requests": [
+            {
+              "group": null,
+              "direction": "LR"
+            }
+          ],
+          "direction": "TB"
+        }
+      },
+      "sourcePadding": 24,
+      "requiredMinimum": 24,
+      "pixelRatio": 1,
+      "boundsPolicy": "owned-visible-geometry-excluding-stroke-outset",
+      "provenance": [
+        "Pinned source1fb7869866dd619168d840291c9c54b4f129758b: usecase.md474,478: padding around the diagram; usecaseRenderer.ts286-293 invokes setupViewPortForSVG with authored diagramPadding",
+        "setupViewPortForSVG.ts18-45: getBBox width/height plus2padding; viewBox origin minuspadding; getBBox excludes stroke outset",
+        "docs-png-browser.ts: intrinsic viewBox raster dimensions; native renderToPng uses frozen pixelRatio1 without cropping; public adapter outer margins may add clearance"
+      ],
+      "claim": "Minimum24px visible clearance on all four sides at frozen pixelRatio1, measured at independently owned geometry bounds excluding stroke outset. Exact internal padding value is not inverse-inferred; literal24 and native/SVG obligations remain retained."
+    },
+    "provenance": [
+      "usecase.md:476,478 (pinned source1fb7869866dd619168d840291c9c54b4f129758b): useMaxWidth selects whether the SVG scales to available width",
+      "A single fixed raster has no counterfactual parent/container behavior. Fonts,padding24,colors,nodes,shapes and relationships remain required unchanged.",
+      "Pinned source1fb7869866dd619168d840291c9c54b4f129758b: usecase.md474,478: padding around the diagram; usecaseRenderer.ts286-293 invokes setupViewPortForSVG with authored diagramPadding",
+      "setupViewPortForSVG.ts18-45: getBBox width/height plus2padding; viewBox origin minuspadding; getBBox excludes stroke outset",
+      "docs-png-browser.ts: intrinsic viewBox raster dimensions; native renderToPng uses frozen pixelRatio1 without cropping; public adapter outer margins may add clearance"
+    ],
+    "claim": "PNG correctness covers every source-requested static font,padding,color,shape,label and relationship. It does not certify responsive SVG/container scaling from a single fixed raster; complete source/native/SVG obligations remain unchanged. Minimum24px visible clearance on all four sides at frozen pixelRatio1, measured at independently owned geometry bounds excluding stroke outset. Exact internal padding value is not inverse-inferred; literal24 and native/SVG obligations remain retained."
+  },
+  "verdict": {
+    "status": "correct",
+    "diagnostic": "minimum24px visible clearance; exact internal padding value not inverse-inferred",
+    "clearances": {
+      "left": 34,
+      "top": 33,
+      "right": 24.136252327951695,
+      "bottom": 41
+    },
+    "failedSides": [],
+    "reason": "Every independently owned side has at least24px clearance; outer adapter margins may add more"
+  },
+  "wrong23pxControl": {
+    "status": "incorrect",
+    "diagnostic": "minimum24px visible clearance; exact internal padding value not inverse-inferred",
+    "clearances": {
+      "left": 34,
+      "top": 33,
+      "right": 23,
+      "bottom": 41
+    },
+    "failedSides": [
+      "right"
+    ],
+    "reason": "At least one independently owned side has less than24px clearance"
+  }
+}

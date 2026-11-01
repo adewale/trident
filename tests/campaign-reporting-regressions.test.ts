@@ -17,6 +17,7 @@ function campaign(directory: string, options: { updatedAt: string; measuredAt?: 
   const out = join(directory, 'docs'); mkdirSync(out, { recursive: true })
   const observations = ['fixture/a', 'fixture/b'].flatMap((project, projectIndex) => ['one', 'two'].map(caseId => ({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', format: 'svg', family: 'flowchart', operation: 'render', mode: 'one-public-call', caseId,
     status: options.blocked ? 'blocked' : projectIndex === 1 && caseId === 'two' ? 'failed' : 'passed', metrics: { project, version: '1.0.0', round: 1, measuredAt: options.measuredAt ?? '2026-01-01T00:00:00Z', ...(options.candidate && projectIndex === 0 ? { artifactRole: 'candidate' } : {}) } })))
+  observations.push(...observations.map(row => ({ ...row, operation: 'drawing-checks', mode: 'reviewed-first-round-output', status: row.status === 'passed' ? 'passed' : 'blocked' })))
   if (!options.partial) {
     write(join(out, 'inventory.json'), { cases: [{ id: 'one' }, { id: 'two' }] })
     write(join(out, 'result.json'), { id: 'docs', startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z', observations, gaps: [] })
@@ -24,11 +25,76 @@ function campaign(directory: string, options: { updatedAt: string; measuredAt?: 
   write(join(directory, 'report.json'), { schema: 'trident-campaign-v2', startedAt: '2026-01-01T00:00:00Z', updatedAt: options.updatedAt, profile: 'full', rounds: 1, projects: ['fixture/a', 'fixture/b'], requestedSuites: ['docs'], ...(options.candidate ? { artifactRole: 'candidate' } : {}), results: options.partial ? [] : [{ suite: 'docs', status: options.blocked ? 'blocked' : 'failed', out }] })
   return directory
 }
+
+test('documentation SVG return and reviewed drawing correctness retain separate populations and ranks', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), file = join(root, 'docs/result.json')
+  const result = JSON.parse(readFileSync(file, 'utf8'))
+  result.observations = result.observations.filter((row: any) => row.operation !== 'drawing-checks')
+  for (const project of ['fixture/a', 'fixture/b']) for (const caseId of ['one', 'two']) result.observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', family: 'flowchart', operation: 'drawing-checks', mode: 'reviewed-first-round-output', format: 'svg', caseId, status: caseId === 'two' ? 'blocked' : project === 'fixture/a' ? 'failed' : 'passed', metrics: { project, version: '1.0.0', round: 1 } })
+  write(file, result)
+  const snapshot = importCampaign(empty(), root, 'https://example.test/drawings', catalog)
+  const drawings = snapshot.tables.find(table => table.columns.includes('Correct'))!
+  expect(drawings).toBeDefined()
+  expect(drawings.chart).toBeUndefined()
+  expect(drawings.rows.find(row => row.project === 'fixture/a')!.values.slice(1, 5)).toEqual([0, 1, 1, 2])
+  expect(rankedRows(drawings, value => value).map(row => row.project)).toEqual(['fixture/b', 'fixture/a'])
+  expect(rankedRows(drawings, value => value).map(row => row.rank)).toEqual([1, 2])
+  expect(drawings.caption).toContain('unknown')
+  const returns = snapshot.tables.find(table => table.columns.includes('Returned in all rounds'))!
+  expect(returns.rows.find(row => row.project === 'fixture/a')!.values[1]).toBe(2)
+})
+
+test('authored SVG case verdicts retain diagnostic counts without ranking renderers', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
+  const cases = [{ caseId: 'one', family: 'flowchart', status: 'correct' }, { caseId: 'two', family: 'flowchart', status: 'unknown' }]
+  write(join(root, 'docs/result.json'), { id: 'mermaid-fidelity', startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z', observations: [], gaps: [], selectedCaseIds: ['one', 'two'], criteriaProtocol: { observer: 'fixture' }, svgAssessments: [{ project: 'fixture/a', version: '1.0.0', cases }] })
+  const controller = JSON.parse(readFileSync(join(root, 'report.json'), 'utf8')); controller.requestedSuites = ['fidelity']; controller.results[0].suite = 'fidelity'; write(join(root, 'report.json'), controller)
+  const snapshot = importCampaign(empty(), root, 'https://example.test/svg', catalog)
+  expect(snapshot.tables).toHaveLength(1)
+  expect(snapshot.tables[0]!.rows[0]!.values.slice(1, 6)).toEqual([1, 0, 0, 1, 2])
+  expect(rankedRows(snapshot.tables[0]!, value => value)[0]!.rank).toBeNull()
+  expect(snapshot.tables[0]!.diagnostic).toBe(true)
+  expect(snapshot.tables[0]!.ranking).toBeUndefined()
+  expect(snapshot.tables[0]!.overview).toBeUndefined()
+  write(join(root, 'docs/result.json'), { id: 'mermaid-fidelity', observations: [], selectedCaseIds: ['one', 'two', 'three'], svgAssessments: [{ project: 'fixture/a', version: '1.0.0', cases }] })
+  expect(() => importCampaign(empty(), root, 'https://example.test/svg', catalog)).toThrow('omit')
+})
 function overview(snapshot: ResultsSnapshot, project = 'fixture/a') {
-  const row = renderSnapshot(snapshot, catalog).split('\n').find(line => line.startsWith('| ' + project + ' |'))!
-  const cells = row.split('|').map(value => value.trim())
-  return { row, rank: cells[2], docs: cells[4] }
+  const output = renderSnapshot(snapshot, catalog), lines = output.split('\n')
+  const headers = lines.find(line => line.startsWith('| Project | Overview rank |'))!.split('|').map(value => value.trim())
+  const cells = lines.find(line => line.startsWith('| ' + project + ' |'))!.split('|').map(value => value.trim())
+  const docs = headers.findIndex(header => header.startsWith('DaveBench') && !header.endsWith('PNG'))
+  return { row: cells.join('|'), rank: cells[headers.indexOf('Overview rank')], docs: cells[docs] }
 }
+
+test('newer PNG-only or unstarted PNG work cannot suppress retained SVG coverage', () => {
+  const svg = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
+  const before = importCampaign(empty(), svg, 'https://example.test/svg', catalog)
+  const png = campaign(temp(), { updatedAt: '2026-03-01T00:00:00Z' })
+  const file = join(png, 'docs/result.json'), result = JSON.parse(readFileSync(file, 'utf8'))
+  for (const row of result.observations) { row.format = 'png'; row.surface = 'browser:png-export'; row.status = 'blocked' }
+  write(file, result)
+  const controller = JSON.parse(readFileSync(join(png, 'report.json'), 'utf8')); controller.options = { docsFormats: ['png'] }; write(join(png, 'report.json'), controller)
+  const after = importCampaign(before, png, 'https://example.test/png', catalog)
+  expect(overview(after).rank).toEqual(overview(before).rank)
+  expect(overview(after).docs).toEqual(overview(before).docs)
+  expect(after.attempts.filter(attempt => attempt.receipt.url.includes('/png/')).every(attempt => JSON.stringify(attempt.outputFormats) === '["png"]')).toBe(true)
+  const unstarted = campaign(temp(), { updatedAt: '2026-04-01T00:00:00Z', partial: true })
+  const partial = JSON.parse(readFileSync(join(unstarted, 'report.json'), 'utf8')); partial.options = { docsFormats: ['png'] }; write(join(unstarted, 'report.json'), partial)
+  const pending = overview(importCampaign(after, unstarted, 'https://example.test/png-unstarted', catalog))
+  expect(pending.rank).toEqual(overview(before).rank)
+  expect(pending.docs).toEqual(overview(before).docs)
+})
+
+test('an inapplicable output lane has no fabricated score or setup blocker', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), file = join(root, 'docs/result.json')
+  const result = JSON.parse(readFileSync(file, 'utf8'))
+  result.observations = ['fixture/a', 'fixture/b'].map(project => ({ suite: 'docs', surface: 'declared-capability', runtime: 'not-invoked', family: '*', format: 'svg', caseId: project, operation: 'format-admission', mode: 'format-not-applicable', status: 'not-applicable', metrics: { project, version: '1' } }))
+  write(file, result)
+  const snapshot = importCampaign(empty(), root, 'https://example.test/not-applicable', catalog)
+  expect(snapshot.tables).toHaveLength(0)
+  expect(snapshot.attempts.every(attempt => attempt.status === 'not-applicable')).toBe(true)
+})
 
 function oneProjectRerun(options: { updatedAt: string; partial?: boolean; changedInput?: boolean }) {
   const root = campaign(temp(), options)
@@ -130,7 +196,7 @@ test('candidate study tables and attempts cannot replace or suppress release sco
 test('fully blocked generated docs data stays blocked and unranked rather than showing zero percent', () => {
   const data = importCampaign(empty(), campaign(temp(), { blocked: true, updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/blocked', catalog)
   expect(overview(data).rank).toBe('—')
-  expect(overview(data).docs).toContain('blocked')
+  expect(overview(data).docs).toContain('No verified drawing-content observations')
   expect(overview(data).docs).not.toContain('0.0%')
 })
 
@@ -138,7 +204,7 @@ test('an interrupted docs round retains partial observations without a fabricate
   const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
   const report = JSON.parse(readFileSync(join(root, 'report.json'), 'utf8')); report.rounds = 2; write(join(root, 'report.json'), report)
   const result = JSON.parse(readFileSync(join(root, 'docs/result.json'), 'utf8'))
-  result.observations.push(...result.observations.filter((row: any) => row.metrics.project === 'fixture/b').map((row: any) => ({ ...row, metrics: { ...row.metrics, round: 2 } })))
+  result.observations.push(...result.observations.filter((row: any) => row.metrics.project === 'fixture/b' && row.operation === 'render').map((row: any) => ({ ...row, metrics: { ...row.metrics, round: 2 } })))
   result.observations.push({ suite: 'docs', surface: 'browser:svg', runtime: 'Chromium', mode: 'round', operation: 'round', caseId: 'round:2', status: 'blocked', metrics: { project: 'fixture/a', round: 2 }, detail: 'Browser host deadline' })
   write(join(root, 'docs/result.json'), result)
   const data = importCampaign(empty(), root, 'https://example.org/interrupted', catalog)
@@ -147,8 +213,9 @@ test('an interrupted docs round retains partial observations without a fabricate
   expect(row.values[table.columns.indexOf('Unexecuted')]).toBe(0)
   expect(row.unrankedReason).toBe('incomplete (1/2 complete rounds)')
   expect(rankedRows(table, id => id).map(row => [row.project, row.rank])).toEqual([['fixture/b', 1], ['fixture/a', null]])
-  expect(overview(data).rank).toBe('—')
-  expect(overview(data).docs).toContain('incomplete')
+  // First-round content evidence remains valid; later raw-return gaps withhold return/timing claims.
+  expect(overview(data).rank).toBe('1')
+  expect(overview(data).docs).toContain('100.0%')
   const output = renderSnapshot(data, catalog)
   expect(output).toContain('bar [50]')
   expect(output).not.toContain('bar [50, 0]')
@@ -218,5 +285,39 @@ test('latest core and external cohort statuses are both visible and a newer part
     expect(latest).toContain('unavailable')
     expect(latest).not.toContain('core:')
     expect(latest).not.toContain('external:')
+  }
+})
+
+test('recovered terminal content keeps a lost measurement clock unknown instead of borrowing another collection time', () => {
+  const root = temp(), out = join(root, 'terminal'); mkdirSync(out)
+  const verdict = { project: 'fixture/a', version: '1', correct: 1, incorrect: 0, unsupported: 0, unknown: 0, planned: 1, cases: [{ caseId: 'one', status: 'correct' }] }
+  write(join(out, 'result.json'), { finishedAt: '2026-01-01T00:00:00Z', terminalProfile: { id: 'terminal-project-corpus-v1', cases: [{ id: 'one' }], reviewedCaseIds: ['one'], producers: ['synthetic-observer'] }, terminalAssessments: [verdict], terminalReviewedAssessments: [verdict], observations: [{ suite: 'community', format: 'terminal', operation: 'graph-correctness', caseId: 'one', surface: 'terminal:cell-grid', runtime: 'retained text', mode: 'terminal-project-corpus-v1', status: 'passed', metrics: { project: 'fixture/a', version: '1', measuredAt: null } }] })
+  write(join(root, 'report.json'), { schema: 'trident-campaign-v2', startedAt: '2026-01-01T00:00:00Z', updatedAt: '2026-02-01T00:00:00Z', profile: 'full', rounds: 1, projects: ['fixture/a'], requestedSuites: ['community'], results: [{ suite: 'community', cohort: 'terminal-project-corpus-v1', out, status: 'blocked' }] })
+  const data = importCampaign(empty(), root, 'https://example.org/recovered', catalog)
+  const table = data.tables.find(entry => entry.summary)!
+  expect(table.rows[0]!.values[table.columns.indexOf('Measured')]).toBe('Unknown; recovered text, see receipt')
+  expect(table.rows[0]!.values[table.columns.indexOf('Correct')]).toBe(1)
+})
+
+
+test('original SVG companions report owning PNG call dates and keep observer publication separate', () => {
+  const publication = '2026-04-01T00:00:00Z', root = campaign(temp(), { updatedAt: publication }), file = join(root, 'docs/result.json'), result = JSON.parse(readFileSync(file, 'utf8'))
+  result.finishedAt = '2026-03-01T00:00:00Z'
+  for (const row of result.observations) row.metrics = { ...row.metrics, measuredAt: null, parentMeasuredAt: row.caseId === 'one' ? '2026-01-01T00:00:02Z' : '2026-01-01T00:00:04Z', transport: 'owned-original-svg-companion-of-png-export', parentInvocationFormat: 'png', witnessRole: 'actual-original-public-svg-return' }
+  // A typed rejection row has no independent SVG witness role. Its original
+  // same-source render still supplies that source's owning PNG-call date.
+  result.observations.push(...result.observations.filter((row: any) => row.operation === 'render' && row.caseId === 'two').map((row: any) => ({ ...row, operation: 'source-rejection', status: 'failed', metrics: { ...row.metrics, witnessRole: undefined } })))
+  result.observations.push({ ...result.observations[0], operation: 'artifact-admission', metrics: { ...result.observations[0].metrics, parentMeasuredAt: '2030-01-01T00:00:00Z', witnessRole: 'unqualified-parent-hint' } })
+  write(file, result)
+  write(join(root, 'docs/inventory.json'), { cases: [{ id: 'one' }, { id: 'two' }], drawingReview: { cases: [{ id: 'one', intent: 'drawing' }, { id: 'two', intent: 'invalid-source' }] } })
+  const tables = importCampaign(empty(), root, 'https://example.test/owned-companion-clocks', catalog).tables
+  expect(tables).toHaveLength(3)
+  for (const table of tables) {
+    const expected = table.columns.includes('Correct') ? '2026-01-01T00:00:02Z' : '2026-01-01T00:00:04Z'
+    expect(table.measuredAt).toBe(expected)
+    expect(table.campaignUpdatedAt).toBe(publication)
+    expect(table.rows.map(row => row.values[table.columns.indexOf('Measured')])).toEqual([expected, expected])
+    expect(table.caption).toContain('owning PNG-export calls')
+    expect(table.caption).toContain('no independent SVG clock')
   }
 })

@@ -1,0 +1,105 @@
+{
+  "method": "Independent Python stdlib CSV/float arithmetic and indentation ownership; no Trident source generator, SUT or reference outputs",
+  "cases": [
+    {
+      "id": "packages/mermaid/src/docs/syntax/examples.md:11",
+      "numericItemsIndependentlyRecalculated": 2,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/examples.md:17",
+      "numericItemsIndependentlyRecalculated": 3,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/pie.md:8",
+      "numericItemsIndependentlyRecalculated": 3,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/pie.md:54",
+      "numericItemsIndependentlyRecalculated": 4,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sankey.md:15",
+      "numericItemsIndependentlyRecalculated": 68,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sankey.md:106",
+      "numericItemsIndependentlyRecalculated": 3,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sankey.md:119",
+      "numericItemsIndependentlyRecalculated": 3,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sankey.md:133",
+      "numericItemsIndependentlyRecalculated": 2,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sankey.md:144",
+      "numericItemsIndependentlyRecalculated": 2,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sankey.md:196",
+      "numericItemsIndependentlyRecalculated": 3,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sankey.md:217",
+      "numericItemsIndependentlyRecalculated": 3,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sankey.md:236",
+      "numericItemsIndependentlyRecalculated": 3,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/treemap.md:51",
+      "numericItemsIndependentlyRecalculated": 6,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/treemap.md:63",
+      "numericItemsIndependentlyRecalculated": 8,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/treemap.md:77",
+      "numericItemsIndependentlyRecalculated": 8,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/treemap.md:99",
+      "numericItemsIndependentlyRecalculated": 6,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/treemap.md:115",
+      "numericItemsIndependentlyRecalculated": 6,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/treemap.md:133",
+      "numericItemsIndependentlyRecalculated": 6,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/treemap.md:185",
+      "numericItemsIndependentlyRecalculated": 8,
+      "status": "matched-source-arithmetic"
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/treemap.md:204",
+      "numericItemsIndependentlyRecalculated": 5,
+      "status": "matched-source-arithmetic"
+    }
+  ]
+}

@@ -1,0 +1,290 @@
+{
+  "schema": "terminal-cold-cli-first-use-summary-v1",
+  "status": "qualified",
+  "metric": "Median round total for six fixed sources; paired control uses the geometric mean of A0/A1 totals in each round",
+  "boundary": "Host request through fresh owned Node-worker RPC, cold public CLI process startup/import/render, complete drained stdout bytes and RPC return; worker initialization, artifact verification, retention and full output grading excluded. Filesystem/OS caches uncontrolled; frozen package bytecode caches retained; no warm renderer.",
+  "format": "terminal",
+  "track": "first-use",
+  "rows": [
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "medianMs": 104.12861638536349,
+      "roundTotalsMs": [
+        130.84100880831858,
+        112.72286724122748,
+        98.7786192564803,
+        101.3339126181328,
+        106.92332015259417,
+        99.57481098202149
+      ],
+      "correctInputs": 6,
+      "plannedInputs": 6,
+      "measuredCalls": 72,
+      "rank": 1
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "medianMs": 754.0530389999999,
+      "roundTotalsMs": [
+        745.360995,
+        794.9391970000001,
+        712.261201,
+        759.5760969999999,
+        773.920693,
+        748.5299809999999
+      ],
+      "correctInputs": 6,
+      "plannedInputs": 6,
+      "measuredCalls": 36,
+      "rank": 2
+    }
+  ],
+  "calibration": {
+    "status": "calibrated",
+    "gaps": [],
+    "controlRatios": [
+      0.8804751683317956,
+      1.0680263808913713,
+      0.9938968386177119,
+      1.051713209740184,
+      0.8498501226668828,
+      1.0107744159621213
+    ],
+    "candidateRatios": [
+      5.696692510923316,
+      7.05215557814748,
+      7.210681890081924,
+      7.495773896172253,
+      7.2380907354495685,
+      7.517262384109864
+    ],
+    "controlBand": {
+      "lower": 0.8498501226668828,
+      "upper": 1.1766780674949338
+    },
+    "candidateRatio": 7.224386312765747,
+    "roundRatioUncertainty": {
+      "controls": {
+        "independentRounds": 6,
+        "medianRatio": 1.0023356272899167,
+        "interval": {
+          "lower": 0.8498501226668828,
+          "upper": 1.0680263808913713,
+          "confidence": 0.96875
+        },
+        "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+        "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+      },
+      "replicaB": {
+        "independentRounds": 6,
+        "medianRatio": 7.224386312765747,
+        "interval": {
+          "lower": 5.696692510923316,
+          "upper": 7.517262384109864,
+          "confidence": 0.96875
+        },
+        "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+        "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+      }
+    },
+    "interpretation": "above observed control band; advisory"
+  },
+  "planned": 108,
+  "checked": 108,
+  "gaps": [],
+  "sourceCases": [
+    {
+      "id": "terminal:e977db2dd4ba0536",
+      "family": "flowchart",
+      "sourceSha256": "e977db2dd4ba05362f6be763e69db25fa336d521e0771578a5ab3e9939e142c6",
+      "expectationsSha256": "753a3da3f0d6895a52a97bdb037397e34e033c64e7705c117f0246132ef1e11e",
+      "origins": [
+        {
+          "kind": "repository-file",
+          "repository": "tariqshams/mermaidtui",
+          "commit": "ca59dd9115c290be846c2bd62925b8bd44331d51",
+          "path": "test/tb.mmd",
+          "blob": "9758b8de0e418436a18d3b7f17e9b083a2287c86",
+          "url": "https://github.com/tariqshams/mermaidtui/blob/ca59dd9115c290be846c2bd62925b8bd44331d51/test/tb.mmd",
+          "bodySha256": "e977db2dd4ba05362f6be763e69db25fa336d521e0771578a5ab3e9939e142c6",
+          "license": "Apache-2.0",
+          "channel": "project-regression-fixture",
+          "line": 1,
+          "extraction": "literal-file",
+          "researchSnapshotSha256": "26655962a4538fd8a00bb62804ad505733ed013fd4aa65ce1dc47e06bfc8f73b"
+        }
+      ]
+    },
+    {
+      "id": "terminal:837336a6e0f8f27c",
+      "family": "flowchart",
+      "sourceSha256": "837336a6e0f8f27cbd07d612a41e616b1d6cd1cf24048ee81d299b0da7027e97",
+      "expectationsSha256": "8530383ca38ea133f5bf97c61db160a2ef08a6233c3b0c1ede31c5bf2e2d105a",
+      "origins": [
+        {
+          "kind": "repository-file",
+          "repository": "crafter-station/mermaid",
+          "commit": "1bac24116826233c3b0ad8da589d7223d77a451a",
+          "path": "packages/mermaid/src/e2e.test.ts",
+          "blob": "daed346db78b01d89677f79129de2e4e21183ef6",
+          "url": "https://github.com/crafter-station/mermaid/blob/1bac24116826233c3b0ad8da589d7223d77a451a/packages/mermaid/src/e2e.test.ts",
+          "bodySha256": "0e98753d45a9b363a7aec46a67db2ddfaee6cd04790a10983fca3e4b8b38176f",
+          "license": null,
+          "channel": "project-regression-fixture",
+          "line": 528,
+          "extraction": "decoded-static-ts-literal",
+          "researchSnapshotSha256": "1bfda2427b46698591af67f1c93ca79d6311761b3363582b392a8aa13df9eb71"
+        }
+      ]
+    },
+    {
+      "id": "terminal:b4c60f465d6bcb5b",
+      "family": "flowchart",
+      "sourceSha256": "b4c60f465d6bcb5b80a6a9a03c52fe1d4d96dc02827c992b03a38a6bf9623d2a",
+      "expectationsSha256": "06513e2e977034ae771ae3b84239c2cdfa487c76231aadb3dbca5cdb76a77903",
+      "origins": [
+        {
+          "kind": "repository-file",
+          "repository": "crafter-station/mermaid",
+          "commit": "1bac24116826233c3b0ad8da589d7223d77a451a",
+          "path": "packages/mermaid/src/e2e.test.ts",
+          "blob": "daed346db78b01d89677f79129de2e4e21183ef6",
+          "url": "https://github.com/crafter-station/mermaid/blob/1bac24116826233c3b0ad8da589d7223d77a451a/packages/mermaid/src/e2e.test.ts",
+          "bodySha256": "0e98753d45a9b363a7aec46a67db2ddfaee6cd04790a10983fca3e4b8b38176f",
+          "license": null,
+          "channel": "project-regression-fixture",
+          "line": 602,
+          "extraction": "decoded-static-ts-literal",
+          "researchSnapshotSha256": "1bfda2427b46698591af67f1c93ca79d6311761b3363582b392a8aa13df9eb71"
+        }
+      ]
+    },
+    {
+      "id": "terminal:48d7ff23dee1b343",
+      "family": "flowchart",
+      "sourceSha256": "48d7ff23dee1b343726baf5dcbffe6c5b22e6ce616741f04b1bb6a4dc39a764c",
+      "expectationsSha256": "a74c318855b63239b833c4008ae2d46bef79e1176b869718155b2fcff49a1465",
+      "origins": [
+        {
+          "kind": "repository-file",
+          "repository": "dfadler/zombie-mermaid",
+          "commit": "8cc982128bed11d976fb38164c4cdb47be7bd34d",
+          "path": "packages/ascii-renderer/src/__tests__/ascii-cjk-width.test.ts",
+          "blob": "92cfa34a0deb8506f574c8da28668a5de11a8d2e",
+          "url": "https://github.com/dfadler/zombie-mermaid/blob/8cc982128bed11d976fb38164c4cdb47be7bd34d/packages/ascii-renderer/src/__tests__/ascii-cjk-width.test.ts",
+          "bodySha256": "4bb6ce40469c7062e5ff2cda8adcd26fc95771b92a84dd10fa16b6af6d90906f",
+          "license": "MIT",
+          "channel": "project-regression-fixture",
+          "line": 117,
+          "extraction": "decoded-static-ts-literal",
+          "researchSnapshotSha256": "41b9df477b7f8c753ed39fb8f50062d101ed9a7569b803f482a5f4735b80e03b"
+        }
+      ]
+    },
+    {
+      "id": "terminal:b23c0856e157b1f2",
+      "family": "er",
+      "sourceSha256": "b23c0856e157b1f2e8766d5d1510545deb9dad6f505274bc3ed65419193b4fb6",
+      "expectationsSha256": "ccb6c7cfb7c745ce0b86875d37b03befc5aa97cebd870603a2126b12a61d3362",
+      "origins": [
+        {
+          "kind": "repository-file",
+          "repository": "spacedock-dev/mermaidtext",
+          "commit": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12",
+          "path": "testdata/upstream-renders/21-er-unicode.mmd",
+          "blob": "688f3d0203eb6626d0cc9c992e0cf5d075246d1e",
+          "url": "https://github.com/spacedock-dev/mermaidtext/blob/a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12/testdata/upstream-renders/21-er-unicode.mmd",
+          "bodySha256": "b23c0856e157b1f2e8766d5d1510545deb9dad6f505274bc3ed65419193b4fb6",
+          "license": "Apache-2.0",
+          "channel": "project-regression-fixture",
+          "line": 1,
+          "extraction": "literal-file",
+          "researchSnapshotSha256": "afcae4f976bff6ece8fc39368d7a5b781cfed7a5a0adc6d13cf28b225c40a49b"
+        }
+      ]
+    },
+    {
+      "id": "terminal:d3cc8b77d097ec56",
+      "family": "sequence",
+      "sourceSha256": "d3cc8b77d097ec56fee2cdba37fe9fe1b967b994212186f6890bba4821114f7c",
+      "expectationsSha256": "923d1c3d2f2b905e9f1c8a872fa0ad7bc11358ef25dd3647982bf9a36bb06dad",
+      "origins": [
+        {
+          "kind": "repository-file",
+          "repository": "kais-radwan/ascii-mermaid",
+          "commit": "a91a0c7baec6392212c59221bc67389bb617feb7",
+          "path": "docs/diagram-types.md",
+          "blob": "580505ba3e7ac4451d09de5b73d8c431d66231eb",
+          "url": "https://github.com/kais-radwan/ascii-mermaid/blob/a91a0c7baec6392212c59221bc67389bb617feb7/docs/diagram-types.md",
+          "bodySha256": "31dbc181c1d533ad5a8c57b398d9bc8bd5ae9c4aa66c2ed2ee85db71e3628e92",
+          "license": "MIT",
+          "channel": "project-docs-example",
+          "line": 127,
+          "extraction": "literal-fenced-source",
+          "researchSnapshotSha256": "e96caca70946d1d6a3290f1c3887f68f5bd4dddfe0fca211090790c1860aac92"
+        }
+      ]
+    }
+  ],
+  "prerequisites": {
+    "calls": 12,
+    "correct": 12,
+    "resultsSha256": "8f82d9f2daa607e63e8529074866b1fbdaf1ee15eb548f2b418795f5497d025f"
+  },
+  "actualCallEnvelope": {
+    "firstEntry": "2026-11-01T01:46:12.094Z",
+    "lastReturn": "2026-11-01T01:46:22.773Z",
+    "clockDomainId": [
+      "63db6970-c356-4276-b446-84cb5813dbb7"
+    ],
+    "freshRuntimeInstances": 108,
+    "freshCliProcessIds": 108
+  },
+  "postCaptureDisposition": {
+    "originalBundle": "timing-bundle-bb7971cdca26be39105b57a2.json",
+    "originalStatus": "unqualified",
+    "originalChecked": 1,
+    "reason": "Coordinated controller pause after all108 raw returns exhausted only the grading budget; the complete raw capture and old partial grade remain immutable.",
+    "offlineGraded": 108,
+    "newRendererCalls": 0,
+    "gradingObserverSha256": "df5ceb65ae3e9044e0d9c5c51e13a17b386b35ace6a40deb5e5cf096e999195b"
+  },
+  "identities": {
+    "planSha256": "9241e463c3f283802aa4ab33808f59a059251c23cfb53a3b47974b643d1e5870",
+    "originalSamplesSha256": "0cc4272ec123e93eecbd028faab7a193afbf5d96fd1032bd4b4440569f562a63",
+    "journalSha256": "01a854835357e08fadf02df2b86b50f1f5b231919a21a34de0e869c0520c582b",
+    "derivedGradingSha256": "b352596ef64949641851f3dc3c809b66ef7927e100032a64922139446e166fbb",
+    "derivedBundleSha256": "f0e5c983da693de6ac35be0319ff93dc1b4d554f541cf8902710a86d302c5b46",
+    "ordinaryQualifierReceiptSha256": "a2f0a2bf4603b1f0f5ac36fb06a6a4c6960849cdc20a831c92ab88da005e8254",
+    "inputsSha256": "275b05fc1cce30e5cd442272038bb1dc346c93cbdaa4699c0aed0f8e6d72a8f2",
+    "actualCliReceiptsSha256": "2ef66ff56c9395a71648b81c92af4d19b1d53afb345509a6cc1223197d56baf8",
+    "gradingSourceSha256": "79fb8ecec0267c2cafa362e95bab00c183c56b07cdd9e7d04ae8c0605623516f"
+  },
+  "artifacts": [
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "executable": "/workspace/trident-ecosystem-2026-10-31-artifacts/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+      "executableSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+      "frozenFiles": 2,
+      "runtime": "linux-x64 public native CLI",
+      "runtimeComponents": null
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "executable": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/venv/bin/termaid",
+      "executableSha256": "9e94ab9a89f62e7a735ed4502cdd10472406d52118e7e9b6d19846dcc2c743d9",
+      "frozenFiles": 1099,
+      "runtime": "Python 3.12.14 shipped console CLI",
+      "runtimeComponents": {
+        "pythonVersion": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+        "interpreter": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+        "stdlib": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12",
+        "scope": "Interpreter executable + actual linked libraries + all stdlib Python/bytecode/extension bytes excluding unrelated site-packages; Termaid wheel, metadata, installed sources and caches; no plain-path third-party dependencies"
+      }
+    }
+  ]
+}

@@ -10,6 +10,13 @@ const help = `Trident — benchmarks for Mermaid renderers, terminal tools and p
 
 Benchmark catalog projects (Bun):
   bun commands.ts support [--lineage] [--out FILE.md|json]
+  bun commands.ts verify:harness --plan
+  bun commands.ts timing:browser --prepared FILE --baseline PROJECT --candidate PROJECT --out FRESH_DIR
+  bun commands.ts timing:terminal --help
+  bun commands.ts timing:png --help
+  bun commands.ts timing:qualify --bundle FILE --out FRESH_FILE
+  bun commands.ts mermaid:public-tests --help
+  bun commands.ts mermaid:public-tests:union RETAINED_SCOPE... --bundle FRESH_DIRECTORY
   bun commands.ts support:verify --prepared FILE --out FRESH_DIRECTORY
   bun commands.ts bench --projects OWNER/TOOL[,...] --plan
   bun commands.ts bench --prepare --all-projects --cutoff UTC --out DIR
@@ -19,7 +26,6 @@ Benchmark catalog projects (Bun):
   bun commands.ts community:update --help
   bun commands.ts results:publish --records DIR --out DIR
   bun commands.ts results:compare --records DIR --project OWNER/TOOL [--out FILE]
-  bun commands.ts docs:png --out FRESH_DIR [--rounds 5] [--native-bundle DIR]
   bun commands.ts results:campaign --campaign DIR --out FRESH_DIR [--copy-evidence]
   bun commands.ts results:snapshot [--campaign DIR --evidence-url HTTPS_DIRECTORY] [--check]
   bun commands.ts corpus:freeze --policy FILE --out FRESH_FILE
@@ -52,13 +58,15 @@ async function main() {
   const [command, ...args] = process.argv.slice(2)
   if (['--version', 'version'].includes(command ?? '') && args.length === 0) { console.log('Trident ' + TRIDENT_VERSION); return }
   if (!command || command === '--help' || command === 'help') { console.log(help); return }
+  if (command === 'docs:png') { console.log('The standalone PNG collector is retired. Use bench --suites docs --docs-formats png; see BENCHMARKS.md.'); process.exitCode = args.includes('--help') ? 0 : 2; return }
   const aliases: Record<string, string> = { 'portable:build': 'build', community: 'community:update' }
   const selected = Object.hasOwn(aliases, command) ? aliases[command]! : command
   const neutral: Record<string, string> = { build: 'portable/build.ts', portable: 'portable/run.ts', 'fidelity:report': 'fidelity/report.ts' }
-const own: Record<string, string> = { 'release:check': 'scripts/package-release.ts', 'docs:png': 'unified/docs-png-benchmark.ts', 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'results:snapshot': 'unified/results-snapshot.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
+const own: Record<string, string> = { 'timing:browser': 'unified/timing-browser.ts', 'timing:terminal': 'unified/timing-terminal.ts', 'timing:png': 'unified/timing-png.ts', 'timing:qualify': 'unified/qualify-timing.ts', 'mermaid:public-tests': 'unified/public-conformance.ts', 'mermaid:public-tests:union': 'unified/public-conformance-union.ts', 'verify:harness': 'unified/harness-verification.ts', 'release:check': 'scripts/package-release.ts', 'upstream:prepare': 'unified/prepare-upstream.ts', 'support:verify': 'unified/support-verification.ts', support: 'unified/support-command.ts', bench: 'unified/benchmark.ts', 'corpus:freeze': 'unified/external-corpus.ts', 'results:campaign': 'unified/campaign-publication.ts', 'results:snapshot': 'unified/results-snapshot.ts', 'community:update': 'unified/project-update.ts', 'results:publish': 'unified/league.ts', 'results:compare': 'unified/candidate-comparison.ts' }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', resolve(directory, 'tests')],
-    'test:ci': ['test', '--timeout', '30000', ...['commands', 'ci-commands', 'png-launchers', 'lineage', 'results-snapshot', 'portable-family-paint', 'campaign-workflows', 'campaign-preparation-regressions', 'campaign-reporting-regressions', 'campaign-resume-regressions', 'release-workflow-regressions', 'physical-paths'].map(name => resolve(directory, `tests/${name}.test.ts`))],
+    'test:ci': ['test', '--timeout', '30000', ...['commands', 'ci-commands', 'png-launchers', 'lineage', 'results-snapshot', 'portable-family-paint', 'campaign-workflows', 'campaign-preparation-regressions', 'campaign-reporting-regressions', 'campaign-resume-regressions', 'release-workflow-regressions', 'physical-paths', 'terminal-meaning', 'terminal-corpus', 'terminal-profile', 'terminal-reporting', 'svg-assessment', 'svg-opaque-labels', 'docs-drawings', 'docs-png-drawings', 'docs-png-lane', 'recheck-observations', 'evidence-contract', 'invocation-journal', 'external-invocations', 'qualified-timing', 'qualified-timing-collection', 'fidelity-source-contract', 'visual-expectation', 'checkpoint-reader', 'terminal-structured', 'harness-controls', 'internal-invocations', 'docs-png-qualification', 'fidelity-chart-facts', 'terminal-sequence', 'png-pixel-identity', 'png-preservation', 'fidelity-source-facts', 'fidelity-structural-facts', 'artifact-variants', 'docs-source-review', 'docs-source-admission', 'docs-benchmark', 'terminal-source-contracts', 'public-conformance', 'public-test-reporting', 'terminal-display', 'terminal-entities', 'terminal-groups', 'terminal-primitives', 'terminal-source-admission', 'docs-resource-policy', 'fidelity-line-breaks', 'style-expectation', 'fidelity-style-facts', 'fidelity-text-inventory', 'sequence-note-scope', 'configuration-expectation', 'docs-browser-deadline-audit', 'docs-invalid-source', 'docs-png-benchmark', 'docs-png-capture', 'docs-png-capture-adversarial', 'docs-png-clearance-contract', 'docs-png-legacy', 'docs-png-offline-review', 'docs-png-static-contract', 'docs-png-svg-static', 'docs-png-transport-ownership', 'docs-population', 'fidelity-domain-facts', 'fidelity-domain-integration', 'fidelity-graph-families', 'fidelity-graph-integration', 'fidelity-theme-paint', 'public-conformance-bundle', 'public-conformance-expansion', 'public-conformance-union', 'qualification-adversarial-audit', 'svg-dash-paint', 'terminal-active-profile', 'terminal-adaptation-invocation-audit', 'terminal-family-facts', 'terminal-graph-observers', 'terminal-integration-audit', 'terminal-state-adaptation', 'theme-source-policy', 'checkpoint-durability', 'event-data-expectation', 'fidelity-graph-retained-shapes', 'fidelity-visual-quantities', 'source-metadata-expectation', 'svg-text-ink-clipping', 'timing-browser', 'timing-driver-finalization', 'fidelity-graph-fragments', 'fidelity-shared-ownership', 'png-review-basis-adversarial', 'fidelity-theme-tokens', 'fidelity-theme-token-adversarial', 'fidelity-graph-retained-contradictions', 'fidelity-final-domain-fixes', 'edge-pattern-expectation', 'gantt-calendar-compact', 'terminal-completion', 'terminal-cli-rejection', 'svg-exposed-borders', 'source-standalone-visual-policy', 'fidelity-radar-tension', 'terminal-remaining', 'timing-terminal', 'timing-png', 'fidelity-git-facts', 'community-raw-first', 'fidelity-quadrant-canvas', 'fidelity-graph-completion', 'fidelity-sequence-completion', 'fidelity-domain-completion', 'terminal-caption-loss', 'terminal-known-encoding', 'terminal-retained-unsupported'].map(name => resolve(directory, `tests/${name}.test.ts`))],
+
     typecheck: ['x', '--no-install', 'tsc', '--noEmit', '-p', resolve(directory, 'tsconfig.json')],
     lint: ['x', '--no-install', 'biome', 'lint', '--config-path', resolve(directory, 'biome.json'), directory],
   }
@@ -116,10 +124,10 @@ const own: Record<string, string> = { 'release:check': 'scripts/package-release.
     if (!process.versions.bun) throw Error('Maintainer checks require Bun 1.4 or later')
     argv = checks[selected]!
   } else throw Error(`Unknown Trident command ${command}; use --help`)
-  const offline = ['test:ci', 'typecheck', 'lint', 'results:snapshot', 'support', 'results:campaign', 'build', 'fidelity:report', 'results:publish', 'results:compare']
-  const inspectOnly = args.includes('--help') || selected === 'bench' && (args.includes('--list') || args.includes('--plan') || args.includes('--pilot-summary'))
+  const offline = ['mermaid:public-tests:union', 'timing:qualify', 'test:ci', 'typecheck', 'lint', 'results:snapshot', 'support', 'results:campaign', 'build', 'fidelity:report', 'results:publish', 'results:compare']
+  const inspectOnly = selected === 'mermaid:public-tests' && args.includes('--inventory-only') || args.includes('--help') || selected === 'verify:harness' && args.includes('--plan') || selected === 'bench' && (args.includes('--list') || args.includes('--plan') || args.includes('--pilot-summary') || args.includes('--terminal') && args.includes('--saved-terminal') && !args.includes('--community-prepared'))
   // community:update --plan acquires artifacts, unlike bench --plan.
-  if (!offline.includes(selected) && !inspectOnly) assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['upstream:prepare'].includes(selected) })
+  if (!offline.includes(selected) && !inspectOnly) assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['upstream:prepare', 'timing:browser', 'timing:terminal', 'timing:png'].includes(selected) })
   const result = spawnSync(executable, [...argv, ...args], { cwd, stdio: 'inherit' })
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1

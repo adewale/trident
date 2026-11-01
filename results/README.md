@@ -1,10 +1,11 @@
 # Publishing benchmark results
 
 [RESULTS.md](../RESULTS.md) is the repository's ecosystem overview. It lists all
-eligible projects, the latest imported attempts and dated result tables for all
-seven benchmarks. It includes the 30 October 2026 full campaign and retains older
-dated evidence. The linked campaign archive preserves all 39 originally measured
-projects; the rolling page applies the current 27-project selection.
+eligible projects and the latest corpus comparisons. The 31 October campaign
+separates DaveBench SVG/PNG returns and content, pinned public API tests and
+Terminal Rendering. Authored SVG feature/edit cases remain unscored diagnostics;
+optional public-model contracts retain separate reports. Historical studies and
+the previous overview remain linked at immutable revisions.
 
 [`latest.json`](latest.json) stores the table values, dates, interfaces,
 qualification notes, receipt hashes and campaign attempts. The generator uses
@@ -21,9 +22,10 @@ withheld rather than shown as zero.
 Results are stack-ranked by the metric named above each table. Coverage and
 passed-check rates run highest first; latency and memory run lowest first.
 Ties share a rank. Unavailable measurements are unranked below measured rows.
-The ecosystem overview uses DaveBench's SVG return rate; each other benchmark
-keeps its own ranking. The charts follow their table order. Historical values are maintained only in
-`latest.json`; the provenance receipt stores their digest and original source links.
+The ecosystem overview uses DaveBench's reviewed SVG correct count; each other benchmark
+keeps its own scoped ranking. The 100 authored feature/edit cases have no rank,
+chart or ecosystem overview score; their diagnostic rows are alphabetical. The charts follow their table order. The small historical examples snapshot keeps its original provenance digest;
+older campaign views remain available at their immutable links.
 
 Regenerate or check the tracked page without acquiring projects or running benchmarks:
 
@@ -39,11 +41,12 @@ value; unmeasured, blocked and not-applicable states are separate.
 
 ## Initial release baseline
 
-[BASELINE.md](../BASELINE.md) defines B0 and its required manifest, applicability
-ledger, owning evidence, checksums and acceptance checks. Publish that frozen
-index separately from the rolling overview before the first public 0.1 release.
-Importing a newer campaign here does not amend B0; pilot outputs are not baseline
-scores. Later release notes link their baseline compatibility assessment.
+[results/baseline.json](baseline.json) freezes B0 separately from this rolling
+overview. [Its receipt](../docs/evidence/b0/receipt.json) binds actual corpus and
+outcome files, not just scores. `results:snapshot --check` verifies both the
+rolling snapshot and the linked baseline. New imports keep B0 bytes unchanged.
+[BASELINE.md](../BASELINE.md) explains the verified scopes, unknowns and rules for
+comparing later counts and timings.
 
 ## After collecting a campaign
 
@@ -82,12 +85,13 @@ candidates stay separate. This merge supplies no cross-run timing comparison.
 
 Campaign imports now generate the comparative tables from owning suite results.
 DaveBench reconciles the complete frozen inventory across the declared rounds;
-portable latency retains case/mode and output-calibration scope. Other suites
+portable latency retains case/mode and output-calibration scope. Other comparative suites
 compare recorded observations only where the public interface and observed check
 coordinates match. Different populations stay in separate cohorts. Missing bindings,
 blocked work, failed checks and original measurement dates remain visible.
 
-The same table rows produce ranks and charts. There is no per-run transcription of
+Comparative table rows produce ranks and charts. Authored regression tables
+retain outcomes and evidence without ranks or comparative charts. There is no per-run transcription of
 `SnapshotTable` values. Hand-entered historical tables remain immutable legacy
 imports; they are not a template for adding fresh campaign results. Pilot campaigns
 are rejected by the ecosystem importer.

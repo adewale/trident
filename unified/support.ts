@@ -4,7 +4,11 @@ import { fidelityCoreProjects } from '../fidelity/selection.ts'
 import { PORTABLE_ADAPTER_IDS, type PortableBinding } from '../portable/protocol.ts'
 import { releaseBenchmarkSkip } from './benchmark-skip.ts'
 
-export const PUBLIC_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity', 'upstream-fidelity', 'upstream-original', 'portable'] as const
+export const PUBLIC_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity', 'upstream-fidelity', 'upstream-original', 'portable', 'public-conformance'] as const
+/** Historical IDs remain readable. Expensive clocks and optional model APIs
+ * require explicit selection; ordinary campaigns start with SVG evidence. */
+export const CAMPAIGN_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity', 'portable'] as const
+export const DEFAULT_SUITES = ['docs'] as const
 export type PublicSuite = typeof PUBLIC_SUITES[number]
 export type SupportState = 'configured' | 'conditional' | 'adapter-missing' | 'project-unsupported' | 'reference-only' | 'out-of-scope' | 'disabled'
 export interface CatalogMember extends CommunityNode {
@@ -51,12 +55,17 @@ export function projectSupport(node: CatalogMember) {
   const native = nativeAdapter(node)
     ? cell('configured', 'Reviewed public-model binding; family-specific projections and actual parse results remain separately qualified.')
     : cell('adapter-missing', 'No reviewed public-model projection in Trident; this does not establish absence of a project model API.')
+  const docs = svg ? renderer : !declared.includes('png') && !bound.includes('png')
+    ? cell('project-unsupported', 'DaveBench requests SVG or PNG; neither output is declared.')
+    : adapter && bound.includes('png') ? cell('conditional', 'PNG-only documentation lane; no SVG capability or binding is required.')
+      : cell('adapter-missing', 'PNG is declared but no public PNG transport is bound.')
   const suites: Record<PublicSuite, SuiteSupport> = {
     community: adapter && bound.length ? cell('configured', 'Declared output transport; build/install/API and family success are not inferred.') : cell('adapter-missing', 'Catalog metadata only; no community output transport is bound.'),
-    docs: renderer,
+    docs,
     fidelity: renderer,
     'native-fidelity': native,
-    'upstream-fidelity': native,
+    'public-conformance': cell('adapter-missing', 'Standalone public-test evidence only; campaign bindings, pinned source and original runtime have not been enrolled. This does not establish absence of project APIs.'),
+    'upstream-fidelity': cell('out-of-scope', 'Retired comparative benchmark: private test/projection compatibility is not a renderer-quality score. Historical evidence remains readable.'),
     'upstream-original': adapter === 'mermaid' && node.relation === 'root'
       ? cell('configured', 'The pinned language reference runs its own original tests; an installed original Vitest runner is required.')
       : cell('reference-only', 'Original upstream tests validate the pinned reference, not another project or a fork revision.'),

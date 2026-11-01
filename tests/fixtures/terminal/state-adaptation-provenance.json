@@ -1,0 +1,124 @@
+[
+  {
+    "file": "state-adaptation-ascii-stderr.txt",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "sourceSha256": "3bf5fbf5ea7c5486b4226df2205d1fa9256deebcb0d9d0519ec26ccbaca38c5a",
+    "caseId": "terminal-adaptation:3bf5fbf5ea7c5486",
+    "sha256": "781b2337ee80c911a6030fd48ca064017247bbf1efb1f70726c1c9ae75f266ca",
+    "role": "unsupported-positive-source",
+    "producerSource": "0eeb21788e68fcfcc438d66146204c0f9e1cd847",
+    "collectionSha256": "ebc5a4e8e91fdec7cd49c4a3d3b1bc8cf6a3b035e90eb216b781ec7094ed22c9",
+    "invocation": {
+      "schema": "trident-invocation-evidence-v1",
+      "attemptId": "136ad87f-2313-424c-abea-47bb480f0b53",
+      "identity": {
+        "coordinate": "round:1",
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "caseId": "terminal-adaptation:3bf5fbf5ea7c5486",
+        "sourceSha256": "3bf5fbf5ea7c5486b4226df2205d1fa9256deebcb0d9d0519ec26ccbaca38c5a",
+        "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "bindingSha256": "3ff1849388a94deaf15d68fe274064e0f286f4b90bd7fe47e26879df3f42b57a",
+        "format": "terminal"
+      },
+      "state": "public-error",
+      "recordedAt": "2026-10-31T19:49:40.541Z",
+      "startedAt": "2026-10-31T19:49:40.519Z",
+      "finishedAt": "2026-10-31T19:49:40.541Z",
+      "durationMs": 14.630002000001696,
+      "output": null,
+      "detail": "time=\"2026-10-31T19:49:40Z\" level=fatal msg=\"failed to parse graph diagram: unsupported graph type 'stateDiagram-v2'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)\"\n",
+      "startedReceiptSha256": "59ffa0c682f57689d81c466227e3b4b37dc18238b18c9687d96f4c4dbe60bd62",
+      "streams": {
+        "stdout": {
+          "path": "/workspace/trident-terminal-state-adaptation-2026-10-31/collection/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "/workspace/trident-terminal-state-adaptation-2026-10-31/collection/raw-cli-invocations/outputs/781b2337ee80c911a6030fd48ca064017247bbf1efb1f70726c1c9ae75f266ca",
+          "sha256": "781b2337ee80c911a6030fd48ca064017247bbf1efb1f70726c1c9ae75f266ca",
+          "bytes": 207
+        }
+      }
+    },
+    "receiptSha256": "ce968e49a8d1aaf654b4419031e2de55e38b8bf88c97284fb8717f40d664c4eb",
+    "boundary": "public release executable; stdin through drained stderr",
+    "sourceReviewSemanticSha256": "7c74823a608575935cd189d61778ec1ad67ac0ed7b3b679fa8b87800d6041dc6"
+  },
+  {
+    "file": "state-adaptation-termaid.txt",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "sourceSha256": "3bf5fbf5ea7c5486b4226df2205d1fa9256deebcb0d9d0519ec26ccbaca38c5a",
+    "caseId": "terminal-adaptation:3bf5fbf5ea7c5486",
+    "sha256": "58f5bc87cdb93557474f6ba05a5e80b2c3c7ebc0665e7bf2845d7f9ebd5a5923",
+    "role": "original-source-fact-counterexample",
+    "producerSource": "0eeb21788e68fcfcc438d66146204c0f9e1cd847",
+    "collectionSha256": "ebc5a4e8e91fdec7cd49c4a3d3b1bc8cf6a3b035e90eb216b781ec7094ed22c9",
+    "invocation": {
+      "schema": "trident-invocation-evidence-v1",
+      "attemptId": "61410cb5-093a-4ffc-be5c-38533df9f416",
+      "identity": {
+        "project": "fasouto/termaid",
+        "caseId": "terminal-adaptation:3bf5fbf5ea7c5486",
+        "sourceSha256": "3bf5fbf5ea7c5486b4226df2205d1fa9256deebcb0d9d0519ec26ccbaca38c5a",
+        "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "bindingSha256": "ce8a7255d125244725c8785c6f3a6cf5ec5b427d957365a3d40df67c0009ba74",
+        "format": "terminal"
+      },
+      "state": "returned",
+      "startedAt": "2026-10-31T19:49:40.725094Z",
+      "finishedAt": "2026-10-31T19:49:40.749568Z",
+      "recordedAt": "2026-10-31T19:49:40.749588Z",
+      "durationMs": 23.31701898947358,
+      "output": {
+        "path": "/workspace/trident-terminal-state-adaptation-2026-10-31/collection/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/58f5bc87cdb93557474f6ba05a5e80b2c3c7ebc0665e7bf2845d7f9ebd5a5923",
+        "sha256": "58f5bc87cdb93557474f6ba05a5e80b2c3c7ebc0665e7bf2845d7f9ebd5a5923",
+        "bytes": 2514
+      },
+      "detail": "Actual public return retained before qualification; duration excludes retention"
+    },
+    "receiptSha256": "e7df00da4d7738a519481f071ad68829a145a3abbda0dfa9ad2923e0ead4d330",
+    "boundary": "native public API; executable startup excluded",
+    "sourceReviewSemanticSha256": "7c74823a608575935cd189d61778ec1ad67ac0ed7b3b679fa8b87800d6041dc6"
+  },
+  {
+    "file": "state-adaptation-agentic.txt",
+    "project": "adewale/agentic-mermaid",
+    "version": "0.4.1",
+    "sourceSha256": "3bf5fbf5ea7c5486b4226df2205d1fa9256deebcb0d9d0519ec26ccbaca38c5a",
+    "caseId": "terminal-adaptation:3bf5fbf5ea7c5486",
+    "sha256": "fcbfcc8dcdf6eb7205805148492cbcaa00bd9a2087d68e94da4507a12f53145f",
+    "role": "original-source-fact-counterexample",
+    "producerSource": "0eeb21788e68fcfcc438d66146204c0f9e1cd847",
+    "collectionSha256": "ebc5a4e8e91fdec7cd49c4a3d3b1bc8cf6a3b035e90eb216b781ec7094ed22c9",
+    "invocation": {
+      "schema": "trident-invocation-evidence-v1",
+      "attemptId": "b9e7dd7e-aa7a-47b4-b608-59dfd6467ce4",
+      "identity": {
+        "project": "adewale/agentic-mermaid",
+        "caseId": "terminal-adaptation:3bf5fbf5ea7c5486",
+        "sourceSha256": "3bf5fbf5ea7c5486b4226df2205d1fa9256deebcb0d9d0519ec26ccbaca38c5a",
+        "artifactSha256": "ea798905f3e444816f78dd1b2b2ccaea893e2e53d4d661f2a3bcbb68454ee920",
+        "bindingSha256": "dc9f02121da8ec9b24e044186b76f157979e3f64179c7ac448633e6f1ff9ba57",
+        "format": "terminal"
+      },
+      "state": "returned",
+      "recordedAt": "2026-10-31T19:49:41.930Z",
+      "startedAt": "2026-10-31T19:49:41.622Z",
+      "finishedAt": "2026-10-31T19:49:41.930Z",
+      "durationMs": 298.74979999999994,
+      "output": {
+        "path": "/workspace/trident-terminal-state-adaptation-2026-10-31/collection/community-raw/adewale_agentic-mermaid-terminal-r1-attempt1.json.invocations/outputs/fcbfcc8dcdf6eb7205805148492cbcaa00bd9a2087d68e94da4507a12f53145f",
+        "sha256": "fcbfcc8dcdf6eb7205805148492cbcaa00bd9a2087d68e94da4507a12f53145f",
+        "bytes": 1713
+      },
+      "detail": "Actual public return retained before grading. Timestamps are call-entry/retention bounds; durationMs is the separately measured public clock.",
+      "startedReceiptSha256": "1fc1a0177d99bb847109f6e455023bad7c3846aab62285263928cbbd9b36e13a"
+    },
+    "receiptSha256": "ebb5fb8167e4495865186ae2cdc02c3ecda9418575c7c5edf58cbc526b8b6892",
+    "boundary": "public API return/settled promise; validation excluded; memory includes worker/qualification; restarted workers remain separately identified",
+    "sourceReviewSemanticSha256": "7c74823a608575935cd189d61778ec1ad67ac0ed7b3b679fa8b87800d6041dc6"
+  }
+]

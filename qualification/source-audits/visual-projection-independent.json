@@ -1,0 +1,357 @@
+{
+  "schema": "trident-independent-source-projection-delta-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "originalProjectionRevision": "53279db7dbbe5ab61005b7a548c7c8f67cafd448",
+  "finalReviewedRevision": "70fa794",
+  "finalCorpusSha256": "74497db12cb888f3532be00a8e0c22d5a01b42382e5066822df95342294c6cc0",
+  "sourceInventorySha256": "6de5237c3fa6e2387d4ea49fc5b5c975c1c882362a33a6592bf2dc1e7716749b",
+  "reviewer": "Codex implement_png; independent of source transcriber and style compiler author",
+  "method": "Read every changed expected field and its complete literal source for all33 projection changes; independently matched pinned git fences and consulted class/ER/quadrant/treemap prose. Read all four inline-class repair contracts, the point-class preservation guard and explicit827 standalone scope. Earlier full-source reads remain honestly bound to their original hashes; this receipt bridges only the later reviewed semantic delta.",
+  "rendererInvocations": 0,
+  "referenceModelInvocations": 0,
+  "scope": "33 existing projection changes plus two additional repaired inline-class source records; no corpus expansion or output-observer qualification.",
+  "findings": [
+    {
+      "id": "STYLE-INLINE-CLASS-ASSIGNMENT",
+      "status": "resolved",
+      "cases": [
+        "packages/mermaid/src/docs/syntax/classDiagram.md:774",
+        "packages/mermaid/src/docs/syntax/classDiagram.md:782"
+      ],
+      "resolution": "d6a262f moves node class assignment out of edge-appearance into the existing node-attributes path; exact Animal fill#f96 survives lowering."
+    },
+    {
+      "id": "STYLE-QUADRANT-CLASS-DEFINITIONS",
+      "status": "resolved",
+      "cases": [
+        "packages/mermaid/src/docs/syntax/quadrantChart.md:190"
+      ],
+      "resolution": "3877461 preserves complete raw point class definitions/assignments when node-only lowering cannot represent them; class2 inherited color/radius/stroke/width and class3 inherited radius remain required unknowns."
+    },
+    {
+      "id": "STYLE-EXTERNAL-PAGE-CSS-SCOPE",
+      "status": "resolved-by-explicit-scope",
+      "cases": [
+        "packages/mermaid/src/docs/syntax/classDiagram.md:827"
+      ],
+      "resolution": "The standalone corpus does not supply adjacent page CSS. Its omission is recorded as a scope exclusion; no invented style value, full-page CSS conformance or class spelling correctness credit."
+    }
+  ],
+  "postNoteReview": "sequence-independent.json records the separately read37445a1 eleven-record note scope delta across all42 sequence literals.",
+  "qualification": "Literal source/expectation delta review only. Every remaining output obligation still requires its own actual bound SVG/PNG/terminal evidence; unsupported output observers remain unknown.",
+  "rows": [
+    {
+      "id": "packages/mermaid/src/docs/syntax/block.md:10",
+      "sourceSha256": "78e30a8aaf7fb9a0a374414e1984d2882815549cfce0428d71601302ed4998d2",
+      "beforeProjectionExpectationsSha256": "c310f4b8d2bf1c80ce7112d389a74b4d8bee2bf6b3ec04d8ab946e682a169cb7",
+      "initialProjectionExpectationsSha256": "7835744d892bdb9a9e23b42dc6eee6b3e480f664fc937bf77049d33641fd7c13",
+      "finalExpectationsSha256": "7835744d892bdb9a9e23b42dc6eee6b3e480f664fc937bf77049d33641fd7c13",
+      "finalSourceReviewSha256": "6ff8b4cbdbfca565859cac3ba0ec6527d239bbd0f5d158e3c8fda23211f88fef",
+      "review": "Block B keeps literal #969 fill, #333 stroke and 4px width as an owned node-paint request."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/block.md:354",
+      "sourceSha256": "0eeed10abc3140def4fd7496fed3cbf95e1c79dbe41456455b20a2cd94b1099f",
+      "beforeProjectionExpectationsSha256": "6d52e9125c7fee44e229d551d1d5bbcd8c4fa29907705c24d000789dbe3c8e54",
+      "initialProjectionExpectationsSha256": "053121f18f063c39f94884967bc2a2c6be5fb0d16b9c6006ca3dd35d2725c583",
+      "finalExpectationsSha256": "053121f18f063c39f94884967bc2a2c6be5fb0d16b9c6006ca3dd35d2725c583",
+      "finalSourceReviewSha256": "6ff8b4cbdbfca565859cac3ba0ec6527d239bbd0f5d158e3c8fda23211f88fef",
+      "review": "Block B keeps literal #939 fill, #333 stroke and 4px width as an owned node-paint request."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/block.md:422",
+      "sourceSha256": "c1690d0b0e175012900f71bd698d12f77c55a219b80856fa5852ec0fd909c7a9",
+      "beforeProjectionExpectationsSha256": "be7c5d52eb0adec52d8fa8f56445f32980e36537e7738965428d0db4d79744b5",
+      "initialProjectionExpectationsSha256": "418f057b012c7936ef3f024f61c41d50ae48251abbec3b0fc292a49e688fd7e8",
+      "finalExpectationsSha256": "418f057b012c7936ef3f024f61c41d50ae48251abbec3b0fc292a49e688fd7e8",
+      "finalSourceReviewSha256": "5dcb56fb3f28fe2ab3e1b4acbd7addfc740f0a60c5a539e3224c64b064b7f77c",
+      "review": "Block Frontend gets front/#696; Backend and Database get back/#969; all three keep #333 stroke."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/block.md:441",
+      "sourceSha256": "668adabdd9df94a6af6123269da67044846272e127ec5bea1761abbf7cb40f34",
+      "beforeProjectionExpectationsSha256": "cb8647b0d18029784be70d7f7311e062472e674b79a50f89bfcd9cb42ee90930",
+      "initialProjectionExpectationsSha256": "13da49eb7bf6b82a3f3ac9dfd0e7bc6d513dd97a806b4b1f6f94fe8954e54eba",
+      "finalExpectationsSha256": "13da49eb7bf6b82a3f3ac9dfd0e7bc6d513dd97a806b4b1f6f94fe8954e54eba",
+      "finalSourceReviewSha256": "5dcb56fb3f28fe2ab3e1b4acbd7addfc740f0a60c5a539e3224c64b064b7f77c",
+      "review": "Block Start and End keep their separate #969/#696 fills."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/block.md:497",
+      "sourceSha256": "715f1762cf12455d4e6b1eee167d3166db1f0c6543d451d54197c8173737cfab",
+      "beforeProjectionExpectationsSha256": "10866e389ffdc507fe14a4756dfeba1b740715edee8fbb11f24421ee516489f4",
+      "initialProjectionExpectationsSha256": "da5ab3e182bf3039b12fdf44a2a6e77a532ec6e2feb00b6618fef165359160b0",
+      "finalExpectationsSha256": "da5ab3e182bf3039b12fdf44a2a6e77a532ec6e2feb00b6618fef165359160b0",
+      "finalSourceReviewSha256": "848f771053528cca4be21c95b4706cd8f65f3e331aee6f12d11ad36d3d62c080",
+      "review": "Block A keeps #969 fill and #333 stroke."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:774",
+      "sourceSha256": "f91449deb55589d824aa658f9b60948b0369f053cd64b00e09e5435abbb402c9",
+      "beforeProjectionExpectationsSha256": "045c6bd6c1f912f3d0d5acd4ddfa975f0a244b40880879b9cd3986dd97e3b32f",
+      "initialProjectionExpectationsSha256": "cf04778190a9739cdd371dbae06fd837443fc4ac98fe93c269d382e24f17d2fd",
+      "finalExpectationsSha256": "1693602cf4bc4b58c5068c860f17b39248a3379bab08447621b8230598edc3e6",
+      "finalSourceReviewSha256": "a06a0ccc444d18d88fe3dc41ef1e2746fdbe79ad93a90e89d2d187ec355574bc",
+      "review": "Animal inline someclass assignment must produce owned fill #f96; initial lowering dropped it, repaired separately."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:782",
+      "sourceSha256": "b748773195c45c55088bd8cbf2ac9cce106f520c2458bbd57c04934c00bc7ee1",
+      "beforeProjectionExpectationsSha256": "eef36bb38e1f05626e8ecde397084b840cc1127a4a1b6b77e8c60276fd76d5cb",
+      "initialProjectionExpectationsSha256": "22d276a429f0204ccadce05a385c35338cce2737e9ba3b06ed18f782d14fa5d0",
+      "finalExpectationsSha256": "66a91764a1608b5e2669f20bebb6f453d4b267e281280dcfa6bf025c0d2ae2d5",
+      "finalSourceReviewSha256": "a06a0ccc444d18d88fe3dc41ef1e2746fdbe79ad93a90e89d2d187ec355574bc",
+      "review": "Animal member block retains both signatures and the same owned fill #f96; initial lowering dropped the inline assignment, repaired separately."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:538",
+      "sourceSha256": "685e5730a5e743fa0fecfbddd1fb0af0ca4354d6981d21a62bebad0a53604151",
+      "beforeProjectionExpectationsSha256": "bf4626a0108c12904bef66ab803fc23e5eb28b8bf30da62ce2a234fc62d43d6a",
+      "initialProjectionExpectationsSha256": "83417c85eae9f97788b494cf50a8ac5571f6dc821876e9fd6a32888529350dac",
+      "finalExpectationsSha256": "83417c85eae9f97788b494cf50a8ac5571f6dc821876e9fd6a32888529350dac",
+      "finalSourceReviewSha256": "72b1ae310985561a6f7f691ae28f94265f9aa418254cdcdb5a75cdd5e5e632f2",
+      "review": "ER CAR/PERSON/HOUSE inline someclass assignments all retain fill #f96."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:558",
+      "sourceSha256": "cd17cfb2345a33fbc8360bcaacc9ea2ed7ebb273293691416cff75824273c3ed",
+      "beforeProjectionExpectationsSha256": "538907040fa0c5deeb00137218a0c57a8a23e1e442c158216f9ca79cd3b64efb",
+      "initialProjectionExpectationsSha256": "693826923d3c6df1b6f3649aa62c99e1623fc066c27d73a51086d0ffc08e04d3",
+      "finalExpectationsSha256": "693826923d3c6df1b6f3649aa62c99e1623fc066c27d73a51086d0ffc08e04d3",
+      "finalSourceReviewSha256": "53e80b23637a4a50c179ba6bf8982263acc1b25a5817fc9b199c1052b6667637",
+      "review": "ER PERSON gets foo/red stroke and HOUSE bar/green; unused foobar has no painted target and creates no invented blue request."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:594",
+      "sourceSha256": "1838b7a479e5110008e068a1f1f4ef1cb1f2b5629ec2101180e5370cc4d223cf",
+      "beforeProjectionExpectationsSha256": "b55d63cdd0fbdd595b1ce56c8479f37d746d9a9002ab5bc67e365f678e067a51",
+      "initialProjectionExpectationsSha256": "aefad96ab603f1d194f16fdb69c93c93b4f773e28f32db39c8ac616f96686c30",
+      "finalExpectationsSha256": "aefad96ab603f1d194f16fdb69c93c93b4f773e28f32db39c8ac616f96686c30",
+      "finalSourceReviewSha256": "53e80b23637a4a50c179ba6bf8982263acc1b25a5817fc9b199c1052b6667637",
+      "review": "ER unclassified CAR gets default pink fill/4px width; explicit PERSON/foo and HOUSE/bar get their own red/green stroke, per pinned ER default-class semantics."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/examples.md:26",
+      "sourceSha256": "b8e52ce7d792978000b1909b6aa84cf3ba5943bdaf7769d8cfef92c09aa390a4",
+      "beforeProjectionExpectationsSha256": "e2f9be298c2238097dc0a1f7e0fa075a5bab97056e399827223468e65f2c3b87",
+      "initialProjectionExpectationsSha256": "b5611e67141cbc2f1252a85634b6c1b4ee010ad9c1b89e936eb91e3499f8f2cf",
+      "finalExpectationsSha256": "0815c4ff14568df3f1a5a5c3773dbd8aac5d0af597ee05e69aee453ea2fe5d35",
+      "finalSourceReviewSha256": "99c339e05ccbffb6c968a3b6d9fc5153d8e868640aaa4982af495ea63cf71ff3",
+      "review": "Sequence nohead messages retain caption/order/stroke and unordered endpoints, explicitly distinguishing unprinted sender direction."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/examples.md:50",
+      "sourceSha256": "22b7b9e26643b7efeba14a4a6ad048fac3a33832d8a2c7b2a965facd788614ca",
+      "beforeProjectionExpectationsSha256": "d9a47a6bf60f36db3eb2de50898a7809901e52073248ee1649354e26bf8efc95",
+      "initialProjectionExpectationsSha256": "8922e04a322d50430f9c946e96dd246ad5954ee8eac605e304e53c866a9af393",
+      "finalExpectationsSha256": "8922e04a322d50430f9c946e96dd246ad5954ee8eac605e304e53c866a9af393",
+      "finalSourceReviewSha256": "0e3237322fa035e6def7701eca6554fc40beef34ae79d62b57507d645cb4dd49",
+      "review": "Flowchart green owns sq/e and orange owns di with exact colors/widths; five explicit node/route line-break arrays preserve source occurrence ownership."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:66",
+      "sourceSha256": "c73fdea4fca45502e808258502bf60c5400ce0c011e1976893bfaeaaab82a236",
+      "beforeProjectionExpectationsSha256": "d994743cce299ad2f0d2af65dc12c5cb89e47acb43912a779df91086061fea7f",
+      "initialProjectionExpectationsSha256": "51edee1f7cd8bfe47a1ea05518a7b2ac4928dae021eebb52a1fd2e930c253d4e",
+      "finalExpectationsSha256": "51edee1f7cd8bfe47a1ea05518a7b2ac4928dae021eebb52a1fd2e930c253d4e",
+      "finalSourceReviewSha256": "a549e5d535556918a874778559f9084a53cbb3a5ef807c39d214b56692fd3561",
+      "review": "Markdown newLines retains three source lines; indentation is source text, with its own physical break obligation."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:1096",
+      "sourceSha256": "14571e1d97419b3c252dc53cc37be3fd2d3f5dfc74ef68f6269ea89a1692397a",
+      "beforeProjectionExpectationsSha256": "4526de5021a1012a18b1a3fa18f472642da6f463bfef436be6a6eca0aeec47d1",
+      "initialProjectionExpectationsSha256": "c36b6712659a491dcd0ce7ffa5f8b2ba676304b118eadb4523fca44fcb5ac845",
+      "finalExpectationsSha256": "c36b6712659a491dcd0ce7ffa5f8b2ba676304b118eadb4523fca44fcb5ac845",
+      "finalSourceReviewSha256": "3dfea37f1b1d365cde72c75850180b403547615c2cea2771f49209c943188397",
+      "review": "Both cat labels have independently owned two-line obligations; identical plaintext cannot borrow another node line break."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:1335",
+      "sourceSha256": "f76e6573d220a56a3c93de9bf26859ece01fd527d40a305f620fe0a59633759f",
+      "beforeProjectionExpectationsSha256": "c23c4685dcc07b8644f4d7caf84d7738f70095e0e756ff48c80f6992cc2f044b",
+      "initialProjectionExpectationsSha256": "17cd21748338b9c9abe41a31e065fbb15bc172b2803347dcecc224f803e83feb",
+      "finalExpectationsSha256": "17cd21748338b9c9abe41a31e065fbb15bc172b2803347dcecc224f803e83feb",
+      "finalSourceReviewSha256": "4aa46d40f956c83152192fec18bd73934783fd8384ae76337db785877a22bc5e",
+      "review": "Flowchart A inline someclass owns fill #f96."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:1343",
+      "sourceSha256": "2f558b7a3d584673d4632471882fa110529283acb818c5b971fb8abbcafa7a44",
+      "beforeProjectionExpectationsSha256": "2a1bc02f91b69fe05d9bd033db1020e1604e791a09e34dafcd1bcf7eb4f8aff3",
+      "initialProjectionExpectationsSha256": "54548ad6884f04ac4f94e2fd0ae8ee49794f8719c182e9edfbee1a59e414189c",
+      "finalExpectationsSha256": "54548ad6884f04ac4f94e2fd0ae8ee49794f8719c182e9edfbee1a59e414189c",
+      "finalSourceReviewSha256": "d15e4e2253090fa2c430be8d4ec219b51739ec48cd0aaa066fe92e010138aae9",
+      "review": "Flowchart A/B/C fanout assignments retain exact red/green/blue strokes respectively."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:1361",
+      "sourceSha256": "53bb4045f74d8c9d1bb46c378e63387284704ef39ed42ca9a6f7dbd7e91e51d0",
+      "beforeProjectionExpectationsSha256": "c24e11b964559313dd75a5680cbc095457e958d590378f51a1010f1e9f985968",
+      "initialProjectionExpectationsSha256": "c50a7a04e07237bf42486451d8ebda62a7227ad738950fb7b3ca79152fa9895a",
+      "finalExpectationsSha256": "c50a7a04e07237bf42486451d8ebda62a7227ad738950fb7b3ca79152fa9895a",
+      "finalSourceReviewSha256": "4aa46d40f956c83152192fec18bd73934783fd8384ae76337db785877a22bc5e",
+      "review": "Flowchart A keeps red fill, yellow stroke and 4px width."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/mindmap.md:9",
+      "sourceSha256": "117201a14a668273ea3ae6a8af2ac29bbf490baba7ac66875007482ce765712c",
+      "beforeProjectionExpectationsSha256": "b7542c46feacc5226c49cf23b2594fefb99dc602a21e2b0645cdd95eb6c124c0",
+      "initialProjectionExpectationsSha256": "9df47dae12eab0c3a17fe0b60f040be8d97ab6e8e445c54c959c9eb7562efc5a",
+      "finalExpectationsSha256": "9df47dae12eab0c3a17fe0b60f040be8d97ab6e8e445c54c959c9eb7562efc5a",
+      "finalSourceReviewSha256": "15d753928315eb04b44a116a94aaba1471eb28f32b80cb7dd589bff28c40a4ad",
+      "review": "Mindmap Research child retains its source HTML break as two owned lines."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/mindmap.md:233",
+      "sourceSha256": "d34688197fc3593a7b62592bfac23991f50dcb4342d310979f24e94754941123",
+      "beforeProjectionExpectationsSha256": "d1d74b42cd2e0d718404d43cddd44086205588ee1df0c49a0a95e792263c4b95",
+      "initialProjectionExpectationsSha256": "de3b2437fd5c4bb204ef4f4e39d12b13f023e50a636f0bcb684509435be66427",
+      "finalExpectationsSha256": "de3b2437fd5c4bb204ef4f4e39d12b13f023e50a636f0bcb684509435be66427",
+      "finalSourceReviewSha256": "d46e4c625eeeba442cdb30e1afd5b245cd7bd65ae022512756bdf9a072bb48be",
+      "review": "Mindmap root retains its three source Markdown lines and Unicode content."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/quadrantChart.md:190",
+      "sourceSha256": "cb0348713c1706e9b525fee554beb25cf4c1ae71cafeffdf05e34e8bb62b6bf6",
+      "beforeProjectionExpectationsSha256": "090c1c21e6d4332a38cf9b7fb0cebaf7151a9fa58068a77b83503e85fb6fb764",
+      "initialProjectionExpectationsSha256": "3f3b385d1bb20657dee05979f3ec58de023f6af85cb99bde314337b223563db5",
+      "finalExpectationsSha256": "090c1c21e6d4332a38cf9b7fb0cebaf7151a9fa58068a77b83503e85fb6fb764",
+      "finalSourceReviewSha256": "53052c7a027b9c86b75f1ee33489286a941911930711de59033a385ee008f052",
+      "review": "Quadrant class1/2/3 definitions and point assignments must stay required unless this non-node style grammar is compiled; initial lowering erased inherited requests, repaired by conservative guard."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:307",
+      "sourceSha256": "fe43760d819f1555725c96b6876fdb729ea81cd07f1d753fb4073dbad52b873b",
+      "beforeProjectionExpectationsSha256": "ac5757706670e4568f4b6494e5b6f62f17dad4f6cfd25568fb94080e4cc9dd27",
+      "initialProjectionExpectationsSha256": "001f97dff46f47eca5307f0256caafa1a70294a14a0c72365aa0047ae897b2fd",
+      "finalExpectationsSha256": "001f97dff46f47eca5307f0256caafa1a70294a14a0c72365aa0047ae897b2fd",
+      "finalSourceReviewSha256": "fd1b32dbdab0e25ae9be33151a290ab68bec71ea3e14dfcef4e3324e97e5f4db",
+      "review": "Requirement307 defines important/test styles without assigning them; removing these genuinely unused definitions invents no visible paint obligation."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:446",
+      "sourceSha256": "a9915542fa20e2bf5e76e2b294d59ad13565386a70e63d5faf10c7f033a81874",
+      "beforeProjectionExpectationsSha256": "09ad0246c534a36e99d2109d31d412cb8f6e36030d6bf583672d38b927335ad9",
+      "initialProjectionExpectationsSha256": "f1ebce704515b9bef6d01c44068b6afcf3f5560d89546dd060afa0efc82a51f2",
+      "finalExpectationsSha256": "55a05c4237bd37f4e021a548bf6fb26ef9caaa1ceddd31999016ebeb85f0b7e9",
+      "finalSourceReviewSha256": "48e8b7a88504c5416d70aa8facc6ca0c967da0706f59d995ee62cf5472956d73",
+      "review": "Sequence nohead message has no visible direction; unordered endpoint projection preserves all visible facts."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:456",
+      "sourceSha256": "c68e948fd0030ddd4f49b540a1b72fec5c4e88f5286c612a9f25ab77844d54c0",
+      "beforeProjectionExpectationsSha256": "d82b43a6590fe84bfb828352bfc230c1c117d14824f9e61a9717f06507de2565",
+      "initialProjectionExpectationsSha256": "d163c88f52e101b6025d6aba8d149e14524b564bbff0a7d375ed59f9a94bee59",
+      "finalExpectationsSha256": "244c9c939862b76a185abde3f8c5d170d9587b3ed3cf51ac696f1623693b0a9a",
+      "finalSourceReviewSha256": "99c339e05ccbffb6c968a3b6d9fc5153d8e868640aaa4982af495ea63cf71ff3",
+      "review": "Sequence nohead line projection preserves its already-owned message/note line breaks."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:464",
+      "sourceSha256": "40a5ae34a089954547d166bbe9b974aeb266cfcf0d724b1e32346261140e3984",
+      "beforeProjectionExpectationsSha256": "73ba4c1f878af4be84b73b5d7517f97f1d7cdceb9d7dae8c9cf38eacaa9c30aa",
+      "initialProjectionExpectationsSha256": "dd13850943ec06346bcda1a3ce0a7de6f50d8fde81aed63650e6be19ffc5d450",
+      "finalExpectationsSha256": "ffdf0179841ddc940688928e648e8263c7a56ac19955da20751ed3614c277da9",
+      "finalSourceReviewSha256": "99c339e05ccbffb6c968a3b6d9fc5153d8e868640aaa4982af495ea63cf71ff3",
+      "review": "Sequence nohead projection preserves multiline participant/message/note ownership."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:483",
+      "sourceSha256": "d042768225fc2a2c6aed87e913d293db64cb8da27b430259f3161a3f684888b3",
+      "beforeProjectionExpectationsSha256": "5a9fbc3f565dced86b8bf793bd63bfeca746af948ff52bda510b4e6fa15f1fac",
+      "initialProjectionExpectationsSha256": "d9ed8dac4cc0d4fd2396b886339350f901709998fe3d12272559aaa5a86c9240",
+      "finalExpectationsSha256": "d9ed8dac4cc0d4fd2396b886339350f901709998fe3d12272559aaa5a86c9240",
+      "finalSourceReviewSha256": "d932b39f663cce8925ef82de0d9e969b5a56b2cfd80927e5eee160afb124b6ec",
+      "review": "Sequence loop reply without head retains unordered endpoints and dotted stroke; source sender remains in the raw/native contract."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:589",
+      "sourceSha256": "201a0912328e98f240b39c1412adc00d0bf51c483304d8078d4d8552dac24083",
+      "beforeProjectionExpectationsSha256": "4bd19f76a2bb563aac405e31fce4da216a643140cfc3acf288cf5e2b91e05bc7",
+      "initialProjectionExpectationsSha256": "2c2689d91815d4e076ea588d2b15df6dab14df11ec6551d280911bd5ac48ac77",
+      "finalExpectationsSha256": "2c2689d91815d4e076ea588d2b15df6dab14df11ec6551d280911bd5ac48ac77",
+      "finalSourceReviewSha256": "d932b39f663cce8925ef82de0d9e969b5a56b2cfd80927e5eee160afb124b6ec",
+      "review": "Sequence critical connections without heads retain unordered endpoints, self-message identity, captions/order and branch intervals."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:602",
+      "sourceSha256": "a74c5de6ef55136d555087cde5874e57a2742175012a00e31ff405b59157f9fe",
+      "beforeProjectionExpectationsSha256": "bd7d4533be6c3dd59855f353b3d62cd4fe4e26e33fdf6a08b1559393210a0bf6",
+      "initialProjectionExpectationsSha256": "12ed623c567d117ce98ad55cd24d73d6cd2ad0614fc805a924a0a447c83da91b",
+      "finalExpectationsSha256": "12ed623c567d117ce98ad55cd24d73d6cd2ad0614fc805a924a0a447c83da91b",
+      "finalSourceReviewSha256": "d932b39f663cce8925ef82de0d9e969b5a56b2cfd80927e5eee160afb124b6ec",
+      "review": "Sequence critical single nohead connection retains the same visible endpoint/caption/stroke contract."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:625",
+      "sourceSha256": "07788f7e3ced9064c9d896e61f0fecbab9124f37b6e4eaed7d06dfb18044c9ca",
+      "beforeProjectionExpectationsSha256": "31394842ea29b7384699011d096070282359d292f75ff4aa67e9aa3811cfe198",
+      "initialProjectionExpectationsSha256": "fd8bcff779d22db8a4f2bdf6a80fd05495e3f5ea09d511e3dab51f74c4347f5f",
+      "finalExpectationsSha256": "fd8bcff779d22db8a4f2bdf6a80fd05495e3f5ea09d511e3dab51f74c4347f5f",
+      "finalSourceReviewSha256": "d932b39f663cce8925ef82de0d9e969b5a56b2cfd80927e5eee160afb124b6ec",
+      "review": "Sequence break fragment retains exact message membership and unordered nohead routes."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/stateDiagram.md:294",
+      "sourceSha256": "e98ccbbe271e462ab9a40bb4f072643c7b0bb72df772694c8cac3a2ce35fab69",
+      "beforeProjectionExpectationsSha256": "dc1b619eeea2114ba9be2fda4e6b1aa691115e95fa6e6ebbdbde09d30c42f9a3",
+      "initialProjectionExpectationsSha256": "261f87d14b5d20975f439e08d901b1c7453646a85979f6209d92515f55aa6fed",
+      "finalExpectationsSha256": "261f87d14b5d20975f439e08d901b1c7453646a85979f6209d92515f55aa6fed",
+      "finalSourceReviewSha256": "e059371e432d44bb4fc0229191f316df58f68ec9e5350633c3eda4c375fcdbd9",
+      "review": "State local B/LR remains explicit advisory layout intent rather than an invented strict effective geometry rule."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/treemap.md:99",
+      "sourceSha256": "5f240e126b287f1b02a34f47d1776bc1d51a28c1d50289759ad2bbefbf16c337",
+      "beforeProjectionExpectationsSha256": "e10877d11f7ee7a21e6e1fecc36c6a0d8d67be402c8a699bde3b67e3161a70d2",
+      "initialProjectionExpectationsSha256": "d9703f9b2c34056dc9171246523fab49659b141598752c169e429a1f9e8e7c4c",
+      "finalExpectationsSha256": "d9703f9b2c34056dc9171246523fab49659b141598752c169e429a1f9e8e7c4c",
+      "finalSourceReviewSha256": "0f4e9a07f63b24806b520746e212f45cf882061c3b3398374972bd5b55ab35ee",
+      "review": "Treemap Main/B keeps the important fill #f96, stroke #333 and 2px width as an owned paint requirement; hierarchy/membership and printed values remain separate."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:161",
+      "sourceSha256": "cc7884f2722a02607d0942262daddfdef1b9ea0c9763d3b181a8a028487f4364",
+      "beforeProjectionExpectationsSha256": "6a03553fb8c14207f160b3a0dd24254f129c679a1443bf0a3bfa3ed354c74879",
+      "initialProjectionExpectationsSha256": "88a7a1dcab08c0e899c35d5d7dd2e67ae4b41f44458a0b75febef0f661ba4daa",
+      "finalExpectationsSha256": "88a7a1dcab08c0e899c35d5d7dd2e67ae4b41f44458a0b75febef0f661ba4daa",
+      "finalSourceReviewSha256": "0dc4894418fe18aa763da5ba2350c8f4d98abc1653e59bef5784ad0bbf2c1401",
+      "review": "Usecase Formatted retains its two source Markdown lines independently of style/class spelling."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:321",
+      "sourceSha256": "a77aca89d95cdd7fd2ac51454a5764daa0ba60cdbda83d5d2ceaaa163ac48c54",
+      "beforeProjectionExpectationsSha256": "1f5e9e6bef72f5ba15a2c67111809ef5d1c9cf9e208ce190176706b26d4182a4",
+      "initialProjectionExpectationsSha256": "0d3b8c39e57f3ed634d7d9043142e816745a36fa087ab5e166e1421e35de5be9",
+      "finalExpectationsSha256": "0d3b8c39e57f3ed634d7d9043142e816745a36fa087ab5e166e1421e35de5be9",
+      "finalSourceReviewSha256": "8fb6ae83725364642e9537b0fdc2185f10c502570d859934d5aa30bdcace524e",
+      "review": "Usecase Payload gets data-class stroke #3572a5 plus inline 2px width on that node."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/usecase.md:579",
+      "sourceSha256": "ad6a3a578b0f599b315a6d705db8f098f6f3a7ddcd43bb892a067e4624fbbf91",
+      "beforeProjectionExpectationsSha256": "8299ddf952276e583d85031e64ae2ed6170b90cb8cc62ddcf09279a26d82074a",
+      "initialProjectionExpectationsSha256": "5dc144705e63e7e0e9c7c31cb283ef6475799e2c037cc96c8ff1ec93e841a251",
+      "finalExpectationsSha256": "5dc144705e63e7e0e9c7c31cb283ef6475799e2c037cc96c8ff1ec93e841a251",
+      "finalSourceReviewSha256": "0dc4894418fe18aa763da5ba2350c8f4d98abc1653e59bef5784ad0bbf2c1401",
+      "review": "Usecase Reset keeps its two source Markdown lines."
+    }
+  ],
+  "additionalClassScopeRepairs": [
+    {
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:799",
+      "sourceSha256": "4fa7040920669722d525029d24140d2d93bcbd1a64188910c1d3580c9269f9d8",
+      "finalExpectationsSha256": "31b4310aff26c75b99d8f038bcecd6bff0cc16ef524018d3030567b9ad0f6888",
+      "finalSourceReviewSha256": "82c8628608aa6d316d0b455514d39b7c0ec28cbc346f7a2a60f5e36390209ed2",
+      "review": "Literal default and pink color requests remain unresolved authored styles; Animal retains a node-owned pink class assignment, not an edge-appearance fact. Pinned class 793 explicitly applies default to all nodes; no ER-only default semantics are inferred here."
+    },
+    {
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:827",
+      "sourceSha256": "8b617777a9ad567d7d6fa1598b5af75b14098770e5aa177bb1a1da122f8c67f8",
+      "finalExpectationsSha256": "49f693893d007838ba2aafbbe05a90a472377afcd41d6edf76c258423cb43b20",
+      "finalSourceReviewSha256": "9f32ee84e6068a962b634de8458f6020a3f900f74a8d0d070c904f6d6b7d900a",
+      "review": "Pinned page CSS 810–822 is explicitly excluded from this standalone-fence request. No red/yellow/4px paint or full-page CSS claim is inferred, and arbitrary CSS class spelling earns no visible paint credit."
+    }
+  ]
+}

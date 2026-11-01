@@ -82,6 +82,9 @@ export interface Lane {
   coreFirstMs: number | null
   /** Fixed core, repeated identical source: what a tool that caches by source reports. */
   coreMedianMs: number | null
+  /** Raw legacy clocks, retained as diagnostics; never used in speed ranks. */
+  observedCoreFirstMs?: number | null
+  observedCoreMedianMs?: number | null
   families: Record<string, { passed: number; failed: number; unsupported: boolean }>
 }
 
@@ -126,7 +129,8 @@ export function lanes(record: ProjectBenchmarkRecord, evidence?: ReportInputs): 
       families[family] = { passed: own.filter(row => row.status === 'passed').length, failed: own.filter(row => row.status === 'failed').length, unsupported: unsupported.includes(family) }
     }
     const rank = speed.find(item => item.surface === surface && item.output === format)
-    const firstCalls = rank?.qualified ? rank.requiredCaseIds.map(id => {
+    const rawComplete = rank?.observedPerRoundMs?.length === rounds(record) && rank.observedPerRoundMs.every(value => value !== null)
+    const firstCalls = rawComplete ? rank!.requiredCaseIds.map(id => {
       // Every CLI sample is a fresh process, so its sample is already a first call.
       const values = rows.filter(row => row.caseId === id && row.status === 'passed').map(row => Number(surface === 'cli:end-to-end' ? row.samplesMs?.[0] : row.metrics?.firstMs)).filter(Number.isFinite).sort((a, b) => a - b)
       return values.length === rounds(record) ? median(values) : NaN
@@ -147,8 +151,10 @@ export function lanes(record: ProjectBenchmarkRecord, evidence?: ReportInputs): 
         ...(evidence && ['svg', 'terminal', 'png'].includes(format) ? { positiveRendering: positive } : {}),
         legacy: { supported: new Set(probes.filter(probe => LEGACY_FAMILIES.includes(probe.family) && supported(probe)).map(probe => probe.family)).size, passed: legacy.filter(row => row.status === 'passed').length, failed: legacy.filter(row => row.status === 'failed').length },
         newer: newerProbes.length ? { supported: [...new Set(newerProbes.filter(supported).map(row => row.family))], passed: newer.filter(row => row.status === 'passed').length, failed: newer.filter(row => row.status === 'failed').length } : null,
-        coreFirstMs: admittedVersion !== null && rounds(record) >= CALIBRATED_ROUNDS && firstCalls.length && firstCalls.every(Number.isFinite) ? firstCalls.reduce((sum, value) => sum + value, 0) : null,
+        coreFirstMs: admittedVersion !== null && rounds(record) >= CALIBRATED_ROUNDS && rank?.qualified && firstCalls.length && firstCalls.every(Number.isFinite) ? firstCalls.reduce((sum, value) => sum + value, 0) : null,
         coreMedianMs: admittedVersion !== null && rounds(record) >= CALIBRATED_ROUNDS && rank?.qualified ? rank.medianMs : null,
+        observedCoreFirstMs: admittedVersion !== null && firstCalls.length && firstCalls.every(Number.isFinite) ? firstCalls.reduce((sum, value) => sum + value, 0) : null,
+        observedCoreMedianMs: admittedVersion !== null && rawComplete ? median(rank!.observedPerRoundMs as number[]) : null,
         families,
       },
     ]

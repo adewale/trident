@@ -1,0 +1,20 @@
+[
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "95d6b79c447b1151845ba5b251666b8bf7c5b59ba4a49d138e58b3d9ef45c001",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex visual inspection, 2026-10-31",
+    "review": "Actual PNG visibly contains the full This ❤ Unicode label inside one node, with no edges, clipping or additional diagram nodes. Checked against the committed source facts; colour and theme preferences are outside this contract."
+  },
+  {
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+    "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+    "pngSha256": "50d36cd92cb129b984a85ae25aeb37d0a5c9ff2e06ef6374fdb2f8770a4c797d",
+    "expectationsSha256": "5f157254c12feefa2fcdf0e5ff2a059e02e4e7c160a72afd0a695ddefd745427",
+    "status": "correct",
+    "reviewedBy": "Codex visual inspection, 2026-10-31",
+    "review": "Actual PNG visibly contains the full This ❤ Unicode label inside one node, with no edges, clipping or additional diagram nodes. Checked against the committed source facts; colour and theme preferences are outside this contract."
+  }
+]

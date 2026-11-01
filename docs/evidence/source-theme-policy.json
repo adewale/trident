@@ -1,0 +1,1475 @@
+{
+  "protocol": "independent-source-theme-paint-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "method": "Independent literal/formula transcription plus standalone CSS HSL arithmetic in fidelity/theme-source-policy.ts; no Mermaid imports, renderer/model API, SVG, raster or receipt enters the derivation",
+  "sourceFiles": [
+    {
+      "path": "packages/mermaid/src/themes/theme-base.js",
+      "sha256": "c680265d95221e1639d8eb9e3c345a945b432aea3843f48b12ea1adcd3aeacf4"
+    },
+    {
+      "path": "packages/mermaid/src/themes/theme-default.js",
+      "sha256": "322992e004caf49cf8c21e5e8a01371af8bec116aeb24a7eadd872bcd3359d28"
+    },
+    {
+      "path": "packages/mermaid/src/themes/theme-forest.js",
+      "sha256": "3db01e30413f02613f19a125bc49e5efe06e9190cbe2af028fc3729200a641c1"
+    },
+    {
+      "path": "packages/mermaid/src/themes/theme-dark.js",
+      "sha256": "d22b8ab46292bd1406d8b8b28d42ea7b5dcebd0a7aba1dc10c392b9843d4a2bb"
+    },
+    {
+      "path": "packages/mermaid/src/themes/theme-neutral.js",
+      "sha256": "7a4d9eae887870469c3338c73564767bffa75b2cbc7af0f67b84a3c63539a092"
+    },
+    {
+      "path": "packages/mermaid/src/themes/theme-redux-color.js",
+      "sha256": "8979bb59dfbdf14b3290dfe1bfe96a755b2d637427939ff2396c9b76f3b86574"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/timeline/styles.js",
+      "sha256": "c1bcc7d2d46b12b1740639b73c88a0dad034dcc58b57bfcb4dc6e455f0b617ad"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/timeline/timelineRenderer.ts",
+      "sha256": "97569e84590735610f8aeda0f4b923c3baf3b8f6e2b6be6c5e37bb9fe0f87386"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/timeline/svgDraw.js",
+      "sha256": "e9a0e849fd6172f731e6728f4a1f9dec3b9e88a73bc42a289ac53780b88c63f0"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/treemap/renderer.ts",
+      "sha256": "c8d1d9d9a1bd6c8562879d05a340c242e0d9a9ce131019347aac71d1085ce6e8"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/git/styles.js",
+      "sha256": "df465c755c73e8aae895f3dad8bb7e47c9e64dd62901f0e36c3ae0973e56d311"
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/usecase/styles.ts",
+      "sha256": "f59e061a502db8907ab4c9fc7dba720cf200b49190c587409353b67788fdf708"
+    },
+    {
+      "path": "packages/mermaid/src/docs/syntax/timeline.md",
+      "sha256": "787400fc48f737b77af84d9fef8ab713f52d5892542d6eb4357c7cf2ff93fa46"
+    },
+    {
+      "path": "packages/mermaid/src/docs/syntax/treemap.md",
+      "sha256": "a32940b952d87164dc18ce9d8ea679e94f4c0de0bf44a5669b40033170c70ce1"
+    },
+    {
+      "path": "packages/mermaid/src/docs/syntax/gitgraph.md",
+      "sha256": "6afef2eaa11254f051f826fc3a422507d21c8e7ea84c38b27054381566d81cec"
+    },
+    {
+      "path": "packages/mermaid/src/docs/syntax/usecase.md",
+      "sha256": "c6a7768a8af7b0b8dbaee1f9454ef654d93283e34e1cc339b689efe854fb052b"
+    }
+  ],
+  "palettes": {
+    "base": {
+      "theme": "base",
+      "fontFamily": "\"trebuchet ms\", verdana, arial, sans-serif",
+      "fontSize": 16,
+      "scale": [
+        {
+          "css": "hsl(40.58823529411768, 100%, 68.33333333333333%)",
+          "hex": "#ffcb5e",
+          "channels": [
+            255,
+            202.7500000000001,
+            93.50000000000001
+          ],
+          "foreground": "#333333",
+          "peer": "#ffba2b",
+          "peerChannels": [
+            255,
+            186.25000000000014,
+            42.50000000000002
+          ]
+        },
+        {
+          "css": "hsl(280.5882352941177, 100%, 68.33333333333333%)",
+          "hex": "#cb5eff",
+          "channels": [
+            202.75000000000006,
+            93.50000000000001,
+            255
+          ],
+          "foreground": "#333333",
+          "peer": "#ba2bff",
+          "peerChannels": [
+            186.25000000000009,
+            42.50000000000002,
+            255
+          ]
+        },
+        {
+          "css": "hsl(220.58823529411768, 100%, 73.33333333333334%)",
+          "hex": "#77a3ff",
+          "channels": [
+            119.00000000000003,
+            162.99999999999994,
+            255
+          ],
+          "foreground": "#333333",
+          "peer": "#4480ff",
+          "peerChannels": [
+            68.00000000000004,
+            128.4999999999999,
+            255
+          ]
+        },
+        {
+          "css": "hsl(70.58823529411768, 100%, 68.33333333333333%)",
+          "hex": "#e2ff5e",
+          "channels": [
+            226.49999999999994,
+            255,
+            93.50000000000001
+          ],
+          "foreground": "#333333",
+          "peer": "#d9ff2b",
+          "peerChannels": [
+            217.49999999999991,
+            255,
+            42.50000000000002
+          ]
+        },
+        {
+          "css": "hsl(100.58823529411768, 100%, 68.33333333333333%)",
+          "hex": "#92ff5e",
+          "channels": [
+            145.74999999999994,
+            255,
+            93.50000000000001
+          ],
+          "foreground": "#333333",
+          "peer": "#6fff2b",
+          "peerChannels": [
+            111.24999999999991,
+            255,
+            42.50000000000002
+          ]
+        },
+        {
+          "css": "hsl(130.58823529411768, 100%, 68.33333333333333%)",
+          "hex": "#5eff7a",
+          "channels": [
+            93.50000000000001,
+            255,
+            122.00000000000011
+          ],
+          "foreground": "#333333",
+          "peer": "#2bff50",
+          "peerChannels": [
+            42.50000000000002,
+            255,
+            80.00000000000017
+          ]
+        },
+        {
+          "css": "hsl(160.58823529411768, 100%, 68.33333333333333%)",
+          "hex": "#5effcb",
+          "channels": [
+            93.50000000000001,
+            255,
+            202.75000000000014
+          ],
+          "foreground": "#333333",
+          "peer": "#2bffba",
+          "peerChannels": [
+            42.50000000000002,
+            255,
+            186.25000000000017
+          ]
+        }
+      ],
+      "git": [
+        {
+          "hex": "#ffcb5e",
+          "channels": [
+            255,
+            202.7500000000001,
+            93.50000000000001
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#cb5eff",
+          "channels": [
+            202.75000000000006,
+            93.50000000000001,
+            255
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#77a3ff",
+          "channels": [
+            119.00000000000003,
+            162.99999999999994,
+            255
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#ff7a5e",
+          "channels": [
+            255,
+            122.0000000000001,
+            93.50000000000001
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#ff5e92",
+          "channels": [
+            255,
+            93.50000000000001,
+            145.74999999999997
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#ff5ee2",
+          "channels": [
+            255,
+            93.50000000000001,
+            226.49999999999997
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#92ff5e",
+          "channels": [
+            145.74999999999994,
+            255,
+            93.50000000000001
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#5effcb",
+          "channels": [
+            93.50000000000001,
+            255,
+            202.75000000000014
+          ],
+          "foreground": "#333333"
+        }
+      ],
+      "gitInverse": [
+        {
+          "hex": "#0034a2",
+          "channels": [
+            0,
+            52.249999999999886,
+            161.5
+          ]
+        },
+        {
+          "hex": "#34a200",
+          "channels": [
+            52.24999999999992,
+            161.5,
+            0
+          ]
+        },
+        {
+          "hex": "#885c00",
+          "channels": [
+            135.99999999999997,
+            92.00000000000006,
+            0
+          ]
+        },
+        {
+          "hex": "#0085a2",
+          "channels": [
+            0,
+            132.99999999999986,
+            161.5
+          ]
+        },
+        {
+          "hex": "#00a26d",
+          "channels": [
+            0,
+            161.5,
+            109.25000000000011
+          ]
+        },
+        {
+          "hex": "#00a21d",
+          "channels": [
+            0,
+            161.5,
+            28.50000000000011
+          ]
+        },
+        {
+          "hex": "#6d00a2",
+          "channels": [
+            109.25000000000004,
+            0,
+            161.5
+          ]
+        },
+        {
+          "hex": "#a20034",
+          "channels": [
+            161.5,
+            0,
+            52.24999999999996
+          ]
+        }
+      ],
+      "gitSpecial": {
+        "innerFill": "#fff4dd",
+        "innerStroke": "#fff4dd",
+        "reverseStrokeWidth": 3,
+        "commitLabelBackground": "#f4ddff",
+        "commitLabelOpacity": 0.5,
+        "commitLabelForeground": "#0b2200",
+        "tagBackground": "#fff4dd",
+        "tagForeground": "#333333"
+      },
+      "eventBrightness": 1.2,
+      "quantizationTolerancePerChannel": 1
+    },
+    "forest": {
+      "theme": "forest",
+      "fontFamily": "\"trebuchet ms\", verdana, arial, sans-serif",
+      "fontSize": 16,
+      "scale": [
+        {
+          "css": "hsl(78.15789473684208, 58.461538461538474%, 64.50980392156863%)",
+          "hex": "#b9d970",
+          "channels": [
+            185.38461538461547,
+            217.40769230769232,
+            111.5923076923077
+          ],
+          "foreground": "#000000",
+          "peer": "#7ca02a",
+          "peerChannels": [
+            124.00000000000009,
+            159.65000000000003,
+            41.84999999999999
+          ]
+        },
+        {
+          "css": "hsl(98.96103896103898, 100%, 74.90196078431373%)",
+          "hex": "#acff7f",
+          "channels": [
+            171.88311688311686,
+            255,
+            127
+          ],
+          "foreground": "#000000",
+          "peer": "#47cb00",
+          "peerChannels": [
+            71.3571428571428,
+            203.49999999999997,
+            0
+          ]
+        },
+        {
+          "css": "hsl(78.15789473684208, 58.461538461538474%, 74.50980392156863%)",
+          "hex": "#cde498",
+          "channels": [
+            205.00000000000003,
+            228,
+            152
+          ],
+          "foreground": "#000000",
+          "peer": "#8cb42f",
+          "peerChannels": [
+            139.69230769230776,
+            179.85384615384615,
+            47.14615384615383
+          ]
+        },
+        {
+          "css": "hsl(108.15789473684208, 58.461538461538474%, 64.50980392156863%)",
+          "hex": "#84d970",
+          "channels": [
+            132.47692307692316,
+            217.40769230769232,
+            111.5923076923077
+          ],
+          "foreground": "#000000",
+          "peer": "#41a02a",
+          "peerChannels": [
+            65.10000000000007,
+            159.65000000000003,
+            41.84999999999999
+          ]
+        },
+        {
+          "css": "hsl(138.15789473684208, 58.461538461538474%, 64.50980392156863%)",
+          "hex": "#70d990",
+          "channels": [
+            111.5923076923077,
+            217.40769230769232,
+            143.61538461538458
+          ],
+          "foreground": "#000000",
+          "peer": "#2aa04d",
+          "peerChannels": [
+            41.84999999999999,
+            159.65000000000003,
+            77.49999999999997
+          ]
+        },
+        {
+          "css": "hsl(168.15789473684208, 58.461538461538474%, 64.50980392156863%)",
+          "hex": "#70d9c5",
+          "channels": [
+            111.5923076923077,
+            217.40769230769232,
+            196.52307692307693
+          ],
+          "foreground": "#000000",
+          "peer": "#2aa088",
+          "peerChannels": [
+            41.84999999999999,
+            159.65000000000003,
+            136.4
+          ]
+        },
+        {
+          "css": "hsl(198.15789473684208, 58.461538461538474%, 64.50980392156863%)",
+          "hex": "#70b9d9",
+          "channels": [
+            111.5923076923077,
+            185.38461538461542,
+            217.40769230769232
+          ],
+          "foreground": "#000000",
+          "peer": "#2a7ca0",
+          "peerChannels": [
+            41.84999999999999,
+            124.00000000000006,
+            159.65000000000003
+          ]
+        }
+      ],
+      "git": [
+        {
+          "hex": "#9bc834",
+          "channels": [
+            155.38461538461544,
+            200.05769230769232,
+            52.44230769230768
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#7aff32",
+          "channels": [
+            122.20779220779215,
+            255,
+            50.49999999999999
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#b0d45b",
+          "channels": [
+            175.57692307692312,
+            212.1115384615385,
+            91.38846153846151
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#c8ab34",
+          "channels": [
+            200.05769230769232,
+            170.92307692307688,
+            52.44230769230768
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#c86134",
+          "channels": [
+            200.05769230769232,
+            97.11538461538456,
+            52.44230769230768
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#c83452",
+          "channels": [
+            200.05769230769232,
+            52.44230769230768,
+            81.57692307692311
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#34c861",
+          "channels": [
+            52.44230769230768,
+            200.05769230769232,
+            97.11538461538457
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#349bc8",
+          "channels": [
+            52.44230769230768,
+            155.38461538461544,
+            200.05769230769232
+          ],
+          "foreground": "#000000"
+        }
+      ],
+      "gitInverse": [
+        {
+          "hex": "#6437cb",
+          "channels": [
+            99.61538461538456,
+            54.942307692307665,
+            202.55769230769232
+          ]
+        },
+        {
+          "hex": "#8500cd",
+          "channels": [
+            132.7922077922079,
+            0,
+            204.5
+          ]
+        },
+        {
+          "hex": "#4f2ba4",
+          "channels": [
+            79.42307692307688,
+            42.88846153846152,
+            163.6115384615385
+          ]
+        },
+        {
+          "hex": "#3754cb",
+          "channels": [
+            54.942307692307665,
+            84.07692307692311,
+            202.55769230769232
+          ]
+        },
+        {
+          "hex": "#379ecb",
+          "channels": [
+            54.942307692307665,
+            157.88461538461544,
+            202.55769230769232
+          ]
+        },
+        {
+          "hex": "#37cbad",
+          "channels": [
+            54.942307692307665,
+            202.55769230769232,
+            173.42307692307688
+          ]
+        },
+        {
+          "hex": "#cb379e",
+          "channels": [
+            202.55769230769232,
+            54.942307692307665,
+            157.88461538461544
+          ]
+        },
+        {
+          "hex": "#cb6437",
+          "channels": [
+            202.55769230769232,
+            99.61538461538454,
+            54.942307692307665
+          ]
+        }
+      ],
+      "gitSpecial": {
+        "innerFill": "#cde498",
+        "innerStroke": "#cde498",
+        "reverseStrokeWidth": 3,
+        "commitLabelBackground": "#cdffb2",
+        "commitLabelOpacity": 0.5,
+        "commitLabelForeground": "#32004d",
+        "tagBackground": "#cde498",
+        "tagForeground": "#321b67"
+      },
+      "eventBrightness": 1.2,
+      "quantizationTolerancePerChannel": 1
+    },
+    "dark": {
+      "theme": "dark",
+      "fontFamily": "\"trebuchet ms\", verdana, arial, sans-serif",
+      "fontSize": 16,
+      "scale": [
+        {
+          "css": "hsl(180, 1.5873015873015872%, 12.352941176470589%)",
+          "hex": "#1f2020",
+          "channels": [
+            31.000000000000004,
+            32,
+            32
+          ],
+          "foreground": "#d3d3d3",
+          "peer": "#383a3a",
+          "peerChannels": [
+            56.0952380952381,
+            57.90476190476191,
+            57.90476190476191
+          ]
+        },
+        {
+          "css": "hsl(0, 100.00000000000009%, 2.156862745098039%)",
+          "hex": "#0b0000",
+          "channels": [
+            11,
+            0,
+            0
+          ],
+          "foreground": "#d3d3d3",
+          "peer": "#3e0000",
+          "peerChannels": [
+            62.000000000000036,
+            -2.8310687127941492e-14,
+            -2.8310687127941492e-14
+          ]
+        },
+        {
+          "css": "hsl(321.6393442622951, 65.59139784946235%, 18.235294117647058%)",
+          "hex": "#4d1037",
+          "channels": [
+            77,
+            16,
+            55
+          ],
+          "foreground": "#d3d3d3",
+          "peer": "#771955",
+          "peerChannels": [
+            119.2258064516129,
+            24.774193548387107,
+            85.16129032258074
+          ]
+        },
+        {
+          "css": "hsl(194.39999999999998, 16.556291390728475%, 29.607843137254903%)",
+          "hex": "#3f5258",
+          "channels": [
+            63,
+            82,
+            88
+          ],
+          "foreground": "#d3d3d3",
+          "peer": "#546e76",
+          "peerChannels": [
+            84.27814569536424,
+            109.6953642384106,
+            117.72185430463576
+          ]
+        },
+        {
+          "css": "hsl(23.0769230769231, 49.0566037735849%, 20.784313725490197%)",
+          "hex": "#4f2f1b",
+          "channels": [
+            79,
+            47.00000000000002,
+            27.000000000000004
+          ],
+          "foreground": "#d3d3d3",
+          "peer": "#754628",
+          "peerChannels": [
+            117.00943396226414,
+            69.61320754716984,
+            39.99056603773585
+          ]
+        },
+        {
+          "css": "hsl(0, 83.33333333333334%, 23.52941176470588%)",
+          "hex": "#6e0a0a",
+          "channels": [
+            110,
+            9.999999999999993,
+            9.999999999999993
+          ],
+          "foreground": "#d3d3d3",
+          "peer": "#9d0e0e",
+          "peerChannels": [
+            156.75,
+            14.249999999999991,
+            14.249999999999991
+          ]
+        },
+        {
+          "css": "hsl(289.1666666666667, 100%, 14.117647058823529%)",
+          "hex": "#3b0048",
+          "channels": [
+            59.000000000000014,
+            0,
+            72
+          ],
+          "foreground": "#d3d3d3",
+          "peer": "#65007b",
+          "peerChannels": [
+            100.79166666666681,
+            -7.077671781985373e-15,
+            123.00000000000001
+          ]
+        }
+      ],
+      "git": [
+        {
+          "hex": "#797d7d",
+          "channels": [
+            121.34285714285716,
+            125.25714285714287,
+            125.25714285714287
+          ],
+          "foreground": "#2c2c2c"
+        },
+        {
+          "hex": "#a12273",
+          "channels": [
+            161.4516129032258,
+            33.5483870967742,
+            115.3225806451614
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "hex": "#6a8993",
+          "channels": [
+            105.55629139072848,
+            137.3907284768212,
+            147.44370860927154
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "hex": "#9b5c35",
+          "channels": [
+            155.01886792452828,
+            92.22641509433966,
+            52.98113207547171
+          ],
+          "foreground": "#2c2c2c"
+        },
+        {
+          "hex": "#cc1212",
+          "channels": [
+            203.5,
+            18.49999999999999,
+            18.49999999999999
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "hex": "#65007b",
+          "channels": [
+            100.79166666666681,
+            -7.077671781985373e-15,
+            123.00000000000001
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "hex": "#cc7801",
+          "channels": [
+            203.66883116883116,
+            119.80519480519487,
+            1.3311688311688277
+          ],
+          "foreground": "#d3d3d3"
+        },
+        {
+          "hex": "#31a50e",
+          "channels": [
+            48.81818181818187,
+            165.05194805194805,
+            13.948051948051958
+          ],
+          "foreground": "#d3d3d3"
+        }
+      ],
+      "gitInverse": [
+        {
+          "hex": "#868282",
+          "channels": [
+            133.65714285714284,
+            129.74285714285713,
+            129.74285714285713
+          ]
+        },
+        {
+          "hex": "#5edd8c",
+          "channels": [
+            93.54838709677422,
+            221.4516129032258,
+            139.67741935483858
+          ]
+        },
+        {
+          "hex": "#95766c",
+          "channels": [
+            149.4437086092715,
+            117.60927152317879,
+            107.55629139072848
+          ]
+        },
+        {
+          "hex": "#64a3ca",
+          "channels": [
+            99.9811320754717,
+            162.77358490566033,
+            202.01886792452828
+          ]
+        },
+        {
+          "hex": "#33eded",
+          "channels": [
+            51.499999999999986,
+            236.5,
+            236.5
+          ]
+        },
+        {
+          "hex": "#9aff84",
+          "channels": [
+            154.20833333333314,
+            255,
+            131.99999999999997
+          ]
+        },
+        {
+          "hex": "#3387fe",
+          "channels": [
+            51.33116883116882,
+            135.19480519480513,
+            253.66883116883116
+          ]
+        },
+        {
+          "hex": "#ce5af1",
+          "channels": [
+            206.18181818181813,
+            89.94805194805193,
+            241.05194805194802
+          ]
+        }
+      ],
+      "gitSpecial": {
+        "innerFill": "#1f2020",
+        "innerStroke": "#1f2020",
+        "reverseStrokeWidth": 3,
+        "commitLabelBackground": "#474949",
+        "commitLabelOpacity": 0.5,
+        "commitLabelForeground": "#b8b6b6",
+        "tagBackground": "#1f2020",
+        "tagForeground": "#e0dfdf"
+      },
+      "eventBrightness": 1.2,
+      "quantizationTolerancePerChannel": 1
+    },
+    "default": {
+      "theme": "default",
+      "fontFamily": "\"trebuchet ms\", verdana, arial, sans-serif",
+      "fontSize": 16,
+      "scale": [
+        {
+          "css": "hsl(240, 100%, 76.27450980392156%)",
+          "hex": "#8686ff",
+          "channels": [
+            133.99999999999997,
+            133.99999999999997,
+            255
+          ],
+          "foreground": "#ffffff",
+          "peer": "#3939ff",
+          "peerChannels": [
+            57.499999999999964,
+            57.499999999999964,
+            255
+          ]
+        },
+        {
+          "css": "hsl(60, 100%, 73.52941176470588%)",
+          "hex": "#ffff78",
+          "channels": [
+            255,
+            255,
+            120.00000000000003
+          ],
+          "foreground": "#000000",
+          "peer": "#f8f800",
+          "peerChannels": [
+            247.5,
+            247.5,
+            0
+          ]
+        },
+        {
+          "css": "hsl(80, 100%, 76.27450980392156%)",
+          "hex": "#d7ff86",
+          "channels": [
+            214.66666666666666,
+            255,
+            133.99999999999997
+          ],
+          "foreground": "#000000",
+          "peer": "#b5ff20",
+          "peerChannels": [
+            180.66666666666669,
+            255,
+            32
+          ]
+        },
+        {
+          "css": "hsl(270, 100%, 76.27450980392156%)",
+          "hex": "#c386ff",
+          "channels": [
+            194.5,
+            133.99999999999997,
+            255
+          ],
+          "foreground": "#ffffff",
+          "peer": "#9c39ff",
+          "peerChannels": [
+            156.24999999999997,
+            57.499999999999964,
+            255
+          ]
+        },
+        {
+          "css": "hsl(300, 100%, 76.27450980392156%)",
+          "hex": "#ff86ff",
+          "channels": [
+            255,
+            133.99999999999997,
+            255
+          ],
+          "foreground": "#000000",
+          "peer": "#ff39ff",
+          "peerChannels": [
+            255,
+            57.499999999999964,
+            255
+          ]
+        },
+        {
+          "css": "hsl(330, 100%, 76.27450980392156%)",
+          "hex": "#ff86c3",
+          "channels": [
+            255,
+            133.99999999999997,
+            194.5
+          ],
+          "foreground": "#000000",
+          "peer": "#ff399c",
+          "peerChannels": [
+            255,
+            57.499999999999964,
+            156.24999999999997
+          ]
+        },
+        {
+          "css": "hsl(0, 100%, 76.27450980392156%)",
+          "hex": "#ff8686",
+          "channels": [
+            255,
+            133.99999999999997,
+            133.99999999999997
+          ],
+          "foreground": "#000000",
+          "peer": "#ff3939",
+          "peerChannels": [
+            255,
+            57.499999999999964,
+            57.499999999999964
+          ]
+        }
+      ],
+      "git": [
+        {
+          "hex": "#0000ec",
+          "channels": [
+            0,
+            0,
+            236
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#dede00",
+          "channels": [
+            222,
+            222,
+            0
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#9dec00",
+          "channels": [
+            157.33333333333337,
+            236,
+            0
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#0076ec",
+          "channels": [
+            0,
+            118,
+            236
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#00ecec",
+          "channels": [
+            0,
+            236,
+            236
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#00ec76",
+          "channels": [
+            0,
+            236,
+            118
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#ec00ec",
+          "channels": [
+            236,
+            0,
+            236
+          ],
+          "foreground": "#000000"
+        },
+        {
+          "hex": "#ec0000",
+          "channels": [
+            236,
+            0,
+            0
+          ],
+          "foreground": "#000000"
+        }
+      ],
+      "gitInverse": [
+        {
+          "hex": "#131300",
+          "channels": [
+            18.99999999999999,
+            18.99999999999999,
+            0
+          ]
+        },
+        {
+          "hex": "#0000a1",
+          "channels": [
+            0,
+            0,
+            160.5
+          ]
+        },
+        {
+          "hex": "#310093",
+          "channels": [
+            48.833333333333286,
+            0,
+            146.5
+          ]
+        },
+        {
+          "hex": "#934900",
+          "channels": [
+            146.5,
+            73.25,
+            0
+          ]
+        },
+        {
+          "hex": "#930000",
+          "channels": [
+            146.5,
+            0,
+            0
+          ]
+        },
+        {
+          "hex": "#930049",
+          "channels": [
+            146.5,
+            0,
+            73.25
+          ]
+        },
+        {
+          "hex": "#009300",
+          "channels": [
+            0,
+            146.5,
+            0
+          ]
+        },
+        {
+          "hex": "#009393",
+          "channels": [
+            0,
+            146.5,
+            146.5
+          ]
+        }
+      ],
+      "gitSpecial": {
+        "innerFill": "#ececff",
+        "innerStroke": "#ececff",
+        "reverseStrokeWidth": 3,
+        "commitLabelBackground": "#ffffde",
+        "commitLabelOpacity": 0.5,
+        "commitLabelForeground": "#000021",
+        "tagBackground": "#ececff",
+        "tagForeground": "#131300"
+      },
+      "eventBrightness": 1.2,
+      "quantizationTolerancePerChannel": 1
+    },
+    "neutral": {
+      "theme": "neutral",
+      "fontFamily": "\"trebuchet ms\", verdana, arial, sans-serif",
+      "fontSize": 16,
+      "scale": [
+        {
+          "css": "hsl(0, 0%, 33.33333333333333%)",
+          "hex": "#555555",
+          "channels": [
+            85,
+            85,
+            85
+          ],
+          "foreground": "#f4f4f4",
+          "peer": "#3b3b3b",
+          "peerChannels": [
+            59.49999999999999,
+            59.49999999999999,
+            59.49999999999999
+          ]
+        },
+        {
+          "css": "hsl(0, 0%, 95.68627450980392%)",
+          "hex": "#f4f4f4",
+          "channels": [
+            244,
+            244,
+            244
+          ],
+          "foreground": "#333333",
+          "peer": "#dbdbdb",
+          "peerChannels": [
+            218.50000000000003,
+            218.50000000000003,
+            218.50000000000003
+          ]
+        },
+        {
+          "css": "hsl(0, 0%, 33.33333333333333%)",
+          "hex": "#555555",
+          "channels": [
+            85,
+            85,
+            85
+          ],
+          "foreground": "#f4f4f4",
+          "peer": "#3b3b3b",
+          "peerChannels": [
+            59.49999999999999,
+            59.49999999999999,
+            59.49999999999999
+          ]
+        },
+        {
+          "css": "hsl(0, 0%, 73.33333333333333%)",
+          "hex": "#bbbbbb",
+          "channels": [
+            187,
+            187,
+            187
+          ],
+          "foreground": "#333333",
+          "peer": "#a2a2a2",
+          "peerChannels": [
+            161.5,
+            161.5,
+            161.5
+          ]
+        },
+        {
+          "css": "hsl(0, 0%, 46.666666666666664%)",
+          "hex": "#777777",
+          "channels": [
+            119,
+            119,
+            119
+          ],
+          "foreground": "#333333",
+          "peer": "#5e5e5e",
+          "peerChannels": [
+            93.50000000000001,
+            93.50000000000001,
+            93.50000000000001
+          ]
+        },
+        {
+          "css": "hsl(0, 0%, 60%)",
+          "hex": "#999999",
+          "channels": [
+            153,
+            153,
+            153
+          ],
+          "foreground": "#333333",
+          "peer": "#808080",
+          "peerChannels": [
+            127.5,
+            127.5,
+            127.5
+          ]
+        },
+        {
+          "css": "hsl(0, 0%, 86.66666666666667%)",
+          "hex": "#dddddd",
+          "channels": [
+            221,
+            221,
+            221
+          ],
+          "foreground": "#333333",
+          "peer": "#c4c4c4",
+          "peerChannels": [
+            195.5,
+            195.5,
+            195.5
+          ]
+        }
+      ],
+      "git": [
+        {
+          "hex": "#b4b4b4",
+          "channels": [
+            180.25,
+            180.25,
+            180.25
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#555555",
+          "channels": [
+            85,
+            85,
+            85
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#bbbbbb",
+          "channels": [
+            187,
+            187,
+            187
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#777777",
+          "channels": [
+            119,
+            119,
+            119
+          ],
+          "foreground": "#ffffff"
+        },
+        {
+          "hex": "#999999",
+          "channels": [
+            153,
+            153,
+            153
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#dddddd",
+          "channels": [
+            221,
+            221,
+            221
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#ffffff",
+          "channels": [
+            255,
+            255,
+            255
+          ],
+          "foreground": "#333333"
+        },
+        {
+          "hex": "#dddddd",
+          "channels": [
+            221,
+            221,
+            221
+          ],
+          "foreground": "#333333"
+        }
+      ],
+      "gitInverse": [
+        {
+          "hex": "#4b4b4b",
+          "channels": [
+            74.74999999999999,
+            74.74999999999999,
+            74.74999999999999
+          ]
+        },
+        {
+          "hex": "#aaaaaa",
+          "channels": [
+            170.00000000000003,
+            170.00000000000003,
+            170.00000000000003
+          ]
+        },
+        {
+          "hex": "#444444",
+          "channels": [
+            68.00000000000001,
+            68.00000000000001,
+            68.00000000000001
+          ]
+        },
+        {
+          "hex": "#888888",
+          "channels": [
+            136,
+            136,
+            136
+          ]
+        },
+        {
+          "hex": "#666666",
+          "channels": [
+            102,
+            102,
+            102
+          ]
+        },
+        {
+          "hex": "#222222",
+          "channels": [
+            33.99999999999999,
+            33.99999999999999,
+            33.99999999999999
+          ]
+        },
+        {
+          "hex": "#000000",
+          "channels": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "hex": "#222222",
+          "channels": [
+            33.99999999999999,
+            33.99999999999999,
+            33.99999999999999
+          ]
+        }
+      ],
+      "gitSpecial": {
+        "innerFill": "#eeeeee",
+        "innerStroke": "#eeeeee",
+        "reverseStrokeWidth": 3,
+        "commitLabelBackground": "#eeeeee",
+        "commitLabelOpacity": 0.5,
+        "commitLabelForeground": "#111111",
+        "tagBackground": "#eeeeee",
+        "tagForeground": "#111111"
+      },
+      "eventBrightness": 1.2,
+      "quantizationTolerancePerChannel": 1
+    }
+  },
+  "reduxUsecase": {
+    "role": {
+      "actor": {
+        "fill": "#F5F3FF",
+        "stroke": "#A78BFA",
+        "width": 2
+      },
+      "usecase": {
+        "fill": "#F0FDFA",
+        "stroke": "#2DD4BF",
+        "width": 2
+      },
+      "include": "#38BDF8",
+      "extend": "#FB923C"
+    },
+    "rotation": [
+      {
+        "fill": "#FDF4FF",
+        "stroke": "#E879F9"
+      },
+      {
+        "fill": "#F0FDFA",
+        "stroke": "#2DD4BF"
+      },
+      {
+        "fill": "#FFF7ED",
+        "stroke": "#FB923C"
+      },
+      {
+        "fill": "#ECFEFF",
+        "stroke": "#22D3EE"
+      }
+    ],
+    "foreground": "#28253D",
+    "boundaryTitle": "#000000",
+    "fontFamily": "\"Recursive Variable\", arial, sans-serif",
+    "actorFontSize": 14,
+    "usecaseFontSize": 12,
+    "order": "Actors first in source declaration order, then use cases in their declaration order; boundaries use their own source-order palette cycle"
+  },
+  "visibleRoleRules": {
+    "timeline": "Unsectioned period ordinal or section ordinal selects cScale; events inherit that source ordinal and apply brightness120% to fill and foreground. disableMulticolor holds period ordinal0. Explicit cScale overrides win.",
+    "treemap": "Synthetic root takes transparent slot. Stable descending aggregate-weight hierarchy traversal (renderer.ts144–147), with source order breaking ties, takes cScale0 onward. Immediate children inherit parent section color; groupalpha0.6/groupstrokeopacity0.4/peerborder2, leafalpha0.3/opaqueleafstroke3. ClassDef fill overrides color without removing inheritedalpha.",
+    "gitgraph": "Branch semantic order modulo8 selects paired git color/label foreground; commit fills/strokes, branch label backdrop and route stroke use git token. Explicit authored git paint overrides win.",
+    "usecase": "Default role scheme uses violetactor/tealusecase; boundaries cycle independently. rotate assigns source actors first, then source usecases; boundary cycle stays independent."
+  },
+  "scope": "Configuration identifiers remain source/native/advisory metadata; the owned foreground/background/alpha/font/spacing effects above remain required. This evidence does not itself register or discard source obligations."
+}

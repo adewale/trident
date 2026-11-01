@@ -1,0 +1,547 @@
+{
+  "png": "/workspace/trident-png-full-2026-10-31/docs/png/drawings/6ceadc3c8162e7da321810d46866849c3c83c92fde54ce73e97f30a5f2345b73.png",
+  "pngSha256": "6ceadc3c8162e7da321810d46866849c3c83c92fde54ce73e97f30a5f2345b73",
+  "nodes": {
+    "spa": {
+      "x": 149,
+      "y": 243,
+      "width": 218,
+      "height": 121
+    },
+    "ma": {
+      "x": 465,
+      "y": 243,
+      "width": 218,
+      "height": 134
+    },
+    "db": {
+      "x": 781,
+      "y": 243,
+      "width": 218,
+      "height": 173
+    },
+    "sign": {
+      "x": 199,
+      "y": 628,
+      "width": 218,
+      "height": 108
+    },
+    "accounts": {
+      "x": 515,
+      "y": 628,
+      "width": 218,
+      "height": 124
+    },
+    "security": {
+      "x": 831,
+      "y": 628,
+      "width": 218,
+      "height": 121
+    },
+    "mbsfacade": {
+      "x": 1147,
+      "y": 628,
+      "width": 218,
+      "height": 124
+    },
+    "mbs": {
+      "x": 1097,
+      "y": 243,
+      "width": 218,
+      "height": 138
+    }
+  },
+  "relations": [
+    {
+      "source": "sign",
+      "target": "security",
+      "caption": "Uses",
+      "technology": "",
+      "actualBodyPortModel": [
+        [
+          417.0,
+          683.1210443037975
+        ],
+        [
+          831.0,
+          687.3789556962025
+        ]
+      ],
+      "actualPortPixelWitnesses": [
+        {
+          "patch": [
+            414,
+            680,
+            421,
+            687
+          ],
+          "darkStemOrArrowPixels": 5
+        },
+        {
+          "patch": [
+            828,
+            684,
+            835,
+            691
+          ],
+          "darkStemOrArrowPixels": 17
+        }
+      ],
+      "literalOffsets": {
+        "offsetX": "-160",
+        "offsetY": "10"
+      },
+      "predictedCaptionLogicalLeftAndMiddle": [
+        464.0,
+        695.25
+      ]
+    },
+    {
+      "source": "accounts",
+      "target": "mbsfacade",
+      "caption": "Uses",
+      "technology": "",
+      "actualBodyPortModel": [
+        [
+          733.0,
+          690.0
+        ],
+        [
+          1147.0,
+          690.0
+        ]
+      ],
+      "actualPortPixelWitnesses": [
+        {
+          "patch": [
+            730,
+            687,
+            737,
+            694
+          ],
+          "darkStemOrArrowPixels": 8
+        },
+        {
+          "patch": [
+            1144,
+            687,
+            1151,
+            694
+          ],
+          "darkStemOrArrowPixels": 12
+        }
+      ],
+      "literalOffsets": {
+        "offsetX": "140",
+        "offsetY": "10"
+      },
+      "predictedCaptionLogicalLeftAndMiddle": [
+        1080.0,
+        700.0
+      ]
+    },
+    {
+      "source": "security",
+      "target": "db",
+      "caption": "Read & write to",
+      "technology": "JDBC",
+      "actualBodyPortModel": [
+        [
+          931.5738161559889,
+          628.0
+        ],
+        [
+          902.0473537604457,
+          416.0
+        ]
+      ],
+      "actualPortPixelWitnesses": [
+        {
+          "patch": [
+            928,
+            625,
+            935,
+            632
+          ],
+          "darkStemOrArrowPixels": 3
+        },
+        {
+          "patch": [
+            899,
+            413,
+            906,
+            420
+          ],
+          "darkStemOrArrowPixels": 20
+        }
+      ],
+      "literalOffsets": {
+        "offsetY": "-40"
+      },
+      "predictedCaptionLogicalLeftAndMiddle": [
+        916.8105849582173,
+        482.0
+      ]
+    },
+    {
+      "source": "mbsfacade",
+      "target": "mbs",
+      "caption": "Uses",
+      "technology": "XML/HTTPS",
+      "actualBodyPortModel": [
+        [
+          1247.7989417989418,
+          628.0
+        ],
+        [
+          1215.126984126984,
+          381.0
+        ]
+      ],
+      "actualPortPixelWitnesses": [
+        {
+          "patch": [
+            1244,
+            625,
+            1251,
+            632
+          ],
+          "darkStemOrArrowPixels": 3
+        },
+        {
+          "patch": [
+            1212,
+            378,
+            1219,
+            385
+          ],
+          "darkStemOrArrowPixels": 39
+        }
+      ],
+      "literalOffsets": {
+        "offsetY": "-40"
+      },
+      "predictedCaptionLogicalLeftAndMiddle": [
+        1231.462962962963,
+        464.5
+      ]
+    },
+    {
+      "source": "sign",
+      "target": "spa",
+      "caption": "Uses",
+      "technology": "JSON/HTTPS",
+      "actualBodyPortModel": [
+        [
+          300.8665785997358,
+          628.0
+        ],
+        [
+          265.99207397622195,
+          364.0
+        ]
+      ],
+      "actualPortPixelWitnesses": [
+        {
+          "patch": [
+            297,
+            625,
+            304,
+            632
+          ],
+          "darkStemOrArrowPixels": 3
+        },
+        {
+          "patch": [
+            262,
+            361,
+            269,
+            368
+          ],
+          "darkStemOrArrowPixels": 16
+        }
+      ],
+      "literalOffsets": {
+        "offsetY": "-40"
+      },
+      "predictedCaptionLogicalLeftAndMiddle": [
+        283.4293262879789,
+        456.0
+      ]
+    },
+    {
+      "source": "spa",
+      "target": "accounts",
+      "caption": "Uses",
+      "technology": "JSON/HTTPS",
+      "actualBodyPortModel": [
+        [
+          315.29107373868044,
+          364.0
+        ],
+        [
+          565.2884864165588,
+          628.0
+        ]
+      ],
+      "actualPortPixelWitnesses": [
+        {
+          "patch": [
+            312,
+            361,
+            319,
+            368
+          ],
+          "darkStemOrArrowPixels": 4
+        },
+        {
+          "patch": [
+            562,
+            625,
+            569,
+            632
+          ],
+          "darkStemOrArrowPixels": 14
+        }
+      ],
+      "literalOffsets": {
+        "offsetX": "40",
+        "offsetY": "40"
+      },
+      "predictedCaptionLogicalLeftAndMiddle": [
+        480.28978007761964,
+        536.0
+      ]
+    },
+    {
+      "source": "ma",
+      "target": "sign",
+      "caption": "Uses",
+      "technology": "JSON/HTTPS",
+      "actualBodyPortModel": [
+        [
+          526.0913978494624,
+          377.0
+        ],
+        [
+          346.61290322580646,
+          628.0
+        ]
+      ],
+      "actualPortPixelWitnesses": [
+        {
+          "patch": [
+            523,
+            374,
+            530,
+            381
+          ],
+          "darkStemOrArrowPixels": 5
+        },
+        {
+          "patch": [
+            343,
+            625,
+            350,
+            632
+          ],
+          "darkStemOrArrowPixels": 13
+        }
+      ],
+      "literalOffsets": {
+        "offsetX": "-90",
+        "offsetY": "40"
+      },
+      "predictedCaptionLogicalLeftAndMiddle": [
+        346.35215053763443,
+        542.5
+      ]
+    },
+    {
+      "source": "ma",
+      "target": "accounts",
+      "caption": "Uses",
+      "technology": "JSON/HTTPS",
+      "actualBodyPortModel": [
+        [
+          582.8157894736842,
+          377.0
+        ],
+        [
+          615.8421052631579,
+          628.0
+        ]
+      ],
+      "actualPortPixelWitnesses": [
+        {
+          "patch": [
+            579,
+            374,
+            586,
+            381
+          ],
+          "darkStemOrArrowPixels": 6
+        },
+        {
+          "patch": [
+            612,
+            625,
+            619,
+            632
+          ],
+          "darkStemOrArrowPixels": 13
+        }
+      ],
+      "literalOffsets": {
+        "offsetY": "-40"
+      },
+      "predictedCaptionLogicalLeftAndMiddle": [
+        599.328947368421,
+        462.5
+      ]
+    }
+  ],
+  "captionLocations": [
+    {
+      "text": "Uses",
+      "cropHint": [
+        377,
+        685,
+        577,
+        709
+      ],
+      "italic": false
+    },
+    {
+      "text": "Uses",
+      "cropHint": [
+        993,
+        689,
+        1193,
+        713
+      ],
+      "italic": false
+    },
+    {
+      "text": "Read & write to",
+      "cropHint": [
+        859,
+        471,
+        1059,
+        495
+      ],
+      "italic": false
+    },
+    {
+      "text": "[JDBC]",
+      "cropHint": [
+        859,
+        488,
+        1059,
+        512
+      ],
+      "italic": true
+    },
+    {
+      "text": "Uses",
+      "cropHint": [
+        1144,
+        453,
+        1344,
+        477
+      ],
+      "italic": false
+    },
+    {
+      "text": "[XML/HTTPS]",
+      "cropHint": [
+        1163,
+        470,
+        1363,
+        494
+      ],
+      "italic": true
+    },
+    {
+      "text": "Uses",
+      "cropHint": [
+        196,
+        446,
+        396,
+        470
+      ],
+      "italic": false
+    },
+    {
+      "text": "[JSON/HTTPS]",
+      "cropHint": [
+        218,
+        463,
+        418,
+        487
+      ],
+      "italic": true
+    },
+    {
+      "text": "Uses",
+      "cropHint": [
+        393,
+        526,
+        593,
+        550
+      ],
+      "italic": false
+    },
+    {
+      "text": "[JSON/HTTPS]",
+      "cropHint": [
+        415,
+        543,
+        615,
+        567
+      ],
+      "italic": true
+    },
+    {
+      "text": "Uses",
+      "cropHint": [
+        259,
+        532,
+        459,
+        556
+      ],
+      "italic": false
+    },
+    {
+      "text": "[JSON/HTTPS]",
+      "cropHint": [
+        281,
+        549,
+        481,
+        573
+      ],
+      "italic": true
+    },
+    {
+      "text": "Uses",
+      "cropHint": [
+        512,
+        452,
+        712,
+        476
+      ],
+      "italic": false
+    },
+    {
+      "text": "[JSON/HTTPS]",
+      "cropHint": [
+        534,
+        469,
+        734,
+        493
+      ],
+      "italic": true
+    }
+  ],
+  "scope": "SVGtexthints onlybound a permissivecrop; notusedasmeasuredanchorortruth. Allbodybounds,portpaint,andglyphpositionscomeactualPNG. Bodyidentitiesmanuallyreadfromuniquevisibleheaders andscope."
+}

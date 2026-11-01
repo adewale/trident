@@ -40,6 +40,15 @@ test('publication preserves raw clocks, separates actual samples and metadata, a
   expect(() => publicationResult(raw, 'pele')).toThrow('Duplicate measured sample coordinates')
 })
 
+test('publication preserves explicitly unknown recovered clocks instead of borrowing controller times', () => {
+  const raw = result()
+  raw.observations[0]!.metrics = { measuredFrom: null, measuredAt: null }
+  const row = publicationResult(raw, 'fixture/renderer').observations[0]!
+  expect(row.metrics!.measuredFrom).toBeNull()
+  expect(row.metrics!.measuredAt).toBeNull()
+  expect(row.samplesMs).toEqual([2])
+})
+
 test('explicit recovery publishes completed matching raw evidence without measuring; cancellation or changed identity cannot recover', async () => {
   const root = directory()
   const out = join(root, 'out')

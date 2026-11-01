@@ -56,3 +56,11 @@ test('reads XHTML foreign-object lines and literal CDATA without another entity 
   expect(qualifyOutput(workload(['&lt;literal&gt;'], 'flowchart TD\nA["&lt;literal&gt;"]'), encoded, 'svg').ok).toBe(true)
   expect(qualifyOutput(workload(['<literal>'], 'flowchart TD\nA["<literal>"]'), encoded, 'svg').ok).toBe(false)
 })
+
+test('source echoes remain a known failure despite an additional missing label and opaque path', () => {
+  const echoed = svg('<text>flowchart TD\nA[Start] --&gt; B[End]</text><path d="M10 10L20 30L30 10Z"/>')
+  const result = qualifyOutput(workload(['Start', 'End', 'Extra label']), echoed, 'svg')
+  expect(result.ok).toBe(false)
+  expect(result.unavailable).toBeUndefined()
+  expect(result.findings.some(finding => /source/i.test(finding))).toBe(true)
+})

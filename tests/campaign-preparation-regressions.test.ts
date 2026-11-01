@@ -1,8 +1,8 @@
 import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
-import { reconcileCampaignBrowsers, loadCampaignPreparation } from '../unified/campaign-preparation.ts'
+import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { dirname, join, resolve } from 'node:path'
+import { reconcileCampaignBrowsers, loadCampaignPreparation, freezeCampaignProofInputs } from '../unified/campaign-preparation.ts'
 import { projectPackageIdentity } from '../unified/project-update.ts'
 import { resolveReleaseCatalog } from '../unified/release-selection.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
@@ -110,4 +110,51 @@ test('identical browser metadata cannot bypass a missing or failed primary ident
   save('prepared', [unavailable]); save('browsers', [{ ...unavailable, browserStatus: 'blocked', browserDetail: 'No browser binding' }])
   manifest([{ project: f.node.id, error: unavailable.error }])
   expect(loadCampaignPreparation(file).manifest.projects).toEqual([f.node.id])
+})
+
+
+function proofPreparation() {
+  const f = fixture(), archive = join(f.root, 'archive'), preparation = join(archive, 'preparation'), source = join(f.root, 'source-proofs')
+  mkdirSync(preparation, { recursive: true }); mkdirSync(source)
+  const reviews = join(source, 'source.json'), images = join(source, 'images.json'), profile = join(source, 'profile.json'), font = join(source, 'font.ttf')
+  write(reviews, [{ id: 'literal-source', sourceSha256: 'a'.repeat(64) }]); write(images, [{ id: 'literal-image', pngSha256: 'b'.repeat(64) }]); writeFileSync(font, 'frozen font bytes')
+  write(profile, { schema: 'trident-raster-profile-v1', background: '#ffffff', defaultFontFamily: 'Frozen Font', fontFiles: [{ path: 'font.ttf', sha256: sha(font) }] })
+  const files = freezeCampaignProofInputs({ docsReviewFile: reviews, docsPngReviewFile: images, docsPngRasterProfileFile: profile }, preparation)
+  for (const [key, value] of Object.entries({ catalog: { nodes: [f.node] }, prepared: [f.prepared], browsers: [f.browser()], inputs: {}, inventories: {} })) {
+    const file = join(preparation, key + '.json'); write(file, value); files[key] = { path: 'preparation/' + key + '.json', sha256: sha(file) }
+  }
+  const manifest = { schema: 'trident-campaign-preparation-v1', projects: [f.node.id], profile: 'full', rounds: 6, files, artifacts: [{ project: f.node.id, identity: projectPackageIdentity(f.prepared) }] }, file = join(archive, 'preparation.json')
+  write(file, manifest)
+  return { ...f, archive, preparation, source, reviews, images, profile, font, manifest, file }
+}
+
+test('preparation freezes source/PNG reviews and profile fonts without borrowing mutable input paths', () => {
+  const f = proofPreparation(), loaded = loadCampaignPreparation(f.file), rasterFile = (loaded.options as any).docsPngRasterProfileFile
+  expect(JSON.parse(readFileSync(loaded.options.docsReviewFile!, 'utf8'))).toEqual([{ id: 'literal-source', sourceSha256: 'a'.repeat(64) }])
+  expect(JSON.parse(readFileSync(loaded.options.docsPngReviewFile!, 'utf8'))).toEqual([{ id: 'literal-image', pngSha256: 'b'.repeat(64) }])
+  const raster = JSON.parse(readFileSync(rasterFile, 'utf8')), frozenFont = resolve(dirname(rasterFile), raster.fontFiles[0].path)
+  expect(sha(frozenFont)).toBe(raster.fontFiles[0].sha256)
+  write(f.reviews, [{ id: 'changed source' }]); write(f.images, []); writeFileSync(f.font, 'changed source font'); write(f.profile, {})
+  expect(loadCampaignPreparation(f.file).options).toEqual(loaded.options)
+  expect(readFileSync(frozenFont, 'utf8')).toBe('frozen font bytes')
+})
+
+test('moved preparation restores fonts and reviews from its own archive after original paths disappear', () => {
+  const f = proofPreparation(), moved = join(f.root, 'moved-archive'); cpSync(f.archive, moved, { recursive: true }); rmSync(f.archive, { recursive: true }); rmSync(f.source, { recursive: true })
+  const loaded = loadCampaignPreparation(join(moved, 'preparation.json')), rasterFile = (loaded.options as any).docsPngRasterProfileFile, raster = JSON.parse(readFileSync(rasterFile, 'utf8'))
+  expect(loaded.options.docsReviewFile!.startsWith(moved + '/')).toBe(true)
+  expect(loaded.options.docsPngReviewFile!.startsWith(moved + '/')).toBe(true)
+  expect(readFileSync(resolve(dirname(rasterFile), raster.fontFiles[0].path), 'utf8')).toBe('frozen font bytes')
+})
+
+test('prepared raster profiles cannot borrow absolute unowned fonts, even with a matching profile digest', () => {
+  const f = proofPreparation(), receipt = f.manifest.files.docsPngRasterProfile!, path = join(f.archive, receipt.path), raster = JSON.parse(readFileSync(path, 'utf8'))
+  raster.fontFiles[0].path = f.font; write(path, raster); receipt.sha256 = sha(path); write(f.file, f.manifest)
+  expect(() => loadCampaignPreparation(f.file)).toThrow('unowned font path')
+})
+
+test('changed frozen proof bytes fail admission instead of silently using live replacement inputs', () => {
+  const f = proofPreparation(), path = join(f.archive, f.manifest.files.docsPngReviews!.path)
+  write(path, [])
+  expect(() => loadCampaignPreparation(f.file)).toThrow('component changed')
 })

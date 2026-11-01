@@ -1,0 +1,220 @@
+{
+  "schema": "trident-new-held-sequence-png-probes-v1",
+  "sourceContractsSha256": "2aa8a9ad10d72a5738a52b917c3e14611c99c5b5c514b7767f6b76561612cf6c",
+  "rootHead": "9b0081c6832a7e58ef88d05afe868730241a95bc",
+  "newSutCalls": 0,
+  "method": "Direct exact actual PNG pixels supplement full source/image review; no reference/SVG reconstruction; only two new decision images decoded",
+  "392": {
+    "pngSha256": "d7e91e1454d54e1e49a3b6d0018f4f02edf21b41a9b9028f6f8eadb8e7150fec",
+    "outerObservedInterval": [
+      84,
+      419
+    ],
+    "outerMessages": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "outerSeparatorAfterMessage": 1,
+    "nestedObservedInterval": [
+      241,
+      399
+    ],
+    "nestedMessages": [
+      3,
+      4
+    ],
+    "nestedSeparatorAfterMessage": 3,
+    "nestedOuterBranch": 2,
+    "verticalPurpleBorderProbes": [
+      {
+        "x": 89,
+        "purpleStrokeRows": 166,
+        "firstRow": 87,
+        "lastRow": 416
+      },
+      {
+        "x": 90,
+        "purpleStrokeRows": 161,
+        "firstRow": 84,
+        "lastRow": 419
+      },
+      {
+        "x": 483,
+        "purpleStrokeRows": 85,
+        "firstRow": 84,
+        "lastRow": 419
+      },
+      {
+        "x": 484,
+        "purpleStrokeRows": 72,
+        "firstRow": 241,
+        "lastRow": 399
+      },
+      {
+        "x": 943,
+        "purpleStrokeRows": 172,
+        "firstRow": 84,
+        "lastRow": 419
+      },
+      {
+        "x": 944,
+        "purpleStrokeRows": 171,
+        "firstRow": 87,
+        "lastRow": 416
+      },
+      {
+        "x": 949,
+        "purpleStrokeRows": 81,
+        "firstRow": 241,
+        "lastRow": 397
+      },
+      {
+        "x": 950,
+        "purpleStrokeRows": 78,
+        "firstRow": 244,
+        "lastRow": 397
+      }
+    ],
+    "horizontalOverhangDiagnostic": "Inner right border949\u2013950 versus outer943\u2013944; source facts express temporal message/branch nesting, no X-margin predicate"
+  },
+  "396": {
+    "pngSha256": "135199f6331b027c2f50de1f41ce3f0e4b3d32a60c6fd53b4ba8a428187773d8",
+    "outerObservedInterval": [
+      85,
+      340
+    ],
+    "outerColor": [
+      191,
+      223,
+      255
+    ],
+    "outerMessages": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "outerOwnsNoteBeforeMessage1": true,
+    "innerObservedInterval": [
+      193,
+      280
+    ],
+    "innerColor": [
+      200,
+      150,
+      255
+    ],
+    "innerMessages": [
+      2,
+      3
+    ],
+    "outsideMessages": [
+      5,
+      6
+    ],
+    "actualSamples": [
+      {
+        "x": 90,
+        "y": 90,
+        "rgb": [
+          191,
+          223,
+          255
+        ]
+      },
+      {
+        "x": 488,
+        "y": 90,
+        "rgb": [
+          191,
+          223,
+          255
+        ]
+      },
+      {
+        "x": 489,
+        "y": 90,
+        "rgb": [
+          255,
+          255,
+          255
+        ]
+      },
+      {
+        "x": 84,
+        "y": 200,
+        "rgb": [
+          200,
+          150,
+          255
+        ]
+      },
+      {
+        "x": 88,
+        "y": 200,
+        "rgb": [
+          200,
+          150,
+          255
+        ]
+      },
+      {
+        "x": 90,
+        "y": 200,
+        "rgb": [
+          200,
+          150,
+          255
+        ]
+      },
+      {
+        "x": 488,
+        "y": 200,
+        "rgb": [
+          200,
+          150,
+          255
+        ]
+      },
+      {
+        "x": 494,
+        "y": 200,
+        "rgb": [
+          200,
+          150,
+          255
+        ]
+      },
+      {
+        "x": 495,
+        "y": 200,
+        "rgb": [
+          255,
+          255,
+          255
+        ]
+      },
+      {
+        "x": 90,
+        "y": 300,
+        "rgb": [
+          191,
+          223,
+          255
+        ]
+      },
+      {
+        "x": 488,
+        "y": 300,
+        "rgb": [
+          191,
+          223,
+          255
+        ]
+      }
+    ],
+    "horizontalOverhangDiagnostic": "Inner84\u2013494, outer90\u2013488; \u00b16px only, no authored horizontal inset constraint"
+  }
+}

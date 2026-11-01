@@ -1,0 +1,462 @@
+{
+  "schema": "trident-qualified-six-document-timing-result-v1",
+  "selectionSha256": "7c9baac7c785ad0ffcae8d730efc7bca9393b55fe6263df42fd61e4494c005e8",
+  "producerCommit": "2c580e6ce65a5986bf64ccc0396b5b2195466f5d",
+  "producerFiles": [
+    "100644 blob 403ff7ba062a20a4610b46468f04a028222d4ca1\tci-policy-enforce.ts",
+    "100644 blob 46a6436ea29e11fa5d713b39ddb63acd9ae791cf\tci-policy.ts",
+    "100644 blob b4a1b6ebea23ebb78afbc63c951241b03a459bf7\tcorpus/docs-source-registry.json",
+    "100644 blob 05a5d4f8bf54c048e2b313b5b4b55f68028ef155\tdata/upstream-mermaid-policy.json",
+    "100644 blob ba0b06d7ac26232aa075a25015dfa0530d22fef5\tfidelity/cases.ts",
+    "100644 blob 34a04686366ee85126fecb3c885a5822ec8fc02c\tfidelity/community.ts",
+    "100644 blob 8f8e92736ab18ac4cc782c8218f551a13bbf4e09\tfidelity/configuration-expectation.ts",
+    "100644 blob 23cc08da21759f955c916e56e429a4187cff8cc6\tfidelity/edge-pattern-expectation.ts",
+    "100644 blob df8c69266e087644f4271d7ef5f3d9f93ffb5487\tfidelity/event-data-expectation.ts",
+    "100644 blob e5db6b74f237c2aa80b9b72625f6a14b58433a2c\tfidelity/inspect-svg.ts",
+    "100644 blob 1ac1b2fd48b462b84ec83f413c117f6eaacc5aca\tfidelity/ledger.ts",
+    "100644 blob 6646212b98553311bf33835bf3f9a0ee25cd2529\tfidelity/meaning.ts",
+    "100644 blob 5702c2b586830fffbbc8522f0b0afbee34ddb80b\tfidelity/paint-chart-facts.ts",
+    "100644 blob b1237675c26047b970732286ce96040626f1b61c\tfidelity/paint-domain-facts.ts",
+    "100644 blob a6f2f162ff996d7896a7966251c12c9d47d20ec1\tfidelity/paint-facts.ts",
+    "100644 blob c8cb97be450fd524a51c5864e3e3d7f1ca9dc914\tfidelity/paint-graph-families.ts",
+    "100644 blob d8453e558ac514fe8f03b8b17b979d6e3e40037e\tfidelity/paint-values.ts",
+    "100644 blob e520e44cc932b644dd645db3c632b7216b531191\tfidelity/paint.ts",
+    "100644 blob c81659e30c133dfc6b65edc4470b0f06e9d3e8fa\tfidelity/protocol.ts",
+    "100644 blob 30881d2b108022b91fbfd05448d5555ebe155c6e\tfidelity/source-contract.ts",
+    "100644 blob 6c8234752478f22b59a1f2f09225feff3b21d2e5\tfidelity/source-metadata-expectation.ts",
+    "100644 blob f9ba27d0fe8fd959e9e09e3bf4152b315bea37f2\tfidelity/style-expectation.ts",
+    "100644 blob 292a003d95ca4a2172ac8354c9fdd3541d414811\tfidelity/svg-assessment.ts",
+    "100644 blob c6bd2e5bb66e9528e3e8476eaccdc913f451f658\tfidelity/terminal-display.ts",
+    "100644 blob ab18613c44c6be2b2fb95ae8008551287e4cb52d\tfidelity/theme-source-policy.ts",
+    "100644 blob cb093f73a06dfead13e19da48e53a107b38bcaf3\tfidelity/visual-expectation.ts",
+    "100644 blob 3d90dd1334ebdfa75999dffa2d737aeae3133475\tnative-flutter/community-launch.mjs",
+    "100644 blob a865874cfc792441448bca480dc66e30de228524\tportable/artifact-dependencies.ts",
+    "100644 blob 52dbeddf77b74d3c859812c9f4b55bcbda1e8138\tportable/artifacts.ts",
+    "100644 blob 188b51c409212e9d617d3881428237dbbb2d4235\tportable/checkpoint.ts",
+    "100644 blob 5813f9b7c09528e50b77f9003f16b828a625081c\tportable/ci-policy.ts",
+    "100644 blob 73da43d3fea40796d04fe7fe9906501d1d59d67a\tportable/cohorts.ts",
+    "100644 blob e3ec7de9b28f9f54be323560527fda0cf9f5a78f\tportable/configuration.ts",
+    "100644 blob d808f7ec9e356de70b8b33d0805755cc577e62d1\tportable/environment.ts",
+    "100644 blob 050919dfdb8004485ac9cc2a651b81a0a5e3faab\tportable/evidence-contract.ts",
+    "100644 blob 734dd1cc4b0f006089598a461e8772fd4a7c8843\tportable/invocation-journal.ts",
+    "100644 blob 3c4999e57c8016ec651a548f0b8ba696165410ba\tportable/mermaid-oracle.ts",
+    "100644 blob b1731be5ead03172bf3015ca76513287e5973657\tportable/project-records.ts",
+    "100644 blob fd8f5efdb05407e1ea05e3fa5085b4428aa20cd4\tportable/qualified-timing-collection.ts",
+    "100644 blob 6d953d98ecc265cca3670bf7d60c5ef4da3a0c34\tportable/qualified-timing.ts",
+    "100644 blob 34d38e1e910058b5884f1fc26e959393f66e81ea\tportable/statistics.ts",
+    "100644 blob b6e2112969be7aefb804478246a1e84d36cf5b7d\tportable/time-observer.ts",
+    "100644 blob 1ab9a4fa6ecc0954a2abefd57ce0d5a6ce97c55d\tportable/timing-grading.ts",
+    "100644 blob f95fb7a418cef16b70a50c63cbf10168e2a3a1dd\ttool-versions.json",
+    "100644 blob ff51e22ba9ca2e2a776934a86dec5c66317599c1\ttool-versions.ts",
+    "100644 blob 3a220a70e2d8305287fb83d7b27178745a22bb16\tunified/baseline-measurement-context.ts",
+    "100644 blob 4201a44529c5858c4b2296fe77baa92b94da4061\tunified/benchmark-context.ts",
+    "100644 blob 57f9c7caf187a31dd2721708321e532730cfd3ac\tunified/benchmark-skip.ts",
+    "100644 blob eacfa7f30a1a1925538ba704f73cb59f80fa44f3\tunified/browser-process-memory.ts",
+    "100644 blob b4b4ca9a7105aa04a60a0add90861e6237ff59b6\tunified/candidate-packages.ts",
+    "100644 blob aa10f449699fafb6430719483ddfd6a1079131e3\tunified/catalog-eligibility.ts",
+    "100644 blob 9cf11fbbab5c2ca8e8bdaf09481bda28c67ce796\tunified/community-artifact-prepare.ts",
+    "100644 blob b53cb6fcfb6772ba8542ab1f9ac1ef6f3fe990b2\tunified/community-browser.ts",
+    "100644 blob 24e5325acddbef7112485da1d757d31fc41911d9\tunified/community-cli-request.ts",
+    "100644 blob fc44b2a7c0f89d4110efe6d6d053a30cb087dd34\tunified/community-cli.ts",
+    "100644 blob 96fc9d3e581a458b36f156a8e936e63ed9a6b8f1\tunified/community-external.ts",
+    "100644 blob 19c946f793e79bfaa036c26db7cf26876f5f8ed1\tunified/community-extra-adapters.mjs",
+    "100644 blob 630557c945c9cb05c27272b7a41f7108869be905\tunified/community-extra-source.ts",
+    "100644 blob d9dfab66016cdc4bd0f89adc58ad1359b3944234\tunified/community-process.ts",
+    "100644 blob 114b71891d71dc30faa27e88aa7e4ca0ba3f0267\tunified/community-source-prepare.ts",
+    "100644 blob 5ef6354edf9d8f60eed95a51e4dd9253bfed2e90\tunified/community-worker-evidence.ts",
+    "100644 blob 6d1e5cb9bbb93bca761cd778451652e97d8463bf\tunified/community.ts",
+    "100644 blob ff13967087b5a60fb3037fc0b55eb9caa0041de0\tunified/corpus.ts",
+    "100644 blob ae48336760c64b1408836496997209f5f68c9102\tunified/docs-drawings.ts",
+    "100644 blob 257e042c0aae7c85e26c1f2c43d3288b6fac3256\tunified/docs-resources.ts",
+    "100644 blob 377f28cbee37fdb27ccfe026f380e7c108ae8f0b\tunified/docs-runtime.ts",
+    "100644 blob 4083af881ab62ddf76d53a834c7b8551ecb18fc7\tunified/docs-source-admission.ts",
+    "100644 blob 1cd59c10b913895a170dbdbe769d88cd43899abe\tunified/docs-source-review.ts",
+    "100644 blob 544f7ff011c74bd3eda0b4845456f7f4b5ae8c55\tunified/external-invocations.ts",
+    "100644 blob 2740a1a29fc5a3726e16f38ef6f522420e6285e7\tunified/failure-outputs.ts",
+    "100644 blob 9b4c6d41fcdff1e95f34584cae7699387b9ef24a\tunified/family-support.ts",
+    "100644 blob 6fdca45d96e84f46735cd8fe8926fe34e2889f1b\tunified/harness-paths.ts",
+    "100644 blob d50649b756b6334786b215c341776b37ace0cef1\tunified/oracle-labels.ts",
+    "100644 blob 5e508df049cb7a6f130d8a33e00c95395f23f532\tunified/png-inspection.ts",
+    "100644 blob 2f89b53ee3c54994dad9f7cecb0a5959ff96e5b7\tunified/protocol-identity.ts",
+    "100644 blob be22a5b2dbf4bd44f19c6580774b5993b92aa40c\tunified/public-svg-browser.ts",
+    "100644 blob 368cb14d601ecda74fac76202831ae7bd1bd71f8\tunified/qualification-visible-source.ts",
+    "100644 blob b6666ce077a99de7bf13989b7c039ed22e07b5e5\tunified/qualification.ts",
+    "100644 blob ce99ebfe9fce91e34f1eb57e13ef3c8592007201\tunified/qualify-timing.ts",
+    "100644 blob 719c7a3ba6e57955fe11607cd3ca7443a6c536d7\tunified/release-cli.ts",
+    "100644 blob 196a8d5a769a12de84ec59aad9e885d509761a75\tunified/retained-suite.ts",
+    "100644 blob c4f18a219650acdfddc476454860ce6cdd3a0b2d\tunified/svg-text-inspection.ts",
+    "100644 blob 51a8bc501c29f8f491cd55738b3585b7d79c1c0e\tunified/timing-browser.ts",
+    "100644 blob 6a0b61c7dd23cd9ad0a6b408278b18e38b89521d\tunified/trident-paths.ts",
+    "100644 blob b4645079ec5f8b4a939360b735e7eb9ac7daf31a\tunified/workload-intent.ts"
+  ],
+  "bundle": {
+    "file": "timing-bundle-0bfebb48c5c0d78f59356f73.json",
+    "sha256": "8ef24b13558cc770ef7a816b4d09e850a1cc0a7598c499dfb6a3ce5f89093a2a"
+  },
+  "sourcePin": {
+    "version": "12.2.0",
+    "commit": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "inputs": [
+      "packages/mermaid/src/diagram-api/diagram-orchestration.ts",
+      "packages/mermaid/src/diagram-api/detectType.ts",
+      "packages/mermaid/src/diagrams/**/**Detector.ts",
+      "packages/mermaid/src/schemas/config.schema.yaml",
+      "https://mermaid.ai/open-source/syntax/"
+    ]
+  },
+  "boundary": "Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded",
+  "track": "first-use",
+  "observerSha256": "c0aa063a9c1b442c728bd51aa4ac340d607806e32460b460b9060579da8343e2",
+  "environmentSha256": "0d27a7f0e8e1e0f51dce86738b28ad4a0927338d4688a3130ab42dc64c7714f6",
+  "ordinaryQualifier": {
+    "status": "qualified",
+    "planned": 108,
+    "checked": 108,
+    "gaps": [],
+    "planSha256": "d4233e957761732cbdd4aa5e3828688ff8a0e641f992bf3b56a28fdacb7f4649",
+    "samplesSha256": "d97ef7f6d66d1dda27d30649a7ccb22f475e11ec08f60692495d54c90551a2ff",
+    "driverFinalizationSha256": "10b98fc947ad9907f95a128eacb174fb06b4cb30473c8a42e0601e48d442cdc5"
+  },
+  "actualWindow": {
+    "firstStartedAt": "2026-11-01T00:47:41.889Z",
+    "lastReturnedAt": "2026-11-01T00:49:20.731Z",
+    "contexts": 108,
+    "clockDomains": [
+      "18c9d44e-03d5-463b-bd7f-68b378f2c46c"
+    ]
+  },
+  "rankMetric": "Median sum of the six actual public-call durations per replica/round, ascending. Mermaid contributes twelve A0/A1 replica-rounds; Pele contributes six B replica-rounds. Shared ranks and ties use unified/result-ranking.ts.",
+  "ranked": [
+    {
+      "rank": 1,
+      "project": "obsidianmd/pele",
+      "replicas": [
+        "B"
+      ],
+      "corpusRoundMs": [
+        169.828666,
+        113.259586,
+        113.809966,
+        134.675542,
+        127.207914,
+        139.147962
+      ],
+      "normalizedRoundRatio": 0.11295918029164521,
+      "ratioInterval": {
+        "lower": 0.09234441470026095,
+        "upper": 0.1611382899557505,
+        "confidence": 0.96875
+      },
+      "version": "1.9.0",
+      "medianCorpusMs": 130.941728,
+      "calls": 36,
+      "correct": 36
+    },
+    {
+      "rank": 2,
+      "project": "mermaid-js/mermaid",
+      "replicas": [
+        "A0",
+        "A1"
+      ],
+      "corpusRoundMs": [
+        1098.828093,
+        1010.8686810000002,
+        1090.629878,
+        1083.601623,
+        1237.7968879999999,
+        1227.128195,
+        1224.813368,
+        1493.3223520000001,
+        1040.053188,
+        1049.897929,
+        990.8862510000001,
+        1053.251105
+      ],
+      "normalizedRoundRatio": 1,
+      "ratioInterval": null,
+      "version": "12.2.0",
+      "medianCorpusMs": 1087.1157505,
+      "calls": 72,
+      "correct": 72
+    }
+  ],
+  "calibration": {
+    "status": "calibrated",
+    "gaps": [],
+    "controlRatios": [
+      0.91995161703606,
+      0.9935557835506136,
+      0.9913809017429038,
+      1.2192244067669256,
+      1.009465613022091,
+      1.0629384593206954
+    ],
+    "candidateRatios": [
+      0.1611382899557505,
+      0.10418410154497248,
+      0.09234441470026095,
+      0.09958111628803354,
+      0.12173425903831794,
+      0.1362068618223406
+    ],
+    "controlBand": {
+      "lower": 0.8201935545661744,
+      "upper": 1.2192244067669256
+    },
+    "candidateRatio": 0.11295918029164521,
+    "roundRatioUncertainty": {
+      "controls": {
+        "independentRounds": 6,
+        "medianRatio": 1.0015106982863522,
+        "interval": {
+          "lower": 0.91995161703606,
+          "upper": 1.2192244067669256,
+          "confidence": 0.96875
+        },
+        "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+        "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+      },
+      "replicaB": {
+        "independentRounds": 6,
+        "medianRatio": 0.11295918029164521,
+        "interval": {
+          "lower": 0.09234441470026095,
+          "upper": 0.1611382899557505,
+          "confidence": 0.96875
+        },
+        "method": "Exact two-sided sign/order-statistic interval for the median round ratio; assumes independent representative rounds. No within-round call resampling.",
+        "detail": "A finite interval does not remove systematic host, workload or artifact differences."
+      }
+    },
+    "interpretation": "below observed control band; advisory"
+  },
+  "perCase": [
+    {
+      "docsIndex": 143,
+      "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:45",
+      "family": "flowchart",
+      "sourceSha256": "f4db835df6afe3f2a60fd530d101e862e7adee3fb9a13cbd63bb06fceb16af18",
+      "prerequisites": [
+        {
+          "project": "mermaid-js/mermaid",
+          "status": "correct",
+          "svgSha256": "5cc69b69ca1f4802ae4767380a55886cec9dd136ae39154f3cfa339f0ba72c78",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/5cc69b69ca1f4802ae4767380a55886cec9dd136ae39154f3cfa339f0ba72c78.svg.gz",
+          "requiredChecks": 16
+        },
+        {
+          "project": "obsidianmd/pele",
+          "status": "correct",
+          "svgSha256": "5be9f06f51d997fea041cc0aade86a00838c0146ddad80bfedc10f1d1e11a622",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/5be9f06f51d997fea041cc0aade86a00838c0146ddad80bfedc10f1d1e11a622.svg.gz",
+          "requiredChecks": 16
+        }
+      ],
+      "measured": [
+        {
+          "project": "mermaid-js/mermaid",
+          "calls": 12,
+          "correct": 12,
+          "medianCallMs": 440.4528975
+        },
+        {
+          "project": "obsidianmd/pele",
+          "calls": 6,
+          "correct": 6,
+          "medianCallMs": 26.390242999999998
+        }
+      ]
+    },
+    {
+      "docsIndex": 367,
+      "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+      "family": "sequence",
+      "sourceSha256": "469a26df510d0cc0bf5a2160f1b03054162ea125f3c5e7f84573f4f73f4c17f2",
+      "prerequisites": [
+        {
+          "project": "mermaid-js/mermaid",
+          "status": "correct",
+          "svgSha256": "b64f27f5954432c14a9fbef41699bb5193ce675167631cb36c1aee5990b1c620",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/b64f27f5954432c14a9fbef41699bb5193ce675167631cb36c1aee5990b1c620.svg.gz",
+          "requiredChecks": 21
+        },
+        {
+          "project": "obsidianmd/pele",
+          "status": "correct",
+          "svgSha256": "4913c731c2d686f3073036c5a2e1b66cb7f706a38103b399f82048e07e719083",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/4913c731c2d686f3073036c5a2e1b66cb7f706a38103b399f82048e07e719083.svg.gz",
+          "requiredChecks": 21
+        }
+      ],
+      "measured": [
+        {
+          "project": "mermaid-js/mermaid",
+          "calls": 12,
+          "correct": 12,
+          "medianCallMs": 80.535091
+        },
+        {
+          "project": "obsidianmd/pele",
+          "calls": 6,
+          "correct": 6,
+          "medianCallMs": 18.2458625
+        }
+      ]
+    },
+    {
+      "docsIndex": 496,
+      "caseId": "packages/mermaid/src/docs/syntax/userJourney.md:7",
+      "family": "journey",
+      "sourceSha256": "e978837ae6de4a8b5c7831489dc68a9f8fe20d5d9b7514016207af832f687bdd",
+      "prerequisites": [
+        {
+          "project": "mermaid-js/mermaid",
+          "status": "correct",
+          "svgSha256": "b44a86b37c601ec08010a6df397d149d725a724d85c4014ab12ed64b9f42571c",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/b44a86b37c601ec08010a6df397d149d725a724d85c4014ab12ed64b9f42571c.svg.gz",
+          "requiredChecks": 14
+        },
+        {
+          "project": "obsidianmd/pele",
+          "status": "correct",
+          "svgSha256": "d7e44d00a723c486ddbbea0a8d1ec0362a2e05db2a538cdcdba22ccf482d9e4e",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/d7e44d00a723c486ddbbea0a8d1ec0362a2e05db2a538cdcdba22ccf482d9e4e.svg.gz",
+          "requiredChecks": 14
+        }
+      ],
+      "measured": [
+        {
+          "project": "mermaid-js/mermaid",
+          "calls": 12,
+          "correct": 12,
+          "medianCallMs": 64.618511
+        },
+        {
+          "project": "obsidianmd/pele",
+          "calls": 6,
+          "correct": 6,
+          "medianCallMs": 17.7647035
+        }
+      ]
+    },
+    {
+      "docsIndex": 325,
+      "caseId": "packages/mermaid/src/docs/syntax/pie.md:8",
+      "family": "pie",
+      "sourceSha256": "f41484cd94dd84837056db4c681ce6119f533b643bed745c58116553acdebf27",
+      "prerequisites": [
+        {
+          "project": "mermaid-js/mermaid",
+          "status": "correct",
+          "svgSha256": "f4ff068dea32df9567c278ebf3f30fc273de1abb2767383f9620e02d7a98e593",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/f4ff068dea32df9567c278ebf3f30fc273de1abb2767383f9620e02d7a98e593.svg.gz",
+          "requiredChecks": 14
+        },
+        {
+          "project": "obsidianmd/pele",
+          "status": "correct",
+          "svgSha256": "b1aad3f5862b73535f1f78dc7822e45477ea180ad3c542dd93e45d0e6ab3070d",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/b1aad3f5862b73535f1f78dc7822e45477ea180ad3c542dd93e45d0e6ab3070d.svg.gz",
+          "requiredChecks": 14
+        }
+      ],
+      "measured": [
+        {
+          "project": "mermaid-js/mermaid",
+          "calls": 12,
+          "correct": 12,
+          "medianCallMs": 160.6204245
+        },
+        {
+          "project": "obsidianmd/pele",
+          "calls": 6,
+          "correct": 6,
+          "medianCallMs": 22.860429500000002
+        }
+      ]
+    },
+    {
+      "docsIndex": 321,
+      "caseId": "packages/mermaid/src/docs/syntax/packet.md:34",
+      "family": "packet",
+      "sourceSha256": "48358a7c12b012d991051f4eb2143b72941245d1959ef90cba4f6b6aa2df5d41",
+      "prerequisites": [
+        {
+          "project": "mermaid-js/mermaid",
+          "status": "correct",
+          "svgSha256": "0238e56dc75615314d8c67e83e3c6827741d806f3a7d284c37152410e74958c4",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/0238e56dc75615314d8c67e83e3c6827741d806f3a7d284c37152410e74958c4.svg.gz",
+          "requiredChecks": 13
+        },
+        {
+          "project": "obsidianmd/pele",
+          "status": "correct",
+          "svgSha256": "a892074b87e46c4eac1e51801f8a83cd8c37df67a3bab4b98504aa914e745074",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/a892074b87e46c4eac1e51801f8a83cd8c37df67a3bab4b98504aa914e745074.svg.gz",
+          "requiredChecks": 13
+        }
+      ],
+      "measured": [
+        {
+          "project": "mermaid-js/mermaid",
+          "calls": 12,
+          "correct": 12,
+          "medianCallMs": 135.69928549999997
+        },
+        {
+          "project": "obsidianmd/pele",
+          "calls": 6,
+          "correct": 6,
+          "medianCallMs": 22.6965845
+        }
+      ]
+    },
+    {
+      "docsIndex": 465,
+      "caseId": "packages/mermaid/src/docs/syntax/treemap.md:63",
+      "family": "treemap",
+      "sourceSha256": "20b3fefc8d096e4c08fe94f71198aaf094f39b91cef25e5e1a3886db9444db76",
+      "prerequisites": [
+        {
+          "project": "mermaid-js/mermaid",
+          "status": "correct",
+          "svgSha256": "d1cf37225ae5e32a602bc6a78eb10d975e83e12e3c6ffca6dd86b41d88a0e7bd",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/d1cf37225ae5e32a602bc6a78eb10d975e83e12e3c6ffca6dd86b41d88a0e7bd.svg.gz",
+          "requiredChecks": 16
+        },
+        {
+          "project": "obsidianmd/pele",
+          "status": "correct",
+          "svgSha256": "8c37635eaa4237a17e73581623dff56fcab90d5ae42b898ddd8457532d0d7079",
+          "witness": "/workspace/trident-ecosystem-2026-10-31-campaign/docs/svg/drawings/8c37635eaa4237a17e73581623dff56fcab90d5ae42b898ddd8457532d0d7079.svg.gz",
+          "requiredChecks": 16
+        }
+      ],
+      "measured": [
+        {
+          "project": "mermaid-js/mermaid",
+          "calls": 12,
+          "correct": 12,
+          "medianCallMs": 187.041693
+        },
+        {
+          "project": "obsidianmd/pele",
+          "calls": 6,
+          "correct": 6,
+          "medianCallMs": 21.3737965
+        }
+      ]
+    }
+  ],
+  "excludedPrerequisite": [
+    {
+      "docsIndex": 403,
+      "caseId": "packages/mermaid/src/docs/syntax/stateDiagram.md:26",
+      "project": "obsidianmd/pele",
+      "status": "unknown",
+      "reason": "painted-route-visibility remains unknown; not eligible for this timed corpus"
+    }
+  ],
+  "scope": "Flowchart shape/text, aliased sequence messages, multi-actor scored journey, numerical pie proportions, full TCP packet fields, nested weighted treemap. No claim of complete syntax coverage, steady-state speed, aesthetic quality or random-workload representativeness. Eligibility conditions on correct retained outputs; this exposed, deliberately diverse subset is not a random sample of all Mermaid diagrams. Six rounds provide the exact median paired-ratio interval under the stated independent-round assumption; they do not remove systematic host/artifact/workload effects."
+}

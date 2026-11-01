@@ -1,0 +1,32 @@
+{
+  "manifestSha256": "e6caf38663a00ae44d4c883e4ba95c2ba5acff2be58aa8e572400d6406976224",
+  "originalLiteralSources": 120,
+  "active": 120,
+  "activeOriginalDrawings": 115,
+  "activeAuthoredDrawings": 1,
+  "activeOriginalInvalidControls": 4,
+  "diagnostics": 1,
+  "researchSources": 121,
+  "allSourcesPreserved": true,
+  "freshIdentity": "terminal-adaptation:3bf5fbf5ea7c5486",
+  "diagnosticIdentity": "terminal:9972eaa8ca8692d8",
+  "inputFiles": [
+    {
+      "file": "corpus/terminal-project-examples.json",
+      "sha256": "e37fc22f33fe4966338a97aeca8add5a25ec68b8dd44152bd5218cd53d1f0497"
+    },
+    {
+      "file": "corpus/terminal-project-reviews.json",
+      "sha256": "ce222101f36d4d7b71d6b658815c8879c437bcda403acb7f491a3eb8d6a453ac"
+    },
+    {
+      "file": "docs/evidence/terminal-source-review-2026-10-31/receipt.json",
+      "sha256": "96f1a8b74100d178bdd1b6fbe77a6a7d0b746da4b0875797de72ffa698eb525a"
+    },
+    {
+      "file": "corpus/terminal-source-adaptations.json",
+      "sha256": "af4b9afa93eff3d2dbc60558ef61b0287f921e553d0b394f7e9a0709a929b29e"
+    }
+  ],
+  "rendererInvocations": 0
+}

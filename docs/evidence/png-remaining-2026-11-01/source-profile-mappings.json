@@ -1,0 +1,131 @@
+{
+  "schema": "trident-bounded-direct-png-source-profile-mappings-v1",
+  "sourceContractsSha256": "2dd7b5d389e853f15cecd95686d2ae01c52feea809269992d0d4082aa7f24aa5",
+  "sources": [
+    {
+      "pin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "path": "packages/mermaid/src/diagrams/c4/svgDraw.ts",
+      "sha256": "59855ba27570433ca25d6b8a037541cc2553300c6b640d565b28fc6623b2bd2a",
+      "excerpts": [
+        {
+          "firstLine": 26,
+          "lastLine": 36,
+          "text": "export const drawRels = (elem: SVG, rels: C4Rel[], conf: C4DrawConfig, diagramId: string) => {\n  const relsElem = elem.append('g');\n  let i = 0;\n  for (const rel of rels) {\n    const textColor = rel.textColor ? rel.textColor : '#444444';\n    const strokeColor = rel.lineColor ? rel.lineColor : '#444444';\n    // The parseInt is load-bearing: the JISON grammar passes $key=\"value\" attributes\n    // positionally, so offsets that arrive in the textColor/lineColor parameter slots are\n    // stored by the db as raw strings and must be coerced here before coordinate arithmetic.\n    const offsetX = rel.offsetX ? parseInt(String(rel.offsetX)) : 0;\n    const offsetY = rel.offsetY ? parseInt(String(rel.offsetY)) : 0;"
+        },
+        {
+          "firstLine": 88,
+          "lastLine": 124,
+          "text": "    // The label was measured by the renderer before drawing.\n    const labelWidth = rel.label.width!;\n    let messageConf = conf.messageFont();\n    _drawTextCandidateFunc(conf)(\n      rel.label.text,\n      relsElem,\n      Math.min(rel.startPoint.x, rel.endPoint.x) +\n        Math.abs(rel.endPoint.x - rel.startPoint.x) / 2 +\n        offsetX,\n      Math.min(rel.startPoint.y, rel.endPoint.y) +\n        Math.abs(rel.endPoint.y - rel.startPoint.y) / 2 +\n        offsetY,\n      labelWidth,\n      rel.label.height!,\n      { fill: textColor },\n      messageConf\n    );\n\n    if (rel.techn && rel.techn.text !== '') {\n      messageConf = conf.messageFont();\n      _drawTextCandidateFunc(conf)(\n        '[' + rel.techn.text + ']',\n        relsElem,\n        Math.min(rel.startPoint.x, rel.endPoint.x) +\n          Math.abs(rel.endPoint.x - rel.startPoint.x) / 2 +\n          offsetX,\n        Math.min(rel.startPoint.y, rel.endPoint.y) +\n          Math.abs(rel.endPoint.y - rel.startPoint.y) / 2 +\n          (conf.messageFontSize as number) +\n          5 +\n          offsetY,\n        Math.max(labelWidth, rel.techn.width!),\n        rel.techn.height!,\n        { fill: textColor, 'font-style': 'italic' },\n        messageConf\n      );\n    }"
+        },
+        {
+          "firstLine": 355,
+          "lastLine": 392,
+          "text": "      .attr('y', y + height / 2 + 5)\n      .style('text-anchor', 'middle')\n      .text(content);\n    _setTextAttrs(text, textAttrs);\n  }\n\n  function byTspan<T extends SVGElement>(\n    content: string,\n    g: D3Selection<T>,\n    x: number,\n    y: number,\n    width: number,\n    height: number,\n    textAttrs: TextAttrs,\n    conf: C4Font\n  ) {\n    const { fontSize, fontFamily, fontWeight } = conf;\n\n    const lines = content.split(common.lineBreakRegex);\n    for (let i = 0; i < lines.length; i++) {\n      const dy = i * fontSize - (fontSize * (lines.length - 1)) / 2;\n      const text = g\n        .append('text')\n        .attr('x', x + width / 2)\n        .attr('y', y)\n        .style('text-anchor', 'middle')\n        .attr('dominant-baseline', 'middle')\n        .style('font-size', fontSize)\n        .style('font-weight', fontWeight)\n        .style('font-family', fontFamily);\n      text\n        .append('tspan')\n        // .attr('x', x + width / 2)\n        .attr('dy', dy)\n        .text(lines[i])\n        // .attr('y', y + height / 2)\n        .attr('alignment-baseline', 'mathematical');\n"
+        }
+      ]
+    },
+    {
+      "pin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "path": "packages/mermaid/src/docs/syntax/wardley.md",
+      "sha256": "86010a25b18ecc6b67184463bd81b6868575bb821a897a0d103bacdd01bc8ebe",
+      "excerpts": [
+        {
+          "firstLine": 62,
+          "lastLine": 65,
+          "text": "**IMPORTANT**: Wardley Maps use the OnlineWardleyMaps (OWM) format: `[visibility, evolution]`\n\n- **First value (Visibility)**: 0.0-1.0 (bottom to top) - Y-axis position\n- **Second value (Evolution)**: 0.0-1.0 (left to right) - X-axis position"
+        },
+        {
+          "firstLine": 148,
+          "lastLine": 151,
+          "text": "- `(build)` - Triangle symbol\n- `(buy)` - Diamond symbol\n- `(outsource)` - Square symbol\n- `(market)` - Circle symbol"
+        },
+        {
+          "firstLine": 300,
+          "lastLine": 308,
+          "text": "note \"text\" [visibility, evolution]\n```\n\n> **Note**: Text must be enclosed in quotes.\n\n```mermaid-example\nwardley-beta\ntitle Notes\n"
+        },
+        {
+          "firstLine": 324,
+          "lastLine": 342,
+          "text": "annotation number,[x, y] \"text\"\n```\n\n> **Note**: Annotation text must be enclosed in quotes.\n\n```mermaid-example\nwardley-beta\ntitle Annotations\n\ncomponent API [0.60, 0.70]\ncomponent Cache [0.50, 0.55]\ncomponent Database [0.40, 0.40]\n\nAPI -> Cache\nCache -> Database\n\nannotations [0.10, 0.90]\nannotation 1,[0.60, 0.65] \"Critical component\"\nannotation 2,[0.50, 0.50] \"Performance layer\""
+        }
+      ]
+    },
+    {
+      "pin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "path": "packages/mermaid/src/diagrams/wardley/wardleyRenderer.ts",
+      "sha256": "d2103480bcb5b59daa280e6eef2224513ec2e40d9dc485c61518578ac0dc2302",
+      "excerpts": [
+        {
+          "firstLine": 927,
+          "lastLine": 935,
+          "text": "\n        // Constrain box to stay within map boundaries\n        const minX = configValues.padding;\n        const maxX = width - configValues.padding - boxWidth;\n        const minY = configValues.padding;\n        const maxY = height - configValues.padding - boxHeight;\n\n        boxX = Math.max(minX, Math.min(boxX, maxX));\n        boxY = Math.max(minY, Math.min(boxY, maxY));"
+        },
+        {
+          "firstLine": 958,
+          "lastLine": 974,
+          "text": "  // Render notes\n  if (data.notes.length > 0) {\n    const notesGroup = root.append('g').attr('class', 'wardley-notes');\n\n    data.notes.forEach((note) => {\n      const noteX = projectX(note.x);\n      const noteY = projectY(note.y);\n\n      notesGroup\n        .append('text')\n        .attr('x', noteX)\n        .attr('y', noteY)\n        .attr('text-anchor', 'start')\n        .attr('font-size', 11)\n        .attr('fill', theme.axisTextColor)\n        .attr('font-weight', 'bold')\n        .text(note.text);"
+        },
+        {
+          "firstLine": 147,
+          "lastLine": 166,
+          "text": "  const chartWidth = width - configValues.padding * 2;\n  const chartHeight = height - configValues.padding * 2;\n\n  // Render title if present\n  if (title) {\n    root\n      .append('text')\n      .attr('class', 'wardley-title')\n      .attr('x', width / 2)\n      .attr('y', configValues.padding / 2)\n      .attr('fill', theme.axisTextColor)\n      .attr('font-size', configValues.axisFontSize * 1.05)\n      .attr('font-weight', 'bold')\n      .attr('text-anchor', 'middle')\n      .attr('dominant-baseline', 'middle')\n      .text(title);\n  }\n\n  const projectX = (value: number) => configValues.padding + (value / 100) * chartWidth;\n  const projectY = (value: number) => height - configValues.padding - (value / 100) * chartHeight;"
+        }
+      ]
+    },
+    {
+      "pin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/kanbanItem.ts",
+      "sha256": "bda78e289624e01576e9cdcc15bd9d5acdaa707e280f6ad7a6fa16e52ff9b0fc",
+      "excerpts": [
+        {
+          "firstLine": 9,
+          "lastLine": 20,
+          "text": "const colorFromPriority = (priority: NonNullable<KanbanNode['priority']>) => {\n  switch (priority) {\n    case 'Very High':\n      return 'red';\n    case 'High':\n      return 'orange';\n    case 'Medium':\n      return null; // no stroke\n    case 'Low':\n      return 'blue';\n    case 'Very Low':\n      return 'lightblue';"
+        },
+        {
+          "firstLine": 137,
+          "lastLine": 151,
+          "text": "    const priority = 'priority' in kanbanNode && kanbanNode.priority;\n    if (priority) {\n      const line = shapeSvg.append('line');\n      const lineX = x + 2;\n\n      const y1 = y + Math.floor((rx ?? 0) / 2);\n      const y2 = y + totalHeight - Math.floor((rx ?? 0) / 2);\n      line\n        .attr('x1', lineX)\n        .attr('y1', y1)\n        .attr('x2', lineX)\n        .attr('y2', y2)\n\n        .attr('stroke-width', '4')\n        .attr('stroke', colorFromPriority(priority));"
+        }
+      ]
+    }
+  ],
+  "frozenObservedFontModels": [
+    {
+      "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Regular.ttf",
+      "sha256": "e64e508b2aa2880f907e470c4550980ec4c0694d103a43f36150ac3f93189bee",
+      "matchesOriginalFrozenHostInventory": true
+    },
+    {
+      "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Italic.ttf",
+      "sha256": "a54dc8488f8193bf30c3820cf6f261f911f9d328d699e1a1b8042641554cec70",
+      "matchesOriginalFrozenHostInventory": true
+    },
+    {
+      "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Bold.ttf",
+      "sha256": "5894a3649b213cf5b2d673b6e7a871815fd1d120fa68a463592f27db14eae323",
+      "matchesOriginalFrozenHostInventory": true
+    }
+  ],
+  "scope": "Rootandindependentsourceownerreviewedthesepositive-onlypublishedencoders. No otherbackenddefaultisrequired; no outputfield/sourceecho suppliescorrectness. Exactraw source/nativeprofilesretained. Native519 publishedlineboxprofilewasreviewedbutdidnotqualifyactualglyphs, soearlierunknownstands.",
+  "nativeOptionalCoordinateMapping": {
+    "package": "mermaid_core",
+    "version": "0.3.2",
+    "path": "/workspace/trident-native-verification-2026-10-29/setup/pub-cache/hosted/pub.dev/mermaid_core-0.3.2/lib/src/diagrams/wardley/wardley.dart",
+    "sha256": "6f321bf029969189831ca85127e4bd73360a40fa3f9c83d5447ab2b05194964b",
+    "excerpts": [
+      {
+        "firstLine": 1052,
+        "lastLine": 1094,
+        "text": "  if (map.annotationsBox != null) {\n    final boxAnchor = map.annotationsBox!;\n    final sorted = [\n      for (final a in map.annotations)\n        if (a.text != null && a.text!.isNotEmpty) a,\n    ]..sort((a, b) => a.number.compareTo(b.number));\n    if (sorted.isNotEmpty) {\n      const pad = 10.0, lineHeight = 16.0, fontSize = 11.0;\n      final boxStyle = TextStyleSpec(\n        fontFamily: theme.fontFamily,\n        fontSize: fontSize,\n      );\n      var maxW = 0.0, maxH = 0.0;\n      final texts = <(String, double)>[];\n      for (var idx = 0; idx < sorted.length; idx++) {\n        final t = '${sorted[idx].number}. ${sorted[idx].text}';\n        final ms = measurer.measure(t, boxStyle);\n        maxW = math.max(maxW, ms.width);\n        maxH = math.max(maxH, ms.height);\n        texts.add((t, ms.height));\n      }\n      final boxWidth = maxW + pad * 2 + 105;\n      final boxHeight = sorted.length * lineHeight + pad * 2 + maxH / 2;\n      var boxX = projectX(boxAnchor.x);\n      var boxY = projectY(boxAnchor.y);\n      boxX = math.max(padding, math.min(boxX, width - padding - boxWidth));\n      boxY = math.max(padding, math.min(boxY, height - padding - boxHeight));\n      nodes.add(\n        SceneShape(\n          geometry: RectGeometry(\n            Rect.fromLTWH(boxX, boxY, boxWidth, boxHeight),\n            rx: 4,\n            ry: 4,\n          ),\n          fill: const Fill(_white),\n          stroke: const Stroke(color: _annotationStroke, width: 1.5),\n        ),\n      );\n      for (var idx = 0; idx < texts.length; idx++) {\n        final ty = boxY + pad + (idx + 1) * lineHeight;\n        nodes.add(\n          SceneText(\n            text: texts[idx].$1,"
+      },
+      {
+        "firstLine": 1111,
+        "lastLine": 1128,
+        "text": "  for (final note in map.notes) {\n    final p = at(note.x, note.y);\n    final style = TextStyleSpec(\n      fontFamily: theme.fontFamily,\n      fontSize: 11,\n      fontWeight: 700,\n    );\n    final ms = measurer.measure(note.text, style);\n    nodes.add(\n      SceneText(\n        text: note.text,\n        bounds: Rect.fromLTWH(p.x, p.y - ms.height / 2, ms.width, ms.height),\n        style: style,\n        color: _axisTextColor,\n        align: TextAlignH.left,\n      ),\n    );\n  }"
+      }
+    ],
+    "scope": "Approvedpositive-onlypublicoutercanvas/symmetricpaddinglegendclampandleft-linebox-centerednoteencodings. Actuallegend520qualifies; native519glyph/lineboxprofiledoesnotqualifyandremainsunknown. No defaultfont/size/widthimposed."
+  }
+}

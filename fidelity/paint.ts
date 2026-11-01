@@ -1,22 +1,28 @@
 import type { MeaningExpectation, PaintExpectation } from './meaning.ts'
+import { plannedGraphFamilyCriteria } from './paint-graph-families.ts'
 
 export interface PaintCheck { criterion: string; status: 'passed' | 'failed' | 'unavailable'; expected: unknown; actual: unknown; scope: string }
-export interface PaintEvidence { checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null }
-export interface PaintInput { family: string; expected: MeaningExpectation; paint?: PaintExpectation }
+export interface PaintedTextLines { owner: Record<string, string | number>; label: string | null; lines: string[] | null; scope: string }
+export interface PaintEvidence { textInkBoxes?: { text: string; layoutBox: { x: number; y: number; width: number; height: number }; inkBox: { x: number; y: number; width: number; height: number } }[]; labelRepresentation?: 'uninspectable'; textLineBlocks?: PaintedTextLines[]; captions?: { label: string; box: { x: number; y: number; width: number; height: number } }[]; checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null; groups?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedText?: { text: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedGeometry?: { tag: string; layer?: number; box: { x: number; y: number; width: number; height: number } }[] }
+export interface QualifiedNodeAnchor { id: string; label: string; box: { x: number; y: number; width: number; height: number }; anchorParts?: { tag: string; layer?: number; box: { x: number; y: number; width: number; height: number } }[]; outline?: { tag: string } }
+export interface PaintInput { family: string; expected: MeaningExpectation; paint?: PaintExpectation; qualifiedNodeAnchors?: QualifiedNodeAnchor[] }
 
 /** The authored request fixes the denominator before any renderer runs. */
 export function plannedPaintCriteria(input: PaintInput): string[] {
   return ['svg-root', 'svg-unique-ids', 'canvas', 'visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels', 'visible-ink', 'paint-opacity-and-color',
+    ...(input.expected.forbiddenLabels?.length ? ['hidden-authored-content'] : []),
     ...(input.paint?.images?.length ? ['embedded-images'] : []),
     ...(input.paint?.fontSize !== undefined ? ['computed-authored-font-size'] : []),
     ...(input.paint?.nodeFill !== undefined ? ['computed-owned-node-fill'] : []),
     ...(input.paint?.edgeStroke !== undefined || input.paint?.edgeStrokeWidth !== undefined ? ['computed-owned-edge-style'] : []),
     ...(input.expected.nodes?.length ? ['painted-node-ownership'] : []),
+    ...(input.family === 'flowchart' && input.expected.nodes?.length ? ['painted-text-inventory'] : []),
     ...(input.expected.edges !== undefined ? ['painted-relationships'] : []),
     ...(input.expected.edges?.some(edge => edge.label) ? ['painted-relationship-label-counts', 'painted-relationship-label-ownership'] : []),
     ...(input.expected.edges?.some(edge => edge.startMarker !== undefined || edge.endMarker !== undefined) ? ['painted-relationship-markers'] : []),
     ...(input.family === 'er' && input.expected.facts?.cardinalities ? ['painted-cardinality-decorations'] : []),
-    ...(input.expected.groups ?? []).map(group => 'painted-group:' + group.id)]
+    ...(input.expected.groups ?? []).map(group => 'painted-group:' + group.id),
+    ...plannedGraphFamilyCriteria(input)]
 }
 
 /** Runs in the actual browser after mounting the returned SVG. All geometry is
@@ -30,29 +36,179 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const ids = [...(svg.id ? [svg.id] : []), ...[...svg.querySelectorAll('[id]')].map(element => element.id)]
   check('svg-unique-ids', ids.length, new Set(ids).size, ids.length === new Set(ids).size, 'Duplicate SVG identities can change marker, clip and owned-label references')
   await document.fonts.ready
+  const requiredLabels = [...new Set([...input.expected.labels, ...(typeof input.expected.facts?.title === 'string' && input.expected.facts.title ? [input.expected.facts.title] : [])])]
   const normalize = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
   const rect = (element: Element) => { const b = element.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height } }
-  const labelBox = (element: Element) => { if (element.namespaceURI === 'http://www.w3.org/2000/svg') return rect(element); const range = document.createRange(); range.selectNodeContents(element); const b = range.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height } }
+  const fragmentedLabels = new Map<Element, Element[]>()
+  const labelBox = (element: Element) => { const fragments = fragmentedLabels.get(element); if (fragments) { const boxes = fragments.map(fragment => fragment.getBoundingClientRect()), x = Math.min(...boxes.map(box => box.x)), y = Math.min(...boxes.map(box => box.y)); return { x, y, width: Math.max(...boxes.map(box => box.right)) - x, height: Math.max(...boxes.map(box => box.bottom)) - y } }; if (element.namespaceURI === 'http://www.w3.org/2000/svg') return rect(element); const range = document.createRange(); range.selectNodeContents(element); const b = range.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height } }
   type Box = ReturnType<typeof rect>
   const center = (box: Box) => ({ x: box.x + box.width / 2, y: box.y + box.height / 2 })
   const contains = (outer: Box, inner: Box, epsilon = 1.5) => inner.x >= outer.x - epsilon && inner.y >= outer.y - epsilon && inner.x + inner.width <= outer.x + outer.width + epsilon && inner.y + inner.height <= outer.y + outer.height + epsilon
+  const textCanvas = document.createElement('canvas').getContext('2d')!
+  const glyphInk = new Map<Element, Box | null>()
+  // SVG text BCR/getBBox includes font ascent/descent, not only painted glyphs.
+  // Qualify a finite horizontal ASCII run using the identical computed font,
+  // Canvas glyph metrics, matching SVG advances and matching font-box height.
+  // The measured SVG font box locates the alphabetic baseline even when SVG
+  // dominant-baseline moves it relative to the authored y coordinate.
+  const labelInkBox = (element: Element): Box | null => {
+    if (glyphInk.has(element)) return glyphInk.get(element)!
+    glyphInk.set(element, null)
+    const parts = fragmentedLabels.get(element) ?? (element.children.length ? [...element.children] : undefined)
+    if (parts) {
+      if (parts.length > 16 || !fragmentedLabels.has(element) && [...element.childNodes].some(node => node.nodeType === Node.TEXT_NODE && node.textContent?.trim())) return null
+      const boxes = parts.map(part => part === element ? null : labelInkBox(part))
+      if (boxes.some(box => !box)) return null
+      const known = boxes as Box[], x = Math.min(...known.map(box => box.x)), y = Math.min(...known.map(box => box.y))
+      const box = { x, y, width: Math.max(...known.map(box => box.x + box.width)) - x, height: Math.max(...known.map(box => box.y + box.height)) - y }
+      glyphInk.set(element, box); return box
+    }
+    if (element.namespaceURI !== 'http://www.w3.org/2000/svg' || !['text', 'tspan'].includes(element.localName) || !/^[\x20-\x7e]+$/.test(element.textContent ?? '')) return null
+    const text = element as SVGTextPositioningElement, value = text.textContent!, style = getComputedStyle(text), matrix = text.getScreenCTM()
+    if (!style.font || style.direction !== 'ltr' || style.writingMode !== 'horizontal-tb' || style.textTransform !== 'none' || !['normal', '0px'].includes(style.letterSpacing) || !['normal', '0px'].includes(style.wordSpacing) || style.fontFeatureSettings !== 'normal' || style.fontVariationSettings !== 'normal' || style.fontVariant !== 'normal' || !['normal', '100%'].includes(style.fontStretch) || style.textDecorationLine !== 'none' || style.textShadow !== 'none' || style.stroke !== 'none' && Number(style.strokeOpacity) !== 0 && Number.parseFloat(style.strokeWidth) !== 0 || text.hasAttribute('textLength') || !matrix || ![matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f].every(Number.isFinite) || Math.abs(matrix.b) > 1e-6 || Math.abs(matrix.c) > 1e-6 || matrix.a <= 0 || matrix.d <= 0 || [text.x, text.y, text.dx, text.dy, text.rotate].some(list => list.baseVal.numberOfItems > 1)) return null
+    for (let parent: Element | null = element; parent; parent = parent.parentElement) { const css = getComputedStyle(parent); if (css.filter !== 'none' || parent.hasAttribute('textLength')) return null; if (parent === svg) break }
+    textCanvas.font = style.font; textCanvas.textAlign = 'left'; textCanvas.textBaseline = 'alphabetic'; textCanvas.direction = 'ltr'; textCanvas.fontKerning = style.fontKerning as CanvasFontKerning
+    const metric = textCanvas.measureText(value), fontBox = text.getBBox(), count = text.getNumberOfChars()
+    if (count !== value.length || !count) return null
+    const first = text.getStartPositionOfChar(0), last = text.getEndPositionOfChar(count - 1)
+    const values = [metric.width, metric.actualBoundingBoxLeft, metric.actualBoundingBoxRight, metric.actualBoundingBoxAscent, metric.actualBoundingBoxDescent, metric.fontBoundingBoxAscent, metric.fontBoundingBoxDescent]
+    if (!values.every(Number.isFinite) || metric.width <= 0 || metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent <= 0 || Math.abs(text.getComputedTextLength() - metric.width) > .1 || Math.abs(last.x - first.x - metric.width) > .1 || Math.abs(last.y - first.y) > .1 || Math.abs(fontBox.x - first.x) > .1 || Math.abs(fontBox.width - metric.width) > .1 || Math.abs(fontBox.height - metric.fontBoundingBoxAscent - metric.fontBoundingBoxDescent) > .25 || Array.from({ length: count }, (_, index) => text.getRotationOfChar(index)).some(angle => Math.abs(angle) > .001)) return null
+    const baseline = fontBox.y + metric.fontBoundingBoxAscent, x = first.x - metric.actualBoundingBoxLeft, y = baseline - metric.actualBoundingBoxAscent
+    const box = { x: matrix.a * x + matrix.e, y: matrix.d * y + matrix.f, width: matrix.a * (metric.actualBoundingBoxLeft + metric.actualBoundingBoxRight), height: matrix.d * (metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent) }
+    if (![box.x, box.y, box.width, box.height].every(Number.isFinite) || box.width <= 0 || box.height <= 0) return null
+    glyphInk.set(element, box); return box
+  }
   const colorCanvas = document.createElement('canvas').getContext('2d')!
   const colors = new Map<string, number | null>()
   const unknownPaint = new Set<string>()
+  // A single SVG drop shadow composites SourceGraphic over its shadow. Admit
+  // only that bounded form: arbitrary filter graphs or a clipped filter region
+  // can remove the authored ink and must remain unobserved.
+  const preservesSourceGraphic = (setting: string): boolean => {
+    const match = /^url\(["']?#([^\s"')]+)["']?\)$/.exec(setting)
+    if (!match) return false
+    let filter: Element | null
+    try { filter = document.getElementById(decodeURIComponent(match[1]!)) } catch { return false }
+    // A valid same-document URL with no target cannot supply a filter primitive.
+    // Existing wrong-type targets and external URLs are deliberately excluded.
+    if (!filter) return true
+    if (!filter || !svg.contains(filter) || filter.localName !== 'filter' || filter.children.length !== 1 || filter.hasAttribute('href') || filter.hasAttribute('filterRes')) return false
+    const shadow = filter.children[0]!
+    if (shadow.localName !== 'feDropShadow' || shadow.children.length || shadow.hasAttribute('x') || shadow.hasAttribute('y') || shadow.hasAttribute('width') || shadow.hasAttribute('height') || !['', 'SourceGraphic'].includes(shadow.getAttribute('in') ?? '')) return false
+    if (filter.getAttribute('filterUnits') && filter.getAttribute('filterUnits') !== 'objectBoundingBox') return false
+    const fraction = (name: string, fallback: number) => {
+      const value = filter.getAttribute(name)
+      if (value === null) return fallback
+      return /^[-+]?(?:\d*\.)?\d+%$/.test(value) ? Number.parseFloat(value) / 100 : NaN
+    }
+    const x = fraction('x', -.1), y = fraction('y', -.1), width = fraction('width', 1.2), height = fraction('height', 1.2)
+    return x < 0 && y < 0 && x + width > 1 && y + height > 1 && getComputedStyle(shadow).display !== 'none'
+  }
   const colorAlpha = (color: string): number | null => {
     if (['none', 'transparent'].includes(color)) return 0
-    if (/url\(|context-|var\(/.test(color)) { unknownPaint.add(color); return null }
+    if (/url\(/.test(color)) {
+      const id = /#([^\s)"']+)/.exec(color)?.[1], gradient = id ? document.getElementById(decodeURIComponent(id)) : null
+      const stops = gradient && svg.contains(gradient) && ['linearGradient', 'radialGradient'].includes(gradient.localName) && !gradient.hasAttribute('href') && !gradient.hasAttributeNS('http://www.w3.org/1999/xlink', 'href') ? [...gradient.children].filter(child => child.localName === 'stop') : []
+      const alphas = stops.map(stop => { const style = getComputedStyle(stop), value = colorAlpha(style.stopColor); return value === null || style.display === 'none' ? null : value * Number(style.stopOpacity) })
+      if (alphas.length && alphas.every((alpha): alpha is number => alpha !== null && alpha > 0)) return Math.min(...alphas)
+      unknownPaint.add(color); return null
+    }
+    if (/context-|var\(/.test(color)) { unknownPaint.add(color); return null }
     if (colors.has(color)) return colors.get(color)!
     colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = color; colorCanvas.fillRect(0, 0, 1, 1)
     const alpha = colorCanvas.getImageData(0, 0, 1, 1).data[3]! / 255; colors.set(color, alpha); return alpha
   }
+  const brightnessAmount = (filter: string) => { const found = /^brightness\(([-+]?\d*\.?\d+)(%?)\)$/.exec(filter); const amount = found ? Number(found[1]) / (found[2] ? 100 : 1) : NaN; return Number.isFinite(amount) && amount > 0 ? amount : null }
+  const filteredColorKey = (element: Element | null, paint: string): string | null => {
+    if (!CSS.supports('color', paint)) return null
+    colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = paint; colorCanvas.fillRect(0, 0, 1, 1)
+    const values = [...colorCanvas.getImageData(0, 0, 1, 1).data]
+    for (let owner = element; owner; owner = owner.parentElement) {
+      const style = getComputedStyle(owner)
+      if (style.mixBlendMode !== 'normal') return null
+      if (style.filter !== 'none') { const factor = brightnessAmount(style.filter); if (factor !== null) for (let index = 0; index < 3; index++) values[index] = Math.min(255, values[index]! * factor); else return null }
+      if (owner === svg) break
+    }
+    return values.every(Number.isFinite) ? JSON.stringify(values.map(Math.round)) : null
+  }
+  const neutralBrightnessPaint = (element: Element, filter: string, definitions: boolean) => {
+    const amount = brightnessAmount(filter)
+    if (amount === null || definitions && amount !== 1) return false
+    let filteredAncestors=0
+    for(let owner:Element|null=element;owner;owner=owner.parentElement){if(brightnessAmount(getComputedStyle(owner).filter)!==null)filteredAncestors++;if(owner===svg)break}
+    if(filteredAncestors>1)return false
+    const style = getComputedStyle(element), paints = element.namespaceURI === 'http://www.w3.org/1999/xhtml' ? [style.color] : [style.fill, ...(Number.parseFloat(style.strokeWidth) > 0 ? [style.stroke] : [])]
+    return paints.every(paint => {
+      if (colorAlpha(paint) === 0) return true
+      if (!CSS.supports('color', paint)) return false
+      colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = paint; colorCanvas.fillRect(0, 0, 1, 1)
+      const channels = [...colorCanvas.getImageData(0, 0, 1, 1).data].slice(0, 3)
+      if (channels.some(value => value > 0) && channels.every(value => value * amount < 1)) return false
+      // Saturated glyphs remain inspectable against their measured backdrop.
+      // For bodies, a newly white fill with no contrasting outline cannot use
+      // the raw pre-filter fill to establish a visible contour on white.
+      if (['rect', 'path', 'circle', 'ellipse', 'polygon', 'polyline'].includes(element.localName) && paint === style.fill && !channels.every(value => value === 255) && channels.every(value => value * amount >= 255)) {
+        const stroke = colorAlpha(style.stroke) && Number(style.strokeOpacity) >= 1 / 255 && Number.parseFloat(style.strokeWidth) >= .25 ? filteredColorKey(element, style.stroke) : null
+        if (!stroke || stroke === '[255,255,255,255]') return false
+      }
+      return true
+    })
+  }
+  const multiplyProfiles = new Map<Element, { box: Box; alpha: number; minimumAlpha: number; low: number[]; high: number[] } | null>()
+  const multiplyProfile = (element: Element) => {
+    if (multiplyProfiles.has(element)) return multiplyProfiles.get(element)!
+    multiplyProfiles.set(element,null)
+    if(input.family!=='sankey'||element.localName!=='path')return null
+    const path=element as SVGPathElement,matrix=path.getScreenCTM(),css=getComputedStyle(path),data=path.getAttribute('d')??'',commands=data.match(/[A-Za-z]/g),n=data.match(/[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi)?.map(Number)??[]
+    if(!matrix||Math.abs(matrix.b)>1e-8||Math.abs(matrix.c)>1e-8||matrix.a<=0||Math.abs(matrix.a-matrix.d)>1e-6||JSON.stringify(commands)!=='["M","C"]'||n.length!==8||n.some(v=>!Number.isFinite(v))||!(n[0]!<n[2]!&&n[2]===n[4]&&n[4]!<n[6]!)||Math.abs(n[1]!-n[3]!)>.01||Math.abs(n[5]!-n[7]!)>.01||css.fill!=='none'||Number.parseFloat(css.strokeWidth)*matrix.a<.25)return null
+    let blends=0
+    for(let owner:Element|null=element;owner;owner=owner.parentElement){const s=getComputedStyle(owner);if(s.display==='none'||s.visibility!=='visible'||Number(s.opacity)!==1||s.filter!=='none'||s.clipPath!=='none'||s.maskImage!=='none'||s.backgroundImage!=='none'||s.mixBlendMode!=='normal'&&s.mixBlendMode!=='multiply'||s.isolation!=='auto')return null;if(s.mixBlendMode==='multiply')blends++;if(owner===svg)break}
+    if(blends!==1)return null
+    const endpoints=[new DOMPoint(n[0],n[1]).matrixTransform(matrix),new DOMPoint(n[6],n[7]).matrixTransform(matrix)],width=Number.parseFloat(css.strokeWidth)*matrix.a
+    const ports=endpoints.map((point,index)=>[...svg.querySelectorAll('rect')].filter(rect=>{if(rect.closest('defs,marker,clipPath,mask'))return false;const b=rect.getBoundingClientRect(),s=getComputedStyle(rect);return b.width>0&&b.width<=40*matrix.a&&b.height>0&&s.display!=='none'&&s.visibility==='visible'&&Number(s.opacity)>0&&colorAlpha(s.fill)!==0&&Math.abs(point.x-(index?b.x:b.right))<.5&&point.y>=b.y-.5&&point.y<=b.bottom+.5&&width<=b.height+1}))
+    if(ports.some(port=>port.length!==1)||ports[0]![0]===ports[1]![0])return null
+    const rgba=(value:string)=>{if(!CSS.supports('color',value))return null;colorCanvas.clearRect(0,0,1,1);colorCanvas.fillStyle=value;colorCanvas.fillRect(0,0,1,1);return [...colorCanvas.getImageData(0,0,1,1).data]}
+    const match=/^url\(["']?#([^\s"')]+)["']?\)$/.exec(css.stroke),gradient=match?document.getElementById(decodeURIComponent(match[1]!)):null
+    let colors:(number[]|null)[]
+    if(gradient){if(gradient.localName!=='linearGradient'||gradient.hasAttribute('href')||gradient.hasAttributeNS('http://www.w3.org/1999/xlink','href')||gradient.hasAttribute('gradientTransform')||gradient.children.length!==2||[...gradient.children].some(e=>e.localName!=='stop'))return null;const stops=[...gradient.children] as SVGStopElement[];if(stops[0]!.offset.baseVal!==0||stops[1]!.offset.baseVal!==1)return null;colors=stops.map(stop=>{const s=getComputedStyle(stop),c=rgba(s.stopColor);if(c)c[3]=c[3]!*Number(s.stopOpacity);return s.display==='none'?null:c})}else colors=[rgba(css.stroke)]
+    if(colors.some(c=>!c)||!colors.length)return null
+    const known=colors as number[][],alpha=Math.max(...known.map(c=>c[3]!/255))*Number(css.strokeOpacity),minimumAlpha=Math.min(...known.map(c=>c[3]!/255))*Number(css.strokeOpacity)
+    if(!(minimumAlpha>=1/255&&alpha<=1))return null
+    const b=rect(path),profile={box:{x:b.x,y:b.y-width/2,width:b.width,height:b.height+width},alpha,minimumAlpha,low:[0,1,2].map(i=>Math.min(...known.map(c=>c[i]!))),high:[0,1,2].map(i=>Math.max(...known.map(c=>c[i]!)))}
+    multiplyProfiles.set(element,profile);return profile
+  }
+  const multiplyOnWhite = (element: Element) => {
+    const profile=multiplyProfile(element);if(!profile)return false
+    for(let owner:Element|null=element;owner;owner=owner.parentElement){const s=getComputedStyle(owner);if(s.backgroundImage!=='none'||colorAlpha(s.backgroundColor)!==0&&s.backgroundColor!=='rgb(255, 255, 255)'||s.filter!=='none'||Number(s.opacity)!==1||s.clipPath!=='none'||s.maskImage!=='none'||s.isolation!=='auto'||owner.namespaceURI!=='http://www.w3.org/2000/svg'&&s.mixBlendMode!=='normal')return false}
+    const background=[255,255,255],transmission=[1,1,1]
+    for(const other of svg.querySelectorAll('rect,circle,ellipse,polygon,path,line,polyline,image,use,foreignObject')){
+      if(other===element||other.closest('defs,marker,clipPath,mask'))continue
+      const s=getComputedStyle(other),b=rect(other)
+      if(s.display==='none'||s.visibility!=='visible'||Number(s.opacity)===0)continue
+      const bound=multiplyProfile(other),pad=Number.parseFloat(s.strokeWidth)*((other as SVGGraphicsElement).getScreenCTM?.()?Math.max(Math.hypot((other as SVGGraphicsElement).getScreenCTM()!.a,(other as SVGGraphicsElement).getScreenCTM()!.b),Math.hypot((other as SVGGraphicsElement).getScreenCTM()!.c,(other as SVGGraphicsElement).getScreenCTM()!.d)):1)/2,painted=bound?.box??{x:b.x-pad,y:b.y-pad,width:b.width+pad*2,height:b.height+pad*2}
+      if(Math.min(profile.box.x+profile.box.width,painted.x+painted.width)-Math.max(profile.box.x,painted.x)<=.5||Math.min(profile.box.y+profile.box.height,painted.y+painted.height)-Math.max(profile.box.y,painted.y)<=.5)continue
+      const prior=!!(other.compareDocumentPosition(element)&Node.DOCUMENT_POSITION_FOLLOWING)
+      if(bound){const target=prior?background:transmission;target.forEach((value,i)=>{target[i]=value*(1-bound.alpha+bound.alpha*bound.low[i]!/255)});continue}
+      if(prior&&other.localName==='rect'&&s.fill==='rgb(255, 255, 255)'&&Number(s.fillOpacity)===1&&Number(s.opacity)===1&&colorAlpha(s.stroke)===0){let plain=true;for(let owner:Element|null=other;owner;owner=owner.parentElement){const c=getComputedStyle(owner);if(c.filter!=='none'||Number(c.opacity)!==1||c.mixBlendMode!=='normal'||c.clipPath!=='none'||c.maskImage!=='none')plain=false;if(owner===svg)break}if(plain)continue}
+      if(!['image','use','foreignObject'].includes(other.localName)&&colorAlpha(s.fill)===0&&(colorAlpha(s.stroke)===0||Number(s.strokeOpacity)===0||Number.parseFloat(s.strokeWidth)===0))continue
+      return false
+    }
+    // Every accepted prior layer is a measured, port-bound multiply ribbon.
+    // Its closed color/alpha interval bounds the actual composite from below.
+    // At least one channel must retain >one8-bit unit of new visible contrast
+    // even at that worst backdrop and brightest gradient endpoint. White,
+    // darkened-away, opaque foreign and unbound later covers stay unknown.
+    return background.some((value,i)=>value*profile.minimumAlpha*(1-profile.high[i]!/255)*transmission[i]!>1)
+  }
   const visible = (element: Element, definitions = false) => {
+    let opacity = 1
     for (let current: Element | null = element; current; current = current.parentElement) {
       const style = getComputedStyle(current)
+      opacity *= Number(style.opacity)
       if ((!definitions && ['defs', 'marker', 'clipPath', 'mask', 'symbol'].includes(current.localName)) || ['none'].includes(style.display) || ['hidden', 'collapse'].includes(style.visibility) || Number(style.opacity) === 0) return false
       if (/opacity\(\s*0(?:\.0+)?%?\s*\)/.test(style.filter)) return false
-      if (style.filter && style.filter !== 'none') unknownPaint.add('filter:' + style.filter)
-      if (style.mixBlendMode && style.mixBlendMode !== 'normal') unknownPaint.add('blend:' + style.mixBlendMode)
+      if (style.filter && style.filter !== 'none' && !preservesSourceGraphic(style.filter) && !neutralBrightnessPaint(element, style.filter, definitions)) unknownPaint.add('filter:' + style.filter)
+      if (style.mixBlendMode && style.mixBlendMode !== 'normal' && !(style.mixBlendMode === 'multiply' && multiplyOnWhite(element))) unknownPaint.add('blend:' + style.mixBlendMode)
       if (current === svg) break
     }
     if (element.localName === 'image') return true
@@ -60,12 +216,16 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const fill = colorAlpha(style.fill), stroke = colorAlpha(style.stroke)
     const fillVisible = element.localName !== 'line' && (fill === null || fill * Number(style.fillOpacity) > 0)
     const strokeVisible = stroke === null || stroke * Number(style.strokeOpacity) > 0 && Number.parseFloat(style.strokeWidth) > 0
-    if (element.namespaceURI !== 'http://www.w3.org/2000/svg') { const color = colorAlpha(style.color); return color === null || color > 0 }
+    const paintedAlpha = Math.max(fillVisible ? (fill ?? 1) * Number(style.fillOpacity) : 0, strokeVisible ? (stroke ?? 1) * Number(style.strokeOpacity) : 0) * opacity
+    if (paintedAlpha > 0 && paintedAlpha < 1 / 255) unknownPaint.add('subpixel-alpha:' + element.localName)
+    if (strokeVisible && Number.parseFloat(style.strokeWidth) < 1 / 255) unknownPaint.add('subpixel-stroke:' + element.localName)
+    if (element.namespaceURI !== 'http://www.w3.org/2000/svg') { const color = colorAlpha(style.color); if (color !== null && color * opacity > 0 && color * opacity < 1 / 255) unknownPaint.add('subpixel-alpha:HTML'); return color === null || color > 0 }
     return (!['text', 'tspan'].includes(element.localName) || Number.parseFloat(style.fontSize) > 0) && (fillVisible || strokeVisible)
   }
   const rootBox = rect(svg)
   check('canvas', 'positive finite rendered canvas', rootBox, [rootBox.x, rootBox.y, rootBox.width, rootBox.height].every(Number.isFinite) && rootBox.width > 0 && rootBox.height > 0, 'Actual browser viewport of the returned SVG')
   const labelText = (element: Element): string => {
+    const fragments = fragmentedLabels.get(element); if (fragments) return fragments.map(fragment => fragment.textContent ?? '').join(' ')
     if (element.namespaceURI !== 'http://www.w3.org/2000/svg') return (element as HTMLElement).innerText ?? element.textContent ?? ''
     let result = '', previous: DOMRect | undefined
     for (const child of element.childNodes) {
@@ -81,25 +241,201 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const matches = (label: string) => {
     const exact = labelElements.filter(element => normalize(labelText(element)) === normalize(label))
     if (exact.length) return exact
+    // Sequence condition captions may add one outer bracket pair and soft-wrap
+    // across separate SVG text rows. Join only a unique adjacent complete block;
+    // the fragment observer still has to prove its frame and chronological scope.
+    const fragments = input.family === 'sequence' ? input.expected.facts?.fragments : null
+    if (Array.isArray(fragments) && fragments.some((entry: any) => normalize(String(entry.caption ?? entry.label ?? '')) === normalize(label))) {
+      const wanted = '[' + normalize(label) + ']', blocks: Element[] = []
+      const qualified = labelElements.filter(element => fragmentedLabels.has(element) && normalize(labelText(element)) === wanted)
+      if (qualified.length) return qualified
+      for (const start of labelElements.filter(element => visible(element) && wanted.startsWith(normalize(labelText(element))) && normalize(labelText(element)).startsWith('['))) {
+        const rows = [start]
+        while (rows.length <= 16) {
+          const combined = rows.map(element => normalize(labelText(element))).join(' ')
+          if (combined === wanted) {
+            const boxes = rows.map(rect), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)), bounds = { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y }
+            if (!labelElements.some(element => !rows.includes(element) && visible(element) && contains(bounds, rect(element), 0) && normalize(labelText(element)))) { fragmentedLabels.set(start, rows); blocks.push(start) }
+            break
+          }
+          const previous = rect(rows.at(-1)!), next = labelElements.filter(element => !rows.includes(element) && visible(element) && wanted.startsWith(combined + ' ' + normalize(labelText(element)))).filter(element => { const b = rect(element), gap = b.y - previous.y; return gap > Math.min(b.height, previous.height) * .4 && gap <= Math.max(b.height, previous.height) * 2 && Math.abs(b.x + b.width / 2 - previous.x - previous.width / 2) <= 2 })
+          if (next.length !== 1) break
+          rows.push(next[0]!)
+        }
+      }
+      if (blocks.length) return blocks
+    }
+    const lines = label.split('\n').map(normalize)
+    if (lines.length > 1 && lines.every(Boolean)) {
+      const starts = labelElements.filter(element => normalize(labelText(element)) === lines[0] && visible(element)), blocks: Element[] = []
+      for (const start of starts) {
+        const fragments = [start]
+        for (const line of lines.slice(1)) {
+          const previous = rect(fragments.at(-1)!), candidates = labelElements.filter(element => !fragments.includes(element) && visible(element) && normalize(labelText(element)) === line).filter(element => { const box = rect(element), gap = box.y - previous.y; return gap > Math.min(box.height, previous.height) * .4 && gap <= Math.max(box.height, previous.height) * 2 && (Math.abs(box.x - previous.x) <= 2 || Math.abs(box.x + box.width / 2 - previous.x - previous.width / 2) <= 2) })
+          if (candidates.length !== 1) break
+          fragments.push(candidates[0]!)
+        }
+        if (fragments.length !== lines.length) continue
+        const boxes = fragments.map(rect), x = Math.min(...boxes.map(box => box.x)), y = Math.min(...boxes.map(box => box.y)), box = { x, y, width: Math.max(...boxes.map(box => box.x + box.width)) - x, height: Math.max(...boxes.map(box => box.y + box.height)) - y }
+        // Do not join two snippets across unrelated intervening visible text.
+        if (labelElements.some(element => !fragments.includes(element) && visible(element) && contains(box, rect(element), 0) && normalize(labelText(element)))) continue
+        fragmentedLabels.set(start, fragments); blocks.push(start)
+      }
+      if (blocks.length) return blocks
+    }
+    // Requirement risk/verification tokens are enums, not authored literal
+    // captions. Their field headings and enum capitalization may differ while
+    // the independently owned definition rows retain the same semantic value.
+    if (input.family === 'requirement' && !(input.expected.nodes ?? []).some(node => node.label === label)) {
+      const definitions = input.expected.facts?.definitions, wanted = normalize(label).toLowerCase()
+      if (Array.isArray(definitions)) {
+        const risk = ['low', 'medium', 'high'].includes(wanted) && definitions.some((entry: any) => String(entry.fields?.risk ?? '').toLowerCase() === wanted)
+        const verify = ['analysis', 'inspection', 'test', 'demonstration'].includes(wanted) && definitions.some((entry: any) => String(entry.fields?.verifymethod ?? '').toLowerCase() === wanted)
+        if (risk || verify) {
+          const heading = risk ? 'risk' : '(?:verification|verify[ _-]*method)'
+          const field = new RegExp('^' + heading + '\\s*:\\s*' + wanted + '$', 'iu')
+          const rows = labelElements.filter(element => field.test(normalize(labelText(element))))
+          if (rows.length) return rows
+        }
+      }
+    }
     const token = normalize(label).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const pattern = new RegExp('(?<![\\p{L}\\p{N}_])' + token + '(?![\\p{L}\\p{N}_])', 'u')
     return labelElements.filter(element => pattern.test(normalize(labelText(element))))
   }
   const visibleMatches = (label: string) => matches(label).filter(element => visible(element) && labelBox(element).width > 0 && labelBox(element).height > 0)
-  const labelResults = [...new Set(input.expected.labels.filter(Boolean))].map(label => {
+  const labelResults = [...new Set(requiredLabels.filter(Boolean))].map(label => {
     const elements = visibleMatches(label)
-    return { label, count: elements.length, boxes: elements.map(labelBox), inCanvas: elements.length > 0 && elements.every(element => contains(rootBox, labelBox(element))) }
+    const bounds = elements.map(element => { const fontBox = labelBox(element), inkBox = labelInkBox(element); return { fontBox, inkBox, inCanvas: inkBox ? contains(rootBox, inkBox) : contains(rootBox, fontBox) ? true : null } })
+    return { label, count: elements.length, boxes: bounds.map(item => item.fontBox), glyphInkBoxes: bounds.map(item => item.inkBox), inCanvas: bounds.some(item => item.inCanvas === false) ? false : bounds.some(item => item.inCanvas === null) ? null : elements.length > 0 }
   })
-  const imageBackedLabels = labelElements.length === 0 && !!svg.querySelector('image')
-  check('visible-authored-labels', input.expected.labels, labelResults.map(item => ({ label: item.label, count: item.count })), imageBackedLabels ? null : labelResults.every(item => item.count > 0), imageBackedLabels ? 'Image-backed text needs reviewed image/OCR evidence, not a missing-label verdict' : 'Computed visibility and nonzero browser text bounds; metadata/title/defs text earns no credit')
-  check('labels-within-canvas', 'every authored label fits the canvas', labelResults.filter(item => !item.inCanvas), imageBackedLabels ? null : labelResults.every(item => item.inCanvas), 'Actual rendered label bounds, with 1.5 CSS-pixel serialization tolerance')
+  const uninspectableLabels = labelResults.some(label => label.count === 0) && [...svg.querySelectorAll('path[d],image,use')].some(element => visible(element) && rect(element).width + rect(element).height > 0)
+  // A positive-alpha glyph can still be invisible against its own body. This
+  // negative control proves exact colour camouflage only on an actual opaque
+  // flat backdrop; it does not claim a general contrast/accessibility score.
+  const measureCamouflage = (element: Element) => {
+    const box = labelBox(element), css = getComputedStyle(element)
+    const foreground = element.namespaceURI === 'http://www.w3.org/2000/svg' ? css.fill : css.color
+    const strokeVisible = colorAlpha(css.stroke) !== 0 && Number(css.strokeOpacity) > 0 && Number.parseFloat(css.strokeWidth) > 0
+    const foregroundAlpha = colorAlpha(foreground), strokeAlpha = colorAlpha(css.stroke)
+    if (foregroundAlpha === null || strokeVisible && strokeAlpha === null) return false
+    const uniform = (paint: string) => { const id = /#([^\s)"']+)/.exec(paint)?.[1], gradient = id ? document.getElementById(decodeURIComponent(id)) : null, stops = gradient && ['linearGradient', 'radialGradient'].includes(gradient.localName) ? [...gradient.querySelectorAll('stop')] : []; return stops.length && stops.every(stop => getComputedStyle(stop).stopColor === getComputedStyle(stops[0]!).stopColor) ? getComputedStyle(stops[0]!).stopColor : paint }
+    const paints = [...(foregroundAlpha && Number(css.fillOpacity) > 0 ? [filteredColorKey(element, uniform(foreground))] : []), ...(strokeVisible ? [filteredColorKey(element, uniform(css.stroke))] : [])]
+    if (!paints.length || paints.some(paint => paint === null)) return false
+    // A zero-length line can paint a marker behind a number despite having
+    // no own bounding rectangle. Qualify only an unclipped opaque circular
+    // marker with a finite uniform transform and complete actual glyph-ink fit.
+    if(input.family==='sequence'&&element.localName==='text'&&/^\d+$/.test(normalize(labelText(element)))){
+      const simpleNumber=(element as SVGTextPositioningElement).rotate.baseVal.numberOfItems===0&&css.fontStyle==='normal'&&css.direction==='ltr'&&css.writingMode==='horizontal-tb'&&['normal','0px'].includes(css.letterSpacing)&&['normal','0px'].includes(css.wordSpacing);const ink=labelInkBox(element)??(simpleNumber?labelBox(element):null)
+      if(ink)for(const line of svg.querySelectorAll('line')){
+        if(!(line.compareDocumentPosition(element)&Node.DOCUMENT_POSITION_FOLLOWING)||line.x1.baseVal.value!==line.x2.baseVal.value||line.y1.baseVal.value!==line.y2.baseVal.value)continue
+        const style=getComputedStyle(line),match=/^url\(["']?#([^\s"')]+)["']?\)$/.exec(style.markerStart),marker=match?document.getElementById(match[1]!):null,circle=marker?.children.length===1&&marker.children[0]!.localName==='circle'?marker.children[0] as SVGCircleElement:null,matrix=line.getScreenCTM()
+        if(!marker||marker.localName!=='marker'||marker.hasAttribute('viewBox')||marker.hasAttribute('transform')||!circle||circle.hasAttribute('transform')||!matrix||Math.abs(matrix.b)>1e-8||Math.abs(matrix.c)>1e-8||Math.abs(Math.abs(matrix.a)-Math.abs(matrix.d))>1e-8)continue
+        const units=marker.getAttribute('markerUnits')==='userSpaceOnUse'?1:Number.parseFloat(style.strokeWidth),refX=Number(marker.getAttribute('refX')??0),refY=Number(marker.getAttribute('refY')??0),cx=circle.cx.baseVal.value,cy=circle.cy.baseVal.value,r=circle.r.baseVal.value,fill=getComputedStyle(circle)
+        if(!(units>0)||!(r>0)||cx-r<0||cy-r<0||cx+r>Number(marker.getAttribute('markerWidth')??3)||cy+r>Number(marker.getAttribute('markerHeight')??3)||colorAlpha(fill.fill)!==1||Number(fill.fillOpacity)!==1||fill.display==='none')continue
+        let plain=true;for(const part of [line,circle])for(let owner:Element|null=part;owner;owner=owner.parentElement){const css=getComputedStyle(owner);if(css.display==='none'||['hidden','collapse'].includes(css.visibility)||Number(css.opacity)!==1||css.clipPath!=='none'||css.maskImage!=='none'||css.filter!=='none')plain=false;if(owner===svg)break}
+        if(!plain)continue
+        const local=[[ink.x,ink.y],[ink.x+ink.width,ink.y],[ink.x,ink.y+ink.height],[ink.x+ink.width,ink.y+ink.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(matrix.inverse()))
+        if(local.every(p=>Math.hypot((p.x-line.x1.baseVal.value)/units+refX-cx,(p.y-line.y1.baseVal.value)/units+refY-cy)<=r-.1))return paints.every(paint=>paint===filteredColorKey(circle,fill.fill))
+      }
+    }
+    const backdrop = [...svg.querySelectorAll('rect,circle,ellipse,polygon,path')].filter(shape => {
+      if (shape.contains(element) || !(shape.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(shape)) return false
+      const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.()
+      if (!matrix || colorAlpha(style.fill) !== 1 || Number(style.fillOpacity) !== 1) return false
+      for (let parent: Element | null = shape; parent; parent = parent.parentElement) { const style = getComputedStyle(parent); if (Number(style.opacity) !== 1 || style.maskImage !== 'none' || style.clipPath !== 'none' || style.mixBlendMode !== 'normal' || style.filter !== 'none' && !preservesSourceGraphic(style.filter) && brightnessAmount(style.filter) === null) return false; if (parent === svg) break }
+      return [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]].every(([x, y]) => (shape as SVGGeometryElement).isPointInFill?.(new DOMPoint(x, y).matrixTransform(matrix.inverse())))
+    }).at(-1)
+    if (backdrop) { const background = filteredColorKey(backdrop, getComputedStyle(backdrop).fill); return !!background && paints.every(color => color === background) }
+    // The observer's browser canvas is white unless an opaque CSS background
+    // says otherwise. Use that only when no intervening ink can alter it.
+    const intervening = [...svg.querySelectorAll('rect,circle,ellipse,polygon,path,line,image,use,foreignObject')].some(shape => {
+      if (shape.contains(element) || !(shape.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(shape)) return false
+      const b = rect(shape), style = getComputedStyle(shape)
+      return Math.min(box.x + box.width, b.x + b.width) > Math.max(box.x, b.x) && Math.min(box.y + box.height, b.y + b.height) > Math.max(box.y, b.y) && (['image', 'use', 'foreignObject'].includes(shape.localName) || colorAlpha(style.fill) !== 0 || colorAlpha(style.stroke) !== 0 && Number.parseFloat(style.strokeWidth) > 0)
+    })
+    if (intervening) return false
+    let background = 'rgb(255, 255, 255)'
+    for (let parent: Element | null = element; parent; parent = parent.parentElement) {
+      const style = getComputedStyle(parent), alpha = colorAlpha(style.backgroundColor)
+      if (style.backgroundImage !== 'none' || alpha !== 0 && alpha !== 1) return false
+      if (alpha === 1) { background = style.backgroundColor; break }
+    }
+    const backgroundKey = filteredColorKey(null, background)
+    return !!backgroundKey && paints.every(color => color === backgroundKey)
+  }
+  const camouflageResults = new Map<Element, boolean>()
+  const camouflage = (element: Element) => { if (!camouflageResults.has(element)) camouflageResults.set(element, measureCamouflage(element)); return camouflageResults.get(element)! }
+  const camouflagedElements = new Set(labelElements.filter(element => visible(element) && camouflage(element)))
+  const camouflagedText = [...camouflagedElements].map(element => ({ text: normalize(labelText(element)), box: labelBox(element) }))
+  const camouflaged = requiredLabels.filter(label => visibleMatches(label).some(element => camouflagedElements.has(element)))
+  check('visible-authored-labels', input.expected.labels, labelResults.map(item => ({ label: item.label, count: item.count, camouflaged: camouflaged.includes(item.label) })), camouflaged.length ? false : uninspectableLabels ? null : labelResults.every(item => item.count > 0), uninspectableLabels ? 'Missing DOM labels alongside path/image/use need a qualified glyph/image observer; missing parseable text supplies no renderer failure or correctness credit' : 'Computed visibility and nonzero browser text bounds, rejecting glyphs proved identical to their own opaque flat backdrop. Metadata/title/defs text earns no credit; this is not general contrast or accessibility certification')
+  check('labels-within-canvas', 'every authored label fits the canvas', labelResults, labelResults.some(item => item.count > 0 && item.inCanvas === false) ? false : uninspectableLabels || labelResults.some(item => item.inCanvas === null) ? null : labelResults.every(item => item.inCanvas), 'Measured plain-SVG glyph ink uses matching computed font, SVG advance/font-box metrics and axis-aligned transform; an unsupported overflowing font box alone remains unavailable. 1.5 CSS-pixel serialization tolerance')
+  if (input.expected.forbiddenLabels?.length) {
+    const painted: string[] = [], uncertain: string[] = []
+    for (const label of input.expected.forbiddenLabels) for (const element of visibleMatches(label)) {
+      const box = labelBox(element)
+      let unresolved = !contains(rootBox, box)
+      for (let parent: Element | null = element; parent; parent = parent.parentElement) {
+        const style = getComputedStyle(parent)
+        if (style.clipPath !== 'none' || style.maskImage !== 'none' || style.clip !== 'auto' || ['hidden', 'clip'].includes(style.overflowX) && !contains(rect(parent), box) || ['hidden', 'clip'].includes(style.overflowY) && !contains(rect(parent), box)) unresolved = true
+        if (parent === svg) break
+      }
+      ;(unresolved ? uncertain : painted).push(label)
+    }
+    check('hidden-authored-content', input.expected.forbiddenLabels, { painted, uncertain }, painted.length ? false : uninspectableLabels || uncertain.length ? null : true, 'Explicitly hidden source labels must not be drawn; metadata and display:none text are excluded, unprojected clipping remains unknown')
+  }
+  const htmlPaint = new Map<Element, Box[] | null>()
+  const transparentHtmlPaint = (element: Element): Box[] | null => {
+    if (htmlPaint.has(element)) return htmlPaint.get(element)!
+    htmlPaint.set(element, null)
+    const matrix = (element as SVGGraphicsElement).getScreenCTM?.(), scale = matrix ? Math.max(Math.hypot(matrix.a,matrix.b),Math.hypot(matrix.c,matrix.d)) : 0
+    if (element.localName !== 'foreignObject' || !matrix || !(scale>0) || Math.abs(matrix.b)>1e-8 || Math.abs(matrix.c)>1e-8 || matrix.a<=0 || matrix.d<=0 || Math.abs(matrix.a-matrix.d)>1e-8) return null
+    for(let owner:Element|null=element;owner;owner=owner.parentElement){if(getComputedStyle(owner).filter!=='none')return null;if(owner===svg)break}
+    const htmlCanvas=document.createElement('canvas').getContext('2d')!
+    const allowed = ['span','div','p','br','b','strong','i','em']
+    for (const child of [element,...element.querySelectorAll('*')]) {
+      const css=getComputedStyle(child)
+      if (child!==element&&(child.namespaceURI!=='http://www.w3.org/1999/xhtml'||!allowed.includes(child.localName))||colorAlpha(css.backgroundColor)!==0||css.backgroundImage!=='none'||css.boxShadow!=='none'||css.textShadow!=='none'||css.transform!=='none'||css.filter!=='none'||css.mixBlendMode!=='normal'||css.maskImage!=='none'||css.textDecorationLine!=='none'||Number.parseFloat(css.webkitTextStrokeWidth)>0||['Top','Right','Bottom','Left'].some(side=>Number.parseFloat(css.getPropertyValue('border-'+side.toLowerCase()+'-width'))>0)||css.outlineStyle!=='none'&&Number.parseFloat(css.outlineWidth)>0) return null
+      for (const pseudo of ['::before','::after']) if (!['none','normal'].includes(getComputedStyle(child,pseudo).content)) return null
+      for (const pseudo of ['::first-letter','::first-line']) { const p=getComputedStyle(child,pseudo); if(colorAlpha(p.backgroundColor)!==0||p.textShadow!=='none'||p.filter!=='none'||p.fontSize!==css.fontSize||p.fontFamily!==css.fontFamily||p.fontStyle!==css.fontStyle||p.fontWeight!==css.fontWeight||p.fontVariant!==css.fontVariant||p.textTransform!==css.textTransform||p.textDecorationLine!==css.textDecorationLine)return null }
+    }
+    const walker=document.createTreeWalker(element,NodeFilter.SHOW_TEXT), boxes: Box[]=[];let node: Node|null
+    while ((node=walker.nextNode())) {
+      if(!node.textContent?.trim())continue
+      const parent=node.parentElement!,css=getComputedStyle(parent),font=Number.parseFloat(css.fontSize)
+      if(!/^[\x20-\x7e]+$/.test(node.textContent)||!css.font||!(font>0)||css.direction!=='ltr'||css.writingMode!=='horizontal-tb'||css.textTransform!=='none'||css.fontSizeAdjust!=='none')return null
+      htmlCanvas.font=css.font;htmlCanvas.fontKerning=css.fontKerning as CanvasFontKerning;const metric=htmlCanvas.measureText(node.textContent)
+      if(![metric.actualBoundingBoxLeft,metric.actualBoundingBoxRight-metric.width,metric.actualBoundingBoxAscent,metric.actualBoundingBoxDescent].every(value=>Number.isFinite(value)&&Math.abs(value)<=font*2))return null
+      if (/(?:ff|fi|fl)/i.test(node.textContent) || css.fontStyle !== 'normal' || css.fontFeatureSettings !== 'normal' || css.fontVariationSettings !== 'normal' || !['normal','0px'].includes(css.letterSpacing) || !['normal','0px'].includes(css.wordSpacing)) return null
+      // HTML Range font cells and Canvas fontBoundingBox metrics can use
+      // different platform ascent/descent rounding. Observe the HTML baseline
+      // independently with the same actual font and an empty baseline-aligned
+      // inline block; no diagram coordinate or expected label fits this probe.
+      const probe=document.createElement('div'),marker=document.createElement('span'),value=document.createTextNode(node.textContent)
+      probe.style.cssText='all:initial!important;position:fixed!important;left:-100000px!important;top:0!important;display:block!important;white-space:pre!important;'
+      for(const [key,value] of Object.entries({font:css.font,'line-height':css.lineHeight,'font-kerning':css.fontKerning,'letter-spacing':css.letterSpacing,'word-spacing':css.wordSpacing,direction:css.direction,'writing-mode':css.writingMode,'text-transform':'none'}))probe.style.setProperty(key,value,'important')
+      marker.style.cssText='all:initial!important;display:inline-block!important;width:0!important;height:0!important;margin:0!important;padding:0!important;border:0!important;vertical-align:baseline!important;'
+      probe.append(value,marker);document.body.append(probe)
+      let cellHeight=NaN,baselineOffset=NaN
+      try{const cell=document.createRange();cell.selectNodeContents(value);const b=cell.getBoundingClientRect();cellHeight=b.height;baselineOffset=marker.getBoundingClientRect().y-b.y}finally{probe.remove()}
+      if(!(cellHeight>0)||!Number.isFinite(baselineOffset)||baselineOffset<0||baselineOffset>cellHeight)return null
+      const chars=[...node.textContent].map(value=>htmlCanvas.measureText(value)),left=Math.max(0,...chars.map(m=>m.actualBoundingBoxLeft)),right=Math.max(0,...chars.map(m=>m.actualBoundingBoxRight-m.width)),range=document.createRange();range.selectNodeContents(node)
+      // Each actual wrapped line's font cell must match the independent HTML
+      // probe cell. The measured baseline, maximum glyph ascent/descent and edge
+      // overhang conservatively enclose every line; these are not layout boxes
+      // borrowed as opaque pixels from the transparent HTML container.
+      for(const b of range.getClientRects()){if(Math.abs(b.height-cellHeight*scale)>.25)return null;boxes.push({x:b.x-left*scale,y:b.y+(baselineOffset-metric.actualBoundingBoxAscent)*scale,width:b.width+(left+right)*scale,height:(metric.actualBoundingBoxAscent+metric.actualBoundingBoxDescent)*scale})}
+    }
+    htmlPaint.set(element,boxes);return boxes
+  }
   const clipped: string[] = []
   let unknownClipping = false
-  for (const label of input.expected.labels.filter(Boolean)) for (const element of visibleMatches(label)) {
+  for (const label of requiredLabels.filter(Boolean)) for (const element of visibleMatches(label)) {
     for (let parent: Element | null = element; parent; parent = parent.parentElement) {
       const style = getComputedStyle(parent)
-      const outer = rect(parent), ink = labelBox(element)
-      if (['hidden', 'clip'].includes(style.overflowX) && (ink.x < outer.x - 1.5 || ink.x + ink.width > outer.x + outer.width + 1.5) || ['hidden', 'clip'].includes(style.overflowY) && (ink.y < outer.y - 1.5 || ink.y + ink.height > outer.y + outer.height + 1.5)) clipped.push(label)
+      const outer = rect(parent), measuredInk = labelInkBox(element), ink = measuredInk ?? labelBox(element)
+      if (['hidden', 'clip'].includes(style.overflowX) && (ink.x < outer.x - 1.5 || ink.x + ink.width > outer.x + outer.width + 1.5) || ['hidden', 'clip'].includes(style.overflowY) && (ink.y < outer.y - 1.5 || ink.y + ink.height > outer.y + outer.height + 1.5)) { if (measuredInk) clipped.push(label); else unknownClipping = true }
       if (style.clip && style.clip !== 'auto') { unknownClipping = true; check('legacy-clip:' + label, 'label survives legacy CSS clipping', style.clip, null, 'Legacy CSS clip rectangles need a reviewed projection') }
       const clip = style.clipPath
       if (clip && clip !== 'none') {
@@ -108,57 +444,107 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
         const shape = shapes.length === 1 && ['rect', 'circle', 'ellipse'].includes(shapes[0]!.localName) ? shapes[0] as SVGGeometryElement : undefined
         const matrix = (parent as SVGGraphicsElement).getScreenCTM?.()
         if (shape && matrix && clipElement?.getAttribute('clipPathUnits') !== 'objectBoundingBox' && !shape.hasAttribute('transform') && !clipElement?.hasAttribute('transform')) {
-          const box = labelBox(element), inverse = matrix.inverse(), points = [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]]
-          if (!points.every(([x, y]) => shape.isPointInFill(new DOMPoint(x, y).matrixTransform(inverse)))) clipped.push(label)
+          const box = labelInkBox(element) ?? labelBox(element), inverse = matrix.inverse(), points = [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]]
+          const empty = shape.localName === 'rect' ? !(shape as SVGRectElement).width.baseVal.value || !(shape as SVGRectElement).height.baseVal.value : shape.localName === 'circle' ? !(shape as SVGCircleElement).r.baseVal.value : !(shape as SVGEllipseElement).rx.baseVal.value || !(shape as SVGEllipseElement).ry.baseVal.value
+          if (empty) clipped.push(label)
+          else if (!points.every(([x, y]) => shape.isPointInFill(new DOMPoint(x, y).matrixTransform(inverse)))) {
+            if (labelInkBox(element) && shape.localName === 'rect' && !(shape as SVGRectElement).rx.baseVal.value && !(shape as SVGRectElement).ry.baseVal.value) clipped.push(label)
+            else unknownClipping = true
+          }
         } else { unknownClipping = true; check('clip-path:' + label, 'label remains inside the actual clipping path', clip, null, 'Complex or object-bounding-box clipping requires a reviewed projection; no paint-complete credit') }
       }
       if (style.maskImage && style.maskImage !== 'none') { unknownClipping = true; check('mask:' + label, 'label survives its actual mask', style.maskImage, null, 'Mask alpha is not inferred from a positive text bounding box') }
       if (parent === svg) break
     }
   }
-  check('unclipped-authored-labels', [], clipped, clipped.length ? false : unknownClipping ? null : true, 'Actual self/ancestor clipping and overflow; unprojected masks/clip paths remain unavailable')
+  // Computed visibility is insufficient when later opaque SVG paint hides the
+  // label. Prove full occlusion only for simple convex filled primitives; an
+  // overlapping unprojected cover withholds completeness instead of passing.
+  for (const label of requiredLabels.filter(Boolean)) for (const element of visibleMatches(label)) {
+    const ink = labelInkBox(element) ?? labelBox(element)
+    for (const cover of svg.querySelectorAll('rect,circle,ellipse,polygon,path,image,use,foreignObject')) {
+      if (cover.contains(element) || element.contains(cover) || !(element.compareDocumentPosition(cover) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(cover)) continue
+      const outer = rect(cover), overlap = Math.min(ink.x + ink.width, outer.x + outer.width) - Math.max(ink.x, outer.x) > .5 && Math.min(ink.y + ink.height, outer.y + outer.height) - Math.max(ink.y, outer.y) > .5
+      if (!overlap) continue
+      const htmlBoxes = cover.localName === 'foreignObject' ? transparentHtmlPaint(cover) : null
+      if (htmlBoxes && htmlBoxes.every(b => Math.min(ink.x+ink.width,b.x+b.width)<=Math.max(ink.x,b.x)||Math.min(ink.y+ink.height,b.y+b.height)<=Math.max(ink.y,b.y))) continue
+      const style = getComputedStyle(cover)
+      if (!['image', 'use', 'foreignObject'].includes(cover.localName) && (colorAlpha(style.fill) === 0 || Number(style.fillOpacity) === 0)) continue
+      let simple = ['rect', 'circle', 'ellipse'].includes(cover.localName) && colorAlpha(style.fill) === 1 && Number(style.fillOpacity) === 1
+      for (let parent: Element | null = cover; parent; parent = parent.parentElement) { const css = getComputedStyle(parent); if (Number(css.opacity) !== 1 || css.clipPath !== 'none' || css.maskImage !== 'none' || css.filter !== 'none' || css.mixBlendMode !== 'normal' || !['auto', '0'].includes(css.zIndex)) simple = false; if (parent === svg) break }
+      const matrix = (cover as SVGGraphicsElement).getScreenCTM?.()
+      const corners = [[ink.x, ink.y], [ink.x + ink.width, ink.y], [ink.x, ink.y + ink.height], [ink.x + ink.width, ink.y + ink.height]]
+      if (simple && matrix && corners.every(([x, y]) => (cover as SVGGeometryElement).isPointInFill?.(new DOMPoint(x, y).matrixTransform(matrix.inverse())))) clipped.push(label)
+      else { unknownClipping = true; check('occlusion:' + label, 'required text survives later overlapping paint', { cover: cover.localName, box: outer }, null, 'Partial, translucent, clipped or complex later paint can obscure authored glyphs; no visible-text completeness is inferred from its bounding box') }
+    }
+  }
+  check('unclipped-authored-labels', [], clipped, clipped.length ? false : uninspectableLabels || unknownClipping ? null : true, 'Actual glyph-ink clipping, overflow and later opaque covers; unqualified overflowing font boxes, masks, partial occlusion and complex clip paths remain unavailable')
   if (input.paint?.fontSize !== undefined) {
-    const sizes = input.expected.labels.filter(Boolean).map(label => ({ label, values: visibleMatches(label).flatMap(element => {
+    const sizes = requiredLabels.filter(Boolean).map(label => ({ label, values: visibleMatches(label).flatMap(element => {
       const descendants = [...element.querySelectorAll('tspan,span,p')].filter(child => normalize(labelText(child)) && visible(child))
       return (descendants.length ? descendants : [element]).map(child => Number.parseFloat(getComputedStyle(child).fontSize))
     }) }))
-    check('computed-authored-font-size', input.paint.fontSize, sizes, sizes.every(item => item.values.length > 0 && item.values.every(size => Number.isFinite(size) && Math.abs(size - input.paint!.fontSize!) <= .1)), 'Every authored text run must receive the requested public font size; one unrelated matching label earns no credit')
+    check('computed-authored-font-size', input.paint.fontSize, sizes, uninspectableLabels ? null : sizes.every(item => item.values.length > 0 && item.values.every(size => Number.isFinite(size) && Math.abs(size - input.paint!.fontSize!) <= .1)), 'Every authored text run must receive the requested public font size; one unrelated matching label earns no credit')
   }
-  const images: Array<{ href: string; loaded: boolean; visible: boolean; clipUnknown: boolean; box: Box; error?: string }> = []
+  const images: Array<{ href: string; loaded: boolean; visible: boolean; clipUnknown: boolean; definition: boolean; box: Box; error?: string }> = []
   for (const element of svg.querySelectorAll('image')) {
     const href = element.getAttribute('href') ?? element.getAttributeNS('http://www.w3.org/1999/xlink', 'href') ?? ''
     const image = new Image(); image.src = href
     let clipUnknown = false
     for (let current: Element | null = element; current; current = current.parentElement) { const style = getComputedStyle(current); if (style.clipPath && style.clipPath !== 'none' || style.maskImage && style.maskImage !== 'none') clipUnknown = true; if (current === svg) break }
-    const box = rect(element), painted = visible(element) && box.width > 0 && box.height > 0 && contains(rootBox, box)
-    try { await Promise.race([image.decode(), new Promise((_, reject) => setTimeout(() => reject(Error('Image decode timeout')), 5000))]); images.push({ href, loaded: true, visible: painted, clipUnknown, box }) }
-    catch (error) { images.push({ href, loaded: false, visible: painted, clipUnknown, box, error: String(error) }) }
+    const definition = !!element.closest('defs,symbol'), box = rect(element), painted = visible(element) && box.width > 0 && box.height > 0 && contains(rootBox, box)
+    try { await Promise.race([image.decode(), new Promise((_, reject) => setTimeout(() => reject(Error('Image decode timeout')), 5000))]); images.push({ href, loaded: true, visible: painted, clipUnknown, definition, box }) }
+    catch (error) { images.push({ href, loaded: false, visible: painted, clipUnknown, definition, box, error: String(error) }) }
   }
   if (input.paint?.images?.length) {
     const retained = input.paint.images.every(requested => images.filter(image => image.href === requested.href).length === requested.count)
-    check('embedded-images', input.paint.images, images, !retained || images.some(image => !image.loaded || !image.visible) ? false : images.some(image => image.clipUnknown) ? null : true, 'Every independently declared image must be emitted with its authored asset, decoded and visible. Missing images are failures; unprojected image masks/clips stay unavailable.')
-  } else if (images.length) check('emitted-image-decoding', 'all unexpected emitted images decode', images, images.every(item => item.loaded && item.visible), 'Diagnostic only: decoding emitted images does not prove the renderer retained an author-requested image')
-  const geometry = [...svg.querySelectorAll('path,line,rect,circle,ellipse,polygon,polyline')].filter(element => visible(element) && rect(element).width + rect(element).height > 0)
-  check('visible-ink', 'nonempty visible diagram geometry', geometry.length, geometry.length > 0 ? true : svg.querySelector('use,foreignObject,image') ? null : false, 'Visible geometric elements; unprojected use/HTML/image-only ink remains unavailable, not a drawing defect')
-  const ownedBox = (element: Element, identity?: string): { owner: Element; shape: Element; box: Box; outlines?: Element[] } | undefined => {
+    const requested = images.filter(image => input.paint!.images!.some(expected => image.href === expected.href)), extra = images.filter(image => !requested.includes(image))
+    check('embedded-images', input.paint.images, requested, !retained ? null : requested.some(image => image.loaded && !image.visible && !image.definition) ? false : requested.some(image => !image.loaded || !image.visible || image.clipUnknown) ? null : true, 'Exact decoded hrefs provide a bounded asset binding, but they are not the only valid representation: a renderer may inline, reencode or vectorize the same image. Unmatched hrefs, different DOM counts and absent image elements remain unavailable without independent asset-equivalence evidence. A matched decoded directly painted image with nonvisible geometry fails; definitions that may be displayed through use and unavailable decode/clip prerequisites supply no credit.')
+    if (extra.length) check('emitted-image-decoding', 'extra emitted image prerequisites are inspectable', extra, extra.every(image => image.loaded && image.visible && !image.clipUnknown) ? true : null, 'Diagnostic only: unavailable extra images cannot be attributed to the renderer without separate asset/host evidence and supply no drawing correctness credit')
+  } else if (images.length) check('emitted-image-decoding', 'emitted image prerequisites are inspectable', images, images.every(item => item.loaded && item.visible && !item.clipUnknown) ? true : null, 'Diagnostic only: decoding emitted images does not prove retention of an author-requested image; unavailable asset/host evidence stays unknown')
+  const geometry = [...svg.querySelectorAll('path,line,rect,circle,ellipse,polygon,polyline')].filter(element => visible(element) && rect(element).width + rect(element).height > 0 && !camouflage(element))
+  const camouflagedGeometry = [...svg.querySelectorAll('path,line,rect,circle,ellipse,polygon,polyline')].flatMap((element, layer) => visible(element) && camouflage(element) ? [{ tag: element.localName, layer, box: rect(element) }] : [])
+  const paintedText = labelElements.filter(element => visible(element) && !camouflage(element) && labelBox(element).width > 0 && labelBox(element).height > 0)
+  check('visible-ink', 'nonempty visible diagram geometry or text', { geometry: geometry.length, text: paintedText.length }, geometry.length + paintedText.length > 0 ? true : svg.querySelector('use,foreignObject,image') ? null : false, 'Actual non-camouflaged geometry/text, including browser-painted HTML labels; image/use-only ink needs a qualified image projection')
+  const ownedBox = (element: Element, identity?: string, group = false): { owner: Element; shape: Element; box: Box; outlines?: Element[] } | undefined => {
     const point = center(rect(element))
     for (let current: Element | null = element.parentElement; current && current !== svg; current = current.parentElement) {
-      if (current.matches('.cluster,.pele-cluster,[data-role="group"]')) return undefined
-      const shapes = [...current.querySelectorAll('rect,circle,ellipse,polygon,path')].filter(child => visible(child))
+      const declaredGroup = current.matches('.cluster,.pele-cluster,[data-role="group"]')
+      if (declaredGroup && !group) return undefined
+      const shapes = [...current.querySelectorAll('rect,circle,ellipse,polygon,path')].filter(child => visible(child) && !camouflage(child))
       const candidates = shapes.filter(child => { const box = rect(child); return box.width > 0 && box.height > 0 && contains(box, { ...point, width: 0, height: 0 }, 2) })
       // A compartment header is ink inside its node, not the node boundary.
       const shape = candidates.find(candidate => candidates.every(other => contains(rect(candidate), rect(other), 1)))
       if (shape) {
+        if (group && shape.localName === 'rect') {
+          const header = rect(shape), style = getComputedStyle(shape)
+          const larger = shapes.filter(other => other !== shape && other.localName === 'rect' && rect(other).width * rect(other).height > header.width * header.height + 1 && !contains(rect(other), header, 1))
+          const bodies = larger.filter(other => {
+            const b = rect(other), css = getComputedStyle(other), samePaint = ['fill', 'fillOpacity', 'stroke', 'strokeOpacity', 'strokeWidth', 'opacity'].every(key => style[key as keyof CSSStyleDeclaration] === css[key as keyof CSSStyleDeclaration])
+            const border = colorAlpha(style.stroke), square = [shape, other].every(element => !(element as SVGRectElement).rx.baseVal.value && !(element as SVGRectElement).ry.baseVal.value)
+            const leftStrip = Math.abs(header.x + header.width - b.x) <= 1.5 && Math.abs(header.y - b.y) <= 1.5 && Math.abs(header.y + header.height - b.y - b.height) <= 1.5 && b.width > header.width * 2
+            const topTab = Math.abs(header.y + header.height - b.y) <= 1.5 && Math.abs(header.x - b.x) <= 1.5 && header.x + header.width <= b.x + b.width + 1.5 && b.height > header.height * 2
+            return samePaint && border !== null && border > 0 && Number.parseFloat(style.strokeWidth) > 0 && square && (leftStrip || topTab)
+          })
+          // The visible caption panel and main enclosure share an actual
+          // painted edge and matching border/fill. Choose this association
+          // before inspecting any requested group members. Membership uses
+          // the main body, so a node cannot borrow a package tab or its blank
+          // bounding-box corner as if it were inside the enclosure.
+          if (bodies.length === 1) return { owner: current, shape: bodies[0]!, outlines: [shape, bodies[0]!], box: rect(bodies[0]!) }
+          if (larger.length) return undefined
+        }
         const body = current.matches('.c4-person') ? current.querySelector(':scope > g.basic.label-container') : null
         const parts = body ? [...body.children].filter(child => ['rect', 'circle', 'ellipse'].includes(child.localName) && visible(child) && rect(child).width > 0 && rect(child).height > 0) : []
         if (parts.length > 1) { const boxes = parts.map(rect), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)); return { owner: current, shape, outlines: parts, box: { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y } } }
         return { owner: current, shape, box: rect(shape) }
       }
+      if (declaredGroup && group) return undefined
       // Some public SVG nodes place their label immediately below the body.
       // Require an authored SVG identity, a unique direct body outline, and
       // spatial agreement; an enclosing cluster is never their node body.
       if (identity && current.matches('g.node,g.pele-node,[data-role="node"],[data-role="actor"]') && ['data-id', 'data-node-id'].some(name => current.getAttribute(name) === identity)) {
-        const bodies = [...current.children].filter(child => ['rect', 'circle', 'ellipse', 'polygon', 'path'].includes(child.localName) && visible(child) && rect(child).width > 0 && rect(child).height > 0)
+        const bodies = [...current.children].filter(child => ['rect', 'circle', 'ellipse', 'polygon', 'path'].includes(child.localName) && visible(child) && !camouflage(child) && rect(child).width > 0 && rect(child).height > 0)
         if (bodies.length !== 1) return undefined
         const body = bodies[0]!, box = rect(body), label = labelBox(element), midpoint = center(label)
         const verticalGap = Math.max(box.y - label.y - label.height, label.y - box.y - box.height, 0)
@@ -168,6 +554,32 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       // Crossing a declared node boundary cannot recover its missing body
       // from a surrounding cluster or another node's artwork.
       if (current.matches('g.node,g.pele-node,g.participant,[data-role="node"],[data-role="actor"]')) return undefined
+    }
+    // Flat public SVGs need no renderer-specific classes or wrapper groups.
+    // Bind only the smallest actual closed outline containing this label. A
+    // canvas background or a body enclosing another authored node label cannot
+    // supply ownership for a missing node.
+    if (!group && identity) {
+      const label = labelBox(element)
+      if (input.family === 'sankey') {
+        const adjacent = geometry.filter(shape => shape.localName === 'rect' && colorAlpha(getComputedStyle(shape).fill) !== 0 && !contains(rect(shape), rootBox, 2)).map(shape => { const b = rect(shape), gap = Math.max(b.x - label.x - label.width, label.x - b.x - b.width, 0), dy = Math.abs(center(b).y - center(label).y); return { shape, box: b, gap, dy } }).filter(item => item.box.width <= Math.max(30, label.height) && item.gap <= Math.max(12, label.height * .75) && item.dy <= Math.max(3, label.height * .35)).sort((a, b) => a.gap + a.dy - b.gap - b.dy)
+        if (adjacent[0] && (!adjacent[1] || adjacent[1].gap + adjacent[1].dy - adjacent[0].gap - adjacent[0].dy > 2)) return { owner: adjacent[0].shape, shape: adjacent[0].shape, box: adjacent[0].box }
+      }
+      const bodyCandidates = geometry.filter(shape => {
+        if (!['rect', 'circle', 'ellipse', 'polygon', 'path'].includes(shape.localName)) return false
+        const style = getComputedStyle(shape)
+        if (shape.localName === 'path' && style.fill === 'none' && !/z\s*$/i.test(shape.getAttribute('d') ?? '')) return false
+        const b = rect(shape)
+        if (b.width <= 0 || b.height <= 0 || !contains(b, label, 2)) return false
+        if (contains(b, rootBox, 2)) return false
+        const ownLabels = (input.expected.nodes ?? []).filter(node => visibleMatches(node.label).some(text => contains(b, labelBox(text), 2)))
+        if (ownLabels.some(node => node.id !== identity)) return false
+        const matrix = (shape as SVGGraphicsElement).getScreenCTM?.()
+        if (!matrix || !(shape as SVGGeometryElement).isPointInFill?.(new DOMPoint(point.x, point.y).matrixTransform(matrix.inverse()))) return false
+        return true
+      }).sort((a, b) => rect(a).width * rect(a).height - rect(b).width * rect(b).height)
+      const smallest = bodyCandidates[0]
+      if (smallest && bodyCandidates.every(candidate => candidate === smallest || contains(rect(candidate), rect(smallest), 1) && rect(candidate).width * rect(candidate).height > rect(smallest).width * rect(smallest).height + 1)) return { owner: smallest, shape: smallest, box: rect(smallest) }
     }
     return undefined
   }
@@ -180,15 +592,66 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (['sequence', 'zenuml'].includes(input.family)) elements = elements.sort((a, b) => rect(a).y - rect(b).y).slice(0, 1)
     const owners = new Map<Element, { owner: Element; shape: Element; box: Box }>()
     for (const element of elements) { const owned = ownedBox(element, node.id); if (owned) owners.set(owned.owner, owned) }
-    if (owners.size === 1) { const owned = [...owners.values()][0]!; anchors.set(node.id, { ...node, ...owned }); elements.forEach(element => nodeLabelElements.add(element)) }
+    if (owners.size === 1) { const owned = [...owners.values()][0]!; anchors.set(node.id, { ...node, ...owned }); elements.filter(element => { const candidate = ownedBox(element, node.id); return candidate?.shape === owned.shape }).forEach(element => nodeLabelElements.add(element)) }
     else missingNodes.push(node.id)
+  }
+  // Only the independently measured graph observer supplies these anchors.
+  // Re-identify their actual visible ink; a source ID or caller-provided box
+  // without a unique matching physical glyph never supplies ownership.
+  for (const source of input.expected.nodes ?? []) {
+    const qualified = input.qualifiedNodeAnchors?.filter(node => node.id === source.id && node.label === source.label)
+    if (qualified?.length !== 1) continue
+    const candidate = qualified[0]!, descriptions = candidate.anchorParts ?? (candidate.outline ? [{ tag: candidate.outline.tag, box: candidate.box }] : [])
+    if (!descriptions.length) continue
+    const sameBox = (a: Box, b: Box) => ['x', 'y', 'width', 'height'].every(key => Math.abs(a[key as keyof Box] - b[key as keyof Box]) <= .25)
+    const allGeometry = [...svg.querySelectorAll('path,line,rect,circle,ellipse,polygon,polyline')]
+    const parts = descriptions.map(part => geometry.filter(element => (part.layer === undefined || allGeometry[part.layer] === element) && element.localName === part.tag && sameBox(rect(element), part.box)))
+    // Coincident fill/stroke layers may be one physical glyph. Sharing a box
+    // alone is insufficient: compare the complete measured screen contours.
+    const contours = new Map<Element, { points: Point[]; length: number; cells: Map<string, Point[]> }>()
+    const contour = (element: Element) => {
+      if (contours.has(element)) return contours.get(element)!
+      const item = element as SVGGeometryElement, matrix = item.getScreenCTM(), local = item.getTotalLength()
+      if (!matrix || !local) return null
+      const count = Math.min(16384, Math.max(32, Math.ceil(local * Math.hypot(matrix.a, matrix.b, matrix.c, matrix.d) / .1)))
+      const points = Array.from({ length: count + 1 }, (_, index) => { const p = item.getPointAtLength(local * index / count).matrixTransform(matrix); return { x: p.x, y: p.y } })
+      const cells = new Map<string, Point[]>(); let length = 0
+      points.forEach((point, index) => { const key = Math.floor(point.x / .2) + ':' + Math.floor(point.y / .2); cells.set(key, [...(cells.get(key) ?? []), point]); if (index) length += Math.hypot(point.x - points[index - 1]!.x, point.y - points[index - 1]!.y) })
+      const observed = { points, length, cells }; contours.set(element, observed); return observed
+    }
+    const equivalent = (a: Element, b: Element) => {
+      if (a === b) return true
+      const first = contour(a), second = contour(b)
+      if (!first || !second || Math.abs(first.length - second.length) > .25) return false
+      const covered = (from: NonNullable<typeof first>, to: NonNullable<typeof second>) => from.points.every(point => {
+        const x = Math.floor(point.x / .2), y = Math.floor(point.y / .2)
+        for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) if (to.cells.get((x + dx) + ':' + (y + dy))?.some(other => Math.hypot(point.x - other.x, point.y - other.y) <= .2)) return true
+        return false
+      })
+      return covered(first, second) && covered(second, first)
+    }
+    if (parts.some(matches => !matches.length || !matches.every(element => equivalent(matches[0]!, element)))) continue
+    const observed = [...new Set(parts.flat())].filter((element, index, all) => !all.slice(0, index).some(other => equivalent(element, other)))
+    const existing = anchors.get(source.id)
+    if (existing && !observed.some(element => equivalent(element, existing.shape))) continue
+    const boxes = observed.map(rect), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)), union = { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y }
+    if (!sameBox(union, candidate.box)) continue
+    if (source.label) {
+      const allLabels = visibleMatches(source.label), labels = input.family === 'sequence' ? allLabels.sort((a,b)=>rect(a).y-rect(b).y).slice(0,1) : allLabels
+      if (labels.length !== 1) continue
+      const label = labelBox(labels[0]!), middle = center(label), body = center(union)
+      const inside = contains(union, label)
+      const adjacent = Math.abs(middle.x - body.x) <= Math.max(12, union.width * .6) && Math.max(union.y - label.y - label.height, label.y - union.y - union.height, 0) <= Math.max(12, label.height * 1.5)
+      if (!inside && !adjacent) continue
+    }
+    anchors.set(source.id, { ...source, owner: observed[0]!, shape: observed[0]!, outlines: [...new Set(parts.flat())], box: union })
+    const index = missingNodes.indexOf(source.id); if (index >= 0) missingNodes.splice(index, 1)
   }
   // A common ancestor can contain several unrelated labels. It is not a
   // unique ownership witness for two distinct authored nodes.
   const owners = new Map<Element, string[]>()
   for (const node of anchors.values()) owners.set(node.shape, [...(owners.get(node.shape) ?? []), node.id])
   for (const ids of owners.values()) if (ids.length > 1) for (const id of ids) { anchors.delete(id); missingNodes.push(id) }
-  if (input.expected.nodes?.length) check('painted-node-ownership', input.expected.nodes.map(node => node.id), [...anchors.keys()], missingNodes.length ? null : true, missingNodes.length ? 'Ambiguous or absent label-to-shape ownership: ' + missingNodes.join(', ') : 'Unique actual label-to-shape ownership, independently of native model identity')
   const rgba = (color: string): number[] | null => {
     if (!CSS.supports('color', color)) return null
     colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = color; colorCanvas.fillRect(0, 0, 1, 1)
@@ -227,14 +690,100 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const distanceToInk = (point: Point, element: Element) => Math.min(...pointsOn(element).map(item => Math.hypot(point.x - item.x, point.y - item.y)))
   const distanceToNode = (point: Point, node: { shape: Element; outlines?: Element[] }) => Math.min(...(node.outlines ?? [node.shape]).map(shape => distanceToInk(point, shape)))
   let ambiguousEndpoints = false, unresolvedProjection = false
-  const bind = (point: Point, clearance = 2) => {
+  const dashPatterns = new Map<Element, 'solid' | 'dotted' | 'invisible' | 'unavailable'>()
+  const finiteMarkerMaskedPatterns=new Set<Element>()
+  const strokePattern = (element: Element): 'solid' | 'dotted' | 'invisible' | 'unavailable' => {
+    const previous = dashPatterns.get(element); if (previous) return previous
+    const css = getComputedStyle(element), raw = css.strokeDasharray
+    if (!raw || raw === 'none') return 'solid'
+    const tokens = raw.split(/[ ,]+/), unit = /^[-+]?(?:\d*\.)?\d+(?:px)?$/
+    if (tokens.length > 2048 || tokens.some(token => !unit.test(token)) || !unit.test(css.strokeDashoffset) || css.vectorEffect !== 'none') return 'unavailable'
+    let pattern = tokens.map(Number.parseFloat)
+    if (pattern.some(value => value < 0)) return 'unavailable'
+    if (pattern.length % 2) pattern = [...pattern, ...pattern]
+    const period = pattern.reduce((sum, value) => sum + value, 0)
+    if (!period) return 'solid'
+    const geometry = element as SVGGeometryElement, measured = geometry.getTotalLength(), declared = geometry.pathLength?.animVal ?? 0
+    const length = declared > 0 && Number.isFinite(declared) ? declared : measured, offset = Number.parseFloat(css.strokeDashoffset)
+    // pathLength calibrates dash distances, while stroke width/cap radii remain
+    // in geometric user units. Compare both in the declared distance system.
+    const cap = css.strokeLinecap === 'butt' ? 0 : Number.parseFloat(css.strokeWidth) / 2 * length / measured
+    if (!(length > 0) || !Number.isFinite(length) || !Number.isFinite(offset) || !Number.isFinite(cap)) return 'unavailable'
+    const phase = (offset % period + period) % period
+    let paint = false, gap = false
+    if (length >= period) {
+      paint = pattern.some((value, index) => index % 2 === 0 && (value > 0 || cap > 0))
+      gap = pattern.some((value, index) => index % 2 === 1 && value > cap * 2 + 1e-7)
+    } else for (let cycle = 0; cycle <= 1; cycle++) {
+      let position = cycle * period - phase
+      for (const [index, value] of pattern.entries()) {
+        const end = position + value
+        if (index % 2 === 0) paint ||= end + cap > 0 && position - cap < length && (value > 0 || cap > 0)
+        else gap ||= Math.min(length, end - cap) - Math.max(0, position + cap) > 1e-7
+        position = end
+      }
+    }
+    let result:'solid'|'dotted'|'invisible'|'unavailable'=!paint?'invisible':gap?'dotted':'solid'
+    // A finite terminal reveal-mask gap can sit beneath the actual marker.
+    // Its dash declaration alone does not prove a visible dotted shaft. Use
+    // only measured marker geometry as an uncertainty gate, never as a solid
+    // claim. Interior gaps and unmarked terminal gaps remain real negatives.
+    if(paint&&gap&&length<period*3){
+      const gaps:{from:number;to:number}[]=[]
+      for(let cycle=0;cycle<=Math.ceil((length+phase)/period);cycle++){
+        let position=cycle*period-phase
+        for(const[index,value]of pattern.entries()){
+          const end=position+value,from=Math.max(0,position+cap),to=Math.min(length,end-cap)
+          if(index%2===1&&to-from>1e-7)gaps.push({from,to})
+          position=end
+        }
+      }
+      const reach=(side:'start'|'end')=>{
+        const setting=css[side==='start'?'markerStart':'markerEnd'],endpoint=pointFor(element,side==='end'),tangent=tangentAt(element,side)
+        if(!setting||setting==='none'||!endpoint||!tangent||!(tangent.scale>0))return 0
+        const marker=markerFor(element,side,endpoint)
+        if(marker.kind==='none')return 0
+        if(marker.unknown||!marker.point||!Number.isFinite(marker.clearance)||marker.clearance!>=8)return Infinity
+        return(marker.clearance!*2+Math.hypot(marker.point.x-endpoint.x,marker.point.y-endpoint.y))/tangent.scale*length/measured
+      }
+      const start=reach('start'),end=reach('end')
+      if(gaps.length&&gaps.every(interval=>interval.from<=1e-7&&interval.to<=start+1e-7||interval.to>=length-1e-7&&length-interval.from<=end+1e-7)){result='unavailable';finiteMarkerMaskedPatterns.add(element)}
+    }
+    dashPatterns.set(element,result);return result
+  }
+  const bind = (point: Point, clearance = 2, approach?: { direction: Point; extent: number }) => {
     const candidates = [...anchors.values()].map(node => {
-      if (!['sequence', 'zenuml'].includes(input.family)) return { id: node.id, distance: distanceToNode(point, node) }
+      if (!['sequence', 'zenuml'].includes(input.family)) {
+        let measured = distanceToNode(point,node)
+        if (measured > Math.max(2,clearance) && approach && approach.extent > 0 && measured <= approach.extent + Math.max(.75,approach.extent*.05)) {
+          const contact = (node.outlines ?? [node.shape]).flatMap(pointsOn).map(other => { const x = other.x-point.x,y=other.y-point.y;return { point: other,along: x*approach.direction.x+y*approach.direction.y,across: Math.abs(x*approach.direction.y-y*approach.direction.x) } }).filter(item => item.along >= 0 && item.along <= approach.extent && item.across <= Math.max(.75,approach.extent*.05)).sort((a,b)=>a.along-b.along)[0]
+          if (contact) {
+            // Prove the entire approach segment clear. Discrete probes can
+            // miss a subpixel foreign carrier between the head and its node.
+            const intersects = (box: Box) => {
+              let from=0,to=1
+              for (const axis of ['x','y'] as const) { const delta=contact.point[axis]-point[axis],minimum=box[axis],maximum=minimum+(axis==='x'?box.width:box.height);if(Math.abs(delta)<1e-12){if(point[axis]<minimum||point[axis]>maximum)return false}else{const a=(minimum-point[axis])/delta,b=(maximum-point[axis])/delta;from=Math.max(from,Math.min(a,b));to=Math.min(to,Math.max(a,b));if(from>to)return false} }
+              return true
+            }
+            const intervening=[...svg.querySelectorAll('rect,circle,ellipse,polygon,path,image,use,foreignObject')].some(element=>{
+              if ((node.outlines??[node.shape]).includes(element)||!visible(element)||contains(rect(element),node.box,.25)||!intersects(rect(element))) return false
+              if (['image','use','foreignObject'].includes(element.localName)) return true
+              const style=getComputedStyle(element)
+              // A foreign curved/polygon body whose enclosing rectangle
+              // intersects is conservatively unqualified; its fill cannot be
+              // declared absent from a few point samples.
+              return colorAlpha(style.fill)!==0&&Number(style.fillOpacity)>0
+            })
+            if (!intervening) measured = 0
+          }
+        }
+        return { id: node.id,distance: measured }
+      }
       const lifelines = geometry.filter(element => {
         const start = pointFor(element, false), end = pointFor(element, true)
-        return start && end && Math.abs(start.x - end.x) <= 1 && Math.abs(start.x - center(node.box).x) <= 2 && Math.min(start.y, end.y) <= node.box.y + node.box.height + 2 && Math.max(start.y, end.y) >= point.y && Math.min(start.y, end.y) <= point.y
+        return start && end && Math.abs(start.x - end.x) <= 1 && Math.abs(start.x - center(node.box).x) <= (node.outlines&&node.outlines.length>1?8:2) && Math.min(start.y, end.y) <= Math.max(node.box.y + node.box.height,...visibleMatches(node.label).filter(label=>Math.abs(center(rect(label)).x-center(node.box).x)<=Math.max(12,node.box.width*.6)&&rect(label).y>=node.box.y&&rect(label).y<=node.box.y+node.box.height+30).map(label=>rect(label).y+rect(label).height))+12 && Math.max(start.y, end.y) >= point.y && Math.min(start.y, end.y) <= point.y
       })
-      const candidates = geometry.filter(element => element.matches('rect.occurrence[data-participant]') && element.getAttribute('data-participant') === node.id)
+      const candidates = geometry.filter(element => element.localName==='rect' && rect(element).width>=2 && rect(element).width<=30 && rect(element).height>2 && rect(element).y>node.box.y+node.box.height && Math.abs(center(rect(element)).x-center(node.box).x)<=32)
       const activations = new Set(candidates.filter(element => {
         const box = rect(element)
         // The actual activation body must intersect its actor's lifeline;
@@ -252,8 +801,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
         }
       }
       if (candidates.some(body => !activations.has(body) && distanceToInk(point, body) <= 2)) ambiguousEndpoints = true
-      return { id: node.id, distance: Math.min(...[...lifelines, ...activations].map(element => distanceToInk(point, element))) }
-    }).filter(item => item.distance <= Math.max(2, clearance)).sort((a, b) => a.distance - b.distance)
+      const ports=geometry.filter(element=>element.localName==='circle'&&rect(element).width>=4&&rect(element).width<=16&&Math.abs(rect(element).width-rect(element).height)<1&&Math.abs(center(rect(element)).y-point.y)<=1&&lifelines.some(line=>{const p=pointFor(line,false);return p&&Math.abs(p.x-center(rect(element)).x)<1}));const headers=point.y>=node.box.y-2&&point.y<=node.box.y+node.box.height+2?[node.shape,...(node.outlines??[])]:[]; return { id: node.id, distance: Math.min(...[...lifelines, ...activations,...ports,...headers].map(element => distanceToInk(point, element))) }
+    }).filter(item => item.distance <= Math.max(input.family === 'sequence' ? 8 : 2, clearance)).sort((a, b) => a.distance - b.distance)
     if (candidates.length > 1 && candidates[1]!.distance - candidates[0]!.distance <= 2) { ambiguousEndpoints = true; return undefined }
     return candidates[0]?.id
   }
@@ -289,6 +838,46 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!(positive === 1 && negative === 3 || negative === 1 && positive === 3)) return undefined
     return points[(turns.findIndex(turn => turn === (positive === 1 ? 1 : -1)) + 2) % 4]
   }
+  // Open async arrows describe their visible V contour, not SVG fill syntax.
+  // A finite ribbon V has two symmetric rear arms and a distinct central
+  // notch; a convex solid triangle never enters this profile.
+  const openChevron = (points: Point[], measured = false) => {
+    const tip = concaveArrowTip(points); if (!tip) return false
+    const index = points.indexOf(tip), notch = points[(index + 2) % 4]!, a = points[(index + 1) % 4]!, b = points[(index + 3) % 4]!, base = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }, dx = tip.x - base.x, dy = tip.y - base.y, length = Math.hypot(dx, dy), width = Math.hypot(a.x - b.x, a.y - b.y)
+    if (!(length > 0 && width > 0)) return false
+    const along = (p: Point) => ((p.x - base.x) * dx + (p.y - base.y) * dy) / length, across = (p: Point) => ((p.x - base.x) * dy - (p.y - base.y) * dx) / length
+    const depth = along(notch), arm = (p: Point) => Math.abs((tip.x - p.x) * (notch.y - p.y) - (tip.y - p.y) * (notch.x - p.x)) / Math.hypot(tip.x - p.x, tip.y - p.y)
+    return Math.abs(along(a) - along(b)) <= length * .03 && Math.abs(across(notch)) <= width * .03 && depth >= length * .2 && depth <= length * .8 && width >= length * .25 && width <= length * 4 && (!measured || depth >= .75 && length - depth >= .75 && Math.min(arm(a), arm(b)) >= .35)
+  }
+  const exposedRibbonPaint = (shape: Element, host: Element) => {
+    const css = getComputedStyle(shape), alpha = colorAlpha(css.fill)
+    if (!(shape.localName === 'polygon' || /z\s*$/i.test(shape.getAttribute('d') ?? '')) || alpha === null || alpha <= 0 || Number(css.fillOpacity) <= 0 || colorAlpha(css.stroke) !== 0 && Number(css.strokeOpacity) > 0 && Number.parseFloat(css.strokeWidth) > 0) return false
+    let opacity = alpha * Number(css.fillOpacity); const ancestors = new Set<Element>()
+    for (const root of [shape, host]) for (let parent: Element | null = root; parent; parent = parent.parentElement) {
+      const style = getComputedStyle(parent)
+      if (style.filter !== 'none' || style.clipPath !== 'none' || style.maskImage !== 'none' || ['hidden', 'collapse'].includes(style.visibility) || style.display === 'none') return false
+      if (!ancestors.has(parent)) { opacity *= Number(style.opacity); ancestors.add(parent) }
+      if (parent === svg) break
+    }
+    const matrix = (host as SVGGraphicsElement).getScreenCTM(), a = matrix ? Math.hypot(matrix.a, matrix.b) : 0, b = matrix ? Math.hypot(matrix.c, matrix.d) : 0
+    return opacity >= .999 && getComputedStyle(host).vectorEffect === 'none' && !!matrix && a > 0 && Math.abs(a - b) <= a * 1e-6 && Math.abs(matrix.a * matrix.c + matrix.b * matrix.d) <= a * b * 1e-6
+  }
+  const exposedRibbonBackdrop = (shape: Element, host: Element, polygon: Point[]) => {
+    // This finite carrier profile uses the exposed stem's paint on a clear
+    // white canvas. Other backdrops stay unknown instead of inventing contrast.
+    const ink = getComputedStyle(shape).fill
+    if (ink !== getComputedStyle(host).stroke || ink === 'rgb(255, 255, 255)') return false
+    for (const element of [document.documentElement, document.body, svg]) { const css = getComputedStyle(element), alpha = colorAlpha(css.backgroundColor); if (css.backgroundImage !== 'none' || alpha === null || alpha > 0 && css.backgroundColor !== 'rgb(255, 255, 255)') return false }
+    const tip = concaveArrowTip(polygon); if (!tip) return false
+    const index = polygon.indexOf(tip), notch = polygon[(index + 2) % 4]!, probes = [polygon[(index + 1) % 4]!, polygon[(index + 3) % 4]!].map(arm => ({ x: (tip.x + notch.x + arm.x) / 3, y: (tip.y + notch.y + arm.y) / 3 }))
+    for (const prior of svg.querySelectorAll('rect,circle,ellipse,path,polygon,polyline,line,image,use,foreignObject')) {
+      if (prior === host || prior.closest('defs,marker,clipPath,mask') || !(prior.compareDocumentPosition(host) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(prior)) continue
+      const b = rect(prior), css = getComputedStyle(prior), matrix = (prior as SVGGraphicsElement).getScreenCTM?.(), geometry = prior instanceof SVGGeometryElement ? prior : null
+      const fill = colorAlpha(css.fill), stroke = colorAlpha(css.stroke), padding = Number.parseFloat(css.strokeWidth) * (matrix ? Math.hypot(matrix.a, matrix.b, matrix.c, matrix.d) : 1) / 2
+      if (probes.some(p => p.x >= b.x - padding && p.x <= b.x + b.width + padding && p.y >= b.y - padding && p.y <= b.y + b.height + padding && (!geometry || !matrix || (() => { const local = new DOMPoint(p.x, p.y).matrixTransform(matrix.inverse()); return fill !== 0 && Number(css.fillOpacity) > 0 && geometry.isPointInFill(local) || stroke !== 0 && Number(css.strokeOpacity) > 0 && geometry.isPointInStroke(local) })()))) return false
+    }
+    return true
+  }
   const shapeKind = (element: Element): string => {
     if (element.localName === 'circle') return 'circle'
     const points = vertices(element)
@@ -313,10 +902,20 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!matrix || !offset) return undefined
     const a = item.getPointAtLength(side === 'start' ? 0 : length - offset), b = item.getPointAtLength(side === 'start' ? offset : length)
     const first = a.matrixTransform(matrix), last = b.matrixTransform(matrix), magnitude = Math.hypot(last.x - first.x, last.y - first.y), localMagnitude = Math.hypot(b.x - a.x, b.y - a.y)
-    return magnitude && localMagnitude ? { x: (last.x - first.x) / magnitude, y: (last.y - first.y) / magnitude, scale: magnitude / localMagnitude } : undefined
+    return magnitude && localMagnitude ? { x: (last.x - first.x) / magnitude, y: (last.y - first.y) / magnitude, scale: magnitude / localMagnitude, localPositiveX: b.x > a.x && Math.abs(b.y - a.y) <= localMagnitude * 1e-7 } : undefined
   }
   const inlineShape = (element: Element): boolean => {
-    if (element.matches('.pele-marker,.arrowhead,.return-arrow,[data-role="marker"]') || element.closest('svg.arrow-head')) return true
+    if (element.matches('[class$="-marker"],.arrowhead,.return-arrow,[data-role="marker"]') || element.closest('svg.arrow-head')) return true
+    const parent = element.parentElement, box = rect(element)
+    if (parent?.localName === 'g' && Math.max(box.width, box.height) <= 16 && ['arrow', 'triangle'].includes(shapeKind(element)) && ![...anchors.values()].some(node => node.owner.contains(element))) {
+      const siblings = [...parent.children].filter(shape => ['path', 'line', 'polyline', 'polygon'].includes(shape.localName) && visible(shape))
+      if (siblings.length >= 2 && siblings.length <= 4 && siblings.some(shape => shape !== element && getComputedStyle(shape).fill === 'none')) return true
+    }
+    if (Math.max(box.width, box.height) <= 16 && ['arrow', 'triangle'].includes(shapeKind(element)) && ![...anchors.values()].some(node => node.owner.contains(element))) {
+      const stems = geometry.filter(shape => shape !== element && ['path', 'line', 'polyline'].includes(shape.localName) && getComputedStyle(shape).fill === 'none' && ![...anchors.values()].some(node => node.owner.contains(shape)))
+      const attached = stems.filter(stem => [pointFor(stem, false), pointFor(stem, true)].some(point => point && distanceToInk(point, element) <= 2))
+      if (attached.length === 1) return true
+    }
     const owner = element.closest('g.message,g.return'), viewport = element.closest('svg[viewBox]')
     if (!owner || !viewport || viewport === svg || !owner.contains(viewport)) return false
     const shapes = [...viewport.querySelectorAll('path,polygon,polyline,circle,line')].filter(shape => visible(shape))
@@ -331,7 +930,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     unresolvedProjection = true
     return false
   }
-  type Marker = { kind: string; point?: Point; unknown?: string; orientation?: boolean; clearance?: number }
+  type Marker = { kind: string; point?: Point; unknown?: string; orientation?: boolean; clearance?: number; filled?: boolean; approach?: { direction: Point; extent: number } }
   const markerFor = (element: Element, side: 'start' | 'end', endpoint: Point): Marker => {
     const setting = getComputedStyle(element)[side === 'start' ? 'markerStart' : 'markerEnd']
     if (!setting || setting === 'none') return { kind: 'none', point: endpoint }
@@ -341,31 +940,47 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!shapes.length) return { kind: 'none', point: endpoint }
     if (input.family === 'er') return { kind: 'decoration', point: endpoint, clearance: Math.min(8, Number(marker.getAttribute('markerWidth') ?? 3) / 2) }
     if (shapes.length !== 1 || shapes[0]!.hasAttribute('transform')) return { kind: 'unknown', point: endpoint, unknown: 'Compound or transformed marker needs a reviewed geometry projection' }
-    const shape = shapes[0]!, kind = shapeKind(shape), polygon = vertices(shape), owner = marker as unknown as SVGMarkerElement
-    if (!polygon || kind === 'unknown' || !['auto', 'auto-start-reverse', null].includes(marker.getAttribute('orient'))) return { kind, point: endpoint, unknown: 'Marker tip/rotation projection is unavailable' }
+    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), polygon = vertices(shape), chevron = input.family === 'sequence' && polygon && concaveArrowTip(polygon), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = chevron ? openChevron(polygon!) && exposedRibbonPaint(shape, element) ? 'open-arrow' : 'unknown' : open ? 'open-arrow' : rawKind, owner = marker as unknown as SVGMarkerElement
+    if (chevron && kind === 'unknown') return { kind, point: endpoint, unknown: 'The concave arrow has no qualified symmetric two-arm open contour' }
+    if (!polygon || kind === 'unknown') return { kind, point: endpoint, unknown: 'Marker tip projection is unavailable' }
     const reference = { x: owner.refX.baseVal.value, y: owner.refY.baseVal.value }
-    const directional = ['arrow', 'triangle'].includes(kind)
+    const directional = ['arrow', 'triangle', 'open-arrow'].includes(kind)
     const tangent = tangentAt(element, side)
     if (!tangent) return { kind, point: endpoint, unknown: 'No stable endpoint tangent for marker placement' }
+    const orient = marker.getAttribute('orient'), automatic = ['auto', 'auto-start-reverse'].includes(orient ?? '')
+    if (!automatic && !((orient === null || /^0(?:deg)?$/.test(orient)) && tangent.localPositiveX)) return { kind, point: endpoint, unknown: 'Fixed/default marker rotation is qualified only where zero degrees equals the measured local positive-X tangent; omitted orient never implies automatic rotation' }
     const box = owner.viewBox.baseVal, viewScale = box.width && box.height ? Math.min(owner.markerWidth.baseVal.value / box.width, owner.markerHeight.baseVal.value / box.height) : 1
+    if (chevron && getComputedStyle(marker).overflow !== 'visible') {
+      const viewport = box.width > 0 && box.height > 0 ? { x: box.x, y: box.y, width: box.width, height: box.height } : { x: 0, y: 0, width: owner.markerWidth.baseVal.value, height: owner.markerHeight.baseVal.value }
+      if (!(viewport.width > 0 && viewport.height > 0) || polygon.some(p => p.x < viewport.x || p.x > viewport.x + viewport.width || p.y < viewport.y || p.y > viewport.y + viewport.height)) return { kind: 'unknown', point: endpoint, unknown: 'The open-arrow contour is clipped by its actual marker viewport' }
+    }
     const units = marker.getAttribute('markerUnits') === 'userSpaceOnUse' ? 1 : Number.parseFloat(getComputedStyle(element).strokeWidth)
     const reverse = side === 'start' && marker.getAttribute('orient') === 'auto-start-reverse' ? -1 : 1
     const projectVertex = (p: Point) => { const dx = (p.x - reference.x) * viewScale * units * tangent.scale * reverse, dy = (p.y - reference.y) * viewScale * units * tangent.scale * reverse; return { x: endpoint.x + tangent.x * dx - tangent.y * dy, y: endpoint.y + tangent.y * dx + tangent.x * dy } }
+    if (chevron && (!openChevron(polygon.map(projectVertex), true) || !exposedRibbonBackdrop(shape, element, polygon.map(projectVertex)))) return { kind: 'unknown', point: endpoint, unknown: 'The open-arrow notch, ribbon paint or backdrop lacks a qualified exposed carrier' }
     const tip = directional ? pointedVertex(polygon) : [...polygon].sort((a, b) => Math.min(...[...anchors.values()].map(node => distanceToNode(projectVertex(a), node))) - Math.min(...[...anchors.values()].map(node => distanceToNode(projectVertex(b), node))))[0]
     if (!tip) return { kind, point: endpoint, unknown: 'No reviewed arrow tip for marker placement' }
     const dx = (tip.x - reference.x) * viewScale * units * tangent.scale * reverse, dy = (tip.y - reference.y) * viewScale * units * tangent.scale * reverse
     const others = polygon.filter(point => point !== tip), base = { x: others.reduce((sum, point) => sum + point.x, 0) / others.length, y: others.reduce((sum, point) => sum + point.y, 0) / others.length }
     const size = Math.max(...polygon.map(point => Math.hypot(point.x - tip.x, point.y - tip.y))) * viewScale * units * tangent.scale
-    return { kind, point: { x: endpoint.x + tangent.x * dx - tangent.y * dy, y: endpoint.y + tangent.y * dx + tangent.x * dy }, clearance: Math.min(8, size / 2), ...(directional ? { orientation: (tip.x - base.x) * reverse * (side === 'start' ? -1 : 1) > 0 } : {}) }
+    // A provably reversed glyph remains wrong even when its reference is
+    // also detached; attachment uncertainty cannot erase known direction.
+    if (!chevron && ['arrow','triangle','open-arrow'].includes(kind)) {
+      const ink=shape as SVGGeometryElement,point=new DOMPoint(reference.x,reference.y),edgeDistance=Math.min(...polygon.map((a,index)=>{const b=polygon[(index+1)%polygon.length]!,dx=b.x-a.x,dy=b.y-a.y,t=Math.max(0,Math.min(1,((reference.x-a.x)*dx+(reference.y-a.y)*dy)/Math.max(1e-12,dx*dx+dy*dy)));return Math.hypot(reference.x-a.x-t*dx,reference.y-a.y-t*dy)}))
+      if (!ink.isPointInFill(point) && !ink.isPointInStroke(point) && edgeDistance > Math.max(.5,Number.parseFloat(glyphStyle.strokeWidth)/2)) return {kind,point:endpoint,...(directional ? {orientation:(tip.x-base.x)*reverse*(side==='start'?-1:1)>0}:{}),unknown:'The referenced directional glyph is physically detached from its stem reference point'}
+    }
+    return { kind, filled: (shape.localName === 'polygon' || /z\s*$/i.test(shape.getAttribute('d') ?? '')) && getComputedStyle(shape).fill !== 'none' && Number(getComputedStyle(shape).fillOpacity) > 0 && colorAlpha(getComputedStyle(shape).fill) !== 0, point: { x: endpoint.x + tangent.x * dx - tangent.y * dy, y: endpoint.y + tangent.y * dx + tangent.x * dy }, clearance: Math.min(8, size / 2), ...(directional ? { approach: { direction: { x: tangent.x * (tip.x-base.x) * reverse - tangent.y * (tip.y-base.y) * reverse,y: tangent.y * (tip.x-base.x) * reverse + tangent.x * (tip.y-base.y) * reverse },extent: size } } : {}), ...(directional ? { orientation: (tip.x - base.x) * reverse * (side === 'start' ? -1 : 1) > 0 } : {}) }
   }
   const inlineMarker = (element: Element, side: 'start' | 'end', endpoint: Point, other: Point): Marker => {
-    const owner = element.closest('g.pele-edge,g.edge,[data-edge-id],g.message,g.return')
-    if (!owner) return { kind: 'none', point: endpoint }
-    const shapes = [...owner.querySelectorAll('path,polygon,polyline,circle,line')].filter(shape => inlineShape(shape) && visible(shape) && shape !== element && Math.hypot(center(rect(shape)).x - endpoint.x, center(rect(shape)).y - endpoint.y) < Math.hypot(center(rect(shape)).x - other.x, center(rect(shape)).y - other.y))
+    const parent = element.parentElement
+    const owner = element.closest('g[class$="-edge"],g.edge,g[data-edge-id],g.message,g.return') ?? (parent?.localName === 'g' && parent.children.length <= 4 && ![...anchors.values()].some(node => node.owner.contains(element)) ? parent : null)
+    const scope = owner ?? svg
+    const shapes = [...scope.querySelectorAll('path,polygon,polyline,circle,line')].filter(shape => inlineShape(shape) && visible(shape) && shape !== element && (owner || distanceToInk(endpoint, shape) <= 2) && Math.hypot(center(rect(shape)).x - endpoint.x, center(rect(shape)).y - endpoint.y) < Math.hypot(center(rect(shape)).x - other.x, center(rect(shape)).y - other.y))
     if (!shapes.length) return { kind: 'none', point: endpoint }
     if (input.family === 'er') return { kind: 'decoration', point: endpoint, clearance: 4 }
     if (shapes.length !== 1) return { kind: 'unknown', point: endpoint, unknown: 'Compound inline decoration needs a reviewed projection' }
-    const shape = shapes[0]!, kind = shapeKind(shape), points = vertices(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM()
+    const shape = shapes[0]!, rawKind = shapeKind(shape), glyphStyle = getComputedStyle(shape), points = vertices(shape), chevron = input.family === 'sequence' && points && concaveArrowTip(points), open = input.family === 'sequence' && rawKind === 'arrow' && shape.localName !== 'polygon' && !/z\s*$/i.test(shape.getAttribute('d') ?? '') && colorAlpha(glyphStyle.fill) === 0 && colorAlpha(glyphStyle.stroke) !== 0, kind = chevron ? openChevron(points!) && exposedRibbonPaint(shape, element) ? 'open-arrow' : 'unknown' : open ? 'open-arrow' : rawKind, matrix = (shape as SVGGraphicsElement).getScreenCTM()
+    if (chevron && kind === 'unknown') return { kind, point: endpoint, unknown: 'The concave arrow has no qualified symmetric two-arm open contour' }
     if (!points || !matrix || kind === 'unknown') return { kind, point: endpoint, unknown: 'Inline marker tip projection is unavailable' }
     const local = new DOMPoint(endpoint.x, endpoint.y).matrixTransform(matrix.inverse()), ink = shape as SVGGeometryElement, style = getComputedStyle(shape)
     const filled = style.fill !== 'none' && Number(style.fillOpacity) > 0 && colorAlpha(style.fill) !== 0
@@ -373,44 +988,89 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const touches = filled && ink.isPointInFill?.(local) || stroked && ink.isPointInStroke?.(local) || distanceToInk(endpoint, shape) <= 2
     if (!touches) return { kind: 'detached-marker', point: endpoint }
     const screen = points.map(point => new DOMPoint(point.x, point.y).matrixTransform(matrix))
-    if (['arrow', 'triangle'].includes(kind)) {
+    if (chevron && (!openChevron(screen, true) || !exposedRibbonBackdrop(shape, element, screen))) return { kind: 'unknown', point: endpoint, unknown: 'The open-arrow notch, ribbon paint or backdrop lacks a qualified exposed carrier' }
+    if (['arrow', 'triangle', 'open-arrow'].includes(kind)) {
       const tip = pointedVertex(screen), tangent = tangentAt(element, side)
       if (!tip || !tangent) return { kind, point: endpoint, unknown: 'Inline arrow has no uniquely projected tip/orientation' }
       const rest = screen.filter(point => point !== tip), base = { x: rest.reduce((sum, point) => sum + point.x, 0) / rest.length, y: rest.reduce((sum, point) => sum + point.y, 0) / rest.length }
-      return { kind, point: tip, clearance: Math.min(8, Math.max(...screen.map(point => Math.hypot(point.x - tip.x, point.y - tip.y))) / 2), orientation: ((tip.x - base.x) * tangent.x + (tip.y - base.y) * tangent.y) * (side === 'start' ? -1 : 1) > 0 }
+      return { kind, filled: (shape.localName === 'polygon' || /z\s*$/i.test(shape.getAttribute('d') ?? '')) && filled, point: tip, clearance: Math.min(8, Math.max(...screen.map(point => Math.hypot(point.x - tip.x, point.y - tip.y))) / 2), orientation: ((tip.x - base.x) * tangent.x + (tip.y - base.y) * tangent.y) * (side === 'start' ? -1 : 1) > 0 }
     }
     const candidates = screen.map(point => ({ point, distance: Math.min(...[...anchors.values()].map(node => distanceToNode(point, node))) })).sort((a, b) => a.distance - b.distance)
     if (!candidates.length || candidates[0]!.distance > 2) return { kind, point: endpoint, unknown: 'No inline marker point is attached to an owned node boundary' }
     void side
     return { kind, point: candidates[0]!.point }
   }
-  const connections: Array<{ source: string; target: string; directed: boolean; startMarker: string; endMarker: string; element: Element }> = []
-  const edgeSelector = '.edge path,.edgePath path,.edge-path,.edge-paths path,.pele-edge path,path.flowchart-link,path.relation,path.relationshipLine,path.transition,path.em-relation,g.message line,g.message path,g.return line,g.return path,[data-relationship="sequence-message"],line.messageLine0,line.messageLine1,path.messageLine0,path.messageLine1,[data-edge-id],polyline.class-relationship,polyline.er-relationship'
-  let paths = [...svg.querySelectorAll(edgeSelector)].filter(element => visible(element) && ['path', 'line', 'polyline'].includes(element.localName))
-  const explicitPaths = new Set(paths)
-  let unboundRelations = false
+  const qualifiedNotes: { element: Element; qualified: boolean; bridges: Element[] }[] = []
+  const authoredNotes: any = input.expected.facts?.notes
+  if (Array.isArray(authoredNotes)) for (const note of authoredNotes) if (typeof note.text === 'string') {
+    const complete = visibleMatches(note.text).filter(element => normalize(labelText(element)) === normalize(note.text)), outer = complete.filter(element => !complete.some(other => other !== element && other.contains(element)))
+    for (const element of outer) {
+      const own = ownedBox(element, '__presentation-note__'), target = anchors.get(note.target), separate = own && ![...anchors.values()].some(node => node.shape === own.shape || node.owner.contains(own.shape))
+      const bridges = separate && target ? geometry.filter(route => {
+        if (!['path','line','polyline'].includes(route.localName) || contains(own.box,rect(route)) || [...anchors.values()].some(node => contains(node.box,rect(route)))) return false
+        const style = getComputedStyle(route);if (style.fill !== 'none' || colorAlpha(style.stroke) === 0 || style.markerStart !== 'none' || style.markerEnd !== 'none') return false
+        const a = pointFor(route,false), b = pointFor(route,true)
+        return !!a && !!b && (distanceToInk(a,own.shape) <= 3 && distanceToNode(b,target) <= 6 || distanceToInk(b,own.shape) <= 3 && distanceToNode(a,target) <= 6)
+      }) : []
+      qualifiedNotes.push({ element, qualified: !!separate && (note.target ? bridges.length === 1 : true), bridges: bridges.length === 1 ? bridges : [] })
+    }
+  }
+  const noteConnectorInk = new Set(qualifiedNotes.filter(note => note.qualified).flatMap(note => note.bridges))
+  const connections: Array<{ source: string; target: string; directed: boolean; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; element: Element }> = []
+  const connectionLabels = new Map<Element, string[]>()
+  const connectionLabelElements = new Map<Element, { label: string; element: Element }[]>()
+  const edgeSelector = '.edge path,.edgePath path,.edge-path,.edge-paths path,g[class$="-edge"] path,g[class*="-edge "] path,path.edge,line.edge,polyline.edge,path.flowchart-link,path.relation,path.relationshipLine,path.transition,path.em-relation,g.message line,g.message path,g.return line,g.return path,[data-relationship="sequence-message"],line.messageLine0,line.messageLine1,path.messageLine0,path.messageLine1,[data-edge-id],polyline.class-relationship,polyline.er-relationship'
+  let paths = [...svg.querySelectorAll(edgeSelector)].filter(element => visible(element) && !camouflage(element) && ['path', 'line', 'polyline'].includes(element.localName))
+  let unboundRelations = false, invalidMarker = false
   if (!paths.length) paths = geometry.filter(element => ['path', 'line', 'polyline'].includes(element.localName) && ![...anchors.values()].some(node => node.owner.contains(element)))
-  paths = paths.filter(element => !inlineShape(element))
+  const qualifiedNodeInk = new Set([...anchors.values()].flatMap(node => node.outlines ?? [node.shape]))
+  paths = paths.filter(element => !qualifiedNodeInk.has(element) && !noteConnectorInk.has(element) && !inlineShape(element))
+  paths = paths.filter(element => {
+    if (input.family !== 'state' || element.localName !== 'path' || !/[zZ]\s*$/.test(element.getAttribute('d') ?? '') || !colorAlpha(getComputedStyle(element).fill)) return true
+    const panel = rect(element)
+    const header = [...anchors.values()].some(node => (input.expected.groups ?? []).some(group => group.id === node.id) && contains(node.box, panel) && Math.abs(panel.y - node.box.y) <= 2 && Math.abs(panel.width - node.box.width) <= 2 && panel.height < node.box.height * .6 && visibleMatches(node.label).some(label => contains(panel, labelBox(label))) && (input.expected.nodes ?? []).filter(other => other.id !== node.id).every(other => visibleMatches(other.label).every(label => !contains(panel, labelBox(label)))))
+    return !header
+  })
+  paths = paths.filter(element => { const pattern = strokePattern(element); if (pattern === 'unavailable'&&!finiteMarkerMaskedPatterns.has(element)) unresolvedProjection = true; return pattern !== 'invisible' })
+  if (['sequence', 'zenuml'].includes(input.family)) paths = paths.filter(element => {
+    const style = getComputedStyle(element), start = pointFor(element, false), end = pointFor(element, true)
+    if (!start || !end || style.markerStart !== 'none' || style.markerEnd !== 'none' || Math.abs(start.x - end.x) > 1 || Math.abs(start.y - end.y) < 4) return true
+    const column = (start.x + end.x) / 2
+    if (!pointsOn(element).every(point => Math.abs(point.x - column) <= 1)) return true
+    // An explicitly captioned self-message may be vertical and unheaded. Its
+    // independently visible, adjacent caption prevents lifeline elimination.
+    const captioned = (input.expected.edges ?? []).some(edge => edge.source === edge.target && edge.label && (() => {
+      const node = anchors.get(edge.source), labels = visibleMatches(edge.label!)
+      if (!node || Math.abs(center(node.box).x - column) > 2 || labels.length !== 1) return false
+      const box = labelBox(labels[0]!), middle = center(box)
+      return middle.y >= Math.min(start.y, end.y) && middle.y <= Math.max(start.y, end.y) && Math.max(box.x - column, column - box.x - box.width, 0) <= 12
+    })())
+    if (captioned) return true
+    return ![...anchors.values()].some(node => Math.abs(center(node.box).x - column) <= 2 && Math.abs(Math.min(start.y, end.y) - node.box.y - node.box.height) <= 2 && Math.max(start.y, end.y) > node.box.y + node.box.height + 4)
+  })
+
   for (const element of paths) {
     const start = pointFor(element, false), end = pointFor(element, true)
     if (!start || !end) continue
     let first = markerFor(element, 'start', start), last = markerFor(element, 'end', end)
     if (first.kind === 'none') first = inlineMarker(element, 'start', start, end)
     if (last.kind === 'none') last = inlineMarker(element, 'end', end, start)
+    if (first.orientation === false || last.orientation === false || first.kind === 'detached-marker' || last.kind === 'detached-marker') invalidMarker = true
     if (first.orientation === false) first.kind = 'wrong-arrow-orientation'
     if (last.orientation === false) last.kind = 'wrong-arrow-orientation'
     if (first.unknown || last.unknown) unresolvedProjection = true
-    const source = bind(first.point ?? start, first.clearance), target = bind(last.point ?? end, last.clearance)
-    if (!source || !target) { if (explicitPaths.has(element)) unboundRelations = true; continue }
-    connections.push({ source, target, directed: [first.kind, last.kind].some(kind => ['arrow', 'triangle'].includes(kind)), startMarker: first.kind, endMarker: last.kind, element })
+    for (const marker of [first,last]) if (marker.approach) { const length=Math.hypot(marker.approach.direction.x,marker.approach.direction.y);if (length>0) marker.approach.direction={ x: marker.approach.direction.x/length,y: marker.approach.direction.y/length };else marker.approach=undefined }
+    const source = bind(first.point ?? start, first.clearance,first.approach), target = bind(last.point ?? end, last.clearance,last.approach)
+    if (!source || !target) { unboundRelations = true; continue }
+    connections.push({ source, target, directed: [first.kind, last.kind].some(kind => ['arrow', 'triangle', 'open-arrow'].includes(kind)), startMarker: first.kind, endMarker: last.kind, startFilled: first.filled, endFilled: last.filled, element })
   }
-  unresolvedProjection ||= ambiguousEndpoints
+  unresolvedProjection ||= ambiguousEndpoints || unboundRelations
   if (input.paint?.edgeStroke !== undefined || input.paint?.edgeStrokeWidth !== undefined) {
     const expected = input.paint.edgeStroke === undefined ? undefined : rgba(input.paint.edgeStroke), width = input.paint.edgeStrokeWidth
     const actual = connections.map(edge => { const style = getComputedStyle(edge.element); return { source: edge.source, target: edge.target, color: rgba(style.stroke), width: Number.parseFloat(style.strokeWidth), opacity: Number(style.strokeOpacity) } })
     check('computed-owned-edge-style', { stroke: input.paint.edgeStroke, width }, actual, expected === null || !actual.length || missingNodes.length || unresolvedProjection ? null : actual.every(item => (expected === undefined || JSON.stringify(item.color) === JSON.stringify(expected) && (!expected[3] || item.opacity > 0 && item.width > 0)) && (width === undefined || Number.isFinite(item.width) && Math.abs(item.width - width) <= .1)), 'Computed stroke color/width on every actual owned relation path, with .1 CSS-pixel width tolerance; parser/config acceptance alone supplies no style credit')
   }
-  const markerDirected = (kind: string) => ['arrow', 'triangle'].includes(kind)
+  const markerDirected = (kind: string) => ['arrow', 'triangle', 'open-arrow'].includes(kind)
   const pair = (source: string, target: string, directed: boolean, startMarker = 'none', endMarker = directed ? 'arrow' : 'none', decorations = false) => {
     const first = markerDirected(startMarker), last = markerDirected(endMarker)
     if (directed && first && !last) { [source, target] = [target, source]; [startMarker, endMarker] = [endMarker, startMarker] }
@@ -420,34 +1080,40 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const decorationExpected = input.expected.edges?.some(edge => edge.startMarker !== undefined || edge.endMarker !== undefined) ?? false
   const keyFor = (edge: { source: string; target: string; directed: boolean; startMarker?: string; endMarker?: string }, decorations = decorationExpected) => pair(edge.source, edge.target, edge.directed, edge.startMarker ?? 'none', edge.endMarker ?? (edge.directed ? 'arrow' : 'none'), decorations)
   if (input.expected.edges !== undefined) {
-    const graphFamilies = ['flowchart', 'class', 'state', 'er', 'sequence', 'zenuml', 'block', 'requirement', 'architecture', 'c4', 'eventmodeling']
-    if (missingNodes.length || unresolvedProjection || !graphFamilies.includes(input.family)) check('painted-relationships', input.expected.edges, connections.map(({ element: _, ...edge }) => edge), null, 'This representation needs a reviewed endpoint/marker projection; no semantic paint credit from labels alone')
+    const graphFamilies = ['flowchart', 'agentflow', 'swimlane', 'usecase', 'class', 'state', 'er', 'sequence', 'zenuml', 'block', 'requirement', 'architecture', 'c4', 'eventmodeling', 'mindmap']
+    if (invalidMarker) check('painted-relationships', input.expected.edges, connections.map(({ element: _, ...edge }) => edge), false, 'An owned arrowhead is detached from its stem or points against the route tangent')
+    else if (missingNodes.length || unresolvedProjection || unboundRelations || !graphFamilies.includes(input.family)) check('painted-relationships', input.expected.edges, connections.map(({ element: _, ...edge }) => edge), null, 'This representation needs a reviewed endpoint/marker projection; unbound routes cannot establish missing relationships or earn semantic paint credit')
     else {
       const actual = connections.map(edge => keyFor(edge, false)).sort(), expected = input.expected.edges.map(edge => keyFor(edge, false)).sort()
       const equal = JSON.stringify(expected) === JSON.stringify(actual)
-      check('painted-relationships', expected, actual, equal && unboundRelations ? null : equal, equal && unboundRelations ? 'An explicitly identified relation has unbound endpoints; exact multiplicity is unavailable' : 'Owned outline/lifeline endpoint proximity and exact multiplicity. Clearance is at most max(2 CSS pixels, half the observed painted marker length), capped at 8; this is not a strict physical-touch certificate')
+      check('painted-relationships', expected, actual, equal && unboundRelations ? null : equal, equal && unboundRelations ? 'An explicitly identified relation has unbound endpoints; exact multiplicity is unavailable' : 'Owned outline/lifeline endpoint proximity and exact multiplicity. Ordinary clearance remains max(2 CSS pixels, half the observed marker length), capped at 8. A directional referenced marker may additionally approach one unique actual contour along its measured forward ray, no farther than its complete observed glyph extent and without an intervening owned node; this is not a strict physical-touch certificate')
     }
     if (decorationExpected) {
       const actual = connections.map(edge => keyFor(edge)).sort(), expected = input.expected.edges.map(edge => keyFor(edge)).sort()
       const equal = JSON.stringify(expected) === JSON.stringify(actual)
-      check('painted-relationship-markers', expected, actual, missingNodes.length || unresolvedProjection || equal && unboundRelations ? null : equal, 'Actual triangle/arrow/diamond/circle glyph geometry and marker ownership; unbound relations preclude exact multiplicity and a decoration is not automatically a directed arrow')
+      const openAmbiguity = input.expected.edges.some(edge => edge.startMarker === 'open-arrow' || edge.endMarker === 'open-arrow') && connections.some(edge => edge.startMarker === 'triangle' || edge.endMarker === 'triangle')
+      check('painted-relationship-markers', expected, actual, missingNodes.length || unresolvedProjection || openAmbiguity || equal && unboundRelations ? null : equal, 'Actual triangle/arrow/diamond/circle glyph geometry and marker ownership; sequence open-arrow profiles qualify an exposed unfilled V or an unstroked filled-ribbon V with measured rear notch and two arms; clipped, subpixel, stroked-over or unqualified transformed variants remain unknown. Unbound relations preclude exact multiplicity and a decoration is not automatically a directed arrow')
     }
     const labels = input.expected.edges.filter(edge => edge.label).map(edge => edge.label!)
     const counts = new Map<string, number>()
     for (const label of labels) counts.set(label, (counts.get(label) ?? 0) + 1)
     if (labels.length) {
-      const matched = new Map<string, Element[]>([...counts.keys()].map(label => [label, visibleMatches(label).filter(element => !nodeLabelElements.has(element))]))
+      const routeLabelDistance = (element: Element, connection: typeof connections[number]) => { const box = labelBox(element); return Math.min(...pointsOn(connection.element).map(point => Math.hypot(Math.max(box.x - point.x, 0, point.x - box.x - box.width), Math.max(box.y - point.y, 0, point.y - box.y - box.height)))) }
+      const distinctTitle = (element: Element, label: string) => typeof input.expected.facts?.title === 'string' && normalize(label) === normalize(input.expected.facts.title) && connections.every(connection => routeLabelDistance(element, connection) > Math.max(6, labelBox(element).height * .75)) && ![...anchors.values()].some(node => contains(node.box, labelBox(element)))
+      const matched = new Map<string, Element[]>([...counts.keys()].map(label => [label, visibleMatches(label).filter(element => !nodeLabelElements.has(element) && !distinctTitle(element, label))]))
       check('painted-relationship-label-counts', Object.fromEntries(counts), Object.fromEntries([...matched].map(([label, elements]) => [label, elements.length])), [...counts].every(([label, count]) => matched.get(label)!.length === count), 'Each authored relationship label needs its own visible text occurrence, excluding actual node titles')
       const actualLabels: string[] = [], expectedLabels = input.expected.edges.filter(edge => edge.label).map(edge => JSON.stringify([keyFor(edge), normalize(edge.label!)])).sort()
       let ambiguous = false
       const identifiers = (element: Element) => { const values = new Set<string>(); for (let current: Element | null = element; current && current !== svg; current = current.parentElement) for (const name of ['id', 'data-id', 'data-edge-id']) { const id = current.getAttribute(name); if (id) values.add(id) } return values }
-      const distance = (element: Element, connection: typeof connections[number]) => { const box = rect(element); return Math.min(...pointsOn(connection.element).map(point => Math.hypot(Math.max(box.x - point.x, 0, point.x - box.x - box.width), Math.max(box.y - point.y, 0, point.y - box.y - box.height)))) }
+      const distance = routeLabelDistance
       for (const [label, elements] of matched) for (const element of elements) {
         const ranked = connections.map(connection => ({ connection, distance: distance(element, connection) })).sort((a, b) => a.distance - b.distance)
         const ids = identifiers(element), owned = ranked.filter(item => [...identifiers(item.connection.element)].some(id => ids.has(id)))
-        const threshold = Math.max(6, rect(element).height * .75)
+        const threshold = Math.max(6, labelBox(element).height * .75)
         const candidate = owned.length === 1 && owned[0]!.distance <= threshold && owned[0]!.distance <= (ranked[0]?.distance ?? Infinity) + 2 ? owned[0] : ranked[0] && ranked[0].distance <= threshold && (!ranked[1] || ranked[1].distance - ranked[0].distance > 2) ? ranked[0] : undefined
         if (!candidate) { ambiguous = true; continue }
+        connectionLabels.set(candidate.connection.element, [...(connectionLabels.get(candidate.connection.element) ?? []), normalize(label)])
+        connectionLabelElements.set(candidate.connection.element, [...(connectionLabelElements.get(candidate.connection.element) ?? []), { label: normalize(label), element }])
         actualLabels.push(JSON.stringify([keyFor(candidate.connection), normalize(label)]))
       }
       actualLabels.sort()
@@ -455,16 +1121,157 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     }
     if (input.family === 'er' && input.expected.facts?.cardinalities) check('painted-cardinality-decorations', input.expected.facts.cardinalities, connections.map(({ element: _, ...item }) => item), null, 'Owned endpoints are measured, but exact crow-foot/optional-circle combinations need a reviewed per-marker paint projection; native cardinalities alone earn no paint credit')
   }
+  const groupBoxes: { id: string; label: string; box: Box }[] = []
   for (const group of input.expected.groups ?? []) {
     if (input.family === 'mindmap') { check('painted-group:' + group.id, group, null, null, 'Mindmap parent/child membership is a logical hierarchy, not an authored enclosing container; native membership is checked separately and connector ownership needs a reviewed paint projection'); continue }
     if (!group.label) { check('painted-group:' + group.id, group, null, null, 'Anonymous group needs a reviewed SVG identity projection'); continue }
-    const owners = visibleMatches(group.label).map(element => ownedBox(element)).filter((item): item is NonNullable<typeof item> => !!item)
+    const owners = visibleMatches(group.label).map(element => ownedBox(element, undefined, true)).filter((item): item is NonNullable<typeof item> => !!item)
     if (owners.length !== 1) { check('painted-group:' + group.id, group, null, null, 'Group-to-owned-container projection is ambiguous or missing'); continue }
+    groupBoxes.push({ id: group.id, label: group.label, box: owners[0]!.box })
     const descendantIds = (id: string, visiting: Set<string>): string[] => { if (visiting.has(id)) return []; const found = input.expected.groups?.find(candidate => candidate.id === id); return found ? found.members.flatMap(member => descendantIds(member, new Set([...visiting, id]))) : [id] }
     const members = descendantIds(group.id, new Set()), available = members.every(id => anchors.has(id))
     const outside = members.filter(id => anchors.has(id) && !contains(owners[0]!.box, anchors.get(id)!.box, 2))
     check('painted-group:' + group.id, members, outside, available ? outside.length === 0 : null, 'Authored descendant nodes fit their actual owned group boundary; immediate membership is checked independently in the native model')
   }
+  // A fragment has a presentation role only through its complete visible
+  // block. A bold word or stereotype token by itself never grants an exemption
+  // to another body. Unsupported block attachment withholds exact inventory
+  // credit rather than inventing an additional node from nested HTML spans.
+  const presentationBlocks: { element: Element; qualified: boolean }[] = []
+  const completeBlocks = (value: string) => {
+    const found = visibleMatches(value).filter(element => normalize(labelText(element)) === normalize(value))
+    return found.filter(element => !found.some(other => other !== element && other.contains(element)))
+  }
+  const actualRoutes = [...svg.querySelectorAll('path,line,polyline')].filter(element => !element.closest('defs,marker,clipPath,mask') && visible(element) && getComputedStyle(element).fill === 'none' && colorAlpha(getComputedStyle(element).stroke) !== 0 && pointsOn(element).length > 1)
+  const blockRoute = (element: Element) => {
+    const bounds = labelBox(element), distance = (route: Element) => Math.min(...pointsOn(route).map(point => Math.hypot(Math.max(bounds.x - point.x, 0, point.x - bounds.x - bounds.width), Math.max(bounds.y - point.y, 0, point.y - bounds.y - bounds.height))))
+    const ranked = actualRoutes.map(route => ({ route, distance: distance(route) })).sort((a, b) => a.distance - b.distance)
+    return ranked[0] && ranked[0].distance <= Math.max(6, bounds.height * .75) && (!ranked[1] || ranked[1].distance > ranked[0].distance + 2) ? ranked[0].route : undefined
+  }
+  for (const edge of input.expected.edges ?? []) if (edge.label) for (const element of completeBlocks(edge.label)) presentationBlocks.push({ element, qualified: !!blockRoute(element) })
+  for (const note of qualifiedNotes) presentationBlocks.push({ element: note.element, qualified: note.qualified })
+  const dialect: any = input.expected.facts?.['dialect-kinds']
+  if (Array.isArray(dialect)) for (const entry of dialect) if (entry.kind === 'stereotype' && typeof entry.value === 'string') {
+    const value = normalize(entry.value), rowPattern = /^(?:«(.*)»|<<(.*)>>)$/u
+    for (const element of labelElements.filter(element => visible(element) && normalize(labelText(element)).match(rowPattern)?.slice(1).some(text => normalize(text ?? '') === value))) {
+      const row = labelBox(element), captions = (input.expected.nodes ?? []).flatMap(node => completeBlocks(node.label).map(element => ({ id: node.id, element, box: labelBox(element) }))).filter(item => {
+        const gap = item.box.y - row.y - row.height
+        return gap >= -1 && gap <= Math.max(row.height, item.box.height) && Math.abs(center(item.box).x - center(row).x) <= 2
+      })
+      presentationBlocks.push({ element, qualified: captions.length === 1 && captions[0]!.id === entry.id })
+    }
+  }
+  if (input.family === 'c4') {
+    const elements: any = input.expected.facts?.elements, relations: any = input.expected.facts?.relations
+    // Brackets present an independently declared kind/technology, not a new
+    // logical node. A complete source-derived row must sit immediately below
+    // its actual caption; a matching token elsewhere has no presentation role.
+    const below = (header: Element, row: Element) => { const a = labelBox(header), b = labelBox(row), gap = b.y - a.y - a.height; return gap >= -1.5 && gap <= Math.max(a.height, b.height) * 2 && (Math.abs(center(a).x - center(b).x) <= 3 || Math.abs(a.x - b.x) <= 3) }
+    if (Array.isArray(elements)) for (const entry of elements) {
+      const kind = String(entry.kind ?? '').replace(/_Ext$/, '').replace(/(?:Db|Queue)$/, ''), extra = entry.extraVisibleFields ?? [], values = /Boundary$/.test(kind) ? ['[' + (kind === 'Boundary' ? extra[0] ?? 'boundary' : kind.replace(/_Boundary$/, '').toUpperCase()) + ']'] : kind === 'Deployment_Node' ? typeof extra[0] === 'string' ? ['[' + extra[0] + ']'] : [] : ['Container', 'Component'].includes(kind) ? ['[' + kind + (extra[0] ? ': ' + extra[0] : '') + ']'] : kind === 'System' ? ['[Software System]'] : kind === 'Person' ? ['[Person]'] : []
+      const headers = completeBlocks(entry.label), boundary = (input.expected.groups ?? []).some(group => group.id === entry.id)
+      for (const value of values) for (const element of completeBlocks(value)) {
+        const adjacent = headers.filter(header => below(header, element))
+        if (adjacent.length !== 1) continue
+        const owned = ownedBox(adjacent[0]!, entry.id, boundary), actual = ownedBox(element, undefined, boundary)
+        presentationBlocks.push({ element, qualified: !!owned && !!actual && owned.shape === actual.shape && contains(owned.box, labelBox(element), 2) })
+      }
+    }
+    if (Array.isArray(relations)) for (const relation of relations) if (relation.technology) for (const element of completeBlocks('[' + relation.technology + ']')) {
+      const captions = completeBlocks(relation.label).filter(header => below(header, element))
+      if (captions.length === 1) presentationBlocks.push({ element, qualified: !!blockRoute(element) && !!blockRoute(captions[0]!) })
+    }
+  }
+  let unresolvedPresentation = false
+  const presentationRole = (element: Element) => {
+    if ([...connectionLabelElements.values()].flat().some(role => role.element === element || role.element.contains(element) || element.contains(role.element))) return true
+    const blocks = presentationBlocks.filter(role => [role.element, ...(fragmentedLabels.get(role.element) ?? [])].some(block => block === element || block.contains(element)))
+    if (blocks.length) { if (!blocks.some(role => role.qualified)) unresolvedPresentation = true; return true }
+    if (input.family !== 'eventmodeling') return false
+    const frames = input.expected.facts?.frames
+    if (!Array.isArray(frames)) return false
+    const label = normalize(labelText(element)), owned = ownedBox(element, '__family-heading__')
+    if (!owned) return false
+    return frames.some((frame: any) => {
+      const lane = ['ui', 'processor'].includes(frame.kind) ? 'UI/Automation' : ['command', 'read-model'].includes(frame.kind) ? 'Command/Read Model' : frame.kind === 'event' ? 'Events' : null
+      if (!lane) return false
+      const namespace = frame.label.includes('.') ? frame.label.split('.')[0] : null, title = namespace ? ({ 'UI/Automation': 'UI/A: ', 'Command/Read Model': 'C/RM: ', Events: 'Stream: ' }[lane] ?? '') + namespace : lane
+      const node = anchors.get(frame.id)
+      return label === normalize(title) && !!node && contains(owned.box, node.box) && owned.box.width > node.box.width + 30 && center(labelBox(element)).x < node.box.x
+    })
+  }
+  const unexpectedNodes: string[] = []
+  if (input.expected.nodes?.length && !['sequence', 'zenuml'].includes(input.family)) {
+    const allowed = new Set(requiredLabels.map(normalize))
+    const candidates = [...svg.querySelectorAll('g.node,g[class$="-node"],g[class*="-node "],[data-role="node"]')].filter(owner => visible(owner))
+    for (const owner of candidates) {
+      if ([...anchors.values()].some(node => owner.contains(node.shape))) continue
+      const body = [...owner.querySelectorAll('rect,circle,ellipse,polygon,path')].some(shape => visible(shape) && rect(shape).width > 0 && rect(shape).height > 0)
+      if (body) unexpectedNodes.push(...labelElements.filter(element => owner.contains(element) && visible(element) && !presentationRole(element)).map(element => normalize(labelText(element))).filter(label => label && !allowed.has(label)))
+    }
+  }
+  if (input.expected.nodes?.length && !['sequence', 'zenuml'].includes(input.family)) {
+    const allowed = new Set(requiredLabels.map(normalize))
+    for (const [index, element] of labelElements.entries()) {
+      const label = normalize(labelText(element))
+      if (!label || allowed.has(label) || !visible(element) || presentationRole(element)) continue
+      const owned = ownedBox(element, '__unrequested__:' + index)
+      if (owned && ![...anchors.values()].some(node => node.shape === owned.shape || node.owner.contains(owned.shape))) unexpectedNodes.push(label)
+    }
+  }
+  if (input.expected.nodes?.length) check('painted-node-ownership', input.expected.nodes.map(node => node.id), [...anchors.keys(), ...unexpectedNodes.map(label => 'unexpected:' + label)], unexpectedNodes.length ? false : missingNodes.length || unresolvedPresentation ? null : true, unexpectedNodes.length ? 'Additional visible node bodies carry undeclared labels: ' + unexpectedNodes.join(', ') : missingNodes.length ? 'Ambiguous or absent label-to-shape ownership: ' + missingNodes.join(', ') : unresolvedPresentation ? 'Complete declared presentation blocks have unqualified attachment; their nested spans do not prove additional node bodies' : 'Unique actual label-to-shape ownership, independently of native model identity; no additional declared node bodies carry unrelated labels')
+  if (input.family === 'flowchart' && input.expected.nodes?.length) {
+    const consumed = new Set<Element>(), compound: { expected: string; actual: string }[] = []
+    const consume = (element: Element, expected: string) => { const actual = normalize(labelText(element)); if (actual !== normalize(expected)) { compound.push({ expected, actual }); return }; consumed.add(element); for (const fragment of fragmentedLabels.get(element) ?? []) consumed.add(fragment) }
+    for (const node of anchors.values()) if (node.label) for (const element of visibleMatches(node.label)) { const owned = ownedBox(element, node.id); if (owned?.shape === node.shape) consume(element, node.label) }
+    for (const entries of connectionLabelElements.values()) for (const entry of entries) consume(entry.element, entry.label)
+    const isConsumed = (element: Element) => [...consumed].some(owner => owner === element || owner.contains(element))
+    let available = missingNodes.length === 0
+    const repeatedNodes = [...anchors.values()].filter(node => node.label && visibleMatches(node.label).filter(element => { const owned = ownedBox(element, node.id); return owned?.shape === node.shape }).length !== 1).map(node => node.id)
+    for (const group of input.expected.groups ?? []) { const box = groupBoxes.find(candidate => candidate.id === group.id)?.box, headers = box ? visibleMatches(group.label).filter(element => !isConsumed(element) && contains(box, labelBox(element), 2)) : []; if (headers.length !== 1) available = false; else consume(headers[0]!, group.label) }
+    if (typeof input.expected.facts?.title === 'string') { const titles = visibleMatches(input.expected.facts.title).filter(element => !isConsumed(element)); if (titles.length !== 1) available = false; else consume(titles[0]!, input.expected.facts.title) }
+    const attributes: any = input.expected.facts?.['node-attributes']
+    if (Array.isArray(attributes) && attributes.some(entry => Object.keys(entry.attributes ?? {}).some(key => !['label', 'shape', 'class'].includes(key)))) available = false
+    if (input.expected.edges?.some(edge => edge.label) && checks.find(check => check.criterion === 'painted-relationship-label-ownership')?.status !== 'passed') available = false
+    const unowned = labelElements.filter(element => visible(element) && !camouflage(element) && !isConsumed(element)).map(element => ({ text: normalize(labelText(element)), box: labelBox(element) }))
+    check('painted-text-inventory', 'Every visible flowchart text occurrence has its unique authored node, group, route or title owner', { repeatedNodes, unowned, compound }, available && !compound.length ? repeatedNodes.length === 0 && unowned.length === 0 : null, 'Complete actual text-owner inventory for the plain flowchart profile: an undeclared caption, extra node annotation or repeated header cannot inherit credit from correct required labels. Whole role text must match exactly; substring matching cannot consume extra words or repeated labels in the same block. Unsupported text-bearing attributes, compound blocks and unresolved ownership remain unknown; other families retain their separate inventories')
+  }
   check('paint-opacity-and-color', 'resolved visible paint colors/alpha', [...unknownPaint], unknownPaint.size ? null : true, 'Unresolved paint servers/context colors cannot silently earn a visible-ink or complete-style claim')
-  return { checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape: __, outlines: ___, ...node }) => node), connections: connections.map(({ element: _, ...edge }) => edge), viewBox: svg.getAttribute('viewBox') }
+  const paintedLines = (element: Element): string[] | null => {
+    if (!visible(element) || (fragmentedLabels.get(element) ?? [element]).some(fragment => camouflagedElements.has(fragment))) return null
+    const glyphs: { text: string; x: number; y: number; height: number }[] = []
+    for (const fragment of fragmentedLabels.get(element) ?? [element]) {
+    const walker = document.createTreeWalker(fragment, NodeFilter.SHOW_TEXT)
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      if (!node.parentElement || !visible(node.parentElement)) continue
+      if (camouflage(node.parentElement)) return null
+      const style = getComputedStyle(node.parentElement), fill = colorAlpha(node.parentElement.namespaceURI === 'http://www.w3.org/2000/svg' ? style.fill : style.color), stroke = colorAlpha(style.stroke)
+      if (fill === null || stroke === null) return null
+      let opacity = Math.max(fill * Number(style.fillOpacity), stroke * Number(style.strokeOpacity))
+      for (let parent: Element | null = node.parentElement; parent; parent = parent.parentElement) { const css = getComputedStyle(parent); opacity *= Number(css.opacity); if (css.clipPath !== 'none' || css.maskImage !== 'none' || css.mixBlendMode !== 'normal' || css.filter !== 'none' && !preservesSourceGraphic(css.filter)) return null; if (parent === svg) break }
+      if (opacity < 1 / 255) return null
+      const value = node.textContent ?? ''
+      let offset = 0
+      for (const character of value) { const range = document.createRange(); range.setStart(node, offset); offset += character.length; range.setEnd(node, offset); const boxes = [...range.getClientRects()].filter(box => box.width > 0 && box.height > 0); if (boxes.length > 1) return null; const box = boxes[0]; if (box) glyphs.push({ text: character, x: box.x, y: box.y + box.height / 2, height: box.height }) }
+    }
+    }
+    const rows: { y: number; height: number; glyphs: typeof glyphs }[] = []
+    for (const glyph of glyphs) { const matches = rows.filter(row => Math.abs(row.y - glyph.y) < Math.min(row.height, glyph.height) * .4); if (matches.length > 1) return null; const row = matches[0]; if (row) row.glyphs.push(glyph); else rows.push({ y: glyph.y, height: glyph.height, glyphs: [glyph] }) }
+    return rows.sort((a, b) => a.y - b.y).map(row => normalize(row.glyphs.sort((a, b) => a.x - b.x).map(glyph => glyph.text).join(''))).filter(Boolean)
+  }
+  const textLineBlocks: PaintedTextLines[] = []
+  const requests: any = input.expected.facts?.['text-line-breaks']
+  if (Array.isArray(requests)) for (const request of requests) {
+    const owner = request.owner, kind = owner?.kind
+    let label: string | null = null, candidates: Element[] = [], bound = false
+    if (kind === 'node' || kind === 'participant') { const node = anchors.get(owner.id); label = node?.label ?? null; if (node) candidates = visibleMatches(node.label).filter(element => contains(node.box, labelBox(element), 2)); bound = checks.find(check => check.criterion === 'painted-node-ownership')?.status === 'passed' }
+    else if (kind === 'edge' || kind === 'message') { const edge = input.expected.edges?.[owner.index]; label = edge?.label ?? null; if (edge && label) { const routes = connections.filter(connection => keyFor(connection) === keyFor(edge)); if (routes.length === 1) candidates = (connectionLabelElements.get(routes[0]!.element) ?? []).filter(item => item.label === normalize(label!)).map(item => item.element) }; bound = checks.find(check => check.criterion === 'painted-relationship-label-ownership')?.status === 'passed' }
+    else if (kind === 'group') { const group = groupBoxes.find(group => group.id === owner.id); label = group?.label ?? null; if (group) candidates = visibleMatches(group.label).filter(element => contains(group.box, labelBox(element), 2)); bound = checks.find(check => check.criterion === 'painted-group:' + owner.id)?.status === 'passed' }
+    else if (kind === 'title' && typeof input.expected.facts?.title === 'string') { label = input.expected.facts.title; candidates = visibleMatches(label).filter(element => !nodeLabelElements.has(element) && ![...connectionLabelElements.values()].flat().some(item => item.element === element)); bound = true }
+    const safePaint = ['visible-authored-labels', 'unclipped-authored-labels'].every(criterion => checks.find(check => check.criterion === criterion)?.status === 'passed')
+    textLineBlocks.push({ owner, label, lines: bound && safePaint && candidates.length === 1 ? paintedLines(candidates[0]!) : null, scope: 'Actual per-character browser rectangles establish displayed rows on a unique physical label owner. Unsupported note/fragment/box roles, ambiguous occurrences and unproved paint remain unavailable' })
+  }
+  const nodeStyle = (shape: Element) => { const style = getComputedStyle(shape); let opacity = 1; for (let parent: Element | null = shape; parent; parent = parent.parentElement) { opacity *= Number(getComputedStyle(parent).opacity); if (parent === svg) break }; return { fill: style.fill, fillOpacity: Number(style.fillOpacity), stroke: style.stroke, strokeOpacity: Number(style.strokeOpacity), strokeWidth: Number.parseFloat(style.strokeWidth), dash: style.strokeDasharray, opacity } }
+  const textInkBoxes = labelElements.flatMap(element => { const inkBox = visible(element) && !camouflage(element) ? labelInkBox(element) : null; return inkBox ? [{ text: normalize(labelText(element)), layoutBox: labelBox(element), inkBox }] : [] })
+  return { ...(uninspectableLabels ? { labelRepresentation: 'uninspectable' as const } : {}), textInkBoxes, textLineBlocks, captions: [...connectionLabelElements.values()].flat().map(({ label, element }) => ({ label, box: labelBox(element) })), checks, complete: checks.every(item => item.status !== 'unavailable'), passed: checks.length > 0 && checks.every(item => item.status === 'passed'), nodes: [...anchors.values()].map(({ owner: _, shape, outlines: ___, ...node }) => { const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.(); return { ...node, outline: { tag: shape.localName, vertices: matrix ? vertices(shape)?.map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } }) : null, rx: (style.rx === 'auto' ? (shape as SVGRectElement).rx?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx)) * (matrix ? Math.hypot(matrix.a, matrix.b) : 1), ry: (style.ry === 'auto' ? style.rx === 'auto' ? (shape as SVGRectElement).ry?.baseVal.value ?? 0 : /%/.test(style.rx) ? NaN : Number.parseFloat(style.rx) : /%/.test(style.ry) ? NaN : Number.parseFloat(style.ry)) * (matrix ? Math.hypot(matrix.c, matrix.d) : 1) }, style: nodeStyle(shape) } }), connections: connections.map(({ element, ...edge }) => ({ ...edge, box: rect(element), start: pointFor(element, false), end: pointFor(element, true), stroke: getComputedStyle(element).stroke, strokeWidth: Number.parseFloat(getComputedStyle(element).strokeWidth), dash: getComputedStyle(element).strokeDasharray, strokePattern: strokePattern(element), labels: connectionLabels.get(element) ?? [], style: nodeStyle(element) })), viewBox: svg.getAttribute('viewBox'), groups: groupBoxes, camouflagedText, camouflagedGeometry }
 }

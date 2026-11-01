@@ -130,7 +130,7 @@ test('stack-ranked scorecards order passed inputs first and compare costs only w
     const node = rows.find(line => line.includes('[fixture/node]'))!.split('|'),
       browser = rows.find(line => line.includes('[fixture/browser]'))!.split('|')
     expect(node[8]!.trim()).toBe('—')
-    expect(browser[8]!.trim()).toBe('2.0× faster')
+    expect(browser[8]!.trim()).toBe('—')
     expect(
       rows
         .find(line => line.includes('[fixture/remote]'))!
@@ -285,7 +285,7 @@ test('portable reports preserve oracle caveats and separate pinned-accepted auth
 })
 
 
-test('first-call core reports use the arithmetic median for six rounds', () => {
+test('raw first-call diagnostics preserve arithmetic medians without qualifying speed', () => {
   const firstCalls = [101, 1, 101, 1, 101, 1],
     project = 'fixture/even-rounds'
   const row = (caseId: string, round: number, firstMs: number) => ({ suite: 'community', surface: 'browser:public-api', runtime: 'fixture', family: 'flowchart', caseId, operation: 'render', format: 'svg', mode: 'core-api-repeat', status: 'passed' as const, samplesMs: [5], metrics: { implementation: project, version: 'fixture', round, firstMs } })
@@ -296,10 +296,12 @@ test('first-call core reports use the arithmetic median for six rounds', () => {
     observations: [...firstCalls.flatMap((ms, index) => communityCoreWorkloads().map(workload => row(workload.id, index + 1, ms))), row('authored-feature', 1, 5)],
   }
   const before = JSON.stringify(record)
-  expect(lanes(record)[0]!.coreFirstMs).toBe(306)
-  expect(lanes(record)[0]!.coreMedianMs).toBe(30)
+  expect(lanes(record)[0]!.coreFirstMs).toBeNull()
+  expect(lanes(record)[0]!.observedCoreFirstMs).toBe(306)
+  expect(lanes(record)[0]!.coreMedianMs).toBeNull()
+  expect(lanes(record)[0]!.observedCoreMedianMs).toBe(30)
   // The ordinary five-round median stays unchanged, and reports never rewrite clocks.
-  expect(lanes({ ...record, identity: { ...record.identity, measurement: { rounds: 5 } }, observations: record.observations.filter(row => row.metrics?.round !== 6) })[0]!.coreFirstMs).toBe(606)
+  expect(lanes({ ...record, identity: { ...record.identity, measurement: { rounds: 5 } }, observations: record.observations.filter(row => row.metrics?.round !== 6) })[0]!.observedCoreFirstMs).toBe(606)
   expect(JSON.stringify(record)).toBe(before)
 })
 

@@ -1,0 +1,24 @@
+[
+  {
+    "index": 259,
+    "id": "packages/mermaid/src/docs/syntax/gantt.md:151",
+    "file": "friday.svg.gz",
+    "source": "gantt\n    title A Gantt Diagram Excluding Fri - Sat weekends\n    dateFormat YYYY-MM-DD\n    excludes weekends\n    weekend friday\n    section Section\n        A task          :a1, 2024-01-01, 30d\n        Another task    :after a1, 20d\n",
+    "sourceSha256": "908a1947f25e930bfcb64a89d39c110da43236253cc707c09684ae9cab0b52d6",
+    "svgSha256": "2eb5ad25b83403f44dce8aa6270ab79ec2e82a071166d73a6a9a4fab79e7e641",
+    "compressedSha256": "b691543946112441519b0b0cdc5184a11c5f8e24001467b4b12c0eee87cd042c",
+    "origin": "/workspace/trident-png-full-2026-10-31/docs/png/originalSvg/2eb5ad25b83403f44dce8aa6270ab79ec2e82a071166d73a6a9a4fab79e7e641.svg.gz",
+    "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b"
+  },
+  {
+    "index": 263,
+    "id": "packages/mermaid/src/docs/syntax/gantt.md:305",
+    "file": "compact.svg.gz",
+    "source": "---\ndisplayMode: compact\n---\ngantt\n    title A Gantt Diagram\n    dateFormat  YYYY-MM-DD\n\n    section Section\n    A task           :a1, 2014-01-01, 30d\n    Another task     :a2, 2014-01-20, 25d\n    Another one      :a3, 2014-02-10, 20d\n",
+    "sourceSha256": "c4f89c3ee4131419101aa1ca6684cf744bb9aa4629e21b166d4f5986b57b2208",
+    "svgSha256": "ac0f5f8ee3c58af3a12810b13dc3729548668d800755a3e726830cf0e5e1f253",
+    "compressedSha256": "6c50404056ffa3a19be8ae67f8a8943d347f75c3c6caa5366fe19b0ea86b4957",
+    "origin": "/workspace/trident-png-full-2026-10-31/docs/png/originalSvg/ac0f5f8ee3c58af3a12810b13dc3729548668d800755a3e726830cf0e5e1f253.svg.gz",
+    "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b"
+  }
+]

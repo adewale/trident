@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="221.5355" height="483.29999999999995" viewBox="0 0 221.5355 483.29999999999995" style="--bg:#FFFFFF;--fg:#27272A;--font:Inter;background:#FFFFFF">
+<style>
+  text { font-family: var(--font, 'Inter'), system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #27272A;
+    --_text-sec:      #575759;
+    --_text-muted:    #707072;
+    --_text-faint:    #8a8a8c;
+    --_line:          #939395;
+    --_arrow:         #47474a;
+    --_node-fill:     #f9f9f9;
+    --_node-stroke:   #d4d4d4;
+    --_group-fill:    #FFFFFF;
+    --_group-hdr:     #f4f4f4;
+    --_inner-stroke:  #e5e5e5;
+    --_key-badge:     #e9e9ea;
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#47474a" stroke="#47474a" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#47474a" stroke="#47474a" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="Active" data-region="subgraph" data-label="Active" data-role="group">
+  <rect x="40" y="40" width="116.187" height="250.1" rx="0" ry="0" fill="#FFFFFF" stroke="#d4d4d4" stroke-width="1" data-id="group-rect:Active" data-role="group" />
+  <path d="M40,40 H156.187 V68 H40 Z" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1" />
+  <text x="52" y="54" font-size="12" font-weight="600" fill="#575759" dy="4.199999999999999" textLength="37.8" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Active</text>
+</g>
+<polyline class="edge" data-from="Active" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-marker-end="arrow" data-label="finish" points="98.0935,290.1 98.0935,406.4" fill="none" stroke="#939395" stroke-width="1" marker-end="url(#arrowhead)" data-relationship="flowchart-edge" data-direction="forward" data-id="edge:Active-&gt;Done#0" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="Active to Done: finish" />
+<polyline class="edge" data-from="Idle" data-to="Busy" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-marker-end="arrow" data-label="begin" points="112.12466666666666,237.2 112.12466666666666,201.2 121.6425,201.2 121.6425,132.9 110.27216666666666,132.9 110.27216666666666,120.9" fill="none" stroke="#939395" stroke-width="1" marker-end="url(#arrowhead)" data-relationship="flowchart-edge" data-direction="forward" data-id="edge:Idle-&gt;Busy#0" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="Idle to Busy: begin" />
+<polyline class="edge" data-from="Busy" data-to="Idle" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-marker-end="arrow" data-label="reset" points="85.91483333333333,120.9 85.91483333333333,132.9 74.5445,132.9 74.5445,201.2 84.06233333333333,201.2 84.06233333333333,237.2" fill="none" stroke="#939395" stroke-width="1" marker-end="url(#arrowhead)" data-relationship="flowchart-edge" data-direction="forward" data-id="edge:Busy-&gt;Idle#0" data-role="edge" role="graphics-symbol" aria-roledescription="relation" aria-label="Busy to Idle: reset" />
+<g class="edge-label" data-from="Active" data-to="Done" data-label="finish">
+  <rect class="edge-label-halo" x="72.5935" y="329.1" width="50.598" height="38.3" rx="4" ry="4" fill="#FFFFFF" stroke="none" />
+  <rect x="76.5935" y="333.1" width="42.598" height="30.3" rx="2" ry="2" fill="#FFFFFF" stroke="#e5e5e5" stroke-width="1" />
+  <text x="97.89250000000001" y="348.25" text-anchor="middle" font-size="11" font-weight="400" fill="#575759" dy="3.8499999999999996" textLength="26.598" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">finish</text>
+</g>
+<g class="edge-label" data-from="Idle" data-to="Busy" data-label="begin">
+  <rect class="edge-label-halo" x="95.6425" y="159.9" width="51.786" height="38.3" rx="4" ry="4" fill="#FFFFFF" stroke="none" />
+  <rect x="99.6425" y="163.9" width="43.786" height="30.3" rx="2" ry="2" fill="#FFFFFF" stroke="#e5e5e5" stroke-width="1" />
+  <text x="121.5355" y="179.05" text-anchor="middle" font-size="11" font-weight="400" fill="#575759" dy="3.8499999999999996" textLength="27.786" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">begin</text>
+</g>
+<g class="edge-label" data-from="Busy" data-to="Idle" data-label="reset">
+  <rect class="edge-label-halo" x="31.0955" y="147.9" width="50.598" height="38.3" rx="4" ry="4" fill="#FFFFFF" stroke="none" />
+  <rect x="35.0955" y="151.9" width="42.598" height="30.3" rx="2" ry="2" fill="#FFFFFF" stroke="#e5e5e5" stroke-width="1" />
+  <text x="56.3945" y="167.05" text-anchor="middle" font-size="11" font-weight="400" fill="#575759" dy="3.8499999999999996" textLength="26.598" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">reset</text>
+</g>
+<g class="node" data-id="Idle" data-label="Waiting" data-shape="rounded" data-role="node">
+  <rect x="56" y="237.2" width="84.187" height="36.900000000000006" rx="6" ry="6" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="0.75" data-id="node-shape:Idle" data-role="node" />
+  <text x="98.0935" y="255.64999999999998" text-anchor="middle" font-size="13" font-weight="500" fill="#27272A" dy="4.55" textLength="44.187" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Waiting</text>
+</g>
+<g class="node" data-id="Busy" data-label="Busy" data-shape="rounded" data-role="node">
+  <rect x="61.55749999999999" y="84" width="73.072" height="36.900000000000006" rx="6" ry="6" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="0.75" data-id="node-shape:Busy" data-role="node" />
+  <text x="98.09349999999999" y="102.45" text-anchor="middle" font-size="13" font-weight="500" fill="#27272A" dy="4.55" textLength="33.072" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Busy</text>
+</g>
+<g class="node" data-id="Done" data-label="Done" data-shape="rounded" data-role="node">
+  <rect x="61.5575" y="406.4" width="73.072" height="36.900000000000006" rx="6" ry="6" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="0.75" data-id="node-shape:Done" data-role="node" />
+  <text x="98.0935" y="424.84999999999997" text-anchor="middle" font-size="13" font-weight="500" fill="#27272A" dy="4.55" textLength="33.072" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Done</text>
+</g>
+</svg>

@@ -1,151 +1,129 @@
-# Initial ecosystem baseline
+# Initial benchmark baseline
 
-**Reconcile B0 (`ecosystem-b0`) before the first public 0.1 release.** The
-[30 October full campaign](https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md)
-and its raw evidence are public. Baseline applicability reconciliation and
-qualification remain pending. B0 covers every normally selected brand and applicable benchmark.
-A broken release, unsupported operation or missing Trident binding stays visible.
-Projects do not have to pass every check for the harness to ship.
+Trident's first release baseline must identify **what was checked, on which
+artifact, with which inputs and observer**. A successful public call is invocation
+coverage. It does not establish an accurate drawing, conformance or qualified
+performance. The public historical campaigns remain useful evidence under their
+original protocols; they are not the new accuracy baseline.
 
-[Release checklist](RELEASE.md) · [Benchmarks](BENCHMARKS.md) ·
-[Fair comparisons](FAIRNESS.md) · [Result tables](REPORTING.md)
+[Release process](RELEASE.md) · [Benchmark definitions](BENCHMARKS.md) ·
+[Evidence and reports](REPORTING.md) · [Fair comparisons](FAIRNESS.md)
 
-## Prepare once
+The [current benchmark report](docs/qualification-results-2026-10-31.md)
+records the completed minimum cohorts and their remaining unknown facts. It is
+qualification evidence for the frozen [B0 tables](results/baseline.json). B0 records
+verified counts and explicit limits; it makes no full-accuracy or new 27-project
+campaign claim. Its [receipt](docs/evidence/b0/receipt.json) checks the exact
+input and outcome files, not just transcribed scores.
 
-Choose one UTC release cutoff. Preparation resolves stable artifacts available at
-that cutoff, applies the lineage/branding policy, freezes input bytes and seals
-actual artifacts and dependencies. Immutable source revisions apply where no
-published benchmark component exists. New CLI releases need reviewed archive
-hashes and bindings; a source build cannot silently replace a published executable.
-Prereleases and source candidates remain separate from release results.
+## Verify Trident with the smallest cohort
 
-```sh
-bun commands.ts bench --all-projects --profile full --plan
-bun commands.ts bench --prepare --all-projects --profile full \
-  --cutoff 2026-10-29T18:42:38Z --out /evidence/b0
-```
+The fixed [harness profile](qualification/harness-profile.json) covers six
+artifacts chosen for different execution mechanisms:
 
-The preparation's single entry point is `/evidence/b0/preparation.json`. It owns
-hashed catalog, project/browser snapshots, release metadata, input inventories,
-applicability plan and dependency identities. Reuse that manifest with `--prepared`;
-collection performs no latest-version lookup or artifact acquisition. Reviewed
-existing snapshots can be adopted with the existing `--community-catalog`,
-`--community-prepared` and `--community-browser-prepared` options during preparation.
-Browser snapshots must match the selected artifact and its public binding; a
-valid snapshot from an older release cannot supply current-release evidence.
-There is no sequence of manually repaired "final" manifests.
+| Project | Pinned version | Execution mechanisms exercised |
+|---|---|---|
+| Mermaid | 12.2.0 | Browser SVG, SVG-to-PNG conversion and public model |
+| Mermaid ASCII | 1.6.1 | Native terminal CLI |
+| Agentic Mermaid | 0.4.1 | Node SVG/PNG/terminal, package CLI and alternate public model |
+| Mermaid Flutter | 0.3.2 | PNG-only worker |
+| Latias Merman | 0.9.2 | Browser WASM, native Node engine and native release SVG/PNG/terminal CLI |
+| Termaid | 0.10.0 | Python terminal API |
 
-The reference remains Mermaid 12.2.0 with the source and tools in
-[tool-versions.json](tool-versions.json). Its original tests run once in their
-qualified source/runtime, separately from peer scores. A newer Mermaid product
-needs its own reviewed identity. Mermaid Dart and Mermaid Flutter are separate
-brands; unbranded descendants and applications remain excluded. Validator-only tools remain outside renderer scope, including Rusty Mermaid.
-Its 0.42.0 missing-runtime receipt remains historical evidence.
-
-The dated [29 October preparation archive](https://github.com/adewale/trident/tree/a43c75361a99e41fa337a477602eaaa3b30bfc70)
-retains the original 39-artifact freeze and raw v6 pilot evidence. Its hard-coded
-semantic aggregate and prose were wrong. The [regenerated pilot report](docs/b0-pilot.md)
-and [machine-readable reduction](docs/evidence/b0-pilot-summary.json) read the owning
-reports and supersede that aggregate. The original bytes and dates remain unchanged.
-
-## Work required
-
-Use the frozen applicability plan for exact project counts and configured,
-missing-binding and inapplicable cells. Preserve every cell when reconciling the
-campaign; configuration and six-input support checks are not benchmark scores.
-
-| Benchmark | Required workload |
-|---|---|
-| Mermaid Compatibility | Full committed corpus: 1,081 feature inputs, with render and parser-only populations separate, plus six legacy diagnostics and independent invalid controls. |
-| DaveBench: Documentation Examples | Complete pinned syntax-doc inventory: 548 occurrences, retaining repeated and distinct sources. |
-| Diagram Meaning | Full authored input and criterion ledger; public-model facts and SVG paint remain separate. |
-| Model and Editing Contracts | Shared reviewed criteria, with API-specific checks separately identified. |
-| Mermaid Assertion Replay | Pinned original declaration/callback inventory, with translation exclusions retained. |
-| Mermaid Reference Tests | Genuine pinned source and original runner, with read-only snapshots. |
-| Render Cost and Scaling | All 54 portable cases, including 51 positive inputs and three invalid controls; no speed score for invalid inputs. |
-
-Freeze [external repository examples](corpus/external-sources.json) separately from
-the AM-origin regression corpus. Keep the equal 20-file repository cap, pinned
-commits, licenses, duplicate provenance and repository contributions. Supply the
-frozen file with `--external-inputs` during preparation; it becomes a separate
-cohort under the same collection budget. Never pool the cohorts into one headline.
-Public development inputs are not a validated production holdout.
-
-## Pilot and sampling
-
-The revised portable protocol is `portable-svg-processes-v7`: **six independent
-rounds, 31 warm sample means and five fresh processes per A0/A1/B replica per
-positive case and round**. Six rounds permit the implemented finite 95% median-ratio
-interval, under its independence assumptions. Five rounds cannot supply that
-interval regardless of repeated-call count. Intervals and A/A noise checks remain
-visible; unstable timing is withheld. No individual-call p95/p99 claim is made.
-
-For the current ten portable Node SVG projects and 51 positive cases this plans
-**45,900 cold launch slots**, before admission exclusions. The earlier 39-project
-selection planned 50,490 slots across eleven Node SVG projects; sampling is unchanged. All 54 cases
-remain in the inventory; a rejected family probe marks its cases unsupported.
-Invalid controls run once. Cases with failed or blocked admission retain their
-outcomes and receive no further timing/resource jobs.
-Optional model gaps cannot erase independently admitted SVG-only observations;
-full semantic claims still require their declared evidence.
-
-This revision changes sampling before B0 collection. Earlier v6 measurements and
-their 20-sample qualification minimum retain their identity. The old pilot cannot
-be relabelled v7 or imported as B0. Run the supported bounded pilot on actual artifacts:
+This is a mechanism coverage set, not an ecosystem league table or a privileged
+benchmark cohort. Agentic Mermaid's extra paths make it useful here; they supply
+no extra score. Replacing an artifact requires preserving the mechanism it covers.
+Mermaid is always the source reference, and Mermaid ASCII is the terminal baseline.
 
 ```sh
-bun commands.ts bench --prepared /evidence/b0/preparation.json --pilot \
-  --budget-minutes 30 --out /evidence/b0-pilot
+bun commands.ts verify:harness --plan
+bun commands.ts verify:harness --prepared PREPARATION.json \
+  --browser-prepared BROWSER_PREPARATION.json --out FRESH_DIRECTORY
 ```
 
-The pilot gives every eligible portable project the small flowchart before the
-class-scaling case, using a fixed schedule. Its summary is generated from owning
-reports. Freeze the adopted sampling decision and allowance before collecting B0;
-never reduce samples after seeing a campaign's results to claim completion.
+The profile has **16 execution paths**, including two model paths. Its 14 output
+paths each receive one original source, one label change, one invalid input and
+one recovery source: **56 output calls**. Model operations are counted separately.
+There are no performance warmups or repetitions. These ordinary commands require
+no Codex or model API; source reviews and fixtures are retained inputs, not
+runtime-generated answers. The collection budget is five
+minutes after preparation. Expiry leaves uncompleted paths blocked; it cannot
+create a pass. The retained verification covers all 16 paths in two explicit
+phases: 14 output paths passed label or decoded-pixel propagation, then both model
+paths passed their five scoped postconditions after a Node import compatibility
+fix. The 56 completed output calls were reused. Original failed model attempts
+remain recorded. This establishes those execution and input-propagation controls;
+it does not establish complete drawing facts or corpus accuracy.
+[The published receipts](https://github.com/adewale/trident/blob/79777b738e4bb5292a31b11dc405c42f6c90d323/qualification-evidence/README.md) retain both phases and their exact producers.
 
-## Collect and resume
+## Establish accuracy before collecting comparative timings
 
-```sh
-bun commands.ts bench --prepared /evidence/b0/preparation.json \
-  --budget-minutes 1440 --out /evidence/b0
-# An explicitly recorded additional allowance, preserving completed work:
-bun commands.ts bench --resume --budget-minutes 120 --out /evidence/b0
-```
+| Workload | Frozen input provenance | Evidence needed for a score | Current limit |
+|---|---|---|---|
+| DaveBench SVG and PNG | All 548 literal occurrences at Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b`: 546 sources after boundary trimming, 547 exact bodies; 546 drawings, one invalid control and one configuration-only occurrence. | Verified correct/incorrect/unknown drawing counts per format, bound to each actual output; invalid rejection separate. | [547 contracts are complete and one is held](docs/docs-source-expectations.md). Current PNG decisions, held facts and native no-image outcomes remain separate. The [summary](docs/evidence/png-remaining-2026-11-01/summary.json) and [all grades](docs/evidence/png-remaining-2026-11-01/current-content-grades.json.gz) retain full denominators; complete accuracy remains unresolved. |
+| Mermaid public tests | 154 unchanged callbacks from 37 declarations at the same source pin; historical 41 scope retained separately. | Passed callbacks over the same selected population, with failed/unsupported/binding gaps shown. Both original and public-reference controls must pass all selected callbacks. | The retained `expanded-154-bundle-v2` owns both disjoint parent scopes. The [source manifest and controls](docs/mermaid-public-conformance.md) qualify this API diagnostic, not drawing accuracy or the 4,060-declaration upstream suite. |
+| Terminal project examples | [Named active v3](corpus/terminal-active-profile.json): 115 unchanged original drawings, one independently reviewed authored adaptation and four original invalid controls. Original 120 literal sources plus the authored adaptation retain 121 research entries, with the ambiguous original held as diagnostic. | Verified correct/incorrect/unknown counts over 116 drawings, with typed rejections over four controls separately. | Every active source profile has bounded observers. [Retained 18-project results](docs/evidence/b0/normal/terminal-result.json.gz) keep missing/uninspectable outputs unknown; 15 projects were not called on the fresh adaptation. Saved v1/v2 rechecks retain the original corpus. |
+| Harness regressions — unscored | 100 AM/Trident-authored feature/edit cases, with sources and old raw evidence retained. | No comparative score. Use focused positive/wrong-output controls and session/configuration checks to qualify the harness. | Repeated reset/rename fixtures do not add benchmark weight. Old outputs with unproved preludes supply no workflow pass; no new workflow campaign is required merely to restore their score. |
+| Public Model Contracts — optional | Independently specified public-operation postconditions. | Only the declared API scope, separately from SVG/PNG meaning. | Unsupported bindings and failed prerequisites remain explicit; model results do not fill drawing checks. |
 
-One absolute deadline covers the external cohort and seven-suite campaign.
-Collectors check it at safe job/case/round boundaries; active workers retain their
-own deadlines. Portable checkpoints retain completed jobs; DaveBench retains
-completed project-rounds. Other suites reuse completed project records and retain
-interrupted attempts. Resume validates artifact, producer, workload and sampling
-identities; it cannot change the comparison. It records each allowance and window,
-rather than silently restarting the clock for another cohort.
-Resume restores the recorded invocation options; supply only `--out` and an
-optional additional `--budget-minutes`.
-A forced fresh campaign reuses its own completed records when resumed.
+The [source audit](docs/docs-source-expectations.md), [PNG proof rules](docs/png-correctness.md),
+[public-test scope](docs/mermaid-public-conformance.md) and
+[terminal observer](docs/terminal-correctness.md) describe supported predicates,
+independent controls and remaining unknown facts. The [assembled adversarial
+audit](docs/evidence/qualification-adversarial-audit-2026-10-31/README.md) records
+concrete fixes, retained-output checks and source-population invariants.
+A transcriber-complete flag records enumerated source obligations; it is not an
+independent drawing judgment. SVG and PNG have separate correctness denominators.
+Decoding, nonblank pixels and reference agreement cannot supply missing facts.
 
-Run one active measurement worker at a time. Finish builds, downloads and tests
-before timing. Unstarted and interrupted work remains incomplete. A 24-hour
-allowance is a collection control, not a promise of completion. Resume or record a
-named release exception with its reason, tracking link and reduced support claim.
-An exception cannot turn unrun work into measured evidence.
+Use retained output bytes first. An observer fix normally needs a recheck, not
+another renderer call. Collect an affected output again only when its artifact,
+source, required resource, invocation or missing witness requires it. Resolve
+ambiguous source intent independently; do not choose an expected answer from a
+candidate's output.
 
-## Publish and use the baseline
+## Frozen B0 and later results
 
-Publish a permanent B0 index with the frozen manifest, applicability reconciliation,
-owning attempts, raw observations, failures, qualifications, runtime/environment
-identities, actual measurement windows, archive and checksums. Generate comparative
-tables from those records using [the publication commands](results/README.md).
-Keep literal denominators and matched successful input IDs beside timing; a new
-failure must not disappear from an expensive case and make a project look faster.
-Node, browser, CLI, terminal and PNG clocks keep their own scopes and units.
+`results/baseline.json` is the immutable initial reference. Its receipt binds the
+frozen input copies, ordinary outcome ledgers, source/observer epochs and owned
+raw-evidence archives. `results/latest.json` links its checksum; the normal
+`bun commands.ts results:snapshot --check` command checks both snapshots and
+their local input/outcome hashes. Later runs update the rolling view, keeping
+B0 bytes unchanged. A changed source contract or observer needs an explicitly
+qualified comparison; it cannot inherit an old correctness verdict.
 
-B0 is ready when every applicable cell has owning execution evidence or a named
-exception, all gaps and interruptions are accounted for, and reductions reconcile
-with the frozen inputs. Budgets, import success and pilot checks do not satisfy
-that gate. Link B0 from the release notes; rolling RESULTS.md updates never amend it.
+B0 freezes bounded, development-exposed evidence. Unknown observations remain in
+the denominator and receive no credit. It does not certify all drawings, every
+Mermaid test, a hidden holdout or ecosystem-wide speed. Existing timing results
+retain their original capture identities; future speed comparisons need a fresh
+matched reference and passing A/A controls in the same measurement window.
 
-Later releases assess compatibility with B0. Reuse preserves original dates and
-identities. New versions need their own measurements; changed protocols, inputs,
-observers or runtimes require affected measurements or a declared bridge run.
-Unchanged evidence does not require another full ecosystem campaign. New brands
-receive their own dated initial evidence without rewriting B0.
+For a later comparative campaign, prepare one immutable artifact and input inventory.
+Keep published releases, explicit source candidates and runtimes distinguishable.
+The preparation binds the applicability plan, artifact and dependency hashes,
+source contracts, resources, observer and producer identities. Collection reuses
+that manifest without acquiring newer artifacts.
+
+Run the selected comparison once the relevant observers are qualified. The
+six-project harness profile is sufficient for transport verification; it does not
+require benchmarking every ecosystem project after each code change. A requested
+broader campaign fixes its time allowance before collection and keeps every
+planned cell visible as correct, incorrect,
+unsupported, unknown or unrun. Unknown cells cannot be removed to improve a score. Deadline expiry preserves
+completed work and marks the rest unrun; another allowance is an explicit
+decision, not an automatic restart of the ecosystem campaign.
+
+Publish B0 with its frozen manifest, owning attempts, raw witnesses, observer
+results, runtime identities, dates and checksums. Generate stack-ranked tables
+from those records. Rank comparable verified counts; show every nonpass category
+and literal denominator. Performance requires matched source IDs, equivalent call
+boundaries, per-sample checked outputs and passing A/A noise controls. The offline
+`timing:qualify` command checks that evidence. The [first-use browser collector](BENCHMARKS.md#qualification-and-collection)
+creates new captured calls from a sealed pair when new collection is needed.
+Fresh grading can reuse unchanged outputs and clocks; it cannot add missing calls
+or upgrade old return clocks by changing their label.
+
+Later releases reuse unchanged evidence with its original date and identities.
+Changed artifacts, inputs, observers or transports require only the affected
+checks. A new protocol needs new evidence or an explicit bridge comparison; a
+rolling `RESULTS.md` update does not rewrite B0.

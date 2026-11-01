@@ -1,0 +1,1 @@
+Immutable original public SVG bytes from the exact same-call PNG receipts in the final cross-surface census. Source and image hashes preserve provenance; no renderer was invoked to create these tests. Tests measure actual ownership and glyph ink, and preserve separate unknown C4 topology/variant facts.

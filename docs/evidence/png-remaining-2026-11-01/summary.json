@@ -1,0 +1,91 @@
+{
+  "schema": "trident-current-complete-retained-png-summary-v1",
+  "sourceContractsSha256": "2dd7b5d389e853f15cecd95686d2ae01c52feea809269992d0d4082aa7f24aa5",
+  "normalResultSha256": "b5978fe1ca18c05b97bed3ef7b1fe5de1a975640d0d13a8aa9af44e427b7c2cc",
+  "normalResultGzipSha256": "5c023068912c28884165a807a38fee10f844990cfb507befb3d32f0e9ff68011",
+  "inventorySha256": "e5452b26593266222c6f8184c03a9b3928fb654bef8597e7b93ac63b511157cd",
+  "producerSha256": "bf0c0f865f360d5c5bed04230c5b6fc34ebc7f98bc57f4d146c90f9b783eb608",
+  "metadataCompletionSha256": "8176de1a8f0a664c9d5c67928cdcc1e2e20b217ec63010d48f7ad38ad4cc96a6",
+  "projects": [
+    {
+      "project": "mermaid-js/mermaid",
+      "plannedSources": 548,
+      "plannedDrawings": 546,
+      "returned": 548,
+      "returnedDrawings": 546,
+      "correct": 497,
+      "incorrect": 44,
+      "unknown": 5,
+      "noImage": 0,
+      "actualImageUnknown": 5,
+      "configurationOnly": 1,
+      "invalidSourceControls": [
+        {
+          "id": "packages/mermaid/src/docs/syntax/kanban.md:83",
+          "status": "not-applicable",
+          "reason": "Independently invalid documentation source; use the separate typed public rejection control"
+        }
+      ]
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "plannedSources": 548,
+      "plannedDrawings": 546,
+      "returned": 449,
+      "returnedDrawings": 447,
+      "correct": 298,
+      "incorrect": 137,
+      "unknown": 111,
+      "noImage": 99,
+      "actualImageUnknown": 12,
+      "configurationOnly": 1,
+      "invalidSourceControls": [
+        {
+          "id": "packages/mermaid/src/docs/syntax/kanban.md:83",
+          "status": "not-applicable",
+          "reason": "Independently invalid documentation source; use the separate typed public rejection control"
+        }
+      ]
+    }
+  ],
+  "sourceRejectionControlOutcomes": [
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/kanban.md:83",
+      "status": "failed",
+      "assessment": {
+        "status": "incorrect",
+        "reason": "The public API accepted source that violates the independently documented identifier constraint"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/kanban.md:83",
+      "status": "failed",
+      "assessment": {
+        "status": "incorrect",
+        "reason": "The public API accepted source that violates the independently documented identifier constraint"
+      }
+    }
+  ],
+  "currentAdmittedDecisions": 976,
+  "unchangedPriorAdmissions": 960,
+  "freshOfficialDirectImageAdmissions": 16,
+  "newlyResolvedActualImageHolds": 11,
+  "newCorrectFromHolds": 10,
+  "newIncorrectFromHolds": 1,
+  "sourceCurrentFreshExistingDecisions": 3,
+  "correctedPriorWrongPositives": 2,
+  "remainingActualImageHolds": 17,
+  "remainingCompleteSourceImageEvidenceGaps": 15,
+  "sourceIncompleteBostonImages": 2,
+  "nativeNoImageOutcomeCounts": {
+    "proven-unsupported-source-input": 78,
+    "actual-renderer-failure": 21,
+    "host-adapter-or-invocation-gap": 0
+  },
+  "nativeNoImageOutcomes": 99,
+  "scope": "All26previoussource-completeactual-imageholds were directlyrevisited withfullcurrentcontracts;11resolved bynewsource/pixelproofs. Threeexistingdecisionsfreshlyreviewedafterapprovedsource4projection;two512positivescorrectedonlyafterindependentactualPNG/normativecounterexamples. Priorrawreviewsretained; no latest-wins/sourcewaiver. Ordinary1,096-case result mergesactualsavednormalbase+scopeddeltas, preservingallcallclocks/producersegments; only16newreceipts imported/assessed, no965imageimport/decode or174MBarchive rebuild.99actualpublicno-imagefailures are78unsupportedsourceinputs+21rendererparser/layoutfailures, nevermissingimagecheckcoverage. No host/adaptergap requiringnewcalls found.",
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0
+}

@@ -1,0 +1,422 @@
+{
+  "repoRoot": "/workspace/trident-qualification",
+  "latest": "/workspace/trident-qualification/docs/evidence/b0/inputs/results/latest-before-b0.json",
+  "svg": {
+    "result": "/workspace/trident-svg-final-2026-11-01/docs-combined-final-events/result.json.gz",
+    "inventory": "/workspace/trident-svg-final-2026-11-01/docs-combined-final-events/inventory.json"
+  },
+  "png": {
+    "result": "/workspace/trident-png-remaining-2026-11-01/normal-current/result.json.gz",
+    "inventory": "/workspace/trident-png-remaining-2026-11-01/normal-current/inventory.json",
+    "ledger": "/workspace/trident-png-remaining-2026-11-01/normal-current/current-content-grades.json.gz"
+  },
+  "terminal": {
+    "result": "/workspace/trident-terminal-final-unified-8e525b9e-2026-11-01/current-result.json.gz"
+  },
+  "publicApiDirectory": "/workspace/trident-public-conformance-2026-10-31-expanded-154-bundle-v2",
+  "timingTables": "/tmp/trident-b0-timing-tables.json",
+  "epochs": "/tmp/trident-b0-contract-epochs.json",
+  "primary": "png",
+  "files": [
+    {
+      "source": "/workspace/trident-terminal-final-unified-8e525b9e-2026-11-01/current-summary.json",
+      "path": "docs/evidence/b0/evidence/terminal-current-summary.json",
+      "role": "final saved-output census/bridge/provenance"
+    },
+    {
+      "source": "/workspace/trident-terminal-final-unified-8e525b9e-2026-11-01/current-bridge.json",
+      "path": "docs/evidence/b0/evidence/terminal-current-bridge.json",
+      "role": "final saved-output census/bridge/provenance"
+    },
+    {
+      "source": "/workspace/trident-terminal-final-unified-8e525b9e-2026-11-01/current-unknown-dispositions.json.gz",
+      "path": "docs/evidence/b0/evidence/terminal-current-unknown-dispositions.json.gz",
+      "role": "final saved-output census/bridge/provenance"
+    },
+    {
+      "source": "/workspace/trident-terminal-final-unified-8e525b9e-2026-11-01/current-unsupported-dispositions.json",
+      "path": "docs/evidence/b0/evidence/terminal-current-unsupported-dispositions.json",
+      "role": "final saved-output census/bridge/provenance"
+    },
+    {
+      "source": "/workspace/trident-terminal-final-unified-8e525b9e-2026-11-01/regrade-epochs.json",
+      "path": "docs/evidence/b0/evidence/terminal-regrade-epochs.json",
+      "role": "final saved-output census/bridge/provenance"
+    },
+    {
+      "source": "/workspace/trident-svg-final-2026-11-01/docs-combined-final-events/source-role-census.json",
+      "path": "docs/evidence/b0/evidence/source-role-census.json",
+      "role": "final saved-output census/bridge/provenance"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/terminal-completion-2026-11-01/invalid-control-calls.json",
+      "path": "docs/evidence/terminal-completion-2026-11-01/invalid-control-calls.json",
+      "role": "retained eight actual invalid-control calls"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/terminal-completion-2026-11-01/control-outputs/736ea42a7463c4e839bcbf561b9724774f69111a5d27ad959e48a4ea6e4aa548",
+      "path": "docs/evidence/terminal-completion-2026-11-01/control-outputs/736ea42a7463c4e839bcbf561b9724774f69111a5d27ad959e48a4ea6e4aa548",
+      "role": "retained eight actual invalid-control calls"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/terminal-completion-2026-11-01/control-outputs/e73f0376111f64a784f30617961c06adaad8c31ccf32304096c23394b0e56a2b",
+      "path": "docs/evidence/terminal-completion-2026-11-01/control-outputs/e73f0376111f64a784f30617961c06adaad8c31ccf32304096c23394b0e56a2b",
+      "role": "retained eight actual invalid-control calls"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/terminal-completion-2026-11-01/control-outputs/331888d9de796d37cdc8c68fed2650ce5eac03f0839be14ee45477f219d13899",
+      "path": "docs/evidence/terminal-completion-2026-11-01/control-outputs/331888d9de796d37cdc8c68fed2650ce5eac03f0839be14ee45477f219d13899",
+      "role": "retained eight actual invalid-control calls"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/terminal-completion-2026-11-01/control-outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "path": "docs/evidence/terminal-completion-2026-11-01/control-outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "role": "retained eight actual invalid-control calls"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/terminal-completion-2026-11-01/control-outputs/fefbfc5b885e8b820216013f05851db0285abad636c82116a1056cf289a5d45a",
+      "path": "docs/evidence/terminal-completion-2026-11-01/control-outputs/fefbfc5b885e8b820216013f05851db0285abad636c82116a1056cf289a5d45a",
+      "role": "retained eight actual invalid-control calls"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/terminal-completion-2026-11-01/control-outputs/5c1adc569227b2cfe74902d7195b4a0f70113ab3e9e4a45822d70bf65cebc3b3",
+      "path": "docs/evidence/terminal-completion-2026-11-01/control-outputs/5c1adc569227b2cfe74902d7195b4a0f70113ab3e9e4a45822d70bf65cebc3b3",
+      "role": "retained eight actual invalid-control calls"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/review-membership.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/review-membership.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/admitted-current.json.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/admitted-current.json.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/526-m.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/526-m.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/normal-result.json.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/normal-result.json.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/reviews-current.jsonl.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/reviews-current.jsonl.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/review-dispositions.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/review-dispositions.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/named-cross-surface-dispositions.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/named-cross-surface-dispositions.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/512-m.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/512-m.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/source-profile-mappings.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/source-profile-mappings.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/276-f.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/276-f.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/producer.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/producer.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/304-m.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/304-m.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/admitted-current.json.receipt.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/admitted-current.json.receipt.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/261-f.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/261-f.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/metadata-completion.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/metadata-completion.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/276-m.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/276-m.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/335-m.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/335-m.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/README.md",
+      "path": "docs/evidence/png-remaining-2026-11-01/README.md",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/335-f.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/335-f.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/files.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/files.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/51-m.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/51-m.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/pending-image-ledger.json.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/pending-image-ledger.json.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/512-f.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/512-f.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/selected-current-review-origins.jsonl.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/selected-current-review-origins.jsonl.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/343-f.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/343-f.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/329-f.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/329-f.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/inventory.json.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/inventory.json.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/affected-delta.json.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/affected-delta.json.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/metadata-before-reconstruction.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/metadata-before-reconstruction.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/native-no-image-classification.json.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/native-no-image-classification.json.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/329-m.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/329-m.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/520-f.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/520-f.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/origins-current.jsonl.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/origins-current.jsonl.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/343-m.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/343-m.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/current-review-set.json.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/current-review-set.json.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/520-m.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/520-m.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/summary.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/summary.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/current-content-grades.json.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/current-content-grades.json.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/inventory-original.json.gz",
+      "path": "docs/evidence/png-remaining-2026-11-01/inventory-original.json.gz",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/measure-c4-50-overlap-caption.py",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/measure-c4-50-overlap-caption.py",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/measure-note-anchors.ts.txt",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/measure-note-anchors.ts.txt",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/measure-note-word-anchor.ts.txt",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/measure-note-word-anchor.ts.txt",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/quadrant329-effective-paint-proof.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/quadrant329-effective-paint-proof.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/original-native-community-worker.dart.txt",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/original-native-community-worker.dart.txt",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/gantt261-clock-proof.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/gantt261-clock-proof.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/c4-50-caption-overlap-proof.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/c4-50-caption-overlap-proof.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/finish-ledgers.ts.txt",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/finish-ledgers.ts.txt",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/prepare-c4-pixel-input.py",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/prepare-c4-pixel-input.py",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/legend520-clamp-proof.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/legend520-clamp-proof.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/kanban304-high-ribbon-proof.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/kanban304-high-ribbon-proof.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/classify-native-no-image.ts.txt",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/classify-native-no-image.ts.txt",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/c4-51-stem-backdrop-proof.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/c4-51-stem-backdrop-proof.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/c4-51-wrong-offset-controls.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/c4-51-wrong-offset-controls.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/note-word-anchor-measurements.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/note-word-anchor-measurements.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/measure-c4-stem-backdrop.py",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/measure-c4-stem-backdrop.py",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/note-anchor-corrected-measurements.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/note-anchor-corrected-measurements.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/c4-51-pixel-input.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/c4-51-pixel-input.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/grade-current.ts.txt",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/grade-current.ts.txt",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/xy526-zero-baseline-counterexample.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/xy526-zero-baseline-counterexample.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/complete-normal-metadata.ts.txt",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/complete-normal-metadata.ts.txt",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/record-current.ts.txt",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/record-current.ts.txt",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/measure-legend-priority.py",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/measure-legend-priority.py",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/measure-quadrant329.py",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/measure-quadrant329.py",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/measure-timing-chart.py",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/measure-timing-chart.py",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/c4-51-independent-stem-backdrop.png",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/c4-51-independent-stem-backdrop.png",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/c4-51-caption-anchor-proof.json",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/c4-51-caption-anchor-proof.json",
+      "role": "frozen current PNG admission proof"
+    },
+    {
+      "source": "/workspace/trident-qualification/docs/evidence/png-remaining-2026-11-01/probes/measure-c4-caption-font.ts.txt",
+      "path": "docs/evidence/png-remaining-2026-11-01/probes/measure-c4-caption-font.ts.txt",
+      "role": "frozen current PNG admission proof"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "scope": "One documentation source through two PNG paths; functional qualification only. No full DaveBench accuracy or qualified speed claim.",
+  "corpus": {
+    "repository": "mermaid-js/mermaid",
+    "commit": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "parentOccurrences": 548,
+    "selectedOccurrences": 1,
+    "source": {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+      "family": "flowchart",
+      "source": "flowchart LR\n    id[\"This ❤ Unicode\"]\n",
+      "file": "packages/mermaid/src/docs/syntax/flowchart.md",
+      "line": 57
+    },
+    "expectation": {
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:57",
+      "sourceSha256": "f70aed641f746c2aebf1f7a38e066d04146a92ffc9d780b97e0de7ba298edd0a",
+      "intent": "drawing",
+      "family": "flowchart",
+      "review": "Literal labels, node identities, relationships and declared values transcribed from the pinned source; reviewed content scope excludes aesthetic preference and undeclared styling.",
+      "expected": {
+        "labels": [
+          "This ❤ Unicode"
+        ],
+        "nodes": [
+          {
+            "id": "id",
+            "label": "This ❤ Unicode"
+          }
+        ],
+        "edges": []
+      }
+    }
+  },
+  "collectionSource": "3ae7f71465228837e18d8bdcc2820b7acd60e240",
+  "originalResultSha256": "59cc47e7f290316d7f15f30ce2a843677ea0f656a97a7d897527203f4e7e4d9e",
+  "reviewedAt": "2026-10-31T02:43:01.412659+00:00",
+  "reviewer": "Codex, direct visual inspection of actual retained PNGs",
+  "archive": {
+    "path": "raw.tar.gz",
+    "sha256": "3d6c7f8d38bddcb8c39f92c207f819c43a62be4c8a74a180dab5e3ae4179eaaa",
+    "bytes": 56072
+  },
+  "outputs": [
+    {
+      "file": "mermaid.png",
+      "sha256": "95d6b79c447b1151845ba5b251666b8bf7c5b59ba4a49d138e58b3d9ef45c001"
+    },
+    {
+      "file": "flutter.png",
+      "sha256": "50d36cd92cb129b984a85ae25aeb37d0a5c9ff2e06ef6374fdb2f8770a4c797d"
+    }
+  ],
+  "limits": [
+    "This one-node source does not qualify a broad corpus or arbitrary PNG content.",
+    "Source expectations were committed before collection; image reviews were added afterward.",
+    "SVG-plus-conversion and native API clocks are descriptive and have different boundaries.",
+    "The raw passing native row contains an erroneous no-transport detail string; the metadata fix is tested separately. Original raw collection stays unchanged."
+  ],
+  "recheck": "Use assessDocsPng(source, expectation, PNG_BYTES, png-reviews.json) after admitPngReviews. No renderer invocation is needed."
+}

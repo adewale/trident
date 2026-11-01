@@ -1,0 +1,867 @@
+{
+  "schema": "trident-independent-literal-source-audit-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "reviewedCorpusRevision": "37445a1b4fd2d76d0ce1bfd7373f2c4d6fdc47c8",
+  "scope": "All 42 sequence source/expectation pairs in the fixed 548-occurrence DaveBench inventory",
+  "reviewer": "Codex implement_png; independent of source transcriber author",
+  "method": "Read every literal source and full current expected contract in five batches; independently reread each exact fence via pinned git bytes. Consulted pinned sequence prose for participant defaults/order/types, alias precedence, lifecycle, arrow types, central connections, backgrounds, comments, entities and popup-menu scope. No renderer/reference output or model result supplied expected facts.",
+  "batches": [
+    [
+      0,
+      7
+    ],
+    [
+      8,
+      18
+    ],
+    [
+      19,
+      28
+    ],
+    [
+      29,
+      35
+    ],
+    [
+      36,
+      41
+    ]
+  ],
+  "rendererInvocations": 0,
+  "referenceModelInvocations": 0,
+  "sourceInventorySha256": "6de5237c3fa6e2387d4ea49fc5b5c975c1c882362a33a6592bf2dc1e7716749b",
+  "currentReviewCorpusSha256": "e77b0a4362c700537b2e908e39176a9fc1aa8d80413c6a92f5ef03b652bf9a13",
+  "priorSelfAuditReceiptSha256": "eaf956779d118d91896a6309da03720adc33dcd5b635149f1b29e180974b52cf",
+  "literalSequenceCount": 42,
+  "reviewedCount": 42,
+  "findings": [
+    {
+      "id": "SEQUENCE-NOTE-FRAGMENT-OWNERSHIP",
+      "cases": [
+        "packages/mermaid/src/docs/syntax/examples.md:110",
+        "packages/mermaid/src/docs/syntax/sequenceDiagram.md:661"
+      ],
+      "sourceAuthority": "sequenceDiagram.md:635–674 background rect scope and examples.md:110 alt/else note",
+      "problem": "Notes retain message-boundary chronology but no explicit active fragment/branch ownership. At a fragment boundary, identical afterMessage indices allow an outside note to stand in for source-authored contained content. The outer-rect note at :661 is the direct example.",
+      "resolution": "37445a1 adds explicit source note fragmentScope and active branch indices, including [] outside fragments. Independently reviewed all11 modified note-containing records; the direct outer-rect and alt/else examples now retain exact source ownership. Static inside/outside/nested-branch controls were read. No observer expansion or renderer call.",
+      "status": "resolved"
+    }
+  ],
+  "qualification": "Independent source review of all42 literal sequence contracts and exact11-record repair delta. Unsupported output obligations remain unknown; this does not certify SVG/PNG correctness or qualify performance.",
+  "entries": [
+    {
+      "ordinal": 1,
+      "id": "packages/mermaid/src/docs/syntax/examples.md:26",
+      "sourceSha256": "b8e52ce7d792978000b1909b6aa84cf3ba5943bdaf7769d8cfef92c09aa390a4",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "e2f9be298c2238097dc0a1f7e0fa075a5bab97056e399827223468e65f2c3b87",
+      "currentExpectationsSha256": "0815c4ff14568df3f1a5a5c3773dbd8aac5d0af597ee05e69aee453ea2fe5d35",
+      "currentReviewSha256": "3c54f3d608ccb079fefc4e6e02e7643ec6cb6430a5136aaa3f4d4faa7c519aaf",
+      "disposition": "literal-contract-agrees",
+      "notes": "Six messages, duplicate cross captions and distinct endpoint markers agree; nohead messages deliberately project unordered endpoints. John right-note has four exact owned lines after message4.",
+      "findings": [],
+      "initialExpectationsSha256": "b5611e67141cbc2f1252a85634b6c1b4ee010ad9c1b89e936eb91e3499f8f2cf",
+      "initialReviewSha256": "51cabc84e9cd61d714834023f7410ae13617fa7e5d2c0e7ca18c1a3d6afcf488"
+    },
+    {
+      "ordinal": 2,
+      "id": "packages/mermaid/src/docs/syntax/examples.md:76",
+      "sourceSha256": "c6681aebec310400ed7c61ecc1869b7957a6eb8e8526bdb09b765fcf0a30e21d",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "4048eca9053b311c1eee846bc14a6e9d8af77584c9fd4124fd0a963adaef6414",
+      "currentExpectationsSha256": "4048eca9053b311c1eee846bc14a6e9d8af77584c9fd4124fd0a963adaef6414",
+      "currentReviewSha256": "368349bae3edd683a9c5903eac41d66a57c6ba9f2f88bfae2044419701cf3fcc",
+      "disposition": "literal-contract-agrees",
+      "notes": "Four messages preserve source order. Outer loop spans0–4, alt1–3 and its else2–3, with opt3–4 inside the loop.",
+      "findings": [],
+      "initialExpectationsSha256": "4048eca9053b311c1eee846bc14a6e9d8af77584c9fd4124fd0a963adaef6414",
+      "initialReviewSha256": "368349bae3edd683a9c5903eac41d66a57c6ba9f2f88bfae2044419701cf3fcc"
+    },
+    {
+      "ordinal": 3,
+      "id": "packages/mermaid/src/docs/syntax/examples.md:94",
+      "sourceSha256": "e31e84a14d63985055ce1cdd577df24ef5b9f713079ade3701277b0015f86ce0",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "b346a171ae08c82ff22eaf1534b8302c9095e5d2d914804ab29d9e4fbdc3db67",
+      "currentExpectationsSha256": "5305bc3adeecb1f3ddc3aee558c768f2e2ba43f5de2e41edd67d046f40e95909",
+      "currentReviewSha256": "141ed010bc7e28ce3b63c4d2b72af5e52ef605f7d9c7b7b89cf35af11aff1444",
+      "disposition": "literal-contract-agrees",
+      "notes": "Explicit Alice/Bob and implicit John preserve participant order. John self-message is within loop1–2; its right-note follows message2 and keeps two lines.",
+      "findings": [],
+      "initialExpectationsSha256": "b346a171ae08c82ff22eaf1534b8302c9095e5d2d914804ab29d9e4fbdc3db67",
+      "initialReviewSha256": "3f1b0f28f60570c8fcf6a60b8aa57ae10e9b24dc9bff0e60e0e60277a87cc9af"
+    },
+    {
+      "ordinal": 4,
+      "id": "packages/mermaid/src/docs/syntax/examples.md:110",
+      "sourceSha256": "48067e3330977a84023ce4439d809df7bdb2c569f3f1fc9121039c6a433c8b57",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "2cf013898de34224df034615a69c1155f194e6c61f41087468acbbb51bb13392",
+      "currentExpectationsSha256": "5df3c0810a3004c2d803fdf5dbb0349cea3fcb562a3436f7c483f5a0bbe6f990",
+      "currentReviewSha256": "cbd4e1ae85c8360f0efc86472c72b3ad1c6cd03ef1c1d43a8a01fa596fd33aac",
+      "disposition": "literal-contract-agrees",
+      "notes": "Five aliases and ten messages agree. Alt3–10, else4–10 and nested par7–10/and9–10 agree; two async messages use open heads. Account and blog activation/deactivation belong to the sender/receiver required by source. Note2 belongs inside the alt else branch; this ownership needs an explicit contract field. Resolved by explicit fragmentScope in37445a1; outside and inside/branch cases remain distinct at the same message boundary.",
+      "findings": [
+        "SEQUENCE-NOTE-FRAGMENT-OWNERSHIP"
+      ],
+      "initialExpectationsSha256": "2cf013898de34224df034615a69c1155f194e6c61f41087468acbbb51bb13392",
+      "initialReviewSha256": "37606369be0acdfa13953f99fb647b6a28c661482b072e79aa38aaf6f123dd3f"
+    },
+    {
+      "ordinal": 5,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:7",
+      "sourceSha256": "b2066a62d878a2b2b1ad49be0674b68d0fb78deed9c5def176cfcb2340403d25",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "currentExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "currentReviewSha256": "07ab70fff5acb596881437441fd52554e78609699654e250f277d3579861e449",
+      "disposition": "literal-contract-agrees",
+      "notes": "Three reciprocal messages agree; the last -) is an open async arrow, with both implicit participant kinds retained.",
+      "findings": [],
+      "initialExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "initialReviewSha256": "07ab70fff5acb596881437441fd52554e78609699654e250f277d3579861e449"
+    },
+    {
+      "ordinal": 6,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:30",
+      "sourceSha256": "b46ca8f030ae22c724720f00d238e528d416593c51d52a6e4f22d99b99f93b2d",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "77f26c05d928575365ca5e4002a2c300064c23a68e2ea1633345bb833a91e58e",
+      "currentExpectationsSha256": "795a79a931aeee04608f70ad796600da8a0ca8c4cd480f104e932b5cd5be41e9",
+      "currentReviewSha256": "acd7ca56e640eb9e48908a146e76904bcb192e8f9cfd5bb648a4e9a8254ed643",
+      "disposition": "literal-contract-agrees",
+      "notes": "Actor Customer plus Web/API/Bank participants, aliases, six messages, auto-numbering, API activation2–5 and final spanning note agree.",
+      "findings": [],
+      "initialExpectationsSha256": "77f26c05d928575365ca5e4002a2c300064c23a68e2ea1633345bb833a91e58e",
+      "initialReviewSha256": "0cf86b0ee2ea762cfa108dcda0c4a26f9590d8a102b2f6f4aa28518b17c327c7"
+    },
+    {
+      "ordinal": 7,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:53",
+      "sourceSha256": "ab0098ce21b8fb1ae07229e642d40a225ed767cb4158ebd00657a54bda716531",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "d0476a6149579e51d7a2e902fb18deac37d5f4c97af5d682b11dbb979c0e1816",
+      "currentExpectationsSha256": "2996d464db2d31abb740fba6ebb9886d99562a1590e336221f6aea019eb93340",
+      "currentReviewSha256": "fa14342c054619ac2190a308a414340f814547ca5fcdeebe0f9cd96bdcafa717",
+      "disposition": "literal-contract-agrees",
+      "notes": "Same six-message/activation/note contract as :30, plus literal default theme/classic look as separate configuration obligations.",
+      "findings": [],
+      "initialExpectationsSha256": "d0476a6149579e51d7a2e902fb18deac37d5f4c97af5d682b11dbb979c0e1816",
+      "initialReviewSha256": "0ddfcf9a20dd233ac9f6026bcb1d9888df4eedc9152f35b4199dbdebfecb1c38"
+    },
+    {
+      "ordinal": 8,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:89",
+      "sourceSha256": "469a26df510d0cc0bf5a2160f1b03054162ea125f3c5e7f84573f4f73f4c17f2",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "d105dcd9028fcc470c6b913dd0d088025a7ecdad769167100fda59bd073cb536",
+      "currentExpectationsSha256": "d105dcd9028fcc470c6b913dd0d088025a7ecdad769167100fda59bd073cb536",
+      "currentReviewSha256": "625e4bd19daa9c18be4bdb9e4aa971e1989aef6c12789441761d83e68035a732",
+      "disposition": "literal-contract-agrees",
+      "notes": "Explicit participant order Alice/Bob differs from initial sender Bob; two filled-arrow messages agree.",
+      "findings": [],
+      "initialExpectationsSha256": "d105dcd9028fcc470c6b913dd0d088025a7ecdad769167100fda59bd073cb536",
+      "initialReviewSha256": "625e4bd19daa9c18be4bdb9e4aa971e1989aef6c12789441761d83e68035a732"
+    },
+    {
+      "ordinal": 9,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+      "sourceSha256": "2ae466706c787aa96a3f5e09de4710ce4ab41da116a15bf3733cae7b6d641f12",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "998b0c3182c8d7125741d209093e2fd790f1b923fe7271c5abb91eeed48c0baf",
+      "currentExpectationsSha256": "998b0c3182c8d7125741d209093e2fd790f1b923fe7271c5abb91eeed48c0baf",
+      "currentReviewSha256": "ca08718d7ebee6782bdf4051f791a72d81bf2031f72ea68ca39a914db1e77772",
+      "disposition": "literal-contract-agrees",
+      "notes": "Two actor symbols, Alice/Bob order and reciprocal greetings agree.",
+      "findings": [],
+      "initialExpectationsSha256": "998b0c3182c8d7125741d209093e2fd790f1b923fe7271c5abb91eeed48c0baf",
+      "initialReviewSha256": "ca08718d7ebee6782bdf4051f791a72d81bf2031f72ea68ca39a914db1e77772"
+    },
+    {
+      "ordinal": 10,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:113",
+      "sourceSha256": "09a6b5bea4819db49acb43677db21085fda3a95b65528d60efb0b9f9b0919e6c",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "ad7198f1b1f075002f337d1f7cf6ff0b16bcb724fe793d2fc17b6ef23b152298",
+      "currentExpectationsSha256": "ad7198f1b1f075002f337d1f7cf6ff0b16bcb724fe793d2fc17b6ef23b152298",
+      "currentReviewSha256": "ca25d1ecb5495a288455449ba81a7236e855b05040650ec13cab63fd36798451",
+      "disposition": "literal-contract-agrees",
+      "notes": "Boundary Alice and default participant Bob, two message labels/endpoints and order agree.",
+      "findings": [],
+      "initialExpectationsSha256": "ad7198f1b1f075002f337d1f7cf6ff0b16bcb724fe793d2fc17b6ef23b152298",
+      "initialReviewSha256": "ca25d1ecb5495a288455449ba81a7236e855b05040650ec13cab63fd36798451"
+    },
+    {
+      "ordinal": 11,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:125",
+      "sourceSha256": "969bb3ce641248b40d28f7e4dadd86818f031c45193930dfb96c555eacc1da74",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "65a784ca19bbc42df84060b2e069bd3fea0a076e6c57eb487a97325c0c0ff7b7",
+      "currentExpectationsSha256": "65a784ca19bbc42df84060b2e069bd3fea0a076e6c57eb487a97325c0c0ff7b7",
+      "currentReviewSha256": "d5b17ddaf5b6bebaaaa9b7a5c226d62111170fe55f309876fe1673b5f7e7542b",
+      "disposition": "literal-contract-agrees",
+      "notes": "Control Alice and default participant Bob, two message labels/endpoints and order agree.",
+      "findings": [],
+      "initialExpectationsSha256": "65a784ca19bbc42df84060b2e069bd3fea0a076e6c57eb487a97325c0c0ff7b7",
+      "initialReviewSha256": "d5b17ddaf5b6bebaaaa9b7a5c226d62111170fe55f309876fe1673b5f7e7542b"
+    },
+    {
+      "ordinal": 12,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:137",
+      "sourceSha256": "c1a1ef0597c2a31357aef97c36cdf253592cb06f5af93a999c6490da0bb5c249",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "3eef2a25cd40289e42d73eac8de71ec553541e8f95b13f40088fb48bcf884859",
+      "currentExpectationsSha256": "3eef2a25cd40289e42d73eac8de71ec553541e8f95b13f40088fb48bcf884859",
+      "currentReviewSha256": "30f98ff2e4f79dcf8cf253ee524875eed1cd73499b61bdad79a865d869eb3ecd",
+      "disposition": "literal-contract-agrees",
+      "notes": "Entity Alice and default participant Bob, two message labels/endpoints and order agree.",
+      "findings": [],
+      "initialExpectationsSha256": "3eef2a25cd40289e42d73eac8de71ec553541e8f95b13f40088fb48bcf884859",
+      "initialReviewSha256": "30f98ff2e4f79dcf8cf253ee524875eed1cd73499b61bdad79a865d869eb3ecd"
+    },
+    {
+      "ordinal": 13,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:149",
+      "sourceSha256": "f158c3d82a5bf4f7e1e05960ab5eb85e910c71ffd2feb37dcd76661a4795c102",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "f6336182af5530ce107be01daf6f3d01f2fb8b05d372679dd7f768c600e67c26",
+      "currentExpectationsSha256": "f6336182af5530ce107be01daf6f3d01f2fb8b05d372679dd7f768c600e67c26",
+      "currentReviewSha256": "9d18e34a48694c24bdce1cdfb2d22c2f54f8b00f23a6a3341d4d02ea481d61b0",
+      "disposition": "literal-contract-agrees",
+      "notes": "Database Alice and default participant Bob, two message labels/endpoints and order agree.",
+      "findings": [],
+      "initialExpectationsSha256": "f6336182af5530ce107be01daf6f3d01f2fb8b05d372679dd7f768c600e67c26",
+      "initialReviewSha256": "9d18e34a48694c24bdce1cdfb2d22c2f54f8b00f23a6a3341d4d02ea481d61b0"
+    },
+    {
+      "ordinal": 14,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:161",
+      "sourceSha256": "bbb78a10baa2dc83bf66bea92a171455665a363e44d38c02951af0083296ba0c",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "dc5f40b80fee3e9f0ab6c0b7cc13a9544df24e4e992df36269db5d89bf5d2e8b",
+      "currentExpectationsSha256": "dc5f40b80fee3e9f0ab6c0b7cc13a9544df24e4e992df36269db5d89bf5d2e8b",
+      "currentReviewSha256": "bddde3c62f6ce45bb80c6e6310adb1c241847debc6aea8a97b515f6bcee62ad5",
+      "disposition": "literal-contract-agrees",
+      "notes": "Collections Alice and default participant Bob, two message labels/endpoints and order agree.",
+      "findings": [],
+      "initialExpectationsSha256": "dc5f40b80fee3e9f0ab6c0b7cc13a9544df24e4e992df36269db5d89bf5d2e8b",
+      "initialReviewSha256": "bddde3c62f6ce45bb80c6e6310adb1c241847debc6aea8a97b515f6bcee62ad5"
+    },
+    {
+      "ordinal": 15,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:173",
+      "sourceSha256": "c7329c9b4aba72a7a47adf93c67e032d78c927945b22a4cfb8b6c995af148efb",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "19c1c89b372d7631549a26575ae9dbf3a9b5bc73d5d1418cba2c64ee94bdaf65",
+      "currentExpectationsSha256": "19c1c89b372d7631549a26575ae9dbf3a9b5bc73d5d1418cba2c64ee94bdaf65",
+      "currentReviewSha256": "34cc89553d12c7210ba3ac9f4d39c62c782801b4cab77b69179b6c57bdd8b6ae",
+      "disposition": "literal-contract-agrees",
+      "notes": "Queue Alice and default participant Bob, two message labels/endpoints and order agree.",
+      "findings": [],
+      "initialExpectationsSha256": "19c1c89b372d7631549a26575ae9dbf3a9b5bc73d5d1418cba2c64ee94bdaf65",
+      "initialReviewSha256": "34cc89553d12c7210ba3ac9f4d39c62c782801b4cab77b69179b6c57bdd8b6ae"
+    },
+    {
+      "ordinal": 16,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:189",
+      "sourceSha256": "b833048175d5418f3346650eac414112d00518cbef48e0aaa9ebfd0c874fa89d",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "a1c19c11dd1ef7ee08cd93056b031923e7693f0270edb370174889d3bfe6a74a",
+      "currentExpectationsSha256": "a1c19c11dd1ef7ee08cd93056b031923e7693f0270edb370174889d3bfe6a74a",
+      "currentReviewSha256": "f9ec26bf1c7d43b3ad89b15101e160cc9b38aa04c66bde30d456bfb88d2ed6eb",
+      "disposition": "literal-contract-agrees",
+      "notes": "External aliases A→Alice/J→John preserve identifier ownership and reciprocal message order.",
+      "findings": [],
+      "initialExpectationsSha256": "a1c19c11dd1ef7ee08cd93056b031923e7693f0270edb370174889d3bfe6a74a",
+      "initialReviewSha256": "f9ec26bf1c7d43b3ad89b15101e160cc9b38aa04c66bde30d456bfb88d2ed6eb"
+    },
+    {
+      "ordinal": 17,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:199",
+      "sourceSha256": "be26e07607d48aa8e0514a845d98446f206f3728cdd4b6b42e9add3cced0bb13",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "c27c26318227985dbdab33d593c41f243c93d6f84f7f7b49a679f97394217102",
+      "currentExpectationsSha256": "c27c26318227985dbdab33d593c41f243c93d6f84f7f7b49a679f97394217102",
+      "currentReviewSha256": "db7726fa27532c60725a7556cb6cbb4862e1deaed8ffd4f94d6899e5f1ee4a3f",
+      "disposition": "literal-contract-agrees",
+      "notes": "External aliases and explicit boundary/database/control types override actor/participant shape defaults; declared API/DB/Svc order and four messages agree.",
+      "findings": [],
+      "initialExpectationsSha256": "c27c26318227985dbdab33d593c41f243c93d6f84f7f7b49a679f97394217102",
+      "initialReviewSha256": "db7726fa27532c60725a7556cb6cbb4862e1deaed8ffd4f94d6899e5f1ee4a3f"
+    },
+    {
+      "ordinal": 18,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:214",
+      "sourceSha256": "ed25c7aa66b7d0181e20fb015fd49edbf10d89db03bda3ec62031b9e7fdb1eb3",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "6a151f76c78147e11a2fd4c369ce2d0e88bf729b79655fff35c9fec492dd1e60",
+      "currentExpectationsSha256": "6a151f76c78147e11a2fd4c369ce2d0e88bf729b79655fff35c9fec492dd1e60",
+      "currentReviewSha256": "f5a4e9302460c6338129564c8cd361d938aa30805242d113d1b261cdbd7a93ec",
+      "disposition": "literal-contract-agrees",
+      "notes": "Inline aliases Public API/Auth Service/User Database and their boundary/control/database types agree; four message order/styles agree.",
+      "findings": [],
+      "initialExpectationsSha256": "6a151f76c78147e11a2fd4c369ce2d0e88bf729b79655fff35c9fec492dd1e60",
+      "initialReviewSha256": "f5a4e9302460c6338129564c8cd361d938aa30805242d113d1b261cdbd7a93ec"
+    },
+    {
+      "ordinal": 19,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:229",
+      "sourceSha256": "1371ae9ae607217a0c399c5f33fabdef706e03d30e317c252f34cd2c45467ae1",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "b0bf5b1bb81cb0a318f3127b1af9651c2ff1031481122c119650620a1ca1630c",
+      "currentExpectationsSha256": "b0bf5b1bb81cb0a318f3127b1af9651c2ff1031481122c119650620a1ca1630c",
+      "currentReviewSha256": "15a950db50c77eb4ead63cf121c251642dd5c90b5e2f7e66ffaac56958c5437e",
+      "disposition": "literal-contract-agrees",
+      "notes": "External Name/External DB correctly override inline Internal Name/Internal DB; type declarations and two messages remain intact.",
+      "findings": [],
+      "initialExpectationsSha256": "b0bf5b1bb81cb0a318f3127b1af9651c2ff1031481122c119650620a1ca1630c",
+      "initialReviewSha256": "15a950db50c77eb4ead63cf121c251642dd5c90b5e2f7e66ffaac56958c5437e"
+    },
+    {
+      "ordinal": 20,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:250",
+      "sourceSha256": "5fa9f1e6f236b76b71424993a30eac3e12fa3c6b6f336ee7bc9d028c44914ccb",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "602c48b27090e91a76cba04991c56ba01cd26acebeb3eba5d0bf677321f05f91",
+      "currentExpectationsSha256": "602c48b27090e91a76cba04991c56ba01cd26acebeb3eba5d0bf677321f05f91",
+      "currentReviewSha256": "73dc545a4e8c64c1f831675de0806643a8c35307202ea35547d1f8058504cdc8",
+      "disposition": "literal-contract-agrees",
+      "notes": "Six messages agree. Carl is created before2, actor D/Donald before3; Carl destroyed with message4 and sender Bob destroyed with message5, as documented.",
+      "findings": [],
+      "initialExpectationsSha256": "602c48b27090e91a76cba04991c56ba01cd26acebeb3eba5d0bf677321f05f91",
+      "initialReviewSha256": "73dc545a4e8c64c1f831675de0806643a8c35307202ea35547d1f8058504cdc8"
+    },
+    {
+      "ordinal": 21,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:315",
+      "sourceSha256": "93d3c0ff3d5d384a0044c0882501febf51d0ba59c26ca2c237eae58d27ad53aa",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "21cd697eb5886b79f8fe3a17c2849267e6a650f82a2ab1a52a3c35598e13d0e8",
+      "currentExpectationsSha256": "21cd697eb5886b79f8fe3a17c2849267e6a650f82a2ab1a52a3c35598e13d0e8",
+      "currentReviewSha256": "0b4e97ab729b915f87004a7d33f8076fb6614cbba76327a28d395c8c5e356523",
+      "disposition": "literal-contract-agrees",
+      "notes": "Purple first box owns A/J with Alice & John caption; transparent second box owns B/C. Four route endpoints/captions agree.",
+      "findings": [],
+      "initialExpectationsSha256": "21cd697eb5886b79f8fe3a17c2849267e6a650f82a2ab1a52a3c35598e13d0e8",
+      "initialReviewSha256": "0b4e97ab729b915f87004a7d33f8076fb6614cbba76327a28d395c8c5e356523"
+    },
+    {
+      "ordinal": 22,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:392",
+      "sourceSha256": "a013ca4947e10afb33ed61e770258c8327297c14884d11e77fdd135b8a789411",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "15c18c9f86a76fc0a78a08ed5c1d5e5569770051e35cc603b26399bff8985436",
+      "currentExpectationsSha256": "15c18c9f86a76fc0a78a08ed5c1d5e5569770051e35cc603b26399bff8985436",
+      "currentReviewSha256": "d97d8393f58c24c0482571c30154862fa7acccef5abb00ccce496cacc0d5e2f7",
+      "disposition": "literal-contract-agrees",
+      "notes": "Three central-lifeline connection requests bind receiver only, sender only and both endpoints to messages0/1/2 respectively; ordinary arrow types stay separate.",
+      "findings": [],
+      "initialExpectationsSha256": "15c18c9f86a76fc0a78a08ed5c1d5e5569770051e35cc603b26399bff8985436",
+      "initialReviewSha256": "d97d8393f58c24c0482571c30154862fa7acccef5abb00ccce496cacc0d5e2f7"
+    },
+    {
+      "ordinal": 23,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:405",
+      "sourceSha256": "4a26f3e25a18453906201f05c271691d7c53a3fcb2d1b81bd47077b3f9e131c0",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "9921aa1e996e13079d5b0fb5c28b3f1c00c7b73d88ee9709d948835e2eb99d73",
+      "currentExpectationsSha256": "9921aa1e996e13079d5b0fb5c28b3f1c00c7b73d88ee9709d948835e2eb99d73",
+      "currentReviewSha256": "56b5b9e75b8199e3f12d4f78beb4025b0e87b89c1f281d0857220840963120e9",
+      "disposition": "literal-contract-agrees",
+      "notes": "John activation follows first request and deactivation follows reply; two message styles/endpoints agree.",
+      "findings": [],
+      "initialExpectationsSha256": "9921aa1e996e13079d5b0fb5c28b3f1c00c7b73d88ee9709d948835e2eb99d73",
+      "initialReviewSha256": "56b5b9e75b8199e3f12d4f78beb4025b0e87b89c1f281d0857220840963120e9"
+    },
+    {
+      "ordinal": 24,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:415",
+      "sourceSha256": "028189a67587cce218844ff2f7e9ef4b97b49fb756b844a090ec5de9440469be",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "9921aa1e996e13079d5b0fb5c28b3f1c00c7b73d88ee9709d948835e2eb99d73",
+      "currentExpectationsSha256": "9921aa1e996e13079d5b0fb5c28b3f1c00c7b73d88ee9709d948835e2eb99d73",
+      "currentReviewSha256": "87c2f6780a4d47d87fd3442e01eb6d16a1556af34009a298d44085f4963ac1a8",
+      "disposition": "literal-contract-agrees",
+      "notes": "Inline + activates receiver John and inline - deactivates sender John after their messages, equivalent to the explicit control.",
+      "findings": [],
+      "initialExpectationsSha256": "9921aa1e996e13079d5b0fb5c28b3f1c00c7b73d88ee9709d948835e2eb99d73",
+      "initialReviewSha256": "87c2f6780a4d47d87fd3442e01eb6d16a1556af34009a298d44085f4963ac1a8"
+    },
+    {
+      "ordinal": 25,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:423",
+      "sourceSha256": "8a0283b4e38a5069c52d99c3d48bd613e409c3817082ee2687720d22fc765660",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "145729c207c25d48a211d05061b780bb518449cd4163dfa18a3dcbe15fb38ca0",
+      "currentExpectationsSha256": "145729c207c25d48a211d05061b780bb518449cd4163dfa18a3dcbe15fb38ca0",
+      "currentReviewSha256": "a790aa5926e69b54c9dbf1fa8d43530bff05b05baac25d945342d9f537594226",
+      "disposition": "literal-contract-agrees",
+      "notes": "Two nested John activations follow messages0/1 and two deactivations follow messages2/3; all four captions/order/styles agree.",
+      "findings": [],
+      "initialExpectationsSha256": "145729c207c25d48a211d05061b780bb518449cd4163dfa18a3dcbe15fb38ca0",
+      "initialReviewSha256": "a790aa5926e69b54c9dbf1fa8d43530bff05b05baac25d945342d9f537594226"
+    },
+    {
+      "ordinal": 26,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:438",
+      "sourceSha256": "592325d67537970355724d77fa9fdd310904e33537cd0ec6c8fe02fd8885c7df",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "a2d0c1ca656da812c2c85b064d1bbf10138f4677af90773379d68d5ccfd75db6",
+      "currentExpectationsSha256": "ee4e4574494e5449af57b86cd462d5116f64a5a4676e2d063e8c560bd5d2cf43",
+      "currentReviewSha256": "a56cb7b09367788edde045fa1879538638a723e287eb5e7a03004b124c977747",
+      "disposition": "literal-contract-agrees",
+      "notes": "No messages; one default participant John and one right-side note at boundary0 agree.",
+      "findings": [],
+      "initialExpectationsSha256": "a2d0c1ca656da812c2c85b064d1bbf10138f4677af90773379d68d5ccfd75db6",
+      "initialReviewSha256": "1bb223df74e82f574c9e3cba5b79126f48882faf2edaa3c254d289f26b1d5ee9"
+    },
+    {
+      "ordinal": 27,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:446",
+      "sourceSha256": "a9915542fa20e2bf5e76e2b294d59ad13565386a70e63d5faf10c7f033a81874",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "09ad0246c534a36e99d2109d31d412cb8f6e36030d6bf583672d38b927335ad9",
+      "currentExpectationsSha256": "55a05c4237bd37f4e021a548bf6fb26ef9caaa1ceddd31999016ebeb85f0b7e9",
+      "currentReviewSha256": "de8f66d9e3f5d4b46e83e80a46a1c3d19979a7ecd5e1efd60982e6591f017ad2",
+      "disposition": "literal-contract-agrees",
+      "notes": "Nohead message uses unordered visual endpoints; the following note spans Alice/John after message1.",
+      "findings": [],
+      "initialExpectationsSha256": "f1ebce704515b9bef6d01c44068b6afcf3f5560d89546dd060afa0efc82a51f2",
+      "initialReviewSha256": "26564d3e3fc3d0adb74f05f2c622315ed9c6887da34237610847090359baeba9"
+    },
+    {
+      "ordinal": 28,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:456",
+      "sourceSha256": "c68e948fd0030ddd4f49b540a1b72fec5c4e88f5286c612a9f25ab77844d54c0",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "d82b43a6590fe84bfb828352bfc230c1c117d14824f9e61a9717f06507de2565",
+      "currentExpectationsSha256": "244c9c939862b76a185abde3f8c5d170d9587b3ed3cf51ac696f1623693b0a9a",
+      "currentReviewSha256": "b4f52f3ae2173c1a63cf741882b19a8c5daaef5b20f335df2ae897154ea9a995",
+      "disposition": "literal-contract-agrees",
+      "notes": "Two explicit lines each belong separately to message0 and note0; nohead visual direction remains unprinted.",
+      "findings": [],
+      "initialExpectationsSha256": "d163c88f52e101b6025d6aba8d149e14524b564bbff0a7d375ed59f9a94bee59",
+      "initialReviewSha256": "7494109b39f876b433cfab9da46ede5c70319782d580d93be3027248b87193c2"
+    },
+    {
+      "ordinal": 29,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:464",
+      "sourceSha256": "40a5ae34a089954547d166bbe9b974aeb266cfcf0d724b1e32346261140e3984",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "73ba4c1f878af4be84b73b5d7517f97f1d7cdceb9d7dae8c9cf38eacaa9c30aa",
+      "currentExpectationsSha256": "ffdf0179841ddc940688928e648e8263c7a56ac19955da20751ed3614c277da9",
+      "currentReviewSha256": "340b49476d131c1c5c609413d130ff20c7bb2bd41eaafe69b43819659ef60bff",
+      "disposition": "literal-contract-agrees",
+      "notes": "Participant Alice alias has two lines, separately from two message lines and two note lines; implicit John kind is retained.",
+      "findings": [],
+      "initialExpectationsSha256": "dd13850943ec06346bcda1a3ce0a7de6f50d8fde81aed63650e6be19ffc5d450",
+      "initialReviewSha256": "c468dc33a06e35a6aadf211d1ae2ee91e18f7c4f388c26fe3423bf357d89782c"
+    },
+    {
+      "ordinal": 30,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:483",
+      "sourceSha256": "d042768225fc2a2c6aed87e913d293db64cb8da27b430259f3161a3f684888b3",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "5a9fbc3f565dced86b8bf793bd63bfeca746af948ff52bda510b4e6fa15f1fac",
+      "currentExpectationsSha256": "d9ed8dac4cc0d4fd2396b886339350f901709998fe3d12272559aaa5a86c9240",
+      "currentReviewSha256": "9b9a5c8b0e5aedc551b6083effeb2081add4914efc40b2e71f3dd15dac93c028",
+      "disposition": "literal-contract-agrees",
+      "notes": "Loop begins after first message, contains only the second dotted nohead message; source sender direction is explicitly unprinted in the visual projection.",
+      "findings": [],
+      "initialExpectationsSha256": "d9ed8dac4cc0d4fd2396b886339350f901709998fe3d12272559aaa5a86c9240",
+      "initialReviewSha256": "9b9a5c8b0e5aedc551b6083effeb2081add4914efc40b2e71f3dd15dac93c028"
+    },
+    {
+      "ordinal": 31,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:513",
+      "sourceSha256": "5ba07f36cdf08b28445a16fd8f24d05afbf5cd349679847aab70f7fddf476084",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "7cfad9715e017ec6d31e05f500ae5c5976f91309726bd75027c29262a859f180",
+      "currentExpectationsSha256": "7cfad9715e017ec6d31e05f500ae5c5976f91309726bd75027c29262a859f180",
+      "currentReviewSha256": "7dd6eb3c09289f10f381fc4c448e1b1fb3e6d4445882af4e9a026aaf4f616501",
+      "disposition": "literal-contract-agrees",
+      "notes": "Alt1–3/else2–3 and opt3–4 are separate top-level fragments; four message captions/order/endpoints agree.",
+      "findings": [],
+      "initialExpectationsSha256": "7cfad9715e017ec6d31e05f500ae5c5976f91309726bd75027c29262a859f180",
+      "initialReviewSha256": "7dd6eb3c09289f10f381fc4c448e1b1fb3e6d4445882af4e9a026aaf4f616501"
+    },
+    {
+      "ordinal": 32,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:544",
+      "sourceSha256": "6c0cb8e242cbf8bdadf2c2cccad5c0b5b6938127e0c76574c3fcadf342055b84",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "301fe70e360c7757afa20bcc4883a5d0bb3edd10b2a33eee3c26f79a747cbe10",
+      "currentExpectationsSha256": "301fe70e360c7757afa20bcc4883a5d0bb3edd10b2a33eee3c26f79a747cbe10",
+      "currentReviewSha256": "f5a06da97383a3a55e6dc71448faea27045ccd288e6870a5dc4052a72a88caf4",
+      "disposition": "literal-contract-agrees",
+      "notes": "Top-level par0–2 with second and branch1–2 contains two requests; reciprocal dotted replies occur after the par.",
+      "findings": [],
+      "initialExpectationsSha256": "301fe70e360c7757afa20bcc4883a5d0bb3edd10b2a33eee3c26f79a747cbe10",
+      "initialReviewSha256": "f5a06da97383a3a55e6dc71448faea27045ccd288e6870a5dc4052a72a88caf4"
+    },
+    {
+      "ordinal": 33,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:557",
+      "sourceSha256": "af802c7e61fb411636f36a09caed92ea597c51fcae3f79976682ca3391962f3c",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "be4169903cc66d1f6b7503bd946c7f89a49b118ede8a6a27e559e5f4a4727a8b",
+      "currentExpectationsSha256": "be4169903cc66d1f6b7503bd946c7f89a49b118ede8a6a27e559e5f4a4727a8b",
+      "currentReviewSha256": "fb115c220185dd998fbb4162f28011be3e6d867a8ff18db0f205668f1f1772d3",
+      "disposition": "literal-contract-agrees",
+      "notes": "Outer par0–4 has and branch1–4; nested par2–4/and3–4 belongs within it. Five first-appearance participants and four messages agree.",
+      "findings": [],
+      "initialExpectationsSha256": "be4169903cc66d1f6b7503bd946c7f89a49b118ede8a6a27e559e5f4a4727a8b",
+      "initialReviewSha256": "fb115c220185dd998fbb4162f28011be3e6d867a8ff18db0f205668f1f1772d3"
+    },
+    {
+      "ordinal": 34,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:589",
+      "sourceSha256": "201a0912328e98f240b39c1412adc00d0bf51c483304d8078d4d8552dac24083",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "4bd19f76a2bb563aac405e31fce4da216a643140cfc3acf288cf5e2b91e05bc7",
+      "currentExpectationsSha256": "2c2689d91815d4e076ea588d2b15df6dab14df11ec6551d280911bd5ac48ac77",
+      "currentReviewSha256": "bab22bfdff9b0e0fa06c435990ad8498b20a813a8612de6d7d0d472ae0b9dee3",
+      "disposition": "literal-contract-agrees",
+      "notes": "Critical0–3 has distinct options at1–2 and2–3; three dotted nohead messages preserve self-loop identity and caption order.",
+      "findings": [],
+      "initialExpectationsSha256": "2c2689d91815d4e076ea588d2b15df6dab14df11ec6551d280911bd5ac48ac77",
+      "initialReviewSha256": "bab22bfdff9b0e0fa06c435990ad8498b20a813a8612de6d7d0d472ae0b9dee3"
+    },
+    {
+      "ordinal": 35,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:602",
+      "sourceSha256": "a74c5de6ef55136d555087cde5874e57a2742175012a00e31ff405b59157f9fe",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "bd7d4533be6c3dd59855f353b3d62cd4fe4e26e33fdf6a08b1559393210a0bf6",
+      "currentExpectationsSha256": "12ed623c567d117ce98ad55cd24d73d6cd2ad0614fc805a924a0a447c83da91b",
+      "currentReviewSha256": "350a0145441ab81052d5135aaf6d58e972bd6a8812ccadeae2b373b2781afb9d",
+      "disposition": "literal-contract-agrees",
+      "notes": "Critical0–1 without options contains exactly one dotted nohead connection.",
+      "findings": [],
+      "initialExpectationsSha256": "12ed623c567d117ce98ad55cd24d73d6cd2ad0614fc805a924a0a447c83da91b",
+      "initialReviewSha256": "350a0145441ab81052d5135aaf6d58e972bd6a8812ccadeae2b373b2781afb9d"
+    },
+    {
+      "ordinal": 36,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:625",
+      "sourceSha256": "07788f7e3ced9064c9d896e61f0fecbab9124f37b6e4eaed7d06dfb18044c9ca",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "31394842ea29b7384699011d096070282359d292f75ff4aa67e9aa3811cfe198",
+      "currentExpectationsSha256": "fd8bcff779d22db8a4f2bdf6a80fd05495e3f5ea09d511e3dab51f74c4347f5f",
+      "currentReviewSha256": "1f7b1be66721f7cb4b5564aa97a4f9eac3ce87b37af199bcc1ccc96a726f2c88",
+      "disposition": "literal-contract-agrees",
+      "notes": "Four nohead dotted messages agree; break fragment encloses only failure message2–3, not the later billing request.",
+      "findings": [],
+      "initialExpectationsSha256": "fd8bcff779d22db8a4f2bdf6a80fd05495e3f5ea09d511e3dab51f74c4347f5f",
+      "initialReviewSha256": "1f7b1be66721f7cb4b5564aa97a4f9eac3ce87b37af199bcc1ccc96a726f2c88"
+    },
+    {
+      "ordinal": 37,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:661",
+      "sourceSha256": "5556fca9fd13c9cfd53edf7a0f37c9556b2f43098b4796ea409286a0b1f4c882",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "0a194e38843eb3de19dad97bfc71f2d7cf6946898e4c29cb40494d4f46fa2229",
+      "currentExpectationsSha256": "da978a3d55416b0fad42121f001cebc664c68da90f6856931776c426b76d68a5",
+      "currentReviewSha256": "9bcdfab59d1de3ce4324b85f6bd1dda5fb83607c4128cb9c91d49e341c2596ed",
+      "disposition": "literal-contract-agrees",
+      "notes": "Nested rect colors/bounds0–4 and1–3 agree; six John lifecycle events are sender/receiver-correct. The note before message0 belongs inside the outer rect, which afterMessage:0 alone does not bind. Resolved by explicit fragmentScope in37445a1; outside and inside/branch cases remain distinct at the same message boundary.",
+      "findings": [
+        "SEQUENCE-NOTE-FRAGMENT-OWNERSHIP"
+      ],
+      "initialExpectationsSha256": "0a194e38843eb3de19dad97bfc71f2d7cf6946898e4c29cb40494d4f46fa2229",
+      "initialReviewSha256": "97b76767c6644afb95e9ec5051b0229dc65a342bfed76a08269e4b07ae349ea0"
+    },
+    {
+      "ordinal": 38,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:684",
+      "sourceSha256": "c404e4ed538f9b3bae43c673dd0b698b15eace1eeaed6b1fb60622f621514e5a",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "5b054d99bc7d92208ce8b83478c4f6843695d458bbd97de1ff6df1f8fa6a39a8",
+      "currentExpectationsSha256": "5b054d99bc7d92208ce8b83478c4f6843695d458bbd97de1ff6df1f8fa6a39a8",
+      "currentReviewSha256": "6bf24d2a8c1f27626a9b3d51f8282229b4c3d1c2011648a0dc74b0bf1eea6068",
+      "disposition": "literal-contract-agrees",
+      "notes": "Comment text is excluded and also forbidden from paint; two reciprocal messages and implicit default kinds agree.",
+      "findings": [],
+      "initialExpectationsSha256": "5b054d99bc7d92208ce8b83478c4f6843695d458bbd97de1ff6df1f8fa6a39a8",
+      "initialReviewSha256": "6bf24d2a8c1f27626a9b3d51f8282229b4c3d1c2011648a0dc74b0bf1eea6068"
+    },
+    {
+      "ordinal": 39,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:695",
+      "sourceSha256": "942c34f9cb6c3d14f51620085702449a986e34569759d1723ff02b6daec278c3",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "5a2573c005b1cc56b86e6a3dcc1780abd24c1cc92033c7467b8373d63e02364c",
+      "currentExpectationsSha256": "5a2573c005b1cc56b86e6a3dcc1780abd24c1cc92033c7467b8373d63e02364c",
+      "currentReviewSha256": "19839aa745d20ea7df79cc66e6359a0c29e9f2824c4af6d68c28bccb4e0c3eb3",
+      "disposition": "literal-contract-agrees",
+      "notes": "Decimal #9829; and named #infin; correctly become ♥ and ∞ in route-owned labels; two reciprocal filled-arrow messages agree.",
+      "findings": [],
+      "initialExpectationsSha256": "5a2573c005b1cc56b86e6a3dcc1780abd24c1cc92033c7467b8373d63e02364c",
+      "initialReviewSha256": "19839aa745d20ea7df79cc66e6359a0c29e9f2824c4af6d68c28bccb4e0c3eb3"
+    },
+    {
+      "ordinal": 40,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:717",
+      "sourceSha256": "df13c1b9dfa701372a204f3e95e6e5a009848159943bfe7f348bea98d25ecf3e",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "8ffe55a0b1d76de78c4549790f66d4b50a5adcf5e952e74a8e986686d094087b",
+      "currentExpectationsSha256": "d95c1b1109d0680653d80ab8749ac0310a6f97e02ef943563f65010748bc4f24",
+      "currentReviewSha256": "e2546a57ff021511b4666c48a0414182d050418cfb2043ab584f9a062d27970a",
+      "disposition": "literal-contract-agrees",
+      "notes": "Auto-numbering covers five messages including John self-loop; loop1–2 and right-note after2 agree with first-appearance Alice/John/Bob order.",
+      "findings": [],
+      "initialExpectationsSha256": "8ffe55a0b1d76de78c4549790f66d4b50a5adcf5e952e74a8e986686d094087b",
+      "initialReviewSha256": "71ed17ccdc1ed1bddb8ee86407c3f101e8b9bc603f00d8f38029fbf023b03b95"
+    },
+    {
+      "ordinal": 41,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:750",
+      "sourceSha256": "a6b0082ad10a3227348a86637c56ff2f6ef95659a1321854edcade6a11affad9",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "currentExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "currentReviewSha256": "1bc7e2204ac1d97ad542687bce08089642576630adc58bce209f0193286e225f",
+      "disposition": "literal-contract-agrees",
+      "notes": "Four actor menu links are explicitly excluded from static drawing scope, as documented popup menus; three messages include the final open async arrow.",
+      "findings": [],
+      "initialExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "initialReviewSha256": "1bc7e2204ac1d97ad542687bce08089642576630adc58bce209f0193286e225f"
+    },
+    {
+      "ordinal": 42,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:775",
+      "sourceSha256": "0f2f5747cfd486445e228641ccb9f7dbcb26dbfd5f5ef0ef4379c9d8a80a7e3d",
+      "sourceMatchedPinnedGit": true,
+      "priorSelfAuditExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "currentExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "currentReviewSha256": "f78879c53c65d6db60acf43ce7c3142a619ccd33cd019bc17d85a2a9c971cb90",
+      "disposition": "literal-contract-agrees",
+      "notes": "Equivalent JSON-form actor menu data is explicitly excluded from static drawing scope; both participants and three message contracts agree.",
+      "findings": [],
+      "initialExpectationsSha256": "75d540bb861b2b0372356b15627ec913c7b75f0dac7a56e0a09b6fdadc426bc2",
+      "initialReviewSha256": "f78879c53c65d6db60acf43ce7c3142a619ccd33cd019bc17d85a2a9c971cb90"
+    }
+  ],
+  "initialIndependentReviewCorpusRevision": "d01299297a5dbe9c37cbd5d5a5e2fe60e7ea75d5",
+  "initialReviewCorpusSha256": "51d2a278dc4e2d16ffd08900c60e93334d100e121566c80d810738a2f3a938d1",
+  "deltaReview": {
+    "revision": "37445a1b4fd2d76d0ce1bfd7373f2c4d6fdc47c8",
+    "method": "Independently read all 11 changed full note arrays against the previously read 42 literals; every other field in all548 full review records is byte-value identical after removing the new note scope field. Outside notes use []; :661 uses outer rect0; examples110 note2 uses alt0/else1.",
+    "sourceCasesUnchanged": 42,
+    "changedContracts": 11,
+    "rows": [
+      {
+        "id": "packages/mermaid/src/docs/syntax/examples.md:26",
+        "sourceSha256": "b8e52ce7d792978000b1909b6aa84cf3ba5943bdaf7769d8cfef92c09aa390a4",
+        "beforeExpectationsSha256": "b5611e67141cbc2f1252a85634b6c1b4ee010ad9c1b89e936eb91e3499f8f2cf",
+        "afterExpectationsSha256": "0815c4ff14568df3f1a5a5c3773dbd8aac5d0af597ee05e69aee453ea2fe5d35",
+        "notes": [
+          {
+            "side": "right of",
+            "actors": [
+              "John"
+            ],
+            "text": "Bob thinks a long\nlong time, so long\nthat the text does\nnot fit on a row.",
+            "afterMessage": 4,
+            "fragmentScope": []
+          }
+        ]
+      },
+      {
+        "id": "packages/mermaid/src/docs/syntax/examples.md:94",
+        "sourceSha256": "e31e84a14d63985055ce1cdd577df24ef5b9f713079ade3701277b0015f86ce0",
+        "beforeExpectationsSha256": "b346a171ae08c82ff22eaf1534b8302c9095e5d2d914804ab29d9e4fbdc3db67",
+        "afterExpectationsSha256": "5305bc3adeecb1f3ddc3aee558c768f2e2ba43f5de2e41edd67d046f40e95909",
+        "notes": [
+          {
+            "side": "right of",
+            "actors": [
+              "John"
+            ],
+            "text": "Rational thoughts\nprevail...",
+            "afterMessage": 2,
+            "fragmentScope": []
+          }
+        ]
+      },
+      {
+        "id": "packages/mermaid/src/docs/syntax/examples.md:110",
+        "sourceSha256": "48067e3330977a84023ce4439d809df7bdb2c569f3f1fc9121039c6a433c8b57",
+        "beforeExpectationsSha256": "2cf013898de34224df034615a69c1155f194e6c61f41087468acbbb51bb13392",
+        "afterExpectationsSha256": "5df3c0810a3004c2d803fdf5dbb0349cea3fcb562a3436f7c483f5a0bbe6f990",
+        "notes": [
+          {
+            "side": "over",
+            "actors": [
+              "web",
+              "db"
+            ],
+            "text": "The user must be logged in to submit blog posts",
+            "afterMessage": 0,
+            "fragmentScope": []
+          },
+          {
+            "side": "over",
+            "actors": [
+              "web",
+              "db"
+            ],
+            "text": "When the user is authenticated, they can now submit new posts",
+            "afterMessage": 5,
+            "fragmentScope": [
+              {
+                "fragment": 0,
+                "branch": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:30",
+        "sourceSha256": "b46ca8f030ae22c724720f00d238e528d416593c51d52a6e4f22d99b99f93b2d",
+        "beforeExpectationsSha256": "77f26c05d928575365ca5e4002a2c300064c23a68e2ea1633345bb833a91e58e",
+        "afterExpectationsSha256": "795a79a931aeee04608f70ad796600da8a0ca8c4cd480f104e932b5cd5be41e9",
+        "notes": [
+          {
+            "side": "over",
+            "actors": [
+              "Customer",
+              "Bank"
+            ],
+            "text": "One order, one transaction",
+            "afterMessage": 6,
+            "fragmentScope": []
+          }
+        ]
+      },
+      {
+        "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:53",
+        "sourceSha256": "ab0098ce21b8fb1ae07229e642d40a225ed767cb4158ebd00657a54bda716531",
+        "beforeExpectationsSha256": "d0476a6149579e51d7a2e902fb18deac37d5f4c97af5d682b11dbb979c0e1816",
+        "afterExpectationsSha256": "2996d464db2d31abb740fba6ebb9886d99562a1590e336221f6aea019eb93340",
+        "notes": [
+          {
+            "side": "over",
+            "actors": [
+              "Customer",
+              "Bank"
+            ],
+            "text": "One order, one transaction",
+            "afterMessage": 6,
+            "fragmentScope": []
+          }
+        ]
+      },
+      {
+        "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:438",
+        "sourceSha256": "592325d67537970355724d77fa9fdd310904e33537cd0ec6c8fe02fd8885c7df",
+        "beforeExpectationsSha256": "a2d0c1ca656da812c2c85b064d1bbf10138f4677af90773379d68d5ccfd75db6",
+        "afterExpectationsSha256": "ee4e4574494e5449af57b86cd462d5116f64a5a4676e2d063e8c560bd5d2cf43",
+        "notes": [
+          {
+            "side": "right of",
+            "actors": [
+              "John"
+            ],
+            "text": "Text in note",
+            "afterMessage": 0,
+            "fragmentScope": []
+          }
+        ]
+      },
+      {
+        "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:446",
+        "sourceSha256": "a9915542fa20e2bf5e76e2b294d59ad13565386a70e63d5faf10c7f033a81874",
+        "beforeExpectationsSha256": "f1ebce704515b9bef6d01c44068b6afcf3f5560d89546dd060afa0efc82a51f2",
+        "afterExpectationsSha256": "55a05c4237bd37f4e021a548bf6fb26ef9caaa1ceddd31999016ebeb85f0b7e9",
+        "notes": [
+          {
+            "side": "over",
+            "actors": [
+              "Alice",
+              "John"
+            ],
+            "text": "A typical interaction",
+            "afterMessage": 1,
+            "fragmentScope": []
+          }
+        ]
+      },
+      {
+        "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:456",
+        "sourceSha256": "c68e948fd0030ddd4f49b540a1b72fec5c4e88f5286c612a9f25ab77844d54c0",
+        "beforeExpectationsSha256": "d163c88f52e101b6025d6aba8d149e14524b564bbff0a7d375ed59f9a94bee59",
+        "afterExpectationsSha256": "244c9c939862b76a185abde3f8c5d170d9587b3ed3cf51ac696f1623693b0a9a",
+        "notes": [
+          {
+            "side": "over",
+            "actors": [
+              "Alice",
+              "John"
+            ],
+            "text": "A typical interaction\nBut now in two lines",
+            "afterMessage": 1,
+            "fragmentScope": []
+          }
+        ]
+      },
+      {
+        "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:464",
+        "sourceSha256": "40a5ae34a089954547d166bbe9b974aeb266cfcf0d724b1e32346261140e3984",
+        "beforeExpectationsSha256": "dd13850943ec06346bcda1a3ce0a7de6f50d8fde81aed63650e6be19ffc5d450",
+        "afterExpectationsSha256": "ffdf0179841ddc940688928e648e8263c7a56ac19955da20751ed3614c277da9",
+        "notes": [
+          {
+            "side": "over",
+            "actors": [
+              "Alice",
+              "John"
+            ],
+            "text": "A typical interaction\nBut now in two lines",
+            "afterMessage": 1,
+            "fragmentScope": []
+          }
+        ]
+      },
+      {
+        "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:661",
+        "sourceSha256": "5556fca9fd13c9cfd53edf7a0f37c9556b2f43098b4796ea409286a0b1f4c882",
+        "beforeExpectationsSha256": "0a194e38843eb3de19dad97bfc71f2d7cf6946898e4c29cb40494d4f46fa2229",
+        "afterExpectationsSha256": "da978a3d55416b0fad42121f001cebc664c68da90f6856931776c426b76d68a5",
+        "notes": [
+          {
+            "side": "right of",
+            "actors": [
+              "Alice"
+            ],
+            "text": "Alice calls John.",
+            "afterMessage": 0,
+            "fragmentScope": [
+              {
+                "fragment": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:717",
+        "sourceSha256": "df13c1b9dfa701372a204f3e95e6e5a009848159943bfe7f348bea98d25ecf3e",
+        "beforeExpectationsSha256": "8ffe55a0b1d76de78c4549790f66d4b50a5adcf5e952e74a8e986686d094087b",
+        "afterExpectationsSha256": "d95c1b1109d0680653d80ab8749ac0310a6f97e02ef943563f65010748bc4f24",
+        "notes": [
+          {
+            "side": "right of",
+            "actors": [
+              "John"
+            ],
+            "text": "Rational thoughts!",
+            "afterMessage": 2,
+            "fragmentScope": []
+          }
+        ]
+      }
+    ]
+  }
+}

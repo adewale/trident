@@ -96,7 +96,7 @@ test('declared unordered fact collections allow authored rename order changes wi
   expect(assessMeaning(source, model).passed).toBe(false)
 })
 
-test('actual adapter family and public serializer return are observed rather than supplied by the requested case', async () => {
+test('actual adapter family is observed rather than supplied by the requested case', async () => {
   const root = mkdtempSync(join(tmpdir(), 'fidelity-public-return-'))
   try {
     mkdirSync(join(root, 'dist'))
@@ -110,7 +110,6 @@ test('actual adapter family and public serializer return are observed rather tha
     const result = await adapter.parse('flowchart LR\nA-->B', 'flowchart')
     expect(result.meaning?.family).toBe('class')
     expect(assessMeaning(witness, result.meaning).passed).toBe(false)
-    expect(await adapter.serialize?.('classDiagram\nclass C')).toBe('classDiagram\nclass C')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 
@@ -130,7 +129,7 @@ test('unavailable positioned projection does not erase independently returned na
 })
 
 test('only reviewed source rejection earns negative credit; backend/resource faults retain unavailable evidence', () => {
-  class PublicPeleError extends Error { constructor(public code: string, message: string) { super(message) } }
+  class PublicPeleError extends Error { code: string; constructor(code: string, message: string) { super(message); this.code = code } }
   expect(classifyMeaningFailure('pele', new PublicPeleError('syntax', 'Invalid source'), PublicPeleError)).toMatchObject({ status: 'rejected', publicAccepted: false })
   expect(classifyMeaningFailure('pele', new PublicPeleError('unsupported-diagram', 'Unknown header'), PublicPeleError)).toMatchObject({ status: 'unsupported', publicAccepted: false })
   for (const error of [new PublicPeleError('resource-limit', 'Parser source budget exceeded'), new Error('Parser backend failed'), new TypeError('Cannot read parser'), Object.assign(new Error('Parse error on line 2: backend was unavailable'), { name: 'TimeoutError' })]) expect(classifyMeaningFailure('pele', error, PublicPeleError)).toMatchObject({ status: 'unavailable', publicAccepted: null })

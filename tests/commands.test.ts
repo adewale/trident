@@ -5,7 +5,8 @@ import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/me
 
 const command = resolve(import.meta.dir, '../commands.ts')
 const help = (args: string[]) => spawnSync(process.execPath, [command, ...args], {
-  encoding: 'utf8', timeout: 10_000,
+  // Match the existing CI subprocess budget; help loads cold Bun modules, not a renderer.
+  encoding: 'utf8', timeout: 20_000,
   env: { ...process.env, TRIDENT_AGENTIC_ROOT: '/missing/product-checkout', MERMAID_REFERENCE_DIR: '/missing/oracle', TRIDENT_MERMAID_ORACLE: '' },
 })
 
@@ -22,6 +23,10 @@ test('public help and artifact help require no product checkout, oracle or compi
   const community = help(['community:update', '--help'])
   expect(community.status).toBe(0)
   expect(community.stdout).toContain('--candidate-dir')
+  const timing = help(['timing:browser', '--help'])
+  expect(timing.status).toBe(0)
+  expect(timing.stdout).toContain('fontconfig')
+  expect(timing.stdout).toContain('fresh browser contexts')
   const upstream = help(['upstream:prepare', '--help'])
   expect(upstream.status).toBe(0)
   expect(upstream.stdout).toContain('--runtime')

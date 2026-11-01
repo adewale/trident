@@ -1,0 +1,31 @@
+{
+  "kind": "retained-artifact-output-encoding",
+  "owner": {
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "artifact": {
+      "kind": "python",
+      "python": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/venv/bin/python",
+      "executable": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/venv/bin/python",
+      "version": "0.10.0",
+      "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+      "files": [
+        {
+          "path": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.10.0/wheels/termaid-0.10.0-py3-none-any.whl",
+          "sha256": "b884a616d30071643f8e93528b0ad68bd5696b41a7b5d31cd0554d2f990f28f2"
+        }
+      ],
+      "runtime": "Python public termaid.render API; process startup recorded separately",
+      "detail": "Exact PyPI version in an isolated venv; every resolved dependency wheel is retained and hashed. No Python model/provider integration is implied.; Version policy: resolved latest registry release. Recorded catalog versions remain separately available on the node."
+    }
+  },
+  "owningRawSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+  "archiveSha256": "b884a616d30071643f8e93528b0ad68bd5696b41a7b5d31cd0554d2f990f28f2",
+  "sourceFiles": {
+    "termaid/renderer/journey.py": "9d3124ed5cba6a98d45ef2ac289129f332d926aea2e0ef357fb6dee72efec5bb",
+    "termaid/renderer/gantt.py": "5df4acb0ca6126d84b7343d8296128fd662ff770af7ec0704b483dbf2f83051c",
+    "termaid/renderer/gitgraph.py": "bedcd48ca9cc1e74956d9e5ff87d27fbd97325a8f84f52d2119413d1a54d2eec",
+    "termaid/parser/gitgraph.py": "e0968686ccf3ed13c9421332fdb24e10c3d5da4471ae6edd5b15667000c4fa59"
+  },
+  "method": "Read exact public wheel ZIP members; compare installed member bytes. No package parser or renderer execution; source expected answers remain independently reviewed."
+}

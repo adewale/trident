@@ -1,0 +1,60 @@
+{
+  "schema": "trident-retained-color-token-witnesses-v1",
+  "scope": "Actual same-call rasterized SVGs; literal source RGBs and capture default alpha are separate. No source/hash change and no SUT rerender.",
+  "retained": [
+    {
+      "index": 466,
+      "caseId": "packages/mermaid/src/docs/syntax/treemap.md:77",
+      "source": "treemap-beta\n\"Section 1\"\n    \"Leaf 1.1\": 12\n    \"Section 1.2\":::class1\n      \"Leaf 1.2.1\": 12\n\"Section 2\"\n    \"Leaf 2.1\": 20:::class1\n    \"Leaf 2.2\": 25\n    \"Leaf 2.3\": 12\n\nclassDef class1 fill:red,color:blue,stroke:#FFD600;\n",
+      "sourceSha256": "64135f10e0b3a08c4013bac21d52b6cc7f076483d80613cd5283965fd6348b00",
+      "file": "mermaid-treemap-466.svg",
+      "svgSha256": "46131000184a6b57158323e76ec0efd3ca131c0e01d6edb526694ac79638c2bc",
+      "publicReturn": {
+        "schema": "trident-docs-png-return-v1",
+        "project": "mermaid-js/mermaid",
+        "caseId": "packages/mermaid/src/docs/syntax/treemap.md:77",
+        "round": 1,
+        "variant": "primary",
+        "attemptId": "3955efb8-a193-4d3a-aff7-d3aec7bf935a",
+        "sourceSha256": "64135f10e0b3a08c4013bac21d52b6cc7f076483d80613cd5283965fd6348b00",
+        "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+        "bindingSha256": "21acd377699a70e6e285cfa35453b6968ad283c413102e172d8448241a5db19f",
+        "originalSvgSha256": "4053dda66c4dbb3e371d754d8580384496a60a4d6376ddba4f268c8d395db358",
+        "rasterizedSvgSha256": "46131000184a6b57158323e76ec0efd3ca131c0e01d6edb526694ac79638c2bc",
+        "pngSha256": "1edc74d5e6f4404638ae15b695586e661963ab646b5985c03a86cf91c1d31f6a",
+        "rawUnitSha256": "a8a68f4f5f3c625565da31561c0dffc8f75c2aeb1b7be7a7a3858bdb0101dae0",
+        "startedFrameSha256": "039eac862853ed6261c06a79b15d5ed63e34563ced44d81db91c941ec1fad9da",
+        "returnedFrameSha256": "447d6256ccf19c7959af8968be5c55c1fa197df04a54555b28426a4070401e0d"
+      },
+      "copiedFrom": "/workspace/trident-png-full-2026-10-31/docs/png/rasterizedSvg/46131000184a6b57158323e76ec0efd3ca131c0e01d6edb526694ac79638c2bc.svg.gz",
+      "mutation": "none"
+    },
+    {
+      "index": 467,
+      "caseId": "packages/mermaid/src/docs/syntax/treemap.md:99",
+      "source": "treemap-beta\n\"Main\"\n    \"A\": 20\n    \"B\":::important\n        \"B1\": 10\n        \"B2\": 15\n    \"C\": 5\n\nclassDef important fill:#f96,stroke:#333,stroke-width:2px;\n",
+      "sourceSha256": "5f240e126b287f1b02a34f47d1776bc1d51a28c1d50289759ad2bbefbf16c337",
+      "file": "mermaid-treemap-467.svg",
+      "svgSha256": "e3f6d8458e91f9afd5d582bc20cfe450080d1619791a0418f9d010598a9a756f",
+      "publicReturn": {
+        "schema": "trident-docs-png-return-v1",
+        "project": "mermaid-js/mermaid",
+        "caseId": "packages/mermaid/src/docs/syntax/treemap.md:99",
+        "round": 1,
+        "variant": "primary",
+        "attemptId": "f96ee77d-1192-4b64-880a-30c6f76f536c",
+        "sourceSha256": "5f240e126b287f1b02a34f47d1776bc1d51a28c1d50289759ad2bbefbf16c337",
+        "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+        "bindingSha256": "21acd377699a70e6e285cfa35453b6968ad283c413102e172d8448241a5db19f",
+        "originalSvgSha256": "f8cf2aafdfb546b1d458518535290514b048cf3542465c803238c65040d97753",
+        "rasterizedSvgSha256": "e3f6d8458e91f9afd5d582bc20cfe450080d1619791a0418f9d010598a9a756f",
+        "pngSha256": "939c739055691913686e822e8f96fe0a051844ce81decd8d62a34d150e14a9b0",
+        "rawUnitSha256": "c39fef51a4ec94a1458ccfe0badb146817e305d4ba8e41adc28564768a525d0c",
+        "startedFrameSha256": "4cb0c0a6f3c960703a9bd245e96e66c7a9395c6648c816f6afdc24b89a87133c",
+        "returnedFrameSha256": "3cde5a774a798428efeb38f9dcc2585e88be957b3e0f824e53058f57e1fbcebc"
+      },
+      "copiedFrom": "/workspace/trident-png-full-2026-10-31/docs/png/rasterizedSvg/e3f6d8458e91f9afd5d582bc20cfe450080d1619791a0418f9d010598a9a756f.svg.gz",
+      "mutation": "none"
+    }
+  ]
+}

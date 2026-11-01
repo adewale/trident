@@ -57,8 +57,15 @@ test('quadrant coordinates come from uniquely owned dots in four distinct actual
 test('treemap sibling areas and gantt durations reject wrong geometry even with retained labels', async () => {
   const fixture = '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="100"><g><rect x="5" y="5" width="140" height="40" fill="pink"/><text x="10" y="25">Alpha</text></g><g><rect x="150" y="5" width="60" height="40" fill="cyan"/><text x="155" y="25">Beta</text></g></svg>'
   const expected = { labels: ['Alpha', 'Beta'], nodes: [{ id: 'Root/Alpha', label: 'Alpha' }, { id: 'Root/Beta', label: 'Beta' }], facts: { values: [{ id: 'Root/Alpha', value: 7 }, { id: 'Root/Beta', value: 3 }] } }
-  expect((await inspect(fixture, 'treemap', expected))[0]?.status).toBe('passed')
-  expect((await inspect(fixture.replace('width="140"', 'width="60"'), 'treemap', expected))[0]?.status).toBe('failed')
+  // The actual cells form a complete partition; a gap is not invisible area.
+  const contiguous = fixture.replace('x="150"', 'x="145"').replace('x="155"', 'x="150"')
+  expect((await inspect(contiguous, 'treemap', expected))[0]?.status).toBe('passed')
+  expect((await inspect(contiguous.replace('width="140"', 'width="60"'), 'treemap', expected))[0]?.status).toBe('failed')
+  // Independent 147:63 weighted cells minus a measured5px internal gap are
+  // drawn as142:58 rectangles. Restoring that gap preserves the authored7:3.
+  const padded = fixture.replace('width="140"', 'width="142"').replace('width="60"', 'width="58"').replace('x="150"', 'x="152"').replace('x="155"', 'x="157"')
+  expect((await inspect(padded, 'treemap', expected))[0]?.status).toBe('passed')
+  expect((await inspect(fixture, 'treemap', expected))[0]?.status).toBe('failed')
   const gantt = { labels: ['Alpha', 'Beta'], facts: { tasks: [{ id: 'A', label: 'Alpha', end: '7d' }, { id: 'B', label: 'Beta', end: '3d' }] } }
   expect((await inspect(fixture, 'gantt', gantt))[0]?.status).toBe('passed')
   expect((await inspect(fixture.replace('width="140"', 'width="60"'), 'gantt', gantt))[0]?.status).toBe('failed')

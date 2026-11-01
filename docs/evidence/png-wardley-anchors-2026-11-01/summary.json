@@ -1,0 +1,84 @@
+{
+  "schema": "trident-supplemental-wardley-current-png-summary-v1",
+  "sourceContractsSha256": "821c47a699a6ee7d753f03eb22632d3d7ad9ce35c6f34b2b43daaf12123524bc",
+  "priorSummary": "../png-holds-2026-11-01/summary.json",
+  "priorSummarySha256": "432c7be4516c0d61200f1ccf7fd2fe62569aca855d338adf222c3588019955f5",
+  "priorNormalDeltaUncompressedSha256": "f8a53f5a8223ce85deac4c686c40cfd19dc5f73352a21e58b778ba720bf7c760",
+  "normalDeltaResult": "normal-delta.json.gz",
+  "uncompressedDeltaResultSha256": "3856c7d69a9442635729b6e7d25534ea960caddebd7795b4560b8bafb11acd6f",
+  "producerSha256": "0d0cf1d1c4e6f0a70dc107a4be3304c9d7339384610693d5f07f18989827f5e7",
+  "projects": [
+    {
+      "project": "mermaid-js/mermaid",
+      "plannedSources": 548,
+      "plannedDrawings": 546,
+      "returned": 548,
+      "returnedDrawings": 546,
+      "correct": 493,
+      "incorrect": 42,
+      "unknown": 11,
+      "noImage": 0,
+      "sourceReviewPending": 1,
+      "configurationOnly": 1,
+      "invalidSourceControls": [
+        {
+          "id": "packages/mermaid/src/docs/syntax/kanban.md:83",
+          "status": "incorrect",
+          "reason": "The public API accepted source that violates the independently documented identifier constraint"
+        }
+      ]
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "plannedSources": 548,
+      "plannedDrawings": 546,
+      "returned": 449,
+      "returnedDrawings": 447,
+      "correct": 294,
+      "incorrect": 136,
+      "unknown": 116,
+      "noImage": 99,
+      "sourceReviewPending": 1,
+      "configurationOnly": 1,
+      "invalidSourceControls": [
+        {
+          "id": "packages/mermaid/src/docs/syntax/kanban.md:83",
+          "status": "incorrect",
+          "reason": "The public API accepted source that violates the independently documented identifier constraint"
+        }
+      ]
+    }
+  ],
+  "newDirectReviewReceipts": 2,
+  "newlyResolvedActualImageHolds": 2,
+  "normalAssessorRows": 2,
+  "newCorrect": 2,
+  "newIncorrect": 0,
+  "priorCurrentAdmittedDecisions": 963,
+  "unchangedPriorAdmissions": 963,
+  "currentAdmittedDecisions": 965,
+  "remainingActualImageHolds": 28,
+  "sourceIncompleteImageHolds": 2,
+  "remainingCompleteSourceImageEvidenceGaps": 26,
+  "nativeNoImageOutcomes": 99,
+  "remainingByProject": [
+    {
+      "project": "mermaid-js/mermaid",
+      "actualImageHolds": 11,
+      "noImage": 0
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "actualImageHolds": 17,
+      "noImage": 99
+    }
+  ],
+  "priorSelectionUnchanged": {
+    "path": "/workspace/trident-png-held-final-selection-2026-11-01/selected-current-review-origins.jsonl",
+    "sha256": "01982e0437e246ab87704f85965f012ecd9712cacad0a4512adfed7acfaf15c5"
+  },
+  "scope": "Only521 Mermaid and native actual PNGs receive new v2 source-and-actual-image reviews, official admission and normal affected grades. The existing963-origin selection and prior13 supplemental receipts remain unchanged. No old951/963 image reimport/decode, renderer/API call or archive rebuild occurred. Both519 notes remain unknown because the fixed positive-only glyph decoder did not fully qualify them.520 and every other hold are untouched. Original per-row clocks/ownership are preserved; timing is unqualified.",
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0,
+  "priorSourceNormalResultSha256": "749b49e78af9ecc7532c12523805298d801dffc9d6585a9614ca3c2dfc3466af"
+}

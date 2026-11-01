@@ -1,10 +1,10 @@
 import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
-import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
-import { importCampaign, rankedRows, renderSnapshot, retainedTableValues, validateSnapshot, validateSnapshotReceipts, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
+import { baselineComparison, importCampaign, rankedRows, renderSnapshot, retainedTableValues, validateSnapshot, validateSnapshotReceipts, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
 import type { LineageCatalog } from '../unified/lineage.ts'
 
 const receipt = { url: 'https://example.org/evidence/report.json', sha256: 'a'.repeat(64) }
@@ -39,7 +39,7 @@ test('one numeric source supplies both the visible table rate and Mermaid bar; m
   expect(output).toContain('1 catalog entries outside core comparison scope')
   const row = output.split('\n').find(line => line.startsWith('| fixture/alpha |'))!
   expect(row).toContain('N/A')
-  expect(row).toContain('Unmeasured')
+  expect(row).not.toContain('Replay (retired)')
   expect(row).not.toContain('0%')
   expect(output).not.toContain('| fixture/clone | Unmeasured')
   const changed = snapshot(); changed.tables[0]!.rows[0]!.values[1] = 0
@@ -149,7 +149,7 @@ test('large snapshots publish linked GitHub detail pages without dropping tables
 
 test('canonical historical values match their provenance digest without a second copy of the rows', () => {
   const root = resolve(import.meta.dir, '..')
-  const data = JSON.parse(readFileSync(join(root, 'results/latest.json'), 'utf8')) as ResultsSnapshot
+  const data = JSON.parse(readFileSync(join(root, 'results/historical-examples.json'), 'utf8')) as ResultsSnapshot
   const bytes = readFileSync(join(root, 'docs/evidence/benchmark-examples.json'))
   const examples = JSON.parse(bytes.toString()) as { tables?: unknown; tableData: { ids: string[]; valuesSha256: string }; originalTableReceipt: { url: string; sha256: string } }
   const digest = createHash('sha256').update(bytes).digest('hex')
@@ -162,7 +162,6 @@ test('canonical historical values match their provenance digest without a second
     expect(entry.receipt.sha256).toBe(digest)
   }
   validateSnapshotReceipts(data, root)
-  writeSnapshot(data, JSON.parse(readFileSync(join(root, 'catalog/mermaid-community.json'), 'utf8')), root, true)
   const docs = data.tables.find(entry => entry.id === 'docs-coverage')!
   docs.rows[0]!.values[1] = Number(docs.rows[0]!.values[1]) + 1
   docs.rows[0]!.values[2] = Number(docs.rows[0]!.values[2]) - 1
@@ -189,6 +188,23 @@ test('result ranks use the named metric, share ties, put missing values last and
   expect(rankedRows(entry, id => id)[1]!.score).toBe(0.125)
   entry.rows[0]!.values[1] = '0.125 ms not a number'
   expect(rankedRows(entry, id => id).at(-1)?.rank).toBeNull()
+})
+
+test('verified-count order puts missing values after positive and zero counts without changing shared ranks', () => {
+  const entry = snapshot().tables[0]!
+  entry.columns = ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned']
+  entry.population = { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown'] }
+  entry.ranking = { column: 'Correct', direction: 'descending' }
+  entry.rows = [
+    { project: 'a-missing', values: ['1', 'N/A', 'N/A', 'N/A', 'N/A'], unrankedReason: 'No public output' },
+    { project: 'd-best', values: ['1', 4, 0, 1, 5] },
+    { project: 'b-tied', values: ['1', 4, 1, 0, 5] },
+    { project: 'c-zero', values: ['1', 0, 5, 0, 5] },
+    { project: 'e-withheld', values: ['1', 'Withheld', 'N/A', 'N/A', 'N/A'] },
+  ]
+  expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([['b-tied', 1], ['d-best', 1], ['c-zero', 3], ['a-missing', null], ['e-withheld', null]])
+  entry.rows[1]!.unrankedReason = 'Incomplete full accuracy'
+  expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([['b-tied', 1], ['d-best', null], ['c-zero', 2], ['a-missing', null], ['e-withheld', null]])
 })
 
 test('table and Mermaid chart use the same best-first project order', () => {
@@ -270,7 +286,147 @@ test('the Flutter brand gets no inherited Dart score in the regular results over
   const output = renderSnapshot(data, actual)
   const flutter = output.split('\n').find(line => line.startsWith('| Mermaid Flutter |'))
   expect(flutter).toBeDefined()
-  expect(flutter).toContain('Unmeasured')
+  expect(flutter).not.toContain('1.0')
   expect(flutter).toContain('N/A')
   expect(flutter).not.toContain('1/2')
 })
+
+
+test('reference comparisons keep incomplete, unknown and unlike populations out of winner claims', () => {
+  const entry = snapshot().tables[0]!
+  entry.rows = [{ project: 'mermaid-js/mermaid', values: ['12', 9, 1, 10] }, { project: 'peer', values: ['1', 10, 0, 10] }]
+  expect(baselineComparison(entry, entry.rows[0]!)).toBe('Baseline')
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Higher (+1)')
+  entry.rows[1]!.values[1] = 8
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Lower (-1)')
+  entry.rows[1]!.values[1] = 9
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Tie')
+  entry.rows[1]!.values[3] = 20
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Different populations')
+  entry.rows[1]!.values[3] = 10; entry.rows[1]!.unrankedReason = 'partial collection'
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Unresolved')
+  entry.ranking = { column: 'Returned', direction: 'ascending' }
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Not comparable')
+  entry.columns = ['Version', 'Correct', 'Unknown', 'Planned']; entry.population = { total: 'Planned', outcomes: ['Correct', 'Unknown'] }; entry.ranking = { column: 'Correct', direction: 'descending' }
+  entry.rows[1]!.values = ['1', 0, 10, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Unresolved')
+})
+
+test('partial correctness compares verified counts without claiming an accuracy lead, including ties and unknown reference outcomes', () => {
+  const entry = snapshot().tables[0]!
+  entry.columns = ['Version', 'Correct', 'Incorrect', 'Unknown', 'Planned']
+  entry.population = { total: 'Planned', outcomes: ['Correct', 'Incorrect', 'Unknown'] }
+  entry.ranking = { column: 'Correct', direction: 'descending' }
+  entry.rows = [{ project: 'mermaid-js/mermaid', values: ['12', 5, 5, 0, 10] }, { project: 'peer', values: ['1', 6, 1, 3, 10] }]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('More verified (+1); accuracy unresolved')
+  entry.rows[1]!.values = ['1', 4, 3, 3, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Fewer verified (-1); accuracy unresolved')
+  entry.rows[1]!.values = ['1', 5, 2, 3, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Same verified count; accuracy unresolved')
+  entry.rows[0]!.values = ['12', 5, 2, 3, 10]; entry.rows[1]!.values = ['1', 6, 4, 0, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('More verified (+1); accuracy unresolved')
+  entry.rows[0]!.values = ['12', 5, 5, 0, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Higher (+1)')
+  entry.rows[1]!.values = ['1', 'N/A', 4, 0, 10]
+  expect(baselineComparison(entry, entry.rows[1]!)).toBe('Unresolved')
+  const rules = readFileSync(new URL('../REPORTING.md', import.meta.url), 'utf8')
+  expect(rules).toContain('More verified (+n); accuracy unresolved')
+  expect(rules).toContain('Fewer verified (-n); accuracy unresolved')
+  expect(rules).toContain('Same verified count; accuracy unresolved')
+})
+
+test('legacy authored SVG tables cannot expose comparative ranks, charts or an overview score', () => {
+  const data = snapshot(), entry = data.tables[0]!
+  entry.suite = 'fidelity'; data.overviewRanking = entry.id
+  entry.rows.push({ project: 'fixture/alpha', values: ['1.0', 2, 0, 2] })
+  const before = JSON.stringify(data), originalValues = retainedTableValues(data, [entry.id])
+  expect(rankedRows(entry, id => id).map(row => row.rank)).toEqual([null, null])
+  expect(baselineComparison(entry, entry.rows[0]!)).toContain('Unscored')
+  const output = renderSnapshot(data, catalog)
+  expect(output).toContain('Harness and Observer Regressions (unscored)')
+  expect(output).not.toContain('Ranked by **Returned')
+  expect(output).not.toContain('bar [')
+  expect(output.split('## Results by benchmark')[0]).not.toContain('Returned / Planned')
+  expect(JSON.stringify(data)).toBe(before)
+  expect(retainedTableValues(data, [entry.id])).toEqual(originalValues)
+})
+
+test('a frozen baseline binds its actual corpus and outcome bytes as well as the table values', () => temporary(root => {
+  mkdirSync(join(root, 'docs'))
+  const hash = (value: string) => createHash('sha256').update(value).digest('hex')
+  const data = snapshot(), input = 'independent frozen source bytes', outcome = 'original owned outcome bytes'
+  writeFileSync(join(root, 'docs/input.json'), input); writeFileSync(join(root, 'docs/outcome.json'), outcome)
+  const manifest = { tableData: { ids: ['docs-coverage'], valuesSha256: hash(JSON.stringify(retainedTableValues(data, ['docs-coverage']))) }, files: [{ path: 'docs/input.json', sha256: hash(input) }, { path: 'docs/outcome.json', sha256: hash(outcome) }] }
+  const publish = () => { const bytes = JSON.stringify(manifest); writeFileSync(join(root, 'docs/b0.json'), bytes); data.tables[0]!.receipt = { url: 'docs/b0.json', sha256: hash(bytes) } }
+  publish(); expect(() => validateSnapshotReceipts(data, root)).not.toThrow()
+  writeFileSync(join(root, 'docs/input.json'), 'changed source but unchanged displayed score')
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Frozen evidence file changed')
+  writeFileSync(join(root, 'docs/input.json'), input)
+  writeFileSync(join(root, 'docs/outcome.json'), 'changed outcome but unchanged displayed score')
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Frozen evidence file changed')
+  writeFileSync(join(root, 'docs/outcome.json'), outcome)
+  data.tables[0]!.rows[0]!.values[1] = 2
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Retained table values changed')
+  data.tables[0]!.rows[0]!.values[1] = 1
+  manifest.files.push(manifest.files[0]!); publish()
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Invalid frozen evidence inventory')
+  manifest.files.pop()
+  temporary(outside => {
+    writeFileSync(join(outside, 'foreign'), input); symlinkSync(join(outside, 'foreign'), join(root, 'docs/linked.json'))
+    manifest.files[0] = { path: 'docs/linked.json', sha256: hash(input) }; publish()
+    expect(() => validateSnapshotReceipts(data, root)).toThrow('escaped')
+  })
+}))
+
+test('a rolling result view preserves and verifies its frozen baseline instead of rewriting it', () => temporary(root => {
+  mkdirSync(join(root, 'results')); mkdirSync(join(root, 'docs'))
+  const hash = (value: string) => createHash('sha256').update(value).digest('hex')
+  const original = snapshot(), payload = JSON.stringify(original)
+  writeFileSync(join(root, 'results/baseline.json'), payload)
+  const current = snapshot(); current.baseline = { url: 'results/baseline.json', sha256: hash(payload) }
+  expect(() => validateSnapshotReceipts(current, root)).not.toThrow()
+  expect(renderSnapshot(current, catalog)).toContain('[Frozen reference baseline](results/baseline.json)')
+  current.tables[0]!.rows[0]!.values[1] = 2; current.tables[0]!.rows[0]!.values[2] = 0
+  expect(() => validateSnapshotReceipts(current, root)).not.toThrow()
+  expect(readFileSync(join(root, 'results/baseline.json'), 'utf8')).toBe(payload)
+  writeFileSync(join(root, 'results/baseline.json'), JSON.stringify(current))
+  expect(() => validateSnapshotReceipts(current, root)).toThrow('Frozen baseline changed')
+  current.baseline.sha256 = hash(JSON.stringify(current))
+  expect(() => validateSnapshotReceipts(current, root)).toThrow('Invalid frozen baseline snapshot')
+}))
+
+test('local row and attempt owners retain their own hashes and repository containment', () => temporary(root => {
+  mkdirSync(join(root, 'docs'))
+  const body = 'owned evidence', bodyHash = createHash('sha256').update(body).digest('hex')
+  writeFileSync(join(root, 'docs/body.txt'), body)
+  const data = snapshot(), payload = JSON.stringify({ files: [{ path: 'docs/body.txt', sha256: bodyHash }] }), hash = createHash('sha256').update(payload).digest('hex')
+  writeFileSync(join(root, 'docs/row.json'), payload); writeFileSync(join(root, 'docs/attempt.json'), payload)
+  data.tables[0]!.rows[0]!.receipt = { url: 'docs/row.json', sha256: hash }
+  data.attempts.push({ id: 'owner', project: 'fixture/zebra', suite: 'docs', measuredFrom: '2026-01-01', updatedAt: '2026-01-01', status: 'recorded', detail: 'Retained owner', groups: [], receipt: { url: 'docs/attempt.json', sha256: hash } })
+  expect(() => validateSnapshotReceipts(data, root)).not.toThrow()
+  writeFileSync(join(root, 'docs/row.json'), 'changed')
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('hash changed')
+  writeFileSync(join(root, 'docs/row.json'), payload); writeFileSync(join(root, 'docs/attempt.json'), 'changed')
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('hash changed')
+  writeFileSync(join(root, 'docs/attempt.json'), payload)
+  writeFileSync(join(root, 'docs/body.txt'), 'changed')
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Frozen evidence file changed')
+  writeFileSync(join(root, 'docs/body.txt'), body)
+  symlinkSync(join(root, '..'), join(root, 'docs/escape'))
+  data.attempts[0]!.receipt.url = 'docs/escape'
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('escaped')
+}))
+
+test('publishing an older input cannot drop or replace an existing frozen baseline', () => temporary(root => {
+  mkdirSync(join(root, 'results'))
+  const payload = JSON.stringify(snapshot()), frozen = join(root, 'results/baseline.json')
+  writeFileSync(frozen, payload)
+  const current = snapshot(); current.baseline = { url: 'results/baseline.json', sha256: createHash('sha256').update(payload).digest('hex') }
+  writeSnapshot(current, catalog, root)
+  const latest = readFileSync(join(root, 'results/latest.json'), 'utf8')
+  expect(() => writeSnapshot(snapshot(), catalog, root)).toThrow('preserve the existing frozen baseline')
+  current.baseline.sha256 = '0'.repeat(64)
+  expect(() => writeSnapshot(current, catalog, root)).toThrow('preserve the existing frozen baseline')
+  expect(readFileSync(join(root, 'results/latest.json'), 'utf8')).toBe(latest)
+  expect(readFileSync(frozen, 'utf8')).toBe(payload)
+}))

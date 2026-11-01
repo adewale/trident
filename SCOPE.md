@@ -15,11 +15,13 @@ declared output, measuring comparable work and publishing readable evidence.
 
 Each benchmark applies only where its interface and observation contract fit.
 Every catalog entry does not need every benchmark, format or optional model API.
-The first public 0.1 release requires [B0](BASELINE.md), covering every normally
-selected brand and applicable benchmark with explicit gaps and qualification.
-Later releases assess whether retained baseline evidence remains compatible or
-needs new measurements or a bridge run; they do not automatically repeat the
-entire ecosystem campaign. Claimed timing comparisons require their stated checks.
+The first public release requires the claimed scopes and shipped bytes to pass
+[the release process](RELEASE.md), with immutable evidence in [B0](BASELINE.md).
+The six-project harness cohort covers execution mechanisms; it is not a demand
+to benchmark every catalog project. Later releases recheck affected evidence or
+collect changed/missing work. Neither a passing invocation matrix nor an entire
+ecosystem campaign can substitute for missing correctness proof. Performance
+claims require complete per-call correctness and calibration.
 
 ## Outside core requirements
 

@@ -1,0 +1,30 @@
+[
+  {
+    "index": 55,
+    "file": "55.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/classDiagram.md:50",
+    "sourceSha256": "6fc2474e125b7cb551615e66013a65b77baf53183f680d4ca015cfc01e7487d6",
+    "svgSha256": "e587fa6a4f689b23d9c6f0e04dd7d4799d755e20225ca008791096a682454764"
+  },
+  {
+    "index": 64,
+    "file": "64.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/classDiagram.md:221",
+    "sourceSha256": "ae91d8c13908d53c28fba8da2bc5e26fd37e9acf0b2d2d23e66838d583490dfc",
+    "svgSha256": "7c2f622720df27d9b2cb9191c7dfca212ef3994ac17584e2636521889aad8c54"
+  },
+  {
+    "index": 104,
+    "file": "104.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/entityRelationshipDiagram.md:251",
+    "sourceSha256": "64765bbdf6549438c541e231158026c013e95c99cf9ca0a4dfc0f840ab77bf0d",
+    "svgSha256": "dcd573a55ef95ff7540e081e8c7561661606120d1fd89ce0643c737f9a4aed1d"
+  },
+  {
+    "index": 191,
+    "file": "191.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/flowchart.md:493",
+    "sourceSha256": "3a814849f81b02e111839c0ee84a821bb17adc537436dd93c2681eb79d36d9cd",
+    "svgSha256": "1ea3117278bae2b89cbff49b8975ad946a3571c2aa23e0cb2cc6f6f6359fc7b1"
+  }
+]

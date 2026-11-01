@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="349.392" height="410.1" viewBox="0 0 349.392 410.1" style="--bg:#FFFFFF;--fg:#27272A;--font:Inter;background:#FFFFFF">
+<style>
+  text { font-family: var(--font, 'Inter'), system-ui, sans-serif; }
+  .mono { font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #27272A;
+    --_text-sec:      #575759;
+    --_text-muted:    #707072;
+    --_text-faint:    #8a8a8c;
+    --_line:          #939395;
+    --_arrow:         #47474a;
+    --_node-fill:     #f9f9f9;
+    --_node-stroke:   #d4d4d4;
+    --_group-fill:    #FFFFFF;
+    --_group-hdr:     #f4f4f4;
+    --_inner-stroke:  #e5e5e5;
+    --_key-badge:     #e9e9ea;
+  }
+</style>
+<defs>
+  <marker id="cls-inherit" markerWidth="12" markerHeight="10" refX="12" refY="5" orient="auto-start-reverse" overflow="visible">
+    <polygon points="0 0, 12 5, 0 10" fill="#FFFFFF" stroke="#47474a" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-composition" markerWidth="14" markerHeight="12" refX="13" refY="6" orient="auto-start-reverse" viewBox="0 0 14 12" overflow="hidden">
+    <polygon points="7 1, 13 6, 7 11, 1 6" fill="#47474a" stroke="#47474a" stroke-width="1" />
+  </marker>
+  <marker id="cls-aggregation" markerWidth="14" markerHeight="12" refX="13" refY="6" orient="auto-start-reverse" viewBox="0 0 14 12" overflow="hidden">
+    <polygon points="7 1, 13 6, 7 11, 1 6" fill="#FFFFFF" stroke="#47474a" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto-start-reverse" overflow="visible">
+    <polyline points="0 0, 8 3, 0 6" fill="none" stroke="#47474a" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-lollipop" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto-start-reverse" viewBox="0 0 14 14" overflow="hidden">
+    <circle cx="7" cy="7" r="5" fill="#FFFFFF" stroke="#47474a" stroke-width="1.5" />
+  </marker>
+</defs>
+<g class="namespace" data-id="Domain" data-label="Domain" data-role="group">
+  <rect x="40" y="40" width="152" height="330.1" rx="0" ry="0" fill="#FFFFFF" stroke="#d4d4d4" stroke-width="1" data-id="namespace-rect:Domain" data-role="group" />
+  <path d="M40,40 H192 V68 H40 Z" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1" />
+  <text x="48" y="54" font-size="12" font-weight="600" fill="#575759" dy="4.199999999999999" textLength="43.56" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Domain</text>
+</g>
+<polyline class="class-relationship" data-from="User" data-to="Store" data-type="association" data-relation-type="association" data-marker-at="to" data-label="owns" data-from-cardinality="1" data-to-cardinality="*" points="116,164.9 116,305.20000000000005" fill="none" stroke="#939395" stroke-width="1" marker-end="url(#cls-arrow)" data-relationship="association" data-direction="forward" data-id="rel:User-&gt;Store#0" data-role="relationship" role="graphics-symbol" aria-roledescription="relation" aria-label="User to Store: owns" />
+<g class="class-node" data-id="User" data-label="User" data-role="class-box">
+  <rect x="56" y="76" width="120" height="88.9" rx="0" ry="0" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="1" data-id="class:User:box" data-role="class-box" />
+  <path d="M56,76 H176 V108.9 H56 Z" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1" />
+  <text x="116" y="92.45" text-anchor="middle" font-size="13" font-weight="700" fill="#27272A" dy="4.55" textLength="33.15" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">User</text>
+  <line x1="56" y1="108.9" x2="176" y2="108.9" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="64" y="122.9" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:User:name" data-role="member" textLength="92.4" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">+ </tspan><tspan fill="#575759">name</tspan><tspan fill="#8a8a8c">: </tspan><tspan fill="#707072">String</tspan></text>
+  <line x1="56" y1="136.9" x2="176" y2="136.9" stroke="#d4d4d4" stroke-width="0.75" />
+  <text x="64" y="150.9" class="mono" dy="0.35em" font-size="11" font-weight="400" data-id="member:User:save" data-role="member" textLength="92.4" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit"><tspan fill="#8a8a8c">+ </tspan><tspan fill="#575759">save()</tspan><tspan fill="#8a8a8c">: </tspan><tspan fill="#707072">bool</tspan></text>
+</g>
+<g class="class-node" data-id="Store" data-label="Store" data-role="class-box">
+  <rect x="56" y="305.20000000000005" width="120" height="48.900000000000006" rx="0" ry="0" fill="#f9f9f9" stroke="#d4d4d4" stroke-width="1" data-id="class:Store:box" data-role="class-box" />
+  <path d="M56,305.20000000000005 H176 V338.1 H56 Z" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1" />
+  <text x="116" y="321.65000000000003" text-anchor="middle" font-size="13" font-weight="700" fill="#27272A" dy="4.55" textLength="36.27" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">Store</text>
+  <line x1="56" y1="338.1" x2="176" y2="338.1" stroke="#d4d4d4" stroke-width="0.75" />
+  <line x1="56" y1="346.1" x2="176" y2="346.1" stroke="#d4d4d4" stroke-width="0.75" />
+</g>
+<polyline class="class-marker-overlay" points="116,164.9 116,305.20000000000005" fill="none" stroke="#939395" stroke-width="1" stroke-opacity="0" marker-end="url(#cls-arrow)" pointer-events="none" aria-hidden="true" />
+<g class="class-note" data-note-index="0" data-for="User" data-id="class-note:0" data-role="note">
+  <line class="class-note-connector" x1="176" y1="120.45" x2="200" y2="96" stroke="#d4d4d4" stroke-width="1" stroke-dasharray="4 3" data-relationship="relationship" data-direction="undirected" data-id="class-note:0:connector" data-role="relationship" />
+  <rect x="200" y="76" width="109.39200000000001" height="40" rx="2" fill="#f4f4f4" stroke="#d4d4d4" data-id="class-note:0:box" data-role="note" />
+  <text x="254.696" y="96" text-anchor="middle" fill="#27272A" dy="4.199999999999999">Keep ownership</text>
+</g>
+<text x="96.701" y="227.05" font-size="11" text-anchor="middle" font-weight="400" fill="#707072" dy="3.8499999999999996" textLength="26.598" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">owns</text>
+<text x="126" y="178.9" font-size="11" text-anchor="middle" font-weight="400" fill="#707072" dy="3.8499999999999996" data-id="rel-card:User-&gt;Store#0:from" data-role="cardinality" textLength="4.026" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">1</text>
+<text x="106" y="291.20000000000005" font-size="11" text-anchor="middle" font-weight="400" fill="#707072" dy="3.8499999999999996" data-id="rel-card:User-&gt;Store#0:to" data-role="cardinality" textLength="7.59" lengthAdjust="spacingAndGlyphs" data-font-metrics="deterministic-fit">*</text>
+</svg>

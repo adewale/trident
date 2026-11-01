@@ -8,7 +8,7 @@ import { FULL_SAMPLING } from '../portable/protocol.ts'
 import { lineageInventory, type LineageCatalog } from './lineage.ts'
 import { projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
 
-export interface CampaignPlanOptions { projects: CatalogMember[]; catalog?: LineageCatalog; suites: readonly PublicSuite[]; rounds: number; profile: 'smoke' | 'full'; executable?: string; upstreamRunnerRoot?: string; budgetMinutes?: number; portableCaseIds?: string[] }
+export interface CampaignPlanOptions { projects: CatalogMember[]; catalog?: LineageCatalog; suites: readonly PublicSuite[]; rounds: number; profile: 'smoke' | 'full'; executable?: string; upstreamRunnerRoot?: string; budgetMinutes?: number; portableCaseIds?: string[]; docsFormats?: readonly ('svg' | 'png')[] }
 export function campaignPlan(options: CampaignPlanOptions) {
   const lineage = options.catalog ? lineageInventory(options.catalog) : undefined
   const comparisonSelection = lineage ? { projects: lineage.nodes.filter(node => options.projects.some(project => project.id === node.project)), policy: lineage.policy } : null
@@ -22,7 +22,8 @@ export function campaignPlan(options: CampaignPlanOptions) {
     const support = projectSupport(node)
     return options.suites.map(suite => {
       const capability = support.suites[suite]
-      const required = ['bun', 'node', 'git', ...(node.benchmark?.package ? ['npm'] : []), ...(['docs', 'fidelity'].includes(suite) ? ['chromium'] : []), 'oracle', ...(suite === 'upstream-original' ? ['originalRunner'] : [])]
+      const docsBrowser = suite === 'docs' && (node.outputs.includes('svg') || node.benchmark?.outputs?.includes('svg'))
+      const required = ['bun', 'node', 'git', ...(node.benchmark?.package ? ['npm'] : []), ...(suite === 'fidelity' || docsBrowser ? ['chromium'] : []), 'oracle', ...(suite === 'upstream-original' ? ['originalRunner'] : [])]
       const runtime = (node.runtime ?? '').toLowerCase()
       if (runtime.includes('dart')) required.push('dart')
       if (runtime.includes('rust')) required.push('cargo')
