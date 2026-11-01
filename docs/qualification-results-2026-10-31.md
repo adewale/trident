@@ -1,4 +1,4 @@
-# Qualification results — 2026-10-31
+# Benchmark results — updated 1 November 2026
 
 These minimum qualification cohorts regrade retained outputs on frozen artifacts; they do not establish a new 27-project campaign or baseline. Ordinary reducers and the shared ranker order each named metric best first, with shared ties and no grand aggregate. Verified correct counts are lower bounds while unknowns leave complete drawing accuracy unresolved. The [qualification index](../qualification/README.md) retains detailed provenance and publication links; [runtime tests and archive checks](../RELEASE.md) are pinned separately.
 
@@ -7,14 +7,16 @@ include the current outputs, source contracts, direct PNG reviews and archive re
 
 ## DaveBench documentation drawings — PNG
 
-[DaveBench](../BENCHMARKS.md#documentation-examples--davebench) uses these [548 literal documentation occurrences](../corpus/docs-source-inventory.json.gz) from Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b`: 546 drawings, one invalid-source control and one configuration-only input. The [source census](docs-source-expectations.md) has 547 complete contracts, including both non-drawing inputs; the sole held duplicate-Boston interpretation remains a planned drawing. [Independent contracts](../corpus/docs-reviewed.json), SHA-256 `2aa8a9ad10d72a5738a52b917c3e14611c99c5b5c514b7767f6b76561612cf6c`, retain required facts and reviewed visual projections. Nonvisual identities and unrequested default skins remain advisory; renderer agreement supplies no expected answer. Mermaid rendering bindings include the declared first-party ZenUML 1.0.1 addon.
+[DaveBench](../BENCHMARKS.md#documentation-examples--davebench) uses these [548 literal documentation occurrences](../corpus/docs-source-inventory.json.gz) from Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b`: 546 drawings, one invalid-source control and one configuration-only input. The [source census](docs-source-expectations.md) has 547 complete contracts, including both non-drawing inputs; the sole held duplicate-Boston interpretation remains a planned drawing. [Independent contracts](../corpus/docs-reviewed.json), SHA-256 `821c47a699a6ee7d753f03eb22632d3d7ad9ce35c6f34b2b43daaf12123524bc`, retain required facts and reviewed visual projections. Nonvisual identities and unrequested default skins remain advisory; renderer agreement supplies no expected answer. Mermaid rendering bindings include the declared first-party ZenUML 1.0.1 addon.
 
-| Verified correct rank | Project | Version / public interface | Correct / 546 | Incorrect | Unknown | Returned / 548 |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | mermaid-js/mermaid | 12.2.0 / browser PNG exporter | 485 | 41 | 20 | 548 |
-| 2 | pub:mermaid_flutter | 0.3.2 / native Flutter renderToPng | 289 | 136 | 121 | 449 |
+| Verified correct rank | Project | Version / public interface | Correct / 546 | Incorrect | Unassessed PNG | No PNG | Returned / 548 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | mermaid-js/mermaid | 12.2.0 / browser PNG exporter | 493 | 42 | 11 | 0 | 548 |
+| 2 | pub:mermaid_flutter | 0.3.2 / native Flutter renderToPng | 294 | 136 | 17 | 99 | 449 |
 
-The 42 returned-image holds are 20 Mermaid and 22 native coordinates, including two source-review-pending outcomes. Native also has 99 no-image outcomes. Both invalid-source controls were incorrectly accepted; configuration-only inputs are unscored. Every content decision binds source, contract and directly inspected PNG bytes. [Reducer summary](evidence/png-full-corpus-2026-10-31/current-content-summary.json), [all 1,096 outcomes](evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz), and [ownership, review and exporter-repair evidence](evidence/png-full-corpus-2026-10-31/README.md) preserve the full provenance. PNG meaning and strict raster preservation remain separate claims.
+Twenty-eight returned images remain unassessed: 11 Mermaid and 17 native, including two held source interpretations. Native also has 99 no-image outcomes; these remain unknown, separately from checker gaps. Both invalid-source controls were incorrectly accepted; configuration-only inputs are unscored. Every content decision binds source, contract and directly inspected PNG bytes.
+
+The [current summary and compact supplemental proof](evidence/png-holds-2026-11-01/README.md) retain 963 current admitted decisions: 950 unchanged original reviews and 13 freshly admitted reviews. Twelve earlier image holds were resolved (11 correct, one incorrect); one existing negative was freshly checked against the corrected source contract. The [original 1,096 outcomes and exporter evidence](evidence/png-full-corpus-2026-10-31/README.md) remain unchanged. [Two further Wardley force-anchor positives](evidence/png-wardley-anchors-2026-11-01/README.md) were independently admitted from the saved PNGs, bringing current admitted decisions to 965. The note examples remain unknown where glyph registration failed its declared threshold. No renderer was recalled to obtain those decisions. PNG meaning and strict raster preservation remain separate claims.
 
 ## DaveBench documentation drawings — public SVG
 
@@ -22,48 +24,42 @@ This lane inspects Mermaid 12.2.0's original public SVGs retained inside the own
 
 | Verified correct rank | Project | Version / public interface | Correct SVG / 546 | Failed SVG contracts | Unknown |
 | --- | --- | --- | --- | --- | --- |
-| 1 | mermaid-js/mermaid | 12.2.0 / original SVG companion | 149 | 43 | 354 |
+| 1 | mermaid-js/mermaid | 12.2.0 / original SVG companion | 201 | 41 | 304 |
 
-All 546 drawing SVGs were inspected; the two non-drawing inputs remain separate. Failed SVG contracts are not a count of misdrawn PNGs: the 22 cases with correct PNGs but failed original SVGs comprise 12 malformed XML outputs and ten duplicate-ID outputs. The final census has zero unexplained painted-content contradictions. [Current summary and census](evidence/png-full-corpus-2026-10-31/current-svg-content-summary.json) and [all original/raster dispositions](evidence/png-full-corpus-2026-10-31/current-svg-content-grades.json.gz) preserve the checks. A separate raster retry remains unknown and changes no primary grade.
+All 546 drawing SVGs were inspected, with no missing SVGs or observer errors. Of the 304 unknown drawings, 303 have unresolved checker facts and one has the held duplicate-Boston source interpretation. The two non-drawing inputs remain separate. [Current original-SVG results and reproduction](evidence/svg-original-2026-11-01/README.md) retain the per-case checks and producers. No PNG-to-SVG transfer supplied a pass in this replay. These are original public SVG contracts; they cannot be read as PNG verdicts. Each row retains its actual producer. After the original-only pass, only the 39 Git/quadrant cases and six C4 cases were rechecked for their profile repairs; every other row and binding remains unchanged. The earlier complete pass and interrupted grading attempt remain historical evidence. No renderer call was repeated. Historical raster diagnostics retain their own producer and supply no current renderer score.
 
-## Mermaid feature cases — SVG
+## Unscored feature and workflow regressions
 
-The 100 cases span 25 families and combine inherited AM portable examples, Trident-authored feature/edit cases and pinned public examples. [Case contracts](../fidelity/cases.ts) and [portable cohorts](../portable/cohorts.ts) retain per-case provenance and independently reviewed expected answers. All three bindings use the same literal sources and edit stimuli; the final manifest verifies their unchanged identities. Every mandatory label, shape, topology, ownership and configured paint/metric criterion must pass. [SVG qualification rules](svg-correctness.md) give the method; this exposed corpus is not a validated holdout.
+The 100 feature/edit cases remain small harness and observer controls, with their sources and historical raw evidence. They are no longer a comparative league table: their 76 distinct final sources cover 25 families already present in DaveBench, and repeated reset/rename workflows arbitrarily reweight those families. Their distinct value is checking session/configuration isolation, changed fonts, controlled image decoding and deliberately broken outputs.
 
-| Verified correct rank | Project | Version / public interface | Correct / 100 | Incorrect | Unknown |
-| --- | --- | --- | --- | --- | --- |
-| 1 | mermaid-js/mermaid | 12.2.0 / browser SVG API | 66 | 4 | 30 |
-| 2 | obsidianmd/pele | 1.9.0 / browser SVG API | 57 | 0 | 43 |
-| 3 | adewale/agentic-mermaid | 0.4.1 / browser SVG API | 30 | 5 | 65 |
-
-The completed `authored-final-r3` replay preserves 256 returned SVGs and 300 dispositions. Observation SHA-256: `9b604b3925153951c4060dda94f6e263a05ec458a6729cbb47195cf37d21d09b`; original inventory: `49ab2ff087ec286c78ee6577d42e66284df40bdbd9ec2d7cedfd8db6abfb1837`. Producer, browser and resource identities remained stable. These counts establish the explicit cases, not complete family support or aesthetics.
+The earlier 66/57/30 totals were paint-only checks, not full-contract results. Historical outputs without retained prelude returns cannot prove the whole workflow and earn no such pass. The collector now saves every actual prelude and main output before grading, while offline replay verifies the ordered calls and withholds shared-session credit when processes or contexts differ. Focused regression tests exercise recovery and changed evidence without another comparative campaign.
 
 ## Terminal project examples
 
-[Active v3](evidence/terminal-active-profile-2026-10-31/README.md) selects 115 unchanged drawings, one [independently reviewed authored alias adaptation](../corpus/terminal-source-adaptations.json), and four invalid controls. The [original 120 sources](../corpus/terminal-project-examples.json) preserve repository pins, issue/example origins, literal/patch hashes, licenses and expected-fact receipts from 18 repositories (17 contribute inputs). The ambiguous original remains diagnostic, yielding 121 research entries. Only three projects were called on the new adaptation; 15 retain an unknown there. [Committed reducer results](evidence/terminal-state-adaptation-2026-10-31/result.json) preserve versions and both populations.
+[Active v3](evidence/terminal-active-profile-2026-10-31/README.md) selects 115 unchanged drawings, one [independently reviewed authored alias adaptation](../corpus/terminal-source-adaptations.json), and four invalid controls. The [original 120 sources](../corpus/terminal-project-examples.json) preserve repository pins, issue/example origins, literal/patch hashes, licenses and expected-fact receipts from 18 repositories (17 contribute inputs). The ambiguous original remains diagnostic, yielding 121 research entries. Only three projects were called on the new adaptation; 15 retain an unknown there. [Current reducer results](evidence/terminal-present-gaps-2026-11-01/summary.json) preserve versions, counts and missing-output classifications.
 
-| Verified correct rank | Project | Version | Retained interface | Correct / 116 | Incorrect | Unknown |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | fasouto/termaid | 0.10.0 | Python API | 57 | 19 | 40 |
-| 2 | adewale/agentic-mermaid | 0.4.1 | Node API | 53 | 20 | 43 |
-| 3 | dfadler/zombie-mermaid | 5.10.2 | Node API | 52 | 11 | 53 |
-| 4 | AlexanderGrooff/mermaid-ascii | 1.6.1 | native CLI | 41 | 18 | 57 |
-| 5 | Yassimba/loom | 0.10.0 | Bun component | 36 | 23 | 57 |
-| 6 | spacedock-dev/mermaidtext | git-a6b0c7657b94 | native CLI | 34 | 21 | 61 |
-| 7 | lukilabs/beautiful-mermaid | 1.1.3 | Node API | 30 | 22 | 64 |
-| 8 | kais-radwan/ascii-mermaid | 0.1.0 | Node API | 27 | 32 | 57 |
-| 9 | anomalyco/opencode | 2.0.26 | Bun/OpenTUI host | 18 | 32 | 66 |
-| 10 | emtyty/merslim | 0.2.3 | Node API | 16 | 40 | 60 |
-| 11 | kitlangton/merman | 0.2.1 | Bun API | 14 | 31 | 71 |
-| 11 | Mootikins/figurehead-rs | v0.4.3 | native CLI | 14 | 21 | 81 |
-| 13 | tariqshams/mermaidtui | 0.0.6 | Node API | 7 | 6 | 103 |
-| 14 | Dicklesworthstone/frankenmermaid | 0.4.0 | native CLI | 0 | 1 | 115 |
-| 14 | xai-org/grok-build | git-2bdd1d6a6369 | native Markdown CLI | 0 | 21 | 95 |
-| — | crafter-station/mermaid | 0.0.3 | Node binding blocked | 0 | 0 | 116 |
-| — | Latias94/merman | 0.9.2 | no terminal binding | 0 | 0 | 116 |
-| — | wevm/ondine | 0.0.3 | no terminal binding | 0 | 0 | 116 |
+| Verified correct rank | Project | Version | Retained interface | Correct / 116 | Incorrect | Unassessed output | No retained output |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | fasouto/termaid | 0.10.0 | Python API | 63 | 26 | 27 | 0 |
+| 2 | dfadler/zombie-mermaid | 5.10.2 | Node API | 60 | 12 | 23 | 21 |
+| 3 | adewale/agentic-mermaid | 0.4.1 | Node API | 58 | 20 | 27 | 11 |
+| 4 | Yassimba/loom | 0.10.0 | Bun component | 43 | 23 | 32 | 18 |
+| 5 | AlexanderGrooff/mermaid-ascii | 1.6.1 | native CLI | 42 | 23 | 11 | 40 |
+| 6 | spacedock-dev/mermaidtext | git-a6b0c7657b94 | native CLI | 40 | 21 | 28 | 27 |
+| 7 | lukilabs/beautiful-mermaid | 1.1.3 | Node API | 35 | 24 | 27 | 30 |
+| 8 | kais-radwan/ascii-mermaid | 0.1.0 | Node API | 28 | 34 | 29 | 25 |
+| 9 | anomalyco/opencode | 2.0.26 | Bun/OpenTUI host | 19 | 34 | 20 | 43 |
+| 10 | Mootikins/figurehead-rs | v0.4.3 | native CLI | 18 | 21 | 21 | 56 |
+| 11 | emtyty/merslim | 0.2.3 | Node API | 16 | 41 | 38 | 21 |
+| 12 | kitlangton/merman | 0.2.1 | Bun API | 15 | 32 | 16 | 53 |
+| 13 | tariqshams/mermaidtui | 0.0.6 | Node API | 7 | 6 | 102 | 1 |
+| 14 | Dicklesworthstone/frankenmermaid | 0.4.0 | native CLI | 0 | 1 | 113 | 2 |
+| 14 | xai-org/grok-build | git-2bdd1d6a6369 | native Markdown CLI | 0 | 21 | 68 | 27 |
+| — | crafter-station/mermaid | 0.0.3 | Node binding blocked | 0 | 0 | 0 | 116 |
+| — | Latias94/merman | 0.9.2 | no terminal binding | 0 | 0 | 0 | 116 |
+| — | wevm/ondine | 0.0.3 | no terminal binding | 0 | 0 | 0 | 116 |
 
-All 72 invalid-control outcomes remain unknown, separately from drawing scores. Completely unobserved rows are unranked; observed zero-correct rows share rank. All 116 source profiles have bounded observers, but unavailable output or unresolved facts supply no pass. [Per-fact evidence](evidence/terminal-state-adaptation-2026-10-31/README.md) retains adaptation calls, rejection controls and the diagnostic. No terminal speed claim follows.
+[The final retained-output regrade](evidence/terminal-present-gaps-2026-11-01/README.md) resolved 66 unknown outcomes: 45 correct and 21 incorrect, without changing any earlier decided grade or calling a renderer. Eight actual invalid-control calls have source-bound outcomes: Mermaid ASCII has two correct rejections and two unsupported-family outcomes that cannot establish grammar rejection; Termaid accepted all four invalid sources, giving four failures. The other 64 historical control outcomes remain unknown. [The new controls and retained regrade](evidence/terminal-completion-2026-11-01/README.md) preserve raw calls and distinguish missing output from checker gaps. Completely unobserved rows are unranked; observed zero-correct rows share rank. All 116 source profiles have bounded observers, but unavailable output or unresolved facts supply no pass. [Per-fact evidence](evidence/terminal-state-adaptation-2026-10-31/README.md) retains adaptation calls, rejection controls and the diagnostic. These accuracy results imply no speed rank. The separate cold-CLI timing table below uses equivalent public CLIs and its own six-source workload.
 
 ## Original public API callbacks
 
@@ -76,12 +72,52 @@ The [source-reviewed selection](../qualification/source-audits/public-expanded-s
 
 Original and installed-reference controls pass all 154 callbacks. The selected API contract retains upstream DOM mocks; it establishes neither whole-suite conformance nor drawing content.
 
-## Qualified first-use timing
+## Rendering cost — six documentation examples
 
-The ordinary qualifier admits all 18 retained returns from six balanced A0/A1/B rounds on one authored flowchart, source SHA-256 `feda1279ae97f89657702f65c779ff06c669a5cbfb05f2e8f3fc2a3c73b347eb`. Agentic Mermaid 0.4.1 and both Mermaid 12.2.0 replicas use frozen browser SVG bindings. Timing covers host `page.evaluate` through returned SVG serialization and cleanup; import/initialization, browser startup and correctness grading are excluded.
+Six examples from the same pinned Mermaid documentation cover flowchart, sequence,
+user journey, pie, packet and treemap diagrams. They were selected for different
+content and geometry and verified in both renderers before timing. The exact
+occurrences and selection are in the [timing results](evidence/qualified-docs-timing-2026-11-01/README.md).
+One screened state example remains excluded because its required visibility check
+was unresolved; this is a declared six-example comparison, not a full-corpus speed score.
 
-| Median round ratio rank | Qualified comparison | Candidate median ms | Candidate/control median round ratio | 96.875% median-ratio interval | Checked returns |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Agentic Mermaid 0.4.1 vs Mermaid 12.2.0 | 328.443 | 0.578 | 0.461–0.872 | 18 / 18 |
+| Median corpus time rank | Project | Version | Correct timed returns | Median six-example time, ms | Paired time / Mermaid | 96.875% ratio interval |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | obsidianmd/pele | 1.9.0 | 36 / 36 | 130.942 | 0.113 | 0.092–0.161 |
+| 2 | mermaid-js/mermaid | 12.2.0 | 72 / 72 | 1087.116 | 1.000 | reference |
 
-Lower ratios are faster for this single comparison. The A/A band, 0.844–1.185, is separate from the six-round order-statistic interval. Final grading identity: `00834d2aa2b8678511768f1e979e9c0ca0c206911a2b018dcf021debdbd607a8`. The replay preserves original output, plan, sample and invocation hashes without new clocks or renderer calls. [Measurement limits](../MEASUREMENT.md) preclude a broad workload, steady-state, percentile or memory ranking.
+All 108 timed returns passed every required check. Six balanced rounds use two
+Mermaid controls and one Pele candidate, each in a fresh context. Timing covers
+the public render request through serialized SVG and cleanup; package import,
+browser startup and correctness grading are excluded. The control envelope was
+0.820–1.219, within the predeclared 25% allowance. The paired ratio uses the
+geometric mean of each round's controls, so it need not equal the ratio of the
+displayed medians. The measured work ran in a quiet window on this host.
+
+[Raw outputs, clocks and reproduction](evidence/qualified-docs-timing-2026-11-01/README.md#evidence-and-reproduction)
+retain all calls and the exact producer. This establishes first-use rendering cost
+for these six examples and versions. It establishes no universal speed, memory,
+aesthetics or steady-state claim. The earlier single-flowchart run remains
+historical verification of the timing machinery.
+
+## Rendering cost — cold PNG export
+
+Three unchanged flowchart examples from the same pinned Mermaid documentation compare solid, dotted and thick edges (occurrences 212, 218 and 220). This measures a cold source-to-complete-PNG workflow, including engine startup and required byte transport. Mermaid uses its public SVG renderer followed by browser PNG export; Flutter uses its native public `renderToPng`. The display service is already running. Teardown and correctness grading are outside the measured boundary.
+
+| Median corpus time rank | Project | Version | Correct timed returns | Median three-example time, ms | Paired time / Mermaid | 96.875% ratio interval |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | mermaid-js/mermaid | 12.2.0 | 36 / 36 | 4518.160 | 1.000 | reference |
+| 2 | pub:mermaid_flutter | 0.3.2 | 18 / 18 | 19669.129 | 4.365 | 4.237–4.626 |
+
+All 54 returns qualified, with zero evidence gaps and an A/A envelope of 0.820–1.219. [Raw images, clocks, source identities and offline reproduction](evidence/qualified-png-timing-2026-11-01/README.md) preserve both the complete campaign and an earlier unqualified host-startup failure. This is a narrow cold-export comparison, not an isolated engine-call or diverse-family speed score. It must not be combined with SVG or terminal times into an overall rank.
+
+## Rendering cost — cold terminal CLI
+
+Six literal project examples cover chains, fan-out, captions, emoji, entity attributes and a sequence alternative. The sources come from the pinned terminal project corpus, rather than newly invented speed fixtures. Both public CLIs start a fresh process and return the complete UTF-8 diagram; startup, imports, rendering and stdout are inside the clock. Common controller initialization and correctness grading are outside it.
+
+| Median corpus time rank | Project | Version | Correct timed returns | Median six-example time, ms | Paired time / Mermaid ASCII | 96.875% ratio interval |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | AlexanderGrooff/mermaid-ascii | 1.6.1 | 72 / 72 | 104.129 | 1.000 | reference |
+| 2 | fasouto/termaid | 0.10.0 | 36 / 36 | 754.053 | 7.224 | 5.697–7.517 |
+
+All 108 timed returns qualified with zero gaps. The A/A envelope was 0.850–1.177. The Mermaid ASCII median uses each round's geometric mean of its two control corpus totals; the ratio retains the paired round calculation. This is cold CLI cost over these six examples and three families, not warm API or full-corpus terminal speed. [Sources, actual calls and offline qualification](evidence/terminal-cli-first-use-2026-11-01/README.md) preserve the evidence. A grading-budget interruption was repaired by rechecking the saved bytes and clocks; it caused no extra timed renderer calls.

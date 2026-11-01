@@ -320,11 +320,40 @@ resources, source contracts and observer identity before public calls. A fresh
 browser context makes one call after initialization. Its clock includes the
 controller/page RPC, public render and returned SVG consumption; imports, context
 startup, source review and output grading are outside that clock. The `--cases`
-list selects authored inputs from [fidelity/cases.ts](fidelity/cases.ts); the example
-measures one flowchart case in fresh contexts. Six-round blocks balance the
+list accepts authored inputs from [fidelity/cases.ts](fidelity/cases.ts) or exact
+`packages/mermaid/src/docs/...:LINE` occurrence IDs from the pinned DaveBench
+inventory. The example measures one flowchart case in fresh contexts; the
+[current comparison](docs/evidence/qualified-docs-timing-2026-11-01/README.md)
+uses six documentation families. Six-round blocks balance the
 baseline A/A and candidate order.
 Every raw return is retained before grading; budget expiry keeps incomplete
 work visible and withholds the comparison.
+
+Two other public drivers use the same collector and offline qualifier:
+
+```sh
+bun commands.ts timing:terminal --help
+bun commands.ts timing:png --help
+```
+
+Terminal timing requires sealed artifacts with actual public CLI bindings and
+source-bound correct prerequisite outputs. It includes fresh process startup,
+imports, rendering and complete stdout. The [six-example comparison](docs/evidence/terminal-cli-first-use-2026-11-01/README.md)
+states the project-source corpus and excludes warm API claims.
+
+PNG timing currently compares the frozen Mermaid browser exporter and native
+Flutter `renderToPng` interface. Its configuration names the preparation,
+native launch, complete image reviews, literal case IDs, display executable and
+runtime libraries. It measures cold complete export, including required byte
+transport. The [three-example comparison](docs/evidence/qualified-png-timing-2026-11-01/README.md)
+covers flowchart edge styles. It is not a diverse-family PNG speed score.
+
+These sealed-artifact timing workflows do not require an additional Mermaid
+oracle installation. Their own frozen targets and reviewed source/output evidence
+supply the declared prerequisites.
+
+Use each workflow's own equivalent boundary and correct tasks. These three
+interfaces supply separate times, not a combined renderer rank.
 
 Performance qualification reduces retained evidence offline:
 

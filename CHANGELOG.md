@@ -8,6 +8,18 @@ publication remain pending.
 
 ### Benchmarks and measurement
 
+- Retain every authored prelude and main return before grading. Replay completed
+  workflows without new calls, preserve interrupted attempts, and keep shared-session
+  claims unknown across separate CLI processes. Verify recovery after a grading crash.
+- Add cold terminal-CLI and complete PNG-export timing through the shared collector
+  and offline qualifier. Keep their workloads, startup boundaries and intervals
+  separate from first-use browser SVG timing. Sealed timing targets need no extra
+  Mermaid oracle installation.
+- Correct quadrant canvas dimensions and unrequested axis-side assumptions; admit
+  only qualified C4 connector endpoint contact and reject foreign overpaint. Prune
+  disjoint contour layers before route matching. Extend Git cover checks to images,
+  instances and primitive strokes, and verify source-defined radar curve controls.
+
 - Make the 100 AM/Trident-authored feature/edit cases unscored harness/observer
   regressions. Keep sources, raw evidence and historical reports; remove their
   renderer ranks, charts and overview score. Ordinary collection defaults to
@@ -75,9 +87,8 @@ publication remain pending.
 - Fix the shared paint observer for bounded SourceGraphic-preserving drop shadows
   and group-container ownership. Check explicitly hidden source content, including
   collapsed-group members, with positive and broken-output regression controls.
-- Default campaigns to documentation and SVG correctness checks. Performance and
-  optional model collection require explicit selection; retire Assertion Replay and
-  the nonblank-only PNG exporter from new comparative runs. Keep reference tests explicit.
+- Retire Assertion Replay and the nonblank-only PNG exporter from new comparative
+  runs. Performance, optional models and reference tests require explicit selection.
 - Retain the earlier terminal flowchart prototype and its original results;
   expanded terminal contracts do not rewrite that evidence.
 
