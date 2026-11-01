@@ -29,6 +29,11 @@ test('source-reference diagnostics cannot replace or veto independently authored
   record.sourceReference[0]!.sourceAccepted = false
   expect(assessTerminalRecord(record, directory, cases)[0].full).toMatchObject({ correct: 1, planned: 1 })
 })
+test('live optional fields grade identically to the retained terminal JSON', () => {
+  const { directory, cases, record } = fixture()
+  const live = { ...record, error: undefined, artifacts: record.artifacts.map(artifact => ({ ...artifact, error: undefined })), outputs: record.outputs.map(output => ({ ...output, detail: undefined })) }
+  expect(assessTerminalRecord(live, directory, cases)).toEqual(assessTerminalRecord(JSON.parse(JSON.stringify(live)), directory, cases))
+})
 test('a targeted extension regrades without rerunning ASCII while an unmarked cohort still requires it', () => {
   const { directory, cases, record } = fixture(), target = 'fixture/targeted-repair'
   const extension = { ...record, targetedExtension: true, artifacts: [{ project: target, version: 'synthetic fixture' }], outputs: record.outputs.map(output => ({ ...output, project: target })) }

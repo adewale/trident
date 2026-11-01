@@ -99,6 +99,9 @@ export async function collectTerminalWorkloads(prepared: PreparedCommunity[], wo
 
 
 export function assessTerminalRecord(record: any, directory: string, cases = terminalProfileCorpusForRecord(record).cases) {
+  // Grade and identify the same JSON representation saved in raw.json. Live
+  // collection records can still contain optional properties set to undefined.
+  record = JSON.parse(JSON.stringify(record))
   const encodingOwnerSha256 = evidenceDigest(record)
   const inventory = cases.map(input => [input.id, input.sourceSha256])
   if (!['terminal-project-corpus-v1', terminalLegacyProfileId, terminalProfileId].includes(record.profile) || JSON.stringify(record.inventory) !== JSON.stringify(inventory)) throw Error('Saved terminal source inventory differs; keep its original corpus/version')
