@@ -20,6 +20,7 @@ import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { CollectionCheckpoint } from '../portable/checkpoint.ts'
 import { gzipSync, gunzipSync } from 'node:zlib'
 import { communityCliRequest, communityCliBinding } from '../unified/community-cli-request.ts'
+import { createAuthoredSvgRawCapture } from '../fidelity/community-raw.ts'
 
 const input = expandedFidelityCases()[0]!, project = 'fixture/renderer'
 const binding = makeSvgObservationBinding(input, evidenceBytesDigest('synthetic retained output bytes'), evidenceBytesDigest('synthetic observer identity'))
@@ -116,6 +117,54 @@ test('retained admission is newly checked from the actual receipt and source, wh
   expect(checked.filter(row => row.operation.startsWith('prelude-')).every(row => row.status === 'blocked' && row.metrics?.observerSha256 === undefined)).toBe(true)
   const absent = recheckFeatureAdmission(testCase, project, rows, svg, undefined, fresh, at)
   expect(absent.filter(row => !row.operation.startsWith('prelude-')).every(row => row.status === 'blocked')).toBe(true)
+  const historical = rows.map(row => ({ ...row, status: 'passed' as const, metrics: { ...row.metrics, ...fresh } }))
+  const noWitness = recheckFeatureAdmission(testCase, project, historical, svg, 'returned', fresh, at)
+  expect(noWitness.filter(row => row.operation.startsWith('prelude-')).every(row => row.status === 'blocked' && row.metrics?.observerSha256 === undefined)).toBe(true)
+})
+
+test('retained prelude admission requires an exact complete workflow and actual main bytes', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'retained-prelude-admission-')), testCase = expandedFidelityCases().find(item => item.id === 'meaning:family:flowchart:configuration-reset')!
+  const main = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100"><rect width="500" height="100"/><text x="10" y="30">Alpha</text><text x="200" y="30">Beta</text><text x="350" y="30">Gamma</text></svg>', prelude = '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="10"/></svg>'
+  const owner = { project, artifactSha256: 'a'.repeat(64), adapterBindingSha256: 'b'.repeat(64) }, fresh = makeSvgObservationBinding(testCase, evidenceBytesDigest(main), 'c'.repeat(64))
+  const rows = planFidelityCriteria([testCase]).filter(item => item.surface === 'browser-public-api').map(item => ({ suite: 'fidelity', surface: item.surface, runtime: 'fixture', family: testCase.family, caseId: testCase.id + ':' + item.criterion, operation: item.criterion, format: 'svg', mode: 'fixture', status: 'blocked', metrics: { implementation: project, authoredCase: testCase.id } }) as BenchmarkObservation)
+  try {
+    let calls = 0
+    const raw = createAuthoredSvgRawCapture(directory, owner), capture = () => raw.capture(testCase, async request => { calls++; return { kind: 'returned', svg: request.step === 'main' ? main : prelude } }, () => 'actual-synthetic-runtime', () => ({ fontOptions: true }))
+    const captured = await capture(), before = calls, retained = { witness: captured.witness, expected: owner, remap: (path: string) => path }
+    await capture(); expect(calls).toBe(before)
+    const checked = recheckFeatureAdmission(testCase, project, rows, main, 'returned', fresh, at, retained), step = checked.find(row => row.operation === 'prelude-0')!
+    expect(checked.filter(row => row.status !== 'passed').map(row => ({ operation: row.operation, status: row.status, detail: row.detail }))).toEqual([])
+    expect(step.metrics?.preludeOutputSha256).toBe(evidenceBytesDigest(prelude))
+    expect(step.metrics?.svgSha256).toBe(evidenceBytesDigest(main))
+    expect(step.metrics?.runtimeInstanceId).toBe('actual-synthetic-runtime')
+    for (const context of [{ ...retained, expected: { ...owner, artifactSha256: 'd'.repeat(64) } }, { ...retained, expected: { ...owner, adapterBindingSha256: 'd'.repeat(64) } }, { ...retained, witness: { ...retained.witness, receiptSha256: 'd'.repeat(64) } }]) expect(recheckFeatureAdmission(testCase, project, rows, main, 'returned', fresh, at, context).every(row => row.status === 'blocked')).toBe(true)
+    expect(recheckFeatureAdmission({ ...testCase, renderOptions: { fontSize: 19 } }, project, rows, main, 'returned', fresh, at, retained).every(row => row.status === 'blocked')).toBe(true)
+    expect(recheckFeatureAdmission(testCase, 'fixture/foreign-project', rows.map(row => ({ ...row, metrics: { ...row.metrics, implementation: 'fixture/foreign-project' } })), main, 'returned', fresh, at, retained).every(row => row.status === 'blocked')).toBe(true)
+    const borrowed = main.replace('width="500"', 'width="501"'), borrowedBinding = makeSvgObservationBinding(testCase, evidenceBytesDigest(borrowed), 'c'.repeat(64))
+    expect(recheckFeatureAdmission(testCase, project, rows, borrowed, 'returned', borrowedBinding, at, retained).every(row => row.status === 'blocked')).toBe(true)
+  } finally { rmSync(directory, { recursive: true, force: true }) }
+})
+
+test('raw prelude rechecking distinguishes public rejection from host failure and invalid SVG', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'retained-prelude-outcomes-')), base = expandedFidelityCases().find(item => item.id === 'meaning:family:flowchart:configuration-reset')!, main = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100"><text x="10" y="30">Alpha Beta Gamma</text></svg>'
+  const owner = { project, artifactSha256: 'a'.repeat(64), adapterBindingSha256: 'b'.repeat(64) }
+  try {
+    const controls: { name: string; accept: boolean; result: Record<string, any>; expected: BenchmarkObservation['status'] }[] = [
+      { name: 'rejected', accept: false, result: { kind: 'exception', error: 'Error: Parse error on line 1: rejected source' }, expected: 'passed' },
+      { name: 'unexpected-rejection', accept: true, result: { kind: 'exception', error: 'Error: Parse error on line 1: rejected source' }, expected: 'failed' },
+      { name: 'runtime-fault', accept: false, result: { kind: 'exception', error: 'Error: Lost renderer context' }, expected: 'blocked' },
+      { name: 'host-fault', accept: false, result: { kind: 'exception', error: 'Error: Parse error on line 1: host transport failed', hostTransportError: true }, expected: 'blocked' },
+      { name: 'unsupported', accept: false, result: { kind: 'exception', error: 'Error: Unsupported diagram' }, expected: 'unsupported' },
+      { name: 'invalid-return', accept: true, result: { kind: 'invalid-return', error: 'Expected an SVG string' }, expected: 'failed' },
+      { name: 'invalid-svg', accept: true, result: { kind: 'returned', svg: '<svg><broken>' }, expected: 'failed' },
+    ]
+    for (const control of controls) {
+      const testCase = { ...base, prelude: [{ ...base.prelude![0]!, accept: control.accept }] }, binding = makeSvgObservationBinding(testCase, evidenceBytesDigest(main), 'c'.repeat(64))
+      const rows: BenchmarkObservation[] = [{ suite: 'fidelity', surface: 'browser-public-api', runtime: 'fixture', family: testCase.family, caseId: testCase.id + ':prelude-0', operation: 'prelude-0', format: 'svg', mode: 'fixture', status: 'blocked', metrics: { implementation: project, authoredCase: testCase.id } }]
+      const raw = createAuthoredSvgRawCapture(join(directory, control.name), owner), captured = await raw.capture(testCase, async request => request.step === 'main' ? { kind: 'returned', svg: main } : control.result, () => 'actual-synthetic-runtime', () => ({}))
+      expect(recheckFeatureAdmission(testCase, project, rows, main, 'returned', binding, at, { witness: captured.witness, expected: owner, remap: path => path })[0]!.status).toBe(control.expected)
+    }
+  } finally { rmSync(directory, { recursive: true, force: true }) }
 })
 
 test('fresh grading permits enriched contracts but freezes every public source/options/prelude stimulus', () => {

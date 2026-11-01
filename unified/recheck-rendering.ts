@@ -23,6 +23,9 @@ import { defaultChromium, executableIdentity } from './benchmark-context.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 import { withDocsDeadline } from './docs-benchmark.ts'
 import { tridentDirectory } from './trident-paths.ts'
+import { authoredSvgAdapterBinding, classifyAuthoredSvgResult, readRetainedAuthoredSvgWorkflow } from '../fidelity/community-raw.ts'
+import { reviewedFontSizePath } from '../portable/configuration.ts'
+import { assessPrelude } from '../fidelity/meaning.ts'
 import { readCampaign } from './campaign-publication.ts'
 import { planRetainedSvgRegrade, readRetainedPreparationInput, retainedObserverAssets, retainedImagePrerequisites, retainedSvgResourcePolicy, routeRetainedObserver, requireRetainedDocsSvgReturn, retainedDocsSvgOwnershipContext } from './recheck-inputs.ts'
 
@@ -103,15 +106,42 @@ export async function recheckFeaturePaint(input: AuthoredFidelityCase, project: 
   return { completed: !error, ...(error ? { error } : {}), observations: observations.filter(row => !owns(row)).concat(fresh) }
 }
 
-/** Public return and standalone bytes can be revalidated from their retained
- * receipt. Prelude acceptance/rejection lacks a complete retained contract here
- * and deliberately remains unknown rather than borrowing the old status. */
-export function recheckFeatureAdmission(input: AuthoredFidelityCase, project: string, observations: readonly BenchmarkObservation[], svg: string, publicKind: unknown, binding: SvgEvidenceBinding, checkedAt: string): BenchmarkObservation[] {
+export interface RetainedAuthoredWorkflowContext {
+  witness: Parameters<typeof readRetainedAuthoredSvgWorkflow>[2]
+  expected: Parameters<typeof readRetainedAuthoredSvgWorkflow>[3]
+  remap: (path: string) => string
+}
+
+/** Fresh admission may use exact ordered raw public returns from one owned
+ * workflow. Legacy kind/status rows cannot supply missing prelude evidence. */
+export function recheckFeatureAdmission(input: AuthoredFidelityCase, project: string, observations: readonly BenchmarkObservation[], svg: string, publicKind: unknown, binding: SvgEvidenceBinding, checkedAt: string, retained?: RetainedAuthoredWorkflowContext): BenchmarkObservation[] {
   const qualification = qualifyOutput({ id: input.id, family: input.family, source: input.source, expectedLabels: input.expected.labels, features: [], provenance: 'Original authored inventory and retained public-return receipt' }, svg, 'svg')
-  return observations.map(row => {
-    if (row.metrics?.implementation !== project || row.metrics?.authoredCase !== input.id || row.surface !== 'browser-public-api' || !['public-svg-admission', 'standalone-svg-and-labels'].includes(row.operation)) return row
-    const receiptReturned = publicKind === 'returned', status: BenchmarkObservation['status'] = !receiptReturned ? 'blocked' : row.operation === 'public-svg-admission' ? 'passed' : qualification.unavailable ? 'blocked' : qualification.ok ? 'passed' : 'failed'
-    return { ...row, status, detail: !receiptReturned ? 'Retained receipt does not prove an actual public SVG return' : row.operation === 'public-svg-admission' ? 'Actual public returned SVG bytes and original authored source inventory revalidated; no new renderer call' : qualification.scope + ': ' + qualification.findings.join('; '), metrics: { ...row.metrics, ...binding, originalCriterionStatus: row.metrics?.originalCriterionStatus ?? row.status, recheckedAt: checkedAt, recheckObservation: receiptReturned ? 'retained-public-receipt-revalidated' : 'missing-public-return-receipt' } }
+  let workflow: ReturnType<typeof readRetainedAuthoredSvgWorkflow> | undefined, workflowError: string | undefined
+  if (retained) try {
+    workflow = readRetainedAuthoredSvgWorkflow(input, project, retained.witness, retained.expected, retained.remap)
+    const main = workflow.steps.find(step => step.step === 'main')
+    if (!main || main.result.kind !== 'returned' || main.result.svg !== svg || hash(svg) !== binding.svgSha256) throw Error('Owned workflow main return differs from the actual regraded SVG bytes')
+  } catch (error) { workflow = undefined; workflowError = String(error) }
+  return observations.map<BenchmarkObservation>(row => {
+    if (row.metrics?.implementation !== project || row.metrics?.authoredCase !== input.id || row.surface !== 'browser-public-api') return row
+    const preludeIndex = /^prelude-(\d+)$/.exec(row.operation)
+    if (preludeIndex) {
+      const index = Number(preludeIndex[1]), prelude = input.prelude?.[index], step = workflow?.steps.find(step => step.step === row.operation)
+      const metrics: NonNullable<BenchmarkObservation['metrics']> = { ...row.metrics, originalCriterionStatus: row.metrics?.originalCriterionStatus ?? row.status, recheckedAt: checkedAt, recheckObservation: 'missing-prelude-witness' }
+      delete metrics.sourceSha256; delete metrics.expectationsSha256; delete metrics.svgSha256; delete metrics.observerSha256
+      if (!prelude || !step) return { ...row, status: 'blocked', detail: workflowError ?? 'No complete source/options/artifact-bound raw workflow proves this prelude; historical kind/status supplies no passing or rejection credit', metrics }
+      const classification = classifyAuthoredSvgResult(step.result), publicError = step.invocation.state === 'public-error' && !step.result.hostTransportError, admission = step.result.kind === 'returned' && step.invocation.state === 'returned' ? 'accepted' : publicError && classification === 'unsupported' ? 'unsupported' : publicError && step.result.kind === 'exception' && classification === 'failed' ? 'rejected' : 'unavailable'
+      let status: ReturnType<typeof assessPrelude> | 'blocked' = assessPrelude(prelude.accept, admission), standalone: ReturnType<typeof qualifyOutput> | undefined
+      if (step.result.kind === 'invalid-return' && publicError && prelude.accept) status = 'failed'
+      if (step.result.kind === 'returned') {
+        standalone = qualifyOutput({ id: input.id + ':' + row.operation, family: input.family, source: prelude.source, expectedLabels: [], features: [], provenance: 'Exact retained public prelude bytes; no diagram paint or native model claim' }, step.result.svg, 'svg')
+        if (standalone.unavailable) status = 'blocked'; else if (!standalone.ok) status = 'failed'
+      }
+      return { ...row, status: status === 'unavailable' ? 'blocked' : status, detail: JSON.stringify({ kind: step.result.kind, error: step.result.error ?? null, standalone: standalone ?? null, scope: 'Exact ordered public prelude outcome in the same completed runtime workflow; generic host/runtime errors earn no source-rejection credit' }), metrics: { ...metrics, ...binding, recheckObservation: 'retained-raw-prelude-revalidated', workflowId: workflow!.workflowId, runtimeInstanceId: workflow!.runtimeInstanceId, preludeInvocationId: step.invocation.attemptId, preludeSourceSha256: step.invocation.identity.sourceSha256, preludeOutputSha256: step.invocation.output?.sha256 ?? null } }
+    }
+    if (!['public-svg-admission', 'standalone-svg-and-labels'].includes(row.operation)) return row
+    const receiptReturned = publicKind === 'returned' && (!retained || !!workflow), status: BenchmarkObservation['status'] = !receiptReturned ? 'blocked' : row.operation === 'public-svg-admission' ? 'passed' : qualification.unavailable ? 'blocked' : qualification.ok ? 'passed' : 'failed'
+    return { ...row, status, detail: !receiptReturned ? workflowError ?? 'Retained receipt does not prove an actual public SVG return' : row.operation === 'public-svg-admission' ? 'Actual public returned SVG bytes and original authored source inventory revalidated; no new renderer call' : qualification.scope + ': ' + qualification.findings.join('; '), metrics: { ...row.metrics, ...binding, originalCriterionStatus: row.metrics?.originalCriterionStatus ?? row.status, recheckedAt: checkedAt, recheckObservation: receiptReturned ? 'retained-public-receipt-revalidated' : 'missing-public-return-receipt' } }
   })
 }
 
@@ -277,7 +307,8 @@ export async function recheckRendering(directory: string, out: string, pngReview
             publicReturns.push(bindRetainedAuthoredSvgReturn(originalInput, entry, receipt.project, original, svg))
             const binding = makeSvgObservationBinding(input, hash(svg), observerSha256)
             ;(bindings[receipt.project] ??= {})[input.id] = binding
-            result.observations = recheckFeatureAdmission(input, receipt.project, result.observations, svg, entry.publicResult?.kind, binding, began)
+            const peer = prepared.find(item => item.node.id === receipt.project), workflow = entry.workflowEvidence ? { witness: entry.workflowEvidence, expected: { artifactSha256: peer?.browser?.artifactSha256 ?? '', adapterBindingSha256: peer?.browser ? authoredSvgAdapterBinding(peer.browser, reviewedFontSizePath(peer.node.benchmark?.adapter ?? '', peer.node.benchmark?.api?.svg)) : '' }, remap } : undefined
+            result.observations = recheckFeatureAdmission(input, receipt.project, result.observations, svg, entry.publicResult?.kind, binding, began, workflow)
             const assessed = await recheckFeaturePaint(input, receipt.project, result.observations.filter((row: BenchmarkObservation) => row.metrics?.implementation === receipt.project), () => inspect(receipt.project, svg, input), began, !!receipt.capabilities?.fontOptions, binding)
             result.observations = result.observations.filter((row: BenchmarkObservation) => row.metrics?.implementation !== receipt.project).concat(assessed.observations)
             if (assessed.completed) featureChecked++
