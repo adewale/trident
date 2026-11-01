@@ -6,69 +6,65 @@
 
 **run-68b184c4fd4c3c4e5f09a081** · 2026-10-31 · unit: terminal input cases · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
-Full planned terminal corpus, retaining unmeasured and unreviewed inputs. Corpus: 120 selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.
+Archived diagnostic profile; it supplies no current comparative score. Full planned terminal corpus, retaining unmeasured and unreviewed inputs. Corpus: 120 selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.
 
-Ranked by **Correct / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+No comparable numeric ranking measure is available.
 
-Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
-
-| Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | vs Mermaid ASCII | Ranking note |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Termaid | — | 0.10.0 | 12 | 1 | 0 | 107 | 120 | 2026-10-31T09:28:24.742Z | More verified (+1); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| Agentic Mermaid | — | 0.4.1 | 11 | 0 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| ASCII Mermaid | — | 0.1.0 | 11 | 2 | 0 | 107 | 120 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| Mermaid ASCII | — | 1.6.1 | 11 | 3 | 0 | 106 | 120 | 2026-10-31T09:28:24.742Z | Baseline | Terminal source/display/drawing evidence is incomplete |
-| Zombie Mermaid | — | 5.10.2 | 11 | 0 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| Latias Merman | — | 0.9.2 | 10 | 4 | 0 | 106 | 120 | Unknown; recovered text, see receipt | Fewer verified (-1); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| MermaidText | — | git-a6b0c7657b94 | 10 | 0 | 0 | 110 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-1); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| Beautiful Mermaid | — | 1.1.3 | 9 | 2 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| Loom renderer | — | 0.10.0 | 9 | 0 | 0 | 111 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| OpenCode Merman | — | 2.0.26 | 9 | 2 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| Figurehead | — | v0.4.3 | 5 | 5 | 0 | 110 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-6); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| Kitlangton Merman | — | 0.2.1 | 4 | 2 | 0 | 114 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-7); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| MermaidTUI | — | 0.0.6 | 3 | 11 | 0 | 106 | 120 | 2026-10-31T09:28:24.742Z | Fewer verified (-8); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| Ondine | — | 0.0.3 | 3 | 0 | 0 | 117 | 120 | Unknown; recovered text, see receipt | Fewer verified (-8); accuracy unresolved | Terminal source/display/drawing evidence is incomplete |
-| Crafter Mermaid | — | 0.0.3 | 0 | 0 | 0 | 120 | 120 | Unknown; recovered text, see receipt | Unresolved | Terminal source/display/drawing evidence is incomplete |
-| Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 120 | 120 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
-| Grok renderer | — | git-2bdd1d6a6369 | 0 | 0 | 0 | 120 | 120 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
-| Merslim | — | 0.2.3 | 0 | 0 | 0 | 120 | 120 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
+| Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | Ranking note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid | — | 0.4.1 | 11 | 0 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| ASCII Mermaid | — | 0.1.0 | 11 | 2 | 0 | 107 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Beautiful Mermaid | — | 1.1.3 | 9 | 2 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Crafter Mermaid | — | 0.0.3 | 0 | 0 | 0 | 120 | 120 | Unknown; recovered text, see receipt | Terminal source/display/drawing evidence is incomplete |
+| Figurehead | — | v0.4.3 | 5 | 5 | 0 | 110 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 120 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Grok renderer | — | git-2bdd1d6a6369 | 0 | 0 | 0 | 120 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Kitlangton Merman | — | 0.2.1 | 4 | 2 | 0 | 114 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Latias Merman | — | 0.9.2 | 10 | 4 | 0 | 106 | 120 | Unknown; recovered text, see receipt | Terminal source/display/drawing evidence is incomplete |
+| Loom renderer | — | 0.10.0 | 9 | 0 | 0 | 111 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Mermaid ASCII | — | 1.6.1 | 11 | 3 | 0 | 106 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| MermaidText | — | git-a6b0c7657b94 | 10 | 0 | 0 | 110 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| MermaidTUI | — | 0.0.6 | 3 | 11 | 0 | 106 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Merslim | — | 0.2.3 | 0 | 0 | 0 | 120 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Ondine | — | 0.0.3 | 3 | 0 | 0 | 117 | 120 | Unknown; recovered text, see receipt | Terminal source/display/drawing evidence is incomplete |
+| OpenCode Merman | — | 2.0.26 | 9 | 2 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Termaid | — | 0.10.0 | 12 | 1 | 0 | 107 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Zombie Mermaid | — | 5.10.2 | 11 | 0 | 0 | 109 | 120 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
 
 <a id="run-a6fa463f6d3455d15e79a2d5"></a>
 
 **run-a6fa463f6d3455d15e79a2d5** · 2026-10-31 · unit: terminal input cases · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
-Independently reviewed drawing subset, ranked by verified correct count only. Unknown outcomes leave complete accuracy unresolved; this count rank cannot establish full-corpus correctness. Corpus: 120 selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.
+Archived diagnostic profile; it supplies no current comparative score. Independently reviewed drawing subset, ranked by verified correct count only. Unknown outcomes leave complete accuracy unresolved; this count rank cannot establish full-corpus correctness. Corpus: 120 selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.
 
-Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+No comparable numeric ranking measure is available.
 
-Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
-
-| Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | vs Mermaid ASCII | Ranking note |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Termaid | 1 | 0.10.0 | 12 | 1 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | More verified (+1); accuracy unresolved |  |
-| Agentic Mermaid | 2 | 0.4.1 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved |  |
-| ASCII Mermaid | 2 | 0.1.0 | 11 | 2 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved |  |
-| Mermaid ASCII | 2 | 1.6.1 | 11 | 3 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z | Baseline |  |
-| Zombie Mermaid | 2 | 5.10.2 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Same verified count; accuracy unresolved |  |
-| Latias Merman | 6 | 0.9.2 | 10 | 4 | 0 | 2 | 16 | Unknown; recovered text, see receipt | Fewer verified (-1); accuracy unresolved |  |
-| MermaidText | 6 | git-a6b0c7657b94 | 10 | 0 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-1); accuracy unresolved |  |
-| Beautiful Mermaid | 8 | 1.1.3 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved |  |
-| Loom renderer | 8 | 0.10.0 | 9 | 0 | 0 | 7 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved |  |
-| OpenCode Merman | 8 | 2.0.26 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-2); accuracy unresolved |  |
-| Figurehead | 11 | v0.4.3 | 5 | 5 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-6); accuracy unresolved |  |
-| Kitlangton Merman | 12 | 0.2.1 | 4 | 2 | 0 | 10 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-7); accuracy unresolved |  |
-| MermaidTUI | 13 | 0.0.6 | 3 | 11 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z | Fewer verified (-8); accuracy unresolved |  |
-| Ondine | 13 | 0.0.3 | 3 | 0 | 0 | 13 | 16 | Unknown; recovered text, see receipt | Fewer verified (-8); accuracy unresolved |  |
-| Crafter Mermaid | — | 0.0.3 | 0 | 0 | 0 | 16 | 16 | Unknown; recovered text, see receipt | Unresolved | Terminal source/display/drawing evidence is incomplete |
-| Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
-| Grok renderer | — | git-2bdd1d6a6369 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
-| Merslim | — | 0.2.3 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Unresolved | Terminal source/display/drawing evidence is incomplete |
+| Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | Ranking note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid | — | 0.4.1 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z |  |
+| ASCII Mermaid | — | 0.1.0 | 11 | 2 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z |  |
+| Beautiful Mermaid | — | 1.1.3 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z |  |
+| Crafter Mermaid | — | 0.0.3 | 0 | 0 | 0 | 16 | 16 | Unknown; recovered text, see receipt | Terminal source/display/drawing evidence is incomplete |
+| Figurehead | — | v0.4.3 | 5 | 5 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z |  |
+| Frankenmermaid | — | 0.4.0 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Grok renderer | — | git-2bdd1d6a6369 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Kitlangton Merman | — | 0.2.1 | 4 | 2 | 0 | 10 | 16 | 2026-10-31T09:28:24.742Z |  |
+| Latias Merman | — | 0.9.2 | 10 | 4 | 0 | 2 | 16 | Unknown; recovered text, see receipt |  |
+| Loom renderer | — | 0.10.0 | 9 | 0 | 0 | 7 | 16 | 2026-10-31T09:28:24.742Z |  |
+| Mermaid ASCII | — | 1.6.1 | 11 | 3 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z |  |
+| MermaidText | — | git-a6b0c7657b94 | 10 | 0 | 0 | 6 | 16 | 2026-10-31T09:28:24.742Z |  |
+| MermaidTUI | — | 0.0.6 | 3 | 11 | 0 | 2 | 16 | 2026-10-31T09:28:24.742Z |  |
+| Merslim | — | 0.2.3 | 0 | 0 | 0 | 16 | 16 | 2026-10-31T09:28:24.742Z | Terminal source/display/drawing evidence is incomplete |
+| Ondine | — | 0.0.3 | 3 | 0 | 0 | 13 | 16 | Unknown; recovered text, see receipt |  |
+| OpenCode Merman | — | 2.0.26 | 9 | 2 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z |  |
+| Termaid | — | 0.10.0 | 12 | 1 | 0 | 3 | 16 | 2026-10-31T09:28:24.742Z |  |
+| Zombie Mermaid | — | 5.10.2 | 11 | 0 | 0 | 5 | 16 | 2026-10-31T09:28:24.742Z |  |
 
 <a id="run-b752c2d303f711b51ca464f0"></a>
 
 **run-b752c2d303f711b51ca464f0** · 2026-10-31 · unit: terminal input cases · [evidence](../../docs/evidence/b0/receipt.json)
 
-Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Full planned terminal drawing corpus, retaining unmeasured and unreviewed inputs. Corpus: 116 drawings from 120 selected source inputs in pinned terminal-project research, without selection on renderer outcomes. Any authored adaptations have separate content identities and independent source review. 1 source diagnostics are retained separately and receive no drawing score. Invalid-source controls are separate from drawing accuracy. Source/review hashes and all origins remain in the owning receipt. Ranks order verified correct counts only; unknown work prevents a complete accuracy claim. Mermaid source reference is unscored; no speed or aesthetics score.
+Archived frozen B0 table, superseded for current scores; its original source and observer epochs remain unchanged. Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Full planned terminal drawing corpus, retaining unmeasured and unreviewed inputs. Corpus: 116 drawings from 120 selected source inputs in pinned terminal-project research, without selection on renderer outcomes. Any authored adaptations have separate content identities and independent source review. 1 source diagnostics are retained separately and receive no drawing score. Invalid-source controls are separate from drawing accuracy. Source/review hashes and all origins remain in the owning receipt. Ranks order verified correct counts only; unknown work prevents a complete accuracy claim. Mermaid source reference is unscored; no speed or aesthetics score.
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
@@ -125,6 +121,183 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 | OpenCode Merman | — | 2.0.26 | 0 | 0 | 4 | 4 | Unresolved | No typed source-rejection observations |
 | Termaid | 2 | 0.10.0 | 0 | 4 | 0 | 4 | Fewer verified (-2); accuracy unresolved |  |
 | Zombie Mermaid | — | 5.10.2 | 0 | 0 | 4 | 4 | Unresolved | No typed source-rejection observations |
+
+<a id="run-3ffc7bedce92721e135091b1"></a>
+
+**run-3ffc7bedce92721e135091b1** · 2026-10-31 · unit: terminal input cases · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Current retained-evidence outcome reduction. Only the explicitly listed saved-output corrections use new observers/contracts; all other rows retain their original per-case epochs in the attached normal results. No new renderer/API calls. Full planned terminal drawing corpus, retaining unmeasured and unreviewed inputs. Corpus: 116 drawings from 120 selected source inputs in pinned terminal-project research, without selection on renderer outcomes. Any authored adaptations have separate content identities and independent source review. 1 source diagnostics are retained separately and receive no drawing score. Invalid-source controls are separate from drawing accuracy. Source/review hashes and all origins remain in the owning receipt. Ranks order verified correct counts only; unknown work prevents a complete accuracy claim. Mermaid source reference is unscored; no speed or aesthetics score.
+
+Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+Ranks order verified correct counts, including zero. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
+
+Comparisons claim superiority only when correctness bounds are disjoint; otherwise they describe verified-count differences. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
+
+| Project | Verified-count rank | Version | Correct | Incorrect drawing | Invalid format | Unsupported | Renderer failure | Unassessed | Unrun | Harness failure | Planned | Observer coverage (%) | Correctness lower (%) | Correctness upper (%) | Measured | vs Mermaid ASCII |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Termaid | 1 | 0.10.0 | 65 | 33 | 0 | 0 | 0 | 18 | 0 | 0 | 116 | 84.482759 | 56.034483 | 71.551724 | 2026-10-31T19:49:40.725094Z | Higher on this corpus (+23); disjoint bounds |
+| Zombie Mermaid | 2 | 5.10.2 | 60 | 12 | 0 | 0 | 0 | 44 | 0 | 0 | 116 | 62.068966 | 51.724138 | 89.655172 | Unknown; recovered text, see receipt | Higher on this corpus (+18); disjoint bounds |
+| Agentic Mermaid | 3 | 0.4.1 | 58 | 16 | 0 | 0 | 0 | 42 | 0 | 0 | 116 | 63.793103 | 50 | 86.206897 | 2026-10-31T19:49:41.622Z | Higher on this corpus (+16); disjoint bounds |
+| Loom renderer | 4 | 0.10.0 | 43 | 26 | 0 | 0 | 0 | 47 | 0 | 0 | 116 | 59.482759 | 37.068966 | 77.586207 | Unknown; recovered text, see receipt | More verified (+1); bounds overlap |
+| Mermaid ASCII | 5 | 1.6.1 | 42 | 24 | 0 | 38 | 0 | 12 | 0 | 0 | 116 | 56.896552 | 36.206897 | 46.551724 | 2026-10-31T19:49:40.519Z | Baseline |
+| MermaidText | 6 | git-a6b0c7657b94 | 40 | 23 | 0 | 0 | 0 | 53 | 0 | 0 | 116 | 54.310345 | 34.482759 | 80.172414 | Unknown; recovered text, see receipt | Fewer verified (-2); bounds overlap |
+| Beautiful Mermaid | 7 | 1.1.3 | 35 | 22 | 0 | 0 | 0 | 59 | 0 | 0 | 116 | 49.137931 | 30.172414 | 81.034483 | Unknown; recovered text, see receipt | Fewer verified (-7); bounds overlap |
+| ASCII Mermaid | 8 | 0.1.0 | 28 | 37 | 0 | 0 | 0 | 51 | 0 | 0 | 116 | 56.034483 | 24.137931 | 68.103448 | Unknown; recovered text, see receipt | Fewer verified (-14); bounds overlap |
+| OpenCode Merman | 9 | 2.0.26 | 20 | 32 | 0 | 0 | 0 | 64 | 0 | 0 | 116 | 44.827586 | 17.241379 | 72.413793 | Unknown; recovered text, see receipt | Fewer verified (-22); bounds overlap |
+| Figurehead | 10 | v0.4.3 | 18 | 27 | 0 | 0 | 0 | 71 | 0 | 0 | 116 | 38.793103 | 15.517241 | 76.724138 | Unknown; recovered text, see receipt | Fewer verified (-24); bounds overlap |
+| Kitlangton Merman | 11 | 0.2.1 | 16 | 31 | 0 | 0 | 0 | 69 | 0 | 0 | 116 | 40.517241 | 13.793103 | 73.275862 | Unknown; recovered text, see receipt | Fewer verified (-26); bounds overlap |
+| Merslim | 11 | 0.2.3 | 16 | 47 | 0 | 0 | 0 | 53 | 0 | 0 | 116 | 54.310345 | 13.793103 | 59.482759 | Unknown; recovered text, see receipt | Fewer verified (-26); bounds overlap |
+| MermaidTUI | 13 | 0.0.6 | 7 | 6 | 0 | 0 | 0 | 103 | 0 | 0 | 116 | 11.206897 | 6.034483 | 94.827586 | Unknown; recovered text, see receipt | Fewer verified (-35); bounds overlap |
+| Crafter Mermaid | 14 | 0.0.3 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0 | 0 | 100 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
+| Frankenmermaid | 14 | 0.4.0 | 0 | 1 | 0 | 0 | 0 | 115 | 0 | 0 | 116 | 0.862069 | 0 | 99.137931 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
+| Grok renderer | 14 | git-2bdd1d6a6369 | 0 | 23 | 0 | 0 | 0 | 93 | 0 | 0 | 116 | 19.827586 | 0 | 80.172414 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
+| Latias Merman | 14 | 0.9.2 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0 | 0 | 100 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
+| Ondine | 14 | 0.0.3 | 0 | 0 | 0 | 0 | 0 | 116 | 0 | 0 | 116 | 0 | 0 | 100 | Unknown; recovered text, see receipt | Fewer verified (-42); bounds overlap |
+<a id="current-attempt-0218d25b05f113e3bc440c13"></a>
+
+### MermaidTUI: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-23d3d4a27f948e136a74c0bd"></a>
+
+### Termaid: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-34396e018da2a4e0ec0430e4"></a>
+
+### Frankenmermaid: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-3d404744819208986bde0195"></a>
+
+### Mermaid ASCII: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-406c2f8dfd8a69819b009742"></a>
+
+### Beautiful Mermaid: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-4b321f66e3e8e3ddccc1efab"></a>
+
+### Agentic Mermaid: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-544e9ba97b0584e66ad5c2bd"></a>
+
+### Latias Merman: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-5452e533b79b12c9a9dbeaf3"></a>
+
+### OpenCode Merman: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-98e061e98cdf3d711d229e14"></a>
+
+### ASCII Mermaid: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-998963fb20002f99e890fd91"></a>
+
+### Figurehead: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-9df7e478afd3af7ae3d45dae"></a>
+
+### Loom renderer: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-bcfba6922ac804d2681b1893"></a>
+
+### Crafter Mermaid: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-c8c46e405400abf44233286a"></a>
+
+### MermaidText: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-c9570068b9985f863bfa2929"></a>
+
+### Ondine: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-db165c9ab6801aa84ef04963"></a>
+
+### Merslim: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-e43f0dc82cd53397a6da8d17"></a>
+
+### Kitlangton Merman: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-f1e33efadf03f6de42c14b86"></a>
+
+### Zombie Mermaid: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-f3a9ef98b5874981c9272887"></a>
+
+### Grok renderer: Terminal Rendering (terminal-current-v3)
+
+Campaign invocation: 2026-10-31T19:49:41.622Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
 <a id="b0-attempt-011f985f0bfd0a2265d44b0a"></a>
 
 ### Kitlangton Merman: Terminal Rendering (terminal-b0-v3)

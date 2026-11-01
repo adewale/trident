@@ -1,4 +1,4 @@
-# Public Model Contracts · part 1
+# Public Model Regressions (unscored) · part 1
 
 [Ecosystem overview](../../RESULTS.md) · [All parts](native-fidelity.md)
 
@@ -6,20 +6,18 @@
 
 **run-40cc1a5ead121ae9df015930** · 2026-10-31 · unit: public-model cases · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
-Corpus: the same AM/Trident-authored feature cases, evaluated through public Node models. One correct case requires every declared native criterion. Missing projections remain unknown. These are optional model contracts, not drawing accuracy, editor integration or an overall renderer score.
+Unscored harness/observer regressions: AM/Trident-authored feature, reset and edit cases; not a comparative renderer benchmark. Original retained report context: Corpus: the same AM/Trident-authored feature cases, evaluated through public Node models. One correct case requires every declared native criterion. Missing projections remain unknown. These are optional model contracts, not drawing accuracy, editor integration or an overall renderer score.
 
-Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Unscored harness/observer regressions; rows are alphabetical.
 
-Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
-
-| Project | Rank | Version | Correct | Incorrect | Unknown | Planned | Measured | vs Mermaid |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Pele | 1 | 1.9.0 | 94 | 0 | 6 | 100 | 2026-10-31T09:31:40.068Z | More verified (+4); accuracy unresolved |
-| Mermaid | 2 | 12.2.0 | 90 | 0 | 10 | 100 | 2026-10-31T09:31:49.523Z | Baseline |
-| Agentic Mermaid | 3 | 0.4.1 | 59 | 0 | 41 | 100 | 2026-10-31T09:31:33.634Z | Fewer verified (-31); accuracy unresolved |
+| Project | Version | Correct | Incorrect | Unknown | Planned | Measured | Diagnostic note |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid | 0.4.1 | 59 | 0 | 41 | 100 | 2026-10-31T09:31:33.634Z | Unscored harness/observer regressions |
+| Mermaid | 12.2.0 | 90 | 0 | 10 | 100 | 2026-10-31T09:31:49.523Z | Unscored harness/observer regressions |
+| Pele | 1.9.0 | 94 | 0 | 6 | 100 | 2026-10-31T09:31:40.068Z | Unscored harness/observer regressions |
 <a id="attempt-016de9af9b4f74ad3eb22810"></a>
 
-### Mermaid RS Renderer: Public Model Contracts (core)
+### Mermaid RS Renderer: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -27,7 +25,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-044d0f555cf3c5ab40bd628d"></a>
 
-### XMermaid: Public Model Contracts (core)
+### XMermaid: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -35,7 +33,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-0599e638a4a24f1217f5df74"></a>
 
-### Mermaid: Public Model Contracts (core)
+### Mermaid: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/model-retry/native-fidelity/mermaid-js%252Fmermaid/)
 
@@ -94,7 +92,7 @@ Authored public-model contracts do not establish painted drawing correctness.; C
 
 <a id="attempt-0d01a0cbb3308948bd8913c1"></a>
 
-### Mermaid Flutter: Public Model Contracts (core)
+### Mermaid Flutter: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -102,7 +100,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-1c5f1e63d1d4aebd15569f42"></a>
 
-### Pele: Public Model Contracts (core)
+### Pele: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/model-retry/native-fidelity/obsidianmd%252Fpele/)
 
@@ -161,7 +159,7 @@ Authored public-model contracts do not establish painted drawing correctness.; C
 
 <a id="attempt-4125b8c197717d32309d6bd8"></a>
 
-### ASCII Mermaid: Public Model Contracts (core)
+### ASCII Mermaid: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -169,7 +167,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-4220435f2c077b0a18796f86"></a>
 
-### MermaidText: Public Model Contracts (core)
+### MermaidText: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -177,7 +175,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-52080b201381ae53f6da6574"></a>
 
-### OpenCode Merman: Public Model Contracts (core)
+### OpenCode Merman: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -185,7 +183,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-59ac78754e258eadbd1259af"></a>
 
-### Ondine: Public Model Contracts (core)
+### Ondine: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -193,7 +191,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-5e0af5a369d49dd95407706e"></a>
 
-### Figurehead: Public Model Contracts (core)
+### Figurehead: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -201,7 +199,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-7a10e33a040fd6e8af1c4b3c"></a>
 
-### Latias Merman: Public Model Contracts (core)
+### Latias Merman: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -209,7 +207,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-857417fea8907047551b5b64"></a>
 
-### Termaid: Public Model Contracts (core)
+### Termaid: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -217,7 +215,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-9f327ddcc19156fba3ba33c5"></a>
 
-### Bezel: Public Model Contracts (core)
+### Bezel: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -225,7 +223,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-a4b188db5e6b02f0865d0b2a"></a>
 
-### Mermaid Dart: Public Model Contracts (core)
+### Mermaid Dart: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -233,7 +231,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-a6e38219c2ad77c4359b1bf8"></a>
 
-### Kitlangton Merman: Public Model Contracts (core)
+### Kitlangton Merman: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -241,7 +239,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-a823e4d074433abbd789ad70"></a>
 
-### VitePress Plugin Diagram: Public Model Contracts (core)
+### VitePress Plugin Diagram: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -249,7 +247,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-b4c107b6627f5a5ccd01e223"></a>
 
-### DSH Mermaid GB SVG: Public Model Contracts (core)
+### DSH Mermaid GB SVG: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -257,7 +255,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-b970cdb7d3726135f6edd82b"></a>
 
-### MermaidTUI: Public Model Contracts (core)
+### MermaidTUI: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -265,7 +263,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-bf0e083c34d4b31f6004da9b"></a>
 
-### Loom renderer: Public Model Contracts (core)
+### Loom renderer: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -273,7 +271,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-c9cc899e27c54f849e34ad9f"></a>
 
-### Beautiful Mermaid: Public Model Contracts (core)
+### Beautiful Mermaid: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -281,7 +279,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-cd51ae7565e28fb5df2edd2d"></a>
 
-### Mermaid ASCII: Public Model Contracts (core)
+### Mermaid ASCII: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -289,7 +287,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-dfd74058db3ec0321c1d8930"></a>
 
-### Agentic Mermaid: Public Model Contracts (core)
+### Agentic Mermaid: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/model-retry/native-fidelity/adewale%252Fagentic-mermaid/)
 
@@ -348,7 +346,7 @@ Authored public-model contracts do not establish painted drawing correctness.; C
 
 <a id="attempt-e2276dfc9ed8fbbf893c2675"></a>
 
-### Frankenmermaid: Public Model Contracts (core)
+### Frankenmermaid: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -356,7 +354,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-e92381022b2e0b57671545fb"></a>
 
-### Zombie Mermaid: Public Model Contracts (core)
+### Zombie Mermaid: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -364,7 +362,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-ed449b04289130cced66dcf6"></a>
 
-### Merslim: Public Model Contracts (core)
+### Merslim: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -372,7 +370,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-f16015a46f36e5ae28eecefe"></a>
 
-### Crafter Mermaid: Public Model Contracts (core)
+### Crafter Mermaid: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
@@ -380,7 +378,7 @@ No reviewed public-model projection for this binding; no project capability fail
 
 <a id="attempt-f5187dc05f4ad78f543a369c"></a>
 
-### Grok renderer: Public Model Contracts (core)
+### Grok renderer: Public Model Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **blocked** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 

@@ -72,30 +72,28 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 
 **run-22a4e4549a96ba57423ed301** · 2026-10-31 · unit: reviewed documentation occurrences · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
-Corpus: reviewed 16-occurrence subset of 548 Mermaid documentation occurrences, bound to exact source hashes; SVG lane. This development-exposed profile ranks verified correct counts and keeps unresolved observations explicit. It supplies no full DaveBench accuracy, holdout or speed claim.
+Archived diagnostic profile; it supplies no current comparative score. Corpus: reviewed 16-occurrence subset of 548 Mermaid documentation occurrences, bound to exact source hashes; SVG lane. This development-exposed profile ranks verified correct counts and keeps unresolved observations explicit. It supplies no full DaveBench accuracy, holdout or speed claim.
 
-Ranked by **Correct / Planned reviewed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+No comparable numeric ranking measure is available.
 
-Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
-
-| Project | Rank | Version | Correct | Incorrect | Unknown | Planned reviewed | Measured | vs Mermaid |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mermaid | 1 | 12.2.0 | 16 | 0 | 0 | 16 | 2026-10-31T08:46:07.611Z | Baseline |
-| Bezel | 2 | 0.2.21 | 15 | 0 | 1 | 16 | 2026-10-31T08:46:18.869Z | Fewer verified (-1); accuracy unresolved |
-| Latias Merman | 2 | 0.9.2 | 15 | 1 | 0 | 16 | 2026-10-31T08:45:34.623Z | Lower (-1) |
-| Ondine | 2 | 0.0.3 | 15 | 0 | 1 | 16 | 2026-10-31T08:41:13.074Z | Fewer verified (-1); accuracy unresolved |
-| Pele | 2 | 1.9.0 | 15 | 0 | 1 | 16 | 2026-10-31T08:45:41.483Z | Fewer verified (-1); accuracy unresolved |
-| Mermaid Dart | 6 | 0.3.2 | 13 | 1 | 2 | 16 | 2026-10-31T08:41:15.946Z | Fewer verified (-3); accuracy unresolved |
-| Frankenmermaid | 7 | 0.4.0 | 12 | 3 | 1 | 16 | 2026-10-31T08:41:10.316Z | Fewer verified (-4); accuracy unresolved |
-| Agentic Mermaid | 8 | 0.4.1 | 11 | 3 | 2 | 16 | 2026-10-31T08:41:23.617Z | Fewer verified (-5); accuracy unresolved |
-| Zombie Mermaid | 9 | 5.10.2 | 10 | 3 | 3 | 16 | 2026-10-31T08:41:27.995Z | Fewer verified (-6); accuracy unresolved |
-| Beautiful Mermaid | 10 | 1.1.3 | 7 | 5 | 4 | 16 | 2026-10-31T08:45:38.577Z | Fewer verified (-9); accuracy unresolved |
-| Crafter Mermaid | 10 | 0.0.3 | 7 | 6 | 3 | 16 | 2026-10-31T08:41:37.803Z | Fewer verified (-9); accuracy unresolved |
-| XMermaid | 12 | 0.4.2 | 3 | 1 | 12 | 16 | 2026-10-31T08:45:26.846Z | Fewer verified (-13); accuracy unresolved |
-| DSH Mermaid GB SVG | 13 | 0.1.4 | 2 | 14 | 0 | 16 | 2026-10-31T08:45:43.786Z | Lower (-14) |
-| Mermaid RS Renderer | 14 | 0.3.1 | 0 | 4 | 12 | 16 | 2026-10-31T08:41:33.205Z | Fewer verified (-16); accuracy unresolved |
-| Merslim | 14 | 0.2.3 | 0 | 3 | 13 | 16 | 2026-10-31T09:56:18.944Z | Fewer verified (-16); accuracy unresolved |
-| VitePress Plugin Diagram | 14 | 0.3.2 | 0 | 7 | 9 | 16 | 2026-10-31T08:45:28.688Z | Fewer verified (-16); accuracy unresolved |
+| Project | Rank | Version | Correct | Incorrect | Unknown | Planned reviewed | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid | — | 0.4.1 | 11 | 3 | 2 | 16 | 2026-10-31T08:41:23.617Z |
+| Beautiful Mermaid | — | 1.1.3 | 7 | 5 | 4 | 16 | 2026-10-31T08:45:38.577Z |
+| Bezel | — | 0.2.21 | 15 | 0 | 1 | 16 | 2026-10-31T08:46:18.869Z |
+| Crafter Mermaid | — | 0.0.3 | 7 | 6 | 3 | 16 | 2026-10-31T08:41:37.803Z |
+| DSH Mermaid GB SVG | — | 0.1.4 | 2 | 14 | 0 | 16 | 2026-10-31T08:45:43.786Z |
+| Frankenmermaid | — | 0.4.0 | 12 | 3 | 1 | 16 | 2026-10-31T08:41:10.316Z |
+| Latias Merman | — | 0.9.2 | 15 | 1 | 0 | 16 | 2026-10-31T08:45:34.623Z |
+| Mermaid | — | 12.2.0 | 16 | 0 | 0 | 16 | 2026-10-31T08:46:07.611Z |
+| Mermaid Dart | — | 0.3.2 | 13 | 1 | 2 | 16 | 2026-10-31T08:41:15.946Z |
+| Mermaid RS Renderer | — | 0.3.1 | 0 | 4 | 12 | 16 | 2026-10-31T08:41:33.205Z |
+| Merslim | — | 0.2.3 | 0 | 3 | 13 | 16 | 2026-10-31T09:56:18.944Z |
+| Ondine | — | 0.0.3 | 15 | 0 | 1 | 16 | 2026-10-31T08:41:13.074Z |
+| Pele | — | 1.9.0 | 15 | 0 | 1 | 16 | 2026-10-31T08:45:41.483Z |
+| VitePress Plugin Diagram | — | 0.3.2 | 0 | 7 | 9 | 16 | 2026-10-31T08:45:28.688Z |
+| XMermaid | — | 0.4.2 | 3 | 1 | 12 | 16 | 2026-10-31T08:45:26.846Z |
+| Zombie Mermaid | — | 5.10.2 | 10 | 3 | 3 | 16 | 2026-10-31T08:41:27.995Z |
 
 <a id="run-71503b7aeb3bcf1ae763dc22"></a>
 
@@ -169,31 +167,29 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 
 **run-87c7d06be3ec5a0cad582f61** · 2026-10-31 · unit: reviewed documentation occurrences · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
-Corpus: reviewed 16-occurrence subset of 548 Mermaid documentation occurrences, bound to exact source hashes; PNG lane. This development-exposed profile ranks verified correct counts and keeps unresolved observations explicit. It supplies no full DaveBench accuracy, holdout or speed claim.
+Archived diagnostic profile; it supplies no current comparative score. Corpus: reviewed 16-occurrence subset of 548 Mermaid documentation occurrences, bound to exact source hashes; PNG lane. This development-exposed profile ranks verified correct counts and keeps unresolved observations explicit. It supplies no full DaveBench accuracy, holdout or speed claim.
 
-Ranked by **Correct / Planned reviewed**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+No comparable numeric ranking measure is available.
 
-Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
-
-| Project | Rank | Version | Correct | Incorrect | Unknown | Planned reviewed | Measured | vs Mermaid |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Bezel | 1 | 0.2.21 | 16 | 0 | 0 | 16 | 2026-10-31T08:49:07.186Z | Tie |
-| Latias Merman | 1 | 0.9.2 | 16 | 0 | 0 | 16 | 2026-10-31T09:40:45.358Z | Tie |
-| Mermaid | 1 | 12.2.0 | 16 | 0 | 0 | 16 | 2026-10-31T08:56:33.867Z | Baseline |
-| Ondine | 1 | 0.0.3 | 16 | 0 | 0 | 16 | 2026-10-31T09:03:05.667Z | Tie |
-| Pele | 1 | 1.9.0 | 16 | 0 | 0 | 16 | 2026-10-31T08:58:05.465Z | Tie |
-| Mermaid Dart | 6 | 0.3.2 | 15 | 1 | 0 | 16 | 2026-10-31T08:59:37.784Z | Lower (-1) |
-| Mermaid Flutter | 6 | 0.3.2 | 15 | 1 | 0 | 16 | 2026-10-31T09:01:36.559Z | Lower (-1) |
-| Frankenmermaid | 8 | 0.4.0 | 13 | 3 | 0 | 16 | 2026-10-31T08:52:02.823Z | Lower (-3) |
-| Agentic Mermaid | 9 | 0.4.1 | 11 | 3 | 2 | 16 | 2026-10-31T08:48:12.663Z | Fewer verified (-5); accuracy unresolved |
-| Mermaid RS Renderer | 9 | 0.3.1 | 11 | 5 | 0 | 16 | 2026-10-31T08:47:02.466Z | Lower (-5) |
-| Zombie Mermaid | 9 | 5.10.2 | 11 | 1 | 4 | 16 | 2026-10-31T08:50:12.754Z | Fewer verified (-5); accuracy unresolved |
-| XMermaid | 12 | 0.4.2 | 9 | 2 | 5 | 16 | 2026-10-31T08:54:07.922Z | Fewer verified (-7); accuracy unresolved |
-| Merslim | 13 | 0.2.3 | 8 | 5 | 3 | 16 | 2026-10-31T08:53:21.531Z | Fewer verified (-8); accuracy unresolved |
-| Beautiful Mermaid | 14 | 1.1.3 | 7 | 4 | 5 | 16 | 2026-10-31T08:54:45.143Z | Fewer verified (-9); accuracy unresolved |
-| Crafter Mermaid | 15 | 0.0.3 | 6 | 7 | 3 | 16 | 2026-10-31T08:49:40.606Z | Fewer verified (-10); accuracy unresolved |
-| DSH Mermaid GB SVG | 16 | 0.1.4 | 4 | 12 | 0 | 16 | 2026-10-31T09:02:06.668Z | Lower (-12) |
-| VitePress Plugin Diagram | 17 | 0.3.2 | 1 | 7 | 8 | 16 | 2026-10-31T08:54:29.717Z | Fewer verified (-15); accuracy unresolved |
+| Project | Rank | Version | Correct | Incorrect | Unknown | Planned reviewed | Measured |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid | — | 0.4.1 | 11 | 3 | 2 | 16 | 2026-10-31T08:48:12.663Z |
+| Beautiful Mermaid | — | 1.1.3 | 7 | 4 | 5 | 16 | 2026-10-31T08:54:45.143Z |
+| Bezel | — | 0.2.21 | 16 | 0 | 0 | 16 | 2026-10-31T08:49:07.186Z |
+| Crafter Mermaid | — | 0.0.3 | 6 | 7 | 3 | 16 | 2026-10-31T08:49:40.606Z |
+| DSH Mermaid GB SVG | — | 0.1.4 | 4 | 12 | 0 | 16 | 2026-10-31T09:02:06.668Z |
+| Frankenmermaid | — | 0.4.0 | 13 | 3 | 0 | 16 | 2026-10-31T08:52:02.823Z |
+| Latias Merman | — | 0.9.2 | 16 | 0 | 0 | 16 | 2026-10-31T09:40:45.358Z |
+| Mermaid | — | 12.2.0 | 16 | 0 | 0 | 16 | 2026-10-31T08:56:33.867Z |
+| Mermaid Dart | — | 0.3.2 | 15 | 1 | 0 | 16 | 2026-10-31T08:59:37.784Z |
+| Mermaid Flutter | — | 0.3.2 | 15 | 1 | 0 | 16 | 2026-10-31T09:01:36.559Z |
+| Mermaid RS Renderer | — | 0.3.1 | 11 | 5 | 0 | 16 | 2026-10-31T08:47:02.466Z |
+| Merslim | — | 0.2.3 | 8 | 5 | 3 | 16 | 2026-10-31T08:53:21.531Z |
+| Ondine | — | 0.0.3 | 16 | 0 | 0 | 16 | 2026-10-31T09:03:05.667Z |
+| Pele | — | 1.9.0 | 16 | 0 | 0 | 16 | 2026-10-31T08:58:05.465Z |
+| VitePress Plugin Diagram | — | 0.3.2 | 1 | 7 | 8 | 16 | 2026-10-31T08:54:29.717Z |
+| XMermaid | — | 0.4.2 | 9 | 2 | 5 | 16 | 2026-10-31T08:54:07.922Z |
+| Zombie Mermaid | — | 5.10.2 | 11 | 1 | 4 | 16 | 2026-10-31T08:50:12.754Z |
 
 <a id="run-b206851a3126313e782400b2"></a>
 
@@ -235,7 +231,7 @@ Ranked by **Correct rejection**, highest first. Equal values share a rank; unava
 
 **run-655e65f422c8fd4dfc06c98e** · 2026-10-31 · unit: documentation drawings · [evidence](../../docs/evidence/b0/receipt.json)
 
-Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: the same pinned Mermaid documentation inventory. First-round actual SVG witnesses checked against source expectations. Shared SVG paint/meaning observer. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence. Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.
+Archived frozen B0 table, superseded for current scores; its original source and observer epochs remain unchanged. Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: the same pinned Mermaid documentation inventory. First-round actual SVG witnesses checked against source expectations. Shared SVG paint/meaning observer. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence. Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
@@ -287,7 +283,7 @@ Ranked by **Correct rejection**, highest first. Equal values share a rank; unava
 
 **run-0f56c6cfd1a4a911414d4c95** · 2026-10-31 · unit: documentation drawings · [evidence](../../docs/evidence/b0/receipt.json)
 
-Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: the same pinned Mermaid documentation inventory. First-round actual PNG witnesses checked against source expectations. PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence.
+Archived frozen B0 table, superseded for current scores; its original source and observer epochs remain unchanged. Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: the same pinned Mermaid documentation inventory. First-round actual PNG witnesses checked against source expectations. PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence.
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
@@ -297,6 +293,63 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Mermaid | 1 | 12.2.0 | 497 | 44 | 5 | 546 | 2026-10-31T20:31:37.517Z | Baseline |
 | Mermaid Flutter | 2 | 0.3.2 | 298 | 137 | 111 | 546 | 2026-10-31T09:01:40.231Z | Fewer verified (-199); accuracy unresolved |
+
+<a id="run-254dfd3bc1261d7b8e4edfc8"></a>
+
+**run-254dfd3bc1261d7b8e4edfc8** · 2026-10-31 · unit: documentation drawings · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Current retained-evidence outcome reduction. Only the explicitly listed saved-output corrections use new observers/contracts; all other rows retain their original per-case epochs in the attached normal results. No new renderer/API calls. Corpus: the same pinned Mermaid documentation inventory. First-round actual SVG witnesses checked against source expectations. Shared SVG paint/meaning observer. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unassessed sources/observers, unrun work and typed failures remain separate. Bounds span unresolved cases only; observer coverage counts actual drawing or format verdicts. Overlapping bounds establish no accuracy winner. Complete accuracy requires zero unresolved cases; speed requires its own qualified timing evidence. Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.
+
+Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+Ranks order verified correct counts, including zero. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
+
+Comparisons claim superiority only when correctness bounds are disjoint; otherwise they describe verified-count differences. This is a comparison of the named metric, not overall project quality.
+
+| Project | Verified-count rank | Version | Correct | Incorrect drawing | Invalid format | Unsupported | Renderer failure | Unassessed | Unrun | Harness failure | Planned drawings | Observer coverage (%) | Correctness lower (%) | Correctness upper (%) | Measured | vs Mermaid |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid | 1 | 12.2.0 | 330 | 28 | 26 | 0 | 0 | 162 | 0 | 0 | 546 | 70.32967 | 60.43956 | 90.10989 | 2026-10-31T20:31:37.517Z | Baseline |
+
+<a id="run-4c98b569db43bffecf6f3193"></a>
+
+**run-4c98b569db43bffecf6f3193** · 2026-10-31 · unit: documentation drawings · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Current retained-evidence outcome reduction. Only the explicitly listed saved-output corrections use new observers/contracts; all other rows retain their original per-case epochs in the attached normal results. No new renderer/API calls. Corpus: the same pinned Mermaid documentation inventory. First-round actual PNG witnesses checked against source expectations. PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unassessed sources/observers, unrun work and typed failures remain separate. Bounds span unresolved cases only; observer coverage counts actual drawing or format verdicts. Overlapping bounds establish no accuracy winner. Complete accuracy requires zero unresolved cases; speed requires its own qualified timing evidence.
+
+Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+Ranks order verified correct counts, including zero. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
+
+Comparisons claim superiority only when correctness bounds are disjoint; otherwise they describe verified-count differences. This is a comparison of the named metric, not overall project quality.
+
+| Project | Verified-count rank | Version | Correct | Incorrect drawing | Invalid format | Unsupported | Renderer failure | Unassessed | Unrun | Harness failure | Planned drawings | Observer coverage (%) | Correctness lower (%) | Correctness upper (%) | Measured | vs Mermaid |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid | 1 | 12.2.0 | 497 | 44 | 0 | 0 | 0 | 5 | 0 | 0 | 546 | 99.084249 | 91.025641 | 91.941392 | 2026-10-31T20:31:37.517Z | Baseline |
+| Mermaid Flutter | 2 | 0.3.2 | 297 | 138 | 0 | 78 | 21 | 12 | 0 | 0 | 546 | 79.67033 | 54.395604 | 56.593407 | 2026-10-31T09:01:40.231Z | Lower on this corpus (-200); disjoint bounds |
+<a id="current-attempt-2a24d3a270b8aa006f2352e6"></a>
+
+### Mermaid Flutter: DaveBench: Documentation Examples
+
+Campaign invocation: 2026-10-31T20:31:37.517Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-2e8d2a14d08e45cbde946b87"></a>
+
+### Mermaid: DaveBench: Documentation Examples
+
+Campaign invocation: 2026-10-31T20:31:37.517Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
+<a id="current-attempt-303cbb0a2949cfca5a535cc8"></a>
+
+### Mermaid: DaveBench: Documentation Examples
+
+Campaign invocation: 2026-10-31T20:31:37.517Z → 2026-11-01T08:26:26.317Z · **recorded** · [evidence](results/current-outcomes-2026-11-01/receipt.json)
+
+Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.
+
 <a id="b0-attempt-06b5238c455228d55d1ad220"></a>
 
 ### Mermaid: DaveBench: Documentation Examples (b0)
