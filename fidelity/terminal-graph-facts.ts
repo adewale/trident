@@ -1,4 +1,4 @@
-import { interpretTerminal } from './terminal-display.ts'
+import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
 import { terminalRectangles } from './terminal-rectangles.ts'
 import { terminalAuthoredLinesObserved } from './terminal-text.ts'
 import { inspectTerminalMeaning, type TerminalMeaning } from './terminal.ts'
@@ -45,6 +45,21 @@ export function inspectTerminalGraphFacts(output: string, contract: TerminalSour
   if (shapes?.length && shapes.every(item => owned(item.id).length === 1)) {
     const actual = shapes.map(item => ({ id: item.id, shape: owned(item.id)[0]!.shape })), unknown = actual.some(item => item.shape?.startsWith('unqualified-')), mismatch = actual.some((item, n) => !item.shape?.startsWith('unqualified-') && item.shape !== shapes[n]!.shape)
     set('node-shapes', mismatch ? 'failed' : unknown ? 'unknown' : 'passed', 'Closed primitive boundaries or matching shape annotations own their full source labels; hexagons require both sloped ends and connected side walls', actual)
+  } else if (shapes?.length === graph.nodes.length && !graph.groups?.length && boxes.length === graph.nodes.length && boxes.every(box => box.lines.some(line => line.trim()) && box.shape && !box.shape.startsWith('unqualified-')) && boxes.every((box, n) => boxes.every((other, at) => n === at || box.right < other.x || other.right < box.x || box.bottom < other.y || other.bottom < box.y))) {
+    // Even an unresolved caption cannot turn five observed rectangles into a
+    // stadium/database inventory. Require a complete bounded representation:
+    // every other cell is wire ink or one unique literal edge-caption span.
+    // Inventory equality alone never gives source-specific shape credit.
+    const captions = new Set<string>(), inside = (x: number, y: number) => boxes.some(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)
+    for (const caption of new Set(graph.edges.map(edge => edge.label).filter((label): label is string => !!label))) {
+      if (graph.nodes.some(node => normalize(node.label) === normalize(caption)) || caption.includes('\n')) continue
+      const found: { x: number; y: number; width: number }[] = []
+      for (let y = 0; y < display.cells.length; y++) { const row = display.cells[y]!.join(''); for (let at = row.indexOf(caption); at >= 0; at = row.indexOf(caption, at + 1)) { const x = terminalTextWidth(row.slice(0, at)), width = terminalTextWidth(caption); if (Array.from({ length: width }, (_, n) => inside(x + n, y)).every(value => !value)) found.push({ x, y, width }) } }
+      if (found.length === 1) for (let x = found[0]!.x; x < found[0]!.x + found[0]!.width; x++) captions.add(x + ',' + found[0]!.y)
+    }
+    const complete = display.cells.every((row, y) => row.every((glyph, x) => !glyph.trim() || inside(x, y) || captions.has(x + ',' + y) || /^[─│┬┴┼┌┐└┘╭╮╰╯├┤┄┈╌┆┊╎━┃▶►>→◀◄<←▲^↑▼v↓|-]$/.test(glyph)))
+    const wanted = shapes.map(item => item.shape).sort(), actual = boxes.map(box => box.shape!).sort()
+    if (complete && JSON.stringify(wanted) !== JSON.stringify(actual)) set('node-shapes', 'failed', 'The complete independently closed leaf-container shape multiset differs from all authored node primitives; unresolved labels cannot repair a primitive inventory mismatch', actual)
   }
   const breaks = contract.facts.find(fact => fact.criterion === 'node-line-breaks')?.expected as { id: string; lines: string[] }[] | undefined
   if (breaks?.length && breaks.every(item => owned(item.id).length === 1 && item.lines.every(line => normalize(line)))) set('node-line-breaks', breaks.every(item => terminalAuthoredLinesObserved(owned(item.id)[0]!.lines, item.lines)) ? 'passed' : 'failed', 'Authored line breaks own distinct contiguous display rows', breaks.map(item => ({ id: item.id, lines: owned(item.id)[0]!.lines })))

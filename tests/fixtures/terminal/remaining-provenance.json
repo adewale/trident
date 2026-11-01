@@ -178,5 +178,25 @@
       "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
       "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
     }
+  },
+  {
+    "file": "stadium-rectangle-ascii.txt",
+    "caseId": "terminal:9516272260e4c69d",
+    "project": "AlexanderGrooff/mermaid-ascii",
+    "version": "1.6.1",
+    "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+    "outputSha256": "71108fa51947d5804be7f6e2c89ef20692229fcbeffc2a9ec2f0ea6bcf1895fd",
+    "retainedRawSha256": "75790426895ccd3d75d8b8a5da9a08fdd3612bfee889f38e2fefe5a77b9677c7",
+    "originalOutput": {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:9516272260e4c69d",
+      "witness": "witnesses/71108fa51947d5804be7f6e2c89ef20692229fcbeffc2a9ec2f0ea6bcf1895fd.txt",
+      "sha256": "71108fa51947d5804be7f6e2c89ef20692229fcbeffc2a9ec2f0ea6bcf1895fd",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
   }
 ]

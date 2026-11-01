@@ -92,3 +92,14 @@ y-axis bottom: Bottom | top: Top`
  expect(facts(drawing.replace('──────────┼','───── ────┼'))).not.toBe('passed')
  expect(actual('quadrant-cross-python').status).toBe('incorrect')
 })
+test('complete wrong shape inventory can fail before labels resolve, but matching counts cannot pass identities',()=>{
+ const drawing=`┌─────────┐    ┌─────────┐
+│ prefixA ├───►│ prefixB │
+└─────────┘    └─────────┘`
+ const wrong=analyseTerminalSource('flowchart LR\nA((A)) --> B[B]','flowchart')
+ expect(inspectTerminalFacts(drawing,wrong.contract,wrong.graph).find(f=>f.criterion==='node-shapes')!.status).toBe('failed')
+ const matching=analyseTerminalSource('flowchart LR\nA[A] --> B[B]','flowchart')
+ expect(inspectTerminalFacts(drawing,matching.contract,matching.graph).find(f=>f.criterion==='node-shapes')!.status).toBe('unknown')
+ expect(inspectTerminalFacts(drawing+'\nUnowned label',wrong.contract,wrong.graph).find(f=>f.criterion==='node-shapes')!.status).toBe('unknown')
+ expect(actual('stadium-rectangle-ascii').status).toBe('incorrect')
+})
