@@ -5,6 +5,7 @@ import { gunzipSync } from 'node:zlib'
 import { chromium } from 'playwright'
 import { inspectSvgDrawing } from '../fidelity/inspect-svg.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
+import { retainedGraphFonts } from './helpers/retained-graph-fonts.ts'
 
 setDefaultTimeout(30_000)
 let browser: any
@@ -12,17 +13,15 @@ beforeAll(async () => { browser = await chromium.launch({ headless: true, execut
 afterAll(async () => { await browser?.close() })
 const directory = new URL('./fixtures/graph-completion/', import.meta.url), provenance = JSON.parse(readFileSync(new URL('provenance.json', directory), 'utf8'))
 const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases, reviews = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8'))
-async function inspect(svg: string, input: any) { const page = await browser.newPage(); try { await page.setContent(svg); return await inspectSvgDrawing(page, input) } finally { await page.close() } }
+async function inspect(svg: string, input: any, frozenFonts = false) { const page = await browser.newPage(); try { await page.setContent(svg); const fontContext = frozenFonts ? await retainedGraphFonts(page) : undefined; return { ...await inspectSvgDrawing(page, input), fontContext } } finally { await page.close() } }
 const status = (paint: any, criterion: string) => paint.checks.find((c: any) => c.criterion === criterion)?.status
-test('retained graph gaps close from actual contours and complete observed topology', async () => {
-  for (const meta of provenance) {
-    const svg = gunzipSync(readFileSync(new URL(meta.file, directory))).toString(), source = sources.find((c: any) => c.id === meta.id).source, review = reviews.find((c: any) => c.id === meta.id)
-    expect(createHash('sha256').update(svg).digest('hex')).toBe(meta.svgSha256)
-    expect(createHash('sha256').update(source).digest('hex')).toBe(meta.sourceSha256)
-    const actual = await inspect(svg, { family: review.family, source, expected: review.expected })
-    expect(actual.checks.filter((c: any) => c.status !== 'passed')).toEqual([])
-  }
-}, 120_000)
+for (const meta of provenance) test('retained graph contours and topology under owned font bytes: ' + meta.index, async () => {
+  const svg = gunzipSync(readFileSync(new URL(meta.file, directory))).toString(), source = sources.find((c: any) => c.id === meta.id).source, review = reviews.find((c: any) => c.id === meta.id)
+  expect(createHash('sha256').update(svg).digest('hex')).toBe(meta.svgSha256)
+  expect(createHash('sha256').update(source).digest('hex')).toBe(meta.sourceSha256)
+  const actual = await inspect(svg, { family: review.family, source, expected: review.expected }, true)
+  expect(actual.checks.filter((c: any) => c.status !== 'passed'), JSON.stringify({ index: meta.index, fontContext: actual.fontContext })).toEqual([])
+})
 const edgeSvg = (change = '') => `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="150"><defs><marker id="head" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="${change === 'wrong-marker' ? 'M0 0H10V10H0Z' : 'M0 0L10 5L0 10Z'}" fill="black"/></marker></defs><g><rect x="20" y="30" width="80" height="60" fill="white" stroke="black"/><text x="35" y="65">Alpha</text></g><g><rect x="220" y="30" width="80" height="60" fill="white" stroke="black"/><text x="235" y="65">Beta</text></g>${change === 'missing' ? '' : `<path d="M100 60H${change === 'detached' ? 180 : 220}" stroke="black" fill="none" marker-end="url(#head)"/>`}${change === 'extra' ? '<path d="M100 70H220" stroke="black" fill="none" marker-end="url(#head)"/>' : ''}</svg>`
 test('graph family admission requires all actual endpoints, markers and exact multiplicity', async () => {
   const expected = { labels: ['Alpha', 'Beta'], nodes: [{ id: 'a', label: 'Alpha' }, { id: 'b', label: 'Beta' }], edges: [{ source: 'a', target: 'b', directed: true, startMarker: 'none', endMarker: 'arrow' }] }
