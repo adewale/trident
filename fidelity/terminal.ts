@@ -140,7 +140,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   }
   const actual: { source: string; target: string; label?: string; stroke?: string; directed?: boolean; endMarker?: string; route?: { x: number; y: number }[] }[] = [], used = new Set<string>()
   const paths: { x: number; y: number }[][] = []
-  const targets: { x: number; y: number; heading: number; target: Box }[] = []
+  const targets: { x: number; y: number; heading: number; target: string }[] = []
   // Validate every observed head contact before exploring any shared component.
   // One ambiguous crossing cannot hide a different visibly dangling arrowhead.
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
@@ -153,7 +153,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
       if (!normal) return verdict('unknown', 'Arrowhead meets a group border without a qualified inward port', actual)
     }
     if (!target?.id) return verdict('incorrect', 'Arrowhead does not meet a drawn target node', actual)
-    targets.push({ x, y, heading, target })
+    targets.push({ x, y, heading, target: target.id })
   }
   for (const { x, y, heading, target } of targets) {
     used.add(key(x, y))
@@ -194,7 +194,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
       const strokes = new Set([...found.path].map(coordinate => { const [col, row] = coordinate.split(',').map(Number); const glyph = cell(col!, row!); return /[┄┈╌┆┊╎]/.test(glyph) ? 'dotted' : /[━┃]/.test(glyph) ? 'thick' : /[─│|-]/.test(glyph) ? 'solid' : undefined }).filter(Boolean))
       if (strokes.size > 1) return verdict('unknown', 'Mixed line strokes have no qualified style ownership', actual)
       const stroke = [...strokes][0]
-      actual.push({ source: found.source.id, target: target.id, ...(found.labels.size ? { label: [...found.labels.values()][0]! } : {}), ...(stroke && stroke !== 'solid' ? { stroke } : {}), ...(special.get(key(x, y))?.directed === false ? { directed: false } : {}), ...(special.get(key(x, y))?.endMarker ? { endMarker: special.get(key(x, y))!.endMarker } : {}), route: [{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })] })
+      actual.push({ source: found.source.id, target, ...(found.labels.size ? { label: [...found.labels.values()][0]! } : {}), ...(stroke && stroke !== 'solid' ? { stroke } : {}), ...(special.get(key(x, y))?.directed === false ? { directed: false } : {}), ...(special.get(key(x, y))?.endMarker ? { endMarker: special.get(key(x, y))!.endMarker } : {}), route: [{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })] })
       paths.push([{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })])
     }
   }

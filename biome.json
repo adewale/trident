@@ -16,6 +16,7 @@
       "!.cache/**",
       "!portable/dist/**",
       "!corpus/**",
+      "!docs/evidence/b0/**",
       "!bench-report/**",
       "!results/**"
     ]
