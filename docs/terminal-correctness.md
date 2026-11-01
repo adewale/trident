@@ -39,7 +39,12 @@ and bare Git
 use an ASCII `\w` grammar. This controls source compatibility, not the usefulness
 of a renderer's language extensions. Accepting these controls cannot establish a
 correct drawing; rejecting them requires typed public source evidence. A generic
-process exit, missing dependency or unsupported family stays unknown.
+process exit, missing dependency or rejection of a known but unsupported family
+stays unknown. The frozen Mermaid ASCII 1.6.1 CLI has one qualified diagnostic:
+its exact `unsupported graph type` message, authenticated to the executable,
+source, stdin binding and durable completed call, establishes unknown-family
+rejection only for the two sources with no diagram family. It cannot establish
+pie or Gitgraph syntax rejection.
 
 ## Source meaning policies
 
@@ -110,9 +115,16 @@ publication and snapshot path.
 
 The observer finds actual boxes and labels, traces continuous routes backward
 from arrowheads and checks the exact directed-edge multiset. A shared stem needs
-one unambiguous drawn source. Expected edges cannot choose a source at a junction.
+one unambiguous drawn source, or a cycle-free merge tree with one target head
+and distinct observed source contacts. Every source in that tree contributes a
+relationship; expected edges cannot choose a source at a junction. Multiple
+sources plus multiple target heads, repeated source paths and cycles remain
+unknown. Additional disjoint labelled node containers fail the exact inventory;
+nested containers still need their own ownership projection.
 Captions must belong to their traced routes, whether inline or adjacent. Declared
-node-order constraints check LR/RL/TB/TD/BT orientation independently of connectivity.
+node-order constraints check LR/RL/TB/TD/BT orientation from uniquely owned
+container centres independently of connectivity, including when a route remains
+unknown. Hard node breaks retain separate owned rows; soft wrapping may add rows.
 
 [Tests](../tests/terminal-meaning.test.ts) perturb real retained output to reverse
 arrows, break stems, change topology and detach captions. These are observer
@@ -146,7 +158,7 @@ unknown. Byte evidence binds the original bytes before any text decoding.
 | ER entity identities, attributes and relationships | Header/attribute compartments with independently observed type/name/key/comment fields; documented name-star PK markers; explicit key columns or unambiguous inline PK/FK/UK; straight vertical links with owned numeric endpoint cardinalities, captions and identifying strokes | Crow-foot symbols, branches, nonvertical routes, ambiguous inline field roles and style-only key encoding remain unqualified |
 | State identities, initial/final roles and transitions | Closed state graphs with owned rectangles, explicit filled initial / bullseye final markers and directed transition captions | Self-loops, nested state scopes and unfamiliar state representations |
 | C4, Gitgraph, mindmap, quadrant, treemap, Gantt, block, architecture, XY, ZenUML and packet obligations | Source facts are explicit | Output observers have not been qualified; text/number presence cannot pass these facts |
-| Invalid source controls | Typed outcome API binds project, case, source hash, public boundary and observer identity | Python SyntaxError and Dart MermaidParseException retain typed public evidence; generic errors, UnsupportedError and CLI exits get no rejection credit |
+| Invalid source controls | Typed outcome API binds project, case, source hash, public boundary and observer identity; the frozen Mermaid ASCII diagnostic also binds completed raw CLI receipts and authenticated streams | Python SyntaxError and Dart MermaidParseException retain typed public evidence; the exact CLI unknown-family diagnostic qualifies only no-family inputs; generic errors, UnsupportedError and CLI exits alone get no rejection credit |
 
 [Sequence observer controls](../tests/terminal-sequence.test.ts) authenticate retained
 outputs from three invocation boundaries and perturb endpoints, stroke, chronology,

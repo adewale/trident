@@ -1,6 +1,7 @@
 import { inspectTerminalGrouping, type TerminalGroup } from './terminal-groups.ts'
 import { terminalRectangles } from './terminal-rectangles.ts'
 import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
+import { normalizedTerminalText, terminalAuthoredLinesObserved } from './terminal-text.ts'
 /** A bounded terminal observer: grapheme-aware labels in rectangular boxes joined
  * by orthogonal directed routes. Unsupported display/layout features are
  * unknown. Text presence alone never establishes a relationship. */
@@ -10,12 +11,12 @@ export interface TerminalMeaning {
   groups?: readonly TerminalGroup[]
   layout?: readonly { before: string; after: string; axis: 'x' | 'y' }[]
 }
-type Box = { x: number; y: number; right: number; bottom: number; label: string; id?: string; shape?: string }
+type Box = { x: number; y: number; right: number; bottom: number; label: string; id?: string; shape?: string; lines?: string[] }
 const scope = 'Closed graph containers in at most 128 nodes, 4096 columns, 2048 rows and 2 MB of terminal input; NFC grapheme labels, qualified terminal-state controls, exact solid/dotted/thick strokes and owned arrow/circle/cross/class markers on orthogonal routes. Plain undirected links use a straight horizontal projection; multiline captions retain contiguous owned rows. Labelled enclosing groups use independently observed direct membership and source/end ports; remaining family facts and ambiguous junctions require their own qualified projections.'
 
 export function inspectTerminalMeaning(output: string, expected: TerminalMeaning, options = { primitiveShapes: false }) {
   const verdict = (status: 'correct' | 'incorrect' | 'unknown', reason: string, edges: { source: string; target: string; label?: string; route?: { x: number; y: number }[] }[] = []) => ({ status, reason, scope, edges })
-  if (!expected.nodes.length && !expected.groups?.length || new Set(expected.nodes.map(node => node.id)).size !== expected.nodes.length || new Set(expected.nodes.map(node => node.label)).size !== expected.nodes.length || expected.nodes.some(node => !node.label || /[\n\r\x00-\x1f]/.test(node.label)) || expected.edges.some(edge => ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.source) || ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.target))) return verdict('unknown', 'Expected identities/labels are ambiguous or outside the declared display scope')
+  if (!expected.nodes.length && !expected.groups?.length || new Set(expected.nodes.map(node => node.id)).size !== expected.nodes.length || new Set(expected.nodes.map(node => normalizedTerminalText(node.label))).size !== expected.nodes.length || expected.nodes.some(node => !normalizedTerminalText(node.label) || /[\r\x00-\x09\x0b-\x1f]/.test(node.label)) || expected.edges.some(edge => ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.source) || ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.target))) return verdict('unknown', 'Expected identities/labels are ambiguous or outside the declared display scope')
   const display = interpretTerminal(output, { columns: 4096, rows: 2048, inputBytes: 2_000_000 })
   if (display.status !== 'available') return verdict('unknown', display.reason ?? 'No qualified terminal-state interpretation')
   const text = display.text, grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' '
@@ -23,16 +24,26 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   const grouping = expected.groups?.length ? inspectTerminalGrouping(output, expected.nodes, expected.groups) : undefined
   if (grouping && grouping.status !== 'passed') return verdict('unknown', grouping.reason)
   const groupBoxes = grouping?.groups ?? []
-  const boxes: Box[] = terminalRectangles(grid, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true }).filter(box => !groupBoxes.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)).map(({ lines, ...box }) => ({ ...box, label: lines.join(' ').replace(/\s+/g, ' ').trim() }))
+  const boxes: Box[] = terminalRectangles(grid, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true }).filter(box => !groupBoxes.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)).map(box => ({ ...box, label: normalizedTerminalText(box.lines.join(' ')) }))
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if (/^[●◉]$/.test(cell(x, y)) && expected.nodes.some(node => node.label === cell(x, y)) && !boxes.some(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)) boxes.push({ x, y, right: x, bottom: y, label: cell(x, y) })
   if (!boxes.length) return verdict('unknown', 'No qualified closed node containers or explicit state markers are inspectable in this output representation')
   for (const node of expected.nodes) {
-    const matches = boxes.filter(box => box.label.normalize('NFC') === node.label.normalize('NFC'))
+    const matches = boxes.filter(box => box.label.normalize('NFC') === normalizedTerminalText(node.label))
     if (!matches.length && (text.includes(node.label) || boxes.some(box => box.label.replace(/\s/g, '') === node.label.replace(/\s/g, '')))) return verdict('unknown', 'Visible authored label lacks a qualified node-container or wrapping projection: ' + node.label)
     if (matches.length !== 1) return verdict('incorrect', 'Expected exactly one drawn node labelled ' + node.label + '; found ' + matches.length)
+    const rows = matches[0]!.lines
+    if (node.label.includes('\n')) {
+      const observed = rows && terminalAuthoredLinesObserved(rows, node.label.split('\n'))
+      if (observed === undefined) return verdict('unknown', 'Authored blank node lines require a qualified padding projection: ' + node.label)
+      if (!observed) return verdict('incorrect', 'Authored node line breaks differ from owned display rows: ' + node.label)
+    }
     matches[0]!.id = node.id
   }
-  if (boxes.length !== expected.nodes.length) return verdict('unknown', 'Additional or nested containers need a reviewed ownership projection')
+  if (boxes.length !== expected.nodes.length) {
+    const disjoint = boxes.every((box, index) => boxes.every((other, at) => at === index || box.right < other.x || other.right < box.x || box.bottom < other.y || other.bottom < box.y))
+    if (!groupBoxes.length && disjoint && boxes.some(box => !box.id && box.label)) return verdict('incorrect', 'Additional independently closed, labelled node containers are absent from the authored node inventory')
+    return verdict('unknown', 'Additional or nested containers need a reviewed ownership projection')
+  }
   const inside = (x: number, y: number) => boxes.find(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)
   const groupBoundary = (x: number, y: number) => groupBoxes.find(box => (x === box.x || x === box.right) && y > box.y && y < box.bottom || (y === box.y || y === box.bottom) && x > box.x && x < box.right)
   const groupExits = (x: number, y: number) => { const group = groupBoundary(x, y); if (!group) return undefined; const perpendicular = y === group.y || y === group.bottom ? [0, 2] : [1, 3]; return (points[cell(x, y)] ?? []).filter(direction => perpendicular.includes(direction)) }
@@ -138,10 +149,11 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     if (!target?.id) return verdict('incorrect', 'Arrowhead does not meet a drawn target node', actual)
     used.add(key(x, y))
     // Do not use expected edges to choose a branch. A shared outgoing stem is
-    // qualified only when exactly one path reaches a drawn source node.
+    // qualified by one source, or a cycle-free merge with only one target head.
     const pending = [{ x: x - dx[heading]!, y: y - dy[heading]!, towardPrevious: heading, path: new Set<string>(), labels: new Map<string, string>() }]
     const sources: { source: Box; path: Set<string>; labels: Map<string, string> }[] = []
     const headSources: typeof sources = []
+    const otherHeads = new Set<string>()
     let steps = 0, cycle = false, unqualifiedGroupPort = false
     while (pending.length) {
       if (++steps > 4096) return verdict('unknown', 'Route exploration exceeds the bounded graph profile', actual)
@@ -149,7 +161,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
       if (source) { sources.push({ source, path: cursor.path, labels: cursor.labels }); continue }
       const coordinate = key(cursor.x, cursor.y)
       if (cursor.path.has(coordinate)) { cycle = true; continue }
-      if (arrowAt(cursor.x, cursor.y) !== undefined && !captions.has(coordinate)) { const heading = arrowAt(cursor.x, cursor.y)!, node = boundary(cursor.x + dx[heading]!, cursor.y + dy[heading]!); if (node) { const path = new Set(cursor.path); path.add(coordinate); headSources.push({ source: node, path, labels: cursor.labels }) }; continue }
+      if (arrowAt(cursor.x, cursor.y) !== undefined && !captions.has(coordinate)) { otherHeads.add(coordinate); const heading = arrowAt(cursor.x, cursor.y)!, node = boundary(cursor.x + dx[heading]!, cursor.y + dy[heading]!); if (node) { const path = new Set(cursor.path); path.add(coordinate); headSources.push({ source: node, path, labels: cursor.labels }) }; continue }
       const caption = captions.get(coordinate), groupWire = groupExits(cursor.x, cursor.y), exits = caption?.exits ?? groupWire ?? points[cell(cursor.x, cursor.y)]
       if (groupWire && !groupWire.length) unqualifiedGroupPort = true
       if (!exits?.includes(cursor.towardPrevious)) continue
@@ -159,18 +171,23 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
       for (const direction of exits.filter(direction => direction !== cursor.towardPrevious)) pending.push({ x: cursor.x + dx[direction]!, y: cursor.y + dy[direction]!, towardPrevious: (direction + 2) % 4, path, labels })
     }
     if (!sources.length) sources.push(...headSources)
-    if (cycle || sources.length > 1) return verdict('unknown', 'Junction, crossing or cycle has ambiguous source ownership', actual)
-    const found = sources[0]
-    if (!found && unqualifiedGroupPort) return verdict('unknown', 'Group border has no qualified source endpoint or pass-through projection', actual)
-    if (!found) return verdict('incorrect', 'Arrow stem is disconnected from its source node', actual)
-    if (!found.source.id || found.labels.size > 1) return verdict('unknown', 'Source or relationship label ownership is ambiguous', actual)
-    for (const coordinate of found.path) used.add(coordinate)
-    for (const token of found.labels.keys()) for (const coordinate of captionSpans.get(token) ?? []) used.add(coordinate)
-    const strokes = new Set([...found.path].map(coordinate => { const [col, row] = coordinate.split(',').map(Number); const glyph = cell(col!, row!); return /[┄┈╌┆┊╎]/.test(glyph) ? 'dotted' : /[━┃]/.test(glyph) ? 'thick' : /[─│|-]/.test(glyph) ? 'solid' : undefined }).filter(Boolean))
-    if (strokes.size > 1) return verdict('unknown', 'Mixed line strokes have no qualified style ownership', actual)
-    const stroke = [...strokes][0]
-    actual.push({ source: found.source.id, target: target.id, ...(found.labels.size ? { label: [...found.labels.values()][0]! } : {}), ...(stroke && stroke !== 'solid' ? { stroke } : {}), ...(special.get(key(x, y))?.directed === false ? { directed: false } : {}), ...(special.get(key(x, y))?.endMarker ? { endMarker: special.get(key(x, y))!.endMarker } : {}), route: [{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })] })
-    paths.push([{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })])
+    // A tree with one target head and distinct independently contacted sources
+    // is an unambiguous merge. A component with multiple sources AND target
+    // heads still cannot choose pairings from expected edges. Repeated paths
+    // to one source and cycles likewise retain their ambiguity.
+    if (cycle || sources.length > 1 && (otherHeads.size || new Set(sources.map(found => found.source.id)).size !== sources.length)) return verdict('unknown', 'Junction, crossing or cycle has ambiguous source ownership', actual)
+    if (!sources.length && unqualifiedGroupPort) return verdict('unknown', 'Group border has no qualified source endpoint or pass-through projection', actual)
+    if (!sources.length) return verdict('incorrect', 'Arrow stem is disconnected from its source node', actual)
+    for (const found of sources) {
+      if (!found.source.id || found.labels.size > 1) return verdict('unknown', 'Source or relationship label ownership is ambiguous', actual)
+      for (const coordinate of found.path) used.add(coordinate)
+      for (const token of found.labels.keys()) for (const coordinate of captionSpans.get(token) ?? []) used.add(coordinate)
+      const strokes = new Set([...found.path].map(coordinate => { const [col, row] = coordinate.split(',').map(Number); const glyph = cell(col!, row!); return /[┄┈╌┆┊╎]/.test(glyph) ? 'dotted' : /[━┃]/.test(glyph) ? 'thick' : /[─│|-]/.test(glyph) ? 'solid' : undefined }).filter(Boolean))
+      if (strokes.size > 1) return verdict('unknown', 'Mixed line strokes have no qualified style ownership', actual)
+      const stroke = [...strokes][0]
+      actual.push({ source: found.source.id, target: target.id, ...(found.labels.size ? { label: [...found.labels.values()][0]! } : {}), ...(stroke && stroke !== 'solid' ? { stroke } : {}), ...(special.get(key(x, y))?.directed === false ? { directed: false } : {}), ...(special.get(key(x, y))?.endMarker ? { endMarker: special.get(key(x, y))!.endMarker } : {}), route: [{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })] })
+      paths.push([{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })])
+    }
   }
   for (const caption of floating) {
     const midpoint = caption.x + (caption.width - 1) / 2

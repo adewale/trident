@@ -61,7 +61,10 @@ test('shared stems require one actual source and cannot borrow expected topology
   expect(inspectTerminalMeaning(drawing, expected).status).toBe('correct')
   expect(inspectTerminalMeaning(drawing.replace('╰►', '╰◄'), expected).status).toBe('incorrect')
   expect(inspectTerminalMeaning(drawing.replace('├──┬►', '├  ┬►'), expected).status).toBe('incorrect')
-  expect(inspectTerminalMeaning(drawing.replace('┬►', '┬─'), expected).status).toBe('unknown')
+  // Removing the Beta head leaves Alpha and Beta as two independently contacted
+  // sources into Gamma. The single-target merge is inspectable and differs
+  // from the authored two-target fanout; expected edges cannot restore the head.
+  expect(inspectTerminalMeaning(drawing.replace('┬►', '┬─'), expected).status).toBe('incorrect')
 })
 test('floating captions containing arrow-like letters retain owned-label and layout requirements', () => {
   const expected = { nodes: nodes.slice(0, 2), edges: [{ source: 'Alpha', target: 'Beta', label: 'save' }] }, drawing = fixture('termaid-labelled').replace('send', 'save')

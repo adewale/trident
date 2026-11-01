@@ -1,4 +1,7 @@
 import { createHash } from 'node:crypto'
+import { InvocationJournal } from '../portable/invocation-journal.ts'
+import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
+import { bindTerminalAdaptationInvocation } from './terminal-adaptation-invocation.ts'
 import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
@@ -13,6 +16,7 @@ import { terminalSourceInterpretationHold } from '../fidelity/terminal-source-ho
 import { communityModuleOutputSupported, runCommunityCli, runCommunityNodeRound, verifyProvidedCommunityArtifact } from './community.ts'
 import { verifyReleaseCli } from './release-cli.ts'
 import { runExternalCommunity } from './community-external.ts'
+import { communityCliBinding, communityCliRequest } from './community-cli-request.ts'
 import type { PreparedCommunity } from './community-types.ts'
 import type { BenchmarkObservation, UnifiedRunOptions, UnifiedWorkload } from './types.ts'
 import { protocolIdentity } from './protocol-identity.ts'
@@ -27,6 +31,33 @@ const invocationObserved = (row?: BenchmarkObservation) => !!row && row.metrics?
 const ready = (input: TerminalProjectCase) => !terminalSourceInterpretationHold(input) && input.intent !== 'invalid' && input.expected.status === 'independently-reviewed' && !input.expected.unverifiedFacts?.length && (input.expected.contract ? terminalSourceObservable(input.expected.contract, input.expected.graph) : input.family === 'flowchart' && !!input.expected.graph)
 export const terminalProfileId = terminalActiveProfileId
 export const terminalLegacyProfileId = terminalOriginalProfileId
+
+/** This release prints a precise public parser diagnostic rather than exposing
+ * an exception type. Bind its narrow decoder to the actual frozen executable,
+ * stdin binding and durable completed call; a CLI exit alone is never typed
+ * rejection. The ordinary rejection assessor decides whether an unknown-family
+ * result answers the independently invalid control (unsupported pie/Gitgraph
+ * syntax receives no grammar credit).
+ * Source: AlexanderGrooff/mermaid-ascii@5f00e3d9ac9fc96a19859d502333e35b87d2ffea,
+ * pkg/graph/parse.go:526-529 and cmd/root.go:73-79. */
+export function terminalCliSourceOutcome(peer: PreparedCommunity, workload: UnifiedWorkload, row: BenchmarkObservation, out: string) {
+  if (workload.intent !== 'negative-admission' || row.format !== 'terminal' || peer.artifact?.kind !== 'cli' || typeof row.metrics?.rawInvocationDirectory !== 'string' || typeof row.metrics?.rawInvocationId !== 'string') return undefined
+  const artifact = peer.artifact, journal = new InvocationJournal(row.metrics.rawInvocationDirectory), frame = journal.outcome(row.metrics.rawInvocationId)
+  if (!frame || !frame.finishedAt || frame.identity.project !== peer.node.id || frame.identity.caseId !== workload.id || frame.identity.sourceSha256 !== evidenceBytesDigest(workload.source) || frame.identity.artifactSha256 !== artifact.sha256 || frame.identity.format !== 'terminal' || frame.identity.bindingSha256 !== communityCliBinding(artifact.executable!, 'terminal', communityCliRequest(artifact, 'terminal', out))) return undefined
+  bindTerminalAdaptationInvocation(journal.records().filter(record => record.attemptId === frame.attemptId), frame.attemptId, frame.identity)
+  const observerSha256 = evidenceBytesDigest(readFileSync(import.meta.filename)), base = { project: peer.node.id, caseId: workload.id, sourceSha256: frame.identity.sourceSha256, publicBoundary: 'Frozen public CLI stdin → completed command outcome', observerSha256, measuredAt: frame.finishedAt }
+  if (frame.state === 'returned') return { ...base, kind: 'accepted' as const, detail: 'Actual public CLI returned successfully for independently invalid source' }
+  if (frame.state !== 'public-error' || peer.node.id !== ascii || artifact.version !== '1.6.1' || artifact.sha256 !== 'e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8' || !frame.streams) return undefined
+  // records() authenticates every retained stream before its contents classify
+  // this exact call. Reject extra lines, transport diagnostics and generic errors.
+  if (frame.streams.stdout.bytes !== 0) return undefined
+  const stderr = readFileSync(frame.streams.stderr.path, 'utf8'), logged = /^time="[^"\r\n]+" level=fatal msg=("(?:[^"\\\r\n]|\\.)*")\r?\n?$/.exec(stderr)
+  if (!logged) return undefined
+  let detail: string
+  try { detail = JSON.parse(logged[1]!) } catch { return undefined }
+  if (!/^failed to parse graph diagram: unsupported graph type '[^\r\n]+'. Supported types: 'graph' or 'flowchart' with an optional direction \(TD, TB, BT, LR, RL\)$/.test(detail)) return undefined
+  return { ...base, kind: 'unknown-family' as const, detail }
+}
 
 /** A collection interval is not a per-call clock. Retained legacy cases without
  * their own timestamp remain null when regraded. */
@@ -55,6 +86,10 @@ export async function collectTerminalWorkloads(prepared: PreparedCommunity[], wo
         : ['node', 'global', 'franken'].includes(kind ?? '') && nodeTerminal ? await runCommunityNodeRound(peer, 'terminal', workloads, 1, options)
           : kind === 'cli' ? workloads.map(input => runCommunityCli(peer, 'terminal', input, 1, options.out))
             : workloads.map(input => ({ suite: 'community', surface: 'public:terminal', runtime: 'not-invoked', family: input.family, caseId: input.id, operation: 'capability', format: 'terminal', mode: 'capability', status: 'blocked', detail: peer.error ?? 'No reviewed terminal transport for this frozen artifact; no renderer invocation or failure is inferred.', metrics: { implementation: peer.node.id, failureStage: 'transport' } }) as BenchmarkObservation)
+    for (const row of rows) {
+      const workload = workloads.find(input => input.id === row.caseId), typed = workload && terminalCliSourceOutcome(peer, workload, row, options.out)
+      if (typed) row.metrics = { ...row.metrics, typedSourceOutcome: JSON.stringify(typed), measuredAt: typed.measuredAt }
+    }
     results.push({ peer, rows })
   }
   return results
@@ -166,7 +201,7 @@ export async function runTerminalProfile(argv: string[]) {
     const startedAt = new Date().toISOString(), sourceReference = await collectTerminalSourceReference(cases)
     mkdirSync(out, { recursive: true })
     const targets = cases
-    const workloads = targets.map(input => ({ id: input.id, family: input.family, source: input.source, expectedLabels: input.expected.graph?.nodes.map(node => node.label) ?? [], features: ['terminal-project-example', 'retain-output-witness', ...(input.features.includes('expected-empty-drawing') ? ['expected-empty-drawing'] : [])], provenance: input.origins.map(origin => origin.url).join('; ') }))
+    const workloads = targets.map(input => ({ id: input.id, family: input.family, source: input.source, ...(input.intent === 'invalid' ? { intent: 'negative-admission' as const } : {}), expectedLabels: input.expected.graph?.nodes.map(node => node.label) ?? [], features: ['terminal-project-example', 'retain-output-witness', ...(input.features.includes('expected-empty-drawing') ? ['expected-empty-drawing'] : [])], provenance: input.origins.map(origin => origin.url).join('; ') }))
     const outputs: any[] = [], transportObservations: BenchmarkObservation[] = []
     const collected = await collectTerminalWorkloads(selected, workloads, { root: tridentDirectory, harnessRoot: tridentDirectory, out, profile: 'full', rounds: 1, communityCoverageOnce: true })
     for (const { peer, rows: raw } of collected) {

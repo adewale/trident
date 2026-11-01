@@ -29,8 +29,18 @@ export function inspectTerminalGraphFacts(output: string, contract: TerminalSour
   if (graph.nodes.length && boxes.length === graph.nodes.length && graph.nodes.every(node => owned(node.id).length === 1)) set('nodes', 'passed', 'The exact node multiset has one independently observed closed container per authored identity', boxes.map(box => box.lines))
   const verdict = inspectTerminalMeaning(output, graph, { primitiveShapes: contract.facts.some(fact => fact.criterion === 'node-shapes') })
   if (verdict.status === 'correct') for (const criterion of ['nodes', 'relationships', 'layout-order']) set(criterion, 'passed', verdict.reason, criterion === 'relationships' ? verdict.edges : undefined)
-  else if (verdict.status === 'incorrect') set(/node labelled/.test(verdict.reason) ? 'nodes' : /node order/.test(verdict.reason) ? 'layout-order' : 'relationships', 'failed', verdict.reason, verdict.edges)
+  else if (verdict.status === 'incorrect') set(/node labelled|node inventory|node line breaks/.test(verdict.reason) ? 'nodes' : /node order/.test(verdict.reason) ? 'layout-order' : 'relationships', 'failed', verdict.reason, verdict.edges)
   else for (const criterion of ['relationships', 'layout-order']) set(criterion, 'unknown', verdict.reason)
+  // Ordering is an independent geometric obligation. An ambiguous wire cannot
+  // erase a directly observed wrong node order, nor is connectivity needed to
+  // measure the centres of uniquely owned containers.
+  if (graph.layout?.length && graph.layout.every(item => ['x', 'y'].includes(item.axis) && owned(item.before).length === 1 && owned(item.after).length === 1)) {
+    const actual = graph.layout.map(item => {
+      const before = owned(item.before)[0]!, after = owned(item.after)[0]!, centre = (box: typeof before) => item.axis === 'x' ? (box.x + box.right) / 2 : (box.y + box.bottom) / 2
+      return { ...item, beforeCoordinate: centre(before), afterCoordinate: centre(after) }
+    })
+    set('layout-order', actual.every(item => item.beforeCoordinate < item.afterCoordinate) ? 'passed' : 'failed', 'Source-declared order is measured from unique owned container centres independently of relationship tracing', actual)
+  }
   const shapes = contract.facts.find(fact => fact.criterion === 'node-shapes')?.expected as { id: string; shape: string }[] | undefined
   if (shapes?.length && shapes.every(item => owned(item.id).length === 1)) {
     const actual = shapes.map(item => ({ id: item.id, shape: owned(item.id)[0]!.shape })), unknown = actual.some(item => item.shape?.startsWith('unqualified-')), mismatch = actual.some((item, n) => !item.shape?.startsWith('unqualified-') && item.shape !== shapes[n]!.shape)
