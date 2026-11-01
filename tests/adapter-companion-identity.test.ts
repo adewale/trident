@@ -59,3 +59,20 @@ test('bundled nested modules are sealed even without a dependency declaration', 
     expect(() => verifyProvidedCommunityArtifact(artifact)).toThrow('Installed package closure changed')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
+
+test('hoisted dependencies cannot hide executable bundled payload behind unchanged entry bytes', () => {
+  const prefix = mkdtempSync(join(tmpdir(), 'trident-hoisted-bundle-'))
+  try {
+    const root = join(prefix, 'node_modules/renderer'), dependency = join(prefix, 'node_modules/dependency'), privateRoot = join(dependency, 'node_modules/private')
+    mkdirSync(root, { recursive: true }); mkdirSync(privateRoot, { recursive: true })
+    writeFileSync(join(root, 'package.json'), '{"name":"renderer","version":"1.0.0","dependencies":{"dependency":"1.0.0"}}')
+    writeFileSync(join(dependency, 'package.json'), '{"name":"dependency","version":"1.0.0","bundledDependencies":["private"]}')
+    writeFileSync(join(dependency, 'index.mjs'), 'export { value } from "./node_modules/private/index.mjs"')
+    const entry = 'export { value } from "dependency"', module = join(root, 'index.mjs'), bundled = join(privateRoot, 'index.mjs')
+    writeFileSync(module, entry); writeFileSync(bundled, 'export const value = 1')
+    const artifact: any = { kind: 'node', root, module, version: '1.0.0', sha256: createHash('sha256').update(entry).digest('hex'), installedClosureSha256: evidenceDigest(adapterCompanionIdentity(root)) }
+    expect(() => verifyProvidedCommunityArtifact(artifact)).not.toThrow()
+    writeFileSync(bundled, 'export const value = 2')
+    expect(() => verifyProvidedCommunityArtifact(artifact)).toThrow('Installed package closure changed')
+  } finally { rmSync(prefix, { recursive: true, force: true }) }
+})

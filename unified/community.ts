@@ -109,7 +109,9 @@ export function adapterCompanionIdentity(root: string) {
     if (entry.isSymbolicLink()) throw Error('Adapter companion payload has an unreviewed symlink: ' + path)
     return entry.isDirectory() ? visit(path) : entry.isFile() ? [{ path, sha256: artifactDigest(path) }] : []
   })
-  return { files: visit(root), dependencies: captureInstalledDependencyClosure(root) }
+  const dependencies = captureInstalledDependencyClosure(root)
+  const files = new Map([root, ...dependencies.nodes.map(node => node.realRoot)].flatMap(visit).map(file => [file.path, file]))
+  return { files: [...files.values()].sort((a, b) => a.path.localeCompare(b.path)), dependencies }
 }
 
 async function npmArtifact(node: CommunityNode, cache: string, pinned = false, candidate?: NpmCandidate): Promise<CommunityArtifact> {
