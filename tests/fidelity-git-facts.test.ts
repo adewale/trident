@@ -84,8 +84,12 @@ test('authored tag paint rejects contrary values and unsupported cherry semantic
   expect(status(await inspect(301), 'authored-config')).toBe('unavailable')
 })
 
-test('cherry-pick origin and selected parent require an owned visible annotation and physical provenance route', async () => {
-  for (const text of ['cherry-pick:MERGE|parent:ONE', 'cherry-pick:TWO|parent:B']) expect(status(await inspect(276, `const e=[...document.querySelectorAll('text')].find(e=>e.textContent?.startsWith('cherry-pick:'));e.textContent=${JSON.stringify(text)}`), 'commits')).toBe('failed')
+test('cherry-pick preserves visible copy origin and provenance while selected diff-base captions remain advisory', async () => {
+  // The reviewed contract keeps selected merge parent exact in native input;
+  // the drawing must still prove the cherry glyph, copy origin and DAG routes.
+  const caption = (text: string) => `const e=[...document.querySelectorAll('text')].find(e=>e.textContent?.startsWith('cherry-pick:'));e.textContent=${JSON.stringify(text)}`
+  expect(status(await inspect(276, caption('cherry-pick:MERGE|parent:ONE')), 'commits')).toBe('passed')
+  expect(status(await inspect(276, caption('cherry-pick:TWO|parent:B')), 'commits')).toBe('failed')
   expect(status(await inspect(276, `[...document.querySelectorAll('text')].find(e=>e.textContent?.startsWith('cherry-pick:')).textContent='MERGE'`), 'commits')).toBe('unavailable')
   expect(status(await inspect(276, `for(const e of document.querySelectorAll('circle'))if(e.getAttribute('r')==='2.75')e.remove()`), 'commits')).not.toBe('passed')
 })
