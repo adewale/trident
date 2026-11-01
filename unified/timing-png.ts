@@ -43,7 +43,7 @@ export async function runPngExportTiming(options: Options) {
   const admissions = admitDocsReviews(cases, reviews)
   if (admissions.some(input => !input.sourceAdmission?.matched)) throw Error('Documentation source admission did not match')
   const prepared = JSON.parse(readFileSync(options.preparedFile, 'utf8')) as PreparedCommunityBrowser[], peer = prepared.find(peer => peer.node.id === 'mermaid-js/mermaid')!
-  if (!peer?.browser || peer.browserStatus !== 'prepared' || peer.browser.zenuml) throw Error('Frozen ordinary Mermaid browser engine required')
+  if (!peer?.browser || peer.browserStatus !== 'prepared') throw Error('Frozen ordinary Mermaid browser engine required')
   const engine = admitPreparedFidelityEngine(peer), native = admitNativeLaunch(options.nativeLaunch), executable = defaultChromium(chromium)
   const prerequisiteBytes = readFileSync(options.prerequisites), originals = JSON.parse(prerequisiteBytes.toString()) as { project: string; input: DocsInput; sourceReview: DocsDrawingReview; review: DocsPngReview }[]
   const imageReviews = originals.map(row => bindPngReviewPixels(row.input, row.sourceReview, row.review, Buffer.from(row.review.reviewedPngBase64!, 'base64')))

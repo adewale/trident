@@ -24,7 +24,7 @@ serveQualifiedTimingProcess(async source => {
   if (evidenceBytesDigest(source) !== settings.sourceSha256) throw Error('Actual export request differs from the frozen source')
   let bytes: Buffer
   if (settings.kind === 'browser') {
-    server = docsArtifactServer(settings.engine.root)
+    server = docsArtifactServer(settings.engine.root, settings.engine.zenuml)
     await new Promise<void>(done => server!.listen(0, '127.0.0.1', done))
     const origin = 'http://127.0.0.1:' + (server.address() as { port: number }).port
     browser = await chromium.launch({ headless: true, executablePath: settings.executable, timeout: 20_000 })
