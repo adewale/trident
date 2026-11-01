@@ -653,11 +653,21 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
         if (measured > Math.max(2,clearance) && approach && approach.extent > 0 && measured <= approach.extent + Math.max(.75,approach.extent*.05)) {
           const contact = (node.outlines ?? [node.shape]).flatMap(pointsOn).map(other => { const x = other.x-point.x,y=other.y-point.y;return { point: other,along: x*approach.direction.x+y*approach.direction.y,across: Math.abs(x*approach.direction.y-y*approach.direction.x) } }).filter(item => item.along >= 0 && item.along <= approach.extent && item.across <= Math.max(.75,approach.extent*.05)).sort((a,b)=>a.along-b.along)[0]
           if (contact) {
-            const segment=Array.from({length:15},(_,i)=>({x:point.x+(contact.point.x-point.x)*(i+1)/16,y:point.y+(contact.point.y-point.y)*(i+1)/16}))
+            // Prove the entire approach segment clear. Discrete probes can
+            // miss a subpixel foreign carrier between the head and its node.
+            const intersects = (box: Box) => {
+              let from=0,to=1
+              for (const axis of ['x','y'] as const) { const delta=contact.point[axis]-point[axis],minimum=box[axis],maximum=minimum+(axis==='x'?box.width:box.height);if(Math.abs(delta)<1e-12){if(point[axis]<minimum||point[axis]>maximum)return false}else{const a=(minimum-point[axis])/delta,b=(maximum-point[axis])/delta;from=Math.max(from,Math.min(a,b));to=Math.min(to,Math.max(a,b));if(from>to)return false} }
+              return true
+            }
             const intervening=[...svg.querySelectorAll('rect,circle,ellipse,polygon,path,image,use,foreignObject')].some(element=>{
-              if ((node.outlines??[node.shape]).includes(element)||!visible(element)||contains(rect(element),node.box,0)||!segment.some(p=>contains(rect(element),{...p,width:0,height:0},0))) return false
+              if ((node.outlines??[node.shape]).includes(element)||!visible(element)||contains(rect(element),node.box,.25)||!intersects(rect(element))) return false
               if (['image','use','foreignObject'].includes(element.localName)) return true
-              const style=getComputedStyle(element),shape=element as SVGGeometryElement,matrix=shape.getScreenCTM();return colorAlpha(style.fill)!==0&&Number(style.fillOpacity)>0&&matrix&&segment.some(p=>shape.isPointInFill(new DOMPoint(p.x,p.y).matrixTransform(matrix.inverse())))
+              const style=getComputedStyle(element)
+              // A foreign curved/polygon body whose enclosing rectangle
+              // intersects is conservatively unqualified; its fill cannot be
+              // declared absent from a few point samples.
+              return colorAlpha(style.fill)!==0&&Number(style.fillOpacity)>0
             })
             if (!intervening) measured = 0
           }
