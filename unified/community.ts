@@ -100,11 +100,11 @@ async function sourceCandidateArtifact(node: CommunityNode, cache: string, candi
       : await (await import('./community-extra-source.ts')).prepareExtraCommunitySource({ ...node, head: candidate.revision, benchmark: { ...node.benchmark!, sourcePin: candidate.revision } }, root, candidate.remote)
   return { ...artifact, candidate: { revision: candidate.revision, remote: candidate.remote } }
 }
-/** Seal a companion's own published files as well as its dependencies. The
- * dependency observer intentionally leaves the root payload to its caller. */
+/** Seal all physical shipped payload, including bundled nested modules, plus
+ * resolved declared dependencies. Unreviewed payload symlinks fail closed. */
 export function adapterCompanionIdentity(root: string) {
   const visit = (directory: string): { path: string; sha256: string }[] => readdirSync(directory, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name)).flatMap(entry => {
-    if (['node_modules', '.git'].includes(entry.name)) return []
+    if (entry.name === '.git') return []
     const path = join(directory, entry.name)
     if (entry.isSymbolicLink()) throw Error('Adapter companion payload has an unreviewed symlink: ' + path)
     return entry.isDirectory() ? visit(path) : entry.isFile() ? [{ path, sha256: artifactDigest(path) }] : []

@@ -42,3 +42,20 @@ test('an unchanged entry cannot hide a changed imported module or installed depe
     expect(() => verifyProvidedCommunityArtifact(artifact)).toThrow('Installed package closure changed')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
+
+test('bundled nested modules are sealed even without a dependency declaration', () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-bundled-runtime-'))
+  try {
+    const module = join(root, 'index.mjs'), privateRoot = join(root, 'node_modules/private')
+    mkdirSync(privateRoot, { recursive: true })
+    writeFileSync(join(root, 'package.json'), '{"name":"fixture-bundled","version":"1.0.0","bundledDependencies":["private"]}')
+    const entry = 'export { value } from "./node_modules/private/index.mjs"'
+    writeFileSync(module, entry)
+    const imported = join(privateRoot, 'index.mjs')
+    writeFileSync(imported, 'export const value = 1')
+    const artifact: any = { kind: 'node', root, module, version: '1.0.0', sha256: createHash('sha256').update(entry).digest('hex'), installedClosureSha256: evidenceDigest(adapterCompanionIdentity(root)) }
+    expect(() => verifyProvidedCommunityArtifact(artifact)).not.toThrow()
+    writeFileSync(imported, 'export const value = 2')
+    expect(() => verifyProvidedCommunityArtifact(artifact)).toThrow('Installed package closure changed')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
