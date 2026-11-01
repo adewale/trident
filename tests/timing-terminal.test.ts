@@ -31,3 +31,11 @@ test('a blocked CLI is killed within the binding timeout and retains an error ou
  const stream=r.events.find(e=>e.schema==='trident-terminal-cli-streams-v1');expect(stream.error).toBeTruthy();expect(stream.status).not.toBe(0)
  expect(()=>process.kill(stream.pid,0)).toThrow()
 })
+
+test('a CLI that ignores SIGTERM cannot escape its owned process deadline',async()=>{
+ const start=performance.now(),r=await call(`process.on('SIGTERM',()=>{});setTimeout(()=>process.stdout.write('late'),5000);`,'source',200)
+ expect(performance.now()-start).toBeLessThan(4000)
+ expect(r.result.schema).toBe('trident-qualified-timing-error-v1')
+ const stream=r.events.find(e=>e.schema==='trident-terminal-cli-streams-v1');expect(stream.signal).toBe('SIGKILL');expect(stream.status).not.toBe(0)
+ expect(()=>process.kill(stream.pid,0)).toThrow()
+})
