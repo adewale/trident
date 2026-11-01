@@ -20,12 +20,22 @@ test('CI runs deterministic checks, help, support and a no-acquisition campaign 
 
 test('CI still rejects measurement, artifact acquisition and the local full suite before creating output', () => {
   for (const indicators of [{ CI: 'true', GITHUB_ACTIONS: 'true' }, { CI: 'false', GITHUB_ACTIONS: 'true' }]) {
-    for (const args of [['bench', '--projects', 'mermaid-js/mermaid'], ['community:update', '--projects', 'mermaid-js/mermaid', '--plan'], ['mermaid:install', '--dir'], ['upstream:prepare'], ['portable'], ['timing:browser'], ['docs:png'], ['test']]) {
+    for (const args of [['bench', '--projects', 'mermaid-js/mermaid'], ['community:update', '--projects', 'mermaid-js/mermaid', '--plan'], ['mermaid:install', '--dir'], ['upstream:prepare'], ['portable'], ['timing:browser'], ['timing:terminal'], ['timing:png'], ['test']]) {
       const out = join(temp.dir(), 'must-not-exist')
       const result = run(args.includes('--dir') ? [...args, out] : [...args, '--out', out], indicators)
       expect(result.status).not.toBe(0)
       expect(result.stderr).toContain('excluded from CI')
       expect(existsSync(out)).toBe(false)
     }
+  }
+})
+
+test('the retired PNG collector gives migration guidance without admitting benchmark work', () => {
+  for (const args of [['docs:png'], ['docs:png', '--help']]) {
+    const result = run(args)
+    expect(result.status).toBe(args.includes('--help') ? 0 : 2)
+    expect(result.stderr).toBe('')
+    expect(result.stdout).toContain('standalone PNG collector is retired')
+    expect(result.stdout).toContain('bench --suites docs --docs-formats png')
   }
 })
