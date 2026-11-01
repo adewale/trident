@@ -1005,6 +1005,8 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
           const sourceGraphicStroke = (element: Element) => { for (let parent: Element | null = element; parent; parent = parent.parentElement) { const filter = getComputedStyle(parent).filter; if (filter !== 'none' && !/^drop-shadow\((?:rgba?\([^)]*\)|[^()])*\)$/.test(filter) && !(/^url\(["']?#([^\s"')]+)["']?\)$/.test(filter) && evidence.get('paint-opacity-and-color')?.status === 'passed')) return false; if (parent === svg) break }; return true }
           const overpaint = layers.filter(layer => layer.element !== shape && !known.has(layer.element as SVGGeometryElement) && !!(shape.compareDocumentPosition(layer.element) & Node.DOCUMENT_POSITION_FOLLOWING) && layer.stroke?.[3] === 255 && layer.strokeOpacity >= .999 && layer.width > 0 && layer.matrix && layer.element instanceof SVGGeometryElement).filter(layer => {
             if (same(stroke, layer.stroke) && Math.abs(strokeWidth - layer.width) < .1 && !!matrix && (['a','b','c','d'] as const).every(key => Math.abs(matrix[key] - layer.matrix![key]) < 1e-8) && getComputedStyle(layer.element).vectorEffect === css.vectorEffect && Math.abs((layers.find(item => item.element === shape)?.strokeOpacity ?? 0) - layer.strokeOpacity) < 1 / 255 && sourceGraphicStroke(shape) && sourceGraphicStroke(layer.element)) return false
+            const padding = layer.width / 2 * Math.hypot(layer.matrix!.a, layer.matrix!.b, layer.matrix!.c, layer.matrix!.d), b = layer.box
+            if (!points.some(point => point.x >= b.x - padding && point.x <= b.x + b.width + padding && point.y >= b.y - padding && point.y <= b.y + b.height + padding && (getComputedStyle(layer.element).vectorEffect !== 'none' || (layer.element as SVGGeometryElement).isPointInStroke(new DOMPoint(point.x, point.y).matrixTransform(layer.matrix!.inverse()))))) return false
             // A C4 connector may be painted after its endpoint body. Admit
             // only the complete independently source-qualified measured stem,
             // and only its tiny contact with this particular owned contour.
@@ -1017,8 +1019,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
                 if (touched.length && touched.every(point => distance(point, endpoint) <= contact)) return false
               }
             }
-            const padding = layer.width / 2 * Math.hypot(layer.matrix!.a, layer.matrix!.b, layer.matrix!.c, layer.matrix!.d), b = layer.box
-            return points.some(point => point.x >= b.x - padding && point.x <= b.x + b.width + padding && point.y >= b.y - padding && point.y <= b.y + b.height + padding && (getComputedStyle(layer.element).vectorEffect !== 'none' || (layer.element as SVGGeometryElement).isPointInStroke(new DOMPoint(point.x, point.y).matrixTransform(layer.matrix!.inverse()))))
+            return true
           })
           if (overpaint.length) coveredParts.push({ part: { tag: shape.localName, box: box(shape) }, opaqueStrokeCovers: overpaint.map(layer => ({ tag: layer.element.localName, box: layer.box })) })
         }
