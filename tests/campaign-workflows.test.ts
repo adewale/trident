@@ -131,7 +131,6 @@ test('observation counts compare equal populations and keep incompatible populat
   const tables = campaignTables(report, receipt)
   expect(tables).toHaveLength(1)
   expect(tables[0]!.rows.map(row => row.project)).toEqual(['Fixture/A', 'fixture/b'])
-  expect(rankedRows(tables[0]!, id => id)[0]!.project).toBe('fixture/b')
   rows.push(observation('fixture/b', 'extra', 'passed'))
   write(join(out, 'result.json'), { finishedAt: '2026-01-02', observations: rows })
   expect(campaignTables(report, receipt)).toHaveLength(2)

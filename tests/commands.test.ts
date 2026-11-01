@@ -5,7 +5,8 @@ import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/me
 
 const command = resolve(import.meta.dir, '../commands.ts')
 const help = (args: string[]) => spawnSync(process.execPath, [command, ...args], {
-  encoding: 'utf8', timeout: 10_000,
+  // Match the existing CI subprocess budget; help loads cold Bun modules, not a renderer.
+  encoding: 'utf8', timeout: 20_000,
   env: { ...process.env, TRIDENT_AGENTIC_ROOT: '/missing/product-checkout', MERMAID_REFERENCE_DIR: '/missing/oracle', TRIDENT_MERMAID_ORACLE: '' },
 })
 
