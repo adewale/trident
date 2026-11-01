@@ -189,7 +189,10 @@ export async function recheckRendering(directory: string, out: string, pngReview
   const observerSha256 = evidenceDigest({ producers: producer.producers, browser: producer.browser, environment: producer.environment, fontReadiness: producer.fontReadiness, resourceManifestSha256: assets.manifestSha256, resourcePolicy: assets.policy })
   cpSync(directory, out, { recursive: true, dereference: false, filter: path => path !== join(directory, 'recheck-receipt.json') && !['node_modules', '.git'].includes(path.split('/').at(-1)!) })
   const priorReceipt = join(directory, 'recheck-receipt.json')
-  if (existsSync(priorReceipt)) write(join(out, 'recheck-history/receipts', hash(readFileSync(priorReceipt)) + '.json'), read(priorReceipt))
+  if (existsSync(priorReceipt)) {
+    const retainedReceipt = join(out, 'recheck-history/receipts', hash(readFileSync(priorReceipt)) + '.json')
+    mkdirSync(dirname(retainedReceipt), { recursive: true }); cpSync(priorReceipt, retainedReceipt)
+  }
   const remap = (path: string) => retainedPath(directory, out, aliases, path)
   const gradingFile = 'recheck-history/gradings/' + gradingSha256 + '.json'
   if (existsSync(join(directory, 'recheck-grading.json'))) {

@@ -411,11 +411,13 @@ test('the real archive regrader reuses retained SVGs across contract enrichment 
     expect(evidenceBytesDigest(readFileSync(join(again, 'fidelity/result.collected.json')))).toBe(collectedResult)
     expect(evidenceBytesDigest(readFileSync(join(again, 'report.collected.json')))).toBe(collectedReport)
     for (const original of originals) expect(evidenceBytesDigest(readFileSync(join(collected, original.path)))).toBe(original.sha256)
+    writeFileSync(join(again, 'recheck-receipt.json'), JSON.stringify(JSON.parse(readFileSync(join(again, 'recheck-receipt.json'), 'utf8')), null, 2))
     const rejected = join(root, 'rejected'), editedInventory = JSON.parse(readFileSync(join(again, 'docs/inventory.json'), 'utf8'))
     editedInventory.drawingReview.sha256 = 'different-png-source-facts'
     save(join(again, 'docs/inventory.json'), editedInventory)
     await expect(recheckRendering(again, rejected, undefined, chromiumExecutable, undefined, ['svg'])).rejects.toThrow('Unselected format')
     expect(existsSync(join(rejected, 'recheck-receipt.json'))).toBe(false)
     expect(existsSync(join(rejected, 'recheck-history/receipts', evidenceBytesDigest(readFileSync(join(again, 'recheck-receipt.json'))) + '.json'))).toBe(true)
+    expect(readFileSync(join(rejected, 'recheck-history/receipts', evidenceBytesDigest(readFileSync(join(again, 'recheck-receipt.json'))) + '.json'))).toEqual(readFileSync(join(again, 'recheck-receipt.json')))
   } finally { rmSync(root, { recursive: true, force: true }) }
 }, 30_000)
