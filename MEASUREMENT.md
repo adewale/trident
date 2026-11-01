@@ -4,7 +4,7 @@ A comparable time requires a complete correctness verdict for **every actual
 measured output**, not just a successful first render. The frozen plan names the
 source contracts, artifact and binding identities, runtime, output format,
 public-call boundary, cache/prelude policy and sampling population. See
-[benchmark definitions](BENCHMARKS.md) and [release prerequisites](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/RELEASE.md).
+[benchmark definitions](BENCHMARKS.md) and [release prerequisites](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/RELEASE.md).
 
 The strict timing reducer requires the exhaustive durable invocation journal,
 matching causal start/return pairs, actual API and controller clocks, retained

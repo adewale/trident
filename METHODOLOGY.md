@@ -21,7 +21,7 @@ and model APIs have their own contracts and cannot provide missing painted facts
 or improve an SVG score. Product-specific source, editor and release-policy work
 belongs in its owning project.
 
-The reference installation is pinned by [tool-versions.json](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/tool-versions.json).
+The reference installation is pinned by [tool-versions.json](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/tool-versions.json).
 Published artifacts and original-source test runtimes retain distinct identities.
 Changing a source lockfile or dependency closure requires a new prepared runtime;
 an existing receipt does not become current by changing its label.
@@ -90,6 +90,6 @@ Do not grade a new contract against an old boolean or borrow another call's imag
 Publish stack-ranked tables only within compatible metric, corpus, interface and
 runtime groups. Keep every failure, unsupported input, unknown and unrun cell
 visible. Large evidence belongs in immutable archives linked from the results
-index. The [baseline](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/BASELINE.md) and [release process](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/RELEASE.md) define the
+index. The [baseline](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/BASELINE.md) and [release process](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/RELEASE.md) define the
 bounded harness check and packaging gates; they do not require repeating the
 whole ecosystem after each change.

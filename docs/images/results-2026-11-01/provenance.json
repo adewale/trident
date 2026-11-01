@@ -1,0 +1,38 @@
+[
+  {
+    "project": "mermaid-js/mermaid",
+    "version": "12.2.0",
+    "caseId": "packages/mermaid/src/docs/syntax/classDiagram.md:362",
+    "sourceSha256": "bc06236e060fb61456347036418cc597f4128e50a624a8e20969c204aa0e7b45",
+    "outputSha256": "8f0a634b69edfc7813c4ab7a5965062a7796373444be1aa89951ba4c88d43973",
+    "capturedAt": "2026-11-01T16:07:21.257Z",
+    "status": "correct",
+    "reason": "Actual PNG shows foo as the sole class box and bar as a labeled hollow-circle lollipop attached by one solid unarrowed stem. Both labels and the source-owned interface/class distinction are visible, with no extra class body for bar.",
+    "reviewedBy": "OpenAI Codex offline visual source review, 2026-10-31",
+    "file": "mermaid-class-interface.png"
+  },
+  {
+    "project": "pub:mermaid_flutter",
+    "version": "0.3.2",
+    "caseId": "packages/mermaid/src/docs/syntax/classDiagram.md:362",
+    "sourceSha256": "bc06236e060fb61456347036418cc597f4128e50a624a8e20969c204aa0e7b45",
+    "outputSha256": "dde3c58088204033db89817a8d7001badb425740a2d54ba8d47bbe9012f02ad5",
+    "capturedAt": "2026-11-01T17:34:26.599415Z",
+    "status": "incorrect",
+    "reason": "Actual native PNG invents a full bar class box instead of the declared lollipop interface. The source requires bar as a circle-only interface instance attached to foo, not another class with member compartments.",
+    "reviewedBy": "OpenAI Codex offline visual source review, 2026-10-31",
+    "file": "flutter-class-interface.png"
+  },
+  {
+    "project": "Latias94/merman",
+    "version": "0.9.2",
+    "caseId": "packages/mermaid/src/docs/syntax/classDiagram.md:362",
+    "sourceSha256": "bc06236e060fb61456347036418cc597f4128e50a624a8e20969c204aa0e7b45",
+    "outputSha256": "360812b13999c1a64df217b9d42f1b5d64ed6d731ba1ee2f5faa895f99bdd07b",
+    "capturedAt": "2026-11-01T13:09:13.719Z",
+    "status": "unknown",
+    "reason": "Actual PNG lacks a complete content review bound to these source, expectation and image bytes or exact decoded pixels; SVG checks cannot supply raster correctness",
+    "reviewedBy": null,
+    "file": "latias-class-interface.png"
+  }
+]

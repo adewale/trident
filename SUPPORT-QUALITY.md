@@ -87,11 +87,11 @@ Each fraction is successful authored inputs / 6 planned inputs for that particul
 
 Remaining bindings apply to actual public targets. The separate output receipt covers Crafter/Frankenmermaid terminal and Excalidraw conversion; PR #37 covers native Flutter PNG. The selected Latias native package exposes no PNG/JPEG/PDF/terminal exporter, and the pinned Franken artifacts expose no Mermaid-source serializer. Record those limits; implementing absent upstream features is outside Trident's scope.
 
-Rusty Mermaid’s published 0.42.0 package cannot run. The public source at `ce95d8ddb8323006b6dd8ddbc616c2478c3827aa` identifies itself as 0.1.0; its WASM build runs through the existing candidate workflow and retains four failed smoke observations. See the [reproduction notes](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/RUSTY-MERMAID.md). It does not replace the broken release artifact.
+Rusty Mermaid’s published 0.42.0 package cannot run. The public source at `ce95d8ddb8323006b6dd8ddbc616c2478c3827aa` identifies itself as 0.1.0; its WASM build runs through the existing candidate workflow and retains four failed smoke observations. See the [reproduction notes](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/RUSTY-MERMAID.md). It does not replace the broken release artifact.
 
-Whole-editor application workflows are outside core requirements. Mermaid-to-Excalidraw retains its historical conversion-API receipt and is excluded from current renderer campaigns. See [scope](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/SCOPE.md).
+Whole-editor application workflows are outside core requirements. Mermaid-to-Excalidraw retains its historical conversion-API receipt and is excluded from current renderer campaigns. See [scope](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/SCOPE.md).
 
-Additional claims require their applicable documentation, drawing, invalid-control and per-call timing checks. Optional models and undeclared formats are not mandatory for every project. The dated six-case check establishes invocation only. Current qualification and release prerequisites are defined in [BASELINE.md](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/BASELINE.md) and [RELEASE.md); this historical matrix is not a demand for another full-ecosystem campaign. The maintainer maintains both Trident and Agentic Mermaid; common output observers, independent inputs and external adapter review remain necessary.
+Additional claims require their applicable documentation, drawing, invalid-control and per-call timing checks. Optional models and undeclared formats are not mandatory for every project. The dated six-case check establishes invocation only. Current qualification and release prerequisites are defined in [BASELINE.md](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/BASELINE.md) and [RELEASE.md); this historical matrix is not a demand for another full-ecosystem campaign. The maintainer maintains both Trident and Agentic Mermaid; common output observers, independent inputs and external adapter review remain necessary.
 
 ## Current invocation-check protocol
 
@@ -99,12 +99,12 @@ Fresh `support:verify` runs use protocol v2: six positive inputs plus two separa
 invalid-source controls on each bound output and transport. The report retains
 raster/SVG/model qualification scopes and separate control counts. Historical
 receipts above keep their original protocol and observations. The
-[native Flutter preparation](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/native-flutter/STANDARD.md#use-the-normal-cli-with-an-existing-native-bundle)
+[native Flutter preparation](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/native-flutter/STANDARD.md#use-the-normal-cli-with-an-existing-native-bundle)
 selects the regular Mermaid Flutter PNG entry; Mermaid Dart keeps its separate SVG binding.
-The [dated native PNG verification](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/issue-30-status.md#native-png-verification)
+The [dated native PNG verification](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/issue-30-status.md#native-png-verification)
 records a real release build and saved-binding replay.
-[Public output contracts](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/application-contracts.md) explain the checks and
-[issue 30's status](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/issue-30-status.md) links the remaining evidence limits.
+[Public output contracts](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/application-contracts.md) explain the checks and
+[issue 30's status](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/issue-30-status.md) links the remaining evidence limits.
 
 ## Every catalog entity
 
@@ -202,8 +202,8 @@ The ledger below retains all 89 identities. Excluded entities have configuration
 | zakaria-forks/mermaid | not selected; configured evidence only | skip: no-distinct-branding, zero-ahead-version |
 | zhenhuaa/mdv | partially-verified | eligible |
 
-[Verification receipt](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/evidence/support-0.1.json) records actual artifact identities, per-format dispositions, control counts and the owning report digest. The release evidence archive retains raw outputs and the producer closure. Run `bun commands.ts support` for current configuration and `support:verify --help` for a fresh admission check. [Benchmark methods](BENCHMARKS.md) and [report reading](REPORTING.md) describe broader campaign evidence.
+[Verification receipt](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/evidence/support-0.1.json) records actual artifact identities, per-format dispositions, control counts and the owning report digest. The release evidence archive retains raw outputs and the producer closure. Run `bun commands.ts support` for current configuration and `support:verify --help` for a fresh admission check. [Benchmark methods](BENCHMARKS.md) and [report reading](REPORTING.md) describe broader campaign evidence.
 
 ## Additional public output bindings
 
-The [output-binding receipt](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/evidence/support-issue30.json) records Crafter terminal (5/6 authored inputs), Frankenmermaid native terminal (6/6), and Excalidraw editable conversion (2/6; four image fallbacks blocked). Both invalid conversion controls were rejected. These are additional interfaces and witnesses, not three new independent engines or a replacement for the historical 37-project receipt. [Binding contracts](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/application-contracts.md) describe the limits. Whole-editor workflows remain outside core scope.
+The [output-binding receipt](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/evidence/support-issue30.json) records Crafter terminal (5/6 authored inputs), Frankenmermaid native terminal (6/6), and Excalidraw editable conversion (2/6; four image fallbacks blocked). Both invalid conversion controls were rejected. These are additional interfaces and witnesses, not three new independent engines or a replacement for the historical 37-project receipt. [Binding contracts](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/application-contracts.md) describe the limits. Whole-editor workflows remain outside core scope.

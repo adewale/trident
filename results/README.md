@@ -1,12 +1,12 @@
 # Publishing benchmark results
 
-[RESULTS.md](https://github.com/adewale/trident/blob/8d461b7760239c4f2b76cd5c5502732a2de79c82/results/../RESULTS.md) is the repository's ecosystem overview. It lists all
+[RESULTS.md](../RESULTS.md) is the repository's ecosystem overview. It lists all
 eligible projects and the latest corpus comparisons. The 1 November campaign covers the 27 eligible projects and separates DaveBench SVG/PNG returns and content, pinned public API tests and
 Terminal Rendering. Authored SVG feature/edit cases remain unscored diagnostics;
 optional public-model contracts retain separate reports. Historical studies and
 the previous overview remain linked at immutable revisions.
 
-[`latest.json`](https://github.com/adewale/trident/blob/8d461b7760239c4f2b76cd5c5502732a2de79c82/results/latest.json) stores the table values, dates, interfaces,
+[`latest.json`](latest.json) stores the table values, dates, interfaces,
 qualification notes, receipt hashes and campaign attempts. The generator uses
 those same numeric rows for the Markdown tables and Mermaid charts. Do not edit
 `RESULTS.md` by hand.
@@ -40,11 +40,11 @@ value; unmeasured, blocked and not-applicable states are separate.
 
 ## Initial release baseline
 
-[results/baseline.json](https://github.com/adewale/trident/blob/8d461b7760239c4f2b76cd5c5502732a2de79c82/results/baseline.json) freezes B0 separately from this rolling
-overview. [Its receipt](https://github.com/adewale/trident/blob/8d461b7760239c4f2b76cd5c5502732a2de79c82/results/../docs/evidence/b0/receipt.json) binds actual corpus and
+[results/baseline.json](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/results/baseline.json) freezes B0 separately from this rolling
+overview. [Its receipt](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/evidence/b0/receipt.json) binds actual corpus and
 outcome files, not just scores. `results:snapshot --check` verifies both the
 rolling snapshot and the linked baseline. New imports keep B0 bytes unchanged.
-[BASELINE.md](https://github.com/adewale/trident/blob/8d461b7760239c4f2b76cd5c5502732a2de79c82/results/../BASELINE.md) explains the verified scopes, unknowns and rules for
+[BASELINE.md](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/BASELINE.md) explains the verified scopes, unknowns and rules for
 comparing later counts and timings.
 
 ## After collecting a campaign
@@ -77,6 +77,11 @@ Unqualified attempts remain visible with speed values withheld. Provisional and
 final summaries of one capture are accepted only when every recorded input,
 sample and ownership field agrees. Distinct attempts need separate directories;
 the importer never chooses the best saved verdict.
+
+The generated landing page has separate compact benchmark rankings. Full outcome
+ledgers and attempted runs are always written to `results/tables/`, including for
+small campaigns. Presentation changes reuse the saved snapshot; they require no
+renderer calls or raw-archive rebuild.
 
 Commit `RESULTS.md` and `results/latest.json` together. Repeat the
 `--campaign DIR --evidence-url URL` pair to import multiple campaigns. Reimporting
@@ -123,8 +128,8 @@ GitHub renders the `xychart-beta` blocks using its Mermaid version. The tables
 remain readable if chart syntax is unavailable. The charts do not use a
 benchmarked project's renderer and say nothing about its visual quality.
 
-[Choose a benchmark](https://github.com/adewale/trident/blob/8d461b7760239c4f2b76cd5c5502732a2de79c82/results/../BENCHMARKS.md) · [Table conventions](https://github.com/adewale/trident/blob/8d461b7760239c4f2b76cd5c5502732a2de79c82/results/../REPORTING.md) ·
-[Comparison contracts](https://github.com/adewale/trident/blob/8d461b7760239c4f2b76cd5c5502732a2de79c82/results/../FAIRNESS.md)
+[Choose a benchmark](../BENCHMARKS.md) · [Table conventions](../REPORTING.md) ·
+[Comparison contracts](../FAIRNESS.md)
 
 ## Source-candidate comparisons
 
@@ -136,6 +141,6 @@ remain unchanged by candidate tables or attempts. Keep source commits, packed
 archive identities, planned populations and timing qualification in the receipt
 and caption.
 
-The [29 October AM/ZM comparison](https://github.com/adewale/trident/blob/8d461b7760239c4f2b76cd5c5502732a2de79c82/results/../docs/comparison-2026-10-29.md) demonstrates
+The [29 October AM/ZM comparison](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/comparison-2026-10-29.md) demonstrates
 this path with raw observations published at an immutable evidence commit and
 a reducer that reconciles all five tables.

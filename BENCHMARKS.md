@@ -7,7 +7,7 @@ Public Model Contracts retain their separate API scope. SVG inspection and cost 
 There is no combined renderer-quality score or validated production holdout.
 
 The [current campaign results](RESULTS.md) rank verified counts and separately
-qualified timing comparisons on named inputs. The [frozen B0 report](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/qualification-results-2026-10-31.md)
+qualified timing comparisons on named inputs. The [frozen B0 report](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/qualification-results-2026-10-31.md)
 keeps its original minimum cohorts, unknowns and observer. Later campaigns and
 new grading retain separate identities.
 
@@ -24,7 +24,7 @@ expensive performance (`portable`),
 legacy compatibility (`community`) and optional model (`native-fidelity`) work
 require explicit selection. `full` applies to the selected inputs and sampling.
 Preparation freezes artifacts once; collection performs no latest-version lookup.
-[Baseline](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/BASELINE.md) and [report conventions](REPORTING.md) describe reuse.
+[Baseline](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/BASELINE.md) and [report conventions](REPORTING.md) describe reuse.
 
 ## DaveBench — Documentation Rendering
 
@@ -42,9 +42,9 @@ include process startup; browser API clocks do not. They have no shared speed ra
 
 SVG return (`public-docs-svg-return-v1`) remains a weak compatibility diagnostic.
 The collector now retains each first-round SVG and separately applies
-`reviewed-docs-svg-content-v1`. [Source expectations](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/corpus/docs-reviewed.json)
+`reviewed-docs-svg-content-v1`. [Source expectations](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/corpus/docs-reviewed.json)
 bind exact bytes, literal drawing facts and configuration-only examples. Their
-absence produces unknown evidence. The [source census](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/docs-source-expectations.md)
+absence produces unknown evidence. The [source census](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/docs-source-expectations.md)
 lists each drawing contract, configuration-only input and unresolved interpretation
 across 36 normalized families: 547 source contracts are complete and one duplicate
 Boston commit-ID interpretation remains held. All 546 drawing occurrences stay
@@ -65,7 +65,7 @@ Coverage makes one call per selected occurrence and format, with no warmups.
 `--rounds 1` is required, including full-profile coverage. Repeated return-only
 diagnostics are retired; use a qualified timing collector for repetitions. Public-call clocks stop at SVG return, before validation and
 cleanup. These clocks lack A/A and per-call semantic qualification, so there is
-no qualified overall speed score. The [bounded repair campaign](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/benchmark-repair-2026-10-30.md)
+no qualified overall speed score. The [bounded repair campaign](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/benchmark-repair-2026-10-30.md)
 uses one pass to improve the checks rather than repeat performance collection.
 
 `--docs-formats svg,png` is the default; either format can run alone. PNG collection
@@ -82,7 +82,7 @@ samples, dimensions and display-affecting metadata match exactly. A strict
 SVG-to-PNG certificate additionally requires the exact rasterized SVG, every
 source fact, frozen rasterizer/fonts and an independently reviewed reference
 raster with matching decoded pixels. These are
-[separate evidence paths](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/png-correctness.md), not a general native-PNG
+[separate evidence paths](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/png-correctness.md), not a general native-PNG
 semantic oracle. PNG and SVG are graded directly; ordinary scoring never transfers PNG review
 credit into SVG. Historical transfer records retain their original protocol.
 Content without an admissible current review stays unknown. Settings-only
@@ -90,7 +90,7 @@ sources have no nonblank-drawing requirement. New PNG clocks remain descriptive
 unless every timed output and A/A calibration qualify. The PNG lane contains actual SVG conversions and native Flutter returns.
 The [current tables](RESULTS.md) retain their output and pipeline boundaries;
 the [raw archive](https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-11-01)
-contains every grade and its owning output. [Original image-review histories](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/evidence/png-full-corpus-2026-10-31/README.md)
+contains every grade and its owning output. [Original image-review histories](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/evidence/png-full-corpus-2026-10-31/README.md)
 remain available. A viewing count supplies no correctness credit.
 
 The replaced v1 standalone PNG exporter and old studies retain their own protocols;
@@ -142,7 +142,7 @@ their separate scopes. [Measurement rules](MEASUREMENT.md) give the clock detail
 ## Mermaid Behaviour Tests
 
 Task: pass portable, observable behaviours adapted from Mermaid's tests. The
-[committed selection](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/corpus/mermaid-behaviour-tests.json) contains **49 whole
+[committed selection](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/corpus/mermaid-behaviour-tests.json) contains **49 whole
 cases, 56 ordered source stimuli and 75 individual checks**: 30 family/keyword
 precedence cases and 19 structural SVG accessible-name/description cases. A case
 passes only when every required check passes. The original test files and callback
@@ -184,7 +184,7 @@ failure. Retained replay re-evaluates actual values rather than copying the old
 ## Mermaid Public API Tests — diagnostic
 
 Task: pass the unchanged public-behaviour assertions in Mermaid's own tests.
-The current independently checked [expanded diagnostic scope](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/mermaid-public-conformance.md)
+The current independently checked [expanded diagnostic scope](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/mermaid-public-conformance.md)
 is **154 unchanged callbacks from 37 original declarations** at Mermaid commit
 `1fb7869866dd619168d840291c9c54b4f129758b`: 102 parse, 32 detection, 19 structural
 accessibility and one generic SVG-return callback over 24 canonical use-case
@@ -202,7 +202,7 @@ calls. Its corpus is the unchanged 154-callback selection above; native original
 and public-reference controls qualify all selected callbacks. Expected answers
 remain the upstream assertions. This table reports **passed callbacks / 154**,
 not drawing quality or whole-suite conformance; unmeasured projects get no zero.
-The [manifest and source audit](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/qualification/source-audits/public-expanded-scope.json)
+The [manifest and source audit](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/qualification/source-audits/public-expanded-scope.json)
 retain parameter, source and fixture hashes and the two parent collection paths.
 
 | Project | Version | Passed / 154 | Failed | Unsupported | Binding/evidence gaps |
@@ -230,13 +230,13 @@ are frozen for campaign scheduling.
 
 Task: correctly render the named source corpus as terminal display cells, then
 measure completed rendering on the same verified work. The unchanged [original
-corpus](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/terminal-corpus.md) has 120 literal inputs from 18 pinned repositories
+corpus](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/terminal-corpus.md) has 120 literal inputs from 18 pinned repositories
 (17 contribute inputs), with 67 terminal-specific and 53 shared-renderer
 robustness origins. Docs, tests, issue/PR URLs, dates, commits, licenses and
 body/patch hashes remain attached. These are development inputs, not a
 production-frequency sample.
 
-Ordinary `bench --terminal` selects [active v3](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/corpus/terminal-active-profile.json):
+Ordinary `bench --terminal` selects [active v3](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/corpus/terminal-active-profile.json):
 115 unchanged original drawings, one independently reviewed authored alias
 adaptation and all four original invalid controls. Its 116 drawings and four
 rejection controls have separate denominators. The ambiguous original nested-state
@@ -261,7 +261,7 @@ inputs once per selected renderer; `--all-inputs` is an explicit alias for that
 inventory. `--corpus original` names the unchanged historical population. Saved
 v1/v2 runs select it automatically; saved v3 runs require their active manifest
 and membership identities. Saved-output rechecks need no renderer or Mermaid
-installation. The [ordinary-profile controls](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/evidence/terminal-active-profile-2026-10-31/README.md)
+installation. The [ordinary-profile controls](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/evidence/terminal-active-profile-2026-10-31/README.md)
 verify planning, regrading and separate diagnostic/control tables without SUT
 calls. Source capability declarations do not replace observed output.
 
@@ -269,10 +269,10 @@ Tables rank verified correct counts over the full declared drawing population, k
 incorrect, unsupported and unknown cells visible. Full accuracy and comparative
 performance remain unqualified. A diagnostic subset is shown only when its exact
 source IDs differ; active v3 therefore has one 116-drawing table. Cold CLI and warm Python clocks have different
-boundaries. The [18-project retained regrade](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/evidence/terminal-state-adaptation-2026-10-31/README.md)
+boundaries. The [18-project retained regrade](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/evidence/terminal-state-adaptation-2026-10-31/README.md)
 keeps original and active populations separate, including the three fresh
 adaptation calls and 15 uncollected project coordinates. The [dated earlier
-results](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/terminal-results-2026-10-31.md) retain their original 16-drawing
+results](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/terminal-results-2026-10-31.md) retain their original 16-drawing
 scope and cannot be relabelled with the new contracts.
 
 ## Public Model Contracts — maintenance diagnostic
@@ -288,7 +288,7 @@ credit for later postconditions. Model results do not establish painted meaning.
 ## Historical fixed PNG export profiles
 
 A finished image is a distinct application task. The [reviewed seven-implementation
-study](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/davebench-png-seven-results.md) retained all 548 coverage attempts and
+study](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/davebench-png-seven-results.md) retained all 548 coverage attempts and
 timed 13 common reviewed inputs. Its clocks include delivery and required PNG
 conversion/normalization; source-fact review and checked pixels bound its claim.
 Versions, case mix, typography, failures and launch-round uncertainty remain
@@ -297,9 +297,9 @@ Reuse its content-review lessons rather than repeat that campaign automatically.
 
 The original `docs:png` v1 exporter is retired. Its nonblank gate admitted incorrect
 content and rejected a legitimate empty Gantt example; its unequal-work timing
-comparison was withdrawn. [Retained v1 evidence](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/davebench-png-results.md)
-remains readable. The earlier [controlled](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/controlled-png-results.md) and
-[isolated](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/isolated-png-results.md) studies retain their own scopes and dates.
+comparison was withdrawn. [Retained v1 evidence](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/davebench-png-results.md)
+remains readable. The earlier [controlled](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/controlled-png-results.md) and
+[isolated](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/isolated-png-results.md) studies retain their own scopes and dates.
 
 ## Retired comparisons and reference validation
 
@@ -325,13 +325,13 @@ workload selection and misleading aggregates deserve more attention than a preci
 headline number. [Results](RESULTS.md) retain dates, interfaces, failed inputs and
 owning evidence; historical records are never relabelled as fresh qualification.
 
-See the [scope audit](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/benchmark-scope-audit-2026-10-31.md) for which components
+See the [scope audit](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/benchmark-scope-audit-2026-10-31.md) for which components
 belong inside corpus benchmarks, which are duplicated, and which belong in AM.
 
 
 ## Qualification and collection
 
-The [six-project harness profile](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/BASELINE.md) verifies 16 execution mechanisms
+The [six-project harness profile](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/BASELINE.md) verifies 16 execution mechanisms
 with 56 output calls and separate model operations, within a five-minute
 collection budget after preparation. Its passing result is invocation evidence.
 It supplies no benchmark score or timing rank. Correctness work starts with
@@ -354,10 +354,10 @@ resources, source contracts and observer identity before public calls. A fresh
 browser context makes one call after initialization. Its clock includes the
 controller/page RPC, public render and returned SVG consumption; imports, context
 startup, source review and output grading are outside that clock. The `--cases`
-list accepts authored inputs from [fidelity/cases.ts](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/fidelity/cases.ts) or exact
+list accepts authored inputs from [fidelity/cases.ts](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/fidelity/cases.ts) or exact
 `packages/mermaid/src/docs/...:LINE` occurrence IDs from the pinned DaveBench
 inventory. The example measures one flowchart case in fresh contexts; the
-[current comparison](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/evidence/qualified-docs-timing-2026-11-01/README.md)
+[current comparison](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/evidence/qualified-docs-timing-2026-11-01/README.md)
 uses six documentation families. Six-round blocks balance the
 baseline A/A and candidate order.
 Every raw return is retained before grading; budget expiry keeps incomplete
@@ -372,14 +372,14 @@ bun commands.ts timing:png --help
 
 Terminal timing requires sealed artifacts with actual public CLI bindings and
 source-bound correct prerequisite outputs. It includes fresh process startup,
-imports, rendering and complete stdout. The [six-example comparison](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/evidence/terminal-cli-first-use-2026-11-01/README.md)
+imports, rendering and complete stdout. The [six-example comparison](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/evidence/terminal-cli-first-use-2026-11-01/README.md)
 states the project-source corpus and excludes warm API claims.
 
 PNG timing currently compares the frozen Mermaid browser exporter and native
 Flutter `renderToPng` interface. Its configuration names the preparation,
 native launch, complete image reviews, literal case IDs, display executable and
 runtime libraries. It measures cold complete export, including required byte
-transport. The [three-example comparison](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/evidence/qualified-png-timing-2026-11-01/README.md)
+transport. The [three-example comparison](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/evidence/qualified-png-timing-2026-11-01/README.md)
 covers flowchart edge styles. It is not a diverse-family PNG speed score.
 
 These sealed-artifact timing workflows do not require an additional Mermaid
@@ -402,5 +402,5 @@ plan, source IDs, invocation UUIDs, clocks and old checks. It may recover a dura
 return omitted by a crashed observer; it cannot invent a missing call or select
 away a failure. Missing evidence withholds timing. Historical return-only clocks
 remain unqualified.
-[The release process](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/RELEASE.md) keeps transport verification, comparative
+[The release process](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/RELEASE.md) keeps transport verification, comparative
 collection and packaging tied to their actual claims and affected code.

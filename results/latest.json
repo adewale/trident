@@ -6915,12 +6915,16 @@
   ],
   "publications": [
     {
-      "title": "Complete raw archive and checksums",
-      "url": "https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-11-01"
+      "title": "Illustrated results: correct, incorrect and unassessed PNG outputs",
+      "url": "docs/results-examples-2026-11-01.md"
+    },
+    {
+      "title": "1 November raw archive: prepared; asset upload pending",
+      "url": "https://github.com/adewale/trident/pull/74"
     },
     {
       "title": "Source versions, report receipts and scoped timing",
-      "url": "https://github.com/adewale/trident/tree/2c464366c5f05c01b29e41993a64e1eddb77be58"
+      "url": "https://github.com/adewale/trident/tree/evidence/full-campaign-2026-11-01"
     }
   ],
   "overviewRanking": "run-c69b61e4228a0b2c9388923a"

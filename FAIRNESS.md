@@ -1,11 +1,11 @@
 # Comparison contracts
 
-See [scope](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/SCOPE.md) for the boundary between public-API benchmarks and optional
+See [scope](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/SCOPE.md) for the boundary between public-API benchmarks and optional
 application studies. Whole-editor workflows do not enter core project counts.
 
 Trident compares named public work. SVG return, terminal output, parsing,
 optional model APIs and original upstream tests answer different questions.
-The required evidence is chosen before measuring any candidate. [B0](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/BASELINE.md)
+The required evidence is chosen before measuring any candidate. [B0](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/BASELINE.md)
 defines the uniform artifact cutoff, frozen workloads, applicability ledger and
 future comparison rules for the first public release baseline.
 
@@ -199,7 +199,7 @@ module and browser observations.
 
 ## Conversion and release transports
 
-Historical editable-conversion receipts inspect the public element model; image fallbacks receive no editable-model credit. Conversion-only projects and whole-editor workflows are outside current renderer selection. See [public output bindings](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/application-contracts.md).
+Historical editable-conversion receipts inspect the public element model; image fallbacks receive no editable-model credit. Conversion-only projects and whole-editor workflows are outside current renderer selection. See [public output bindings](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/application-contracts.md).
 
 An additional public release CLI retains its archive checksum, actual binary
 identity, version and source-tag revision. A native CLI and WASM distribution

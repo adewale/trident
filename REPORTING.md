@@ -4,17 +4,62 @@ Start with a comparison table for the question you want answered. Put projects
 and versions in rows, measurements in columns, and units in the column headings.
 Link each row's failures and receipt so readers can inspect what happened.
 The [comparison tables](RESULTS.md#results-by-benchmark) retain current and historical collectors;
-[the research notes](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/docs/reporting-research.md) explain the examples we learned from.
+[the research notes](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/docs/reporting-research.md) explain the examples we learned from.
 
 The repository's [ecosystem results](RESULTS.md) provide a single entry point.
 They are generated from [results/latest.json](results/latest.json), including
-the Mermaid chart values. Historical evidence keeps its original dates and
+the detailed diagnostic chart values. Historical evidence keeps its original dates and
 protocols; the overview retains missing projects and newer failed attempts.
-See [publication instructions](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/results/README.md) to update or check the page.
-The [initial baseline](https://github.com/adewale/trident/blob/e368284d0d1f3ba6ce66863607d9f904f7c71764/BASELINE.md) has a separate immutable snapshot and
+See [publication instructions](results/README.md) to update or check the page.
+The [initial baseline](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/BASELINE.md) has a separate immutable snapshot and
 input/outcome receipt. The rolling snapshot pins its checksum; the ordinary
 consistency check verifies both. New imports cannot rewrite B0 or turn old pilot
 observations into qualified baseline scores.
+
+## Public results page
+
+`RESULTS.md` has separate, compact rankings for DaveBench SVG, DaveBench PNG,
+terminal drawings and adapted Mermaid behaviours. It has no overall project
+rank. Each section names the corpus, date and population. The table shows the
+project version, verified passes, confirmed non-successes and unresolved work.
+The detailed pages retain all eight drawing outcomes and exact correctness bounds.
+A wholly unassessed project has no score or rank. “Better” and “Worse” require
+non-overlapping bounds; a higher verified count alone gives no accuracy verdict.
+
+Timing shows the latest paired attempt for each project pair and format, naming
+its fixed workload and clock boundary. Older corpora and interfaces stay in the
+details. Every qualified pair retains its own reference measurements. A later PNG failure cannot hide a
+qualified SVG comparison, and a later comparison against a different project
+cannot erase an earlier pair’s reference. Noisy or incomplete runs are listed
+without speed scores. Return-rate charts and collection logs belong in the
+linked details, alongside older runs and maintenance diagnostics.
+
+The summary uses Markdown tables and needs no diagram renderer. Mermaid chart
+blocks in the detailed pages are rendered by GitHub's Mermaid implementation;
+the exact GitHub version was not recorded for this campaign. Chart rendering
+supplies no benchmark output or correctness evidence.
+
+## Raw benchmark evidence archive
+
+The 1 November archive contains captured project outputs, source inventories,
+versions, public-call journals, timing samples, grading decisions and failed
+attempts. Trident's TypeScript publication scripts assembled it; Python wrote the
+file manifest and replaced identical copies with internal hard links. GNU `tar`
+and `pigz` packed it. No Mermaid implementation created the archive: the measured
+projects each produced their own captured outputs, including Mermaid.js 12.2.0
+as the SVG/PNG reference. Mermaid ASCII is the terminal comparator.
+
+Archive verification checked every member's size and SHA-256, extracted the
+actual compressed file and reconstructed the numeric tables through the normal
+readers. That proves preservation and repeatability of the recorded reduction;
+it does not establish that every drawing or grading judgment is correct.
+
+Keep raw captures immutable and regenerate the small public report separately.
+The archive retains the reports generated at collection time; later presentation
+changes can reuse its numeric evidence without repacking or rerunning renderers.
+The one-off campaign assembly copied intermediate trees before deduplication.
+Future packaging should use the existing publication command with one owned raw
+capture per run and separately retained assessments, avoiding that duplication.
 
 ## What belongs above a table
 

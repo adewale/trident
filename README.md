@@ -2,7 +2,9 @@
 
 Fresh collection covers the 27 eligible projects at their frozen installed artifact versions. This is not a latest-version survey. Formats and public interfaces have separate populations and rankings.
 
-This branch contains report receipts, a file-by-file archive manifest and the qualified timing summary. The complete raw evidence, retained SVG/PNG/text outputs, public-call journals, source inventories, image-review provenance, adapters and runtime repair are in the [downloadable archive](https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-11-01). Original absolute paths remain provenance; use the archive’s relative directories for offline checks.
+This branch contains the current reader-facing tables, illustrated examples, original report receipts and the raw archive manifest. [Report generation code](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/unified/results-snapshot.ts) is separate from collection and grading; presentation changes preserve the numeric results.
+
+The raw evidence archive has been restored, checked and reduced back into the original tables. Its GitHub upload is pending release-asset authentication; [PR #74 records publication status](https://github.com/adewale/trident/pull/74). The manifest describes the original archive, including its original report pages, rather than subsequent presentation changes on this branch. Capture bytes, grading decisions and the frozen evidence tag are unchanged.
 
 [Ranked results](RESULTS.md) · [Timing by fixed workload](TIMING.md) · [Benchmark definitions](BENCHMARKS.md)
 
