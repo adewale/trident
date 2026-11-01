@@ -20,7 +20,7 @@ const temp = useTempDirs('native-timing-report-')
 const catalog: LineageCatalog = { nodes: ['fixture/a', 'fixture/b'].map(id => ({ id, roles: ['peer'], outputs: ['svg', 'png', 'terminal'], benchmark: { adapter: 'declared', outputs: ['svg'], api: { svg: { export: 'render' } } } })) }
 const empty = (): ResultsSnapshot => ({ schema: 'trident-results-snapshot-v1', tables: [], attempts: [] })
 
-async function capture(format: 'svg' | 'png' | 'terminal', unknown = false, caseId?: string, partial = false) {
+async function capture(format: 'svg' | 'png' | 'terminal', unknown = false, caseId?: string, partial = false, candidateProject = 'fixture/b') {
   const root = temp.dir(), out = join(root, 'capture'), worker = join(root, 'worker.mjs')
   const inventory = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString())
   const input = format === 'terminal' ? terminalProfileCorpus().cases.find(input => input.id === 'terminal:e977db2dd4ba0536')! : inventory.cases.find((input: any) => input.id === 'packages/mermaid/src/docs/syntax/flowchart.md:686')
@@ -30,7 +30,7 @@ async function capture(format: 'svg' | 'png' | 'terminal', unknown = false, case
     : format === 'terminal' ? terminalTimingContract(input) : format === 'png' ? pngTimingContract(input, review) : makeSvgCaseContract(reviewedDocsCase(input, review))
   const cases = [{ ...full, requiredChecks: partial ? full.requiredChecks.slice(0, 1) : full.requiredChecks }]
   const artifact = { project: 'fixture/a', artifactSha256: hash('synthetic reference'), bindingSha256: hash('fixture worker protocol') }
-  const plan = { schema: 'trident-qualified-timing-plan-v1' as const, format, track: 'first-use', boundary: 'Synthetic fixture Worker RPC; no renderer benchmark claim', environmentSha256: hash('fixture host'), observerSha256: hash('fixture observer'), rounds: 6, samplesPerRound: 1, maximumControlSpread: 1000, cases, artifacts: { A0: artifact, A1: artifact, B: { ...artifact, project: 'fixture/b', artifactSha256: hash('synthetic candidate') } } }
+  const plan = { schema: 'trident-qualified-timing-plan-v1' as const, format, track: 'first-use', boundary: 'Synthetic fixture Worker RPC; no renderer benchmark claim', environmentSha256: hash('fixture host'), observerSha256: hash('fixture observer'), rounds: 6, samplesPerRound: 1, maximumControlSpread: 1000, cases, artifacts: { A0: artifact, A1: artifact, B: { ...artifact, project: candidateProject, artifactSha256: hash('synthetic candidate ' + candidateProject) } } }
   writeFileSync(worker, 'import {serveQualifiedTimingWorker} from ' + JSON.stringify(new URL('../portable/qualified-timing-collection.ts', import.meta.url).href) + ';serveQualifiedTimingWorker(async ()=>{await new Promise(resolve=>setTimeout(resolve,2));return "synthetic output";});')
   const driver: QualifiedTimingPublicDriver = { context: { boundary: plan.boundary, format, track: plan.track, environmentSha256: plan.environmentSha256, artifacts: plan.artifacts }, async open({ artifact, own }) {
     const handle = new Worker(worker); own({ kind: 'node-worker', handle }); await once(handle, 'message')
@@ -110,3 +110,14 @@ test('a native bundle cannot borrow a foreign file through a symlink', async () 
   symlinkSync(outside, f.result.bundleFile)
   expect(() => readCampaign(f.out)).toThrow(/owning directory/)
 }, 20_000)
+
+
+test('separate paired controls survive importing several candidates with the same host and workload', async () => {
+  const first = await capture('svg'), second = await capture('svg', false, undefined, false, 'fixture/c')
+  const expanded = { ...catalog, nodes: [...catalog.nodes, { ...catalog.nodes[1]!, id: 'fixture/c' }] }
+  const one = importCampaign(empty(), first.out, 'https://example.test/pair-b', expanded)
+  const both = importCampaign(one, second.out, 'https://example.test/pair-c', expanded)
+  expect(both.tables).toHaveLength(2)
+  expect(both.tables.map(table => table.rows.map(row => row.project).sort()).sort()).toEqual([['fixture/a', 'fixture/b'], ['fixture/a', 'fixture/c']])
+  expect(both.tables.every(table => table.rows.length === 2)).toBe(true)
+}, 30000)
