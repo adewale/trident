@@ -1,0 +1,137 @@
+[
+  {
+    "file": "docs-267-mermaid.svg",
+    "index": 267,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:9",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "d28b30afdeb64f8443a454a3406b72c78bf84bb28aba1de21b112a4cfc82e276",
+    "svgSha256": "8e1bedd65107617170a6b6a4337fe8587c1ab5aad0c28e54b985498fe6db6f3c",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/8e1bedd65107617170a6b6a4337fe8587c1ab5aad0c28e54b985498fe6db6f3c.svg.gz"
+  },
+  {
+    "file": "docs-270-mermaid.svg",
+    "index": 270,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:88",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "c86bfe00a1c3a2844286b412f72363cce3f3de6940e3d6712b46e11e1d642d60",
+    "svgSha256": "fb203688572228c6618d16cad770b10ebca9d59b881270efe9ed90ebc8e85cf0",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/fb203688572228c6618d16cad770b10ebca9d59b881270efe9ed90ebc8e85cf0.svg.gz"
+  },
+  {
+    "file": "docs-271-mermaid.svg",
+    "index": 271,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:107",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "cc5aab199637d7bc9779fb08a5541b28bb36d74c31feefd86c92323b90fa1baf",
+    "svgSha256": "4f463382b2833c51f61c7dfe0cd133fc3ade1a3330a557c95b5e08c3dade2327",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/4f463382b2833c51f61c7dfe0cd133fc3ade1a3330a557c95b5e08c3dade2327.svg.gz"
+  },
+  {
+    "file": "docs-272-mermaid.svg",
+    "index": 272,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:128",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "39e8da00bc00c7c6fe6db175f56239bc8f9caf618e9db9621c7a584d01f6f497",
+    "svgSha256": "6ad98eb279db20a05b4b9728861538416f80b0ce187a05810f8b8563eac77f6b",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/6ad98eb279db20a05b4b9728861538416f80b0ce187a05810f8b8563eac77f6b.svg.gz"
+  },
+  {
+    "file": "docs-274-mermaid.svg",
+    "index": 274,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:176",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "f6fcc0446da1b8c493d4a44dd0721c181c5921e363c9a1a9e6d7ea6d458b335f",
+    "svgSha256": "cd66e0177ca0038cdddacb9a54d689b2c6a93d62316b9d68a233ac4e09277a02",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/cd66e0177ca0038cdddacb9a54d689b2c6a93d62316b9d68a233ac4e09277a02.svg.gz"
+  },
+  {
+    "file": "docs-275-mermaid.svg",
+    "index": 275,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:209",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "3347d92631a07bc20f66b9b68b26aad72564d0095230b4f026508e38bf6539e3",
+    "svgSha256": "61a5dbfe692151485a5a72beebb4fa5ba7e2dd2bd71c58f7a5932d238d8d4065",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/61a5dbfe692151485a5a72beebb4fa5ba7e2dd2bd71c58f7a5932d238d8d4065.svg.gz"
+  },
+  {
+    "file": "docs-276-mermaid.svg",
+    "index": 276,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:254",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "1e4751fdc7cf19be97f4622875db54c290f904ec07ba68e4f0b12bd88c6d8fa7",
+    "svgSha256": "fd6570f65a8a487356888b92569b23649a89775eabca6412871c481a081735ba",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/fd6570f65a8a487356888b92569b23649a89775eabca6412871c481a081735ba.svg.gz"
+  },
+  {
+    "file": "docs-277-mermaid.svg",
+    "index": 277,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:292",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "2b5676bb24021917bba6738e0bdb3e3f0bde1b7ceb6fd8e3dcc702a6c7d54728",
+    "svgSha256": "157b44deebe7905317a45ec4f20a3b450ab976f153f1914d356fc1b9a66fb69d",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/157b44deebe7905317a45ec4f20a3b450ab976f153f1914d356fc1b9a66fb69d.svg.gz"
+  },
+  {
+    "file": "docs-280-mermaid.svg",
+    "index": 280,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:412",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "c24fff4aa6e688a0d4cadce29acfce4b3bb31aa71186fa18b7db0574392af9c7",
+    "svgSha256": "d87795256e4d947ed39709e116fe17391712b55cef46351f4133d711ca748732",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/d87795256e4d947ed39709e116fe17391712b55cef46351f4133d711ca748732.svg.gz"
+  },
+  {
+    "file": "docs-287-mermaid.svg",
+    "index": 287,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:651",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "5375a7af420cc1b6cc28f5cc629b1e7dd1a860d55d4e21c8c4097d80d8703ede",
+    "svgSha256": "ef96442e4d2c897965a07fc03b9827f5d698897ba2f0c90425329c001b0d0c27",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/ef96442e4d2c897965a07fc03b9827f5d698897ba2f0c90425329c001b0d0c27.svg.gz"
+  },
+  {
+    "file": "docs-288-mermaid.svg",
+    "index": 288,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:669",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "de1e3eeca8d4a60c651ca98c76b37bf6550ed0658b707b04d710eb009bc3b1d3",
+    "svgSha256": "53b88a911ca5d5932296e7c9eb0ca1a802d94987ce3559c5aa0d47f5f4f30590",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/53b88a911ca5d5932296e7c9eb0ca1a802d94987ce3559c5aa0d47f5f4f30590.svg.gz"
+  },
+  {
+    "file": "docs-294-mermaid.svg",
+    "index": 294,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:974",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "0dd68e5f46812c9cb0172f42b797897a04fa5e4f8726c3df83b851c3373e136a",
+    "svgSha256": "4f36c3308cd5b7beecb77075baabf002dbc5e3f6b4c5153b49fafa962692c362",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/4f36c3308cd5b7beecb77075baabf002dbc5e3f6b4c5153b49fafa962692c362.svg.gz"
+  },
+  {
+    "file": "docs-297-mermaid.svg",
+    "index": 297,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1090",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "038b1f1304082948bfdefd204a1a5385f0e5fabafb5704a80ac58ed94003e943",
+    "svgSha256": "d432b861443719ebc36ed3f50f6b74cbed1c74b8ec89b11b5cec8f7c6109f7d2",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/d432b861443719ebc36ed3f50f6b74cbed1c74b8ec89b11b5cec8f7c6109f7d2.svg.gz"
+  },
+  {
+    "file": "docs-300-mermaid.svg",
+    "index": 300,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1190",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "70a0d916e613bfbb3ab1b3b0cfab54c2bb7681c0af0600676309880986cf3af8",
+    "svgSha256": "cfef155faa06fa21830fb4fd559a990732b0d234d0d150f63f65b6408549f72c",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/cfef155faa06fa21830fb4fd559a990732b0d234d0d150f63f65b6408549f72c.svg.gz"
+  },
+  {
+    "file": "docs-301-mermaid.svg",
+    "index": 301,
+    "id": "packages/mermaid/src/docs/syntax/gitgraph.md:1225",
+    "project": "mermaid-js/mermaid",
+    "sourceSha256": "457923b6b9a404a183b4c57076f49d15e13ef516734aaed88991c41ad2508727",
+    "svgSha256": "9c4e7848b6aaae4cf22d4a4b19fc68e07970403271d876700d5607d52be22f1d",
+    "originalSvgWitness": "/workspace/trident-png-full-2026-10-31/static-svg-final-8aa1238/drawings/9c4e7848b6aaae4cf22d4a4b19fc68e07970403271d876700d5607d52be22f1d.svg.gz"
+  }
+]

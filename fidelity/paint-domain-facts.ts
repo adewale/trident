@@ -196,6 +196,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
   }
   const sourceTitle = typeof facts.title === 'string' ? [facts.title] : []
   const themeCommitOwners = new Map<string, SVGGeometryElement>()
+  const gitConfig = new Map<string, { actual: unknown; passed: boolean | null }>()
   const themeCurveOwners = new Map<string, SVGGeometryElement>()
   const themeHierarchyRoutes = new Map<string, SVGGeometryElement | null>()
   let radarProfile: { axisScaleFactor: number } | null = null
@@ -619,35 +620,168 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     if (nodeContract.length) quantitative('painted-node-ownership', nodeContract.map(node => node.id), { effect: effectShape ? { id: effect?.id, body: box(effectShape) } : null, causes: observed }, available && !unfamiliarBodies.length && exactCaptions ? lines.length === hierarchy.length && same(nodeContract.map(node => node.id).sort(), identities.sort()) : null, 'In the finite fishbone profile, the effect owns its distinct head and each cause owns a unique text/branch endpoint, with optional enclosing label box. Exact source caption, branch and identity inventories establish node ownership without requiring a rectangle around every cause; compound extra bodies and ambiguous text remain unknown.')
   }
   if (input.family === 'gitgraph') {
-    const commits: any[] = facts.commits ?? [], branches: any[] = facts.branches ?? [], vertical = ['TB', 'BT'].includes(input.expected.advisoryFacts?.direction as string), reverse = input.expected.advisoryFacts?.direction === 'BT', axis = vertical ? 'y' : 'x', lane = vertical ? 'x' : 'y'
-    const laneCenters = branches.map(branch => { const e = label(branch.id); return e ? center(box(e))[lane] : null }).filter((value): value is number => value !== null)
-    const candidates = shapes.filter(shape => laneCenters.some(value => Math.abs(center(box(shape))[lane] - value) < 3) && ['circle', 'rect'].includes(shape.localName) && box(shape).width >= 8 && box(shape).width <= 32 && Math.abs(box(shape).width - box(shape).height) < 1)
-    const glyphs = candidates.filter(shape => !candidates.some(other => other !== shape && Math.hypot(center(box(shape)).x - center(box(other)).x, center(box(shape)).y - center(box(other)).y) < 1 && box(other).width > box(shape).width + 1)).sort((a, b) => (reverse ? -1 : 1) * (center(box(a))[axis] - center(box(b))[axis]))
-    const branchRows = branches.map(branch => { const e = label(branch.id), c = e ? center(box(e)) : null; return { ...branch, center: c } })
-    let available = commits.length > 0 && glyphs.length === commits.length && branchRows.every(branch => branch.center), valid = true
-    const observed = commits.map((commit, i) => {
-      const glyph = glyphs[i], c = glyph ? center(box(glyph)) : null, branch = c ? branchRows.filter(branch => branch.center && Math.abs(branch.center[lane] - c[lane]) < 3) : []
-      const authored = commit.authoredId ?? (!/^commit:\d+$/.test(commit.id) ? commit.id : null), e = authored ? label(authored) : undefined, nearLabel = e && c ? distance(c, box(e)) <= 55 : !authored
-      if (!glyph || branch.length !== 1 || !nearLabel) available = false
-      else if (commit.type === 'NORMAL' && branch[0]?.id === commit.branch) themeCommitOwners.set(commit.id, glyph)
-      if (branch[0]?.id !== commit.branch) valid = false
-      const nested = glyph ? candidates.filter(other => other !== glyph && Math.hypot(center(box(other)).x - c!.x, center(box(other)).y - c!.y) < 1 && box(other).width < box(glyph).width - 1) : []
-      const type = glyph?.localName === 'rect' && nested.some(other => other.localName === 'rect') ? 'HIGHLIGHT' : glyph?.localName === 'circle' && !paths.some(path => { const b = box(path); return c && b.width < 18 && b.height < 18 && Math.hypot(center(b).x - c.x, center(b).y - c.y) < 1 }) ? 'NORMAL' : null
-      if (!type || !['NORMAL', 'HIGHLIGHT'].includes(commit.type)) available = false
-      if (type && type !== commit.type) valid = false
-      const tags = (commit.tags ?? []).map((tag: string) => { const t = label(tag), b = t ? box(t) : null; return { label: tag, box: b, owned: !!b && !!c && distance(c, b) <= 45 } }); if (tags.some((tag: any) => !tag.owned)) valid = false
-      return { id: commit.id, label: authored, branch: branch[0]?.id ?? null, center: c, type, tags }
+    const commits: any[] = facts.commits ?? [], branches: any[] = facts.branches ?? [], settings = facts['authored-config']?.gitGraph ?? {}, hidden = facts['hidden-git-labels'] ?? []
+    const vertical = ['TB', 'BT'].includes(input.expected.advisoryFacts?.direction as string), reverse = input.expected.advisoryFacts?.direction === 'BT', axis = vertical ? 'y' : 'x', lane = vertical ? 'x' : 'y', sign = reverse ? -1 : 1
+    const hiddenBranches = settings.showBranches === false, hiddenCommits = settings.showCommitLabel === false
+    const allGeometry = [...svg.querySelectorAll('path,line,polyline')].filter(e => !e.closest('defs,marker,clipPath,mask')) as SVGGeometryElement[]
+    const candidates = shapes.filter(shape => {
+      if (!['circle', 'rect'].includes(shape.localName)) return false
+      const b = box(shape), local = shape.getBBox()
+      return b.width >= 8 && b.width <= 32 && Math.abs(b.width - b.height) < 1 && Math.abs(local.width - local.height) < .5
     })
-    const bind = (p: { x: number; y: number }) => { const ranked = observed.filter(item => item.center).map(item => ({ id: item.id, d: Math.hypot(item.center!.x - p.x, item.center!.y - p.y) })).sort((a, b) => a.d - b.d); return ranked[0] && ranked[0].d <= 14 && (!ranked[1] || ranked[1].d - ranked[0].d > 2) ? ranked[0].id : null }
-    const routes = paths.filter(path => !filled(path) && path.localName === 'path' && endPoints(path).length === 2 && endPoints(path).every(p => bind(p))).map(path => { const ends = endPoints(path); const a = observed.findIndex(item => item.id === bind(ends[0]!)), b = observed.findIndex(item => item.id === bind(ends[1]!)); return { source: observed[Math.min(a, b)]?.id, target: observed[Math.max(a, b)]?.id } })
-    const wanted = commits.flatMap(commit => commit.parents.map((parent: string) => ({ source: parent, target: commit.id }))), key = (edge: any) => edge.source + '\0' + edge.target
-    if (routes.length !== wanted.length) available = false
-    valid &&= same(routes.map(key).sort(), wanted.map(key).sort())
-    add('commits', { commits: observed, parents: routes }, available ? valid : null, 'Actual commit glyphs establish physical chronology and lane ownership; authored labels/tags bind nearby glyphs, normal circles and nested highlight squares are measured, and exact connector endpoint pairs reconstruct all parents. Anonymous identities bind only chronological positions, never generated SVG IDs. Reverse/cherry-pick glyphs, ambiguous labels and alternate layouts stay unknown.')
-    const heads = branchRows.map(branch => ({ id: branch.id, head: [...observed].reverse().find(commit => commit.branch === branch.id)?.id ?? null, requiresHead: Object.hasOwn(branch, 'head'), expectedHead: branch.head, lane: branch.center?.[lane] ?? null }))
-    const expectedBranchOrder = [...branches].sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0)).map(branch => branch.id), actualBranchOrder = [...heads].sort((a, b) => Number(a.lane) - Number(b.lane)).map(branch => branch.id), headAvailable = heads.every(branch => !branch.requiresHead || branch.expectedHead !== null && branch.head !== null), orderProfile = branches.length <= 10 && branches.every((branch, index) => branch.order === undefined || Number.isFinite(branch.order) && (index === 0 ? branch.order >= 0 : branch.order > 0))
-    add('branches', { heads, expectedOrder: expectedBranchOrder, actualOrder: actualBranchOrder }, available && headAvailable && orderProfile ? valid && heads.every(branch => !branch.requiresHead || branch.head === branch.expectedHead) && same(expectedBranchOrder, actualBranchOrder) : null, 'Every printed branch heading owns its actual lane; stable ordering by explicit order (default0) follows the public branch-order precedence in the finite at-most10-branch positive-order profile. Branches with source-owned commits require their latest physically ordered head. Only an independently source-reviewed absent head property permits a name-only empty branch; exact native pointers are never inferred from an empty lane.')
-    add('git-operation-order', null, null, 'Individual checkout/branch commands are not uniquely printed by the resulting graph. Actual commit chronology, parents, lanes and heads are checked independently; operation history remains a required unknown.')
+    const glyphs = candidates.filter(shape => !candidates.some(other => other !== shape && Math.hypot(center(box(shape)).x - center(box(other)).x, center(box(shape)).y - center(box(other)).y) < 1 && box(other).width > box(shape).width + 1))
+    const expectedOrder = [...branches].sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0)).map(branch => branch.id), laneValues: number[] = []
+    for (const glyph of glyphs) { const value = center(box(glyph))[lane]; if (!laneValues.some(old => Math.abs(old - value) < 3)) laneValues.push(value) }
+    laneValues.sort((a, b) => a - b)
+    const branchRows = branches.map(branch => { const e = label(branch.id), enclosing = body(e), heading = e && enclosing && box(enclosing).width <= box(e).width + 30 && box(enclosing).height <= box(e).height + 15 ? enclosing : undefined, c = e ? center(box(heading ?? e)) : null, index = expectedOrder.indexOf(branch.id); return { ...branch, element: e, center: c, lane: hiddenBranches && laneValues.length === branches.length ? laneValues[index] : c?.[lane] ?? null } })
+    const laneFor = (glyph: SVGGeometryElement) => branchRows.filter(branch => branch.lane !== null && Math.abs(branch.lane - center(box(glyph))[lane]) < 3)
+    const laneGlyphs = (id: string) => glyphs.filter(glyph => laneFor(glyph).length === 1 && laneFor(glyph)[0]!.id === id).sort((a, b) => sign * (center(box(a))[axis] - center(box(b))[axis]))
+    const uniqueNear = (e: Element, glyph: SVGGeometryElement) => {
+      const ranked = glyphs.map(item => ({ item, d: Math.hypot(center(box(item)).x - center(box(e)).x, center(box(item)).y - center(box(e)).y) })).sort((a, b) => a.d - b.d)
+      return ranked[0]?.item === glyph && ranked[0].d <= 55 && (!ranked[1] || ranked[1].d - ranked[0].d > 2)
+    }
+    const captions = new Map<SVGGeometryElement, Element>(), captionBackgrounds = new Map<SVGGeometryElement, Element>()
+    const printedTags = new Set(commits.flatMap(commit => commit.tags ?? []).map(norm)), printedBranches = new Set(branches.map(branch => norm(branch.id)))
+    for (const glyph of glyphs) {
+      const found = text.filter(e => !printedBranches.has(norm(e.textContent ?? '')) && !printedTags.has(norm(e.textContent ?? '')) && !/^cherry-pick:.*\|parent:/.test(norm(e.textContent ?? '')) && uniqueNear(e, glyph))
+      if (found.length !== 1) continue
+      captions.set(glyph, found[0]!)
+      const owners = rectangles.filter(rect => inside(box(rect), box(found[0]!)) && box(rect).width <= box(found[0]!).width + 12 && box(rect).height <= box(found[0]!).height + 12).sort((a, b) => box(a).width * box(a).height - box(b).width * box(b).height)
+      if (owners[0] && !glyphs.includes(owners[0] as SVGGeometryElement)) captionBackgrounds.set(glyph, owners[0])
+    }
+    const glyphFor = commits.map((commit, index) => {
+      const ordinal = commits.slice(0, index).filter(other => other.branch === commit.branch).length
+      return laneGlyphs(commit.branch)[ordinal]
+    })
+    const captionProfile = glyphFor.every((glyph, index) => commits[index].mergedBranch && !commits[index].authoredId || !!glyph && captions.has(glyph))
+    const identityAvailable = commits.length > 0 && glyphs.length === commits.length && branchRows.every(branch => branch.lane !== null) && glyphs.every(glyph => laneFor(glyph).length === 1) && new Set(glyphFor).size === commits.length && glyphFor.every(Boolean)
+    const glyphParts = new Map<SVGGeometryElement, Set<Element>>()
+    let labelsKnown = identityAvailable, authoredKnown = identityAvailable, typesKnown = true, labelsValid = true, typesValid = true
+    const observed = commits.map((commit, i) => {
+      const glyph = glyphFor[i], c = glyph ? center(box(glyph)) : null, branch = glyph ? laneFor(glyph) : [], caption = glyph ? captions.get(glyph) : undefined
+      const authored = commit.authoredId ?? (!/^commit:\d+$/.test(commit.id) ? commit.id : null)
+      if (authored && !hiddenCommits) { if (!caption) { labelsKnown = false; authoredKnown = false }; if (caption && norm(caption.textContent ?? '') !== norm(authored)) labelsValid = false }
+      if (glyph && commit.type === 'NORMAL' && branch[0]?.id === commit.branch) themeCommitOwners.set(commit.id, glyph)
+      const nested = glyph ? candidates.filter(other => other !== glyph && Math.hypot(center(box(other)).x - c!.x, center(box(other)).y - c!.y) < 1 && box(other).width < box(glyph).width - 1) : []
+      const marks = glyph ? allGeometry.filter(mark => { const b = box(mark); return b.width >= box(glyph).width * .25 && b.width < box(glyph).width * .8 && b.height >= box(glyph).height * .25 && b.height < box(glyph).height * .8 && Math.hypot(center(b).x - c!.x, center(b).y - c!.y) < 1 }) : []
+      const crosses = marks.filter(mark => {
+        const segments = linearSegments(mark); if (segments.length !== 2 || !visible(mark)) return false
+        const [a, b] = segments as [{ x: number; y: number }[], { x: number; y: number }[]], midpoint = (ends: { x: number; y: number }[]) => ({ x: (ends[0]!.x + ends[1]!.x) / 2, y: (ends[0]!.y + ends[1]!.y) / 2 })
+        return segments.every(ends => Math.abs(Math.abs(ends[1]!.x - ends[0]!.x) - Math.abs(ends[1]!.y - ends[0]!.y)) < 1) && Math.hypot(midpoint(a).x - c!.x, midpoint(a).y - c!.y) < 1 && Math.hypot(midpoint(b).x - c!.x, midpoint(b).y - c!.y) < 1 && (a[1]!.x - a[0]!.x) * (a[1]!.y - a[0]!.y) * (b[1]!.x - b[0]!.x) * (b[1]!.y - b[0]!.y) < 0 && color(getComputedStyle(mark).stroke)?.rgb !== color(getComputedStyle(glyph!).fill)?.rgb
+      })
+      const fruit = glyph ? shapes.filter(shape => shape.localName === 'circle' && shape !== glyph && inside(box(glyph), box(shape)) && box(shape).width >= box(glyph).width * .2 && box(shape).width <= box(glyph).width * .35 && center(box(shape)).y > c!.y && color(getComputedStyle(shape).fill)?.rgb !== color(getComputedStyle(glyph).fill)?.rgb) : []
+      const stems = glyph && fruit.length === 2 ? allGeometry.filter(mark => mark.localName === 'line' && inside(box(glyph), box(mark)) && visible(mark) && color(getComputedStyle(mark).stroke)?.rgb !== color(getComputedStyle(glyph).fill)?.rgb).map(mark => endPoints(mark)) : []
+      const cherryIcon = fruit.length === 2 && stems.length === 2 && Math.abs(center(box(fruit[0]!)).y - center(box(fruit[1]!)).y) < 1 && Math.abs((center(box(fruit[0]!)).x + center(box(fruit[1]!)).x) / 2 - c!.x) < 1 && fruit.every(item => stems.some(ends => ends.some(p => Math.hypot(p.x - center(box(item)).x, p.y - center(box(item)).y) < box(item).width / 2))) && stems.every(ends => ends.some(p => Math.abs(p.x - c!.x) < 1 && p.y < c!.y))
+      const annotations = glyph ? text.flatMap(e => { const parsed = /^cherry-pick:(.+)\|parent:(.+)$/.exec(norm(e.textContent ?? '')); return parsed && uniqueNear(e, glyph) ? [{ source: parsed[1]!, parent: parsed[2]!, box: box(e) }] : [] }) : []
+      const type = cherryIcon ? 'CHERRY_PICK' : glyph?.localName === 'rect' && nested.some(other => other.localName === 'rect') ? 'HIGHLIGHT' : glyph?.localName === 'circle' && crosses.length === 1 ? 'REVERSE' : glyph?.localName === 'circle' && !marks.length ? 'NORMAL' : null
+      if (glyph && type) glyphParts.set(glyph, new Set<Element>([glyph, ...(type === 'NORMAL' ? nested : type === 'HIGHLIGHT' ? nested.filter(part => part.localName === 'rect') : type === 'REVERSE' ? crosses : [...fruit, ...allGeometry.filter(mark => mark.localName === 'line' && inside(box(glyph), box(mark)) && visible(mark))])]))
+      if (!type || !['NORMAL', 'HIGHLIGHT', 'REVERSE', 'CHERRY_PICK'].includes(commit.type)) typesKnown = false
+      if (type && ['NORMAL', 'HIGHLIGHT', 'REVERSE'].includes(commit.type) && type !== commit.type) typesValid = false
+      const tags = (commit.tags ?? []).map((tag: string) => { const t = label(tag), b = t ? box(t) : null; return { label: tag, box: b, owned: !!b && !!glyph && uniqueNear(t!, glyph) } })
+      if (tags.some((tag: any) => !tag.owned)) labelsKnown = false
+      return { id: commit.id, label: authored, branch: branch[0]?.id ?? null, center: c, type, tags, cherryAnnotation: annotations.length === 1 ? annotations[0] : null, caption: caption ? norm(caption.textContent ?? '') : null }
+    })
+    const bind = (p: { x: number; y: number }) => { const ranked = glyphFor.flatMap((glyph, index) => glyph ? [{ index, d: Math.hypot(center(box(glyph)).x - p.x, center(box(glyph)).y - p.y), radius: box(glyph).width / 2 }] : []).sort((a, b) => a.d - b.d); return ranked[0] && ranked[0].d <= ranked[0].radius + 3 && (!ranked[1] || ranked[1].d - ranked[0].d > 2) ? ranked[0].index : null }
+    const state = (element: Element): number | false | null => {
+      let alpha = 1
+      for (let owner: Element | null = element; owner; owner = owner.parentElement) { const css = getComputedStyle(owner); if (css.display === 'none' || ['hidden', 'collapse'].includes(css.visibility) || Number(css.opacity) === 0) return false; if (css.clipPath !== 'none' || css.maskImage !== 'none' || css.filter !== 'none' || css.mixBlendMode !== 'normal' || css.vectorEffect !== 'none') return null; alpha *= Number(css.opacity); if (owner === svg) break }
+      return alpha
+    }
+    const baselineFor = (geometry: SVGGeometryElement, branch: any) => { const ends = endPoints(geometry), row = laneGlyphs(branch.id); return linearSegments(geometry).length === 1 && state(geometry) !== false && !!color(getComputedStyle(geometry).stroke) && ends.length === 2 && branch.lane !== null && ends.every(p => Math.abs(p[lane] - branch.lane) < 3) && Math.abs(ends[1]![axis] - ends[0]![axis]) > 30 && (bind(ends[0]!) === null || bind(ends[1]!) === null) && (!row.length || Math.min(ends[0]![axis], ends[1]![axis]) < Math.min(...row.map(glyph => center(box(glyph))[axis])) - 3 && Math.max(ends[0]![axis], ends[1]![axis]) > Math.max(...row.map(glyph => center(box(glyph))[axis])) + 3) }
+    const coverRecords = [...svg.querySelectorAll('rect,circle,ellipse,polygon,path,foreignObject,text')].filter(cover => !cover.closest('defs,marker,clipPath,mask')).map(cover => { const css = getComputedStyle(cover), matrix = (cover as SVGGraphicsElement).getScreenCTM(), measured = box(cover), stroke = color(css.stroke), padding = stroke && Number(css.strokeOpacity) > 0 && matrix ? Number.parseFloat(css.strokeWidth) / 2 * Math.hypot(matrix.a, matrix.b, matrix.c, matrix.d) : 0, bounds = { x: measured.x - padding, y: measured.y - padding, width: measured.width + padding * 2, height: measured.height + padding * 2 }; return { cover, css, fill: color(css.fill), stroke, opacity: state(cover), bounds, matrix } })
+    for (const [glyph, parts] of glyphParts) for (const part of parts) {
+      if (!(part instanceof SVGGeometryElement) || state(part) === null) { typesKnown = false; continue }
+      const css = getComputedStyle(part), fill = color(css.fill), stroke = color(css.stroke), painted = [fill && Number(css.fillOpacity) > 0 ? fill : null, stroke && Number(css.strokeOpacity) > 0 && Number.parseFloat(css.strokeWidth) > 0 ? stroke : null].filter(Boolean), prior = coverRecords.filter(item => item.cover !== part && item.cover.localName === 'rect' && item.matrix && Math.abs(item.matrix.b) < 1e-8 && Math.abs(item.matrix.c) < 1e-8 && !Number(item.cover.getAttribute('rx')) && !Number(item.cover.getAttribute('ry')) && item.opacity !== null && item.opacity !== false && item.fill && item.fill.alpha * Number(item.css.fillOpacity) * item.opacity >= 1 && !!(item.cover.compareDocumentPosition(part) & Node.DOCUMENT_POSITION_FOLLOWING) && inside(box(item.cover), box(part))).at(-1), background = part !== glyph ? color(getComputedStyle(glyph).fill) : prior?.fill ?? color(getComputedStyle(svg).backgroundColor) ?? color(getComputedStyle(document.body).backgroundColor) ?? color('Canvas')
+      if (!painted.length || background && painted.every(paint => paint!.rgb === background.rgb)) typesKnown = false
+      const points = sample(part, 128)
+      for (const item of coverRecords) {
+        if (parts.has(item.cover) || item.opacity === false || !(part.compareDocumentPosition(item.cover) & Node.DOCUMENT_POSITION_FOLLOWING) || !item.matrix) continue
+        const fillPaint = item.fill && Number(item.css.fillOpacity) > 0, strokePaint = item.stroke && Number(item.css.strokeOpacity) > 0 && Number.parseFloat(item.css.strokeWidth) > 0
+        if (!fillPaint && !strokePaint) continue
+        const opacity = item.opacity === null ? 1 : item.opacity, strength = Math.max((item.fill?.alpha ?? 0) * Number(item.css.fillOpacity), (item.stroke?.alpha ?? 0) * Number(item.css.strokeOpacity)) * opacity
+        if (strength < 1 / 255) continue
+        const inverse = item.matrix.inverse(), covered = points.some(p => { if (!inside(item.bounds, { x: p.x, y: p.y, width: 0, height: 0 }, 0)) return false; const local = new DOMPoint(p.x, p.y).matrixTransform(inverse); return item.cover instanceof SVGGeometryElement ? !!(fillPaint && item.cover.isPointInFill(local) || strokePaint && item.cover.isPointInStroke(local)) : true })
+        if (covered) typesKnown = false
+      }
+    }
+    const routeGaps = new Map<SVGGeometryElement, string>()
+    const routeVisible = (route: SVGGeometryElement, a: number, b: number): boolean | null => {
+      const unavailable = (reason: string) => { routeGaps.set(route, reason); return null }
+      const css = getComputedStyle(route), ink = color(css.stroke), alpha = state(route), matrix = route.getScreenCTM()
+      if (alpha === false || !ink || !Number.parseFloat(css.strokeWidth) || !Number(css.strokeOpacity)) return false
+      if (alpha === null || !matrix || ink.alpha * Number(css.strokeOpacity) * alpha < 1 / 255 || Number.parseFloat(css.strokeWidth) * Math.min(Math.hypot(matrix.a, matrix.b), Math.hypot(matrix.c, matrix.d)) < .25) return null
+      const points = sample(route, 512), endpoints = [glyphFor[a]!, glyphFor[b]!]
+      const routeBounds = box(route), backdrop = color(getComputedStyle(svg).backgroundColor) ?? color(getComputedStyle(document.body).backgroundColor) ?? color('Canvas')
+      if (backdrop?.alpha === 1 && backdrop.rgb === ink.rgb) return unavailable('Stroke has no independently proven contrast from the actual host canvas')
+      if (coverRecords.some(item => item.cover !== route && item.fill?.rgb === ink.rgb && item.opacity !== null && item.opacity !== false && item.fill.alpha * Number(item.css.fillOpacity) * item.opacity >= 1 && item.cover.compareDocumentPosition(route) & Node.DOCUMENT_POSITION_FOLLOWING && inside(item.bounds, routeBounds))) return unavailable('Stroke matches an independently painted enclosing background')
+      for (const { cover, css: cs, fill, stroke, opacity, bounds, matrix: transform } of coverRecords) {
+        if (cover === route || !(route.compareDocumentPosition(cover) & Node.DOCUMENT_POSITION_FOLLOWING) || opacity === false || !(fill && Number(cs.fillOpacity) > 0 || stroke && Number(cs.strokeOpacity) > 0 && Number.parseFloat(cs.strokeWidth) > 0) || bounds.x > routeBounds.x + routeBounds.width || bounds.x + bounds.width < routeBounds.x || bounds.y > routeBounds.y + routeBounds.height || bounds.y + bounds.height < routeBounds.y) continue
+        if (!transform) return null
+        const inverse = transform.inverse(), hits = points.flatMap((p, index) => { if (p.x < bounds.x || p.x > bounds.x + bounds.width || p.y < bounds.y || p.y > bounds.y + bounds.height) return []; const local = new DOMPoint(p.x, p.y).matrixTransform(inverse); return 'isPointInFill' in cover ? fill && Number(cs.fillOpacity) > 0 && (cover as SVGGeometryElement).isPointInFill(local) || stroke && Number(cs.strokeOpacity) > 0 && Number.parseFloat(cs.strokeWidth) > 0 && (cover as SVGGeometryElement).isPointInStroke(local) ? [index] : [] : [index] })
+        if (!hits.length) continue
+        const exposedHits = hits.filter(index => !endpoints.some(glyph => { const c = center(box(glyph)); return glyph.localName === 'circle' ? Math.hypot(points[index]!.x - c.x, points[index]!.y - c.y) <= box(glyph).width / 2 + 1 : distance(points[index]!, box(glyph)) <= 1 }))
+        if (!exposedHits.length) continue
+        if (endpoints.includes(cover as SVGGeometryElement) || endpoints.some(glyph => inside(box(glyph), box(cover)) && hits.every(index => distance(points[index]!, box(glyph)) < 1))) continue
+        // A commit is a compound painted owner: glyph plus its uniquely nearby
+        // caption/backdrop. Only the route's own endpoint compound may cover its
+        // initial/final interval; an interior or unrelated caption cannot.
+        const owner = endpoints.find(glyph => captions.get(glyph) === cover || captionBackgrounds.get(glyph) === cover)
+        if (owner) { const endpoint = owner === glyphFor[a] ? points[0]! : points.at(-1)!, c = center(box(owner)); if (Math.hypot(endpoint.x - c.x, endpoint.y - c.y) <= box(owner).width / 2 + 3 && (owner === glyphFor[a] ? Math.max(...hits) < 256 : Math.min(...hits) > 256)) continue }
+        if (opacity !== null && stroke && stroke.alpha * Number(cs.strokeOpacity) * opacity >= 1 / 255 && stroke.rgb !== backdrop?.rgb && cover instanceof SVGGeometryElement && allGeometry.includes(cover) && !/[zZ]/.test(cover.getAttribute('d') ?? '') && !fill && stroke) { const ends = endPoints(cover), other = ends.length === 2 ? ends.map(bind) : []; const common = [a, b].find(index => other.includes(index)); if (other.length === 2 && other[0] !== other[1] && other.every(index => index !== null)) {
+          const connectorWidth = Number.parseFloat(cs.strokeWidth) * Math.max(Math.hypot(transform.a, transform.b), Math.hypot(transform.c, transform.d)), singleInterval = hits.every((index, i) => !i || index - hits[i - 1]! <= 2)
+          if (common !== undefined && singleInterval && hits.length < points.length - 2 && connectorWidth <= Math.min(...other.map(index => box(glyphFor[index!]!).width)) && (common === a ? Math.min(...hits) <= 2 : Math.max(...hits) >= 510)) continue
+          const first = Math.min(...hits), last = Math.max(...hits), routeLength = route.getTotalLength() * Math.max(Math.hypot(matrix.a, matrix.b), Math.hypot(matrix.c, matrix.d)), otherPoints = sample(cover, 256), middle = points[Math.round((first + last) / 2)]!, nearest = otherPoints.map((p, index) => ({ index, d: Math.hypot(p.x - middle.x, p.y - middle.y) })).sort((a, b) => a.d - b.d)[0], at = Math.max(1, Math.min(255, nearest?.index ?? 0)), i = Math.max(1, Math.min(511, Math.round((first + last) / 2))), u = { x: points[i + 1]!.x - points[i - 1]!.x, y: points[i + 1]!.y - points[i - 1]!.y }, v = { x: otherPoints[at + 1]!.x - otherPoints[at - 1]!.x, y: otherPoints[at + 1]!.y - otherPoints[at - 1]!.y }, sine = Math.abs(u.x * v.y - u.y * v.x) / (Math.hypot(u.x, u.y) * Math.hypot(v.x, v.y)), ownWidth = Number.parseFloat(css.strokeWidth) * Math.max(Math.hypot(matrix.a, matrix.b), Math.hypot(matrix.c, matrix.d)), otherWidth = Number.parseFloat(cs.strokeWidth) * Math.max(Math.hypot(transform.a, transform.b), Math.hypot(transform.c, transform.d))
+          if (first > 2 && last < 510 && last - first < 128 && sine > .5 && (last - first) / 512 * routeLength <= 3 * (ownWidth + otherWidth) && otherWidth <= Math.min(...other.map(index => box(glyphFor[index!]!).width))) continue
+        } }
+        if (cover.localName === 'text') return unavailable('Unowned/interior text overpaint: ' + norm(cover.textContent ?? ''))
+        if (opacity === null || cs.filter !== 'none' || cs.mixBlendMode !== 'normal') return null
+        const coverAlpha = Math.max((fill?.alpha ?? 0) * Number(cs.fillOpacity), (stroke?.alpha ?? 0) * Number(cs.strokeOpacity)) * opacity
+        // Unrelated opaque bodies or unfamiliar compound paint do not qualify.
+        if (coverAlpha >= 1 / 255) return unavailable('Unowned/interior ' + cover.localName + ' fill overpaint, alpha=' + coverAlpha + ', bounds=' + JSON.stringify(bounds))
+      }
+      return true
+    }
+    let routesKnown = identityAvailable
+    const routes: { source: string; target: string; visible: boolean | null; unavailableBecause?: string }[] = []
+    for (const path of allGeometry) {
+      if (path.localName === 'path' && (/[zZ]/.test(path.getAttribute('d') ?? '') || (path.getAttribute('d')?.match(/[mM]/g)?.length ?? 0) !== 1)) continue
+      const ends = endPoints(path); if (ends.length !== 2) { routesKnown = false; continue }
+      const a = bind(ends[0]!), b = bind(ends[1]!); if (a === null || b === null) { const baseline = branchRows.some(branch => baselineFor(path, branch)); if (!baseline && state(path) !== false) routesKnown = false; continue }; if (a === b) continue
+      if (filled(path) && linearSegments(path).length !== 1) { routesKnown = false; continue }
+      const earlier = Math.min(a, b), later = Math.max(a, b), painted = routeVisible(path, a, b)
+      if (painted === null) routesKnown = false
+      if (painted !== false) routes.push({ source: commits[earlier].id, target: commits[later].id, visible: painted, ...(painted === null ? { unavailableBecause: routeGaps.get(path) ?? 'Unsupported stroke/transform/compositing' } : {}) })
+    }
+    const picked = observed.flatMap((item, index) => { if (commits[index].type !== 'CHERRY_PICK') return []; const annotation = item.cherryAnnotation, source = annotation ? observed.find(other => other.label === annotation.source)?.id : null, parent = annotation ? observed.find(other => other.label === annotation.parent)?.id : null; return [{ id: item.id, type: item.type, source, parent, expectedSource: commits[index].cherryPickSource, expectedParent: commits[index].cherryPickParent }] })
+    const pickedKnown = picked.every(item => item.type === 'CHERRY_PICK' && item.source && item.parent), pickedValid = picked.every(item => item.source === item.expectedSource && item.parent === item.expectedParent)
+    const wanted = commits.flatMap(commit => [...commit.parents.map((parent: string) => ({ source: parent, target: commit.id })), ...(commit.type === 'CHERRY_PICK' ? [{ source: commit.cherryPickSource, target: commit.id }] : [])]), key = (edge: any) => edge.source + '\0' + edge.target
+    const parentsValid = same(routes.map(key).sort(), wanted.map(key).sort())
+    const physicalChronology = observed.map(commit => commit.center ? sign * commit.center[axis] : null), chronologyValid = settings.parallelCommits === true || physicalChronology.every((value, index) => value !== null && (!index || value > physicalChronology[index - 1]! + 1))
+    const available = identityAvailable && labelsKnown && typesKnown && routesKnown && pickedKnown
+    add('commits', { commits: observed, parents: routes, picked }, !labelsValid || !typesValid || pickedKnown && !pickedValid ? false : available ? parentsValid && chronologyValid && pickedValid : null, 'Unique physical lanes and per-lane chronology bind all commit glyphs; exact authored captions/tags have unique nearby owners. Measured circles, nested highlight squares and contrasting crossed diagonals establish supported types; actual exposed connector endpoints establish the complete parent multiset. Only each route endpoint’s independently owned glyph/caption compound may cover its adjacent interval; unrelated or interior overpaint remains unknown. Renderer IDs/classes and generated commit text supply no identity; Cherry-picks additionally require a physical two-fruit/stem mark and an independently owned visible origin/selected-parent annotation; its physical provenance connector is counted separately from its ordinary parent. Missing selected-parent encodings and unfamiliar glyphs remain unknown.')
+    const heads = branchRows.map(branch => ({ id: branch.id, head: [...observed].reverse().find(commit => commit.branch === branch.id)?.id ?? null, requiresHead: Object.hasOwn(branch, 'head'), expectedHead: branch.head, lane: branch.lane }))
+    const actualOrder = [...heads].sort((a, b) => Number(a.lane) - Number(b.lane)).map(branch => branch.id), orderProfile = branches.length <= 10 && branches.every((branch, index) => branch.order === undefined || Number.isFinite(branch.order) && (index === 0 ? branch.order >= 0 : branch.order > 0))
+    const branchAvailable = identityAvailable && authoredKnown && heads.every(branch => !branch.requiresHead || branch.expectedHead !== null && branch.head !== null) && orderProfile
+    add('branches', { heads, expectedOrder, actualOrder }, branchAvailable ? labelsValid && heads.every(branch => !branch.requiresHead || branch.head === branch.expectedHead) && same(expectedOrder, actualOrder) : null, 'Every visible branch heading owns one physical lane and complete glyph inventory; explicit hidden headings use only documented lane precedence and must have one nonempty measured lane each. Latest per-lane glyphs independently establish heads and source-owned stable branch order. Parent routing and special glyph type uncertainty cannot erase an otherwise proven lane/head fact; empty native pointers remain unknown.')
+    const config = (path: string, actual: unknown, passed: boolean | null) => gitConfig.set(path, { actual, passed })
+    const baselineLanes = branchRows.map(branch => { const matched = allGeometry.filter(line => baselineFor(line, branch)); return { id: branch.id, lines: matched.length, uninspectable: matched.some(line => state(line) === null || !visible(line) || coverRecords.some(item => item.cover !== line && !candidates.includes(item.cover as SVGGeometryElement) && !!(line.compareDocumentPosition(item.cover) & Node.DOCUMENT_POSITION_FOLLOWING) && item.stroke && Number(item.css.strokeOpacity) > 0 && Number.parseFloat(item.css.strokeWidth) > 0 && item.opacity !== false && inside(item.bounds, box(line)))) } })
+    config('gitGraph.showBranches', branchRows.map((branch, index) => ({ id: branch.id, visible: !!branch.element, baselines: baselineLanes[index]!.lines })), identityAvailable && !baselineLanes.some(row => row.uninspectable) ? branchRows.every((branch, index) => hiddenBranches ? !branch.element && baselineLanes[index]!.lines === 0 : !!branch.element && baselineLanes[index]!.lines > 0) : null)
+    config('gitGraph.showCommitLabel', observed.map(commit => commit.caption), identityAvailable ? hiddenCommits ? glyphFor.every(glyph => !captions.has(glyph!)) : captionProfile : null)
+    config('gitGraph.mainBranchName', branchRows[0]?.id, identityAvailable && branchRows[0]?.element ? norm(branchRows[0].element.textContent ?? '') === norm(settings.mainBranchName ?? branchRows[0].id) : null)
+    config('gitGraph.mainBranchOrder', { expectedOrder, actualOrder }, branchAvailable ? same(expectedOrder, actualOrder) : null)
+    const captionAngles = [...captions.values()].map(e => { const matrix = (e as SVGGraphicsElement).getScreenCTM(); return matrix ? Math.abs(Math.atan2(matrix.b, matrix.a) * 180 / Math.PI) % 180 : null })
+    config('gitGraph.rotateCommitLabel', captionAngles, identityAvailable && captionProfile && captionAngles.every(value => value !== null) ? captionAngles.every(value => settings.rotateCommitLabel ? Math.abs(value! - 45) < 1 || Math.abs(value! - 135) < 1 : value! < 1 || value! > 179) : null)
+    const coordinates = observed.map(commit => commit.center ? sign * commit.center[axis] : null), generations = commits.map((commit, i) => { const parents = commit.parents.map((id: string) => commits.findIndex(parent => parent.id === id)); return parents.every((index: number) => index >= 0 && index < i) ? parents : null }), depths: number[] = []
+    for (const parents of generations) depths.push(parents ? parents.length ? 1 + Math.max(...parents.map((index: number) => depths[index]!)) : 0 : NaN)
+    const levelsValid = coordinates.every(value => value !== null) && (settings.parallelCommits ? coordinates.every((value, i) => coordinates.every((other, j) => depths[i] === depths[j] ? Math.abs(value! - other!) < 2 : Math.sign(value! - other!) === Math.sign(depths[i]! - depths[j]!))) : coordinates.every((value, i) => !i || value! > coordinates[i - 1]! + 1))
+    config('gitGraph.parallelCommits', { coordinates, depths }, identityAvailable && depths.every(Number.isFinite) ? levelsValid : null)
+    const captionPaint = (property: string) => [...captions.values()].map(e => getComputedStyle(e)[property as any]), captionFills = [...captionBackgrounds.values()].map(e => getComputedStyle(e).fill)
+    const paintLeaf = (path: string, values: any[], numeric = false) => { const wanted = facts['authored-config']?.themeVariables?.[path.split('.').at(-1)!]; if (wanted === undefined) return; config(path, values, values.length && captionProfile && values.length === captions.size ? values.every(value => numeric ? Math.abs(Number.parseFloat(value) - Number.parseFloat(wanted)) < .1 : color(value)?.rgb === color(wanted)?.rgb) : null) }
+    paintLeaf('themeVariables.commitLabelColor', captionPaint('fill')); paintLeaf('themeVariables.commitLabelFontSize', captionPaint('fontSize'), true); paintLeaf('themeVariables.commitLabelBackground', captionFills)
+    const tags = commits.flatMap(commit => commit.tags ?? []), tagElements = tags.map((tag: string) => label(tag)), tagOwners = tagElements.map(e => e ? shapes.filter(shape => inside(box(shape), box(e))).sort((a, b) => box(a).width * box(a).height - box(b).width * box(b).height)[0] : undefined)
+    for (const [name, values] of [['tagLabelColor', tagElements.map(e => e ? getComputedStyle(e).fill : null)], ['tagLabelFontSize', tagElements.map(e => e ? getComputedStyle(e).fontSize : null)], ['tagLabelBackground', tagOwners.map(e => e ? getComputedStyle(e).fill : null)], ['tagLabelBorder', tagOwners.map(e => e ? getComputedStyle(e).stroke : null)]] as [string, (string | null)[]][]) { const wanted = facts['authored-config']?.themeVariables?.[name]; if (wanted !== undefined) config('themeVariables.' + name, values, tags.length && values.every(value => value !== null) ? values.every(value => name.endsWith('FontSize') ? Math.abs(Number.parseFloat(value!) - Number.parseFloat(wanted)) < .1 : color(value!)?.rgb === color(wanted)?.rgb) : null) }
+    add('hidden-git-labels', hidden.map((entry: any) => ({ ...entry, present: text.some(e => norm(e.textContent ?? '') === norm(entry.kind === 'branch' ? entry.id : entry.authoredId)) })), identityAvailable ? hidden.every((entry: any) => !text.some(e => norm(e.textContent ?? '') === norm(entry.kind === 'branch' ? entry.id : entry.authoredId))) : null, 'Only explicitly source-suppressed branch headings/commit captions are absent. Their complete measured glyph topology and all tags remain required; missing ordinary labels never gain suppression credit.')
+    add('git-operation-order', null, null, 'Individual checkout/branch command history has no unique printed inverse; the independent physical commit chronology, parents, lanes and heads retain their own checks.')
   }
   if (input.family === 'eventmodeling') {
     const frames: any[] = facts.frames ?? [], data: any[] = facts['data-definitions'] ?? [], config = facts['authored-config']?.themeVariables ?? {}
@@ -1001,6 +1135,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
         if (path === 'themeVariables.pieOuterStrokeWidth') { actual = pieProfile.outlineWidth; passed = Math.abs(Number(actual) - Number.parseFloat(String(wanted))) < .1 }
         if (path === 'pie.highlightSlice' && wanted !== 'hover') { actual = pieProfile.observations.map((item: any) => ({ label: item.label, scale: item.scale, opacity: item.opacity })); const known = (actual as any[]).every(item => (Math.abs(item.scale - 1) < .008 || Math.abs(item.scale - 1.05) < .008) && (Math.abs(item.opacity - .7) < .01 || Math.abs(item.opacity - 1) < .01)); passed = known ? (actual as any[]).every(item => item.label === wanted ? Math.abs(item.scale - 1.05) < .008 && Math.abs(item.opacity - 1) < .01 : Math.abs(item.scale - 1) < .008 && Math.abs(item.opacity - .7) < .01) : null }
       }
+      if (input.family === 'gitgraph' && gitConfig.has(path)) { const projected = gitConfig.get(path)!; actual = projected.actual; passed = projected.passed }
       record(path, wanted, actual, passed)
     }
     const decisiveFailure = observations.some(entry => entry.passed === false), complete = observations.length > 0 && observations.every(entry => entry.passed !== null)
