@@ -390,8 +390,9 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (htmlPaint.has(element)) return htmlPaint.get(element)!
     htmlPaint.set(element, null)
     const matrix = (element as SVGGraphicsElement).getScreenCTM?.(), scale = matrix ? Math.max(Math.hypot(matrix.a,matrix.b),Math.hypot(matrix.c,matrix.d)) : 0
-    if (element.localName !== 'foreignObject' || !matrix || !(scale>0) || Math.abs(matrix.b)>1e-8 || Math.abs(matrix.c)>1e-8) return null
+    if (element.localName !== 'foreignObject' || !matrix || !(scale>0) || Math.abs(matrix.b)>1e-8 || Math.abs(matrix.c)>1e-8 || matrix.a<=0 || matrix.d<=0 || Math.abs(matrix.a-matrix.d)>1e-8) return null
     for(let owner:Element|null=element;owner;owner=owner.parentElement){if(getComputedStyle(owner).filter!=='none')return null;if(owner===svg)break}
+    const htmlCanvas=document.createElement('canvas').getContext('2d')!
     const allowed = ['span','div','p','br','b','strong','i','em']
     for (const child of [element,...element.querySelectorAll('*')]) {
       const css=getComputedStyle(child)
@@ -403,18 +404,28 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     while ((node=walker.nextNode())) {
       if(!node.textContent?.trim())continue
       const parent=node.parentElement!,css=getComputedStyle(parent),font=Number.parseFloat(css.fontSize)
-      if(!/^[\x20-\x7e]+$/.test(node.textContent)||!css.font||!(font>0)||css.direction!=='ltr'||css.writingMode!=='horizontal-tb'||css.textTransform!=='none')return null
-      textCanvas.font=css.font;const metric=textCanvas.measureText(node.textContent)
+      if(!/^[\x20-\x7e]+$/.test(node.textContent)||!css.font||!(font>0)||css.direction!=='ltr'||css.writingMode!=='horizontal-tb'||css.textTransform!=='none'||css.fontSizeAdjust!=='none')return null
+      htmlCanvas.font=css.font;htmlCanvas.fontKerning=css.fontKerning as CanvasFontKerning;const metric=htmlCanvas.measureText(node.textContent)
       if(![metric.actualBoundingBoxLeft,metric.actualBoundingBoxRight-metric.width,metric.actualBoundingBoxAscent,metric.actualBoundingBoxDescent].every(value=>Number.isFinite(value)&&Math.abs(value)<=font*2))return null
       if (/(?:ff|fi|fl)/i.test(node.textContent) || css.fontStyle !== 'normal' || css.fontFeatureSettings !== 'normal' || css.fontVariationSettings !== 'normal' || !['normal','0px'].includes(css.letterSpacing) || !['normal','0px'].includes(css.wordSpacing)) return null
-      const ascent=metric.fontBoundingBoxAscent,descent=metric.fontBoundingBoxDescent
-      if(![ascent,descent].every(Number.isFinite)||ascent<metric.actualBoundingBoxAscent||descent<metric.actualBoundingBoxDescent)return null
-      const chars=[...node.textContent].map(value=>textCanvas.measureText(value)),left=Math.max(0,...chars.map(m=>m.actualBoundingBoxLeft)),right=Math.max(0,...chars.map(m=>m.actualBoundingBoxRight-m.width)),range=document.createRange();range.selectNodeContents(node)
-      // Each actual wrapped line's font cell must match the measured font box.
-      // The whole run's largest glyph ascent/descent and per-character edge
+      // HTML Range font cells and Canvas fontBoundingBox metrics can use
+      // different platform ascent/descent rounding. Observe the HTML baseline
+      // independently with the same actual font and an empty baseline-aligned
+      // inline block; no diagram coordinate or expected label fits this probe.
+      const probe=document.createElement('div'),marker=document.createElement('span'),value=document.createTextNode(node.textContent)
+      probe.style.cssText='all:initial!important;position:fixed!important;left:-100000px!important;top:0!important;display:block!important;white-space:pre!important;'
+      for(const [key,value] of Object.entries({font:css.font,'line-height':css.lineHeight,'font-kerning':css.fontKerning,'letter-spacing':css.letterSpacing,'word-spacing':css.wordSpacing,direction:css.direction,'writing-mode':css.writingMode,'text-transform':'none'}))probe.style.setProperty(key,value,'important')
+      marker.style.cssText='all:initial!important;display:inline-block!important;width:0!important;height:0!important;margin:0!important;padding:0!important;border:0!important;vertical-align:baseline!important;'
+      probe.append(value,marker);document.body.append(probe)
+      let cellHeight=NaN,baselineOffset=NaN
+      try{const cell=document.createRange();cell.selectNodeContents(value);const b=cell.getBoundingClientRect();cellHeight=b.height;baselineOffset=marker.getBoundingClientRect().y-b.y}finally{probe.remove()}
+      if(!(cellHeight>0)||!Number.isFinite(baselineOffset)||baselineOffset<0||baselineOffset>cellHeight)return null
+      const chars=[...node.textContent].map(value=>htmlCanvas.measureText(value)),left=Math.max(0,...chars.map(m=>m.actualBoundingBoxLeft)),right=Math.max(0,...chars.map(m=>m.actualBoundingBoxRight-m.width)),range=document.createRange();range.selectNodeContents(node)
+      // Each actual wrapped line's font cell must match the independent HTML
+      // probe cell. The measured baseline, maximum glyph ascent/descent and edge
       // overhang conservatively enclose every line; these are not layout boxes
       // borrowed as opaque pixels from the transparent HTML container.
-      for(const b of range.getClientRects()){if(Math.abs(b.height-(ascent+descent)*scale)>.25)return null;boxes.push({x:b.x-left*scale,y:b.y+(ascent-metric.actualBoundingBoxAscent)*scale,width:b.width+(left+right)*scale,height:(metric.actualBoundingBoxAscent+metric.actualBoundingBoxDescent)*scale})}
+      for(const b of range.getClientRects()){if(Math.abs(b.height-cellHeight*scale)>.25)return null;boxes.push({x:b.x-left*scale,y:b.y+(baselineOffset-metric.actualBoundingBoxAscent)*scale,width:b.width+(left+right)*scale,height:(metric.actualBoundingBoxAscent+metric.actualBoundingBoxDescent)*scale})}
     }
     htmlPaint.set(element,boxes);return boxes
   }

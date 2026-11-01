@@ -1,6 +1,6 @@
 {
   "schema": "trident-test-font-context-v1",
-  "scope": "Exact original-capture font bytes provide a deterministic fallback context only for retained graph fixture observation; public SVG bytes and production observer are unchanged.",
+  "scope": "Exact original-capture public font bytes provide a deterministic test font context; per-font family bindings preserve actual Open Sans requests without substituting it for the existing fallback aliases. Public SVG bytes and production observer are unchanged.",
   "producerSha256": "20f83138e6f25bc12221adfca4caae849820847853f90e9b850187c1a391cfe2",
   "producer": "/workspace/trident-svg-final-2026-11-01/docs-original/producer.json",
   "aliases": [
@@ -30,6 +30,66 @@
         "path": "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
         "sha256": "1b5f2da6f4cadce4c05b9ecebe3a6fcd374eb95ae443605e799f4c3287978939",
         "bytes": 414568
+      }
+    },
+    {
+      "file": "OpenSans-Regular.ttf.gz",
+      "families": [
+        "Open Sans"
+      ],
+      "style": "normal",
+      "weight": 400,
+      "sha256": "e64e508b2aa2880f907e470c4550980ec4c0694d103a43f36150ac3f93189bee",
+      "bytes": 217360,
+      "originalCapture": {
+        "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Regular.ttf",
+        "sha256": "e64e508b2aa2880f907e470c4550980ec4c0694d103a43f36150ac3f93189bee",
+        "bytes": 217360
+      }
+    },
+    {
+      "file": "OpenSans-Bold.ttf.gz",
+      "families": [
+        "Open Sans"
+      ],
+      "style": "normal",
+      "weight": 700,
+      "sha256": "5894a3649b213cf5b2d673b6e7a871815fd1d120fa68a463592f27db14eae323",
+      "bytes": 224592,
+      "originalCapture": {
+        "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Bold.ttf",
+        "sha256": "5894a3649b213cf5b2d673b6e7a871815fd1d120fa68a463592f27db14eae323",
+        "bytes": 224592
+      }
+    },
+    {
+      "file": "OpenSans-Italic.ttf.gz",
+      "families": [
+        "Open Sans"
+      ],
+      "style": "italic",
+      "weight": 400,
+      "sha256": "a54dc8488f8193bf30c3820cf6f261f911f9d328d699e1a1b8042641554cec70",
+      "bytes": 212896,
+      "originalCapture": {
+        "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Italic.ttf",
+        "sha256": "a54dc8488f8193bf30c3820cf6f261f911f9d328d699e1a1b8042641554cec70",
+        "bytes": 212896
+      }
+    },
+    {
+      "file": "OpenSans-BoldItalic.ttf.gz",
+      "families": [
+        "Open Sans"
+      ],
+      "style": "italic",
+      "weight": 700,
+      "sha256": "3ca680f2444cc9e50447d057c006464566e92f2e77b0b6e26491e5bd757ed4e7",
+      "bytes": 213292,
+      "originalCapture": {
+        "path": "/usr/share/fonts/truetype/open-sans/OpenSans-BoldItalic.ttf",
+        "sha256": "3ca680f2444cc9e50447d057c006464566e92f2e77b0b6e26491e5bd757ed4e7",
+        "bytes": 213292
       }
     }
   ]

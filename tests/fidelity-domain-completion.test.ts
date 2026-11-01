@@ -6,7 +6,7 @@ import { chromium } from 'playwright'
 import { inspectSvgDrawing } from '../fidelity/inspect-svg.ts'
 import { inspectFidelityPaint } from '../fidelity/paint.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
-import { retainedGraphFonts } from './helpers/retained-graph-fonts.ts'
+import { retainedGraphFonts, retainedHtmlFontDiagnostics } from './helpers/retained-graph-fonts.ts'
 
 setDefaultTimeout(30_000)
 let browser: any
@@ -23,7 +23,9 @@ async function inspect(index: number, change?: string) {
     await page.setContent(svgFor(index))
     if ([48,49,503,504].includes(index)) await retainedGraphFonts(page)
     if (change) await page.evaluate(change)
-    return await inspectSvgDrawing(page, { family: docs[index].family, source: sources[index].source, expected: docs[index].expected })
+    const result=await inspectSvgDrawing(page, { family: docs[index].family, source: sources[index].source, expected: docs[index].expected })
+    const fontDiagnostics=[503,504].includes(index)&&!result.passed?await retainedHtmlFontDiagnostics(page):undefined
+    return {...result,fontDiagnostics}
   } finally { await page.close() }
 }
 const status = (result: Awaited<ReturnType<typeof inspect>>, key: string) => result.checks.find(check => check.criterion === key)?.status
@@ -205,8 +207,9 @@ test('curved multiply ribbons require bound ports, resolved alpha and actual con
 })
 
 test('transparent HTML space cannot be mistaken for paint over Venn captions', async () => {
-  expect((await inspect(503)).checks.filter(check=>check.status!=='passed')).toEqual([])
-  expect((await inspect(504)).checks.filter(check=>check.status!=='passed')).toEqual([])
+  for(const index of [503,504]){const result=await inspect(index);expect({checks:result.checks.filter(check=>check.status!=='passed'),fontDiagnostics:result.fontDiagnostics}).toEqual({checks:[],fontDiagnostics:undefined})}
+  const overlappingInk=await inspect(503, `const e=[...document.querySelectorAll('foreignObject')].find(e=>e.textContent==='OpenAPI');e.setAttribute('y',String(Number(e.getAttribute('y'))-25))`)
+  expect(status(overlappingInk, 'unclipped-authored-labels')).not.toBe('passed')
   const opaque = await inspect(503, `document.querySelector('foreignObject span').style.background='white'`)
   expect(status(opaque, 'unclipped-authored-labels')).not.toBe('passed')
   const ownerOpaque = await inspect(503, `document.querySelector('foreignObject').style.background='white'`)
