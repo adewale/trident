@@ -24,18 +24,26 @@ export interface DocsPngStaticProjection {
 }
 
 /** A PNG is one static frame, so it cannot prove elapsed animation or speed.
- * Only the pinned registered animation/ARIA sources have a declared projection.
+ * Registered responsive SVG behavior likewise has no single-raster inverse.
  * Unknown/custom syntax retains its full obligations. */
 export function docsPngStaticProjection(review:DocsDrawingReview):DocsPngStaticProjection|null{
   const clearance=docsPngClearanceProjection(review)
   if(clearance)return{protocol:docsPngStaticProtocol,sourceSemanticSha256:clearance.sourceSemanticSha256,originalExpectedSha256:clearance.originalExpectedSha256,expected:clearance.expected,nativeProfileExpected:clearance.nativeProfileExpected,excludedTemporal:[],excludedMetadata:[{owner:'diagram',property:'treemap.diagramPadding.exactInternalValue',value:200,reason:'The literal internal200 setting is retained in the original source/native/SVG contract. Extra public-adapter canvas margins prevent inverse-identifying it from PNG pixels; the required minimum200px effect remains explicit.'}],canvasClearance:clearance,provenance:clearance.provenance,claim:clearance.claim}
+  const responsive=review.id==='packages/mermaid/src/docs/syntax/usecase.md:478'
   const metadataKeys=['accessibility-title','accessibility-description'].filter(key=>Object.hasOwn(review.expected?.facts??{},key))
-  if(!animatedIds.has(review.id)&&(!metadataKeys.length||!review.id.startsWith('packages/mermaid/src/docs/syntax/')))return null
+  if(!responsive&&!animatedIds.has(review.id)&&(!metadataKeys.length||!review.id.startsWith('packages/mermaid/src/docs/syntax/')))return null
   const entry=registry.cases.find(row=>row.id===review.id),semantic=docsSourceSemanticHash(review)
   if(!entry||entry.sourceSha256!==review.sourceSha256||entry.semanticSha256!==semantic||review.intent!=='drawing'||!review.expected||!review.sourceReview?.expectedFactsComplete)throw Error('PNG static projection requires the exact registered original source contract: '+review.id)
   const expected=structuredClone(review.expected),facts:any=expected.facts??={},excludedTemporal:DocsPngStaticProjection['excludedTemporal']=[],excludedMetadata:NonNullable<DocsPngStaticProjection['excludedMetadata']>=[]
   if(animatedIds.has(review.id))projectSourceEdgePattern(expected)
   for(const key of metadataKeys){excludedMetadata.push({owner:'diagram',property:key,value:facts[key],reason:'PNG pixels cannot expose DOM/ARIA name or description metadata; the original SVG and native contract retains this exact value'});delete facts[key]}
+  if(responsive){
+    if(facts['authored-config']?.usecase?.useMaxWidth!==false)throw Error('Unreviewed PNG responsive configuration')
+    excludedMetadata.push({owner:'diagram',property:'usecase.useMaxWidth',value:false,reason:'One fixed PNG cannot prove whether its originating SVG scales to a different parent width; the exact false setting remains in the complete original SVG/native contract'})
+    delete facts['authored-config'].usecase.useMaxWidth
+    ;(expected.advisoryFacts??={})['png-inaccessible-metadata']=excludedMetadata as unknown as MeaningJson
+    return{protocol:docsPngStaticProtocol,sourceSemanticSha256:semantic,originalExpectedSha256:evidenceDigest(review.expected),expected,nativeProfileExpected:structuredClone(review.profileExpected??review.expected),excludedTemporal:[],excludedMetadata,provenance:['usecase.md:476,478 (pinned source1fb7869866dd619168d840291c9c54b4f129758b): useMaxWidth selects whether the SVG scales to available width','A single fixed raster has no counterfactual parent/container behavior. Fonts,padding24,colors,nodes,shapes and relationships remain required unchanged.'],claim:'PNG correctness covers every source-requested static font,padding,color,shape,label and relationship. It does not certify responsive SVG/container scaling from a single fixed raster; complete source/native/SVG obligations remain unchanged.'}
+  }
   const exclude=(owner:string,property:string,value:MeaningJson,reason:string)=>excludedTemporal.push({owner,property,value,reason})
   const edgeFor=(id:string)=>{
     const appearance=facts['edge-appearance']?.find((item:any)=>item.id===id),owned=expected.edges?.filter(item=>item.source===appearance?.source&&item.target===appearance?.target)

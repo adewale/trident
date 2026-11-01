@@ -19,8 +19,8 @@ const legacyHash=(review:DocsDrawingReview)=>sourceHash(JSON.stringify({intent:r
 // supplies the preservation negative control below.
 const selected=reviews.find(row=>row.id.endsWith('flowchart.md:844'))!,input=inputs.find((row:any)=>row.id===selected.id)
 
-test('only exact registered animation/ARIA and minimum-clearance contracts receive PNG-specific identities; SVG and native contracts remain complete',()=>{
-  expect(reviews.filter(row=>docsExpectationsHash(row)!==legacyHash(row)).map(row=>row.id)).toEqual(['flowchart.md:818','flowchart.md:832','flowchart.md:844','stateDiagram.md:399','stateDiagram.md:433','swimlanes.md:232','treemap.md:133','usecase.md:282','usecase.md:507','usecase.md:527'].map(suffix=>'packages/mermaid/src/docs/syntax/'+suffix))
+test('only exact registered animation/ARIA,responsive and minimum-clearance contracts receive PNG-specific identities; SVG and native contracts remain complete',()=>{
+  expect(reviews.filter(row=>docsExpectationsHash(row)!==legacyHash(row)).map(row=>row.id)).toEqual(['flowchart.md:818','flowchart.md:832','flowchart.md:844','stateDiagram.md:399','stateDiagram.md:433','swimlanes.md:232','treemap.md:133','usecase.md:282','usecase.md:478','usecase.md:507','usecase.md:527'].map(suffix=>'packages/mermaid/src/docs/syntax/'+suffix))
   for(const original of reviews.filter(row=>docsPngStaticProjection(row))){
     const before=JSON.stringify(original),projection=docsPngStaticProjection(original)!,stimulus=inputs.find((row:any)=>row.id===original.id),pngCase=reviewedDocsPngCase(stimulus,original),svgCase=reviewedDocsCase(stimulus,original)
     expect(JSON.stringify(original)).toBe(before)
@@ -57,6 +57,29 @@ test('only exact registered animation/ARIA and minimum-clearance contracts recei
   }
   const thick=reviews.find(row=>row.id.endsWith('flowchart.md:818'))!,thickInput=inputs.find((row:any)=>row.id===thick.id)
   expect((reviewedDocsPngCase(thickInput,thick).expected.facts!['edge-appearance'] as any[])[0].stroke).toBe('thick')
+})
+
+test('one fixed PNG excludes only responsive useMaxWidth; full native/SVG and concrete fonts,padding and colors remain required',()=>{
+  const row=reviews.find(row=>row.id.endsWith('usecase.md:478'))!,original=structuredClone(row),stimulus=inputs.find((input:any)=>input.id===row.id),projection=docsPngStaticProjection(row)!,png=reviewedDocsPngCase(stimulus,row),svg=reviewedDocsCase(stimulus,row)
+  const config=(row.expected!.facts!['authored-config'] as any).usecase,staticConfig=(png.expected.facts!['authored-config'] as any).usecase
+  const{useMaxWidth,...staticMetrics}=config
+  expect(useMaxWidth).toBe(false)
+  expect(staticConfig).toEqual(staticMetrics)
+  expect(staticConfig).toMatchObject({actorFontSize:16,actorFontFamily:'Arial',actorFontWeight:'bold',usecaseFontSize:14,usecaseFontFamily:'Georgia',usecaseFontWeight:'normal',diagramPadding:24,colorScheme:'role'})
+  expect((svg.expected.facts!['authored-config'] as any).usecase.useMaxWidth).toBe(false)
+  expect(png.profileExpected).toEqual(original.profileExpected??original.expected)
+  expect(row).toEqual(original)
+  expect(projection.excludedMetadata).toEqual([{owner:'diagram',property:'usecase.useMaxWidth',value:false,reason:expect.stringContaining('different parent width')}])
+  expect(projection.sourceSemanticSha256).toBe(docsPngStaticProjection(original)!.sourceSemanticSha256)
+  expect(projection.claim).toContain('does not certify responsive')
+  expect(docsExpectationsHash(row)).not.toBe(legacyHash(row))
+  for(const [key,value]of[['useMaxWidth',true],['diagramPadding',0],['actorFontSize',12]] as const){
+    const forged=structuredClone(row);((forged.expected!.facts!['authored-config'] as any).usecase)[key]=value
+    expect(()=>docsPngStaticProjection(forged)).toThrow('exact registered')
+  }
+  const custom=reviewDocumentationSource({id:'docs:custom-responsive',family:'usecase',source:'---\nconfig:\n  usecase:\n    useMaxWidth: false\n---\nusecase-beta\nactor A'})
+  expect(docsPngStaticProjection(custom)).toBeNull()
+  expect((custom.expected!.facts!['authored-config'] as any).usecase.useMaxWidth).toBe(false)
 })
 
 test('changed canonical facts cannot borrow a static projection and unrelated custom animation is never implicitly weakened',()=>{
