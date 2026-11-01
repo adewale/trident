@@ -1,0 +1,199 @@
+{
+  "schema": "trident-independent-source-interpretation-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "sourceReader": "/root/complete_png",
+  "independentReviewer": "/root",
+  "reviewStatus": "approved",
+  "rendererInvocations": 0,
+  "referenceModelInvocations": 0,
+  "literalInventoryChanged": false,
+  "nativeProfilesChanged": false,
+  "summary": {
+    "occurrences": 548,
+    "changed": 1,
+    "unchanged": 547,
+    "indices": [
+      352
+    ]
+  },
+  "normativeProvenance": [
+    {
+      "path": "packages/mermaid/src/docs/syntax/requirementDiagram.md",
+      "sha256": "f3f2f2724836103af18861a0399dedd6b9260841033f3c8c138995c05f90bf57",
+      "lines": [
+        247,
+        255
+      ],
+      "quotation": "## Direction\n\nThe diagram can be rendered in different directions using the `direction` statement. Valid values are:\n\n- `TB` - Top to Bottom (default)\n- `BT` - Bottom to Top\n- `LR` - Left to Right\n- `RL` - Right to Left\n",
+      "meaning": "Explicit requirement direction sets the rendered global direction. LR/RL/TB/BT remain visual obligations independently of relationship arrow semantics. Branching/cyclic rank observability is a separate observer qualification, never a reason to discard the source request."
+    }
+  ],
+  "finding": "The generic flowchart-only direction projection silently made an explicit requirement layout request advisory. A fresh independent saved-image review found the native two-node output vertical for source direction LR; the previous positive did not check this authored fact.",
+  "rows": [
+    {
+      "index": 352,
+      "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:258",
+      "sourceSha256": "4bff091ab718b957ce1a1c2960676f6feed8121dd48e1b550466524b7407eee0",
+      "beforeSemanticSha256": "73d89a04982f54f6bac4c175c543e69204190ecc3b45876b0bde19b5ad196359",
+      "afterSemanticSha256": "6e7d5be088a1060fc0f073e77aa37d3964cbfa82d29e15ed2aa87ab18b0da7aa",
+      "beforePngExpectationsSha256": "8b05ad5b93ff8a6b01eb29bcd51cd2c6ef07a12d0566fd603361c2843bd1bc29",
+      "afterPngExpectationsSha256": "437cfd74951ff0f0559807cad7f665a78d6fb4a043a2f16a40e94cea698be1d6"
+    }
+  ],
+  "before": {
+    "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:258",
+    "sourceSha256": "4bff091ab718b957ce1a1c2960676f6feed8121dd48e1b550466524b7407eee0",
+    "intent": "drawing",
+    "family": "requirement",
+    "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
+    "expected": {
+      "labels": [
+        "test_req",
+        "1",
+        "the test text.",
+        "high",
+        "test",
+        "test_entity",
+        "simulation",
+        "satisfies"
+      ],
+      "facts": {
+        "definitions": [
+          {
+            "name": "test_req",
+            "kind": "requirement",
+            "fields": {
+              "id": "1",
+              "text": "the test text.",
+              "risk": "high",
+              "verifymethod": "test"
+            }
+          },
+          {
+            "name": "test_entity",
+            "kind": "element",
+            "fields": {
+              "type": "simulation"
+            }
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "test_req",
+          "label": "test_req"
+        },
+        {
+          "id": "test_entity",
+          "label": "test_entity"
+        }
+      ],
+      "edges": [
+        {
+          "source": "test_entity",
+          "target": "test_req",
+          "directed": true,
+          "label": "satisfies"
+        }
+      ],
+      "advisoryFacts": {
+        "direction": "LR"
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:definitions"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+      ]
+    }
+  },
+  "after": {
+    "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:258",
+    "sourceSha256": "4bff091ab718b957ce1a1c2960676f6feed8121dd48e1b550466524b7407eee0",
+    "intent": "drawing",
+    "family": "requirement",
+    "review": "Literal source expectations extracted independently of renderer outputs. Each handled construct has an explicit semantic interpretation; every remaining construct blocks a complete source contract. No reference-renderer result supplies an expected answer.",
+    "expected": {
+      "labels": [
+        "test_req",
+        "1",
+        "the test text.",
+        "high",
+        "test",
+        "test_entity",
+        "simulation",
+        "satisfies"
+      ],
+      "facts": {
+        "direction": "LR",
+        "definitions": [
+          {
+            "name": "test_req",
+            "kind": "requirement",
+            "fields": {
+              "id": "1",
+              "text": "the test text.",
+              "risk": "high",
+              "verifymethod": "test"
+            }
+          },
+          {
+            "name": "test_entity",
+            "kind": "element",
+            "fields": {
+              "type": "simulation"
+            }
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "test_req",
+          "label": "test_req"
+        },
+        {
+          "id": "test_entity",
+          "label": "test_entity"
+        }
+      ],
+      "edges": [
+        {
+          "source": "test_entity",
+          "target": "test_req",
+          "directed": true,
+          "label": "satisfies"
+        }
+      ]
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:definitions",
+        "fact:direction"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [],
+      "visualProjections": [
+        "Explicit requirement direction remains a required global layout request (requirementDiagram.md247–255); relationship arrow direction is a separate obligation and does not determine the global axis"
+      ]
+    }
+  },
+  "limits": "Only requirement direction is restored. Complex direction observability must remain unknown unless independently qualified; this change imposes neither arbitrary per-edge precedence on other families nor a renderer-specific layout skin."
+}

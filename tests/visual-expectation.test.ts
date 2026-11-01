@@ -106,3 +106,17 @@ test('explicit owned source breaks become obligations independently of family te
   expect(projected.facts?.['text-line-breaks']).toEqual([{ owner: { kind: 'node', id: 'A' }, lines: ['Line one', 'Line two'] }, { owner: { kind: 'edge', index: 0 }, lines: ['Edge one', 'Edge two'] }, { owner: { kind: 'group', id: 'g' }, lines: ['Group one', 'Group two'] }, { owner: { kind: 'title' }, lines: ['Title one', 'Title two'] }])
   expect(raw.facts).not.toHaveProperty('text-line-breaks')
 })
+
+
+test('explicit requirement direction remains a visual obligation independently of relationship arrows', () => {
+  for (const direction of ['LR', 'RL', 'TB', 'BT']) {
+    const literal: MeaningExpectation = { labels: ['Element', 'Requirement'], nodes: [{ id: 'E', label: 'Element' }, { id: 'R', label: 'Requirement' }], edges: [{ source: 'E', target: 'R', directed: true, label: 'satisfies' }], facts: { direction } }
+    const visual = projectVisualExpectation('requirement', literal)
+    expect(visual.expected.facts?.direction).toBe(direction)
+    expect(visual.expected.advisoryFacts ?? {}).not.toHaveProperty('direction')
+    expect(visual.expected.edges).toEqual(literal.edges)
+    // The source's global direction does not reverse a semantic relationship.
+    const reversed = structuredClone(literal); reversed.edges![0] = { source: 'R', target: 'E', directed: true, label: 'satisfies' }
+    expect(projectVisualExpectation('requirement', reversed).expected.facts?.direction).toBe(direction)
+  }
+})

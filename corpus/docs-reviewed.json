@@ -53065,6 +53065,7 @@
         "satisfies"
       ],
       "facts": {
+        "direction": "LR",
         "definitions": [
           {
             "name": "test_req",
@@ -53102,10 +53103,7 @@
           "directed": true,
           "label": "satisfies"
         }
-      ],
-      "advisoryFacts": {
-        "direction": "LR"
-      }
+      ]
     },
     "sourceReview": {
       "protocol": "literal-documentation-facts-v1",
@@ -53116,12 +53114,13 @@
         "visible-labels",
         "node-identities-and-labels",
         "relationship-endpoints-directions-labels",
-        "fact:definitions"
+        "fact:definitions",
+        "fact:direction"
       ],
       "unresolved": [],
       "excludedNonvisual": [],
       "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
+        "Explicit requirement direction remains a required global layout request (requirementDiagram.md247–255); relationship arrow direction is a separate obligation and does not determine the global axis"
       ]
     }
   },
