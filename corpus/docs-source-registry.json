@@ -1,7 +1,7 @@
 {
   "schema": "trident-docs-source-registry-v1",
   "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-  "reviewedCorpusSha256": "2dd7b5d389e853f15cecd95686d2ae01c52feea809269992d0d4082aa7f24aa5",
+  "reviewedCorpusSha256": "deb6f5506e66a329464a3f80f5c0738c899ca98a296d9209bd947aaa56c5bfe9",
   "provenance": {
     "literalAuditBaseline": "2cc55cf",
     "structuralFix": "c9dd0b5",
@@ -27,7 +27,8 @@
     "eventDataReferencePresentation": "qualification/source-audits/event-data-reference-presentation.json; independently approved exacttwo-case delta and used-value/unused-record controls",
     "defaultSkinFairness": "qualification/source-audits/default-skin-fairness.json; exact32-case independent review; default skin advisory, explicit overrides and nondefault palette tokens required",
     "effectiveEdgeStyle": "qualification/source-audits/effective-edge-style.json; exact4 SVG plus5 PNG independent source review; source animation enable/speed does not request renderer default dash skin",
-    "finalStaticDrawingMetadata": "Independent root review of exact four-case source-only delta 1e687dbf553582c1c5d78f27ed8a3e42a6e1ce5fdc2e2c640ab773eb51a3b130; gitgraph276 selected-parent native metadata, railroad335/343 owned blank terminals, quadrant329 documented effective point styles. All548 literals/native profiles unchanged; Boston281 source ambiguity retained."
+    "finalStaticDrawingMetadata": "Independent root review of exact four-case source-only delta 1e687dbf553582c1c5d78f27ed8a3e42a6e1ce5fdc2e2c640ab773eb51a3b130; gitgraph276 selected-parent native metadata, railroad335/343 owned blank terminals, quadrant329 documented effective point styles. All548 literals/native profiles unchanged; Boston281 source ambiguity retained.",
+    "requirementDirection": "qualification/source-audits/requirement-direction.json; independently source-reviewed global direction obligation, separate from relationship arrow semantics"
   },
   "cases": [
     {
@@ -2498,7 +2499,7 @@
       "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:258",
       "sourceSha256": "4bff091ab718b957ce1a1c2960676f6feed8121dd48e1b550466524b7407eee0",
       "intent": "drawing",
-      "semanticSha256": "73d89a04982f54f6bac4c175c543e69204190ecc3b45876b0bde19b5ad196359",
+      "semanticSha256": "6e7d5be088a1060fc0f073e77aa37d3964cbfa82d29e15ed2aa87ab18b0da7aa",
       "profileEligible": true
     },
     {
