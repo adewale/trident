@@ -65,7 +65,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   const paintedText = text.filter(paintable)
   const label = (value: string) => paintedText.filter(element => normalize(readText(element)) === normalize(value))
   const opaqueAlternative = !!svg.querySelector('image,use') || [...svg.querySelectorAll('path')].some(path => paintable(path) && getComputedStyle(path).fill !== 'none')
-  const geometry = [...svg.querySelectorAll('rect,circle,ellipse,polygon,polyline,path,line')].filter(element => paintable(element) && !input.paint.camouflagedGeometry?.some(item => item.tag === element.localName && nearBox(item.box, box(element)))) as SVGGeometryElement[]
+  const geometry = [...svg.querySelectorAll('rect,circle,ellipse,polygon,polyline,path,line')].filter((element, layer) => paintable(element) && !input.paint.camouflagedGeometry?.some(item => (item.layer === undefined || item.layer === layer) && item.tag === element.localName && nearBox(item.box, box(element)))) as SVGGeometryElement[]
   const strokePaint = (element: Element) => { const css = getComputedStyle(element); return (rgba(css.stroke)?.[3] ?? 0) * Number(css.strokeOpacity) > 0 && Number.parseFloat(css.strokeWidth) > 0 }
   const safeText = (element: Element) => {
     if (!paintable(element) || !contains(box(svg), box(element)) || input.paint.camouflagedText?.some(item => normalize(item.text) === normalize(readText(element)) && nearBox(item.box, box(element)))) return false
@@ -160,7 +160,40 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     const matrix = element.getScreenCTM(); if (!matrix) return null
     if (element.localName === 'polygon' || element.localName === 'polyline') { const points = [...(element as SVGPolygonElement).points].map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } }); if (element.localName === 'polygon' && points.length > 1 && distance(points[0]!, points.at(-1)!) <= .25) points.pop(); return points }
     if (element.localName === 'rect' && (element as SVGRectElement).rx.baseVal.value === 0 && (element as SVGRectElement).ry.baseVal.value === 0) { const b = box(element); return [{ x: b.x, y: b.y }, { x: b.x + b.width, y: b.y }, { x: b.x + b.width, y: b.y + b.height }, { x: b.x, y: b.y + b.height }] }
-    if (element.localName !== 'path' || /[a-cqstv]/i.test((element.getAttribute('d') ?? '').replace(/[eE][-+]?\d+/g, ''))) return null
+    if (element.localName !== 'path') return null
+    const data = element.getAttribute('d') ?? ''
+    if (/[aqst]/i.test(data.replace(/[eE][-+]?\d+/g, ''))) return null
+    if (/[cC]/.test(data)) {
+      // A cubic with monotone collinear controls is exactly a straight
+      // segment. Its command spelling does not change polygon topology.
+      const tokens = data.match(/[MLHVCZ]|[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi) ?? []
+      if (tokens.join('').toLowerCase() !== data.replace(/[\s,]/g, '').toLowerCase()) return null
+      let at = 0, command = '', current = { x: 0, y: 0 }, start = current, contour: Point[] | null = null
+      const contours: Point[][] = []
+      while (at < tokens.length) {
+        if (/^[MLHVCZ]$/i.test(tokens[at]!)) command = tokens[at++]!
+        const kind = command.toUpperCase(), relative = command !== kind
+        if (kind === 'Z') { current = start; command = ''; continue }
+        const count = kind === 'C' ? 6 : ['M', 'L'].includes(kind) ? 2 : ['H', 'V'].includes(kind) ? 1 : 0, values = tokens.slice(at, at + count).map(Number); at += count
+        if (!count || values.length !== count || values.some(v => !Number.isFinite(v))) return null
+        const p = (i: number) => ({ x: values[i]! + (relative ? current.x : 0), y: values[i + 1]! + (relative ? current.y : 0) })
+        const end = kind === 'H' ? { x: values[0]! + (relative ? current.x : 0), y: current.y } : kind === 'V' ? { x: current.x, y: values[0]! + (relative ? current.y : 0) } : p(kind === 'C' ? 4 : 0)
+        if (kind === 'C') {
+          const dx = end.x - current.x, dy = end.y - current.y, length = Math.hypot(dx, dy), controls = [p(0), p(2)]
+          if (length < 1e-8 ? controls.some(p => distance(p, current) > 1e-8) : controls.some(p => Math.abs(dx * (p.y - current.y) - dy * (p.x - current.x)) > length * 1e-7 || ((p.x - current.x) * dx + (p.y - current.y) * dy) / length < -1e-8 || ((p.x - current.x) * dx + (p.y - current.y) * dy) / length > length + 1e-8)) return null
+        }
+        current = end
+        if (kind === 'M') { start = current; command = relative ? 'l' : 'L'; contour = []; contours.push(contour) }
+        if (!contour) return null
+        if (!contour.length || distance(contour.at(-1)!, current) > 1e-8) contour.push(current)
+      }
+      if (contours.length === 1) {
+        const exact = contours[0]!.map(p => { const point = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: point.x, y: point.y } })
+        if (exact.length > 1 && distance(exact[0]!, exact.at(-1)!) < 1e-5) exact.pop()
+        for (let changed = true; changed && exact.length > 3;) { changed = false; for (let i = 0; i < exact.length; i++) { const a = exact[(i + exact.length - 1) % exact.length]!, b = exact[i]!, c = exact[(i + 1) % exact.length]!, length = distance(a, c); if (length > 0 && Math.abs((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) <= length * 1e-7 && (b.x - a.x) * (b.x - c.x) + (b.y - a.y) * (b.y - c.y) <= 0) { exact.splice(i, 1); changed = true; break } } }
+        return exact
+      }
+    }
     const points = samples(element, 1024), kept: Point[] = []
     const simplify = (values: Point[], epsilon: number): Point[] => {
       if (values.length <= 2) return values
@@ -252,7 +285,14 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     if (wanted === 'rectangle' && body.localName === 'rect') return { matches: !outline || Math.max(outline.rx / b.width, outline.ry / b.height) < .49, actual }
     if (polygonTemplates[wanted]) return { matches: normalized.length ? polygon(polygonTemplates[wanted]!) : ['rect', 'circle', 'ellipse'].includes(body.localName) || ellipse ? false : null, actual }
     if (wanted === 'circle' || wanted === 'ellipse' || wanted === 'small-circle' || wanted === 'filled-circle') return { matches: ellipse && (wanted === 'ellipse' || Math.abs(b.width - b.height) < Math.max(2, b.width * .02)) && (wanted !== 'filled-circle' || (rgba(getComputedStyle(body).fill)?.[3] ?? 0) > 0), actual }
-    if (wanted === 'rounded' || wanted === 'stadium') { const ratio = outline?.tag === 'rect' ? Math.max(outline.rx / b.width, outline.ry / b.height) : null; return { matches: ratio === null ? null : wanted === 'stadium' ? ratio >= .48 : ratio > .01 && ratio < .48, actual: { ...actual, cornerRatio: ratio } } }
+    if (wanted === 'rounded' || wanted === 'stadium') {
+      const ratio = outline?.tag === 'rect' ? Math.max(outline.rx / b.width, outline.ry / b.height) : null
+      if (ratio !== null) return { matches: wanted === 'stadium' ? ratio >= .48 : ratio > .01 && ratio < .48, actual: { ...actual, cornerRatio: ratio } }
+      const contour = samples(body, 2048), radius = Math.min(b.width, b.height) / 2, horizontal = b.width >= b.height
+      const capsuleErrors = contour.map(p => horizontal ? Math.abs(Math.hypot(Math.max(b.x + radius - p.x, 0, p.x - b.x - b.width + radius), p.y - center(b).y) - radius) : Math.abs(Math.hypot(p.x - center(b).x, Math.max(b.y + radius - p.y, 0, p.y - b.y - b.height + radius)) - radius))
+      const capsule = contour.length > 32 && Math.max(...capsuleErrors) <= .75
+      return { matches: wanted === 'stadium' ? capsule ? true : normalized.length ? false : null : null, actual: { ...actual, cornerRatio: null, capsuleMaximumError: Math.max(...capsuleErrors) } }
+    }
     if (wanted === 'double-circle' || wanted === 'crossed-circle') {
       const rings = ink.filter(element => ['circle', 'ellipse'].includes(element.localName) && distance(center(box(element)), center(b)) <= 1.5 && Math.abs(box(element).width - box(element).height) < 2)
       const diagonals = ink.filter(element => { const ps = samples(element, 2); return ps.length === 3 && distance(ps[0]!, ps[2]!) > Math.min(b.width, b.height) * .6 && distance(ps[1]!, { x: (ps[0]!.x + ps[2]!.x) / 2, y: (ps[0]!.y + ps[2]!.y) / 2 }) < 1 && distance(ps[1]!, center(b)) < 2 })
@@ -952,7 +992,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     const layers = raw.map(element => { const css = getComputedStyle(element); let opacity = 1; for (let parent: Element | null = element; parent; parent = parent.parentElement) { opacity *= Number(getComputedStyle(parent).opacity); if (parent === svg) break }; return { element, box: box(element), matrix: (element as SVGGraphicsElement).getScreenCTM?.(), fill: rgba(css.fill), stroke: rgba(css.stroke), fillOpacity: Number(css.fillOpacity) * opacity, strokeOpacity: Number(css.strokeOpacity) * opacity, width: Number.parseFloat(css.strokeWidth) } })
     const sameGeometry = (a: SVGGeometryElement, b: Element) => {
       if (!nearBox(box(a), box(b), .25)) return false
-      if (a.localName === 'path' && b.localName === 'path') return a.getAttribute('d') === b.getAttribute('d') && same(a.getScreenCTM()?.toJSON(), (b as SVGGraphicsElement).getScreenCTM()?.toJSON())
+      if (a.localName === 'path' && b.localName === 'path') { const first = a.getScreenCTM(), second = (b as SVGGraphicsElement).getScreenCTM(); return a.getAttribute('d') === b.getAttribute('d') && !!first && !!second && (['a', 'b', 'c', 'd', 'e', 'f'] as const).every(key => Math.abs(first[key] - second[key]) < 1e-8) }
       if (a.localName !== b.localName) return false
       return ['circle', 'ellipse'].includes(a.localName) || a.localName === 'rect' && (a as SVGRectElement).rx.baseVal.value === (b as SVGRectElement).rx.baseVal.value && (a as SVGRectElement).ry.baseVal.value === (b as SVGRectElement).ry.baseVal.value || ['polygon', 'polyline'].includes(a.localName) && a.getAttribute('points') === b.getAttribute('points')
     }
@@ -975,7 +1015,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         if (!current) return false
         for (let index = 0; index < values.length; index += 2) current.push({ x: values[index]!, y: values[index + 1]! })
       }
-      return paths.length > 0 && paths.every(points => { const origin = points[0]!, other = points.find(point => distance(point, origin) > 1e-8); if (!other) return false; const length = distance(other, origin); return points.every(point => Math.abs((other.x - origin.x) * (point.y - origin.y) - (other.y - origin.y) * (point.x - origin.x)) <= length * 1e-8) })
+      return paths.length > 0 && paths.every(points => { const origin = points[0]!, other = points.find(point => distance(point, origin) > 1e-8); if (!other) return true; const length = distance(other, origin); return points.every(point => Math.abs((other.x - origin.x) * (point.y - origin.y) - (other.y - origin.y) * (point.x - origin.x)) <= length * 1e-8) })
     }
     const minimumScreenScale = (matrix: DOMMatrix | null | undefined) => { const trace = matrix ? matrix.a ** 2 + matrix.b ** 2 + matrix.c ** 2 + matrix.d ** 2 : 0, determinant = matrix ? matrix.a * matrix.d - matrix.b * matrix.c : 0; return Math.sqrt(Math.max(0, (trace - Math.sqrt(Math.max(0, trace ** 2 - 4 * determinant ** 2))) / 2)) }
     const observations = (input.expected.nodes ?? []).map(expected => {
@@ -1032,7 +1072,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         const white = (color: number[] | null) => !!color && color.slice(0, 3).every(value => value === 255)
         const contrastsWhite = (color: number[] | null, opacity: number) => !!color && color[3]! * opacity >= 1 && Math.max(...color.slice(0, 3).map(value => 255 - value)) * color[3]! / 255 * opacity >= 1
         const clearWhiteCanvas = () => { for (let parent: Element | null = shape; parent; parent = parent.parentElement) { const style = getComputedStyle(parent), background = rgba(style.backgroundColor); if (style.backgroundImage !== 'none' || !background || background[3] !== 0 && !(background[3] === 255 && white(background))) return false }; return true }
-        const contrastingStroke = contrastsWhite(stroke, actualLayer?.strokeOpacity ?? 0) && strokeWidth * screenScale >= .25 && css.vectorEffect === 'none' && solidStroke
+        const contrastingStroke = contrastsWhite(stroke, actualLayer?.strokeOpacity ?? 0) && strokeWidth * screenScale >= .25 && css.vectorEffect === 'none' && solidStroke || layers.some(layer => layer.element !== shape && !!(shape.compareDocumentPosition(layer.element) & Node.DOCUMENT_POSITION_FOLLOWING) && layer.element instanceof SVGGeometryElement && sameGeometry(shape, layer.element) && contrastsWhite(layer.stroke, layer.strokeOpacity) && layer.width * minimumScreenScale(layer.matrix) >= .25 && getComputedStyle(layer.element).vectorEffect === 'none' && (getComputedStyle(layer.element).strokeDasharray === 'none' || getComputedStyle(layer.element).strokeDasharray.split(/[ ,]+/).every(value => Number.parseFloat(value) === 0)))
         if (white(fill) && fill![3] === 255 && (actualLayer?.fillOpacity ?? 0) >= .999 && !contrastingStroke && points.length && clearWhiteCanvas()) {
           const priorContourPaint = layers.filter(layer => layer.element !== shape && !!(layer.element.compareDocumentPosition(shape) & Node.DOCUMENT_POSITION_FOLLOWING) && points.some(point => {
             const padding = layer.width / 2 * (layer.matrix ? Math.hypot(layer.matrix.a, layer.matrix.b, layer.matrix.c, layer.matrix.d) : 1), b = layer.box
