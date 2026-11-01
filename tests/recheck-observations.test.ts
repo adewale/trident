@@ -7,7 +7,7 @@ import { recheckRendering, recheckFeaturePaint, recheckFeatureAdmission, invalid
 import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
 import type { BenchmarkObservation } from '../unified/types.ts'
 import { planRetainedSvgRegrade, retainedSvgStimulus, readRetainedPreparationInput, retainedObserverAssets, retainedImagePrerequisites, retainedSvgResourcePolicy, routeRetainedObserver, requireRetainedDocsSvgReturn, retainedDocsSvgOwnershipContext } from '../unified/recheck-inputs.ts'
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, cpSync, symlinkSync } from 'node:fs'
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, cpSync, symlinkSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { chromium } from 'playwright'
@@ -411,5 +411,11 @@ test('the real archive regrader reuses retained SVGs across contract enrichment 
     expect(evidenceBytesDigest(readFileSync(join(again, 'fidelity/result.collected.json')))).toBe(collectedResult)
     expect(evidenceBytesDigest(readFileSync(join(again, 'report.collected.json')))).toBe(collectedReport)
     for (const original of originals) expect(evidenceBytesDigest(readFileSync(join(collected, original.path)))).toBe(original.sha256)
+    const rejected = join(root, 'rejected'), editedInventory = JSON.parse(readFileSync(join(again, 'docs/inventory.json'), 'utf8'))
+    editedInventory.drawingReview.sha256 = 'different-png-source-facts'
+    save(join(again, 'docs/inventory.json'), editedInventory)
+    await expect(recheckRendering(again, rejected, undefined, chromiumExecutable, undefined, ['svg'])).rejects.toThrow('Unselected format')
+    expect(existsSync(join(rejected, 'recheck-receipt.json'))).toBe(false)
+    expect(existsSync(join(rejected, 'recheck-history/receipts', evidenceBytesDigest(readFileSync(join(again, 'recheck-receipt.json'))) + '.json'))).toBe(true)
   } finally { rmSync(root, { recursive: true, force: true }) }
 }, 30_000)
