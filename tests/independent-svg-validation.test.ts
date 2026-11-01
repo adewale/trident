@@ -91,6 +91,23 @@ test('packet absolute offsets and authored color separate valid geometry from a 
   expect(status(wrongSpan, 'painted-bit-field-spans')).toBe('failed')
 })
 
+test('wrapped packet fields keep the required absolute proof without an inapplicable ratio finding', async () => {
+  const fields = [
+    { label: 'Source Port', start: 0, end: 15 }, { label: 'Destination Port', start: 16, end: 31 }, { label: 'Sequence Number', start: 32, end: 63 }, { label: 'Acknowledgment Number', start: 64, end: 95 },
+    { label: 'Data Offset', start: 96, end: 99 }, { label: 'Reserved', start: 100, end: 105 }, { label: 'URG', start: 106, end: 106 }, { label: 'ACK', start: 107, end: 107 }, { label: 'PSH', start: 108, end: 108 },
+    { label: 'RST', start: 109, end: 109 }, { label: 'SYN', start: 110, end: 110 }, { label: 'FIN', start: 111, end: 111 }, { label: 'Window', start: 112, end: 127 }, { label: 'Checksum', start: 128, end: 143 },
+    { label: 'Urgent Pointer', start: 144, end: 159 }, { label: '(Options and Padding)', start: 160, end: 191 }, { label: 'Data (variable length)', start: 192, end: 255 }
+  ], expected: MeaningExpectation = { labels: ['TCP Packet', ...fields.map(field => field.label)], facts: { title: 'TCP Packet', fields } }
+  const original = await observe(321, 'packet', expected)
+  expect(original.checks.filter(check => check.status !== 'passed')).toEqual([])
+  expect(status(original, 'painted-bit-field-spans')).toBe('passed')
+  const wrong = await observe(321, 'packet', expected, page => page.evaluate(() => {
+    const cell = [...document.querySelectorAll('rect')].at(-1)!
+    cell.setAttribute('width', String(Number(cell.getAttribute('width')) - 30))
+  }))
+  expect(status(wrong, 'painted-bit-field-spans')).toBe('failed')
+})
+
 test('treemap values are owner-bound; equivalent SVG text spans work and borrowed numbers do not', async () => {
   expect(status(await observe(471, 'treemap', market), 'source-fact:displayed-values')).toBe('passed')
   const equivalent = await observe(471, 'treemap', market, page => page.evaluate(() => {

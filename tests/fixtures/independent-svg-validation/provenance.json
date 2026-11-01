@@ -118,5 +118,20 @@
     "source": "352.mmd",
     "normativeSourceCommit": "1fb7869866dd619168d840291c9c54b4f129758b",
     "sourceScope": "Pinned requirementDiagram.md247\u2013255 explicitly defines layout directions; the handwritten validation enrolls only the simple-chain layout fact."
+  },
+  {
+    "index": 321,
+    "file": "321.svg.gz",
+    "family": "packet",
+    "caseId": "packages/mermaid/src/docs/syntax/packet.md:34",
+    "sourceSha256": "48358a7c12b012d991051f4eb2143b72941245d1959ef90cba4f6b6aa2df5d41",
+    "svgSha256": "a9905384effc85d0359120f74e77a12991a6fd4c822f7f73c05f1d43167ae686",
+    "parentInvocationId": "7d3199d7-ad88-4963-aa85-1e5f78c5143c",
+    "parentBindingSha256": "21acd377699a70e6e285cfa35453b6968ad283c413102e172d8448241a5db19f",
+    "parentCaptureProfileSha256": "d9fba2ed071eec49e29c3d33dc600f3b698164fca7cc7302bfb7d9c15d92ec7d",
+    "scope": "Actual original public SVG companion of retained PNG call; no independent SVG invocation or clock",
+    "source": "321.mmd",
+    "normativeSourceCommit": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "sourceScope": "All17 literal fields plus title are independently transcribed in the wrapped-offset validation; no renderer-derived value or compiled expectation."
   }
 ]
