@@ -159,6 +159,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
             roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId, round, variant: peer.artifact?.transportVariant ?? 'primary', bytes: value.bytes ?? null, warmupAttempts: 0, warmupPassed: 0, ...(value.transportObservation ? { transportObservation: value.transportObservation } : {}) } })
             if (round === 1) {
               const review = drawingInventory.find(input => input.id === testCase.id)!.review
+              let observerFailure = false
               let witness: string | undefined, assessment: ReturnType<typeof assessDocsDrawing>
               try {
                 if (typeof value.svg === 'string') {
@@ -184,8 +185,8 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
                     ])
                   } finally { if (inspectionTimer) clearTimeout(inspectionTimer) }
                 } else assessment = assessDocsDrawing(testCase, review, value.status, false, [])
-              } catch (error) { assessment = { status: 'unknown', reason: 'Drawing observer did not complete: ' + String(error) } }
-              roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'drawing-checks', format: 'svg', mode: 'reviewed-first-round-output', status: assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked', detail: JSON.stringify(assessment), metrics: { project: peer.node.id, version: engine.version, measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId, round, variant: peer.artifact?.transportVariant ?? 'primary', reviewedSource: !!review, ...(witness ? { witness } : {}) } })
+              } catch (error) { observerFailure = true; assessment = { status: 'unknown', reason: 'Drawing observer did not complete: ' + String(error) } }
+              roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'drawing-checks', format: 'svg', mode: 'reviewed-first-round-output', status: assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : assessment.status === 'not-applicable' ? 'not-applicable' : 'blocked', detail: JSON.stringify(assessment), metrics: { project: peer.node.id, version: engine.version, measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId, round, variant: peer.artifact?.transportVariant ?? 'primary', reviewedSource: !!review, ...(observerFailure ? { observerFailure: true } : {}), ...(witness ? { witness } : {}) } })
               if (review?.intent === 'invalid-source') {
                 const rejection = docsPublicRejection(testCase, typeof value.svg === 'string', value.nativeError), control = assessDocsInvalidSource(testCase, review, rejection)
                 roundObservations.push({ suite: 'docs', surface: 'public:source-control', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'source-rejection', format: 'svg', mode: 'reviewed-first-round-control', status: control.status === 'correct' ? 'passed' : control.status === 'incorrect' ? 'failed' : 'blocked', detail: JSON.stringify(control), metrics: { project: peer.node.id, round, rawInvocationId: raw.invocationId, measuredAt: raw.measuredAt, sourceSha256: rejection.sourceSha256, rejectionEvidence: JSON.stringify(rejection) } })
@@ -260,7 +261,7 @@ export async function qualifyCollectedDocsPng(options: UnifiedRunOptions, result
         row.status = assessment.status === 'correct' ? 'passed' : assessment.status === 'incorrect' ? 'failed' : 'blocked'
         row.metrics = { ...row.metrics, preservationObserverSha256: observerSha256, rasterProfileSha256: raster.fileSha256 }
         if (assessment.status === 'correct') correct++
-      } catch (error) { if (error instanceof CollectionBudgetExhausted) throw error; row.detail = JSON.stringify({ status: 'unknown', reason: 'Retained conversion proof did not complete: ' + String(error), originalContentAssessment: originalAssessment }); row.status = 'blocked' }
+      } catch (error) { if (error instanceof CollectionBudgetExhausted) throw error; row.metrics = { ...row.metrics, observerFailure: true }; row.detail = JSON.stringify({ status: 'unknown', reason: 'Retained conversion proof did not complete: ' + String(error), originalContentAssessment: originalAssessment }); row.status = 'blocked' }
     }
   } finally { await context.close(); await browser.close() }
   const receipt = join(options.out, 'png-preservation-receipt.json')
