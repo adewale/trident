@@ -4,8 +4,8 @@ Trident ships a GitHub source tag and portable Node kit. The package is private;
 there is no npm publish. Release qualification means checking the claims and
 shipped bytes at the intended revision. It does not mean rerunning every project.
 
-The 0.1 release remains blocked on the initial [baseline](BASELINE.md) and its
-bounded accuracy claims. The [current qualification report](docs/qualification-results-2026-10-31.md)
+The initial [baseline](BASELINE.md) freezes bounded verified counts and their
+explicit observation limits. Release claims must stay within that scope. The [current qualification report](docs/qualification-results-2026-10-31.md)
 records active v3 terminal results, the 154-callback API diagnostic, retained SVG
 regrading and the minimum PNG cohort, with each current score linked to its source/output evidence. Full drawing accuracy and whole-suite conformance remain unresolved.
 
@@ -48,7 +48,7 @@ regressions. Preserve their sources, raw outputs and historical reports; use
 focused regression controls for changed harness behavior. Their old scores or
 new collection are not a comparative benchmark or release prerequisite.
 
-Before the first release, resolve or explicitly bound each advertised claim:
+Before a release, check each advertised claim against its actual evidence:
 
 | Claim | Concrete prerequisite |
 |---|---|
@@ -65,6 +65,12 @@ another campaign or a passing packaging check. Historical checks remain bound
 to their original revisions; current runtime checks are identified above.
 
 ## Check and package the intended revision
+
+Keep the frozen B0 bytes and receipt unchanged. Regrade affected retained outputs
+when their observer or source contract changes; retain the original call dates,
+raw evidence and any old verdict as history. Compare counts only under the same
+qualified scope. New timings require a matched reference in the same run, rather
+than a ratio against B0 clocks from another machine or date.
 
 Run the full harness suite once on the final source, the static checks and result
 consistency. Obtain CI results for the actual release head:

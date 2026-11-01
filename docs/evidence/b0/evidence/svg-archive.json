@@ -1,0 +1,2868 @@
+{
+  "schema": "trident-b0-svg-raw-archive-v1",
+  "archive": "svg-raw.tar.gz",
+  "sha256": "038a5dbf5d8612e56159fd87b370418c3673f509528f494a0a8d73a2a6376913",
+  "files": [
+    {
+      "path": "svg/drawings/00f0bdac36d98646792af94336056bf8fbb96c6c8b78f2f9599ce315911ccc23.svg.gz",
+      "bytes": 2152,
+      "sha256": "28f2d9d00f05abfb9635e40fde7c2fbca2f738a20b235907d79612e82515e50f"
+    },
+    {
+      "path": "svg/drawings/0187451d0dfdc72c297cade538393af3a0fff47568494ee3bd889c52bc23bd70.svg.gz",
+      "bytes": 4113,
+      "sha256": "73892cfc0cdddc90391d5c1efbaed0a6ad547588772cf72131e8dfcd86b1ab29"
+    },
+    {
+      "path": "svg/drawings/0196050239e90fcad74eeec4969f619b10fde3fa22d03e6cf62f3d99dfdbc5de.svg.gz",
+      "bytes": 6267,
+      "sha256": "4c7f69cb3ae160e9bc5ee72828412c8c85265046088a014cbbf2180b413edf74"
+    },
+    {
+      "path": "svg/drawings/019be8884c7c029ddedd4c5961ed618d587d2466926f95eae71c3b56799d772f.svg.gz",
+      "bytes": 6321,
+      "sha256": "eac1d6d1559696572c15a495aaa88477f2a73f5ac3607f66c120ac0ac8b46242"
+    },
+    {
+      "path": "svg/drawings/01c79353390b62242f4300f3f51911550697069571d30ed8a17f001f3553e84f.svg.gz",
+      "bytes": 3793,
+      "sha256": "3ff7d8ca75e7d5fdfc6556b09abfd468893b75c3f25cabe4b595e4cbd0280f6a"
+    },
+    {
+      "path": "svg/drawings/02ba63795cddc31e88bbe11958e1e71675cd9a41caf97efa4908a30f6d89e090.svg.gz",
+      "bytes": 1536,
+      "sha256": "3ba9b9e86bcf40c77f5014ca9884cae17e922055aee3c7df2655ab9d8e47918f"
+    },
+    {
+      "path": "svg/drawings/030a104012d2e256368b209a8b492861869fc870d8a59bc0b61aca8adafd2fad.svg.gz",
+      "bytes": 5014,
+      "sha256": "9678f866d4dedf57abe7b56f2efd5f590b47ec5989c81b543c8b6e25230ebfce"
+    },
+    {
+      "path": "svg/drawings/034942891d5b5c7d5f562d70f02e6b4865d8fa38c75d9a0859681cc4f45ddb39.svg.gz",
+      "bytes": 2573,
+      "sha256": "55e9b046199fdccfc1456e513f5896ce230ccf1eac21c59cff897809f597a59b"
+    },
+    {
+      "path": "svg/drawings/03d96334a5185ca8723e7e7a9426f3f2ffadc1aec77f705e1c8d09c7bde0bef7.svg.gz",
+      "bytes": 3659,
+      "sha256": "70840c0d985f540be37c365d2da6f842edcf9b0d08dadf0e8f5e54983788de75"
+    },
+    {
+      "path": "svg/drawings/04a538947c6f420b05ea5fb289cccfbf8629e9afb455d6ab21a5d4dd97baaa2a.svg.gz",
+      "bytes": 3209,
+      "sha256": "b85f8e46391284a00f52d99a49ab0bdde60012bd7b5c95e960652b314cc09429"
+    },
+    {
+      "path": "svg/drawings/0526a863e2c25815f65c335407017d936ec1925f3cf6d1d16cc5dcf1be4cf13e.svg.gz",
+      "bytes": 2288,
+      "sha256": "58bc8e7ac57680708bee8bcfb31bfa388321468ff4b1417c1dfbdef162fd2e1d"
+    },
+    {
+      "path": "svg/drawings/056a6db342c19626de26785ca7546717181ce88ff70c0a473d237c53bb87fffd.svg.gz",
+      "bytes": 2451,
+      "sha256": "d7d150565a51d460945828d84fc364dc84d5ddc9e92ef84eab485c988eeeb51e"
+    },
+    {
+      "path": "svg/drawings/056f4d290e0eb674a29e8d8bbe6a3aa50a7f421d618469178528b5009a3f75c2.svg.gz",
+      "bytes": 1526,
+      "sha256": "388cdaf921acca2519616b709e15fe9a6f68b4190455cb983f7d695fc5c66df2"
+    },
+    {
+      "path": "svg/drawings/05ca1c94ede41944a63edc82feb2557cfa1faeb842c205d0dd3d12554a43912d.svg.gz",
+      "bytes": 3266,
+      "sha256": "01a63c1294420b01970cd1f109c6780ede68d1d9e110a122d728d04e13708271"
+    },
+    {
+      "path": "svg/drawings/070958a4f414eddbc3242057a5942cf8828fa4f80ba3d7921f132ac1a065015e.svg.gz",
+      "bytes": 3042,
+      "sha256": "7cc54377eaee72a9118fd3dbeb7b94bedd4605abe25128d0d9cecba1687d045b"
+    },
+    {
+      "path": "svg/drawings/07326b8f6a17973c611c1f29fb6e2e133841f082ea9a32d77d366eba51e06071.svg.gz",
+      "bytes": 3841,
+      "sha256": "c2ba166582fcf62175e467e4373a8215ba99b94c0dbf10fd742cb4c2fddb0419"
+    },
+    {
+      "path": "svg/drawings/07bf8331ccb6c82377d94d8fadc7db1603361e0ec053b405418cfda388219353.svg.gz",
+      "bytes": 1196,
+      "sha256": "bcae672c3ea370acc0a1a67f353fb9702b92198633c4128b30862f0db01851af"
+    },
+    {
+      "path": "svg/drawings/089c788bb136efc5c048f48ea1530af2ad0681a537ebf245e57c218ea99d61b1.svg.gz",
+      "bytes": 3250,
+      "sha256": "21aa847c160e64fab63499c9d7ca5b45e84255a5242e0122bcfb57b84615dd7d"
+    },
+    {
+      "path": "svg/drawings/09551e04dbc91d46c5b812c8a193a36f961b6e9f08fd39e441a4ac4cd55e87ed.svg.gz",
+      "bytes": 4009,
+      "sha256": "f6be6e7c8d13fa4b0ffcedd433eecfe01357460da1390b5f756d0d9ea0173e6b"
+    },
+    {
+      "path": "svg/drawings/097073545747c8acadca966590d8f05c16d3f95168629da0de6de92fb31009c8.svg.gz",
+      "bytes": 2738,
+      "sha256": "7a9eb5675736d3e94513ffa639dd5c642259e4f2009d43c5cd09aba246761340"
+    },
+    {
+      "path": "svg/drawings/09a9f9273caeb2705408c714a5f7d93e7135a49abb2599218e89046bf2c50859.svg.gz",
+      "bytes": 1372,
+      "sha256": "ff2ea65a58529aaa5910443464bffdb4c244c153c6656fc692d1071ca2e221b9"
+    },
+    {
+      "path": "svg/drawings/0ab0e815b5c0ac213bc8984aad52f63af2dc3eee8f118cb2787417b1f1705f03.svg.gz",
+      "bytes": 4166,
+      "sha256": "3ef6a1775ce7b1d509c6344bc0c58be69ac450498671f11f3a532120a1082edd"
+    },
+    {
+      "path": "svg/drawings/0b4b0118f3dac27b3e36f6d30f956a3d7f649412fb0d5efd60d9a83c38800816.svg.gz",
+      "bytes": 6512,
+      "sha256": "d3b93e216a1467f6524e07e54767ce0fd536b992e155ceab57eb0968f174c8bb"
+    },
+    {
+      "path": "svg/drawings/0bef8e151f759db0b860d280bc862d6ed9b53ca140110b2504b8f33a57ad2ea1.svg.gz",
+      "bytes": 1120,
+      "sha256": "30ee80bf7b011a74a93514bc39e087c8a50fcf0625acecc5255bc82a2f9af818"
+    },
+    {
+      "path": "svg/drawings/0cffb27859c7671299e5fa50ff086750886714370b966e128b354fa85dd59a62.svg.gz",
+      "bytes": 1434,
+      "sha256": "f6dcf4a23da2cd5066d57f2587bc6e1c0f85973e71e71f96e4b3d4790c772c4d"
+    },
+    {
+      "path": "svg/drawings/0d499fa827abded40b85afc179afb9959550ed5d6d530c7b8c251155382c26e0.svg.gz",
+      "bytes": 1171,
+      "sha256": "ff101228da6eb6cbdddc1b111e56812a631896ad6d7f41a74af405fedcbae9ee"
+    },
+    {
+      "path": "svg/drawings/0d8f19390619e2ed3ff05af9e9b54131f98c9df2c744fcf2b056af8d1db48ca6.svg.gz",
+      "bytes": 1365,
+      "sha256": "bea68bcc9a4e3954bbdf4d4fe03b1a70a7d2b3765b70c4e408a9833fddbb37c3"
+    },
+    {
+      "path": "svg/drawings/0dace9cd5ad4bdd2f4dbd88a369c98bda104549a86ea5a082637c0530033681c.svg.gz",
+      "bytes": 6366,
+      "sha256": "33f55c6fb1b6e34aabc00cbbf732849798ebc46d3ea8a7dbd2420ad555f6f704"
+    },
+    {
+      "path": "svg/drawings/0e5e07515812d5043e077f99ad4cbd599a5277ad5091192546d4221ac6fbdd92.svg.gz",
+      "bytes": 4156,
+      "sha256": "125a19312d75d9cfc5c115344b3085e228a975a00c62fadf506dcb05e9bca971"
+    },
+    {
+      "path": "svg/drawings/0e905658a7dcbba744a99fe805b9a1def1a75b6ef32d91888d4548f9ce0386b0.svg.gz",
+      "bytes": 3077,
+      "sha256": "530a3ecbf56871ea4c6380ed971589181b7822bb9fd6d68817f4e68d16860b91"
+    },
+    {
+      "path": "svg/drawings/0ec18ff0b070fb4e6d58fe39cd24b8521c79ba41bf636398b55c1367851da62d.svg.gz",
+      "bytes": 1346,
+      "sha256": "673b600c1470da8787b2d1f9ae8da07702719f1f4a2033b5e31e33188d16ebca"
+    },
+    {
+      "path": "svg/drawings/0ee5bbc3f05a37ee2d63ba9692496263aba5c1f3ac67f75097b5462319f539aa.svg.gz",
+      "bytes": 3279,
+      "sha256": "7eaa0fe6d1ade8dddebd72842551ff4e2b3255c8ac7ce2e12f919e39529d8b9f"
+    },
+    {
+      "path": "svg/drawings/0fde8c3c1ae1653db2982c0811d9a66d216d09f8fcaf618c24f3787afcb4f23c.svg.gz",
+      "bytes": 1303,
+      "sha256": "3df203bc996198d6572705eb938baeadd287c953a8b76938383bf3d8ed8b940a"
+    },
+    {
+      "path": "svg/drawings/1077bbc15b4650edb9f7c3fceccbeed3a4e2a089c4170af90cd11244a98e69e9.svg.gz",
+      "bytes": 5988,
+      "sha256": "c2c4260e4b9d28a25fda853e1cf125c7456b6f2633ddbe5c1b22748c60c1aac5"
+    },
+    {
+      "path": "svg/drawings/10ad41add5258603aea27671f0fd7c4bf055d3f60882a04938e751fee6c56f1b.svg.gz",
+      "bytes": 2046,
+      "sha256": "3de9d5a6c5c82849261a5c52d0f690f5311d4b4a5bd71178342d8a46f68f64d9"
+    },
+    {
+      "path": "svg/drawings/10b6c6a0ba8df3bdd6af8903c1f57a6359cbdfbb7e02298e1aaf030acc005ca0.svg.gz",
+      "bytes": 5927,
+      "sha256": "5da4e29a7cd5d312d832fbf5d99e228df1af3b6b6038d93f285d57ac1160bc55"
+    },
+    {
+      "path": "svg/drawings/10eb3408e98cafda8453beea4353223ac8b0860c63fe208936bd41fbbd8c7149.svg.gz",
+      "bytes": 3265,
+      "sha256": "69a5fdec652ae3f5d1c9e286b42fc10bf6d05a2d637cfedcc33e6471c0656667"
+    },
+    {
+      "path": "svg/drawings/118dd80336ce988d88d7b2a5c691160ecc87da62b56aef832c4aaa70710ab93f.svg.gz",
+      "bytes": 3145,
+      "sha256": "178d77b28e8dd281b24e8a0af129439174aa898b2d7eb4f896c7ce29327a53c2"
+    },
+    {
+      "path": "svg/drawings/12ca949cacb6640dd9d8a1da0950dd1174dcb52949b6b9b1bcf02d931fce700f.svg.gz",
+      "bytes": 1519,
+      "sha256": "4eabf47ce6caab0ca4ab3ccae3ee8ce642e42547458da5890e39d9d6b534ce7e"
+    },
+    {
+      "path": "svg/drawings/12eaf360cfdd89cbd010b187a156aca72c1300d64002636594edcab8b6cb29b0.svg.gz",
+      "bytes": 6446,
+      "sha256": "49981f33e2a2a29ec0a9af4bf95a66cff18def7733516e808401c9ac5ca1b655"
+    },
+    {
+      "path": "svg/drawings/13b202ee8952cc1e35f29ba872fb35290440aca75bd5158cfe4e7257e3e3a288.svg.gz",
+      "bytes": 10963,
+      "sha256": "8ca82a6e3c625b1382e4348f8d249dae0a91d2a991244cf3df34eaf6e639f4d4"
+    },
+    {
+      "path": "svg/drawings/140e82ecfb0448d54a702bd099d16f18bdf933e2fdec1829ef952bf3a119ce4c.svg.gz",
+      "bytes": 2477,
+      "sha256": "28d2f1895ee1f8a5da2b9b19aed5f385c0a15b2e99722a496aaef539b5e63cdd"
+    },
+    {
+      "path": "svg/drawings/14414683f91335d5ac38a4ce43de9430fc5cd52cd578e6d6a6862727d9170b75.svg.gz",
+      "bytes": 4147,
+      "sha256": "f41762cb48cf264476654d5f7418d85fba8139d1d1fbaf544b687a4adbaae2a3"
+    },
+    {
+      "path": "svg/drawings/1471de7c09ccde8cda0c6094eb7f5de5435c0b05306171c331be697a93c8e104.svg.gz",
+      "bytes": 7879,
+      "sha256": "b0b26e5c605d57f477da8c549f57df4057f10813963e54d274a4320631e720ad"
+    },
+    {
+      "path": "svg/drawings/148f990ef06d73e29cca423701dc46f6a07ba49da3c7630b3c15fc1875c6d804.svg.gz",
+      "bytes": 7597,
+      "sha256": "be16f07a928ba0c03734a4358fcaea94abf0712bcad796236c1f570dafc17fa8"
+    },
+    {
+      "path": "svg/drawings/157b44deebe7905317a45ec4f20a3b450ab976f153f1914d356fc1b9a66fb69d.svg.gz",
+      "bytes": 3024,
+      "sha256": "7ada3412c923cdca6c8da347d087657b090f3b41ce09ab155644ec43bc933f7a"
+    },
+    {
+      "path": "svg/drawings/1622d02a8b91c07541f8dcb0acabfb3d9924db570ef0bd66290ebcba5ed96317.svg.gz",
+      "bytes": 3673,
+      "sha256": "4b62c21d7f74556f1274c6cf1836891656c3c45f51be760f16dad170a81f10ea"
+    },
+    {
+      "path": "svg/drawings/170ff534d233d8661222c35193640362f84fd4263e5c1d6044e8195bfe076b77.svg.gz",
+      "bytes": 3879,
+      "sha256": "191e929a4b476becab2b095096722d4caa25829e4d77905f0256c667a9454ebb"
+    },
+    {
+      "path": "svg/drawings/177e4e8cb63f419a4ced0503fd1c060a281349828ea6a5e31c413ae8a269c67d.svg.gz",
+      "bytes": 2098,
+      "sha256": "8be4e93e911ba574b8cb75c036df365be79ab0ce2ed65b4658217271ba3f3bbe"
+    },
+    {
+      "path": "svg/drawings/17a1f141a8659ca10fdef7bccd485b535190f91c23926ef4941d32860fb9cff7.svg.gz",
+      "bytes": 1293,
+      "sha256": "7d2fc30fa5ceeadc23d1327315e810f812624251588224eb12111ac1e6fde35e"
+    },
+    {
+      "path": "svg/drawings/1838c7891f52779d39f1e6aa3d2940ab3253c3f6215a72e17e657ad0e07549ed.svg.gz",
+      "bytes": 6224,
+      "sha256": "f2333e26b9f53ea83ceed006411a324fcd04eff8931b20c7af321bfe8b1f1680"
+    },
+    {
+      "path": "svg/drawings/184c6e062b039b1c584b0b8b7bab50d9d3b2c8ef163821da428fc4719651738f.svg.gz",
+      "bytes": 6105,
+      "sha256": "a487a5c6ff85e1ed51b17e950bf2f17102a04dbfc3641e7482b6788c7bc70b4f"
+    },
+    {
+      "path": "svg/drawings/1915213ba694d2c699b08a0119e42629f09223f261f8014921a6b0d2b6fc9ded.svg.gz",
+      "bytes": 2163,
+      "sha256": "fdee4075141bd700ffd0647c74c6d3aff74b21604d24c13520fa7c17358acd9d"
+    },
+    {
+      "path": "svg/drawings/19a685da5be238e3938d0ba7c2dbc53f3433ca556d76ddd73a2a4fade31a848d.svg.gz",
+      "bytes": 4155,
+      "sha256": "17c9f25c36356f43fa0df248bb0a50c0f6c3d33aba5f3a0123b9eb343661c5c7"
+    },
+    {
+      "path": "svg/drawings/1a8f12143e418b589ed84e5ebea0db10b07ab9fcdddd04d9a1d1c4a09f582a85.svg.gz",
+      "bytes": 1847,
+      "sha256": "bccc930644d3e27d39122b534b7fa0fa85ab9a52e71522b26236e4137670a603"
+    },
+    {
+      "path": "svg/drawings/1ae8f6658ecd49de16b952d5da62016d821ef51e8432fe784fa5ecb1b19da21d.svg.gz",
+      "bytes": 3963,
+      "sha256": "d5bf8e78ab05dce79674d26637b0a1692bed6689d292f754906e28eb0bd6510f"
+    },
+    {
+      "path": "svg/drawings/1b5979d43fa4798f2e31a63cc57403df7cfbd9f0bc857c412a9657839892ae33.svg.gz",
+      "bytes": 3258,
+      "sha256": "1e508c23e4a4d79cc443fa1f28f9406de078f6c2ae1daac3ed7af56d638748de"
+    },
+    {
+      "path": "svg/drawings/1c2bd931141eef9d318a1aad7dd599d58cb0b37dc8a6fb50c1e5bc4479dfbc40.svg.gz",
+      "bytes": 4417,
+      "sha256": "b0d121fa0fb721fb54e73e6fd185f177bfa3a84cac532df6b7d68425046f45c1"
+    },
+    {
+      "path": "svg/drawings/1c655b18c73a47fcc7b2aaa985fa9b08198a2567c3fb18f3c703fcbe13f594e1.svg.gz",
+      "bytes": 6401,
+      "sha256": "5aa535bb04555d4ff0d69cdde8bcac3934ee2098972d8e0abcd8ef09e79e5aad"
+    },
+    {
+      "path": "svg/drawings/1c84a0ed486d3c2a0e76a3c99ccc14422c51a06bd618a1180653a9edacb90719.svg.gz",
+      "bytes": 4074,
+      "sha256": "642dcd9ec21a6e3bdce2dac4dfc5c1db08601f00b8551c5780d0e71395b9875d"
+    },
+    {
+      "path": "svg/drawings/1c8959046a023ed551355fb96cdf2fbb655d1b9f141b4b2fecbf7b2ff855fbdc.svg.gz",
+      "bytes": 2621,
+      "sha256": "831c65c0c22bba6b1a1b9cd19288154ac112cef7080f689e8051113f15a86d38"
+    },
+    {
+      "path": "svg/drawings/1d0938d6fbb9e5ebb57627b3b2f6821968256bf53a5309c09dcd1379f5752351.svg.gz",
+      "bytes": 3289,
+      "sha256": "ae18ae7a55beac996d9f68bef975f4a4ba5ff16bc2a4e0ffe5997e80fcd6c105"
+    },
+    {
+      "path": "svg/drawings/1d81b282621364e8c363ece5f8daa047c114cc750172c74741dbbf123d6f733c.svg.gz",
+      "bytes": 3513,
+      "sha256": "987c90a9ca8bc4995b3c5305a578aa8b3965b2f6834aceba2502dfb0b5927f6e"
+    },
+    {
+      "path": "svg/drawings/1e38702fa2b2ef1940bc2e9b5c5f855055a9cb39d3f76ea82fc446f55b2a5911.svg.gz",
+      "bytes": 1511,
+      "sha256": "86a2d37f96bb26e39336e77e4ea4e2d6c4a7050c04102341fde89be821ce5e36"
+    },
+    {
+      "path": "svg/drawings/1e9d327a194ff4070b0d7f7b7f96f256b9858c2f42a5079c64a6f89d16a0e3ab.svg.gz",
+      "bytes": 1319,
+      "sha256": "5bea143a88d0a6978079014d5c65de6031540eb19fb0664b684fb1117a480e35"
+    },
+    {
+      "path": "svg/drawings/1ea3117278bae2b89cbff49b8975ad946a3571c2aa23e0cb2cc6f6f6359fc7b1.svg.gz",
+      "bytes": 10671,
+      "sha256": "9f5c53b227644dc8e228c0fc0566e80956bbbccb9512b1e400c0ac2b9caa41c1"
+    },
+    {
+      "path": "svg/drawings/1f019e574dce2a7ad8e185d5fad52b1650de4ec03bbfc286f6e7776d14a24480.svg.gz",
+      "bytes": 921,
+      "sha256": "11781c588cc14cd62e9a87e8f9f71d09f1ef828fb62bb83df775bad5919c6bdc"
+    },
+    {
+      "path": "svg/drawings/205fd799e2b27dc0ba09eafbebfc38b4176cfb264e805a61299ae2735e45d2f6.svg.gz",
+      "bytes": 2619,
+      "sha256": "ded901e00e511197f46d7c706417b538d4be24d2ec051d421da3ad3f095bfdb2"
+    },
+    {
+      "path": "svg/drawings/207b7af856ff8b67326282f1af1fdfb45532056281fa8bf6452ffb24ff24899c.svg.gz",
+      "bytes": 4155,
+      "sha256": "00d9b81cd75e75b47e0a142a6cdbbc683d7ac928a8975700d211ec370a41f189"
+    },
+    {
+      "path": "svg/drawings/20f501d8c004b6e2f2f253a72c8147c0420b0e561213f25cee0f6bd5325ac891.svg.gz",
+      "bytes": 3663,
+      "sha256": "c569f72a33a7da8a154904da9987835487a1fadf06c2257c320f80b2cca7da21"
+    },
+    {
+      "path": "svg/drawings/2101b2c1a28c8ee34050b32cb4f7297fea7160073550b4bad276002aa9a4cdc7.svg.gz",
+      "bytes": 3618,
+      "sha256": "1cbea72fa9657137dad406aed0eba5387a98dd2ac0d3b18e0d3d32da0f0df576"
+    },
+    {
+      "path": "svg/drawings/21f607fd1e6536f6c040d877bc608e7f23f115272912a8fcb6c60c3dc72399fd.svg.gz",
+      "bytes": 4602,
+      "sha256": "5c25c4180d0961d9a16dd3a4470d9fd97fc87506d6106a391954acc6f5e9e24d"
+    },
+    {
+      "path": "svg/drawings/226586cde64919c5b45914b09c0946a3d1a0f569610947787f6fd039860a4f8a.svg.gz",
+      "bytes": 2660,
+      "sha256": "bdc99a951ecfb7c49bef15d380f2ab8f003f0fda2a05bcb058d927b98735d49f"
+    },
+    {
+      "path": "svg/drawings/2334cbc869da9df52e7dc5d1c28fdb82b059a2bdd67876bdb36da7def1da05d3.svg.gz",
+      "bytes": 1232,
+      "sha256": "52ae866917f9bfec91f9f4993c10a25ff39124960d3470e710b687214d49d382"
+    },
+    {
+      "path": "svg/drawings/23ece08533e92dafdc3ddbe1efb1bda286f5ef6298adc28d9c6b3c5dd73ae377.svg.gz",
+      "bytes": 3266,
+      "sha256": "e44ee742cc84d8d6a8cdd3926f31bd4eefc6675db49066802daa1a9ae4cb775a"
+    },
+    {
+      "path": "svg/drawings/24e52a4a0a7a2c4f91b259a6f6f619f167766af0742e6389643079a5ad7a20c8.svg.gz",
+      "bytes": 3271,
+      "sha256": "721f435fb8f7d78b47079eb5c39638da7f63dd182d046ae07237a92923b7a38e"
+    },
+    {
+      "path": "svg/drawings/2550a8f9a430dc53ae2637f174154d9e3a929e50f83594c8181ebaf6f9a50b72.svg.gz",
+      "bytes": 1521,
+      "sha256": "3fcb399ca3168fe29d610ac9df7c8fdd081734100049f8213f42d48f218e7863"
+    },
+    {
+      "path": "svg/drawings/2752e915e0dc26c48f061e553317702db70bc3b03dff257ea39cd0bf2b142a6c.svg.gz",
+      "bytes": 8870,
+      "sha256": "85b199981d618ae3b3d5cd746f5311637c2ee440e3884d9bf318bdc31eba7a1a"
+    },
+    {
+      "path": "svg/drawings/277b26adaa4646f20907b0a644853d54eec76d912769cff1b89d799a837be39a.svg.gz",
+      "bytes": 5934,
+      "sha256": "b71b220be42f18819a2d7815a11edca7d31c51490cfb8c8cb631d8430c186edf"
+    },
+    {
+      "path": "svg/drawings/2788a1183a57db1c8a00b2f6ca77e09d224b21c00c4ef8acdbe301932efc59ac.svg.gz",
+      "bytes": 1481,
+      "sha256": "66648f91f5df1d063db9e89461e5d845f617a1a0b8a75c85d575152bfcc8f6b2"
+    },
+    {
+      "path": "svg/drawings/28210dfa2751e97ebf3c4212e3aa191b43d711b2f327926e335797fbf4e1b2d6.svg.gz",
+      "bytes": 3280,
+      "sha256": "2e4f858eb2600cfbff82d9c5355c8d03b1db1fc690abe1b353e9e6efbc5f5388"
+    },
+    {
+      "path": "svg/drawings/2906ec179df313418ae833762d9e0963eb480431264ec7349c8b31a02532179b.svg.gz",
+      "bytes": 34691,
+      "sha256": "e8dd28277e650e261c44ca4d70b68b37d28a8d7b623e28ee15b3a8cba916fc45"
+    },
+    {
+      "path": "svg/drawings/299c48f2a2a0d8b822166a62fcb3219f0e83c336fabbba8a414da34c89be8dae.svg.gz",
+      "bytes": 3276,
+      "sha256": "978055010bde98838df03ba63f8e14e16babdfafb259913959fb26275b37f58e"
+    },
+    {
+      "path": "svg/drawings/2ab43359d50c2e2d428fabb202299ee24733a1b63e143789aaf8ad61020a0816.svg.gz",
+      "bytes": 6230,
+      "sha256": "a06dac962601300f8fd21977300f42d45ea5b717114ffdf3acd4e443d2276902"
+    },
+    {
+      "path": "svg/drawings/2ad237844b29df0831780819ac8f11b50dd86ec67f1f2bc2b9f08d07b75352e7.svg.gz",
+      "bytes": 17361,
+      "sha256": "6588e26b4d5b97f318e2aaad72b93dedacf3ce61f16bca22c7c0bf320f4f9cbd"
+    },
+    {
+      "path": "svg/drawings/2dd10cde18298bbae112a6736d0c8806a1611f19b4d3461b80275f3a756fb7c3.svg.gz",
+      "bytes": 769,
+      "sha256": "0f276a968046c8ed49edf5e5d03085546d7e0d4982c1ce312b0307f3724a01bb"
+    },
+    {
+      "path": "svg/drawings/2df9afa1bfeb7c6d7ead73c648004eb422509b6ce95a216d8d5df8f06c873fa3.svg.gz",
+      "bytes": 4757,
+      "sha256": "173a97d36defc5a1a1ec80c36be415c40bff2090b51356e8c77e0cf1ef748e96"
+    },
+    {
+      "path": "svg/drawings/2dfb4b36b0dc05b86139b63033cfb5fe6c66d88a6636d27111f4c29ab894a163.svg.gz",
+      "bytes": 1785,
+      "sha256": "88f336d5316d00fde06a26394fb0b5a2397e62264950b601d029c129164cb0a4"
+    },
+    {
+      "path": "svg/drawings/2e6595345a4d9a8b60cccfd305d1b0712f92ffbe79365be9f5dac367ea9cd9aa.svg.gz",
+      "bytes": 1925,
+      "sha256": "0b1126b353aaa592f3b67e984f7d478a6d73c87e29489744103d6bf0d56e97da"
+    },
+    {
+      "path": "svg/drawings/2e711bc827b01717e721328c4a1bc86dcea9cbadbd1c867a10ceea526f4c5a84.svg.gz",
+      "bytes": 3495,
+      "sha256": "0885739bce858cf581350793e63f9abd30b5f76e29a6f26574dc9f818b16f615"
+    },
+    {
+      "path": "svg/drawings/2e754170df7e63c800d46bce1ff2d9fe6412d13079b4857c435efdb2558667f3.svg.gz",
+      "bytes": 5197,
+      "sha256": "1e887459a6bc7eddb5405e31508317a3ed3f4dfbad77f44ffebb0fc7a099a4ae"
+    },
+    {
+      "path": "svg/drawings/2eb5ad25b83403f44dce8aa6270ab79ec2e82a071166d73a6a9a4fab79e7e641.svg.gz",
+      "bytes": 2254,
+      "sha256": "b691543946112441519b0b0cdc5184a11c5f8e24001467b4b12c0eee87cd042c"
+    },
+    {
+      "path": "svg/drawings/2eb8a713f169ba9202cbab1e97b096e6ffc3d9b0afb5d6e3c9b3881b9f4f41a4.svg.gz",
+      "bytes": 2812,
+      "sha256": "422c0fd990bccca57318f2d09544abacaf08d0006f92aac2c77cc78d55e4af59"
+    },
+    {
+      "path": "svg/drawings/2ec7b5dfc696bbed0dd6a8c7daf158c0331feb9edab1ad3446cce389d309b736.svg.gz",
+      "bytes": 3411,
+      "sha256": "4ac3c3de533e2e9f9f37dd2c3fe891141659c5a3a0ac5ad15d2889b3c5d8a442"
+    },
+    {
+      "path": "svg/drawings/2efd4af3b9c8d3c49d628f46497b5377ce0bd5c6b6fca58b73fe5acd95235732.svg.gz",
+      "bytes": 2561,
+      "sha256": "b80771224bd579207bf8c2ee078a4395cef23af78bf32310318b8751a9c09b00"
+    },
+    {
+      "path": "svg/drawings/2feddf6caf17be13530c72d065f0dbbdc3511561be279e2fe763a923d42740e9.svg.gz",
+      "bytes": 2389,
+      "sha256": "47d799c4bade18e0da5ec6b1f4a3afffe7d77815ae95f06e3a7b2985a5221f61"
+    },
+    {
+      "path": "svg/drawings/30209e6d37c5409107efb5d9a72036596f3224def412b3996a9bcef5cca81308.svg.gz",
+      "bytes": 1468,
+      "sha256": "6aeb08cb987ad96b47c9bdb6eaaec813c1b677350cbebced3fec489ccf3c4072"
+    },
+    {
+      "path": "svg/drawings/315159b15c59eccdd76db8f5489be86414da9b5bec4e5859b33268548c8c0820.svg.gz",
+      "bytes": 2946,
+      "sha256": "f09443a2442c814235d4a58a41afbdec1127cdaae89fb0340d9441b3cb2f0a0f"
+    },
+    {
+      "path": "svg/drawings/31a74ebd66f2d1b049fd284dc3712980e3eb6eae0aaab869299174c765ace3a6.svg.gz",
+      "bytes": 1303,
+      "sha256": "a2c19b1d9415d9d3c1aaadb3acea47737d74f622e1e6845c7599ed5e96d6aa6c"
+    },
+    {
+      "path": "svg/drawings/31c487c8796724b91713798a88618fef93f16c66a1cc2a8d22b722396f934cff.svg.gz",
+      "bytes": 3951,
+      "sha256": "389e979b39697013216ccbb8132579847740146315d19358591e895bd9acec9c"
+    },
+    {
+      "path": "svg/drawings/322d2668aeec4c89334f6ca9287d44063614a6518c6844e9eea982d1f189c1ec.svg.gz",
+      "bytes": 3738,
+      "sha256": "59988f7ceb35fa7c6084a1ceec1f4439bc58041913c4c2c3f23322aed84c074f"
+    },
+    {
+      "path": "svg/drawings/33242d06fdea9fdc0d21dbfcda80c054cd9f3ba6f4dd9617f5d4cc64e6d71f6c.svg.gz",
+      "bytes": 2936,
+      "sha256": "c77e9cf5721fd66df8106424d3be53a99bf7fec6cdd9118c3d78451441370adf"
+    },
+    {
+      "path": "svg/drawings/34a3ea67231713b81de8d7b2f50b76c4ed6587f89012022d4b58af7001ea346d.svg.gz",
+      "bytes": 3944,
+      "sha256": "feae71a753dd088a25316244e9466cd01ebc71d74e53ebaf6ef688b88ea016f6"
+    },
+    {
+      "path": "svg/drawings/352bf15094b2ec468fc09e53e48642af7546d5e48de9046f0c69c497848bad54.svg.gz",
+      "bytes": 17939,
+      "sha256": "807bed9bcbc2105b8ca0af082603214bed4962501e840ed2af28820bedda7c8d"
+    },
+    {
+      "path": "svg/drawings/35b2ec6330265ef3afe9ef7b175d66d25bdd9d4471365fb7f0d83a2d89dfa7fe.svg.gz",
+      "bytes": 3783,
+      "sha256": "603ed59012f5cd1b9cb3963acc0b31779bbf539ee6901e2eff6b1b3434166052"
+    },
+    {
+      "path": "svg/drawings/35c6640e9cf3874f1f13861e6b68fc3089580ac8fab2a74465c9a131beab6d1c.svg.gz",
+      "bytes": 1865,
+      "sha256": "21486f699a843e39fada36a61791a310803e7285771356797996dc7a2a3a78a4"
+    },
+    {
+      "path": "svg/drawings/36cebf4eb2f9ec6823c3c235e42b56aa04d11ef3caf77b11e1859f68d953ac08.svg.gz",
+      "bytes": 3673,
+      "sha256": "d36c4bece5c1dbbe9d4ae4a3bd3a92a2fea2b72d959d618597fae01ed0d1e9d9"
+    },
+    {
+      "path": "svg/drawings/36f4a706065741c1fcaa52e57f45e64b45867fa7d32c55fe788021c81d76b60c.svg.gz",
+      "bytes": 4007,
+      "sha256": "d1b038e974f8de7a0c4b7be1545b456bd93d03f9a2634057206b10e2225ccaf3"
+    },
+    {
+      "path": "svg/drawings/3797228cf065a39c0ef877f88bdf20b115140a10990864a11b96c4c0205bc192.svg.gz",
+      "bytes": 6187,
+      "sha256": "7171366e9ff08341c349ff871559a2911248a6ba3066ed254f7bd8a281047fbf"
+    },
+    {
+      "path": "svg/drawings/3823b9b7c58bcabc1614c603143ae12b536cd33c8b63b43229e03591af3113f2.svg.gz",
+      "bytes": 2470,
+      "sha256": "f3127e9fea5210be778e7eb2a2a4c36de7dd070f988e8772647f1cf4157b14dd"
+    },
+    {
+      "path": "svg/drawings/3843dff1a63c8bb8e28a65685b83a193f446ccb3b148f921e4d98e7c495b772e.svg.gz",
+      "bytes": 2844,
+      "sha256": "51130998ba47749b882668c9b719947784e331b760f67ca9d7030dcc256ee0b8"
+    },
+    {
+      "path": "svg/drawings/3a3b5bc6533256f31b2ee04632d2ccb2713e5a45ea740c603328c7f82f61c151.svg.gz",
+      "bytes": 3526,
+      "sha256": "8734d0426dd8543c27f326c5aef187d104e37c9675e1ab1e6665a9a917f29c1b"
+    },
+    {
+      "path": "svg/drawings/3c04d1e427139e3a99645eef5d78877af53d0259bceb15f76fc08298e0ef3e4e.svg.gz",
+      "bytes": 12053,
+      "sha256": "8d29b8df7d4fdbddbc01ee5538f8396e736913ed7f11a11b8b1f0334909e2210"
+    },
+    {
+      "path": "svg/drawings/3c74f691e17c6759e1eed003d93862af2438b99f5592e38ff574212c22ffc201.svg.gz",
+      "bytes": 17264,
+      "sha256": "4c5aae8313d9a075b5f199a482194321994a5d6e900779802d20920de852fe23"
+    },
+    {
+      "path": "svg/drawings/3c95bf33567a1af38b2e99fe787c92ea411f87811278c5d9143f534472ab7243.svg.gz",
+      "bytes": 15802,
+      "sha256": "db664f9956596311b5230caf23d8cca3be708d29b3d7d3a2cc44e976edb2df60"
+    },
+    {
+      "path": "svg/drawings/3d3ccfb1fea50ebf6d04ebdaeca478478158637fb63592a7a880dfc730711be2.svg.gz",
+      "bytes": 5344,
+      "sha256": "6b3ad82a4cf2ca0fab9c02940ab32aa82645f4e3754b171343efd5c46408b55b"
+    },
+    {
+      "path": "svg/drawings/3d93854df155dfef54c013890dd35e7552b12a76d5344b9f43e1e733b8a7c051.svg.gz",
+      "bytes": 2056,
+      "sha256": "a7e3c6e05f82eec1e90e2d96ae22272cd8fb9c537847d0ec70000cc030fb1b8c"
+    },
+    {
+      "path": "svg/drawings/3d9fced36783e4f9aa58d7f16718590e3d80866e09c2e39822501f2bb78e297a.svg.gz",
+      "bytes": 3797,
+      "sha256": "7761fd21da57490ccf1016089fd078574f6836a84e8245532a98f378c7d83c5d"
+    },
+    {
+      "path": "svg/drawings/3e2621f52cd5f406a83e38f66923d26718b09177cb0744ed6cdc08f1179d9c67.svg.gz",
+      "bytes": 6472,
+      "sha256": "6bb68505e07302be67a93a1f41fe5c2f910bddbed2d57fd3f47a7c727c551008"
+    },
+    {
+      "path": "svg/drawings/3f516cc4601224fc9962e2915dbf67cd05196fa94e2340bab499902adb6aede0.svg.gz",
+      "bytes": 1564,
+      "sha256": "148abc61e231bf966cdf3e2a03ca619d847f53b6b91ad2b29b9c6954305d038e"
+    },
+    {
+      "path": "svg/drawings/4053dda66c4dbb3e371d754d8580384496a60a4d6376ddba4f268c8d395db358.svg.gz",
+      "bytes": 1836,
+      "sha256": "5ee532da2dd4d5ff9d523e487c6d245a57aeabb79aa48bbf872fa78649035edb"
+    },
+    {
+      "path": "svg/drawings/406b9be12049b51ac25e2eddaa001638e13ab1e5dbe68b3c39de628b3e378777.svg.gz",
+      "bytes": 2116,
+      "sha256": "88404541f74f77109d1f30741f0d8a0baba101796b6975eb0778374c7b9913d4"
+    },
+    {
+      "path": "svg/drawings/4073d61f8697858098366e42bf6a285b83e78980c1505f6ca423da8790a47609.svg.gz",
+      "bytes": 1492,
+      "sha256": "09def9d9486d28ae7565a17c3abc213cc0b3d68242baa77f059be9a51032c83e"
+    },
+    {
+      "path": "svg/drawings/41be01cbad7c651e29cb3b61b8fc9e9aa8b2f9957815e7cb11a81be141ba7994.svg.gz",
+      "bytes": 3426,
+      "sha256": "8c0abab645bc0c2ca5a9b44ed98955d418b236984137cd3e9a2e59bb0987806d"
+    },
+    {
+      "path": "svg/drawings/4242b8065b000ca48c3845c3d7c801a520aae85682da799ba9eac49516c4b91e.svg.gz",
+      "bytes": 1441,
+      "sha256": "39bd632dd510f587f368fd909d0abb34d23a4ff9e64e5a6e11386b1202b61c9c"
+    },
+    {
+      "path": "svg/drawings/42c79306d4fafc09170553b402b4c13df7d185bc4c39eaec1c2b60f49e500168.svg.gz",
+      "bytes": 3310,
+      "sha256": "7549a10f936459017a02a184d17a39effc685f3fadbd455f0281ea854712bea3"
+    },
+    {
+      "path": "svg/drawings/42edb4f0702c7bd9d476f62afb1e965509b6afa15f248f553cbf7c5db6c5ffa5.svg.gz",
+      "bytes": 3131,
+      "sha256": "2a843d2a793fb80aee43233bffe84724d1d4e4d867b00cdf607b138cefe73d34"
+    },
+    {
+      "path": "svg/drawings/4381592de54c6c72cdf4780094696659b9cab171b4bb24504c1d436f80803b2f.svg.gz",
+      "bytes": 5857,
+      "sha256": "71fbfb69c500779ac2ab22990cbf689145e780e00e26a492655eb807c063dc57"
+    },
+    {
+      "path": "svg/drawings/439f96733429bf27dda7c99b0105ae2bc3e2e2e9337e5a130b51606b987be509.svg.gz",
+      "bytes": 1297,
+      "sha256": "2871c5752427768035757d82de416ff7aaad24b336d350b1b6cc0e04bacd9b84"
+    },
+    {
+      "path": "svg/drawings/4635fc3691ed2b49ebda25d51d31fb555838d9616f3f1e4dfd6cdb6fe7010f3a.svg.gz",
+      "bytes": 8909,
+      "sha256": "76626935f67b0f44cd95c9f3d586efb1585da66334228cb3bf3f6071c829b92d"
+    },
+    {
+      "path": "svg/drawings/4667a44db166339901b1055a8ce96f98ab04f95b3d5b56fb24db4a88a8a1d1b5.svg.gz",
+      "bytes": 2496,
+      "sha256": "584fe535fdea9b1100004568de49ef9a23f5c2174717e1294f26dc63a9a1b38c"
+    },
+    {
+      "path": "svg/drawings/4794cb79492b5b17719f18b641f429b61c7c0eb91c0bbfd044cf4aef4e4f49e3.svg.gz",
+      "bytes": 5878,
+      "sha256": "4add0678d55c207f41112d7e48e18cad12197790e71964ed115cb85de2156ab8"
+    },
+    {
+      "path": "svg/drawings/4836d50bea68524f84c268f752c5ff41ae7f65b6371db1445672077ae242bb26.svg.gz",
+      "bytes": 9550,
+      "sha256": "52dc231ba409a9f5db63ddf733a340ea2fa4e02f1efef1445efa96008afa977c"
+    },
+    {
+      "path": "svg/drawings/4897f37e1e6afcacfc4a160181f9ee65074ce4be63fe5a45662fa2daf058706e.svg.gz",
+      "bytes": 3429,
+      "sha256": "8f496ccebffa7c708a4d75a8998b3427d5c7e14e26773793169dd4e882a279e0"
+    },
+    {
+      "path": "svg/drawings/4a279536149244857f74e28187a1c59987865ead5ffe927b6ef0ef63aba120c3.svg.gz",
+      "bytes": 952,
+      "sha256": "7d1db1c8cf9baca2227c45d57ddf09efe92b3e6573428f1ec6fce22a3f7119eb"
+    },
+    {
+      "path": "svg/drawings/4ab23e451985519bc6620aabad0f9602ad9adc9f14f5619603e8ea1b57c7f2f9.svg.gz",
+      "bytes": 2142,
+      "sha256": "888488f50474921ed442646cfc84f3e63df2330d781d290f894075e2e559553c"
+    },
+    {
+      "path": "svg/drawings/4ae5389b702431cf896322b666bd09175b72e13baf5a8fb37269ec086edf313e.svg.gz",
+      "bytes": 3477,
+      "sha256": "eac0667676372fa42e7a736f767384be8f5be706e18282af8aa569396b1b3df0"
+    },
+    {
+      "path": "svg/drawings/4c8f7d3c6787948da3269e4fc48763c92cf8373004cbe97765cd146f5195130a.svg.gz",
+      "bytes": 2739,
+      "sha256": "d8f9ec3bc79c2225817f78104b441bbd806a33f48a8203937164c1cf4572a113"
+    },
+    {
+      "path": "svg/drawings/4cb81b4b3557fd43a7309505c39036f4f73292fb48c054e9eabefd94dd985aec.svg.gz",
+      "bytes": 3777,
+      "sha256": "f0818d285a31a038dd8b926cd6b9e268cec79c193da365275ad58bca4954a65e"
+    },
+    {
+      "path": "svg/drawings/4ea3d17efac172c13783249b74ecadf456fd599c2d938fe87b4e91e14ea555c4.svg.gz",
+      "bytes": 4262,
+      "sha256": "9be17799e8ebee944657026c6905011809fa7d2d77e488ea17c5699074439a23"
+    },
+    {
+      "path": "svg/drawings/4f36c3308cd5b7beecb77075baabf002dbc5e3f6b4c5153b49fafa962692c362.svg.gz",
+      "bytes": 2566,
+      "sha256": "d399a82f7887923e3e437d334abd20c2b00106d863e7230d32b59c383c62dda4"
+    },
+    {
+      "path": "svg/drawings/4f463382b2833c51f61c7dfe0cd133fc3ade1a3330a557c95b5e08c3dade2327.svg.gz",
+      "bytes": 2496,
+      "sha256": "a566375003cd7aa88c31a862f9ff7d7b2338372cd155ac06305099da0657db12"
+    },
+    {
+      "path": "svg/drawings/4fb8f7215f18d5840d5a139932379bc7e5500c96d6f19fea75a56a84df9af43a.svg.gz",
+      "bytes": 6244,
+      "sha256": "ba16534f13c0a219f9f02a8d3b4267f9cfa0f65a022b092f9fb02c85dd2c59a9"
+    },
+    {
+      "path": "svg/drawings/4fd0f710c87fab1d974ef58b2e0e6b8a9dc2f9db5960b2d7e62ea8d5757a3046.svg.gz",
+      "bytes": 3641,
+      "sha256": "a5d965e2506e9683499777f8378868e94fd9b36ab429ac23fed5ff9b55625a97"
+    },
+    {
+      "path": "svg/drawings/4fd24d344a37fcddecb44f20dd6433d6278b9e05361c1a977f103c8c04f40f95.svg.gz",
+      "bytes": 1099,
+      "sha256": "c7bb02b2b20913a1f3601224da7a7cae48e840913bce9c2c0f822b3dcb996178"
+    },
+    {
+      "path": "svg/drawings/501a1efed3c109c1ed1300c5171d067d9fd39450aff26cacc2856ffc14e7cbe9.svg.gz",
+      "bytes": 2537,
+      "sha256": "611d2d449f406070eac74970e22f5fed34781dd6b3897216acff0ef3d12fd0c9"
+    },
+    {
+      "path": "svg/drawings/5049391e2fceb9abc9e027f1636953b2e5fa9f2997a3b57092ef34ccbb54e676.svg.gz",
+      "bytes": 3225,
+      "sha256": "df063f49b43b777dc21fac5e3054a9ea1152080c9659db99c744e1e26b304228"
+    },
+    {
+      "path": "svg/drawings/504ee710d4cf0badccfe3841bd2541b3efa3aabefda78faba6f4c70da535b6e3.svg.gz",
+      "bytes": 3206,
+      "sha256": "5bcccc16756ad9fb7a572b8a7a52d152242717e21d8e34b14e471176bf9eac28"
+    },
+    {
+      "path": "svg/drawings/512eede262f895815c7b8899301897252a1b530ddc0725b64fb1b114f10ac611.svg.gz",
+      "bytes": 1350,
+      "sha256": "d1e021689fce087ef5ada1b969cc64e483a443eb0aec9cd23a3d463f9a78ec39"
+    },
+    {
+      "path": "svg/drawings/5158adbea0f5b8af92d850df8aa17b28e477f2954f6b01f44f545bee6e7d9ab6.svg.gz",
+      "bytes": 5888,
+      "sha256": "bfa51b73319f689d6263825f06e03314e0e2a2cb4c077ab77ce80971669b230a"
+    },
+    {
+      "path": "svg/drawings/516294c3afe6a4ce23f6f2cc59618ad1a796d6f2c292b8a4527f77628d584adb.svg.gz",
+      "bytes": 3460,
+      "sha256": "f69787fe85980ba91e5cd556440d13febc32aabda9c997369946b07af972e2f6"
+    },
+    {
+      "path": "svg/drawings/5290764283a1501a269cdfda32ee44e15751d94ac4ed961a9332abc9a1540aed.svg.gz",
+      "bytes": 5893,
+      "sha256": "093331481640fe6799be1996b59d576110b9f7d5ff7736828944880c4b0d851c"
+    },
+    {
+      "path": "svg/drawings/531b996323264039365bddfbc4168ba3ca35e8944a24bf82c821e3662023a7c9.svg.gz",
+      "bytes": 3771,
+      "sha256": "3e155449ffa5c87e56b74ed3c7f368872ae2cdb02779f015f3fcab56b1063d02"
+    },
+    {
+      "path": "svg/drawings/537e853fa144ce0c3851ef10ab35e085857c90e503d5f9cfd1b36fe07348ec33.svg.gz",
+      "bytes": 2023,
+      "sha256": "eb818aefcc22f5c87db5cfeb5fe6aac427dc03b3bd9b9d452581062fd10ce334"
+    },
+    {
+      "path": "svg/drawings/53b009ec41e336f5034b9e5caad2dddd0dc87636847047bbddd560ed3f1eb655.svg.gz",
+      "bytes": 3356,
+      "sha256": "c1c9507ed9d03a9d4e5eeed77508ebe52690ed6c206e59908ba0e9654d90ecec"
+    },
+    {
+      "path": "svg/drawings/53b88a911ca5d5932296e7c9eb0ca1a802d94987ce3559c5aa0d47f5f4f30590.svg.gz",
+      "bytes": 2072,
+      "sha256": "d27fb15ae27d6c159012f71a0355282647b87be222a11a5659f8f9d5bdc970ac"
+    },
+    {
+      "path": "svg/drawings/54578df85bfb4ae1f1b57b58272b5b3c577cfeb700a533ea190e8f63a6972740.svg.gz",
+      "bytes": 2421,
+      "sha256": "07eac2cca88bca985f817dff501cb1a5acfa6810223cea8dd641dd3686fc17ec"
+    },
+    {
+      "path": "svg/drawings/551cc8544d677e32b3036785958613575d36c590baacb6215286efd02048be7a.svg.gz",
+      "bytes": 4393,
+      "sha256": "3cd69d13fa3dbdc3897c2fcad50ca8c58089faca5b35f0167fc63c9436caafc6"
+    },
+    {
+      "path": "svg/drawings/55426caba059be6b1edaaee528b296b513c7ede85aea9b51a316d441bfd2b312.svg.gz",
+      "bytes": 5885,
+      "sha256": "bfc59876219925164150ef45f542cc1d0a460e6926b7d889ee5880e9f1b8a877"
+    },
+    {
+      "path": "svg/drawings/558142f80f0e5afa074975fe51d99f299aabd8f28cabbf1a9dfa9252b7ccbd01.svg.gz",
+      "bytes": 2303,
+      "sha256": "d906fb06663f3237a435552f5bca8562e592dece496c0e710a7358ce583b2078"
+    },
+    {
+      "path": "svg/drawings/558880616ef49cf1ada36ae384bb2492c059eaad20e2865a3b7fd1ffe494f3a3.svg.gz",
+      "bytes": 4432,
+      "sha256": "df22f69b0050ae722f15bbc4b8b9513bec6a0979407ef9ff0edff2c9b4c905ce"
+    },
+    {
+      "path": "svg/drawings/55a1e335dc5283bce8e9f2807b6c44f560085bbbe5ec0e6fc907eeb6f2b6a2c9.svg.gz",
+      "bytes": 3523,
+      "sha256": "3e9ab921567873845100a519502f4245f7dd65c6c813b7c5db9596432134897f"
+    },
+    {
+      "path": "svg/drawings/55d3c580b4490267313390df5244d893fbc81d2624a5f4e47aaa76a9c67ed532.svg.gz",
+      "bytes": 3483,
+      "sha256": "bdd8e0fc937f3cd946671171d6e81e620a0cd7dd34558d5352bba90e258778f2"
+    },
+    {
+      "path": "svg/drawings/56583161072c7cb232af568acf1f7ed6e395337898aab2a4d4cc6e3739ce7e9e.svg.gz",
+      "bytes": 3783,
+      "sha256": "b0a6a86e1653151e805e8599c83b75bd6b40b7f33a8645dc5c21550fbce2c679"
+    },
+    {
+      "path": "svg/drawings/57544b66ea6cd5cf3cd484f0beec6a21d8b255be99dca421adb5dcf91a7446b8.svg.gz",
+      "bytes": 6399,
+      "sha256": "3d76664378862d89739fe6ac0255fddf93891a5cfd847bb07494d4ad12e1f815"
+    },
+    {
+      "path": "svg/drawings/58cbba8ac6be8463c8abf60b69e585477ea5ac18ba6bf890f0023f69b0ebc112.svg.gz",
+      "bytes": 1293,
+      "sha256": "42c74eb9c3b62d36fb25f57ef77ddf913be06ff7305f9b3f5728d295192b53e5"
+    },
+    {
+      "path": "svg/drawings/58e72a700c57644e76d364b03d452a1a9ce4029e3fdc12be8898d89e12f1baa9.svg.gz",
+      "bytes": 3270,
+      "sha256": "64c266583140687778ebd6c6c587b71c9945cee876bcdc98df54e613f8d1fdbf"
+    },
+    {
+      "path": "svg/drawings/5933da5364d5a6ee128006cb9e7b1b4833b3ebd08589020cb591f52546ff3bc5.svg.gz",
+      "bytes": 5930,
+      "sha256": "1f9867f07d7f8640ac76e7a4eefffb3bf7a62f2c9fde2b690f34cc1964a70149"
+    },
+    {
+      "path": "svg/drawings/59a53b653988236ddf4038ca5b9848f41ed694bbca8a3d56e976524c7597e872.svg.gz",
+      "bytes": 3012,
+      "sha256": "55f935ff7d86fffc5ce45faa7688577b1ce6eefdc90047a01d94a253e04e8c34"
+    },
+    {
+      "path": "svg/drawings/59d36140c5125b082c33d73b3980e0c63ea9f644218435d021eeb3f7f049aded.svg.gz",
+      "bytes": 3298,
+      "sha256": "472e3b7237b70b69e9a43976655d0d5bb74099d3bf1432283c768663f88cbcc0"
+    },
+    {
+      "path": "svg/drawings/5ad7bb99244b80a364235ba01eff6a3078850e66c4651ad1d3a33641bd1520f6.svg.gz",
+      "bytes": 3382,
+      "sha256": "4cf01881eaa22db97aa4aebe2b678ef5fa4b2df4e608f2083e1814c00ae6f35a"
+    },
+    {
+      "path": "svg/drawings/5ae3778ad4399e9ee6026141966013d2708453d822dc771ede26596875b813d8.svg.gz",
+      "bytes": 3649,
+      "sha256": "67daf90d95cb194ab36748110a305d2b91db65a93a7926bb31d3fa51b5ed76e7"
+    },
+    {
+      "path": "svg/drawings/5ae3e8a73230d30fb1bf79dff363e253da632fb1fc7f7a06f77565445137bc31.svg.gz",
+      "bytes": 3915,
+      "sha256": "933f7a46191a3628730d0f590160a6d421de712927f5316535d311b82cf442dc"
+    },
+    {
+      "path": "svg/drawings/5b8e4b5e4c4a0e86a3ad6817443c2524e14dde17b9f934e0259423ee2e71bf58.svg.gz",
+      "bytes": 5986,
+      "sha256": "c159cd61ac1500b461d9769373f0ced93c9d9d70fef103813cf6649b4d137bb5"
+    },
+    {
+      "path": "svg/drawings/5bd637310d570beb6bd25273f91de33178590f8d395cd9e3eb931125a7674908.svg.gz",
+      "bytes": 3195,
+      "sha256": "7fe82d18e25685a00f9a35a70dd9d0bcef3093f316d319d7be0626c10ab10886"
+    },
+    {
+      "path": "svg/drawings/5bf44579f0143b3322dcaeffbdcb5dd0ad92239c34a52e9541d02d6b2e66f0c1.svg.gz",
+      "bytes": 1122,
+      "sha256": "2c7a0d22a9391b673a265520d4e573aa99104e9713b86eef5fe7aae6daaf2dd3"
+    },
+    {
+      "path": "svg/drawings/5c9123bdb59430dbfd797a7af42f80de376f441da5af6fb720646a649ee94e85.svg.gz",
+      "bytes": 3735,
+      "sha256": "82c9a4c1d946e215c690f93a94df75271723c69ddd94f479bb5f9bc954a6eb93"
+    },
+    {
+      "path": "svg/drawings/5c9143e4a3e5ffe56c1e2c00760be7e879dc5ea964f3a24979d2ed275221cd13.svg.gz",
+      "bytes": 1648,
+      "sha256": "15762a0d811be880b6a36dbc33ac4eb1b3ef3e086bc56ba29b687e1eba9d0eef"
+    },
+    {
+      "path": "svg/drawings/5d27dba43e059e7f108113985f7392d0083f028a0c14b44eeffa7cdcfaa932bf.svg.gz",
+      "bytes": 3515,
+      "sha256": "ed02c8f973b75c00d4bdfcebce5baa306f95d6f2bb45f6ee1ae11e5d54c818cd"
+    },
+    {
+      "path": "svg/drawings/5d3496a1854f12989ee7762b7395951788d1f330cf6d841dc4390db221957ec4.svg.gz",
+      "bytes": 2465,
+      "sha256": "af3aa89a6c270e77a499c826e423d2728793eae4d92a4f17ff417b4e63cd22e7"
+    },
+    {
+      "path": "svg/drawings/5de07e18707b1c16a8ddf8ee2e9165700de6ba88cff484a4d6fc59fed00ed350.svg.gz",
+      "bytes": 3313,
+      "sha256": "1b1c1582ebf6b57aada9e7b8a33afd29076f1b140bc4e73b3e4afb8c17a1c397"
+    },
+    {
+      "path": "svg/drawings/5f588dc0db4b9b6db7ffd5c116f963fe1d283b1f4a919bc51b1791007788680a.svg.gz",
+      "bytes": 3574,
+      "sha256": "63998082a7019cb4480feafe5e9a0f19e46ea5a6d7ad06f50c5567d772830f2e"
+    },
+    {
+      "path": "svg/drawings/5f8e18b299fe62c57b07b1f462c84065b275efd0abf19f09ecb711ebbc5c2ada.svg.gz",
+      "bytes": 4199,
+      "sha256": "6047ef8543d4599d3bb6ae45aa5fd10dfc89ba1c0e4c8f2a5949835cc16fef53"
+    },
+    {
+      "path": "svg/drawings/5fd9626acdf6958e917aec59dbd3f289d4c42cc406b42277590c7812e8c7de98.svg.gz",
+      "bytes": 7633,
+      "sha256": "8177b3be644c8e0ae7d7c1cbcfa578beec18093c65baf520de940b5f7c1797ec"
+    },
+    {
+      "path": "svg/drawings/604ca9819c06bca43ddb7aa31501df78f22deb8fd9ab4f40951062ff3795f59c.svg.gz",
+      "bytes": 1804,
+      "sha256": "0a04597de353b0acea68e930d5a9bafce83c61b63aa2b53e94744747f4608302"
+    },
+    {
+      "path": "svg/drawings/60efe369c49fa24c25fd67c7e7937e6d565223d81433bee749f279674c5c9e52.svg.gz",
+      "bytes": 6431,
+      "sha256": "deaad7621c4103bdc10955ade26cbbd602b0c8a7c32a11052c654121a5cbff66"
+    },
+    {
+      "path": "svg/drawings/60f1c210dc7b575d9c535b0739e38e515f599f165925ef24318dc85095dfa7ba.svg.gz",
+      "bytes": 8913,
+      "sha256": "5a9a4beb18f0fffb202250fa17c20ad0991612e1a49bd42c85c5d081aadda272"
+    },
+    {
+      "path": "svg/drawings/61a5dbfe692151485a5a72beebb4fa5ba7e2dd2bd71c58f7a5932d238d8d4065.svg.gz",
+      "bytes": 2385,
+      "sha256": "d9bce0341cc12426fe3837e63eaa4a61b2550f86e56fbb1edbe0711645bb3162"
+    },
+    {
+      "path": "svg/drawings/6212e7b21be9f544654dbe6d5715bc97c376b73e1b972ae01c9164dee8344f93.svg.gz",
+      "bytes": 766,
+      "sha256": "962160e2c12413c4082426b0d3b009248bec12690c0a01e94bb3da20e871b57c"
+    },
+    {
+      "path": "svg/drawings/63b6e6e1bcb2e500856f5d4d479cbd5109952e9c4d447bdf7d046ae4d2a86fcd.svg.gz",
+      "bytes": 3716,
+      "sha256": "287fe69679885eda933aea06e7e7d72d3ecb06c63fdb3e5d796092eda2a9d781"
+    },
+    {
+      "path": "svg/drawings/6489d96eb4ec497631d2a6593e5ee7ed44a7664f2dc149efab079660356d4d0c.svg.gz",
+      "bytes": 3303,
+      "sha256": "20b4167025c0a654376c5c2a03e58f6ec0920b06ef0eb410aadf305cf9ffc6d9"
+    },
+    {
+      "path": "svg/drawings/64b113aedbb8204e0fb002737a0559fd9743f3e2cbb81dce8976ce41a46cf6df.svg.gz",
+      "bytes": 3646,
+      "sha256": "869f0ad2dac5b86d7183e5214f57732a99bdfbc51c4f90e24c146c25b6465807"
+    },
+    {
+      "path": "svg/drawings/64b55e0bb2ae57025c0ec62988ac174a733e0d5f8d0413bf1fb669b2357e86a3.svg.gz",
+      "bytes": 1469,
+      "sha256": "6d7604ec389209f18193cd84696a7ffb7772fd644464ec31b9235f98160b1898"
+    },
+    {
+      "path": "svg/drawings/64c3ee299f10cb40fa9c0e44553a13a7cf31f1683e2123bdaa550a53f8a13cf0.svg.gz",
+      "bytes": 5806,
+      "sha256": "98df1bec522e243a5d6f41398e85fac50cb793c4d9643d145f9ac97533eaa9cf"
+    },
+    {
+      "path": "svg/drawings/6540ee696775a693dcef4c7659af6846b3ea5704e56d63a10e81536f6249615a.svg.gz",
+      "bytes": 6463,
+      "sha256": "8721eb66471ae8a4d2820f30e28bda056add128084369c41a8c38f3faae80e6d"
+    },
+    {
+      "path": "svg/drawings/66a7e8c970e247ba8cc28b75642e692b26952c2f8e8ac4202133c6f231fc35fa.svg.gz",
+      "bytes": 6244,
+      "sha256": "01811e5d97785335933d3b536d4c1eaae3a4e270de5bb413c63b8a1d84f15779"
+    },
+    {
+      "path": "svg/drawings/6801e75b61ef092ea5febb68a1573c102e2070cf1d72f8c9cd0dcc809694bd66.svg.gz",
+      "bytes": 5851,
+      "sha256": "9f5d293131168dccbf5216190c440165eda5e0c38d2486181d705373815d5111"
+    },
+    {
+      "path": "svg/drawings/686ccecdfa81806b0199e97c493aa2e08d1602993c57770cc84ac5eea550f706.svg.gz",
+      "bytes": 2482,
+      "sha256": "aa8c25ffc3b96699f4c3777b489bbba21b759fb21df7c59456f5d222ccc3c0fd"
+    },
+    {
+      "path": "svg/drawings/687824c6c97c8e7f7c4640530b51dc744bb564523bb8fc1ce9115c30ffc1a400.svg.gz",
+      "bytes": 5871,
+      "sha256": "7907713afb49d5ed033574b962b07e439a575d48b087bf8f2ad12ebead255675"
+    },
+    {
+      "path": "svg/drawings/68d03354e89475bef20319f0d53129f0edbc56b4105fbf1fa1e3027777614953.svg.gz",
+      "bytes": 1570,
+      "sha256": "bd1661d09f8aff1ba2487d6273cf76cc6f4b1c3a5cea50a46a067ef8ebd81b92"
+    },
+    {
+      "path": "svg/drawings/68e9c422997a33de765dea51a9b39cad7067e882930917314ffafd8c0d4530aa.svg.gz",
+      "bytes": 3808,
+      "sha256": "40c6dfa3a4b5642711bb1fa142e152caa141962617ad1af7510d5933c6bc14ff"
+    },
+    {
+      "path": "svg/drawings/68ff66a43642753b281491d3806daf973b01126e64b75d8975c5be9090268481.svg.gz",
+      "bytes": 6302,
+      "sha256": "4af540921ea4516277c3a9710717a1c1bf0bf4a9c959d8fc62c3971fd2c1d5fd"
+    },
+    {
+      "path": "svg/drawings/6992e90cdd2c38c74a1095111262e1a67d708bb3676c60a9be4b947930181b4d.svg.gz",
+      "bytes": 1359,
+      "sha256": "15595d6d2c9198b729425cb13d4403c467f46c27c0424672f906c095bb03e354"
+    },
+    {
+      "path": "svg/drawings/69b9f62815893e88711748c99c4187efbf1e28a7e151f9b68ecfc102612ff1be.svg.gz",
+      "bytes": 3785,
+      "sha256": "f621887a268913e11ce07c384efca3a76bd3136cff1edb26037700862f72a160"
+    },
+    {
+      "path": "svg/drawings/6aa44ceb68b4b66cd09c47b6d69eb6630caea33d450975f24b32bb8f61c0fd0b.svg.gz",
+      "bytes": 3218,
+      "sha256": "e09f57bc99f64de3cef7d7a81c42a6fd653191053318669fcb90968826e1255c"
+    },
+    {
+      "path": "svg/drawings/6ad86e52c49715623b47b8aea414b5b8352aec509a53ca9cf26f2e1ca7ce8c52.svg.gz",
+      "bytes": 6278,
+      "sha256": "d754600c9881acc5b0b351b7bb956db7ef2685f6a9862f4753b8778d7a9d727d"
+    },
+    {
+      "path": "svg/drawings/6ad98eb279db20a05b4b9728861538416f80b0ce187a05810f8b8563eac77f6b.svg.gz",
+      "bytes": 2128,
+      "sha256": "39d2752f6b012b0e478cec88224d6a4e5e9c505b017d2109b142a7fddcf5b71e"
+    },
+    {
+      "path": "svg/drawings/6b1e987b79e48b0e436db9a033a5ea5132b0e155515cc0e44e433bb44172cd86.svg.gz",
+      "bytes": 1231,
+      "sha256": "25dd0e46943045725bd469c15783946a936f4a91db3d720d96db672ba2c357f2"
+    },
+    {
+      "path": "svg/drawings/6b74ed852c471f8d49a32950f7f8d08bfa9d3a31c459c739cacc79d6c430c296.svg.gz",
+      "bytes": 1295,
+      "sha256": "cfad0c8ffbdde9bdb22ca782588038b20364d132fa569a883de3d2285ac44f52"
+    },
+    {
+      "path": "svg/drawings/6c6b14267bf5cd77478cc5283064ab75522eeb7956a9057d8616b11e5f536360.svg.gz",
+      "bytes": 914,
+      "sha256": "56cc5995badacb84ac83cd10945e5d6a4b4f1c5a00436843342fbc8020cf00a1"
+    },
+    {
+      "path": "svg/drawings/6cf17ac99275db2f8f13935a935bd9e56ad801f1d2c1e5b841a02c7c2f368df5.svg.gz",
+      "bytes": 1473,
+      "sha256": "c24ea72602d514437fe8a378c19f1b8e71299c2effa4e032bb3874c7a7e128e8"
+    },
+    {
+      "path": "svg/drawings/6d2477b8c7961a90302ef4d8682b954b8c4e5d5eb8d69d8fe1a239db16f5aa38.svg.gz",
+      "bytes": 2287,
+      "sha256": "5a9f6779665e9ec97e614fa87a9744f7de2631573785c4959ca54292fd1de37e"
+    },
+    {
+      "path": "svg/drawings/6d67171a454d7788c83ce7cf5be8b5cd688a4d21227f30dc70f615a39e90cbea.svg.gz",
+      "bytes": 3521,
+      "sha256": "ba66e1bb34e79f084a1f2cb4e31edbeaa33d33dc8c0902a7b4537e4910ba2d4d"
+    },
+    {
+      "path": "svg/drawings/6d8a050bfbfcf7fab23b06eee45798f5f66bd36d2fd0074bc7e01f751556f2fa.svg.gz",
+      "bytes": 19368,
+      "sha256": "ecd6ad7b546063aa31da5ef6ee01b3068feafd0db641c16b956499d8aa6a4ff5"
+    },
+    {
+      "path": "svg/drawings/6dcd29f5a2140040fbb99d85c5f08235d8c9de2e9d7f3eec491c2487912a9fad.svg.gz",
+      "bytes": 10328,
+      "sha256": "f769d5870439f7c997341858af1d90742e208482c9d055632a0bf41618ad5b61"
+    },
+    {
+      "path": "svg/drawings/6eb6fafae86c36254fb77ccde3b2db456f9a0fb18ca7319b731c7a2d6b634f6f.svg.gz",
+      "bytes": 1517,
+      "sha256": "fddd00c21a3ae3aae1d09b1ad25aa1ae8393be3dfd3e4ed1b34e38658da04c10"
+    },
+    {
+      "path": "svg/drawings/6fc61b818dd2d8ddc2411a8cba710e38214015c1cabc2ff44b736b9e766fcd52.svg.gz",
+      "bytes": 3935,
+      "sha256": "d073afc1963fe9bbeb5e1006cc4ef39fe4c0ce4dffe4cf66039cf2812a38f4c5"
+    },
+    {
+      "path": "svg/drawings/709ad8c1c8df8b705fc917d4262360287eef6c1379e272fd9ddeee94f7628a6f.svg.gz",
+      "bytes": 3215,
+      "sha256": "11ca623b45952530ca2a4f2fa830c4b0ae6483d8a26a0fc3e9b9f44ecc00a489"
+    },
+    {
+      "path": "svg/drawings/70ab1d8d573ff28833e82e220ac974a2b8f849fe09d9440e15de2f6488da313b.svg.gz",
+      "bytes": 3267,
+      "sha256": "239d2420e73470c8ee47cf08a12efd570d9cb303415e54a43bf5c2ca3bdd1fb9"
+    },
+    {
+      "path": "svg/drawings/727928b9976edc453adf35bf93f15826e927a96f984526f73483d4035f0d7ac8.svg.gz",
+      "bytes": 3396,
+      "sha256": "3df045f3fdba7e17eba3240806095aa70c2a366eda433fe1f3d292cc6302ad2f"
+    },
+    {
+      "path": "svg/drawings/72ef2121e006ddb8e630c1c3a24f3bb4e1eb12809290d9f5be0995741cf3f4c4.svg.gz",
+      "bytes": 1085,
+      "sha256": "4a2261b94ec8e0392932adc96b1e76bcc3ce91c5dca951e185b3d886a30c0b88"
+    },
+    {
+      "path": "svg/drawings/730a939e0f171bb399ef0546562b5582e99c64b57886b8e03556c768ffa2b69e.svg.gz",
+      "bytes": 1635,
+      "sha256": "3e0d7ef9731c78e0df1fa622733f48c73a599dadbb569229ec30860f514c041c"
+    },
+    {
+      "path": "svg/drawings/73ad28b8c90d18b8256d4f00c3b89245f29eb4778d852c41692bc8866b0023f0.svg.gz",
+      "bytes": 3086,
+      "sha256": "f71176df01b50ecf7e30ec1bd62dceacbea7d02da04f750c7e3bbc3227982c0b"
+    },
+    {
+      "path": "svg/drawings/73e87761e75ca43bb351273305e7156056e9fa9b3d513daa863a3b4ec906c359.svg.gz",
+      "bytes": 1731,
+      "sha256": "eca31d0794d04208bfeada8d95165924f7df731c03203eda66159126f1a06eac"
+    },
+    {
+      "path": "svg/drawings/76242851053903e3801d002b04289e7bd823228b131b89991f8b7cfe6a548569.svg.gz",
+      "bytes": 2182,
+      "sha256": "5c9cf3e80a04c5385e3a45f747790008b3d0053e8c8f26dcc2edd3bb4caf0c7d"
+    },
+    {
+      "path": "svg/drawings/76ef2f795041dba9ef29e921e73814981c0c72a70806a5a6761fd79872b37416.svg.gz",
+      "bytes": 1157,
+      "sha256": "b19c2d29694b3d2cc3441fc2018af60172ca423e1f7cde0895264f5d3cb1ba2e"
+    },
+    {
+      "path": "svg/drawings/76f8b66ff303eb7a9bbb35fca8fcd54d964d9f2048f106bf6e9d45b1fbee6afa.svg.gz",
+      "bytes": 1381,
+      "sha256": "4c461d97b2aa7ca289e5569d867d1bd59d2b51860eaab41126f53b2569273ff4"
+    },
+    {
+      "path": "svg/drawings/77c5eedbbb1cd1d06287e19f5b642ae10149d99c4dc01f5b95c6d621bd74ab64.svg.gz",
+      "bytes": 3809,
+      "sha256": "4b451b6c8c4ffdbd516e1e99328144fc17356ce35db20620e73917f23405267f"
+    },
+    {
+      "path": "svg/drawings/78b687ffab991ffc31111225a2dd45805fadd436562ed6f50d1e393730caf22d.svg.gz",
+      "bytes": 5707,
+      "sha256": "2ce6637ae60312bcfabd64c14bc2155411db5f8291b2406e285c9aba6c159cb4"
+    },
+    {
+      "path": "svg/drawings/79c90d5544d08e42fcc114b185533f72164c4f3969a2ee17dace6b56d947f33e.svg.gz",
+      "bytes": 3601,
+      "sha256": "e22918addabf20874b7f773ee6454c82cf6966505c06beb3c234c6b3069cda96"
+    },
+    {
+      "path": "svg/drawings/7a21a96a7dc6aa060e9a67f145f77fd8344e51ac46cafa1ee14d3d046c2d78ad.svg.gz",
+      "bytes": 2723,
+      "sha256": "b923835c3ac9561e6dc4f5a633d7d4a151f30ea276fb2bf4245588a09d781a2d"
+    },
+    {
+      "path": "svg/drawings/7a757cd43320a65637d2764a83585934eb1e9c1de68d4da7c7afd323ec421f35.svg.gz",
+      "bytes": 1937,
+      "sha256": "26161eac9ebe7e6c37bcd37167276c631de08f87d54ff77f5fc502ba04b6a3e9"
+    },
+    {
+      "path": "svg/drawings/7ac7f934cf2a9052ff76392a8c187fdbc595e6919da599fabcb9f877095c9b12.svg.gz",
+      "bytes": 3706,
+      "sha256": "9cf46996944271de51f7e3392e18103821c717706f6444c854c9ca451bca5e9d"
+    },
+    {
+      "path": "svg/drawings/7b3e20d861787e7932784d426afcc4189795790a67ae2ef23f34dbaac2861805.svg.gz",
+      "bytes": 2714,
+      "sha256": "c27655c8eac7fdcea1899e15b66086e27cbfc5d6e439c7ef88f4ed8e7804b1bd"
+    },
+    {
+      "path": "svg/drawings/7b63eea089f9006318b3778f7da4b1f0e6b6e3a28cb42ae52c04d67c4daa32b8.svg.gz",
+      "bytes": 5644,
+      "sha256": "c5f47eb5cf223c60f37ece2e27bb51f81837507156708218b07fb86ac88d3053"
+    },
+    {
+      "path": "svg/drawings/7bdde416691be64f02a9e23a3ee534c651c7b9a88507e978961f898153ad9841.svg.gz",
+      "bytes": 3267,
+      "sha256": "704304caafbaec2bbbbf8380e96415a869460fb3469a15ddfa04bc56b850431d"
+    },
+    {
+      "path": "svg/drawings/7c2f622720df27d9b2cb9191c7dfca212ef3994ac17584e2636521889aad8c54.svg.gz",
+      "bytes": 3359,
+      "sha256": "ae2bfcee91cd0054a8522d1e23b93c2263b86c478e9f2ce4a01199e717b137bc"
+    },
+    {
+      "path": "svg/drawings/7cf690c38bd49af00cda1e509d14140c390487fb2aabaf7e99c0a8d9ab98019a.svg.gz",
+      "bytes": 2514,
+      "sha256": "151dd6a860d6a58ed38d4676342eae8bef61399f76cc887afd0a372d1c163dbb"
+    },
+    {
+      "path": "svg/drawings/7cf9b0591ca04bfafa26b50bfe29aa00f4fa1bfe9630ac6772d8b944ab4bd060.svg.gz",
+      "bytes": 2175,
+      "sha256": "30e5fefe77e5b2f5b1840361570b1e5d82eed13cd862b550a9f9b467b7c54449"
+    },
+    {
+      "path": "svg/drawings/7d93843300c2787505974c6a51b8228fba2fdb86539b8d5ccee56a099164d99a.svg.gz",
+      "bytes": 2680,
+      "sha256": "157afe3d2277a2e5aca9efba0e0404264604533d8ac9091f870e14bdfdfae9cb"
+    },
+    {
+      "path": "svg/drawings/7e59fdad028dc780d1b917b2620f9f7b98f97cd40162693b80d5df95da63e297.svg.gz",
+      "bytes": 3272,
+      "sha256": "c80b247cc6b37d1fa89cf4ee3071b47510cacb7a88d5937bec3d3ced03a880b0"
+    },
+    {
+      "path": "svg/drawings/7e6ba6e3b310c5dbae716a7909f2de83bfd84e8625adfdbe9eac3125ee271419.svg.gz",
+      "bytes": 5249,
+      "sha256": "8d312411efd930f1aba32fe98ddf823c6112b418e0524c4c527bdf6990333a07"
+    },
+    {
+      "path": "svg/drawings/7ff1f101b8f622e3bf6061096d67dd036daa447dd8281b2c5ffd4737538f5c24.svg.gz",
+      "bytes": 4990,
+      "sha256": "4fac400db1a0febbaf38d963c79e19eacd99ab4f49d9f7042bf77fc3f7bc1fee"
+    },
+    {
+      "path": "svg/drawings/7ff6d9f9de6fe3a22b7251c064e543b53fce4b39cb4ab8b53f27fb583fb03731.svg.gz",
+      "bytes": 3092,
+      "sha256": "06d7ba89c76d7e3dd6f8b0d52946d5b82ad327fe69e3473b5022d5e4a255764d"
+    },
+    {
+      "path": "svg/drawings/807d976d6abb7be7d9d379e2e20030c07a17d55432403073ad07e9b3024ce3b7.svg.gz",
+      "bytes": 3364,
+      "sha256": "34778c49b8fea9d419f1db3bde91896748d42097792e498e8c215851d559586c"
+    },
+    {
+      "path": "svg/drawings/80bc3d685fc5aed59f26ec6bf81f16a0e785ac2b565339f24fc3731e1ed50ebd.svg.gz",
+      "bytes": 2163,
+      "sha256": "01e2d828da77cbf60808af4fb97ab632e2f460253daad24e7add037c68f07af8"
+    },
+    {
+      "path": "svg/drawings/810ab990261d6fe9a2101791c8a760a50a8077f25a6929f2f49a0fd47f449db1.svg.gz",
+      "bytes": 3420,
+      "sha256": "4d1d6b0ce4ba08e22f6d3107f67f2f1ce7b7d008fde9232504a4a4e4ddbf71c8"
+    },
+    {
+      "path": "svg/drawings/816c756c986538f884f2292cadfd1f1eb35cfca14d292b91ba38ee5b0c7d96d4.svg.gz",
+      "bytes": 4764,
+      "sha256": "8e98c6c7bae5a849b694d5dd62d889dafc6bbac31bf68358087baf2caafedc07"
+    },
+    {
+      "path": "svg/drawings/81b15d8280e19d1b665ae8ca4be293c194bad054974cd0db0a3f1e2cb1b729eb.svg.gz",
+      "bytes": 3279,
+      "sha256": "0056a661b1d66bb96ad23e357c2368d64fe9a5cb77eaaba899300e50f208a2d8"
+    },
+    {
+      "path": "svg/drawings/81e7b37d000dc86995b80249879c941d24888b32b7fd391e0cef0af08460d776.svg.gz",
+      "bytes": 3379,
+      "sha256": "0e1c4cac271285ba1a334065735406cc9351db348204838d8069daaa0291a20c"
+    },
+    {
+      "path": "svg/drawings/8249edcd6f1243eccd9fb2d6f6bb184b2e08669d8c156234778c595bc83ce46c.svg.gz",
+      "bytes": 1535,
+      "sha256": "dd14a6e12d5b983eb30e9a29bbf4882e5c5515ced8663692c025dddd50040c71"
+    },
+    {
+      "path": "svg/drawings/831a967f417eb24f1fbca4f806c106626bf4cb2a47e3cfab1c689fb14e0cd19f.svg.gz",
+      "bytes": 3266,
+      "sha256": "e61650d17a31b27750d7407c57354c9ebc51719699ad15a5172a6f376c68f028"
+    },
+    {
+      "path": "svg/drawings/833a31d47bb34a9b0190542758cf1fc4401a24f616d18da7f38182bcd6017950.svg.gz",
+      "bytes": 1219,
+      "sha256": "45f31e010bce9df983755a2db6eba511c80c9dd0e8cb3d902fec8e16fd912dfc"
+    },
+    {
+      "path": "svg/drawings/834e7a94150605a0a4f5bfc485c2310ee7e5cdebe254364d80870997ede7a740.svg.gz",
+      "bytes": 5908,
+      "sha256": "1b9a37909c6cb677c0ae79c2435997aa5851afb62eeb533a9623bed9955384b9"
+    },
+    {
+      "path": "svg/drawings/83f719029777fd62a77cbd8b34b5b0b28cf79cc8dc9e1ea12c834933ef09df07.svg.gz",
+      "bytes": 3459,
+      "sha256": "3fb74b1f50f977402ee1b277341a6adb3dedb71e4793ad1f36f57dd5929f3c81"
+    },
+    {
+      "path": "svg/drawings/84f6b43993c94d849fe2ed65a7324a6fd69a636bfb6c22e34a337b5dbf15989a.svg.gz",
+      "bytes": 7476,
+      "sha256": "e61c77de5b54538c82139f7371d5bf08ab706a4d71f8cd09fa32ea311ab53424"
+    },
+    {
+      "path": "svg/drawings/854578e41331609396651f49e44f4a5d47f42fc9e63034435ae956c88bc63bff.svg.gz",
+      "bytes": 3542,
+      "sha256": "052bd82f1619c7b5ed9d82380198ece6d635d9368ec571c621cc1735a85e6347"
+    },
+    {
+      "path": "svg/drawings/85723745735aae5ebeacb308c2199a7ea495b7d4e5761f136366c8a60c04e6a9.svg.gz",
+      "bytes": 3258,
+      "sha256": "64ae217f7697ae7fc23881ccc709355a2d524958e7e1c5b7015d290d0c0a996f"
+    },
+    {
+      "path": "svg/drawings/864eb02059547dec5176e8d11f8d2c60a156f323140db3811729f4d03fa3e4f7.svg.gz",
+      "bytes": 5844,
+      "sha256": "db7217a86fb4e40ed8389997193dcc29632837a1b71f66cedc4e7c01e11880f5"
+    },
+    {
+      "path": "svg/drawings/866f952f6f310becafc420d7be39d4b167a2a8c0a0fa036bcf10bfcfce207188.svg.gz",
+      "bytes": 2863,
+      "sha256": "7b5f5ac8055135e1ccfd2d6d3fe49b34c5ee023d86a56c2386bd0a6530f8476d"
+    },
+    {
+      "path": "svg/drawings/870f759e28e6fcd7f9ae3b2c0a77b8c7c4a8a26c888cb2f1d59015bb85424436.svg.gz",
+      "bytes": 6203,
+      "sha256": "65d8abbea7bce4ac0d40996272200420749bb0fbe43fb3e2750e223af0b43042"
+    },
+    {
+      "path": "svg/drawings/871958ebcd17198f4baf2825332194c78d219b36e269bcfa271d1e5989a1aec2.svg.gz",
+      "bytes": 4186,
+      "sha256": "9f8c11e19259013d6023b755fca40568ab5eead626008afd26ed913ab139228e"
+    },
+    {
+      "path": "svg/drawings/8728f272fb43a1e7ab87275c08da47e4eb5118444773ab95f77e18fa2be347bb.svg.gz",
+      "bytes": 2232,
+      "sha256": "51a00e9212c7bfde9100f2eb27870f05c670c51f3e31d50acba8abfa76e051b9"
+    },
+    {
+      "path": "svg/drawings/88048291a203ed6cd4c261312f34bdea5d9b5189585786101fc6d17c4390b10e.svg.gz",
+      "bytes": 3944,
+      "sha256": "af6cb87bf48385af63a7d70cb864cf3d25c8169d719b4638ab2e44ed482db59b"
+    },
+    {
+      "path": "svg/drawings/8858aa114620b1d7d59b4d625ffa41735e2c746512c6c8a6857c0fe377ada283.svg.gz",
+      "bytes": 6100,
+      "sha256": "ecbc5fe4ff1df5edf787722a3e5e430f0e5ff822c4850e0244d69f3f4c9fad43"
+    },
+    {
+      "path": "svg/drawings/8941eebd7ba0695edebd0d8ca5d51ec396d308ba32c54bc4535fb605e2b46b75.svg.gz",
+      "bytes": 1505,
+      "sha256": "883cc22249b475833c1cf00177b190f4ac978a9867b0fd844799ab2c0ce36924"
+    },
+    {
+      "path": "svg/drawings/894a1a33385bec1169642d511c08101eeede05f49dd914c21fd85d1cf6d63f48.svg.gz",
+      "bytes": 1616,
+      "sha256": "2ed8244500b037dd93966a960b2005a0c7e5a491d290ee31bcf54de6aff691e0"
+    },
+    {
+      "path": "svg/drawings/89a8d52f6cb9358f6d502682254a972d85330e0547a7bc20cb099619c32ce616.svg.gz",
+      "bytes": 3796,
+      "sha256": "c41cb38bd173dd401522c58a9bc8d3bc4294f740e3b9066091994ad0f492418c"
+    },
+    {
+      "path": "svg/drawings/8a8f3ef97d6af968847fa63efc5dac6b149d74c9fe4f3af990483804c6ce50fd.svg.gz",
+      "bytes": 5406,
+      "sha256": "d319288b9f3dc37603a0906ab6f082ff33f826edcd4659b0f69c2a2de428591b"
+    },
+    {
+      "path": "svg/drawings/8ac33820155743d3772a2a6cb07e9cc2d6e1bc2dc259331a3cbfa8b8c20b193f.svg.gz",
+      "bytes": 3430,
+      "sha256": "ba6b008c33282d7dfcdbe1502db8822e5377a0dfdfb387140fb95d41b3965efe"
+    },
+    {
+      "path": "svg/drawings/8be0a18a6bc8e9e6e998c5d132355fa07e9884ef6ccab021dcfd6e7bed7ef6ed.svg.gz",
+      "bytes": 3983,
+      "sha256": "c90997507de0eb25aa43e6c5ae9e210b88ab36d69c170848d7b7a3a382a286f1"
+    },
+    {
+      "path": "svg/drawings/8c0416b7708dc2cfd69ede833e4350dbd23e39520eded019e5eb126076c87b58.svg.gz",
+      "bytes": 3720,
+      "sha256": "b57759d6781a72be2627b6e2260203893b4eb0829e3a95c54393e9f2c17b4703"
+    },
+    {
+      "path": "svg/drawings/8c207b10ed0461f4a2717aae86c045092b0747fddd9c9375891121b30dfb711b.svg.gz",
+      "bytes": 9727,
+      "sha256": "9ce713f39fd6d8867ad71d4a7a25413a9550ce1882927fa7183424caab5d64de"
+    },
+    {
+      "path": "svg/drawings/8d8c64cf4cadbe4b9ddf4f6e02fb747e9f646448bc3a56ad11dd102a2a8346c0.svg.gz",
+      "bytes": 2626,
+      "sha256": "8caf662e63c6b49746c443952d9266eebfabc00cb02219b5fe755628634ac884"
+    },
+    {
+      "path": "svg/drawings/8da3754c346ea89737e59c26faa5ca69caf5f6afe16d7d5bd233e4cf8370d98b.svg.gz",
+      "bytes": 3225,
+      "sha256": "36be9ac820bc3aac3162e6674d6e9aaf3098b2e20c1d520e4d6c2e17471029fb"
+    },
+    {
+      "path": "svg/drawings/8dfca388d1c0d59c4481556540d76ae85ab256650497fdeffc93f40de2e40e3b.svg.gz",
+      "bytes": 3342,
+      "sha256": "9df0cf95a7526627b8d34ee7a36c1d307a966ea927e411089d2615d0741b6deb"
+    },
+    {
+      "path": "svg/drawings/8e1bedd65107617170a6b6a4337fe8587c1ab5aad0c28e54b985498fe6db6f3c.svg.gz",
+      "bytes": 2218,
+      "sha256": "e67904b3de6b7c55f460c10cbd84c09e7c6459aa6afe461782f5f3308340f289"
+    },
+    {
+      "path": "svg/drawings/8ea2bb2ea57b20cb66b6fe000c07a4f37b3c340ebf7525f955a9d3038138c14e.svg.gz",
+      "bytes": 3950,
+      "sha256": "72c600479a373b01a21252de2540c9bf06c40d2d2ed605c7e8d94c9e69985ba4"
+    },
+    {
+      "path": "svg/drawings/8f57f7ce9cebaf122b1e9a9e6225604b3f5c728273c84880b5d7e26f0860e661.svg.gz",
+      "bytes": 3101,
+      "sha256": "ec135fc6fd6102070862a3b0a8be54b17df4a112f8b0cc39ce501bc39e1fff02"
+    },
+    {
+      "path": "svg/drawings/8fc1c15a441d16191b1d514cfb7650477ca87a6868d20d6b70b1491fac300f89.svg.gz",
+      "bytes": 3447,
+      "sha256": "2bd82cbff58d8eefcac6667aa3bddbfdaaee442ea76d29ab3d19b03efcbf6313"
+    },
+    {
+      "path": "svg/drawings/9028217152a0c3550316d6b754a192ad83c936a2ed56aa50cf84bfed86f0dc5e.svg.gz",
+      "bytes": 10008,
+      "sha256": "a66bb4aba6c6b9091fd74f8740e880207b6acda80e6f5c28122c8fbf08049d73"
+    },
+    {
+      "path": "svg/drawings/90602a63a7e0e13fed77d1c79ec544242be2cc3043aa07866e3876eb01907105.svg.gz",
+      "bytes": 1299,
+      "sha256": "9ef7dab238e66870caf023b3c982980a6d4db5ed74aab98db9c6677f60f0329d"
+    },
+    {
+      "path": "svg/drawings/9106518f94da7194a0f32891f81ebb540e743cae52fed341a17be21ef7f5f822.svg.gz",
+      "bytes": 1428,
+      "sha256": "f5d352d9fe5073522f9816e6e7d04c8c7f033648f8795163c84fb6f69e6a3fd5"
+    },
+    {
+      "path": "svg/drawings/913e0d6c67ae60df7d080d717a8ae3a819cb48597c5229bbd33026b9aabcefce.svg.gz",
+      "bytes": 6172,
+      "sha256": "e6647a1b0e7b66ea362937475f76278f5f2d7419c2b0323683dc82d44524eaaa"
+    },
+    {
+      "path": "svg/drawings/9166a83eb5a9a22589307532b1e570361538dc7bb8fd5f974a60210d474f622c.svg.gz",
+      "bytes": 5957,
+      "sha256": "a885b6eadd848a26bc0a2b6943b4c83e8d5c99bc324eff59eed9fdb1fc7fb3f9"
+    },
+    {
+      "path": "svg/drawings/92b3df87d995922331baae104885cabea90d5046edf12369c2ab3522a3395d74.svg.gz",
+      "bytes": 28306,
+      "sha256": "3743eaae5c475f4a83747e6e3d2ea03b2a57207d06e45f78ae85e5883d47195f"
+    },
+    {
+      "path": "svg/drawings/92c1f7b4b081dbc9fafc24f9f2930baa7c0bfd72b17f88f4ce2e77cd99a32414.svg.gz",
+      "bytes": 2911,
+      "sha256": "d5fc412a2477bbf9bf089ff33536fea47dce624ad8f381191679f65673ac642d"
+    },
+    {
+      "path": "svg/drawings/937ba598692e686d24338e0392f99e42ec07fbd7f059fd1f86969b52745569b4.svg.gz",
+      "bytes": 9559,
+      "sha256": "4c01df52cb56bdd8f876211b3ab5593ab580635b0b7a3b49a53360af8bebcb7a"
+    },
+    {
+      "path": "svg/drawings/938a475088b2bf1dff158714c8cb29ee17eb52f576a333f40700088eb8f12a48.svg.gz",
+      "bytes": 3359,
+      "sha256": "87a22631aa40719d2a73bda05cecf363fea6552c1136a4301fe210e602a519c2"
+    },
+    {
+      "path": "svg/drawings/9449c513ce5c7f46e03fb0d4b95e7236b715b1552d9d427464dee622d9b0bba2.svg.gz",
+      "bytes": 1979,
+      "sha256": "77207e8a08168ad02239e58b96862495f394ffad993ad3a939a9995b3b466e00"
+    },
+    {
+      "path": "svg/drawings/94b3d73ff92a57a74ccee5cfefbe41a170bd07415597b5369ae3c849709b9e64.svg.gz",
+      "bytes": 1287,
+      "sha256": "fcf75eacd598304cc21b93eda606754c5c1bcc4ae3a642cda6bd8bf052faeae1"
+    },
+    {
+      "path": "svg/drawings/94f170e54db1fa496bf258cf0e3bab97e4ae6aaa95ae05a7ab79d93f8cc4be9e.svg.gz",
+      "bytes": 5877,
+      "sha256": "d540b97b9cf315c355084a48776081503a634bdb81ce4db6e283144505005275"
+    },
+    {
+      "path": "svg/drawings/9621ea79de15876f1c00c588d74a5e60e49016b175eaeba24de54704da487a60.svg.gz",
+      "bytes": 1591,
+      "sha256": "34de7b3ecef8892e2a64f096a00244a3e4a11882c82979236f7edb3ef402de51"
+    },
+    {
+      "path": "svg/drawings/969cc520651146d65ab0dd3ef41172329abadbc4c1763aeae5dc5e2aee05ac02.svg.gz",
+      "bytes": 7609,
+      "sha256": "ed901c362c0bda47f5c33a1ab3fec1869c6ff5721871c06a16244ab05b53cda7"
+    },
+    {
+      "path": "svg/drawings/96a6ff94d7cc0a764cea94c35c8085686c754f4c32b92aa9ef082d8de8a75bd0.svg.gz",
+      "bytes": 17388,
+      "sha256": "f8ae645d6529ef9b9264c8420f66499919c019b814a4b19e88fa09adffc3f38a"
+    },
+    {
+      "path": "svg/drawings/96bd61f344c831c2e1b1e466d953e0fcc6ebf7fea1bbf4c657c864a6d04f04eb.svg.gz",
+      "bytes": 3964,
+      "sha256": "052b5980f30537744b5e97c78411c120fe6250b1cb714ddd4a63648ba6de002e"
+    },
+    {
+      "path": "svg/drawings/96fac9bdaf17b7429a90248a2c30d2c6ac5a9313feb1ec0f4440e267d8606f5e.svg.gz",
+      "bytes": 6201,
+      "sha256": "5b989d8d01623ebf26c3aa6b6393a258302bc1f214083c32a1acf2807e469d94"
+    },
+    {
+      "path": "svg/drawings/9722ef4533704a6fcbeba22d466dff05df07d9678db8594e43a178b9b9aa3f8b.svg.gz",
+      "bytes": 5866,
+      "sha256": "055b305dd322ce2d3bd3863d755cdf7f0811a039f4c631d9054e4d60ea2c79ad"
+    },
+    {
+      "path": "svg/drawings/9772316e9ccd10c9d7f676ba1f6098a9c25ce1031e7e0cb201259c3e753eda82.svg.gz",
+      "bytes": 6063,
+      "sha256": "cb6a0fdc6e546568a77dbf35a1c3735e22c55c92255b569296d14d71d826b2b7"
+    },
+    {
+      "path": "svg/drawings/9831ca6a8c5cf8709e741d0b71b12c485069ca46c3b006a19ce70bcd61e24440.svg.gz",
+      "bytes": 1555,
+      "sha256": "a6f54810f353cb6d6971db55a3b52f35b8dd172f75960ade6aebc6b1d9d99cce"
+    },
+    {
+      "path": "svg/drawings/9832d7b94495488949fc7e1fd23234a714c2699cffc00b222c1cc30f8e547240.svg.gz",
+      "bytes": 4131,
+      "sha256": "05ff636237ec315907961e25a57a4e36b2cda5c120486acb316fbacf2879649a"
+    },
+    {
+      "path": "svg/drawings/9a285d3566277bfc761d29081595a01cf7721d4e5c8645e2f403d700d9a8dfa5.svg.gz",
+      "bytes": 2303,
+      "sha256": "478ef04636f4b6697c878c26179bab43bb8e7aa1d521acd8d68e0b3830e676c7"
+    },
+    {
+      "path": "svg/drawings/9b3be0f5520582840e3096da363987c5a95364cfc2ca565dae74f707af826241.svg.gz",
+      "bytes": 3267,
+      "sha256": "702154b2b0f6f47e8249dd335b47c81de2cc0fc1cb05caa95b57f35519bb0305"
+    },
+    {
+      "path": "svg/drawings/9b6166fbb843e3f17e6fc1ea76f46768216990f62d1f162094ab803caee6541f.svg.gz",
+      "bytes": 2763,
+      "sha256": "3251256a88e948c9d94dfcfa2c52b658eb84d701d91538e2e0a1034f59a3110c"
+    },
+    {
+      "path": "svg/drawings/9c4e7848b6aaae4cf22d4a4b19fc68e07970403271d876700d5607d52be22f1d.svg.gz",
+      "bytes": 2523,
+      "sha256": "14465a8dde37d9bea31e0bc556e192e6b868265e7acc532a6d1f575b44c747c0"
+    },
+    {
+      "path": "svg/drawings/9d1fc4473a6e6af93af157b8779e9257259f425ecec58921f485dc502647d240.svg.gz",
+      "bytes": 3272,
+      "sha256": "0941d514422c04b015bdb37be74cac0d26a173b2d57d1fe84d9f4c26351fe6d1"
+    },
+    {
+      "path": "svg/drawings/9d6de45e0b64f22c89a68121499daed51ace94cf1148883e4fe3ac89c84380f9.svg.gz",
+      "bytes": 996,
+      "sha256": "a6c094728f0f3678a0b0af71e285e758e6ee2dfba71ae787123d0a2c4ab2c48f"
+    },
+    {
+      "path": "svg/drawings/9d706682f4bec5c1ff3f08f8ed1b937c6f21bbb154bb803f992cc53b64b84ecb.svg.gz",
+      "bytes": 3426,
+      "sha256": "1980e379917dcec1b50790d8630c77a206e34b1a6fcf597db21621bbf98561b5"
+    },
+    {
+      "path": "svg/drawings/9d8487ae714afe3b395b5d681656860c465b9b96e400c56e2d9f68bf313e22be.svg.gz",
+      "bytes": 2974,
+      "sha256": "37cd0da46340de5647c406093f471ad2d1e53fbf12b1f5e72390bf82ec4d80b2"
+    },
+    {
+      "path": "svg/drawings/9dc499e00b50732cb04539ce4980f8fe95e0cc26475311ebd180738aee797422.svg.gz",
+      "bytes": 2109,
+      "sha256": "5b4e22278b3efc99c1434a68d67e53fc83c0acd7aac987087023f4c0e1ef9efe"
+    },
+    {
+      "path": "svg/drawings/9e2ca4d048d6e72cc3b6b31bd5d2fc51363a91a9773dc5150cccdb325d2f36b1.svg.gz",
+      "bytes": 3776,
+      "sha256": "109181c905629d46ec809a9239850adea2ae31ceccce7b1d926bd25631c6e140"
+    },
+    {
+      "path": "svg/drawings/9e53ad52cf2e368e34f49a58ba43b8fb45cb881b64b310f3efd35bd6dc2c5a58.svg.gz",
+      "bytes": 3200,
+      "sha256": "0788ee2ca51b7f0ad62fced3aae0aa9db2bfd611c990f49e5339be04098797ce"
+    },
+    {
+      "path": "svg/drawings/9ec1296b236f5d34c4c93cb26a1450cba7795912ea5b05504f65c0d90b8a89f3.svg.gz",
+      "bytes": 2222,
+      "sha256": "80c714ad24744241a2f88c38393ada8319ab5439190d90653beb2444b2e060b0"
+    },
+    {
+      "path": "svg/drawings/9f27dae1af69b8e027a290036c148e6e747dc8b3b150234ea5357fb0643b1d61.svg.gz",
+      "bytes": 1661,
+      "sha256": "867451fdb7047711e3c2710164bcb79540c1d5141438c708b1f5da07bef173ef"
+    },
+    {
+      "path": "svg/drawings/9f288358447731a104b81af22b6711bb10560d46db7bb2e5c2da50041889030b.svg.gz",
+      "bytes": 3432,
+      "sha256": "2289e9227d06a850b8715887e5b9c95be87e98c7b546a3b0bc125c2eb1643fce"
+    },
+    {
+      "path": "svg/drawings/9f2b60cd2d473f409ed80674d937daa3353994e3b5ca6b4930f6d664a56a28a9.svg.gz",
+      "bytes": 6684,
+      "sha256": "8fa2d171123c923314328d555b0691196d0af903a2f2c09348443a781253cd2d"
+    },
+    {
+      "path": "svg/drawings/9f52f94f94fc95b64f9ebedbe677398a32599bf549b21e36532a242a2845202a.svg.gz",
+      "bytes": 1863,
+      "sha256": "60f6650aab251aaba91e063fbfe31b3db0503e921a83ae7f38a5d4e241c05e0d"
+    },
+    {
+      "path": "svg/drawings/9fab32a2663e7310a475ab9d0c28b57a798620fceff471ce9b9ad7f664392991.svg.gz",
+      "bytes": 1224,
+      "sha256": "6523a4d7063fce1bda4b77516c275e8f293ad0e6cbc51e76cc268a8b8c28eb67"
+    },
+    {
+      "path": "svg/drawings/9fac85c9e7d35cc79c2eff96e0b975f6cce55b9bf5eafb55821b4326ba980a0e.svg.gz",
+      "bytes": 2795,
+      "sha256": "dd729df0b022b6cec5620f75c33e825fb7189e22fd46d04ce6fe93956d4e18bf"
+    },
+    {
+      "path": "svg/drawings/9fdf09250fbbb2b3c9fffedf712f8f9166cc64b0519f869f368b185e4caac3ac.svg.gz",
+      "bytes": 1756,
+      "sha256": "2d801323527a3f7894b0245d6a24798db0d30f94dad3ec21abc7a6cfe4fe9078"
+    },
+    {
+      "path": "svg/drawings/a125418fd3e66c55fa78e0cbff00e06ddec1599798c1177bce9997b94931c318.svg.gz",
+      "bytes": 2535,
+      "sha256": "56cb7f28212e138084fd69c30cba5a5339679b4095da3e2806ca025c73f96fe3"
+    },
+    {
+      "path": "svg/drawings/a14e40126b3ddd9cafa63e0312673414f88b4196fcf57f8c479f92ee41320502.svg.gz",
+      "bytes": 5808,
+      "sha256": "ada333a140fee42483dcd3c48450deb166916df2f558d7b0e109815c94730fe0"
+    },
+    {
+      "path": "svg/drawings/a27ab44d6ef33d1c6d533b116afd58ecff7c1de39103ab61784d1a62d3f5d439.svg.gz",
+      "bytes": 8012,
+      "sha256": "fde35f89cedfcf09ccf43c86ec736242e49732a94e0be3f3189845b8b71e7667"
+    },
+    {
+      "path": "svg/drawings/a2941c392eda6491a814504f0a6c417d289792687dfd4bdd870e407b385528a1.svg.gz",
+      "bytes": 980,
+      "sha256": "67c6b336468bb7c79ab191ca90102ca7f8e3eee0226480f20d1a3be703ea8316"
+    },
+    {
+      "path": "svg/drawings/a2bdb76121f3a03786503a76292fd61675be8639cd8e205cd3d32418436bb700.svg.gz",
+      "bytes": 1336,
+      "sha256": "e426e9480817911f8dd11490b20b4048ce94f354999253edfc7fd692c7f01809"
+    },
+    {
+      "path": "svg/drawings/a2e4e6e72133ff45e423fd7157f76cb8b4c180661adb0ecdb54363cf461d151f.svg.gz",
+      "bytes": 6492,
+      "sha256": "1ffb66bf8e0f70516a2e75f19925d09ce33be7eb0a2b4957c4185799572be593"
+    },
+    {
+      "path": "svg/drawings/a339ac86e1287ed9a4054d3ea4fb282bb703e5d7952e67b95d65d5a2a6c65e17.svg.gz",
+      "bytes": 3266,
+      "sha256": "78e6ef4b46ab2d7f1a64466f512474987ce70f22a4d2bda96bfa25f0dbef0387"
+    },
+    {
+      "path": "svg/drawings/a402044c037e75304bffd5f3487ca84c0a6e1d2b37e68935f69190ba225d4c92.svg.gz",
+      "bytes": 2095,
+      "sha256": "f845c6c08c55363ad267d32630b79b577db2d21639f782ef0238336158b29242"
+    },
+    {
+      "path": "svg/drawings/a41d8da1a93c70f0777956724be6408c2b23807e16158e9c7418eb38c919c235.svg.gz",
+      "bytes": 3486,
+      "sha256": "6bdc71eb9551e2a674251a1df102e7006833cefe6c02bca7302a5f936305e8ae"
+    },
+    {
+      "path": "svg/drawings/a46d15b172d598d71380b9d5122af6730fde95aa1b115979d0f5f6aadd4eb708.svg.gz",
+      "bytes": 2307,
+      "sha256": "5049b02d678d1879bc04d402c12a1c24e35a41bc8a47f88fd57536ed0fc46534"
+    },
+    {
+      "path": "svg/drawings/a50efbb0fda581562a02cee47478d690c13b5d1b11a78a79a08fee48a67d4f14.svg.gz",
+      "bytes": 995,
+      "sha256": "410464468e17ed6b3f91ee004031911373432344459667004dff7f43838b83f8"
+    },
+    {
+      "path": "svg/drawings/a51c3d06e7a496265b8d0a14c2dff50ae973420cac89ef93b0f907dd1b9a22d4.svg.gz",
+      "bytes": 3317,
+      "sha256": "61131c85e0f3ea37ee1429e8af6979ff15f8ff8662777bc5d5ed7a9da4517420"
+    },
+    {
+      "path": "svg/drawings/a5c2c7324e47a55b8eb7decd0248a29960899d587113f331486de8702daf4161.svg.gz",
+      "bytes": 1861,
+      "sha256": "452e00eca7804255a66927bdf17de72be2ebd90d1e08fa50a8dfdc1847eff094"
+    },
+    {
+      "path": "svg/drawings/a65822effc8cf993d3874ee4bfc65865c46062eb76ee804d2480d7e9b8ed79ee.svg.gz",
+      "bytes": 1780,
+      "sha256": "bb1a40813cca62860e1e96e00413dc089406689a44cdd9ca0e17f458da561eff"
+    },
+    {
+      "path": "svg/drawings/a6d3267be3b220642c5c50e33312de6f121b5154c23fc983f4f7e92caa6c3ce5.svg.gz",
+      "bytes": 978,
+      "sha256": "5ffce203fe82d2ce5d2b72fb0f08f751a0707a2a056cc655c63791c676db1a12"
+    },
+    {
+      "path": "svg/drawings/a6e45ca86fee6e4969c60a9319aafa1fca2daa33d6316c80def7c498c94a84ea.svg.gz",
+      "bytes": 3408,
+      "sha256": "35f5580ac90f43e425a57c33a6501608555d47e5dfcf5eb33048c8042f3df1b9"
+    },
+    {
+      "path": "svg/drawings/a71a2319095881cbcd1d05febd152b33a5f96856cf118b8bf41ca108d9853679.svg.gz",
+      "bytes": 1189,
+      "sha256": "f6d868fd8e2eb1c150f1dc449a25310c472fb6de28353cedc36107aeeb45cc02"
+    },
+    {
+      "path": "svg/drawings/a77e71c9d0ee22a8914281a6af4f32ad4d2dddba1af768a437c0789a47fbbf61.svg.gz",
+      "bytes": 4179,
+      "sha256": "67bb65e18709e6ed8418c88fed2233793989d59c39907535f914a65b8bfebea3"
+    },
+    {
+      "path": "svg/drawings/a79912ebe69dcb4f0a993cd48fcfe0d9b72c468cfef0eae8629a66655e95c11e.svg.gz",
+      "bytes": 5825,
+      "sha256": "d25510c30f7c79384cdc12a92b99d15da2eae63d2211cf42e3e06223c21665a3"
+    },
+    {
+      "path": "svg/drawings/a7b85eb06b10363465cd3c2ad7f742517875d94c5f5587ea356737b8090114ff.svg.gz",
+      "bytes": 4607,
+      "sha256": "9b4697f08356605ca4dceb6b436770184fe2bd27566caa69e177e6093a66a2fc"
+    },
+    {
+      "path": "svg/drawings/a7c95e1fbdbdaeab46783a4b9c73f329543f91d701f929c025e02cd268963fa8.svg.gz",
+      "bytes": 1440,
+      "sha256": "e8290e2293034fccd49a023999cb8c698a301dd4f4d15b14ab95330be9b2c96e"
+    },
+    {
+      "path": "svg/drawings/a7ed39adc6fa782a95d418cf7c81da976de95c75319e365c313b56f3021e30b6.svg.gz",
+      "bytes": 1586,
+      "sha256": "db9377c354685a103c00d5b3ecf002057e1d6056b119a02027ab05c4cf3c903d"
+    },
+    {
+      "path": "svg/drawings/a95c94d0a495618711e3d6626e868473b680f3759d828b0b96cfae1352879b08.svg.gz",
+      "bytes": 2455,
+      "sha256": "8eaea9226fbbd15a8c183cabf6d372f7dad1d4903887d88e9df3dcebb442b480"
+    },
+    {
+      "path": "svg/drawings/a963241f81051c453cc5aea2cb3e11490f50926acf98fc904d3de3b3b5d58f84.svg.gz",
+      "bytes": 2348,
+      "sha256": "e464eabcb9e89e598885e1adbe0f78822b6592022e4173bde4c4b5aed3c05ff3"
+    },
+    {
+      "path": "svg/drawings/a98e1cf13a328700a22a9a7c21327759083bd1ecab542e46de034b92428c6093.svg.gz",
+      "bytes": 1273,
+      "sha256": "ab9aab54c65ec01f25b23da1b70e134eb598669b1607c97d98cde96810d908bc"
+    },
+    {
+      "path": "svg/drawings/a9905384effc85d0359120f74e77a12991a6fd4c822f7f73c05f1d43167ae686.svg.gz",
+      "bytes": 1508,
+      "sha256": "da4c92aec9e054c82502efda2e3388822a54a263caea4b7c43c3bc858e31e383"
+    },
+    {
+      "path": "svg/drawings/a9c4d5ef959f9ee4c54d7d7efcca4a7d6d9104d31bbe41898288e555f34e20ad.svg.gz",
+      "bytes": 2690,
+      "sha256": "c1c0fa63fbfb087613c63de4fcdcadcd3fddff44b9c049b4752d40af80e39245"
+    },
+    {
+      "path": "svg/drawings/aa52848bd721c3adc73f99b973a9b68427b755d8a753470710c9905d4ff959bb.svg.gz",
+      "bytes": 2064,
+      "sha256": "dcb504cc3d770cfbe7b797421b2605cb96c7c8799dcf6cbb3b9372d17eb70ca1"
+    },
+    {
+      "path": "svg/drawings/aa86e39004eb99cab44637f00a7eca1b8ba191e6136c6e66586b4e523259775f.svg.gz",
+      "bytes": 3403,
+      "sha256": "d48af68a9e82fe861800b95e36d57d06580c85404a1bf19f5e1e2cfaed942ac2"
+    },
+    {
+      "path": "svg/drawings/aad3cd42da8f4adf71e55057c85da195cf1601140d88ceada858fc45140f8024.svg.gz",
+      "bytes": 6993,
+      "sha256": "f2cf607601e833da1dc412c58c10b628b499ce841447644bff2c4bfd614ee2aa"
+    },
+    {
+      "path": "svg/drawings/ab5d99b25317add4557f9cba9e9a6f9a80667f8477697bb15300014ca7f54c8c.svg.gz",
+      "bytes": 1141,
+      "sha256": "699e822edf93baca503e003d2016de6462d03fd7864b89b586caa88b4b276712"
+    },
+    {
+      "path": "svg/drawings/ab9066864b873dd386644a1d1e094a915f7884d1938a2a8cb0a17cca19089925.svg.gz",
+      "bytes": 2732,
+      "sha256": "b6bcd172a1a4f681655c5dd247bd9f0136d2ce8177be5eaf13efe921071b6af0"
+    },
+    {
+      "path": "svg/drawings/ac0f5f8ee3c58af3a12810b13dc3729548668d800755a3e726830cf0e5e1f253.svg.gz",
+      "bytes": 2060,
+      "sha256": "6c50404056ffa3a19be8ae67f8a8943d347f75c3c6caa5366fe19b0ea86b4957"
+    },
+    {
+      "path": "svg/drawings/ac18499c215be89572a704b69e3535ae6896263b79b553b5050456cc853d6385.svg.gz",
+      "bytes": 5842,
+      "sha256": "0b8dc464ea25068415aff83b4a7baa5c846568be8cdb6a25723331039c3ba181"
+    },
+    {
+      "path": "svg/drawings/ad6c9c39b6f1b499af3893baaf1a541b6b6baf820d5cf78a4bb09e4bd96bec20.svg.gz",
+      "bytes": 9267,
+      "sha256": "e1894311cfdefff2069fc93298652223ef51386b00f37a4067c94dd1e7287051"
+    },
+    {
+      "path": "svg/drawings/aed3f66c27bdb72522d18b7a54e64dbe3e4710b9766087a946285b5df1e43540.svg.gz",
+      "bytes": 2123,
+      "sha256": "71a90e956802445adfdd6e04bfe7cb9d1a42a071c33e78546f8661977cf98cc9"
+    },
+    {
+      "path": "svg/drawings/af39ed72f131b044850ea8fb23d3e1bea6ece2d7ed41fc1b9a7d66c93746bd65.svg.gz",
+      "bytes": 2067,
+      "sha256": "44d14fa80c45fe3f7e22abd3e2231803e8c193ac6a4c2e1f8ed0e70ce7933999"
+    },
+    {
+      "path": "svg/drawings/afc622488fa52546a3c5bc896a621518e7a394b3839d55a707bc2050e916d731.svg.gz",
+      "bytes": 4417,
+      "sha256": "f22a3da2cadff51cba5913f764acbe881d2ea0f980d740a94e8d9d2a835090a9"
+    },
+    {
+      "path": "svg/drawings/b04a90566ddeea39b9969cde676ad479d55d16b20187cdd2100379ac4526c50e.svg.gz",
+      "bytes": 3992,
+      "sha256": "1c018a90d34d0b0edf466faf93a12538753e8928ae8c925cb890fc231d2186d8"
+    },
+    {
+      "path": "svg/drawings/b053d2245a16214a734e2c8ad31153a4720a65c89ab6bd5ec27333756a63e50e.svg.gz",
+      "bytes": 5885,
+      "sha256": "de729f3b382424419f7b99f978ac62afebb4fbe92b69a0eac1a4c6622d5006de"
+    },
+    {
+      "path": "svg/drawings/b0af6d1354a5a5f7dc4712b295b71a6c53f1f910dfa6fe89b76070aa43d415a4.svg.gz",
+      "bytes": 5744,
+      "sha256": "dbe8c25c5af5a730be4edb45b25454ff6bfe574fc3168a027f1f1fa748597bbd"
+    },
+    {
+      "path": "svg/drawings/b0b6dccad51264a8e0b6ddcc23e09bbe96dfb58f655117730da4f2b7d9e64eb0.svg.gz",
+      "bytes": 5923,
+      "sha256": "85dc0121cadd51debe225ac0c9ce0b67881764ff41e448774a9e852d5d426ec2"
+    },
+    {
+      "path": "svg/drawings/b113fb9b3b8e4d650e1bfb278f7ed75f537b2a820d00b87b18834673526f3719.svg.gz",
+      "bytes": 2507,
+      "sha256": "31a3976169f403105b7e524c4bde780b705d1562a4f252bfaf034cdbdebc95a2"
+    },
+    {
+      "path": "svg/drawings/b1522ddb2533e48baca87bfab30d7c3bb445a36b2d057c03ef271b184add8888.svg.gz",
+      "bytes": 3956,
+      "sha256": "ddbe3f0ace7c99e1b83c0131b748ea8b99248b044cb190734f6a97d9e9b6130b"
+    },
+    {
+      "path": "svg/drawings/b1d6201ed750b348cf9b0b889c6d99f714bacd7d81b9cf2d6a35541b5ac28d8c.svg.gz",
+      "bytes": 3877,
+      "sha256": "d4da385d295169e2cf6f9c59df65fe288f0f2c3a4d9031964cc64731c0172773"
+    },
+    {
+      "path": "svg/drawings/b2295a36bcada17895d46dfd472e70973ffd506fe06067f5aa09982917a06542.svg.gz",
+      "bytes": 1498,
+      "sha256": "497ce30dbc44a8dd9cca2faa272dc47bb34b1301997a4bbe732b788f4ec98745"
+    },
+    {
+      "path": "svg/drawings/b32e934445a2c3ab887c10f2680a0af6deb1cc469846fe61fe637dfcbc27c7aa.svg.gz",
+      "bytes": 6330,
+      "sha256": "c744db515a390dcf10bc3b4e084397e606265682b33110b7414b47db5dc95053"
+    },
+    {
+      "path": "svg/drawings/b3b8674e989303f944bfe7589736e799061c3702d2313e43c5b8a034677c3d9e.svg.gz",
+      "bytes": 2066,
+      "sha256": "53f9952422e3c1847ae574d51fe7ec20120a96b8d11b339b118f505bba8694ad"
+    },
+    {
+      "path": "svg/drawings/b3b8a78371ceceb3384ec7afc9b9760a02353fe88784422046b6b5d68352cfca.svg.gz",
+      "bytes": 3526,
+      "sha256": "b5e91b924521b81db8f2e75d3e94af06c771c4daed7e1086fb4b8df09247ab88"
+    },
+    {
+      "path": "svg/drawings/b3fa7b0b355fb0215e8f2c23fd9a3d675da7a3b086fdfe68649ab144cf53577e.svg.gz",
+      "bytes": 1034,
+      "sha256": "132ddec8c6e80a20bff4a0fad3ec41bd32f9428b4f5a0f8499ce2704ee952cb1"
+    },
+    {
+      "path": "svg/drawings/b44cd728f1bd09de32913ced75d36bd903afa1e801e6ed2910776809f1f53178.svg.gz",
+      "bytes": 6277,
+      "sha256": "bc968e4447bf9f88f5eb1e8268eab7ebb0b1d3d6a596aa1338714773f7d2b079"
+    },
+    {
+      "path": "svg/drawings/b48d47b61095bea5fc124ddabf9fd8f3d7c60bf5ec14cf93a2545dbe2ea29d69.svg.gz",
+      "bytes": 3939,
+      "sha256": "4552fe089b429ea39a8983493058a75c7e683b8aa0e45adc2f887f8892dc89ba"
+    },
+    {
+      "path": "svg/drawings/b6678b3160fe58efe2e7304382577ebdfb31d5606df646b6c4dc9d8033dd9fc9.svg.gz",
+      "bytes": 4405,
+      "sha256": "37b5ecf3a43d79c488175e7e55ff90861605ff7117995de7bfb02ded91ec808b"
+    },
+    {
+      "path": "svg/drawings/b7397def6a3849de4e22ca2a6ca63d348558c9f84f5e03f04315811af8919398.svg.gz",
+      "bytes": 1318,
+      "sha256": "2814c5eecf6e555736962da2fe4940ecc6a2caabd02eebff4ca2791d6ba9da97"
+    },
+    {
+      "path": "svg/drawings/b7510bd015363a4b188bf02f17a7f723eb4564f79ce70af60186e8853320d9dd.svg.gz",
+      "bytes": 1637,
+      "sha256": "1234060acc6c41f8bda927da7fcced2ed4f32fc6d34c826f1613b99b3f9497fd"
+    },
+    {
+      "path": "svg/drawings/b887e20e7dae933fedb157f98237f2f83b704c79750a8918bdd136dd1f0bd6d4.svg.gz",
+      "bytes": 1955,
+      "sha256": "f023b455ea5924274002459dedf520131369838df829349f3fee522a10428d91"
+    },
+    {
+      "path": "svg/drawings/b99e8620dcbcbfcf8faddd2928684570206efaed3b4a2f4097f53cc288026b3b.svg.gz",
+      "bytes": 1624,
+      "sha256": "aa9588ab2bedf194b924fc792d88ae1144d3534f5263f5ff5f32b40918bc511e"
+    },
+    {
+      "path": "svg/drawings/b9b709f662cf7721f18240859547f8f4d465d6677016671873433ebda64a7b64.svg.gz",
+      "bytes": 3135,
+      "sha256": "000d0f977798b1fb8d6407aba3fa2febd0300287edb4769c4527387c5825bd8c"
+    },
+    {
+      "path": "svg/drawings/b9daa2a41d011e2fc7325bf8ef66b2a6a6639bf89a8ef5d826fed5ca98e3fb95.svg.gz",
+      "bytes": 2105,
+      "sha256": "d8f794921b0b216460691170f3cd1f2170611636cda1b1bc1d65cbc30a26d0f7"
+    },
+    {
+      "path": "svg/drawings/bb2259436e9625c00fd20ec0baa679ca553abff7bec08a126ad7b24c7dc83a23.svg.gz",
+      "bytes": 2803,
+      "sha256": "e249233b1261663513f8067f389bffdb84606737094352549f426a21b94ed6d6"
+    },
+    {
+      "path": "svg/drawings/bb50ecf9e7c147d43f9ea179b754f8956e375bc7c750bca96bdae42a823f8226.svg.gz",
+      "bytes": 1320,
+      "sha256": "d0dcfb621ba9f5cde44fd003d7272631961ec4e32bbb048b2c123a537299f4b1"
+    },
+    {
+      "path": "svg/drawings/bb9dd5aae388370cc503de23247160d4f2b291565856f7924e593ffa15a82cf9.svg.gz",
+      "bytes": 3703,
+      "sha256": "994990b755fef43c40cc89d5bb6b4bb9be6dfdb7a0db850afa94a9f66ef3d92d"
+    },
+    {
+      "path": "svg/drawings/bc8279dfcc7e25655656abe7a57b1cec8a2de8430690f7aae04d6805211b2768.svg.gz",
+      "bytes": 2328,
+      "sha256": "b713033d7f81fb97ba220516a5c7168a3c37ffe0a214b1af4d23cc5888214c59"
+    },
+    {
+      "path": "svg/drawings/bc85adaf45b4a98f5659fbdf3ccfe88690f07d5036f02f47a471f090778aa821.svg.gz",
+      "bytes": 2312,
+      "sha256": "33b6fb75bcd531ab352dd98cc6341bd3f904cd6fde57b1f6328d81cf35477c1d"
+    },
+    {
+      "path": "svg/drawings/bcec69b223a5e2a30034c7f45cc57f18fb73f67571fd011d0e746bd454cdf455.svg.gz",
+      "bytes": 1990,
+      "sha256": "edb26ff98e2356a12dc4c85bf1d5333c81c99e455e278ed8159fb9023e60f826"
+    },
+    {
+      "path": "svg/drawings/bd49a3a51ba47c6e6c668dd5ae8e185cb050c7ce2f151653922c7a05b501efd2.svg.gz",
+      "bytes": 3413,
+      "sha256": "3339946e4c7d95390bec31535a73c4f1f1d8f62cc0b44eebcf4f2414072e6ca2"
+    },
+    {
+      "path": "svg/drawings/be48ea0b6369089aa84be426732c57256179fe680820914cd2d931767a1da890.svg.gz",
+      "bytes": 2029,
+      "sha256": "514d84a103755ce029a3e6f3138c3431b3d4654528911e920c14e73f44f2fa7d"
+    },
+    {
+      "path": "svg/drawings/be64387995b71028133ecb8fb3425fe489afc59e1e96f09e9892622c155d80f2.svg.gz",
+      "bytes": 5640,
+      "sha256": "ee5efd41c20dc73fd006ec8d83a714b1abde3c70369b33cde38c0500c174a6a6"
+    },
+    {
+      "path": "svg/drawings/be6c0ed1ee37fad818390ef8069ca3e54630e0a6dba9790f349f57954246189c.svg.gz",
+      "bytes": 3267,
+      "sha256": "f447350d3623b76f2e343352f40bd2e2f1345751afdbc1eca572cee7638dda98"
+    },
+    {
+      "path": "svg/drawings/bed32fe33d3c42d281954fc7e421b4bf4617244e3a7459b12d528da4aef362da.svg.gz",
+      "bytes": 1372,
+      "sha256": "a3fa8b5a13c90b96ca4eaacd9c838b10311de764481b54b56d554d5b244fec9b"
+    },
+    {
+      "path": "svg/drawings/bf757cff14e4a1eb198e579bb3c00531ef71241b210b672658def7a45a51dc82.svg.gz",
+      "bytes": 2011,
+      "sha256": "42ca0eb96e3300080eb1c12079b523fc27a5fe36ad631de49092874c162f5240"
+    },
+    {
+      "path": "svg/drawings/bfba2d892020c5b9c4d3170cdcea7888575fcd48fad06ae04fc3ed2b50716791.svg.gz",
+      "bytes": 1488,
+      "sha256": "150ed9b35702512389434c773b38b078674887ecb1bfbdb5ebc8dabca6731928"
+    },
+    {
+      "path": "svg/drawings/bfc6a0b9d9fe65bbdfc5353d51bbd3d6b1299563926f25d540eaa18b29acc522.svg.gz",
+      "bytes": 3268,
+      "sha256": "0ce043dc54036f7dadff9e58196ff275ec374930d2e0efa6d2962ece2e9edf77"
+    },
+    {
+      "path": "svg/drawings/c1cd3604a97d4c8edc8d212987ccc738d7439dfdfbd5af11004feb78f15ba675.svg.gz",
+      "bytes": 1157,
+      "sha256": "f0e5e1556c9f63950c4ee742049f854a9c1f45ed40f84b5b4d412de4516e4599"
+    },
+    {
+      "path": "svg/drawings/c2628f92ec09db5d1f0fa076e229a01c17b155c17bcca9afa7b823f4df79c132.svg.gz",
+      "bytes": 2803,
+      "sha256": "58c485650096a53bad3f0e45fd1a0cbc473928929ca2c4f9c38b57928ef7a1d2"
+    },
+    {
+      "path": "svg/drawings/c27fe208ab164abc367300b624c02fee3b17a3690e07ee659b123d1cb7bc7d8e.svg.gz",
+      "bytes": 2690,
+      "sha256": "2257743cbcebd27b8a2bcacfc5ee4174d1c6718f80a76a687c806a73721731c9"
+    },
+    {
+      "path": "svg/drawings/c2ccf2770f653e2e6827b575352c1a945d947c86b45c33b6334429c706844278.svg.gz",
+      "bytes": 2107,
+      "sha256": "e4c9efca023eac5492043aa271ecf1ceec4a96f790603799f03c2b04f3285ff0"
+    },
+    {
+      "path": "svg/drawings/c336ad416aed9ee5b0e7b67e74ec9c97e9d2737e72f3638f522648024ff9c680.svg.gz",
+      "bytes": 1720,
+      "sha256": "e95d82565313bc061adbcc4137268e488c22be817f66f80c3d97a7ab71119d29"
+    },
+    {
+      "path": "svg/drawings/c36d08d7d35ec0c51bc2b5cc40becd39d38c7debc64befec5ddca5885c5ea21f.svg.gz",
+      "bytes": 6033,
+      "sha256": "a230f18ef63d4ebcb04b77c4538045a6758ffd2e1eedd8e81efb6dac1d131952"
+    },
+    {
+      "path": "svg/drawings/c3a1f2c70d53769ab03734e26fdc9f95863f08e9fe7913359324f9e03e97a55a.svg.gz",
+      "bytes": 3507,
+      "sha256": "ae97232b56ac609171789c90fc52e88507f23502422a264e9d4b3b604e8804b3"
+    },
+    {
+      "path": "svg/drawings/c40a6ed008f3d7fdf092d351a6f97383a2e206a8f6a068dabdb1b131306e925a.svg.gz",
+      "bytes": 1764,
+      "sha256": "ba502647d3af6f8d36d6f8d978b27a0802a5008a11b85de9f95e2eb64ed6f2d6"
+    },
+    {
+      "path": "svg/drawings/c4591afb322a6fcfa171530daa7c5c709d7356ef98cfe83e8c058d1c129308da.svg.gz",
+      "bytes": 4389,
+      "sha256": "9d6b7a2c2fda7241bf4a23ff44b7c2799bca84216acf94e62019908597c66f9c"
+    },
+    {
+      "path": "svg/drawings/c4859be300f06076bc8b9bae7ef19dff27ce4c804c2a9c8ac71b918aaa394306.svg.gz",
+      "bytes": 2007,
+      "sha256": "aeccd7dd281b8070e4904bd029cf557769898bc595d962e07da21c42c13aa9f4"
+    },
+    {
+      "path": "svg/drawings/c4c32d99ddfb616bf1f3992bc38a9c25ed67b96cf12f324b08a5cda355cb9531.svg.gz",
+      "bytes": 2500,
+      "sha256": "3659d6220b4229a6c096fbacd7e6b480690b0112d10ca45552eac060fa90e33f"
+    },
+    {
+      "path": "svg/drawings/c55e49de1ff8a369a16a2a250895f22dc88b75760c8c1f2bca262d5a6292666f.svg.gz",
+      "bytes": 7879,
+      "sha256": "164eaa69bb05e7711e53e05b76fa390a47ae1ba51b702dfe57f2226518a47f62"
+    },
+    {
+      "path": "svg/drawings/c57e33b6ee4444d5e8f3eb78d2a1de150455beba775d55713f13a6cde62817a2.svg.gz",
+      "bytes": 3648,
+      "sha256": "ee55f8e20c4b4d96fb64bfaba40b7e63b7f148970f3822d6baa02c24422d26d4"
+    },
+    {
+      "path": "svg/drawings/c63e7edb8add9baab63de04a089ab106cf213517c7b562fb16ac2c32e0240464.svg.gz",
+      "bytes": 3568,
+      "sha256": "37390e0cdb4a51f4bd38878ac74bdb00750e9c78593634915a472b5612e9b763"
+    },
+    {
+      "path": "svg/drawings/c695feacb2cba20ac62e101a54e9664d25b14e9c62ed7261c846b4e249456af3.svg.gz",
+      "bytes": 2142,
+      "sha256": "2896d1dc221475e662a32abb0861358fc9bd7426b446e22a6ba085829fbf3c32"
+    },
+    {
+      "path": "svg/drawings/c6b6bddc24db30c175611032c1f5e70fc1283ec5cdc6ddf79fad4a109c6e642a.svg.gz",
+      "bytes": 2048,
+      "sha256": "4bee48bf646ba43f9b8a06d2cfb733335c2123dc91a516981c07f78f4b3ef95e"
+    },
+    {
+      "path": "svg/drawings/c70793c95b77d05e8abe48bf8c2533148ee29604b28f3138e7f0f399f2d3aef1.svg.gz",
+      "bytes": 1460,
+      "sha256": "8a59306b5d087d18f5f0fdbfc71299df40d4a498cc4c671f3c2a9f00f2e4afcd"
+    },
+    {
+      "path": "svg/drawings/c7f62bf008c94ef742c691bc4dc8d20be3199742daee8ce45daf4610774ef419.svg.gz",
+      "bytes": 9339,
+      "sha256": "6c7b0756acc4124fff4829b487fdd69c6e17aa532a705deb7fdefedc640ff784"
+    },
+    {
+      "path": "svg/drawings/c819167f8f03f49b49bcbcedae52d0790beea2a90cd4a7d9c09b4f560d02ddb9.svg.gz",
+      "bytes": 3426,
+      "sha256": "ff6b63544c3f7269af8ae315529962e951b6926b932088b52c86348051050352"
+    },
+    {
+      "path": "svg/drawings/c8de4faf8d9a0d552b02fb26647d7e6a317136956e62f8a2304126a5b5065d66.svg.gz",
+      "bytes": 4892,
+      "sha256": "277d09cb82cc2fa9858f88375a9be7938fdcafcc86729b460695159348a7b7ef"
+    },
+    {
+      "path": "svg/drawings/c904d2be281c3ae0bc0010746c6a1d97394b944bf73785ca18bcd718af593788.svg.gz",
+      "bytes": 2055,
+      "sha256": "d26561e3c555bb9a087a09b79c2c170411b92a00b688c24770a5f40bfa20025a"
+    },
+    {
+      "path": "svg/drawings/c92eb846b436b61c8dcbbaba030f7e1ab3e500d16a3a65f749b82e6a7cf30880.svg.gz",
+      "bytes": 3269,
+      "sha256": "85151c74ee0cdd2e461fdae182c2ac4d4e8a3490add6fe0c853622af617360ce"
+    },
+    {
+      "path": "svg/drawings/c9bb9a9864d6839ea9fa2edbc80e5de325f53f9d4d6959eded14e9d8774792df.svg.gz",
+      "bytes": 1538,
+      "sha256": "d813615b1c87ab0dcb631248d84effc55fdcdab556e5990b1d3250c864a944f2"
+    },
+    {
+      "path": "svg/drawings/ca8975469da99261ae1e7a53d7a84661c6e4e6bf204338fbc69211ce64dd34ec.svg.gz",
+      "bytes": 3251,
+      "sha256": "16940a9a089d0c6774c036a3cf3ec228226693d2d2142909bee0cc28985b92fd"
+    },
+    {
+      "path": "svg/drawings/cb2e0c692acfb2c537ac7df5e1234167ddf9f020c32091d55cc38d654413e7dc.svg.gz",
+      "bytes": 2203,
+      "sha256": "8f32aca19bf806be13f16561cc35e278d43a49569183ad004ca6b7bb5756ed4a"
+    },
+    {
+      "path": "svg/drawings/cbf897cf701854b629c4aa61414c7ab1e475370b935a068c47486088a09fdbbc.svg.gz",
+      "bytes": 2763,
+      "sha256": "b3d7fdff7058f141eefa570223d47a5fcc363cff580b8bd89762914d1f1193f7"
+    },
+    {
+      "path": "svg/drawings/cc60c30f23f5c9a8afdd04dafcbd305f71d8e31d614e0902959e065a62b88345.svg.gz",
+      "bytes": 4844,
+      "sha256": "a49d5e4ae93ce3accad36f6374d9c41626c4a0c9094367407d2775c2651e7947"
+    },
+    {
+      "path": "svg/drawings/cc7243742fa7a1af5f7ae57e3b917d40584c6d120b397c3a3c04ce65385941f4.svg.gz",
+      "bytes": 3769,
+      "sha256": "39a473c311db9cb29fcdd870874e11cdb4386c492072b49c57d1d233bcc82d9b"
+    },
+    {
+      "path": "svg/drawings/cc8f5ca5782e411c654c20127e066977f938265f7fc1b7de9253f54aac97956d.svg.gz",
+      "bytes": 3430,
+      "sha256": "10337d31e42ddc73c7c027ce25b189d09a009ba85aa427ed15a6903b242f4682"
+    },
+    {
+      "path": "svg/drawings/ccd7619dd22da01654bc2f88927e53555deee00963dc2c54a780ada01a02a6f6.svg.gz",
+      "bytes": 1008,
+      "sha256": "167afc38b5526d600addb94c4a807c32ed0e5b581e9b8318a31748cfac37c95d"
+    },
+    {
+      "path": "svg/drawings/ccf6ded5fbba9fb155ad648d25dbdd05d32d8a775340a02e1340005fd7e1b601.svg.gz",
+      "bytes": 2203,
+      "sha256": "2b24c2ab70ad6394f9a1983f771e5eb28d485fc40b50374f4ebbd9e14aab472d"
+    },
+    {
+      "path": "svg/drawings/cd66e0177ca0038cdddacb9a54d689b2c6a93d62316b9d68a233ac4e09277a02.svg.gz",
+      "bytes": 2377,
+      "sha256": "1a11b5a0d9eeb451130fd9dde1bf5ec729bae14dfaff47904779854d15a55daa"
+    },
+    {
+      "path": "svg/drawings/cd9759d0f8c9b6b077874472e6bf69efea1ec7701ce3f33360d3b06144942ea6.svg.gz",
+      "bytes": 7511,
+      "sha256": "0b276619c22b052f08271aefdf5afeea04630f3fc1ac438034839219cdb2b193"
+    },
+    {
+      "path": "svg/drawings/cda4d8ae651ec723d3088569842213f7156505b8d9843ba39791f4089ed167f1.svg.gz",
+      "bytes": 2600,
+      "sha256": "1ca97f627ce47450099b8ff67a73605da75b7e0e1a08aa5b6bfe3c573ed2a202"
+    },
+    {
+      "path": "svg/drawings/ce17f3ed19132c3753235a83e26cfa8233b8a92bfd0db70c3be157628acd9d83.svg.gz",
+      "bytes": 2096,
+      "sha256": "fe41a97bc42baba2d7b4b892ebdd6777977b3d0c526b1bcb361cd3c57f96071b"
+    },
+    {
+      "path": "svg/drawings/ceabbdb79389718848ca188c6810b812c979d93cdd358bd5c6fa81ea00d965db.svg.gz",
+      "bytes": 2331,
+      "sha256": "8f6d79d4d3fcd58fb36d7d6d160e29d6c5606a73eb5a23a46e213d84f37cc396"
+    },
+    {
+      "path": "svg/drawings/cfef155faa06fa21830fb4fd559a990732b0d234d0d150f63f65b6408549f72c.svg.gz",
+      "bytes": 2484,
+      "sha256": "418f6c868a7c61f30c9cd91028f1772b474b2cecd84175e701f1424088eceb6e"
+    },
+    {
+      "path": "svg/drawings/d05e582b3d3f3c225c5c56b3032c01e244530a0ec8332bfbb64d320cde638011.svg.gz",
+      "bytes": 3288,
+      "sha256": "7676d93ffc7f9088342a222b3da48fd7b972f42bdf2df4e571c31b0c85fd7dc3"
+    },
+    {
+      "path": "svg/drawings/d094e9927e75d479fc505822f680415b6c3821808094612e042dfb1cdb0fe365.svg.gz",
+      "bytes": 2529,
+      "sha256": "f333828e3e57f08ad522c2266e08d33e6f7f3a9922114a3f23faf7c57c41e884"
+    },
+    {
+      "path": "svg/drawings/d11af4f0562c5312a4ce09e9eee98c09a071ab6221d351ba46c8ace87ff69475.svg.gz",
+      "bytes": 2505,
+      "sha256": "f86588ac669228bb44e088075eb891c9215a576bf494878fc7806242c1275af1"
+    },
+    {
+      "path": "svg/drawings/d214b5b558c50f2765320a216eb2fa66d2c66e519185e6df2571cdd109400d94.svg.gz",
+      "bytes": 9144,
+      "sha256": "84b2aa39aa6ce27c077196ef9058e360a27b983e8632f26391f81e17c90e7608"
+    },
+    {
+      "path": "svg/drawings/d27f283faba344f5a2bda8e01ccd29670fb1f0a59884e6dbb92b647f079aff05.svg.gz",
+      "bytes": 3181,
+      "sha256": "992da333fe4b6fb78ace7af97e18836ac9e2b7cf56f111c6b82743174b098aa2"
+    },
+    {
+      "path": "svg/drawings/d2987ab1379568b2fa7c385ac82283306dc9cfc4a990aca3c028628a1810fa2c.svg.gz",
+      "bytes": 7403,
+      "sha256": "3a5cc52685fa4af61691a63bc8ffb1566ef6178905858929bad7c15b1d9d4a7d"
+    },
+    {
+      "path": "svg/drawings/d35be673c89a44513c7a27ac176f59b8cf62ac5a23ebbda9d7f86d5a97642836.svg.gz",
+      "bytes": 1484,
+      "sha256": "07b323b5bd37f70154a41ce08102c367279f867028d5cb3d35c0f74863873f41"
+    },
+    {
+      "path": "svg/drawings/d405d52877b74a7629027903082b480dd506b8484dc36de0422c74f36864505b.svg.gz",
+      "bytes": 10626,
+      "sha256": "2ca5346be510c8a118de5db3ca1f22a66b1d8c0e03c991cb09b4dea6d2059967"
+    },
+    {
+      "path": "svg/drawings/d432b861443719ebc36ed3f50f6b74cbed1c74b8ec89b11b5cec8f7c6109f7d2.svg.gz",
+      "bytes": 2524,
+      "sha256": "d34a23e7d070a45af1bb9fc31dfe7aa76944793d074bc00b3f8e52ab99ed0073"
+    },
+    {
+      "path": "svg/drawings/d4797c670eaeea9dce4e0427d02615fcbd09d79ee20ef3de911f82bb2bf894b5.svg.gz",
+      "bytes": 3697,
+      "sha256": "1cbcb930015c4247c1987d76c84c65a31f517651e9697877dd9ca7ce9e1a7999"
+    },
+    {
+      "path": "svg/drawings/d48d679ee93ed357373a5546d3d209da126bcff62e6278197d9a4e1f19eb8d90.svg.gz",
+      "bytes": 3262,
+      "sha256": "f5b300a43782f3b9d9597a112cc5721d855c78896ddd0b4cb4f2722a8d635199"
+    },
+    {
+      "path": "svg/drawings/d4a96c33c78741f79eee1285b65e6d3b8c00bf0cad061dedcba3d5b14d886654.svg.gz",
+      "bytes": 2081,
+      "sha256": "df10ec543067f3ecae6610bfd5997766234af492700a1d32c587b175c291ac53"
+    },
+    {
+      "path": "svg/drawings/d4e12f91645a3ef64e6ce7349df16a69f3afcd9648d937cf0a5ed901c5ec3028.svg.gz",
+      "bytes": 1021,
+      "sha256": "ea3b61f2dcb47f898ea4835b158466d43bacc8a8e17266094c9869a452697bb7"
+    },
+    {
+      "path": "svg/drawings/d518de924449751d02ed7768ae62a774a7366b0ed5f6c6deb829b8d3888d1920.svg.gz",
+      "bytes": 1859,
+      "sha256": "abc910e742425d6d725c95a47a3a7b4523f4d5029883301fa7894c8af532eaee"
+    },
+    {
+      "path": "svg/drawings/d52277f90231bcd5fa7ea80c7009dbd5f53bd930fd6aa04256876c1bbaa70dab.svg.gz",
+      "bytes": 6191,
+      "sha256": "727dd18de5621987b5f58b78461376fc07405aea8cfecd9af6b98ad18e3131c3"
+    },
+    {
+      "path": "svg/drawings/d540b6c121a844f4b9bbc19ff922aa7c27ced8672390f64b6b9afa5d6ac99f58.svg.gz",
+      "bytes": 2360,
+      "sha256": "39ed82f688eff11fc86b04f40943c41b6844eef16ddf1563f6c0fadac80691ca"
+    },
+    {
+      "path": "svg/drawings/d5455bb7daf526d625695a5c7ea93bbd1137a6d5b39a4b8334c28bdb8f83a376.svg.gz",
+      "bytes": 3882,
+      "sha256": "88bf881293bf8c00731ae1bcb301a83f63adeda527fd7367334e085cd30c36d6"
+    },
+    {
+      "path": "svg/drawings/d663024e26ffb9dde0be693c8f3d8fd2d2d7fd06674429af968ce9682bd37fbb.svg.gz",
+      "bytes": 1741,
+      "sha256": "e7035ed249d4dc883a9c09d2344f3be16435bf15dbd7391e05774800db3840c6"
+    },
+    {
+      "path": "svg/drawings/d7be4e9732f867cf38ae14ed5d515d3c077d64ecbd2c006333697916edbedb9e.svg.gz",
+      "bytes": 5985,
+      "sha256": "7b77bc70b050916b1fa46a1e66f9cd94709684e20c3adc5e7aeb95f4af6f9c80"
+    },
+    {
+      "path": "svg/drawings/d809c80cf5b0cc5f7ffcaa7f7b78abf252f8b7e117f67ad39e554de883d9af8c.svg.gz",
+      "bytes": 3452,
+      "sha256": "e6322b3fdb1b193cf5dc28b916f8926c05f08de90b3a7b0e52f6bf4d15eef838"
+    },
+    {
+      "path": "svg/drawings/d87795256e4d947ed39709e116fe17391712b55cef46351f4133d711ca748732.svg.gz",
+      "bytes": 2304,
+      "sha256": "da410b80f4e593cca6aaffa8ab282a4e64c076e0c304461dceff4b47324d1c41"
+    },
+    {
+      "path": "svg/drawings/d94d4a68871cef47eaf21244294543e5c596a114b40f795d219faa6939c6fc2a.svg.gz",
+      "bytes": 2452,
+      "sha256": "55c19464f5a142228c4600f3e92da0d6edaded7090f8cfa4923cf81b8f5aad73"
+    },
+    {
+      "path": "svg/drawings/d9a4086b2d3ea148bde37e0ed73030476c7c957d6367c2b3ed78e8635e1eee7f.svg.gz",
+      "bytes": 5972,
+      "sha256": "da993b6b1afc12803f933fa1912ed8a9870b2d200a7564089c472d5d953fa1fb"
+    },
+    {
+      "path": "svg/drawings/d9d947e59e0d33bdea48a4f8e72d133c53d897557814923915bdc6af8c3b297e.svg.gz",
+      "bytes": 2086,
+      "sha256": "61a337ce0c64510b3cde9d75a990a49d00eb8a276e05436fb3d137f137a11ee9"
+    },
+    {
+      "path": "svg/drawings/da0ff85f1bc07ea246afe9d991e79d48d9c68687458bd1de87e8a91de8e7c263.svg.gz",
+      "bytes": 1505,
+      "sha256": "80988888391f7fae6b20eb109ebaefcfa5e50d47e412cb3ba7edfc4acce1ff29"
+    },
+    {
+      "path": "svg/drawings/da5991c09949462f007addcc46eb2444f0f13b9ad86dae3a8af9630a12af2532.svg.gz",
+      "bytes": 2065,
+      "sha256": "986333cfbf0722e5f0b5a2af99dc13a5741929c2e1c3f470abd542e92b3625e8"
+    },
+    {
+      "path": "svg/drawings/da5b571a965eabc037db80e6a7808b1e4bd5e7ea0b6f7e2050f1aa8f1cddd29f.svg.gz",
+      "bytes": 3419,
+      "sha256": "75a5b54613c359bfd3b818c24240d7c39e386ba15225bd265bc9c58a1d774363"
+    },
+    {
+      "path": "svg/drawings/dabd49ec11d624871132b1478735955b7e6b3cc6d164d6c3800b9f1e462b04b3.svg.gz",
+      "bytes": 9895,
+      "sha256": "ec1f69ab4e5fe1680a42add9d68208112b51c7d03132e4c6232dee8e59b2a5d1"
+    },
+    {
+      "path": "svg/drawings/daf0e11a8686a63f366ec96bcd07c5e0b13c6069d3e35e27767e028c87364419.svg.gz",
+      "bytes": 3560,
+      "sha256": "67f8a7bbff8dc2ca020ab191a4fe7b35b4af2d84d70bea83c7f4851b9b1f86d2"
+    },
+    {
+      "path": "svg/drawings/db30e97654008f245e8b13daf07b9bd6246e4270c09b0c0cdb780f77ff6fd3e4.svg.gz",
+      "bytes": 2055,
+      "sha256": "ff202e30559d718773e2ba5da0d033ae8d63682aa995b30d7efa5657875feb88"
+    },
+    {
+      "path": "svg/drawings/db5a48ad962a628ef102ef3825facc4b1640240a0f3c3b824cb98019172738bd.svg.gz",
+      "bytes": 3803,
+      "sha256": "a1bca2e78e78973e896f6349939aa6dfae4833fdf976f90e62dc4431fd75e569"
+    },
+    {
+      "path": "svg/drawings/dc34a0a3eae54206360248605e24bbe719cf2ad3a100dbe28931366e95d80de8.svg.gz",
+      "bytes": 3266,
+      "sha256": "b428d8731e2e59516bd65dc3a7bff714ca77355cb97e4b942ec1b0f61ca5782b"
+    },
+    {
+      "path": "svg/drawings/dcd573a55ef95ff7540e081e8c7561661606120d1fd89ce0643c737f9a4aed1d.svg.gz",
+      "bytes": 3889,
+      "sha256": "170a4b25f8344fc37fd200618d0ca3409a9b00fc2eba3c476f04ea2ce1f1d245"
+    },
+    {
+      "path": "svg/drawings/ddd84af08947732a96cc5853d554c6591becb4709f5270e4c7b81b87543421a6.svg.gz",
+      "bytes": 2558,
+      "sha256": "1c76f68f6000b581734d418d2023c57cb7d9656d34f0ba6394d4bbe8ba2976fb"
+    },
+    {
+      "path": "svg/drawings/de10fb2c1d69c9e70e3666aba04e0fc671d8c3d571d24bdde8b67c8c414a83e6.svg.gz",
+      "bytes": 3162,
+      "sha256": "029b42080464f45dfbbb3b35bf6329aad0147f4eab63611b41be7f3b2288b164"
+    },
+    {
+      "path": "svg/drawings/de1a33327da9deb37bf9a803cc353ab12c62d23b8edcd65c835f73edf870b0f8.svg.gz",
+      "bytes": 17484,
+      "sha256": "7a054a2b05467c6fd8e47a1ea209e6716bd4fba9193c3e9d12a64eab69a79c09"
+    },
+    {
+      "path": "svg/drawings/de865cc17ef7c862dbe41fefbba461003fd5ff6854dfb91e3792d4dd4bc5c9e7.svg.gz",
+      "bytes": 2117,
+      "sha256": "a5ddb35b264824252ab61f6ed83072611df6b1cf94b12504e1f8d0be7686bf6e"
+    },
+    {
+      "path": "svg/drawings/decfe140ef83c25cc5f91a64af10a26814fd27e0ff63dba038c3be36510ea26c.svg.gz",
+      "bytes": 5876,
+      "sha256": "301c4671a3ad3f43a8ebef7e7e548b6ee6294e3ba48b9902144c20961756a7c1"
+    },
+    {
+      "path": "svg/drawings/def5373adb5e0e19ecfb15d97299c40b70539c95f7176318264b77012410c481.svg.gz",
+      "bytes": 4293,
+      "sha256": "a553e91eff8e664a13c47c68e6c3f966174693e8c4ae78cb3e1c95c5a5c7c7d4"
+    },
+    {
+      "path": "svg/drawings/df5bc7722dbc0960e3c5b3a185c4857b7f0d686a1ec0ff79fc8fea62e674b7d3.svg.gz",
+      "bytes": 2971,
+      "sha256": "01529c8e5ef476f433513071ddd1d94adeb1cb8fe573f4afde3724807231d645"
+    },
+    {
+      "path": "svg/drawings/df7c584c00cef526a197800f8edb613e0ed48f97e2e95614eaecea426f04d090.svg.gz",
+      "bytes": 2103,
+      "sha256": "43ebe365790bacda1c595abcb9340c97ca6662738feb0024a693d944b4a24105"
+    },
+    {
+      "path": "svg/drawings/e09415578ddc0bc4889b743880f2c08cfeca2407e0be6dd262483b3f89b569b1.svg.gz",
+      "bytes": 9175,
+      "sha256": "f3fb2d86b89d6d9afa92175ca8a15e049efe4e091892fe22223874e280d50a3f"
+    },
+    {
+      "path": "svg/drawings/e1a61e5d5d28590f616d6f33c786e326d706dc1beef72f7303daebab58b4e171.svg.gz",
+      "bytes": 1416,
+      "sha256": "48e6f1fcdec569f0a9926d85941f57eea1f158c3c6f3b12c81dd0649d04bb716"
+    },
+    {
+      "path": "svg/drawings/e1ca00b6c8d73922f08115593d2844a0037f42c13b5e270eff535eb95d3e1342.svg.gz",
+      "bytes": 2646,
+      "sha256": "dc2467cd98e565d77f7eabf9470e458014c0fd3ab56b6df3934aea1251730a61"
+    },
+    {
+      "path": "svg/drawings/e1fdfdf5f342db3c2e3322c58b592dd7cdfaf4169dbd241a83c4f612e5cd6156.svg.gz",
+      "bytes": 936,
+      "sha256": "ef3baae885859021eff78d5c825eed016f7624dd5b55acb8b18a50f50f40280d"
+    },
+    {
+      "path": "svg/drawings/e22f9a9aea1b95c036086e833109e322f3c515aa9d3099523d25516e429a4ba9.svg.gz",
+      "bytes": 2623,
+      "sha256": "fce91ea8f4dd88ef89f481b6f327c69201dffc5e1983eea08b611169b561c2f8"
+    },
+    {
+      "path": "svg/drawings/e257c6af2fba88fa2a375cb3d1af1bd3d46f0151379817514668fb00ac208f5e.svg.gz",
+      "bytes": 7697,
+      "sha256": "f07054c6a6f8f10506705b98d6b4d8bf7fe178950bbd23b398659bdbc8a2ab15"
+    },
+    {
+      "path": "svg/drawings/e2d27aca1bd2642bc0a30041cb390873594691857f7f72cfe7b183d186f6a320.svg.gz",
+      "bytes": 2516,
+      "sha256": "18cfbacf1b0abe3bd5c18439e7a02f216baffcbc2df3aee4faa065f369ed1ab8"
+    },
+    {
+      "path": "svg/drawings/e30c2b37420ec73c5e7f7afbd17c89a42dabdec712b1327cd141eb10eff6c179.svg.gz",
+      "bytes": 10837,
+      "sha256": "057bca5f64395f8940f14cf65ac520d19130a4b741312b0fb59c13f331133c7f"
+    },
+    {
+      "path": "svg/drawings/e3c189cfabcf6190ce2f6eba11118cf5b2bbdfe7dac8b63d91edc03856a9f650.svg.gz",
+      "bytes": 3873,
+      "sha256": "0f6de77ba219e55b8d6cc87579add5ba9ff3e4e190cafed0c03e7a7c9e7de602"
+    },
+    {
+      "path": "svg/drawings/e428caf0c774ce16aa836652edbe1da439cb9ea33bf70fb5c92e9c8dccc6270d.svg.gz",
+      "bytes": 2512,
+      "sha256": "4689189ce956d39d41524bebc2755eed61d748caef8d41a034d9aa7ada7f1379"
+    },
+    {
+      "path": "svg/drawings/e4d261aa9f8673fdd25423eea0013e858a719d06424fdfd17c0988345ed72239.svg.gz",
+      "bytes": 5807,
+      "sha256": "28b853c1d4c8c345501b04419338777d78358fb36e4e3baa6267670bb2cc8963"
+    },
+    {
+      "path": "svg/drawings/e503c2da1ce7696660c07984eda5d3bc2f5f7d2627cf027368ef3f60a25c0e8a.svg.gz",
+      "bytes": 1151,
+      "sha256": "fef84a2fc5837bb71117c7840ce6a25ad7ab3ff4fca79f2f2345026b82dc061f"
+    },
+    {
+      "path": "svg/drawings/e532263211c8d061833d56d904f78ea904a159e22bab9247a456dcabb60e2598.svg.gz",
+      "bytes": 3370,
+      "sha256": "329c1b3be8b83ac406b34da52cbaa6571aabf42c2729e0970c2d93c539dfbf6f"
+    },
+    {
+      "path": "svg/drawings/e587fa6a4f689b23d9c6f0e04dd7d4799d755e20225ca008791096a682454764.svg.gz",
+      "bytes": 5776,
+      "sha256": "20616c2e53acdab253eab44812137b907773a9d0d9141f43d1c6425c5237d97d"
+    },
+    {
+      "path": "svg/drawings/e5bf444e094fae897eb8a832c0b3fbf18fcd71f898ec463234320b2cdb595ac0.svg.gz",
+      "bytes": 3409,
+      "sha256": "269349f687d30b2639dad5e1f81866022468c205835ce2f341db1cd8a41caf40"
+    },
+    {
+      "path": "svg/drawings/e5f5b3807fbe93bf767cb48e5b7b3e04e2f8764f5fa5fedc99530e312d403036.svg.gz",
+      "bytes": 6383,
+      "sha256": "fa3404f3dba1e52df21a199cce4c6ce682d6571bc338461fc6a20a2ce9077dbb"
+    },
+    {
+      "path": "svg/drawings/e65c6b5947bd08184d24f800c9fcba3484a3d5538d53ad80ea95e76bb7e6a2e8.svg.gz",
+      "bytes": 5972,
+      "sha256": "529b9b4beb70abd54aded6005434e72c240b1f5b17369ba9b2089ddc1a31add0"
+    },
+    {
+      "path": "svg/drawings/e67feb09f7db2177ff75f8d97a54043fa7c059f9fc185de0339103f236195033.svg.gz",
+      "bytes": 3865,
+      "sha256": "5a7aeccbc68b822a8772ee7351648e5673a957f39e29ab31ef072dd047b8a6b4"
+    },
+    {
+      "path": "svg/drawings/e79555e5ee72a1d478401fbecc75deff21beb550b24eb43803104ad8e4d9ee0e.svg.gz",
+      "bytes": 2271,
+      "sha256": "3c894e252955cba33e845232fd71387dd1a39baf184c3d4834f7853ef61dfa41"
+    },
+    {
+      "path": "svg/drawings/e7e89fa9d1a42dfe969aad7f3d26f8f9e3194d036290d64a398d2a5478cee11f.svg.gz",
+      "bytes": 4129,
+      "sha256": "9272c521e5d52317a4495e0218cc2d55de97de8b85e5c5e410de6594db775042"
+    },
+    {
+      "path": "svg/drawings/e8409a911b6825818e8dcbc3bdc46b80aba2303174fee433bdd80b2b2a98db4a.svg.gz",
+      "bytes": 1228,
+      "sha256": "054f360d4de7e326561809134dc4e8b90ea0b9d14856c7f27e3711d2ffc8707e"
+    },
+    {
+      "path": "svg/drawings/e8eef13f084a3fed39bfdaca53cc2b9664eb39227f21a944c12025b562e6e873.svg.gz",
+      "bytes": 1887,
+      "sha256": "1e094b04171e902fdcdfc4a32abbd98048ddb3a37bacd47e87298e0c12852e75"
+    },
+    {
+      "path": "svg/drawings/ea55eedaeba27359248f121e4af600bbb4193e3bd176e19d0c44c5043dbac9d9.svg.gz",
+      "bytes": 3513,
+      "sha256": "52239042f6007620079384fb5760d467f59b7ea0ac0c3752172b31219ea46b01"
+    },
+    {
+      "path": "svg/drawings/ea6296717cc64fa8330ea1e4cb75b8adb166ed01d49b32ea7c390d7f2fe4825d.svg.gz",
+      "bytes": 2470,
+      "sha256": "34272caddc8856f5f9cb635ea7f108ff0ca59cc264dd0a486b23ba19dbba9710"
+    },
+    {
+      "path": "svg/drawings/ebb44461971996938f1f991db0e686c3e064df2ff5b38a945901dfa125b8c85c.svg.gz",
+      "bytes": 3319,
+      "sha256": "acf95531c2a01c7d04e3d938b85c1ac0256bac306a2d036b3b6273b006f9c064"
+    },
+    {
+      "path": "svg/drawings/ebedd4ed220f8095315f94f7f121b6452a242147ed637cd36f364d1e466c11fb.svg.gz",
+      "bytes": 5827,
+      "sha256": "dbb6af5fe0459cef357256bdee7b767f0e0ce53f87635a6a86b772f542ea28b6"
+    },
+    {
+      "path": "svg/drawings/ec9df1eeca76128d9ac9cfc159cba9236c5439019a4eb3ca515004a2d0d486d2.svg.gz",
+      "bytes": 2236,
+      "sha256": "84dda44ab1fe9662b63a236cdd673da7cd227ab935e47aabd6aeb1450031ad65"
+    },
+    {
+      "path": "svg/drawings/ee0a1e5825d8338e651a0f602ee1c300d87da2b6eaf89774880fc9b4ae4d0a70.svg.gz",
+      "bytes": 1515,
+      "sha256": "81c6277f8baaf3824891b7b6f66438fb72e678df784bc940945b2638d33efa5d"
+    },
+    {
+      "path": "svg/drawings/ee7da92df8f989088c6b64fe7fcd1881774b552c90f211a137052d31ac33f428.svg.gz",
+      "bytes": 3264,
+      "sha256": "51f8e766bcb49b06e800e2bc79ce61827865508322bc549fabbfdb18889e7a13"
+    },
+    {
+      "path": "svg/drawings/ee8f967e9ec8aad3e55cf5a6c140aa4f6da72b7bb29105fdd4ba5cf382f1e189.svg.gz",
+      "bytes": 1347,
+      "sha256": "b15b3ee11f129941c3e78a1f5c92dbac9098a5da8e79ecbe5fa3861b26156017"
+    },
+    {
+      "path": "svg/drawings/ee9f3ea76684ac6aeac640e1e4bfbd886221af42aaf9fcb19aafe5bbbc35cb16.svg.gz",
+      "bytes": 3270,
+      "sha256": "cd9b41657578489d6c5b17acff4ea413b2a84efbc8fb3c2b4888d5f068d22c7a"
+    },
+    {
+      "path": "svg/drawings/eeac49cda564a2f9956f21f69317e6d2828106fba27ea7e992b07d17f87987c9.svg.gz",
+      "bytes": 4566,
+      "sha256": "b9a43cfc89584965a4c445b946b520d369fb37339bd417b435ac399d454e95b7"
+    },
+    {
+      "path": "svg/drawings/ef2d0e48242fca36d27ee7486e0223035cbb6f6b30f531b0bb2c5914ab5865c9.svg.gz",
+      "bytes": 3523,
+      "sha256": "39648f62360152c8c5512d775b7cd1e7d69375d5134e384a52e98664125afa97"
+    },
+    {
+      "path": "svg/drawings/ef96442e4d2c897965a07fc03b9827f5d698897ba2f0c90425329c001b0d0c27.svg.gz",
+      "bytes": 2101,
+      "sha256": "9c9ac52269352b2e3175dbdc48808c204d8d210ccc44fcf618e9a8d601a1bb56"
+    },
+    {
+      "path": "svg/drawings/f0ac218dfd7664e906e765313fea7c57fe53eb6504a96e734107043c5189eb94.svg.gz",
+      "bytes": 2017,
+      "sha256": "37eea7d4cd929b5095a219d2787b8ab218fc4c8f41f572c196bb93d4f124d49c"
+    },
+    {
+      "path": "svg/drawings/f0b258241179e311e9bbd72c85c5f0383951458d8531fd9645fc78bd90ef844b.svg.gz",
+      "bytes": 3796,
+      "sha256": "f230a6d16ed5ebb04064e297f35500f74dbf6acdeb5be43b61d520d78a61e3c5"
+    },
+    {
+      "path": "svg/drawings/f0f5e0539ed7cdae5fc81156323dda48c52ecb487645feda0c1d7c1f826c7f85.svg.gz",
+      "bytes": 1369,
+      "sha256": "19a43e9a267d8e38f23f7470e71488337f40bb62b9a08d88bed1202dbf8f9c6b"
+    },
+    {
+      "path": "svg/drawings/f11d9ca85f15cd2efe00d4aa130de7a74ac9b8919ae498515652eaaeb08460f8.svg.gz",
+      "bytes": 2246,
+      "sha256": "31e842bd7ec7935721d60b0e7e72501d93fcd3fc1773605a71809262475e2bff"
+    },
+    {
+      "path": "svg/drawings/f1851fa999bca9e6cbf3e844886c3228d9fbf801f614a684b6783dd589da97b8.svg.gz",
+      "bytes": 2203,
+      "sha256": "3ccf7b57440051e8d2fdfd2289f5e615da9b4337ec2c0720a9b7d13de8800adc"
+    },
+    {
+      "path": "svg/drawings/f1a7b348c43e8487f26552e701b09f89e03d6108f20e8bc1278ed72efc29ff2f.svg.gz",
+      "bytes": 2619,
+      "sha256": "b1e5213298e3fdc01d34879d2a261c633a78d6503eff93f72486a433629f6e66"
+    },
+    {
+      "path": "svg/drawings/f24a85e2274634e68bddb18af39fc9bb3895b331f9fbd843806f74f62f30bfe3.svg.gz",
+      "bytes": 2345,
+      "sha256": "e30722f7080a829831a1613014efd703b62abd694741dc61d0e4ce16a5b94f65"
+    },
+    {
+      "path": "svg/drawings/f312f5c4f2048bfdd5b0f84f9db5f3c97d5480680da42b1057b3c720c17df39b.svg.gz",
+      "bytes": 3136,
+      "sha256": "ca65409820522f69129cffddc7db833bfd4f49c6aa6bb74f74b93a76a7fd7596"
+    },
+    {
+      "path": "svg/drawings/f3302fbd3b34f47f424ae9095ae54c7e1bc0c8f55449c00a0576540649b00e98.svg.gz",
+      "bytes": 3455,
+      "sha256": "edd384ea32cfad70f76f03229d2d0e972e5553303eb14c1d96870e9cc9988a88"
+    },
+    {
+      "path": "svg/drawings/f3de8cabd4024ea9fb622facce3408036531216cd386a330f94eec4fa718f97f.svg.gz",
+      "bytes": 1744,
+      "sha256": "2f0a321194529c381316b8e75f964571b5b3f3ac3a02407e627f90ee7544742c"
+    },
+    {
+      "path": "svg/drawings/f4127ee714496bfb9a2e8442f646f1a74ff63e2b271749dac5ddd7be35c9b781.svg.gz",
+      "bytes": 1095,
+      "sha256": "3833b97cfe64dbb1d7d6304d6bfc67c2e455ab2fb6068ea7c4ca33538ac42436"
+    },
+    {
+      "path": "svg/drawings/f44d8be8c96a24cb8d36be273cbba4749d6723247ddb2d70fa2c97c977088c58.svg.gz",
+      "bytes": 3291,
+      "sha256": "ce56da8f3d4af66c427719831df4770e1fdde02f47ed2b3bd9992b0495cd9ea4"
+    },
+    {
+      "path": "svg/drawings/f480464a0a88bca58815ed2ce51bdc3d5dc3cbac373d696600cfc166c601f0e9.svg.gz",
+      "bytes": 4590,
+      "sha256": "c957966f966e84ce77927e0cfb1aac6e08e19f899d37044c0b8ab2850cabdc4d"
+    },
+    {
+      "path": "svg/drawings/f4f25aac5fcfd44c55dceac0df2555dbe0e39e98db66a500d38ff211491b343b.svg.gz",
+      "bytes": 4419,
+      "sha256": "80882cf1398e3164fa19ee4a0dba5be515cd31bc5dfbf1cb5baab1e467d001eb"
+    },
+    {
+      "path": "svg/drawings/f50fddfb8652dd9caf7705b4d7b5fee00595ca55869d8e4185ab2647e9b291f6.svg.gz",
+      "bytes": 3305,
+      "sha256": "d9d529ea95dac297254cb711ca654c2ce833f525789d3000867322bc140c2fd8"
+    },
+    {
+      "path": "svg/drawings/f57072d4b2c3b36b6b7801d7a7b4f7da3886dbe71b57870f67052db1162298ed.svg.gz",
+      "bytes": 6235,
+      "sha256": "a4c625e715d5480de8504d02fb5054bbb9658649da8a2070e5688f68a4374f97"
+    },
+    {
+      "path": "svg/drawings/f6594b43d13b9a67cabf52d9cbc8a031d640d8c4a61138172dd5cbba12ceee6e.svg.gz",
+      "bytes": 2108,
+      "sha256": "fc151d5b126370697b99ae1c0cf0f8f03fdbce21f16dcd054ff245c51e033acc"
+    },
+    {
+      "path": "svg/drawings/f668afee002d28456b9f57f9168ed30420182a77c8635613c8a3b5a7bbbfda56.svg.gz",
+      "bytes": 8742,
+      "sha256": "87c6a172539bb6bc06294ef6d5b4f240a6b090ded2954afcc70064413b3cd257"
+    },
+    {
+      "path": "svg/drawings/f709954fd4c199c356e43e1f9fd20ca525d03a551471cce0dd8a7cb6e2a610da.svg.gz",
+      "bytes": 2083,
+      "sha256": "2616e6015e73db2fd7824d59eaa76d43404d87374339a04fbc16659dc4b67798"
+    },
+    {
+      "path": "svg/drawings/f7bc1dff6e30a01ea9a84e54e269f1e821c702340433ae2da2b6ce022e86a414.svg.gz",
+      "bytes": 2163,
+      "sha256": "bc788ca68d6612166b6caac36a6117b1e346444cbb04f23172dd085650ae9b1f"
+    },
+    {
+      "path": "svg/drawings/f7d2fdfb179c3097c570640359411364923524dd61430d411d19c714c14fa858.svg.gz",
+      "bytes": 3084,
+      "sha256": "28dff5d439a196076090e5321f344424937c715dc1b9b99d7e5ecb56a893b0de"
+    },
+    {
+      "path": "svg/drawings/f84492c42bf2d7318ab2018b8922b064c9d80baeea342e0ceba519e1169f1855.svg.gz",
+      "bytes": 4199,
+      "sha256": "45f47f13082c2e11a6e46c0226fb3186467f6610d3af3c36d2a4346765b9040c"
+    },
+    {
+      "path": "svg/drawings/f8c7fcdbca0c7ade2b81a97e572a8564fc389b4a85f56c18ea939dcf2ab7aad0.svg.gz",
+      "bytes": 4970,
+      "sha256": "a8755e59d34a3b5557cd5a71cbd76e8cbc89bcf573da82fd472db35837ddea89"
+    },
+    {
+      "path": "svg/drawings/f8cf2aafdfb546b1d458518535290514b048cf3542465c803238c65040d97753.svg.gz",
+      "bytes": 1676,
+      "sha256": "6e5bb7a188f1264e183de54f59ad4fcfeb1af259f94027546ebc9dced3856734"
+    },
+    {
+      "path": "svg/drawings/f98ab658e762105326a747cf27771957033f6ca73dcafbe9a035c3d3dc2ad00d.svg.gz",
+      "bytes": 2433,
+      "sha256": "6c0097fa0c843d24ad9fb8cedfbc8eace15962378c98d88a4be3d27296ace573"
+    },
+    {
+      "path": "svg/drawings/f995028afcad1cffb1b660c3fcdc39d68968e1a2df70cce36f74ca4fbb07adfa.svg.gz",
+      "bytes": 3329,
+      "sha256": "aa7b4f2ce31e68637fbb9d294247f00dc2693719db4a63948c3e9adcc73c92ce"
+    },
+    {
+      "path": "svg/drawings/fa4b4c345e88f754bf3feee3227a17c73d99df81917b847a187526dc0c56381d.svg.gz",
+      "bytes": 2203,
+      "sha256": "7c221ed1eb42a3cf809a5811dbc93b0d4f33dc6ddbb4639d3630eb33928b5303"
+    },
+    {
+      "path": "svg/drawings/faa94dde12db8d322e1aa84412e389885b4cdef27b5a723fcc113f77236ad754.svg.gz",
+      "bytes": 3942,
+      "sha256": "d35b0691ae25534053107519f9ebadce7a6d690e3865fb491efae7cb9b414bac"
+    },
+    {
+      "path": "svg/drawings/faced83f5a02180353122c87b560d8c61f9ecfb652a68da65d1d4f231db67d88.svg.gz",
+      "bytes": 3708,
+      "sha256": "aabe9fa7b3236f280798795fbaad99d8de22c3544f0d30add8e8ebb2cf5f785b"
+    },
+    {
+      "path": "svg/drawings/faeccac8aafe1e30f3bfc94ce183e7db3d0df699efbc13ce12d15e777af504ce.svg.gz",
+      "bytes": 19035,
+      "sha256": "32c688d691f421522e3a015dbf82ac0241cf3bc28590751c9ef3d191299e4393"
+    },
+    {
+      "path": "svg/drawings/fb203688572228c6618d16cad770b10ebca9d59b881270efe9ed90ebc8e85cf0.svg.gz",
+      "bytes": 2188,
+      "sha256": "f4eb7968018de75fde4e38ba5060252c5ee7bf47fdd8a25b721445877ce90fbb"
+    },
+    {
+      "path": "svg/drawings/fb3cfae946d699f9f72b3759914e804b76a25390eae9b16373bcf45086aef75e.svg.gz",
+      "bytes": 3440,
+      "sha256": "fbda56aec570ed3cc0c7d43efabcd36fc17d8eaac1eb91fa1125b7dd08ae8ea9"
+    },
+    {
+      "path": "svg/drawings/fb5a18f610ec0bae6d77bf9c04e99e4b2ff590bbccf67ed8c81ec2dd2893cf99.svg.gz",
+      "bytes": 6063,
+      "sha256": "786548f3a1e644deda8a382704bc87f0ccddb1a752df830713031f9e4ce5ce38"
+    },
+    {
+      "path": "svg/drawings/fc14bc3a3ea515f87e37002ff41cb2ef25042036f0b847a20c7f84b2ecbd7d46.svg.gz",
+      "bytes": 6730,
+      "sha256": "3415546552bc6cb00605f946a23f9cb0bdb0d1069a4ce2bb420d59732b142408"
+    },
+    {
+      "path": "svg/drawings/fc59efe4bc1c0a535a33f68197aa909feb1fb24968a4570f3ba7a17e906d104b.svg.gz",
+      "bytes": 3915,
+      "sha256": "403a89554ae50179765124c61844bfec7ac06f0ddb83ddef4abb5a22d2d197c5"
+    },
+    {
+      "path": "svg/drawings/fd6570f65a8a487356888b92569b23649a89775eabca6412871c481a081735ba.svg.gz",
+      "bytes": 2566,
+      "sha256": "410291f5c94b1367746632e15a2917d9692f66229ec809a1d0fa72fbd856b61c"
+    },
+    {
+      "path": "svg/drawings/fd912f4b7b57d99c72f44bf5b88929fa11c161ab123f1873e8b82c8dcf473347.svg.gz",
+      "bytes": 1023,
+      "sha256": "154191e02eec32ffba20f62817c5bc310ac69eb05104632b2dd38a9e69c87a35"
+    },
+    {
+      "path": "svg/drawings/fdcad4e247bf47cfd1538e45a98a9d59fb79711768b834a72528ad15a2a5cfa5.svg.gz",
+      "bytes": 3707,
+      "sha256": "1f1006c94e98db408050062b052eef6ad705c8e0a6467f37b46eb4d93ae2b576"
+    },
+    {
+      "path": "svg/drawings/fe97d1d79f1b5b2eb784fd6a7177e1b58bca81d5a9b5c76f62caa7c609059419.svg.gz",
+      "bytes": 2348,
+      "sha256": "bb5ea14ac35b36ec40b69774a4a774f6f82b9606b7dc629c84ba01a7550d5608"
+    },
+    {
+      "path": "svg/drawings/ff0a21698eb969b2fd681361e35db9b6d8c8987e3934cffebd1a4495d3e622d8.svg.gz",
+      "bytes": 1455,
+      "sha256": "5e6dffbd55d18ad4c436da6cea18226af9905a866b654cefba55effe99616495"
+    },
+    {
+      "path": "svg/drawings/ff41bc6e75d308e9c62d096a265d7903f0475d8d6eed41787f7cabe958b569e6.svg.gz",
+      "bytes": 2245,
+      "sha256": "c1626319d89535fb7e90f74a00f4973e0c99abd566c6b45f3de92b6bf3453c2b"
+    },
+    {
+      "path": "svg/drawings/ff49434eaf0dcdc11cc4168f9eb56de217e8c641768c10fa384744de49682578.svg.gz",
+      "bytes": 3270,
+      "sha256": "d348c525b05da7eb92b0e1dde5233cd8f94ba05f1347397eab284a8797b78ab8"
+    },
+    {
+      "path": "svg/drawings/ff7433c8200deb84b4d90bce433161f207cd7433dd72d3fa8d305f98dbd1d548.svg.gz",
+      "bytes": 2088,
+      "sha256": "5855aa128cc9e6b7aad860d91fc8a648e5fef7cb1a42962808e675cbeeec5c06"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-c4/48.json",
+      "bytes": 87537,
+      "sha256": "9f0f190890309f91e15b2c5ab7b9d15242f2f93158db56bed50d0ae34abdd195"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-c4/49.json",
+      "bytes": 87549,
+      "sha256": "a37e3ed44b268c1ec7470cfcdde330b6a9b2d0a583efb651fad18f2cb811465f"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-c4/correction-completed.json",
+      "bytes": 118050,
+      "sha256": "e2e96206f94e82a8897a37782dd407d70ba973b85943e1bcae826ee7f0f9db6e"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-c4/executed-launcher.ts.txt",
+      "bytes": 15300,
+      "sha256": "b3ba915c43e878d6893d3a135e1fcaf085fca75a12e2f424655cbfaa315a3324"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-c4/producer.json",
+      "bytes": 129647,
+      "sha256": "8db4722f08646ba4f6ba4dbed8470f6134954ea8216f0c3fe0f5ff87ec73c12f"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-c4/source-role-census.json",
+      "bytes": 1394,
+      "sha256": "cff29778002d4c66c51cbae9b77c8902c7f2e55000f463bf5f7f84356538e20e"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-c4/table-producer.json",
+      "bytes": 5788,
+      "sha256": "c5c15431a8175919ba7beb5b2b8727d1c7964579e7e99f15fd5963a7fbb940e6"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-events/correction-completed.json",
+      "bytes": 121926,
+      "sha256": "108172927ddb21c4f3aa4b91d8e53514c26d945b6ea04020d378cfa1bb573190"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-events/executed-launcher.ts.txt",
+      "bytes": 16788,
+      "sha256": "4e33569d8587595697d9a7d5e33a4f092e577005f1f284ed2277a8891b208cb6"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-events/producer.json",
+      "bytes": 129768,
+      "sha256": "e6e4f7375ce22fa69f649d281ccba126bae24a463305dc04b4a984b04114db89"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-events/source-role-census.json",
+      "bytes": 1394,
+      "sha256": "cff29778002d4c66c51cbae9b77c8902c7f2e55000f463bf5f7f84356538e20e"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-events/table-producer.json",
+      "bytes": 5788,
+      "sha256": "c40b22248a2cb236c3fc47e2d88752d918d40fdd39098cdfedffe6a16f54446d"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-sankey/correction-completed.json",
+      "bytes": 120111,
+      "sha256": "579dd184e0702117a9c84b9fe22427f5f12ab8fa38f2f2a847d9262431f08dff"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-sankey/executed-launcher.ts.txt",
+      "bytes": 15673,
+      "sha256": "6bb6622c0fc8da6fb0d755ed45bec7f8af55ffe83edcf9a0952ff7e2557ec689"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-sankey/producer.json",
+      "bytes": 129715,
+      "sha256": "3d4a27a205acb756bb583c1063952fd0f85c9efff7c6bb77d7d816b63fe23652"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-sankey/source-role-census.json",
+      "bytes": 1394,
+      "sha256": "cff29778002d4c66c51cbae9b77c8902c7f2e55000f463bf5f7f84356538e20e"
+    },
+    {
+      "path": "svg/segments/docs-combined-final-sankey/table-producer.json",
+      "bytes": 5788,
+      "sha256": "b4b1356b3b22e37c19f5f1cb949f558860482908359bddc89e61daf624a02a83"
+    },
+    {
+      "path": "svg/segments/docs-combined-final/48.json",
+      "bytes": 13368,
+      "sha256": "9b92ceabd1d8e00a09646e319c67e3282714ec364dad3d7bb55ec757188bdc10"
+    },
+    {
+      "path": "svg/segments/docs-combined-final/49.json",
+      "bytes": 13380,
+      "sha256": "b6fa5eb98029fd942c54eaa2b3c713909d6ab035225b1c47829428000c5c0a26"
+    },
+    {
+      "path": "svg/segments/docs-combined-final/correction-completed.json",
+      "bytes": 355761,
+      "sha256": "3fa309c050aa5d47d4518b1c4760f73ff547b42d90f93b0ce4ee1fb01525bce8"
+    },
+    {
+      "path": "svg/segments/docs-combined-final/executed-launcher.ts.txt",
+      "bytes": 23549,
+      "sha256": "84025f3c240c400000b4882a7eb41347b42095d7f367b9ed6c3d6338dadf976e"
+    },
+    {
+      "path": "svg/segments/docs-combined-final/producer.json",
+      "bytes": 135014,
+      "sha256": "fe8bb49c04e7198f2a5d224ba30630ec5022d4b5c0d3e01bca881a8b27a617f5"
+    },
+    {
+      "path": "svg/segments/docs-combined-final/selection.json",
+      "bytes": 5290,
+      "sha256": "0775744bd2297251e5c55bfe22c915728c5052666a5d5922d4ced991c7efbd0d"
+    },
+    {
+      "path": "svg/segments/docs-combined-final/source-role-census.json",
+      "bytes": 1394,
+      "sha256": "cff29778002d4c66c51cbae9b77c8902c7f2e55000f463bf5f7f84356538e20e"
+    }
+  ],
+  "scope": "Actual original SVG companions and executed observer segments, including two host-timeout attempts and their same-deadline sequential rechecks. Parent PNG invocation journals/bytes remain in the immutable original owner archive; no independent SVG call or clock is invented."
+}

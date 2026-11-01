@@ -11,9 +11,10 @@ They are generated from [results/latest.json](results/latest.json), including
 the Mermaid chart values. Historical evidence keeps its original dates and
 protocols; the overview retains missing projects and newer failed attempts.
 See [publication instructions](results/README.md) to update or check the page.
-The [initial baseline](BASELINE.md) requires its own qualified immutable
-publication and manifest. Rolling imports do not complete that work, overwrite
-a sealed baseline or turn pilot observations into baseline scores.
+The [initial baseline](BASELINE.md) has a separate immutable snapshot and
+input/outcome receipt. The rolling snapshot pins its checksum; the ordinary
+consistency check verifies both. New imports cannot rewrite B0 or turn old pilot
+observations into qualified baseline scores.
 
 ## What belongs above a table
 

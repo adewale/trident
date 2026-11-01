@@ -1,0 +1,28 @@
+{
+  "schema": "terminal-frozen-saved-regrade-v1",
+  "command": [
+    "bun",
+    "commands.ts",
+    "bench",
+    "--terminal",
+    "--saved-terminal",
+    "/workspace/trident-terminal-completion-2026-11-01/combined",
+    "--out",
+    "/workspace/trident-terminal-final-unified-8e525b9e-2026-11-01"
+  ],
+  "before": {
+    "time": "2026-11-01T05:47:18.513764+00:00",
+    "source": "8e525b9eeb3ea443d3b1b3490cf4236472a8e605",
+    "status": ""
+  },
+  "after": {
+    "time": "2026-11-01T05:47:48.373698+00:00",
+    "source": "8e525b9eeb3ea443d3b1b3490cf4236472a8e605",
+    "status": ""
+  },
+  "exitCode": 0,
+  "rendererInvocations": 0,
+  "sourceReferenceCalls": 0,
+  "priorRun": "/workspace/trident-terminal-final-unified-599847fb-2026-11-01",
+  "reason": "Final repeat after the full-cohort bridge distinguished13 old unqualified literal-marker faults from4 independently closed marker-role defects; original run/raw are preserved."
+}

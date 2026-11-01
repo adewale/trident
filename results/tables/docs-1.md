@@ -194,6 +194,181 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 | Crafter Mermaid | 15 | 0.0.3 | 6 | 7 | 3 | 16 | 2026-10-31T08:49:40.606Z | Fewer verified (-10); accuracy unresolved |
 | DSH Mermaid GB SVG | 16 | 0.1.4 | 4 | 12 | 0 | 16 | 2026-10-31T09:02:06.668Z | Lower (-12) |
 | VitePress Plugin Diagram | 17 | 0.3.2 | 1 | 7 | 8 | 16 | 2026-10-31T08:54:29.717Z | Fewer verified (-15); accuracy unresolved |
+
+<a id="run-b206851a3126313e782400b2"></a>
+
+**run-b206851a3126313e782400b2** · 2026-10-31 · unit: documentation occurrences · [evidence](../../docs/evidence/b0/receipt.json)
+
+Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 548 occurrences, retaining duplicates. SVG output lane. Returned means the occurrence returned SVG in all 1 declared rounds. Failures and unexecuted work retain the full inventory. Output return does not certify drawing content. Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.
+
+Ranked by **Returned in all rounds / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+“Higher” and “Lower” compare **Returned in all rounds** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
+
+| Project | Rank | Version | Returned in all rounds | Failed | Unsupported | Blocked | Unexecuted | Partially observed | Planned | Measured | vs Mermaid | % |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid | 1 | 12.2.0 | 548 | 0 | 0 | 0 | 0 | 0 | 548 | 2026-10-31T20:31:37.517Z | Baseline | 100.0% |
+
+```mermaid
+xychart-beta horizontal
+    title "Documentation SVG return — 2026-10-31"
+    x-axis ["Mermaid 12.2.0"]
+    y-axis "%" 0 --> 100
+    bar [100]
+```
+
+<a id="run-bfeb6b6827a69c7020371b47"></a>
+
+**run-bfeb6b6827a69c7020371b47** · 2026-10-31 · unit: invalid-source controls · [evidence](../../docs/evidence/b0/receipt.json)
+
+Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: 1 invalid-source documentation example(s), retained verbatim in the 548-occurrence inventory. A source-bound typed native rejection passes; an actual public return fails. Generic exceptions and missing evidence remain unknown. Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.
+
+Ranked by **Correct rejection**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+“Higher” and “Lower” compare **Correct rejection** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
+
+| Project | Rank | Version | Correct rejection | Accepted invalid source | Unknown | Planned controls | Measured | vs Mermaid |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid | 1 | 12.2.0 | 0 | 1 | 0 | 1 | 2026-10-31T19:23:21.034Z | Baseline |
+
+<a id="run-655e65f422c8fd4dfc06c98e"></a>
+
+**run-655e65f422c8fd4dfc06c98e** · 2026-10-31 · unit: documentation drawings · [evidence](../../docs/evidence/b0/receipt.json)
+
+Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: the same pinned Mermaid documentation inventory. First-round actual SVG witnesses checked against source expectations. Shared SVG paint/meaning observer. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence. Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.
+
+Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
+
+| Project | Rank | Version | Correct | Incorrect | Unknown | Planned drawings | Measured | vs Mermaid |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid | 1 | 12.2.0 | 327 | 54 | 165 | 546 | 2026-10-31T20:31:37.517Z | Baseline |
+
+<a id="run-100e15cdd6fd53c4d6afd917"></a>
+
+**run-100e15cdd6fd53c4d6afd917** · 2026-10-31 · unit: documentation occurrences · [evidence](../../docs/evidence/b0/receipt.json)
+
+Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 548 occurrences, retaining duplicates. PNG output lane. Returned means the occurrence returned PNG in all 1 declared rounds. Failures and unexecuted work retain the full inventory. Output return does not certify drawing content.
+
+Ranked by **Returned in all rounds / Planned**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+“Higher” and “Lower” compare **Returned in all rounds** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
+
+| Project | Rank | Version | Returned in all rounds | Failed | Unsupported | Blocked | Unexecuted | Partially observed | Planned | Measured | vs Mermaid | % |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid | 1 | 12.2.0 | 548 | 0 | 0 | 0 | 0 | 0 | 548 | 2026-10-31T20:31:37.517Z | Baseline | 100.0% |
+| Mermaid Flutter | 2 | 0.3.2 | 449 | 99 | 0 | 0 | 0 | 0 | 548 | 2026-10-31T09:01:40.231Z | Lower (-99) | 81.9% |
+
+```mermaid
+xychart-beta horizontal
+    title "Documentation PNG return — 2026-10-31"
+    x-axis ["Mermaid 12.2.0", "Mermaid Flutter 0.3.2"]
+    y-axis "%" 0 --> 100
+    bar [100, 81.9]
+```
+
+<a id="run-432d8455e8681dd50e77ed27"></a>
+
+**run-432d8455e8681dd50e77ed27** · 2026-10-31 · unit: invalid-source controls · [evidence](../../docs/evidence/b0/receipt.json)
+
+Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: 1 invalid-source documentation example(s), retained verbatim in the 548-occurrence inventory. A source-bound typed native rejection passes; an actual public return fails. Generic exceptions and missing evidence remain unknown.
+
+Ranked by **Correct rejection**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+“Higher” and “Lower” compare **Correct rejection** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
+
+| Project | Rank | Version | Correct rejection | Accepted invalid source | Unknown | Planned controls | Measured | vs Mermaid |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid | 1 | 12.2.0 | 0 | 1 | 0 | 1 | 2026-10-31T19:23:21.034Z | Baseline |
+| Mermaid Flutter | 1 | 0.3.2 | 0 | 1 | 0 | 1 | 2026-10-31T09:01:33.726Z | Tie |
+
+<a id="run-0f56c6cfd1a4a911414d4c95"></a>
+
+**run-0f56c6cfd1a4a911414d4c95** · 2026-10-31 · unit: documentation drawings · [evidence](../../docs/evidence/b0/receipt.json)
+
+Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: the same pinned Mermaid documentation inventory. First-round actual PNG witnesses checked against source expectations. PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence.
+
+Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+
+Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
+
+| Project | Rank | Version | Correct | Incorrect | Unknown | Planned drawings | Measured | vs Mermaid |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mermaid | 1 | 12.2.0 | 497 | 44 | 5 | 546 | 2026-10-31T20:31:37.517Z | Baseline |
+| Mermaid Flutter | 2 | 0.3.2 | 298 | 137 | 111 | 546 | 2026-10-31T09:01:40.231Z | Fewer verified (-199); accuracy unresolved |
+<a id="b0-attempt-06b5238c455228d55d1ad220"></a>
+
+### Mermaid: DaveBench: Documentation Examples (b0)
+
+Campaign invocation: 2026-10-31T20:31:37.517Z → 2026-11-01T06:09:57.406Z · **recorded** · [evidence](../../docs/evidence/b0/receipt.json)
+
+B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.
+
+<a id="b0-attempt-06b72b60e8166d5778973f68"></a>
+
+### Mermaid: DaveBench: Documentation Examples (b0)
+
+Campaign invocation: 2026-10-31T19:23:21.034Z → 2026-11-01T06:09:57.406Z · **recorded** · [evidence](../../docs/evidence/b0/receipt.json)
+
+B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.
+
+<a id="b0-attempt-0c77155fd47fb08bc13c45e1"></a>
+
+### Mermaid: DaveBench: Documentation Examples (b0)
+
+Campaign invocation: 2026-10-31T19:23:21.034Z → 2026-11-01T06:09:57.406Z · **recorded** · [evidence](../../docs/evidence/b0/receipt.json)
+
+B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.
+
+<a id="b0-attempt-34eb820ff4db20c220ad182c"></a>
+
+### Mermaid: DaveBench: Documentation Examples (b0)
+
+Campaign invocation: 2026-10-31T20:31:37.517Z → 2026-11-01T06:09:57.406Z · **recorded** · [evidence](../../docs/evidence/b0/receipt.json)
+
+B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.
+
+<a id="b0-attempt-654d21b3107f33c143c7b554"></a>
+
+### Mermaid Flutter: DaveBench: Documentation Examples (b0)
+
+Campaign invocation: 2026-10-31T19:23:21.034Z → 2026-11-01T06:09:57.406Z · **recorded** · [evidence](../../docs/evidence/b0/receipt.json)
+
+B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.
+
+<a id="b0-attempt-8d76f1e4444c7d6f02f5ec46"></a>
+
+### Mermaid: DaveBench: Documentation Examples (b0)
+
+Campaign invocation: 2026-10-31T20:31:37.517Z → 2026-11-01T06:09:57.406Z · **recorded** · [evidence](../../docs/evidence/b0/receipt.json)
+
+B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.
+
+<a id="b0-attempt-9ca2b9d0e307b00410fa69a3"></a>
+
+### Mermaid: DaveBench: Documentation Examples (b0)
+
+Campaign invocation: 2026-10-31T20:31:37.517Z → 2026-11-01T06:09:57.406Z · **recorded** · [evidence](../../docs/evidence/b0/receipt.json)
+
+B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.
+
+<a id="b0-attempt-bb71cfe59d7fcc11da345f37"></a>
+
+### Mermaid Flutter: DaveBench: Documentation Examples (b0)
+
+Campaign invocation: 2026-10-31T20:31:37.517Z → 2026-11-01T06:09:57.406Z · **recorded** · [evidence](../../docs/evidence/b0/receipt.json)
+
+B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.
+
+<a id="b0-attempt-f75fb00782233f86dfa55cb5"></a>
+
+### Mermaid Flutter: DaveBench: Documentation Examples (b0)
+
+Campaign invocation: 2026-10-31T20:31:37.517Z → 2026-11-01T06:09:57.406Z · **recorded** · [evidence](../../docs/evidence/b0/receipt.json)
+
+B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.
+
 <a id="attempt-02025f70bd00f3daa1bc3f72"></a>
 
 ### Kitlangton Merman: DaveBench: Documentation Examples (core)

@@ -1,0 +1,394 @@
+{
+  "schema": "terminal-current-full-retained-summary-v1",
+  "resultSha256": "2685ec54c370c20b5b262c67ad20656a3952e707c008c3c84c92db6becef9866",
+  "rawSha256": "cc78d35abb772d19ea4607156dc824e43a16f904fd5809ed027ca9ae36ca0e3d",
+  "sourceInventorySha256": "0e319c91e547b74af6cecf2913d4afdb7aaaefa49e56f7df9518dd8db463dee7",
+  "profile": "terminal-project-corpus-v3",
+  "observerSource": "8e525b9eeb3ea443d3b1b3490cf4236472a8e605",
+  "observerSha256": "771db125cffdb58d0fed6213a4ccd5db00fabc492bb33274957421981e4e8ece",
+  "epochsSha256": "47c9ed74ebfcf6638f630cf0710db54b5a5f89db6f3f4fa1d6c47482e9b9c4ef",
+  "regrade": {
+    "parentSha256": "73c83b19aaa77190a4464b892911c235e002009cf18a37c71da9f6a4ae6d201a",
+    "originalSource": "939a050114630522155126d9cc38ef28ae7cc719",
+    "observerSource": "8e525b9eeb3ea443d3b1b3490cf4236472a8e605",
+    "checkedAt": "2026-11-01T05:47:48.118Z",
+    "rendererInvocations": 0,
+    "sourceReferenceCalls": 0,
+    "originalProfile": "terminal-project-corpus-v3"
+  },
+  "ranking": "Best-first verified correct count, shared ties. Complete accuracy remains unresolved; unsupported is an input-specific observed public outcome, separate from drawing error/unknown.",
+  "rows": [
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "rank": 1,
+      "correct": 65,
+      "incorrect": 33,
+      "unsupported": 0,
+      "unknown": 18,
+      "planned": 116,
+      "presentOutputUnverified": 18,
+      "missingRetainedOutput": 0,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 4,
+        "unknown": 0,
+        "planned": 4
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.10.2",
+      "rank": 2,
+      "correct": 60,
+      "incorrect": 12,
+      "unsupported": 0,
+      "unknown": 44,
+      "planned": 116,
+      "presentOutputUnverified": 23,
+      "missingRetainedOutput": 21,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.4.1",
+      "rank": 3,
+      "correct": 58,
+      "incorrect": 16,
+      "unsupported": 0,
+      "unknown": 42,
+      "planned": 116,
+      "presentOutputUnverified": 31,
+      "missingRetainedOutput": 11,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "rank": 4,
+      "correct": 43,
+      "incorrect": 26,
+      "unsupported": 0,
+      "unknown": 47,
+      "planned": 116,
+      "presentOutputUnverified": 29,
+      "missingRetainedOutput": 18,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "rank": 5,
+      "correct": 42,
+      "incorrect": 24,
+      "unsupported": 38,
+      "unknown": 12,
+      "planned": 116,
+      "presentOutputUnverified": 10,
+      "missingRetainedOutput": 2,
+      "actualUnsupported": 38,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 2,
+        "incorrect": 0,
+        "unknown": 2,
+        "planned": 4
+      }
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "rank": 6,
+      "correct": 40,
+      "incorrect": 23,
+      "unsupported": 0,
+      "unknown": 53,
+      "planned": 116,
+      "presentOutputUnverified": 26,
+      "missingRetainedOutput": 27,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 26,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "rank": 7,
+      "correct": 35,
+      "incorrect": 22,
+      "unsupported": 0,
+      "unknown": 59,
+      "planned": 116,
+      "presentOutputUnverified": 29,
+      "missingRetainedOutput": 30,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "rank": 8,
+      "correct": 28,
+      "incorrect": 37,
+      "unsupported": 0,
+      "unknown": 51,
+      "planned": 116,
+      "presentOutputUnverified": 26,
+      "missingRetainedOutput": 25,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.0.26",
+      "rank": 9,
+      "correct": 19,
+      "incorrect": 32,
+      "unsupported": 0,
+      "unknown": 65,
+      "planned": 116,
+      "presentOutputUnverified": 22,
+      "missingRetainedOutput": 43,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "rank": 10,
+      "correct": 18,
+      "incorrect": 27,
+      "unsupported": 0,
+      "unknown": 71,
+      "planned": 116,
+      "presentOutputUnverified": 15,
+      "missingRetainedOutput": 56,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "rank": 11,
+      "correct": 16,
+      "incorrect": 47,
+      "unsupported": 0,
+      "unknown": 53,
+      "planned": 116,
+      "presentOutputUnverified": 32,
+      "missingRetainedOutput": 21,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "rank": 12,
+      "correct": 15,
+      "incorrect": 31,
+      "unsupported": 0,
+      "unknown": 70,
+      "planned": 116,
+      "presentOutputUnverified": 17,
+      "missingRetainedOutput": 53,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "rank": 13,
+      "correct": 7,
+      "incorrect": 6,
+      "unsupported": 0,
+      "unknown": 103,
+      "planned": 116,
+      "presentOutputUnverified": 102,
+      "missingRetainedOutput": 1,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "rank": 14,
+      "correct": 0,
+      "incorrect": 1,
+      "unsupported": 0,
+      "unknown": 115,
+      "planned": 116,
+      "presentOutputUnverified": 113,
+      "missingRetainedOutput": 2,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "rank": 14,
+      "correct": 0,
+      "incorrect": 23,
+      "unsupported": 0,
+      "unknown": 93,
+      "planned": 116,
+      "presentOutputUnverified": 66,
+      "missingRetainedOutput": 27,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 26,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "rank": null,
+      "correct": 0,
+      "incorrect": 0,
+      "unsupported": 0,
+      "unknown": 116,
+      "planned": 116,
+      "presentOutputUnverified": 0,
+      "missingRetainedOutput": 116,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.2",
+      "rank": null,
+      "correct": 0,
+      "incorrect": 0,
+      "unsupported": 0,
+      "unknown": 116,
+      "planned": 116,
+      "presentOutputUnverified": 0,
+      "missingRetainedOutput": 116,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "rank": null,
+      "correct": 0,
+      "incorrect": 0,
+      "unsupported": 0,
+      "unknown": 116,
+      "planned": 116,
+      "presentOutputUnverified": 0,
+      "missingRetainedOutput": 116,
+      "actualUnsupported": 0,
+      "declaredUnsupportedWithoutInvocation": 0,
+      "controls": {
+        "correct": 0,
+        "incorrect": 0,
+        "unknown": 4,
+        "planned": 4
+      }
+    }
+  ],
+  "bridge": {
+    "priorResultSha256": "ec87d2e1114d260f43e45462ec3212edf32262128cbe9303f54594c21412622e",
+    "changes": {
+      "unknown→incorrect": 34,
+      "unknown→correct": 2,
+      "incorrect→unknown": 13,
+      "unknown→unsupported": 38
+    },
+    "oldCorrectChanged": 0,
+    "withdrawnUnqualifiedFaults": 13,
+    "scope": "All18artifacts116drawings+4separatecontrols reassessed by one frozen ordinary saved-mode command. The599 run and8e correction remain separate history; no capture, source bytes or old grade was overwritten."
+  }
+}

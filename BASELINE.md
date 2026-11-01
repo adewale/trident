@@ -11,8 +11,10 @@ original protocols; they are not the new accuracy baseline.
 
 The [current benchmark report](docs/qualification-results-2026-10-31.md)
 records the completed minimum cohorts and their remaining unknown facts. It is
-current qualification evidence, not a new 27-project campaign, full-accuracy
-claim or frozen B0 baseline.
+qualification evidence for the frozen [B0 tables](results/baseline.json). B0 records
+verified counts and explicit limits; it makes no full-accuracy or new 27-project
+campaign claim. Its [receipt](docs/evidence/b0/receipt.json) checks the exact
+input and outcome files, not just transcribed scores.
 
 ## Verify Trident with the smallest cohort
 
@@ -58,9 +60,9 @@ it does not establish complete drawing facts or corpus accuracy.
 
 | Workload | Frozen input provenance | Evidence needed for a score | Current limit |
 |---|---|---|---|
-| DaveBench SVG and PNG | All 548 literal occurrences at Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b`: 546 sources after boundary trimming, 547 exact bodies; 546 drawings, one invalid control and one configuration-only occurrence. | Verified correct/incorrect/unknown drawing counts per format, bound to each actual output; invalid rejection separate. | [547 contracts are complete and one is held](docs/docs-source-expectations.md). Current PNG decisions, held facts and native no-image outcomes remain separate. The [summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json) and [all grades](docs/evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz) retain full denominators; complete accuracy remains unresolved. |
+| DaveBench SVG and PNG | All 548 literal occurrences at Mermaid commit `1fb7869866dd619168d840291c9c54b4f129758b`: 546 sources after boundary trimming, 547 exact bodies; 546 drawings, one invalid control and one configuration-only occurrence. | Verified correct/incorrect/unknown drawing counts per format, bound to each actual output; invalid rejection separate. | [547 contracts are complete and one is held](docs/docs-source-expectations.md). Current PNG decisions, held facts and native no-image outcomes remain separate. The [summary](docs/evidence/png-remaining-2026-11-01/summary.json) and [all grades](docs/evidence/png-remaining-2026-11-01/current-content-grades.json.gz) retain full denominators; complete accuracy remains unresolved. |
 | Mermaid public tests | 154 unchanged callbacks from 37 declarations at the same source pin; historical 41 scope retained separately. | Passed callbacks over the same selected population, with failed/unsupported/binding gaps shown. Both original and public-reference controls must pass all selected callbacks. | The retained `expanded-154-bundle-v2` owns both disjoint parent scopes. The [source manifest and controls](docs/mermaid-public-conformance.md) qualify this API diagnostic, not drawing accuracy or the 4,060-declaration upstream suite. |
-| Terminal project examples | [Named active v3](corpus/terminal-active-profile.json): 115 unchanged original drawings, one independently reviewed authored adaptation and four original invalid controls. Original 120 literal sources plus the authored adaptation retain 121 research entries, with the ambiguous original held as diagnostic. | Verified correct/incorrect/unknown counts over 116 drawings, with typed rejections over four controls separately. | Every active source profile has bounded observers. [Retained 18-project results](docs/evidence/terminal-state-adaptation-2026-10-31/README.md) keep missing/uninspectable outputs unknown; 15 projects were not called on the fresh adaptation. Saved v1/v2 rechecks retain the original corpus. |
+| Terminal project examples | [Named active v3](corpus/terminal-active-profile.json): 115 unchanged original drawings, one independently reviewed authored adaptation and four original invalid controls. Original 120 literal sources plus the authored adaptation retain 121 research entries, with the ambiguous original held as diagnostic. | Verified correct/incorrect/unknown counts over 116 drawings, with typed rejections over four controls separately. | Every active source profile has bounded observers. [Retained 18-project results](docs/evidence/b0/normal/terminal-result.json.gz) keep missing/uninspectable outputs unknown; 15 projects were not called on the fresh adaptation. Saved v1/v2 rechecks retain the original corpus. |
 | Harness regressions — unscored | 100 AM/Trident-authored feature/edit cases, with sources and old raw evidence retained. | No comparative score. Use focused positive/wrong-output controls and session/configuration checks to qualify the harness. | Repeated reset/rename fixtures do not add benchmark weight. Old outputs with unproved preludes supply no workflow pass; no new workflow campaign is required merely to restore their score. |
 | Public Model Contracts — optional | Independently specified public-operation postconditions. | Only the declared API scope, separately from SVG/PNG meaning. | Unsupported bindings and failed prerequisites remain explicit; model results do not fill drawing checks. |
 
@@ -80,9 +82,23 @@ source, required resource, invocation or missing witness requires it. Resolve
 ambiguous source intent independently; do not choose an expected answer from a
 candidate's output.
 
-## Freeze and publish B0
+## Frozen B0 and later results
 
-Prepare one immutable artifact and input inventory for the comparative campaign.
+`results/baseline.json` is the immutable initial reference. Its receipt binds the
+frozen input copies, ordinary outcome ledgers, source/observer epochs and owned
+raw-evidence archives. `results/latest.json` links its checksum; the normal
+`bun commands.ts results:snapshot --check` command checks both snapshots and
+their local input/outcome hashes. Later runs update the rolling view, keeping
+B0 bytes unchanged. A changed source contract or observer needs an explicitly
+qualified comparison; it cannot inherit an old correctness verdict.
+
+B0 freezes bounded, development-exposed evidence. Unknown observations remain in
+the denominator and receive no credit. It does not certify all drawings, every
+Mermaid test, a hidden holdout or ecosystem-wide speed. Existing timing results
+retain their original capture identities; future speed comparisons need a fresh
+matched reference and passing A/A controls in the same measurement window.
+
+For a later comparative campaign, prepare one immutable artifact and input inventory.
 Keep published releases, explicit source candidates and runtimes distinguishable.
 The preparation binds the applicability plan, artifact and dependency hashes,
 source contracts, resources, observer and producer identities. Collection reuses

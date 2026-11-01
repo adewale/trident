@@ -2,11 +2,19 @@
 
 ## Unreleased
 
-The first public 0.1 release is still in preparation. The changes below describe
-the implementation and retained evidence; accuracy qualification and release
-publication remain pending.
+The first public 0.1 release has not been published. B0 freezes the bounded
+benchmark results and their observation limits; release publication remains a
+separate step.
 
 ### Benchmarks and measurement
+
+- Freeze [B0](results/baseline.json) with exact corpora, contract epochs, owned
+  outcomes and raw evidence. Generate current tables through the ordinary
+  reducers, and verify B0 input/output hashes alongside the rolling results.
+- Extend SVG graph, sequence, grammar and chart observers with independent
+  wrong-output controls. Correct two PNG false positives and terminal failures
+  based on unqualified marker spellings. Regrade saved outputs instead of
+  repeating renderer campaigns; preserve prior verdicts and actual call dates.
 
 - Retain every authored prelude and main return before grading. Replay completed
   workflows without new calls, preserve interrupted attempts, and keep shared-session
@@ -200,7 +208,7 @@ publication remain pending.
 - BASELINE.md defines B0 as immutable evidence for the declared benchmark scopes,
   with frozen artifacts, inputs, observers, raw witnesses and limits. It separates
   six-project transport verification from correctness, matched timing and
-  packaging. B0 is not complete yet. Later releases reuse unchanged evidence and
+  packaging. B0 retains every unknown in its declared populations. Later releases reuse unchanged evidence and
   recheck only affected claims; an ecosystem campaign is not an automatic gate.
 
 The original 0.1 invocation receipt exercised 37 of 42 selected entries. Later

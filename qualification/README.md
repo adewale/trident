@@ -2,8 +2,10 @@
 
 [Benchmark results](../docs/qualification-results-2026-10-31.md) state the corpus,
 project versions, verified outcomes and remaining gaps. [Benchmark definitions](../BENCHMARKS.md)
-explain what each score measures. The initial accuracy baseline and 0.1 release
-remain unfinished.
+explain what each score measures. The [frozen B0 snapshot](../results/baseline.json)
+records bounded verified counts, remaining unknowns and separate timing workloads.
+It makes no full-accuracy or whole-suite conformance claim. Release publication is
+separate from these checks.
 
 Use the [six-project harness profile](harness-profile.json) when changing how
 Trident invokes a renderer. It covers 16 public execution paths with 56 output

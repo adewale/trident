@@ -41,11 +41,12 @@ value; unmeasured, blocked and not-applicable states are separate.
 
 ## Initial release baseline
 
-[BASELINE.md](../BASELINE.md) defines B0 and its required manifest, applicability
-ledger, owning evidence, checksums and acceptance checks. Publish that frozen
-index separately from the rolling overview before the first public 0.1 release.
-Importing a newer campaign here does not amend B0; pilot outputs are not baseline
-scores. Later release notes link their baseline compatibility assessment.
+[results/baseline.json](baseline.json) freezes B0 separately from this rolling
+overview. [Its receipt](../docs/evidence/b0/receipt.json) binds actual corpus and
+outcome files, not just scores. `results:snapshot --check` verifies both the
+rolling snapshot and the linked baseline. New imports keep B0 bytes unchanged.
+[BASELINE.md](../BASELINE.md) explains the verified scopes, unknowns and rules for
+comparing later counts and timings.
 
 ## After collecting a campaign
 

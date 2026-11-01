@@ -1,6 +1,6 @@
 # Trident
 
-[Qualification results and remaining release gaps](qualification/README.md).
+[Qualification results and supported claims](qualification/README.md).
 
 Trident compares Mermaid tools on input compatibility, diagram meaning and rendering cost. It tests rendering and the parser/model APIs exposed by renderers through their public interfaces.
 
@@ -23,9 +23,10 @@ later excluded from regular campaigns. The rolling overview uses the current
 27-project selection.
 
 The [current minimum-cohort report](docs/qualification-results-2026-10-31.md)
-reports current verified counts, explicit unknowns and qualified scoped
-timing comparisons. It is separate from the 27-project campaign and does not
-declare a new baseline or a ready 0.1 release.
+reports the frozen [B0 baseline](results/baseline.json): verified counts, explicit
+unknowns and three separate qualified timing comparisons. It reuses retained
+outputs from the minimum verification cohorts; it is separate from the historical
+27-project campaign. A verified count is a lower bound while unknowns remain.
 
 ## Benchmarks
 
@@ -234,8 +235,8 @@ no benchmark rank.
 
 ## Install and release status
 
-The first public 0.1 release is pending the [initial baseline](BASELINE.md) and
-[release checks](RELEASE.md). The existing `v0.1.0` tag is an older preparation
+The [initial baseline](BASELINE.md) is frozen. The first public 0.1 release has
+not been published; [release checks](RELEASE.md) qualify the intended source and archive. The existing `v0.1.0` tag is an older preparation
 snapshot; it does not contain all features described on current main. Use Bun 1.4+
 and Node 24+ with the intended source revision. Published archives, when available, appear on
 the [GitHub releases page](https://github.com/adewale/trident/releases).

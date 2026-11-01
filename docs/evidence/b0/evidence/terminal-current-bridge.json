@@ -1,0 +1,6026 @@
+{
+  "schema": "terminal-retained-full-bridge-v1",
+  "source": "8e525b9eeb3ea443d3b1b3490cf4236472a8e605",
+  "priorResultSha256": "ec87d2e1114d260f43e45462ec3212edf32262128cbe9303f54594c21412622e",
+  "currentResultSha256": "2685ec54c370c20b5b262c67ad20656a3952e707c008c3c84c92db6becef9866",
+  "changes": [
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:32ad8ee06ab49562",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "3586bf45cc926c81395e1dbed9e25f573aaed851edaca0960d6c7b18dce6a6f8.txt",
+      "outputSha256": "3586bf45cc926c81395e1dbed9e25f573aaed851edaca0960d6c7b18dce6a6f8",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, layout-order, node-shapes",
+      "reason": "Declared source facts failed: node-shapes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "בְרֵא hebrew"
+            },
+            {
+              "id": "B",
+              "label": "ok"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No qualified closed node containers or explicit state markers are inspectable in this output representation"
+        },
+        {
+          "criterion": "layout-order",
+          "expected": [
+            {
+              "before": "A",
+              "after": "B",
+              "axis": "x"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No qualified closed node containers or explicit state markers are inspectable in this output representation"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "failed",
+          "detail": "Exact one-line node captions own aligned top/bottom rectangular rails and blank side rows, but caption-row walls shift to different columns and disconnect those rectangular sides; no cells are repaired",
+          "actual": [
+            {
+              "x": 0,
+              "y": 0,
+              "right": 17,
+              "bottom": 4,
+              "row": 2,
+              "leftWall": 0,
+              "rightWall": 15,
+              "label": "בְרֵא hebrew",
+              "ragged": false
+            },
+            {
+              "x": 22,
+              "y": 0,
+              "right": 29,
+              "bottom": 4,
+              "row": 2,
+              "leftWall": 20,
+              "rightWall": 27,
+              "label": "ok",
+              "ragged": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:383e68bb60ac3633",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "b0b04f63ebdadaac710a762eb45482121bfd98f5f91524b8b2366ed0f96a476d.txt",
+      "outputSha256": "b0b04f63ebdadaac710a762eb45482121bfd98f5f91524b8b2366ed0f96a476d",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, node-shapes, node-line-breaks",
+      "reason": "Declared source facts failed: nodes, node-shapes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "日本 語"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "日本 語",
+              "missing": [
+                {
+                  "glyph": "日",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "本",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "failed",
+          "detail": "The complete independently closed leaf-container shape multiset differs from all authored node primitives; unresolved labels cannot repair a primitive inventory mismatch",
+          "actual": [
+            "asymmetric"
+          ]
+        },
+        {
+          "criterion": "node-line-breaks",
+          "expected": [
+            {
+              "id": "A",
+              "lines": [
+                "日本",
+                "語"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:64788fe4b88b1f1f",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "47c333b26034d58988a585284d7d1a0460fc4435bacb8bd466b4f1f058c2133e.txt",
+      "outputSha256": "47c333b26034d58988a585284d7d1a0460fc4435bacb8bd466b4f1f058c2133e",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, groups",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "x",
+              "label": "x"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Outer",
+              "target": "Inner"
+            }
+          ],
+          "status": "failed",
+          "detail": "A complete bounded frame/text/stroke vocabulary contains no directional head for a required visible arrowheaded relationship; layout or an undirected tee cannot supply the missing head",
+          "actual": []
+        },
+        {
+          "criterion": "groups",
+          "expected": [
+            {
+              "id": "Outer",
+              "label": "Outer",
+              "members": [
+                "Inner"
+              ]
+            },
+            {
+              "id": "Inner",
+              "label": "Inner",
+              "members": [
+                "x"
+              ],
+              "parent": "Outer"
+            }
+          ],
+          "status": "unknown",
+          "detail": "A group member has no unique independently observed node container: x",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:6c29eb05c097760d",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "f17e6f646a22bbfafd53e75b8621096104762f4b8c9d355a8bd7ccb2bac82424.txt",
+      "outputSha256": "f17e6f646a22bbfafd53e75b8621096104762f4b8c9d355a8bd7ccb2bac82424",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, node-shapes, node-line-breaks",
+      "reason": "Declared source facts failed: nodes, node-shapes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "One Two"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "One Two",
+              "missing": [
+                {
+                  "glyph": "O",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "n",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "e",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "failed",
+          "detail": "The complete independently closed leaf-container shape multiset differs from all authored node primitives; unresolved labels cannot repair a primitive inventory mismatch",
+          "actual": [
+            "asymmetric"
+          ]
+        },
+        {
+          "criterion": "node-line-breaks",
+          "expected": [
+            {
+              "id": "A",
+              "lines": [
+                "One",
+                "Two"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:89be4f2885fb74a9",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "43611fa26ac80e6410595f843f6a5490b68394976c9eedf542e74fcb7ff90be0.txt",
+      "outputSha256": "43611fa26ac80e6410595f843f6a5490b68394976c9eedf542e74fcb7ff90be0",
+      "priorReason": "Required source facts lack qualified evidence: entity-bodies, entity-relations",
+      "reason": "Declared source facts failed: entity-relations",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "entity-bodies",
+          "expected": [
+            {
+              "id": "CUSTOMER",
+              "attributes": [
+                "string id PK",
+                "string name"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "string",
+                  "name": "id",
+                  "keys": [
+                    "PK"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "name": "name",
+                  "keys": []
+                }
+              ]
+            },
+            {
+              "id": "ORDER",
+              "attributes": [
+                "string id PK",
+                "string customer_id FK"
+              ],
+              "attributeFacts": [
+                {
+                  "type": "string",
+                  "name": "id",
+                  "keys": [
+                    "PK"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "name": "customer_id",
+                  "keys": [
+                    "FK"
+                  ]
+                }
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "ER representation has no qualified projection"
+        },
+        {
+          "criterion": "entity-relations",
+          "expected": [
+            {
+              "source": "CUSTOMER",
+              "target": "ORDER",
+              "sourceCardinality": "||",
+              "targetCardinality": "o{",
+              "identifying": true,
+              "caption": "places"
+            }
+          ],
+          "status": "failed",
+          "detail": "All visible ink belongs to separate disjoint closed cards; no inter-card relationship ink is drawn. Text or source fragments inside a card cannot supply a link between those cards.",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:90e78c1ed707e7e4",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "c0f750f0c98ce35cf8e314d37933c8bdce88673b95def65a2368dccb1dc0b4b7.txt",
+      "outputSha256": "c0f750f0c98ce35cf8e314d37933c8bdce88673b95def65a2368dccb1dc0b4b7",
+      "priorReason": "Required source facts lack qualified evidence: relationships",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "Start",
+              "label": "Start"
+            },
+            {
+              "id": "Queue",
+              "label": "Queue"
+            },
+            {
+              "id": "Done",
+              "label": "Done"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "Start"
+            ],
+            [
+              "Queue"
+            ],
+            [
+              "Done"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Start",
+              "target": "Queue"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 1"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 2"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 3"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 4"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 5"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 6"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 7"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 8"
+            },
+            {
+              "source": "Queue",
+              "target": "Done"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "retry 6",
+              "missing": [
+                {
+                  "glyph": "6",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:9e4e5a5e072642e8",
+      "from": "unknown",
+      "to": "correct",
+      "witness": "5e4adad3355935050656676e5078e2bd80d0ced0498a63c6afdeade7dbca69d8.txt",
+      "outputSha256": "5e4adad3355935050656676e5078e2bd80d0ced0498a63c6afdeade7dbca69d8",
+      "priorReason": "Required source facts lack qualified evidence: states, transitions",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "שָלוֹם",
+              "label": "שָלוֹם",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Disjoint complete rails and one continuous side own each single literal state caption; a ragged unused side supplies no port or shape credit",
+          "actual": [
+            "שָלוֹם"
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "שָלוֹם",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "שָלוֹם",
+              "target": "[*]",
+              "caption": "",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Actual continuous vertical stems and adjacent directed heads meet existing top/bottom rails; missing side cells are never reconstructed or used as endpoints",
+          "actual": [
+            [
+              "●",
+              "שָלוֹם",
+              ""
+            ],
+            [
+              "שָלוֹם",
+              "◉",
+              ""
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:a60c7e7b3b930353",
+      "from": "unknown",
+      "to": "correct",
+      "witness": "6351985233c09b8feb06082ec08ad245f450cc457e561965ed2dc150bb7abfdd.txt",
+      "outputSha256": "6351985233c09b8feb06082ec08ad245f450cc457e561965ed2dc150bb7abfdd",
+      "priorReason": "Required source facts lack qualified evidence: journey-tasks",
+      "reason": "Every independently declared source obligation has qualified output evidence",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "title",
+          "expected": "私の一日の流れ",
+          "status": "passed",
+          "detail": "One visible title row outside the drawing containers"
+        },
+        {
+          "criterion": "journey-tasks",
+          "expected": [
+            {
+              "section": "出勤前の準備",
+              "label": "お茶を入れる",
+              "score": 5,
+              "actors": [
+                "私"
+              ]
+            },
+            {
+              "section": "出勤前の準備",
+              "label": "メールを確認する",
+              "score": 3,
+              "actors": [
+                "私"
+              ]
+            },
+            {
+              "section": "帰宅",
+              "label": "夕食を作る",
+              "score": 4,
+              "actors": [
+                "私",
+                "家族"
+              ]
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact admitted native face codes own numeric scores; actual actor legend, marked box headers, section spans and the continuous rightward timeline independently own the complete ordered task facts",
+          "actual": [
+            {
+              "section": "出勤前の準備",
+              "label": "お茶を入れる",
+              "score": 5,
+              "actors": [
+                "私"
+              ]
+            },
+            {
+              "section": "出勤前の準備",
+              "label": "メールを確認する",
+              "score": 3,
+              "actors": [
+                "私"
+              ]
+            },
+            {
+              "section": "帰宅",
+              "label": "夕食を作る",
+              "score": 4,
+              "actors": [
+                "家族",
+                "私"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:de6e8bf0fd559efc",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "441c1f1ed32c37d61ae9f2438dedc6a46db947a4cb73d29e6d5694425e6d69ab.txt",
+      "outputSha256": "441c1f1ed32c37d61ae9f2438dedc6a46db947a4cb73d29e6d5694425e6d69ab",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, groups",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "a",
+              "label": "a"
+            },
+            {
+              "id": "b",
+              "label": "b"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "G",
+              "target": "a"
+            }
+          ],
+          "status": "failed",
+          "detail": "A complete bounded frame/text/stroke vocabulary contains no directional head for a required visible arrowheaded relationship; layout or an undirected tee cannot supply the missing head",
+          "actual": []
+        },
+        {
+          "criterion": "groups",
+          "expected": [
+            {
+              "id": "G",
+              "label": "G",
+              "members": [
+                "a",
+                "b"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "A group member has no unique independently observed node container: a",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "terminal:3042977d4e6d813b",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "d35179bdcca48f16db3725b440c87b09f1bbe9a34feaa4bd413342afd68a1f1d.txt",
+      "outputSha256": "d35179bdcca48f16db3725b440c87b09f1bbe9a34feaa4bd413342afd68a1f1d",
+      "priorReason": "Declared source facts failed: transitions",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Draft",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Review",
+              "caption": "submit",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Draft",
+              "caption": "changes",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Approved",
+              "caption": "ok",
+              "scope": []
+            },
+            {
+              "source": "Approved",
+              "target": "Published",
+              "caption": "publish",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Published",
+              "caption": "hotfix",
+              "scope": []
+            },
+            {
+              "source": "Published",
+              "target": "[*]",
+              "caption": "",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "Draft",
+              "label": "Draft",
+              "scope": []
+            },
+            {
+              "id": "Review",
+              "label": "Review",
+              "scope": []
+            },
+            {
+              "id": "Approved",
+              "label": "Approved",
+              "scope": []
+            },
+            {
+              "id": "Published",
+              "label": "Published",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "Draft",
+              "scope": []
+            },
+            {
+              "label": "Review",
+              "scope": []
+            },
+            {
+              "label": "Approved",
+              "scope": []
+            },
+            {
+              "label": "Published",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Draft",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Review",
+              "caption": "submit",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Draft",
+              "caption": "changes",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Approved",
+              "caption": "ok",
+              "scope": []
+            },
+            {
+              "source": "Approved",
+              "target": "Published",
+              "caption": "publish",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Published",
+              "caption": "hotfix",
+              "scope": []
+            },
+            {
+              "source": "Published",
+              "target": "[*]",
+              "caption": "",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "terminal:32ad8ee06ab49562",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "8c6562fe206750d349afd2ac901905a5ae9ad5567721e7f58d9c47d2f9ef98ea.txt",
+      "outputSha256": "8c6562fe206750d349afd2ac901905a5ae9ad5567721e7f58d9c47d2f9ef98ea",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, layout-order, node-shapes",
+      "reason": "Declared source facts failed: node-shapes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "בְרֵא hebrew"
+            },
+            {
+              "id": "B",
+              "label": "ok"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No qualified closed node containers or explicit state markers are inspectable in this output representation"
+        },
+        {
+          "criterion": "layout-order",
+          "expected": [
+            {
+              "before": "A",
+              "after": "B",
+              "axis": "x"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No qualified closed node containers or explicit state markers are inspectable in this output representation"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "failed",
+          "detail": "Exact one-line node captions own aligned top/bottom rectangular rails and blank side rows, but caption-row walls shift to different columns and disconnect those rectangular sides; no cells are repaired",
+          "actual": [
+            {
+              "x": 0,
+              "y": 0,
+              "right": 15,
+              "bottom": 4,
+              "row": 2,
+              "leftWall": 0,
+              "rightWall": 13,
+              "label": "בְרֵא hebrew",
+              "ragged": false
+            },
+            {
+              "x": 21,
+              "y": 0,
+              "right": 26,
+              "bottom": 4,
+              "row": 2,
+              "leftWall": 19,
+              "rightWall": 24,
+              "label": "ok",
+              "ragged": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "terminal:4ae5560b57ca0064",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "b269869db19ce6f3b380fe264c1d69a9fafc6a46c1f0a6fdc498f370e5ad9239.txt",
+      "outputSha256": "b269869db19ce6f3b380fe264c1d69a9fafc6a46c1f0a6fdc498f370e5ad9239",
+      "priorReason": "Declared source facts failed: transitions",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "ManualRetryRequired",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "ManualRetryRequired",
+              "target": "ManualRetryRequired",
+              "caption": "Retry fails again",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "ManualRetryRequired",
+              "label": "ManualRetryRequired",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "ManualRetryRequired",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "ManualRetryRequired",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "ManualRetryRequired",
+              "target": "ManualRetryRequired",
+              "caption": "Retry fails again",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "terminal:4f96b68984c54c5a",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "76dfc39bf2ccd0e4acab89913b33125cd994ab734f814d7d896295ad3cd4f072.txt",
+      "outputSha256": "76dfc39bf2ccd0e4acab89913b33125cd994ab734f814d7d896295ad3cd4f072",
+      "priorReason": "Declared source facts failed: transitions",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Editing",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Editing",
+              "target": "Submitted",
+              "caption": "submit",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "Editing",
+              "label": "Editing",
+              "scope": []
+            },
+            {
+              "id": "Submitted",
+              "label": "Submitted",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "Editing",
+              "scope": []
+            },
+            {
+              "label": "Submitted",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Editing",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Editing",
+              "target": "Submitted",
+              "caption": "submit",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "terminal:cd771fca2659a460",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "4e33c4f56547d40cd9a33bea5ba67e6929ee7c7a17f61f3d8035b1213a735e85.txt",
+      "outputSha256": "4e33c4f56547d40cd9a33bea5ba67e6929ee7c7a17f61f3d8035b1213a735e85",
+      "priorReason": "Declared source facts failed: transitions",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Idle",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Idle",
+              "target": "Starting",
+              "caption": "Space down / tap",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Recording",
+              "caption": "opened",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Releasing",
+              "caption": "Space up, focus lost",
+              "scope": []
+            },
+            {
+              "source": "Recording",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Recording",
+              "target": "Stopping",
+              "caption": "Space up, focus lost / tap",
+              "scope": []
+            },
+            {
+              "source": "Releasing",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Releasing",
+              "target": "Stopping",
+              "caption": "opened / tap",
+              "scope": []
+            },
+            {
+              "source": "Stopping",
+              "target": "Settling",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Settling",
+              "target": "Idle",
+              "caption": "quiet 1 s",
+              "scope": []
+            },
+            {
+              "source": "Settling",
+              "target": "Stopping",
+              "caption": "opened / tap",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "Idle",
+              "label": "Idle",
+              "scope": []
+            },
+            {
+              "id": "Starting",
+              "label": "Starting",
+              "scope": []
+            },
+            {
+              "id": "Recording",
+              "label": "Recording",
+              "scope": []
+            },
+            {
+              "id": "Releasing",
+              "label": "Releasing",
+              "scope": []
+            },
+            {
+              "id": "Stopping",
+              "label": "Stopping",
+              "scope": []
+            },
+            {
+              "id": "Settling",
+              "label": "Settling",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "Idle",
+              "scope": []
+            },
+            {
+              "label": "Starting",
+              "scope": []
+            },
+            {
+              "label": "Recording",
+              "scope": []
+            },
+            {
+              "label": "Releasing",
+              "scope": []
+            },
+            {
+              "label": "Stopping",
+              "scope": []
+            },
+            {
+              "label": "Settling",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Idle",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Idle",
+              "target": "Starting",
+              "caption": "Space down / tap",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Recording",
+              "caption": "opened",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Releasing",
+              "caption": "Space up, focus lost",
+              "scope": []
+            },
+            {
+              "source": "Recording",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Recording",
+              "target": "Stopping",
+              "caption": "Space up, focus lost / tap",
+              "scope": []
+            },
+            {
+              "source": "Releasing",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Releasing",
+              "target": "Stopping",
+              "caption": "opened / tap",
+              "scope": []
+            },
+            {
+              "source": "Stopping",
+              "target": "Settling",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Settling",
+              "target": "Idle",
+              "caption": "quiet 1 s",
+              "scope": []
+            },
+            {
+              "source": "Settling",
+              "target": "Stopping",
+              "caption": "opened / tap",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "terminal:e84af4bd39ddf3eb",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "43b252e9c68340088bfc86576ae72e83d7613209668256ffd3b2b40a4654530c.txt",
+      "outputSha256": "43b252e9c68340088bfc86576ae72e83d7613209668256ffd3b2b40a4654530c",
+      "priorReason": "Declared source facts failed: transitions",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "空闲",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "空闲",
+              "target": "完成",
+              "caption": "",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "空闲",
+              "label": "空闲",
+              "scope": []
+            },
+            {
+              "id": "完成",
+              "label": "完成",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "空闲",
+              "scope": []
+            },
+            {
+              "label": "完成",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "空闲",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "空闲",
+              "target": "完成",
+              "caption": "",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "Yassimba/loom",
+      "caseId": "terminal:64788fe4b88b1f1f",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "ff9aabb1e3d1c74cf74e87ebfc920414bf5d767d421211999e39210ffa176f00.txt",
+      "outputSha256": "ff9aabb1e3d1c74cf74e87ebfc920414bf5d767d421211999e39210ffa176f00",
+      "priorReason": "Required source facts lack qualified evidence: relationships, groups",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "x",
+              "label": "x"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "x"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Outer",
+              "target": "Inner"
+            }
+          ],
+          "status": "failed",
+          "detail": "A complete bounded frame/text/stroke vocabulary contains no directional head for a required visible arrowheaded relationship; layout or an undirected tee cannot supply the missing head",
+          "actual": []
+        },
+        {
+          "criterion": "groups",
+          "expected": [
+            {
+              "id": "Outer",
+              "label": "Outer",
+              "members": [
+                "Inner"
+              ]
+            },
+            {
+              "id": "Inner",
+              "label": "Inner",
+              "members": [
+                "x"
+              ],
+              "parent": "Outer"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: Outer; observed container labels: []",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "Yassimba/loom",
+      "caseId": "terminal:89e9eb6aebb72128",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "f7a16a748f10cbccd13116c1bc13917e2241e86ad459cc9c73f909d3bad0883b.txt",
+      "outputSha256": "f7a16a748f10cbccd13116c1bc13917e2241e86ad459cc9c73f909d3bad0883b",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, layout-order, node-shapes, node-line-breaks",
+      "reason": "Declared source facts failed: nodes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "Small circle"
+            },
+            {
+              "id": "B",
+              "label": "Small double circle"
+            },
+            {
+              "id": "R",
+              "label": "Small rectangle"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "Small rectangle",
+              "missing": [
+                {
+                  "glyph": "t",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "n",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "g",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B"
+            },
+            {
+              "source": "B",
+              "target": "R"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Visible authored label lacks a qualified node-container or wrapping projection: Small double circle"
+        },
+        {
+          "criterion": "layout-order",
+          "expected": [
+            {
+              "before": "A",
+              "after": "B",
+              "axis": "x"
+            },
+            {
+              "before": "B",
+              "after": "R",
+              "axis": "x"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Visible authored label lacks a qualified node-container or wrapping projection: Small double circle"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "circle"
+            },
+            {
+              "id": "B",
+              "shape": "double-circle"
+            },
+            {
+              "id": "R",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "node-line-breaks",
+          "expected": [
+            {
+              "id": "A",
+              "lines": [
+                "Small",
+                "circle"
+              ]
+            },
+            {
+              "id": "B",
+              "lines": [
+                "Small",
+                "double",
+                "circle"
+              ]
+            },
+            {
+              "id": "R",
+              "lines": [
+                "Small",
+                "rectangle"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "Yassimba/loom",
+      "caseId": "terminal:de6e8bf0fd559efc",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "2f0e0a138d28f2ba8ebc162d2d66017b9657e65098a07fa5dfb0ad79dbc6b374.txt",
+      "outputSha256": "2f0e0a138d28f2ba8ebc162d2d66017b9657e65098a07fa5dfb0ad79dbc6b374",
+      "priorReason": "Required source facts lack qualified evidence: relationships, groups",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "a",
+              "label": "a"
+            },
+            {
+              "id": "b",
+              "label": "b"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "a"
+            ],
+            [
+              "b"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "G",
+              "target": "a"
+            }
+          ],
+          "status": "failed",
+          "detail": "A complete bounded frame/text/stroke vocabulary contains no directional head for a required visible arrowheaded relationship; layout or an undirected tee cannot supply the missing head",
+          "actual": []
+        },
+        {
+          "criterion": "groups",
+          "expected": [
+            {
+              "id": "G",
+              "label": "G",
+              "members": [
+                "a",
+                "b"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: G; observed container labels: []",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:049722f83e7a31e0",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:0dbd28f2f1c494cc",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:1468e1cf1186af65",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:2295dae5ca33addf",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:2598092a6e404821",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:25e166249d24378d",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:263ec71ab0c651b3",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:276c8474274911fa",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:27a0bf1eef1bdb6f",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:3042977d4e6d813b",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:32ad8ee06ab49562",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "d335bc700c280998852838c029748e4522dc736a50be4112b42f3e6381a1127d.txt",
+      "outputSha256": "d335bc700c280998852838c029748e4522dc736a50be4112b42f3e6381a1127d",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, layout-order, node-shapes",
+      "reason": "Declared source facts failed: nodes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "בְרֵא hebrew"
+            },
+            {
+              "id": "B",
+              "label": "ok"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "בְרֵא hebrew",
+              "missing": [
+                {
+                  "glyph": "w",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No qualified closed node containers or explicit state markers are inspectable in this output representation"
+        },
+        {
+          "criterion": "layout-order",
+          "expected": [
+            {
+              "before": "A",
+              "after": "B",
+              "axis": "x"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No qualified closed node containers or explicit state markers are inspectable in this output representation"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:39d5de95eb42396b",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:43382cbc1379cf4c",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:4ae5560b57ca0064",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:4f96b68984c54c5a",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:570e13053d228e29",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:587429a5094fbb28",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:5b249b03683c12ec",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:61cc5e1150412252",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:6f0f134c3b965095",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:704f69aae7273edd",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:7801c75b869778fe",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal-adaptation:3bf5fbf5ea7c5486",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:9e4e5a5e072642e8",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:a181524246065697",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:a60c7e7b3b930353",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:aaf86b713c100b5a",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:b1428b5b59888938",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:bd36b029775eba8c",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:c5455d2e2f5f8672",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:c64d9c102f509905",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:cd2dd60c268497d1",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:cd771fca2659a460",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:d04b45557e7b8f2e",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:d7362afef7c26051",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:d98a600399ba3ce5",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:da9198e1adbc1c14",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:ddef9c7af192e428",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "caseId": "terminal:e84af4bd39ddf3eb",
+      "from": "unknown",
+      "to": "unsupported",
+      "witness": null,
+      "outputSha256": null,
+      "priorReason": "No retained terminal output; inspect transport/setup evidence separately.",
+      "reason": "The frozen public CLI explicitly rejects this exact retained input as an unsupported graph type; this is an observed input-specific outcome, not a drawing fault or invalid-source grammar credit",
+      "priorFailed": [],
+      "currentChecks": []
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "caseId": "terminal:11426c4cad392dc7",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "5acdf95d1dc89330d4877273c98a99f7062653a29adcb9e68a2e8456d10db49f.txt",
+      "outputSha256": "5acdf95d1dc89330d4877273c98a99f7062653a29adcb9e68a2e8456d10db49f",
+      "priorReason": "Required source facts lack qualified evidence: relationships",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "Mermaid",
+              "label": "Mermaid.js"
+            },
+            {
+              "id": "Beautiful",
+              "label": "Beautiful Mermaid"
+            },
+            {
+              "id": "ASCII",
+              "label": "Mermaid ASCII"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "Mermaid.js"
+            ],
+            [
+              "Mermaid ASCII"
+            ],
+            [
+              "Beautiful Mermaid"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Mermaid",
+              "target": "Beautiful",
+              "label": "derivative"
+            },
+            {
+              "source": "ASCII",
+              "target": "Beautiful",
+              "label": "ASCII component port",
+              "stroke": "dotted"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "ASCII component port",
+              "missing": [
+                {
+                  "glyph": "c",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "o",
+                  "needed": 3,
+                  "visible": 0
+                },
+                {
+                  "glyph": "p",
+                  "needed": 2,
+                  "visible": 0
+                },
+                {
+                  "glyph": "n",
+                  "needed": 2,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "Mermaid",
+              "shape": "rectangle"
+            },
+            {
+              "id": "Beautiful",
+              "shape": "rectangle"
+            },
+            {
+              "id": "ASCII",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "passed",
+          "detail": "Closed primitive boundaries or matching shape annotations own their full source labels; hexagons require both sloped ends and connected side walls",
+          "actual": [
+            {
+              "id": "Mermaid",
+              "shape": "rectangle"
+            },
+            {
+              "id": "Beautiful",
+              "shape": "rectangle"
+            },
+            {
+              "id": "ASCII",
+              "shape": "rectangle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "caseId": "terminal:90e78c1ed707e7e4",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "839946d6e37cc63967898ffc7413595544d2f4794b867dbeedbd10152c677a07.txt",
+      "outputSha256": "839946d6e37cc63967898ffc7413595544d2f4794b867dbeedbd10152c677a07",
+      "priorReason": "Required source facts lack qualified evidence: relationships",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "Start",
+              "label": "Start"
+            },
+            {
+              "id": "Queue",
+              "label": "Queue"
+            },
+            {
+              "id": "Done",
+              "label": "Done"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "Start"
+            ],
+            [
+              "Queue"
+            ],
+            [
+              "Done"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Start",
+              "target": "Queue"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 1"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 2"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 3"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 4"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 5"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 6"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 7"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 8"
+            },
+            {
+              "source": "Queue",
+              "target": "Done"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "retry 2",
+              "missing": [
+                {
+                  "glyph": "2",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 3",
+              "missing": [
+                {
+                  "glyph": "3",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 4",
+              "missing": [
+                {
+                  "glyph": "4",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 5",
+              "missing": [
+                {
+                  "glyph": "5",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 6",
+              "missing": [
+                {
+                  "glyph": "6",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 7",
+              "missing": [
+                {
+                  "glyph": "7",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 8",
+              "missing": [
+                {
+                  "glyph": "8",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:3042977d4e6d813b",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "558ec94ccc780b3eaabb34748ad9df724eeea8aec9a676a7b9e1fcca6b9cdb04.txt",
+      "outputSha256": "558ec94ccc780b3eaabb34748ad9df724eeea8aec9a676a7b9e1fcca6b9cdb04",
+      "priorReason": "Declared source facts failed: transitions",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Draft",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Review",
+              "caption": "submit",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Draft",
+              "caption": "changes",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Approved",
+              "caption": "ok",
+              "scope": []
+            },
+            {
+              "source": "Approved",
+              "target": "Published",
+              "caption": "publish",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Published",
+              "caption": "hotfix",
+              "scope": []
+            },
+            {
+              "source": "Published",
+              "target": "[*]",
+              "caption": "",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "Draft",
+              "label": "Draft",
+              "scope": []
+            },
+            {
+              "id": "Review",
+              "label": "Review",
+              "scope": []
+            },
+            {
+              "id": "Approved",
+              "label": "Approved",
+              "scope": []
+            },
+            {
+              "id": "Published",
+              "label": "Published",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "Draft",
+              "scope": []
+            },
+            {
+              "label": "Review",
+              "scope": []
+            },
+            {
+              "label": "Approved",
+              "scope": []
+            },
+            {
+              "label": "Published",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Draft",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Review",
+              "caption": "submit",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Draft",
+              "caption": "changes",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Approved",
+              "caption": "ok",
+              "scope": []
+            },
+            {
+              "source": "Approved",
+              "target": "Published",
+              "caption": "publish",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Published",
+              "caption": "hotfix",
+              "scope": []
+            },
+            {
+              "source": "Published",
+              "target": "[*]",
+              "caption": "",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:32ad8ee06ab49562",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "8c6562fe206750d349afd2ac901905a5ae9ad5567721e7f58d9c47d2f9ef98ea.txt",
+      "outputSha256": "8c6562fe206750d349afd2ac901905a5ae9ad5567721e7f58d9c47d2f9ef98ea",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, layout-order, node-shapes",
+      "reason": "Declared source facts failed: node-shapes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "בְרֵא hebrew"
+            },
+            {
+              "id": "B",
+              "label": "ok"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No qualified closed node containers or explicit state markers are inspectable in this output representation"
+        },
+        {
+          "criterion": "layout-order",
+          "expected": [
+            {
+              "before": "A",
+              "after": "B",
+              "axis": "x"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No qualified closed node containers or explicit state markers are inspectable in this output representation"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "failed",
+          "detail": "Exact one-line node captions own aligned top/bottom rectangular rails and blank side rows, but caption-row walls shift to different columns and disconnect those rectangular sides; no cells are repaired",
+          "actual": [
+            {
+              "x": 0,
+              "y": 0,
+              "right": 15,
+              "bottom": 4,
+              "row": 2,
+              "leftWall": 0,
+              "rightWall": 13,
+              "label": "בְרֵא hebrew",
+              "ragged": false
+            },
+            {
+              "x": 21,
+              "y": 0,
+              "right": 26,
+              "bottom": 4,
+              "row": 2,
+              "leftWall": 19,
+              "rightWall": 24,
+              "label": "ok",
+              "ragged": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:4ae5560b57ca0064",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "b269869db19ce6f3b380fe264c1d69a9fafc6a46c1f0a6fdc498f370e5ad9239.txt",
+      "outputSha256": "b269869db19ce6f3b380fe264c1d69a9fafc6a46c1f0a6fdc498f370e5ad9239",
+      "priorReason": "Declared source facts failed: transitions",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "ManualRetryRequired",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "ManualRetryRequired",
+              "target": "ManualRetryRequired",
+              "caption": "Retry fails again",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "ManualRetryRequired",
+              "label": "ManualRetryRequired",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "ManualRetryRequired",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "ManualRetryRequired",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "ManualRetryRequired",
+              "target": "ManualRetryRequired",
+              "caption": "Retry fails again",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:4f96b68984c54c5a",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "b7a9d126e7cf5ed45e73f45f0804d7d313d904fe47aa57660f937fc72954235b.txt",
+      "outputSha256": "b7a9d126e7cf5ed45e73f45f0804d7d313d904fe47aa57660f937fc72954235b",
+      "priorReason": "Declared source facts failed: transitions",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Editing",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Editing",
+              "target": "Submitted",
+              "caption": "submit",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "Editing",
+              "label": "Editing",
+              "scope": []
+            },
+            {
+              "id": "Submitted",
+              "label": "Submitted",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "Editing",
+              "scope": []
+            },
+            {
+              "label": "Submitted",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Editing",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Editing",
+              "target": "Submitted",
+              "caption": "submit",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:90e78c1ed707e7e4",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "c7435a250145838c69a6308d3657ba336c731d22fb5f16a6f99519beac184384.txt",
+      "outputSha256": "c7435a250145838c69a6308d3657ba336c731d22fb5f16a6f99519beac184384",
+      "priorReason": "Required source facts lack qualified evidence: relationships",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "Start",
+              "label": "Start"
+            },
+            {
+              "id": "Queue",
+              "label": "Queue"
+            },
+            {
+              "id": "Done",
+              "label": "Done"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "Start"
+            ],
+            [
+              "Queue"
+            ],
+            [
+              "Done"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Start",
+              "target": "Queue"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 1"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 2"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 3"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 4"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 5"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 6"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 7"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 8"
+            },
+            {
+              "source": "Queue",
+              "target": "Done"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "retry 3",
+              "missing": [
+                {
+                  "glyph": "3",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 4",
+              "missing": [
+                {
+                  "glyph": "4",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 5",
+              "missing": [
+                {
+                  "glyph": "5",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 6",
+              "missing": [
+                {
+                  "glyph": "6",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 7",
+              "missing": [
+                {
+                  "glyph": "7",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 8",
+              "missing": [
+                {
+                  "glyph": "8",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "caseId": "terminal:cd771fca2659a460",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "77185453a790102fb95e58f88ee6b5a1ac7bafb253f8149e7d1440350f113a1a.txt",
+      "outputSha256": "77185453a790102fb95e58f88ee6b5a1ac7bafb253f8149e7d1440350f113a1a",
+      "priorReason": "Declared source facts failed: transitions",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Idle",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Idle",
+              "target": "Starting",
+              "caption": "Space down / tap",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Recording",
+              "caption": "opened",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Releasing",
+              "caption": "Space up, focus lost",
+              "scope": []
+            },
+            {
+              "source": "Recording",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Recording",
+              "target": "Stopping",
+              "caption": "Space up, focus lost / tap",
+              "scope": []
+            },
+            {
+              "source": "Releasing",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Releasing",
+              "target": "Stopping",
+              "caption": "opened / tap",
+              "scope": []
+            },
+            {
+              "source": "Stopping",
+              "target": "Settling",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Settling",
+              "target": "Idle",
+              "caption": "quiet 1 s",
+              "scope": []
+            },
+            {
+              "source": "Settling",
+              "target": "Stopping",
+              "caption": "opened / tap",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "Idle",
+              "label": "Idle",
+              "scope": []
+            },
+            {
+              "id": "Starting",
+              "label": "Starting",
+              "scope": []
+            },
+            {
+              "id": "Recording",
+              "label": "Recording",
+              "scope": []
+            },
+            {
+              "id": "Releasing",
+              "label": "Releasing",
+              "scope": []
+            },
+            {
+              "id": "Stopping",
+              "label": "Stopping",
+              "scope": []
+            },
+            {
+              "id": "Settling",
+              "label": "Settling",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "Idle",
+              "scope": []
+            },
+            {
+              "label": "Starting",
+              "scope": []
+            },
+            {
+              "label": "Recording",
+              "scope": []
+            },
+            {
+              "label": "Releasing",
+              "scope": []
+            },
+            {
+              "label": "Stopping",
+              "scope": []
+            },
+            {
+              "label": "Settling",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Idle",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Idle",
+              "target": "Starting",
+              "caption": "Space down / tap",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Recording",
+              "caption": "opened",
+              "scope": []
+            },
+            {
+              "source": "Starting",
+              "target": "Releasing",
+              "caption": "Space up, focus lost",
+              "scope": []
+            },
+            {
+              "source": "Recording",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Recording",
+              "target": "Stopping",
+              "caption": "Space up, focus lost / tap",
+              "scope": []
+            },
+            {
+              "source": "Releasing",
+              "target": "Idle",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Releasing",
+              "target": "Stopping",
+              "caption": "opened / tap",
+              "scope": []
+            },
+            {
+              "source": "Stopping",
+              "target": "Settling",
+              "caption": "closed",
+              "scope": []
+            },
+            {
+              "source": "Settling",
+              "target": "Idle",
+              "caption": "quiet 1 s",
+              "scope": []
+            },
+            {
+              "source": "Settling",
+              "target": "Stopping",
+              "caption": "opened / tap",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Additional independently closed, labelled node containers are absent from the authored node inventory",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "caseId": "terminal:29fc1dab07164509",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "999f081848001980e6af6311874d4980675e28e8b2acfc8803784663e9e9eeb5.txt",
+      "outputSha256": "999f081848001980e6af6311874d4980675e28e8b2acfc8803784663e9e9eeb5",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, layout-order, node-shapes",
+      "reason": "Declared source facts failed: nodes, relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "row mounts"
+            },
+            {
+              "id": "B",
+              "label": "trigger div, as Kobalte renders it closed"
+            },
+            {
+              "id": "C",
+              "label": "Kobalte tooltip mounts, its Trigger adopts the div"
+            },
+            {
+              "id": "D",
+              "label": "open delay, skip delay, presence, popper, dismiss: Kobalte, unchanged"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "Kobalte tooltip mounts, its Trigger adopts the div",
+              "missing": [
+                {
+                  "glyph": "t",
+                  "needed": 7,
+                  "visible": 5
+                },
+                {
+                  "glyph": "T",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B"
+            },
+            {
+              "source": "B",
+              "target": "C",
+              "label": "first pointerenter or focus"
+            },
+            {
+              "source": "C",
+              "target": "D"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "first pointerenter or focus",
+              "missing": [
+                {
+                  "glyph": "f",
+                  "needed": 2,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "layout-order",
+          "expected": [
+            {
+              "before": "A",
+              "after": "B",
+              "axis": "x"
+            },
+            {
+              "before": "B",
+              "after": "C",
+              "axis": "x"
+            },
+            {
+              "before": "C",
+              "after": "D",
+              "axis": "x"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Visible authored label lacks a qualified node-container or wrapping projection: trigger div, as Kobalte renders it closed"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "caseId": "terminal:6f83e372d7057526",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "540d5e093b309fbe93fc6924d32e649ecc14db5e1795dc4dae63754d076a0d67.txt",
+      "outputSha256": "540d5e093b309fbe93fc6924d32e649ecc14db5e1795dc4dae63754d076a0d67",
+      "priorReason": "Required source facts lack qualified evidence: relationships",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "A"
+            },
+            {
+              "id": "B",
+              "label": "B"
+            },
+            {
+              "id": "C",
+              "label": "C"
+            },
+            {
+              "id": "D",
+              "label": "D"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "A"
+            ],
+            [
+              "B"
+            ],
+            [
+              "C"
+            ],
+            [
+              "D"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B",
+              "label": "alpha"
+            },
+            {
+              "source": "A",
+              "target": "C",
+              "label": "beta"
+            },
+            {
+              "source": "A",
+              "target": "D",
+              "label": "gamma"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "beta",
+              "missing": [
+                {
+                  "glyph": "b",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "e",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "t",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "caseId": "terminal:c18237e0a535bdb7",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "2c80b1bfb8c1d004696afdfa5f7487d7bda7a8a08fb4ea00f04ae11c53d3e57d.txt",
+      "outputSha256": "2c80b1bfb8c1d004696afdfa5f7487d7bda7a8a08fb4ea00f04ae11c53d3e57d",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, layout-order",
+      "reason": "Declared source facts failed: nodes, relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "A"
+            },
+            {
+              "id": "B",
+              "label": "B"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "B",
+              "missing": [
+                {
+                  "glyph": "B",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B"
+            }
+          ],
+          "status": "failed",
+          "detail": "A complete bounded frame/text/stroke vocabulary contains no directional head for a required visible arrowheaded relationship; layout or an undirected tee cannot supply the missing head",
+          "actual": []
+        },
+        {
+          "criterion": "layout-order",
+          "expected": [
+            {
+              "before": "A",
+              "after": "B",
+              "axis": "y"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Visible authored label lacks a qualified node-container or wrapping projection: A"
+        }
+      ]
+    },
+    {
+      "project": "anomalyco/opencode",
+      "caseId": "terminal:3042977d4e6d813b",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "6dbbaabe292a5dc96bea8c60e16c838c8e102f9a107006a506f9d35c364b8731.txt",
+      "outputSha256": "6dbbaabe292a5dc96bea8c60e16c838c8e102f9a107006a506f9d35c364b8731",
+      "priorReason": "Declared source facts failed: states",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "Draft",
+              "label": "Draft",
+              "scope": []
+            },
+            {
+              "id": "Review",
+              "label": "Review",
+              "scope": []
+            },
+            {
+              "id": "Approved",
+              "label": "Approved",
+              "scope": []
+            },
+            {
+              "id": "Published",
+              "label": "Published",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Expected exactly one drawn node labelled ◉; found 0",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "Draft",
+              "label": "Draft",
+              "scope": []
+            },
+            {
+              "id": "Review",
+              "label": "Review",
+              "scope": []
+            },
+            {
+              "id": "Approved",
+              "label": "Approved",
+              "scope": []
+            },
+            {
+              "id": "Published",
+              "label": "Published",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "Draft",
+              "scope": []
+            },
+            {
+              "label": "Published",
+              "scope": []
+            },
+            {
+              "label": "Review",
+              "scope": []
+            },
+            {
+              "label": "Approved",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Draft",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Review",
+              "caption": "submit",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Draft",
+              "caption": "changes",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Approved",
+              "caption": "ok",
+              "scope": []
+            },
+            {
+              "source": "Approved",
+              "target": "Published",
+              "caption": "publish",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Published",
+              "caption": "hotfix",
+              "scope": []
+            },
+            {
+              "source": "Published",
+              "target": "[*]",
+              "caption": "",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Expected exactly one drawn node labelled ◉; found 0",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "anomalyco/opencode",
+      "caseId": "terminal:9e4e5a5e072642e8",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "fba35e810be235f2770200e81dabe8f222dcb56e6646cf73594eb2afe917f0fc.txt",
+      "outputSha256": "fba35e810be235f2770200e81dabe8f222dcb56e6646cf73594eb2afe917f0fc",
+      "priorReason": "Declared source facts failed: states",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "שָלוֹם",
+              "label": "שָלוֹם",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Expected exactly one drawn node labelled ◉; found 0",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "שָלוֹם",
+              "label": "שָלוֹם",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "שָלוֹם",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "שָלוֹם",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "שָלוֹם",
+              "target": "[*]",
+              "caption": "",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Expected exactly one drawn node labelled ◉; found 0",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:46c4d04542ff7c8e",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "93d9cf5e5e895f70311be0e7f9718731d96a83dcff52c6723f2cce03a9dbb62e.txt",
+      "outputSha256": "93d9cf5e5e895f70311be0e7f9718731d96a83dcff52c6723f2cce03a9dbb62e",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, node-shapes",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "Hard edge"
+            },
+            {
+              "id": "B",
+              "label": "Round edge"
+            },
+            {
+              "id": "C",
+              "label": "Decision"
+            },
+            {
+              "id": "D",
+              "label": "Result one"
+            },
+            {
+              "id": "E",
+              "label": "Result two"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B",
+              "label": "Link text"
+            },
+            {
+              "source": "B",
+              "target": "C"
+            },
+            {
+              "source": "C",
+              "target": "D",
+              "label": "One"
+            },
+            {
+              "source": "C",
+              "target": "E",
+              "label": "Two"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "Link text",
+              "missing": [
+                {
+                  "glyph": "L",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "x",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "One",
+              "missing": [
+                {
+                  "glyph": "O",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rounded"
+            },
+            {
+              "id": "C",
+              "shape": "diamond"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            },
+            {
+              "id": "E",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:4e4550d086c4e288",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "00cb33c7cc8d36f5ca4135ad6bbc044abbb0e83a0c1d30944d8e398a35c4c391.txt",
+      "outputSha256": "00cb33c7cc8d36f5ca4135ad6bbc044abbb0e83a0c1d30944d8e398a35c4c391",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, groups, node-shapes",
+      "reason": "Declared source facts failed: nodes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "Start",
+              "label": "Start"
+            },
+            {
+              "id": "Auth",
+              "label": "Authenticated?"
+            },
+            {
+              "id": "Load",
+              "label": "Load Dashboard"
+            },
+            {
+              "id": "Login",
+              "label": "Login Form"
+            },
+            {
+              "id": "Validate",
+              "label": "Valid?"
+            },
+            {
+              "id": "Fetch",
+              "label": "Database"
+            },
+            {
+              "id": "Cache",
+              "label": "Cache Layer"
+            },
+            {
+              "id": "API",
+              "label": "API Gateway"
+            },
+            {
+              "id": "Render",
+              "label": "Render Page"
+            },
+            {
+              "id": "End",
+              "label": "Done"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "Start",
+              "missing": [
+                {
+                  "glyph": "S",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "Authenticated?",
+              "missing": [
+                {
+                  "glyph": "t",
+                  "needed": 3,
+                  "visible": 2
+                },
+                {
+                  "glyph": "c",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "Cache Layer",
+              "missing": [
+                {
+                  "glyph": "C",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "c",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "y",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "API Gateway",
+              "missing": [
+                {
+                  "glyph": "G",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "w",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "y",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Start",
+              "target": "Auth"
+            },
+            {
+              "source": "Auth",
+              "target": "Load",
+              "label": "Yes"
+            },
+            {
+              "source": "Auth",
+              "target": "Login",
+              "label": "No"
+            },
+            {
+              "source": "Login",
+              "target": "Validate"
+            },
+            {
+              "source": "Validate",
+              "target": "Load",
+              "label": "Yes"
+            },
+            {
+              "source": "Validate",
+              "target": "Login",
+              "label": "No"
+            },
+            {
+              "source": "Load",
+              "target": "Fetch"
+            },
+            {
+              "source": "Fetch",
+              "target": "Cache"
+            },
+            {
+              "source": "Cache",
+              "target": "API"
+            },
+            {
+              "source": "API",
+              "target": "Render"
+            },
+            {
+              "source": "Render",
+              "target": "End"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: Backend; observed container labels: []"
+        },
+        {
+          "criterion": "groups",
+          "expected": [
+            {
+              "id": "Backend",
+              "label": "Backend",
+              "members": [
+                "Fetch",
+                "Cache",
+                "API"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: Backend; observed container labels: []",
+          "actual": []
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "Start",
+              "shape": "stadium"
+            },
+            {
+              "id": "Auth",
+              "shape": "diamond"
+            },
+            {
+              "id": "Load",
+              "shape": "rectangle"
+            },
+            {
+              "id": "Login",
+              "shape": "parallelogram"
+            },
+            {
+              "id": "Validate",
+              "shape": "diamond"
+            },
+            {
+              "id": "Fetch",
+              "shape": "database"
+            },
+            {
+              "id": "Cache",
+              "shape": "subroutine"
+            },
+            {
+              "id": "API",
+              "shape": "hexagon"
+            },
+            {
+              "id": "Render",
+              "shape": "rectangle"
+            },
+            {
+              "id": "End",
+              "shape": "stadium"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:529e14e4d09b944a",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "bb088572ef093b68e06d919fea55564f72f3054b5968212466ab897e60de87bb.txt",
+      "outputSha256": "bb088572ef093b68e06d919fea55564f72f3054b5968212466ab897e60de87bb",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, node-shapes",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "注文を受け取る"
+            },
+            {
+              "id": "B",
+              "label": "支払いを確認する"
+            },
+            {
+              "id": "C",
+              "label": "在庫を確保する"
+            },
+            {
+              "id": "D",
+              "label": "配送"
+            },
+            {
+              "id": "E",
+              "label": "通知する"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B"
+            },
+            {
+              "source": "B",
+              "target": "C"
+            },
+            {
+              "source": "C",
+              "target": "D"
+            },
+            {
+              "source": "A",
+              "target": "D",
+              "label": "支払い済み"
+            },
+            {
+              "source": "B",
+              "target": "E",
+              "label": "😀 emoji label"
+            },
+            {
+              "source": "E",
+              "target": "D"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "😀 emoji label",
+              "missing": [
+                {
+                  "glyph": "e",
+                  "needed": 2,
+                  "visible": 1
+                },
+                {
+                  "glyph": "m",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            },
+            {
+              "id": "E",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:64788fe4b88b1f1f",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "a9e984bc628f41fd2435d38e8dcf36d8d478fec25448f1c7d8f87445b47ce37f.txt",
+      "outputSha256": "a9e984bc628f41fd2435d38e8dcf36d8d478fec25448f1c7d8f87445b47ce37f",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, groups",
+      "reason": "Declared source facts failed: nodes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "x",
+              "label": "x"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "x",
+              "missing": [
+                {
+                  "glyph": "x",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Outer",
+              "target": "Inner"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: Outer; observed container labels: []"
+        },
+        {
+          "criterion": "groups",
+          "expected": [
+            {
+              "id": "Outer",
+              "label": "Outer",
+              "members": [
+                "Inner"
+              ]
+            },
+            {
+              "id": "Inner",
+              "label": "Inner",
+              "members": [
+                "x"
+              ],
+              "parent": "Outer"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: Outer; observed container labels: []",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:90e78c1ed707e7e4",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "5b3726f26a25e7eefbf427f982d344ad4bce7c36dc1897cee13b16c9fd460dd8.txt",
+      "outputSha256": "5b3726f26a25e7eefbf427f982d344ad4bce7c36dc1897cee13b16c9fd460dd8",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "Start",
+              "label": "Start"
+            },
+            {
+              "id": "Queue",
+              "label": "Queue"
+            },
+            {
+              "id": "Done",
+              "label": "Done"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Start",
+              "target": "Queue"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 1"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 2"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 3"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 4"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 5"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 6"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 7"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 8"
+            },
+            {
+              "source": "Queue",
+              "target": "Done"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "retry 1",
+              "missing": [
+                {
+                  "glyph": "r",
+                  "needed": 2,
+                  "visible": 1
+                }
+              ]
+            },
+            {
+              "caption": "retry 2",
+              "missing": [
+                {
+                  "glyph": "r",
+                  "needed": 2,
+                  "visible": 1
+                },
+                {
+                  "glyph": "2",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 3",
+              "missing": [
+                {
+                  "glyph": "r",
+                  "needed": 2,
+                  "visible": 1
+                },
+                {
+                  "glyph": "3",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 4",
+              "missing": [
+                {
+                  "glyph": "r",
+                  "needed": 2,
+                  "visible": 1
+                },
+                {
+                  "glyph": "4",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 5",
+              "missing": [
+                {
+                  "glyph": "r",
+                  "needed": 2,
+                  "visible": 1
+                },
+                {
+                  "glyph": "5",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 6",
+              "missing": [
+                {
+                  "glyph": "r",
+                  "needed": 2,
+                  "visible": 1
+                },
+                {
+                  "glyph": "6",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 7",
+              "missing": [
+                {
+                  "glyph": "r",
+                  "needed": 2,
+                  "visible": 1
+                },
+                {
+                  "glyph": "7",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 8",
+              "missing": [
+                {
+                  "glyph": "r",
+                  "needed": 2,
+                  "visible": 1
+                },
+                {
+                  "glyph": "8",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "caseId": "terminal:de6e8bf0fd559efc",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "c72003f65eb31b062d7c33403712d707b0f204fbc9bd9c5065e24ebe864a04fa.txt",
+      "outputSha256": "c72003f65eb31b062d7c33403712d707b0f204fbc9bd9c5065e24ebe864a04fa",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, groups",
+      "reason": "Declared source facts failed: nodes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "a",
+              "label": "a"
+            },
+            {
+              "id": "b",
+              "label": "b"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "b",
+              "missing": [
+                {
+                  "glyph": "b",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "G",
+              "target": "a"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: G; observed container labels: []"
+        },
+        {
+          "criterion": "groups",
+          "expected": [
+            {
+              "id": "G",
+              "label": "G",
+              "members": [
+                "a",
+                "b"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: G; observed container labels: []",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "terminal:22e97a0fc1fff023",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "4e0664c41802f7682fa6ec00bbac27503b62a83d140e044b6bb1d6cbc81572af.txt",
+      "outputSha256": "4e0664c41802f7682fa6ec00bbac27503b62a83d140e044b6bb1d6cbc81572af",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, groups, node-shapes",
+      "reason": "Declared source facts failed: nodes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "plugin/ascii-mermaid.lua"
+            },
+            {
+              "id": "B",
+              "label": "init.lua"
+            },
+            {
+              "id": "C",
+              "label": "detect.lua"
+            },
+            {
+              "id": "D",
+              "label": "display.lua"
+            },
+            {
+              "id": "E",
+              "label": "render.lua"
+            },
+            {
+              "id": "F",
+              "label": "index.ts"
+            },
+            {
+              "id": "G",
+              "label": "Parser Layer"
+            },
+            {
+              "id": "H",
+              "label": "ASCII Renderer"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "Parser Layer",
+              "missing": [
+                {
+                  "glyph": "P",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B"
+            },
+            {
+              "source": "B",
+              "target": "C"
+            },
+            {
+              "source": "B",
+              "target": "D"
+            },
+            {
+              "source": "D",
+              "target": "E"
+            },
+            {
+              "source": "E",
+              "target": "F"
+            },
+            {
+              "source": "F",
+              "target": "G"
+            },
+            {
+              "source": "F",
+              "target": "H"
+            },
+            {
+              "source": "G",
+              "target": "H"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: Neovim; observed container labels: []"
+        },
+        {
+          "criterion": "groups",
+          "expected": [
+            {
+              "id": "Neovim",
+              "label": "Neovim",
+              "members": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E"
+              ]
+            },
+            {
+              "id": "Node.js",
+              "label": "Node.js",
+              "members": [
+                "F",
+                "G",
+                "H"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: Neovim; observed container labels: []",
+          "actual": []
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            },
+            {
+              "id": "E",
+              "shape": "rectangle"
+            },
+            {
+              "id": "F",
+              "shape": "rectangle"
+            },
+            {
+              "id": "G",
+              "shape": "rectangle"
+            },
+            {
+              "id": "H",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "terminal:46c4d04542ff7c8e",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "d5c8c44c37ec00fa20e062a01ae8bb99d4fcd3d56b238e627b451b1721a026e0.txt",
+      "outputSha256": "d5c8c44c37ec00fa20e062a01ae8bb99d4fcd3d56b238e627b451b1721a026e0",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, node-shapes",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "Hard edge"
+            },
+            {
+              "id": "B",
+              "label": "Round edge"
+            },
+            {
+              "id": "C",
+              "label": "Decision"
+            },
+            {
+              "id": "D",
+              "label": "Result one"
+            },
+            {
+              "id": "E",
+              "label": "Result two"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B",
+              "label": "Link text"
+            },
+            {
+              "source": "B",
+              "target": "C"
+            },
+            {
+              "source": "C",
+              "target": "D",
+              "label": "One"
+            },
+            {
+              "source": "C",
+              "target": "E",
+              "label": "Two"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "One",
+              "missing": [
+                {
+                  "glyph": "O",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rounded"
+            },
+            {
+              "id": "C",
+              "shape": "diamond"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            },
+            {
+              "id": "E",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "terminal:4e4550d086c4e288",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "5b27bba9080b0236c5412949041f6ec8d5b52f55174303f1cbdbe43a0f7217c9.txt",
+      "outputSha256": "5b27bba9080b0236c5412949041f6ec8d5b52f55174303f1cbdbe43a0f7217c9",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, groups, node-shapes",
+      "reason": "Declared source facts failed: nodes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "Start",
+              "label": "Start"
+            },
+            {
+              "id": "Auth",
+              "label": "Authenticated?"
+            },
+            {
+              "id": "Load",
+              "label": "Load Dashboard"
+            },
+            {
+              "id": "Login",
+              "label": "Login Form"
+            },
+            {
+              "id": "Validate",
+              "label": "Valid?"
+            },
+            {
+              "id": "Fetch",
+              "label": "Database"
+            },
+            {
+              "id": "Cache",
+              "label": "Cache Layer"
+            },
+            {
+              "id": "API",
+              "label": "API Gateway"
+            },
+            {
+              "id": "Render",
+              "label": "Render Page"
+            },
+            {
+              "id": "End",
+              "label": "Done"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "Valid?",
+              "missing": [
+                {
+                  "glyph": "V",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "l",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "API Gateway",
+              "missing": [
+                {
+                  "glyph": "G",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "w",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Start",
+              "target": "Auth"
+            },
+            {
+              "source": "Auth",
+              "target": "Load",
+              "label": "Yes"
+            },
+            {
+              "source": "Auth",
+              "target": "Login",
+              "label": "No"
+            },
+            {
+              "source": "Login",
+              "target": "Validate"
+            },
+            {
+              "source": "Validate",
+              "target": "Load",
+              "label": "Yes"
+            },
+            {
+              "source": "Validate",
+              "target": "Login",
+              "label": "No"
+            },
+            {
+              "source": "Load",
+              "target": "Fetch"
+            },
+            {
+              "source": "Fetch",
+              "target": "Cache"
+            },
+            {
+              "source": "Cache",
+              "target": "API"
+            },
+            {
+              "source": "API",
+              "target": "Render"
+            },
+            {
+              "source": "Render",
+              "target": "End"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: Backend; observed container labels: []"
+        },
+        {
+          "criterion": "groups",
+          "expected": [
+            {
+              "id": "Backend",
+              "label": "Backend",
+              "members": [
+                "Fetch",
+                "Cache",
+                "API"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: Backend; observed container labels: []",
+          "actual": []
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "Start",
+              "shape": "stadium"
+            },
+            {
+              "id": "Auth",
+              "shape": "diamond"
+            },
+            {
+              "id": "Load",
+              "shape": "rectangle"
+            },
+            {
+              "id": "Login",
+              "shape": "parallelogram"
+            },
+            {
+              "id": "Validate",
+              "shape": "diamond"
+            },
+            {
+              "id": "Fetch",
+              "shape": "database"
+            },
+            {
+              "id": "Cache",
+              "shape": "subroutine"
+            },
+            {
+              "id": "API",
+              "shape": "hexagon"
+            },
+            {
+              "id": "Render",
+              "shape": "rectangle"
+            },
+            {
+              "id": "End",
+              "shape": "stadium"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "terminal:529e14e4d09b944a",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "fb3f310d4db0defde64b561c3deee8bce36372427178c812b30657c3b1e444a7.txt",
+      "outputSha256": "fb3f310d4db0defde64b561c3deee8bce36372427178c812b30657c3b1e444a7",
+      "priorReason": "Required source facts lack qualified evidence: nodes, relationships, node-shapes",
+      "reason": "Declared source facts failed: nodes",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "A",
+              "label": "注文を受け取る"
+            },
+            {
+              "id": "B",
+              "label": "支払いを確認する"
+            },
+            {
+              "id": "C",
+              "label": "在庫を確保する"
+            },
+            {
+              "id": "D",
+              "label": "配送"
+            },
+            {
+              "id": "E",
+              "label": "通知する"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required node-caption letters/numbers are absent from the entire interpreted display, even without assigning any container or wrapping projection",
+          "actual": [
+            {
+              "caption": "注文を受け取る",
+              "missing": [
+                {
+                  "glyph": "注",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "通知する",
+              "missing": [
+                {
+                  "glyph": "知",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "A",
+              "target": "B"
+            },
+            {
+              "source": "B",
+              "target": "C"
+            },
+            {
+              "source": "C",
+              "target": "D"
+            },
+            {
+              "source": "A",
+              "target": "D",
+              "label": "支払い済み"
+            },
+            {
+              "source": "B",
+              "target": "E",
+              "label": "😀 emoji label"
+            },
+            {
+              "source": "E",
+              "target": "D"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No qualified closed node containers or explicit state markers are inspectable in this output representation"
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "A",
+              "shape": "rectangle"
+            },
+            {
+              "id": "B",
+              "shape": "rectangle"
+            },
+            {
+              "id": "C",
+              "shape": "rectangle"
+            },
+            {
+              "id": "D",
+              "shape": "rectangle"
+            },
+            {
+              "id": "E",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "unknown",
+          "detail": "Graph representation has no qualified display ownership"
+        }
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "terminal:64788fe4b88b1f1f",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "9afc1cc51426240222af43fcace59658e286b9c7ce8d49f23c1a38fae97108bd.txt",
+      "outputSha256": "9afc1cc51426240222af43fcace59658e286b9c7ce8d49f23c1a38fae97108bd",
+      "priorReason": "Required source facts lack qualified evidence: relationships, groups",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "x",
+              "label": "x"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "x"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Outer",
+              "target": "Inner"
+            }
+          ],
+          "status": "failed",
+          "detail": "A complete bounded frame/text/stroke vocabulary contains no directional head for a required visible arrowheaded relationship; layout or an undirected tee cannot supply the missing head",
+          "actual": []
+        },
+        {
+          "criterion": "groups",
+          "expected": [
+            {
+              "id": "Outer",
+              "label": "Outer",
+              "members": [
+                "Inner"
+              ]
+            },
+            {
+              "id": "Inner",
+              "label": "Inner",
+              "members": [
+                "x"
+              ],
+              "parent": "Outer"
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: Outer; observed container labels: []",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "terminal:de6e8bf0fd559efc",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "7bbf289c1b26be9c31f669bd25bccaee0b70ace72a9a87c9e4aacea7463a669b.txt",
+      "outputSha256": "7bbf289c1b26be9c31f669bd25bccaee0b70ace72a9a87c9e4aacea7463a669b",
+      "priorReason": "Required source facts lack qualified evidence: relationships, groups",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "a",
+              "label": "a"
+            },
+            {
+              "id": "b",
+              "label": "b"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "a"
+            ],
+            [
+              "b"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "G",
+              "target": "a"
+            }
+          ],
+          "status": "failed",
+          "detail": "A complete bounded frame/text/stroke vocabulary contains no directional head for a required visible arrowheaded relationship; layout or an undirected tee cannot supply the missing head",
+          "actual": []
+        },
+        {
+          "criterion": "groups",
+          "expected": [
+            {
+              "id": "G",
+              "label": "G",
+              "members": [
+                "a",
+                "b"
+              ]
+            }
+          ],
+          "status": "unknown",
+          "detail": "No unique enclosing container has the exact authored group label: G; observed container labels: []",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "kitlangton/merman",
+      "caseId": "terminal:3042977d4e6d813b",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "6b78df6970f77d9ad8d8e7e7f857b01ce0557318959f95633d86eb2c8f081510.txt",
+      "outputSha256": "6b78df6970f77d9ad8d8e7e7f857b01ce0557318959f95633d86eb2c8f081510",
+      "priorReason": "Declared source facts failed: states",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "Draft",
+              "label": "Draft",
+              "scope": []
+            },
+            {
+              "id": "Review",
+              "label": "Review",
+              "scope": []
+            },
+            {
+              "id": "Approved",
+              "label": "Approved",
+              "scope": []
+            },
+            {
+              "id": "Published",
+              "label": "Published",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Expected exactly one drawn node labelled ◉; found 0",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "Draft",
+              "label": "Draft",
+              "scope": []
+            },
+            {
+              "id": "Review",
+              "label": "Review",
+              "scope": []
+            },
+            {
+              "id": "Approved",
+              "label": "Approved",
+              "scope": []
+            },
+            {
+              "id": "Published",
+              "label": "Published",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "Draft",
+              "scope": []
+            },
+            {
+              "label": "Published",
+              "scope": []
+            },
+            {
+              "label": "Review",
+              "scope": []
+            },
+            {
+              "label": "Approved",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "Draft",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Review",
+              "caption": "submit",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Draft",
+              "caption": "changes",
+              "scope": []
+            },
+            {
+              "source": "Review",
+              "target": "Approved",
+              "caption": "ok",
+              "scope": []
+            },
+            {
+              "source": "Approved",
+              "target": "Published",
+              "caption": "publish",
+              "scope": []
+            },
+            {
+              "source": "Draft",
+              "target": "Published",
+              "caption": "hotfix",
+              "scope": []
+            },
+            {
+              "source": "Published",
+              "target": "[*]",
+              "caption": "",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Expected exactly one drawn node labelled ◉; found 0",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "kitlangton/merman",
+      "caseId": "terminal:90e78c1ed707e7e4",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "f763c604588b90d84e884ad1728537db5de2e83a0bf53b8d2e87a973dc6301fd.txt",
+      "outputSha256": "f763c604588b90d84e884ad1728537db5de2e83a0bf53b8d2e87a973dc6301fd",
+      "priorReason": "Required source facts lack qualified evidence: relationships",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "Start",
+              "label": "Start"
+            },
+            {
+              "id": "Queue",
+              "label": "Queue"
+            },
+            {
+              "id": "Done",
+              "label": "Done"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "Start"
+            ],
+            [
+              "Queue"
+            ],
+            [
+              "Done"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Start",
+              "target": "Queue"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 1"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 2"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 3"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 4"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 5"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 6"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 7"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 8"
+            },
+            {
+              "source": "Queue",
+              "target": "Done"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "retry 1",
+              "missing": [
+                {
+                  "glyph": "1",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 2",
+              "missing": [
+                {
+                  "glyph": "2",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 3",
+              "missing": [
+                {
+                  "glyph": "3",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 4",
+              "missing": [
+                {
+                  "glyph": "4",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 5",
+              "missing": [
+                {
+                  "glyph": "5",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 6",
+              "missing": [
+                {
+                  "glyph": "6",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 7",
+              "missing": [
+                {
+                  "glyph": "7",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "kitlangton/merman",
+      "caseId": "terminal:9e4e5a5e072642e8",
+      "from": "incorrect",
+      "to": "unknown",
+      "witness": "37732b51b69dd386986891556bcf65cfae695da0afd17866a86210a76d2a0b02.txt",
+      "outputSha256": "37732b51b69dd386986891556bcf65cfae695da0afd17866a86210a76d2a0b02",
+      "priorReason": "Declared source facts failed: states",
+      "reason": "Required source facts lack qualified evidence: transitions",
+      "priorFailed": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "שָלוֹם",
+              "label": "שָלוֹם",
+              "scope": []
+            }
+          ],
+          "status": "failed",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Expected exactly one drawn node labelled ◉; found 0",
+          "actual": []
+        }
+      ],
+      "currentChecks": [
+        {
+          "criterion": "states",
+          "expected": [
+            {
+              "id": "שָלוֹם",
+              "label": "שָלוֹם",
+              "scope": []
+            }
+          ],
+          "status": "passed",
+          "detail": "Exact ordinary-state labels each own one disjoint closed container in the flat scope, independently of transition tracing",
+          "actual": [
+            {
+              "label": "שָלוֹם",
+              "scope": []
+            }
+          ]
+        },
+        {
+          "criterion": "transitions",
+          "expected": [
+            {
+              "source": "[*]",
+              "target": "שָלוֹם",
+              "caption": "",
+              "scope": []
+            },
+            {
+              "source": "שָלוֹם",
+              "target": "[*]",
+              "caption": "",
+              "scope": []
+            }
+          ],
+          "status": "unknown",
+          "detail": "Ordinary state containers, explicit initial/final glyphs and continuous self/cross transitions retain owned captions: Expected exactly one drawn node labelled ◉; found 0",
+          "actual": []
+        }
+      ]
+    },
+    {
+      "project": "xai-org/grok-build",
+      "caseId": "terminal:11426c4cad392dc7",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "32213f18baf2a62a44d0780add372c7cab7eef9f32ed063bba3f1d7bcf1631ea.txt",
+      "outputSha256": "32213f18baf2a62a44d0780add372c7cab7eef9f32ed063bba3f1d7bcf1631ea",
+      "priorReason": "Required source facts lack qualified evidence: relationships",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "Mermaid",
+              "label": "Mermaid.js"
+            },
+            {
+              "id": "Beautiful",
+              "label": "Beautiful Mermaid"
+            },
+            {
+              "id": "ASCII",
+              "label": "Mermaid ASCII"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "Mermaid.js"
+            ],
+            [
+              "Mermaid ASCII"
+            ],
+            [
+              "Beautiful Mermaid"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Mermaid",
+              "target": "Beautiful",
+              "label": "derivative"
+            },
+            {
+              "source": "ASCII",
+              "target": "Beautiful",
+              "label": "ASCII component port",
+              "stroke": "dotted"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "ASCII component port",
+              "missing": [
+                {
+                  "glyph": "c",
+                  "needed": 1,
+                  "visible": 0
+                },
+                {
+                  "glyph": "o",
+                  "needed": 3,
+                  "visible": 0
+                },
+                {
+                  "glyph": "p",
+                  "needed": 2,
+                  "visible": 0
+                },
+                {
+                  "glyph": "n",
+                  "needed": 2,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "criterion": "node-shapes",
+          "expected": [
+            {
+              "id": "Mermaid",
+              "shape": "rectangle"
+            },
+            {
+              "id": "Beautiful",
+              "shape": "rectangle"
+            },
+            {
+              "id": "ASCII",
+              "shape": "rectangle"
+            }
+          ],
+          "status": "passed",
+          "detail": "Closed primitive boundaries or matching shape annotations own their full source labels; hexagons require both sloped ends and connected side walls",
+          "actual": [
+            {
+              "id": "Mermaid",
+              "shape": "rectangle"
+            },
+            {
+              "id": "Beautiful",
+              "shape": "rectangle"
+            },
+            {
+              "id": "ASCII",
+              "shape": "rectangle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "project": "xai-org/grok-build",
+      "caseId": "terminal:90e78c1ed707e7e4",
+      "from": "unknown",
+      "to": "incorrect",
+      "witness": "8ca1abf2ea1458ede131ddec854d22ad51323f7d2bae206f7d1d6dbb5840d8d2.txt",
+      "outputSha256": "8ca1abf2ea1458ede131ddec854d22ad51323f7d2bae206f7d1d6dbb5840d8d2",
+      "priorReason": "Required source facts lack qualified evidence: relationships",
+      "reason": "Declared source facts failed: relationships",
+      "priorFailed": [],
+      "currentChecks": [
+        {
+          "criterion": "nodes",
+          "expected": [
+            {
+              "id": "Start",
+              "label": "Start"
+            },
+            {
+              "id": "Queue",
+              "label": "Queue"
+            },
+            {
+              "id": "Done",
+              "label": "Done"
+            }
+          ],
+          "status": "passed",
+          "detail": "The exact node multiset has one independently observed closed container per authored identity",
+          "actual": [
+            [
+              "Start"
+            ],
+            [
+              "Queue"
+            ],
+            [
+              "Done"
+            ]
+          ]
+        },
+        {
+          "criterion": "relationships",
+          "expected": [
+            {
+              "source": "Start",
+              "target": "Queue"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 1"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 2"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 3"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 4"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 5"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 6"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 7"
+            },
+            {
+              "source": "Queue",
+              "target": "Queue",
+              "label": "retry 8"
+            },
+            {
+              "source": "Queue",
+              "target": "Done"
+            }
+          ],
+          "status": "failed",
+          "detail": "Required relationship-caption letters/numbers are absent from the entire interpreted display; no endpoint or junction pairing is inferred",
+          "actual": [
+            {
+              "caption": "retry 2",
+              "missing": [
+                {
+                  "glyph": "2",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 3",
+              "missing": [
+                {
+                  "glyph": "3",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 4",
+              "missing": [
+                {
+                  "glyph": "4",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 5",
+              "missing": [
+                {
+                  "glyph": "5",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 6",
+              "missing": [
+                {
+                  "glyph": "6",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 7",
+              "missing": [
+                {
+                  "glyph": "7",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            },
+            {
+              "caption": "retry 8",
+              "missing": [
+                {
+                  "glyph": "8",
+                  "needed": 1,
+                  "visible": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "withdrawalReasons": {
+    "adewale/agentic-mermaid": "Five prior faults counted the four decorative black-dot corners of one unfamiliar initial frame as multiple states; its marker ownership is unqualified. Ordinary states remain independently observed.",
+    "lukilabs/beautiful-mermaid": "Four prior faults counted decorative initial-frame corner dots as multiple states; no qualified marker-role decoder can assign those corners.",
+    "anomalyco/opencode": "Two prior faults required literal◉ despite the unfamiliar visible final◎ spelling. No wrong role is inferred solely from literal-glyph absence.",
+    "kitlangton/merman": "Two prior faults required literal◉ despite the unfamiliar visible final◎ spelling. No wrong role is inferred solely from literal-glyph absence."
+  },
+  "retainedKnownRoleDefects": [
+    "emtyty/merslim:terminal:4ae5560b57ca0064",
+    "xai-org/grok-build:terminal:3042977d4e6d813b",
+    "Yassimba/loom:terminal:3042977d4e6d813b",
+    "spacedock-dev/mermaidtext:terminal:3042977d4e6d813b"
+  ]
+}
