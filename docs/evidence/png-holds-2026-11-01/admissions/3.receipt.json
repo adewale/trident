@@ -1,0 +1,26 @@
+{
+  "schema": "trident-offline-png-review-import-v1",
+  "contractsSha256": "2aa8a9ad10d72a5738a52b917c3e14611c99c5b5c514b7767f6b76561612cf6c",
+  "reviewFileSha256": "ec8710744a5f3583d807a14bced550438fd8b44ab7dab4abe871ae6a49088149",
+  "imported": [
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/treeView.md:235",
+      "pngSha256": "d2e119f9f9ad827fe85e72b8f729270ca82174c47b8e7e0a56312c24bbeb82e1",
+      "packetSha256": "d2e119f9f9ad827fe85e72b8f729270ca82174c47b8e7e0a56312c24bbeb82e1",
+      "expectationsSha256": "432110681a605ecba2bed82583e9fe0da4bf824a47e70557e448c7d83386acc6",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    }
+  ],
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0,
+  "reviewSources": [
+    {
+      "path": "/workspace/trident-png-held-2026-11-01/reviews-tree.jsonl",
+      "sha256": "1b426e72c2c28a186acb0e9166115f0ca170bfaeb496b6d5ad1e0d049b47d7f5"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "schema": "trident-tree463-visible-level-geometry-v1",
+  "pngSha256": "d2e119f9f9ad827fe85e72b8f729270ca82174c47b8e7e0a56312c24bbeb82e1",
+  "pngDimensions": [
+    292,
+    160
+  ],
+  "launcherSha256": "ebb7621cb5584aafa9d013562b2ba36eb321dddf77d94ece413df95f11f2ffa2",
+  "greenStemSamples": [
+    {
+      "owner": "implicit-root-stem",
+      "row": 40,
+      "allGreenRuns": [
+        [
+          5,
+          8
+        ]
+      ],
+      "selection": "Rightmost independently visible depth stem on this row",
+      "inkColumns": [
+        5,
+        8
+      ],
+      "width": 2.996078431372549,
+      "center": 6.162303664921465
+    },
+    {
+      "owner": "packages-child-stem",
+      "row": 70,
+      "allGreenRuns": [
+        [
+          90,
+          93
+        ]
+      ],
+      "selection": "Rightmost independently visible depth stem on this row",
+      "inkColumns": [
+        90,
+        93
+      ],
+      "width": 2.996078431372549,
+      "center": 91.16230366492147
+    },
+    {
+      "owner": "mermaid-child-stem",
+      "row": 102,
+      "allGreenRuns": [
+        [
+          90,
+          93
+        ],
+        [
+          175,
+          178
+        ]
+      ],
+      "selection": "Rightmost independently visible depth stem on this row",
+      "inkColumns": [
+        175,
+        178
+      ],
+      "width": 2.996078431372549,
+      "center": 176.16230366492144
+    }
+  ],
+  "adjacentDepthStepsPixels": [
+    85.0,
+    84.99999999999997
+  ],
+  "configuredRowIndent": 80,
+  "independentlyObservedStrokeThicknessPixels": 3,
+  "redLabelBounds": [
+    {
+      "label": "packages",
+      "solidRedInkBounds": [
+        94,
+        38,
+        175,
+        55
+      ]
+    },
+    {
+      "label": "mermaid",
+      "solidRedInkBounds": [
+        179,
+        70,
+        252,
+        84
+      ]
+    },
+    {
+      "label": "src",
+      "solidRedInkBounds": [
+        263,
+        107,
+        286,
+        115
+      ]
+    },
+    {
+      "label": "parser",
+      "solidRedInkBounds": [
+        179,
+        139,
+        229,
+        148
+      ]
+    }
+  ],
+  "sourceBasis": "Pinned publicTreeView schema2824: rowIndent is Horizontal distance between rows differing by one level. paddingX is separately Horizontal padding of label. Neither grants adding default5 to the authored level distance. Root/source owner independently confirmed this reading. The actual raster is1pixel perSVGunit from the owned160high intrinsic/viewBox frame; font20 matching independently corroborates this scale.",
+  "scope": "Pure actualPNG color/geometry samples. Stem owners/depths are independently visible in the native-size tree. No renderer or existingSVGdeclared position supplies the measured85pxsteps; the ownedSVG only supplies a separately audited unit-to-raster registration. Source80 is compared after measurement; no expected-value fitting. Extra implicit root is retained as a conventional tree root, not counted as an authored missing/extra node.",
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0
+}

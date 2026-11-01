@@ -1,0 +1,120 @@
+{
+  "schema": "trident-radar332-joint-range-value-controls-v1",
+  "pngSha256": "ee004a9d7e59fe440f3b1c9bf6eeaef3abebd8a51468b0ce5cadd3b1359b0d0d",
+  "independentGrayscalePlotCircle": {
+    "center": [
+      349.9894837654834,
+      349.98186267866447
+    ],
+    "radius": 300.4301443720993,
+    "samples": 1126,
+    "maxInlierResidual": 0.5361044782939075,
+    "rmsResidual": 0.2640087953429129
+  },
+  "initialMeasurementSha256": "fb677c268b8e14a2568708a9a3694b5c519ee7967d7f85edbe89bd2d637af809",
+  "launcherSha256": "2fdd2dddeb8d8b487a0237dc3dad6f26e8bcf8995b8ea52eec07d751b1cbb507",
+  "rows": [
+    {
+      "owner": "c1",
+      "literalValues": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "literalRange": [
+        0,
+        5
+      ],
+      "wrongRangeSameValues": [
+        0,
+        10
+      ],
+      "wrongRangeActualToExpectedMaxDistance": 150.82434540893422,
+      "wrongRangeActualWithin2pxFraction": 0.0,
+      "scaledValues": [
+        2,
+        4,
+        6,
+        8,
+        10
+      ],
+      "scaledRange": [
+        0,
+        10
+      ],
+      "jointScalingMaximumCoordinateDelta": 0.0,
+      "scaledGeometryEquivalent": true
+    },
+    {
+      "owner": "c2",
+      "literalValues": [
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "literalRange": [
+        0,
+        5
+      ],
+      "wrongRangeSameValues": [
+        0,
+        10
+      ],
+      "wrongRangeActualToExpectedMaxDistance": 150.28138065574916,
+      "wrongRangeActualWithin2pxFraction": 0.0,
+      "scaledValues": [
+        10,
+        8,
+        6,
+        4,
+        2
+      ],
+      "scaledRange": [
+        0,
+        10
+      ],
+      "jointScalingMaximumCoordinateDelta": 0.0,
+      "scaledGeometryEquivalent": true
+    },
+    {
+      "owner": "c3",
+      "literalValues": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "literalRange": [
+        0,
+        5
+      ],
+      "wrongRangeSameValues": [
+        0,
+        10
+      ],
+      "wrongRangeActualToExpectedMaxDistance": 91.08465415300836,
+      "wrongRangeActualWithin2pxFraction": 0.0,
+      "scaledValues": [
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "scaledRange": [
+        0,
+        10
+      ],
+      "jointScalingMaximumCoordinateDelta": 0.0,
+      "scaledGeometryEquivalent": true
+    }
+  ],
+  "scope": "Unprintedradialrange is observed jointly with literalvalues through normalizedgeometry, never decoded from an unlabeledring. Samevalues with wrong0..10range mustfail actualinkgeometry. Valuesandrange bothdoubled yield identicalunprintedcoordinates and remain equivalent. Source range/values are never fitted to coloredink; outerradius remains the original grayscale-only fit. No project renderer/API call.",
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0
+}

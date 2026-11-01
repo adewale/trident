@@ -1,0 +1,24 @@
+{
+  "schema": "trident-selected-png-review-import-v1",
+  "reviews": 1,
+  "inspections": 1,
+  "inventorySha256": "5a82bdaf701224448a1e2418f3d14a303253eb66d645c04c2abc6142adc66408",
+  "contractsSha256": "821c47a699a6ee7d753f03eb22632d3d7ad9ce35c6f34b2b43daaf12123524bc",
+  "originsSha256": "15f25692952fd71db93f2fa1e51a8577e8cb577c306f9b73a9917faa1e7f00f8",
+  "reviewFileSha256": "76f4d69d96bab33008660fbc812452df9307622c5bc87dd157da7d0c3d9d9f98",
+  "imported": [
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/kanban.md:59",
+      "pngSha256": "c0b6af1b31d7b242cdb008af8651e3c8c451418b5953b734a80677188efe0af3",
+      "packetSha256": "c0b6af1b31d7b242cdb008af8651e3c8c451418b5953b734a80677188efe0af3",
+      "expectationsSha256": "765a7e22cb6e6be0c0ef0b943bd54b8bdb25b48771595661b13f1f97729271ec",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    }
+  ],
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0
+}

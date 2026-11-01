@@ -1,5 +1,11 @@
 # Full documentation PNG evidence
 
+The [November 1 supplement](../png-holds-2026-11-01/README.md) contains the
+current PNG grades: Mermaid 492 correct / 42 incorrect / 12 unknown; native
+Flutter 293 / 136 / 117. Its targeted source/image reviews resolve 12 image
+holds without rebuilding this archive or reimporting its unchanged reviews.
+The counts below describe the retained October 31 publication snapshot.
+
 [Download the final archive, checksums and restore receipts](https://github.com/adewale/trident/blob/586bc66045cf4f1400b2d2d4aef40b525387b27f/qualification-evidence/completion-2026-10-31/png-evidence/README.md).
 The three chunks reconstruct one 174,383,266-byte archive; a fresh restore
 verified 449 native ownership records and 951 selected review bindings.

@@ -1,0 +1,40 @@
+{
+  "schema": "trident-new-held-png-normal-import-v1",
+  "method": "Official importOfflinePngReviews on only two freshly authored v2 receipts; original retained owned-image paths and byte-identical native-size inspection packets. No historical review decoding/reimport.",
+  "sourceContractsFile": "/workspace/trident-png-held-completion/corpus/docs-reviewed.json",
+  "sourceContractsSha256": "2aa8a9ad10d72a5738a52b917c3e14611c99c5b5c514b7767f6b76561612cf6c",
+  "inventoryFile": "/workspace/trident-png-full-2026-10-31/docs/inventory.json",
+  "inventorySha256": "5a82bdaf701224448a1e2418f3d14a303253eb66d645c04c2abc6142adc66408",
+  "reviewReceiptFile": "/workspace/trident-png-held-graphs-2026-11-01/reviews-held-graphs.jsonl",
+  "reviewReceiptSha256": "fd457aaa30b5b42169ec68e7aaa012151f0872ed5943e711064a0576527e9ecd",
+  "reviewFile": "/workspace/trident-png-held-graphs-2026-11-01/imported-new-reviews.json",
+  "reviewFileSha256": "0db47b48ed944bc8e27e00743cc13876f5698d7ae3b5aea02e371946bfcd97c8",
+  "importerFile": "/workspace/trident-png-held-completion/unified/docs-png-offline-review.ts",
+  "importerSha256": "0e33e41e60e2656cd97edc83be8f766b92001cd37720b46a4e3c3ccc01cd26b0",
+  "imported": [
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:557",
+      "pngSha256": "d7e91e1454d54e1e49a3b6d0018f4f02edf21b41a9b9028f6f8eadb8e7150fec",
+      "packetSha256": "d7e91e1454d54e1e49a3b6d0018f4f02edf21b41a9b9028f6f8eadb8e7150fec",
+      "expectationsSha256": "b753d73e49fba3eedb8098edcbe81465d447b68861dfefd7084b9fad3ba2562c",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:661",
+      "pngSha256": "135199f6331b027c2f50de1f41ce3f0e4b3d32a60c6fd53b4ba8a428187773d8",
+      "packetSha256": "135199f6331b027c2f50de1f41ce3f0e4b3d32a60c6fd53b4ba8a428187773d8",
+      "expectationsSha256": "733c9c4581dc1dcfe9a191dbbbddedfb6bec1a17ebe07741780f4e18fbd7664d",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    }
+  ],
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0
+}

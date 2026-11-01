@@ -1,0 +1,274 @@
+{
+  "schema": "trident-source-radar332-pixel-geometry-v1",
+  "pngSha256": "ee004a9d7e59fe440f3b1c9bf6eeaef3abebd8a51468b0ce5cadd3b1359b0d0d",
+  "launcherSha256": "53f4815d7db7a43f8b465c1925a2576f554e8dbdecf85b551987e3e0f3677b06",
+  "mappingReceiptSha256": "99b5e7c3a43e7c9f06ebd79d993a5fcbdc051f219312a7f66edb09bdca11ece5",
+  "profile": "mermaid-radar-cubic-coefficient-1fb7869-v1",
+  "independentGrayscalePlotCircle": {
+    "center": [
+      349.9894837654834,
+      349.98186267866447
+    ],
+    "radius": 300.4301443720993,
+    "samples": 1126,
+    "maxInlierResidual": 0.5361044782939075,
+    "rmsResidual": 0.2640087953429129
+  },
+  "actualDarkAxisArms": [
+    {
+      "axis": "A",
+      "angleDegrees": -90.0,
+      "farthestInkRadius": 74.48361225738945,
+      "observedRadiusRatio": 0.24792323158203924
+    },
+    {
+      "axis": "B",
+      "angleDegrees": -18.0,
+      "farthestInkRadius": 74.31776890164079,
+      "observedRadiusRatio": 0.24737121189008962
+    },
+    {
+      "axis": "C",
+      "angleDegrees": 54.0,
+      "farthestInkRadius": 74.53596425778738,
+      "observedRadiusRatio": 0.24809748839806997
+    },
+    {
+      "axis": "D",
+      "angleDegrees": 126.0,
+      "farthestInkRadius": 74.52368846905169,
+      "observedRadiusRatio": 0.24805662768896453
+    },
+    {
+      "axis": "E",
+      "angleDegrees": 198.00000000000003,
+      "farthestInkRadius": 74.29781421000217,
+      "observedRadiusRatio": 0.24730479148583784
+    }
+  ],
+  "sourceAxisScaleFactor": 0.25,
+  "sourceRange": [
+    0,
+    5
+  ],
+  "sourceCoefficient": 0.1,
+  "sourceClosedBezierFormula": "cp1=Pi+t*(Pnext-Pprev);cp2=Pnext-t*(Pnextnext-Pi)",
+  "curves": [
+    {
+      "owner": "c1",
+      "sourceValues": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "strokeRGB": [
+        255,
+        0,
+        0
+      ],
+      "fixedHypothesisChecks": [
+        {
+          "fixedSourceCoefficient": 0.1,
+          "actualInkPixels": 3074,
+          "actualToExpectedMaxDistance": 1.761325911521493,
+          "actualToExpectedP99Distance": 1.6203552184982428,
+          "actualWithin2pxFraction": 1.0,
+          "expectedToActualMaxDistance": 3.630710217027737,
+          "expectedToActualP99Distance": 1.4555898009369013
+        },
+        {
+          "fixedSourceCoefficient": 0,
+          "actualInkPixels": 3074,
+          "actualToExpectedMaxDistance": 19.69459328708772,
+          "actualToExpectedP99Distance": 18.960438548095013,
+          "actualWithin2pxFraction": 0.06798959011060507,
+          "expectedToActualMaxDistance": 17.315409898159174,
+          "expectedToActualP99Distance": 17.009232406864623
+        },
+        {
+          "fixedSourceCoefficient": 0.05,
+          "actualInkPixels": 3074,
+          "actualToExpectedMaxDistance": 10.389536080610748,
+          "actualToExpectedP99Distance": 9.809218687878598,
+          "actualWithin2pxFraction": 0.16720884840598568,
+          "expectedToActualMaxDistance": 8.185695155696877,
+          "expectedToActualP99Distance": 7.877704021427708
+        },
+        {
+          "fixedSourceCoefficient": 0.15,
+          "actualInkPixels": 3074,
+          "actualToExpectedMaxDistance": 10.922856135524333,
+          "actualToExpectedP99Distance": 10.416846790815992,
+          "actualWithin2pxFraction": 0.20559531554977228,
+          "expectedToActualMaxDistance": 8.733154673766599,
+          "expectedToActualP99Distance": 8.553739867005648
+        },
+        {
+          "fixedSourceCoefficient": 0.17,
+          "actualInkPixels": 3074,
+          "actualToExpectedMaxDistance": 14.64796528710186,
+          "actualToExpectedP99Distance": 14.056202591127889,
+          "actualWithin2pxFraction": 0.1730644111906311,
+          "expectedToActualMaxDistance": 12.382985559134282,
+          "expectedToActualP99Distance": 12.171763044704361
+        },
+        {
+          "fixedSourceCoefficient": 0.2,
+          "actualInkPixels": 3074,
+          "actualToExpectedMaxDistance": 20.239917542640196,
+          "actualToExpectedP99Distance": 19.496445698619937,
+          "actualWithin2pxFraction": 0.15289525048796357,
+          "expectedToActualMaxDistance": 17.91937559574436,
+          "expectedToActualP99Distance": 17.649519287727735
+        }
+      ]
+    },
+    {
+      "owner": "c2",
+      "sourceValues": [
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "strokeRGB": [
+        0,
+        255,
+        0
+      ],
+      "fixedHypothesisChecks": [
+        {
+          "fixedSourceCoefficient": 0.1,
+          "actualInkPixels": 3016,
+          "actualToExpectedMaxDistance": 1.7304463811283126,
+          "actualToExpectedP99Distance": 1.5886255537253413,
+          "actualWithin2pxFraction": 1.0,
+          "expectedToActualMaxDistance": 2.462593239328597,
+          "expectedToActualP99Distance": 1.368935186580377
+        },
+        {
+          "fixedSourceCoefficient": 0,
+          "actualInkPixels": 3016,
+          "actualToExpectedMaxDistance": 19.578624290225726,
+          "actualToExpectedP99Distance": 18.87643244220984,
+          "actualWithin2pxFraction": 0.06863395225464192,
+          "expectedToActualMaxDistance": 17.44412771100372,
+          "expectedToActualP99Distance": 17.163517317654648
+        },
+        {
+          "fixedSourceCoefficient": 0.05,
+          "actualInkPixels": 3016,
+          "actualToExpectedMaxDistance": 10.281403949924098,
+          "actualToExpectedP99Distance": 9.772116709671728,
+          "actualWithin2pxFraction": 0.17108753315649866,
+          "expectedToActualMaxDistance": 8.182176204523284,
+          "expectedToActualP99Distance": 7.955355369698436
+        },
+        {
+          "fixedSourceCoefficient": 0.15,
+          "actualInkPixels": 3016,
+          "actualToExpectedMaxDistance": 10.842550551350946,
+          "actualToExpectedP99Distance": 10.523326633818542,
+          "actualWithin2pxFraction": 0.20324933687002653,
+          "expectedToActualMaxDistance": 8.768199332473879,
+          "expectedToActualP99Distance": 8.556083289079647
+        },
+        {
+          "fixedSourceCoefficient": 0.17,
+          "actualInkPixels": 3016,
+          "actualToExpectedMaxDistance": 14.555592725117583,
+          "actualToExpectedP99Distance": 14.1606535755361,
+          "actualWithin2pxFraction": 0.17274535809018568,
+          "expectedToActualMaxDistance": 12.440624057240736,
+          "expectedToActualP99Distance": 12.23386711116632
+        },
+        {
+          "fixedSourceCoefficient": 0.2,
+          "actualInkPixels": 3016,
+          "actualToExpectedMaxDistance": 20.130767217621937,
+          "actualToExpectedP99Distance": 19.58117132138294,
+          "actualWithin2pxFraction": 0.15550397877984085,
+          "expectedToActualMaxDistance": 18.011395435175015,
+          "expectedToActualP99Distance": 17.758385367320063
+        }
+      ]
+    },
+    {
+      "owner": "c3",
+      "sourceValues": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "strokeRGB": [
+        0,
+        0,
+        255
+      ],
+      "fixedHypothesisChecks": [
+        {
+          "fixedSourceCoefficient": 0.1,
+          "actualInkPixels": 2846,
+          "actualToExpectedMaxDistance": 1.6391250263385673,
+          "actualToExpectedP99Distance": 1.564684110058166,
+          "actualWithin2pxFraction": 1.0,
+          "expectedToActualMaxDistance": 0.7006037860105881,
+          "expectedToActualP99Distance": 0.6707514532679463
+        },
+        {
+          "fixedSourceCoefficient": 0,
+          "actualInkPixels": 2846,
+          "actualToExpectedMaxDistance": 16.136410808746188,
+          "actualToExpectedP99Distance": 15.874514404894995,
+          "actualWithin2pxFraction": 0.03900210822206606,
+          "expectedToActualMaxDistance": 13.90737962151159,
+          "expectedToActualP99Distance": 13.732560990323543
+        },
+        {
+          "fixedSourceCoefficient": 0.05,
+          "actualInkPixels": 2846,
+          "actualToExpectedMaxDistance": 8.583511999497782,
+          "actualToExpectedP99Distance": 8.376554887804163,
+          "actualWithin2pxFraction": 0.12087139845397049,
+          "expectedToActualMaxDistance": 6.466297479676152,
+          "expectedToActualP99Distance": 6.354037890234386
+        },
+        {
+          "fixedSourceCoefficient": 0.15,
+          "actualInkPixels": 2846,
+          "actualToExpectedMaxDistance": 9.134680938978216,
+          "actualToExpectedP99Distance": 8.968928035137973,
+          "actualWithin2pxFraction": 0.1500351370344343,
+          "expectedToActualMaxDistance": 7.033892744363131,
+          "expectedToActualP99Distance": 6.957803879497233
+        },
+        {
+          "fixedSourceCoefficient": 0.17,
+          "actualInkPixels": 2846,
+          "actualToExpectedMaxDistance": 12.154388876005166,
+          "actualToExpectedP99Distance": 11.976100911807556,
+          "actualWithin2pxFraction": 0.12297962052002812,
+          "expectedToActualMaxDistance": 10.021349582910199,
+          "expectedToActualP99Distance": 9.953499227563373
+        },
+        {
+          "fixedSourceCoefficient": 0.2,
+          "actualInkPixels": 2846,
+          "actualToExpectedMaxDistance": 16.68561948080567,
+          "actualToExpectedP99Distance": 16.47699729710536,
+          "actualWithin2pxFraction": 0.10681658468025299,
+          "expectedToActualMaxDistance": 14.552152863988217,
+          "expectedToActualP99Distance": 14.468003033662816
+        }
+      ]
+    }
+  ],
+  "scope": "Exact source vectors/range/explicit coefficient create independent expected curves from the actually measured grayscale grid. No actualSVG path/control values or fittedtension/data values are consumed. All fixed wrong-coefficient hypotheses remain recorded as controls. Actuallegend and text are independently inspected, not used as curve fit anchors. Pixel2px envelope covers subpixel stroke/raster/gridmeasurement uncertainty; no content/hash guard is weakened.",
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0
+}
