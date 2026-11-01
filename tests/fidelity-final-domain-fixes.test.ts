@@ -51,6 +51,8 @@ for (const index of [48, 49, 52, 53]) test('C4 complete bracket rows are present
 test('a known C4 badge cannot exempt a separate undeclared body', async () => {
   const extra = `document.querySelector('svg').insertAdjacentHTML('beforeend','<g class="node"><rect x="14" y="12" width="160" height="30" fill="yellow" stroke="black"/><text x="20" y="34" fill="black">[ENTERPRISE]</text></g>')`
   expect(check(await inspect(48, extra), 'painted-node-ownership').status).toBe('failed')
+})
+test('a C4 badge cannot borrow an unrequested kind', async () => {
   const wrong = `const e=[...document.querySelectorAll('text')].find(e=>e.textContent==='[ENTERPRISE]');e.textContent='[UNREQUESTED KIND]'`
   expect(check(await inspect(48, wrong), 'painted-node-ownership').status).toBe('failed')
 })

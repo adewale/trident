@@ -14,12 +14,6 @@ Last recorded measurement/update: **2026-11-01**. 276 imported project/benchmark
 
 [1 November: qualified time and excluded timing bindings](https://github.com/adewale/trident/blob/2c464366c5f05c01b29e41993a64e1eddb77be58/TIMING.md)
 
-[1 November: fresh 27-project campaign — ranked tables](https://github.com/adewale/trident/blob/ecosystem-evidence-2026-11-01/RESULTS.md)
-
-[1 November: complete raw archive and checksums](https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-11-01)
-
-[1 November: qualified time and excluded timing bindings](https://github.com/adewale/trident/blob/2c464366c5f05c01b29e41993a64e1eddb77be58/TIMING.md)
-
 [Frozen B0 qualification — original minimum cohorts and observer](docs/qualification-results-2026-10-31.md)
 
 [31 October campaign: raw archive and checksums](https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-10-31)
