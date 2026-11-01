@@ -26,6 +26,25 @@ function campaign(directory: string, options: { updatedAt: string; measuredAt?: 
   return directory
 }
 
+test('changing only the SVG observer leaves the PNG comparison identity and values intact', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), file = join(root, 'docs/result.json')
+  const result = JSON.parse(readFileSync(file, 'utf8'))
+  result.observations.push(...result.observations.map((row: any) => ({ ...row, format: 'png' })))
+  write(file, result)
+  const inventoryFile = join(root, 'docs/inventory.json'), inventory = JSON.parse(readFileSync(inventoryFile, 'utf8'))
+  inventory.drawingReview = { sha256: 'same-source-facts', observerSha256: 'original-observer' }
+  write(inventoryFile, inventory)
+  const before = importCampaign(empty(), root, 'https://example.test/scoped', catalog)
+  inventory.drawingReviewByFormat = { svg: { ...inventory.drawingReview, observerSha256: 'new-svg-observer' } }
+  write(inventoryFile, inventory)
+  const after = importCampaign(empty(), root, 'https://example.test/scoped', catalog)
+  const drawing = (snapshot: ResultsSnapshot, format: string) => snapshot.tables.find(table => table.unit === 'documentation drawings' && table.outputFormat === format)!
+  expect(drawing(before, 'png').id).toBe(drawing(after, 'png').id)
+  expect(drawing(before, 'png').comparisonKey).toBe(drawing(after, 'png').comparisonKey)
+  expect(drawing(before, 'png').rows).toEqual(drawing(after, 'png').rows)
+  expect(drawing(before, 'svg').comparisonKey).not.toBe(drawing(after, 'svg').comparisonKey)
+})
+
 test('documentation SVG return and reviewed drawing correctness retain separate populations and ranks', () => {
   const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), file = join(root, 'docs/result.json')
   const result = JSON.parse(readFileSync(file, 'utf8'))

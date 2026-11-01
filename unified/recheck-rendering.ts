@@ -165,7 +165,8 @@ export function recheckFeatureAdmission(input: AuthoredFidelityCase, project: st
 
 /** Reassess retained bytes only. No artifact acquisition, public render call or
  * reference parser call occurs here; every original result remains alongside it. */
-export async function recheckRendering(directory: string, out: string, pngReviewFile?: string, executable?: string, pngRasterProfileFile?: string) {
+export async function recheckRendering(directory: string, out: string, pngReviewFile?: string, executable?: string, pngRasterProfileFile?: string, formats: ('svg' | 'png')[] = ['svg', 'png']) {
+  if (!formats.length || new Set(formats).size !== formats.length || formats.some(format => !['svg', 'png'].includes(format))) throw Error('Recheck formats must be svg and/or png')
   directory = resolve(directory); out = resolve(out)
   if (existsSync(out) || !relative(directory, out).startsWith('..')) throw Error('Choose a fresh output outside the input campaign')
   const recorded = read(join(directory, 'report.json'))
@@ -183,7 +184,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
   const pngBytes = pngReviewFile ? readFileSync(pngReviewFile) : Buffer.from('[]')
   const pngReviews = admitPngReviews(docsInventory.cases, sourceReviews, JSON.parse(pngBytes.toString()) as DocsPngReview[])
   const raster = pngRasterProfileFile ? readDocsPngRasterProfile(pngRasterProfileFile) : undefined
-  const producer = { source: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: tridentDirectory, encoding: 'utf8' }).trim(), producers: protocolIdentity(tridentDirectory, ['unified/recheck-rendering.ts']), browser: executableIdentity(executable ?? defaultChromium(chromium)), rendererInvocations: 0, environment: Object.fromEntries(['LANG', 'LC_ALL', 'LD_LIBRARY_PATH', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH'].map(name => [name, process.env[name] ?? null])), fontReadiness: 'Await document.fonts.ready; only frozen campaign font assets can load', ...(raster ? { pngRasterProfileSha256: raster.fileSha256, pngRasterProfile: raster.profile, referenceRasterizerMode: 'Offline resvg preservation only; no project API calls' } : {}), startedAt: began }
+  const producer = { formats, source: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: tridentDirectory, encoding: 'utf8' }).trim(), producers: protocolIdentity(tridentDirectory, ['unified/recheck-rendering.ts']), browser: executableIdentity(executable ?? defaultChromium(chromium)), rendererInvocations: 0, environment: Object.fromEntries(['LANG', 'LC_ALL', 'LD_LIBRARY_PATH', 'FONTCONFIG_FILE', 'FONTCONFIG_PATH'].map(name => [name, process.env[name] ?? null])), fontReadiness: 'Await document.fonts.ready; only frozen campaign font assets can load', ...(raster ? { pngRasterProfileSha256: raster.fileSha256, pngRasterProfile: raster.profile, referenceRasterizerMode: 'Offline resvg preservation only; no project API calls' } : {}), startedAt: began }
   const assets = retainedObserverAssets(directory)
   const observerSha256 = evidenceDigest({ producers: producer.producers, browser: producer.browser, environment: producer.environment, fontReadiness: producer.fontReadiness, resourceManifestSha256: assets.manifestSha256, resourcePolicy: assets.policy })
   cpSync(directory, out, { recursive: true, dereference: false, filter: path => !['node_modules', '.git'].includes(path.split('/').at(-1)!) })
@@ -246,9 +247,9 @@ export async function recheckRendering(directory: string, out: string, pngReview
       cpSync(source, join(out, 'recheck-history/results', originalSha256 + '.json'), { recursive: false })
       if (boundary.suite === 'docs') {
         const controls: BenchmarkObservation[] = []
-        result.observations = result.observations.filter((row: any) => row.operation !== 'source-rejection')
+        result.observations = result.observations.filter((row: any) => row.operation !== 'source-rejection' || !formats.includes(row.format))
         for (const row of result.observations) {
-          if (row.operation !== 'drawing-checks') continue
+          if (row.operation !== 'drawing-checks' || !formats.includes(row.format)) continue
           const input = docsInventory.cases.find((item: any) => item.id === row.caseId), expected = sourceReviews.find(item => item.id === row.caseId) ?? null
           if (!input) throw Error('Retained drawing observation has no declared documentation input')
           const witness = row.metrics?.witness ? safe(join(out, 'docs'), row.metrics.witness, out) : undefined
@@ -299,9 +300,18 @@ export async function recheckRendering(directory: string, out: string, pngReview
         result.observations.push(...controls)
         // Fresh grades cannot keep the old source/observer comparison identity.
         // The owning preparation/context remains untouched for raw-call replay.
-        const updatedInventory = { ...docsInventory, drawingReview: { protocol: 'reviewed-docs-svg-content-v1', sha256: hash(sourceReviewBytes), cases: drawingInventory, observerSha256 }, pngReviewSha256: hash(pngBytes), drawingObserver: producer }
+        const freshReview = { protocol: 'reviewed-docs-svg-content-v1', sha256: hash(sourceReviewBytes), cases: drawingInventory, observerSha256 }
+        for (const format of ['svg', 'png'] as const) if (!formats.includes(format) && result.observations.some((row: any) => row.format === format)) {
+          const previous = docsInventory.drawingReviewByFormat?.[format] ?? docsInventory.drawingReview
+          if (previous?.sha256 !== freshReview.sha256) throw Error('Unselected format has different or missing source-review identity; recheck both formats')
+        }
+        const updatedInventory = { ...docsInventory,
+          ...(formats.length === 2 ? { drawingReview: freshReview, drawingObserver: producer } : {}),
+          drawingReviewByFormat: { ...docsInventory.drawingReviewByFormat, ...Object.fromEntries(formats.map(format => [format, freshReview])) },
+          drawingObserverByFormat: { ...docsInventory.drawingObserverByFormat, ...Object.fromEntries(formats.map(format => [format, producer])) },
+          ...(formats.includes('png') ? { pngReviewSha256: hash(pngBytes) } : {}) }
         write(join(out, 'docs/inventory.json'), updatedInventory)
-      } else if (boundary.suite === 'fidelity') {
+      } else if (boundary.suite === 'fidelity' && formats.includes('svg')) {
         const selected = authored.filter(item => result.selectedCaseIds.includes(item.id))
         const original = result.observations as BenchmarkObservation[]
         // Invalidate old paint evidence before loading any witnesses. Missing
@@ -346,7 +356,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
       write(destination, result)
     }
   } finally { await context.close(); await browser.close() }
-  const updated = { ...report, options: { ...(report as any).options, out }, updatedAt: new Date().toISOString(), results: report.results.map(boundary => ({ ...boundary, ...(boundary.out ? { out: remap(boundary.out) } : {}) })), recheck: { ...producer, gradingSha256, gradingFile, originalInventorySha256: inventory.sha256, stimulusSha256: grading.stimulusSha256, originalContractsSha256: grading.originalContractsSha256, gradingContractsSha256: grading.gradingContractsSha256, resourceManifestSha256: assets.manifestSha256, recordedSourceRoots: aliases, originalReportSha256: hash(readFileSync(join(directory, 'report.json'))), pngReviewSha256: hash(pngBytes), docsSvgChecked: docsChecked, featureSvgChecked: featureChecked }, scope: 'Coverage receipts with explicit fresh grading of retained outputs under current source contracts. Original measurements, inventories, public return UUIDs and collected results remain present; SVG/PNG checks call no project renderer; optional offline resvg preservation is recorded separately. Clock comparisons remain unqualified.' }
+  const updated = { ...report, options: { ...(report as any).options, out }, updatedAt: new Date().toISOString(), results: report.results.map(boundary => ({ ...boundary, ...(boundary.out ? { out: remap(boundary.out) } : {}) })), recheck: { ...producer, gradingSha256, gradingFile, originalInventorySha256: inventory.sha256, stimulusSha256: grading.stimulusSha256, originalContractsSha256: grading.originalContractsSha256, gradingContractsSha256: grading.gradingContractsSha256, resourceManifestSha256: assets.manifestSha256, recordedSourceRoots: aliases, originalReportSha256: hash(readFileSync(join(directory, 'report.json'))), pngReviewSha256: hash(pngBytes), docsSvgChecked: docsChecked, featureSvgChecked: featureChecked }, scope: 'Coverage receipts with fresh grading of the selected formats under current source contracts; unselected formats retain their original grading identities. Original measurements, inventories, public return UUIDs and collected results remain present; SVG/PNG checks call no project renderer; optional offline resvg preservation is recorded separately. Clock comparisons remain unqualified.' }
   if (!existsSync(join(out, 'report.collected.json'))) cpSync(join(directory, 'report.json'), join(out, 'report.collected.json'))
   write(join(out, 'report.json'), updated)
   write(join(out, 'recheck-receipt.json'), updated.recheck)
@@ -354,11 +364,11 @@ export async function recheckRendering(directory: string, out: string, pngReview
 }
 
 if (import.meta.main) {
-  if (process.argv.includes('--help')) console.log('bun unified/recheck-rendering.ts --campaign DIR --out FRESH_DIR [--png-reviews FILE] [--png-raster-profile FILE] [--executable CHROMIUM]\nRechecks retained SVGs and reviewed PNGs without project renderer or reference-parser calls. Original results remain alongside the new verdicts.')
+  if (process.argv.includes('--help')) console.log('bun unified/recheck-rendering.ts --campaign DIR --out FRESH_DIR [--formats svg,png] [--png-reviews FILE] [--png-raster-profile FILE] [--executable CHROMIUM]\nRechecks retained SVGs and reviewed PNGs without project renderer or reference-parser calls. Original results remain alongside the new verdicts.')
   else {
     const args = new Map<string, string>()
-    for (let index = 2; index < process.argv.length; index += 2) { const key = process.argv[index]!, value = process.argv[index + 1]; if (!['--campaign', '--out', '--png-reviews', '--png-raster-profile', '--executable'].includes(key) || !value || args.has(key)) throw Error('Use --help'); args.set(key, value) }
+    for (let index = 2; index < process.argv.length; index += 2) { const key = process.argv[index]!, value = process.argv[index + 1]; if (!['--campaign', '--out', '--formats', '--png-reviews', '--png-raster-profile', '--executable'].includes(key) || !value || args.has(key)) throw Error('Use --help'); args.set(key, value) }
     if (!args.has('--campaign') || !args.has('--out')) throw Error('Use --help')
-    console.log(JSON.stringify(await recheckRendering(args.get('--campaign')!, args.get('--out')!, args.get('--png-reviews'), args.get('--executable'), args.get('--png-raster-profile'))))
+    console.log(JSON.stringify(await recheckRendering(args.get('--campaign')!, args.get('--out')!, args.get('--png-reviews'), args.get('--executable'), args.get('--png-raster-profile'), args.has('--formats') ? args.get('--formats')!.split(',') as ('svg' | 'png')[] : undefined)))
   }
 }

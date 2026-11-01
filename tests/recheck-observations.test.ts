@@ -292,13 +292,13 @@ test('old absolute font URLs require sealed peer bytes and exact policy sources'
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 
-test('DaveBench regrading requires the original literal-source public return, not another project or round witness', () => {
-  const campaign = mkdtempSync(join(tmpdir(), 'recheck-svg-return-')), root = join(campaign, 'docs')
+for (const layout of ['docs', 'docs/svg']) test('DaveBench regrading owns literal-source public returns in ' + layout, () => {
+  const campaign = mkdtempSync(join(tmpdir(), 'recheck-svg-return-')), root = join(campaign, layout)
   try {
     const source = { id: 'docs:fixture', source: 'flowchart LR\nA-->B' }, svg = '<svg xmlns="http://www.w3.org/2000/svg"/>'
     const engine = { kind: 'function', root: '/original/renderer', entry: 'api.js', version: 'fixture', artifactSha256: 'a'.repeat(64) }
     const context = { artifacts: [{ project, admission: { root: engine.root, entry: '/original/renderer/api.js', version: engine.version, artifactSha256: engine.artifactSha256 } }] }, inventory = { cases: [source] }
-    mkdirSync(join(campaign, 'preparation'), { recursive: true }); mkdirSync(root)
+    mkdirSync(join(campaign, 'preparation'), { recursive: true }); mkdirSync(root, { recursive: true })
     const files: Record<string, { path: string; sha256: string }> = {}
     for (const [key, path, value] of [['inventories', 'preparation/inventories.json', { docs: inventory }], ['browsers', 'preparation/browsers.json', [{ node: { id: project }, artifact: { transportVariant: 'primary' }, browser: engine }]]] as const) {
       const bytes = JSON.stringify(value); writeFileSync(join(campaign, path), bytes); files[key] = { path, sha256: evidenceBytesDigest(bytes) }
@@ -311,7 +311,7 @@ test('DaveBench regrading requires the original literal-source public return, no
     journal.returned(start, svg, null)
     const raw = { value: { status: 'passed', svg }, invocationId: start.attemptId }
     checkpoint.record(JSON.stringify(['raw-svg', 1, project, 'primary', source.id]), raw)
-    const request = { root, project, source, round: 1, variant: 'primary', svg, attemptId: start.attemptId, remap: (path: string) => path, ownership }
+    const request = { root: join(campaign, 'docs'), project, source, round: 1, variant: 'primary', svg, attemptId: start.attemptId, remap: (path: string) => path, ownership }
     expect(requireRetainedDocsSvgReturn(request).attemptId).toBe(start.attemptId)
     expect(() => requireRetainedDocsSvgReturn({ ...request, source: { ...source, source: source.source + '\nB-->A' } })).toThrow('literal source')
     expect(() => requireRetainedDocsSvgReturn({ ...request, round: 2 })).toThrow('own source/project/round')
@@ -328,6 +328,9 @@ test('DaveBench regrading requires the original literal-source public return, no
     expect(() => requireRetainedDocsSvgReturn({ ...request, round: 3, attemptId: wrongArtifact.attemptId })).toThrow('frozen engine')
     const editedContext = { ...ownership, collectionIdentity: { ...ownership.collectionIdentity, context: { ...context, altered: true } } }
     expect(() => requireRetainedDocsSvgReturn({ ...request, ownership: editedContext })).toThrow('header identity')
+    const otherRoot = join(campaign, layout === 'docs' ? 'docs/svg' : 'docs')
+    mkdirSync(otherRoot, { recursive: true }); writeFileSync(join(otherRoot, 'context.json'), JSON.stringify(context))
+    expect(() => retainedDocsSvgOwnershipContext(campaign)).toThrow('ambiguous')
   } finally { rmSync(campaign, { recursive: true, force: true }) }
 })
 
@@ -337,7 +340,7 @@ test('native CLI SVG replay preserves the original subset render ID, inner proce
     const source = { id: 'docs:second-selected', source: 'flowchart LR\nA-->B' }, other = { id: 'docs:first-selected', source: 'flowchart LR\nX-->Y' }, svg = '<svg xmlns="http://www.w3.org/2000/svg"/>'
     const native = { kind: 'cli' as const, root: '/original/native', executable: '/original/native/render', version: 'fixture-native', sha256: 'f'.repeat(64), outputBindings: { svg: { args: ['--format', '{format}', '--input', '{input}', '--output', '{output}'], input: 'file' as const } } }
     const context = { selectedCaseIds: [other.id, source.id], artifacts: [{ project, admission: { root: native.root, entry: native.executable, version: native.version, artifactSha256: native.sha256 } }] }, inventory = { cases: [source, other] }
-    mkdirSync(join(campaign, 'preparation'), { recursive: true }); mkdirSync(root)
+    mkdirSync(join(campaign, 'preparation'), { recursive: true }); mkdirSync(root, { recursive: true })
     const files: Record<string, { path: string; sha256: string }> = {}
     for (const [key, path, value] of [
       ['inventories', 'preparation/inventories.json', { docs: inventory }],
@@ -374,7 +377,10 @@ test('the real archive regrader reuses retained SVGs across contract enrichment 
     save(join(collected, 'preparation/inventories.json'), inventories)
     save(join(collected, 'preparation/community-browser-prepared.json'), browsers)
     save(join(collected, 'preparation.json'), { schema: 'trident-campaign-preparation-v1', files: Object.fromEntries([['inventories', 'preparation/inventories.json'], ['browsers', 'preparation/community-browser-prepared.json']].map(([key, path]) => [key, { path, sha256: evidenceBytesDigest(readFileSync(join(collected, path!))) }])) })
-    save(join(collected, 'docs/inventory.json'), docs)
+    const sourceReviewSha256 = evidenceBytesDigest(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url)))
+    save(join(collected, 'docs/inventory.json'), { ...docs, drawingReview: { sha256: sourceReviewSha256, observerSha256: 'old-png-observer' }, pngReviewSha256: 'old-png-reviews' })
+    const preservedPng = { suite: 'docs', caseId: docs.cases[0].id, format: 'png', operation: 'source-rejection', status: 'blocked', detail: 'Synthetic unselected PNG observation', metrics: { project } }
+    save(join(collected, 'docs/result.json'), { observations: [preservedPng], finishedAt: at })
     const fixture = join(collected, 'fidelity/attempts/original-attempt'), receiptPath = join(fixture, 'community-fidelity-cases.json'), witness = join(fixture, 'actual.svg.gz')
     const svg = readFileSync(new URL('./fixtures/fidelity/mermaid-flowchart-drop-shadow.svg', import.meta.url), 'utf8'), legacy = cases.find(value => value.id === input.id)!
     const oldBinding = makeSvgObservationBinding(legacy, evidenceBytesDigest(svg), 'e'.repeat(64))
@@ -383,11 +389,17 @@ test('the real archive regrader reuses retained SVGs across contract enrichment 
     writeFileSync(witness, gzipSync(svg))
     const finishedAt = '2026-01-01T00:01:00Z', result = { selectedCaseIds: [input.id], finishedAt, observations: previous, svgAssessments: [{ project }], artifacts: [receiptPath] }
     save(join(collected, 'fidelity/result.json'), result)
-    const report = { startedAt: at, updatedAt: finishedAt, projects: [project], profile: 'synthetic archive regrade control', rounds: 1, options: { out: collected }, results: [{ suite: 'fidelity', out: join(collected, 'fidelity'), status: 'passed' }] }
+    const report = { startedAt: at, updatedAt: finishedAt, projects: [project], profile: 'synthetic archive regrade control', rounds: 1, options: { out: collected }, results: [{ suite: 'fidelity', out: join(collected, 'fidelity'), status: 'passed' }, { suite: 'docs', out: join(collected, 'docs'), status: 'blocked' }] }
     save(join(collected, 'report.json'), report)
     const originals = ['preparation/inventories.json', 'report.json', 'fidelity/result.json', 'fidelity/attempts/original-attempt/community-fidelity-cases.json', 'fidelity/attempts/original-attempt/actual.svg.gz'].map(path => ({ path, sha256: evidenceBytesDigest(readFileSync(join(collected, path))) }))
-    const regrade = await recheckRendering(collected, out, undefined, chromiumExecutable)
+    const regrade = await recheckRendering(collected, out, undefined, chromiumExecutable, undefined, ['svg'])
     expect(regrade.rendererInvocations).toBe(0)
+    expect(regrade.formats).toEqual(['svg'])
+    expect(JSON.parse(readFileSync(join(out, 'docs/result.json'), 'utf8')).observations).toEqual([preservedPng])
+    const scopedInventory = JSON.parse(readFileSync(join(out, 'docs/inventory.json'), 'utf8'))
+    expect(scopedInventory.drawingReview.observerSha256).toBe('old-png-observer')
+    expect(scopedInventory.pngReviewSha256).toBe('old-png-reviews')
+    expect(scopedInventory.drawingReviewByFormat.svg.observerSha256).not.toBe('old-png-observer')
     expect(regrade.originalContractsSha256).not.toBe(regrade.gradingContractsSha256)
     const fresh = JSON.parse(readFileSync(join(out, 'fidelity/result.json'), 'utf8'))
     expect(fresh.svgAssessments[0].cases[0].status).toBe('correct')
@@ -395,7 +407,7 @@ test('the real archive regrader reuses retained SVGs across contract enrichment 
     expect(fresh.observations.filter((row: BenchmarkObservation) => row.metrics?.rawInvocationId).every((row: BenchmarkObservation) => row.metrics?.rawInvocationId === 'original-attempt-id')).toBe(true)
     expect(evidenceDigest(JSON.parse(readFileSync(join(out, regrade.gradingFile), 'utf8')))).toBe(regrade.gradingSha256)
     const collectedResult = evidenceBytesDigest(readFileSync(join(out, 'fidelity/result.collected.json'))), collectedReport = evidenceBytesDigest(readFileSync(join(out, 'report.collected.json')))
-    await recheckRendering(out, again, undefined, chromiumExecutable)
+    await recheckRendering(out, again, undefined, chromiumExecutable, undefined, ['svg'])
     expect(evidenceBytesDigest(readFileSync(join(again, 'fidelity/result.collected.json')))).toBe(collectedResult)
     expect(evidenceBytesDigest(readFileSync(join(again, 'report.collected.json')))).toBe(collectedReport)
     for (const original of originals) expect(evidenceBytesDigest(readFileSync(join(collected, original.path)))).toBe(original.sha256)

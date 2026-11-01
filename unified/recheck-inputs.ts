@@ -1,4 +1,4 @@
-import { readFileSync, realpathSync } from 'node:fs'
+import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { dirname, isAbsolute, join, relative, resolve } from 'node:path'
 import type { Route } from 'playwright'
 import type { AuthoredFidelityCase } from '../fidelity/meaning.ts'
@@ -152,7 +152,10 @@ export async function routeRetainedObserver(route: Route, assets: ReturnType<typ
 export function retainedDocsSvgOwnershipContext(campaign: string) {
   const browsers = readRetainedPreparationInput(campaign, 'browsers'), prepared = JSON.parse(browsers.bytes.toString())
   const inventory = JSON.parse(readRetainedPreparationInput(campaign, 'inventories').bytes.toString()).docs
-  const context = JSON.parse(readFileSync(owned(campaign, 'docs/context.json'), 'utf8'))
+  const contexts = ['docs/context.json', 'docs/svg/context.json'].filter(file => existsSync(join(campaign, file)))
+  if (contexts.length !== 1) throw Error('Original documentation SVG context is missing or ambiguous')
+  const collectionRoot = dirname(owned(campaign, contexts[0]!))
+  const context = JSON.parse(readFileSync(join(collectionRoot, 'context.json'), 'utf8'))
   const variants = browsers.manifest.files.variants ? JSON.parse(readRetainedPreparationInput(campaign, 'variants').bytes.toString()) : []
   if (!Array.isArray(prepared) || !inventory?.cases || !Array.isArray(context.artifacts) || new Set(context.artifacts.map((row: any) => row.project)).size !== context.artifacts.length || new Set(prepared.map((peer: any) => peer.node?.id)).size !== prepared.length) throw Error('Original documentation SVG artifact/source context is ambiguous')
   if (!Array.isArray(variants) || new Set(variants.map((row: any) => JSON.stringify([row.project, row.output]))).size !== variants.length) throw Error('Original documentation output-variant context is ambiguous')
@@ -169,7 +172,7 @@ export function retainedDocsSvgOwnershipContext(campaign: string) {
     if (!engine || engine.root !== admission.root || resolve(engine.root, engine.entry) !== resolve(admission.entry) || engine.version !== admission.version || engine.artifactSha256 !== admission.artifactSha256) continue
     engines.set(artifact.project, { engine, variant, ...(selected?.kind === 'cli' ? { cliArtifact: selected as CommunityArtifact } : {}) })
   }
-  return { collectionIdentity: { context, inventory }, engines }
+  return { collectionRoot, collectionIdentity: { context, inventory }, engines }
 }
 
 /** DaveBench ownership uses the original durable public-call capture. A prior
@@ -177,10 +180,12 @@ export function retainedDocsSvgOwnershipContext(campaign: string) {
 export function requireRetainedDocsSvgReturn(input: { root: string; project: string; source: { id: string; source: string }; round: number; variant: string; svg: string; attemptId?: string; remap: (path: string) => string; ownership: ReturnType<typeof retainedDocsSvgOwnershipContext> }) {
   const frozen = input.ownership.engines.get(input.project)
   if (!frozen || frozen.variant !== input.variant || !Number.isSafeInteger(input.round) || input.round < 1) throw Error('SVG return has no matching sealed original engine/round/variant context')
-  const raw = readCheckpointValue<any>(input.root, JSON.stringify(['raw-svg', input.round, input.project, input.variant, input.source.id]), input.ownership.collectionIdentity)
+  const collectionRoot = input.ownership.collectionRoot
+  owned(input.root, relative(input.root, collectionRoot))
+  const raw = readCheckpointValue<any>(collectionRoot, JSON.stringify(['raw-svg', input.round, input.project, input.variant, input.source.id]), input.ownership.collectionIdentity)
   if (!raw || raw.value?.status !== 'passed' || raw.value?.svg !== input.svg || typeof raw.invocationId !== 'string' || input.attemptId !== raw.invocationId) throw Error('SVG witness differs from its own source/project/round raw return')
   const external = raw.value?.transportObservation?.metrics?.rawInvocationDirectory
-  const directory = external ? input.remap(external) : join(input.root, 'invocations')
+  const directory = external ? input.remap(external) : join(collectionRoot, 'invocations')
   owned(input.root, relative(input.root, directory))
   const identity = { schema: 'trident-invocation-journal-v1' }
   const started = admitInvocationEvidence(readCheckpointValue(directory, raw.invocationId + ':started', identity)), returned = admitInvocationEvidence(readCheckpointValue(directory, raw.invocationId + ':returned', identity))
@@ -188,7 +193,7 @@ export function requireRetainedDocsSvgReturn(input: { root: string; project: str
   let bindingSha256: string, invokedCaseId = input.source.id
   if (frozen.cliArtifact) {
     const selected = input.ownership.collectionIdentity.context.selectedCaseIds
-    if (!Array.isArray(selected) || new Set(selected).size !== selected.length || !selected.includes(input.source.id) || typeof external !== 'string' || resolve(directory) !== resolve(input.root, 'raw-cli-invocations')) throw Error('CLI SVG has no original selected-case/render-ID association')
+    if (!Array.isArray(selected) || new Set(selected).size !== selected.length || !selected.includes(input.source.id) || typeof external !== 'string' || resolve(directory) !== resolve(collectionRoot, 'raw-cli-invocations')) throw Error('CLI SVG has no original selected-case/render-ID association')
     // The shared docs wrapper passes its original selected-case render ID to
     // runCommunityCli. Its inner process round is 1; the outer docs round lives
     // in that render ID, not a fabricated reinterpretation of the inner clock.
