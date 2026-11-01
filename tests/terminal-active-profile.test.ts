@@ -100,7 +100,9 @@ test('active recheck emits one verified-count drawing table, ranks observed posi
     // output or benchmark score. Every other drawing/control stays uncollected.
     const text = readFileSync(new URL('./fixtures/terminal/state-alias-adaptation-synthetic.txt', import.meta.url))
     writeFileSync(join(directory, 'known-state.txt'), text)
-    const record = { profile: terminalActiveProfileId, corpusVersion: active.version, corpusFile: active.corpusFile, corpusSha256: active.corpusSha256, inventory: active.cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project, version: 'synthetic uncollected active cohort' }, { project: observed, version: 'synthetic retained reporting control' }], outputs: [{ project: observed, caseId: adaptationId, witness: 'known-state.txt', sha256: createHash('sha256').update(text).digest('hex') }], transportObservations: [], sourceReference: active.cases.map(input => ({ project: 'mermaid-js/mermaid', caseId: input.id, role: 'source-reference-only', sourceAccepted: null })), startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z' }
+    const invalidInput = active.cases.find(input => input.intent === 'invalid')!
+    const acceptedInvalid = { project: observed, caseId: invalidInput.id, sourceSha256: invalidInput.sourceSha256, kind: 'accepted', publicBoundary: 'Synthetic public-return reporting control', detail: 'Actual synthetic parser returned', observerSha256: 'a'.repeat(64) }
+    const record = { profile: terminalActiveProfileId, corpusVersion: active.version, corpusFile: active.corpusFile, corpusSha256: active.corpusSha256, inventory: active.cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project, version: 'synthetic uncollected active cohort' }, { project: observed, version: 'synthetic retained reporting control' }], outputs: [{ project: observed, caseId: adaptationId, witness: 'known-state.txt', sha256: createHash('sha256').update(text).digest('hex') }, { project: observed, caseId: invalidInput.id, typedSourceOutcome: acceptedInvalid }], transportObservations: [], sourceReference: active.cases.map(input => ({ project: 'mermaid-js/mermaid', caseId: input.id, role: 'source-reference-only', sourceAccepted: null })), startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z' }
     writeFileSync(join(directory, 'raw.json'), JSON.stringify(record))
     const command = new URL('../commands.ts', import.meta.url).pathname
     const result = spawnSync(process.execPath, [command, 'bench', '--terminal', '--saved-terminal', directory, '--out', out], { env: { ...process.env, CI: 'true', GITHUB_ACTIONS: 'true', TRIDENT_MERMAID_ORACLE: '', MERMAID_REFERENCE_DIR: '/missing/terminal-reference' }, encoding: 'utf8', timeout: 20_000 })
@@ -114,6 +116,9 @@ test('active recheck emits one verified-count drawing table, ranks observed posi
     const { planned, correct, incorrect, unknown } = report.terminalAssessments[1]
     expect({ planned, correct, incorrect, unknown }).toEqual({ planned: 116, correct: 1, incorrect: 0, unknown: 115 })
     expect(report.terminalRejectionAssessments[0]).toMatchObject({ planned: 4, correct: 0, unknown: 4 })
+    expect(report.terminalRejectionAssessments[1]).toMatchObject({ planned: 4, correct: 0, incorrect: 1, unknown: 3 })
+    const rejectionMarkdown = readFileSync(join(out, 'README.md'), 'utf8').split('## Invalid-source controls')[1]!
+    expect(rejectionMarkdown.indexOf('| 1 | ' + observed)).toBeLessThan(rejectionMarkdown.indexOf('| — | ' + project))
     expect(report.observations.some((row: any) => row.caseId === diagnosticId)).toBe(false)
     expect(report.recheck).toMatchObject({ rendererInvocations: 0, sourceReferenceCalls: 0, originalProfile: terminalActiveProfileId })
     const tables = campaignTables(readCampaign(out), { url: 'https://example.invalid/synthetic-active-corpus', sha256: '0'.repeat(64) })
