@@ -1,0 +1,148 @@
+import {readFileSync,writeFileSync,mkdirSync,readdirSync,existsSync} from 'node:fs'
+import {dirname,resolve} from 'node:path'
+import {chromium} from '/workspace/trident/node_modules/playwright/index.mjs'
+import {observeOwnedPngSvgStaticFrame,readBrowserPngCaptureProfile,mergeOwnedPngSvgStaticChecks} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/docs-png-svg-static.ts'
+import {readLegacyPngDirectBasisAudit} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/docs-png-offline-review.ts'
+import {inspectSvgDrawing} from '/workspace/trident-svg-docs-observer-2026-11-01/fidelity/inspect-svg.ts'
+import {admitDocsReviews,reviewedDocsCase,assessDocsDrawing} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/docs-drawings.ts'
+import {makeSvgCaseContract,makeSvgObservationBinding} from '/workspace/trident-svg-docs-observer-2026-11-01/fidelity/svg-assessment.ts'
+import {readRetainedPngSvg,bindDocsPngConversionReturn} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/docs-png-qualification.ts'
+import {retainedObserverAssets,retainedImagePrerequisites,retainedSvgResourcePolicy,routeRetainedObserver} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/recheck-inputs.ts'
+import {readDocsResources} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/docs-resources.ts'
+import {docsObserverPolicy,withDocsDeadline} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/docs-runtime.ts'
+import {qualifyOutput} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/qualification.ts'
+import {assessDocsInvalidSource,docsPublicRejection} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/docs-invalid-source.ts'
+import {gzipSync} from 'node:zlib'
+import {protocolIdentity} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/protocol-identity.ts'
+import {evidenceDigest,evidenceBytesDigest} from '/workspace/trident-svg-docs-observer-2026-11-01/portable/evidence-contract.ts'
+import {docsPngCaptureEnvironment} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/docs-png-capture.ts'
+import {executableIdentity} from '/workspace/trident-svg-docs-observer-2026-11-01/unified/benchmark-context.ts'
+
+// Grade only retained outputs. No project renderer or external API is loaded.
+const run='/workspace/trident-png-full-2026-10-31',harness='/workspace/trident-svg-docs-observer-2026-11-01'
+const out='/workspace/trident-svg-final-2026-11-01/docs',root=run+'/docs/png',repair=run+'/favicon211-capture-v2'
+if(existsSync(out))throw Error('Fresh observer replay requires a new output directory')
+mkdirSync(out,{recursive:true})
+const read=(file:string)=>JSON.parse(readFileSync(file,'utf8'))
+const contractsFile=harness+'/corpus/docs-reviewed.json',originsFile=process.argv[2]
+if(!originsFile)throw Error('Current admitted exact PNG review origins file is required')
+const sourceContractsSha256=evidenceBytesDigest(readFileSync(contractsFile)),selectionSha256=evidenceBytesDigest(readFileSync(originsFile))
+const inputs=read(run+'/docs/inventory.json').cases,contracts=read(contractsFile),observations=read(root+'/observations.json')
+if(inputs.length!==548)throw Error('Fresh replay must retain all548 literal sources')
+const admissions=admitDocsReviews(inputs,contracts)
+const savedReceipts=new Map<string,{receipt:any;packet:string;origin:string;line:number;rawLineSha256:string}>()
+for(const row of readFileSync(originsFile,'utf8').trim().split('\n').filter(Boolean).map(line=>JSON.parse(line))){
+ if(row.receipt.project!=='mermaid-js/mermaid')continue
+ if(resolve(row.origin.directory)!==dirname(resolve(row.origin.file)))throw Error('Review origin directory differs')
+ const rawLine=readFileSync(row.origin.file,'utf8').split('\n').filter(Boolean)[row.origin.line-1]
+ if(!rawLine||evidenceBytesDigest(rawLine)!==row.receiptSha256||evidenceDigest(JSON.parse(rawLine))!==evidenceDigest(row.receipt))throw Error('Selected original review changed')
+ if(savedReceipts.has(row.receipt.review.id))throw Error('More than one selected review for a project/source')
+ savedReceipts.set(row.receipt.review.id,{receipt:row.receipt,packet:resolve(row.origin.directory,row.receipt.inspection.packet),origin:row.origin.file,line:row.origin.line,rawLineSha256:row.receiptSha256})
+}
+const legacyBasisFile=harness+'/docs/evidence/png-full-corpus-2026-10-31/legacy-direct-review-basis.json.gz',legacyReviewBasis=readLegacyPngDirectBasisAudit(legacyBasisFile)
+const profile=readBrowserPngCaptureProfile({root,fontsFile:run+'/seed/fonts.json',completionFile:run+'/completed.json',legacyProducerProofFile:run+'/collection-producer-proof.json'})
+const repairProfile=readBrowserPngCaptureProfile({root:repair+'/png',completionFile:repair+'/png/captures/'+readdirSync(repair+'/png/captures')[0]+'/complete.json'})
+const frozen=retainedObserverAssets('/workspace/trident-ecosystem-2026-10-31-campaign'),resources=readDocsResources(harness+'/corpus/docs-assets.json')
+const assets={...frozen,resources:resources.resources.map((r:any)=>({url:r.url,sha256:r.sha256,contentType:r.contentType,body:r.body})),gaps:[],manifestSha256:resources.manifestSha256,policy:docsObserverPolicy(resources.resources.map((r:any)=>r.url))}
+const peer=read(root+'/context.json').preparedBrowsers[0]
+const producerRoots=['unified/docs-png-svg-static.ts','fidelity/inspect-svg.ts','unified/docs-drawings.ts','unified/qualification.ts','unified/docs-invalid-source.ts','unified/recheck-inputs.ts','unified/docs-resources.ts','unified/docs-runtime.ts','unified/benchmark-context.ts','unified/docs-png-capture.ts','unified/protocol-identity.ts']
+const assetIdentity=(value:any)=>evidenceDigest({manifestSha256:value.manifestSha256,gaps:value.gaps,policy:value.policy,resources:value.resources.map((resource:any)=>({url:resource.url,sha256:resource.sha256,contentType:resource.contentType,gap:resource.gap??null,actualBodySha256:resource.body?evidenceBytesDigest(resource.body):null}))})
+const producerClosure=protocolIdentity(harness,producerRoots),renderingEnvironment=docsPngCaptureEnvironment(),browserIdentity=executableIdentity('/usr/bin/chromium'),assetMaterialSha256=assetIdentity(assets)
+const producer={schema:'trident-fresh-same-call-png-svg-static-replay-v1',observerStartedAt:new Date().toISOString(),renderingEnvironment,browserIdentity,assetMaterialSha256,resourceManifestSha256:resources.manifestSha256,producerClosure,launcherSha256:evidenceBytesDigest(readFileSync(import.meta.path)),sourceContractsSha256,reviewSelectionSha256:selectionSha256,legacyDirectBasisFileSha256:evidenceBytesDigest(readFileSync(legacyBasisFile)),legacyDirectBasisAuditSha256:evidenceDigest(legacyReviewBasis),legacyProfileSha256:evidenceDigest(profile),repairProfileSha256:evidenceDigest(repairProfile),scope:'Every current drawing receives a fresh current observer pass over its actual original publicSVG, which alone supplies the primary DaveBenchSVG result. The distinct rasterizedSVG frame is observed and assessed separately. No historical SVG checks are reused. OriginalSVG ownership is a nested public-return companion of a PNG-journal invocation, not a fabricated independent SVG invocation. Independent full-source actual-PNG reviews may fill only explicitly eligible unavailable painted checks; decisive contradictions remain. OriginalSVG presentation, security, resources, fonts, metadata and motion remain separate. NativePNG-only supplies noSVGcredit.',projectRendererInvocations:0,codexApiInvocations:0}
+const observerSha256=evidenceDigest(producer)
+writeFileSync(out+'/producer.json',JSON.stringify({...producer,observerSha256},null,2))
+const browser=await chromium.launch({headless:true,executablePath:'/usr/bin/chromium'}),context=await browser.newContext({viewport:{width:1400,height:1000},serviceWorkers:'block'}),auditPage=await context.newPage()
+await auditPage.route('**/*',route=>route.abort())
+const parentCollections=[read(root+'/result.json'),read(repair+'/png/result.json')],startedAt=parentCollections.map(r=>r.startedAt).filter(Boolean).sort()[0]
+let reobserved=0,rasterObserved=0,supplemented=0,originalSupplemented=0,primaryAttempts=0
+const results:any[]=[],normalObservations:any[]=[]
+mkdirSync(out+'/drawings',{recursive:true})
+async function inspectCurrent(svg:string,authored:any){
+ const page=await context.newPage(),policy=retainedSvgResourcePolicy(svg,assets,peer),gaps=retainedImagePrerequisites(authored,assets).concat(policy.gaps)
+ page.setDefaultTimeout(20_000)
+ await page.route('**/*',route=>routeRetainedObserver(route,assets,peer,gaps,policy.policy))
+ page.on('requestfailed',request=>gaps.push('Frozen resource failed:'+request.url()))
+ try{
+  if(gaps.length)throw Error(gaps.join('; '))
+  await page.goto('http://trident.invalid/observer');await page.setContent(svg,{waitUntil:'domcontentloaded'})
+  await withDocsDeadline(()=>page.evaluate(async()=>{await document.fonts.ready}),()=>{void page.close()})
+  const paint=await withDocsDeadline(()=>inspectSvgDrawing(page,{family:authored.family,source:authored.source,expected:authored.expected,paint:authored.paint}),()=>{void page.close()})
+  if(gaps.length)throw Error(gaps.join('; '))
+  return{checks:paint.checks,source:'fresh-current-retained-svg-observation',observerSha256}
+ }finally{await page.close().catch(()=>{})}
+}
+async function assessFrame(input:any,review:any,authored:any,svg:string,target:'original'|'rasterized',frame?:any,reuse?:any){
+ const svgSha256=evidenceBytesDigest(svg),base=reuse??await inspectCurrent(svg,authored)
+ const binding=makeSvgObservationBinding(authored,svgSha256,observerSha256)
+ const admission=qualifyOutput({id:input.id,family:authored.family,source:input.source,expectedLabels:authored.expected.labels,features:[],provenance:review.review},svg,'svg')
+ let checks=base.checks,merged:any
+ if(frame&&(target==='rasterized'||frame.originalStaticTransfer==='bounded-intrinsic-frame')){
+  merged=mergeOwnedPngSvgStaticChecks({checks,frame,binding,source:input,review,svgSha256,target});checks=merged.checks
+  if(target==='original')originalSupplemented++;else supplemented++
+ }
+ return{target,svgSha256,baseObservation:base,binding,admission,checks,assessment:assessDocsDrawing(input,review,'passed',admission.unavailable?'unavailable':admission.ok,checks,binding),...(merged?{staticSupplement:merged}:{}),...(target==='original'&&frame&&frame.originalStaticTransfer!=='bounded-intrinsic-frame'?{staticSupplementUnavailable:'Retained raster frame does not meet strict unchanged original intrinsic-size/tree transformation equivalence'}:{})}
+}
+function normalRows(input:any,rawRow:any,witness:string,primary:any,returned:any,svgBytes:number,captureProfileSha256:string){
+ const metrics={project:rawRow.metrics.project,version:rawRow.metrics.version,round:Number(rawRow.metrics.round),variant:rawRow.metrics.variant??'primary',rawInvocationId:null,measuredAt:null,parentInvocationId:rawRow.metrics.rawInvocationId,parentInvocationFormat:'png',parentMeasuredAt:rawRow.metrics.measuredAt??null,parentClockBoundary:'owning SVG-plus-conversion PNG call; no independent SVG clock',transport:'owned-original-svg-companion-of-png-export',witnessRole:'actual-original-public-svg-return',sourceSha256:returned.sourceSha256,artifactSha256:returned.artifactSha256,parentBindingSha256:returned.bindingSha256,parentCaptureProfileSha256:captureProfileSha256,originalSvgSha256:returned.originalSvgSha256,timingQualified:false,originalSvgReturnSha256:evidenceDigest(returned),witness,...(primary.binding??{})}
+ const base={suite:'docs',surface:'browser:svg',runtime:'Chromium',family:input.family,caseId:input.id,format:'svg'}
+ normalObservations.push({...base,operation:'render',mode:'owned-original-svg-companion-of-png-call',status:'passed',detail:'Actual original publicSVG companion retained inside the owning source/artifact-bound PNG-export call. Parent PNG invocation and capture certificate are explicit; no independent SVG journal/clock or new call is asserted',metrics:{...metrics,bytes:svgBytes}})
+ const status=primary.assessment.status==='correct'?'passed':primary.assessment.status==='incorrect'?'failed':primary.assessment.status==='not-applicable'?'not-applicable':'blocked'
+ normalObservations.push({...base,operation:'drawing-checks',mode:'reviewed-first-round-output',status,detail:JSON.stringify(primary.assessment),metrics})
+ if(primary.checks){
+  normalObservations.push({...base,surface:'browser-public-api',caseId:input.id+':public-svg-admission',operation:'public-svg-admission',mode:'reviewed-documentation-content',status:'passed',metrics:{...metrics,authoredCase:input.id}})
+  normalObservations.push({...base,surface:'browser-public-api',caseId:input.id+':standalone-svg-and-labels',operation:'standalone-svg-and-labels',mode:'reviewed-documentation-content',status:primary.admission.unavailable?'blocked':primary.admission.ok?'passed':'failed',metrics:{...metrics,authoredCase:input.id}})
+  for(const check of primary.checks)normalObservations.push({...base,surface:'browser-owned-ink',caseId:input.id+':'+check.criterion,operation:check.criterion,mode:'reviewed-documentation-content',status:check.status==='unavailable'?'blocked':check.status,detail:JSON.stringify(check),metrics:{...metrics,authoredCase:input.id}})
+ }
+}
+try{
+ for(const[index,input]of inputs.entries()){
+  const review=contracts.find((r:any)=>r.id===input.id),isRepair=index===211,ownRoot=isRepair?repair+'/png':root
+  const rawRow=(isRepair?read(ownRoot+'/observations.json'):observations).find((r:any)=>r.operation==='render'&&r.caseId===input.id)
+  const originalSvg=readRetainedPngSvg(ownRoot,rawRow.metrics.originalSvgWitness)!,rasterizedSvg=readRetainedPngSvg(ownRoot,rawRow.metrics.rasterizedSvgWitness)!
+  const originalSvgSha256=evidenceBytesDigest(originalSvg),rasterizedSvgSha256=evidenceBytesDigest(rasterizedSvg),png=readFileSync(ownRoot+'/'+rawRow.metrics.witness),selected=savedReceipts.get(input.id)
+  const returned=bindDocsPngConversionReturn({root:ownRoot,project:rawRow.metrics.project,source:input,actualPng:png,originalSvg,rasterizedSvg,attemptId:rawRow.metrics.rawInvocationId,round:Number(rawRow.metrics.round)})
+  const witness='drawings/'+originalSvgSha256+'.svg.gz';if(!existsSync(out+'/'+witness))writeFileSync(out+'/'+witness,gzipSync(originalSvg))
+  let row:any={index,id:input.id,kind:review.intent,sourceAdmission:admissions[index],pngSha256:evidenceBytesDigest(png),originalSvgSha256,rasterizedSvgSha256,originalSvgWitness:witness,returnEvidence:returned,selectedImageReceipt:selected?{origin:selected.origin,line:selected.line,rawLineSha256:selected.rawLineSha256,sha256:evidenceDigest(selected.receipt),status:selected.receipt.review.status}:null}
+  if(review.intent!=='drawing'){
+   row.assessment=assessDocsDrawing(input,review,'passed',false,[])
+   normalRows(input,rawRow,witness,row,returned,Buffer.byteLength(originalSvg),evidenceDigest(isRepair?repairProfile:profile))
+   if(review.intent==='invalid-source'){
+    const rejection=docsPublicRejection(input,true),control=assessDocsInvalidSource(input,review,rejection)
+    row.sourceRejection={rejection,control}
+    normalObservations.push({suite:'docs',surface:'public:source-control',runtime:'Chromium',family:input.family,caseId:input.id,operation:'source-rejection',format:'svg',mode:'reviewed-first-round-control',status:control.status==='correct'?'passed':control.status==='incorrect'?'failed':'blocked',detail:JSON.stringify(control),metrics:{project:rawRow.metrics.project,round:Number(rawRow.metrics.round),rawInvocationId:null,measuredAt:null,parentInvocationId:rawRow.metrics.rawInvocationId,parentInvocationFormat:'png',parentMeasuredAt:rawRow.metrics.measuredAt??null,transport:'owned-original-svg-companion-of-png-export',originalSvgSha256,sourceSha256:rejection.sourceSha256,artifactSha256:returned.artifactSha256,parentBindingSha256:returned.bindingSha256,parentCaptureProfileSha256:evidenceDigest(isRepair?repairProfile:profile),rejectionEvidence:JSON.stringify(rejection),timingQualified:false}})
+   }
+  }else{
+   const authored=reviewedDocsCase(input,review)
+   let frame:any
+   if(selected?.receipt.review.status==='correct'){
+    try{frame=await observeOwnedPngSvgStaticFrame({root:ownRoot,source:input,review,receipt:selected.receipt,actualPng:png,packet:readFileSync(selected.packet),originalSvg,rasterizedSvg,attemptId:rawRow.metrics.rawInvocationId,round:Number(rawRow.metrics.round),profile:isRepair?repairProfile:profile,legacyReviewBasis,evaluate:<T>(fn:any,value:any)=>auditPage.evaluate(fn,value)as Promise<T>});row.frame=frame}
+    catch(error){row.staticSupplementError=String(error)}
+   }
+   primaryAttempts++
+   try{
+    const primary=await assessFrame(input,review,authored,originalSvg,'original',frame);reobserved++
+    row={...row,...primary,scope:'Primary DaveBench SVG grade observes the exact ORIGINAL public return owned as a PNG-call companion, not an independent SVG journal/clock. PNG content supplements it only with admitted original intrinsic-size/tree equivalence.'}
+    writeFileSync(out+'/base-original-'+index+'.json',JSON.stringify(primary.baseObservation))
+   }catch(error){row.assessment={status:'unknown',reason:String(error)};row.observerError=String(error)}
+   try{
+    const reuse=originalSvgSha256===rasterizedSvgSha256?row.baseObservation:undefined
+    row.rasterizedFrame=await assessFrame(input,review,authored,rasterizedSvg,'rasterized',frame,reuse);rasterObserved++
+    row.rasterizedFrame.scope='Separate exact rasterizedSVG frame. This result never upgrades the original publicSVG when presentation normalization prevents original transfer.'
+    writeFileSync(out+'/base-rasterized-'+index+'.json',JSON.stringify(row.rasterizedFrame.baseObservation))
+   }catch(error){row.rasterizedFrame={target:'rasterized',assessment:{status:'unknown',reason:String(error)},observerError:String(error)}}
+   normalRows(input,rawRow,witness,row,returned,Buffer.byteLength(originalSvg),evidenceDigest(isRepair?repairProfile:profile))
+  }
+  results.push(row);writeFileSync(out+'/'+index+'.json',JSON.stringify(row))
+  if(index%10===0){const progress={checked:index+1,total:inputs.length,freshOriginalObserverAttempts:primaryAttempts,reobserved,rasterObserved,supplemented,originalSupplemented};writeFileSync(out+'/progress.json',JSON.stringify(progress));console.log(JSON.stringify(progress))}
+ }
+}finally{await browser.close()}
+if(sourceContractsSha256!==evidenceBytesDigest(readFileSync(contractsFile))||selectionSha256!==evidenceBytesDigest(readFileSync(originsFile))||evidenceDigest(producerClosure)!==evidenceDigest(protocolIdentity(harness,producerRoots))||evidenceDigest(renderingEnvironment)!==evidenceDigest(docsPngCaptureEnvironment())||evidenceDigest(browserIdentity)!==evidenceDigest(executableIdentity('/usr/bin/chromium')))throw Error('Frozen source/review/observer inputs changed; raw fresh checks retained but this replay cannot publish current grades')
+const afterResources=readDocsResources(harness+'/corpus/docs-assets.json'),afterFrozen=retainedObserverAssets('/workspace/trident-ecosystem-2026-10-31-campaign'),afterAssets={...afterFrozen,resources:afterResources.resources.map((r:any)=>({url:r.url,sha256:r.sha256,contentType:r.contentType,body:r.body})),gaps:[],manifestSha256:afterResources.manifestSha256,policy:docsObserverPolicy(afterResources.resources.map((r:any)=>r.url))}
+if(assetMaterialSha256!==assetIdentity(afterAssets))throw Error('Actual frozen resource material changed during replay')
+writeFileSync(out+'/observer-completed.json',JSON.stringify({observerFinishedAt:new Date().toISOString(),observerSha256,sourceContractsSha256,assetMaterialSha256,producerClosure,reviewSelectionSha256:selectionSha256,verifiedBeforeAfter:true},null,2))
+const finishedAt=parentCollections.map(r=>r.finishedAt).filter(Boolean).sort().at(-1)
+const rasterizedFrameCounts=Object.fromEntries([...new Set(results.filter(r=>r.rasterizedFrame).map(r=>r.rasterizedFrame.assessment.status))].map(status=>[status,results.filter(r=>r.rasterizedFrame?.assessment.status===status).length]))
+writeFileSync(out+'/observations.json',JSON.stringify(normalObservations))
+const counts=Object.fromEntries([...new Set(results.map(r=>r.assessment?.status??r.kind))].map(status=>[status,results.filter(r=>(r.assessment?.status??r.kind)===status).length]))
+writeFileSync(out+'/result.json',JSON.stringify({schema:'trident-fresh-same-call-png-svg-static-replay-result-v1',id:'docs',status:'passed',startedAt,finishedAt,collectionWindowOnly:'Bounds of actual owning PNG-export collection windows; regrading creates no independent SVG call timestamp or sample',observations:normalObservations,companionOwnershipLimit:'The original publicSVG is owned by the exact enclosing PNG export return certificate. Generic recheckers requiring an independent SVG-format invocation journal may not admit it; no SVG-only invocation ID or timing is asserted.',gaps:results.filter(r=>r.observerError).map(r=>r.id+':'+r.observerError),observerSha256,counts,rasterizedFrameCounts,freshOriginalObserverAttempts:primaryAttempts,reobserved,rasterObserved,supplemented,originalSupplemented,sourceContractsSha256,reviewSelectionSha256:selectionSha256,cases:results,projectRendererInvocations:0,codexApiInvocations:0},null,2))
+console.log(JSON.stringify({completed:results.length,counts,rasterizedFrameCounts,freshOriginalObserverAttempts:primaryAttempts,reobserved,rasterObserved,supplemented,originalSupplemented}))

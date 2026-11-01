@@ -1,0 +1,294 @@
+{
+  "schema": "trident-original-svg-png-intersection-v1",
+  "resultSha256": "4e2967bcc6f64dcb4ad40213050c693922df4ad388bb8eb6c2161c2aabd722d8",
+  "incorrectCategories": {
+    "painted-source-fact": 15,
+    "malformed-svg-xml": 12,
+    "duplicate-svg-ids": 14
+  },
+  "pngCorrectSvgIncorrectCategories": {
+    "malformed-svg-xml": 12,
+    "duplicate-svg-ids": 11
+  },
+  "pngCorrectSvgIncorrect": [
+    {
+      "index": 18,
+      "id": "packages/mermaid/src/docs/syntax/block.md:10",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:9694: undefined entity.; 1:9700: undefined entity.; 1:9706: undefined entity."
+      ],
+      "observerSha256": "6b901ed5988947cd1d2d45552378a07f71ded7bb319b05f900b6c1a2872cb637"
+    },
+    {
+      "index": 40,
+      "id": "packages/mermaid/src/docs/syntax/block.md:354",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:9694: undefined entity.; 1:9700: undefined entity.; 1:9706: undefined entity."
+      ],
+      "observerSha256": "6b901ed5988947cd1d2d45552378a07f71ded7bb319b05f900b6c1a2872cb637"
+    },
+    {
+      "index": 83,
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:643",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:14168: unbound namespace prefix: \"xlink\".; 1:16820: unbound namespace prefix: \"xlink\"."
+      ],
+      "observerSha256": "6b901ed5988947cd1d2d45552378a07f71ded7bb319b05f900b6c1a2872cb637"
+    },
+    {
+      "index": 85,
+      "id": "packages/mermaid/src/docs/syntax/classDiagram.md:669",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:16689: unbound namespace prefix: \"xlink\".; 1:21793: unbound namespace prefix: \"xlink\"."
+      ],
+      "observerSha256": "6b901ed5988947cd1d2d45552378a07f71ded7bb319b05f900b6c1a2872cb637"
+    },
+    {
+      "index": 121,
+      "id": "packages/mermaid/src/docs/syntax/eventmodeling.md:77",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:3995: undefined entity.; 1:4015: unexpected close tag.; 1:4015: unexpected close tag."
+      ],
+      "observerSha256": "6b901ed5988947cd1d2d45552378a07f71ded7bb319b05f900b6c1a2872cb637"
+    },
+    {
+      "index": 122,
+      "id": "packages/mermaid/src/docs/syntax/eventmodeling.md:87",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:3995: undefined entity.; 1:4015: unexpected close tag.; 1:4015: unexpected close tag."
+      ],
+      "observerSha256": "6b901ed5988947cd1d2d45552378a07f71ded7bb319b05f900b6c1a2872cb637"
+    },
+    {
+      "index": 123,
+      "id": "packages/mermaid/src/docs/syntax/eventmodeling.md:103",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:3970: undefined entity.; 2:6: undefined entity.; 2:18: undefined entity."
+      ],
+      "observerSha256": "6b901ed5988947cd1d2d45552378a07f71ded7bb319b05f900b6c1a2872cb637"
+    },
+    {
+      "index": 124,
+      "id": "packages/mermaid/src/docs/syntax/eventmodeling.md:133",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:3970: undefined entity.; 2:6: undefined entity.; 2:18: undefined entity."
+      ],
+      "observerSha256": "6b901ed5988947cd1d2d45552378a07f71ded7bb319b05f900b6c1a2872cb637"
+    },
+    {
+      "index": 245,
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:1158",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:31468: unbound namespace prefix: \"xlink\".; 1:32678: unbound namespace prefix: \"xlink\"."
+      ],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 246,
+      "id": "packages/mermaid/src/docs/syntax/flowchart.md:1175",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:31312: unbound namespace prefix: \"xlink\".; 1:31905: unbound namespace prefix: \"xlink\".; 1:32529: unbound namespace prefix: \"xlink\"."
+      ],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 307,
+      "id": "packages/mermaid/src/docs/syntax/mindmap.md:46",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "svg-unique-ids"
+      ],
+      "admissionFindings": [],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 314,
+      "id": "packages/mermaid/src/docs/syntax/mindmap.md:106",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "svg-unique-ids"
+      ],
+      "admissionFindings": [],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 315,
+      "id": "packages/mermaid/src/docs/syntax/mindmap.md:117",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "svg-unique-ids"
+      ],
+      "admissionFindings": [],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 316,
+      "id": "packages/mermaid/src/docs/syntax/mindmap.md:140",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "svg-unique-ids"
+      ],
+      "admissionFindings": [],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 318,
+      "id": "packages/mermaid/src/docs/syntax/mindmap.md:196",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "svg-unique-ids"
+      ],
+      "admissionFindings": [],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 319,
+      "id": "packages/mermaid/src/docs/syntax/mindmap.md:221",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "svg-unique-ids"
+      ],
+      "admissionFindings": [],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 368,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:101",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "svg-unique-ids"
+      ],
+      "admissionFindings": [],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 370,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:125",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "svg-unique-ids"
+      ],
+      "admissionFindings": [],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 376,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:199",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "svg-unique-ids"
+      ],
+      "admissionFindings": [],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 377,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:214",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "svg-unique-ids"
+      ],
+      "admissionFindings": [],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 379,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:250",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "svg-unique-ids"
+      ],
+      "admissionFindings": [],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 400,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:750",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:24372: unbound namespace prefix: \"xlink\".; 1:24623: unbound namespace prefix: \"xlink\".; 1:25080: unbound namespace prefix: \"xlink\"."
+      ],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    },
+    {
+      "index": 401,
+      "id": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:775",
+      "svgStatus": "incorrect",
+      "pngStatus": "correct",
+      "failedChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "admissionFindings": [
+        "Malformed SVG XML: 1:24372: unbound namespace prefix: \"xlink\".; 1:24623: unbound namespace prefix: \"xlink\".; 1:25080: unbound namespace prefix: \"xlink\"."
+      ],
+      "observerSha256": "07625555ee2e75eedb5c8f605ea66e6de1c46fd2c869cd9ef6c50de7037d820f"
+    }
+  ],
+  "svgCorrectPngIncorrect": [],
+  "scope": "Metadata intersection of current original-SVG verdicts and exact selected source-owned PNG reviews. No new image review or rasterized-SVG score is inferred."
+}
