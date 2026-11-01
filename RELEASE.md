@@ -7,8 +7,7 @@ shipped bytes at the intended revision. It does not mean rerunning every project
 The 0.1 release remains blocked on the initial [baseline](BASELINE.md) and its
 bounded accuracy claims. The [current qualification report](docs/qualification-results-2026-10-31.md)
 records active v3 terminal results, the 154-callback API diagnostic, retained SVG
-regrading and the minimum PNG cohort. PNG has 951 current content decisions,
-42 actual-image holds and 99 native no-image outcomes; the [summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json)
+regrading and the minimum PNG cohort. The [summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json)
 and [all grades](docs/evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz)
 preserve those separate populations. Full drawing accuracy and whole-suite
 conformance remain unresolved.
@@ -27,6 +26,12 @@ remain historical evidence with their original producers. The development
 archives were not released.
 Renderer failures are findings; a missing or incorrect Trident observer is a
 harness limitation and must not be reported as a renderer defect.
+
+The three qualified cost workloads remain separate:
+six documentation SVGs (Pele/Mermaid), six terminal examples (ASCII/Termaid), and
+three documentation edge examples exported to PNG (Mermaid/Flutter). Each keeps
+its own artifact, source, call boundary and actual producer identity; later
+reporting changes do not restamp captured measurements.
 
 ## Validate the changed claims
 
@@ -48,6 +53,11 @@ sealed artifact pair, Chromium and frozen fontconfig inputs. Run
 `bun commands.ts timing:qualify --bundle FILE --out FRESH_FILE` on the retained
 bundle. No new timing collection is needed to discover that an existing bundle
 lacks those prerequisites. No overall speed rank is published for such a bundle.
+
+The 100 AM/Trident-authored feature/edit cases are unscored harness/observer
+regressions. Preserve their sources, raw outputs and historical reports; use
+focused regression controls for changed harness behavior. Their old scores or
+new collection are not a comparative benchmark or release prerequisite.
 
 Before the first release, resolve or explicitly bound each advertised claim:
 

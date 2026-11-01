@@ -8,7 +8,7 @@ export const PUBLIC_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity'
 /** Historical IDs remain readable. Expensive clocks and optional model APIs
  * require explicit selection; ordinary campaigns start with SVG evidence. */
 export const CAMPAIGN_SUITES = ['community', 'docs', 'fidelity', 'native-fidelity', 'portable'] as const
-export const DEFAULT_SUITES = ['docs', 'fidelity'] as const
+export const DEFAULT_SUITES = ['docs'] as const
 export type PublicSuite = typeof PUBLIC_SUITES[number]
 export type SupportState = 'configured' | 'conditional' | 'adapter-missing' | 'project-unsupported' | 'reference-only' | 'out-of-scope' | 'disabled'
 export interface CatalogMember extends CommunityNode {

@@ -20,10 +20,10 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   const tables = new Map<string, SnapshotTable>()
   const add = (key: unknown[], suite: PublicSuite, measuredAt: string, caption: string, columns: string[], project: string, values: (string | number)[], ranking: SnapshotTable['ranking'], extra: Partial<SnapshotTable> = {}, unrankedReason?: string) => {
     const id = 'run-' + hash([receipt.sha256, ...key]).slice(0, 24)
-    const entry = tables.get(id) ?? { id, suite, measuredAt, campaignUpdatedAt: report.updatedAt, historical: (report as any).schema !== 'trident-campaign-v2', unit: 'observations', caption, columns, rows: [], receipt, ranking, ...(artifactRole ? { artifactRole } : {}), ...extra }
+    const entry = tables.get(id) ?? { id, suite, measuredAt, campaignUpdatedAt: report.updatedAt, historical: (report as any).schema !== 'trident-campaign-v2', unit: 'observations', caption, columns, rows: [], receipt, ranking: suite === 'fidelity' ? undefined : ranking, ...(artifactRole ? { artifactRole } : {}), ...extra, ...(suite === 'fidelity' ? { diagnostic: true, ranking: undefined, overview: undefined, chart: undefined, summary: false, caption: 'Unscored harness/observer regressions from AM and Trident development fixtures. Counts retain raw diagnostic outcomes; they are not comparative renderer scores. ' + caption } : {}) }
     if (entry.rows.some(row => row.project === project)) throw Error('Duplicate project in reduced campaign cohort')
     if (Date.parse(measuredAt) > Date.parse(entry.measuredAt)) entry.measuredAt = measuredAt
-    entry.rows.push({ project, values, ...(unrankedReason ? { unrankedReason } : {}) }); tables.set(id, entry)
+    entry.rows.push({ project, values, ...(suite === 'fidelity' ? { unrankedReason: 'Unscored harness/observer regressions' } : {}), ...(unrankedReason ? { unrankedReason } : {}) }); tables.set(id, entry)
   }
   for (const boundary of report.results) {
     if (!boundary.out) continue
@@ -121,7 +121,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
           const protocol = (result as any).criteriaProtocol
           const own = result.observations.filter(row => projectId(row.metrics?.project ?? row.metrics?.implementation) === project)
           add(['svg-case-verdicts', cohort, hash([...selected].sort()), hash(protocol ?? null)], 'fidelity', measuredAt(own, result.finishedAt),
-            'Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Ranks count verified correct diagrams; unknown observations leave complete accuracy unresolved. Raw criterion evidence remains in the owning report.',
+            'Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. This authored development inventory is unscored; unknown observations remain explicit. Raw criterion evidence remains in the owning report.',
             ['Version', 'Correct', 'Incorrect', 'Unsupported', 'Unknown', 'Planned', 'Measured'], project,
             [assessment.version, summary.correct, summary.incorrect, summary.unsupported, summary.unknown, summary.planned, measuredAt(own, result.finishedAt)],
             { column: 'Correct', direction: 'descending' },

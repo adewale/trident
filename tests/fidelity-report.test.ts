@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { mkdirSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { reviewFidelityCapabilities, writeFidelityComparison } from '../fidelity/report.ts'
@@ -52,4 +52,23 @@ test('a matching default font cannot earn configured font credit from an export 
   expect(reviewed.reviews[0]).toMatchObject({ rawStatus: 'passed', status: 'blocked', rawActual: '[14,14]' })
   const core = { ...raw, metrics: { ...raw.metrics, implementation: 'adewale/agentic-mermaid' } }
   expect(reviewFidelityCapabilities([core], [{ project: 'adewale/agentic-mermaid', kind: 'beautiful' }]).observations[0]?.status).toBe('passed')
+})
+
+test('authored regression publication is unscored and alphabetical even when paint outcomes differ', () => {
+  const root = mkdtempSync(join(tmpdir(), 'fidelity-unscored-'))
+  try {
+    const core = join(root, 'core.json'), out = join(root, 'report')
+    writeFileSync(core, JSON.stringify({
+      criteriaProtocol: { producers: ['independent-observer-fixture'] }, artifacts: [], gaps: [],
+      cases: [{ id: 'single-node', family: 'flowchart', required: true, source: 'flowchart TD\nA[Alpha]', features: [], provenance: 'Independent reporting control', expected: { labels: ['Alpha'], nodes: [{ id: 'A', label: 'Alpha' }], edges: [] } }],
+      targets: [{ project: 'mermaid-js/mermaid' }, { project: 'aaa/peer' }],
+      toolVersions: [{ tool: 'mermaid-js/mermaid', version: '12.2.0', source: 'reference-fixture' }, { tool: 'aaa/peer', version: '1.0.0', source: 'peer-fixture' }],
+      observations: [{ suite: 'mermaid-fidelity', surface: 'browser-owned-ink', runtime: 'fixture', family: 'flowchart', caseId: 'single-node:visible-authored-labels', operation: 'visible-authored-labels', format: 'svg', mode: 'independent-authored-criteria', status: 'passed', metrics: { implementation: 'mermaid-js/mermaid', authoredCase: 'single-node', criterion: 'visible-authored-labels' } }],
+    }))
+    const result = writeFidelityComparison({ core, out })
+    expect(result.scored).toBe(false)
+    expect(result.rows.map(row => row.project)).toEqual(['aaa/peer', 'mermaid-js/mermaid'])
+    expect(result.scope).toContain('Unscored harness/observer regressions')
+    expect(readFileSync(join(out, 'index.html'), 'utf8')).not.toContain('Sorted by paint passes')
+  } finally { rmSync(root, { recursive: true, force: true }) }
 })

@@ -22,35 +22,35 @@ Each cell links its latest recorded attempt, or a dated retained table. New fail
 
 Overview order: DaveBench: Documentation Examples, highest Correct / Planned reviewed first (2026-10-31). Ties share a rank. Projects with no result for this measure, or a newer superseding attempt, remain unranked below. Each benchmark has its own ranking. The overview’s ranked benchmark cell uses this same table and population.
 
-| Project | Overview rank | Terminal Rendering | DaveBench SVG | DaveBench PNG | Mermaid Feature Cases | Public Model Contracts |
-|---|---|---|---|---|---|---|
-| Mermaid | 1 | N/A | [16/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [16/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [62/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [90/100 · 2026-10-31](#run-40cc1a5ead121ae9df015930) |
-| Bezel | 2 | N/A | [15/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [16/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [57/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-9f327ddcc19156fba3ba33c5) |
-| Latias Merman | 2 | [10/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [15/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [16/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [40/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-7a10e33a040fd6e8af1c4b3c) |
-| Ondine | 2 | [3/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [15/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [16/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [57/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-59ac78754e258eadbd1259af) |
-| Pele | 2 | N/A | [15/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [16/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [62/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [94/100 · 2026-10-31](#run-40cc1a5ead121ae9df015930) |
-| Mermaid Dart | 6 | N/A | [13/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [15/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [29/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-a4b188db5e6b02f0865d0b2a) |
-| Frankenmermaid | 7 | [Terminal source/display/drawing evidence is incomplete · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [12/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [13/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [45/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-e2276dfc9ed8fbbf893c2675) |
-| Agentic Mermaid | 8 | [11/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [11/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [11/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [38/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [59/100 · 2026-10-31](#run-40cc1a5ead121ae9df015930) |
-| Zombie Mermaid | 9 | [11/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [10/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [11/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [13/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-e92381022b2e0b57671545fb) |
-| Beautiful Mermaid | 10 | [9/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [7/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [7/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [8/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-c9cc899e27c54f849e34ad9f) |
-| Crafter Mermaid | 10 | [Terminal source/display/drawing evidence is incomplete · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [7/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [6/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [7/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-f16015a46f36e5ae28eecefe) |
-| XMermaid | 12 | N/A | [3/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [9/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [11/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-044d0f555cf3c5ab40bd628d) |
-| DSH Mermaid GB SVG | 13 | N/A | [2/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [4/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [0/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-b4c107b6627f5a5ccd01e223) |
-| Mermaid RS Renderer | 14 | N/A | [0/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [11/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [19/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-016de9af9b4f74ad3eb22810) |
-| Merslim | 14 | [Terminal source/display/drawing evidence is incomplete · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [0/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [8/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [6/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-ed449b04289130cced66dcf6) |
-| VitePress Plugin Diagram | 14 | N/A | [0/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [1/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [0/100 · 2026-10-31](#run-cf2b690854ce0dd0739b1e75) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-a823e4d074433abbd789ad70) |
-| ASCII Mermaid | — | [11/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-4125b8c197717d32309d6bd8) |
-| Figurehead | — | [5/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-5e0af5a369d49dd95407706e) |
-| Grok renderer | — | [Terminal source/display/drawing evidence is incomplete · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-f5187dc05f4ad78f543a369c) |
-| Kitlangton Merman | — | [4/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-a6e38219c2ad77c4359b1bf8) |
-| Loom renderer | — | [9/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-bf0e083c34d4b31f6004da9b) |
-| Mermaid ASCII | — | [11/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-cd51ae7565e28fb5df2edd2d) |
-| Mermaid Flutter | — | N/A | N/A | [15/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-0d01a0cbb3308948bd8913c1) |
-| MermaidText | — | [10/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-4220435f2c077b0a18796f86) |
-| MermaidTUI | — | [3/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-b970cdb7d3726135f6edd82b) |
-| OpenCode Merman | — | [9/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-52080b201381ae53f6da6574) |
-| Termaid | — | [12/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-857417fea8907047551b5b64) |
+| Project | Overview rank | Terminal Rendering | DaveBench SVG | DaveBench PNG | Public Model Contracts |
+|---|---|---|---|---|---|
+| Mermaid | 1 | N/A | [16/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [16/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [90/100 · 2026-10-31](#run-40cc1a5ead121ae9df015930) |
+| Bezel | 2 | N/A | [15/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [16/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-9f327ddcc19156fba3ba33c5) |
+| Latias Merman | 2 | [10/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [15/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [16/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-7a10e33a040fd6e8af1c4b3c) |
+| Ondine | 2 | [3/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [15/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [16/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-59ac78754e258eadbd1259af) |
+| Pele | 2 | N/A | [15/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [16/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [94/100 · 2026-10-31](#run-40cc1a5ead121ae9df015930) |
+| Mermaid Dart | 6 | N/A | [13/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [15/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-a4b188db5e6b02f0865d0b2a) |
+| Frankenmermaid | 7 | [Terminal source/display/drawing evidence is incomplete · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [12/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [13/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-e2276dfc9ed8fbbf893c2675) |
+| Agentic Mermaid | 8 | [11/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [11/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [11/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [59/100 · 2026-10-31](#run-40cc1a5ead121ae9df015930) |
+| Zombie Mermaid | 9 | [11/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [10/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [11/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-e92381022b2e0b57671545fb) |
+| Beautiful Mermaid | 10 | [9/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [7/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [7/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-c9cc899e27c54f849e34ad9f) |
+| Crafter Mermaid | 10 | [Terminal source/display/drawing evidence is incomplete · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [7/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [6/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-f16015a46f36e5ae28eecefe) |
+| XMermaid | 12 | N/A | [3/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [9/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-044d0f555cf3c5ab40bd628d) |
+| DSH Mermaid GB SVG | 13 | N/A | [2/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [4/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-b4c107b6627f5a5ccd01e223) |
+| Mermaid RS Renderer | 14 | N/A | [0/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [11/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-016de9af9b4f74ad3eb22810) |
+| Merslim | 14 | [Terminal source/display/drawing evidence is incomplete · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | [0/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [8/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-ed449b04289130cced66dcf6) |
+| VitePress Plugin Diagram | 14 | N/A | [0/16 · 2026-10-31](#run-22a4e4549a96ba57423ed301) | [1/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-a823e4d074433abbd789ad70) |
+| ASCII Mermaid | — | [11/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-4125b8c197717d32309d6bd8) |
+| Figurehead | — | [5/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-5e0af5a369d49dd95407706e) |
+| Grok renderer | — | [Terminal source/display/drawing evidence is incomplete · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-f5187dc05f4ad78f543a369c) |
+| Kitlangton Merman | — | [4/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-a6e38219c2ad77c4359b1bf8) |
+| Loom renderer | — | [9/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-bf0e083c34d4b31f6004da9b) |
+| Mermaid ASCII | — | [11/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-cd51ae7565e28fb5df2edd2d) |
+| Mermaid Flutter | — | N/A | N/A | [15/16 · 2026-10-31](#run-87c7d06be3ec5a0cad582f61) | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-0d01a0cbb3308948bd8913c1) |
+| MermaidText | — | [10/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-4220435f2c077b0a18796f86) |
+| MermaidTUI | — | [3/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-b970cdb7d3726135f6edd82b) |
+| OpenCode Merman | — | [9/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-52080b201381ae53f6da6574) |
+| Termaid | — | [12/16 · 2026-10-31](#run-a6fa463f6d3455d15e79a2d5) | N/A | N/A | [blocked · 2026-10-31](results/tables/native-fidelity-1.md#attempt-857417fea8907047551b5b64) |
 
 ## Results by benchmark
 
@@ -58,7 +58,7 @@ Tables retain the full recorded populations. Charts show one named measure from 
 
 ### Terminal Rendering
 
-[All 2 ranked tables and recorded attempts](results/tables/community.md)
+[All 2 tables and recorded attempts](results/tables/community.md)
 
 <a id="run-a6fa463f6d3455d15e79a2d5"></a>
 
@@ -93,7 +93,7 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 
 ### DaveBench: Documentation Examples
 
-[All 6 ranked tables and recorded attempts](results/tables/docs.md)
+[All 6 tables and recorded attempts](results/tables/docs.md)
 
 <a id="run-22a4e4549a96ba57423ed301"></a>
 
@@ -154,42 +154,13 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 | DSH Mermaid GB SVG | 16 | 0.1.4 | 4 | 12 | 0 | 16 | 2026-10-31T09:02:06.668Z | Lower (-12) |
 | VitePress Plugin Diagram | 17 | 0.3.2 | 1 | 7 | 8 | 16 | 2026-10-31T08:54:29.717Z | Fewer verified (-15); accuracy unresolved |
 
-### Mermaid Feature Cases
+### Harness and Observer Regressions (unscored)
 
-[All 1 ranked tables and recorded attempts](results/tables/fidelity.md)
-
-<a id="run-cf2b690854ce0dd0739b1e75"></a>
-
-**run-cf2b690854ce0dd0739b1e75** · 2026-10-31 · unit: authored diagrams · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
-
-Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Ranks count verified correct diagrams; unknown observations leave complete accuracy unresolved. Raw criterion evidence remains in the owning report.
-
-Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
-
-Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
-
-| Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | vs Mermaid |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mermaid | 1 | 12.2.0 | 62 | 6 | 0 | 32 | 100 | 2026-10-31T09:08:18.381Z | Baseline |
-| Pele | 1 | 1.9.0 | 62 | 5 | 5 | 28 | 100 | 2026-10-31T09:07:54.583Z | Same verified count; accuracy unresolved |
-| Bezel | 3 | 0.2.21 | 57 | 5 | 0 | 38 | 100 | 2026-10-31T09:08:26.640Z | Fewer verified (-5); accuracy unresolved |
-| Ondine | 3 | 0.0.3 | 57 | 5 | 0 | 38 | 100 | 2026-10-31T09:03:51.945Z | Fewer verified (-5); accuracy unresolved |
-| Frankenmermaid | 5 | 0.4.0 | 45 | 9 | 0 | 46 | 100 | 2026-10-31T09:03:43.264Z | Fewer verified (-17); accuracy unresolved |
-| Latias Merman | 6 | 0.9.2 | 40 | 31 | 0 | 29 | 100 | 2026-10-31T09:07:41.590Z | Fewer verified (-22); accuracy unresolved |
-| Agentic Mermaid | 7 | 0.4.1 | 38 | 5 | 0 | 57 | 100 | 2026-10-31T09:04:09.631Z | Fewer verified (-24); accuracy unresolved |
-| Mermaid Dart | 8 | 0.3.2 | 29 | 14 | 0 | 57 | 100 | 2026-10-31T09:04:00.316Z | Fewer verified (-33); accuracy unresolved |
-| Mermaid RS Renderer | 9 | 0.3.1 | 19 | 14 | 0 | 67 | 100 | 2026-10-31T09:04:24.304Z | Fewer verified (-43); accuracy unresolved |
-| Zombie Mermaid | 10 | 5.10.2 | 13 | 6 | 0 | 81 | 100 | 2026-10-31T09:04:15.951Z | Fewer verified (-49); accuracy unresolved |
-| XMermaid | 11 | 0.4.2 | 11 | 29 | 0 | 60 | 100 | 2026-10-31T09:07:27.517Z | Fewer verified (-51); accuracy unresolved |
-| Beautiful Mermaid | 12 | 1.1.3 | 8 | 5 | 0 | 87 | 100 | 2026-10-31T09:07:46.020Z | Fewer verified (-54); accuracy unresolved |
-| Crafter Mermaid | 13 | 0.0.3 | 7 | 85 | 0 | 8 | 100 | 2026-10-31T09:04:28.670Z | Fewer verified (-55); accuracy unresolved |
-| Merslim | 14 | 0.2.3 | 6 | 26 | 0 | 68 | 100 | 2026-10-31T09:07:19.800Z | Fewer verified (-56); accuracy unresolved |
-| DSH Mermaid GB SVG | 15 | 0.1.4 | 0 | 94 | 0 | 6 | 100 | 2026-10-31T09:08:01.704Z | Fewer verified (-62); accuracy unresolved |
-| VitePress Plugin Diagram | 15 | 0.3.2 | 0 | 15 | 82 | 3 | 100 | 2026-10-31T09:07:30.915Z | Fewer verified (-62); accuracy unresolved |
+[All 1 tables and recorded attempts](results/tables/fidelity.md)
 
 ### Public Model Contracts
 
-[All 1 ranked tables and recorded attempts](results/tables/native-fidelity.md)
+[All 1 tables and recorded attempts](results/tables/native-fidelity.md)
 
 <a id="run-40cc1a5ead121ae9df015930"></a>
 

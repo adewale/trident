@@ -334,3 +334,19 @@ test('partial correctness compares verified counts without claiming an accuracy 
   expect(rules).toContain('Fewer verified (-n); accuracy unresolved')
   expect(rules).toContain('Same verified count; accuracy unresolved')
 })
+
+test('legacy authored SVG tables cannot expose comparative ranks, charts or an overview score', () => {
+  const data = snapshot(), entry = data.tables[0]!
+  entry.suite = 'fidelity'; data.overviewRanking = entry.id
+  entry.rows.push({ project: 'fixture/alpha', values: ['1.0', 2, 0, 2] })
+  const before = JSON.stringify(data), originalValues = retainedTableValues(data, [entry.id])
+  expect(rankedRows(entry, id => id).map(row => row.rank)).toEqual([null, null])
+  expect(baselineComparison(entry, entry.rows[0]!)).toContain('Unscored')
+  const output = renderSnapshot(data, catalog)
+  expect(output).toContain('Harness and Observer Regressions (unscored)')
+  expect(output).not.toContain('Ranked by **Returned')
+  expect(output).not.toContain('bar [')
+  expect(output.split('## Results by benchmark')[0]).not.toContain('Returned / Planned')
+  expect(JSON.stringify(data)).toBe(before)
+  expect(retainedTableValues(data, [entry.id])).toEqual(originalValues)
+})

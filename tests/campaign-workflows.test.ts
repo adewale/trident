@@ -26,7 +26,7 @@ const sha = (file: string) => createHash('sha256').update(readFileSync(file)).di
 afterEach(() => { for (const directory of directories.splice(0)) rmSync(directory, { recursive: true, force: true }) })
 
 test('default collection excludes expensive clocks, optional models and retired replay', async () => {
-  expect([...DEFAULT_SUITES]).toEqual(['docs', 'fidelity'])
+  expect([...DEFAULT_SUITES]).toEqual(['docs'])
   await expect(benchmarkMain(['--suites', 'upstream-fidelity', '--projects', 'mermaid-js/mermaid'])).rejects.toThrow('retired')
 })
 

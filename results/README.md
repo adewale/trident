@@ -2,8 +2,9 @@
 
 [RESULTS.md](../RESULTS.md) is the repository's ecosystem overview. It lists all
 eligible projects and the latest corpus comparisons. The 31 October campaign
-separates DaveBench SVG/PNG returns and content, authored SVG feature cases,
-Terminal Rendering and optional public model contracts. Historical studies and
+separates DaveBench SVG/PNG returns and content, pinned public API tests and
+Terminal Rendering. Authored SVG feature/edit cases remain unscored diagnostics;
+optional public-model contracts retain separate reports. Historical studies and
 the previous overview remain linked at immutable revisions.
 
 [`latest.json`](latest.json) stores the table values, dates, interfaces,
@@ -22,7 +23,8 @@ Results are stack-ranked by the metric named above each table. Coverage and
 passed-check rates run highest first; latency and memory run lowest first.
 Ties share a rank. Unavailable measurements are unranked below measured rows.
 The ecosystem overview uses DaveBench's reviewed SVG correct count; each other benchmark
-keeps its own ranking. The charts follow their table order. The small historical examples snapshot keeps its original provenance digest;
+keeps its own scoped ranking. The 100 authored feature/edit cases have no rank,
+chart or ecosystem overview score; their diagnostic rows are alphabetical. The charts follow their table order. The small historical examples snapshot keeps its original provenance digest;
 older campaign views remain available at their immutable links.
 
 Regenerate or check the tracked page without acquiring projects or running benchmarks:
@@ -82,12 +84,13 @@ candidates stay separate. This merge supplies no cross-run timing comparison.
 
 Campaign imports now generate the comparative tables from owning suite results.
 DaveBench reconciles the complete frozen inventory across the declared rounds;
-portable latency retains case/mode and output-calibration scope. Other suites
+portable latency retains case/mode and output-calibration scope. Other comparative suites
 compare recorded observations only where the public interface and observed check
 coordinates match. Different populations stay in separate cohorts. Missing bindings,
 blocked work, failed checks and original measurement dates remain visible.
 
-The same table rows produce ranks and charts. There is no per-run transcription of
+Comparative table rows produce ranks and charts. Authored regression tables
+retain outcomes and evidence without ranks or comparative charts. There is no per-run transcription of
 `SnapshotTable` values. Hand-entered historical tables remain immutable legacy
 imports; they are not a template for adding fresh campaign results. Pilot campaigns
 are rejected by the ecosystem importer.

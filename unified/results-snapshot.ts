@@ -50,9 +50,18 @@ export interface ResultsSnapshot {
   attempts: SnapshotAttempt[]
 }
 export const benchmarkNames: Record<PublicSuite, string> = {
-  community: 'Mermaid Compatibility', docs: 'DaveBench: Documentation Examples', fidelity: 'Mermaid Feature Cases',
+  community: 'Mermaid Compatibility', docs: 'DaveBench: Documentation Examples', fidelity: 'Harness and Observer Regressions (unscored)',
   'native-fidelity': 'Public Model Contracts', 'upstream-fidelity': 'Mermaid Assertion Replay',
   'upstream-original': 'Mermaid Reference Tests', portable: 'Render Cost and Scaling', 'public-conformance': 'Mermaid Public API Tests (diagnostic)',
+}
+const regressionNote = 'Unscored harness/observer regressions'
+/** Reclassify presentation without rewriting retained values or receipt identity. */
+const regressionTable = (entry: SnapshotTable): SnapshotTable => entry.suite !== 'fidelity' ? entry : { ...entry, ranking: undefined, overview: undefined, chart: undefined, summary: false,
+  caption: (entry.caption.startsWith(regressionNote) ? entry.caption : regressionNote + ': AM/Trident-authored feature, reset and edit cases; not a comparative renderer benchmark. Original retained report context: ' + entry.caption).replace('Ranks count verified correct diagrams; unknown observations leave complete accuracy unresolved. ', ''),
+  rows: entry.rows.map(row => ({ ...row, unrankedReason: row.unrankedReason?.startsWith(regressionNote) ? row.unrankedReason : regressionNote + (row.unrankedReason ? '; ' + row.unrankedReason : '') })) }
+const regressionSnapshot = (snapshot: ResultsSnapshot): ResultsSnapshot => {
+  const tables = snapshot.tables.map(regressionTable), previous = tables.find(entry => entry.id === snapshot.overviewRanking)
+  return { ...snapshot, tables, ...(previous?.suite === 'fidelity' ? { overviewRanking: tables.find(entry => entry.suite === 'docs' && entry.outputFormat !== 'png' && entry.overview && entry.ranking)?.id } : {}) }
 }
 const sha256 = (value: string | Buffer) => createHash('sha256').update(value).digest('hex')
 const md = (value: unknown) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('|', '&#124;').replaceAll('\n', ' ')
@@ -160,6 +169,7 @@ const snapshotBenchmarkNames = (snapshot: ResultsSnapshot) => ({ ...benchmarkNam
 /** Compare the named count only. Unknown work and unlike populations cannot
  * become a claim that a project is worse, or an unqualified speed comparison. */
 export function baselineComparison(entry: SnapshotTable, row: SnapshotTable['rows'][number], baseline = 'mermaid-js/mermaid'): string {
+  if (entry.suite === 'fidelity') return regressionNote
   const reference = entry.rows.find(item => item.project === baseline)
   if (!reference) return 'No reference score'
   if (row.project === baseline) return 'Baseline'
@@ -179,6 +189,7 @@ export function baselineComparison(entry: SnapshotTable, row: SnapshotTable['row
 }
 /** Shared competition ranks (1, 1, 3); unavailable measurements never become zero. */
 export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
+  entry = regressionTable(entry)
   const numeric = (value: Cell | undefined) => measurementNumber(value) ?? NaN
   const ranked = rankResults(entry.rows, { direction: entry.ranking?.direction ?? 'descending', name: row => name(row.project), score: row => {
     if (row.unrankedReason) return null
@@ -253,7 +264,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
   const tables = new Map(snapshot.tables.map(table => [table.id, table]))
   const generated = campaignTables(report, { url: evidenceUrl.replace(/\/$/, '') + '/' + reportFile, sha256: digest })
   for (const table of generated) tables.set(table.id, table)
-  const overviewEligible = (table: SnapshotTable) => !table.diagnostic && table.artifactRole !== 'candidate' && !!table.overview
+  const overviewEligible = (table: SnapshotTable) => table.suite !== 'fidelity' && !table.diagnostic && table.artifactRole !== 'candidate' && !!table.overview
   let overview = generated.find(table => overviewEligible(table) && table.outputFormat === 'svg' && table.unit === 'documentation drawings') ?? generated.find(table => overviewEligible(table) && table.outputFormat === 'svg') ?? (!snapshot.overviewRanking ? generated.find(overviewEligible) : undefined)
   if (overview?.comparisonKey) {
     const key = overview.comparisonKey
@@ -275,6 +286,7 @@ export function importCampaign(snapshot: ResultsSnapshot, directory: string, evi
 }
 
 export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog, detailLinks?: Map<string, string>, includeRecordedProjects = false): string {
+  snapshot = regressionSnapshot(snapshot)
   validateSnapshot(snapshot, catalog)
   const lineage = lineageInventory(catalog)
   const nodes = new Map(catalog.nodes.map(node => [node.id, node]))
@@ -282,9 +294,9 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
   const name = (id: string) => snapshot.projectNames?.[id] ?? nodes.get(id)?.comparisonBranding?.name ?? id
   const titles = snapshotBenchmarkNames(snapshot)
   const activeSuites = PUBLIC_SUITES.filter(suite => snapshot.tables.some(entry => entry.suite === suite) || snapshot.attempts.some(entry => entry.suite === suite))
-  const overviewColumns: { suite: PublicSuite; format?: 'svg' | 'png'; title: string }[] = activeSuites.flatMap<{ suite: PublicSuite; format?: 'svg' | 'png'; title: string }>(suite => suite === 'docs' && snapshot.tables.some(entry => entry.suite === 'docs' && entry.outputFormat === 'png') ? [{ suite, format: 'svg' as const, title: 'DaveBench SVG' }, { suite, format: 'png' as const, title: 'DaveBench PNG' }] : [{ suite, ...(suite === 'docs' ? { format: 'svg' as const } : {}), title: titles[suite] }])
+  const overviewColumns: { suite: PublicSuite; format?: 'svg' | 'png'; title: string }[] = activeSuites.filter(suite => suite !== 'fidelity').flatMap<{ suite: PublicSuite; format?: 'svg' | 'png'; title: string }>(suite => suite === 'docs' && snapshot.tables.some(entry => entry.suite === 'docs' && entry.outputFormat === 'png') ? [{ suite, format: 'svg' as const, title: 'DaveBench SVG' }, { suite, format: 'png' as const, title: 'DaveBench PNG' }] : [{ suite, ...(suite === 'docs' ? { format: 'svg' as const } : {}), title: titles[suite] }])
   const alphabetical = <T extends { project: string }>(rows: T[]) => [...rows].sort((a, b) => name(a.project).localeCompare(name(b.project)))
-  const primary = snapshot.tables.find(entry => entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))
+  const primary = snapshot.tables.find(entry => entry.suite !== 'fidelity' && entry.id === (snapshot.overviewRanking ?? 'docs-coverage'))
   if (snapshot.overviewRanking && !primary) throw Error('Unknown overview ranking table')
   if (primary && !primary.ranking) throw Error('Overview ranking table needs a named metric')
   const attemptsFor = (project: string, suite: PublicSuite, format?: 'svg' | 'png') => snapshot.attempts.filter(attempt => (!format || (attempt.outputFormats ?? ['svg']).includes(format)) && attempt.project === project && attempt.suite === suite && attempt.artifactRole !== 'candidate' && (suite !== 'community' || terminalOnly(snapshot) || attempt.cohort === undefined || ['core', 'external'].includes(attempt.cohort))).sort((a, b) => stamp(b.updatedAt) - stamp(a.updatedAt) || b.id.localeCompare(a.id))
@@ -345,17 +357,18 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
     lines.push(`### ${titles[suite]}`, '')
     const entries = snapshot.tables.filter(entry => entry.suite === suite).map(entry => ({ ...entry, rows: entry.rows.filter(row => visible(row.project) && (!entry.rolling || !supersedingAttempt(snapshot.attempts, entry, row.project))) })).filter(entry => entry.rows.length)
     if (!entries.length) lines.push('No comparative result table has been published.', '')
-    if (detailLinks) lines.push(`[All ${entries.length} ranked tables and recorded attempts](${detailLinks.get('suite:' + suite)})`, '')
+    if (detailLinks) lines.push(`[All ${entries.length} tables and recorded attempts](${detailLinks.get('suite:' + suite)})`, '')
     for (const entry of entries.filter(entry => !detailLinks || entry.summary || entry.id === primary?.id)) {
+      const unscored = entry.suite === 'fidelity'
       lines.push(`<a id="${anchor(entry.id)}"></a>`, '', `**${entry.id}** · ${date(entry.measuredAt)}${entry.historical ? ' · Historical' : ''}${entry.diagnostic ? ' · **Diagnostic subset**' : ''}${entry.artifactRole === 'candidate' ? ' · **Source candidates**' : ''} · unit: ${md(entry.unit)} · ${entry.rolling ? '[latest source run](' + entry.receipt.url + ')' : receiptLink(entry.receipt)}`, '', entry.caption, '')
       const rows = rankedRows(entry, name)
-      lines.push(entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.` : 'No comparable numeric ranking measure is available.', '')
+      lines.push(unscored ? 'Unscored harness/observer regressions; rows are alphabetical.' : entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.` : 'No comparable numeric ranking measure is available.', '')
       const rate = entry.chart?.denominator
       const notes = rows.some(row => row.unrankedReason)
       const reference = entry.cohort?.startsWith('terminal-') ? 'AlexanderGrooff/mermaid-ascii' : 'mermaid-js/mermaid'
       const compare = entry.population && entry.ranking?.direction === 'descending' && entry.rows.some(row => row.project === reference)
       if (compare) lines.push(`${entry.ranking!.column === 'Correct' ? 'Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes.' : `“Higher” and “Lower” compare **${md(entry.ranking!.column)}** on this population. Unknown evidence remains unresolved.`} ${reference === 'AlexanderGrooff/mermaid-ascii' ? 'Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.' : 'This is a comparison of the named metric, not overall project quality.'}`, '')
-      lines.push(table(['Project', 'Rank', ...entry.columns, ...(compare ? [reference === 'mermaid-js/mermaid' ? 'vs Mermaid' : 'vs Mermaid ASCII'] : []), ...(rate ? [entry.chart!.axis] : []), ...(notes ? ['Ranking note'] : []), ...(entry.rolling ? ['Row evidence'] : [])], rows.map(row => [name(row.project), row.rank ?? '—', ...row.values, ...(compare ? [baselineComparison(entry, row, reference)] : []), ...(rate ? [row.rank === null ? '—' : chartValue(entry, row).toFixed(1) + '%'] : []), ...(notes ? [row.unrankedReason ?? ''] : []), ...(entry.rolling ? [receiptLink(row.receipt!)] : [])])), '')
+      lines.push(table(['Project', ...(unscored ? [] : ['Rank']), ...entry.columns, ...(compare ? [reference === 'mermaid-js/mermaid' ? 'vs Mermaid' : 'vs Mermaid ASCII'] : []), ...(rate ? [entry.chart!.axis] : []), ...(notes ? [unscored ? 'Diagnostic note' : 'Ranking note'] : []), ...(entry.rolling ? ['Row evidence'] : [])], rows.map(row => [name(row.project), ...(unscored ? [] : [row.rank ?? '—']), ...row.values, ...(compare ? [baselineComparison(entry, row, reference)] : []), ...(rate ? [row.rank === null ? '—' : chartValue(entry, row).toFixed(1) + '%'] : []), ...(notes ? [row.unrankedReason ?? ''] : []), ...(entry.rolling ? [receiptLink(row.receipt!)] : [])])), '')
       const chartRows = rows.filter(row => row.rank !== null)
       if (entry.chart && chartRows.length) {
         const quote = (value: string) => JSON.stringify(value.replace(/[\r\n]/g, ' '))
@@ -385,6 +398,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
 }
 
 export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog, root: string, check = false, includeRecordedProjects = false) {
+  snapshot = regressionSnapshot(snapshot)
   const full = renderSnapshot(snapshot, catalog, undefined, includeRecordedProjects), json = JSON.stringify(snapshot, null, 2) + '\n'
   const outputs: [string, string][] = [], links = new Map<string, string>()
   // Keep GitHub pages below its rendering limit. The complete numeric snapshot

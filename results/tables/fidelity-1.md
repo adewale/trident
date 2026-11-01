@@ -1,4 +1,4 @@
-# Mermaid Feature Cases · part 1
+# Harness and Observer Regressions (unscored) · part 1
 
 [Ecosystem overview](../../RESULTS.md) · [All parts](fidelity.md)
 
@@ -6,33 +6,31 @@
 
 **run-cf2b690854ce0dd0739b1e75** · 2026-10-31 · unit: authored diagrams · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
-Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Ranks count verified correct diagrams; unknown observations leave complete accuracy unresolved. Raw criterion evidence remains in the owning report.
+Unscored harness/observer regressions: AM/Trident-authored feature, reset and edit cases; not a comparative renderer benchmark. Original retained report context: Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Raw criterion evidence remains in the owning report.
 
-Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
+Unscored harness/observer regressions; rows are alphabetical.
 
-Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
-
-| Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | vs Mermaid |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mermaid | 1 | 12.2.0 | 62 | 6 | 0 | 32 | 100 | 2026-10-31T09:08:18.381Z | Baseline |
-| Pele | 1 | 1.9.0 | 62 | 5 | 5 | 28 | 100 | 2026-10-31T09:07:54.583Z | Same verified count; accuracy unresolved |
-| Bezel | 3 | 0.2.21 | 57 | 5 | 0 | 38 | 100 | 2026-10-31T09:08:26.640Z | Fewer verified (-5); accuracy unresolved |
-| Ondine | 3 | 0.0.3 | 57 | 5 | 0 | 38 | 100 | 2026-10-31T09:03:51.945Z | Fewer verified (-5); accuracy unresolved |
-| Frankenmermaid | 5 | 0.4.0 | 45 | 9 | 0 | 46 | 100 | 2026-10-31T09:03:43.264Z | Fewer verified (-17); accuracy unresolved |
-| Latias Merman | 6 | 0.9.2 | 40 | 31 | 0 | 29 | 100 | 2026-10-31T09:07:41.590Z | Fewer verified (-22); accuracy unresolved |
-| Agentic Mermaid | 7 | 0.4.1 | 38 | 5 | 0 | 57 | 100 | 2026-10-31T09:04:09.631Z | Fewer verified (-24); accuracy unresolved |
-| Mermaid Dart | 8 | 0.3.2 | 29 | 14 | 0 | 57 | 100 | 2026-10-31T09:04:00.316Z | Fewer verified (-33); accuracy unresolved |
-| Mermaid RS Renderer | 9 | 0.3.1 | 19 | 14 | 0 | 67 | 100 | 2026-10-31T09:04:24.304Z | Fewer verified (-43); accuracy unresolved |
-| Zombie Mermaid | 10 | 5.10.2 | 13 | 6 | 0 | 81 | 100 | 2026-10-31T09:04:15.951Z | Fewer verified (-49); accuracy unresolved |
-| XMermaid | 11 | 0.4.2 | 11 | 29 | 0 | 60 | 100 | 2026-10-31T09:07:27.517Z | Fewer verified (-51); accuracy unresolved |
-| Beautiful Mermaid | 12 | 1.1.3 | 8 | 5 | 0 | 87 | 100 | 2026-10-31T09:07:46.020Z | Fewer verified (-54); accuracy unresolved |
-| Crafter Mermaid | 13 | 0.0.3 | 7 | 85 | 0 | 8 | 100 | 2026-10-31T09:04:28.670Z | Fewer verified (-55); accuracy unresolved |
-| Merslim | 14 | 0.2.3 | 6 | 26 | 0 | 68 | 100 | 2026-10-31T09:07:19.800Z | Fewer verified (-56); accuracy unresolved |
-| DSH Mermaid GB SVG | 15 | 0.1.4 | 0 | 94 | 0 | 6 | 100 | 2026-10-31T09:08:01.704Z | Fewer verified (-62); accuracy unresolved |
-| VitePress Plugin Diagram | 15 | 0.3.2 | 0 | 15 | 82 | 3 | 100 | 2026-10-31T09:07:30.915Z | Fewer verified (-62); accuracy unresolved |
+| Project | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | Diagnostic note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid | 0.4.1 | 38 | 5 | 0 | 57 | 100 | 2026-10-31T09:04:09.631Z | Unscored harness/observer regressions |
+| Beautiful Mermaid | 1.1.3 | 8 | 5 | 0 | 87 | 100 | 2026-10-31T09:07:46.020Z | Unscored harness/observer regressions |
+| Bezel | 0.2.21 | 57 | 5 | 0 | 38 | 100 | 2026-10-31T09:08:26.640Z | Unscored harness/observer regressions |
+| Crafter Mermaid | 0.0.3 | 7 | 85 | 0 | 8 | 100 | 2026-10-31T09:04:28.670Z | Unscored harness/observer regressions |
+| DSH Mermaid GB SVG | 0.1.4 | 0 | 94 | 0 | 6 | 100 | 2026-10-31T09:08:01.704Z | Unscored harness/observer regressions |
+| Frankenmermaid | 0.4.0 | 45 | 9 | 0 | 46 | 100 | 2026-10-31T09:03:43.264Z | Unscored harness/observer regressions |
+| Latias Merman | 0.9.2 | 40 | 31 | 0 | 29 | 100 | 2026-10-31T09:07:41.590Z | Unscored harness/observer regressions |
+| Mermaid | 12.2.0 | 62 | 6 | 0 | 32 | 100 | 2026-10-31T09:08:18.381Z | Unscored harness/observer regressions |
+| Mermaid Dart | 0.3.2 | 29 | 14 | 0 | 57 | 100 | 2026-10-31T09:04:00.316Z | Unscored harness/observer regressions |
+| Mermaid RS Renderer | 0.3.1 | 19 | 14 | 0 | 67 | 100 | 2026-10-31T09:04:24.304Z | Unscored harness/observer regressions |
+| Merslim | 0.2.3 | 6 | 26 | 0 | 68 | 100 | 2026-10-31T09:07:19.800Z | Unscored harness/observer regressions |
+| Ondine | 0.0.3 | 57 | 5 | 0 | 38 | 100 | 2026-10-31T09:03:51.945Z | Unscored harness/observer regressions |
+| Pele | 1.9.0 | 62 | 5 | 5 | 28 | 100 | 2026-10-31T09:07:54.583Z | Unscored harness/observer regressions |
+| VitePress Plugin Diagram | 0.3.2 | 0 | 15 | 82 | 3 | 100 | 2026-10-31T09:07:30.915Z | Unscored harness/observer regressions |
+| XMermaid | 0.4.2 | 11 | 29 | 0 | 60 | 100 | 2026-10-31T09:07:27.517Z | Unscored harness/observer regressions |
+| Zombie Mermaid | 5.10.2 | 13 | 6 | 0 | 81 | 100 | 2026-10-31T09:04:15.951Z | Unscored harness/observer regressions |
 <a id="attempt-003bb72c36f4eb5c20a4740b"></a>
 
-### Pele: Mermaid Feature Cases (core)
+### Pele: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -147,7 +145,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-1e9bfc069899f6e93e29f866"></a>
 
-### Mermaid: Mermaid Feature Cases (core)
+### Mermaid: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -249,7 +247,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-29873f158b35c1cde344286f"></a>
 
-### MermaidText: Mermaid Feature Cases (core)
+### MermaidText: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **unavailable** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -257,7 +255,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-29909fbd60386d3abbd1a5d7"></a>
 
-### VitePress Plugin Diagram: Mermaid Feature Cases (core)
+### VitePress Plugin Diagram: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -372,7 +370,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-317d2ed6fc50c89414e5fdd8"></a>
 
-### Mermaid Dart: Mermaid Feature Cases (core)
+### Mermaid Dart: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -487,7 +485,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-33d9b5ab1802cae3926fa28f"></a>
 
-### Figurehead: Mermaid Feature Cases (core)
+### Figurehead: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **unavailable** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -495,7 +493,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-33eb4bed563d60777dc7fcd5"></a>
 
-### Merslim: Mermaid Feature Cases (core)
+### Merslim: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -610,7 +608,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-5c87f6a6b7bede68f40a7e39"></a>
 
-### Beautiful Mermaid: Mermaid Feature Cases (core)
+### Beautiful Mermaid: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -725,7 +723,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-658485d668957c47de67ee75"></a>
 
-### Grok renderer: Mermaid Feature Cases (core)
+### Grok renderer: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **unavailable** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -733,7 +731,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-6b32f413d3258d10e16b8789"></a>
 
-### Termaid: Mermaid Feature Cases (core)
+### Termaid: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **unavailable** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 

@@ -40,7 +40,7 @@ test('campaign planning never installs a target or runs a renderer and execution
     expect(plan.rows.find((row: any) => row.suite === 'portable').freshWorkers).toBeGreaterThan(0)
     const defaults = spawnSync(process.execPath, [command, 'bench', '--projects', 'fixture/not-installed', '--community-catalog', catalog, '--plan'], { env, encoding: 'utf8', timeout: 10000 })
     expect(defaults.status).toBe(0)
-    expect(JSON.parse(defaults.stdout).suites).toEqual(['docs', 'fidelity'])
+    expect(JSON.parse(defaults.stdout).suites).toEqual(['docs'])
     expect(JSON.parse(defaults.stdout).rows.every((row: any) => row.freshWorkers === 0)).toBe(true)
     const omitted = spawnSync(process.execPath, [command, 'bench'], { env: { ...process.env }, encoding: 'utf8', timeout: 10000 })
     expect(omitted.status).not.toBe(0)

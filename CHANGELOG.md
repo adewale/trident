@@ -8,10 +8,19 @@ publication remain pending.
 
 ### Benchmarks and measurement
 
+- Make the 100 AM/Trident-authored feature/edit cases unscored harness/observer
+  regressions. Keep sources, raw evidence and historical reports; remove their
+  renderer ranks, charts and overview score. Ordinary collection defaults to
+  DaveBench; regressions require explicit `--suites fidelity`. Pinned public API
+  tests and terminal results retain their separate populations, and timing stays
+  in qualified scoped tables.
+
 - Publish the [minimum-cohort qualification results](docs/qualification-results-2026-10-31.md)
   and restorable source/output evidence. Tables rank named verified counts and
-  retain unresolved facts. A fresh restore validates all 449 native PNG ownership
-  records and 951 selected image-review bindings.
+  retain unresolved facts. Re-review source-frozen PNG holds from actual pixels,
+  with admitted decisions, required-fact gaps and native no-image outcomes kept
+  separate in the owning report. Historical restoration checks retain their
+  exact revisions and original review populations.
 
 - Freeze all 548 DaveBench syntax-documentation occurrences, including 546
   whitespace-trimmed sources (547 exact bodies), with exact source hashes and structured expectations. The
@@ -82,9 +91,10 @@ publication remain pending.
 - Keep interrupted DaveBench rounds unranked, distinguish partial observations
   from unexecuted inputs, retain CLI variant ownership, and resolve owning reports
   relative to an extracted evidence archive.
-- Historical results retain the seven original suite identities. Current workloads
-  combine feature cases, drawing checks and explicit cost profiles, alongside
-  documentation examples and optional public-model contracts.
+- Historical results retain the seven original suite identities. Current
+  comparisons use documentation SVG/PNG, pinned public API tests and terminal
+  rendering. Authored feature/edit cases are unscored diagnostics; optional
+  public-model contracts and qualified timing tracks retain separate scopes.
 - Portable SVG process protocol v7 separates output admission, public-model facts,
   painted evidence and timing calibration. Its bounded route/marker checks inspect
   actual ink; unavailable projections and failed qualification remain visible.

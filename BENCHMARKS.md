@@ -1,23 +1,25 @@
 # Benchmarks: tasks, evidence and limits
 
 Trident compares public rendering artifacts. The current workloads are
-Documentation Examples (DaveBench), Mermaid Public Tests, Mermaid Feature Cases,
-Terminal Rendering and optional Public Model Contracts. SVG inspection and cost measurement are shared machinery.
+Documentation Examples (DaveBench), pinned Mermaid Public API Tests and Terminal
+Rendering. Authored harness/observer regressions are unscored diagnostics; optional
+Public Model Contracts retain their separate API scope. SVG inspection and cost measurement are shared machinery.
 There is no combined renderer-quality score or validated production holdout.
 
 The [current minimum-cohort qualification results](docs/qualification-results-2026-10-31.md)
-rank verified counts and the one qualified fixed-source timing comparison.
+rank verified counts and separately qualified timing comparisons on named inputs.
 They retain unknowns and do not replace the historical ecosystem baseline.
 
 ```sh
 bun commands.ts bench --projects OWNER/TOOL,... --profile full --plan
-bun commands.ts bench --projects OWNER/TOOL,... --suites docs,fidelity --out FRESH_DIR
+bun commands.ts bench --projects OWNER/TOOL,... --suites docs --out FRESH_DIR
 bun commands.ts bench --projects OWNER/TOOL,... --suites docs --docs-formats png --out FRESH_PNG_DIR
 bun commands.ts bench --projects OWNER/TOOL,... --suites portable --plan
 bun commands.ts bench --list
 ```
 
-Default collection selects `docs,fidelity`. Expensive performance (`portable`),
+Default collection selects `docs`. Unscored authored regressions (`fidelity`),
+expensive performance (`portable`),
 legacy compatibility (`community`) and optional model (`native-fidelity`) work
 require explicit selection. `full` applies to the selected inputs and sampling.
 Preparation freezes artifacts once; collection performs no latest-version lookup.
@@ -90,28 +92,35 @@ It preserves failed checks and cannot supply structural, font, resource,
 metadata or motion facts; it is not an SVG-to-PNG preservation certificate.
 Content without an admissible current review stays unknown. Settings-only
 sources have no nonblank-drawing requirement. New PNG clocks remain descriptive
-unless every timed output and A/A calibration qualify. The minimum retained
-cohort has 997 returned coordinates (548 Mermaid conversions and 449 native
-Flutter images), all inspected at native dimensions. There are 951 current
-content decisions and 42 actual-image holds; another 99 native coordinates have
-no image. The [current reducer summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json)
-and [all planned grades](docs/evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz)
-retain every category. [Independent image evidence](docs/evidence/png-full-corpus-2026-10-31/README.md)
-preserves repairs and review histories. Every remaining hold identifies the
-required missing fact or evidence.
+unless every timed output and A/A calibration qualify. The retained two-project PNG cohort contains actual Mermaid conversions and native
+Flutter returns, inspected at native dimensions. Current admitted decisions,
+required-fact holds and native no-image outcomes are separate in the
+[benchmark report](docs/qualification-results-2026-10-31.md),
+[summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json) and
+[all grades](docs/evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz).
+[Independent image evidence](docs/evidence/png-full-corpus-2026-10-31/README.md)
+preserves repairs and review histories. No viewing count supplies a correctness pass.
 
 The replaced v1 standalone PNG exporter and old studies retain their own protocols;
 their counts and timings are not silently imported into the new output lanes.
 
-## Mermaid Feature Cases
+## Harness and observer regressions — unscored
 
-Task: preserve independently declared diagram facts through a public rendering
-interface. The correctness collector and legacy diagnostics retain their IDs:
+The 100 AM/Trident-authored feature/edit cases test the harness and its observers.
+They retain useful compact geometry controls, session/configuration isolation,
+font-size replacement and controlled-image checks. They are not a comparative
+benchmark: the same families are already represented in DaveBench, while reset
+and rename variants repeat development fixtures. They do not supply renderer
+ranks, overview scores or comparative timings. Collection is explicit with
+`--suites fidelity`; sources, old raw outputs and historical reports remain readable.
+Discarded or unproved preludes cannot earn workflow credit.
+
+The collectors and legacy diagnostics retain their IDs:
 
 | Collector | Checks | What a result establishes |
 |---|---|---|
 | `community` — legacy diagnostic | Output format, authored text, invalid-input controls and interface behaviour. | Input/output admission within the named format and runtime; no complete drawing or qualified speed claim. |
-| `fidelity` | Visible labels, owned nodes/routes, arrow direction, grouping, declared values and hidden content. | Completion of the same planned SVG checks, with failed and unknown criteria retained. |
+| `fidelity` — unscored regression | Visible labels, owned nodes/routes, arrow direction, grouping, declared values and hidden content. | Harness/observer diagnostics only; counts retain failed and unknown criteria without ranking projects. |
 | `portable` — legacy adaptive diagnostic | Public Node SVG calls across families, sizes, repeated/new sources and edits. | Descriptive process/sample means with original output/model scope; no strict per-call timing qualification. |
 
 The 718-positive-input compatibility cohort originated in AM testing and remains
@@ -120,7 +129,7 @@ examples have unequal contributions despite equal file caps. They require
 per-repository breakdowns and have no defined balanced overall score. Neither
 corpus is a neutral production sample. See [comparison contracts](FAIRNESS.md).
 
-Drawing verdicts use the authored planned ledger: correct, incorrect, unsupported
+Regression verdicts use the authored planned ledger: correct, incorrect, unsupported
 or unknown. Missing observers cannot reduce the denominator. Public-model APIs
 and capability-specific checks supply no SVG credit. Criterion counts are useful
 failure details, not votes in an overall fidelity score. Group checks inspect
@@ -263,7 +272,7 @@ remains readable. The earlier [controlled](docs/controlled-png-results.md) and
 Mermaid Assertion Replay (`upstream-fidelity`) is retired from new comparative
 campaigns. Its private-API/import/projection compatibility does not measure drawn
 correctness. Historical declaration, callback and matcher observations remain
-separate, readable evidence. Useful public-behaviour cases belong in the feature
+separate, readable evidence. Useful public-behaviour cases belong in the unscored regression
 or model workloads with explicit expectations.
 
 Mermaid's own original tests (`--suites upstream-original`) validate the pinned

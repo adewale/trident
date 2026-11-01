@@ -1,4 +1,4 @@
-# Mermaid Feature Cases
+# Harness and Observer Regressions (unscored)
 
 [Ecosystem overview](../../RESULTS.md)
 

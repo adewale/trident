@@ -34090,7 +34090,7 @@
       "campaignUpdatedAt": "2026-10-31T10:06:52.125Z",
       "historical": false,
       "unit": "authored diagrams",
-      "caption": "Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Ranks count verified correct diagrams; unknown observations leave complete accuracy unresolved. Raw criterion evidence remains in the owning report.",
+      "caption": "Unscored harness/observer regressions: AM/Trident-authored feature, reset and edit cases; not a comparative renderer benchmark. Original retained report context: Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Raw criterion evidence remains in the owning report.",
       "columns": [
         "Version",
         "Correct",
@@ -34111,7 +34111,8 @@
             46,
             100,
             "2026-10-31T09:03:43.264Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "wevm/ondine",
@@ -34123,7 +34124,8 @@
             38,
             100,
             "2026-10-31T09:03:51.945Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "orestesgaolin/mermaid",
@@ -34135,7 +34137,8 @@
             57,
             100,
             "2026-10-31T09:04:00.316Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "adewale/agentic-mermaid",
@@ -34147,7 +34150,8 @@
             57,
             100,
             "2026-10-31T09:04:09.631Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "dfadler/zombie-mermaid",
@@ -34159,7 +34163,8 @@
             81,
             100,
             "2026-10-31T09:04:15.951Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "1jehuang/mermaid-rs-renderer",
@@ -34171,7 +34176,8 @@
             67,
             100,
             "2026-10-31T09:04:24.304Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "crafter-station/mermaid",
@@ -34183,7 +34189,8 @@
             8,
             100,
             "2026-10-31T09:04:28.670Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "emtyty/merslim",
@@ -34195,7 +34202,8 @@
             68,
             100,
             "2026-10-31T09:07:19.800Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "evangwt/xmermaid",
@@ -34207,7 +34215,8 @@
             60,
             100,
             "2026-10-31T09:07:27.517Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "KlangHaus/vitepress-plugin-diagram",
@@ -34219,7 +34228,8 @@
             3,
             100,
             "2026-10-31T09:07:30.915Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "Latias94/merman",
@@ -34231,7 +34241,8 @@
             29,
             100,
             "2026-10-31T09:07:41.590Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "lukilabs/beautiful-mermaid",
@@ -34243,7 +34254,8 @@
             87,
             100,
             "2026-10-31T09:07:46.020Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "obsidianmd/pele",
@@ -34255,7 +34267,8 @@
             28,
             100,
             "2026-10-31T09:07:54.583Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
@@ -34267,7 +34280,8 @@
             6,
             100,
             "2026-10-31T09:08:01.704Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "mermaid-js/mermaid",
@@ -34279,7 +34293,8 @@
             32,
             100,
             "2026-10-31T09:08:18.381Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         },
         {
           "project": "crabtalk/bezel",
@@ -34291,23 +34306,15 @@
             38,
             100,
             "2026-10-31T09:08:26.640Z"
-          ]
+          ],
+          "unrankedReason": "Unscored harness/observer regressions"
         }
       ],
       "receipt": {
         "url": "https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json",
         "sha256": "9a8cccf2f98b6a2cc07674625c5368cea774813645cf5027e3bbcec2a5ad2111"
       },
-      "ranking": {
-        "column": "Correct",
-        "direction": "descending"
-      },
-      "summary": true,
-      "overview": {
-        "numerator": "Correct",
-        "denominator": "Planned",
-        "suffix": ""
-      },
+      "summary": false,
       "population": {
         "total": "Planned",
         "outcomes": [

@@ -44,7 +44,7 @@ test('documentation SVG return and reviewed drawing correctness retain separate 
   expect(returns.rows.find(row => row.project === 'fixture/a')!.values[1]).toBe(2)
 })
 
-test('new SVG case verdicts rank verified correct counts while retaining unknown diagrams', () => {
+test('authored SVG case verdicts retain diagnostic counts without ranking renderers', () => {
   const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' })
   const cases = [{ caseId: 'one', family: 'flowchart', status: 'correct' }, { caseId: 'two', family: 'flowchart', status: 'unknown' }]
   write(join(root, 'docs/result.json'), { id: 'mermaid-fidelity', startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z', observations: [], gaps: [], selectedCaseIds: ['one', 'two'], criteriaProtocol: { observer: 'fixture' }, svgAssessments: [{ project: 'fixture/a', version: '1.0.0', cases }] })
@@ -52,7 +52,10 @@ test('new SVG case verdicts rank verified correct counts while retaining unknown
   const snapshot = importCampaign(empty(), root, 'https://example.test/svg', catalog)
   expect(snapshot.tables).toHaveLength(1)
   expect(snapshot.tables[0]!.rows[0]!.values.slice(1, 6)).toEqual([1, 0, 0, 1, 2])
-  expect(rankedRows(snapshot.tables[0]!, value => value)[0]!.rank).toBe(1)
+  expect(rankedRows(snapshot.tables[0]!, value => value)[0]!.rank).toBeNull()
+  expect(snapshot.tables[0]!.diagnostic).toBe(true)
+  expect(snapshot.tables[0]!.ranking).toBeUndefined()
+  expect(snapshot.tables[0]!.overview).toBeUndefined()
   write(join(root, 'docs/result.json'), { id: 'mermaid-fidelity', observations: [], selectedCaseIds: ['one', 'two', 'three'], svgAssessments: [{ project: 'fixture/a', version: '1.0.0', cases }] })
   expect(() => importCampaign(empty(), root, 'https://example.test/svg', catalog)).toThrow('omit')
 })

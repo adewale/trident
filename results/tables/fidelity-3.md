@@ -1,10 +1,10 @@
-# Mermaid Feature Cases · part 3
+# Harness and Observer Regressions (unscored) · part 3
 
 [Ecosystem overview](../../RESULTS.md) · [All parts](fidelity.md)
 
 <a id="attempt-dfa57fdbbb921a001122a40c"></a>
 
-### Zombie Mermaid: Mermaid Feature Cases (core)
+### Zombie Mermaid: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -119,7 +119,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-e4ea266773a6f6914bedcce1"></a>
 
-### Crafter Mermaid: Mermaid Feature Cases (core)
+### Crafter Mermaid: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -235,7 +235,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-e6fb8140630df29bbc7fae33"></a>
 
-### OpenCode Merman: Mermaid Feature Cases (core)
+### OpenCode Merman: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **unavailable** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -243,7 +243,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-f2dca9926b606bdc98ba72b6"></a>
 
-### XMermaid: Mermaid Feature Cases (core)
+### XMermaid: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -360,7 +360,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-f62b670c62cb5843fb4391c3"></a>
 
-### Mermaid ASCII: Mermaid Feature Cases (core)
+### Mermaid ASCII: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **unavailable** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
@@ -368,7 +368,7 @@ Native public-model criteria are unavailable for this noncore peer; public SVG s
 
 <a id="attempt-fdda1a91993049067e1af579"></a>
 
-### Ondine: Mermaid Feature Cases (core)
+### Ondine: Harness and Observer Regressions (unscored) (core)
 
 Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **failed** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/fidelity/)
 
