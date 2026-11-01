@@ -29,7 +29,7 @@ test('only exact registered animation/ARIA,responsive and minimum-clearance cont
     expect(pngCase.expected.nodes).toEqual(svgCase.expected.nodes)
     expect(pngCase.expected.edges).toEqual(svgCase.expected.edges)
     expect(pngCase.profileExpected).toEqual(original.profileExpected??original.expected)
-    if(projection.canvasClearance){
+    if(projection.canvasClearance?.requiredMinimum===200){
       expect(projection.canvasClearance.requiredMinimum).toBe(200)
       expect(pngCase.expected.facts!['minimum-canvas-clearance']).toEqual(projection.canvasClearance.expected.facts!['minimum-canvas-clearance'])
       expect(pngCase.expected.facts!['authored-config']).toBeUndefined()
@@ -62,14 +62,17 @@ test('only exact registered animation/ARIA,responsive and minimum-clearance cont
 test('one fixed PNG excludes only responsive useMaxWidth; full native/SVG and concrete fonts,padding and colors remain required',()=>{
   const row=reviews.find(row=>row.id.endsWith('usecase.md:478'))!,original=structuredClone(row),stimulus=inputs.find((input:any)=>input.id===row.id),projection=docsPngStaticProjection(row)!,png=reviewedDocsPngCase(stimulus,row),svg=reviewedDocsCase(stimulus,row)
   const config=(row.expected!.facts!['authored-config'] as any).usecase,staticConfig=(png.expected.facts!['authored-config'] as any).usecase
-  const{useMaxWidth,...staticMetrics}=config
+  const{useMaxWidth,diagramPadding,...staticMetrics}=config
   expect(useMaxWidth).toBe(false)
   expect(staticConfig).toEqual(staticMetrics)
-  expect(staticConfig).toMatchObject({actorFontSize:16,actorFontFamily:'Arial',actorFontWeight:'bold',usecaseFontSize:14,usecaseFontFamily:'Georgia',usecaseFontWeight:'normal',diagramPadding:24,colorScheme:'role'})
+  expect(staticConfig).toMatchObject({actorFontSize:16,actorFontFamily:'Arial',actorFontWeight:'bold',usecaseFontSize:14,usecaseFontFamily:'Georgia',usecaseFontWeight:'normal',colorScheme:'role'})
+  expect(diagramPadding).toBe(24)
+  expect(png.expected.facts!['minimum-canvas-clearance']).toEqual({minimum:24,unit:'px-at-frozen-pixelRatio-1',sides:['left','top','right','bottom'],bounds:'owned-visible-geometry-excluding-stroke-outset'})
+  expect((svg.expected.facts!['authored-config'] as any).usecase.diagramPadding).toBe(24)
   expect((svg.expected.facts!['authored-config'] as any).usecase.useMaxWidth).toBe(false)
   expect(png.profileExpected).toEqual(original.profileExpected??original.expected)
   expect(row).toEqual(original)
-  expect(projection.excludedMetadata).toEqual([{owner:'diagram',property:'usecase.useMaxWidth',value:false,reason:expect.stringContaining('different parent width')}])
+  expect(projection.excludedMetadata).toEqual([{owner:'diagram',property:'usecase.diagramPadding.exactInternalValue',value:24,reason:expect.stringContaining('minimum24px')},{owner:'diagram',property:'usecase.useMaxWidth',value:false,reason:expect.stringContaining('different parent width')}])
   expect(projection.sourceSemanticSha256).toBe(docsPngStaticProjection(original)!.sourceSemanticSha256)
   expect(projection.claim).toContain('does not certify responsive')
   expect(docsExpectationsHash(row)).not.toBe(legacyHash(row))

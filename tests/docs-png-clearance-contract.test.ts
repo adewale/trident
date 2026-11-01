@@ -4,6 +4,34 @@ import{docsPngClearanceProjection,inspectMinimumCanvasClearance}from'../unified/
 import type{DocsDrawingReview}from'../unified/docs-drawings.ts'
 const source=reviews.find(row=>row.id==='packages/mermaid/src/docs/syntax/treemap.md:133')! as DocsDrawingReview
 const projection=docsPngClearanceProjection(source)!
+const usecase=reviews.find(row=>row.id==='packages/mermaid/src/docs/syntax/usecase.md:478')! as DocsDrawingReview
+const usecaseProjection=docsPngClearanceProjection(usecase)!
+
+test('the same forward minimum applies to registered usecase24 without removing fonts,colors or the full native/SVG setting',()=>{
+  const original=structuredClone(usecase),config=(usecase.expected!.facts!['authored-config'] as any).usecase,{diagramPadding,...remaining}=config
+  expect(diagramPadding).toBe(24)
+  expect(usecaseProjection.requiredMinimum).toBe(24)
+  expect((usecaseProjection.expected.facts!['authored-config'] as any).usecase).toEqual(remaining)
+  expect(usecaseProjection.nativeProfileExpected).toEqual(usecase.profileExpected??usecase.expected!)
+  expect((usecaseProjection.nativeProfileExpected.facts!['authored-config'] as any).usecase.diagramPadding).toBe(24)
+  expect(usecaseProjection.expected.nodes).toEqual(usecase.expected!.nodes)
+  expect(usecaseProjection.expected.edges).toEqual(usecase.expected!.edges)
+  expect(usecase).toEqual(original)
+  expect(()=>docsPngClearanceProjection({...usecase,expected:{...usecase.expected!,labels:['forged']}})).toThrow('exact registered')
+})
+
+test('24px and larger margins pass; independently cropped23px on each side fails without opposite-margin compensation',()=>{
+  expect(inspectMinimumCanvasClearance(usecaseProjection,{width:140,height:130,pixelRatio:1,bounds:{left:24,top:24,right:116,bottom:106}}).status).toBe('correct')
+  expect(inspectMinimumCanvasClearance(usecaseProjection,{width:200,height:160,pixelRatio:1,bounds:{left:30,top:40,right:160,bottom:130}}).status).toBe('correct')
+  for(const bounds of[{left:23,top:30,right:150,bottom:120},{left:30,top:23,right:150,bottom:120},{left:30,top:30,right:177,bottom:120},{left:30,top:30,right:150,bottom:137}]){
+    const result=inspectMinimumCanvasClearance(usecaseProjection,{width:200,height:160,pixelRatio:1,bounds})
+    expect(result.status).toBe('incorrect')
+    expect(result.failedSides).toHaveLength(1)
+  }
+  const actual={width:140,height:130,pixelRatio:1,bounds:{left:24,top:24,right:116,bottom:106}}
+  for(const change of[{requiredMinimum:23},{sourcePadding:23},{pixelRatio:2},{sourceSemanticSha256:projection.sourceSemanticSha256}])expect(inspectMinimumCanvasClearance({...usecaseProjection,...change}as any,actual).status).toBe('unknown')
+  expect(inspectMinimumCanvasClearance(usecaseProjection,{...actual,pixelRatio:2}).status).toBe('unknown')
+})
 
 test('only exact pinned source receives a forward clearance projection; all literal/native facts remain retained',()=>{
   const before=JSON.stringify(source)
