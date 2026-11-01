@@ -1,0 +1,13 @@
+{
+  "schema": "terminal-timing-portable-restore-v1",
+  "archiveSha256": "cc917f84c63b1767be49afe36d35e94484bdc1ead2a2b63220fc1524acdf03af",
+  "filesVerified": 327,
+  "method": "Fresh directory extraction; every restored file length/SHA checked against archive manifest; ordinary timing:qualify rerun without renderer calls",
+  "qualifierCommand": "bun commands.ts timing:qualify --bundle RESTORE/trident-terminal-cli-first-use-2026-11-01/timing-regraded-30f8f57a52c660f2d8b698e6.json --out RESTORE/rechecked.json",
+  "exitCode": 0,
+  "status": "qualified",
+  "planned": 108,
+  "checked": 108,
+  "gaps": [],
+  "receiptSha256": "a2f0a2bf4603b1f0f5ac36fb06a6a4c6960849cdc20a831c92ab88da005e8254"
+}
