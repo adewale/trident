@@ -933,10 +933,6 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (chevron && kind === 'unknown') return { kind, point: endpoint, unknown: 'The concave arrow has no qualified symmetric two-arm open contour' }
     if (!polygon || kind === 'unknown') return { kind, point: endpoint, unknown: 'Marker tip projection is unavailable' }
     const reference = { x: owner.refX.baseVal.value, y: owner.refY.baseVal.value }
-    if (!chevron && ['arrow','triangle','open-arrow'].includes(kind)) {
-      const ink=shape as SVGGeometryElement,point=new DOMPoint(reference.x,reference.y),edgeDistance=Math.min(...polygon.map((a,index)=>{const b=polygon[(index+1)%polygon.length]!,dx=b.x-a.x,dy=b.y-a.y,t=Math.max(0,Math.min(1,((reference.x-a.x)*dx+(reference.y-a.y)*dy)/Math.max(1e-12,dx*dx+dy*dy)));return Math.hypot(reference.x-a.x-t*dx,reference.y-a.y-t*dy)}))
-      if (!ink.isPointInFill(point) && !ink.isPointInStroke(point) && edgeDistance > Math.max(.5,Number.parseFloat(glyphStyle.strokeWidth)/2)) return {kind,point:endpoint,unknown:'The referenced directional glyph is physically detached from its stem reference point'}
-    }
     const directional = ['arrow', 'triangle', 'open-arrow'].includes(kind)
     const tangent = tangentAt(element, side)
     if (!tangent) return { kind, point: endpoint, unknown: 'No stable endpoint tangent for marker placement' }
@@ -956,6 +952,12 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const dx = (tip.x - reference.x) * viewScale * units * tangent.scale * reverse, dy = (tip.y - reference.y) * viewScale * units * tangent.scale * reverse
     const others = polygon.filter(point => point !== tip), base = { x: others.reduce((sum, point) => sum + point.x, 0) / others.length, y: others.reduce((sum, point) => sum + point.y, 0) / others.length }
     const size = Math.max(...polygon.map(point => Math.hypot(point.x - tip.x, point.y - tip.y))) * viewScale * units * tangent.scale
+    // A provably reversed glyph remains wrong even when its reference is
+    // also detached; attachment uncertainty cannot erase known direction.
+    if (!chevron && ['arrow','triangle','open-arrow'].includes(kind)) {
+      const ink=shape as SVGGeometryElement,point=new DOMPoint(reference.x,reference.y),edgeDistance=Math.min(...polygon.map((a,index)=>{const b=polygon[(index+1)%polygon.length]!,dx=b.x-a.x,dy=b.y-a.y,t=Math.max(0,Math.min(1,((reference.x-a.x)*dx+(reference.y-a.y)*dy)/Math.max(1e-12,dx*dx+dy*dy)));return Math.hypot(reference.x-a.x-t*dx,reference.y-a.y-t*dy)}))
+      if (!ink.isPointInFill(point) && !ink.isPointInStroke(point) && edgeDistance > Math.max(.5,Number.parseFloat(glyphStyle.strokeWidth)/2)) return {kind,point:endpoint,...(directional ? {orientation:(tip.x-base.x)*reverse*(side==='start'?-1:1)>0}:{}),unknown:'The referenced directional glyph is physically detached from its stem reference point'}
+    }
     return { kind, filled: (shape.localName === 'polygon' || /z\s*$/i.test(shape.getAttribute('d') ?? '')) && getComputedStyle(shape).fill !== 'none' && Number(getComputedStyle(shape).fillOpacity) > 0 && colorAlpha(getComputedStyle(shape).fill) !== 0, point: { x: endpoint.x + tangent.x * dx - tangent.y * dy, y: endpoint.y + tangent.y * dx + tangent.x * dy }, clearance: Math.min(8, size / 2), ...(directional ? { approach: { direction: { x: tangent.x * (tip.x-base.x) * reverse - tangent.y * (tip.y-base.y) * reverse,y: tangent.y * (tip.x-base.x) * reverse + tangent.x * (tip.y-base.y) * reverse },extent: size } } : {}), ...(directional ? { orientation: (tip.x - base.x) * reverse * (side === 'start' ? -1 : 1) > 0 } : {}) }
   }
   const inlineMarker = (element: Element, side: 'start' | 'end', endpoint: Point, other: Point): Marker => {

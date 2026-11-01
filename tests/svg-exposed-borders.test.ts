@@ -31,7 +31,18 @@ test('collinear cubic borders need exposed nonzero stroke and do not excuse fore
  expect(status(await inspect(covered,input))).not.toBe('passed')
 })
 
-test('noncollinear rough border fill is still an unqualified alternative',async()=>{
- const svg=readFileSync(new URL('191.svg',directory),'utf8'),index=191,input={family:reviewed[index].family,source:sources[index].source,expected:reviewed[index].expected}
- expect(status(await inspect(svg,input))).toBe('unavailable')
+test('retained delay border has collinear and zero-length subpaths, while a bowed fill cannot borrow it',async()=>{
+ const svg=readFileSync(new URL('191.svg',directory),'utf8'),index=191,input={family:reviewed[index].family,source:sources[index].source,expected:reviewed[index].expected},row=provenance.find((row:any)=>row.index===index),hash=(value:string)=>createHash('sha256').update(value).digest('hex')
+ expect(hash(svg)).toBe(row.svgSha256);expect(hash(sources[index].source)).toBe(row.sourceSha256)
+ const page=await browser.newPage({viewport:{width:1400,height:1000}})
+ try{
+  await page.setContent(svg)
+  // The actual first path owns the delay's interior. The second path is108
+  // separately closed chord subpaths (including4 points), not a curved fill.
+  expect(await page.evaluate(()=>[...document.querySelectorAll('g.node path')].map(element=>(element as SVGGeometryElement).isPointInFill(new DOMPoint(-11,-20))))).toEqual([true,false])
+  expect(status(await inspectSvgDrawing(page,input))).toBe('passed')
+  await page.evaluate(()=>document.querySelectorAll('g.node path')[1]!.setAttribute('d','M-78.6002512578676 -22.5 C-34 -10 11 -10 56.1002512578676 -22.5'))
+  expect(await page.evaluate(()=>(document.querySelectorAll('g.node path')[1] as SVGGeometryElement).isPointInFill(new DOMPoint(-11,-20)))).toBe(true)
+  expect(status(await inspectSvgDrawing(page,input))).toBe('unavailable')
+ }finally{await page.close()}
 })
