@@ -23,6 +23,14 @@ export function inspectChartFacts(input: { family: string; source: string; expec
       if (owner === svg) break
     }
     const bounds = element.getBoundingClientRect()
+    for (const cover of svg.querySelectorAll('image,use')) {
+      if (cover === element || cover.contains(element) || element.contains(cover) || cover.closest('defs,marker,clipPath,mask') || !(element.compareDocumentPosition(cover) & Node.DOCUMENT_POSITION_FOLLOWING)) continue
+      const b = cover.getBoundingClientRect()
+      if (b.width <= 0 || b.height <= 0 || b.x >= bounds.right || b.right <= bounds.x || b.y >= bounds.bottom || b.bottom <= bounds.y) continue
+      let opacity = 1, shown = true
+      for (let owner: Element | null = cover; owner; owner = owner.parentElement) { const css = getComputedStyle(owner); opacity *= Number(css.opacity); if (css.display === 'none' || ['hidden','collapse'].includes(css.visibility)) shown = false; if (owner === svg) break }
+      if (shown && opacity > 0) { uncertain = true; return false }
+    }
     const canvasBounds = svg.getBoundingClientRect(), structuralBackground = element.localName === 'rect' && bounds.width >= canvasBounds.width * .9 && bounds.height >= canvasBounds.height * .9
     for (const cover of structuralBackground ? [] : svg.querySelectorAll('rect')) {
       if (cover === element || !(element.compareDocumentPosition(cover) & Node.DOCUMENT_POSITION_FOLLOWING) || cover.closest('defs,marker,clipPath,mask')) continue
