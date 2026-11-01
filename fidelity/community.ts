@@ -1,8 +1,8 @@
-import { CollectionBudgetExhausted, checkCollectionBudget } from '../portable/checkpoint.ts'
+import { CollectionBudgetExhausted, checkCollectionBudget, writeDurableEvidence } from '../portable/checkpoint.ts'
 import { harnessFile } from '../unified/harness-paths.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { fidelityCriteriaProtocol } from './protocol.ts'
-import { createHash } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { createRequire } from 'node:module'
@@ -30,6 +30,7 @@ import type { FidelityRunOptions } from './run.ts'
 import { communityCatalogFile } from '../unified/trident-paths.ts'
 import { runCommunityCli, verifyProvidedCommunityArtifact } from '../unified/community.ts'
 import { verifyReleaseCli } from '../unified/release-cli.ts'
+import { authoredSvgAdapterBinding, classifyAuthoredSvgResult, createAuthoredSvgRawCapture } from './community-raw.ts'
 
 export interface CommunityFidelityOptions extends FidelityRunOptions { communityFidelityPng?: 'basic-families' | 'none' }
 const write = (path: string, value: unknown) => writeFileSync(path, JSON.stringify(value) + '\n')
@@ -129,6 +130,9 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
           return { ...prior.result, observations: prior.result.observations.map(row => ({ ...row, metrics: { ...row.metrics, implementation: project, project, artifactAliasSource: prior.project } })), artifacts: [...(prior.result.artifacts ?? []), receipt], gaps: [...prior.result.gaps, 'Actual SVG evidence reuses identical browser artifact from ' + prior.project + '; this is not another independent engine experiment'] }
         }
         const began = new Date().toISOString(), observations: BenchmarkObservation[] = [], artifacts: string[] = [], rows: any[] = [], blockedRequests = new Set<string>(), fetched = new Set<string>()
+        const rawDirectory=join(directory,'authored-raw'),adapterBindingSha256=authoredSvgAdapterBinding(engine,fontSizePath)
+        const raw=createAuthoredSvgRawCapture(rawDirectory,{project,artifactSha256:admission.artifactSha256,adapterBindingSha256})
+        artifacts.push(rawDirectory)
         const server = createServer((request, response) => {
           const pathname = new URL(request.url ?? '/', 'http://localhost').pathname
           if (pathname === '/blank' || pathname === '/observer') { response.setHeader('content-type', 'text/html'); if (pathname === '/observer') response.setHeader('content-security-policy', "default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: blob:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'"); response.end('<!doctype html><meta charset="utf-8"><body>'); return }
@@ -149,40 +153,59 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
           if (status !== 'passed') { const findings = diagnostics.get(testCase.id) ?? []; findings.push({ criterion, status, actual, scope }); diagnostics.set(testCase.id, findings) }
           observations.push({ suite: 'mermaid-fidelity', surface, runtime: engine.kind === 'cli' ? 'public CLI + Chromium SVG observer' : 'Chromium', family: testCase.family, caseId: testCase.id + ':' + criterion, operation: criterion, format: 'svg', mode: 'independent-authored-criteria', status: status === 'unavailable' ? 'blocked' : status as BenchmarkObservation['status'], metrics: { implementation: project, criterion, authoredCase: testCase.id, required: testCase.required } })
         }
-        const classify = (result: any) => result.kind === 'returned' ? 'passed' : result.kind === 'invalid-return' ? 'failed' : /^(?:UnknownDiagramError:|Error: Unsupported diagram|(?:Error: )?Unsupported (?:diagram|Mermaid)|(?:PeleError|Error): No diagram type)/.test(result.error ?? '') ? 'unsupported' : /^(?:Error: (?:Parse error on line|Lexical error on line|Parsing failed|Parser rejected source:))/.test(result.error ?? '') ? 'failed' : 'unavailable'
-        let initialized = false, capabilities: any, initializationError: string | undefined
+        const classify=classifyAuthoredSvgResult
+        let initialized = false, capabilities: any, initializationError: string | undefined,runtimeInstanceId=''
         const initialize = async () => {
-          if (engine.kind === 'cli') { capabilities = { fontOptions: false }; initialized = healthy = true; return }
+          if (engine.kind === 'cli') { capabilities = { fontOptions: false }; initialized = healthy = true; runtimeInstanceId=randomUUID(); return }
           if (page.isClosed() || !healthy && initialized) { void page.close().catch(() => {}); page = await context.newPage() }
           await page.goto(origin + '/blank')
           if (engine.kind === 'franken' || engine.kind === 'merman') capabilities = await bounded(page.evaluate(publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: engine.wasm ? origin + '/' + engine.wasm : undefined }), () => { void page.close().catch(() => {}) })
           else { await page.addScriptTag({ url: origin + '/' + engine.entry, ...(engine.scriptType ? { type: engine.scriptType } : {}) }); capabilities = await bounded(page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine, fontSizePath, addonUrl: engine.zenuml ? origin + '/__addon/' + engine.zenuml.entry : undefined }), () => { void page.close().catch(() => {}) }) }
-          initialized = healthy = true
+          initialized = healthy = true;runtimeInstanceId=randomUUID()
         }
-        const render = async (input: any): Promise<any> => { try { if (engine.kind === 'cli') return renderPreparedSvgCli(peer, input.source, input.id, directory); if (!healthy || page.isClosed()) await initialize(); return await bounded<any>(page.evaluate(publicSvgBrowserAction, input), () => { healthy = false; void page.close().catch(() => {}) }) } catch (error: any) { return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error' } } }
+        const render = async (input: any): Promise<any> => { try { if (engine.kind === 'cli') return renderPreparedSvgCli(peer, input.source, input.id, directory); if (!healthy || page.isClosed()) await initialize(); return await bounded<any>(page.evaluate(publicSvgBrowserAction, input), () => { healthy = false; void page.close().catch(() => {}) }) } catch (error: any) { return { kind: 'exception', error: String(error), errorName: error?.name ?? 'Error',hostTransportError:true } } }
         try {
-          await initialize(); await observer.goto(origin + '/observer')
+          await observer.goto(origin + '/observer')
           for (const [index, testCase] of selectedCases.entries()) {
             checkCollectionBudget(options.collectionDeadline)
+            let details:any={caseId:testCase.id,family:testCase.family}
             try {
-            if (!healthy || page.isClosed()) await initialize()
-            if (engine.kind !== 'cli') await bounded(page.evaluate(publicSvgBrowserAction, { type: 'configure' }), () => { healthy = false; void page.close().catch(() => {}) })
+            if(raw.partial(testCase))throw Error('Partial authored workflow retained; choose a fresh explicit workflow/context instead of an implicit retry')
+            if(!raw.completed(testCase)){
+              if (!healthy || page.isClosed()) await initialize()
+              if (engine.kind !== 'cli') await bounded(page.evaluate(publicSvgBrowserAction, { type: 'configure' }), () => { healthy = false; void page.close().catch(() => {}) })
+            }
+            // Every prelude and main return is durable before the first
+            // qualifier, paint observer or potentially fallible report step.
+            const captured=await raw.capture(testCase,request=>render({type:'render',source:request.source,id:request.requestId,options:request.options??undefined}),()=>runtimeInstanceId,()=>capabilities??{},async()=>{
+              if(engine.kind==='cli')runtimeInstanceId=randomUUID() // Each CLI request starts a distinct actual process.
+              else if(!healthy||page.isClosed())await initialize()
+            })
+            capabilities=captured.capabilities
+            const main=captured.steps.at(-1)!,result=main.result
+            details={...details,publicResult:{kind:result.kind,error:result.error},workflowEvidence:captured.witness,...(result.transportObservation?{transportObservation:result.transportObservation}:{})}
+            if(typeof result.svg==='string'){
+              const stem=`${index}-${testCase.id.replace(/[^a-zA-Z0-9_.-]/g,'_')}`,svgPath=join(directory,stem+'.svg.gz')
+              writeDurableEvidence(svgPath,gzipSync(result.svg));artifacts.push(svgPath)
+              details.svgEvidence={path:svgPath,encoding:'gzip',bytes:Buffer.byteLength(result.svg),sha256:createHash('sha256').update(result.svg).digest('hex'),rawInvocationId:main.invocation.attemptId,scope:'Lossless actual public SVG output retained before qualification; its complete prelude/main workflow is owned by the raw journal'}
+            }
             const preludes: any[] = []
             for (const [number, prelude] of (testCase.prelude ?? []).entries()) {
-              const result = await render({ type: 'render', source: prelude.source, id: `community-prelude-${index}-${number}`, options: (prelude as any).renderOptions })
-              const classification = classify(result), admission = result.kind === 'returned' ? 'accepted' : classification === 'unsupported' ? 'unsupported' : result.kind === 'exception' && classification === 'failed' ? 'rejected' : 'unavailable'
-              add(testCase, 'browser-public-api', 'prelude-' + number, result.kind === 'invalid-return' && prelude.accept ? 'failed' : assessPrelude(prelude.accept, admission), { kind: result.kind, error: result.error }, prelude.accept, 'Actual public configured-source prelude; unsupported capabilities and unknown runtime errors earn no rejection credit'); preludes.push({ kind: result.kind, error: result.error })
+              const step=captured.steps[number]!,result=step.result
+              const classification = classify(result), admission = result.kind === 'returned' ? 'accepted' : classification === 'unsupported' ? 'unsupported' : result.kind === 'exception' && classification === 'failed'&&step.invocation.state==='public-error'&&!result.hostTransportError ? 'rejected' : 'unavailable'
+              const witness={kind:result.kind,error:result.error,step:step.step,runtimeInstanceId:step.runtimeInstanceId,rawInvocationId:step.invocation.attemptId,...(step.invocation.output?{svgEvidence:{...step.invocation.output,encoding:'utf8'}}:{})}
+              const svgAdmission=result.kind==='returned'?qualifyOutput({id:testCase.id+':'+step.step,family:testCase.family,source:prelude.source,expectedLabels:[],features:[],provenance:'Actual owned prelude source/return; no main-output inference'},result.svg,'svg'):undefined
+              const preludeStatus=result.kind==='invalid-return'&&prelude.accept?'failed':svgAdmission&&!svgAdmission.ok?svgAdmission.unavailable?'unavailable':'failed':assessPrelude(prelude.accept,admission)
+              add(testCase, 'browser-public-api', 'prelude-' + number, preludeStatus, witness, prelude.accept, 'Actual owned configured-source prelude in the same runtime as main; unsupported capabilities and unknown runtime errors earn no rejection credit'); preludes.push(witness)
             }
-            const result = await render({ type: 'render', source: testCase.source, id: `community-fidelity-${index}`, options: testCase.renderOptions })
+            details.preludes=preludes
             add(testCase, 'browser-public-api', 'public-svg-admission', classify(result), result.error ?? result.kind, 'actual public SVG string', 'Actual frozen public SVG transport invocation; generic exceptions/timeouts remain unavailable, not grammar rejection')
-            const details: any = { caseId: testCase.id, family: testCase.family, publicResult: { kind: result.kind, error: result.error }, preludes, ...(result.transportObservation ? { transportObservation: result.transportObservation } : {}) }
             if (result.kind === 'returned') {
               const qualification = qualifyOutput({ id: testCase.id, family: testCase.family, source: testCase.source, expectedLabels: testCase.expected.labels, features: testCase.features, provenance: testCase.provenance }, result.svg, 'svg')
               add(testCase, 'browser-public-api', 'standalone-svg-and-labels', qualification.unavailable ? 'unavailable' : qualification.ok ? 'passed' : 'failed', qualification.findings, [], qualification.scope)
-              const stem = `${index}-${testCase.id.replace(/[^a-zA-Z0-9_.-]/g, '_')}`, svgPath = join(directory, stem + '.svg.gz'); writeFileSync(svgPath, gzipSync(result.svg)); artifacts.push(svgPath)
+              const stem = `${index}-${testCase.id.replace(/[^a-zA-Z0-9_.-]/g, '_')}`
               const contract = makeSvgCaseContract(testCase)
               outputBindings[testCase.id] = { sourceSha256: contract.sourceSha256, expectationsSha256: contract.expectationsSha256, svgSha256: createHash('sha256').update(result.svg).digest('hex'), observerSha256 }
-              details.svgEvidence = { path: svgPath, encoding: 'gzip', bytes: Buffer.byteLength(result.svg), sha256: createHash('sha256').update(result.svg).digest('hex'), scope: 'Lossless actual public SVG output, never an input/corpus digest' }
               if (observer.isClosed()) { observer = await context.newPage(); await observer.goto(origin + '/observer') }
               await observer.setContent(result.svg); await observer.evaluate(() => { document.body.style.margin = '0'; document.body.style.background = '#fff' })
               const paint = await bounded(inspectSvgDrawing(observer, { family: testCase.family, expected: testCase.expected, source: testCase.source, paint: testCase.paint }), () => { void observer.close().catch(() => {}) })
@@ -192,7 +215,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
               }
             }
             details.findings = diagnostics.get(testCase.id) ?? []; rows.push(details)
-            } catch (error) { rows.push({ caseId: testCase.id, family: testCase.family, collectionError: String(error), scope: 'This case observer failed; missing planned checks remain unavailable, collection continues to later cases' }) }
+            } catch (error) { rows.push({ ...details,...(raw.witness(testCase)?{workflowEvidence:raw.witness(testCase)}:{}),collectionError: String(error), scope: 'This case observer or raw workflow failed; actual returns remain retained and missing planned checks remain unavailable, collection continues to later cases' }) }
           }
         } catch (error) {
           if (error instanceof CollectionBudgetExhausted) { write(join(directory, 'interrupted-fidelity.json'), { status: 'incomplete', observations, rows }); throw error }
@@ -200,7 +223,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
         }
         finally { await context.close(); await new Promise<void>(done => server.close(() => done())) }
         const completed = completeCriterionLedger(planned, observations, project).map(row => ({ ...row, metrics: { ...row.metrics, ...(outputBindings[String(row.metrics?.authoredCase)] ?? {}) } })).map(row => row.surface === 'native-public-api' ? { ...row, detail: 'No reviewed native model adapter; no native call or passing evidence claimed' } : row)
-        const receipt = join(directory, 'community-fidelity-cases.json'); write(receipt, { project, admission, capabilities, initialized, initializationError, fetched: [...fetched], blockedRequests: [...blockedRequests], rows, nativeScope: 'No reviewed native model adapter for this peer; every planned native criterion remains unavailable, independent of SVG success' }); artifacts.push(receipt)
+        const receipt = join(directory, 'community-fidelity-cases.json'); write(receipt, { project, admission,engine,fontSizePath:fontSizePath??null,adapterBindingSha256,rawDirectory,capabilities, initialized, initializationError, fetched: [...fetched], blockedRequests: [...blockedRequests], rows, nativeScope: 'No reviewed native model adapter for this peer; every planned native criterion remains unavailable, independent of SVG success' }); artifacts.push(receipt)
         return { id: 'mermaid-fidelity', startedAt: began, finishedAt: new Date().toISOString(), status: completed.some(row => row.status === 'failed') ? 'failed' : 'blocked', observations: completed, artifacts, gaps: ['Native public-model criteria are unavailable for this noncore peer; public SVG success supplies no model passes.', 'Quantitative and graph projections are bounded reviewed checks, not whole-family visual equivalence.', ...(initializationError ? ['Collection interrupted: ' + initializationError + '; every missing planned criterion remains unavailable'] : []), ...[...blockedRequests].map(url => 'Blocked external resource: ' + url)] }
       }
       const result = options.fidelityDiagnostic ? await measure(projectOut) : await runRetainedSuite({ out: projectOut, records: options.benchmarkRecordStore ?? options.communityRecordStore ?? join(out, 'records'), force: options.benchmarkForce ?? options.communityForce, campaign: options.collectionCampaignId ? { id: options.collectionCampaignId, resume: options.collectionResume } : undefined, identity, measure })
