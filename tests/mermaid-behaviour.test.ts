@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { cpSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
+import { cpSync, mkdirSync, readFileSync, realpathSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import { spawnSync } from 'node:child_process'
@@ -141,4 +141,22 @@ test('included bridge automatically seals config selection and configured public
       return { status: 0, signal: null, stdout: Buffer.from('{"family":"flowchart"}'), stderr: new Uint8Array() }
     })).toThrow('changed during capture')
   }
+})
+test('included bridge accepts logical absolute aliases and detects identical-byte target changes', () => {
+  const dir = realpathSync(temp.dir()), first = join(dir, 'physical-a'), second = join(dir, 'physical-b'), alias = join(dir, 'var'), moduleAlias = join(dir, 'public.mjs'), moduleA = join(dir, 'public-a.mjs'), moduleB = join(dir, 'public-b.mjs'), extra = join(dir, 'declared.txt')
+  mkdirSync(first); mkdirSync(second)
+  writeFileSync(moduleA, 'export const detect=()=>"flowchart"'); writeFileSync(moduleB, readFileSync(moduleA)); writeFileSync(extra, 'declared artifact')
+  symlinkSync(moduleA, moduleAlias); symlinkSync(first, alias, 'dir')
+  const config = join(alias, 'config.json'), configText = JSON.stringify({ module: moduleAlias, detect: { export: 'detect' } })
+  writeFileSync(join(first, 'config.json'), configText); writeFileSync(join(second, 'config.json'), configText)
+  const adapter: BehaviourAdapter = { schema: 'mermaid-behaviour-stdio-adapter-v1', project: 'fixture/native', version: '1', executable: realpathSync(process.execPath), adapter: join(root, 'unified/mermaid-behaviour-node-adapter.mjs'), args: [config], artifactFiles: [extra], capabilities: ['detect-family'], bindingDescription: 'Synthetic Mac-like logical config/module aliases' }
+  const returned = { status: 0, signal: null, stdout: Buffer.from('{"family":"flowchart"}'), stderr: new Uint8Array() }
+  captureBehaviourRaw(join(dir, 'success'), adapter, [detection], () => returned)
+  const saved = readBehaviourCapture(join(dir, 'success'), [detection])
+  expect(saved.counts.passed).toBe(1)
+  expect(saved.context.artifactSnapshot.standardBridge.config).toBe(join(first, 'config.json'))
+  expect(saved.context.artifactSnapshot.standardBridge.module).toBe(moduleA)
+  expect(() => captureBehaviourRaw(join(dir, 'config-retarget'), adapter, [detection], () => { unlinkSync(alias); symlinkSync(second, alias, 'dir'); return returned })).toThrow('changed during capture')
+  unlinkSync(alias); symlinkSync(first, alias, 'dir')
+  expect(() => captureBehaviourRaw(join(dir, 'module-retarget'), adapter, [detection], () => { unlinkSync(moduleAlias); symlinkSync(moduleB, moduleAlias); return returned })).toThrow('changed during capture')
 })

@@ -23,10 +23,12 @@ export function readBehaviourAdapter(file: string): BehaviourAdapter {
 const snapshot = (adapter: BehaviourAdapter) => {
   let standardBridge: { config: string; configSha256: string; module: string; moduleSha256: string } | null = null
   if (sha(adapter.adapter) === sha(new URL('./mermaid-behaviour-node-adapter.mjs', import.meta.url))) {
-    const config = adapter.args?.[0]
-    if (!config || !isAbsolute(config) || realpathSync(config) !== config) throw Error('Included Node bridge requires an absolute physical config-file argument')
-    const module = read(config).module
-    if (typeof module !== 'string' || !isAbsolute(module) || realpathSync(module) !== module || !statSync(module).isFile()) throw Error('Included Node bridge requires an absolute physical public module file')
+    const configArgument = adapter.args?.[0]
+    if (!configArgument || !isAbsolute(configArgument)) throw Error('Included Node bridge requires an absolute config-file argument')
+    const config = realpathSync(configArgument), moduleArgument = read(config).module
+    if (typeof moduleArgument !== 'string' || !isAbsolute(moduleArgument)) throw Error('Included Node bridge requires an absolute public module file')
+    const module = realpathSync(moduleArgument)
+    if (!statSync(module).isFile()) throw Error('Included Node bridge requires a public module file')
     standardBridge = { config, configSha256: sha(config), module, moduleSha256: sha(module) }
   }
   return { executable: { path: adapter.executable, sha256: sha(adapter.executable) }, adapter: { path: adapter.adapter, sha256: sha(adapter.adapter) }, standardBridge, artifacts: [...new Set([...adapter.artifactFiles, ...(adapter.args ?? []).filter(arg => isAbsolute(arg) && existsSync(arg) && statSync(arg).isFile()), ...(standardBridge ? [standardBridge.config, standardBridge.module] : [])])].map(path => ({ path, sha256: sha(path) })), scope: 'Declared executable, public adapter, file arguments and artifact files only; included Node-bridge config and public module are automatic. No claim about undeclared dependencies or internal API-entry clocks' }
