@@ -1,0 +1,98 @@
+<svg id="docs_png_1_546" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 346px;" viewBox="0 0 346 281" role="graphics-document document" aria-roledescription="zenuml"><defs>
+  <style>
+  .frame-border-outer { fill: #666; }
+  .frame-border-inner { fill: #ffffff; }
+  .frame-header-bg { fill: #ffffff; }
+  .frame-header-line { stroke: #666; stroke-width: 1; shape-rendering: crispEdges; }
+  .frame-title { font-family: Helvetica, Verdana, serif; font-size: 16px; font-weight: 600; fill: #222; }
+  .participant-box { fill: #ffffff; stroke: #666; stroke-width: 2; }
+  .participant-label { font-family: Helvetica, Verdana, serif; font-size: 16px; fill: #222; }
+  .participant-icon { color: #222; }
+  .participant-icon [fill="currentColor"]:not([stroke]) { stroke: #666; stroke-width: 1; }
+  .lifeline { stroke: #666; stroke-width: 1; }
+  .message-line { stroke: #000; stroke-width: 2; shape-rendering: crispEdges; }
+  .message-label { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #222; }
+  .arrow-head { fill: #000; stroke: #000; stroke-width: 2; }
+  .arrow-open { fill: none; }
+  .occurrence { fill: #dedede; stroke: #666; stroke-width: 2; shape-rendering: crispEdges; }
+  .fragment-border { fill: none; stroke: #666; stroke-width: 1; shape-rendering: crispEdges; }
+  .fragment-header { fill: #dedede; fill-opacity: 0.498; stroke: none; shape-rendering: crispEdges; }
+  .fragment-label { font-family: Helvetica, Verdana, serif; font-size: 14px; font-weight: 600; fill: #000; }
+  .fragment-condition { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #000; }
+  .fragment-separator { stroke: #e5e7eb; stroke-width: 1; shape-rendering: crispEdges; }
+  .fragment-section-label { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #000; }
+  .return-line { stroke: #000; stroke-width: 2; stroke-dasharray: 6,4; shape-rendering: crispEdges; }
+  .return-arrow { stroke: #000; stroke-width: 2; fill: none; }
+  .return-label { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #222; }
+  .return-icon { fill: #222; }
+  .divider-line { stroke: #aaaa33; stroke-width: 1; }
+  .divider-bg { fill: #fff5ad; stroke: #aaaa33; stroke-width: 1; }
+  .divider-label { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #333; }
+  .comment-text { font-family: Helvetica, Verdana, serif; font-size: 14px; fill: #333; opacity: 0.5; }
+  .seq-number { font-family: Helvetica, Verdana, serif; font-size: 12px; font-weight: 100; fill: #6b7280; }
+  .group-outline { fill: none; stroke: #666; }
+  .group-title-bg { fill: #ffffff; stroke: none; }
+  .group-title-text { font-family: Helvetica, Verdana, serif; font-size: 13px; font-weight: 400; fill: #222; }
+</style>
+</defs>
+<rect class="frame-border-outer" x="0" y="0" width="346" height="281" rx="4" fill="#666"></rect>
+<rect class="frame-border-inner" x="1" y="1" width="344" height="279" rx="3" fill="#fff"></rect>
+<line class="frame-header-line" x1="1" y1="33.5" x2="345" y2="33.5"></line>
+
+<g transform="translate(21, 34)">
+<line x1="50.5" y1="68" x2="50.5" y2="246" class="lifeline" stroke-dasharray="5,5" stroke-dashoffset="5" shape-rendering="crispEdges"></line>
+<line x1="154.5" y1="68" x2="154.5" y2="246" class="lifeline" stroke-dasharray="5,5" stroke-dashoffset="5" shape-rendering="crispEdges"></line>
+<line x1="254.5" y1="68" x2="254.5" y2="246" class="lifeline" stroke-dasharray="5,5" stroke-dashoffset="5" shape-rendering="crispEdges"></line>
+<g class="participant" data-participant="Alice">
+  <rect x="11" y="29" width="78" height="38" rx="3" class="participant-box"></rect>
+  
+  
+  
+  <text x="50" y="47.75" text-anchor="middle" dominant-baseline="central" class="participant-label">Alice</text>
+</g>
+<g class="participant" data-participant="Bob">
+  <rect x="115" y="29" width="78" height="38" rx="3" class="participant-box"></rect>
+  
+  
+  
+  <text x="154" y="47.75" text-anchor="middle" dominant-baseline="central" class="participant-label">Bob</text>
+</g>
+<g class="participant" data-participant="John">
+  <rect x="215" y="29" width="78" height="38" rx="3" class="participant-box"></rect>
+  
+  
+  
+  <text x="254" y="47.75" text-anchor="middle" dominant-baseline="central" class="participant-label">John</text>
+</g>
+<g class="message">
+  <line x1="51" y1="129" x2="154" y2="129" class="message-line"></line>
+  <svg x="147" y="124" width="7" height="10" viewBox="0 0 7 9" overflow="visible" class="arrow-head arrow-open">
+    <g>
+      <path d="M1 1.25 L6.15 4.5 L1 7.75" stroke="#000" stroke-linecap="round" stroke-width="2" fill="none"></path>
+    </g>
+  </svg>
+  <text x="99" y="126" text-anchor="middle" class="message-label">Hello guys!</text>
+  <text x="47" y="126" text-anchor="end" class="seq-number">1.1</text>
+</g>
+<g class="message">
+  <line x1="51" y1="162" x2="254" y2="162" class="message-line"></line>
+  <svg x="247" y="157" width="7" height="10" viewBox="0 0 7 9" overflow="visible" class="arrow-head arrow-open">
+    <g>
+      <path d="M1 1.25 L6.15 4.5 L1 7.75" stroke="#000" stroke-linecap="round" stroke-width="2" fill="none"></path>
+    </g>
+  </svg>
+  <text x="149" y="159" text-anchor="middle" class="message-label">Hello guys!</text>
+  <text x="47" y="159" text-anchor="end" class="seq-number">1.2</text>
+</g>
+<g class="fragment fragment-par">
+  <rect x="-9.5" y="72.5" width="323" height="117" rx="4" class="fragment-border"></rect>
+  <rect x="-9" y="73" width="322" height="25" class="fragment-header"></rect>
+  <svg x="-5" y="73" width="20" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M5 10H19" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M5 14H19" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  <text x="17" y="85" dominant-baseline="central" class="fragment-label">Par</text>
+  <text x="-13" y="81" text-anchor="end" dominant-baseline="central" class="seq-number">1</text>
+  <line x1="51" y1="146.5" x2="313" y2="146.5" class="fragment-separator"></line>
+</g>
+</g></svg>

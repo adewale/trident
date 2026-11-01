@@ -1,0 +1,470 @@
+[
+  {
+    "index": 335,
+    "file": "docs-335.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/railroad.md:58",
+    "sourceSha256": "21d44260da42bc0d3837ba906ecca1c3098dbd18757e80c274c2427c7097987e",
+    "svgSha256": "b7397def6a3849de4e22ca2a6ca63d348558c9f84f5e03f04315811af8919398",
+    "parentInvocationId": "c6e1f800-d75d-468c-a83e-496c83e4027a",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 337,
+    "file": "docs-337.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/railroad.md:79",
+    "sourceSha256": "ecb34dcea625666b1d0b905914b6718229a35dc43a5ad3b92096febe8c4a3fc2",
+    "svgSha256": "bf757cff14e4a1eb198e579bb3c00531ef71241b210b672658def7a45a51dc82",
+    "parentInvocationId": "25bf7279-48e4-49a3-8d48-746c9c404306",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 338,
+    "file": "docs-338.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/railroad.md:99",
+    "sourceSha256": "9794f34e0a3fb2305971c3a76fbe1480d075e6e2cab890f21535f3ea4cee1424",
+    "svgSha256": "bcec69b223a5e2a30034c7f45cc57f18fb73f67571fd011d0e746bd454cdf455",
+    "parentInvocationId": "797bc8a1-f52b-41f3-883e-00cea3035613",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 340,
+    "file": "docs-340.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/railroad.md:155",
+    "sourceSha256": "cef5806e4a73cac67fff1bbaceb0d9a94b512437347b5235708ec5bb90961c46",
+    "svgSha256": "2efd4af3b9c8d3c49d628f46497b5377ce0bd5c6b6fca58b73fe5acd95235732",
+    "parentInvocationId": "2ae1cf38-5ccd-4fd3-b049-dd0cac397921",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 341,
+    "file": "docs-341.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/railroad.md:166",
+    "sourceSha256": "dbcef8ff2cd577d16f7eae3e6b3a0f173a96831eb8e24d1e13de49ffeac046c6",
+    "svgSha256": "686ccecdfa81806b0199e97c493aa2e08d1602993c57770cc84ac5eea550f706",
+    "parentInvocationId": "6b6e4d5c-a290-4388-b979-3817985dcd69",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 342,
+    "file": "docs-342.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/railroad.md:189",
+    "sourceSha256": "41e29febcb6136f5d838a66449cb0fe3297408d67fe1778b413198efa182e724",
+    "svgSha256": "80bc3d685fc5aed59f26ec6bf81f16a0e785ac2b565339f24fc3731e1ed50ebd",
+    "parentInvocationId": "7cf6639e-ad2e-4438-935f-e35e6fa0a1b8",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 343,
+    "file": "docs-343.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/railroad.md:199",
+    "sourceSha256": "e5b8b271aac85395626137b56399ce68a42b42cda805304b7ff2b3023dce7072",
+    "svgSha256": "9f52f94f94fc95b64f9ebedbe677398a32599bf549b21e36532a242a2845202a",
+    "parentInvocationId": "cb64366b-6f94-4581-bacc-d4ce6db9da06",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 344,
+    "file": "docs-344.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/railroad.md:221",
+    "sourceSha256": "e825d5ab3c9b8fcf823583929f71237fb7f18d4ee348f648db686fe59dccd230",
+    "svgSha256": "034942891d5b5c7d5f562d70f02e6b4865d8fa38c75d9a0859681cc4f45ddb39",
+    "parentInvocationId": "09cb8cba-2d5f-48e3-af40-ccae39c768f6",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 345,
+    "file": "docs-345.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/railroad.md:232",
+    "sourceSha256": "3fab267fc31fd24fc4684aacef1237f9e22bff2acce16384f60ab71293cf0201",
+    "svgSha256": "b887e20e7dae933fedb157f98237f2f83b704c79750a8918bdd136dd1f0bd6d4",
+    "parentInvocationId": "8762f5d9-2685-452d-b045-a5b6186966f1",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 346,
+    "file": "docs-346.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/railroad.md:256",
+    "sourceSha256": "013df6171827f1deac1fecbaa17447f1df6b96ef66498b21cbba0f998bbff825",
+    "svgSha256": "ddd84af08947732a96cc5853d554c6591becb4709f5270e4c7b81b87543421a6",
+    "parentInvocationId": "b5a7e78b-1523-425d-b388-4c13238c8c43",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 365,
+    "file": "docs-365.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:30",
+    "sourceSha256": "b46ca8f030ae22c724720f00d238e528d416593c51d52a6e4f22d99b99f93b2d",
+    "svgSha256": "9f2b60cd2d473f409ed80674d937daa3353994e3b5ca6b4930f6d664a56a28a9",
+    "parentInvocationId": "abc22a15-2d27-4c11-b666-e512afa2222d",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 366,
+    "file": "docs-366.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:53",
+    "sourceSha256": "ab0098ce21b8fb1ae07229e642d40a225ed767cb4158ebd00657a54bda716531",
+    "svgSha256": "60efe369c49fa24c25fd67c7e7937e6d565223d81433bee749f279674c5c9e52",
+    "parentInvocationId": "f246e649-1614-46f2-ac17-ffcf8278b386",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 369,
+    "file": "docs-369.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:113",
+    "sourceSha256": "09a6b5bea4819db49acb43677db21085fda3a95b65528d60efb0b9f9b0919e6c",
+    "svgSha256": "10b6c6a0ba8df3bdd6af8903c1f57a6359cbdfbb7e02298e1aaf030acc005ca0",
+    "parentInvocationId": "c1733e8c-48fa-45bd-aa21-6ed80aed893d",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 370,
+    "file": "docs-370.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:125",
+    "sourceSha256": "969bb3ce641248b40d28f7e4dadd86818f031c45193930dfb96c555eacc1da74",
+    "svgSha256": "5933da5364d5a6ee128006cb9e7b1b4833b3ebd08589020cb591f52546ff3bc5",
+    "parentInvocationId": "c7b7885e-8c02-44ae-b8b3-59d1e29c3580",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 371,
+    "file": "docs-371.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:137",
+    "sourceSha256": "c1a1ef0597c2a31357aef97c36cdf253592cb06f5af93a999c6490da0bb5c249",
+    "svgSha256": "687824c6c97c8e7f7c4640530b51dc744bb564523bb8fc1ce9115c30ffc1a400",
+    "parentInvocationId": "cfcf58fb-409d-4840-8a39-1f91350def50",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 372,
+    "file": "docs-372.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:149",
+    "sourceSha256": "f158c3d82a5bf4f7e1e05960ab5eb85e910c71ffd2feb37dcd76661a4795c102",
+    "svgSha256": "decfe140ef83c25cc5f91a64af10a26814fd27e0ff63dba038c3be36510ea26c",
+    "parentInvocationId": "6714ad05-f6fb-4258-8434-54ba0d6acaaf",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 373,
+    "file": "docs-373.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:161",
+    "sourceSha256": "bbb78a10baa2dc83bf66bea92a171455665a363e44d38c02951af0083296ba0c",
+    "svgSha256": "9722ef4533704a6fcbeba22d466dff05df07d9678db8594e43a178b9b9aa3f8b",
+    "parentInvocationId": "f4390a7d-11f1-456c-bf3b-e7706fa0a4ee",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 374,
+    "file": "docs-374.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:173",
+    "sourceSha256": "c7329c9b4aba72a7a47adf93c67e032d78c927945b22a4cfb8b6c995af148efb",
+    "svgSha256": "834e7a94150605a0a4f5bfc485c2310ee7e5cdebe254364d80870997ede7a740",
+    "parentInvocationId": "1c851763-7dd6-470c-9589-057c5dff61eb",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 376,
+    "file": "docs-376.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:199",
+    "sourceSha256": "be26e07607d48aa8e0514a845d98446f206f3728cdd4b6b42e9add3cced0bb13",
+    "svgSha256": "2ab43359d50c2e2d428fabb202299ee24733a1b63e143789aaf8ad61020a0816",
+    "parentInvocationId": "86a90e15-69ef-4716-9fc8-b4e1a1c7dce9",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 377,
+    "file": "docs-377.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:214",
+    "sourceSha256": "ed25c7aa66b7d0181e20fb015fd49edbf10d89db03bda3ec62031b9e7fdb1eb3",
+    "svgSha256": "f57072d4b2c3b36b6b7801d7a7b4f7da3886dbe71b57870f67052db1162298ed",
+    "parentInvocationId": "1553bbe7-fe01-4380-ab74-55bcf53912cb",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 378,
+    "file": "docs-378.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:229",
+    "sourceSha256": "1371ae9ae607217a0c399c5f33fabdef706e03d30e317c252f34cd2c45467ae1",
+    "svgSha256": "9166a83eb5a9a22589307532b1e570361538dc7bb8fd5f974a60210d474f622c",
+    "parentInvocationId": "f24ff57f-fa88-4d3f-8aea-7f7e1b057ed5",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 379,
+    "file": "docs-379.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:250",
+    "sourceSha256": "5fa9f1e6f236b76b71424993a30eac3e12fa3c6b6f336ee7bc9d028c44914ccb",
+    "svgSha256": "1c655b18c73a47fcc7b2aaa985fa9b08198a2567c3fb18f3c703fcbe13f594e1",
+    "parentInvocationId": "9eed578b-e8fd-44a7-9a43-cf25b0b6ddc2",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 380,
+    "file": "docs-380.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:315",
+    "sourceSha256": "93d3c0ff3d5d384a0044c0882501febf51d0ba59c26ca2c237eae58d27ad53aa",
+    "svgSha256": "96fac9bdaf17b7429a90248a2c30d2c6ac5a9313feb1ec0f4440e267d8606f5e",
+    "parentInvocationId": "226d89f1-2a8f-49a2-b9b9-e8fbcdc3900f",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 381,
+    "file": "docs-381.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:392",
+    "sourceSha256": "a013ca4947e10afb33ed61e770258c8327297c14884d11e77fdd135b8a789411",
+    "svgSha256": "5290764283a1501a269cdfda32ee44e15751d94ac4ed961a9332abc9a1540aed",
+    "parentInvocationId": "ba6dc19d-4e72-4f90-b2e3-01a35ba1f8e4",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 382,
+    "file": "docs-382.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:405",
+    "sourceSha256": "4a26f3e25a18453906201f05c271691d7c53a3fcb2d1b81bd47077b3f9e131c0",
+    "svgSha256": "b053d2245a16214a734e2c8ad31153a4720a65c89ab6bd5ec27333756a63e50e",
+    "parentInvocationId": "5cf87ad4-4db6-423e-ad46-b12aa04b1c13",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 383,
+    "file": "docs-383.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:415",
+    "sourceSha256": "028189a67587cce218844ff2f7e9ef4b97b49fb756b844a090ec5de9440469be",
+    "svgSha256": "55426caba059be6b1edaaee528b296b513c7ede85aea9b51a316d441bfd2b312",
+    "parentInvocationId": "f15ba5e5-b27e-44be-a780-7b14517b0910",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 384,
+    "file": "docs-384.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:423",
+    "sourceSha256": "8a0283b4e38a5069c52d99c3d48bd613e409c3817082ee2687720d22fc765660",
+    "svgSha256": "e65c6b5947bd08184d24f800c9fcba3484a3d5538d53ad80ea95e76bb7e6a2e8",
+    "parentInvocationId": "71b81d75-1b9f-4c78-9c04-f566bb5008f2",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 385,
+    "file": "docs-385.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:438",
+    "sourceSha256": "592325d67537970355724d77fa9fdd310904e33537cd0ec6c8fe02fd8885c7df",
+    "svgSha256": "7b63eea089f9006318b3778f7da4b1f0e6b6e3a28cb42ae52c04d67c4daa32b8",
+    "parentInvocationId": "64156e2f-6b89-4acf-836b-695319072830",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 386,
+    "file": "docs-386.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:446",
+    "sourceSha256": "a9915542fa20e2bf5e76e2b294d59ad13565386a70e63d5faf10c7f033a81874",
+    "svgSha256": "864eb02059547dec5176e8d11f8d2c60a156f323140db3811729f4d03fa3e4f7",
+    "parentInvocationId": "b477669c-ddff-479f-a871-fe1b848c2b1f",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 387,
+    "file": "docs-387.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:456",
+    "sourceSha256": "c68e948fd0030ddd4f49b540a1b72fec5c4e88f5286c612a9f25ab77844d54c0",
+    "svgSha256": "94f170e54db1fa496bf258cf0e3bab97e4ae6aaa95ae05a7ab79d93f8cc4be9e",
+    "parentInvocationId": "58f1f7db-6f91-43cb-a257-dd1fac859120",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 388,
+    "file": "docs-388.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:464",
+    "sourceSha256": "40a5ae34a089954547d166bbe9b974aeb266cfcf0d724b1e32346261140e3984",
+    "svgSha256": "5158adbea0f5b8af92d850df8aa17b28e477f2954f6b01f44f545bee6e7d9ab6",
+    "parentInvocationId": "4d77c275-224e-4431-bf5e-80ba3b282343",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 389,
+    "file": "docs-389.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:483",
+    "sourceSha256": "d042768225fc2a2c6aed87e913d293db64cb8da27b430259f3161a3f684888b3",
+    "svgSha256": "1077bbc15b4650edb9f7c3fceccbeed3a4e2a089c4170af90cd11244a98e69e9",
+    "parentInvocationId": "c724eb7e-2698-4572-b467-11def6893d77",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 390,
+    "file": "docs-390.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:513",
+    "sourceSha256": "5ba07f36cdf08b28445a16fd8f24d05afbf5cd349679847aab70f7fddf476084",
+    "svgSha256": "870f759e28e6fcd7f9ae3b2c0a77b8c7c4a8a26c888cb2f1d59015bb85424436",
+    "parentInvocationId": "209c51f3-002b-43af-818f-9811e89528f0",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 391,
+    "file": "docs-391.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:544",
+    "sourceSha256": "6c0cb8e242cbf8bdadf2c2cccad5c0b5b6938127e0c76574c3fcadf342055b84",
+    "svgSha256": "913e0d6c67ae60df7d080d717a8ae3a819cb48597c5229bbd33026b9aabcefce",
+    "parentInvocationId": "6192ea5b-b0d1-40ba-a6da-a8204728c5ee",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 392,
+    "file": "docs-392.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:557",
+    "sourceSha256": "af802c7e61fb411636f36a09caed92ea597c51fcae3f79976682ca3391962f3c",
+    "svgSha256": "0b4b0118f3dac27b3e36f6d30f956a3d7f649412fb0d5efd60d9a83c38800816",
+    "parentInvocationId": "c4060635-f06b-4cea-94ea-3e25b6642e61",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 393,
+    "file": "docs-393.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:589",
+    "sourceSha256": "201a0912328e98f240b39c1412adc00d0bf51c483304d8078d4d8552dac24083",
+    "svgSha256": "184c6e062b039b1c584b0b8b7bab50d9d3b2c8ef163821da428fc4719651738f",
+    "parentInvocationId": "839449f8-5ba6-40b7-8ebc-0e9a10fac559",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 394,
+    "file": "docs-394.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:602",
+    "sourceSha256": "a74c5de6ef55136d555087cde5874e57a2742175012a00e31ff405b59157f9fe",
+    "svgSha256": "277b26adaa4646f20907b0a644853d54eec76d912769cff1b89d799a837be39a",
+    "parentInvocationId": "e1f6d313-e817-4907-b923-2ebe3671d640",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 395,
+    "file": "docs-395.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:625",
+    "sourceSha256": "07788f7e3ced9064c9d896e61f0fecbab9124f37b6e4eaed7d06dfb18044c9ca",
+    "svgSha256": "0196050239e90fcad74eeec4969f619b10fde3fa22d03e6cf62f3d99dfdbc5de",
+    "parentInvocationId": "4316a079-4a4a-442f-84c8-d707f2adcc9b",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 396,
+    "file": "docs-396.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:661",
+    "sourceSha256": "5556fca9fd13c9cfd53edf7a0f37c9556b2f43098b4796ea409286a0b1f4c882",
+    "svgSha256": "d52277f90231bcd5fa7ea80c7009dbd5f53bd930fd6aa04256876c1bbaa70dab",
+    "parentInvocationId": "9a167956-3616-463d-8ad2-a179bc87c52c",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 399,
+    "file": "docs-399.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/sequenceDiagram.md:717",
+    "sourceSha256": "df13c1b9dfa701372a204f3e95e6e5a009848159943bfe7f348bea98d25ecf3e",
+    "svgSha256": "a2e4e6e72133ff45e423fd7157f76cb8b4c180661adb0ecdb54363cf461d151f",
+    "parentInvocationId": "3190c839-5292-447e-b268-ed78b6de2f5f",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 534,
+    "file": "docs-534.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:38",
+    "sourceSha256": "3def1a97699831394c37c1338c8120eacb422b65f879ac5e36af7026fa33569d",
+    "svgSha256": "d214b5b558c50f2765320a216eb2fa66d2c66e519185e6df2571cdd109400d94",
+    "parentInvocationId": "fde25137-a7f0-4a6b-b659-dc4d165ac319",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 536,
+    "file": "docs-536.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:76",
+    "sourceSha256": "21355aaa4215f7648a534e34c7e02b1304118ee206150351367ded1142f788ee",
+    "svgSha256": "c336ad416aed9ee5b0e7b67e74ec9c97e9d2737e72f3638f522648024ff9c680",
+    "parentInvocationId": "6e24cfac-a837-4756-8fde-9e62d0226b2c",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 538,
+    "file": "docs-538.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:100",
+    "sourceSha256": "dac67717be23eed18f620b8c167a596d0719ba0520a76f06a798572707345bbe",
+    "svgSha256": "5c9143e4a3e5ffe56c1e2c00760be7e879dc5ea964f3a24979d2ed275221cd13",
+    "parentInvocationId": "3920ee95-342c-4476-8faf-81917e0b4588",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 539,
+    "file": "docs-539.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:110",
+    "sourceSha256": "61f4bc1d82a3c094d03a5e3a2d3a7f7e65d08e64558f600ec623ba802e69a505",
+    "svgSha256": "c4859be300f06076bc8b9bae7ef19dff27ce4c804c2a9c8ac71b918aaa394306",
+    "parentInvocationId": "8f2c8d39-df72-4e14-84f3-009d6a0ff351",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 540,
+    "file": "docs-540.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:130",
+    "sourceSha256": "0807c6f7a9b20f69282b16a40787829a7205dc85a4f4be440f6182465fb1ab36",
+    "svgSha256": "9fdf09250fbbb2b3c9fffedf712f8f9166cc64b0519f869f368b185e4caac3ac",
+    "parentInvocationId": "58b55769-3d6c-48dd-b683-4c6536111c53",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 541,
+    "file": "docs-541.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:150",
+    "sourceSha256": "e0292875899417280ad6c9460020263c1a9c23ae9540496355166b7cd0c77fda",
+    "svgSha256": "d663024e26ffb9dde0be693c8f3d8fd2d2d7fd06674429af968ce9682bd37fbb",
+    "parentInvocationId": "f095e3df-522c-42c4-9261-a117a28661b3",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 542,
+    "file": "docs-542.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:166",
+    "sourceSha256": "42e03255a8014dd486a96c4d40c709a0cbe9ae41d3d822bf7cfa53802a7af02a",
+    "svgSha256": "730a939e0f171bb399ef0546562b5582e99c64b57886b8e03556c768ffa2b69e",
+    "parentInvocationId": "07f40c6f-19d4-403b-b332-eca12fc19828",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 543,
+    "file": "docs-543.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:193",
+    "sourceSha256": "85d3dac12de1ee16cf7c8323bc46eae7eabd716df418eac8a0ccb2452fdf961c",
+    "svgSha256": "35c6640e9cf3874f1f13861e6b68fc3089580ac8fab2a74465c9a131beab6d1c",
+    "parentInvocationId": "f78538f6-62b9-41a0-8a01-a27aaa2233f5",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 544,
+    "file": "docs-544.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:217",
+    "sourceSha256": "84c5a290408790184c89992049882d735190df893fa4266aad2f027a90b4e6f6",
+    "svgSha256": "9621ea79de15876f1c00c588d74a5e60e49016b175eaeba24de54704da487a60",
+    "parentInvocationId": "61be9060-4224-427e-b1d8-2c439366edf1",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 545,
+    "file": "docs-545.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:239",
+    "sourceSha256": "976da0c74d547c5301cc79d2e1f3a8ca784bd70d4cb7ed4eb5f9556ac5d4fefd",
+    "svgSha256": "bfba2d892020c5b9c4d3170cdcea7888575fcd48fad06ae04fc3ed2b50716791",
+    "parentInvocationId": "b7353a70-a447-4eb9-8a77-99047e5d8e0d",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 546,
+    "file": "docs-546.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:264",
+    "sourceSha256": "1ff7c6b0c55b129c886286f092d1e1c4c84ab855a763082d90dac75fcb03967f",
+    "svgSha256": "9106518f94da7194a0f32891f81ebb540e743cae52fed341a17be21ef7f5f822",
+    "parentInvocationId": "c704640b-a16b-43f5-89e3-d5e2de9ba5f7",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  },
+  {
+    "index": 547,
+    "file": "docs-547.svg",
+    "caseId": "packages/mermaid/src/docs/syntax/zenuml.md:290",
+    "sourceSha256": "6a12b47cbe7adaf249eb03c425090dcc16d3a051d53c111b0abe4c0798babf5c",
+    "svgSha256": "e8eef13f084a3fed39bfdaca53cc2b9664eb39227f21a944c12025b562e6e873",
+    "parentInvocationId": "e5661a89-6eb9-410f-9753-88f2573805d3",
+    "origin": "Retained original public SVG companion of actual Mermaid PNG export; no new renderer call; docs/evidence/svg-original-2026-11-01/result.json.gz"
+  }
+]

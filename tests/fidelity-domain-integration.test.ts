@@ -76,11 +76,11 @@ test('qualified event identities require their own typed namespace rows and comp
   expect(status(await inspect(file, wrong, expected), 'source-fact:event-namespace-presentation')).toBe('failed')
 })
 
-test('the full observer preserves unsupported ZenUML events instead of indexing missing routes', async () => {
+test('the full observer binds qualified ZenUML creation and external caller routes independently', async () => {
   for (const file of ['zenuml-create-mermaid.svg', 'zenuml-external-comments-mermaid.svg']) {
     const result = await inspect(file)
-    expect(status(result, 'source-fact:zenuml-event-order')).toBe('unavailable')
-    expect(result.complete).toBe(false)
+    expect(status(result, 'source-fact:zenuml-event-order')).toBe('passed')
+    expect(result.checks.some(check=>check.status==='failed')).toBe(false)
   }
 })
 

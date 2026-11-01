@@ -79,6 +79,14 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       return Math.min(b.x + b.width, c.x + c.width) - Math.max(b.x, c.x) > .5 && Math.min(b.y + b.height, c.y + c.height) - Math.max(b.y, c.y) > .5
     })
   }
+  const completeBlocks=new Map<Element,Element[]>()
+  const textBounds=(element:Element):Box=>{const rows=completeBlocks.get(element);if(!rows)return box(element);const bs=rows.map(box),x=Math.min(...bs.map(b=>b.x)),y=Math.min(...bs.map(b=>b.y));return {x,y,width:Math.max(...bs.map(b=>b.x+b.width))-x,height:Math.max(...bs.map(b=>b.y+b.height))-y}}
+  const completeLabel=(value:string)=>{
+    const exact=label(value).filter(safeText);if(exact.length)return exact
+    const wanted=normalize(value),result:Element[]=[]
+    for(const first of paintedText.filter(e=>safeText(e)&&wanted.startsWith(normalize(readText(e))))){const rows=[first];while(rows.length<=16){const combined=normalize(rows.map(readText).join(' '));if(combined===wanted){completeBlocks.set(first,rows);result.push(first);break}const previous=box(rows.at(-1)!),next=paintedText.filter(e=>!rows.includes(e)&&safeText(e)&&wanted.startsWith(combined+' '+normalize(readText(e)))).filter(e=>{const b=box(e);return b.y>previous.y+Math.min(b.height,previous.height)*.4&&b.y<=previous.y+Math.max(b.height,previous.height)*2&&Math.abs(center(b).x-center(previous).x)<2});if(next.length!==1)break;rows.push(next[0]!)}}
+    return result
+  }
   const ownedText = (id: string) => {
     const owner = node.get(id) ?? group.get(id)
     return owner ? paintedText.filter(element => contains(owner.box, box(element)) && ![...nodes, ...groups].some(other => other.id !== id && area(other.box) < area(owner.box) - 1 && contains(other.box, box(element)))) : null
@@ -116,7 +124,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   const routePattern = (route: Route): 'solid' | 'dotted' | null => route.strokePattern === 'solid' || route.strokePattern === 'dotted' ? route.strokePattern : route.strokePattern ? null : solid(route.dash) ? 'solid' : route.dash?.split(/[ ,]+/).every(value => Number.parseFloat(value) > 0) ? 'dotted' : null
   const orderedRoutes = [...routes].sort((a, b) => (a.box?.y ?? Infinity) - (b.box?.y ?? Infinity))
   const routesBound = evidence.get('painted-relationships')?.status === 'passed' && routes.every(route => route.box && route.start && route.end)
-  const messagesBound = routesBound && evidence.get('painted-relationship-label-ownership')?.status === 'passed' && orderedRoutes.every((route, i) => route.labels?.length === 1 && (!i || route.box!.y > orderedRoutes[i - 1]!.box!.y + 1))
+  const messagesBound = routesBound && ((input.expected.edges?.length??0)===0 || evidence.get('painted-relationship-label-ownership')?.status === 'passed') && orderedRoutes.every((route, i) => route.labels?.length === 1 && (!i || route.box!.y > orderedRoutes[i - 1]!.box!.y + 1))
   let exactNodes = evidence.get('painted-node-ownership')?.status === 'passed'
   const fragmentOwners = new Map<number, Box>()
   const fragmentCaptions = new Map<number, Element>(), noteOwners = new Map<number, Element>()
@@ -268,6 +276,33 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       exactNodes = evidence.get('painted-node-ownership')?.status !== 'failed'
       add('painted-node-ownership', input.expected.nodes, nodes, exactNodes ? true : null, 'An external actor label owns a unique nearby measured head/torso/limb glyph within the smallest ancestor containing no other authored node label. The circle, spine, arms and two connected legs or hollow/filled torso establish its body. Invisible layout rectangles, generated IDs and actor CSS classes supply no ownership.')
     }
+  }
+  const sequenceRoutePorts=new Map<Route,SVGGeometryElement[]>();const sequenceKinds = new Map<string, { kind: string | null; parts: SVGGeometryElement[] }>()
+  if (input.family === 'sequence') {
+    for (const expected of input.expected.nodes ?? []) {
+      const occurrence = label(expected.label).filter(safeText).sort((a,b)=>box(a).y-box(b).y)[0]
+      if (!occurrence) continue
+      const caption = box(occurrence)
+      for(let owner:Element|null=occurrence.parentElement;owner&&owner!==svg;owner=owner.parentElement){
+        if((input.expected.nodes??[]).some(other=>other.id!==expected.id&&label(other.label).some(t=>owner!.contains(t))))break
+        const ink=geometry.filter(e=>owner!.contains(e)&&box(e).y<caption.y+caption.height&&Math.abs(center(box(e)).x-center(caption).x)<=Math.max(80,caption.width)&&box(e).height<110)
+        if(!ink.length)continue
+        const stick=actorKind(ink),circles=ink.filter(e=>e.localName==='circle'),lines=ink.filter(e=>e.localName==='line'&&strokePaint(e)),rects=ink.filter(e=>e.localName==='rect'),curves=ink.filter(e=>e.localName==='path'&&/[aAcCqQ]/.test(e.getAttribute('d')??''))
+        let kind:string|null=stick?'actor':null
+        if(circles.length===1&&lines.length===2&&ink.length===3){const c=box(circles[0]!),vertical=lines.find(e=>box(e).width<1&&box(e).height>4),horizontal=lines.find(e=>box(e).height<1&&box(e).width>4);if(vertical&&horizontal&&box(vertical).x<c.x&&Math.abs(center(box(horizontal)).y-center(c).y)<1&&box(horizontal).x<=box(vertical).x+1&&box(horizontal).x+box(horizontal).width>=c.x)kind='boundary'}
+        if(circles.length===1&&lines.length===1&&ink.length===2){const c=box(circles[0]!),l=box(lines[0]!);if(l.height<1&&Math.abs(l.y-c.y-c.height)<1&&Math.abs(l.width-c.width)<2)kind='entity'}
+        if(circles.length===1&&ink.length===1){const c=box(circles[0]!),markers=[...owner.querySelectorAll('line')].filter(line=>{const css=getComputedStyle(line);return css.display!=='none'&&css.markerEnd!=='none'&&Number(css.opacity)>0});if(markers.length===1){const line=markers[0]!,css=getComputedStyle(line),id=/#([^\s)"']+)/.exec(css.markerEnd)?.[1],marker=id?document.getElementById(id):null,shape=marker?.children.length===1?marker.children[0]:null,raw=shape?.getAttribute('d')??'',numbers=raw.match(/[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi)?.map(Number)??[],points=shape?.localName==='path'&&/^\s*M[\s\d.,+-]+(?:L[\s\d.,+-]+){3}Z\s*$/.test(raw.replace(/\s+/g,' ').trim())&&numbers.length===8?Array.from({length:4},(_,i)=>({x:numbers[i*2]!,y:numbers[i*2+1]!})):null,matrix=line.getScreenCTM(),angle=Number(marker?.getAttribute('orient'))*Math.PI/180,units=marker?.getAttribute('markerUnits')==='userSpaceOnUse'?1:Number.parseFloat(css.strokeWidth),refX=Number(marker?.getAttribute('refX')??0),refY=Number(marker?.getAttribute('refY')??0);if(marker?.localName==='marker'&&!marker.hasAttribute('viewBox')&&points?.length===4&&matrix&&Number.isFinite(angle)&&units>0&&shape&&getComputedStyle(shape).display!=='none'&&Number(getComputedStyle(shape).opacity)>0&&((rgba(getComputedStyle(shape).fill)?.[3]??0)*Number(getComputedStyle(shape).fillOpacity)>=1||(rgba(getComputedStyle(shape).stroke)?.[3]??0)*Number(getComputedStyle(shape).strokeOpacity)*(Number.parseFloat(getComputedStyle(shape).strokeWidth)>0?1:0)>=1)&&points.some((p,i)=>{const a=points[(i+1)%4]!,b=points[(i+2)%4]!;return (a.x-p.x)*(b.y-a.y)-(a.y-p.y)*(b.x-a.x)>0})&&points.some((p,i)=>{const a=points[(i+1)%4]!,b=points[(i+2)%4]!;return (a.x-p.x)*(b.y-a.y)-(a.y-p.y)*(b.x-a.x)<0})){const transformed=points.map(p=>{const x=(p.x-refX)*units,y=(p.y-refY)*units;return new DOMPoint(x*Math.cos(angle)-y*Math.sin(angle),x*Math.sin(angle)+y*Math.cos(angle)).matrixTransform(matrix)}),b={x:Math.min(...transformed.map(p=>p.x)),y:Math.min(...transformed.map(p=>p.y)),width:Math.max(...transformed.map(p=>p.x))-Math.min(...transformed.map(p=>p.x)),height:Math.max(...transformed.map(p=>p.y))-Math.min(...transformed.map(p=>p.y))};if(b.width>3&&b.height>3&&b.width<c.width*.6&&Math.abs(center(b).x-center(c).x)<c.width*.3&&b.y<c.y+c.height*.25&&b.y+b.height>c.y-2)kind='control'}}}
+        if(rects.length===2&&ink.length===2){const [a,b]=rects.map(box) as [Box,Box];if(Math.abs(a.width-b.width)<1&&Math.abs(a.height-b.height)<1&&Math.abs(a.x-b.x)>2&&Math.abs(a.x-b.x)<15&&Math.abs(a.y-b.y)>2&&Math.abs(a.y-b.y)<15)kind='collections'}
+        if(!kind&&!(curves.length>=1&&curves.length<=2&&curves.length===ink.length)&&!(circles.length===1&&ink.length===1))continue
+        const bounds=ink.map(box),x=Math.min(...bounds.map(b=>b.x)),y=Math.min(...bounds.map(b=>b.y)),union={x,y,width:Math.max(...bounds.map(b=>b.x+b.width))-x,height:Math.max(...bounds.map(b=>b.y+b.height))-y}
+        if(caption.y-union.y-union.height>Math.max(20,caption.height*2)||Math.abs(center(union).x-center(caption).x)>Math.max(12,union.width*.6))continue
+        sequenceKinds.set(expected.id,{kind,parts:ink});qualifiedParts.set(expected.id,ink)
+        const anchorInk=['boundary','entity'].includes(kind??'')?circles:ink,anchorBounds=anchorInk.map(box),ax=Math.min(...anchorBounds.map(b=>b.x)),ay=Math.min(...anchorBounds.map(b=>b.y)),anchorBox={x:ax,y:ay,width:Math.max(...anchorBounds.map(b=>b.x+b.width))-ax,height:Math.max(...anchorBounds.map(b=>b.y+b.height))-ay};const actual:Owned={...expected,box:anchorBox,anchorParts:anchorInk.map(e=>({tag:e.localName,box:box(e)})),outline:{tag:ink.length===1?ink[0]!.localName:'compound-participant',rx:0,ry:0}}
+        const previous=nodes.findIndex(n=>n.id===expected.id);if(previous>=0)nodes[previous]=actual;else nodes.push(actual);node.set(expected.id,actual)
+        break
+      }
+    }
+    if(sequenceKinds.size&&(input.expected.nodes??[]).every(expected=>node.has(expected.id))){exactNodes=evidence.get('painted-node-ownership')?.status!=='failed';add('painted-node-ownership',input.expected.nodes,nodes,exactNodes?true:null,'Each top participant caption owns a unique nearby measured symbolic header. Actual circle/limb, boundary, entity, stacked-box or curved-outline parts establish a physical anchor; source kinds, IDs and invisible layout boxes provide no ownership.')}
   }
   const silhouette = (id: string, raw: string): { matches: boolean | null; actual: unknown } => {
     if (raw.startsWith('actor-')) { const observed = actorProfiles.get(id); return { matches: observed ? observed.kind === raw : null, actual: observed ? { kind: observed.kind, box: observed.box } : null } }
@@ -668,12 +703,14 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   }
 
   if (input.family === 'sequence') {
+    for(const route of routes){const ps=[route.start,route.end].filter((p):p is Point=>!!p),ports=geometry.filter(e=>e.localName==='circle'&&box(e).width>=4&&box(e).width<=16&&Math.abs(box(e).width-box(e).height)<1&&ps.some(p=>Math.abs(center(box(e)).y-p.y)<1&&distance(center(box(e)),p)<=15)&&[route.source,route.target].some(id=>{const owner=node.get(id);return owner&&Math.abs(center(owner.box).x-center(box(e)).x)<2}));sequenceRoutePorts.set(route,ports)}
+    if(Array.isArray(facts['box-appearance'])){const actual=facts['box-appearance'].map((entry:any)=>{const owner=group.get(entry.id),rects=owner?geometry.filter(e=>e.localName==='rect'&&nearBox(box(e),owner.box)):[],wanted=rgba(entry.color),colors=rects.map(e=>rgba(getComputedStyle(e).fill));return {id:entry.id,wanted,colors,matches:owner&&colors.length===1&&wanted&&colors[0]?wanted.slice(0,3).every((v:number,i:number)=>v===colors[0]![i]):null}});fact('box-appearance',actual,actual.every((a:any)=>a.matches!==null)?actual.every((a:any)=>a.matches):null,'Each source box color binds the actual independently owned enclosing group rectangle. Authored RGB components stay strict; unrequested skin alpha is free only while real fill ink remains inspectable.')}
     if (Array.isArray(facts['participant-order'])) {
       const actual = facts['participant-order'].map((id: string) => ({ id, x: node.get(id) ? center(node.get(id)!.box).x : null }))
       fact('participant-order', actual, exactNodes && actual.every((item: any) => item.x !== null) ? actual.every((item: any, i: number) => !i || item.x > Number(actual[i - 1]?.x) + 1) : null, 'Source participant order binds distinct owned header bodies; actual left-to-right header centers establish order, independent of DOM declaration order and lifeline IDs.')
     }
     if (Array.isArray(facts['participant-kinds'])) {
-      const actual = facts['participant-kinds'].map((entry: any) => ({ id: entry.id, kind: entry.kind, shape: silhouette(entry.id, entry.kind === 'participant' ? 'rectangle' : entry.kind), extraAttributes: entry.attributes }))
+      const actual = facts['participant-kinds'].map((entry: any) => { const profile=sequenceKinds.get(entry.id),curved=entry.kind==='database'?silhouette(entry.id,'cylinder'):null; if(entry.kind==='queue'&&profile){const outer=profile.parts.find(e=>/[zZ]\s*$/.test(e.getAttribute('d')??'')),arc=profile.parts.find(e=>e!==outer),b=outer?box(outer):null,ps=arc?samples(arc):[],ends=ps.length?[ps[0]!,ps.at(-1)!]:[];const matches=!!outer&&!!arc&&!!b&&profile.parts.length===2&&Math.abs(box(arc).height-b.height)<1&&box(arc).x>b.x+b.width*.65&&ends.length===2&&Math.abs(ends[0]!.x-ends[1]!.x)<1&&Math.abs(ends[0]!.y-ends[1]!.y)>b.height*.95&&ps.some(p=>p.x<ends[0]!.x-2)&&ps.every(p=>p.x<=ends[0]!.x+1);return {id:entry.id,kind:entry.kind,shape:{matches,actual:{parts:profile.parts.map(e=>({tag:e.localName,box:box(e)}))}},extraAttributes:entry.attributes}}; const shape=profile?.kind ? {matches:profile.kind===entry.kind,actual:{kind:profile.kind,parts:profile.parts.map(e=>({tag:e.localName,box:box(e)}))}} : curved??silhouette(entry.id,entry.kind==='participant'?'rectangle':entry.kind);return {id:entry.id,kind:entry.kind,shape,extraAttributes:entry.attributes} })
       fact('participant-kinds', actual, actual.every((entry: any) => !entry.extraAttributes && entry.shape.matches !== null) ? actual.every((entry: any) => entry.shape.matches) : null, 'Each participant kind needs its actual owned header glyph. A rectangular participant is measured as a rectangle; symbolic actor/database/boundary/control/entity/collection/queue glyphs need their explicit compound topology, never the source kind or generated class.')
     }
     if (Array.isArray(facts['message-style']) && facts['message-style'].some((style: string) => !['->>', '-->>', '->', '-->'].includes(style))) {
@@ -692,14 +729,14 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     if (Array.isArray(facts.fragments)) {
       const borders = geometry.filter(strokePaint).flatMap(element => strokes(element).filter(straight).map(points => ({ a: points[0]!, b: points.at(-1)! })))
       const horizontal = borders.filter(({ a, b }) => Math.abs(a.y - b.y) < 1 && Math.abs(a.x - b.x) > 30), vertical = borders.filter(({ a, b }) => Math.abs(a.x - b.x) < 1 && Math.abs(a.y - b.y) > 20)
-      const frames: Box[] = geometry.filter(element => element.localName === 'rect' && box(element).width > 30 && box(element).height > 20).map(box)
+      const frames: Box[] = geometry.filter(element => element.localName === 'rect' && textBounds(element).width > 30 && textBounds(element).height > 20).map(box)
       for (const top of horizontal) for (const bottom of horizontal) {
         const x = Math.min(top.a.x, top.b.x), right = Math.max(top.a.x, top.b.x), y = top.a.y, lower = bottom.a.y
         if (lower <= y + 20 || Math.abs(Math.min(bottom.a.x, bottom.b.x) - x) > 1 || Math.abs(Math.max(bottom.a.x, bottom.b.x) - right) > 1) continue
         if ([x, right].every(side => vertical.some(line => Math.abs(line.a.x - side) < 1 && Math.abs(Math.min(line.a.y, line.b.y) - y) <= 1 && Math.abs(Math.max(line.a.y, line.b.y) - lower) <= 1))) frames.push({ x, y, width: right - x, height: lower - y })
       }
       const unique = frames.filter((candidate, i) => !frames.slice(0, i).some(other => nearBox(candidate, other)))
-      const caption = (value: string) => paintedText.filter(element => normalize(readText(element)).replace(/^\[\s*|\s*\]$/g, '') === normalize(value) && safeText(element))
+      const caption = (value: string) => {const exact=completeLabel(value);return exact.length?exact:completeLabel('['+value+']')}
       const actual = facts.fragments.map((entry: any, index: number) => {
         const text = entry.caption ?? entry.label ?? '', branch = ['else', 'and', 'option'].includes(entry.kind), parent = branch ? fragmentOwners.get(entry.parent) : undefined
         const captions = entry.kind === 'rect' ? [] : caption(text), badges = label(entry.kind).filter(safeText)
@@ -707,28 +744,28 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
           if (branch) return parent && nearBox(parent, frame)
           const first = orderedRoutes[entry.beginMessage]?.box, last = orderedRoutes[entry.endMessage - 1]?.box
           const inside = (b: Box) => contains(frame, b, 2)
-          if (entry.kind === 'rect') { const colors = geometry.filter(element => nearBox(box(element), frame)).map(element => rgba(getComputedStyle(element).fill)); return colors.some(color => color && same(color, rgba(text))) && (!first || inside(first)) && (!last || inside(last)) }
-          return captions.filter(element => contains(frame, box(element))).length === 1 && badges.filter(element => contains(frame, box(element)) && box(element).y < frame.y + 35).length === 1
+          if (entry.kind === 'rect') { const colors = geometry.filter(element => nearBox(textBounds(element), frame)).map(element => rgba(getComputedStyle(element).fill)); return colors.some(color => color && same(color, rgba(text))) && (!first || inside(first)) && (!last || inside(last)) }
+          return captions.filter(element => contains(frame, textBounds(element))).length === 1 && badges.filter(element => contains(frame, textBounds(element)) && textBounds(element).y < frame.y + 35).length === 1
         }).sort((a, b) => area(a) - area(b))
-        const frame = matching[0], header = frame && captions.filter(element => contains(frame, box(element))).sort((a, b) => box(a).y - box(b).y)[0], boundary = branch && header ? box(header).y + box(header).height : frame?.y
+        const frame = matching[0], header = frame && captions.filter(element => contains(frame, textBounds(element))).sort((a, b) => box(a).y - box(b).y)[0], boundary = branch && header ? textBounds(header).y + textBounds(header).height : frame?.y
         if (!frame || matching[1] && Math.abs(area(matching[1]) - area(frame)) <= 1) return { index, expected: entry, box: null, matches: null }
         fragmentOwners.set(index, frame); if (header) fragmentCaptions.set(index, header)
         const before = entry.beginMessage > 0 ? orderedRoutes[entry.beginMessage - 1]?.box : null, next = orderedRoutes[entry.endMessage]?.box
-        const inside = orderedRoutes.slice(entry.beginMessage, entry.endMessage).every(route => contains(frame, route.box!, 2) && (!branch || route.box!.y >= boundary! - 2))
-        const outside = (!before || before.y < boundary! + 2) && (!next || next.y > frame.y + frame.height - 2)
+        const lower=branch&&header?horizontal.filter(line=>Math.abs(Math.min(line.a.x,line.b.x)-frame.x)<2&&Math.abs(Math.max(line.a.x,line.b.x)-frame.x-frame.width)<2&&line.a.y>textBounds(header).y+textBounds(header).height).sort((a,b)=>a.a.y-b.a.y)[0]?.a.y??frame.y+frame.height:frame.y+frame.height;const inside = orderedRoutes.slice(entry.beginMessage, entry.endMessage).every(route => contains(frame, route.box!, 2) && (!branch || route.box!.y >= boundary! - 2&&route.box!.y+route.box!.height<lower+2))
+        const outside = (!before || before.y < boundary! + 2) && (!next || next.y > lower - 2)
         const nesting = (entry.nesting ?? []).every((parent: number) => fragmentOwners.has(parent) && contains(fragmentOwners.get(parent)!, frame) && area(fragmentOwners.get(parent)!) > area(frame) + 1)
-        return { index, expected: entry, box: frame, header: header ? box(header) : null, matches: inside && outside && nesting }
+        return { index, expected: entry, box: frame, header: header ? textBounds(header) : null, matches: inside && outside && nesting }
       })
       fact('fragments', actual, messagesBound && actual.every((entry: any) => entry.matches !== null) ? actual.every((entry: any) => entry.matches) : null, 'Complete fragment/branch intervals bind physical closed frames, painted kind badges/captions, separators and the exact chronological message interval; nested regions must be strictly contained. Four measured border strokes can establish a frame without a rect or renderer wrapper. Unbound/ambiguous branch geometry remains unknown.')
     }
     if (Array.isArray(facts.lifecycles)) {
       const activations = geometry.filter(element => element.localName === 'rect' && box(element).width >= 2 && box(element).width <= 30 && box(element).height > 2 && !nodes.some(owner => nearBox(owner.box, box(element))))
       const slot = (y: number, beforeMessage: number) => { const before = orderedRoutes[beforeMessage - 1]?.box, after = orderedRoutes[beforeMessage]?.box; return (!before || y >= before.y - 3) && (!after || y <= after.y + 3) }
-      const used = new Set<Element>(), actual = facts.lifecycles.map((entry: any) => {
+      const paired=new Map<number,{start:any;end:any}>(), stacks=new Map<string,{entry:any;index:number}[]>();facts.lifecycles.forEach((entry:any,index:number)=>{if(entry.kind==='activate')stacks.set(entry.actor,[...(stacks.get(entry.actor)??[]),{entry,index}]);if(entry.kind==='deactivate'){const start=stacks.get(entry.actor)?.pop();if(start){const pair={start:start.entry,end:entry};paired.set(start.index,pair);paired.set(index,pair)}}}); const used = new Set<Element>(), actual = facts.lifecycles.map((entry: any,index:number) => {
         const owner = node.get(entry.actor)
-        if (entry.kind === 'central-lifeline-connection') { const route = orderedRoutes[entry.message], a = route && node.get(route.source), b = route && node.get(route.target); return { expected: entry, matches: route && a && b && route.start && route.end ? (!entry.from || Math.abs(route.start.x - center(a.box).x) < 2) && (!entry.to || Math.abs(route.end.x - center(b.box).x) < 2) : null } }
+        if (entry.kind === 'central-lifeline-connection') { const route=orderedRoutes[entry.message], ports=route?sequenceRoutePorts.get(route)??[]:[],a=route&&node.get(route.source),b=route&&node.get(route.target);return {expected:entry,ports:ports.map(box),matches:route&&a&&b?(!entry.from||ports.some(p=>Math.abs(center(box(p)).x-center(a.box).x)<2))&&(!entry.to||ports.some(p=>Math.abs(center(box(p)).x-center(b.box).x)<2)):null} }
         if (!owner || !['activate', 'deactivate'].includes(entry.kind)) return { expected: entry, matches: null }
-        const candidates = activations.filter(element => Math.abs(center(box(element)).x - center(owner.box).x) <= 12 && slot(entry.kind === 'activate' ? box(element).y : box(element).y + box(element).height, entry.beforeMessage))
+        const pair=paired.get(index), candidates = activations.filter(element => Math.abs(center(box(element)).x - center(owner.box).x) <= 12 && (pair ? slot(box(element).y,pair.start.beforeMessage)&&slot(box(element).y+box(element).height,pair.end.beforeMessage) : slot(entry.kind === 'activate' ? box(element).y : box(element).y + box(element).height, entry.beforeMessage)))
         if (candidates.length !== 1) return { expected: entry, matches: null }
         used.add(candidates[0]!); return { expected: entry, box: box(candidates[0]!), matches: true }
       })
@@ -935,8 +972,8 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   // side/attachment. A matching string elsewhere is insufficient.
   if (Array.isArray(facts.notes)) {
     const actual = facts.notes.map((entry: any, index: number) => {
-      const occurrences = label(entry.text).filter(safeText), texts = occurrences.filter(element => !nodes.some(owner => contains(owner.box, box(element))))
-      const element = texts.length === 1 ? texts[0] : null, b = element ? box(element) : null
+      const declaredLines=(facts['text-line-breaks']??[]).find((item:any)=>item.owner?.kind==='note'&&item.owner.index===index)?.lines, wanted=Array.isArray(declaredLines)?declaredLines.join(' '):entry.text,occurrences = completeLabel(wanted), texts = occurrences.filter(element => !nodes.some(owner => contains(owner.box, box(element))))
+      const element = texts.length === 1 ? texts[0] : null, b = element ? textBounds(element) : null
       const containers = b ? geometry.filter(shape => { const bounds = box(shape); return bounds.width > 5 && bounds.height > 5 && contains(bounds, b) && !nodes.some(owner => nearBox(owner.box, bounds)) && !groups.some(owner => nearBox(owner.box, bounds)) }).sort((a, b) => area(box(a)) - area(box(b))) : []
       const body = containers[0], bounds = body ? box(body) : null, target = entry.target ?? entry.id, owner = target ? node.get(target) : undefined
       let attached: boolean | null = target ? null : true
@@ -951,7 +988,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         const sideOkay = bounds && xs.every(Number.isFinite) && (entry.side === 'over' ? center(bounds).x >= Math.min(...xs) - 2 && center(bounds).x <= Math.max(...xs) + 2 : entry.side === 'left of' ? bounds.x + bounds.width < Math.min(...xs) + 2 : entry.side === 'right of' ? bounds.x > Math.max(...xs) - 2 : false)
         const before = entry.afterMessage > 0 ? orderedRoutes[entry.afterMessage - 1]?.box : null, after = orderedRoutes[entry.afterMessage]?.box
         attached = messagesBound && bounds && sideOkay ? (!before || bounds.y > before.y - 1) && (!after || bounds.y + bounds.height < after.y + 1) : null
-        if (entry.fragmentScope?.length) attached = null
+        if (entry.fragmentScope?.length) attached = attached && entry.fragmentScope.every((scope:any)=>{const frame=fragmentOwners.get(typeof scope==='number'?scope:scope.fragment);return frame&&bounds&&bounds.y>=frame.y&&bounds.y+bounds.height<=frame.y+frame.height})
       }
       if (element && body && attached === true) noteOwners.set(index, element)
       return { expected: entry, occurrences: texts.length, body: bounds, attached, matches: !!element && !!body && attached === true }
@@ -982,7 +1019,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       const existing = input.paint.textLineBlocks?.filter(block => ownerKey(block.owner) === ownerKey(entry.owner)), kind = entry.owner?.kind
       let element = kind === 'note' ? noteOwners.get(entry.owner.index) : kind === 'fragment' ? fragmentCaptions.get(entry.owner.index) : undefined
       if (kind === 'box') { const owner = group.get(entry.owner.id), headers = owner ? label(owner.label).filter(element => contains(owner.box, box(element)) && !nodes.some(other => contains(other.box, box(element)))) : []; if (headers.length === 1) element = headers[0] }
-      const lines = existing?.length === 1 && existing[0]!.lines ? existing[0]!.lines : element ? glyphRows(element) : null, valid = Array.isArray(entry.lines) && entry.lines.every((line: any) => typeof line === 'string' && normalize(line))
+      const lines = existing?.length === 1 && existing[0]!.lines ? existing[0]!.lines : element ? (()=>{const parts=completeBlocks.get(element)??[element],rows=parts.map(glyphRows);return rows.every(Boolean)?(rows as string[][]).flat():null})() : null, valid = Array.isArray(entry.lines) && entry.lines.every((line: any) => typeof line === 'string' && normalize(line))
       return { owner: entry.owner, lines, matches: lines && valid ? partition(entry.lines, lines) : null }
     })
     fact('text-line-breaks', actual, actual.some((entry: any) => entry.matches === false) ? false : actual.some((entry: any) => entry.matches === null) ? null : true, 'Every explicit note/fragment/box break partitions actual per-character glyph rows on its independently qualified physical owner. Existing qualified node/message rows are retained. Soft wrapping can add rows, while two authored lines cannot collapse together; ambiguous ownership and empty-line spacing remain unknown.')
@@ -1172,7 +1209,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
           if (hidden > 1) blockers.push({ id: other.id, points: hidden })
         }
       }
-      const endpointParts = [route.source, route.target].flatMap(id => [...parts(id), ...bodies(id), ...(qualifiedParts.get(id) ?? [])]), routeLabels = evidence.get('painted-relationship-label-ownership')?.status === 'passed' ? paintedText.filter(element => route.labels?.includes(normalize(readText(element))) && safeText(element)) : []
+      const endpointParts = [...[route.source, route.target].flatMap(id => [...parts(id), ...bodies(id), ...(qualifiedParts.get(id) ?? [])]),...(sequenceRoutePorts.get(route)??[])], routeLabels = evidence.get('painted-relationship-label-ownership')?.status === 'passed' ? paintedText.filter(element => route.labels?.includes(normalize(readText(element))) && safeText(element)) : []
       const unqualified = covers.filter(cover => cover.element !== stem && !!(stem.compareDocumentPosition(cover.element) & Node.DOCUMENT_POSITION_FOLLOWING) && !endpointParts.includes(cover.element as SVGGeometryElement) && !qualifiedMarkerInk.get(route)?.has(cover.element as SVGGeometryElement)).filter(cover => {
         const equivalentEndpointFill = [route.source, route.target].some(id => { const owner = node.get(id); return owner && contains(owner.box, cover.box) && same(cover.fill, rgba(owner.style?.fill ?? 'none')) })
         if (equivalentEndpointFill) return false

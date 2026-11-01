@@ -105,8 +105,9 @@ for (const index of [394, 395]) test('retained sequence condition ' + index + ' 
   const original = await inspect(index)
   expect(status(original, 'visible-authored-labels')).toBe('passed')
   expect(status(original, 'labels-within-canvas')).toBe('passed')
-  // The complete words do not by themselves prove the enclosing branch scope.
-  expect(status(original, 'source-fact:fragments')).toBe('unavailable')
+  // Adjacent full caption rows must also own the independently measured frame
+  // and exact message interval; words alone still supply no scope.
+  expect(status(original, 'source-fact:fragments')).toBe('passed')
   const detached = await inspect(index, page => page.evaluate(() => {
     const tail = [...document.querySelectorAll('text')].find(element => /(?:connection to the DB|process fails)\]/.test(element.textContent ?? ''))!
     tail.setAttribute('x', '1000'); for (const part of tail.querySelectorAll('tspan')) part.setAttribute('x', '1000')

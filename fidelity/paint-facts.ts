@@ -300,7 +300,7 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
     if (['message-order', 'message-style'].includes(key) && input.family === 'sequence' && Array.isArray(facts[key])) {
       const relations = input.paint.connections as { source: string; target: string; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; box?: { y: number; height: number }; labels?: string[]; dash?: string; strokePattern?: string }[]
       const ordered = [...relations].sort((a, b) => (a.box?.y ?? Infinity) - (b.box?.y ?? Infinity))
-      const bound = ['painted-relationships', 'painted-relationship-label-counts', 'painted-relationship-label-ownership'].every(criterion => checkById.get(criterion)?.status === 'passed') && ordered.every((edge, index) => edge.box && edge.labels?.length === 1 && (!index || edge.box.y - ordered[index - 1]!.box!.y > 1))
+      const bound = (input.expected.edges?.length ? ['painted-relationships', 'painted-relationship-label-counts', 'painted-relationship-label-ownership'] : ['painted-relationships']).every(criterion => checkById.get(criterion)?.status === 'passed') && ordered.every((edge, index) => edge.box && edge.labels?.length === 1 && (!index || edge.box.y - ordered[index - 1]!.box!.y > 1))
       const actual = ordered.map(edge => {
         const reverse = ['arrow', 'triangle', 'open-arrow'].includes(edge.startMarker) && edge.endMarker === 'none', unprinted = edge.startMarker === 'none' && edge.endMarker === 'none'
         const [from, to] = unprinted ? [edge.source, edge.target].sort() : reverse ? [edge.target, edge.source] : [edge.source, edge.target]

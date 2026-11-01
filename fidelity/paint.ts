@@ -89,6 +89,9 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!match) return false
     let filter: Element | null
     try { filter = document.getElementById(decodeURIComponent(match[1]!)) } catch { return false }
+    // A valid same-document URL with no target cannot supply a filter primitive.
+    // Existing wrong-type targets and external URLs are deliberately excluded.
+    if (!filter) return true
     if (!filter || !svg.contains(filter) || filter.localName !== 'filter' || filter.children.length !== 1 || filter.hasAttribute('href') || filter.hasAttribute('filterRes')) return false
     const shadow = filter.children[0]!
     if (shadow.localName !== 'feDropShadow' || shadow.children.length || shadow.hasAttribute('x') || shadow.hasAttribute('y') || shadow.hasAttribute('width') || shadow.hasAttribute('height') || !['', 'SourceGraphic'].includes(shadow.getAttribute('in') ?? '')) return false
@@ -261,6 +264,23 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const uniform = (paint: string) => { const id = /#([^\s)"']+)/.exec(paint)?.[1], gradient = id ? document.getElementById(decodeURIComponent(id)) : null, stops = gradient && ['linearGradient', 'radialGradient'].includes(gradient.localName) ? [...gradient.querySelectorAll('stop')] : []; return stops.length && stops.every(stop => getComputedStyle(stop).stopColor === getComputedStyle(stops[0]!).stopColor) ? getComputedStyle(stops[0]!).stopColor : paint }
     const paints = [...(foregroundAlpha && Number(css.fillOpacity) > 0 ? [uniform(foreground)] : []), ...(strokeVisible ? [uniform(css.stroke)] : [])]
     if (!paints.length) return false
+    // A zero-length line can paint a marker behind a number despite having
+    // no own bounding rectangle. Qualify only an unclipped opaque circular
+    // marker with a finite uniform transform and complete actual glyph-ink fit.
+    if(input.family==='sequence'&&element.localName==='text'&&/^\d+$/.test(normalize(labelText(element)))){
+      const simpleNumber=(element as SVGTextPositioningElement).rotate.baseVal.numberOfItems===0&&css.fontStyle==='normal'&&css.direction==='ltr'&&css.writingMode==='horizontal-tb'&&['normal','0px'].includes(css.letterSpacing)&&['normal','0px'].includes(css.wordSpacing);const ink=labelInkBox(element)??(simpleNumber?labelBox(element):null)
+      if(ink)for(const line of svg.querySelectorAll('line')){
+        if(!(line.compareDocumentPosition(element)&Node.DOCUMENT_POSITION_FOLLOWING)||line.x1.baseVal.value!==line.x2.baseVal.value||line.y1.baseVal.value!==line.y2.baseVal.value)continue
+        const style=getComputedStyle(line),match=/^url\(["']?#([^\s"')]+)["']?\)$/.exec(style.markerStart),marker=match?document.getElementById(match[1]!):null,circle=marker?.children.length===1&&marker.children[0]!.localName==='circle'?marker.children[0] as SVGCircleElement:null,matrix=line.getScreenCTM()
+        if(!marker||marker.localName!=='marker'||marker.hasAttribute('viewBox')||marker.hasAttribute('transform')||!circle||circle.hasAttribute('transform')||!matrix||Math.abs(matrix.b)>1e-8||Math.abs(matrix.c)>1e-8||Math.abs(Math.abs(matrix.a)-Math.abs(matrix.d))>1e-8)continue
+        const units=marker.getAttribute('markerUnits')==='userSpaceOnUse'?1:Number.parseFloat(style.strokeWidth),refX=Number(marker.getAttribute('refX')??0),refY=Number(marker.getAttribute('refY')??0),cx=circle.cx.baseVal.value,cy=circle.cy.baseVal.value,r=circle.r.baseVal.value,fill=getComputedStyle(circle)
+        if(!(units>0)||!(r>0)||cx-r<0||cy-r<0||cx+r>Number(marker.getAttribute('markerWidth')??3)||cy+r>Number(marker.getAttribute('markerHeight')??3)||colorAlpha(fill.fill)!==1||Number(fill.fillOpacity)!==1||fill.display==='none')continue
+        let plain=true;for(const part of [line,circle])for(let owner:Element|null=part;owner;owner=owner.parentElement){const css=getComputedStyle(owner);if(css.display==='none'||['hidden','collapse'].includes(css.visibility)||Number(css.opacity)!==1||css.clipPath!=='none'||css.maskImage!=='none'||css.filter!=='none')plain=false;if(owner===svg)break}
+        if(!plain)continue
+        const local=[[ink.x,ink.y],[ink.x+ink.width,ink.y],[ink.x,ink.y+ink.height],[ink.x+ink.width,ink.y+ink.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(matrix.inverse()))
+        if(local.every(p=>Math.hypot((p.x-line.x1.baseVal.value)/units+refX-cx,(p.y-line.y1.baseVal.value)/units+refY-cy)<=r-.1))return paints.every(paint=>paint===fill.fill)
+      }
+    }
     const backdrop = [...svg.querySelectorAll('rect,circle,ellipse,polygon,path')].filter(shape => {
       if (shape.contains(element) || !(shape.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(shape)) return false
       const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.()
@@ -511,7 +531,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const boxes = observed.map(rect), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)), union = { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y }
     if (!sameBox(union, candidate.box)) continue
     if (source.label) {
-      const labels = visibleMatches(source.label)
+      const allLabels = visibleMatches(source.label), labels = input.family === 'sequence' ? allLabels.sort((a,b)=>rect(a).y-rect(b).y).slice(0,1) : allLabels
       if (labels.length !== 1) continue
       const label = labelBox(labels[0]!), middle = center(label), body = center(union)
       const inside = contains(union, label)
@@ -630,9 +650,9 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       if (!['sequence', 'zenuml'].includes(input.family)) return { id: node.id, distance: distanceToNode(point, node) }
       const lifelines = geometry.filter(element => {
         const start = pointFor(element, false), end = pointFor(element, true)
-        return start && end && Math.abs(start.x - end.x) <= 1 && Math.abs(start.x - center(node.box).x) <= 2 && Math.min(start.y, end.y) <= node.box.y + node.box.height + 2 && Math.max(start.y, end.y) >= point.y && Math.min(start.y, end.y) <= point.y
+        return start && end && Math.abs(start.x - end.x) <= 1 && Math.abs(start.x - center(node.box).x) <= (node.outlines&&node.outlines.length>1?8:2) && Math.min(start.y, end.y) <= Math.max(node.box.y + node.box.height,...visibleMatches(node.label).filter(label=>Math.abs(center(rect(label)).x-center(node.box).x)<=Math.max(12,node.box.width*.6)&&rect(label).y>=node.box.y&&rect(label).y<=node.box.y+node.box.height+30).map(label=>rect(label).y+rect(label).height))+12 && Math.max(start.y, end.y) >= point.y && Math.min(start.y, end.y) <= point.y
       })
-      const candidates = geometry.filter(element => element.matches('rect.occurrence[data-participant]') && element.getAttribute('data-participant') === node.id)
+      const candidates = geometry.filter(element => element.localName==='rect' && rect(element).width>=2 && rect(element).width<=30 && rect(element).height>2 && rect(element).y>node.box.y+node.box.height && Math.abs(center(rect(element)).x-center(node.box).x)<=32)
       const activations = new Set(candidates.filter(element => {
         const box = rect(element)
         // The actual activation body must intersect its actor's lifeline;
@@ -650,8 +670,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
         }
       }
       if (candidates.some(body => !activations.has(body) && distanceToInk(point, body) <= 2)) ambiguousEndpoints = true
-      return { id: node.id, distance: Math.min(...[...lifelines, ...activations].map(element => distanceToInk(point, element))) }
-    }).filter(item => item.distance <= Math.max(2, clearance)).sort((a, b) => a.distance - b.distance)
+      const ports=geometry.filter(element=>element.localName==='circle'&&rect(element).width>=4&&rect(element).width<=16&&Math.abs(rect(element).width-rect(element).height)<1&&Math.abs(center(rect(element)).y-point.y)<=1&&lifelines.some(line=>{const p=pointFor(line,false);return p&&Math.abs(p.x-center(rect(element)).x)<1}));const headers=point.y>=node.box.y-2&&point.y<=node.box.y+node.box.height+2?[node.shape,...(node.outlines??[])]:[]; return { id: node.id, distance: Math.min(...[...lifelines, ...activations,...ports,...headers].map(element => distanceToInk(point, element))) }
+    }).filter(item => item.distance <= Math.max(input.family === 'sequence' ? 8 : 2, clearance)).sort((a, b) => a.distance - b.distance)
     if (candidates.length > 1 && candidates[1]!.distance - candidates[0]!.distance <= 2) { ambiguousEndpoints = true; return undefined }
     return candidates[0]?.id
   }
