@@ -127,7 +127,7 @@ const own: Record<string, string> = { 'timing:browser': 'unified/timing-browser.
   const offline = ['mermaid:public-tests:union', 'timing:qualify', 'test:ci', 'typecheck', 'lint', 'results:snapshot', 'support', 'results:campaign', 'build', 'fidelity:report', 'results:publish', 'results:compare']
   const inspectOnly = selected === 'mermaid:public-tests' && args.includes('--inventory-only') || args.includes('--help') || selected === 'verify:harness' && args.includes('--plan') || selected === 'bench' && (args.includes('--list') || args.includes('--plan') || args.includes('--pilot-summary') || args.includes('--terminal') && args.includes('--saved-terminal') && !args.includes('--community-prepared'))
   // community:update --plan acquires artifacts, unlike bench --plan.
-  if (!offline.includes(selected) && !inspectOnly) assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['upstream:prepare', 'docs:png', 'timing:browser'].includes(selected) })
+  if (!offline.includes(selected) && !inspectOnly) assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['upstream:prepare', 'timing:browser', 'timing:terminal', 'timing:png'].includes(selected) })
   const result = spawnSync(executable, [...argv, ...args], { cwd, stdio: 'inherit' })
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1
