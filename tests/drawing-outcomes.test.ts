@@ -47,7 +47,7 @@ test('overlapping bounds rank verified counts without claiming superiority; disj
 })
 test('verified zero ranks while missing values and empty populations remain unavailable', () => {
   const data = table(['Unassessed', 'Unrun'], ['Incorrect drawing', 'Unsupported'])
-  expect(rankedRows(data, id => id).map(row => row.rank)).toEqual([1, 1])
+  expect(rankedRows(data, id => id).map(row => [row.project, row.rank])).toEqual([[peer, 1], [baseline, null]])
   expect(drawingBounds(data, data.rows[0]!)!.upper).toBe(2)
   expect(drawingBounds(data, data.rows[1]!)!.upper).toBe(0)
   data.rows[0]!.values[1] = 'unavailable'
@@ -84,4 +84,18 @@ test('retained public-model tables keep their counts and receipts but lose compa
   expect(rankedRows(model, id => id).map(row => row.rank)).toEqual([null, null])
   expect(retainedTableValues(snapshot, ['models'])).toEqual(before)
   expect(output.split('\n').find(line => line.startsWith('| Project | Overview rank |'))).not.toContain('Model')
+})
+
+test('unresolved outcomes cannot manufacture a rank, while every resolved non-success can verify zero', () => {
+  for (const unresolved of ['Unassessed', 'Unrun', 'Harness failure'] as const) for (const resolved of ['Incorrect drawing', 'Invalid format', 'Unsupported', 'Renderer failure'] as const) {
+    const entry = table([unresolved, unresolved], [resolved, 'Unrun'])
+    expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([[peer, 1], [baseline, null]])
+  }
+  const withheld = table(['Correct'], ['Incorrect drawing'])
+  withheld.rows[0]!.unrankedReason = 'Observer qualification withheld'
+  expect(rankedRows(withheld, id => id).find(row => row.project === baseline)!.rank).toBeNull()
+  for (const unknown of ['Unavailable', 'Unrun']) {
+    const entry: SnapshotTable = { ...table([], []), suite: 'mermaid-behaviour', drawingOutcomePolicy: undefined, columns: ['Version', 'Passed', 'Failed', 'Unavailable', 'Unrun', 'Planned'], population: { total: 'Planned', outcomes: ['Passed', 'Failed', 'Unavailable', 'Unrun'] }, ranking: { column: 'Passed', direction: 'descending' }, rows: [{ project: baseline, values: ['1', 0, 0, unknown === 'Unavailable' ? 2 : 0, unknown === 'Unrun' ? 2 : 0, 2] }, { project: peer, values: ['1', 0, 1, 0, 1, 2] }] }
+    expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([[peer, 1], [baseline, null]])
+  }
 })

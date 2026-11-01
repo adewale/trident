@@ -28,7 +28,7 @@ test('normal campaign publication reopens actual49 behaviours, retains unrun row
   const tables = campaignTables(report, receipt), entry = tables[0]!
   expect(tables).toHaveLength(1)
   expect(entry.rows.map(row => row.values.slice(1, 6))).toEqual([[49, 0, 0, 0, 49], [29, 0, 20, 0, 49], [0, 0, 0, 49, 49]])
-  expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([[reference, 1], [peer, 2], [absent, 3]])
+  expect(rankedRows(entry, id => id).map(row => [row.project, row.rank])).toEqual([[reference, 1], [peer, 2], [absent, null]])
   expect(baselineComparison(entry, entry.rows[1]!)).toBe('Fewer verified (-20); outcome unresolved')
   expect(baselineComparison(entry, entry.rows[2]!)).toBe('Fewer verified (-49); outcome unresolved')
   expect(entry.rows[2]!.values.at(-1)).toBe('Unknown; no recorded public call')

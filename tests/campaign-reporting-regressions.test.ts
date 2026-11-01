@@ -193,10 +193,10 @@ test('candidate study tables and attempts cannot replace or suppress release sco
   expect(renderSnapshot(data, catalog)).toContain('**Source candidate study**')
 })
 
-test('fully blocked generated docs data ranks verified zero with the full unresolved interval', () => {
+test('fully blocked generated docs data remains unranked with its full unresolved interval', () => {
   const data = importCampaign(empty(), campaign(temp(), { blocked: true, updatedAt: '2026-02-01T00:00:00Z' }), 'https://example.org/blocked', catalog)
-  expect(overview(data).rank).toBe('1')
-  expect(overview(data).docs).toContain('0/2 verified; bounds 0–2/2')
+  expect(overview(data).rank).toBe('—')
+  expect(overview(data).docs).toContain('No verified drawing-content observations')
   expect(overview(data).docs).not.toContain('0/2 verified; bounds 0–0/2')
 })
 
@@ -341,8 +341,25 @@ test('ordinary drawing rows reconcile format, native failure, evidence gaps and 
 
 test('project-scoped artifact admission is a harness failure for each planned source, not an inferred engine failure or unrun', () => {
   const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), out = join(root, 'docs')
+  write(join(out, 'inventory.json'), { cases: ['one', 'two'].map(id => ({ id, source: 'flowchart LR; A-->B' })) })
   write(join(out, 'result.json'), { id: 'docs', startedAt: '2026-01-01T00:00:00Z', finishedAt: '2026-01-01T00:00:01Z', observations: [{ suite: 'docs', surface: 'harness:artifact', runtime: 'Node', family: '*', format: 'svg', operation: 'artifact-admission', mode: 'frozen-public-artifact', caseId: 'fixture/a', status: 'blocked', metrics: { project: 'fixture/a', runtimeExecuted: false } }] })
   const data = importCampaign(empty(), root, 'https://example.test/admission', catalog), table = data.tables.find(table => table.drawingOutcomePolicy)!, values = table.rows[0]!.values
   expect(values.slice(1, 10)).toEqual([0, 0, 0, 0, 0, 0, 0, 2, 2])
   expect(values.slice(10, 13)).toEqual([0, 0, 100])
+})
+
+
+test('a complete literal source inventory keeps unrun drawings even before any content observer succeeds', () => {
+  const root = campaign(temp(), { updatedAt: '2026-02-01T00:00:00Z' }), out = join(root, 'docs'), file = join(out, 'result.json'), result = JSON.parse(readFileSync(file, 'utf8'))
+  write(join(out, 'inventory.json'), { cases: ['one', 'two'].map(id => ({ id, source: 'flowchart LR; A-->B' })) })
+  result.observations = result.observations.filter((row: any) => row.metrics.project === 'fixture/a' && row.operation === 'render' && row.caseId === 'one')
+  write(file, result)
+  const unassessed = importCampaign(empty(), root, 'https://example.test/source-inventory', catalog).tables.find(table => table.drawingOutcomePolicy)!
+  expect(unassessed.rows[0]!.values.slice(1, 10)).toEqual([0, 0, 0, 0, 0, 1, 1, 0, 2])
+  expect(rankedRows(unassessed, id => id)[0]!.rank).toBeNull()
+  result.observations.push({ ...result.observations[0], operation: 'drawing-checks', status: 'passed' })
+  write(file, result)
+  const checked = importCampaign(empty(), root, 'https://example.test/source-inventory', catalog).tables.find(table => table.drawingOutcomePolicy)!
+  expect(checked.rows[0]!.values.slice(1, 10)).toEqual([1, 0, 0, 0, 0, 0, 1, 0, 2])
+  expect(rankedRows(checked, id => id)[0]!.rank).toBe(1)
 })

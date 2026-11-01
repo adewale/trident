@@ -109,7 +109,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
               ['Version', ...drawingOutcomeColumns, 'Planned', ...drawingStatisticsColumns, 'Measured'], project,
               [assessment.version, ...drawingOutcomeCells(outcomes), clock],
               { column: 'Correct', direction: 'descending' },
-              { cohort, unit: 'terminal input cases', ...(scope === 'full' ? { summary: true, overview: { numerator: 'Correct', denominator: 'Planned', suffix: '' } } : {}), drawingOutcomePolicy: 'drawing-outcomes-v1', population: { total: 'Planned', outcomes: [...drawingOutcomeColumns] } })
+              { cohort, unit: 'terminal input cases', ...(scope === 'full' ? { summary: true, overview: { numerator: 'Correct', denominator: 'Planned', suffix: '' } } : {}), drawingOutcomePolicy: 'drawing-outcomes-v1', population: { total: 'Planned', outcomes: [...drawingOutcomeColumns] } }, outcomes.resolved ? undefined : 'No verified terminal drawing observations')
           }
         }
         if (Array.isArray(rejectionIds) && rejectionIds.length) {
@@ -209,7 +209,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             ['Version', 'Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed', 'Planned', 'Measured'], project,
             [String(version), counts.passed, counts.failed, counts.unsupported, counts.blocked, counts.missing, counts.partial, inventory.cases.length, measuredAt(own, result.finishedAt)],
             { column: 'Returned in all rounds', denominator: 'Planned', direction: 'descending' },
-            { outputFormat: format as 'svg' | 'png', comparisonKey: hash(['docs', ...laneKey, cohort, laneProtocol, inventory.pin ?? null, inventory.cases, report.rounds]), unit: 'documentation occurrences', population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : {}) }, unrankedReason)
+            { outputFormat: format as 'svg' | 'png', comparisonKey: hash(['docs', ...laneKey, cohort, laneProtocol, inventory.pin ?? null, inventory.cases, report.rounds]), unit: 'documentation occurrences', chart: { numerator: 'Returned in all rounds', denominator: 'Planned', title: 'Output-return diagnostic', axis: 'Returned (%)', maximum: 100 }, population: { total: 'Planned', outcomes: ['Returned in all rounds', 'Failed', 'Unsupported', 'Blocked', 'Unexecuted', 'Partially observed'] }, ...(candidate ? { artifactRole: 'candidate' } : {}) }, unrankedReason)
           const population = documentationPopulation(inventory.cases, inventory.drawingReview?.cases), drawings = own.filter(row => row.operation === 'drawing-checks' && population.drawings.has(row.caseId))
           if (population.invalid.size) {
             const controls = own.filter(row => row.operation === 'source-rejection' && population.invalid.has(row.caseId))
@@ -222,7 +222,10 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
               [String(version), passed, failed, population.invalid.size - passed - failed, population.invalid.size, controlClock],
               { column: 'Correct rejection', direction: 'descending' }, { outputFormat: format as 'svg' | 'png', unit: 'invalid-source controls', population: { total: 'Planned controls', outcomes: ['Correct rejection', 'Accepted invalid source', 'Unknown'] } }, passed + failed ? undefined : 'No qualified source-control observation')
           }
-          if (population.drawings.size) {
+          const hasDrawingLedger = drawings.length > 0 || inventory.cases.some((input: any) => typeof input.source === 'string')
+            || (inventory.drawingReview?.cases ?? []).some((input: any) => input.expected || input.sourceReview || input.review && typeof input.review === 'object')
+            || ((result as any).cases ?? []).some((input: any) => input.assessment || input.checks || input.admission)
+          if (population.drawings.size && hasDrawingLedger) {
             if (new Set(drawings.map(row => row.caseId)).size !== drawings.length || drawings.some(row => !inventory.cases.some((input: any) => input.id === row.caseId))) throw Error('Documentation drawing observations do not match the inventory')
             if (drawings.some(row => row.status === 'not-applicable')) throw Error('A registered drawing was excluded from correctness scoring')
             const records = new Map<string, any>()

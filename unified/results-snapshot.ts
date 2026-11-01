@@ -225,17 +225,27 @@ export function baselineComparison(entry: SnapshotTable, row: SnapshotTable['row
   if (column === 'Correct' && (unknown(reference) > 0 || unknown(row) > 0)) return difference === 0 ? 'Same verified count; accuracy unresolved' : `${difference > 0 ? 'More' : 'Fewer'} verified (${difference > 0 ? '+' : ''}${difference}); accuracy unresolved`
   return difference === 0 ? 'Tie' : `${difference > 0 ? 'Higher' : 'Lower'} (${difference > 0 ? '+' : ''}${difference})`
 }
+/** A recorded zero is rankable only after at least one outcome was resolved. */
+function resolvedOutcomes(entry: SnapshotTable, row: SnapshotTable['rows'][number]): number | null {
+  const columns = entry.drawingOutcomePolicy ? drawingOutcomeColumns.slice(0, 5) : entry.suite === 'mermaid-behaviour' && entry.ranking?.column === 'Passed' ? ['Passed', 'Failed'] : null
+  if (!columns) return null
+  const counts = columns.map(column => measurementNumber(row.values[entry.columns.indexOf(column)]))
+  return counts.some(count => count === null) ? null : (counts as number[]).reduce((sum, count) => sum + count, 0)
+}
+function rankingNote(entry: SnapshotTable, row: SnapshotTable['rows'][number]) {
+  return row.unrankedReason ?? (resolvedOutcomes(entry, row) === 0 ? entry.suite === 'community' ? 'No verified terminal drawing observations' : entry.suite === 'mermaid-behaviour' ? 'No verified observable behaviour outcomes' : 'No verified drawing-content observations' : undefined)
+}
 /** Shared competition ranks (1, 1, 3); unavailable measurements never become zero. */
 export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
   entry = regressionTable(entry)
   const numeric = (value: Cell | undefined) => measurementNumber(value) ?? NaN
   const ranked = rankResults(entry.rows, { direction: entry.ranking?.direction ?? 'descending', name: row => name(row.project), score: row => {
+    if (row.unrankedReason) return null
     if (entry.drawingOutcomePolicy || entry.suite === 'mermaid-behaviour' && entry.ranking?.column === 'Passed') {
       const total = numeric(row.values[entry.columns.indexOf(entry.population!.total)])
       const correct = numeric(row.values[entry.columns.indexOf(entry.drawingOutcomePolicy ? 'Correct' : 'Passed')])
-      return total > 0 && Number.isFinite(correct) ? correct : null
+      return total > 0 && Number.isFinite(correct) && (resolvedOutcomes(entry, row) ?? 0) > 0 ? correct : null
     }
-    if (row.unrankedReason) return null
     const metric = entry.ranking
     const numerator = metric ? numeric(row.values[entry.columns.indexOf(metric.column)]) : NaN
     const denominator = metric?.denominator ? numeric(row.values[entry.columns.indexOf(metric.denominator)]) : 1
@@ -243,10 +253,10 @@ export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
     const unobserved = (entry.population?.outcomes ?? []).filter(column => /^(Blocked|Binding gaps|Unavailable|Unexecuted|Unmeasured|Missing|Not applicable|N\/A|Skipped)$/.test(column)).reduce((sum, column) => sum + numeric(row.values[entry.columns.indexOf(column)]), 0)
     const value = numerator / denominator
     return Number.isFinite(numerator) && Number.isFinite(denominator) && denominator > 0 && Number.isFinite(value) && !(total > 0 && unobserved >= total) ? value : null
-  } }).map(({ row, ...rank }) => ({ ...row, ...rank }))
+  } }).map(({ row, ...rank }) => ({ ...row, ...rank, ...(rankingNote(entry, row) ? { unrankedReason: rankingNote(entry, row) } : {}) }))
   // Verified counts remain readable best-first even where unknown evidence
   // withholds a formal correctness rank. Ranking eligibility is unchanged.
-  return entry.ranking?.column === 'Correct' ? rankResults(ranked, { direction: entry.ranking.direction, name: row => name(row.project), score: row => measurementNumber(row.values[entry.columns.indexOf('Correct')]) }).map(({ row }) => row) : ranked
+  return !entry.drawingOutcomePolicy && entry.ranking?.column === 'Correct' ? rankResults(ranked, { direction: entry.ranking.direction, name: row => name(row.project), score: row => measurementNumber(row.values[entry.columns.indexOf('Correct')]) }).map(({ row }) => row) : ranked
 }
 function chartValue(entry: SnapshotTable, row: SnapshotTable['rows'][number]) {
   const chart = entry.chart!, numerator = measurementNumber(row.values[entry.columns.indexOf(chart.numerator)])
@@ -377,7 +387,8 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
       if (entry) {
         const row = entry.rows.find(row => row.project === project)!, projection = entry.overview!
         const observedAt = entry.rolling ? String(row.values[entry.columns.indexOf('Measured')]) : entry.measuredAt
-        if (row.unrankedReason && !entry.drawingOutcomePolicy) return `[${md(row.unrankedReason)} · ${date(observedAt)}](#${anchor(entry.id)})`
+        const note = rankingNote(entry, row)
+        if (note) return `[${md(note)} · ${date(observedAt)}](#${anchor(entry.id)})`
         if (projection.suffix === '%' && entry.ranking && rankedRows(entry, name).find(row => row.project === project)?.rank === null) {
           const owner = attempts.find(attempt => attempt.receipt.sha256 === entry.receipt.sha256 && attempt.receipt.url === entry.receipt.url)
           return owner ? attemptCell(owner) : 'Unmeasured'
@@ -408,7 +419,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
       lines.push(`<a id="${anchor(entry.id)}"></a>`, '', `**${entry.id}** · ${date(entry.measuredAt)}${entry.historical ? ' · Historical' : ''}${entry.diagnostic ? ' · **Diagnostic subset**' : ''}${entry.artifactRole === 'candidate' ? ' · **Source candidates**' : ''} · unit: ${md(entry.unit)} · ${entry.rolling ? '[latest source run](' + entry.receipt.url + ')' : receiptLink(entry.receipt)}`, '', entry.caption, '')
       const rows = rankedRows(entry, name)
       lines.push(unscored ? 'Unscored harness/observer regressions; rows are alphabetical.' : entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked.${/\bms\b/.test(entry.unit ?? '') ? ' Timing ranks describe the displayed samples and retain their qualification limits.' : ''}` : 'No comparable numeric ranking measure is available.', '')
-      if (entry.drawingOutcomePolicy) lines.push('Ranks order verified correct counts, including zero. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.', '')
+      if (entry.drawingOutcomePolicy) lines.push('Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.', '')
       const rate = entry.chart?.denominator
       const notes = rows.some(row => row.unrankedReason)
       const reference = entry.cohort?.startsWith('terminal-') ? 'AlexanderGrooff/mermaid-ascii' : 'mermaid-js/mermaid'
