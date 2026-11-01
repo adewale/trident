@@ -189,6 +189,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
               writeDurableEvidence(svgPath,gzipSync(result.svg));artifacts.push(svgPath)
               details.svgEvidence={path:svgPath,encoding:'gzip',bytes:Buffer.byteLength(result.svg),sha256:createHash('sha256').update(result.svg).digest('hex'),rawInvocationId:main.invocation.attemptId,scope:'Lossless actual public SVG output retained before qualification; its complete prelude/main workflow is owned by the raw journal'}
             }
+            add(testCase, 'browser-public-api', 'public-svg-admission', classify(result), result.error ?? result.kind, 'actual public SVG string', 'Actual frozen public SVG transport invocation; generic exceptions/timeouts remain unavailable, not grammar rejection')
             const preludes: any[] = []
             for (const [number, prelude] of (testCase.prelude ?? []).entries()) {
               const step=captured.steps[number]!,result=step.result
@@ -199,7 +200,6 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
               add(testCase, 'browser-public-api', 'prelude-' + number, preludeStatus, witness, prelude.accept, 'Actual owned configured-source prelude in the same runtime as main; unsupported capabilities and unknown runtime errors earn no rejection credit'); preludes.push(witness)
             }
             details.preludes=preludes
-            add(testCase, 'browser-public-api', 'public-svg-admission', classify(result), result.error ?? result.kind, 'actual public SVG string', 'Actual frozen public SVG transport invocation; generic exceptions/timeouts remain unavailable, not grammar rejection')
             if (result.kind === 'returned') {
               const qualification = qualifyOutput({ id: testCase.id, family: testCase.family, source: testCase.source, expectedLabels: testCase.expected.labels, features: testCase.features, provenance: testCase.provenance }, result.svg, 'svg')
               add(testCase, 'browser-public-api', 'standalone-svg-and-labels', qualification.unavailable ? 'unavailable' : qualification.ok ? 'passed' : 'failed', qualification.findings, [], qualification.scope)

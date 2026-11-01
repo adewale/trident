@@ -1,4 +1,4 @@
-import {expect,test} from 'bun:test'
+import {expect,setDefaultTimeout,test} from 'bun:test'
 import {cpSync,mkdirSync,readFileSync,readdirSync,symlinkSync,unlinkSync,writeFileSync} from 'node:fs'
 import {join} from 'node:path'
 import {InvocationJournal} from '../portable/invocation-journal.ts'
@@ -7,10 +7,43 @@ import {createAuthoredSvgRawCapture,readRetainedAuthoredSvgWorkflow,authoredSvgA
 import type {AuthoredFidelityCase} from '../fidelity/meaning.ts'
 import {retainedPath} from '../unified/recheck-rendering.ts'
 import {useTempDirs} from './helpers/temp-dir.ts'
+import {spawnSync} from 'node:child_process'
+import {gunzipSync} from 'node:zlib'
+import {readBenchmarkDocument} from '../portable/project-records.ts'
 
 const temp=useTempDirs('authored-raw-first-'),owner={project:'fixture/raw-first',artifactSha256:'a'.repeat(64),adapterBindingSha256:authoredSvgAdapterBinding({kind:'synthetic-fixture'},null)}
+setDefaultTimeout(30_000)
 const input:AuthoredFidelityCase={id:'fixture:workflow',family:'flowchart',required:true,source:'flowchart LR\nMain[Main]',features:[],provenance:'Independent synthetic durability control; no project renderer',expected:{labels:['Main']},prelude:[{source:'flowchart LR\nBefore[Before]',accept:true}]}
 const svg=(label:string)=>'<svg xmlns="http://www.w3.org/2000/svg" width="100" height="40"><text x="5" y="25">'+label+'</text></svg>'
+
+test('the actual collector survives process death at its first qualifier with all prelude/main bytes, then regrades without another host API call',()=>{
+  const root=temp.dir(),fixture=new URL('./fixtures/community/raw-first.ts',import.meta.url).pathname
+  const invoke=(mode:string)=>spawnSync(process.execPath,[fixture,root,mode],{encoding:'utf8',timeout:20_000,env:{...process.env,CI:'true'}})
+  const crashed=invoke('crash')
+  expect(crashed.status).toBe(73)
+  const projectOut=join(root,'out',Buffer.from('fixture/raw-first').toString('base64url')),rawDirectory=join(projectOut,'authored-raw')
+  const calls=readFileSync(join(root,'public-calls'),'utf8')
+  expect(calls).toBe('initialize\nconfigure\nrender\nrender\n')
+  expect(readFileSync(join(root,'grading-calls'),'utf8')).toBe('grade\n')
+  const frames=new InvocationJournal(join(rawDirectory,'invocations')).records(),returned=frames.filter(frame=>frame.state==='returned')
+  expect(returned).toHaveLength(2)
+  expect(returned.map(frame=>readFileSync(frame.output!.path,'utf8')).sort()).toEqual([svg('Before'),svg('Main')].sort())
+  const mainFiles=readdirSync(projectOut).filter(name=>name.endsWith('.svg.gz'))
+  expect(mainFiles).toHaveLength(1)
+  expect(gunzipSync(readFileSync(join(projectOut,mainFiles[0]!))).toString()).toBe(svg('Main'))
+  const resumed=invoke('resume')
+  expect(resumed.status).toBe(0)
+  expect(resumed.stderr).not.toContain('error:')
+  expect(readFileSync(join(root,'public-calls'),'utf8')).toBe(calls)
+  expect(new InvocationJournal(join(rawDirectory,'invocations')).records()).toEqual(frames)
+  const receipt=JSON.parse(readFileSync(join(projectOut,'community-fidelity-cases.json'),'utf8'))
+  expect(receipt.rows[0].collectionError).toContain('Synthetic grading failure')
+  expect(receipt.rows[0].workflowEvidence).toBeDefined()
+  expect(receipt.rows[0].svgEvidence.sha256).toBe(evidenceBytesDigest(svg('Main')))
+  const report=readBenchmarkDocument(join(root,'out','community-fidelity-report.json')) as any
+  expect(report.observations.find((row:any)=>row.operation==='public-svg-admission').status).toBe('passed')
+  expect(JSON.parse(resumed.stdout.trim().split('\n').at(-1)!).actualProjectCalls).toBe(0)
+})
 
 test('every actual return is durable before grading; a completed workflow replays bytes and original UUIDs without any public or initialization call',async()=>{
   const directory=join(temp.dir(),'raw'),raw=createAuthoredSvgRawCapture(directory,owner);let calls=0
