@@ -5,6 +5,7 @@ import {CollectionCheckpoint,readCheckpointEntries,readCheckpointValue} from '..
 import {InvocationJournal} from '../portable/invocation-journal.ts'
 import {admitInvocationEvidence,evidenceBytesDigest,evidenceDigest,type InvocationEvidence} from '../portable/evidence-contract.ts'
 import type {AuthoredFidelityCase} from './meaning.ts'
+import type {CommunityArtifact} from '../unified/community-types.ts'
 
 export interface AuthoredSvgRawOwner {project:string;artifactSha256:string;adapterBindingSha256:string}
 export interface AuthoredSvgWorkflowEvidence {
@@ -29,11 +30,14 @@ interface Workflow extends AuthoredSvgRawOwner {
 }
 export interface RetainedAuthoredSvgWorkflow {
   workflowId:string;runtimeInstanceId:string;capabilities:Record<string,any>
-  steps:{step:string;runtimeInstanceId:string;result:Record<string,any>;invocation:Readonly<InvocationEvidence>}[]
+  /** Capture ownership and source order remain valid across distinct CLI
+   * processes or recovery; only shared-runtime workflow credit is withheld. */
+  sameRuntime:boolean
+  steps:{step:string;runtimeInstanceId:string;finishedRuntimeInstanceId:string;result:Record<string,any>;invocation:Readonly<InvocationEvidence>}[]
 }
 
 /** The actual public adapter inputs, not the independently changing oracle. */
-export function authoredSvgAdapterBinding(engine:unknown,fontSizePath:unknown){return evidenceDigest({format:'svg',engine,fontSizePath:fontSizePath??null})}
+export function authoredSvgAdapterBinding(engine:unknown,fontSizePath:unknown,cli?:Pick<CommunityArtifact,'args'|'input'|'outputBindings'>){return evidenceDigest({format:'svg',engine,fontSizePath:fontSizePath??null,...(cli?{cli:{args:cli.args??[],input:cli.input??'stdin',outputBindings:cli.outputBindings??null}}:{})})}
 const stimulus=(input:AuthoredFidelityCase)=>({id:input.id,family:input.family,source:input.source,options:input.renderOptions??null,prelude:(input.prelude??[]).map(prelude=>({source:prelude.source,options:(prelude as any).renderOptions??null}))})
 const requests=(input:AuthoredFidelityCase,workflowId:string):Request[]=>[
   ...(input.prelude??[]).map((prelude,index)=>({step:'prelude-'+index,source:prelude.source,options:(prelude as any).renderOptions??null,requestId:'community-'+workflowId+'-prelude-'+index})),
@@ -68,10 +72,10 @@ export function readRetainedAuthoredSvgWorkflow(input:AuthoredFidelityCase,proje
   const steps=planned.map((request,index)=>{
     const step=workflow.steps[index]!,raw=readCheckpointValue<Step>(directory,'step:'+input.id+':'+request.step,checkpointIdentity(owner))
     const predecessor=index?workflow.steps[index-1]!.outcomeReceiptSha256:null
-    if(!step||step.step!==request.step||step.requestId!==request.requestId||evidenceDigest(raw)!==evidenceDigest(step)||step.predecessorOutcomeSha256!==predecessor||step.sourceSha256!==evidenceBytesDigest(request.source)||step.optionsSha256!==evidenceDigest(request.options)||step.runtimeInstanceId!==workflow.runtimeInstanceId||step.finishedRuntimeInstanceId!==workflow.runtimeInstanceId||ids.has(step.attemptId))throw Error('Authored SVG workflow steps differ or crossed actual runtime instances')
+    if(!step||step.step!==request.step||step.requestId!==request.requestId||evidenceDigest(raw)!==evidenceDigest(step)||step.predecessorOutcomeSha256!==predecessor||step.sourceSha256!==evidenceBytesDigest(request.source)||step.optionsSha256!==evidenceDigest(request.options)||!step.runtimeInstanceId||!step.finishedRuntimeInstanceId||ids.has(step.attemptId))throw Error('Authored SVG workflow steps differ or lack actual runtime identities')
     ids.add(step.attemptId)
     const matching=frames.filter(frame=>frame.attemptId===step.attemptId),start=matching.find(frame=>frame.state==='started'),outcomes=matching.filter(frame=>frame.state!=='started')
-    if(!start||matching.length!==2||outcomes.length!==1||evidenceDigest(start.identity)!==evidenceDigest(identity(owner,input,workflow.workflowId,workflow.runtimeInstanceId,request,predecessor))||evidenceDigest(start)!==step.startedReceiptSha256)throw Error('Authored SVG step lacks its exact durable host-request start')
+    if(!start||matching.length!==2||outcomes.length!==1||evidenceDigest(start.identity)!==evidenceDigest(identity(owner,input,workflow.workflowId,step.runtimeInstanceId,request,predecessor))||evidenceDigest(start)!==step.startedReceiptSha256)throw Error('Authored SVG step lacks its exact durable host-request start')
     const outcome=outcomes[0]!
     if(evidenceDigest(outcome.identity)!==evidenceDigest(start.identity)||outcome.startedReceiptSha256!==step.startedReceiptSha256||evidenceDigest(outcome)!==step.outcomeReceiptSha256)throw Error('Authored SVG step lacks its matching retained outcome')
     const result={...step.result}
@@ -85,11 +89,11 @@ export function readRetainedAuthoredSvgWorkflow(input:AuthoredFidelityCase,proje
       const state=result.hostTransportError||result.errorName==='TimeoutError'||result.kind==='unavailable'?'interrupted':'public-error'
       if(outcome.state!==state||outcome.detail!==String(result.error??'No SVG string in the actual host response'))throw Error('Authored SVG error differs from its retained host response')
     }
-    return{step:request.step,runtimeInstanceId:step.runtimeInstanceId,result,invocation:outcome}
+    return{step:request.step,runtimeInstanceId:step.runtimeInstanceId,finishedRuntimeInstanceId:step.finishedRuntimeInstanceId,result,invocation:outcome}
   })
   const ownFrames=frames.filter(frame=>frame.identity.project===project&&frame.identity.caseId===input.id&&frame.identity.coordinate?.startsWith('authored-svg-host-rpc:'+workflow.workflowId+':'))
   if(ownFrames.length!==steps.length*2)throw Error('Authored SVG workflow has hidden or duplicate public requests')
-  return{workflowId:workflow.workflowId,runtimeInstanceId:workflow.runtimeInstanceId,capabilities:workflow.capabilities,steps}
+  return{workflowId:workflow.workflowId,runtimeInstanceId:workflow.runtimeInstanceId,capabilities:workflow.capabilities,sameRuntime:steps.every(step=>step.runtimeInstanceId===workflow.runtimeInstanceId&&step.finishedRuntimeInstanceId===workflow.runtimeInstanceId),steps}
 }
 
 /** Thin raw-first use of the existing journal/checkpoint. A partial workflow is

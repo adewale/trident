@@ -6,7 +6,7 @@ import {createRequire} from 'node:module'
 
 // This isolated child runs the actual collector with a synthetic host/page.
 // It loads no project engine or browser and publishes no benchmark evidence.
-const tree=resolve(import.meta.dir,'../../..'),fixture=process.argv[2]!,mode=process.argv[3]!,project='fixture/raw-first'
+const tree=resolve(import.meta.dir,'../../..'),fixture=process.argv[2]!,mode=process.argv[3]!,project='fixture/raw-first',cliMode=mode.startsWith('cli')
 mkdirSync(fixture,{recursive:true})
 const entry=join(fixture,'entry.js'),manifest=join(fixture,'package.json'),code='// Synthetic unused engine bytes, not a project renderer.\n'
 if(!existsSync(entry))writeFileSync(entry,code)
@@ -16,15 +16,29 @@ const testCase={id:'fixture:raw-first',family:'flowchart',required:true,source:'
 mock.module(tree+'/ci-policy.ts',()=>({assertBenchmarkExecutionAllowed:()=>{}}))
 mock.module(tree+'/fidelity/cases.ts',()=>({expandedFidelityCases:()=>[testCase]}))
 mock.module(tree+'/unified/baseline-measurement-context.ts',()=>({baselineMeasurementContext:()=>({source:'synthetic raw-first producer context'})}))
-const qualification=await import(tree+'/unified/qualification.ts')
-mock.module(tree+'/unified/qualification.ts',()=>({...qualification,qualifyOutput:()=>{
+const qualification=await import(tree+'/unified/qualification.ts'),originalQualifyOutput=qualification.qualifyOutput
+mock.module(tree+'/unified/qualification.ts',()=>({...qualification,qualifyOutput:(...args:Parameters<typeof qualification.qualifyOutput>)=>{
   appendFileSync(grades,'grade\n')
+  if(cliMode)return originalQualifyOutput(...args)
   if(mode==='crash')process.exit(73)
   throw Error('Synthetic grading failure after raw capture')
 }}))
+if(cliMode){
+  const community=await import(tree+'/unified/community.ts')
+  mock.module(tree+'/unified/community.ts',()=>({...community,runCommunityCli:(_peer:unknown,_format:unknown,workload:{id:string;source:string},_round:unknown,out:string)=>{
+    appendFileSync(counter,'cli\n')
+    const label=workload.source.includes('Before')?'Before':'Main',outputFile=join(out,workload.id+'.synthetic.svg')
+    writeFileSync(outputFile,'<svg xmlns="http://www.w3.org/2000/svg" width="100" height="40"><text x="5" y="25">'+label+'</text></svg>')
+    return{status:'passed',metrics:{outputFile},detail:'Synthetic CLI host transport; no project process'}
+  }}))
+  mock.module(tree+'/fidelity/inspect-svg.ts',()=>({inspectSvgDrawing:async()=>{
+    appendFileSync(join(fixture,'paint-calls'),'paint\n')
+    return{checks:[{criterion:'synthetic-main-observer',status:'passed',actual:null,expected:null,scope:'Synthetic branch reachability; no renderer quality claim'}],nodes:[],connections:[],complete:false,passed:false}
+  }}))
+}
 const page=()=>{
   let closed=false
-  return{setDefaultTimeout(){},async goto(){},async addScriptTag(){},isClosed(){return closed},async close(){closed=true},async evaluate(_fn:unknown,input:any){
+  return{setDefaultTimeout(){},async goto(){},async setContent(){},async addScriptTag(){},isClosed(){return closed},async close(){closed=true},async evaluate(_fn:unknown,input:any){
     if(input?.type==='initialize-global'){appendFileSync(counter,'initialize\n');return{fontOptions:true}}
     if(input?.type==='configure'){appendFileSync(counter,'configure\n');return{configured:true}}
     if(input?.type==='render'){
@@ -42,7 +56,7 @@ const fakeBrowser={async newContext(){return{async newPage(){return page()},asyn
 const require=createRequire(join(tree,'package.json')),playwright=require('playwright')
 playwright.chromium.launch=async()=>fakeBrowser
 const node={id:project,outputs:['svg'],benchmark:{adapter:'declared',outputs:['svg'],api:{svg:{fontSizePath:['fontSize']}}}}
-const peer={node,artifact:{kind:'node',root:fixture,module:entry,version:'1.0.0'},browserStatus:'prepared',browser:{kind:'function',global:'SyntheticUnusedEngine',root:fixture,entry:'entry.js',version:'1.0.0',artifactSha256:sha(code),files:[{path:entry,sha256:sha(code)}]}}
+const peer=cliMode?{node,artifact:{kind:'cli',root:fixture,executable:entry,version:'1.0.0',sha256:sha(code),files:[{path:entry,sha256:sha(code)}],args:[],input:'stdin'},browserStatus:'not-applicable'}:{node,artifact:{kind:'node',root:fixture,module:entry,version:'1.0.0'},browserStatus:'prepared',browser:{kind:'function',global:'SyntheticUnusedEngine',root:fixture,entry:'entry.js',version:'1.0.0',artifactSha256:sha(code),files:[{path:entry,sha256:sha(code)}]}}
 const prepared=join(fixture,'prepared.json'),catalog=join(fixture,'catalog.json')
 writeFileSync(prepared,JSON.stringify([peer]));writeFileSync(catalog,JSON.stringify({nodes:[node]}))
 const{runCommunityFidelitySuite}=await import(tree+'/fidelity/community.ts')

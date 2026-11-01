@@ -130,7 +130,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
           return { ...prior.result, observations: prior.result.observations.map(row => ({ ...row, metrics: { ...row.metrics, implementation: project, project, artifactAliasSource: prior.project } })), artifacts: [...(prior.result.artifacts ?? []), receipt], gaps: [...prior.result.gaps, 'Actual SVG evidence reuses identical browser artifact from ' + prior.project + '; this is not another independent engine experiment'] }
         }
         const began = new Date().toISOString(), observations: BenchmarkObservation[] = [], artifacts: string[] = [], rows: any[] = [], blockedRequests = new Set<string>(), fetched = new Set<string>()
-        const rawDirectory=join(directory,'authored-raw'),adapterBindingSha256=authoredSvgAdapterBinding(engine,fontSizePath)
+        const rawDirectory=join(directory,'authored-raw'),adapterBindingSha256=authoredSvgAdapterBinding(engine,fontSizePath,engine.kind==='cli'?peer.artifact:undefined)
         const raw=createAuthoredSvgRawCapture(rawDirectory,{project,artifactSha256:admission.artifactSha256,adapterBindingSha256})
         artifacts.push(rawDirectory)
         const server = createServer((request, response) => {
@@ -183,7 +183,7 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
             })
             capabilities=captured.capabilities
             const main=captured.steps.at(-1)!,result=main.result
-            details={...details,publicResult:{kind:result.kind,error:result.error},workflowEvidence:captured.witness,...(result.transportObservation?{transportObservation:result.transportObservation}:{})}
+            details={...details,publicResult:{kind:result.kind,error:result.error},workflowEvidence:captured.witness,sameRuntime:captured.sameRuntime,...(result.transportObservation?{transportObservation:result.transportObservation}:{})}
             if(typeof result.svg==='string'){
               const stem=`${index}-${testCase.id.replace(/[^a-zA-Z0-9_.-]/g,'_')}`,svgPath=join(directory,stem+'.svg.gz')
               writeDurableEvidence(svgPath,gzipSync(result.svg));artifacts.push(svgPath)
@@ -194,10 +194,10 @@ export async function runCommunityFidelitySuite(options: CommunityFidelityOption
             for (const [number, prelude] of (testCase.prelude ?? []).entries()) {
               const step=captured.steps[number]!,result=step.result
               const classification = classify(result), admission = result.kind === 'returned' ? 'accepted' : classification === 'unsupported' ? 'unsupported' : result.kind === 'exception' && classification === 'failed'&&step.invocation.state==='public-error'&&!result.hostTransportError ? 'rejected' : 'unavailable'
-              const witness={kind:result.kind,error:result.error,step:step.step,runtimeInstanceId:step.runtimeInstanceId,rawInvocationId:step.invocation.attemptId,...(step.invocation.output?{svgEvidence:{...step.invocation.output,encoding:'utf8'}}:{})}
-              const svgAdmission=result.kind==='returned'?qualifyOutput({id:testCase.id+':'+step.step,family:testCase.family,source:prelude.source,expectedLabels:[],features:[],provenance:'Actual owned prelude source/return; no main-output inference'},result.svg,'svg'):undefined
-              const preludeStatus=result.kind==='invalid-return'&&prelude.accept?'failed':svgAdmission&&!svgAdmission.ok?svgAdmission.unavailable?'unavailable':'failed':assessPrelude(prelude.accept,admission)
-              add(testCase, 'browser-public-api', 'prelude-' + number, preludeStatus, witness, prelude.accept, 'Actual owned configured-source prelude in the same runtime as main; unsupported capabilities and unknown runtime errors earn no rejection credit'); preludes.push(witness)
+              const witness={kind:result.kind,error:result.error,step:step.step,runtimeInstanceId:step.runtimeInstanceId,finishedRuntimeInstanceId:step.finishedRuntimeInstanceId,rawInvocationId:step.invocation.attemptId,...(step.invocation.output?{svgEvidence:{...step.invocation.output,encoding:'utf8'}}:{})}
+              const svgAdmission=captured.sameRuntime&&result.kind==='returned'?qualifyOutput({id:testCase.id+':'+step.step,family:testCase.family,source:prelude.source,expectedLabels:[],features:[],provenance:'Actual owned prelude source/return; no main-output inference'},result.svg,'svg'):undefined
+              const preludeStatus=!captured.sameRuntime?'unavailable':result.kind==='invalid-return'&&prelude.accept?'failed':svgAdmission&&!svgAdmission.ok?svgAdmission.unavailable?'unavailable':'failed':assessPrelude(prelude.accept,admission)
+              add(testCase, 'browser-public-api', 'prelude-' + number, preludeStatus, witness, prelude.accept, captured.sameRuntime?'Actual owned configured-source prelude in the same runtime as main; unsupported capabilities and unknown runtime errors earn no rejection credit':'Actual step bytes are retained, but distinct CLI processes or runtime recovery cannot prove a shared-context prelude effect'); preludes.push(witness)
             }
             details.preludes=preludes
             if (result.kind === 'returned') {
