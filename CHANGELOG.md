@@ -6,6 +6,7 @@
 - Remove unused reverse PNG-to-SVG scoring machinery; keep historical evidence intact.
 - Consolidate benchmark descriptions and current PNG evidence links; distinguish core workloads from maintenance diagnostics.
 - Cancel superseded CI runs.
+- Seal shipped npm modules and installed dependencies for future captures; retain explicit limits on historical artifacts.
 
 The first public 0.1 release has not been published. B0 freezes the bounded
 benchmark results and their observation limits; release publication remains a

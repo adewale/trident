@@ -52,7 +52,7 @@ sentence interpreting each result.
 | DaveBench | Project/version on the same documentation inventory, separately for SVG and PNG | Output return separately from reviewed content; correct, incorrect, unknown, configuration-only and planned occurrences | Occurrences |
 | Qualified render cost | Project/version on a fixed matched source set, output format and public boundary | Per-call checked population, median time, uncertainty and A/A qualification; missing proof withholds comparison | ms |
 | Terminal Rendering | Project/version on the same pinned project corpus | Correct, incorrect, unsupported, unknown, planned and measured inputs; reviewed and full populations separately | Diagrams |
-| Mermaid Behaviour Tests | Project/version on the same explicitly adapted upstream assertions | Correct, incorrect, unsupported, unassessed and unrun assertions; selection and adaptation links | Assertions |
+| Mermaid Behaviour Tests | Project/version on the same explicitly adapted upstream cases | Passed, failed, unavailable and unrun whole cases; ordered assertions and adaptation links in evidence | Cases |
 | Mermaid Public API Tests — diagnostic | Project/version on the same selected unchanged original callbacks | Passed, failed, unsupported, binding gaps and planned expanded callbacks; exact public scope | Callbacks |
 | Reference environment validation | Reference/version and original runner | Files, passed, failed, pending and todo callbacks; no peer-project score | Files and callbacks |
 | Legacy fixed-core/adaptive cost diagnostics | Project/version, case/size and one call mode | Descriptive samples/means and original limits; no current qualified speed rank | ms |
