@@ -3,6 +3,7 @@ import { mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import { useTempDirs } from './helpers/temp-dir.ts'
+import type { BehaviourCase } from '../unified/mermaid-behaviour-corpus.ts'
 import corpus from '../corpus/mermaid-behaviour-tests.json' with { type: 'json' }
 import { replayMermaidBehaviours } from '../unified/mermaid-behaviour.ts'
 import { captureBehaviourRaw, runNativeBehaviours, type BehaviourAdapter } from '../unified/mermaid-behaviour-capture.ts'
@@ -44,7 +45,7 @@ test('normal native-only publication retains the actual qualified reference with
   const referenceOut = join(temp.dir(), 'reference'); replayMermaidBehaviours({ evidence: parentFixture(), out: referenceOut })
   const root = temp.dir(), adapterFile = join(root, 'bridge.mjs'), artifact = join(root, 'public.mjs'); writeFileSync(adapterFile, '// synthetic bridge'); writeFileSync(artifact, '// synthetic public artifact')
   const adapter: BehaviourAdapter = { schema: 'mermaid-behaviour-stdio-adapter-v1', project: 'fixture/native', version: 'fixture1', executable: realpathSync(process.execPath), adapter: adapterFile, artifactFiles: [artifact], capabilities: ['detect-family'], bindingDescription: 'Synthetic retained raw-journal fixture; no project process' }
-  const capture = join(temp.dir(), 'capture'), input = corpus.cases.find(row => row.operation === 'detect-family')!
+  const capture = join(temp.dir(), 'capture'), input = (corpus.cases as BehaviourCase[]).find(row => row.operation === 'detect-family')!
   captureBehaviourRaw(capture, adapter, [input], () => ({ status: 0, signal: null, stdout: Buffer.from('{"family":"flowchart"}'), stderr: new Uint8Array() }))
   const out = join(temp.dir(), 'native'); runNativeBehaviours({ capture, reference: referenceOut, out })
   const report = readCampaign(out), table = campaignTables(report, receipt)[0]!
