@@ -1,0 +1,62 @@
+{
+  "schema": "trident-positive-only-wardley-anchor-source-profile-v1",
+  "name": "wardley-published-start-baseline-and-force-left-anchor-1fb7869-v1",
+  "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+  "sources": [
+    {
+      "pin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "path": "packages/mermaid/src/docs/syntax/wardley.md",
+      "sha256": "86010a25b18ecc6b67184463bd81b6868575bb821a897a0d103bacdd01bc8ebe",
+      "excerpts": [
+        {
+          "firstLine": 62,
+          "lastLine": 65,
+          "text": "**IMPORTANT**: Wardley Maps use the OnlineWardleyMaps (OWM) format: `[visibility, evolution]`\n\n- **First value (Visibility)**: 0.0-1.0 (bottom to top) - Y-axis position\n- **Second value (Evolution)**: 0.0-1.0 (left to right) - X-axis position"
+        },
+        {
+          "firstLine": 300,
+          "lastLine": 308,
+          "text": "note \"text\" [visibility, evolution]\n```\n\n> **Note**: Text must be enclosed in quotes.\n\n```mermaid-example\nwardley-beta\ntitle Notes\n"
+        },
+        {
+          "firstLine": 351,
+          "lastLine": 366,
+          "text": "\n```mermaid-example\nwardley-beta\ntitle Forces\n\ncomponent Legacy [0.20, 0.85]\ncomponent Modern [0.55, 0.60]\ncomponent AI [0.70, 0.35]\n\nLegacy -> Modern\nModern -> AI\n\naccelerator \"AI Adoption\" [0.55, 0.25]\ndeaccelerator \"Legacy Constraints\" [0.15, 0.75]\n```\n"
+        }
+      ]
+    },
+    {
+      "pin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "path": "packages/mermaid/src/diagrams/wardley/wardleyRenderer.ts",
+      "sha256": "d2103480bcb5b59daa280e6eef2224513ec2e40d9dc485c61518578ac0dc2302",
+      "excerpts": [
+        {
+          "firstLine": 147,
+          "lastLine": 166,
+          "text": "  const chartWidth = width - configValues.padding * 2;\n  const chartHeight = height - configValues.padding * 2;\n\n  // Render title if present\n  if (title) {\n    root\n      .append('text')\n      .attr('class', 'wardley-title')\n      .attr('x', width / 2)\n      .attr('y', configValues.padding / 2)\n      .attr('fill', theme.axisTextColor)\n      .attr('font-size', configValues.axisFontSize * 1.05)\n      .attr('font-weight', 'bold')\n      .attr('text-anchor', 'middle')\n      .attr('dominant-baseline', 'middle')\n      .text(title);\n  }\n\n  const projectX = (value: number) => configValues.padding + (value / 100) * chartWidth;\n  const projectY = (value: number) => height - configValues.padding - (value / 100) * chartHeight;"
+        },
+        {
+          "firstLine": 958,
+          "lastLine": 1000,
+          "text": "  // Render notes\n  if (data.notes.length > 0) {\n    const notesGroup = root.append('g').attr('class', 'wardley-notes');\n\n    data.notes.forEach((note) => {\n      const noteX = projectX(note.x);\n      const noteY = projectY(note.y);\n\n      notesGroup\n        .append('text')\n        .attr('x', noteX)\n        .attr('y', noteY)\n        .attr('text-anchor', 'start')\n        .attr('font-size', 11)\n        .attr('fill', theme.axisTextColor)\n        .attr('font-weight', 'bold')\n        .text(note.text);\n    });\n  }\n\n  // Render accelerators (large right-pointing arrows)\n  if (data.accelerators.length > 0) {\n    const acceleratorsGroup = root.append('g').attr('class', 'wardley-accelerators');\n\n    data.accelerators.forEach((accelerator) => {\n      const accX = projectX(accelerator.x);\n      const accY = projectY(accelerator.y);\n\n      // Arrow dimensions\n      const arrowWidth = 60;\n      const arrowHeight = 30;\n      const arrowHeadWidth = 20;\n\n      // Draw arrow shape: shaft + arrowhead pointing right\n      const arrowPath = `\n        M ${accX} ${accY - arrowHeight / 2}\n        L ${accX + arrowWidth - arrowHeadWidth} ${accY - arrowHeight / 2}\n        L ${accX + arrowWidth - arrowHeadWidth} ${accY - arrowHeight / 2 - 8}\n        L ${accX + arrowWidth} ${accY}\n        L ${accX + arrowWidth - arrowHeadWidth} ${accY + arrowHeight / 2 + 8}\n        L ${accX + arrowWidth - arrowHeadWidth} ${accY + arrowHeight / 2}\n        L ${accX} ${accY + arrowHeight / 2}\n        Z"
+        },
+        {
+          "firstLine": 1027,
+          "lastLine": 1046,
+          "text": "    data.deaccelerators.forEach((deaccelerator) => {\n      const decX = projectX(deaccelerator.x);\n      const decY = projectY(deaccelerator.y);\n\n      // Arrow dimensions\n      const arrowWidth = 60;\n      const arrowHeight = 30;\n      const arrowHeadWidth = 20;\n\n      // Draw arrow shape pointing left: shaft + arrowhead pointing left\n      const arrowPath = `\n        M ${decX + arrowWidth} ${decY - arrowHeight / 2}\n        L ${decX + arrowHeadWidth} ${decY - arrowHeight / 2}\n        L ${decX + arrowHeadWidth} ${decY - arrowHeight / 2 - 8}\n        L ${decX} ${decY}\n        L ${decX + arrowHeadWidth} ${decY + arrowHeight / 2 + 8}\n        L ${decX + arrowHeadWidth} ${decY + arrowHeight / 2}\n        L ${decX + arrowWidth} ${decY + arrowHeight / 2}\n        Z\n      `;"
+        }
+      ]
+    }
+  ],
+  "sourceOnlyApproval": "Root independently read coordinate prose, notes and public renderer and approved this explicit positive-only versioned mapping, 2026-11-01.",
+  "coordinateProjection": "x=plotLeft+evolution*(plotRight-plotLeft); y=plotBottom-visibility*(plotBottom-plotTop)",
+  "forceAnchors": {
+    "accelerator": "right-facing closed arrow left-tail midpoint",
+    "deaccelerator": "left-facing closed arrow left tip"
+  },
+  "notesAnchor": "Explicit ordinary horizontal SVG text-anchor:start with alphabetic baseline; actual glyph registration must independently qualify this encoding.",
+  "positiveGate": "Actual independent gray-axis plot frame; source-independent physical anchor measurements; each source-coordinate projected point within2px. Notes additionally require glyph IoU>=.97, alpha MAE<=.04 and plausible-origin spread<=.5px. No gate was changed after results.",
+  "limits": "Positive-only decoder for this explicitly published encoding. Other encodings remain unknown. No default size, font or palette obligation is imposed; no actual SVG x/y or output agreement supplies truth. Legend520 clamp is excluded.",
+  "licenseProvenance": "Mermaid pinned public source, MIT; existing qualification corpus provenance retained.",
+  "rendererInvocations": 0
+}
