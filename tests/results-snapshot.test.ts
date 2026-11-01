@@ -416,3 +416,17 @@ test('local row and attempt owners retain their own hashes and repository contai
   data.attempts[0]!.receipt.url = 'docs/escape'
   expect(() => validateSnapshotReceipts(data, root)).toThrow('escaped')
 }))
+
+test('publishing an older input cannot drop or replace an existing frozen baseline', () => temporary(root => {
+  mkdirSync(join(root, 'results'))
+  const payload = JSON.stringify(snapshot()), frozen = join(root, 'results/baseline.json')
+  writeFileSync(frozen, payload)
+  const current = snapshot(); current.baseline = { url: 'results/baseline.json', sha256: createHash('sha256').update(payload).digest('hex') }
+  writeSnapshot(current, catalog, root)
+  const latest = readFileSync(join(root, 'results/latest.json'), 'utf8')
+  expect(() => writeSnapshot(snapshot(), catalog, root)).toThrow('preserve the existing frozen baseline')
+  current.baseline.sha256 = '0'.repeat(64)
+  expect(() => writeSnapshot(current, catalog, root)).toThrow('preserve the existing frozen baseline')
+  expect(readFileSync(join(root, 'results/latest.json'), 'utf8')).toBe(latest)
+  expect(readFileSync(frozen, 'utf8')).toBe(payload)
+}))

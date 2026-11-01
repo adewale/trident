@@ -402,6 +402,8 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
 }
 
 export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog, root: string, check = false, includeRecordedProjects = false) {
+  const frozen = join(root, 'results/baseline.json')
+  if (existsSync(frozen) && (snapshot.baseline?.url !== 'results/baseline.json' || snapshot.baseline.sha256 !== sha256(readFileSync(frozen)))) throw Error('Results must preserve the existing frozen baseline reference')
   snapshot = regressionSnapshot(snapshot)
   const full = renderSnapshot(snapshot, catalog, undefined, includeRecordedProjects), json = JSON.stringify(snapshot, null, 2) + '\n'
   const outputs: [string, string][] = [], links = new Map<string, string>()
