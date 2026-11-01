@@ -5,6 +5,60 @@ import { projectSourceMetadata } from './source-metadata-expectation.ts'
 import { projectEventData } from './event-data-expectation.ts'
 import { projectSourceEdgePattern } from './edge-pattern-expectation.ts'
 
+/** Standalone source cannot supply absent host CSS or a unique inverse for a
+ * layout-engine input. Keep those exact inputs natively, without inventing
+ * pixel anchors, CSS repairs, or literal text for a typed priority enum. */
+function projectStandaloneInputs(family: string, expected: MeaningExpectation, projections: string[], excluded: string[], suppliedStyles: any[]) {
+  const facts: any = expected.facts ?? {}, config = facts['authored-config'], retained: Record<string, any> = {}
+  const retain = (key: string, value: any, reason: string) => { retained[key] = structuredClone(value); excluded.push(reason + ': ' + key + '=' + JSON.stringify(value)) }
+  if (family === 'agentflow' || family === 'usecase') {
+    const settings = config?.[family]
+    for (const key of ['nodeSpacing', 'rankSpacing']) if (settings && Object.hasOwn(settings, key)) {
+      retain(family + '.' + key, settings[key], 'Documented same/different-level layout input has no specified clear-gap, centre-distance, pixel unit or anchor equation (agentflow.md327-328/usecase.md472-473; config.schema.yaml2464-2479/3008-3017)')
+      delete settings[key]
+    }
+    if (settings && !Object.keys(settings).length) delete config[family]
+  }
+  if (family === 'quadrant' && typeof config?.themeVariables?.quadrant1TextFill === 'string' && /^[\da-f]{6}$/i.test(config.themeVariables.quadrant1TextFill)) {
+    retain('themeVariables.quadrant1TextFill', config.themeVariables.quadrant1TextFill, 'Bare six-digit hexadecimal is invalid CSS paint, passed verbatim to SVG fill; no missing # is repaired and no fallback skin is required (quadrantChart.md129; quadrantDb131,quadrantBuilder393,quadrantRenderer116)')
+    delete config.themeVariables.quadrant1TextFill
+    if (!Object.keys(config.themeVariables).length) delete config.themeVariables
+  }
+  if (config && !Object.keys(config).length) delete facts['authored-config']
+  if (family === 'mindmap' && Array.isArray(facts.decorations)) {
+    // Any supplied matching definition remains a required style obligation.
+    // Icons/annotations and treeView's built-in classes are untouched.
+    const definitions = new Set(suppliedStyles.filter((row: any) => row.kind === 'classDef').flatMap((row: any) => String(row.selection).split(/[\s,]+/)))
+    facts.decorations = facts.decorations.filter((row: any) => {
+      if (typeof row.decoration !== 'string' || !/^:::\s*[\w-]+(?:\s+[\w-]+)*$/.test(row.decoration) || row.decoration.slice(3).trim().split(/\s+/).some((name: string) => definitions.has(name))) return true
+      retain('mindmap.hostClasses.' + row.id, row.decoration, 'Mindmap classes require site-administrator CSS, absent from this standalone source (mindmap.md194-205)')
+      return false
+    })
+    if (!facts.decorations.length) delete facts.decorations
+  }
+  if (family === 'kanban' && Array.isArray(facts.columns)) {
+    const protectedLabels = new Set([...(expected.nodes ?? []).map(node => node.label), ...(expected.groups ?? []).map(group => group.label), ...(expected.edges ?? []).flatMap(edge => edge.label ? [edge.label] : []), ...(typeof facts.title === 'string' ? [facts.title] : [])])
+    const priorities = new Set<string>()
+    for (const column of facts.columns) {
+      protectedLabels.add(column.label)
+      for (const task of column.tasks ?? []) {
+        protectedLabels.add(task.label)
+        for (const [key, value] of Object.entries(task.attributes ?? {})) if (key !== 'priority' && typeof value === 'string') protectedLabels.add(value)
+        if (['Very High', 'High', 'Low', 'Very Low'].includes(task.attributes?.priority)) priorities.add(task.attributes.priority)
+      }
+    }
+    const labels = expected.labels.filter(label => !priorities.has(label) || protectedLabels.has(label))
+    if (labels.length !== expected.labels.length) {
+      expected.labels = labels
+      retain('kanban.priorityPresentation', [...priorities], 'Task-owned priority remains required metadata; the documented enum need not be printed as a duplicate literal caption (kanban.md51-57)')
+    }
+  }
+  if (!Object.keys(retained).length) return false
+  ;(expected.advisoryFacts ??= {})['standalone-input-provenance'] = retained
+  projections.push('Standalone inputs retain exact native/advisory provenance without invented geometry, unavailable host CSS or invalid CSS repair; every meaningful owned visual fact remains required, including task priority semantics')
+  return true
+}
+
 /** A drawing encodes proportions and printed values, not an invisible copy of
  * its input database. Literal source bytes remain in the corpus inventory. */
 export function projectVisualExpectation(family: string, literal: MeaningExpectation): { expected: MeaningExpectation; projections: string[]; profileExpected?:MeaningExpectation; excludedNonvisual?:string[] } {
@@ -159,6 +213,8 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
   const priorNativeEdgeProfile=profileExpected??structuredClone(expected),edgePattern=projectSourceEdgePattern(expected)
   if(edgePattern.changed){profileExpected??=priorNativeEdgeProfile;projections.push(...edgePattern.projections);excludedNonvisual.push(...edgePattern.excluded)}
   const styles = compileVisualStyles(expected)
-  if (styles.active && styles.complete) { projections.push('Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact'); return { expected: styles.expected, projections,...(profileExpected?{profileExpected,excludedNonvisual}:{}) } }
-  return { expected, projections,...(profileExpected?{profileExpected,excludedNonvisual}:{}) }
+  if (styles.active && styles.complete) projections.push('Known source class/default/inline selectors compile to concrete node fill, stroke, width and dash paint requests; source CSS class spelling is not an additional visible fact')
+  const visual = styles.active && styles.complete ? styles.expected : expected, priorNative = profileExpected ?? structuredClone(visual)
+  if (projectStandaloneInputs(family, visual, projections, excludedNonvisual, facts['authored-style'] ?? [])) profileExpected ??= priorNative
+  return { expected: visual, projections,...(profileExpected?{profileExpected,excludedNonvisual}:{}) }
 }

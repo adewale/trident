@@ -2227,6 +2227,71 @@
         "B"
       ],
       "facts": {
+        "node-shapes": [
+          {
+            "id": "a",
+            "shape": "rounded"
+          },
+          {
+            "id": "b",
+            "shape": "rounded"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "a",
+          "label": "A"
+        },
+        {
+          "id": "b",
+          "label": "B"
+        }
+      ],
+      "edges": [
+        {
+          "source": "a",
+          "target": "b",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        }
+      ],
+      "advisoryFacts": {
+        "direction": "TB",
+        "standalone-input-provenance": {
+          "agentflow.nodeSpacing": 70,
+          "agentflow.rankSpacing": 70
+        }
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:node-shapes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Documented same/different-level layout input has no specified clear-gap, centre-distance, pixel unit or anchor equation (agentflow.md327-328/usecase.md472-473; config.schema.yaml2464-2479/3008-3017): agentflow.nodeSpacing=70",
+        "Documented same/different-level layout input has no specified clear-gap, centre-distance, pixel unit or anchor equation (agentflow.md327-328/usecase.md472-473; config.schema.yaml2464-2479/3008-3017): agentflow.rankSpacing=70"
+      ],
+      "visualProjections": [
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Standalone inputs retain exact native/advisory provenance without invented geometry, unavailable host CSS or invalid CSS repair; every meaningful owned visual fact remains required, including task priority semantics"
+      ]
+    },
+    "profileExpected": {
+      "labels": [
+        "A",
+        "B"
+      ],
+      "facts": {
         "authored-config": {
           "agentflow": {
             "nodeSpacing": 70,
@@ -2266,24 +2331,6 @@
       "advisoryFacts": {
         "direction": "TB"
       }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:authored-config",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
-      ]
     }
   },
   {
@@ -45533,6 +45580,57 @@
         "Todo",
         "Update Database Function",
         "MC-2037",
+        "knsv"
+      ],
+      "facts": {
+        "columns": [
+          {
+            "id": "todo",
+            "label": "Todo",
+            "tasks": [
+              {
+                "id": "id3",
+                "label": "Update Database Function",
+                "attributes": {
+                  "ticket": "MC-2037",
+                  "assigned": "knsv",
+                  "priority": "High"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "advisoryFacts": {
+        "standalone-input-provenance": {
+          "kanban.priorityPresentation": [
+            "High"
+          ]
+        }
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "fact:columns"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Task-owned priority remains required metadata; the documented enum need not be printed as a duplicate literal caption (kanban.md51-57): kanban.priorityPresentation=[\"High\"]"
+      ],
+      "visualProjections": [
+        "Standalone inputs retain exact native/advisory provenance without invented geometry, unavailable host CSS or invalid CSS repair; every meaningful owned visual fact remains required, including task priority semantics"
+      ]
+    },
+    "profileExpected": {
+      "labels": [
+        "Todo",
+        "Update Database Function",
+        "MC-2037",
         "knsv",
         "High"
       ],
@@ -45555,18 +45653,6 @@
           }
         ]
       }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "fact:columns"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": []
     }
   },
   {
@@ -46918,6 +47004,95 @@
             "id": "Root/C",
             "parent": "Root"
           }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "Root",
+          "label": "Root"
+        },
+        {
+          "id": "A",
+          "label": "A"
+        },
+        {
+          "id": "B",
+          "label": "B"
+        },
+        {
+          "id": "Root/C",
+          "label": "C"
+        }
+      ],
+      "edges": [
+        {
+          "source": "Root",
+          "target": "A",
+          "directed": false
+        },
+        {
+          "source": "Root",
+          "target": "B",
+          "directed": false
+        },
+        {
+          "source": "Root",
+          "target": "Root/C",
+          "directed": false
+        }
+      ],
+      "advisoryFacts": {
+        "standalone-input-provenance": {
+          "mindmap.hostClasses.A": ":::urgent large"
+        }
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:hierarchy"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Mindmap classes require site-administrator CSS, absent from this standalone source (mindmap.md194-205): mindmap.hostClasses.A=\":::urgent large\""
+      ],
+      "visualProjections": [
+        "Standalone inputs retain exact native/advisory provenance without invented geometry, unavailable host CSS or invalid CSS repair; every meaningful owned visual fact remains required, including task priority semantics"
+      ]
+    },
+    "profileExpected": {
+      "labels": [
+        "Root",
+        "A",
+        "B",
+        "C"
+      ],
+      "facts": {
+        "hierarchy": [
+          {
+            "id": "Root",
+            "parent": ""
+          },
+          {
+            "id": "A",
+            "parent": "Root",
+            "shape": "rectangle"
+          },
+          {
+            "id": "B",
+            "parent": "Root",
+            "shape": "rounded"
+          },
+          {
+            "id": "Root/C",
+            "parent": "Root"
+          }
         ],
         "decorations": [
           {
@@ -46961,21 +47136,6 @@
           "directed": false
         }
       ]
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:decorations",
-        "fact:hierarchy"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": []
     }
   },
   {
@@ -47718,6 +47878,80 @@
           "quadrantChart": {
             "chartWidth": 400,
             "chartHeight": 400
+          }
+        },
+        "points": [],
+        "quadrants": [
+          {
+            "number": 1,
+            "label": "Plan"
+          },
+          {
+            "number": 2,
+            "label": "Do"
+          },
+          {
+            "number": 3,
+            "label": "Delegate"
+          },
+          {
+            "number": 4,
+            "label": "Delete"
+          }
+        ],
+        "axes": {
+          "x": [
+            "Urgent",
+            "Not Urgent"
+          ],
+          "y": [
+            "Not Important",
+            "Important ❤"
+          ]
+        }
+      },
+      "advisoryFacts": {
+        "standalone-input-provenance": {
+          "themeVariables.quadrant1TextFill": "ff0000"
+        }
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "fact:authored-config",
+        "fact:axes",
+        "fact:points",
+        "fact:quadrants"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Bare six-digit hexadecimal is invalid CSS paint, passed verbatim to SVG fill; no missing # is repaired and no fallback skin is required (quadrantChart.md129; quadrantDb131,quadrantBuilder393,quadrantRenderer116): themeVariables.quadrant1TextFill=\"ff0000\""
+      ],
+      "visualProjections": [
+        "Standalone inputs retain exact native/advisory provenance without invented geometry, unavailable host CSS or invalid CSS repair; every meaningful owned visual fact remains required, including task priority semantics"
+      ]
+    },
+    "profileExpected": {
+      "labels": [
+        "Urgent",
+        "Not Urgent",
+        "Not Important",
+        "Important ❤",
+        "Plan",
+        "Do",
+        "Delegate",
+        "Delete"
+      ],
+      "facts": {
+        "authored-config": {
+          "quadrantChart": {
+            "chartWidth": 400,
+            "chartHeight": 400
           },
           "themeVariables": {
             "quadrant1TextFill": "ff0000"
@@ -47753,21 +47987,6 @@
           ]
         }
       }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "fact:authored-config",
-        "fact:axes",
-        "fact:points",
-        "fact:quadrants"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": []
     }
   },
   {
@@ -73300,6 +73519,98 @@
             "usecaseFontSize": 14,
             "usecaseFontFamily": "Georgia",
             "usecaseFontWeight": "normal",
+            "diagramPadding": 24,
+            "colorScheme": "role",
+            "useMaxWidth": false
+          }
+        },
+        "node-shapes": [
+          {
+            "id": "Browse",
+            "shape": "ellipse"
+          },
+          {
+            "id": "Customer",
+            "shape": "actor-stick"
+          }
+        ],
+        "dialect-kinds": [
+          {
+            "id": "Customer",
+            "kind": "actor"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "Customer",
+          "label": "Customer"
+        },
+        {
+          "id": "Browse",
+          "label": "Browse catalog"
+        }
+      ],
+      "edges": [
+        {
+          "source": "Customer",
+          "target": "Browse",
+          "directed": true,
+          "startMarker": "none",
+          "endMarker": "arrow"
+        }
+      ],
+      "advisoryFacts": {
+        "subgraph-direction-requests": [
+          {
+            "group": null,
+            "direction": "LR"
+          }
+        ],
+        "direction": "TB",
+        "standalone-input-provenance": {
+          "usecase.nodeSpacing": 60,
+          "usecase.rankSpacing": 70
+        }
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "node-identities-and-labels",
+        "relationship-endpoints-directions-labels",
+        "fact:authored-config",
+        "fact:dialect-kinds",
+        "fact:node-shapes"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Documented same/different-level layout input has no specified clear-gap, centre-distance, pixel unit or anchor equation (agentflow.md327-328/usecase.md472-473; config.schema.yaml2464-2479/3008-3017): usecase.nodeSpacing=60",
+        "Documented same/different-level layout input has no specified clear-gap, centre-distance, pixel unit or anchor equation (agentflow.md327-328/usecase.md472-473; config.schema.yaml2464-2479/3008-3017): usecase.rankSpacing=70"
+      ],
+      "visualProjections": [
+        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence",
+        "Standalone inputs retain exact native/advisory provenance without invented geometry, unavailable host CSS or invalid CSS repair; every meaningful owned visual fact remains required, including task priority semantics"
+      ]
+    },
+    "profileExpected": {
+      "labels": [
+        "Customer",
+        "Browse catalog"
+      ],
+      "facts": {
+        "authored-config": {
+          "usecase": {
+            "actorFontSize": 16,
+            "actorFontFamily": "Arial",
+            "actorFontWeight": "bold",
+            "usecaseFontSize": 14,
+            "usecaseFontFamily": "Georgia",
+            "usecaseFontWeight": "normal",
             "nodeSpacing": 60,
             "rankSpacing": 70,
             "diagramPadding": 24,
@@ -73352,25 +73663,6 @@
         ],
         "direction": "TB"
       }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "node-identities-and-labels",
-        "relationship-endpoints-directions-labels",
-        "fact:authored-config",
-        "fact:dialect-kinds",
-        "fact:node-shapes"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": [],
-      "visualProjections": [
-        "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
-      ]
     }
   },
   {
