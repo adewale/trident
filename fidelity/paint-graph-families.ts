@@ -238,6 +238,28 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       add('painted-group:' + expected.id, expected.members, actual, true, 'A flat group owns the unique smallest actual closed boundary containing its separate painted header and exact descendant bodies, excluding outsider nodes. Empty headers qualify through the same unique membership witness. Wrappers, data IDs and renderer group classes are not required; ambiguous/coincident enclosures remain unknown.')
     }
   }
+  // SVG lines have no filled area. A path made only of straight, collinear
+  // subpaths also paints no fill: each open subpath closes back along its
+  // own line. Inherited fill on such a border is not an interior body layer.
+  const zeroFillArea = (shape: SVGGeometryElement) => {
+    if (shape.localName === 'line') return true
+    if (shape.localName !== 'path') return false
+    const data = shape.getAttribute('d') ?? '', numbers = /[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi
+    if (!data || data.replace(numbers, '').replace(/[MLCZ\s,]/g, '')) return false
+    const tokens = data.match(/[MLCZ]|[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi) ?? [], paths: Point[][] = []; let at = 0, command = '', current: Point[] | null = null
+    while (at < tokens.length) {
+      if (/^[MLCZ]$/.test(tokens[at]!)) command = tokens[at++]!
+      if (command === 'Z') { command = ''; continue }
+      const count = command === 'C' ? 6 : ['M','L'].includes(command) ? 2 : 0
+      if (!count || at + count > tokens.length || tokens.slice(at, at + count).some(token => !Number.isFinite(Number(token)))) return false
+      const values = tokens.slice(at, at + count).map(Number); at += count
+      if (command === 'M') { current = []; paths.push(current); command = 'L' }
+      if (!current) return false
+      for (let index = 0; index < values.length; index += 2) current.push({ x: values[index]!, y: values[index + 1]! })
+    }
+    return paths.length > 0 && paths.every(points => { const origin = points[0]!, other = points.find(point => distance(point, origin) > 1e-8); if (!other) return true; const length = distance(other, origin); return points.every(point => Math.abs((other.x - origin.x) * (point.y - origin.y) - (other.y - origin.y) * (point.x - origin.x)) <= length * 1e-8) })
+  }
+
   const actorProfiles = new Map<string, { kind: string; box: Box; ink: SVGGeometryElement[] }>()
   const actorKind = (ink: SVGGeometryElement[]): { kind: string; box: Box; ink: SVGGeometryElement[] } | null => {
     const contours = ink.flatMap(element => strokes(element).map(points => ({ element, points }))).filter(item => item.points.length > 3)
@@ -382,16 +404,45 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         }
       }
       const interiorVertical = [...new Set(verticalRuns.filter(run => run.x > .015 && run.x < .3).map(run => Math.round(run.x * 100)))].length, cylinder = symmetric(top) && symmetric(bottom) && top[4]! < Math.min(top[0]!, top[8]!) - .02 && bottom[4]! > Math.max(bottom[0]!, bottom[8]!) + .02 && flat(left.slice(2, -2)) && flat(right.slice(2, -2)) && xs.slice(2, -2).every(values => values.length >= 3)
+      // A wave can meet the right wall well above its lowest point. Prove
+      // each physical rail only over its actual top-to-wave interval; fixed
+      // whole-box cross sections would demand a wall through the wave itself.
+      const documentRuns: { x: number; from: number; to: number; carrier: SVGGeometryElement }[] = []
+      const documentContours = flat(top)&&wave(bottom)?[...strokes(body,2048).map(points=>({points,carrier:body})), ...ink.filter(element=>element!==body && (element.localName==='line'||element.localName==='polyline'||element.localName==='path'&&(element.getAttribute('d')?.match(/[mM]/g)?.length??0)===1)).flatMap(element=>{const points=element.localName==='line'?samples(element,2):vertices(element);return points&&straight(points)?[{points,carrier:element}]:[]})]:[]
+      for (const {points:contour,carrier} of documentContours) {
+        let start=0
+        for(let i=1;i<=contour.length;i++)if(i===contour.length||Math.abs(contour[i]!.x-contour[i-1]!.x)>.02){const points=contour.slice(start,i);if(points.length>1){const from=Math.min(...points.map(p=>p.y)),to=Math.max(...points.map(p=>p.y));if(to-from>3&&Math.max(...points.map(p=>p.x))-Math.min(...points.map(p=>p.x))<=.25)documentRuns.push({x:(points[0]!.x-b.x)/b.width,from:(from-b.y)/b.height,to:(to-b.y)/b.height,carrier})}start=i}
+      }
+      const uniqueDocumentRuns=documentRuns.filter((run,index,all)=>!all.slice(0,index).some(other=>Math.abs(run.x-other.x)*b.width<.5&&Math.abs(run.from-other.from)*b.height<1&&Math.abs(run.to-other.to)*b.height<1))
+      const railEnd=(x:number)=>intersections('x',Math.max(.0001,Math.min(.9999,x))).at(-1)
+      const fullRail=(run:{x:number;from:number;to:number})=>{const end=railEnd(run.x);return end!==undefined&&Math.abs(run.from)*b.height<=1.5&&Math.abs(run.to-end)*b.height<=1.5}
+      const outsideRails=[0,1].every(side=>uniqueDocumentRuns.some(run=>Math.abs(run.x-side)*b.width<=1.5&&fullRail(run)))
+      const exposedRail=(run:{x:number;from:number;to:number;carrier:SVGGeometryElement})=>{
+        const css=getComputedStyle(run.carrier),stroke=rgba(css.stroke),fill=rgba(getComputedStyle(body).fill),matrix=run.carrier.getScreenCTM(),solid=css.strokeDasharray==='none'||css.strokeDasharray.split(/[ ,]+/).every(value=>Number.parseFloat(value)===0)
+        let alpha=Number(css.strokeOpacity);for(let parent:Element|null=run.carrier;parent;parent=parent.parentElement){alpha*=Number(getComputedStyle(parent).opacity);if(parent===svg)break}
+        if(!stroke||!fill||fill[3]!==255||Number(getComputedStyle(body).fillOpacity)!==1||stroke[3]!*alpha<1||!solid||css.vectorEffect!=='none'||!matrix||Number.parseFloat(css.strokeWidth)*Math.min(Math.hypot(matrix.a,matrix.b),Math.hypot(matrix.c,matrix.d))<.25||Math.max(...stroke.slice(0,3).map((value,index)=>Math.abs(value-fill[index]!)))*stroke[3]!/255*alpha<1)return false
+        const x=b.x+run.x*b.width,top=b.y+run.from*b.height,bottom=b.y+run.to*b.height
+        return ![...svg.querySelectorAll('rect,circle,ellipse,polygon,path,line,image,use,foreignObject')].some(cover=>{
+          if(cover===run.carrier||!(run.carrier.compareDocumentPosition(cover)&Node.DOCUMENT_POSITION_FOLLOWING)||!paintable(cover))return false
+          const style=getComputedStyle(cover),c=box(cover),m=(cover as SVGGraphicsElement).getScreenCTM?.(),width=Number.parseFloat(style.strokeWidth)*(m?Math.max(Math.hypot(m.a,m.b),Math.hypot(m.c,m.d)):1),padding=width/2
+          if(x<c.x-padding||x>c.x+c.width+padding||bottom<c.y-padding||top>c.y+c.height+padding)return false
+          if(['image','use','foreignObject'].includes(cover.localName))return true
+          const glyph=cover as SVGGeometryElement,paint=rgba(style.fill),ink=rgba(style.stroke)
+          if(paint?.[3]&&Number(style.fillOpacity)>0&&!zeroFillArea(glyph))return true
+          return !!ink?.[3]&&Number(style.strokeOpacity)>0&&width>0&&!(same(stroke,ink)&&Math.abs(Number.parseFloat(css.strokeWidth)-Number.parseFloat(style.strokeWidth))<.1&&m&&(['a','b','c','d'] as const).every(key=>Math.abs(matrix[key]-m[key])<1e-8)&&css.vectorEffect===style.vectorEffect)
+        })
+      }
+      const insideRails=uniqueDocumentRuns.filter(run=>run.x*b.width>1.5&&(1-run.x)*b.width>1.5),completeInside=insideRails.filter(run=>fullRail(run)&&exposedRail(run)),document=flat(top)&&wave(bottom)&&outsideRails
       let measured: string | null = null
       const capShifts = xs.slice(2, -2).map(values => values.length === 4 ? values[2]! - values[1]! : NaN), capRidge = capShifts.every(Number.isFinite) && Math.min(...capShifts) > 1.5 / b.height && range(capShifts) < Math.max(.012, 1.5 / b.height)
       if (cylinder) measured = capRidge ? 'lined-cylinder' : xs.slice(2, -2).every(values => values.length === 3) ? 'cylinder' : null
-      else if (flat(top) && wave(bottom) && flat(left.slice(2, -2)) && flat(right.slice(2, -2))) measured = interiorVertical ? 'lined-document' : 'document'
+      else if (document && insideRails.length===completeInside.length) measured = completeInside.length===1?'lined-document':completeInside.length===0?'document':'document-with-multiple-dividers'
       else if (wave(top) && wave(bottom) && flat(left.slice(2, -2)) && flat(right.slice(2, -2))) measured = 'paper-tape'
       else if (flat(top.slice(0, 3)) && flat(bottom.slice(0, 3)) && flat(left) && symmetric(right) && right[4]! > Math.max(right[0]!, right[8]!) + .02) measured = 'delay'
       else if (symmetric(left) && symmetric(right) && left[4]! < Math.min(left[0]!, left[8]!) - .02 && right[4]! > Math.max(right[0]!, right[8]!) + .02 && ys.slice(2, -2).every(values => values.length >= 3)) measured = 'das'
       else if (flat(top) && flat(bottom) && symmetric(left) && symmetric(right) && left[4]! > Math.max(left[0]!, left[8]!) + .015 && right[4]! < Math.min(right[0]!, right[8]!) - .015) measured = 'bowtie-rectangle'
       const requested = wanted === 'flag' ? 'paper-tape' : wanted, recognizedOther = ['rect', 'circle', 'ellipse'].includes(body.localName) || normalized.length > 0 && normalized.length <= 6
-      return { actual: { ...actual, measured, top, bottom, left, right, interiorVertical, capRidge, capShifts }, matches: measured ? measured === requested : recognizedOther ? false : null }
+      return { actual: { ...actual, measured, top, bottom, left, right, interiorVertical, capRidge, capShifts, documentRails:{outsideRails,insideRails:insideRails.map(({carrier:_,...run})=>run),completeInside:completeInside.map(({carrier:_,...run})=>run)} }, matches: measured ? measured === requested : recognizedOther ? false : null }
     }
     // Curved compound/symbolic profiles require explicit topology evidence;
     // a bounding box or source shape string cannot silently satisfy them.
@@ -1112,27 +1163,6 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       if (a.localName === 'path' && b.localName === 'path') { const first = a.getScreenCTM(), second = (b as SVGGraphicsElement).getScreenCTM(); return a.getAttribute('d') === b.getAttribute('d') && !!first && !!second && (['a', 'b', 'c', 'd', 'e', 'f'] as const).every(key => Math.abs(first[key] - second[key]) < 1e-8) }
       if (a.localName !== b.localName) return false
       return ['circle', 'ellipse'].includes(a.localName) || a.localName === 'rect' && (a as SVGRectElement).rx.baseVal.value === (b as SVGRectElement).rx.baseVal.value && (a as SVGRectElement).ry.baseVal.value === (b as SVGRectElement).ry.baseVal.value || ['polygon', 'polyline'].includes(a.localName) && a.getAttribute('points') === b.getAttribute('points')
-    }
-    // SVG lines have no filled area. A path made only of straight, collinear
-    // subpaths also paints no fill: each open subpath closes back along its
-    // own line. Inherited fill on such a border is not an interior body layer.
-    const zeroFillArea = (shape: SVGGeometryElement) => {
-      if (shape.localName === 'line') return true
-      if (shape.localName !== 'path') return false
-      const data = shape.getAttribute('d') ?? '', numbers = /[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi
-      if (!data || data.replace(numbers, '').replace(/[MLCZ\s,]/g, '')) return false
-      const tokens = data.match(/[MLCZ]|[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi) ?? [], paths: Point[][] = []; let at = 0, command = '', current: Point[] | null = null
-      while (at < tokens.length) {
-        if (/^[MLCZ]$/.test(tokens[at]!)) command = tokens[at++]!
-        if (command === 'Z') { command = ''; continue }
-        const count = command === 'C' ? 6 : ['M','L'].includes(command) ? 2 : 0
-        if (!count || at + count > tokens.length || tokens.slice(at, at + count).some(token => !Number.isFinite(Number(token)))) return false
-        const values = tokens.slice(at, at + count).map(Number); at += count
-        if (command === 'M') { current = []; paths.push(current); command = 'L' }
-        if (!current) return false
-        for (let index = 0; index < values.length; index += 2) current.push({ x: values[index]!, y: values[index + 1]! })
-      }
-      return paths.length > 0 && paths.every(points => { const origin = points[0]!, other = points.find(point => distance(point, origin) > 1e-8); if (!other) return true; const length = distance(other, origin); return points.every(point => Math.abs((other.x - origin.x) * (point.y - origin.y) - (other.y - origin.y) * (point.x - origin.x)) <= length * 1e-8) })
     }
     const minimumScreenScale = (matrix: DOMMatrix | null | undefined) => { const trace = matrix ? matrix.a ** 2 + matrix.b ** 2 + matrix.c ** 2 + matrix.d ** 2 : 0, determinant = matrix ? matrix.a * matrix.d - matrix.b * matrix.c : 0; return Math.sqrt(Math.max(0, (trace - Math.sqrt(Math.max(0, trace ** 2 - 4 * determinant ** 2))) / 2)) }
     const observations = (input.expected.nodes ?? []).map(expected => {

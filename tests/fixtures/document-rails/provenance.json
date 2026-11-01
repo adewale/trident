@@ -1,0 +1,29 @@
+[
+  {
+    "index": 3,
+    "id": "packages/mermaid/src/docs/syntax/agentflow.md:127",
+    "file": "3.svg.gz",
+    "sourceSha256": "72ddb9fc72ab937a4f84d8377bdbee6f9004c00ff7b7c9852334cba35efe5bbe",
+    "svgSha256": "937ba598692e686d24338e0392f99e42ec07fbd7f059fd1f86969b52745569b4",
+    "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "witness": "/workspace/trident-svg-final-2026-11-01/docs-original/drawings/937ba598692e686d24338e0392f99e42ec07fbd7f059fd1f86969b52745569b4.svg.gz"
+  },
+  {
+    "index": 6,
+    "id": "packages/mermaid/src/docs/syntax/agentflow.md:189",
+    "file": "6.svg.gz",
+    "sourceSha256": "f5eb8cfb8dfe794987a95159f436b41d72d3c9fcc57cedb33ede5518f7a33464",
+    "svgSha256": "e09415578ddc0bc4889b743880f2c08cfeca2407e0be6dd262483b3f89b569b1",
+    "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "witness": "/workspace/trident-svg-final-2026-11-01/docs-original/drawings/e09415578ddc0bc4889b743880f2c08cfeca2407e0be6dd262483b3f89b569b1.svg.gz"
+  },
+  {
+    "index": 199,
+    "id": "packages/mermaid/src/docs/syntax/flowchart.md:549",
+    "file": "199.svg.gz",
+    "sourceSha256": "59f0daf6279490b4b0645d0b252a06e4712270f109e2e83e1acb05130da6c910",
+    "svgSha256": "ad6c9c39b6f1b499af3893baaf1a541b6b6baf820d5cf78a4bb09e4bd96bec20",
+    "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "witness": "/workspace/trident-svg-final-2026-11-01/docs-original/drawings/ad6c9c39b6f1b499af3893baaf1a541b6b6baf820d5cf78a4bb09e4bd96bec20.svg.gz"
+  }
+]
