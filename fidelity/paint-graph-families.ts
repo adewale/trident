@@ -956,6 +956,27 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       if (a.localName !== b.localName) return false
       return ['circle', 'ellipse'].includes(a.localName) || a.localName === 'rect' && (a as SVGRectElement).rx.baseVal.value === (b as SVGRectElement).rx.baseVal.value && (a as SVGRectElement).ry.baseVal.value === (b as SVGRectElement).ry.baseVal.value || ['polygon', 'polyline'].includes(a.localName) && a.getAttribute('points') === b.getAttribute('points')
     }
+    // SVG lines have no filled area. A path made only of straight, collinear
+    // subpaths also paints no fill: each open subpath closes back along its
+    // own line. Inherited fill on such a border is not an interior body layer.
+    const zeroFillArea = (shape: SVGGeometryElement) => {
+      if (shape.localName === 'line') return true
+      if (shape.localName !== 'path') return false
+      const data = shape.getAttribute('d') ?? '', numbers = /[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi
+      if (!data || data.replace(numbers, '').replace(/[MLCZ\s,]/g, '')) return false
+      const tokens = data.match(/[MLCZ]|[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi) ?? [], paths: Point[][] = []; let at = 0, command = '', current: Point[] | null = null
+      while (at < tokens.length) {
+        if (/^[MLCZ]$/.test(tokens[at]!)) command = tokens[at++]!
+        if (command === 'Z') { command = ''; continue }
+        const count = command === 'C' ? 6 : ['M','L'].includes(command) ? 2 : 0
+        if (!count || at + count > tokens.length || tokens.slice(at, at + count).some(token => !Number.isFinite(Number(token)))) return false
+        const values = tokens.slice(at, at + count).map(Number); at += count
+        if (command === 'M') { current = []; paths.push(current); command = 'L' }
+        if (!current) return false
+        for (let index = 0; index < values.length; index += 2) current.push({ x: values[index]!, y: values[index + 1]! })
+      }
+      return paths.length > 0 && paths.every(points => { const origin = points[0]!, other = points.find(point => distance(point, origin) > 1e-8); if (!other) return false; const length = distance(other, origin); return points.every(point => Math.abs((other.x - origin.x) * (point.y - origin.y) - (other.y - origin.y) * (point.x - origin.x)) <= length * 1e-8) })
+    }
     const observations = (input.expected.nodes ?? []).map(expected => {
       const owner = node.get(expected.id), declared = owner?.anchorParts?.flatMap(part => geometry.filter(element => element.localName === part.tag && nearBox(box(element), part.box, .25))), ink = declared?.length ? declared : qualifiedParts.get(expected.id) ?? bodies(expected.id).filter(element => !owner?.outline || element.localName === owner.outline.tag)
       if (!owner || !ink.length) return { id: expected.id, exposed: null, coveredParts: [] }
@@ -976,7 +997,10 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
           }).length
           return { layer, count }
         }).filter(item => item.count > 0)
-        if (matrix && fill?.[3] && Number(css.fillOpacity) > 0) {
+        const solidStroke = css.strokeDasharray === 'none' || css.strokeDasharray.split(/[ ,]+/).every(value => Number.parseFloat(value) === 0)
+        const actualLayer = layers.find(layer => layer.element === shape), trace = matrix ? matrix.a ** 2 + matrix.b ** 2 + matrix.c ** 2 + matrix.d ** 2 : 0, determinant = matrix ? matrix.a * matrix.d - matrix.b * matrix.c : 0, screenScale = Math.sqrt(Math.max(0, (trace - Math.sqrt(Math.max(0, trace ** 2 - 4 * determinant ** 2))) / 2))
+        const exposedStrokeOnly = zeroFillArea(shape) && shape.getTotalLength() > 0 && solidStroke && css.vectorEffect === 'none' && !!stroke?.[3] && stroke[3]! * (actualLayer?.strokeOpacity ?? 0) >= 1 && strokeWidth * screenScale >= .25
+        if (matrix && fill?.[3] && Number(css.fillOpacity) > 0 && !exposedStrokeOnly) {
           const bounds = box(shape), probes = [.03, .12, .3, .5, .7, .88, .97].flatMap(x => [.03, .12, .3, .5, .7, .88, .97].map(y => ({ x: bounds.x + x * bounds.width, y: bounds.y + y * bounds.height }))).filter(point => shape.isPointInFill(new DOMPoint(point.x, point.y).matrixTransform(matrix.inverse())) && !shape.isPointInStroke(new DOMPoint(point.x, point.y).matrixTransform(matrix.inverse())) && !paintedText.some(element => contains(box(element), { ...point, width: 0, height: 0 }, 0)))
           const textBackground = (layer: typeof layers[number]) => area(layer.box) < area(owner.box) * .98 && ownedText(expected.id)?.some(element => contains(layer.box, box(element)))
           const descendant = (layer: typeof layers[number]) => !!group.get(expected.id) && nodes.some(child => child.id !== expected.id && contains(owner.box, child.box) && nearBox(child.box, layer.box))
