@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
-import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
+import { admitInvocationEvidence, evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { readCheckpointEntries, writeDurableEvidence } from '../portable/checkpoint.ts'
 

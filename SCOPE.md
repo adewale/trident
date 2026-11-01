@@ -6,8 +6,8 @@ declared output, measuring comparable work and publishing readable evidence.
 
 ## Core work
 
-- Public SVG, PNG and terminal renderer APIs or CLIs; parsing, editing and diagnostics belonging to those renderers.
-- Independent inputs, applicable meaning/model checks and invalid controls.
+- Public SVG, PNG and terminal rendering; portable observable behaviours selected from Mermaid tests.
+- Independent inputs, output-meaning checks and invalid controls.
 - Explicit artifact, version, runtime, workload and measurement identities.
 - Bounded campaigns, named case selection and honest missing/blocked outcomes.
 - Per-benchmark ranked tables, reproducible reductions and retained failures.
@@ -48,6 +48,10 @@ they cannot stand in for the broken release or block releasing the harness.
 Agentic-specific PR matrices, source-workspace checks and strict internal-backend
 experiments belong in Agentic Mermaid. Generic runner fixes and public-artifact
 comparisons belong in Trident under the same rules for every project.
+
+Product-specific editing and serializer contracts belong to their owning projects.
+Shared API binding checks remain unscored harness controls. The exact Mermaid
+API compatibility diagnostic is optional; its callbacks are not renderer quality.
 
 ## Optional maintenance
 
