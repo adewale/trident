@@ -89,6 +89,23 @@ export function inspectTerminalEr(output: string, contract: TerminalSourceContra
     }
   }
   if (relations && equal && checks.find(check => check.criterion === 'entity-relations')?.status === 'unknown') { const traced = inspectTerminalErRoutes(grid, entities, contract); if (traced) set(traced.criterion, traced.status, traced.detail, traced.actual) }
+  if (relations && equal && checks.find(check => check.criterion === 'entity-relations')?.status === 'unknown') {
+    // A clipped literal caption can fail independently of unqualified ports.
+    // This never supplies a source/target or positive relationship observation.
+    const outside = grid.map((row, y) => row.map((glyph, x) => entities.some(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom) ? ' ' : glyph).join(''))
+    const numericText = outside.some(row => /(?:0\.\.\*|1\.\.\*|0\.\.1|[│┆]1)/.test(row)), plain = outside.every(row => /^[A-Za-z0-9\s_.:*\-\u2500-\u257f]*$/.test(row)), loose = display.text.replace(/[^A-Za-z0-9]/g, '')
+    if (numericText && plain) for (const relation of relations) {
+      const wanted = relation.caption
+      if (!/^[A-Za-z]{4,}$/.test(wanted) || loose.includes(wanted)) continue
+      for (let y = 1; y < outside.length - 1; y++) for (const match of outside[y]!.matchAll(/[A-Za-z]+/g)) {
+        const visible = match[0], x = match.index!
+        if (visible.length < 4 || visible.length >= wanted.length || !wanted.startsWith(visible) || relations.filter(edge => edge.caption.startsWith(visible)).length !== 1) continue
+        const stem = [x - 1, x - 2].some(column => /^[│┆┊╎╏┌┐┬├┤┼]$/.test(grid[y - 1]?.[column] ?? '') && /^[│┆┊╎╏]$/.test(grid[y]?.[column] ?? '') && /^[│┆┊╎╏└┘┴├┤┼]$/.test(grid[y + 1]?.[column] ?? ''))
+        const wrapped = outside.slice(y, y + 4).map(row => row.slice(Math.max(0, x - 1), x + wanted.length + 2).replace(/[^A-Za-z]/g, '')).join('')
+        if (stem && !wrapped.includes(wanted)) set('entity-relations', 'failed', 'A unique literal caption prefix beside a continuous numeric ER stem loses its required tail; complete caption is absent even from loose text/wrapping projections. No endpoint or cardinality pairing is inferred.', { expectedCaption: wanted, visiblePrefix: visible, x, y })
+      }
+    }
+  }
   return result()
 }
 

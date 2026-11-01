@@ -198,5 +198,25 @@
       "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
       "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
     }
+  },
+  {
+    "file": "er-caption-clipped-python.txt",
+    "caseId": "terminal:94e514f9f375364c",
+    "project": "fasouto/termaid",
+    "version": "0.10.0",
+    "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "outputSha256": "ad1f2853415dde265f0697fd1507cb4ddba738876b65484ff5ee482932b91a3a",
+    "retainedRawSha256": "75790426895ccd3d75d8b8a5da9a08fdd3612bfee889f38e2fefe5a77b9677c7",
+    "originalOutput": {
+      "project": "fasouto/termaid",
+      "caseId": "terminal:94e514f9f375364c",
+      "witness": "witnesses/ad1f2853415dde265f0697fd1507cb4ddba738876b65484ff5ee482932b91a3a.txt",
+      "sha256": "ad1f2853415dde265f0697fd1507cb4ddba738876b65484ff5ee482932b91a3a",
+      "runtimeExecuted": true,
+      "publicStatus": "passed",
+      "collectionId": "original-120",
+      "originalProducerSource": "bc95ac7a721a8f12c2abe96ea990a6dcbc6da91b",
+      "originalRawSha256": "ba63b8576d8fc266107b0fe0c8b03efff8539247a819282ded9b864fd15e4b5d"
+    }
   }
 ]

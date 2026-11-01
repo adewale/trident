@@ -114,3 +114,10 @@ test('complete wrong shape inventory can fail before labels resolve, but matchin
  expect(inspectTerminalFacts(drawing+'\nUnowned label',wrong.contract,wrong.graph).find(f=>f.criterion==='node-shapes')!.status).toBe('unknown')
  expect(actual('stadium-rectangle-ascii').status).toBe('incorrect')
 })
+test('qualified entity bodies allow a clipped literal-caption negative without inventing route ports',()=>{
+ const name='er-caption-clipped-python',text=fixture(name)
+ expect(actual(name).status).toBe('incorrect')
+ const repaired=text.replace('referenc','references');expect(actual(name,repaired).status).toBe('unknown')
+ const rows=text.split('\n'),row=rows.findIndex(r=>r.includes('referenc')),column=rows[row]!.indexOf('referenc');rows[row]=rows[row]!.replace('referenc','refere');rows[row+1]=rows[row+1]!.padEnd(column,' ')+'nces'
+ expect(actual(name,rows.join('\n')).status).toBe('unknown')
+})
