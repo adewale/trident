@@ -181,6 +181,8 @@ test('treemap requested minimum outer padding binds all actual ink geometry', as
 
 test('curved multiply ribbons require bound ports, resolved alpha and actual contrast through overlays', async () => {
   for (const index of [357,358,359,360,361,362,363]) expect((await inspect(index)).passed).toBe(true)
+  const invisibleOutline = await inspect(361, `document.querySelectorAll('text').forEach(e=>{if(getComputedStyle(e).stroke!=='none')e.style.stroke='white'})`)
+  expect(status(invisibleOutline, 'source-fact:authored-config')).not.toBe('passed')
   const white = await inspect(357, `document.querySelectorAll('stop').forEach(e=>e.style.stopColor='white')`)
   expect(status(white, 'source-fact:links')).not.toBe('passed')
   const covered = await inspect(357, `document.querySelector('svg').insertAdjacentHTML('beforeend','<rect x="100" y="20" width="250" height="400" fill="white"/>')`)
