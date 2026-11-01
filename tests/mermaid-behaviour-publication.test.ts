@@ -34,7 +34,7 @@ test('normal campaign publication reopens actual49 behaviours, retains unrun row
   expect(entry.caption).toContain(corpus.sourceCommit)
   expect(entry.caption).toContain('detail checks are not extra votes')
   const data = { schema: 'trident-results-snapshot-v1' as const, tables, attempts: [] }
-  expect(renderSnapshot(data, catalog)).toContain('Observable Mermaid Behaviour')
+  expect(renderSnapshot(data, catalog)).toContain('Mermaid Behaviour Tests')
   expect(projectSupport(catalog.nodes[0]!).suites['mermaid-behaviour'].state).toBe('adapter-missing')
   expect([...DEFAULT_SUITES, ...CAMPAIGN_SUITES]).not.toContain('mermaid-behaviour')
   const file = join(out, 'report.json'), changed = JSON.parse(readFileSync(file, 'utf8')); changed.targets[1].counts.passed = 49; writeFileSync(file, JSON.stringify(changed))

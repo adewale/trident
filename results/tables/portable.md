@@ -1,4 +1,4 @@
-# Render Cost and Scaling
+# Rendering time by workload
 
 [Ecosystem overview](../../RESULTS.md)
 

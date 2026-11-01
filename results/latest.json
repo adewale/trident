@@ -32592,12 +32592,72 @@
       ]
     },
     {
-      "id": "b0-attempt-9ca2b9d0e307b00410fa69a3",
+      "id": "b0-attempt-011f985f0bfd0a2265d44b0a",
+      "project": "kitlangton/merman",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-01e68c756a1e2e77e1726282",
+      "project": "mermaid-js/mermaid",
+      "suite": "portable",
+      "cohort": "b0-cost-png",
+      "measuredFrom": "2026-11-01T01:52:50.914Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-03018506944c4e66ced43a82",
+      "project": "anomalyco/opencode",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-03c60220842d1a13685243ad",
+      "project": "fasouto/termaid",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-06b5238c455228d55d1ad220",
       "project": "mermaid-js/mermaid",
       "suite": "docs",
       "cohort": "b0",
       "outputFormats": [
-        "svg"
+        "png"
       ],
       "measuredFrom": "2026-10-31T20:31:37.517Z",
       "updatedAt": "2026-11-01T06:09:57.406Z",
@@ -32628,14 +32688,11 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-34eb820ff4db20c220ad182c",
-      "project": "mermaid-js/mermaid",
-      "suite": "docs",
-      "cohort": "b0",
-      "outputFormats": [
-        "svg"
-      ],
-      "measuredFrom": "2026-10-31T20:31:37.517Z",
+      "id": "b0-attempt-07e1ed18270c19d5ee5f56ec",
+      "project": "kitlangton/merman",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
       "updatedAt": "2026-11-01T06:09:57.406Z",
       "status": "recorded",
       "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
@@ -32646,32 +32703,11 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-06b5238c455228d55d1ad220",
-      "project": "mermaid-js/mermaid",
-      "suite": "docs",
-      "cohort": "b0",
-      "outputFormats": [
-        "png"
-      ],
-      "measuredFrom": "2026-10-31T20:31:37.517Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-bb71cfe59d7fcc11da345f37",
-      "project": "pub:mermaid_flutter",
-      "suite": "docs",
-      "cohort": "b0",
-      "outputFormats": [
-        "png"
-      ],
-      "measuredFrom": "2026-10-31T20:31:37.517Z",
+      "id": "b0-attempt-0bf5998a52ab99df01df4c7e",
+      "project": "lukilabs/beautiful-mermaid",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
       "updatedAt": "2026-11-01T06:09:57.406Z",
       "status": "recorded",
       "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
@@ -32700,14 +32736,11 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-654d21b3107f33c143c7b554",
-      "project": "pub:mermaid_flutter",
-      "suite": "docs",
-      "cohort": "b0",
-      "outputFormats": [
-        "png"
-      ],
-      "measuredFrom": "2026-10-31T19:23:21.034Z",
+      "id": "b0-attempt-16cb67695ae83e28269f23ab",
+      "project": "Latias94/merman",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
       "updatedAt": "2026-11-01T06:09:57.406Z",
       "status": "recorded",
       "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
@@ -32718,14 +32751,11 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-8d76f1e4444c7d6f02f5ec46",
+      "id": "b0-attempt-2c24a046b6dffeecef27b80c",
       "project": "mermaid-js/mermaid",
-      "suite": "docs",
-      "cohort": "b0",
-      "outputFormats": [
-        "png"
-      ],
-      "measuredFrom": "2026-10-31T20:31:37.517Z",
+      "suite": "public-conformance",
+      "cohort": "original-public-api-tests-v4",
+      "measuredFrom": "2026-10-31T19:15:43.111Z",
       "updatedAt": "2026-11-01T06:09:57.406Z",
       "status": "recorded",
       "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
@@ -32736,134 +32766,11 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-f75fb00782233f86dfa55cb5",
-      "project": "pub:mermaid_flutter",
-      "suite": "docs",
-      "cohort": "b0",
-      "outputFormats": [
-        "png"
-      ],
-      "measuredFrom": "2026-10-31T20:31:37.517Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-c2647f448270aab083281f66",
-      "project": "Dicklesworthstone/frankenmermaid",
+      "id": "b0-attempt-2e0dede96ddafdb153e4e439",
+      "project": "Latias94/merman",
       "suite": "community",
       "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-765143b0b55db6e66516095d",
-      "project": "wevm/ondine",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-6f9891f02a83a8f5dc67733d",
-      "project": "adewale/agentic-mermaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-ba404086da8c857690af3e1d",
-      "project": "dfadler/zombie-mermaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-c5538199a9e5794ac91e440e",
-      "project": "AlexanderGrooff/mermaid-ascii",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-95d6d5d2c4759664d41a0207",
-      "project": "anomalyco/opencode",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-39ff0cf833407656bf7c2612",
-      "project": "crafter-station/mermaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-807851dac037c974cdb8672f",
-      "project": "emtyty/merslim",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
       "updatedAt": "2026-11-01T06:09:57.406Z",
       "status": "recorded",
       "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
@@ -32889,8 +32796,26 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-011f985f0bfd0a2265d44b0a",
-      "project": "kitlangton/merman",
+      "id": "b0-attempt-34eb820ff4db20c220ad182c",
+      "project": "mermaid-js/mermaid",
+      "suite": "docs",
+      "cohort": "b0",
+      "outputFormats": [
+        "svg"
+      ],
+      "measuredFrom": "2026-10-31T20:31:37.517Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-39ff0cf833407656bf7c2612",
+      "project": "crafter-station/mermaid",
       "suite": "community",
       "cohort": "terminal-b0-v3",
       "measuredFrom": "2026-10-31T19:49:41.622Z",
@@ -32904,56 +32829,11 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-16cb67695ae83e28269f23ab",
-      "project": "Latias94/merman",
+      "id": "b0-attempt-3a0e0cedacce58d646e22fe3",
+      "project": "adewale/agentic-mermaid",
       "suite": "community",
       "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-0bf5998a52ab99df01df4c7e",
-      "project": "lukilabs/beautiful-mermaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-ee082bf059e8e343a23d786e",
-      "project": "Mootikins/figurehead-rs",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-f39dbba57d91bcf92d3d45df",
-      "project": "tariqshams/mermaidtui",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
       "updatedAt": "2026-11-01T06:09:57.406Z",
       "status": "recorded",
       "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
@@ -32994,248 +32874,8 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-b3d0e36f78d529fd6b1d797f",
-      "project": "kais-radwan/ascii-mermaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-b2ea8d080efdda01cc7a0731",
-      "project": "spacedock-dev/mermaidtext",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
       "id": "b0-attempt-5a39eefe0ac57b6398d99f0a",
       "project": "Dicklesworthstone/frankenmermaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-a6d880176a78e5f3fda876dd",
-      "project": "wevm/ondine",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-3a0e0cedacce58d646e22fe3",
-      "project": "adewale/agentic-mermaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-9c33aa3b13e3e0f8d9d328fa",
-      "project": "dfadler/zombie-mermaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-7a576c0e9d549024a40c8469",
-      "project": "AlexanderGrooff/mermaid-ascii",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-03018506944c4e66ced43a82",
-      "project": "anomalyco/opencode",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-688ac2a4b82ccd04b034c61b",
-      "project": "crafter-station/mermaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-8326dc2c22b8014bc8bc7266",
-      "project": "emtyty/merslim",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-03c60220842d1a13685243ad",
-      "project": "fasouto/termaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-07e1ed18270c19d5ee5f56ec",
-      "project": "kitlangton/merman",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-2e0dede96ddafdb153e4e439",
-      "project": "Latias94/merman",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-d4bfcf9fafe012c78046e993",
-      "project": "lukilabs/beautiful-mermaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-ae3d143ec726f15e0a5ce1d8",
-      "project": "Mootikins/figurehead-rs",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-a9d0ef1da2744dfb2cf4be11",
-      "project": "tariqshams/mermaidtui",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-6ec9ddb009f28184ed9deeb6",
-      "project": "xai-org/grok-build",
       "suite": "community",
       "cohort": "terminal-b0-v3",
       "measuredFrom": "2026-10-31T09:28:24.742Z",
@@ -33264,21 +32904,6 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-e19b424b0d9b328804fcef7b",
-      "project": "kais-radwan/ascii-mermaid",
-      "suite": "community",
-      "cohort": "terminal-b0-v3",
-      "measuredFrom": "2026-10-31T09:28:24.742Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
       "id": "b0-attempt-64470619f40814f9bd8b0cc9",
       "project": "spacedock-dev/mermaidtext",
       "suite": "community",
@@ -33294,11 +32919,29 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-2c24a046b6dffeecef27b80c",
-      "project": "mermaid-js/mermaid",
-      "suite": "public-conformance",
-      "cohort": "original-public-api-tests-v4",
-      "measuredFrom": "2026-10-31T19:15:43.111Z",
+      "id": "b0-attempt-654d21b3107f33c143c7b554",
+      "project": "pub:mermaid_flutter",
+      "suite": "docs",
+      "cohort": "b0",
+      "outputFormats": [
+        "png"
+      ],
+      "measuredFrom": "2026-10-31T19:23:21.034Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-688ac2a4b82ccd04b034c61b",
+      "project": "crafter-station/mermaid",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
       "updatedAt": "2026-11-01T06:09:57.406Z",
       "status": "recorded",
       "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
@@ -33324,11 +32967,41 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-8a5058429ae6e2615a186285",
-      "project": "obsidianmd/pele",
-      "suite": "portable",
-      "cohort": "b0-cost-svg",
-      "measuredFrom": "2026-11-01T00:49:20.731Z",
+      "id": "b0-attempt-6ec9ddb009f28184ed9deeb6",
+      "project": "xai-org/grok-build",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-6f9891f02a83a8f5dc67733d",
+      "project": "adewale/agentic-mermaid",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-765143b0b55db6e66516095d",
+      "project": "wevm/ondine",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
       "updatedAt": "2026-11-01T06:09:57.406Z",
       "status": "recorded",
       "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
@@ -33354,41 +33027,152 @@
       "groups": []
     },
     {
-      "id": "b0-attempt-01e68c756a1e2e77e1726282",
-      "project": "mermaid-js/mermaid",
-      "suite": "portable",
-      "cohort": "b0-cost-png",
-      "measuredFrom": "2026-11-01T01:52:50.914Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-fb1efc2bf380563732294726",
-      "project": "pub:mermaid_flutter",
-      "suite": "portable",
-      "cohort": "b0-cost-png",
-      "measuredFrom": "2026-11-01T01:52:50.914Z",
-      "updatedAt": "2026-11-01T06:09:57.406Z",
-      "status": "recorded",
-      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
-      "receipt": {
-        "url": "docs/evidence/b0/receipt.json",
-        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
-      },
-      "groups": []
-    },
-    {
-      "id": "b0-attempt-ba629e0813ae752105d3059e",
+      "id": "b0-attempt-7a576c0e9d549024a40c8469",
       "project": "AlexanderGrooff/mermaid-ascii",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-807851dac037c974cdb8672f",
+      "project": "emtyty/merslim",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-8326dc2c22b8014bc8bc7266",
+      "project": "emtyty/merslim",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-8a5058429ae6e2615a186285",
+      "project": "obsidianmd/pele",
       "suite": "portable",
-      "cohort": "b0-cost-terminal",
-      "measuredFrom": "2026-11-01T01:46:22.773Z",
+      "cohort": "b0-cost-svg",
+      "measuredFrom": "2026-11-01T00:49:20.731Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-8d76f1e4444c7d6f02f5ec46",
+      "project": "mermaid-js/mermaid",
+      "suite": "docs",
+      "cohort": "b0",
+      "outputFormats": [
+        "png"
+      ],
+      "measuredFrom": "2026-10-31T20:31:37.517Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-95d6d5d2c4759664d41a0207",
+      "project": "anomalyco/opencode",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-9c33aa3b13e3e0f8d9d328fa",
+      "project": "dfadler/zombie-mermaid",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-9ca2b9d0e307b00410fa69a3",
+      "project": "mermaid-js/mermaid",
+      "suite": "docs",
+      "cohort": "b0",
+      "outputFormats": [
+        "svg"
+      ],
+      "measuredFrom": "2026-10-31T20:31:37.517Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-a6d880176a78e5f3fda876dd",
+      "project": "wevm/ondine",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-a9d0ef1da2744dfb2cf4be11",
+      "project": "tariqshams/mermaidtui",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
       "updatedAt": "2026-11-01T06:09:57.406Z",
       "status": "recorded",
       "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
@@ -33414,11 +33198,322 @@
       "groups": []
     },
     {
-      "id": "current-attempt-303cbb0a2949cfca5a535cc8",
+      "id": "b0-attempt-ae3d143ec726f15e0a5ce1d8",
+      "project": "Mootikins/figurehead-rs",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-b2ea8d080efdda01cc7a0731",
+      "project": "spacedock-dev/mermaidtext",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-b3d0e36f78d529fd6b1d797f",
+      "project": "kais-radwan/ascii-mermaid",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-ba404086da8c857690af3e1d",
+      "project": "dfadler/zombie-mermaid",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-ba629e0813ae752105d3059e",
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "suite": "portable",
+      "cohort": "b0-cost-terminal",
+      "measuredFrom": "2026-11-01T01:46:22.773Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-bb71cfe59d7fcc11da345f37",
+      "project": "pub:mermaid_flutter",
+      "suite": "docs",
+      "cohort": "b0",
+      "outputFormats": [
+        "png"
+      ],
+      "measuredFrom": "2026-10-31T20:31:37.517Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-c2647f448270aab083281f66",
+      "project": "Dicklesworthstone/frankenmermaid",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-c5538199a9e5794ac91e440e",
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-d4bfcf9fafe012c78046e993",
+      "project": "lukilabs/beautiful-mermaid",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-e19b424b0d9b328804fcef7b",
+      "project": "kais-radwan/ascii-mermaid",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T09:28:24.742Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-ee082bf059e8e343a23d786e",
+      "project": "Mootikins/figurehead-rs",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-f39dbba57d91bcf92d3d45df",
+      "project": "tariqshams/mermaidtui",
+      "suite": "community",
+      "cohort": "terminal-b0-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-f75fb00782233f86dfa55cb5",
+      "project": "pub:mermaid_flutter",
+      "suite": "docs",
+      "cohort": "b0",
+      "outputFormats": [
+        "png"
+      ],
+      "measuredFrom": "2026-10-31T20:31:37.517Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "b0-attempt-fb1efc2bf380563732294726",
+      "project": "pub:mermaid_flutter",
+      "suite": "portable",
+      "cohort": "b0-cost-png",
+      "measuredFrom": "2026-11-01T01:52:50.914Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "status": "recorded",
+      "detail": "B0 publication of already retained calls and current saved-output assessments; no new renderer/API invocation or independent SVG clock. Original dates, populations, unknowns and per-lane contract epochs remain in the owning evidence.",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "groups": []
+    },
+    {
+      "id": "attempt-bad2a06b2c438a6df864cde0",
+      "project": "adewale/agentic-mermaid",
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "measuredFrom": "2026-10-31T19:15:43.111Z",
+      "updatedAt": "2026-11-01T08:19:55.981Z",
+      "status": "blocked",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.",
+      "receipt": {
+        "url": "results/mermaid-behaviour-2026-11-01/report.json",
+        "sha256": "20ee401cfef4641802e2ab774ba37321f4a12ad4e7ef6fb75ae8b8f4e9a69914"
+      },
+      "groups": [
+        {
+          "project": "adewale/agentic-mermaid",
+          "version": "0.4.1",
+          "variant": "default",
+          "surface": "native-public-return",
+          "runtime": "see owning public-call capture",
+          "format": "public-return",
+          "operation": "whole-behaviour-case",
+          "mode": "mermaid-observable-behaviour-v1",
+          "round": "not round-based",
+          "caseIds": 49,
+          "recordedObservations": 49,
+          "dispositions": {
+            "blocked": 20,
+            "passed": 29
+          }
+        }
+      ]
+    },
+    {
+      "id": "attempt-f46d6fcdb4543e23500812ee",
       "project": "mermaid-js/mermaid",
+      "suite": "mermaid-behaviour",
+      "cohort": "mermaid-observable-behaviour-v1",
+      "measuredFrom": "2026-10-31T19:15:43.111Z",
+      "updatedAt": "2026-11-01T08:19:55.981Z",
+      "status": "recorded",
+      "detail": "Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.",
+      "receipt": {
+        "url": "results/mermaid-behaviour-2026-11-01/report.json",
+        "sha256": "20ee401cfef4641802e2ab774ba37321f4a12ad4e7ef6fb75ae8b8f4e9a69914"
+      },
+      "groups": [
+        {
+          "project": "mermaid-js/mermaid",
+          "version": "12.2.0",
+          "variant": "default",
+          "surface": "native-public-return",
+          "runtime": "see owning public-call capture",
+          "format": "public-return",
+          "operation": "whole-behaviour-case",
+          "mode": "mermaid-observable-behaviour-v1",
+          "round": "not round-based",
+          "caseIds": 49,
+          "recordedObservations": 49,
+          "dispositions": {
+            "passed": 49
+          }
+        }
+      ]
+    },
+    {
+      "id": "current-attempt-0218d25b05f113e3bc440c13",
+      "project": "tariqshams/mermaidtui",
+      "suite": "community",
+      "cohort": "terminal-current-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T08:26:26.317Z",
+      "status": "recorded",
+      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
+      "receipt": {
+        "url": "results/current-outcomes-2026-11-01/receipt.json",
+        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
+      },
+      "groups": []
+    },
+    {
+      "id": "current-attempt-23d3d4a27f948e136a74c0bd",
+      "project": "fasouto/termaid",
+      "suite": "community",
+      "cohort": "terminal-current-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T08:26:26.317Z",
+      "status": "recorded",
+      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
+      "receipt": {
+        "url": "results/current-outcomes-2026-11-01/receipt.json",
+        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
+      },
+      "groups": []
+    },
+    {
+      "id": "current-attempt-2a24d3a270b8aa006f2352e6",
+      "project": "pub:mermaid_flutter",
       "suite": "docs",
       "outputFormats": [
-        "svg"
+        "png"
       ],
       "measuredFrom": "2026-10-31T20:31:37.517Z",
       "updatedAt": "2026-11-01T08:26:26.317Z",
@@ -33448,11 +33543,11 @@
       "groups": []
     },
     {
-      "id": "current-attempt-2a24d3a270b8aa006f2352e6",
-      "project": "pub:mermaid_flutter",
+      "id": "current-attempt-303cbb0a2949cfca5a535cc8",
+      "project": "mermaid-js/mermaid",
       "suite": "docs",
       "outputFormats": [
-        "png"
+        "svg"
       ],
       "measuredFrom": "2026-10-31T20:31:37.517Z",
       "updatedAt": "2026-11-01T08:26:26.317Z",
@@ -33467,51 +33562,6 @@
     {
       "id": "current-attempt-34396e018da2a4e0ec0430e4",
       "project": "Dicklesworthstone/frankenmermaid",
-      "suite": "community",
-      "cohort": "terminal-current-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T08:26:26.317Z",
-      "status": "recorded",
-      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
-      "receipt": {
-        "url": "results/current-outcomes-2026-11-01/receipt.json",
-        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
-      },
-      "groups": []
-    },
-    {
-      "id": "current-attempt-c9570068b9985f863bfa2929",
-      "project": "wevm/ondine",
-      "suite": "community",
-      "cohort": "terminal-current-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T08:26:26.317Z",
-      "status": "recorded",
-      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
-      "receipt": {
-        "url": "results/current-outcomes-2026-11-01/receipt.json",
-        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
-      },
-      "groups": []
-    },
-    {
-      "id": "current-attempt-4b321f66e3e8e3ddccc1efab",
-      "project": "adewale/agentic-mermaid",
-      "suite": "community",
-      "cohort": "terminal-current-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T08:26:26.317Z",
-      "status": "recorded",
-      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
-      "receipt": {
-        "url": "results/current-outcomes-2026-11-01/receipt.json",
-        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
-      },
-      "groups": []
-    },
-    {
-      "id": "current-attempt-f1e33efadf03f6de42c14b86",
-      "project": "dfadler/zombie-mermaid",
       "suite": "community",
       "cohort": "terminal-current-v3",
       "measuredFrom": "2026-10-31T19:49:41.622Z",
@@ -33540,8 +33590,8 @@
       "groups": []
     },
     {
-      "id": "current-attempt-5452e533b79b12c9a9dbeaf3",
-      "project": "anomalyco/opencode",
+      "id": "current-attempt-406c2f8dfd8a69819b009742",
+      "project": "lukilabs/beautiful-mermaid",
       "suite": "community",
       "cohort": "terminal-current-v3",
       "measuredFrom": "2026-10-31T19:49:41.622Z",
@@ -33555,53 +33605,8 @@
       "groups": []
     },
     {
-      "id": "current-attempt-bcfba6922ac804d2681b1893",
-      "project": "crafter-station/mermaid",
-      "suite": "community",
-      "cohort": "terminal-current-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T08:26:26.317Z",
-      "status": "recorded",
-      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
-      "receipt": {
-        "url": "results/current-outcomes-2026-11-01/receipt.json",
-        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
-      },
-      "groups": []
-    },
-    {
-      "id": "current-attempt-db165c9ab6801aa84ef04963",
-      "project": "emtyty/merslim",
-      "suite": "community",
-      "cohort": "terminal-current-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T08:26:26.317Z",
-      "status": "recorded",
-      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
-      "receipt": {
-        "url": "results/current-outcomes-2026-11-01/receipt.json",
-        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
-      },
-      "groups": []
-    },
-    {
-      "id": "current-attempt-23d3d4a27f948e136a74c0bd",
-      "project": "fasouto/termaid",
-      "suite": "community",
-      "cohort": "terminal-current-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T08:26:26.317Z",
-      "status": "recorded",
-      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
-      "receipt": {
-        "url": "results/current-outcomes-2026-11-01/receipt.json",
-        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
-      },
-      "groups": []
-    },
-    {
-      "id": "current-attempt-e43f0dc82cd53397a6da8d17",
-      "project": "kitlangton/merman",
+      "id": "current-attempt-4b321f66e3e8e3ddccc1efab",
+      "project": "adewale/agentic-mermaid",
       "suite": "community",
       "cohort": "terminal-current-v3",
       "measuredFrom": "2026-10-31T19:49:41.622Z",
@@ -33630,68 +33635,8 @@
       "groups": []
     },
     {
-      "id": "current-attempt-406c2f8dfd8a69819b009742",
-      "project": "lukilabs/beautiful-mermaid",
-      "suite": "community",
-      "cohort": "terminal-current-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T08:26:26.317Z",
-      "status": "recorded",
-      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
-      "receipt": {
-        "url": "results/current-outcomes-2026-11-01/receipt.json",
-        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
-      },
-      "groups": []
-    },
-    {
-      "id": "current-attempt-998963fb20002f99e890fd91",
-      "project": "Mootikins/figurehead-rs",
-      "suite": "community",
-      "cohort": "terminal-current-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T08:26:26.317Z",
-      "status": "recorded",
-      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
-      "receipt": {
-        "url": "results/current-outcomes-2026-11-01/receipt.json",
-        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
-      },
-      "groups": []
-    },
-    {
-      "id": "current-attempt-0218d25b05f113e3bc440c13",
-      "project": "tariqshams/mermaidtui",
-      "suite": "community",
-      "cohort": "terminal-current-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T08:26:26.317Z",
-      "status": "recorded",
-      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
-      "receipt": {
-        "url": "results/current-outcomes-2026-11-01/receipt.json",
-        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
-      },
-      "groups": []
-    },
-    {
-      "id": "current-attempt-f3a9ef98b5874981c9272887",
-      "project": "xai-org/grok-build",
-      "suite": "community",
-      "cohort": "terminal-current-v3",
-      "measuredFrom": "2026-10-31T19:49:41.622Z",
-      "updatedAt": "2026-11-01T08:26:26.317Z",
-      "status": "recorded",
-      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
-      "receipt": {
-        "url": "results/current-outcomes-2026-11-01/receipt.json",
-        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
-      },
-      "groups": []
-    },
-    {
-      "id": "current-attempt-9df7e478afd3af7ae3d45dae",
-      "project": "Yassimba/loom",
+      "id": "current-attempt-5452e533b79b12c9a9dbeaf3",
+      "project": "anomalyco/opencode",
       "suite": "community",
       "cohort": "terminal-current-v3",
       "measuredFrom": "2026-10-31T19:49:41.622Z",
@@ -33720,8 +33665,128 @@
       "groups": []
     },
     {
+      "id": "current-attempt-998963fb20002f99e890fd91",
+      "project": "Mootikins/figurehead-rs",
+      "suite": "community",
+      "cohort": "terminal-current-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T08:26:26.317Z",
+      "status": "recorded",
+      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
+      "receipt": {
+        "url": "results/current-outcomes-2026-11-01/receipt.json",
+        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
+      },
+      "groups": []
+    },
+    {
+      "id": "current-attempt-9df7e478afd3af7ae3d45dae",
+      "project": "Yassimba/loom",
+      "suite": "community",
+      "cohort": "terminal-current-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T08:26:26.317Z",
+      "status": "recorded",
+      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
+      "receipt": {
+        "url": "results/current-outcomes-2026-11-01/receipt.json",
+        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
+      },
+      "groups": []
+    },
+    {
+      "id": "current-attempt-bcfba6922ac804d2681b1893",
+      "project": "crafter-station/mermaid",
+      "suite": "community",
+      "cohort": "terminal-current-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T08:26:26.317Z",
+      "status": "recorded",
+      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
+      "receipt": {
+        "url": "results/current-outcomes-2026-11-01/receipt.json",
+        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
+      },
+      "groups": []
+    },
+    {
       "id": "current-attempt-c8c46e405400abf44233286a",
       "project": "spacedock-dev/mermaidtext",
+      "suite": "community",
+      "cohort": "terminal-current-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T08:26:26.317Z",
+      "status": "recorded",
+      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
+      "receipt": {
+        "url": "results/current-outcomes-2026-11-01/receipt.json",
+        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
+      },
+      "groups": []
+    },
+    {
+      "id": "current-attempt-c9570068b9985f863bfa2929",
+      "project": "wevm/ondine",
+      "suite": "community",
+      "cohort": "terminal-current-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T08:26:26.317Z",
+      "status": "recorded",
+      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
+      "receipt": {
+        "url": "results/current-outcomes-2026-11-01/receipt.json",
+        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
+      },
+      "groups": []
+    },
+    {
+      "id": "current-attempt-db165c9ab6801aa84ef04963",
+      "project": "emtyty/merslim",
+      "suite": "community",
+      "cohort": "terminal-current-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T08:26:26.317Z",
+      "status": "recorded",
+      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
+      "receipt": {
+        "url": "results/current-outcomes-2026-11-01/receipt.json",
+        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
+      },
+      "groups": []
+    },
+    {
+      "id": "current-attempt-e43f0dc82cd53397a6da8d17",
+      "project": "kitlangton/merman",
+      "suite": "community",
+      "cohort": "terminal-current-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T08:26:26.317Z",
+      "status": "recorded",
+      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
+      "receipt": {
+        "url": "results/current-outcomes-2026-11-01/receipt.json",
+        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
+      },
+      "groups": []
+    },
+    {
+      "id": "current-attempt-f1e33efadf03f6de42c14b86",
+      "project": "dfadler/zombie-mermaid",
+      "suite": "community",
+      "cohort": "terminal-current-v3",
+      "measuredFrom": "2026-10-31T19:49:41.622Z",
+      "updatedAt": "2026-11-01T08:26:26.317Z",
+      "status": "recorded",
+      "detail": "Reporting publication of retained calls and scoped saved-output rechecks; no new renderer/API invocation. Source/observer epochs and raw owners are explicit per case in the attached normal results.",
+      "receipt": {
+        "url": "results/current-outcomes-2026-11-01/receipt.json",
+        "sha256": "caf7f875742a25ae1f1aac7bfa63de7863b11f62f060c4d8d82b29023db49a01"
+      },
+      "groups": []
+    },
+    {
+      "id": "current-attempt-f3a9ef98b5874981c9272887",
+      "project": "xai-org/grok-build",
       "suite": "community",
       "cohort": "terminal-current-v3",
       "measuredFrom": "2026-10-31T19:49:41.622Z",
@@ -37677,6 +37742,75 @@
           "Unrun",
           "Harness failure"
         ]
+      }
+    },
+    {
+      "id": "run-33107efda3f3ec359303eacb",
+      "suite": "mermaid-behaviour",
+      "measuredAt": "2026-10-31T19:15:43.111Z",
+      "campaignUpdatedAt": "2026-11-01T08:19:55.981Z",
+      "historical": false,
+      "unit": "whole observable behaviour cases",
+      "caption": "Corpus: 49 whole source-derived observable behaviours from pinned Mermaid 1fb7869866dd619168d840291c9c54b4f129758b. Every ordered stimulus and declared check in a case must pass; detail checks are not extra votes. Source adaptations compare explicit diagram-family aliases and static SVG accessible naming through native public returns, without private model/API-shape requirements. Unavailable and unrun observations remain unresolved, not unsupported or failed. Actual Mermaid reference qualification: qualified; its actual artifact and raw checks remain in the owning evidence, and no reference target row is invented. Dates use the retained owning public-call collection or native invocation journal; targets without recorded calls keep an unknown clock. If no call clock exists, the table date is explicitly the assessment publication date. Assessment publication: 2026-11-01T08:19:55.981Z. This finite corpus supplies no whole-library conformance, drawing-accuracy or timing claim.",
+      "columns": [
+        "Version",
+        "Passed",
+        "Failed",
+        "Unavailable",
+        "Unrun",
+        "Planned",
+        "Measured"
+      ],
+      "rows": [
+        {
+          "project": "mermaid-js/mermaid",
+          "values": [
+            "12.2.0",
+            49,
+            0,
+            0,
+            0,
+            49,
+            "2026-10-31T19:15:43.111Z"
+          ]
+        },
+        {
+          "project": "adewale/agentic-mermaid",
+          "values": [
+            "0.4.1",
+            29,
+            0,
+            20,
+            0,
+            49,
+            "2026-10-31T19:15:43.111Z"
+          ]
+        }
+      ],
+      "receipt": {
+        "url": "results/mermaid-behaviour-2026-11-01/receipt.json",
+        "sha256": "2471fb8681f53415990c44d08c84ef8db60101c89d5c9b8df6e6301d77de5e85"
+      },
+      "ranking": {
+        "column": "Passed",
+        "direction": "descending"
+      },
+      "cohort": "mermaid-observable-behaviour-v1",
+      "summary": true,
+      "comparisonKey": "3b5a6534aa549ac89b0fe8d76c513b6076f921e71f1eeff0e31467d528efeee5",
+      "population": {
+        "total": "Planned",
+        "outcomes": [
+          "Passed",
+          "Failed",
+          "Unavailable",
+          "Unrun"
+        ]
+      },
+      "overview": {
+        "numerator": "Passed",
+        "denominator": "Planned",
+        "suffix": ""
       }
     }
   ],

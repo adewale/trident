@@ -54,8 +54,8 @@ export interface ResultsSnapshot {
   attempts: SnapshotAttempt[]
 }
 export const benchmarkNames: Record<PublicSuite, string> = {
-  community: 'Mermaid Compatibility', docs: 'DaveBench: Documentation Examples', fidelity: 'Harness and Observer Regressions (unscored)',
-  'mermaid-behaviour': 'Observable Mermaid Behaviour', 'native-fidelity': 'Public Model Regressions (unscored)', 'upstream-fidelity': 'Mermaid Assertion Replay',
+  community: 'Mermaid Compatibility', docs: 'DaveBench — Documentation Rendering', fidelity: 'Harness and Observer Regressions (unscored)',
+  'mermaid-behaviour': 'Mermaid Behaviour Tests', 'native-fidelity': 'Public Model Regressions (unscored)', 'upstream-fidelity': 'Mermaid Assertion Replay',
   'upstream-original': 'Mermaid Reference Tests', portable: 'Rendering time by workload', 'public-conformance': 'Mermaid Public API Tests (diagnostic)',
 }
 const unscoredSuite = (suite: PublicSuite) => ['fidelity', 'native-fidelity'].includes(suite)
@@ -407,7 +407,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
       const unscored = unscoredSuite(entry.suite)
       lines.push(`<a id="${anchor(entry.id)}"></a>`, '', `**${entry.id}** · ${date(entry.measuredAt)}${entry.historical ? ' · Historical' : ''}${entry.diagnostic ? ' · **Diagnostic subset**' : ''}${entry.artifactRole === 'candidate' ? ' · **Source candidates**' : ''} · unit: ${md(entry.unit)} · ${entry.rolling ? '[latest source run](' + entry.receipt.url + ')' : receiptLink(entry.receipt)}`, '', entry.caption, '')
       const rows = rankedRows(entry, name)
-      lines.push(unscored ? 'Unscored harness/observer regressions; rows are alphabetical.' : entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.` : 'No comparable numeric ranking measure is available.', '')
+      lines.push(unscored ? 'Unscored harness/observer regressions; rows are alphabetical.' : entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked.${/\bms\b/.test(entry.unit ?? '') ? ' Timing ranks describe the displayed samples and retain their qualification limits.' : ''}` : 'No comparable numeric ranking measure is available.', '')
       if (entry.drawingOutcomePolicy) lines.push('Ranks order verified correct counts, including zero. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.', '')
       const rate = entry.chart?.denominator
       const notes = rows.some(row => row.unrankedReason)
@@ -473,7 +473,7 @@ export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog
       const indexLines = [`# ${snapshotBenchmarkNames(snapshot)[suite]}`, '', '[Ecosystem overview](../../RESULTS.md)', '', 'Ranked tables and original attempt details. Each table names its own interface, input population and measurement date.', '']
       for (const [part, chunk] of chunks.entries()) {
         const file = `results/tables/${suite}-${part + 1}.md`
-        const content = chunk.join('').replace(/\]\((docs\/[^)]+)\)/g, '](../../$1)')
+        const content = chunk.join('').replace(/\]\(((?:docs|results)\/[^)]+)\)/g, '](../../$1)')
         for (const match of content.matchAll(/<a id="([^"]+)"/g)) links.set(match[1]!, file)
         indexLines.push(`- [Part ${part + 1}](${suite}-${part + 1}.md)`)
         outputs.push([join(root, file), `# ${snapshotBenchmarkNames(snapshot)[suite]} · part ${part + 1}\n\n[Ecosystem overview](../../RESULTS.md) · [All parts](${suite}.md)\n\n` + content])

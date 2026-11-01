@@ -26,7 +26,7 @@ require explicit selection. `full` applies to the selected inputs and sampling.
 Preparation freezes artifacts once; collection performs no latest-version lookup.
 [Baseline](BASELINE.md) and [report conventions](REPORTING.md) describe reuse.
 
-## Documentation Examples — DaveBench
+## DaveBench — Documentation Rendering
 
 Task: accurately render the examples in the pinned Mermaid syntax documentation
 as SVG and PNG, and measure completed rendering on matched verified work. Both
