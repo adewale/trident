@@ -268,3 +268,21 @@ test('stroke-only outline exposure rejects full and partial opaque stroke overpa
   for (const path of [outline, 'M20 20L20 80']) expect(status((await inspect(drawing('<path d="' + path + '" fill="none" stroke="white" stroke-width="8"/>'), 'flowchart', expected)).checks, 'painted-node-visibility')).not.toBe('passed')
   expect(status((await inspect(drawing('<path d="' + outline + '" fill="none" stroke="black" stroke-width="2"/>'), 'flowchart', expected)).checks, 'painted-node-visibility')).toBe('passed')
 })
+
+test('a white fill cover cannot replace an erased node outline on the white canvas', async () => {
+  const outline = '<path d="M20 20C40 20 80 20 120 20M120 20L120 80M120 80L20 80M20 80L20 20" fill="red" stroke="black" stroke-width="2"/>', expected = { labels: ['Alpha'], nodes: [{ id: 'A', label: 'Alpha' }] }
+  const drawing = (body: string) => svg('<g>' + body + '<text x="45" y="55">Alpha</text></g>', 160, 110)
+  expect(status((await inspect(drawing(outline), 'flowchart', expected)).checks, 'painted-node-visibility')).toBe('passed')
+  const cover = '<rect x="18" y="18" width="105" height="65" fill="white"/>'
+  const hidden = await inspect(drawing(outline + cover), 'flowchart', expected)
+  expect(status(hidden.checks, 'painted-node-visibility')).toBe('unavailable')
+  expect(hidden.graph.checks.every((check: PaintCheck) => check.status === 'passed')).toBe(false)
+  for (const stroke of ['stroke="black" stroke-opacity="0.00000001"', 'stroke="black" stroke-width="0.00000001"']) expect(status((await inspect(drawing(outline + cover.replace('/>', ' ' + stroke + '/>')), 'flowchart', expected)).checks, 'painted-node-visibility')).toBe('unavailable')
+  expect(status((await inspect(drawing(outline + cover + cover), 'flowchart', expected)).checks, 'painted-node-visibility')).toBe('unavailable')
+  expect(status((await inspect(drawing(outline + cover.replace('/>', ' style="filter:drop-shadow(0px 0px 0px transparent)"/>')), 'flowchart', expected)).checks, 'painted-node-visibility')).toBe('unavailable')
+  expect(status((await inspect(drawing(cover.replace('/>', ' stroke="black"/>')), 'flowchart', expected)).checks, 'painted-node-visibility')).toBe('passed')
+  const darkBackdrop = '<rect x="10" y="10" width="140" height="90" fill="black"/>'
+  expect(status((await inspect(drawing(darkBackdrop + cover), 'flowchart', expected)).checks, 'painted-node-visibility')).toBe('passed')
+  expect(status((await inspect(drawing(darkBackdrop.replace('black', 'white') + cover), 'flowchart', expected)).checks, 'painted-node-visibility')).toBe('unavailable')
+  expect(status((await inspect(drawing(darkBackdrop + darkBackdrop.replace('black', 'white') + cover), 'flowchart', expected)).checks, 'painted-node-visibility')).toBe('unavailable')
+})

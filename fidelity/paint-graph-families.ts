@@ -977,6 +977,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       }
       return paths.length > 0 && paths.every(points => { const origin = points[0]!, other = points.find(point => distance(point, origin) > 1e-8); if (!other) return false; const length = distance(other, origin); return points.every(point => Math.abs((other.x - origin.x) * (point.y - origin.y) - (other.y - origin.y) * (point.x - origin.x)) <= length * 1e-8) })
     }
+    const minimumScreenScale = (matrix: DOMMatrix | null | undefined) => { const trace = matrix ? matrix.a ** 2 + matrix.b ** 2 + matrix.c ** 2 + matrix.d ** 2 : 0, determinant = matrix ? matrix.a * matrix.d - matrix.b * matrix.c : 0; return Math.sqrt(Math.max(0, (trace - Math.sqrt(Math.max(0, trace ** 2 - 4 * determinant ** 2))) / 2)) }
     const observations = (input.expected.nodes ?? []).map(expected => {
       const owner = node.get(expected.id), declared = owner?.anchorParts?.flatMap(part => geometry.filter(element => element.localName === part.tag && nearBox(box(element), part.box, .25))), ink = declared?.length ? declared : qualifiedParts.get(expected.id) ?? bodies(expected.id).filter(element => !owner?.outline || element.localName === owner.outline.tag)
       if (!owner || !ink.length) return { id: expected.id, exposed: null, coveredParts: [] }
@@ -1010,7 +1011,28 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
           if (overpaint.length) coveredParts.push({ part: { tag: shape.localName, box: box(shape) }, opaqueStrokeCovers: overpaint.map(layer => ({ tag: layer.element.localName, box: layer.box })) })
         }
         const solidStroke = css.strokeDasharray === 'none' || css.strokeDasharray.split(/[ ,]+/).every(value => Number.parseFloat(value) === 0)
-        const actualLayer = layers.find(layer => layer.element === shape), trace = matrix ? matrix.a ** 2 + matrix.b ** 2 + matrix.c ** 2 + matrix.d ** 2 : 0, determinant = matrix ? matrix.a * matrix.d - matrix.b * matrix.c : 0, screenScale = Math.sqrt(Math.max(0, (trace - Math.sqrt(Math.max(0, trace ** 2 - 4 * determinant ** 2))) / 2))
+        const actualLayer = layers.find(layer => layer.element === shape), screenScale = minimumScreenScale(matrix)
+        // A white cover can become the smallest label-enclosing candidate.
+        // Its positive fill alpha is not evidence of a visible node body when
+        // its whole outer contour meets the same clear white canvas. Earlier
+        // ink wholly inside that cover does not provide an exposed outline.
+        const white = (color: number[] | null) => !!color && color.slice(0, 3).every(value => value === 255)
+        const contrastsWhite = (color: number[] | null, opacity: number) => !!color && color[3]! * opacity >= 1 && Math.max(...color.slice(0, 3).map(value => 255 - value)) * color[3]! / 255 * opacity >= 1
+        const clearWhiteCanvas = () => { for (let parent: Element | null = shape; parent; parent = parent.parentElement) { const style = getComputedStyle(parent), background = rgba(style.backgroundColor); if (style.backgroundImage !== 'none' || !background || background[3] !== 0 && !(background[3] === 255 && white(background))) return false }; return true }
+        const contrastingStroke = contrastsWhite(stroke, actualLayer?.strokeOpacity ?? 0) && strokeWidth * screenScale >= .25 && css.vectorEffect === 'none' && solidStroke
+        if (white(fill) && fill![3] === 255 && (actualLayer?.fillOpacity ?? 0) >= .999 && !contrastingStroke && points.length && clearWhiteCanvas()) {
+          const priorContourPaint = layers.filter(layer => layer.element !== shape && !!(layer.element.compareDocumentPosition(shape) & Node.DOCUMENT_POSITION_FOLLOWING) && points.some(point => {
+            const padding = layer.width / 2 * (layer.matrix ? Math.hypot(layer.matrix.a, layer.matrix.b, layer.matrix.c, layer.matrix.d) : 1), b = layer.box
+            if (point.x < b.x - padding || point.x > b.x + b.width + padding || point.y < b.y - padding || point.y > b.y + b.height + padding) return false
+            if (!layer.matrix || !(layer.element instanceof SVGGeometryElement)) return true
+            const local = new DOMPoint(point.x, point.y).matrixTransform(layer.matrix.inverse())
+            return !!(layer.fill?.[3] && layer.fillOpacity > 0 && !zeroFillArea(layer.element) && layer.element.isPointInFill(local) || layer.stroke?.[3] && layer.strokeOpacity > 0 && layer.width > 0 && layer.element.isPointInStroke(local))
+          })), backdrop = priorContourPaint.at(-1)
+          // Only the latest actual contour layer may supply a flat backdrop;
+          // older dark paint cannot be borrowed through a newer white cover.
+          const contrastingBackdrop = backdrop?.matrix && backdrop.element instanceof SVGGeometryElement && backdrop.fill?.[3] === 255 && backdrop.fillOpacity >= .999 && contrastsWhite(backdrop.fill, backdrop.fillOpacity) && !zeroFillArea(backdrop.element) && points.every(point => (backdrop.element as SVGGeometryElement).isPointInFill(new DOMPoint(point.x, point.y).matrixTransform(backdrop.matrix!.inverse())))
+          if (!contrastingBackdrop) coveredParts.push({ part: { tag: shape.localName, box: box(shape) }, fillExposure: 'White fill has no contrasting outline or qualified backdrop on the clear white canvas' })
+        }
         const exposedStrokeOnly = zeroFillArea(shape) && shape.getTotalLength() > 0 && solidStroke && css.vectorEffect === 'none' && !!stroke?.[3] && stroke[3]! * (actualLayer?.strokeOpacity ?? 0) >= 1 && strokeWidth * screenScale >= .25
         if (matrix && fill?.[3] && Number(css.fillOpacity) > 0 && !exposedStrokeOnly) {
           const bounds = box(shape), probes = [.03, .12, .3, .5, .7, .88, .97].flatMap(x => [.03, .12, .3, .5, .7, .88, .97].map(y => ({ x: bounds.x + x * bounds.width, y: bounds.y + y * bounds.height }))).filter(point => shape.isPointInFill(new DOMPoint(point.x, point.y).matrixTransform(matrix.inverse())) && !shape.isPointInStroke(new DOMPoint(point.x, point.y).matrixTransform(matrix.inverse())) && !paintedText.some(element => contains(box(element), { ...point, width: 0, height: 0 }, 0)))
