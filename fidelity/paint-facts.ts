@@ -317,13 +317,24 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       }
       continue
     }
-    if (key === 'direction' && input.family === 'flowchart') {
+    if (key === 'direction' && ['flowchart','requirement'].includes(input.family)) {
       const direction = String(facts.direction), edges = input.expected.edges ?? [], indegree = new Map((input.expected.nodes ?? []).map(node => [node.id, 0]))
       for (const edge of edges) indegree.set(edge.target, (indegree.get(edge.target) ?? 0) + 1)
       const remaining = new Map(indegree), ready = [...remaining].filter(([, degree]) => !degree).map(([id]) => id)
       let visited = 0
       for (let index = 0; index < ready.length; index++) { const id = ready[index]!; visited++; for (const edge of edges.filter(edge => edge.source === id)) { const degree = (remaining.get(edge.target) ?? 0) - 1; remaining.set(edge.target, degree); if (!degree) ready.push(edge.target) } }
-      const supported = ['TB', 'TD', 'BT', 'LR', 'RL'].includes(direction) && edges.length === indegree.size - 1 && edges.length > 0 && visited === indegree.size && [...indegree.values()].every(degree => degree <= 1) && (input.expected.nodes ?? []).every(node => edges.filter(edge => edge.source === node.id).length <= 1) && !input.expected.groups?.length && !/^\s*(?:direction|subgraph)\s+/im.test(input.source) && edges.every(edge => nodeById.has(edge.source) && nodeById.has(edge.target))
+      const supported = ['TB', 'TD', 'BT', 'LR', 'RL'].includes(direction) && edges.length === indegree.size - 1 && edges.length > 0 && visited === indegree.size && [...indegree.values()].every(degree => degree <= 1) && (input.expected.nodes ?? []).every(node => edges.filter(edge => edge.source === node.id).length <= 1) && !input.expected.groups?.length && (input.family !== 'flowchart' || !/^\s*(?:direction|subgraph)\s+/im.test(input.source)) && edges.every(edge => nodeById.has(edge.source) && nodeById.has(edge.target))
+      if (input.family === 'requirement') {
+        const actual = edges.map(edge => {
+          const a = nodeById.get(edge.source)?.box, b = nodeById.get(edge.target)?.box
+          const horizontal = a && b && Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y)>1 && (a.x+a.width<=b.x+1 || b.x+b.width<=a.x+1)
+          const vertical = a && b && Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)>1 && (a.y+a.height<=b.y+1 || b.y+b.height<=a.y+1)
+          return { source: edge.source, target: edge.target, actualDirection: horizontal ? a!.x < b!.x ? 'LR' : 'RL' : vertical ? a!.y < b!.y ? 'TB' : 'BT' : null }
+        })
+        const owned = ['painted-node-ownership','visible-authored-labels','unclipped-authored-labels','paint-opacity-and-color'].every(key => checkById.get(key)?.status === 'passed')
+        add(key, actual, supported && owned && actual.every(edge => edge.actualDirection) ? actual.every(edge => edge.actualDirection === (direction === 'TD' ? 'TB' : direction)) : null, 'Pinned requirement syntax explicitly defines TB/BT/LR/RL layout. On a connected simple chain with independently owned boxes and exposed captions, disjoint box intervals on one axis and overlapping intervals on the other identify actual row/column rank and sign. Branches, cycles and diagonal/ambiguous layouts stay unknown; relationship arrow direction and body visibility remain separate obligations.')
+        continue
+      }
       const actual = edges.map(edge => {
         const a = nodeById.get(edge.source)?.box, b = nodeById.get(edge.target)?.box
         return { source: edge.source, target: edge.target, dx: a && b ? b.x + b.width / 2 - a.x - a.width / 2 : null, dy: a && b ? b.y + b.height / 2 - a.y - a.height / 2 : null }
