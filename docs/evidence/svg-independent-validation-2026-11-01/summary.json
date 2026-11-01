@@ -1,0 +1,133 @@
+{
+  "schema": "trident-independent-svg-validation-summary-v1",
+  "scope": "Small source-derived mechanism validation, plus only five full ordinary original-SVG rechecks. This is not a new corpus ranking or a claim that a sample validates all cases.",
+  "runtimeCommit": "6888db854d44436fe0e4b25fc2cada8042ae0217",
+  "sourceContractsSha256": "deb6f5506e66a329464a3f80f5c0738c899ca98a296d9209bd947aaa56c5bfe9",
+  "observerSha256": "e9824a33296f38635da1b80a0fe00e7e4433058ff95606e23161b9f4cf4832ce",
+  "result": "result.json.gz",
+  "resultSha256": "47eefa1eb7a398b7106801ef0e078a147381342ab25285b35b82ff7b36dfd762",
+  "producer": "producer.json.gz",
+  "producerSha256": "6353adce131e5930a22a2668904b1032f9bc0770b5235904389b0933976d3da4",
+  "mechanismTest": "tests/independent-svg-validation.test.ts",
+  "findings": [
+    {
+      "mechanism": "packet absolute spans versus relative proportions",
+      "before": "A30px short field could pass the4%-ratio predicate and fail the absolute bit-unit predicate under the same criterion, throwing at merge.",
+      "after": "Relative ratios are a supplementary finite-profile criterion. Absolute span/offset/row proof stays required; complete wrapped-segment proof can replace only its unavailable relative projection."
+    },
+    {
+      "mechanism": "actual overpaint versus source-fact credit",
+      "before": "A fully opaque intrinsic image over a saved packet left source-fact:fields passed. This was an individual-fact false positive; the generic whole-drawing check was already unknown.",
+      "after": "Later overlapping image/use extents withhold domain/chart/quantity carrier credit. Hidden and outside images retain positives; no image transparency or pixel decoder is invented."
+    },
+    {
+      "mechanism": "explicit requirement layout",
+      "before": "Pinned source explicitly requestsLR, but direction had been treated as advisory.",
+      "after": "Source policy independently restored the required fact. Owned row/column box ranks with exposed captions qualify a connected simple chain; wrong-axis controls fail and ambiguous layouts stay unknown."
+    }
+  ],
+  "cases": [
+    {
+      "index": 321,
+      "id": "packages/mermaid/src/docs/syntax/packet.md:34",
+      "priorStatus": "correct",
+      "status": "correct",
+      "failedChecks": [],
+      "unknownChecks": [],
+      "sourceSha256": "48358a7c12b012d991051f4eb2143b72941245d1959ef90cba4f6b6aa2df5d41",
+      "originalSvgSha256": "a9905384effc85d0359120f74e77a12991a6fd4c822f7f73c05f1d43167ae686",
+      "originalSvgWitness": "drawings/a9905384effc85d0359120f74e77a12991a6fd4c822f7f73c05f1d43167ae686.svg.gz",
+      "parentInvocationId": "7d3199d7-ad88-4963-aa85-1e5f78c5143c",
+      "parentMeasuredAt": "2026-10-31T19:23:26.965Z",
+      "binding": {
+        "sourceSha256": "48358a7c12b012d991051f4eb2143b72941245d1959ef90cba4f6b6aa2df5d41",
+        "expectationsSha256": "3ddcbcba7283a244806100112b3878d0cd1307c89eb8e8e75d3fb6043baab6d2",
+        "svgSha256": "a9905384effc85d0359120f74e77a12991a6fd4c822f7f73c05f1d43167ae686",
+        "observerSha256": "e9824a33296f38635da1b80a0fe00e7e4433058ff95606e23161b9f4cf4832ce"
+      }
+    },
+    {
+      "index": 322,
+      "id": "packages/mermaid/src/docs/syntax/packet.md:58",
+      "priorStatus": "correct",
+      "status": "correct",
+      "failedChecks": [],
+      "unknownChecks": [],
+      "sourceSha256": "fb4fdb7915186d14afc27515403449129c1f0390d74f483bcddeaf730b827ce5",
+      "originalSvgSha256": "4fd24d344a37fcddecb44f20dd6433d6278b9e05361c1a977f103c8c04f40f95",
+      "originalSvgWitness": "drawings/4fd24d344a37fcddecb44f20dd6433d6278b9e05361c1a977f103c8c04f40f95.svg.gz",
+      "parentInvocationId": "80aaf613-e8f3-4159-999a-19b11c0198ae",
+      "parentMeasuredAt": "2026-10-31T19:23:27.630Z",
+      "binding": {
+        "sourceSha256": "fb4fdb7915186d14afc27515403449129c1f0390d74f483bcddeaf730b827ce5",
+        "expectationsSha256": "73ab506022044b96cc7a537914c881ecc5704f26debe350f72670dc90d75728b",
+        "svgSha256": "4fd24d344a37fcddecb44f20dd6433d6278b9e05361c1a977f103c8c04f40f95",
+        "observerSha256": "e9824a33296f38635da1b80a0fe00e7e4433058ff95606e23161b9f4cf4832ce"
+      }
+    },
+    {
+      "index": 323,
+      "id": "packages/mermaid/src/docs/syntax/packet.md:77",
+      "priorStatus": "correct",
+      "status": "correct",
+      "failedChecks": [],
+      "unknownChecks": [],
+      "sourceSha256": "16d2b45d5aab2633aade4fab58149b9f5b7d78fd96e6b5e644ab615e4a4be4e6",
+      "originalSvgSha256": "b3fa7b0b355fb0215e8f2c23fd9a3d675da7a3b086fdfe68649ab144cf53577e",
+      "originalSvgWitness": "drawings/b3fa7b0b355fb0215e8f2c23fd9a3d675da7a3b086fdfe68649ab144cf53577e.svg.gz",
+      "parentInvocationId": "6d258cac-63d9-4a82-8f4b-c6f1465d7015",
+      "parentMeasuredAt": "2026-10-31T19:23:27.932Z",
+      "binding": {
+        "sourceSha256": "16d2b45d5aab2633aade4fab58149b9f5b7d78fd96e6b5e644ab615e4a4be4e6",
+        "expectationsSha256": "84c16c499d9fdbf69c497e6faf2bc38a78551367b28b4929f8b01bbc5393790e",
+        "svgSha256": "b3fa7b0b355fb0215e8f2c23fd9a3d675da7a3b086fdfe68649ab144cf53577e",
+        "observerSha256": "e9824a33296f38635da1b80a0fe00e7e4433058ff95606e23161b9f4cf4832ce"
+      }
+    },
+    {
+      "index": 324,
+      "id": "packages/mermaid/src/docs/syntax/packet.md:121",
+      "priorStatus": "incorrect",
+      "status": "incorrect",
+      "failedChecks": [
+        "source-fact:authored-config"
+      ],
+      "unknownChecks": [],
+      "sourceSha256": "3567105d88bb41a5410baee609b4562e85c000198de3e270817aa60bb1f2ad64",
+      "originalSvgSha256": "d4e12f91645a3ef64e6ce7349df16a69f3afcd9648d937cf0a5ed901c5ec3028",
+      "originalSvgWitness": "drawings/d4e12f91645a3ef64e6ce7349df16a69f3afcd9648d937cf0a5ed901c5ec3028.svg.gz",
+      "parentInvocationId": "8c66030e-3359-49bb-84b3-67b0ca153f41",
+      "parentMeasuredAt": "2026-10-31T19:23:28.104Z",
+      "binding": {
+        "sourceSha256": "3567105d88bb41a5410baee609b4562e85c000198de3e270817aa60bb1f2ad64",
+        "expectationsSha256": "a7a4c34bdf7d7288a3c083f3ecb4e1d004182a2b1192040e680c04c19b2c53f8",
+        "svgSha256": "d4e12f91645a3ef64e6ce7349df16a69f3afcd9648d937cf0a5ed901c5ec3028",
+        "observerSha256": "e9824a33296f38635da1b80a0fe00e7e4433058ff95606e23161b9f4cf4832ce"
+      }
+    },
+    {
+      "index": 352,
+      "id": "packages/mermaid/src/docs/syntax/requirementDiagram.md:258",
+      "priorStatus": "unknown",
+      "status": "unknown",
+      "failedChecks": [],
+      "unknownChecks": [
+        "standalone-svg-and-labels"
+      ],
+      "sourceSha256": "4bff091ab718b957ce1a1c2960676f6feed8121dd48e1b550466524b7407eee0",
+      "originalSvgSha256": "8fc1c15a441d16191b1d514cfb7650477ca87a6868d20d6b70b1491fac300f89",
+      "originalSvgWitness": "drawings/8fc1c15a441d16191b1d514cfb7650477ca87a6868d20d6b70b1491fac300f89.svg.gz",
+      "parentInvocationId": "e9970ae2-86fd-4f43-8b1f-3f3b9c476180",
+      "parentMeasuredAt": "2026-10-31T19:23:49.552Z",
+      "binding": {
+        "sourceSha256": "4bff091ab718b957ce1a1c2960676f6feed8121dd48e1b550466524b7407eee0",
+        "expectationsSha256": "a9603820897265f274fe3f423ac42bb8ff22ca9857ae83673647d47af1f35c1b",
+        "svgSha256": "8fc1c15a441d16191b1d514cfb7650477ca87a6868d20d6b70b1491fac300f89",
+        "observerSha256": "e9824a33296f38635da1b80a0fe00e7e4433058ff95606e23161b9f4cf4832ce"
+      }
+    }
+  ],
+  "otherCases": "Every other original548 case retains its prior observer epoch; no B0 artifact is replaced or relabelled.",
+  "projectRendererInvocations": 0,
+  "aggregateCorpusResultUpdated": false
+}
