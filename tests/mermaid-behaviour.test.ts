@@ -7,6 +7,7 @@ import corpus from '../corpus/mermaid-behaviour-tests.json' with { type: 'json' 
 import { buildBehaviourCorpus, type BehaviourCase } from '../unified/mermaid-behaviour-corpus.ts'
 import { assessBehaviourCase, evaluateBehaviourStep, replayMermaidBehaviours, requireBehaviourReference } from '../unified/mermaid-behaviour.ts'
 import { captureBehaviourRaw, readBehaviourCapture, runNativeBehaviours, type BehaviourAdapter } from '../unified/mermaid-behaviour-capture.ts'
+import { readBehaviourEvidence } from '../unified/mermaid-behaviour-evidence.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 const temp = useTempDirs('mermaid-behaviour-')
 const root = new URL('../', import.meta.url).pathname, cases = corpus.cases as BehaviourCase[]
@@ -61,6 +62,9 @@ test('actual retained154 raw values qualify49 reference behaviours, preserve abs
   expect(report.targets[2]!.counts).toEqual({ passed: 0, failed: 0, unavailable: 0, unrun: 49 })
   expect(report.projectInvocations).toBe(0)
   expect(requireBehaviourReference(out)).toMatchObject({ qualified: true, cases: 49 })
+  expect(readBehaviourEvidence(out).targets[1].counts.passed).toBe(29)
+  const reportFile = join(out, 'report.json'), altered = JSON.parse(readFileSync(reportFile, 'utf8')); altered.targets[1].counts.passed = 49; writeFileSync(reportFile, JSON.stringify(altered))
+  expect(() => readBehaviourEvidence(out)).toThrow('re-evaluated')
   const contextPath = join(out, 'parent-public-tests/context.json'), context = JSON.parse(readFileSync(contextPath, 'utf8')); context.sourceCommit = '0'.repeat(40); writeFileSync(contextPath, JSON.stringify(context))
   expect(() => requireBehaviourReference(out)).toThrow()
 })
@@ -109,4 +113,19 @@ test('new-peer saved captures regrade portably with actual copied Mermaid refere
   expect(report.projectInvocations).toBe(0)
   expect(report.targets[0]!.counts).toEqual({ passed: 1, failed: 0, unavailable: 0, unrun: 48 })
   expect(requireBehaviourReference(join(out, 'reference-behaviour')).qualified).toBe(true)
+  expect(readBehaviourEvidence(out).targets[0].counts).toEqual({ passed: 1, failed: 0, unavailable: 0, unrun: 48 })
+  expect(readBehaviourEvidence(out).measuredAt).not.toBeNull()
+})
+test('included bridge automatically seals config selection and configured public module bytes', () => {
+  for (const mutation of ['config', 'module']) {
+    const dir = temp.dir(), config = join(dir, 'config.json'), module = join(dir, 'public.mjs'), extra = join(dir, 'declared.txt')
+    writeFileSync(module, 'export const detect=()=>"flowchart"'); writeFileSync(extra, 'declared artifact')
+    writeFileSync(config, JSON.stringify({ module, detect: { export: 'detect' } }))
+    const adapter: BehaviourAdapter = { schema: 'mermaid-behaviour-stdio-adapter-v1', project: 'fixture/native', version: '1', executable: realpathSync(process.execPath), adapter: join(root, 'unified/mermaid-behaviour-node-adapter.mjs'), args: [config], artifactFiles: [extra], capabilities: ['detect-family'], bindingDescription: 'Synthetic control: public module and config intentionally omitted from manual artifactFiles' }
+    expect(() => captureBehaviourRaw(join(dir, 'capture'), adapter, [detection], () => {
+      if (mutation === 'config') writeFileSync(config, JSON.stringify({ module, detect: { export: 'other' } }))
+      else writeFileSync(module, 'export const detect=()=>"pie"')
+      return { status: 0, signal: null, stdout: Buffer.from('{"family":"flowchart"}'), stderr: new Uint8Array() }
+    })).toThrow('changed during capture')
+  }
 })

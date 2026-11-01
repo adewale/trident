@@ -20,7 +20,17 @@ export function readBehaviourAdapter(file: string): BehaviourAdapter {
   for (const path of [value.executable, value.adapter, ...value.artifactFiles]) if (typeof path !== 'string' || !isAbsolute(path) || realpathSync(path) !== path) throw Error('Adapter executable, script and artifact paths must be absolute physical files')
   return value
 }
-const snapshot = (adapter: BehaviourAdapter) => ({ executable: { path: adapter.executable, sha256: sha(adapter.executable) }, adapter: { path: adapter.adapter, sha256: sha(adapter.adapter) }, artifacts: [...new Set([...adapter.artifactFiles, ...(adapter.args ?? []).filter(arg => isAbsolute(arg) && existsSync(arg) && statSync(arg).isFile())])].map(path => ({ path, sha256: sha(path) })), scope: 'Declared executable, public adapter, file arguments and artifact files only; no claim about undeclared dependencies or internal API-entry clocks' })
+const snapshot = (adapter: BehaviourAdapter) => {
+  let standardBridge: { config: string; configSha256: string; module: string; moduleSha256: string } | null = null
+  if (sha(adapter.adapter) === sha(new URL('./mermaid-behaviour-node-adapter.mjs', import.meta.url).pathname)) {
+    const config = adapter.args?.[0]
+    if (!config || !isAbsolute(config) || realpathSync(config) !== config) throw Error('Included Node bridge requires an absolute physical config-file argument')
+    const module = read(config).module
+    if (typeof module !== 'string' || !isAbsolute(module) || realpathSync(module) !== module || !statSync(module).isFile()) throw Error('Included Node bridge requires an absolute physical public module file')
+    standardBridge = { config, configSha256: sha(config), module, moduleSha256: sha(module) }
+  }
+  return { executable: { path: adapter.executable, sha256: sha(adapter.executable) }, adapter: { path: adapter.adapter, sha256: sha(adapter.adapter) }, standardBridge, artifacts: [...new Set([...adapter.artifactFiles, ...(adapter.args ?? []).filter(arg => isAbsolute(arg) && existsSync(arg) && statSync(arg).isFile()), ...(standardBridge ? [standardBridge.config, standardBridge.module] : [])])].map(path => ({ path, sha256: sha(path) })), scope: 'Declared executable, public adapter, file arguments and artifact files only; included Node-bridge config and public module are automatic. No claim about undeclared dependencies or internal API-entry clocks' }
+}
 const identity = (context: any, input: BehaviourCase, step: number) => ({ project: context.adapter.project, caseId: input.id, sourceSha256: input.steps[step]!.sourceSha256, artifactSha256: context.artifactSha256, bindingSha256: context.bindingSha256, format: input.operation === 'svg-accessibility' ? 'svg' : 'json', coordinate: 'behaviour-step:' + step })
 
 /** Injected executor keeps unit controls synthetic. The CLI is the only native
@@ -28,7 +38,7 @@ const identity = (context: any, input: BehaviourCase, step: number) => ({ projec
 export function captureBehaviourRaw(directory: string, adapter: BehaviourAdapter, cases: readonly BehaviourCase[], execute: BehaviourExecutor) {
   const root = resolve(directory)
   if (existsSync(root)) throw Error('Fresh native behaviour capture directory required')
-  const before = snapshot(adapter), artifactSha256 = evidenceDigest(before.artifacts), bindingSha256 = evidenceDigest({ adapter: before.adapter, executable: before.executable, args: adapter.args ?? [], capabilities: adapter.capabilities, bindingDescription: adapter.bindingDescription })
+  const before = snapshot(adapter), artifactSha256 = evidenceDigest(before.artifacts), bindingSha256 = evidenceDigest({ adapter: before.adapter, executable: before.executable, standardBridge: before.standardBridge, args: adapter.args ?? [], capabilities: adapter.capabilities, bindingDescription: adapter.bindingDescription })
   mkdirSync(root, { recursive: true }); copyFileSync(adapter.adapter, join(root, 'executed-adapter.txt')); copyFileSync(import.meta.filename, join(root, 'capture-producer.ts.txt'))
   const context = { schema: 'mermaid-behaviour-native-capture-v1', protocol: corpus.protocol, recordedRoot: root, adapter, artifactSnapshot: before, artifactSha256, bindingSha256, corpusSha256: sha(new URL('../corpus/mermaid-behaviour-tests.json', import.meta.url).pathname), producerSha256: sha(import.meta.filename), scope: 'Actual host-observed JSON-stdio adapter processes. Each request contains only source and operation; stdout/stderr and process outcomes are retained before assertions. No internal public-API entry or performance clock is inferred.' }
   writeFileSync(join(root, 'context.json'), JSON.stringify(context, null, 2))
@@ -51,7 +61,7 @@ export function captureBehaviourRaw(directory: string, adapter: BehaviourAdapter
 
 export function readBehaviourCapture(directory: string, cases: readonly BehaviourCase[] = corpus.cases as BehaviourCase[]) {
   const root = realpathSync(directory), context = read(ownedBehaviourFile(root, 'context.json')), saved = read(ownedBehaviourFile(root, 'capture.json'))
-  if (context.schema !== 'mermaid-behaviour-native-capture-v1' || context.protocol !== corpus.protocol || saved.contextSha256 !== sha(ownedBehaviourFile(root, 'context.json')) || context.corpusSha256 !== sha(new URL('../corpus/mermaid-behaviour-tests.json', import.meta.url).pathname) || context.producerSha256 !== sha(ownedBehaviourFile(root, 'capture-producer.ts.txt')) || context.artifactSnapshot.adapter.sha256 !== sha(ownedBehaviourFile(root, 'executed-adapter.txt')) || context.artifactSha256 !== evidenceDigest(context.artifactSnapshot.artifacts) || context.bindingSha256 !== evidenceDigest({ adapter: context.artifactSnapshot.adapter, executable: context.artifactSnapshot.executable, args: context.adapter.args ?? [], capabilities: context.adapter.capabilities, bindingDescription: context.adapter.bindingDescription })) throw Error('Native behaviour capture/source/adapter ownership changed')
+  if (context.schema !== 'mermaid-behaviour-native-capture-v1' || context.protocol !== corpus.protocol || saved.contextSha256 !== sha(ownedBehaviourFile(root, 'context.json')) || context.corpusSha256 !== sha(new URL('../corpus/mermaid-behaviour-tests.json', import.meta.url).pathname) || context.producerSha256 !== sha(ownedBehaviourFile(root, 'capture-producer.ts.txt')) || context.artifactSnapshot.adapter.sha256 !== sha(ownedBehaviourFile(root, 'executed-adapter.txt')) || context.artifactSha256 !== evidenceDigest(context.artifactSnapshot.artifacts) || context.bindingSha256 !== evidenceDigest({ adapter: context.artifactSnapshot.adapter, executable: context.artifactSnapshot.executable, standardBridge: context.artifactSnapshot.standardBridge, args: context.adapter.args ?? [], capabilities: context.adapter.capabilities, bindingDescription: context.adapter.bindingDescription })) throw Error('Native behaviour capture/source/adapter ownership changed')
   for (const name of ['checkpoint.json', 'checkpoint-units']) ownedBehaviourFile(root, 'journal/' + name)
   for (const name of readdirSync(join(root, 'journal/checkpoint-units'))) ownedBehaviourFile(root, 'journal/checkpoint-units/' + name)
   const frames = readCheckpointEntries(join(root, 'journal'), { schema: 'trident-invocation-journal-v1' }).map(([, frame]) => admitInvocationEvidence(frame)), seen = new Set<string>()
@@ -84,7 +94,8 @@ export function readBehaviourCapture(directory: string, cases: readonly Behaviou
     })
     return { ...assessBehaviourCase(input, values), evidence: { contextSha256: saved.contextSha256, steps: saved.steps.filter((entry: any) => entry.caseId === input.id) } }
   })
-  return { context, rows, counts: Object.fromEntries(['passed', 'failed', 'unavailable', 'unrun'].map(status => [status, rows.filter(row => row.status === status).length])) }
+  const actualFrames = frames.filter(frame => seen.has(frame.attemptId)), dates = actualFrames.map(frame => frame.recordedAt).filter((date): date is string => typeof date === 'string' && Number.isFinite(Date.parse(date))).sort((a, b) => Date.parse(a) - Date.parse(b))
+  return { context, rows, counts: Object.fromEntries(['passed', 'failed', 'unavailable', 'unrun'].map(status => [status, rows.filter(row => row.status === status).length])), actualCallBounds: { from: dates[0] ?? null, to: dates.at(-1) ?? null, attempts: seen.size, scope: 'Owned host-process request/outcome retention bounds; no internal API clock or timing score' } }
 }
 const sameIdentity = (a: unknown, b: unknown) => evidenceDigest(a) === evidenceDigest(b)
 
