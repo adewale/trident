@@ -27,6 +27,8 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   const boxes: Box[] = terminalRectangles(grid, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true, cornerPorts: true }).filter(box => !groupBoxes.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)).map(box => ({ ...box, label: normalizedTerminalText(box.lines.join(' ')) }))
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if (/^[●◉]$/.test(cell(x, y)) && expected.nodes.some(node => node.label === cell(x, y)) && !boxes.some(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)) boxes.push({ x, y, right: x, bottom: y, label: cell(x, y) })
   if (!boxes.length) return verdict('unknown', 'No qualified closed node containers or explicit state markers are inspectable in this output representation')
+  const disjoint = boxes.every((box, index) => boxes.every((other, at) => at === index || box.right < other.x || other.right < box.x || box.bottom < other.y || other.bottom < box.y))
+  if (!groupBoxes.length && disjoint && boxes.every(box => box.label) && boxes.length > expected.nodes.length) return verdict('incorrect', 'Additional independently closed, labelled node containers are absent from the authored node inventory')
   for (const node of expected.nodes) {
     const matches = boxes.filter(box => box.label.normalize('NFC') === normalizedTerminalText(node.label))
     if (!matches.length && (text.includes(node.label) || boxes.some(box => box.label.replace(/\s/g, '') === node.label.replace(/\s/g, '')))) return verdict('unknown', 'Visible authored label lacks a qualified node-container or wrapping projection: ' + node.label)
@@ -40,7 +42,6 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
     matches[0]!.id = node.id
   }
   if (boxes.length !== expected.nodes.length) {
-    const disjoint = boxes.every((box, index) => boxes.every((other, at) => at === index || box.right < other.x || other.right < box.x || box.bottom < other.y || other.bottom < box.y))
     if (!groupBoxes.length && disjoint && boxes.some(box => !box.id && box.label)) return verdict('incorrect', 'Additional independently closed, labelled node containers are absent from the authored node inventory')
     return verdict('unknown', 'Additional or nested containers need a reviewed ownership projection')
   }
