@@ -22,7 +22,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   }
   type Point = { x: number; y: number }
   type Box = Point & { width: number; height: number }
-  type Owned = { id: string; label: string; box: Box; anchorParts?: { tag: string; box: Box }[]; outline?: { tag: string; vertices?: Point[] | null; rx: number; ry: number }; style?: any }
+  type Owned = { id: string; label: string; box: Box; anchorParts?: { tag: string; layer?: number; box: Box }[]; outline?: { tag: string; vertices?: Point[] | null; rx: number; ry: number }; style?: any }
   type Route = { source: string; target: string; directed: boolean; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; box?: Box; start?: Point; end?: Point; dash?: string; strokePattern?: string; strokeWidth?: number; labels?: string[]; style?: any }
   const nodes = input.paint.nodes as Owned[], groups = input.paint.groups ?? [], routes = input.paint.connections as Route[], node = new Map(nodes.map(item => [item.id, item])), group = new Map(groups.map(item => [item.id, item]))
   const evidence = new Map([...input.paint.checks, ...(input.quantitative ?? [])].map(item => [item.criterion, item]))
@@ -47,6 +47,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       if (['defs', 'marker', 'clipPath', 'mask', 'symbol', 'title', 'desc'].includes(current.localName) || s.display === 'none' || ['hidden', 'collapse'].includes(s.visibility) || opacity < 1 / 255 || s.clipPath !== 'none' || s.maskImage !== 'none' || s.filter !== 'none' && evidence.get('paint-opacity-and-color')?.status !== 'passed' || s.mixBlendMode !== 'normal') return false
       if (current === svg) break
     }
+    if (['image','use','foreignObject'].includes(element.localName)) return box(element).width > 0 && box(element).height > 0
     const s = getComputedStyle(element), fill = rgba(element.namespaceURI === 'http://www.w3.org/2000/svg' ? s.fill : s.color), stroke = rgba(s.stroke)
     return !!fill && !!stroke && Math.max(element.localName === 'line' ? 0 : fill[3]! * Number(s.fillOpacity), stroke[3]! * Number(s.strokeOpacity) * (Number.parseFloat(s.strokeWidth) > 0 ? 1 : 0)) * opacity >= 1 && box(element).width + box(element).height > 0
   }
@@ -65,7 +66,9 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
   const paintedText = text.filter(paintable)
   const label = (value: string) => paintedText.filter(element => normalize(readText(element)) === normalize(value))
   const opaqueAlternative = !!svg.querySelector('image,use') || [...svg.querySelectorAll('path')].some(path => paintable(path) && getComputedStyle(path).fill !== 'none')
-  const geometry = [...svg.querySelectorAll('rect,circle,ellipse,polygon,polyline,path,line')].filter((element, layer) => paintable(element) && !input.paint.camouflagedGeometry?.some(item => (item.layer === undefined || item.layer === layer) && item.tag === element.localName && nearBox(item.box, box(element)))) as SVGGeometryElement[]
+  const allGeometry = [...svg.querySelectorAll('rect,circle,ellipse,polygon,polyline,path,line')]
+  const anchorPart = (element: SVGGeometryElement) => ({ tag: element.localName, layer: allGeometry.indexOf(element), box: box(element) })
+  const geometry = allGeometry.filter((element, layer) => paintable(element) && !input.paint.camouflagedGeometry?.some(item => (item.layer === undefined || item.layer === layer) && item.tag === element.localName && nearBox(item.box, box(element)))) as SVGGeometryElement[]
   const strokePaint = (element: Element) => { const css = getComputedStyle(element); return (rgba(css.stroke)?.[3] ?? 0) * Number(css.strokeOpacity) > 0 && Number.parseFloat(css.strokeWidth) > 0 }
   const safeText = (element: Element) => {
     if (!paintable(element) || !contains(box(svg), box(element)) || input.paint.camouflagedText?.some(item => normalize(item.text) === normalize(readText(element)) && nearBox(item.box, box(element)))) return false
@@ -101,7 +104,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     const heads = geometry.filter(element => ['circle', 'ellipse'].includes(element.localName) && Math.abs(box(element).width - box(element).height) <= 1 && box(element).width >= 4 && box(element).width < owner.box.width * .6 && Math.abs(center(box(element)).x - center(owner.box).x) <= 2 && center(box(element)).y < owner.box.y + 2 && Math.abs(box(element).y + box(element).height - owner.box.y) <= Math.max(4, box(element).height * .5))
     if (heads.length !== 1) continue
     const ink = [...torso, heads[0]!], boxes = ink.map(box), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)), union = { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y }
-    const actual: Owned = { ...owner, box: union, anchorParts: ink.map(element => ({ tag: element.localName, box: box(element) })) }; nodes[nodes.findIndex(node => node.id === owner.id)] = actual; node.set(owner.id, actual); qualifiedParts.set(owner.id, ink)
+    const actual: Owned = { ...owner, box: union, anchorParts: ink.map(anchorPart) }; nodes[nodes.findIndex(node => node.id === owner.id)] = actual; node.set(owner.id, actual); qualifiedParts.set(owner.id, ink)
   }
   const samples = (element: SVGGeometryElement, count = 128): Point[] => {
     const matrix = element.getScreenCTM(), length = element.getTotalLength()
@@ -153,6 +156,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     diamond: [{ x: .5, y: 0 }, { x: 1, y: .5 }, { x: .5, y: 1 }, { x: 0, y: .5 }],
     triangle: [{ x: .5, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 }],
     'inverted-triangle': [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: .5, y: 1 }],
+    'lightning-bolt': [{ x: 1, y: 0 }, { x: 0, y: .55 }, { x: .6, y: .55 }, { x: 0, y: 1 }, { x: 1, y: .45 }, { x: .4, y: .45 }],
     hexagon: [{ x: .15, y: 0 }, { x: .85, y: 0 }, { x: 1, y: .5 }, { x: .85, y: 1 }, { x: .15, y: 1 }, { x: 0, y: .5 }],
     asymmetric: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 }, { x: .15, y: .5 }],
     parallelogram: [{ x: .15, y: 0 }, { x: 1, y: 0 }, { x: .85, y: 1 }, { x: 0, y: 1 }],
@@ -268,7 +272,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         const observed = actorKind(ink)
         if (!observed || textBox.y - observed.box.y - observed.box.height > Math.max(20, textBox.height * 2)) continue
         actorProfiles.set(expected.id, observed); qualifiedParts.set(expected.id, observed.ink)
-        if (!node.has(expected.id)) { const actual: Owned = { ...expected, box: observed.box, anchorParts: observed.ink.map(element => ({ tag: element.localName, box: box(element) })), outline: { tag: 'compound-actor', vertices: null, rx: 0, ry: 0 } }; nodes.push(actual); node.set(expected.id, actual) }
+        if (!node.has(expected.id)) { const actual: Owned = { ...expected, box: observed.box, anchorParts: observed.ink.map(anchorPart), outline: { tag: 'compound-actor', vertices: null, rx: 0, ry: 0 } }; nodes.push(actual); node.set(expected.id, actual) }
         break
       }
     }
@@ -316,22 +320,40 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       return normalized.some((_, offset) => [1, -1].some(direction => template.every((p, i) => { const q = normalized[(offset + i * direction + normalized.length) % normalized.length]!; return coordinate(p.x, q.x, b.width) && coordinate(p.y, q.y, b.height) })))
     }
     const ellipse = ['circle', 'ellipse'].includes(body.localName) || (() => { const ps = samples(body); return ps.length > 20 && ps.every(p => Math.abs(((p.x - b.x) / b.width - .5) ** 2 * 4 + ((p.y - b.y) / b.height - .5) ** 2 * 4 - 1) < .055) })()
-    const actual = { tag: body.localName, vertices: normalized, parts: ink.map(element => ({ tag: element.localName, box: box(element) })) }
+    const actual = { tag: body.localName, vertices: normalized, parts: ink.map(anchorPart) }
     if (wanted === 'rectangle' && body.localName === 'rect') return { matches: !outline || Math.max(outline.rx / b.width, outline.ry / b.height) < .49, actual }
     if (polygonTemplates[wanted]) return { matches: normalized.length ? polygon(polygonTemplates[wanted]!) : ['rect', 'circle', 'ellipse'].includes(body.localName) || ellipse ? false : null, actual }
-    if (wanted === 'circle' || wanted === 'ellipse' || wanted === 'small-circle' || wanted === 'filled-circle') return { matches: ellipse && (wanted === 'ellipse' || Math.abs(b.width - b.height) < Math.max(2, b.width * .02)) && (wanted !== 'filled-circle' || (rgba(getComputedStyle(body).fill)?.[3] ?? 0) > 0), actual }
+    if (wanted === 'circle' || wanted === 'ellipse' || wanted === 'small-circle' || wanted === 'filled-circle') {
+      const circular = ellipse && (wanted === 'ellipse' || Math.abs(b.width - b.height) < Math.max(2, b.width * .02))
+      if (wanted !== 'filled-circle' || !circular) return { matches: circular, actual }
+      if (evidence.get('paint-opacity-and-color')?.status !== 'passed') return { matches: null,actual }
+      const centerPoint = center(b), radius = Math.min(b.width,b.height)/2, probes = [centerPoint,...[.2,.5,.8].flatMap(fraction=>Array.from({length:16},(_,i)=>({ x:centerPoint.x+Math.cos(i*Math.PI/8)*radius*fraction,y:centerPoint.y+Math.sin(i*Math.PI/8)*radius*fraction })))]
+      if ([...svg.querySelectorAll('image,use,foreignObject')].some(element=>paintable(element) && probes.some(point=>contains(box(element),{...point,width:0,height:0},0)))) return { matches:null,actual }
+      let background: number[] | null = [255,255,255,255]
+      for (let parent: Element | null=svg;parent;parent=parent.parentElement) { const css=getComputedStyle(parent),color=rgba(css.backgroundColor);if(css.backgroundImage!=='none'||color&&color[3]!>0&&color[3]!<255){background=null;break};if(color?.[3]===255){background=color;break} }
+      if (!background) return { matches:null,actual }
+      const layers=allGeometry.filter(paintable).map(element=>{const css=getComputedStyle(element);let alpha=1;for(let parent:Element|null=element;parent;parent=parent.parentElement){alpha*=Number(getComputedStyle(parent).opacity);if(parent===svg)break};return{element,matrix:(element as SVGGraphicsElement).getScreenCTM(),fill:rgba(css.fill),stroke:rgba(css.stroke),fillAlpha:alpha*Number(css.fillOpacity),strokeAlpha:alpha*Number(css.strokeOpacity),width:Number.parseFloat(css.strokeWidth)}})
+      const composite=(point:Point,beforeBody=false)=>{const color=[...background!];for(const layer of layers){if(beforeBody&&layer.element===body)break;if(!layer.matrix)continue;const local=new DOMPoint(point.x,point.y).matrixTransform(layer.matrix.inverse()),shape=layer.element as SVGGeometryElement;const over=(paint:number[]|null,alpha:number)=>{if(!paint)return;const coverage=paint[3]!/255*alpha;for(let i=0;i<3;i++)color[i]=color[i]!*(1-coverage)+paint[i]!*coverage};if(layer.element.localName!=='line'&&shape.isPointInFill(local))over(layer.fill,layer.fillAlpha);if(layer.width>0&&shape.isPointInStroke(local))over(layer.stroke,layer.strokeAlpha)}return color}
+      const colors=probes.map(point=>composite(point)),backdrop=composite(centerPoint,true),uniform=colors.every(color=>color.slice(0,3).every((value,index)=>Math.abs(value-colors[0]![index]!)<=2)),contrast=colors[0]!.slice(0,3).some((value,index)=>Math.abs(value-backdrop[index]!)>2)
+      return { matches:uniform&&contrast,actual:{...actual,discColors:colors,backdrop} }
+    }
     if (wanted === 'rounded' || wanted === 'stadium') {
       const ratio = outline?.tag === 'rect' ? Math.max(outline.rx / b.width, outline.ry / b.height) : null
-      if (ratio !== null) return { matches: wanted === 'stadium' ? ratio >= .48 : ratio > .01 && ratio < .48, actual: { ...actual, cornerRatio: ratio } }
+      if (ratio !== null && wanted === 'rounded') return { matches: outline!.rx > 0 && outline!.ry > 0 && ratio > .01 && ratio < .48, actual: { ...actual, cornerRatio: ratio } }
       const contour = samples(body, 2048), radius = Math.min(b.width, b.height) / 2, horizontal = b.width >= b.height
       const capsuleErrors = contour.map(p => horizontal ? Math.abs(Math.hypot(Math.max(b.x + radius - p.x, 0, p.x - b.x - b.width + radius), p.y - center(b).y) - radius) : Math.abs(Math.hypot(p.x - center(b).x, Math.max(b.y + radius - p.y, 0, p.y - b.y - b.height + radius)) - radius))
-      const capsule = contour.length > 32 && Math.max(...capsuleErrors) <= .75
-      return { matches: wanted === 'stadium' ? capsule ? true : normalized.length ? false : null : null, actual: { ...actual, cornerRatio: null, capsuleMaximumError: Math.max(...capsuleErrors) } }
+      const major = horizontal ? b.width : b.height, minor = horizontal ? b.height : b.width, toPoint = (u: number,v: number) => horizontal ? { x: b.x + u,y: b.y + v } : { x: b.x + v,y: b.y + u }
+      const capsuleOutline = Array.from({length:129},(_,i) => { const angle = Math.PI / 2 + i * Math.PI / 128;return toPoint(radius + Math.cos(angle) * radius,radius + Math.sin(angle) * radius) }).concat(Array.from({length:129},(_,i) => { const angle = -Math.PI / 2 + i * Math.PI / 128;return toPoint(major - radius + Math.cos(angle) * radius,radius + Math.sin(angle) * radius) }), Array.from({length:65},(_,i) => toPoint(radius + (major - minor) * i / 64,0)), Array.from({length:65},(_,i) => toPoint(radius + (major - minor) * i / 64,minor)))
+      const reverseError = contour.length ? Math.max(...capsuleOutline.map(point => Math.min(...contour.map(other => distance(point,other))))) : Infinity
+      const capsule = contour.length > 32 && Math.max(...capsuleErrors) <= .75 && reverseError <= .75
+      return { matches: wanted === 'stadium' ? capsule ? true : normalized.length ? false : null : null, actual: { ...actual, cornerRatio: null, capsuleMaximumError: Math.max(...capsuleErrors), capsuleMissingContourError: reverseError } }
     }
+    if (wanted === 'fork') return { matches: normalized.length ? polygon(polygonTemplates.rectangle!) && Math.max(b.width, b.height) >= Math.min(b.width, b.height) * 4 : null, actual }
     if (wanted === 'double-circle' || wanted === 'crossed-circle') {
-      const rings = ink.filter(element => ['circle', 'ellipse'].includes(element.localName) && distance(center(box(element)), center(b)) <= 1.5 && Math.abs(box(element).width - box(element).height) < 2)
-      const diagonals = ink.filter(element => { const ps = samples(element, 2); return ps.length === 3 && distance(ps[0]!, ps[2]!) > Math.min(b.width, b.height) * .6 && distance(ps[1]!, { x: (ps[0]!.x + ps[2]!.x) / 2, y: (ps[0]!.y + ps[2]!.y) / 2 }) < 1 && distance(ps[1]!, center(b)) < 2 })
-      return { matches: wanted === 'double-circle' ? rings.length === 2 && Math.abs(box(rings[0]!).width - box(rings[1]!).width) > 2 : rings.length === 1 && diagonals.length === 2, actual }
+      const round = (element: SVGGeometryElement) => { const c = box(element), ps = samples(element, 256); return c.width > 2 && Math.abs(c.width - c.height) < 2 && distance(center(c), center(b)) <= 1.5 && ps.length > 20 && ps.every(p => Math.abs(((p.x - c.x) / c.width - .5) ** 2 * 4 + ((p.y - c.y) / c.height - .5) ** 2 * 4 - 1) < .055) }
+      const rings = ink.filter(round).filter((element, index, all) => !all.slice(0, index).some(other => nearBox(box(other), box(element), .25)))
+      const diagonals = ink.filter(strokePaint).flatMap(element => strokes(element, 128)).filter(ps => straight(ps) && distance(ps[0]!, ps.at(-1)!) > Math.min(b.width, b.height) * .6 && distance({ x: (ps[0]!.x + ps.at(-1)!.x) / 2, y: (ps[0]!.y + ps.at(-1)!.y) / 2 }, center(b)) < 1 && Math.abs(ps[0]!.x - ps.at(-1)!.x) > b.width * .4 && Math.abs(ps[0]!.y - ps.at(-1)!.y) > b.height * .4).map(ps => [ps[0]!, ps.at(-1)!]).filter(([a,c], index, all) => !all.slice(0,index).some(([p,q]) => distance(a!,p!) < .5 && distance(c!,q!) < .5 || distance(a!,q!) < .5 && distance(c!,p!) < .5))
+      return { matches: wanted === 'double-circle' ? rings.length === 2 && Math.abs(box(rings[0]!).width - box(rings[1]!).width) > 2 : rings.length === 1 && diagonals.length === 2, actual: { ...actual, rings: rings.map(element => box(element)), diagonals } }
     }
     if (wanted === 'subroutine' || wanted === 'lined-rectangle' || wanted === 'divided-rectangle' || wanted === 'window-pane') {
       const segments = ink.filter(strokePaint).flatMap(element => { const points = element.localName === 'path' && (element.getAttribute('d')?.match(/[mM]/g)?.length ?? 0) > 1 ? null : vertices(element), closed = ['polygon', 'rect'].includes(element.localName) || /z\s*$/i.test(element.getAttribute('d') ?? ''); return points ? points.slice(0, closed ? points.length : -1).map((p, i) => [p, points[(i + 1) % points.length]!]) : strokes(element).filter(straight).map(points => [points[0]!, points.at(-1)!]) })
@@ -375,12 +397,58 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     // a bounding box or source shape string cannot silently satisfy them.
     return { matches: null, actual }
   }
+  if (Array.isArray(facts['symbol-only-nodes'])) {
+    const wanted = (input.expected.nodes ?? []).filter(expected => !expected.label && facts['symbol-only-nodes'].some((entry: any) => entry.id === expected.id && entry.labelPolicy === 'unprinted'))
+    const closed = (element: SVGGeometryElement) => {
+      if (['rect', 'circle', 'ellipse', 'polygon'].includes(element.localName)) return true
+      const ps = samples(element, 128), b = box(element), matrix = element.getScreenCTM()
+      return !!matrix && ps.length > 20 && (distance(ps[0]!, ps.at(-1)!) < .25 || [.2, .5, .8].some(x => [.2, .5, .8].some(y => element.isPointInFill(new DOMPoint(b.x + b.width * x, b.y + b.height * y).matrixTransform(matrix.inverse())))))
+    }
+    // Reconstruct complete physical components before assigning any source
+    // identity. Co-located rough fill/stroke layers and contained ring/cross
+    // parts belong to the same component; detached extra glyphs remain extra.
+    const possible = geometry.filter(element => box(element).width > 2 && box(element).height > 2 && closed(element) && !nodes.some(owner => owner.label && contains(owner.box, box(element))) && !paintedText.some(text => contains(box(element), box(text))))
+    const roots = possible.filter(element => !possible.some(other => other !== element && contains(box(other), box(element), .25) && area(box(other)) > area(box(element)) + 1)).filter((element, index, all) => !all.slice(0, index).some(other => nearBox(box(other), box(element), .25)))
+    const candidates = roots.map((shape,index)=>{
+      const b=box(shape),parts=geometry.filter(element=>contains(b,box(element),.25)),outer=samples(shape,2048)
+      if (shape.localName==='path' && (shape.getAttribute('d')?.match(/[mM]/g)?.length ?? 0)===1 && (rgba(getComputedStyle(shape).fill)?.[3] ?? 0)>0 && outer.length && distance(outer[0]!,outer.at(-1)!)>.25) { const first=outer[0]!,last=outer.at(-1)!,steps=Math.ceil(distance(first,last)*2);for(let i=1;i<=steps;i++)outer.push({x:last.x+(first.x-last.x)*i/steps,y:last.y+(first.y-last.y)*i/steps}) }
+      const round=(element:SVGGeometryElement)=>{const c=box(element),points=samples(element,128);return c.width>2&&Math.abs(c.width-c.height)<1.5&&distance(center(c),center(b))<1&&points.length>20&&points.every(point=>Math.abs(((point.x-c.x)/c.width-.5)**2*4+((point.y-c.y)/c.height-.5)**2*4-1)<.055)}
+      const roundBody=round(shape),diagonal=(points:Point[])=>straight(points)&&Math.abs(points[0]!.x-points.at(-1)!.x)>b.width*.4&&Math.abs(points[0]!.y-points.at(-1)!.y)>b.height*.4&&distance({x:(points[0]!.x+points.at(-1)!.x)/2,y:(points[0]!.y+points.at(-1)!.y)/2},center(b))<1
+      const qualified=parts.filter(element=>element===shape||samples(element,256).every(point=>outer.some(other=>distance(point,other)<.75))||roundBody&&(round(element)||strokes(element,128).every(diagonal)))
+      return {shape,index,box:b,parts,qualified,clean:qualified.length===parts.length}
+    })
+    const bodies = [...nodes.filter(owner => !wanted.some(expected => expected.id === owner.id)).map(owner => ({ key: owner.id, box: owner.box, parts: qualifiedParts.get(owner.id) ?? geometry.filter(element => nearBox(box(element), owner.box, .25)) })), ...candidates.map(candidate => ({ ...candidate, key: '@' + candidate.index }))]
+    const contact = (point: Point) => bodies.map(owner => ({ owner, distance: Math.min(...owner.parts.flatMap(element => samples(element, 128)).map(other => distance(point, other))) })).filter(item => item.distance <= 8).sort((a,b) => a.distance - b.distance)
+    const adjacency = geometry.filter(element => ['path','line','polyline'].includes(element.localName) && !bodies.some(owner => owner.parts.includes(element))).flatMap(element => { const ps = samples(element,128); if (!ps.length) return []; const a = contact(ps[0]!), b = contact(ps.at(-1)!); return a[0] && b[0] && a[0].owner.key !== b[0].owner.key && (!a[1] || a[1].distance > a[0].distance + 1) && (!b[1] || b[1].distance > b[0].distance + 1) ? [{ source: a[0].owner.key, target: b[0].owner.key }] : [] })
+    const mappings: Map<string,number>[] = []
+    const visit = (index: number, mapped: Map<string,number>, used: Set<number>) => {
+      if (mappings.length > 1) return
+      if (index === wanted.length) { mappings.push(new Map(mapped)); return }
+      const expected = wanted[index]!
+      for (const candidate of candidates) {
+        if (used.has(candidate.index)) continue
+        const lookup = (id: string) => id === expected.id ? '@' + candidate.index : mapped.has(id) ? '@' + mapped.get(id) : node.has(id) ? id : null
+        const parents = (input.expected.groups ?? []).filter(owner => owner.members.includes(expected.id))
+        if (parents.some(owner => !group.has(owner.id) || !contains(group.get(owner.id)!.box,candidate.box))) continue
+        if ((input.expected.edges ?? []).filter(edge => edge.source === expected.id || edge.target === expected.id).some(edge => { const a = lookup(edge.source), b = lookup(edge.target); return a && b && !adjacency.some(route => route.source === a && route.target === b || route.source === b && route.target === a) })) continue
+        mapped.set(expected.id,candidate.index);used.add(candidate.index);visit(index+1,mapped,used);mapped.delete(expected.id);used.delete(candidate.index)
+      }
+    }
+    if (wanted.length && wanted.length === candidates.length && candidates.length <= 8) visit(0,new Map(),new Set())
+    if (mappings.length === 1) for (const [id,index] of mappings[0]!) {
+      const candidate = candidates[index]!, css = getComputedStyle(candidate.shape), actual: Owned = { id, label: '', box: candidate.box, anchorParts: candidate.qualified.map(anchorPart), outline: { tag: candidate.shape.localName, vertices: vertices(candidate.shape), rx: 0, ry: 0 }, style: { fill: css.fill, fillOpacity: Number(css.fillOpacity), stroke: css.stroke, strokeOpacity: Number(css.strokeOpacity), strokeWidth: Number.parseFloat(css.strokeWidth), dash: css.strokeDasharray, opacity: Number(css.opacity) } }
+      const indexOf = nodes.findIndex(owner => owner.id === id);if (indexOf < 0) nodes.push(actual);else nodes[indexOf] = actual;node.set(id,actual);qualifiedParts.set(id,candidate.qualified)
+    }
+    if (mappings.length === 1 && (input.expected.nodes ?? []).every(expected => node.has(expected.id))) { exactNodes = evidence.get('painted-node-ownership')?.status !== 'failed'; add('painted-node-ownership', input.expected.nodes, nodes, exactNodes ? true : null, 'Unprinted source roles bind only after a unique bijection to complete visible physical components, using actual connector adjacency and independently owned group containment. Expected shape never chooses the component. Symmetric, missing or extra glyphs remain unqualified; no renderer ID or source label is an identity witness.') }
+    const actual = facts['symbol-only-nodes'].map((entry: any) => ({ id: entry.id, bound: mappings.length === 1 && mappings[0]!.has(entry.id) && candidates[mappings[0]!.get(entry.id)!]!.clean, box: node.get(entry.id)?.box ?? null, printed: paintedText.some(text => node.has(entry.id) && contains(node.get(entry.id)!.box, box(text))) }))
+    fact('symbol-only-nodes',actual,actual.every((entry: any) => entry.bound) ? actual.every((entry: any) => !entry.printed) : null,'Every explicitly unprinted source role owns one uniquely observed glyph component. Its requested silhouette is independently checked by node-shapes; empty captions alone do not prove the glyph exists.')
+  }
   if (input.family === 'state') {
     let compositeAdded = false
     for (const entry of facts['state-kinds'] ?? []) if (entry.kind === 'composite-state' && group.has(entry.id) && (!node.has(entry.id) || !nearBox(node.get(entry.id)!.box, group.get(entry.id)!.box))) {
       const owner = group.get(entry.id)!, previous = node.get(entry.id), ink = geometry.filter(shape => nearBox(box(shape), owner.box) || !!previous && nearBox(box(shape), previous.box))
       if (!ink.length || label(owner.label).filter(element => contains(owner.box, box(element)) && safeText(element)).length !== 1) continue
-      const actual: Owned = { id: entry.id, label: owner.label, box: owner.box, anchorParts: ink.map(element => ({ tag: element.localName, box: box(element) })), outline: { tag: ink[0]!.localName, vertices: vertices(ink[0]!), rx: 0, ry: 0 } }; node.set(entry.id, actual); const index = nodes.findIndex(node => node.id === entry.id); if (index < 0) nodes.push(actual); else nodes[index] = actual; compositeAdded = true
+      const actual: Owned = { id: entry.id, label: owner.label, box: owner.box, anchorParts: ink.map(anchorPart), outline: { tag: ink[0]!.localName, vertices: vertices(ink[0]!), rx: 0, ry: 0 } }; node.set(entry.id, actual); const index = nodes.findIndex(node => node.id === entry.id); if (index < 0) nodes.push(actual); else nodes[index] = actual; compositeAdded = true
     }
     const missing = (input.expected.nodes ?? []).filter(expected => !expected.label && !node.has(expected.id)), blankCandidates: { shape: SVGGeometryElement; parts: SVGGeometryElement[]; box: Box; kind: string; index: number }[] = []
     // Reconstruct bounded flat SVG paint at physical sample points. A black
@@ -462,7 +530,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     if (missing.length && choices.every(item => item.choices.length > 0) && choices.reduce((product, item) => product * item.choices.length, 1) <= 10000) visit(0, new Map(), new Set())
     if (mappings.length === 1) {
       for (const [id, index] of mappings[0]!) {
-        const candidate = blankCandidates[index]!, css = getComputedStyle(candidate.shape), outline = { tag: candidate.shape.localName, vertices: vertices(candidate.shape), rx: 0, ry: 0 }, observed: Owned = { id, label: '', box: candidate.box, anchorParts: candidate.parts.map(element => ({ tag: element.localName, box: box(element) })), outline, style: { fill: css.fill, fillOpacity: Number(css.fillOpacity), stroke: css.stroke, strokeOpacity: Number(css.strokeOpacity), strokeWidth: Number.parseFloat(css.strokeWidth), dash: css.strokeDasharray, opacity: Number(css.opacity) } }
+        const candidate = blankCandidates[index]!, css = getComputedStyle(candidate.shape), outline = { tag: candidate.shape.localName, vertices: vertices(candidate.shape), rx: 0, ry: 0 }, observed: Owned = { id, label: '', box: candidate.box, anchorParts: candidate.parts.map(anchorPart), outline, style: { fill: css.fill, fillOpacity: Number(css.fillOpacity), stroke: css.stroke, strokeOpacity: Number(css.strokeOpacity), strokeWidth: Number.parseFloat(css.strokeWidth), dash: css.strokeDasharray, opacity: Number(css.opacity) } }
         nodes.push(observed); node.set(id, observed); qualifiedParts.set(id, candidate.parts)
       }
       exactNodes = evidence.get('painted-node-ownership')?.status !== 'failed' && (input.expected.nodes ?? []).every(expected => node.has(expected.id)) && mappings[0]!.size === blankCandidates.length
@@ -504,7 +572,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     for (const expected of input.expected.nodes ?? []) if (!expected.label && !node.has(expected.id) && group.has(expected.id)) {
       const owner = group.get(expected.id)!, ink = geometry.filter(shape => nearBox(box(shape), owner.box))
       if (!ink.length) continue
-      const actual: Owned = { ...expected, box: owner.box, anchorParts: ink.map(element => ({ tag: element.localName, box: box(element) })), outline: { tag: ink[0]!.localName, vertices: vertices(ink[0]!), rx: 0, ry: 0 } }; node.set(expected.id, actual); nodes.push(actual); compositeAdded = true
+      const actual: Owned = { ...expected, box: owner.box, anchorParts: ink.map(anchorPart), outline: { tag: ink[0]!.localName, vertices: vertices(ink[0]!), rx: 0, ry: 0 } }; node.set(expected.id, actual); nodes.push(actual); compositeAdded = true
     }
     if (compositeAdded && (input.expected.nodes ?? []).every(expected => node.has(expected.id))) {
       exactNodes = evidence.get('painted-node-ownership')?.status !== 'failed'
@@ -1056,7 +1124,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
     }
     const minimumScreenScale = (matrix: DOMMatrix | null | undefined) => { const trace = matrix ? matrix.a ** 2 + matrix.b ** 2 + matrix.c ** 2 + matrix.d ** 2 : 0, determinant = matrix ? matrix.a * matrix.d - matrix.b * matrix.c : 0; return Math.sqrt(Math.max(0, (trace - Math.sqrt(Math.max(0, trace ** 2 - 4 * determinant ** 2))) / 2)) }
     const observations = (input.expected.nodes ?? []).map(expected => {
-      const owner = node.get(expected.id), declared = owner?.anchorParts?.flatMap(part => geometry.filter(element => element.localName === part.tag && nearBox(box(element), part.box, .25))), ink = declared?.length ? declared : qualifiedParts.get(expected.id) ?? bodies(expected.id).filter(element => !owner?.outline || element.localName === owner.outline.tag)
+      const owner = node.get(expected.id), declared = owner?.anchorParts?.flatMap(part => geometry.filter(element => (part.layer === undefined || allGeometry[part.layer] === element) && element.localName === part.tag && nearBox(box(element), part.box, .25))), ink = declared?.length ? declared : qualifiedParts.get(expected.id) ?? bodies(expected.id).filter(element => !owner?.outline || element.localName === owner.outline.tag)
       if (!owner || !ink.length) return { id: expected.id, exposed: null, coveredParts: [] }
       const known = new Set(qualifiedParts.get(expected.id) ?? []), coveredParts: unknown[] = []
       for (const shape of ink) {

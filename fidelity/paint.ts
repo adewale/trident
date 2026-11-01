@@ -4,7 +4,7 @@ import { plannedGraphFamilyCriteria } from './paint-graph-families.ts'
 export interface PaintCheck { criterion: string; status: 'passed' | 'failed' | 'unavailable'; expected: unknown; actual: unknown; scope: string }
 export interface PaintedTextLines { owner: Record<string, string | number>; label: string | null; lines: string[] | null; scope: string }
 export interface PaintEvidence { textInkBoxes?: { text: string; layoutBox: { x: number; y: number; width: number; height: number }; inkBox: { x: number; y: number; width: number; height: number } }[]; labelRepresentation?: 'uninspectable'; textLineBlocks?: PaintedTextLines[]; captions?: { label: string; box: { x: number; y: number; width: number; height: number } }[]; checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null; groups?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedText?: { text: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedGeometry?: { tag: string; layer?: number; box: { x: number; y: number; width: number; height: number } }[] }
-export interface QualifiedNodeAnchor { id: string; label: string; box: { x: number; y: number; width: number; height: number }; anchorParts?: { tag: string; box: { x: number; y: number; width: number; height: number } }[]; outline?: { tag: string } }
+export interface QualifiedNodeAnchor { id: string; label: string; box: { x: number; y: number; width: number; height: number }; anchorParts?: { tag: string; layer?: number; box: { x: number; y: number; width: number; height: number } }[]; outline?: { tag: string } }
 export interface PaintInput { family: string; expected: MeaningExpectation; paint?: PaintExpectation; qualifiedNodeAnchors?: QualifiedNodeAnchor[] }
 
 /** The authored request fixes the denominator before any renderer runs. */
@@ -499,7 +499,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const candidate = qualified[0]!, descriptions = candidate.anchorParts ?? (candidate.outline ? [{ tag: candidate.outline.tag, box: candidate.box }] : [])
     if (!descriptions.length) continue
     const sameBox = (a: Box, b: Box) => ['x', 'y', 'width', 'height'].every(key => Math.abs(a[key as keyof Box] - b[key as keyof Box]) <= .25)
-    const parts = descriptions.map(part => geometry.filter(element => element.localName === part.tag && sameBox(rect(element), part.box)))
+    const allGeometry = [...svg.querySelectorAll('path,line,rect,circle,ellipse,polygon,polyline')]
+    const parts = descriptions.map(part => geometry.filter(element => (part.layer === undefined || allGeometry[part.layer] === element) && element.localName === part.tag && sameBox(rect(element), part.box)))
     // Coincident fill/stroke layers may be one physical glyph. Sharing a box
     // alone is insufficient: compare the complete measured screen contours.
     const contours = new Map<Element, { points: Point[]; length: number; cells: Map<string, Point[]> }>()
@@ -538,7 +539,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const adjacent = Math.abs(middle.x - body.x) <= Math.max(12, union.width * .6) && Math.max(union.y - label.y - label.height, label.y - union.y - union.height, 0) <= Math.max(12, label.height * 1.5)
       if (!inside && !adjacent) continue
     }
-    anchors.set(source.id, { ...source, owner: observed[0]!, shape: observed[0]!, outlines: observed, box: union })
+    anchors.set(source.id, { ...source, owner: observed[0]!, shape: observed[0]!, outlines: [...new Set(parts.flat())], box: union })
     const index = missingNodes.indexOf(source.id); if (index >= 0) missingNodes.splice(index, 1)
   }
   // A common ancestor can contain several unrelated labels. It is not a
@@ -645,9 +646,24 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     }
     dashPatterns.set(element,result);return result
   }
-  const bind = (point: Point, clearance = 2) => {
+  const bind = (point: Point, clearance = 2, approach?: { direction: Point; extent: number }) => {
     const candidates = [...anchors.values()].map(node => {
-      if (!['sequence', 'zenuml'].includes(input.family)) return { id: node.id, distance: distanceToNode(point, node) }
+      if (!['sequence', 'zenuml'].includes(input.family)) {
+        let measured = distanceToNode(point,node)
+        if (measured > Math.max(2,clearance) && approach && approach.extent > 0 && measured <= approach.extent + Math.max(.75,approach.extent*.05)) {
+          const contact = (node.outlines ?? [node.shape]).flatMap(pointsOn).map(other => { const x = other.x-point.x,y=other.y-point.y;return { point: other,along: x*approach.direction.x+y*approach.direction.y,across: Math.abs(x*approach.direction.y-y*approach.direction.x) } }).filter(item => item.along >= 0 && item.along <= approach.extent && item.across <= Math.max(.75,approach.extent*.05)).sort((a,b)=>a.along-b.along)[0]
+          if (contact) {
+            const segment=Array.from({length:15},(_,i)=>({x:point.x+(contact.point.x-point.x)*(i+1)/16,y:point.y+(contact.point.y-point.y)*(i+1)/16}))
+            const intervening=[...svg.querySelectorAll('rect,circle,ellipse,polygon,path,image,use,foreignObject')].some(element=>{
+              if ((node.outlines??[node.shape]).includes(element)||!visible(element)||contains(rect(element),node.box,0)||!segment.some(p=>contains(rect(element),{...p,width:0,height:0},0))) return false
+              if (['image','use','foreignObject'].includes(element.localName)) return true
+              const style=getComputedStyle(element),shape=element as SVGGeometryElement,matrix=shape.getScreenCTM();return colorAlpha(style.fill)!==0&&Number(style.fillOpacity)>0&&matrix&&segment.some(p=>shape.isPointInFill(new DOMPoint(p.x,p.y).matrixTransform(matrix.inverse())))
+            })
+            if (!intervening) measured = 0
+          }
+        }
+        return { id: node.id,distance: measured }
+      }
       const lifelines = geometry.filter(element => {
         const start = pointFor(element, false), end = pointFor(element, true)
         return start && end && Math.abs(start.x - end.x) <= 1 && Math.abs(start.x - center(node.box).x) <= (node.outlines&&node.outlines.length>1?8:2) && Math.min(start.y, end.y) <= Math.max(node.box.y + node.box.height,...visibleMatches(node.label).filter(label=>Math.abs(center(rect(label)).x-center(node.box).x)<=Math.max(12,node.box.width*.6)&&rect(label).y>=node.box.y&&rect(label).y<=node.box.y+node.box.height+30).map(label=>rect(label).y+rect(label).height))+12 && Math.max(start.y, end.y) >= point.y && Math.min(start.y, end.y) <= point.y
@@ -799,7 +815,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     unresolvedProjection = true
     return false
   }
-  type Marker = { kind: string; point?: Point; unknown?: string; orientation?: boolean; clearance?: number; filled?: boolean }
+  type Marker = { kind: string; point?: Point; unknown?: string; orientation?: boolean; clearance?: number; filled?: boolean; approach?: { direction: Point; extent: number } }
   const markerFor = (element: Element, side: 'start' | 'end', endpoint: Point): Marker => {
     const setting = getComputedStyle(element)[side === 'start' ? 'markerStart' : 'markerEnd']
     if (!setting || setting === 'none') return { kind: 'none', point: endpoint }
@@ -813,6 +829,10 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (chevron && kind === 'unknown') return { kind, point: endpoint, unknown: 'The concave arrow has no qualified symmetric two-arm open contour' }
     if (!polygon || kind === 'unknown') return { kind, point: endpoint, unknown: 'Marker tip projection is unavailable' }
     const reference = { x: owner.refX.baseVal.value, y: owner.refY.baseVal.value }
+    if (!chevron && ['arrow','triangle','open-arrow'].includes(kind)) {
+      const ink=shape as SVGGeometryElement,point=new DOMPoint(reference.x,reference.y),edgeDistance=Math.min(...polygon.map((a,index)=>{const b=polygon[(index+1)%polygon.length]!,dx=b.x-a.x,dy=b.y-a.y,t=Math.max(0,Math.min(1,((reference.x-a.x)*dx+(reference.y-a.y)*dy)/Math.max(1e-12,dx*dx+dy*dy)));return Math.hypot(reference.x-a.x-t*dx,reference.y-a.y-t*dy)}))
+      if (!ink.isPointInFill(point) && !ink.isPointInStroke(point) && edgeDistance > Math.max(.5,Number.parseFloat(glyphStyle.strokeWidth)/2)) return {kind,point:endpoint,unknown:'The referenced directional glyph is physically detached from its stem reference point'}
+    }
     const directional = ['arrow', 'triangle', 'open-arrow'].includes(kind)
     const tangent = tangentAt(element, side)
     if (!tangent) return { kind, point: endpoint, unknown: 'No stable endpoint tangent for marker placement' }
@@ -832,7 +852,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const dx = (tip.x - reference.x) * viewScale * units * tangent.scale * reverse, dy = (tip.y - reference.y) * viewScale * units * tangent.scale * reverse
     const others = polygon.filter(point => point !== tip), base = { x: others.reduce((sum, point) => sum + point.x, 0) / others.length, y: others.reduce((sum, point) => sum + point.y, 0) / others.length }
     const size = Math.max(...polygon.map(point => Math.hypot(point.x - tip.x, point.y - tip.y))) * viewScale * units * tangent.scale
-    return { kind, filled: (shape.localName === 'polygon' || /z\s*$/i.test(shape.getAttribute('d') ?? '')) && getComputedStyle(shape).fill !== 'none' && Number(getComputedStyle(shape).fillOpacity) > 0 && colorAlpha(getComputedStyle(shape).fill) !== 0, point: { x: endpoint.x + tangent.x * dx - tangent.y * dy, y: endpoint.y + tangent.y * dx + tangent.x * dy }, clearance: Math.min(8, size / 2), ...(directional ? { orientation: (tip.x - base.x) * reverse * (side === 'start' ? -1 : 1) > 0 } : {}) }
+    return { kind, filled: (shape.localName === 'polygon' || /z\s*$/i.test(shape.getAttribute('d') ?? '')) && getComputedStyle(shape).fill !== 'none' && Number(getComputedStyle(shape).fillOpacity) > 0 && colorAlpha(getComputedStyle(shape).fill) !== 0, point: { x: endpoint.x + tangent.x * dx - tangent.y * dy, y: endpoint.y + tangent.y * dx + tangent.x * dy }, clearance: Math.min(8, size / 2), ...(directional ? { approach: { direction: { x: tangent.x * (tip.x-base.x) * reverse - tangent.y * (tip.y-base.y) * reverse,y: tangent.y * (tip.x-base.x) * reverse + tangent.x * (tip.y-base.y) * reverse },extent: size } } : {}), ...(directional ? { orientation: (tip.x - base.x) * reverse * (side === 'start' ? -1 : 1) > 0 } : {}) }
   }
   const inlineMarker = (element: Element, side: 'start' | 'end', endpoint: Point, other: Point): Marker => {
     const parent = element.parentElement
@@ -863,6 +883,22 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     void side
     return { kind, point: candidates[0]!.point }
   }
+  const qualifiedNotes: { element: Element; qualified: boolean; bridges: Element[] }[] = []
+  const authoredNotes: any = input.expected.facts?.notes
+  if (Array.isArray(authoredNotes)) for (const note of authoredNotes) if (typeof note.text === 'string') {
+    const complete = visibleMatches(note.text).filter(element => normalize(labelText(element)) === normalize(note.text)), outer = complete.filter(element => !complete.some(other => other !== element && other.contains(element)))
+    for (const element of outer) {
+      const own = ownedBox(element, '__presentation-note__'), target = anchors.get(note.target), separate = own && ![...anchors.values()].some(node => node.shape === own.shape || node.owner.contains(own.shape))
+      const bridges = separate && target ? geometry.filter(route => {
+        if (!['path','line','polyline'].includes(route.localName) || contains(own.box,rect(route)) || [...anchors.values()].some(node => contains(node.box,rect(route)))) return false
+        const style = getComputedStyle(route);if (style.fill !== 'none' || colorAlpha(style.stroke) === 0 || style.markerStart !== 'none' || style.markerEnd !== 'none') return false
+        const a = pointFor(route,false), b = pointFor(route,true)
+        return !!a && !!b && (distanceToInk(a,own.shape) <= 3 && distanceToNode(b,target) <= 6 || distanceToInk(b,own.shape) <= 3 && distanceToNode(a,target) <= 6)
+      }) : []
+      qualifiedNotes.push({ element, qualified: !!separate && (note.target ? bridges.length === 1 : true), bridges: bridges.length === 1 ? bridges : [] })
+    }
+  }
+  const noteConnectorInk = new Set(qualifiedNotes.filter(note => note.qualified).flatMap(note => note.bridges))
   const connections: Array<{ source: string; target: string; directed: boolean; startMarker: string; endMarker: string; startFilled?: boolean; endFilled?: boolean; element: Element }> = []
   const connectionLabels = new Map<Element, string[]>()
   const connectionLabelElements = new Map<Element, { label: string; element: Element }[]>()
@@ -870,7 +906,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   let paths = [...svg.querySelectorAll(edgeSelector)].filter(element => visible(element) && !camouflage(element) && ['path', 'line', 'polyline'].includes(element.localName))
   let unboundRelations = false, invalidMarker = false
   if (!paths.length) paths = geometry.filter(element => ['path', 'line', 'polyline'].includes(element.localName) && ![...anchors.values()].some(node => node.owner.contains(element)))
-  paths = paths.filter(element => !inlineShape(element))
+  const qualifiedNodeInk = new Set([...anchors.values()].flatMap(node => node.outlines ?? [node.shape]))
+  paths = paths.filter(element => !qualifiedNodeInk.has(element) && !noteConnectorInk.has(element) && !inlineShape(element))
   paths = paths.filter(element => {
     if (input.family !== 'state' || element.localName !== 'path' || !/[zZ]\s*$/.test(element.getAttribute('d') ?? '') || !colorAlpha(getComputedStyle(element).fill)) return true
     const panel = rect(element)
@@ -905,7 +942,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (first.orientation === false) first.kind = 'wrong-arrow-orientation'
     if (last.orientation === false) last.kind = 'wrong-arrow-orientation'
     if (first.unknown || last.unknown) unresolvedProjection = true
-    const source = bind(first.point ?? start, first.clearance), target = bind(last.point ?? end, last.clearance)
+    for (const marker of [first,last]) if (marker.approach) { const length=Math.hypot(marker.approach.direction.x,marker.approach.direction.y);if (length>0) marker.approach.direction={ x: marker.approach.direction.x/length,y: marker.approach.direction.y/length };else marker.approach=undefined }
+    const source = bind(first.point ?? start, first.clearance,first.approach), target = bind(last.point ?? end, last.clearance,last.approach)
     if (!source || !target) { unboundRelations = true; continue }
     connections.push({ source, target, directed: [first.kind, last.kind].some(kind => ['arrow', 'triangle', 'open-arrow'].includes(kind)), startMarker: first.kind, endMarker: last.kind, startFilled: first.filled, endFilled: last.filled, element })
   }
@@ -931,7 +969,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     else {
       const actual = connections.map(edge => keyFor(edge, false)).sort(), expected = input.expected.edges.map(edge => keyFor(edge, false)).sort()
       const equal = JSON.stringify(expected) === JSON.stringify(actual)
-      check('painted-relationships', expected, actual, equal && unboundRelations ? null : equal, equal && unboundRelations ? 'An explicitly identified relation has unbound endpoints; exact multiplicity is unavailable' : 'Owned outline/lifeline endpoint proximity and exact multiplicity. Clearance is at most max(2 CSS pixels, half the observed painted marker length), capped at 8; this is not a strict physical-touch certificate')
+      check('painted-relationships', expected, actual, equal && unboundRelations ? null : equal, equal && unboundRelations ? 'An explicitly identified relation has unbound endpoints; exact multiplicity is unavailable' : 'Owned outline/lifeline endpoint proximity and exact multiplicity. Ordinary clearance remains max(2 CSS pixels, half the observed marker length), capped at 8. A directional referenced marker may additionally approach one unique actual contour along its measured forward ray, no farther than its complete observed glyph extent and without an intervening owned node; this is not a strict physical-touch certificate')
     }
     if (decorationExpected) {
       const actual = connections.map(edge => keyFor(edge)).sort(), expected = input.expected.edges.map(edge => keyFor(edge)).sort()
@@ -994,13 +1032,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     return ranked[0] && ranked[0].distance <= Math.max(6, bounds.height * .75) && (!ranked[1] || ranked[1].distance > ranked[0].distance + 2) ? ranked[0].route : undefined
   }
   for (const edge of input.expected.edges ?? []) if (edge.label) for (const element of completeBlocks(edge.label)) presentationBlocks.push({ element, qualified: !!blockRoute(element) })
-  const notes: any = input.expected.facts?.notes
-  if (Array.isArray(notes)) for (const note of notes) if (typeof note.text === 'string') for (const element of completeBlocks(note.text)) {
-    const own = ownedBox(element, '__presentation-note__'), target = anchors.get(note.target)
-    const separate = own && ![...anchors.values()].some(node => node.shape === own.shape || node.owner.contains(own.shape))
-    const bridges = separate && target ? actualRoutes.filter(route => { const a = pointFor(route, false), b = pointFor(route, true); return a && b && (distanceToInk(a, own.shape) <= 3 && distanceToNode(b, target) <= 6 || distanceToInk(b, own.shape) <= 3 && distanceToNode(a, target) <= 6) }) : []
-    presentationBlocks.push({ element, qualified: !!separate && bridges.length === 1 })
-  }
+  for (const note of qualifiedNotes) presentationBlocks.push({ element: note.element, qualified: note.qualified })
   const dialect: any = input.expected.facts?.['dialect-kinds']
   if (Array.isArray(dialect)) for (const entry of dialect) if (entry.kind === 'stereotype' && typeof entry.value === 'string') {
     const value = normalize(entry.value), rowPattern = /^(?:«(.*)»|<<(.*)>>)$/u
@@ -1074,11 +1106,11 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   if (input.family === 'flowchart' && input.expected.nodes?.length) {
     const consumed = new Set<Element>(), compound: { expected: string; actual: string }[] = []
     const consume = (element: Element, expected: string) => { const actual = normalize(labelText(element)); if (actual !== normalize(expected)) { compound.push({ expected, actual }); return }; consumed.add(element); for (const fragment of fragmentedLabels.get(element) ?? []) consumed.add(fragment) }
-    for (const node of anchors.values()) for (const element of visibleMatches(node.label)) { const owned = ownedBox(element, node.id); if (owned?.shape === node.shape) consume(element, node.label) }
+    for (const node of anchors.values()) if (node.label) for (const element of visibleMatches(node.label)) { const owned = ownedBox(element, node.id); if (owned?.shape === node.shape) consume(element, node.label) }
     for (const entries of connectionLabelElements.values()) for (const entry of entries) consume(entry.element, entry.label)
     const isConsumed = (element: Element) => [...consumed].some(owner => owner === element || owner.contains(element))
     let available = missingNodes.length === 0
-    const repeatedNodes = [...anchors.values()].filter(node => visibleMatches(node.label).filter(element => { const owned = ownedBox(element, node.id); return owned?.shape === node.shape }).length !== 1).map(node => node.id)
+    const repeatedNodes = [...anchors.values()].filter(node => node.label && visibleMatches(node.label).filter(element => { const owned = ownedBox(element, node.id); return owned?.shape === node.shape }).length !== 1).map(node => node.id)
     for (const group of input.expected.groups ?? []) { const box = groupBoxes.find(candidate => candidate.id === group.id)?.box, headers = box ? visibleMatches(group.label).filter(element => !isConsumed(element) && contains(box, labelBox(element), 2)) : []; if (headers.length !== 1) available = false; else consume(headers[0]!, group.label) }
     if (typeof input.expected.facts?.title === 'string') { const titles = visibleMatches(input.expected.facts.title).filter(element => !isConsumed(element)); if (titles.length !== 1) available = false; else consume(titles[0]!, input.expected.facts.title) }
     const attributes: any = input.expected.facts?.['node-attributes']
