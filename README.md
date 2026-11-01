@@ -30,132 +30,58 @@ outputs from the minimum verification cohorts; it is separate from the historica
 
 ## Benchmarks
 
-Trident compares DaveBench SVG/PNG rendering, pinned public API tests and terminal
-rendering. Authored harness regressions are unscored; optional public-model checks
-retain their separate API scope. Drawing checks and cost measurement are shared parts
-of those workloads. Verified counts, failures and unknowns retain separate
-populations; complete accuracy and general comparative performance remain unresolved.
-
-| Workload | What it measures | Results | Collector IDs |
+| Benchmark | What it measures | Corpus and expected answers | Results |
 |---|---|---|---|
-| **Documentation Examples — DaveBench** | Accurate SVG and PNG rendering of the same pinned Mermaid documentation corpus, inspired by [Dave Kiss's benchmark](https://x.com/davekiss/status/2111512440106078554). | Separate output-return and reviewed-content tables for each format. Incorrect, unknown and configuration-only examples stay visible; speed requires qualified matched work. | `docs` |
-| **Harness and observer regressions — unscored** | 100 AM/Trident-authored feature, reset and edit cases that exercise session isolation and bounded observers. | Diagnostic outcomes only; no renderer ranks, comparative accuracy or timing score. Sources, raw outputs and historical reports remain available. | `fidelity` (explicit) |
-| **Terminal Rendering — Project Examples** | The named active v3 corpus: 115 unchanged research drawings, one independently reviewed authored adaptation and four original invalid controls. | Verified correct, incorrect and unknown drawings over 116; typed rejection counts over four controls separately. The ambiguous original is a separate diagnostic in the 121-entry research inventory. Speed requires a separate qualified matched workload. | `bench --terminal` |
-| **Mermaid Public API Tests — diagnostic** | 154 unchanged callbacks from 37 declarations at the pinned Mermaid source: parsing, detection, structural accessibility and one SVG-return callback over 24 use-case examples. | Passed callbacks over the same 154 planned callbacks; failed, unsupported and binding gaps remain separate. Original and installed Mermaid controls pass all 154. The historical 41-callback scope remains separate. No whole-suite or drawing-accuracy claim. | `mermaid:public-tests --scope expanded-public` |
-| **Public Model Contracts — optional** | Public parsing and model inspection, including replacement sources and configuration reset. | Shared contracts separately from API-specific checks and missing bindings. | `native-fidelity` |
+| **DaveBench — Documentation Rendering** | How many documentation diagrams a project renders correctly, as SVG and PNG separately; qualified rendering time on named matched subsets. | 548 literal occurrences from 34 Mermaid syntax pages at [commit `1fb7869`](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/docs/syntax): 546 drawings, one invalid control and one configuration-only input. [Source facts](corpus/docs-reviewed.json) come from the inputs and documented syntax. Inspired by [Dave Kiss](https://x.com/davekiss/status/2111512440106078554). | Verified correct counts, correctness bounds, grading coverage and all nonpasses. SVG and PNG have independent verdicts. |
+| **Terminal Rendering — Project Examples** | How many diagrams a terminal renderer draws correctly, including visible relationships, labels and quantities; qualified time on matched inputs. | [Active v3](corpus/terminal-active-profile.json): 115 unchanged drawings from pinned project docs, tests, issues and PRs, one disclosed alias adaptation, and four invalid controls. [Original inventory](corpus/terminal-project-examples.json) retains URLs, revisions and licenses for 18 researched repositories. | 116 drawings ranked by verified correct count; unsupported, incorrect and unresolved outcomes remain visible. Mermaid ASCII is the terminal comparator; Mermaid is an unscored source reference. |
+| **Mermaid Behaviour Tests** | Observable behaviour selected from Mermaid's tests, without requiring Mermaid's exact JavaScript API or generated IDs. | A disclosed adapted subset of [Mermaid's pinned upstream tests](docs/mermaid-public-conformance.md), with original assertions and adaptation provenance preserved. | Each assertion is scored separately. Exact API compatibility remains a separate diagnostic; the selected behaviour tests do not establish whole-suite conformance. |
 
-Ordinary campaigns select `docs`. Select authored regressions explicitly with
-`--suites fidelity`. Select expensive performance collection
-explicitly with `--suites portable`, and optional model checks with
-`--suites native-fidelity`. `full` means the full selected workload and sampling;
-it does not enable every collector. Use `--plan` before collecting.
+[Benchmark definitions](BENCHMARKS.md) give commands, selection rules and limits.
+[RESULTS.md](RESULTS.md) is the generated ecosystem overview; the [frozen B0
+report](docs/qualification-results-2026-10-31.md) preserves the initial measured
+population and observer. New grading does not rewrite that baseline.
 
-DaveBench defaults to both output formats. Use `--docs-formats svg` or
-`--docs-formats png` to collect them separately. PNG-only renderers need no SVG
-binding; other participants can deliver PNG through an explicitly identified
-SVG-to-PNG conversion path. The source inventory is identical in both lanes.
+Every result names its corpus, revision, selection or adaptation, expected-answer
+origin, renderer artifact and output format. A verified-count rank orders the
+available evidence. Overlapping correctness bounds do not establish an accuracy
+winner. Performance belongs to each workload: browser calls, fresh CLI processes
+and complete PNG exports have separate clocks.
 
-The [qualification results](docs/qualification-results-2026-10-31.md) rank verified
-counts while complete drawing accuracy remains unresolved. [The bounded repair
-campaign](docs/benchmark-repair-2026-10-30.md) retains its earlier scope. Full DaveBench return scores are not counts
-of correctly drawn diagrams. The [reviewed source expectations](corpus/docs-reviewed.json)
-bind all 548 input occurrences. The [source census](docs/docs-source-expectations.md)
-records 547 complete contracts and one held duplicate-commit interpretation;
-all 546 drawing occurrences remain in the denominator, with one invalid-source
-control and one configuration-only input separate. Source transcription and output-observer qualification are
-separate; a complete contract alone earns no correctness credit. First-round
-outputs are retained for inspection and rechecking without rendering again. PNG
-content reviews bind actual image bytes and expected source facts; SVG or nonblank
-checks alone cannot establish PNG accuracy. A `--docs-png-review FILE` supplies
-those image reviews. The two-project PNG cohort retains actual Mermaid conversions
-and native Flutter images inspected at native dimensions. The
-[current summary](docs/evidence/png-full-corpus-2026-10-31/current-content-summary.json)
-and [all planned grades](docs/evidence/png-full-corpus-2026-10-31/current-content-grades.json.gz)
-separate admitted decisions, held facts and no-image outcomes.
-[Owning evidence](docs/evidence/png-full-corpus-2026-10-31/README.md) preserves repairs
-and held facts. Qualified overall speed comparisons remain incomplete.
+Ordinary DaveBench coverage makes one call per occurrence and format, with no
+warmups. It retains output before grading. Regrade those bytes when a checker
+changes; recollect only missing or unusable evidence. Qualified timing runs are
+separate and check every timed output plus A/A controls. Current PNG evidence is
+in the [summary](docs/evidence/png-remaining-2026-11-01/summary.json) and
+[grade ledger](docs/evidence/png-remaining-2026-11-01/current-content-grades.json.gz).
+Hashes bind a review to an image; they do not prove that its judgement is right.
 
-The [suite scope audit](docs/benchmark-scope-audit-2026-10-31.md) distinguishes
-shared benchmark machinery, duplicate collection and AM-specific diagnostics.
-
-The [saved comparison tables](RESULTS.md) retain historical methods and dates.
-Assertion Replay is retired as a comparative benchmark; Mermaid's own tests are
-an explicit reference-environment check (`--suites upstream-original`). The old
-nonblank-only PNG exporter is retired. The [reviewed fixed-PNG study](docs/davebench-png-seven-results.md)
-keeps its task-specific content review, performance results and limitations.
-Terminal Rendering defaults to the [named active v3 profile](docs/evidence/terminal-active-profile-2026-10-31/README.md).
-Its 120 calls comprise 116 drawings and four invalid controls; all active source
-profiles have bounded observers. Particular representations, missing outputs and
-required facts can still remain unknown. Mermaid ASCII is required outside
-explicit targeted extensions; Mermaid supplies an unscored source reference. Run
-`bench --terminal --plan` before collecting; `--corpus original` and saved v1/v2
-rechecks preserve the original 120 literal sources. [Retained full-cohort results](docs/evidence/terminal-state-adaptation-2026-10-31/README.md)
-order verified counts with unknowns; the [older results](docs/terminal-results-2026-10-31.md)
-retain their original scope.
-
-### Where the benchmarks come from
-
-Every benchmark description and results report names its corpus origin, source
-revision, selection or edits, and the origin of its expected answers. This applies
-to short summaries as well as saved tables; see [the reporting rule](REPORTING.md#what-belongs-above-a-table).
-
-| Corpus or profile | Where the inputs come from |
-|---|---|
-| DaveBench | Mermaid's [syntax documentation at commit `1fb7869`](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/docs/syntax): 548 fenced occurrences across 34 pages; 546 sources after trimming boundary whitespace, or 547 exact source bodies. Every occurrence retains its original bytes. Trident transcribes expected facts from the literal sources and their documented syntax, independently of candidate output. The [source audit](docs/docs-source-expectations.md) distinguishes extraction, review and unresolved interpretations. |
-| Mermaid Public Tests and reference validation | Mermaid's [original tests at that same commit](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b). The census preserves 4,060 declarations across 368 files. The [154-callback expanded scope](docs/mermaid-public-conformance.md) retains original assertions, exact source/fixture hashes and separate original/public-reference controls. The portable retained `expanded-154-bundle-v2` owns both disjoint raw parents; ordinary reporters revalidate their complete native evidence before reducing counts. Unbound public surfaces, private and disabled tests remain explicit. The historical 41 callbacks are not pooled with the expanded population. |
-| Authored regressions, model and cost cases | Development fixtures from AM and Trident, with explicit expected facts in [fidelity/cases.ts](fidelity/cases.ts) and [portable/cohorts.ts](portable/cohorts.ts). The 100 feature/edit cases are unscored harness/observer regressions; model diagnostics and qualified timing tracks have separate scopes. Original sources and evidence remain available. |
-| Legacy compatibility corpus | The [frozen AM corpus](corpus/community-corpus.json), imported from AM commit `de612cc08009cf8abbeae2d3795dac3baa0b5e36`. Its manifest also identifies upstream inputs. |
-| External repository examples | Examples and fixtures from the repositories and commits in [external-sources.json](corpus/external-sources.json), capped at 20 files per project. The frozen inventory retains file provenance, duplicates, licenses and extraction decisions. |
-| Terminal Rendering | The unchanged [original 120 literal sources](corpus/terminal-project-examples.json) come from 18 pinned repositories; 17 contribute inputs, with 67 terminal-specific and 53 shared-renderer robustness origins. The [active v3 manifest](corpus/terminal-active-profile.json) explicitly selects 119 of those sources plus one independently reviewed [authored alias adaptation](corpus/terminal-source-adaptations.json). The ambiguous original remains diagnostic: 121 research entries, 116 active drawings and four invalid controls. All original bytes, body/patch hashes, licenses and independent source receipts remain available. Synthetic checker fixtures supply no benchmark score. |
-| Reviewed fixed-PNG study | A [13-input common profile](docs/davebench-png-seven-results.md) selected from Mermaid's documentation after source-fact review of 20 candidates. Its full coverage phase retained all 548 documentation attempts. |
-
-**DaveBench** is inspired by [Dave Kiss's documentation benchmark](https://x.com/davekiss/status/2111512440106078554).
-Its implementation entered Trident through [Agentic Mermaid's documentation benchmark](https://github.com/adewale/agentic-mermaid/blob/main/eval/benchmark/docs/davebench.md).
-That historical runner used 1,095 occurrences from AM's vendored Mermaid docs,
-with 546 distinct examples across 34 pages, and built an AM candidate beside fixed
-comparators. Trident's `docs` benchmark reads the raw syntax pages at the pinned
-[Mermaid source commit](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/docs/syntax)
-and accepts prepared public project artifacts. Its recorded inventory and protocol
-define each run; its counts and timings are not interchangeable with historical
-DaveBench results. The linked AM methods document the inherited implementation.
-
-Public examples and development fixtures are not a validated holdout. See
-[methods, commands and limitations](BENCHMARKS.md) for the current workloads.
-`support:verify` uses six positive inputs and two invalid-source controls to
-check invocation readiness; it is not a comparative benchmark.
+The 154 unchanged public API callbacks, authored feature/edit cases, legacy
+compatibility, model editing contracts and adaptive cost studies are optional
+diagnostics. They supply no combined renderer-quality score. Product-specific
+editing contracts belong in their owning projects. Assertion Replay and the
+standalone nonblank PNG exporter are retired. [Historical methods](BENCHMARKS.md#retired-comparisons-and-reference-validation)
+remain available with their original evidence.
 
 ### Verify Trident before collecting scores
 
-The [harness profile](qualification/harness-profile.json) uses six projects to
-cover the execution mechanisms: Mermaid, Mermaid ASCII, Agentic Mermaid,
-Mermaid Flutter, Latias Merman and Termaid. Its 16 jobs cover browser, Node,
-package CLI, native CLI, WASM, Python, PNG-only workers and public models. The
-same four controls test positive output, a changed label, invalid input and
-recovery. That is 56 output calls plus two separate model workflows, with a
-five-minute collection budget. These checks do not rank the six projects.
+Use the [six-project harness profile](qualification/harness-profile.json) only
+when a transport changes. Mermaid, Mermaid ASCII, Agentic Mermaid, Mermaid
+Flutter, Latias Merman and Termaid cover the 16 execution paths with 56 output
+calls and two model workflows. Its five-minute collection budget excludes
+preparation. These are invocation controls, not renderer rankings.
 
 ```sh
 bun commands.ts verify:harness --plan
-bun commands.ts verify:harness --prepared community-prepared.json \
-  --browser-prepared community-browser-prepared.json --out /evidence/harness
+bun commands.ts bench --projects OWNER/TOOL,... --suites docs --profile full --plan
+bun commands.ts bench --projects OWNER/TOOL,... --suites docs --out FRESH_DIR
+bun commands.ts bench --terminal --plan
 ```
 
-Collection saves raw returns before grading. Rechecking uses the retained bytes
-and binds each verdict to its source, expectations, output and observer. Unknown
-clocks remain unknown. Reuse output when an observer changes; call a renderer
-again only for missing or invalid collection evidence.
-
-For first-use SVG timing, `timing:browser` takes an existing sealed browser
-preparation and an explicit baseline/candidate pair. It requires Chromium and
-fontconfig, freezes font identities and resources, and opens a fresh context for
-each timed call. See the [command and clock boundary](BENCHMARKS.md#qualification-and-collection).
-A complete correctness verdict for **every timed output**, fixed matched sources,
-serialized calls and A/A calibration are required for a speed comparison.
-`timing:qualify --bundle FILE --out FRESH_FILE` checks retained evidence offline;
-a repaired observer can regrade the same captured outputs and clocks. Legacy
-adaptive means and a passing initial output cannot qualify later samples.
-All commands run without Codex; source review and unfamiliar output still
-require human or contributor judgment.
+Use focused independent positive, wrong-output and equivalent-representation
+controls when grading changes. Run affected checks during development, then the
+full suite once the implementation is frozen. A broad renderer campaign is not
+a prerequisite for each observer fix. [Release checks](RELEASE.md) reuse the same
+corpora, ledgers and retained evidence.
 
 ## Supported projects
 

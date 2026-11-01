@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Make DaveBench coverage one retained call per input and format, without warmups; reserve repetition for qualified timing.
+- Remove unused reverse PNG-to-SVG scoring machinery; keep historical evidence intact.
+- Consolidate benchmark descriptions and current PNG evidence links; distinguish core workloads from maintenance diagnostics.
+- Cancel superseded CI runs.
+
 The first public 0.1 release has not been published. B0 freezes the bounded
 benchmark results and their observation limits; release publication remains a
 separate step.

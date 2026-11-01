@@ -9,3 +9,9 @@ export function selectDocsCases<T extends { id: string }>(cases: readonly T[], o
   if (!Array.isArray(ids) || !ids.length || ids.some(id => typeof id !== 'string' || !cases.some(input => input.id === id)) || new Set(ids).size !== ids.length) throw Error('Documentation repair selection needs unique literal IDs from the pinned inventory')
   return cases.filter(input => ids.includes(input.id))
 }
+
+/** Coverage is one retained public call per selected source and format.
+ * Repeated timing belongs to the correctness-qualified timing collectors. */
+export function assertDocsCoverage(rounds: number): void {
+  if (rounds !== 1) throw Error('DaveBench coverage requires --rounds 1; use timing:browser or timing:png for qualified repeated measurements')
+}

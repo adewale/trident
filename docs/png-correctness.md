@@ -147,23 +147,11 @@ while raw calls and outputs remain retained. The audited original548 external
 collection has separate compatibility evidence reconstructing its exact original
 checkpoint identity and finite returned-attempt list; no timestamps are added.
 
-A disconnected browser document audits the exact bounded HTML-to-XML
-serialization, intrinsic sizing and frozen owned-image inlining used for that
-capture. The original public SVG stays retained without edits. Nested SVG icons
-are permitted within one standalone outer root. Transfer to original-SVG paint
-additionally requires unchanged intrinsic sizing and strict namespace,
-attribute and text-tree equivalence; valid XML alone is insufficient because HTML
-repair can move text into a differently styled element.
-
-`mergeOwnedPngSvgStaticChecks` supplements only existing unavailable criteria on
-an explicit static painted checklist and the current source's planned ledger.
-Every contrary check remains a conflict. Missing structural, security, resource,
-font-identity, size/configuration, ARIA and motion evidence remains independently
-required. Historical observer checks retain their original provenance; final
-current SVG qualification requires a fresh final-observer pass over the entire
-declared corpus. This is a rasterized-SVG static-frame claim, with any qualified
-original transfer stated separately. It never supplies an independent resvg
-preservation certificate.
+Historical PNG-to-SVG static-frame transfer is retired. Its existing records remain
+readable, but new SVG verdicts require direct inspection of the actual SVG.
+PNG verdicts require their own actual-image evidence. The capture profile reader
+remains with the capture code to verify environment and invocation ownership;
+it grants no content credit to either format.
 
 The exporter inlines only exact collector-owned image-resource bytes before
 rasterization. This repairs the external-image case where the original SVG paints
