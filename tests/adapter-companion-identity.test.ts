@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
-import { mkdtempSync, writeFileSync, mkdirSync, rmSync } from 'node:fs'
+import { mkdtempSync, writeFileSync, mkdirSync, rmSync, symlinkSync, unlinkSync } from 'node:fs'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { evidenceDigest } from '../portable/evidence-contract.ts'
@@ -75,4 +75,20 @@ test('hoisted dependencies cannot hide executable bundled payload behind unchang
     writeFileSync(bundled, 'export const value = 2')
     expect(() => verifyProvidedCommunityArtifact(artifact)).toThrow('Installed package closure changed')
   } finally { rmSync(prefix, { recursive: true, force: true }) }
+})
+
+test('npm command links bind their target and reject targets outside the sealed packages', () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-npm-command-')), outside = mkdtempSync(join(tmpdir(), 'trident-outside-command-'))
+  try {
+    writeFileSync(join(root, 'package.json'), '{"name":"fixture-command","version":"1.0.0"}')
+    const module = join(root, 'index.mjs'), bin = join(root, 'node_modules/.bin/command'), target = join(root, 'cli.mjs'), alternate = join(root, 'alternate.mjs')
+    writeFileSync(module, 'export const ready = true'); writeFileSync(target, 'console.log("same bytes")'); writeFileSync(alternate, 'console.log("same bytes")')
+    mkdirSync(join(root, 'node_modules/.bin'), { recursive: true }); symlinkSync('../../cli.mjs', bin)
+    const artifact: any = { kind: 'node', root, module, version: '1.0.0', sha256: createHash('sha256').update('export const ready = true').digest('hex'), installedClosureSha256: evidenceDigest(adapterCompanionIdentity(root)) }
+    expect(() => verifyProvidedCommunityArtifact(artifact)).not.toThrow()
+    unlinkSync(bin); symlinkSync('../../alternate.mjs', bin)
+    expect(() => verifyProvidedCommunityArtifact(artifact)).toThrow('Installed package closure changed')
+    unlinkSync(bin); writeFileSync(join(outside, 'cli.mjs'), 'console.log("same bytes")'); symlinkSync(join(outside, 'cli.mjs'), bin)
+    expect(() => verifyProvidedCommunityArtifact(artifact)).toThrow('unreviewed symlink')
+  } finally { rmSync(root, { recursive: true, force: true }); rmSync(outside, { recursive: true, force: true }) }
 })

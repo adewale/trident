@@ -8,8 +8,8 @@ import { captureInstalledDependencyClosure } from '../portable/artifact-dependen
 import { readBenchmarkDocument, writeBenchmarkDocument } from '../portable/project-records.ts'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import { createHash, randomUUID } from 'node:crypto'
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, readlinkSync, realpathSync, statSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
+import { basename, dirname, join, resolve, sep } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
@@ -103,13 +103,20 @@ async function sourceCandidateArtifact(node: CommunityNode, cache: string, candi
 /** Seal all physical shipped payload, including bundled nested modules, plus
  * resolved declared dependencies. Unreviewed payload symlinks fail closed. */
 export function adapterCompanionIdentity(root: string) {
+  const dependencies = captureInstalledDependencyClosure(root)
+  const admittedRoots = [realpathSync(root), ...dependencies.nodes.map(node => node.realRoot)]
   const visit = (directory: string): { path: string; sha256: string }[] => readdirSync(directory, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name)).flatMap(entry => {
     if (entry.name === '.git') return []
     const path = join(directory, entry.name)
-    if (entry.isSymbolicLink()) throw Error('Adapter companion payload has an unreviewed symlink: ' + path)
+    if (entry.isSymbolicLink()) {
+      const target = realpathSync(path)
+      // npm's generated command links may point only to sealed shipped files.
+      // Bind link spelling and target bytes so retargeting cannot preserve a seal.
+      if (basename(directory) !== '.bin' || basename(dirname(directory)) !== 'node_modules' || !statSync(target).isFile() || !admittedRoots.some(base => target.startsWith(base + sep)) || target.split(sep).includes('.git')) throw Error('Adapter companion payload has an unreviewed symlink: ' + path)
+      return [{ path, sha256: evidenceDigest({ link: readlinkSync(path), target, sha256: artifactDigest(target) }) }]
+    }
     return entry.isDirectory() ? visit(path) : entry.isFile() ? [{ path, sha256: artifactDigest(path) }] : []
   })
-  const dependencies = captureInstalledDependencyClosure(root)
   const files = new Map([root, ...dependencies.nodes.map(node => node.realRoot)].flatMap(visit).map(file => [file.path, file]))
   return { files: [...files.values()].sort((a, b) => a.path.localeCompare(b.path)), dependencies }
 }
