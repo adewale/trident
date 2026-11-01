@@ -9,7 +9,7 @@ export const behaviourHash = (value: string | Uint8Array) => createHash('sha256'
 export interface BehaviourStep { source: string; sourceSha256: string; expected: { family?: string; title?: string; description?: string } }
 export interface BehaviourCase { id: string; operation: 'detect-family' | 'svg-accessibility'; steps: BehaviourStep[]; origin: { callbackId: string; callbackSha256: string; sourcePath: string; sourceSha256: string; line: number; parameter?: string }; adaptation: string }
 export const familyAliases: Readonly<Record<string, string>> = { 'flowchart-v2': 'flowchart', 'flowchart-elk': 'flowchart', graph: 'flowchart', classDiagram: 'class', 'classDiagram-v2': 'class', erDiagram: 'er', gitGraph: 'gitgraph', stateDiagram: 'state', 'stateDiagram-v2': 'state', sequenceDiagram: 'sequence', requirementDiagram: 'requirement', 'swimlane-beta': 'swimlane', treeView: 'treeview', 'treeView-beta': 'treeview', 'packet-beta': 'packet', 'xychart-beta': 'xychart', 'radar-beta': 'radar', 'architecture-beta': 'architecture' }
-export const portableFamily = (name: string) => familyAliases[name] ?? name
+export const portableFamily = (name: string) => Object.hasOwn(familyAliases, name) ? familyAliases[name]! : name
 
 /** Literal AST transcription only. No upstream module, parser, detector or
  * renderer is imported or evaluated to construct an expected answer. */

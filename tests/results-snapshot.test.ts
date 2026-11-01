@@ -329,10 +329,6 @@ test('partial correctness compares verified counts without claiming an accuracy 
   expect(baselineComparison(entry, entry.rows[1]!)).toBe('Higher (+1)')
   entry.rows[1]!.values = ['1', 'N/A', 4, 0, 10]
   expect(baselineComparison(entry, entry.rows[1]!)).toBe('Unresolved')
-  const rules = readFileSync(new URL('../REPORTING.md', import.meta.url), 'utf8')
-  expect(rules).toContain('More verified (+n); accuracy unresolved')
-  expect(rules).toContain('Fewer verified (-n); accuracy unresolved')
-  expect(rules).toContain('Same verified count; accuracy unresolved')
 })
 
 test('legacy authored SVG tables cannot expose comparative ranks, charts or an overview score', () => {

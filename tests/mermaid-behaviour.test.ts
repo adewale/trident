@@ -4,7 +4,8 @@ import { join } from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import { spawnSync } from 'node:child_process'
 import corpus from '../corpus/mermaid-behaviour-tests.json' with { type: 'json' }
-import { buildBehaviourCorpus, type BehaviourCase } from '../unified/mermaid-behaviour-corpus.ts'
+import { buildBehaviourCorpus, portableFamily, type BehaviourCase } from '../unified/mermaid-behaviour-corpus.ts'
+import { evidenceDigest } from '../portable/evidence-contract.ts'
 import { assessBehaviourCase, evaluateBehaviourStep, replayMermaidBehaviours, requireBehaviourReference } from '../unified/mermaid-behaviour.ts'
 import { captureBehaviourRaw, readBehaviourCapture, runNativeBehaviours, type BehaviourAdapter } from '../unified/mermaid-behaviour-capture.ts'
 import { readBehaviourEvidence } from '../unified/mermaid-behaviour-evidence.ts'
@@ -28,6 +29,18 @@ test('family semantics accept explicit portable aliases but reject wrong familie
   expect(assessBehaviourCase(detection, [{ kind: 'svg', svg: '<svg/>' }]).status).toBe('unavailable')
   expect(assessBehaviourCase(detection).status).toBe('unrun')
   expect(assessBehaviourCase(detection, []).status).toBe('unavailable')
+})
+test('prototype family names remain serializable wrong-family strings rather than inherited aliases', () => {
+  for (const family of ['constructor', '__proto__', 'toString']) {
+    const checks = evaluateBehaviourStep(detection, detection.steps[0]!, { kind: 'family', family })
+    expect(portableFamily(family)).toBe(family)
+    expect(checks[0]!.status).toBe('failed')
+    expect(checks[0]!.actual).toEqual({ native: family, family })
+    expect(JSON.parse(JSON.stringify(checks))).toEqual(checks)
+    expect(() => evidenceDigest(checks)).not.toThrow()
+  }
+  expect(portableFamily('flowchart-v2')).toBe('flowchart')
+  expect(assessBehaviourCase(detection, [{ kind: 'family', family: 'flowchart-v2' }]).status).toBe('passed')
 })
 test('static SVG naming is independent of caller IDs and preserves actual XML text order', () => {
   expect(pass(svg())).toBe(true)

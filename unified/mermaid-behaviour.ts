@@ -23,7 +23,7 @@ export function evaluateBehaviourStep(input: BehaviourCase, step: BehaviourStep,
   if (observed.kind === 'unavailable') return [check('observable-return', input.operation, null, 'unavailable', observed.reason)]
   if (input.operation === 'detect-family') {
     if (observed.kind !== 'family' || typeof observed.family !== 'string' || !observed.family.trim()) return [check('diagram-family', step.expected.family, null, 'unavailable', 'The native public return exposes no diagram-family string; output presence supplies no family credit')]
-    const family = aliases[observed.family] ?? observed.family
+    const family = Object.hasOwn(aliases, observed.family) ? aliases[observed.family]! : observed.family
     return [check('diagram-family', step.expected.family, { native: observed.family, family }, family === step.expected.family ? 'passed' : 'failed', 'Explicit family aliases only; source is never reparsed to manufacture a returned family')]
   }
   if (observed.kind !== 'svg' || typeof observed.svg !== 'string') return [check('svg-accessible-metadata', step.expected, null, 'unavailable', 'Structural SVG naming cannot be inferred from PNG, terminal text or an absent SVG public return')]
