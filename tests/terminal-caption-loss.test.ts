@@ -99,3 +99,15 @@ test('state identity and actual top/bottom routes do not require an unrequested 
  expect(checks(drawing+'\nUnowned').some(row=>row.status==='passed')).toBe(false)
  expect(actual('fasouto/termaid','9e4e5a5e072642e8').status).toBe('correct')
 })
+test('ordinary-state credit preserves qualified marker-role faults without counting decorative corners as states',()=>{
+ const contract=analyseTerminalSource('stateDiagram-v2\n[*] --> A\nA --> [*]','state').contract
+ const bothInitial='╭───╮    ╭─────╮    ╭───╮\n│ ● ├───►│  A  ├───►│ ● │\n╰───╯    ╰─────╯    ╰───╯'
+ expect(inspectTerminalFacts(bothInitial,contract).find(row=>row.criterion==='transitions')!.status).toBe('failed')
+ expect(inspectTerminalFacts(bothInitial.replace('►│ ● │','►│ ◉ │'),contract).every(row=>row.status==='passed')).toBe(true)
+ const initialOnly=analyseTerminalSource('stateDiagram-v2\n[*] --> A','state').contract,wrong='╭───╮    ╭─────╮\n│ ◉ ├───►│  A  │\n╰───╯    ╰─────╯'
+ expect(inspectTerminalFacts(wrong,initialOnly).find(row=>row.criterion==='transitions')!.status).toBe('failed')
+ const corners='●───●\n│   │\n●───●\n  │\n  ▼\n╭───╮\n│ A │\n╰───╯'
+ expect(inspectTerminalFacts(corners,initialOnly).some(row=>row.status==='failed')).toBe(false)
+ const otherFinal='╭───╮    ╭─────╮\n│ ● ├───►│  A  ├───►◎\n╰───╯    ╰─────╯'
+ expect(inspectTerminalFacts(otherFinal,contract).some(row=>row.status==='failed')).toBe(false)
+})
