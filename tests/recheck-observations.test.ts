@@ -3,7 +3,7 @@ import { expect, test } from 'bun:test'
 import { expandedFidelityCases } from '../fidelity/cases.ts'
 import { planFidelityCriteria } from '../fidelity/ledger.ts'
 import { assessSvgCases, makeSvgObservationBinding } from '../fidelity/svg-assessment.ts'
-import { recheckRendering, recheckFeaturePaint, recheckFeatureAdmission, invalidateRetainedSvgChecks, bindRetainedAuthoredSvgReturn, retainedPath } from '../unified/recheck-rendering.ts'
+import { recheckRendering, recheckFeaturePaint, recheckFeatureAdmission, invalidateRetainedSvgChecks, bindRetainedAuthoredSvgReturn, retainedPath, retainedAuthoredSvgWorkflowOwner } from '../unified/recheck-rendering.ts'
 import { evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
 import type { BenchmarkObservation } from '../unified/types.ts'
 import { planRetainedSvgRegrade, retainedSvgStimulus, readRetainedPreparationInput, retainedObserverAssets, retainedImagePrerequisites, retainedSvgResourcePolicy, routeRetainedObserver, requireRetainedDocsSvgReturn, retainedDocsSvgOwnershipContext } from '../unified/recheck-inputs.ts'
@@ -20,7 +20,7 @@ import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { CollectionCheckpoint } from '../portable/checkpoint.ts'
 import { gzipSync, gunzipSync } from 'node:zlib'
 import { communityCliRequest, communityCliBinding } from '../unified/community-cli-request.ts'
-import { createAuthoredSvgRawCapture } from '../fidelity/community-raw.ts'
+import { createAuthoredSvgRawCapture, authoredSvgAdapterBinding } from '../fidelity/community-raw.ts'
 
 const input = expandedFidelityCases()[0]!, project = 'fixture/renderer'
 const binding = makeSvgObservationBinding(input, evidenceBytesDigest('synthetic retained output bytes'), evidenceBytesDigest('synthetic observer identity'))
@@ -163,6 +163,30 @@ test('raw prelude rechecking distinguishes public rejection from host failure an
       const rows: BenchmarkObservation[] = [{ suite: 'fidelity', surface: 'browser-public-api', runtime: 'fixture', family: testCase.family, caseId: testCase.id + ':prelude-0', operation: 'prelude-0', format: 'svg', mode: 'fixture', status: 'blocked', metrics: { implementation: project, authoredCase: testCase.id } }]
       const raw = createAuthoredSvgRawCapture(join(directory, control.name), owner), captured = await raw.capture(testCase, async request => request.step === 'main' ? { kind: 'returned', svg: main } : control.result, () => 'actual-synthetic-runtime', () => ({}))
       expect(recheckFeatureAdmission(testCase, project, rows, main, 'returned', binding, at, { witness: captured.witness, expected: owner, remap: path => path })[0]!.status).toBe(control.expected)
+    }
+  } finally { rmSync(directory, { recursive: true, force: true }) }
+})
+
+test('sealed CLI ownership rechecks main returns without manufacturing shared-context prelude evidence', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'retained-cli-admission-')), base = expandedFidelityCases().find(item => item.id === 'meaning:family:flowchart')!, stateful = expandedFidelityCases().find(item => item.id === 'meaning:family:flowchart:configuration-reset')!
+  const main = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100"><text x="10" y="30">Alpha Beta Gamma</text></svg>', prelude = '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="10"/></svg>'
+  const engine = { kind: 'cli', root: '/original/release', entry: '/original/release/renderer', version: 'fixture', artifactSha256: 'a'.repeat(64) }
+  const artifact = { kind: 'cli', root: engine.root, executable: engine.entry, version: engine.version, sha256: engine.artifactSha256, files: [{ path: engine.entry, sha256: engine.artifactSha256 }], args: ['--format', 'svg'], input: 'stdin' as const }
+  const peer: any = { node: { id: project, benchmark: { adapter: 'declared', outputs: ['svg'] } }, browserStatus: 'not-applicable', artifact }, owner = { project, artifactSha256: engine.artifactSha256, adapterBindingSha256: authoredSvgAdapterBinding(engine, undefined, artifact) }
+  try {
+    expect(retainedAuthoredSvgWorkflowOwner(peer)).toEqual({ artifactSha256: owner.artifactSha256, adapterBindingSha256: owner.adapterBindingSha256 })
+    expect(retainedAuthoredSvgWorkflowOwner({ ...peer, artifact: { ...peer.artifact, files: [{ path: engine.entry, sha256: 'b'.repeat(64) }] } })).toBeUndefined()
+    expect(retainedAuthoredSvgWorkflowOwner({ ...peer, artifact: { ...peer.artifact, executable: 'relative-renderer' } })).toBeUndefined()
+    for (const testCase of [base, stateful]) {
+      let context = 'not-started', sequence = 0
+      const raw = createAuthoredSvgRawCapture(join(directory, testCase.id.replaceAll(':', '-')), owner), captured = await raw.capture(testCase, async request => ({ kind: 'returned', svg: request.step === 'main' ? main : prelude }), () => context, () => ({}), async () => { context = 'actual-cli-context-' + sequence++ })
+      const binding = makeSvgObservationBinding(testCase, evidenceBytesDigest(main), 'c'.repeat(64)), rows = planFidelityCriteria([testCase]).filter(item => item.surface === 'browser-public-api').map(item => ({ suite: 'fidelity', surface: item.surface, runtime: 'fixture', family: testCase.family, caseId: testCase.id + ':' + item.criterion, operation: item.criterion, format: 'svg', mode: 'fixture', status: 'blocked', metrics: { implementation: project, authoredCase: testCase.id } }) as BenchmarkObservation)
+      const checked = recheckFeatureAdmission(testCase, project, rows, main, 'returned', binding, at, { witness: captured.witness, expected: retainedAuthoredSvgWorkflowOwner(peer)!, remap: path => path })
+      expect(checked.find(row => row.operation === 'public-svg-admission')!.status).toBe('passed')
+      expect(checked.find(row => row.operation === 'standalone-svg-and-labels')!.status).toBe('passed')
+      const changedArgs = retainedAuthoredSvgWorkflowOwner({ ...peer, artifact: { ...artifact, args: ['--different'] } })!
+      expect(recheckFeatureAdmission(testCase, project, rows, main, 'returned', binding, at, { witness: captured.witness, expected: changedArgs, remap: path => path }).every(row => row.status === 'blocked')).toBe(true)
+      if (testCase.prelude?.length) { expect(captured.sameRuntime).toBe(false); expect(checked.find(row => row.operation === 'prelude-0')!.status).toBe('blocked') }
     }
   } finally { rmSync(directory, { recursive: true, force: true }) }
 })

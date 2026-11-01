@@ -26,6 +26,7 @@ import { tridentDirectory } from './trident-paths.ts'
 import { authoredSvgAdapterBinding, classifyAuthoredSvgResult, readRetainedAuthoredSvgWorkflow } from '../fidelity/community-raw.ts'
 import { reviewedFontSizePath } from '../portable/configuration.ts'
 import { assessPrelude } from '../fidelity/meaning.ts'
+import type { PreparedCommunityBrowser } from './community-browser.ts'
 import { readCampaign } from './campaign-publication.ts'
 import { planRetainedSvgRegrade, readRetainedPreparationInput, retainedObserverAssets, retainedImagePrerequisites, retainedSvgResourcePolicy, routeRetainedObserver, requireRetainedDocsSvgReturn, retainedDocsSvgOwnershipContext } from './recheck-inputs.ts'
 
@@ -112,6 +113,23 @@ export interface RetainedAuthoredWorkflowContext {
   remap: (path: string) => string
 }
 
+/** Reconstruct only the original sealed public adapter, without reopening its
+ * old executable path or trusting an engine declared by the return witness. */
+export function retainedAuthoredSvgWorkflowOwner(peer: PreparedCommunityBrowser | undefined): RetainedAuthoredWorkflowContext['expected'] | undefined {
+  let engine: unknown, artifactSha256: string | undefined, cli = false
+  const artifact = peer?.artifact
+  if (artifact?.kind === 'cli' && peer?.node.benchmark?.outputs?.includes('svg')) {
+    const entry = artifact.executable, file = artifact.files?.filter(file => file.path === entry)
+    const sha256 = artifact.sha256 ?? (file?.length === 1 ? file[0]!.sha256 : undefined)
+    if (!entry || !isAbsolute(entry) || !artifact.version || !sha256 || !/^[a-f0-9]{64}$/.test(sha256) || file && (file.length > 1 || file.length === 1 && file[0]!.sha256 !== sha256)) return undefined
+    const root = artifact.root ?? dirname(entry)
+    if (!isAbsolute(root)) return undefined
+    engine = { kind: 'cli', root, entry, version: artifact.version, artifactSha256: sha256 }; artifactSha256 = sha256; cli = true
+  } else if (peer?.browserStatus === 'prepared' && peer.browser && (peer.browser.output ?? 'svg') === 'svg') { engine = peer.browser; artifactSha256 = peer.browser.artifactSha256 }
+  if (!engine || !artifactSha256 || !/^[a-f0-9]{64}$/.test(artifactSha256)) return undefined
+  return { artifactSha256, adapterBindingSha256: authoredSvgAdapterBinding(engine, reviewedFontSizePath(peer!.node.benchmark?.adapter ?? '', peer!.node.benchmark?.api?.svg), cli ? artifact : undefined) }
+}
+
 /** Fresh admission may use exact ordered raw public returns from one owned
  * workflow. Legacy kind/status rows cannot supply missing prelude evidence. */
 export function recheckFeatureAdmission(input: AuthoredFidelityCase, project: string, observations: readonly BenchmarkObservation[], svg: string, publicKind: unknown, binding: SvgEvidenceBinding, checkedAt: string, retained?: RetainedAuthoredWorkflowContext): BenchmarkObservation[] {
@@ -129,7 +147,7 @@ export function recheckFeatureAdmission(input: AuthoredFidelityCase, project: st
       const index = Number(preludeIndex[1]), prelude = input.prelude?.[index], step = workflow?.steps.find(step => step.step === row.operation)
       const metrics: NonNullable<BenchmarkObservation['metrics']> = { ...row.metrics, originalCriterionStatus: row.metrics?.originalCriterionStatus ?? row.status, recheckedAt: checkedAt, recheckObservation: 'missing-prelude-witness' }
       delete metrics.sourceSha256; delete metrics.expectationsSha256; delete metrics.svgSha256; delete metrics.observerSha256
-      if (!prelude || !step) return { ...row, status: 'blocked', detail: workflowError ?? 'No complete source/options/artifact-bound raw workflow proves this prelude; historical kind/status supplies no passing or rejection credit', metrics }
+      if (!prelude || !step || !workflow?.sameRuntime) return { ...row, status: 'blocked', detail: workflowError ?? (workflow && !workflow.sameRuntime ? 'Actual prelude/main requests used distinct runtime contexts; the main return is retained independently, while stateful prelude credit remains unavailable' : 'No complete source/options/artifact-bound raw workflow proves this prelude; historical kind/status supplies no passing or rejection credit'), metrics }
       const classification = classifyAuthoredSvgResult(step.result), publicError = step.invocation.state === 'public-error' && !step.result.hostTransportError, admission = step.result.kind === 'returned' && step.invocation.state === 'returned' ? 'accepted' : publicError && classification === 'unsupported' ? 'unsupported' : publicError && step.result.kind === 'exception' && classification === 'failed' ? 'rejected' : 'unavailable'
       let status: ReturnType<typeof assessPrelude> | 'blocked' = assessPrelude(prelude.accept, admission), standalone: ReturnType<typeof qualifyOutput> | undefined
       if (step.result.kind === 'invalid-return' && publicError && prelude.accept) status = 'failed'
@@ -307,7 +325,7 @@ export async function recheckRendering(directory: string, out: string, pngReview
             publicReturns.push(bindRetainedAuthoredSvgReturn(originalInput, entry, receipt.project, original, svg))
             const binding = makeSvgObservationBinding(input, hash(svg), observerSha256)
             ;(bindings[receipt.project] ??= {})[input.id] = binding
-            const peer = prepared.find(item => item.node.id === receipt.project), workflow = entry.workflowEvidence ? { witness: entry.workflowEvidence, expected: { artifactSha256: peer?.browser?.artifactSha256 ?? '', adapterBindingSha256: peer?.browser ? authoredSvgAdapterBinding(peer.browser, reviewedFontSizePath(peer.node.benchmark?.adapter ?? '', peer.node.benchmark?.api?.svg)) : '' }, remap } : undefined
+            const peer = prepared.find(item => item.node.id === receipt.project), workflow = entry.workflowEvidence ? { witness: entry.workflowEvidence, expected: retainedAuthoredSvgWorkflowOwner(peer) ?? { artifactSha256: '', adapterBindingSha256: '' }, remap } : undefined
             result.observations = recheckFeatureAdmission(input, receipt.project, result.observations, svg, entry.publicResult?.kind, binding, began, workflow)
             const assessed = await recheckFeaturePaint(input, receipt.project, result.observations.filter((row: BenchmarkObservation) => row.metrics?.implementation === receipt.project), () => inspect(receipt.project, svg, input), began, !!receipt.capabilities?.fontOptions, binding)
             result.observations = result.observations.filter((row: BenchmarkObservation) => row.metrics?.implementation !== receipt.project).concat(assessed.observations)
