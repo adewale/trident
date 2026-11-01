@@ -213,7 +213,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
       adapterCompanions.push({ root: dependencyRoot, name: pkg.name, version: pkg.version, integrity, closureSha256: createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(dependencyRoot))).digest('hex') })
     }
   }
-  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, runtime, sha256: artifactDigest(module), files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(adapterCompanions.length ? { adapterCompanions } : {}), ...(plan.overrides ? { dependencyOverrides: plan.overrides } : {}), ...(candidate ? { candidate: { sha256: candidate.sha256, tarball: copy, ...(retainedDependencies.length ? { dependencies: retainedDependencies.map(({ tarball, sha256 }) => ({ tarball, sha256 })) } : {}) } } : {}) }
+  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, installedClosureSha256: evidenceDigest(adapterCompanionIdentity(root)), runtime, sha256: artifactDigest(module), files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(adapterCompanions.length ? { adapterCompanions } : {}), ...(plan.overrides ? { dependencyOverrides: plan.overrides } : {}), ...(candidate ? { candidate: { sha256: candidate.sha256, tarball: copy, ...(retainedDependencies.length ? { dependencies: retainedDependencies.map(({ tarball, sha256 }) => ({ tarball, sha256 })) } : {}) } } : {}) }
   return extra.prepareExtraPublishedArtifact(prepared, { installedIntegrity: (nativeRoot: string, packageName: string, packageVersion: string) => installedNpmIntegrity(prefix, nativeRoot, packageName, packageVersion) })
 }
 
@@ -248,6 +248,7 @@ export function verifyProvidedCommunityArtifact(artifact: CommunityArtifact): vo
   }
   if (!verified.has(realpathSync(entry))) throw new Error('Provided file manifest does not bind the executable/module entry')
   if (artifact.wasm && !verified.has(realpathSync(artifact.wasm))) throw new Error('Provided WASM is absent from the verified artifact file manifest')
+  if (artifact.installedClosureSha256 && (!artifact.root || !/^[a-f0-9]{64}$/.test(artifact.installedClosureSha256) || evidenceDigest(adapterCompanionIdentity(artifact.root)) !== artifact.installedClosureSha256)) throw Error('Installed package closure changed')
 }
 
 const stableProtocol = (value: unknown): unknown =>
