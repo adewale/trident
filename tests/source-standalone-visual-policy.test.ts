@@ -53,3 +53,15 @@ test('Kanban priority remains an exact task-owned enum without demanding duplica
   expect(review(source.replace('assigned: person','assigned: High')).expected!.labels).toContain('High')
   expect(review(source.replace('priority: High','priority: Unspecified')).expected!.labels).toContain('Unspecified')
 })
+
+test('quadrant point styles lower class then direct overrides and require border colour only with an effective width',()=>{
+  const source='quadrantChart\nA:::custom: [0.2,0.4] color: #ff3300, radius: 12\nB: [0.4,0.5] color: #00ff00, stroke-color: #00ffff\nC:::border: [0.6,0.7]\nclassDef custom color: #109060,radius: 10\nclassDef border stroke-color: #123456,stroke-width: 5px'
+  const row=review(source),raw=reviewDocumentationSource({id:'standalone-source-control',family:'source-control',source},{visual:false})
+  expect(row.expected!.facts!['point-appearance']).toEqual([{label:'A',properties:{color:'#ff3300',radius:'12'}},{label:'B',properties:{color:'#00ff00'}},{label:'C',properties:{'stroke-color':'#123456','stroke-width':'5px'}}])
+  expect(row.expected!.facts!['authored-style']).toBeUndefined()
+  expect(row.profileExpected).toEqual(raw.expected)
+  expect(review(source.replace('stroke-width: 5px','stroke-width: 6px')).expected!.facts).not.toEqual(row.expected!.facts)
+  expect(review(source.replace('color: #ff3300','color: #ff3301')).expected!.facts).not.toEqual(row.expected!.facts)
+  expect(review(source.replace('A:::custom:','A:::custom,border:')).expected!.facts!['authored-style']).toEqual(raw.expected!.facts!['authored-style'])
+  expect(review(source+'\nclassDef unused color: #112233').expected!.facts!['authored-style']).toBeDefined()
+})

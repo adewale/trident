@@ -1,7 +1,7 @@
 {
   "schema": "trident-docs-source-registry-v1",
   "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-  "reviewedCorpusSha256": "821c47a699a6ee7d753f03eb22632d3d7ad9ce35c6f34b2b43daaf12123524bc",
+  "reviewedCorpusSha256": "2dd7b5d389e853f15cecd95686d2ae01c52feea809269992d0d4082aa7f24aa5",
   "provenance": {
     "literalAuditBaseline": "2cc55cf",
     "structuralFix": "c9dd0b5",
@@ -26,7 +26,8 @@
     "sourceIdentitiesAndEventNamespaces": "qualification/source-audits/source-identities-and-event-namespaces.json; independently reviewed exact54case delta and source-only twin controls",
     "eventDataReferencePresentation": "qualification/source-audits/event-data-reference-presentation.json; independently approved exacttwo-case delta and used-value/unused-record controls",
     "defaultSkinFairness": "qualification/source-audits/default-skin-fairness.json; exact32-case independent review; default skin advisory, explicit overrides and nondefault palette tokens required",
-    "effectiveEdgeStyle": "qualification/source-audits/effective-edge-style.json; exact4 SVG plus5 PNG independent source review; source animation enable/speed does not request renderer default dash skin"
+    "effectiveEdgeStyle": "qualification/source-audits/effective-edge-style.json; exact4 SVG plus5 PNG independent source review; source animation enable/speed does not request renderer default dash skin",
+    "finalStaticDrawingMetadata": "Independent root review of exact four-case source-only delta 1e687dbf553582c1c5d78f27ed8a3e42a6e1ce5fdc2e2c640ab773eb51a3b130; gitgraph276 selected-parent native metadata, railroad335/343 owned blank terminals, quadrant329 documented effective point styles. All548 literals/native profiles unchanged; Boston281 source ambiguity retained."
   },
   "cases": [
     {
@@ -1965,7 +1966,7 @@
       "id": "packages/mermaid/src/docs/syntax/gitgraph.md:254",
       "sourceSha256": "1e4751fdc7cf19be97f4622875db54c290f904ec07ba68e4f0b12bd88c6d8fa7",
       "intent": "drawing",
-      "semanticSha256": "ffb65a73bd2aaf15d6a7f481ba67279f81b051d6585b4660fe29dc115e47e3aa",
+      "semanticSha256": "182820674f869f9006d2862c1db70540fbe1c35461e85a82c1672e1a17969b6e",
       "profileEligible": true
     },
     {
@@ -2336,7 +2337,7 @@
       "id": "packages/mermaid/src/docs/syntax/quadrantChart.md:190",
       "sourceSha256": "cb0348713c1706e9b525fee554beb25cf4c1ae71cafeffdf05e34e8bb62b6bf6",
       "intent": "drawing",
-      "semanticSha256": "e7a789b2d3da8d6658fef75643f5c9ca7f23f895d4637e183e926d4dc6564247",
+      "semanticSha256": "f76e758e98d3d7d3cc4ccff9d96963892179a2530e0721581a9f66a9888bc382",
       "profileEligible": true
     },
     {
@@ -2378,7 +2379,7 @@
       "id": "packages/mermaid/src/docs/syntax/railroad.md:58",
       "sourceSha256": "21d44260da42bc0d3837ba906ecca1c3098dbd18757e80c274c2427c7097987e",
       "intent": "drawing",
-      "semanticSha256": "92dd2a4e2275b3bbf232bc7ede724eceb2ec92b32e35110da1cbd211ddbf5c3d",
+      "semanticSha256": "ca38adef8f11d31f0390c90e0bea1cb556e9acfc75c2089a6458a3c26337b53c",
       "profileEligible": true
     },
     {
@@ -2434,7 +2435,7 @@
       "id": "packages/mermaid/src/docs/syntax/railroad.md:199",
       "sourceSha256": "e5b8b271aac85395626137b56399ce68a42b42cda805304b7ff2b3023dce7072",
       "intent": "drawing",
-      "semanticSha256": "9cccbfe9eb1296ae5e5e25ccb947574b587416060a656985532723572eef7ba4",
+      "semanticSha256": "1d730e0531fb0cf81e1708cfab1c53a51c0dd8463900ff5e28c182b809df13d5",
       "profileEligible": true
     },
     {

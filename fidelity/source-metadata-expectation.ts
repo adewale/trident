@@ -14,7 +14,45 @@ export function projectSourceMetadata(family:string,expected:MeaningExpectation)
     metadata[key]=structuredClone(facts[key]);delete facts[key]
     excluded.push('Raw '+key+' is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: '+JSON.stringify(metadata[key]))
   }
-  if(Object.keys(metadata).length){(expected.advisoryFacts??={})['unprinted-source-identities']=metadata;projections.push('Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required')}
+  if(Object.keys(metadata).length)projections.push('Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required')
+  if(family==='gitgraph'&&Array.isArray(facts.commits)){
+    const selected:MeaningJson[]=[]
+    facts.commits=facts.commits.map((commit:any)=>{
+      if(commit.type!=='CHERRY_PICK'||!Object.hasOwn(commit,'cherryPickParent'))return commit
+      const{cherryPickParent,...visible}=commit
+      selected.push({id:commit.id,parent:cherryPickParent})
+      return visible
+    })
+    if(selected.length){
+      metadata['cherry-pick-selected-parents']=selected
+      excluded.push('A cherry-pick selected merge parent validates the operation but has no mandatory drawn DAG/caption encoding: gitgraph.md241 promises the cherry glyph and source-ID tag;244-250 validates the parent;gitGraphAst.ts350 uses current head/source parents independently and356-358 only adds parent to a generated default tag. Exact selected parent remains native/advisory: '+JSON.stringify(selected))
+      projections.push('Cherry-pick selected merge parent stays exact native/advisory input; cherry type,source provenance,current-branch parent,source-ID tag and every authored tag remain required visible facts')
+    }
+  }
+  if(family.startsWith('railroad')&&Array.isArray(facts['grammar-rules'])){
+    const blanks:MeaningJson[]=[]
+    const project=(node:any,rule:string,path:(string|number)[]):any=>{
+      if(!node||typeof node!=='object'||Array.isArray(node))return node
+      if(node.kind==='terminal'&&typeof node.value==='string'&&/^ +$/.test(node.value)&&Object.keys(node).every(key=>['kind','value'].includes(key))){blanks.push({rule,path,value:node.value});return{kind:'blank-terminal'}}
+      if(Array.isArray(node.items))return{...node,items:node.items.map((item:any,index:number)=>project(item,rule,[...path,'items',index]))}
+      if(node.expression)return{...node,expression:project(node.expression,rule,[...path,'expression'])}
+      return node
+    }
+    facts['grammar-rules']=facts['grammar-rules'].map((rule:any)=>({...rule,expression:project(rule.expression,rule.name,[])}))
+    if(blanks.length){
+      metadata['blank-terminal-source-values']=blanks
+      expected.labels=expected.labels.filter(label=>!/^ +$/.test(label))
+      excluded.push('Pure ASCII-space terminal values have no count-specific printed ink. A required blank-terminal leaf retains its rounded body, exact recursive AST position and physical path ownership; exact string/count remains native/advisory (railroad.md40,58-60,286;railroadRenderer.ts98-125 text(value) with SVG default whitespace): '+JSON.stringify(blanks))
+      projections.push('Pure-space terminals require an owned blank rounded terminal at the exact recursive grammar position, without an invisible character-count obligation; exact source values remain complete native/advisory data')
+    }
+  }
+  if(Object.keys(metadata).length){
+    (expected.advisoryFacts??={})['unprinted-source-identities']=metadata
+    if(Object.hasOwn(metadata,'cherry-pick-selected-parents')||Object.hasOwn(metadata,'blank-terminal-source-values')){
+      const index=projections.findIndex(value=>value.startsWith('Only Git operation history,'))
+      if(index>=0)projections[index]='The enumerated source history,dialect and selected-parent or blank-terminal values remain native/advisory; all visible topology,chronology,ownership and recursive grammar structure remain required'
+    }
+  }
   const presentations=new Map<string,EventNamespacePresentation>()
   if(family==='eventmodeling'){
     const capture=(id:unknown,identifier:unknown,type:unknown)=>{

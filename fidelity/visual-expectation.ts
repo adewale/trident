@@ -24,6 +24,32 @@ function projectStandaloneInputs(family: string, expected: MeaningExpectation, p
     delete config.themeVariables.quadrant1TextFill
     if (!Object.keys(config.themeVariables).length) delete config.themeVariables
   }
+  if(family==='quadrant'&&Array.isArray(facts['point-appearance'])){
+    const rows:any[]=facts['point-appearance'],keys=new Set(['color','radius','stroke-color','stroke-width']),definitions=new Map<string,Record<string,string>>()
+    let qualified=suppliedStyles.every(row=>row.kind==='classDef')
+    for(const row of suppliedStyles){
+      if(typeof row.selection!=='string'||!/^\w[\w-]*$/.test(row.selection)||definitions.has(row.selection)||!Array.isArray(row.attributes)){qualified=false;continue}
+      const properties:Record<string,string>={}
+      for(const attribute of row.attributes)if(!keys.has(attribute.property)||typeof attribute.value!=='string'||Object.keys(attribute).some(key=>!['property','value'].includes(key)))qualified=false;else properties[attribute.property]=attribute.value
+      definitions.set(row.selection,properties)
+    }
+    const used=new Set<string>()
+    for(const row of rows){
+      if(typeof row.classes!=='string'||row.classes&&!definitions.has(row.classes)||!row.properties||Object.entries(row.properties).some(([key,value])=>!keys.has(key)||typeof value!=='string'))qualified=false
+      if(row.classes)used.add(row.classes)
+    }
+    if([...definitions.keys()].some(name=>!used.has(name)))qualified=false
+    if(qualified){
+      const effective=rows.map(row=>{
+        const properties={...(definitions.get(row.classes)??{}),...row.properties}
+        if(!Object.hasOwn(properties,'stroke-width'))delete properties['stroke-color']
+        return{label:row.label,properties}
+      })
+      retain('quadrant.pointStyleInputs',{points:rows,classes:suppliedStyles},'Point paint lowers documented Class then Direct priority; stroke-color without effective stroke-width has no visible border (quadrantChart.md176-188)')
+      facts['point-appearance']=effective
+      delete facts['authored-style']
+    }
+  }
   if (config && !Object.keys(config).length) delete facts['authored-config']
   if (family === 'mindmap' && Array.isArray(facts.decorations)) {
     // Any supplied matching definition remains a required style obligation.

@@ -31989,8 +31989,7 @@
             ],
             "type": "CHERRY_PICK",
             "tags": [],
-            "cherryPickSource": "commit:4",
-            "cherryPickParent": "commit:3"
+            "cherryPickSource": "commit:4"
           },
           {
             "id": "commit:7",
@@ -32096,6 +32095,12 @@
               "kind": "commit",
               "commit": "commit:8"
             }
+          ],
+          "cherry-pick-selected-parents": [
+            {
+              "id": "commit:6",
+              "parent": "commit:3"
+            }
           ]
         },
         "direction": "LR"
@@ -32113,10 +32118,12 @@
       ],
       "unresolved": [],
       "excludedNonvisual": [
-        "Raw git-operation-order is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: [{\"kind\":\"commit\",\"commit\":\"commit:0\"},{\"kind\":\"branch\",\"branch\":\"develop\"},{\"kind\":\"branch\",\"branch\":\"release\"},{\"kind\":\"commit\",\"commit\":\"commit:1\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"commit\",\"commit\":\"commit:2\"},{\"kind\":\"checkout\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:3\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"merge\",\"branch\":\"develop\",\"commit\":\"commit:4\"},{\"kind\":\"commit\",\"commit\":\"commit:5\"},{\"kind\":\"checkout\",\"branch\":\"release\"},{\"kind\":\"cherry-pick\",\"commit\":\"commit:6\"},{\"kind\":\"commit\",\"commit\":\"commit:7\"},{\"kind\":\"checkout\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:8\"}]"
+        "Raw git-operation-order is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: [{\"kind\":\"commit\",\"commit\":\"commit:0\"},{\"kind\":\"branch\",\"branch\":\"develop\"},{\"kind\":\"branch\",\"branch\":\"release\"},{\"kind\":\"commit\",\"commit\":\"commit:1\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"commit\",\"commit\":\"commit:2\"},{\"kind\":\"checkout\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:3\"},{\"kind\":\"checkout\",\"branch\":\"main\"},{\"kind\":\"merge\",\"branch\":\"develop\",\"commit\":\"commit:4\"},{\"kind\":\"commit\",\"commit\":\"commit:5\"},{\"kind\":\"checkout\",\"branch\":\"release\"},{\"kind\":\"cherry-pick\",\"commit\":\"commit:6\"},{\"kind\":\"commit\",\"commit\":\"commit:7\"},{\"kind\":\"checkout\",\"branch\":\"develop\"},{\"kind\":\"commit\",\"commit\":\"commit:8\"}]",
+        "A cherry-pick selected merge parent validates the operation but has no mandatory drawn DAG/caption encoding: gitgraph.md241 promises the cherry glyph and source-ID tag;244-250 validates the parent;gitGraphAst.ts350 uses current head/source parents independently and356-358 only adds parent to a generated default tag. Exact selected parent remains native/advisory: [{\"id\":\"commit:6\",\"parent\":\"commit:3\"}]"
       ],
       "visualProjections": [
-        "Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required",
+        "The enumerated source history,dialect and selected-parent or blank-terminal values remain native/advisory; all visible topology,chronology,ownership and recursive grammar structure remain required",
+        "Cherry-pick selected merge parent stays exact native/advisory input; cherry type,source provenance,current-branch parent,source-ID tag and every authored tag remain required visible facts",
         "Literal global direction remains an advisory layout hint outside a connected simple flowchart chain without local groups/constraints; it does not impose invented per-edge precedence"
       ]
     },
@@ -48018,6 +48025,258 @@
         "point-appearance": [
           {
             "label": "Campaign A",
+            "properties": {
+              "radius": "12"
+            }
+          },
+          {
+            "label": "Campaign B",
+            "properties": {
+              "color": "#ff3300",
+              "radius": "10"
+            }
+          },
+          {
+            "label": "Campaign C",
+            "properties": {
+              "radius": "25",
+              "color": "#00ff33"
+            }
+          },
+          {
+            "label": "Campaign D",
+            "properties": {
+              "radius": "15",
+              "stroke-color": "#00ff0f",
+              "stroke-width": "5px",
+              "color": "#ff33f0"
+            }
+          },
+          {
+            "label": "Campaign E",
+            "properties": {
+              "color": "#908342",
+              "radius": "10",
+              "stroke-color": "#310085",
+              "stroke-width": "10px"
+            }
+          },
+          {
+            "label": "Campaign F",
+            "properties": {
+              "color": "#0000ff",
+              "radius": "10"
+            }
+          }
+        ],
+        "points": [
+          {
+            "label": "Campaign A",
+            "x": 0.9,
+            "y": 0
+          },
+          {
+            "label": "Campaign B",
+            "x": 0.8,
+            "y": 0.1
+          },
+          {
+            "label": "Campaign C",
+            "x": 0.7,
+            "y": 0.2
+          },
+          {
+            "label": "Campaign D",
+            "x": 0.6,
+            "y": 0.3
+          },
+          {
+            "label": "Campaign E",
+            "x": 0.5,
+            "y": 0.4
+          },
+          {
+            "label": "Campaign F",
+            "x": 0.4,
+            "y": 0.5
+          }
+        ],
+        "quadrants": [
+          {
+            "number": 1,
+            "label": "We should expand"
+          },
+          {
+            "number": 2,
+            "label": "Need to promote"
+          },
+          {
+            "number": 3,
+            "label": "Re-evaluate"
+          },
+          {
+            "number": 4,
+            "label": "May be improved"
+          }
+        ],
+        "axes": {
+          "x": [
+            "Low Reach",
+            "High Reach"
+          ],
+          "y": [
+            "Low Engagement",
+            "High Engagement"
+          ]
+        }
+      },
+      "advisoryFacts": {
+        "standalone-input-provenance": {
+          "quadrant.pointStyleInputs": {
+            "points": [
+              {
+                "label": "Campaign A",
+                "classes": "",
+                "properties": {
+                  "radius": "12"
+                }
+              },
+              {
+                "label": "Campaign B",
+                "classes": "class1",
+                "properties": {
+                  "color": "#ff3300",
+                  "radius": "10"
+                }
+              },
+              {
+                "label": "Campaign C",
+                "classes": "",
+                "properties": {
+                  "radius": "25",
+                  "color": "#00ff33",
+                  "stroke-color": "#10f0f0"
+                }
+              },
+              {
+                "label": "Campaign D",
+                "classes": "",
+                "properties": {
+                  "radius": "15",
+                  "stroke-color": "#00ff0f",
+                  "stroke-width": "5px",
+                  "color": "#ff33f0"
+                }
+              },
+              {
+                "label": "Campaign E",
+                "classes": "class2",
+                "properties": {}
+              },
+              {
+                "label": "Campaign F",
+                "classes": "class3",
+                "properties": {
+                  "color": "#0000ff"
+                }
+              }
+            ],
+            "classes": [
+              {
+                "kind": "classDef",
+                "selection": "class1",
+                "attributes": [
+                  {
+                    "property": "color",
+                    "value": "#109060"
+                  }
+                ]
+              },
+              {
+                "kind": "classDef",
+                "selection": "class2",
+                "attributes": [
+                  {
+                    "property": "color",
+                    "value": "#908342"
+                  },
+                  {
+                    "property": "radius",
+                    "value": "10"
+                  },
+                  {
+                    "property": "stroke-color",
+                    "value": "#310085"
+                  },
+                  {
+                    "property": "stroke-width",
+                    "value": "10px"
+                  }
+                ]
+              },
+              {
+                "kind": "classDef",
+                "selection": "class3",
+                "attributes": [
+                  {
+                    "property": "color",
+                    "value": "#f00fff"
+                  },
+                  {
+                    "property": "radius",
+                    "value": "10"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "sourceReview": {
+      "protocol": "literal-documentation-facts-v1",
+      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
+      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
+      "expectedFactsComplete": true,
+      "requiredObligations": [
+        "visible-labels",
+        "fact:axes",
+        "fact:point-appearance",
+        "fact:points",
+        "fact:quadrants",
+        "fact:title"
+      ],
+      "unresolved": [],
+      "excludedNonvisual": [
+        "Point paint lowers documented Class then Direct priority; stroke-color without effective stroke-width has no visible border (quadrantChart.md176-188): quadrant.pointStyleInputs={\"points\":[{\"label\":\"Campaign A\",\"classes\":\"\",\"properties\":{\"radius\":\"12\"}},{\"label\":\"Campaign B\",\"classes\":\"class1\",\"properties\":{\"color\":\"#ff3300\",\"radius\":\"10\"}},{\"label\":\"Campaign C\",\"classes\":\"\",\"properties\":{\"radius\":\"25\",\"color\":\"#00ff33\",\"stroke-color\":\"#10f0f0\"}},{\"label\":\"Campaign D\",\"classes\":\"\",\"properties\":{\"radius\":\"15\",\"stroke-color\":\"#00ff0f\",\"stroke-width\":\"5px\",\"color\":\"#ff33f0\"}},{\"label\":\"Campaign E\",\"classes\":\"class2\",\"properties\":{}},{\"label\":\"Campaign F\",\"classes\":\"class3\",\"properties\":{\"color\":\"#0000ff\"}}],\"classes\":[{\"kind\":\"classDef\",\"selection\":\"class1\",\"attributes\":[{\"property\":\"color\",\"value\":\"#109060\"}]},{\"kind\":\"classDef\",\"selection\":\"class2\",\"attributes\":[{\"property\":\"color\",\"value\":\"#908342\"},{\"property\":\"radius\",\"value\":\"10\"},{\"property\":\"stroke-color\",\"value\":\"#310085\"},{\"property\":\"stroke-width\",\"value\":\"10px\"}]},{\"kind\":\"classDef\",\"selection\":\"class3\",\"attributes\":[{\"property\":\"color\",\"value\":\"#f00fff\"},{\"property\":\"radius\",\"value\":\"10\"}]}]}"
+      ],
+      "visualProjections": [
+        "Standalone inputs retain exact native/advisory provenance without invented geometry, unavailable host CSS or invalid CSS repair; every meaningful owned visual fact remains required, including task priority semantics"
+      ]
+    },
+    "profileExpected": {
+      "labels": [
+        "Reach and engagement of campaigns",
+        "Low Reach",
+        "High Reach",
+        "Low Engagement",
+        "High Engagement",
+        "We should expand",
+        "Need to promote",
+        "Re-evaluate",
+        "May be improved",
+        "Campaign A",
+        "Campaign B",
+        "Campaign C",
+        "Campaign D",
+        "Campaign E",
+        "Campaign F"
+      ],
+      "facts": {
+        "title": "Reach and engagement of campaigns",
+        "point-appearance": [
+          {
+            "label": "Campaign A",
             "classes": "",
             "properties": {
               "radius": "12"
@@ -48172,23 +48431,6 @@
           ]
         }
       }
-    },
-    "sourceReview": {
-      "protocol": "literal-documentation-facts-v1",
-      "sourcePin": "1fb7869866dd619168d840291c9c54b4f129758b",
-      "method": "Independent literal syntax transcription with fail-closed unhandled-construct accounting; source-specific regression and mutation controls in tests/docs-source-review.test.ts",
-      "expectedFactsComplete": true,
-      "requiredObligations": [
-        "visible-labels",
-        "fact:authored-style",
-        "fact:axes",
-        "fact:point-appearance",
-        "fact:points",
-        "fact:quadrants",
-        "fact:title"
-      ],
-      "unresolved": [],
-      "excludedNonvisual": []
     }
   },
   {
@@ -48921,7 +49163,6 @@
     "expected": {
       "labels": [
         "Hello",
-        " ",
         "World",
         "greeting"
       ],
@@ -48937,8 +49178,7 @@
                   "value": "Hello"
                 },
                 {
-                  "kind": "terminal",
-                  "value": " "
+                  "kind": "blank-terminal"
                 },
                 {
                   "kind": "terminal",
@@ -48951,7 +49191,17 @@
       },
       "advisoryFacts": {
         "unprinted-source-identities": {
-          "grammar-dialect": "ebnf"
+          "grammar-dialect": "ebnf",
+          "blank-terminal-source-values": [
+            {
+              "rule": "greeting",
+              "path": [
+                "items",
+                1
+              ],
+              "value": " "
+            }
+          ]
         }
       }
     },
@@ -48966,10 +49216,12 @@
       ],
       "unresolved": [],
       "excludedNonvisual": [
-        "Raw grammar-dialect is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: \"ebnf\""
+        "Raw grammar-dialect is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: \"ebnf\"",
+        "Pure ASCII-space terminal values have no count-specific printed ink. A required blank-terminal leaf retains its rounded body, exact recursive AST position and physical path ownership; exact string/count remains native/advisory (railroad.md40,58-60,286;railroadRenderer.ts98-125 text(value) with SVG default whitespace): [{\"rule\":\"greeting\",\"path\":[\"items\",1],\"value\":\" \"}]"
       ],
       "visualProjections": [
-        "Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required"
+        "The enumerated source history,dialect and selected-parent or blank-terminal values remain native/advisory; all visible topology,chronology,ownership and recursive grammar structure remain required",
+        "Pure-space terminals require an owned blank rounded terminal at the exact recursive grammar position, without an invisible character-count obligation; exact source values remain complete native/advisory data"
       ]
     },
     "profileExpected": {
@@ -50857,8 +51109,7 @@
         "subscriber",
         "phone",
         "DIGIT",
-        "-",
-        " "
+        "-"
       ],
       "facts": {
         "title": "Phone Number",
@@ -50923,8 +51174,7 @@
                     "value": "-"
                   },
                   {
-                    "kind": "terminal",
-                    "value": " "
+                    "kind": "blank-terminal"
                   }
                 ]
               }
@@ -50934,7 +51184,18 @@
       },
       "advisoryFacts": {
         "unprinted-source-identities": {
-          "grammar-dialect": "abnf"
+          "grammar-dialect": "abnf",
+          "blank-terminal-source-values": [
+            {
+              "rule": "subscriber",
+              "path": [
+                "expression",
+                "items",
+                2
+              ],
+              "value": " "
+            }
+          ]
         }
       }
     },
@@ -50950,10 +51211,12 @@
       ],
       "unresolved": [],
       "excludedNonvisual": [
-        "Raw grammar-dialect is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: \"abnf\""
+        "Raw grammar-dialect is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: \"abnf\"",
+        "Pure ASCII-space terminal values have no count-specific printed ink. A required blank-terminal leaf retains its rounded body, exact recursive AST position and physical path ownership; exact string/count remains native/advisory (railroad.md40,58-60,286;railroadRenderer.ts98-125 text(value) with SVG default whitespace): [{\"rule\":\"subscriber\",\"path\":[\"expression\",\"items\",2],\"value\":\" \"}]"
       ],
       "visualProjections": [
-        "Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required"
+        "The enumerated source history,dialect and selected-parent or blank-terminal values remain native/advisory; all visible topology,chronology,ownership and recursive grammar structure remain required",
+        "Pure-space terminals require an owned blank rounded terminal at the exact recursive grammar position, without an invisible character-count obligation; exact source values remain complete native/advisory data"
       ]
     },
     "profileExpected": {

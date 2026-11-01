@@ -21,6 +21,30 @@ test('constructor and EBNF same-terminal twins retain the complete recursive AST
   expect(a.expected.facts!['grammar-rules']).toEqual([{name:'word',expression:{kind:'terminal',value:'a'}}])
   expect(a.expected.advisoryFacts!['unprinted-source-identities']).not.toEqual(b.expected.advisoryFacts!['unprinted-source-identities'])
 })
+test('selected cherry-pick diff base stays native while source provenance, type and drawn parent structure remain required',()=>{
+  const source='gitGraph\ncommit id:"root"\nbranch other\ncommit id:"other"\ncheckout main\ncommit id:"main"\nmerge other id:"merge"\nbranch pick\ncommit id:"pick"\ncherry-pick id:"merge" parent:"other"'
+  const a=projectVisualExpectation('gitgraph',literal(source)),b=projectVisualExpectation('gitgraph',literal(source.replace('parent:"other"','parent:"main"')))
+  expect(a.expected.facts).toEqual(b.expected.facts)
+  expect(a.profileExpected).not.toEqual(b.profileExpected)
+  const pick=(a.expected.facts!.commits as any[]).at(-1)
+  expect(pick).toMatchObject({type:'CHERRY_PICK',parents:['commit:4'],cherryPickSource:'commit:3'})
+  expect(pick).not.toHaveProperty('cherryPickParent')
+  expect((a.profileExpected!.facts!.commits as any[]).at(-1).cherryPickParent).toBe('commit:1')
+  const wrongSource=structuredClone(a.expected);(wrongSource.facts!.commits as any[]).at(-1).cherryPickSource='commit:0'
+  expect(wrongSource.facts).not.toEqual(a.expected.facts)
+})
+test('pure-space terminals require a positioned blank leaf while exact whitespace bytes remain native',()=>{
+  const source='railroad-ebnf-beta\ngreeting = "Hello" " " "World";',a=projectVisualExpectation('railroad-ebnf',literal(source)),b=projectVisualExpectation('railroad-ebnf',literal(source.replace(' " " ',' "   " ')))
+  expect(a.expected.facts).toEqual(b.expected.facts)
+  expect(a.profileExpected).not.toEqual(b.profileExpected)
+  expect(a.expected.facts!['grammar-rules']).toEqual([{name:'greeting',expression:{kind:'sequence',items:[{kind:'terminal',value:'Hello'},{kind:'blank-terminal'},{kind:'terminal',value:'World'}]}}])
+  expect(a.expected.labels).toEqual(['Hello','World','greeting'])
+  const wrong=projectVisualExpectation('railroad-ebnf',literal(source.replace(' " " ',' "x" ')))
+  expect(wrong.expected.facts).not.toEqual(a.expected.facts)
+  expect(wrong.expected.labels).toContain('x')
+  const literalSpace=projectVisualExpectation('railroad-ebnf',literal(source.replace(' " " ',' "\\t" ')))
+  expect((literalSpace.expected.facts!['grammar-rules'] as any[])[0].expression.items[1]).toEqual({kind:'terminal',value:'\\t'})
+})
 test('only mindmap tree-order is metadata; rooted hierarchy and unrelated ordering keys remain required',()=>{
   const input:MeaningExpectation={labels:['Root','Child'],nodes:[{id:'root',label:'Root'},{id:'child',label:'Child'}],edges:[{source:'root',target:'child',directed:false}],facts:{'tree-order':['root','child'],'message-order':['keep'],'grid-cell-order':['keep'],'lane-order':['keep']}}
   const visual=project('mindmap',input).expected
