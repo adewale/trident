@@ -471,25 +471,34 @@ function linkedBaseline(snapshot: ResultsSnapshot, root: string): ResultsSnapsho
 export function validateSnapshotReceipts(snapshot: ResultsSnapshot, root: string) {
   const baseline = linkedBaseline(snapshot, root)
   if (baseline) validateSnapshotReceipts(baseline, root)
+  const bytesByUrl = new Map<string, Buffer>(), physicalRoot = realpathSync(root)
+  for (const receipt of [...snapshot.tables.flatMap(entry => [entry.receipt, ...entry.rows.flatMap(row => row.receipt ? [row.receipt] : [])]), ...snapshot.attempts.map(entry => entry.receipt)]) {
+    if (receipt.url.startsWith('https://')) continue
+    let bytes = bytesByUrl.get(receipt.url)
+    if (!bytes) {
+      const path = realpathSync(resolve(root, receipt.url.split('#')[0]!)), within = relative(physicalRoot, path)
+      if (isAbsolute(within) || within.startsWith('..')) throw Error('Retained receipt escaped its repository: ' + receipt.url)
+      bytes = readFileSync(path); bytesByUrl.set(receipt.url, bytes)
+    }
+    if (sha256(bytes) !== receipt.sha256) throw Error('Retained receipt hash changed: ' + receipt.url)
+  }
   const local = new Map<string, SnapshotTable[]>()
   for (const entry of snapshot.tables) if (!entry.receipt.url.startsWith('https://')) local.set(entry.receipt.url, [...(local.get(entry.receipt.url) ?? []), entry])
-  for (const [url, entries] of local) {
-    const bytes = readFileSync(resolve(root, url.split('#')[0]!))
-    if (entries.some(entry => sha256(bytes) !== entry.receipt.sha256)) throw Error('Retained receipt hash changed: ' + url)
+  for (const [url, bytes] of bytesByUrl) {
+    const entries = local.get(url) ?? []
     const receipt = (url.split('#')[0]!.endsWith('.json') ? JSON.parse(bytes.toString()) : {}) as { tableData?: { ids: string[]; valuesSha256: string }; files?: { path: string; sha256: string }[] }
     // Frozen baselines use the same table receipt as rolling results, with
     // their actual input and outcome files attached. Check those bytes too;
     // an intact summary cannot certify a changed corpus or outcome ledger.
     if (receipt.files !== undefined) {
       if (!Array.isArray(receipt.files) || new Set(receipt.files.map(file => file.path)).size !== receipt.files.length) throw Error('Invalid frozen evidence inventory: ' + url)
-      const physicalRoot = realpathSync(root)
       for (const file of receipt.files) {
         if (typeof file.path !== 'string' || !/^(?:docs|results)\/[a-zA-Z0-9_./%-]+$/.test(file.path) || file.path.includes('..') || !/^[a-f0-9]{64}$/.test(file.sha256)) throw Error('Invalid frozen evidence file: ' + url)
         const path = realpathSync(resolve(root, file.path)), within = relative(physicalRoot, path)
         if (isAbsolute(within) || within.startsWith('..') || sha256(readFileSync(path)) !== file.sha256) throw Error('Frozen evidence file changed or escaped: ' + file.path)
       }
     }
-    if (receipt.tableData) {
+    if (receipt.tableData && entries.length) {
       if (JSON.stringify(entries.map(entry => entry.id).sort()) !== JSON.stringify([...receipt.tableData.ids].sort())) throw Error('Retained table population changed: ' + url)
       if (sha256(JSON.stringify(retainedTableValues(snapshot, receipt.tableData.ids))) !== receipt.tableData.valuesSha256) throw Error('Retained table values changed: ' + url)
     }

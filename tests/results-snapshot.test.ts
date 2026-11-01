@@ -394,3 +394,25 @@ test('a rolling result view preserves and verifies its frozen baseline instead o
   current.baseline.sha256 = hash(JSON.stringify(current))
   expect(() => validateSnapshotReceipts(current, root)).toThrow('Invalid frozen baseline snapshot')
 }))
+
+test('local row and attempt owners retain their own hashes and repository containment', () => temporary(root => {
+  mkdirSync(join(root, 'docs'))
+  const body = 'owned evidence', bodyHash = createHash('sha256').update(body).digest('hex')
+  writeFileSync(join(root, 'docs/body.txt'), body)
+  const data = snapshot(), payload = JSON.stringify({ files: [{ path: 'docs/body.txt', sha256: bodyHash }] }), hash = createHash('sha256').update(payload).digest('hex')
+  writeFileSync(join(root, 'docs/row.json'), payload); writeFileSync(join(root, 'docs/attempt.json'), payload)
+  data.tables[0]!.rows[0]!.receipt = { url: 'docs/row.json', sha256: hash }
+  data.attempts.push({ id: 'owner', project: 'fixture/zebra', suite: 'docs', measuredFrom: '2026-01-01', updatedAt: '2026-01-01', status: 'recorded', detail: 'Retained owner', groups: [], receipt: { url: 'docs/attempt.json', sha256: hash } })
+  expect(() => validateSnapshotReceipts(data, root)).not.toThrow()
+  writeFileSync(join(root, 'docs/row.json'), 'changed')
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('hash changed')
+  writeFileSync(join(root, 'docs/row.json'), payload); writeFileSync(join(root, 'docs/attempt.json'), 'changed')
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('hash changed')
+  writeFileSync(join(root, 'docs/attempt.json'), payload)
+  writeFileSync(join(root, 'docs/body.txt'), 'changed')
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('Frozen evidence file changed')
+  writeFileSync(join(root, 'docs/body.txt'), body)
+  symlinkSync(join(root, '..'), join(root, 'docs/escape'))
+  data.attempts[0]!.receipt.url = 'docs/escape'
+  expect(() => validateSnapshotReceipts(data, root)).toThrow('escaped')
+}))
