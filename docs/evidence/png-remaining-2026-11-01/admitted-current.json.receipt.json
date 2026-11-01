@@ -1,0 +1,189 @@
+{
+  "schema": "trident-selected-png-review-import-v1",
+  "reviews": 16,
+  "inspections": 16,
+  "inventorySha256": "5a82bdaf701224448a1e2418f3d14a303253eb66d645c04c2abc6142adc66408",
+  "contractsSha256": "2dd7b5d389e853f15cecd95686d2ae01c52feea809269992d0d4082aa7f24aa5",
+  "originsSha256": "a4c92c7ae2051ad5a5b6c576eb9407dc21fe77972b42cdb99afe639a0e7b36a6",
+  "reviewFileSha256": "6294ddfcd41c4941f62c4b5790e17e05a6df131b7b6b41096b8c6def35d72f4f",
+  "imported": [
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/gitgraph.md:254",
+      "pngSha256": "5879367ad39169d17df2f80c5e213f988761b058602f67f5ad7fdc8865073f82",
+      "packetSha256": "5879367ad39169d17df2f80c5e213f988761b058602f67f5ad7fdc8865073f82",
+      "expectationsSha256": "2daafe838628d16e33e6021f376ae4f9ced099734b3e66dda36ba4bd6e6a5449",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/railroad.md:58",
+      "pngSha256": "d07289e6cc73357c47b2d59f16466af257331ed5cf8c31c81a522c4f957478d7",
+      "packetSha256": "d07289e6cc73357c47b2d59f16466af257331ed5cf8c31c81a522c4f957478d7",
+      "expectationsSha256": "0da5df088602f4e4628ab9bc52dd1d44e0b3cdb5a6221d71a8846c463ef64336",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/quadrantChart.md:190",
+      "pngSha256": "ac9f2345000414727cfdb0e52aa80a3f0d1176d657f003e28ad420d5e8369d15",
+      "packetSha256": "ac9f2345000414727cfdb0e52aa80a3f0d1176d657f003e28ad420d5e8369d15",
+      "expectationsSha256": "634dc2cad8348e6deff41d4e3f6128e27097f59bb989b0ca32ba4549e357dd07",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:329",
+      "pngSha256": "3fe52bbd03e08af11b15a7a137ad0b051c0f673d81d446aa54bcc88fb2a0346a",
+      "packetSha256": "3fe52bbd03e08af11b15a7a137ad0b051c0f673d81d446aa54bcc88fb2a0346a",
+      "expectationsSha256": "ecb24d08677dbdf977095ded5c395a09a4d17716147aea0a95d11fa91d4a5735",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:153",
+      "pngSha256": "81c490e5919616c1c1c44e7d9fcf8321e5e818ff776d4333070200fb622f398e",
+      "packetSha256": "81c490e5919616c1c1c44e7d9fcf8321e5e818ff776d4333070200fb622f398e",
+      "expectationsSha256": "4dd9fe2b1453405b91cfb7b88c657453e2afda3f305a94400dc78df65e096e3c",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/gitgraph.md:254",
+      "pngSha256": "279b33c37e29b6d00bfbcfab809a9f77fad605b8374bf6a478034398a25f3ba0",
+      "packetSha256": "279b33c37e29b6d00bfbcfab809a9f77fad605b8374bf6a478034398a25f3ba0",
+      "expectationsSha256": "2daafe838628d16e33e6021f376ae4f9ced099734b3e66dda36ba4bd6e6a5449",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/railroad.md:58",
+      "pngSha256": "e583f38b5158ac8d1e934092c3a84f83ef57ae67b32f7d182af05e67955f9580",
+      "packetSha256": "e583f38b5158ac8d1e934092c3a84f83ef57ae67b32f7d182af05e67955f9580",
+      "expectationsSha256": "0da5df088602f4e4628ab9bc52dd1d44e0b3cdb5a6221d71a8846c463ef64336",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/quadrantChart.md:190",
+      "pngSha256": "f8668e6c710a5bb4caa2d93a8cb407eb4d926891fc4d0952bb534720c7ca1612",
+      "packetSha256": "f8668e6c710a5bb4caa2d93a8cb407eb4d926891fc4d0952bb534720c7ca1612",
+      "expectationsSha256": "634dc2cad8348e6deff41d4e3f6128e27097f59bb989b0ca32ba4549e357dd07",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:329",
+      "pngSha256": "4c75125ef5a99f7ef2949b63efda5690ab9416fb390ca436107ebffeab90f32e",
+      "packetSha256": "4c75125ef5a99f7ef2949b63efda5690ab9416fb390ca436107ebffeab90f32e",
+      "expectationsSha256": "ecb24d08677dbdf977095ded5c395a09a4d17716147aea0a95d11fa91d4a5735",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:153",
+      "pngSha256": "52890331b7872906c19405de1f917cc71bb91d9be287fd9d5f1688ed5a322569",
+      "packetSha256": "52890331b7872906c19405de1f917cc71bb91d9be287fd9d5f1688ed5a322569",
+      "expectationsSha256": "4dd9fe2b1453405b91cfb7b88c657453e2afda3f305a94400dc78df65e096e3c",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/railroad.md:199",
+      "pngSha256": "21d2509d06eb779a7e97b35507a8fa0e48a64e94d83807b8f1a02e464ae29162",
+      "packetSha256": "21d2509d06eb779a7e97b35507a8fa0e48a64e94d83807b8f1a02e464ae29162",
+      "expectationsSha256": "ef439f4c5d77581c7ac17988a0780d07d4b8bd8f815909f6b7e908992a42e9ec",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/railroad.md:199",
+      "pngSha256": "31e1a05d4fb9b0b096fb49a6162989cddba7b595d319c0a7b7747da4262a3541",
+      "packetSha256": "31e1a05d4fb9b0b096fb49a6162989cddba7b595d319c0a7b7747da4262a3541",
+      "expectationsSha256": "ef439f4c5d77581c7ac17988a0780d07d4b8bd8f815909f6b7e908992a42e9ec",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/gantt.md:186",
+      "pngSha256": "b9146c06f9b481738cadf3c24a02c2546536d76c43ea3b22f8e9d2d8b8fcf4bb",
+      "packetSha256": "b9146c06f9b481738cadf3c24a02c2546536d76c43ea3b22f8e9d2d8b8fcf4bb",
+      "expectationsSha256": "e03a7f07d3ee176ab7a67b02997e54f3b2ec9616c5b9b8dcb7cc4ff139075842",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/kanban.md:59",
+      "pngSha256": "09c2130a6c80060967eccb8fe74817712791d218f76bd2d5f9cc5e2c483fdb17",
+      "packetSha256": "09c2130a6c80060967eccb8fe74817712791d218f76bd2d5f9cc5e2c483fdb17",
+      "expectationsSha256": "765a7e22cb6e6be0c0ef0b943bd54b8bdb25b48771595661b13f1f97729271ec",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/xyChart.md:181",
+      "pngSha256": "01fa7326f3c246ba1dd136da34b7c80df477bacee10e6dbad8dca5d70ac189a8",
+      "packetSha256": "01fa7326f3c246ba1dd136da34b7c80df477bacee10e6dbad8dca5d70ac189a8",
+      "expectationsSha256": "85a8af741c015dc67f75c35237b91b8fe9fe7b8f6d96a7768cda0f3bb18f5bd5",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/c4.md:267",
+      "pngSha256": "6ceadc3c8162e7da321810d46866849c3c83c92fde54ce73e97f30a5f2345b73",
+      "packetSha256": "6ceadc3c8162e7da321810d46866849c3c83c92fde54ce73e97f30a5f2345b73",
+      "expectationsSha256": "35637bc736e48cbc4fd966eea7b52f440d71747a5851e0f6436cd4e8f55055c0",
+      "directImageBasis": {
+        "basis": "source-and-actual-image",
+        "protocol": "receipt-declared-direct-image-v1"
+      }
+    }
+  ],
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0
+}

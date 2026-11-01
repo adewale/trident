@@ -1,0 +1,72 @@
+{
+  "schema": "trident-named-source-pixel-cross-surface-dispositions-v1",
+  "rows": [
+    {
+      "index": 324,
+      "project": "mermaid-js/mermaid",
+      "oldReceiptSha256": "de0413c7a99b51a1e7369b9ebef78820bed2d5ae4d8f356faadbfb997c4b1896",
+      "oldStatus": "incorrect",
+      "currentReceiptSha256": "de0413c7a99b51a1e7369b9ebef78820bed2d5ae4d8f356faadbfb997c4b1896",
+      "currentStatus": "incorrect",
+      "pngSha256": "5e3f43e7e92b15a2e9538055ace083ad75470a614f935fedc3341e89f824cbb5",
+      "disposition": "already-current-incorrect-freshly-visually-corroborated",
+      "actualFinding": "Requestedredstartindices0/16/32areblack"
+    },
+    {
+      "index": 324,
+      "project": "pub:mermaid_flutter",
+      "oldReceiptSha256": "09df2f478c318f0527a232e9305a2bea40c546bbae09e3323287d1dbc0fa9fb2",
+      "oldStatus": "incorrect",
+      "currentReceiptSha256": "09df2f478c318f0527a232e9305a2bea40c546bbae09e3323287d1dbc0fa9fb2",
+      "currentStatus": "incorrect",
+      "pngSha256": "bb091a9093a0877d043343f54a7dc1507529c82d525c0c6623d6e96ae3e27d93",
+      "disposition": "already-current-incorrect-freshly-visually-corroborated",
+      "actualFinding": "Requestedredstartindices0/16/32areblack"
+    },
+    {
+      "index": 470,
+      "project": "mermaid-js/mermaid",
+      "oldReceiptSha256": "3cd73bb5050bfc42ccb95d6a15d9ed6d57c0105c3852928c6e4857a9772efa4a",
+      "oldStatus": "incorrect",
+      "currentReceiptSha256": "3cd73bb5050bfc42ccb95d6a15d9ed6d57c0105c3852928c6e4857a9772efa4a",
+      "currentStatus": "incorrect",
+      "pngSha256": "f7b8328a94b95cb347323e2684f30c075dc44101ff57eb26ce986cb6ee19556b",
+      "disposition": "already-current-incorrect-freshly-visually-corroborated",
+      "actualFinding": "Supplies$100000absentwhileother7formattedvaluespaint"
+    },
+    {
+      "index": 470,
+      "project": "pub:mermaid_flutter",
+      "oldReceiptSha256": "7e4a926cd2be4297a38a5d3f43e557e23ba0335db5d637387a03ed4d1bcffd9c",
+      "oldStatus": "incorrect",
+      "currentReceiptSha256": "7e4a926cd2be4297a38a5d3f43e557e23ba0335db5d637387a03ed4d1bcffd9c",
+      "currentStatus": "incorrect",
+      "pngSha256": "af2e0eb218a81fe984d7ff754fb61aa8c73bb998916acaf6ef84057ea227f3f1",
+      "disposition": "already-current-incorrect-freshly-visually-corroborated",
+      "actualFinding": "Supplies$100000absentwhileother7formattedvaluespaint"
+    },
+    {
+      "index": 512,
+      "project": "mermaid-js/mermaid",
+      "oldReceiptSha256": "e1f98c838aec4a87b510e202b0b9074d4fa7f64e67d285a400a315fd23ac97ff",
+      "oldStatus": "correct",
+      "currentReceiptSha256": "c803a0b14f839eef273d61adfe82bc48af9c7971624cf44360317b7ecaa73050",
+      "currentStatus": "incorrect",
+      "pngSha256": "81c490e5919616c1c1c44e7d9fcf8321e5e818ff776d4333070200fb622f398e",
+      "disposition": "explicit-corrected-prior-mistaken-positive",
+      "actualFinding": "Build/buy/outsourcepaintcircularringsinsteadofrequiredtriangle/diamond/square"
+    },
+    {
+      "index": 512,
+      "project": "pub:mermaid_flutter",
+      "oldReceiptSha256": "c315cc3275bba1738312bfa6f2ec7c91d8a244959d9e8a537ffe1697ef32c9e1",
+      "oldStatus": "correct",
+      "currentReceiptSha256": "b0764df36371ac5b7d9be17edc4697732d40fce95cc82ec45205ec6e91f3fc23",
+      "currentStatus": "incorrect",
+      "pngSha256": "52890331b7872906c19405de1f917cc71bb91d9be287fd9d5f1688ed5a322569",
+      "disposition": "explicit-corrected-prior-mistaken-positive",
+      "actualFinding": "Build/buy/outsourcepaintcircularringsinsteadofrequiredtriangle/diamond/square"
+    }
+  ],
+  "scope": "Freshsource/actualPNGinspection; noSVGgradesuppliesPNGtruth.324/470alreadyincorrectinold965+normalbase,no redundantreview.512bothchangedonlybyfreshdirectnegative+officialadmission; oldpositivesremainhistorical."
+}

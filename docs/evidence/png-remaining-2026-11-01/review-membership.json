@@ -1,0 +1,196 @@
+{
+  "schema": "trident-current-exact-review-membership-v1",
+  "sourceContractsSha256": "2dd7b5d389e853f15cecd95686d2ae01c52feea809269992d0d4082aa7f24aa5",
+  "selectedOriginsSha256": "c0954f2a493782faad01a6e1732586ea4a329c2cc50603b025fdc4e15216e3db",
+  "selected": 976,
+  "unchangedPrior965Admissions": 960,
+  "newOfficialAdmissions": 16,
+  "explicitReplacements": [
+    {
+      "index": 276,
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/gitgraph.md:254",
+      "kind": "source-contract-current-fresh-review",
+      "oldReceiptSha256": "ec7eb1017fdf9005a1d40f8c4624697dbc996b5781efc60b3c2910ca9423dab9",
+      "newReceiptSha256": "2697c9fb4b46a1db7671204fc4762ffb8f1b3e683d0a44bcc2b3437153b64ac4",
+      "oldStatus": "correct",
+      "newStatus": "correct",
+      "reason": "Approved4-case source-only projection changes saved expectation identity; fresh review and official admission required. No restamp."
+    },
+    {
+      "index": 512,
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:153",
+      "kind": "explicit-mistaken-review-correction",
+      "oldReceiptSha256": "e1f98c838aec4a87b510e202b0b9074d4fa7f64e67d285a400a315fd23ac97ff",
+      "newReceiptSha256": "c803a0b14f839eef273d61adfe82bc48af9c7971624cf44360317b7ecaa73050",
+      "oldStatus": "correct",
+      "newStatus": "incorrect",
+      "reason": "Independent fresh PNG views and exact normative triangle/diamond/square strategy rule contradict the previous circular-glyph positive. Prior raw receipt retained as history; explicit correction, never latest-wins."
+    },
+    {
+      "index": 512,
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/wardley.md:153",
+      "kind": "explicit-mistaken-review-correction",
+      "oldReceiptSha256": "c315cc3275bba1738312bfa6f2ec7c91d8a244959d9e8a537ffe1697ef32c9e1",
+      "newReceiptSha256": "b0764df36371ac5b7d9be17edc4697732d40fce95cc82ec45205ec6e91f3fc23",
+      "oldStatus": "correct",
+      "newStatus": "incorrect",
+      "reason": "Independent fresh PNG views and exact normative triangle/diamond/square strategy rule contradict the previous circular-glyph positive. Prior raw receipt retained as history; explicit correction, never latest-wins."
+    },
+    {
+      "index": 343,
+      "project": "mermaid-js/mermaid",
+      "id": "packages/mermaid/src/docs/syntax/railroad.md:199",
+      "kind": "source-contract-current-fresh-review",
+      "oldReceiptSha256": "53543b33d0010a5c343e17c321500abf65937daa9536112990b8d1cedc6522c5",
+      "newReceiptSha256": "440df2ff01a967d1ecc06fb3ca6a23940eab22e735bfaa6e01f325d5abae1454",
+      "oldStatus": "incorrect",
+      "newStatus": "incorrect",
+      "reason": "Approved4-case source-only projection changes saved expectation identity; fresh review and official admission required. No restamp."
+    },
+    {
+      "index": 343,
+      "project": "pub:mermaid_flutter",
+      "id": "packages/mermaid/src/docs/syntax/railroad.md:199",
+      "kind": "source-contract-current-fresh-review",
+      "oldReceiptSha256": "d7c7a21cd0f25eda4b457f56248accbe299a1a5df27569eee64e4bc37c35f062",
+      "newReceiptSha256": "450e52bd7da721a1c96497732b0b722749dc4b69b4a857764caf7279b60f3ad4",
+      "oldStatus": "incorrect",
+      "newStatus": "incorrect",
+      "reason": "Approved4-case source-only projection changes saved expectation identity; fresh review and official admission required. No restamp."
+    }
+  ],
+  "originFiles": [
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews.jsonl",
+      "sha256": "f1ab24d82f320bfdfaf7853fdc8ce8ec3f68c99ca68b2e5897e8467e381e3aab"
+    },
+    {
+      "path": "/workspace/trident-png-full-2026-10-31/review-packets/reviews-families.jsonl",
+      "sha256": "b0af1ba46df8a2b4cd539785cfe3530d16fb87877efb3e301e58f6c1eb9205fb"
+    },
+    {
+      "path": "/workspace/trident-png-current-families-2026-10-31/reviews-current-families.jsonl",
+      "sha256": "f5d58ad4bb85cf18cef45db6458ceed7b7a76b1bc8989330693e3576f1773940"
+    },
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews-current-png-owner.jsonl",
+      "sha256": "dee5519004cc84a50ea22f37588a57abb706d96dfabaf3cdef9cd63ee8464e8f"
+    },
+    {
+      "path": "/workspace/trident-png-held-2026-11-01/reviews-standalone.jsonl",
+      "sha256": "571c4e51e055bfab1cdbd8339bafb7b5b4b5c6c18703beacee717b8a109bd606"
+    },
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews-c4-offset-qualified.jsonl",
+      "sha256": "dbc27d8ecd5df60cbd9b93ec49e9920200b690c25b51a03963f419d8caafd03a"
+    },
+    {
+      "path": "/workspace/trident-png-remaining-2026-11-01/reviews-current.jsonl",
+      "sha256": "6a04e2aadc20f6fec4f943eb3350f448b9c54b97c6f1994f8e9e42317f52420d"
+    },
+    {
+      "path": "/workspace/trident-png-late-owner-review-2026-10-31/reviews-current-owner-late.jsonl",
+      "sha256": "3e2a41101f39c08faf8a4d102eb09c7ae73ea8b90d8ce75bcccdfc787c8b32b7"
+    },
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews-100-199.jsonl",
+      "sha256": "1a1c43ff94b33f5e5a5943818f57c1ff59554ec793875269a57c13e19119b033"
+    },
+    {
+      "path": "/workspace/trident-png-final-families-2026-10-31/reviews-final-families.jsonl",
+      "sha256": "d491e7169fda1b1e5fc2649265e935b8fc9a7c682a038bc5255fdd64bbc2cf6e"
+    },
+    {
+      "path": "/workspace/trident-png-source9-families-2026-10-31/reviews-source9-families.jsonl",
+      "sha256": "c3280aa5741ad72b8b401d187f009d37f6d2d95ae389381a0ad7dbed45d35e29"
+    },
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews-200-299.jsonl",
+      "sha256": "a4ecda7fae38dd06a1b80d05f0ade63fdb3a71db2f1b958b1a86f2058699c102"
+    },
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews-current-207-244.jsonl",
+      "sha256": "1ba23b6723d6680594673a9cdbff85d4aaf37211e9475ff68469fe5e15f4b1e8"
+    },
+    {
+      "path": "/workspace/trident-png-full-2026-10-31/favicon211-repair/review-packets/reviews-export-repair.jsonl",
+      "sha256": "2f7e18ea8f054c15643ba2dafacc577aa8937374ef97031718412f5d0315d4a6"
+    },
+    {
+      "path": "/workspace/trident-png-effective-style-review-2026-10-31/reviews-effective-flow.jsonl",
+      "sha256": "95dea5b42658ad69c0258d2215d1fd19bae2908638b12bbcfa954d9d356c81f9"
+    },
+    {
+      "path": "/workspace/trident-png-graph-frozen-review-2026-10-31/reviews-frozen-graphs.jsonl",
+      "sha256": "12852b0dab92001d58483c1470f9d7c8faa8267b20af9f10cc05b5f5b8582edf"
+    },
+    {
+      "path": "/workspace/trident-png-held-2026-11-01/reviews-fonts.jsonl",
+      "sha256": "122b7990533c158b7e1a823c90e72abb7220da84250f26d6788914000b043819"
+    },
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews-300-349.jsonl",
+      "sha256": "32c94a69026d6aa3bfad62543b67f7b5b06f490e15ca553ff61452ff1ba6be5a"
+    },
+    {
+      "path": "/workspace/trident-png-held-2026-11-01/reviews-native304.jsonl",
+      "sha256": "66f0cb46bb6cde701da12b88939283421b71c8e8807f04e9704a6addf6415b77"
+    },
+    {
+      "path": "/workspace/trident-png-held-2026-11-01/reviews-radar.jsonl",
+      "sha256": "aedabc3dda60a86c7c5da796a5bc0aa3777fddd7c2ab8bd5aa54dc7c4ea3069f"
+    },
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews-350-399.jsonl",
+      "sha256": "322c1933f8562528cf408e89268c5e129195a13f7aa45fb3b5de6f6a57e7fa1b"
+    },
+    {
+      "path": "/workspace/trident-png-held-graphs-2026-11-01/reviews-held-graphs.jsonl",
+      "sha256": "fd457aaa30b5b42169ec68e7aaa012151f0872ed5943e711064a0576527e9ecd"
+    },
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews-400-499.jsonl",
+      "sha256": "6c449d5ac244f9ae2bf063b5673e03c2e361a9c638a76d05e5fb0ae370b89559"
+    },
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews-static-families.jsonl",
+      "sha256": "3f986bca698c8c793bbf44a594177387cef94b6be3ea1a86875aeb67561cf7ac"
+    },
+    {
+      "path": "/workspace/trident-png-held-2026-11-01/reviews-tree.jsonl",
+      "sha256": "1b426e72c2c28a186acb0e9166115f0ca170bfaeb496b6d5ad1e0d049b47d7f5"
+    },
+    {
+      "path": "/workspace/trident-png-clearance-review-2026-10-31/reviews-clearance-families.jsonl",
+      "sha256": "5d49018e06171de75546e37db9da0a0406ad635f9e22d0681f6a4fe824befc63"
+    },
+    {
+      "path": "/workspace/trident-png-effective-style-families-2026-10-31/reviews-effective-usecase-dimensions.jsonl",
+      "sha256": "d0ab156781dff2052aa5f8aa7ee211222790cd8a8be14453bb8589c6863080b2"
+    },
+    {
+      "path": "/workspace/trident-png-held-2026-11-01/reviews-usecase492.jsonl",
+      "sha256": "cfdeda64e74c4e99a8aa3a1abda3aee0b7a6527aeb44aef9735b241b626b44b2"
+    },
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews-500-547.jsonl",
+      "sha256": "258c8bd5dc07ae0d6bce78675b924cc536a4be764d307e506d0b82417211e641"
+    },
+    {
+      "path": "/workspace/trident-png-venn-review-2026-10-31/reviews-venn-current.jsonl",
+      "sha256": "e215898d0bc0ebee9fadf7efe5715af2eb8a3d612cfc7af77e9ff02ea6fd4e2c"
+    },
+    {
+      "path": "/workspace/trident-png-image-review-2026-10-31/reviews-source-rechecked-500-547.jsonl",
+      "sha256": "ea61062693a96dc27c2571d6719d6b140d2b39c2e1750e5c1bfe85ccbf68068c"
+    },
+    {
+      "path": "/workspace/trident-png-wardley-2026-11-01/reviews.jsonl",
+      "sha256": "8ce950929ccc71a2cbef7ffc9524d7a4d1f3d10af9f846984396e6ac0d407154"
+    }
+  ],
+  "scope": "Exact originalreceiptlines+originmetadata only; current source/expectation/image/verdict hashes checked. No oldimage/packetdecode orreviewrestamp."
+}

@@ -1,0 +1,178 @@
+{
+  "schema": "trident-xychart-actual-physical-zero-baseline-counterexample-v1",
+  "launcherSha256": "1e1d6e0a090ff566761c7f326e1b047b7b8799eb40cf2965953e7ccc009a459c",
+  "index": 526,
+  "project": "mermaid-js/mermaid",
+  "pngSha256": "01fa7326f3c246ba1dd136da34b7c80df477bacee10e6dbad8dca5d70ac189a8",
+  "physicalTickStrokeXRange": [
+    51,
+    60
+  ],
+  "physicalTickStrokeYRanges": [
+    [
+      49,
+      51
+    ],
+    [
+      87,
+      89
+    ],
+    [
+      126,
+      127
+    ],
+    [
+      164,
+      165
+    ],
+    [
+      202,
+      204
+    ],
+    [
+      240,
+      242
+    ],
+    [
+      278,
+      280
+    ],
+    [
+      317,
+      318
+    ],
+    [
+      355,
+      356
+    ],
+    [
+      393,
+      395
+    ],
+    [
+      431,
+      433
+    ]
+  ],
+  "tickCentersHighToLow": [
+    50.0,
+    88.0,
+    126.5,
+    164.5,
+    203.0,
+    241.0,
+    279.0,
+    317.5,
+    355.5,
+    394.0,
+    432.0
+  ],
+  "manualVisibleTickLabelsHighToLow": [
+    50,
+    45,
+    40,
+    35,
+    30,
+    25,
+    20,
+    15,
+    10,
+    5,
+    0
+  ],
+  "actualZeroTickCenter": 432.0,
+  "actualFiftyTickCenter": 50.0,
+  "actualBarPixelInventory": [
+    {
+      "categoryObservedXRange": [
+        60,
+        158
+      ],
+      "color": "blue",
+      "opaqueTopRow": 280,
+      "opaqueBottomRow": 316,
+      "opaquePixelCount": 3478
+    },
+    {
+      "categoryObservedXRange": [
+        60,
+        158
+      ],
+      "color": "green",
+      "opaqueTopRow": 318,
+      "opaqueBottomRow": 439,
+      "opaquePixelCount": 11307
+    },
+    {
+      "categoryObservedXRange": [
+        240,
+        338
+      ],
+      "color": "blue",
+      "opaqueTopRow": 203,
+      "opaqueBottomRow": 240,
+      "opaquePixelCount": 3572
+    },
+    {
+      "categoryObservedXRange": [
+        240,
+        338
+      ],
+      "color": "green",
+      "opaqueTopRow": 241,
+      "opaqueBottomRow": 439,
+      "opaquePixelCount": 18387
+    },
+    {
+      "categoryObservedXRange": [
+        420,
+        518
+      ],
+      "color": "blue",
+      "opaqueTopRow": 241,
+      "opaqueBottomRow": 278,
+      "opaquePixelCount": 3403
+    },
+    {
+      "categoryObservedXRange": [
+        420,
+        518
+      ],
+      "color": "green",
+      "opaqueTopRow": 280,
+      "opaqueBottomRow": 439,
+      "opaquePixelCount": 15040
+    },
+    {
+      "categoryObservedXRange": [
+        600,
+        698
+      ],
+      "color": "blue",
+      "opaqueTopRow": 165,
+      "opaqueBottomRow": 201,
+      "opaquePixelCount": 3323
+    },
+    {
+      "categoryObservedXRange": [
+        600,
+        698
+      ],
+      "color": "green",
+      "opaqueTopRow": 203,
+      "opaqueBottomRow": 439,
+      "opaquePixelCount": 22278
+    }
+  ],
+  "counterexample": "Allgreenbars haveopaqueRGB0,255,0atrow439, atleast7pxbelowphysicallypaintedzero tick; actualcommonbargeometryextendsbelowzero. Noaxis/zerobaselinewasfittedtobarbottom. Allrequestedtops/colors/linefactsare retaineddiagnostically; fullcorrectnessfailsonthisconcretebaselinecounterexample.",
+  "positiveControl": "Syntheticcorrectbar endingatpaintedzero passeszero-baselineassertion; identicalbartranslatedonlyatbottomtoactual440fails.",
+  "wrongControl": {
+    "sourceZeroTickCenter": 432.0,
+    "correctBarGeometryBottom": 432.0,
+    "wrongBarGeometryBottom": 440,
+    "tolerancePx": 1,
+    "correctPass": true,
+    "wrongPass": false
+  },
+  "rendererInvocations": 0
+}

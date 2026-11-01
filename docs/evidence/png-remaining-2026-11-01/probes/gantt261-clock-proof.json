@@ -1,0 +1,189 @@
+{
+  "schema": "trident-gantt-single-affine-clock-pixel-proof-v1",
+  "launcherSha256": "1e1d6e0a090ff566761c7f326e1b047b7b8799eb40cf2965953e7ccc009a459c",
+  "index": 261,
+  "project": "pub:mermaid_flutter",
+  "pngSha256": "b9146c06f9b481738cadf3c24a02c2546536d76c43ea3b22f8e9d2d8b8fcf4bb",
+  "semanticOrder": [
+    "Initial vert17:30",
+    "TaskAstart17:32",
+    "TaskAend/TaskBstart17:35",
+    "TaskBend17:43",
+    "Finalvert17:58",
+    "actual18:00axisTick"
+  ],
+  "sourceMinutesAfter1730": [
+    0.0,
+    2.0,
+    5.0,
+    13.0,
+    28.0,
+    30.0
+  ],
+  "actualPixelCoordinates": [
+    87.0,
+    152.64556597085218,
+    251.045916402253,
+    513.4968718558694,
+    1005.5,
+    1071.5
+  ],
+  "actualBars": [
+    {
+      "yRange": [
+        46,
+        68
+      ],
+      "left": 152.64556597085218,
+      "right": 251.045916402253,
+      "outerAAExtent": [
+        151.0,
+        252.0
+      ]
+    },
+    {
+      "yRange": [
+        70,
+        92
+      ],
+      "left": 251.0,
+      "right": 513.4968718558694,
+      "outerAAExtent": [
+        250.0,
+        515.0
+      ]
+    }
+  ],
+  "actualVertMarkers": [
+    87.0,
+    1005.5
+  ],
+  "actualPhysicalAxisTickColumnRange": [
+    1071,
+    1072
+  ],
+  "frameCalibrators": [
+    0,
+    5
+  ],
+  "overdeterminingConstraints": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "assessment": {
+    "pixelsPerMinute": 32.81666666666667,
+    "offset": 87.0,
+    "residualsPx": [
+      0.0,
+      0.012232637518849288,
+      -0.03741693108034383,
+      -0.11979481079742982,
+      -0.36666666666678793,
+      0.0
+    ],
+    "maxResidualPx": 0.36666666666678793,
+    "positive": true
+  },
+  "wrongSingleMinuteControls": [
+    {
+      "changedObservedSemanticIndex": 0,
+      "minutesDelta": 1,
+      "pixelsPerMinute": 33.94827586206897,
+      "offset": 53.05172413793103,
+      "residualsPx": [
+        0.0,
+        31.697290108783207,
+        28.252812953977127,
+        19.117561511041743,
+        1.8965517241377938,
+        0.0
+      ],
+      "maxResidualPx": 31.697290108783207,
+      "positive": false
+    },
+    {
+      "changedObservedSemanticIndex": 1,
+      "minutesDelta": 1,
+      "pixelsPerMinute": 32.81666666666667,
+      "offset": 87.0,
+      "residualsPx": [
+        0.0,
+        -32.80443402914784,
+        -0.03741693108034383,
+        -0.11979481079742982,
+        -0.36666666666678793,
+        0.0
+      ],
+      "maxResidualPx": 32.80443402914784,
+      "positive": false
+    },
+    {
+      "changedObservedSemanticIndex": 2,
+      "minutesDelta": 1,
+      "pixelsPerMinute": 32.81666666666667,
+      "offset": 87.0,
+      "residualsPx": [
+        0.0,
+        0.012232637518849288,
+        -32.854083597747035,
+        -0.11979481079742982,
+        -0.36666666666678793,
+        0.0
+      ],
+      "maxResidualPx": 32.854083597747035,
+      "positive": false
+    },
+    {
+      "changedObservedSemanticIndex": 3,
+      "minutesDelta": 1,
+      "pixelsPerMinute": 32.81666666666667,
+      "offset": 87.0,
+      "residualsPx": [
+        0.0,
+        0.012232637518849288,
+        -0.03741693108034383,
+        -32.936461477464036,
+        -0.36666666666678793,
+        0.0
+      ],
+      "maxResidualPx": 32.936461477464036,
+      "positive": false
+    },
+    {
+      "changedObservedSemanticIndex": 4,
+      "minutesDelta": 1,
+      "pixelsPerMinute": 32.81666666666667,
+      "offset": 87.0,
+      "residualsPx": [
+        0.0,
+        0.012232637518849288,
+        -0.03741693108034383,
+        -0.11979481079742982,
+        -33.183333333333394,
+        0.0
+      ],
+      "maxResidualPx": 33.183333333333394,
+      "positive": false
+    },
+    {
+      "changedObservedSemanticIndex": 5,
+      "minutesDelta": 1,
+      "pixelsPerMinute": 31.758064516129032,
+      "offset": 87.0,
+      "residualsPx": [
+        0.0,
+        2.129436938594125,
+        5.255593821607846,
+        13.64203314619192,
+        29.274193548387075,
+        0.0
+      ],
+      "maxResidualPx": 29.274193548387075,
+      "positive": false
+    }
+  ],
+  "scope": "One shared positive affineclock, no per-event/valuefit; actualpainted18:00tick andsource-ownedInitial/Finalverticalmarkersemantics. Allfourremainingconstraints independentlychecked. Vertmarkers useexplicitstart; Initialduration2m controlsTaskAimplicitstart. Finalunuseddurationremainsnative; nohiddenendpointclaimed. Exactphysicaltickstroke, nottextink, calibratesaxis.",
+  "rendererInvocations": 0
+}

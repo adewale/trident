@@ -1,0 +1,120 @@
+{
+  "schema": "trident-c4-registered-caption-wrong-offset-controls-v1",
+  "measuredProofSha256": "38853af86be3f815c39f0c185c7f25d2a1c1079f39999f242913ea1a3c515673",
+  "controls": [
+    {
+      "source": "sign",
+      "target": "security",
+      "wrongOffset": "x-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "sign",
+      "target": "security",
+      "wrongOffset": "y-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "accounts",
+      "target": "mbsfacade",
+      "wrongOffset": "x-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "accounts",
+      "target": "mbsfacade",
+      "wrongOffset": "y-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "security",
+      "target": "db",
+      "wrongOffset": "x-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "security",
+      "target": "db",
+      "wrongOffset": "y-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "mbsfacade",
+      "target": "mbs",
+      "wrongOffset": "x-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "mbsfacade",
+      "target": "mbs",
+      "wrongOffset": "y-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "sign",
+      "target": "spa",
+      "wrongOffset": "x-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "sign",
+      "target": "spa",
+      "wrongOffset": "y-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "spa",
+      "target": "accounts",
+      "wrongOffset": "x-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "spa",
+      "target": "accounts",
+      "wrongOffset": "y-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "ma",
+      "target": "sign",
+      "wrongOffset": "x-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "ma",
+      "target": "sign",
+      "wrongOffset": "y-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "ma",
+      "target": "accounts",
+      "wrongOffset": "x-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    },
+    {
+      "source": "ma",
+      "target": "accounts",
+      "wrongOffset": "y-plus5",
+      "matchingActualGlyphs": 0,
+      "pass": false
+    }
+  ],
+  "all16Rejected": true,
+  "scope": "Actualglyphpositionsfrozenbeforeeachliteraloffsetperturbation; no newimage/render. Same2pxpositiongate. All8sourceconstraintsremainconjunctive."
+}

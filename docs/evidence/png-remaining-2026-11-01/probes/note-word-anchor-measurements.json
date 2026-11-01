@@ -1,0 +1,1755 @@
+{
+  "schema": "trident-positive-only-wardley-shared-font-word-anchor-v1",
+  "launcherSha256": "e217adf306fb434d6663ae5984a52cd7d8fd15a224800bd71c46561a82b318a0",
+  "profile": "wardley-published-start-baseline-and-force-left-anchor-1fb7869-v1",
+  "noteAnchor": "Predeclared SVG start/alphabetic and native left/linebox-center encodings; one shared foregroundcontrast fit per glyphmask, no perpixel/coordinatefit",
+  "families": [
+    "Times New Roman",
+    "Arial",
+    "Courier New"
+  ],
+  "fontModels": [
+    {
+      "family": "ModelOpenAI",
+      "path": "/usr/share/fonts/openai-sans/OpenAISans-Regular.woff2",
+      "weight": "400",
+      "sha256": "6b99d0284d5ed15733ea855fdacc8503d1f5e1b3945b02317d27773daa21d9dc"
+    },
+    {
+      "family": "ModelOpenAI",
+      "path": "/usr/share/fonts/openai-sans/OpenAISans-Bold.woff2",
+      "weight": "700",
+      "sha256": "2c23db1a93945fcb96f6826518848da0cc884787e4e308d9c099122c8c7e247e"
+    },
+    {
+      "family": "ModelOpenSans",
+      "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Regular.ttf",
+      "weight": "400",
+      "sha256": "e64e508b2aa2880f907e470c4550980ec4c0694d103a43f36150ac3f93189bee"
+    },
+    {
+      "family": "ModelOpenSans",
+      "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Bold.ttf",
+      "weight": "700",
+      "sha256": "5894a3649b213cf5b2d673b6e7a871815fd1d120fa68a463592f27db14eae323"
+    },
+    {
+      "family": "ModelInter",
+      "path": "/workspace/trident-pr54-review/agentic-renderer/assets/fonts/Inter-Regular.ttf",
+      "weight": "400",
+      "sha256": "1b08e7fc267a5c7e1d614100f604b83e7e8a0be241f0f288faa2b3ac93a683ba"
+    },
+    {
+      "family": "ModelOpenAI",
+      "path": "/usr/share/fonts/openai-sans/OpenAISans-Regular.woff2",
+      "weight": "400",
+      "sha256": "6b99d0284d5ed15733ea855fdacc8503d1f5e1b3945b02317d27773daa21d9dc"
+    },
+    {
+      "family": "ModelOpenAI",
+      "path": "/usr/share/fonts/openai-sans/OpenAISans-Bold.woff2",
+      "weight": "700",
+      "sha256": "2c23db1a93945fcb96f6826518848da0cc884787e4e308d9c099122c8c7e247e"
+    },
+    {
+      "family": "ModelOpenSans",
+      "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Regular.ttf",
+      "weight": "400",
+      "sha256": "e64e508b2aa2880f907e470c4550980ec4c0694d103a43f36150ac3f93189bee"
+    },
+    {
+      "family": "ModelOpenSans",
+      "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Bold.ttf",
+      "weight": "700",
+      "sha256": "5894a3649b213cf5b2d673b6e7a871815fd1d120fa68a463592f27db14eae323"
+    },
+    {
+      "family": "ModelInter",
+      "path": "/workspace/trident-pr54-review/agentic-renderer/assets/fonts/Inter-Bold.ttf",
+      "weight": "700",
+      "sha256": "b37284b5701b6b168dfc770aa1a4ac492106422fd3ba76bc7641e37434e8019c"
+    },
+    {
+      "family": "ModelRoboto",
+      "path": "/workspace/.cloud-tools/flutter/engine/src/flutter/txt/third_party/fonts/Roboto-Regular.ttf",
+      "weight": "400",
+      "sha256": "79e851404657dac2106b3d22ad256d47824a9a5765458edb72c9102a45816d95"
+    },
+    {
+      "family": "ModelRoboto",
+      "path": "/workspace/.cloud-tools/flutter/engine/src/flutter/txt/third_party/fonts/Roboto-Medium.ttf",
+      "weight": "700",
+      "sha256": "f205cc511821ea56078a105557fcea6253129404d411c997e1866fbd006abb68"
+    }
+  ],
+  "results": [
+    {
+      "project": "mermaid-js/mermaid",
+      "index": 519,
+      "pngSha256": "56bcc07876013cf0ae40bfcb27b235b2ad054569a9e340621f34cfebe980eaa9",
+      "frame": {
+        "left": 48.00317954268705,
+        "top": 48,
+        "right": 852,
+        "bottom": 552.0008588363371
+      },
+      "glyphs": [
+        {
+          "text": "Critical",
+          "region": [
+            488,
+            210,
+            528,
+            234
+          ],
+          "actualForegroundGreen": 19,
+          "best": {
+            "size": 11,
+            "family": "Times New Roman",
+            "weight": "bold",
+            "kerning": "auto",
+            "phase": [
+              0.25,
+              0
+            ],
+            "foregroundContrast": 0.9243695941685384,
+            "fontMetrics": {
+              "ascent": 10,
+              "descent": 2
+            },
+            "meanAbsoluteAlphaError": 0.013614774423296071,
+            "binaryInkIoU": 0.94,
+            "actualGlyphOrigin": [
+              490.25,
+              224
+            ],
+            "glyphBox": [
+              36,
+              7
+            ],
+            "expectedGlyphBox": [
+              36,
+              7
+            ]
+          },
+          "refined": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.9243695941685384,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.013614774423296071,
+              "binaryInkIoU": 0.94,
+              "actualGlyphOrigin": [
+                490.25,
+                224
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                36,
+                7
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.9243695941685384,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.013614774423296071,
+              "binaryInkIoU": 0.94,
+              "actualGlyphOrigin": [
+                490.25,
+                224
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                36,
+                7
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.5619774974943906,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.388473872019231,
+              "binaryInkIoU": 0.49404761904761907,
+              "actualGlyphOrigin": [
+                490.25,
+                225
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                37,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.5619774974943906,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.388473872019231,
+              "binaryInkIoU": 0.49404761904761907,
+              "actualGlyphOrigin": [
+                490.25,
+                225
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                37,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.286000860216603,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.7847485516285571,
+              "binaryInkIoU": 0.19480519480519481,
+              "actualGlyphOrigin": [
+                490.25,
+                225
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                53,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.286000860216603,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.7847485516285571,
+              "binaryInkIoU": 0.19480519480519481,
+              "actualGlyphOrigin": [
+                490.25,
+                225
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                53,
+                8
+              ]
+            }
+          ],
+          "plausibleAnchorSpread": [
+            null,
+            null
+          ],
+          "coarseTop": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.8992772013788285,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.09460307179467671,
+              "binaryInkIoU": 0.7452830188679245,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                36,
+                7
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.8992772013788285,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.09460307179467671,
+              "binaryInkIoU": 0.7452830188679245,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                36,
+                7
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.523958330668236,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.4381364459465868,
+              "binaryInkIoU": 0.4311377245508982,
+              "actualGlyphOrigin": [
+                490,
+                225
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                37,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.523958330668236,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.4381364459465868,
+              "binaryInkIoU": 0.4311377245508982,
+              "actualGlyphOrigin": [
+                490,
+                225
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                37,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.26911517179126154,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.8376597420582861,
+              "binaryInkIoU": 0.1864406779661017,
+              "actualGlyphOrigin": [
+                490,
+                225
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                53,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.26911517179126154,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.8376597420582861,
+              "binaryInkIoU": 0.1864406779661017,
+              "actualGlyphOrigin": [
+                490,
+                225
+              ],
+              "glyphBox": [
+                36,
+                7
+              ],
+              "expectedGlyphBox": [
+                53,
+                8
+              ]
+            }
+          ],
+          "anchorEncoding": "published SVG start-alphabetic-baseline",
+          "actualAnchor": [
+            490.25,
+            224
+          ],
+          "sourceCoordinates": [
+            0.65,
+            0.55
+          ],
+          "sourceProjectedPoint": [
+            490.2014307942093,
+            224.400300592718
+          ],
+          "absoluteErrors": [
+            0.04856920579072721,
+            0.400300592717997
+          ],
+          "positiveProfileQualified": false
+        },
+        {
+          "text": "decision",
+          "region": [
+            527,
+            210,
+            569,
+            234
+          ],
+          "actualForegroundGreen": 19,
+          "best": {
+            "size": 11,
+            "family": "Times New Roman",
+            "weight": "bold",
+            "kerning": "auto",
+            "phase": [
+              0,
+              0
+            ],
+            "foregroundContrast": 0.9249744215141756,
+            "fontMetrics": {
+              "ascent": 10,
+              "descent": 2
+            },
+            "meanAbsoluteAlphaError": 0.012763496749115848,
+            "binaryInkIoU": 0.9583333333333334,
+            "actualGlyphOrigin": [
+              529,
+              224
+            ],
+            "glyphBox": [
+              38,
+              7
+            ],
+            "expectedGlyphBox": [
+              38,
+              7
+            ]
+          },
+          "refined": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9249744215141756,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.012763496749115848,
+              "binaryInkIoU": 0.9583333333333334,
+              "actualGlyphOrigin": [
+                529,
+                224
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                38,
+                7
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9249744215141756,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.012763496749115848,
+              "binaryInkIoU": 0.9583333333333334,
+              "actualGlyphOrigin": [
+                529,
+                224
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                38,
+                7
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.75,
+                0
+              ],
+              "foregroundContrast": 0.47310994523661765,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.5191988689467599,
+              "binaryInkIoU": 0.34146341463414637,
+              "actualGlyphOrigin": [
+                528.75,
+                225
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                44,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.75,
+                0
+              ],
+              "foregroundContrast": 0.47310994523661765,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.5191988689467599,
+              "binaryInkIoU": 0.34146341463414637,
+              "actualGlyphOrigin": [
+                528.75,
+                225
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                44,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.3840766075516502,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.6100752732472027,
+              "binaryInkIoU": 0.2978723404255319,
+              "actualGlyphOrigin": [
+                528.375,
+                225
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                52,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.3840766075516502,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.6100752732472027,
+              "binaryInkIoU": 0.2978723404255319,
+              "actualGlyphOrigin": [
+                528.375,
+                225
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                52,
+                8
+              ]
+            }
+          ],
+          "plausibleAnchorSpread": [
+            null,
+            null
+          ],
+          "coarseTop": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9249744215141756,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.012763496749115848,
+              "binaryInkIoU": 0.9583333333333334,
+              "actualGlyphOrigin": [
+                529,
+                224
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                38,
+                7
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9249744215141756,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.012763496749115848,
+              "binaryInkIoU": 0.9583333333333334,
+              "actualGlyphOrigin": [
+                529,
+                224
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                38,
+                7
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.4728919097349494,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.5223141478579523,
+              "binaryInkIoU": 0.3627450980392157,
+              "actualGlyphOrigin": [
+                529,
+                225
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                44,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.4728919097349494,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.5223141478579523,
+              "binaryInkIoU": 0.3627450980392157,
+              "actualGlyphOrigin": [
+                529,
+                225
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                44,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.3775660526088887,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.6228843425217919,
+              "binaryInkIoU": 0.2987012987012987,
+              "actualGlyphOrigin": [
+                528.5,
+                225
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                52,
+                8
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.3775660526088887,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.6228843425217919,
+              "binaryInkIoU": 0.2987012987012987,
+              "actualGlyphOrigin": [
+                528.5,
+                225
+              ],
+              "glyphBox": [
+                38,
+                7
+              ],
+              "expectedGlyphBox": [
+                52,
+                8
+              ]
+            }
+          ],
+          "anchorEncoding": "published SVG start-alphabetic-baseline",
+          "actualAnchor": [
+            529,
+            224
+          ],
+          "sourceCoordinates": [
+            0.65,
+            0.55
+          ],
+          "sourceProjectedPoint": [
+            490.2014307942093,
+            224.400300592718
+          ],
+          "absoluteErrors": [
+            38.79856920579073,
+            0.400300592717997
+          ],
+          "positiveProfileQualified": false
+        },
+        {
+          "text": "point",
+          "region": [
+            568,
+            210,
+            597,
+            234
+          ],
+          "actualForegroundGreen": 19,
+          "best": {
+            "size": 11,
+            "family": "Times New Roman",
+            "weight": "bold",
+            "kerning": "auto",
+            "phase": [
+              0.625,
+              0
+            ],
+            "foregroundContrast": 0.9131298035013645,
+            "fontMetrics": {
+              "ascent": 10,
+              "descent": 2
+            },
+            "meanAbsoluteAlphaError": 0.02618085850701085,
+            "binaryInkIoU": 0.9518072289156626,
+            "actualGlyphOrigin": [
+              569.625,
+              224
+            ],
+            "glyphBox": [
+              26,
+              9
+            ],
+            "expectedGlyphBox": [
+              26,
+              9
+            ]
+          },
+          "refined": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.625,
+                0
+              ],
+              "foregroundContrast": 0.9131298035013645,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.02618085850701085,
+              "binaryInkIoU": 0.9518072289156626,
+              "actualGlyphOrigin": [
+                569.625,
+                224
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                26,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.625,
+                0
+              ],
+              "foregroundContrast": 0.9131298035013645,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.02618085850701085,
+              "binaryInkIoU": 0.9518072289156626,
+              "actualGlyphOrigin": [
+                569.625,
+                224
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                26,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.125,
+                0
+              ],
+              "foregroundContrast": 0.5861431947044978,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.328232674470713,
+              "binaryInkIoU": 0.5234375,
+              "actualGlyphOrigin": [
+                568.125,
+                225
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                26,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.125,
+                0
+              ],
+              "foregroundContrast": 0.5861431947044978,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.328232674470713,
+              "binaryInkIoU": 0.5234375,
+              "actualGlyphOrigin": [
+                568.125,
+                225
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                26,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.43850018024960685,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.46135523224910713,
+              "binaryInkIoU": 0.34285714285714286,
+              "actualGlyphOrigin": [
+                569,
+                225
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                32,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.43850018024960685,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.46135523224910713,
+              "binaryInkIoU": 0.34285714285714286,
+              "actualGlyphOrigin": [
+                569,
+                225
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                32,
+                10
+              ]
+            }
+          ],
+          "plausibleAnchorSpread": [
+            null,
+            null
+          ],
+          "coarseTop": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9096401054593349,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.04623491185063141,
+              "binaryInkIoU": 0.9036144578313253,
+              "actualGlyphOrigin": [
+                569.5,
+                224
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                25,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9096401054593349,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.04623491185063141,
+              "binaryInkIoU": 0.9036144578313253,
+              "actualGlyphOrigin": [
+                569.5,
+                224
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                25,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.5113447761627781,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.4026417410489316,
+              "binaryInkIoU": 0.39669421487603307,
+              "actualGlyphOrigin": [
+                568.5,
+                225
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                27,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.5113447761627781,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.4026417410489316,
+              "binaryInkIoU": 0.39669421487603307,
+              "actualGlyphOrigin": [
+                568.5,
+                225
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                27,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.43850018024960685,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.46135523224910713,
+              "binaryInkIoU": 0.34285714285714286,
+              "actualGlyphOrigin": [
+                569,
+                225
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                32,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.43850018024960685,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.46135523224910713,
+              "binaryInkIoU": 0.34285714285714286,
+              "actualGlyphOrigin": [
+                569,
+                225
+              ],
+              "glyphBox": [
+                26,
+                9
+              ],
+              "expectedGlyphBox": [
+                32,
+                10
+              ]
+            }
+          ],
+          "anchorEncoding": "published SVG start-alphabetic-baseline",
+          "actualAnchor": [
+            569.625,
+            224
+          ],
+          "sourceCoordinates": [
+            0.65,
+            0.55
+          ],
+          "sourceProjectedPoint": [
+            490.2014307942093,
+            224.400300592718
+          ],
+          "absoluteErrors": [
+            79.42356920579073,
+            0.400300592717997
+          ],
+          "positiveProfileQualified": false
+        },
+        {
+          "text": "High risk area",
+          "region": [
+            320,
+            335,
+            420,
+            365
+          ],
+          "actualForegroundGreen": 19,
+          "best": {
+            "size": 11,
+            "family": "Times New Roman",
+            "weight": "bold",
+            "kerning": "auto",
+            "phase": [
+              0.375,
+              0
+            ],
+            "foregroundContrast": 0.9276441266525157,
+            "fontMetrics": {
+              "ascent": 10,
+              "descent": 2
+            },
+            "meanAbsoluteAlphaError": 0.0007046820189459618,
+            "binaryInkIoU": 1,
+            "actualGlyphOrigin": [
+              329.375,
+              350
+            ],
+            "glyphBox": [
+              68,
+              9
+            ],
+            "expectedGlyphBox": [
+              68,
+              9
+            ]
+          },
+          "refined": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.9276441266525157,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.0007046820189459618,
+              "binaryInkIoU": 1,
+              "actualGlyphOrigin": [
+                329.375,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.9252718081192992,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.006512187345104731,
+              "binaryInkIoU": 0.9685863874345549,
+              "actualGlyphOrigin": [
+                329.375,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.875,
+                0
+              ],
+              "foregroundContrast": 0.48159550523227,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.40977881372325314,
+              "binaryInkIoU": 0.36936936936936937,
+              "actualGlyphOrigin": [
+                328.875,
+                351
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                73,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.875,
+                0
+              ],
+              "foregroundContrast": 0.48159550523227,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.40977881372325314,
+              "binaryInkIoU": 0.36936936936936937,
+              "actualGlyphOrigin": [
+                328.875,
+                351
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                73,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.28099217195342496,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.6854397688692797,
+              "binaryInkIoU": 0.21256038647342995,
+              "actualGlyphOrigin": [
+                329,
+                351
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                93,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.28099217195342496,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.6854397688692797,
+              "binaryInkIoU": 0.21256038647342995,
+              "actualGlyphOrigin": [
+                329,
+                351
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                93,
+                10
+              ]
+            }
+          ],
+          "plausibleAnchorSpread": [
+            0,
+            0
+          ],
+          "coarseTop": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9156767912895839,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.025418843887364217,
+              "binaryInkIoU": 0.9319371727748691,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9131864681540481,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.030682047629940243,
+              "binaryInkIoU": 0.9162303664921466,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.4819388375412743,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.4145819208514597,
+              "binaryInkIoU": 0.3392330383480826,
+              "actualGlyphOrigin": [
+                329,
+                351
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                73,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Arial",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.4819388375412743,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.4145819208514597,
+              "binaryInkIoU": 0.3392330383480826,
+              "actualGlyphOrigin": [
+                329,
+                351
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                73,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.28099217195342496,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.6854397688692797,
+              "binaryInkIoU": 0.21256038647342995,
+              "actualGlyphOrigin": [
+                329,
+                351
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                93,
+                10
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Courier New",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.28099217195342496,
+              "fontMetrics": {
+                "ascent": 9,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.6854397688692797,
+              "binaryInkIoU": 0.21256038647342995,
+              "actualGlyphOrigin": [
+                329,
+                351
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                93,
+                10
+              ]
+            }
+          ],
+          "anchorEncoding": "published SVG start-alphabetic-baseline",
+          "actualAnchor": [
+            329.375,
+            350
+          ],
+          "sourceCoordinates": [
+            0.4,
+            0.35
+          ],
+          "sourceProjectedPoint": [
+            329.4020667027466,
+            350.4005153018022
+          ],
+          "absoluteErrors": [
+            0.02706670274659473,
+            0.4005153018022156
+          ],
+          "positiveProfileQualified": true
+        }
+      ]
+    }
+  ],
+  "scope": "ActualPNGtext glyphs independently register to known frozenhostfont models with an alphabetictext origin. Family/size/weight/phase are unrequestedskin nuisance measurements, not source defaults imposed on another backend. No SVGposition/style is read; sourcecoordinates are compared only after the glyphfit and independentgrayplotframe measurement. Glyphfit must haveIoU>=.97,MAE<=.04,plausibleoriginspread<=.5px andsourcepoint error<=2px; otherwise unknown. Otheranchorencodings are not wrong-graded. No annotationlegend clamp permission or timing claim.",
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0
+}

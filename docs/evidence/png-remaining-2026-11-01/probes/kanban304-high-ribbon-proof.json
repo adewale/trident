@@ -1,0 +1,45 @@
+{
+  "schema": "trident-positive-only-kanban-owned-high-ribbon-pixel-proof-v1",
+  "launcherSha256": "af3d5ba9cece5144c7472f5862a1a2e8b586e20f400a0545863bd68a0350a79a",
+  "index": 304,
+  "project": "mermaid-js/mermaid",
+  "pngSha256": "09c2130a6c80060967eccb8fe74817712791d218f76bd2d5f9cc5e2c483fdb17",
+  "profile": "mermaid-kanban-owned-priority-ribbon-1fb7869-v1",
+  "actualExactOrangeRgb": [
+    255,
+    165,
+    0
+  ],
+  "actualOpaqueOrangePixels": 228,
+  "actualRibbonBounds": [
+    18,
+    37,
+    21,
+    113
+  ],
+  "manualDirectOwnership": "Onlyoneactualtaskcard,ownedbyfullUpdateDatabaseFunctioncaption,MC-2037ticket,knsvassigneeinTodo. Orangeverticalribbonisitsleftedgeandextendsitsbodyheight; noothercardexists. Exactsource/pixelreceiptretainsallfields.",
+  "wrongControls": [
+    {
+      "case": "wrongred",
+      "pass": false
+    },
+    {
+      "case": "wrongblue",
+      "pass": false
+    },
+    {
+      "case": "absent",
+      "pass": false
+    },
+    {
+      "case": "othercard",
+      "pass": false
+    },
+    {
+      "case": "isolatedcolorpixel",
+      "pass": false
+    }
+  ],
+  "scope": "PinnedpublicHighenumencoder only; colordoesnotqualifywithouttaskownership+verticaledgeextent. Nativealternativeencodingsnotwronggraded.",
+  "rendererInvocations": 0
+}

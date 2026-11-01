@@ -1,0 +1,2712 @@
+{
+  "schema": "trident-positive-only-wardley-note-anchor-v2",
+  "launcherSha256": "4e7fdc073810ee666e24874f17b70a78aaddd05e2e6accd3bf5383fb21c944f9",
+  "profile": "wardley-published-start-baseline-and-force-left-anchor-1fb7869-v1",
+  "noteAnchor": "Predeclared SVG start/alphabetic and native left/linebox-center encodings; one shared foregroundcontrast fit per glyphmask, no perpixel/coordinatefit",
+  "families": [
+    "Times New Roman",
+    "Arial",
+    "DejaVu Sans",
+    "DejaVu Serif",
+    "Roboto",
+    "Liberation Sans",
+    "Liberation Serif",
+    "OpenAI Sans",
+    "Inter",
+    "Noto Sans",
+    "Noto Serif",
+    "Verdana",
+    "Trebuchet MS",
+    "Courier New",
+    "ModelInter",
+    "ModelRoboto",
+    "Open Sans",
+    "ModelOpenAI",
+    "ModelOpenSans"
+  ],
+  "fontModels": [
+    {
+      "family": "ModelOpenAI",
+      "path": "/usr/share/fonts/openai-sans/OpenAISans-Regular.woff2",
+      "weight": "400",
+      "sha256": "6b99d0284d5ed15733ea855fdacc8503d1f5e1b3945b02317d27773daa21d9dc"
+    },
+    {
+      "family": "ModelOpenAI",
+      "path": "/usr/share/fonts/openai-sans/OpenAISans-Bold.woff2",
+      "weight": "700",
+      "sha256": "2c23db1a93945fcb96f6826518848da0cc884787e4e308d9c099122c8c7e247e"
+    },
+    {
+      "family": "ModelOpenSans",
+      "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Regular.ttf",
+      "weight": "400",
+      "sha256": "e64e508b2aa2880f907e470c4550980ec4c0694d103a43f36150ac3f93189bee"
+    },
+    {
+      "family": "ModelOpenSans",
+      "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Bold.ttf",
+      "weight": "700",
+      "sha256": "5894a3649b213cf5b2d673b6e7a871815fd1d120fa68a463592f27db14eae323"
+    },
+    {
+      "family": "ModelInter",
+      "path": "/workspace/trident-pr54-review/agentic-renderer/assets/fonts/Inter-Regular.ttf",
+      "weight": "400",
+      "sha256": "1b08e7fc267a5c7e1d614100f604b83e7e8a0be241f0f288faa2b3ac93a683ba"
+    },
+    {
+      "family": "ModelOpenAI",
+      "path": "/usr/share/fonts/openai-sans/OpenAISans-Regular.woff2",
+      "weight": "400",
+      "sha256": "6b99d0284d5ed15733ea855fdacc8503d1f5e1b3945b02317d27773daa21d9dc"
+    },
+    {
+      "family": "ModelOpenAI",
+      "path": "/usr/share/fonts/openai-sans/OpenAISans-Bold.woff2",
+      "weight": "700",
+      "sha256": "2c23db1a93945fcb96f6826518848da0cc884787e4e308d9c099122c8c7e247e"
+    },
+    {
+      "family": "ModelOpenSans",
+      "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Regular.ttf",
+      "weight": "400",
+      "sha256": "e64e508b2aa2880f907e470c4550980ec4c0694d103a43f36150ac3f93189bee"
+    },
+    {
+      "family": "ModelOpenSans",
+      "path": "/usr/share/fonts/truetype/open-sans/OpenSans-Bold.ttf",
+      "weight": "700",
+      "sha256": "5894a3649b213cf5b2d673b6e7a871815fd1d120fa68a463592f27db14eae323"
+    },
+    {
+      "family": "ModelInter",
+      "path": "/workspace/trident-pr54-review/agentic-renderer/assets/fonts/Inter-Bold.ttf",
+      "weight": "700",
+      "sha256": "b37284b5701b6b168dfc770aa1a4ac492106422fd3ba76bc7641e37434e8019c"
+    },
+    {
+      "family": "ModelRoboto",
+      "path": "/workspace/.cloud-tools/flutter/engine/src/flutter/txt/third_party/fonts/Roboto-Regular.ttf",
+      "weight": "400",
+      "sha256": "79e851404657dac2106b3d22ad256d47824a9a5765458edb72c9102a45816d95"
+    },
+    {
+      "family": "ModelRoboto",
+      "path": "/workspace/.cloud-tools/flutter/engine/src/flutter/txt/third_party/fonts/Roboto-Medium.ttf",
+      "weight": "700",
+      "sha256": "f205cc511821ea56078a105557fcea6253129404d411c997e1866fbd006abb68"
+    }
+  ],
+  "results": [
+    {
+      "project": "mermaid-js/mermaid",
+      "index": 519,
+      "pngSha256": "56bcc07876013cf0ae40bfcb27b235b2ad054569a9e340621f34cfebe980eaa9",
+      "frame": {
+        "left": 48.00317954268705,
+        "top": 48,
+        "right": 852,
+        "bottom": 552.0008588363371
+      },
+      "glyphs": [
+        {
+          "text": "Critical decision point",
+          "region": [
+            480,
+            210,
+            620,
+            234
+          ],
+          "actualForegroundGreen": 19,
+          "best": {
+            "size": 11,
+            "family": "Times New Roman",
+            "weight": "bold",
+            "kerning": "auto",
+            "phase": [
+              0.25,
+              0
+            ],
+            "foregroundContrast": 0.9206649434515856,
+            "fontMetrics": {
+              "ascent": 10,
+              "descent": 2
+            },
+            "meanAbsoluteAlphaError": 0.017059045167677298,
+            "binaryInkIoU": 0.9326241134751773,
+            "actualGlyphOrigin": [
+              490.25,
+              224
+            ],
+            "glyphBox": [
+              105,
+              9
+            ],
+            "expectedGlyphBox": [
+              105,
+              9
+            ]
+          },
+          "refined": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.9206649434515856,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.017059045167677298,
+              "binaryInkIoU": 0.9326241134751773,
+              "actualGlyphOrigin": [
+                490.25,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                105,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.9206649434515856,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.017059045167677298,
+              "binaryInkIoU": 0.9326241134751773,
+              "actualGlyphOrigin": [
+                490.25,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                105,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Roboto",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.9206649434515856,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.017059045167677298,
+              "binaryInkIoU": 0.9326241134751773,
+              "actualGlyphOrigin": [
+                490.25,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                105,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Roboto",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.9206649434515856,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.017059045167677298,
+              "binaryInkIoU": 0.9326241134751773,
+              "actualGlyphOrigin": [
+                490.25,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                105,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Liberation Serif",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.9206649434515856,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.017059045167677298,
+              "binaryInkIoU": 0.9326241134751773,
+              "actualGlyphOrigin": [
+                490.25,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                105,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Liberation Serif",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.9206649434515856,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.017059045167677298,
+              "binaryInkIoU": 0.9326241134751773,
+              "actualGlyphOrigin": [
+                490.25,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                105,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "OpenAI Sans",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.9206649434515856,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.017059045167677298,
+              "binaryInkIoU": 0.9326241134751773,
+              "actualGlyphOrigin": [
+                490.25,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                105,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "OpenAI Sans",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.25,
+                0
+              ],
+              "foregroundContrast": 0.9206649434515856,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.017059045167677298,
+              "binaryInkIoU": 0.9326241134751773,
+              "actualGlyphOrigin": [
+                490.25,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                105,
+                9
+              ]
+            }
+          ],
+          "plausibleAnchorSpread": [
+            null,
+            null
+          ],
+          "coarseTop": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Roboto",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Roboto",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Liberation Serif",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Liberation Serif",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "OpenAI Sans",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "OpenAI Sans",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Inter",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Inter",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Verdana",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Verdana",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.9024781875649395,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.06619177972739125,
+              "binaryInkIoU": 0.7755775577557755,
+              "actualGlyphOrigin": [
+                490,
+                224
+              ],
+              "glyphBox": [
+                105,
+                9
+              ],
+              "expectedGlyphBox": [
+                104,
+                9
+              ]
+            }
+          ],
+          "anchorEncoding": "published SVG start-alphabetic-baseline",
+          "actualAnchor": [
+            490.25,
+            224
+          ],
+          "sourceCoordinates": [
+            0.65,
+            0.55
+          ],
+          "sourceProjectedPoint": [
+            490.2014307942093,
+            224.400300592718
+          ],
+          "absoluteErrors": [
+            0.04856920579072721,
+            0.400300592717997
+          ],
+          "positiveProfileQualified": false
+        },
+        {
+          "text": "High risk area",
+          "region": [
+            320,
+            335,
+            420,
+            365
+          ],
+          "actualForegroundGreen": 19,
+          "best": {
+            "size": 11,
+            "family": "Times New Roman",
+            "weight": "bold",
+            "kerning": "auto",
+            "phase": [
+              0.375,
+              0
+            ],
+            "foregroundContrast": 0.9276441266525157,
+            "fontMetrics": {
+              "ascent": 10,
+              "descent": 2
+            },
+            "meanAbsoluteAlphaError": 0.0007046820189459618,
+            "binaryInkIoU": 1,
+            "actualGlyphOrigin": [
+              329.375,
+              350
+            ],
+            "glyphBox": [
+              68,
+              9
+            ],
+            "expectedGlyphBox": [
+              68,
+              9
+            ]
+          },
+          "refined": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.9276441266525157,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.0007046820189459618,
+              "binaryInkIoU": 1,
+              "actualGlyphOrigin": [
+                329.375,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Roboto",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.9276441266525157,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.0007046820189459618,
+              "binaryInkIoU": 1,
+              "actualGlyphOrigin": [
+                329.375,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Liberation Serif",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.9276441266525157,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.0007046820189459618,
+              "binaryInkIoU": 1,
+              "actualGlyphOrigin": [
+                329.375,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "OpenAI Sans",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.9276441266525157,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.0007046820189459618,
+              "binaryInkIoU": 1,
+              "actualGlyphOrigin": [
+                329.375,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Inter",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.9276441266525157,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.0007046820189459618,
+              "binaryInkIoU": 1,
+              "actualGlyphOrigin": [
+                329.375,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Verdana",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.9276441266525157,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.0007046820189459618,
+              "binaryInkIoU": 1,
+              "actualGlyphOrigin": [
+                329.375,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Trebuchet MS",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.9276441266525157,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.0007046820189459618,
+              "binaryInkIoU": 1,
+              "actualGlyphOrigin": [
+                329.375,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.9252718081192992,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.006512187345104731,
+              "binaryInkIoU": 0.9685863874345549,
+              "actualGlyphOrigin": [
+                329.375,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            }
+          ],
+          "plausibleAnchorSpread": [
+            0,
+            0
+          ],
+          "coarseTop": [
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9156767912895839,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.025418843887364217,
+              "binaryInkIoU": 0.9319371727748691,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Roboto",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9156767912895839,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.025418843887364217,
+              "binaryInkIoU": 0.9319371727748691,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Liberation Serif",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9156767912895839,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.025418843887364217,
+              "binaryInkIoU": 0.9319371727748691,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "OpenAI Sans",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9156767912895839,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.025418843887364217,
+              "binaryInkIoU": 0.9319371727748691,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Inter",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9156767912895839,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.025418843887364217,
+              "binaryInkIoU": 0.9319371727748691,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Verdana",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9156767912895839,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.025418843887364217,
+              "binaryInkIoU": 0.9319371727748691,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Trebuchet MS",
+              "weight": "bold",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9156767912895839,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.025418843887364217,
+              "binaryInkIoU": 0.9319371727748691,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Times New Roman",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9131864681540481,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.030682047629940243,
+              "binaryInkIoU": 0.9162303664921466,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Roboto",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9131864681540481,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.030682047629940243,
+              "binaryInkIoU": 0.9162303664921466,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Liberation Serif",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9131864681540481,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.030682047629940243,
+              "binaryInkIoU": 0.9162303664921466,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "OpenAI Sans",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9131864681540481,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.030682047629940243,
+              "binaryInkIoU": 0.9162303664921466,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            },
+            {
+              "size": 11,
+              "family": "Inter",
+              "weight": "bold",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.9131864681540481,
+              "fontMetrics": {
+                "ascent": 10,
+                "descent": 2
+              },
+              "meanAbsoluteAlphaError": 0.030682047629940243,
+              "binaryInkIoU": 0.9162303664921466,
+              "actualGlyphOrigin": [
+                329.5,
+                350
+              ],
+              "glyphBox": [
+                68,
+                9
+              ],
+              "expectedGlyphBox": [
+                68,
+                9
+              ]
+            }
+          ],
+          "anchorEncoding": "published SVG start-alphabetic-baseline",
+          "actualAnchor": [
+            329.375,
+            350
+          ],
+          "sourceCoordinates": [
+            0.4,
+            0.35
+          ],
+          "sourceProjectedPoint": [
+            329.4020667027466,
+            350.4005153018022
+          ],
+          "absoluteErrors": [
+            0.02706670274659473,
+            0.4005153018022156
+          ],
+          "positiveProfileQualified": true
+        }
+      ]
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "index": 519,
+      "pngSha256": "b913d3accd2986db62a49ef7706d47acad0b115473e93edcf0c09fe562ef4875",
+      "frame": {
+        "left": 48.000845129938725,
+        "top": 48,
+        "right": 852,
+        "bottom": 551.9976890062727
+      },
+      "glyphs": [
+        {
+          "text": "Critical decision point",
+          "region": [
+            480,
+            210,
+            620,
+            234
+          ],
+          "actualForegroundGreen": 34,
+          "best": {
+            "size": 13.25,
+            "family": "Times New Roman",
+            "weight": "normal",
+            "kerning": "auto",
+            "phase": [
+              0.375,
+              0
+            ],
+            "foregroundContrast": 0.7524391676228119,
+            "fontMetrics": {
+              "ascent": 12,
+              "descent": 3
+            },
+            "meanAbsoluteAlphaError": 0.17926646215171224,
+            "binaryInkIoU": 0.4308755760368664,
+            "actualGlyphOrigin": [
+              490.375,
+              228
+            ],
+            "glyphBox": [
+              119,
+              12
+            ],
+            "expectedGlyphBox": [
+              118,
+              12
+            ]
+          },
+          "refined": [
+            {
+              "size": 13.25,
+              "family": "Times New Roman",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.7524391676228119,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17926646215171224,
+              "binaryInkIoU": 0.4308755760368664,
+              "actualGlyphOrigin": [
+                490.375,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Times New Roman",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.7524391676228119,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17926646215171224,
+              "binaryInkIoU": 0.4308755760368664,
+              "actualGlyphOrigin": [
+                490.375,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Roboto",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.7524391676228119,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17926646215171224,
+              "binaryInkIoU": 0.4308755760368664,
+              "actualGlyphOrigin": [
+                490.375,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Roboto",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.7524391676228119,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17926646215171224,
+              "binaryInkIoU": 0.4308755760368664,
+              "actualGlyphOrigin": [
+                490.375,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Liberation Serif",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.7524391676228119,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17926646215171224,
+              "binaryInkIoU": 0.4308755760368664,
+              "actualGlyphOrigin": [
+                490.375,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Liberation Serif",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.7524391676228119,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17926646215171224,
+              "binaryInkIoU": 0.4308755760368664,
+              "actualGlyphOrigin": [
+                490.375,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 11.75,
+              "family": "Noto Sans",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.6866674938822248,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.18314755622849258,
+              "binaryInkIoU": 0.4279661016949153,
+              "actualGlyphOrigin": [
+                491,
+                229
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                119,
+                13
+              ]
+            },
+            {
+              "size": 11.75,
+              "family": "Noto Sans",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.6866674938822248,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.18314755622849258,
+              "binaryInkIoU": 0.4279661016949153,
+              "actualGlyphOrigin": [
+                491,
+                229
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                119,
+                13
+              ]
+            }
+          ],
+          "plausibleAnchorSpread": [
+            null,
+            null
+          ],
+          "coarseTop": [
+            {
+              "size": 11.75,
+              "family": "Noto Sans",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.6866674938822248,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.18314755622849258,
+              "binaryInkIoU": 0.4279661016949153,
+              "actualGlyphOrigin": [
+                491,
+                229
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                119,
+                13
+              ]
+            },
+            {
+              "size": 11.75,
+              "family": "Noto Sans",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0,
+                0
+              ],
+              "foregroundContrast": 0.6866674938822248,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.18314755622849258,
+              "binaryInkIoU": 0.4279661016949153,
+              "actualGlyphOrigin": [
+                491,
+                229
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                119,
+                13
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Times New Roman",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7329942252043297,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.19256198220624085,
+              "binaryInkIoU": 0.4013452914798206,
+              "actualGlyphOrigin": [
+                490.5,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Times New Roman",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7329942252043297,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.19256198220624085,
+              "binaryInkIoU": 0.4013452914798206,
+              "actualGlyphOrigin": [
+                490.5,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Roboto",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7329942252043297,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.19256198220624085,
+              "binaryInkIoU": 0.4013452914798206,
+              "actualGlyphOrigin": [
+                490.5,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Roboto",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7329942252043297,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.19256198220624085,
+              "binaryInkIoU": 0.4013452914798206,
+              "actualGlyphOrigin": [
+                490.5,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Liberation Serif",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7329942252043297,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.19256198220624085,
+              "binaryInkIoU": 0.4013452914798206,
+              "actualGlyphOrigin": [
+                490.5,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Liberation Serif",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7329942252043297,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.19256198220624085,
+              "binaryInkIoU": 0.4013452914798206,
+              "actualGlyphOrigin": [
+                490.5,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "OpenAI Sans",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7329942252043297,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.19256198220624085,
+              "binaryInkIoU": 0.4013452914798206,
+              "actualGlyphOrigin": [
+                490.5,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "OpenAI Sans",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7329942252043297,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.19256198220624085,
+              "binaryInkIoU": 0.4013452914798206,
+              "actualGlyphOrigin": [
+                490.5,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Inter",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7329942252043297,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.19256198220624085,
+              "binaryInkIoU": 0.4013452914798206,
+              "actualGlyphOrigin": [
+                490.5,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            },
+            {
+              "size": 13.25,
+              "family": "Inter",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7329942252043297,
+              "fontMetrics": {
+                "ascent": 12,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.19256198220624085,
+              "binaryInkIoU": 0.4013452914798206,
+              "actualGlyphOrigin": [
+                490.5,
+                228
+              ],
+              "glyphBox": [
+                119,
+                12
+              ],
+              "expectedGlyphBox": [
+                118,
+                12
+              ]
+            }
+          ],
+          "anchorEncoding": "published native left-linebox-center",
+          "actualAnchor": [
+            490.375,
+            223.5
+          ],
+          "sourceCoordinates": [
+            0.65,
+            0.55
+          ],
+          "sourceProjectedPoint": [
+            490.20038030847246,
+            224.39919115219544
+          ],
+          "absoluteErrors": [
+            0.1746196915275391,
+            0.8991911521954421
+          ],
+          "positiveProfileQualified": false
+        },
+        {
+          "text": "High risk area",
+          "region": [
+            320,
+            335,
+            420,
+            365
+          ],
+          "actualForegroundGreen": 34,
+          "best": {
+            "size": 11.75,
+            "family": "ModelInter",
+            "weight": "normal",
+            "kerning": "none",
+            "phase": [
+              0.5,
+              0
+            ],
+            "foregroundContrast": 0.7538314511003095,
+            "fontMetrics": {
+              "ascent": 11,
+              "descent": 3
+            },
+            "meanAbsoluteAlphaError": 0.15172363723626062,
+            "binaryInkIoU": 0.5321428571428571,
+            "actualGlyphOrigin": [
+              329.5,
+              354
+            ],
+            "glyphBox": [
+              76,
+              12
+            ],
+            "expectedGlyphBox": [
+              76,
+              12
+            ]
+          },
+          "refined": [
+            {
+              "size": 11.75,
+              "family": "ModelInter",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7538314511003095,
+              "fontMetrics": {
+                "ascent": 11,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.15172363723626062,
+              "binaryInkIoU": 0.5321428571428571,
+              "actualGlyphOrigin": [
+                329.5,
+                354
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                12
+              ]
+            },
+            {
+              "size": 11.75,
+              "family": "ModelInter",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7553799349598004,
+              "fontMetrics": {
+                "ascent": 11,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.15384136814554966,
+              "binaryInkIoU": 0.519298245614035,
+              "actualGlyphOrigin": [
+                329.5,
+                354
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                12
+              ]
+            },
+            {
+              "size": 11.75,
+              "family": "Noto Sans",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.7048957965687119,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17287301496507937,
+              "binaryInkIoU": 0.44256756756756754,
+              "actualGlyphOrigin": [
+                329.375,
+                355
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                13
+              ]
+            },
+            {
+              "size": 12,
+              "family": "Open Sans",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7243907860249468,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 4
+              },
+              "meanAbsoluteAlphaError": 0.17618694833545753,
+              "binaryInkIoU": 0.4429065743944637,
+              "actualGlyphOrigin": [
+                329.5,
+                355
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                13
+              ]
+            },
+            {
+              "size": 12,
+              "family": "ModelOpenSans",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7243907860249468,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 4
+              },
+              "meanAbsoluteAlphaError": 0.17618694833545753,
+              "binaryInkIoU": 0.4429065743944637,
+              "actualGlyphOrigin": [
+                329.5,
+                355
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                13
+              ]
+            },
+            {
+              "size": 12,
+              "family": "ModelOpenSans",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7243907860249468,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 4
+              },
+              "meanAbsoluteAlphaError": 0.17618694833545753,
+              "binaryInkIoU": 0.4429065743944637,
+              "actualGlyphOrigin": [
+                329.5,
+                355
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                13
+              ]
+            },
+            {
+              "size": 11.75,
+              "family": "Noto Sans",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.375,
+                0
+              ],
+              "foregroundContrast": 0.7011350492700479,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17754977887324908,
+              "binaryInkIoU": 0.4406779661016949,
+              "actualGlyphOrigin": [
+                329.375,
+                355
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                75,
+                13
+              ]
+            },
+            {
+              "size": 12.5,
+              "family": "Arial",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7304962171900653,
+              "fontMetrics": {
+                "ascent": 11,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17879248217993868,
+              "binaryInkIoU": 0.4965753424657534,
+              "actualGlyphOrigin": [
+                329.5,
+                354
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                77,
+                12
+              ]
+            }
+          ],
+          "plausibleAnchorSpread": [
+            null,
+            null
+          ],
+          "coarseTop": [
+            {
+              "size": 11.75,
+              "family": "ModelInter",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7538314511003095,
+              "fontMetrics": {
+                "ascent": 11,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.15172363723626062,
+              "binaryInkIoU": 0.5321428571428571,
+              "actualGlyphOrigin": [
+                329.5,
+                354
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                12
+              ]
+            },
+            {
+              "size": 11.75,
+              "family": "ModelInter",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7553799349598004,
+              "fontMetrics": {
+                "ascent": 11,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.15384136814554966,
+              "binaryInkIoU": 0.519298245614035,
+              "actualGlyphOrigin": [
+                329.5,
+                354
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                12
+              ]
+            },
+            {
+              "size": 11.75,
+              "family": "Noto Sans",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.713563124578913,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17325182969067854,
+              "binaryInkIoU": 0.4377104377104377,
+              "actualGlyphOrigin": [
+                329.5,
+                355
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                13
+              ]
+            },
+            {
+              "size": 12,
+              "family": "Open Sans",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7243907860249468,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 4
+              },
+              "meanAbsoluteAlphaError": 0.17618694833545753,
+              "binaryInkIoU": 0.4429065743944637,
+              "actualGlyphOrigin": [
+                329.5,
+                355
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                13
+              ]
+            },
+            {
+              "size": 12,
+              "family": "ModelOpenSans",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7243907860249468,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 4
+              },
+              "meanAbsoluteAlphaError": 0.17618694833545753,
+              "binaryInkIoU": 0.4429065743944637,
+              "actualGlyphOrigin": [
+                329.5,
+                355
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                13
+              ]
+            },
+            {
+              "size": 12,
+              "family": "ModelOpenSans",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7243907860249468,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 4
+              },
+              "meanAbsoluteAlphaError": 0.17618694833545753,
+              "binaryInkIoU": 0.4429065743944637,
+              "actualGlyphOrigin": [
+                329.5,
+                355
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                13
+              ]
+            },
+            {
+              "size": 11.75,
+              "family": "Noto Sans",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7081568315130994,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.1779855706182433,
+              "binaryInkIoU": 0.43097643097643096,
+              "actualGlyphOrigin": [
+                329.5,
+                355
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                13
+              ]
+            },
+            {
+              "size": 12.5,
+              "family": "Arial",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7304962171900653,
+              "fontMetrics": {
+                "ascent": 11,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17879248217993868,
+              "binaryInkIoU": 0.4965753424657534,
+              "actualGlyphOrigin": [
+                329.5,
+                354
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                77,
+                12
+              ]
+            },
+            {
+              "size": 12.5,
+              "family": "Arial",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7304962171900653,
+              "fontMetrics": {
+                "ascent": 11,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17879248217993868,
+              "binaryInkIoU": 0.4965753424657534,
+              "actualGlyphOrigin": [
+                329.5,
+                354
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                77,
+                12
+              ]
+            },
+            {
+              "size": 12.5,
+              "family": "Liberation Sans",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7304962171900653,
+              "fontMetrics": {
+                "ascent": 11,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17879248217993868,
+              "binaryInkIoU": 0.4965753424657534,
+              "actualGlyphOrigin": [
+                329.5,
+                354
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                77,
+                12
+              ]
+            },
+            {
+              "size": 12.5,
+              "family": "Liberation Sans",
+              "weight": "normal",
+              "kerning": "none",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7304962171900653,
+              "fontMetrics": {
+                "ascent": 11,
+                "descent": 3
+              },
+              "meanAbsoluteAlphaError": 0.17879248217993868,
+              "binaryInkIoU": 0.4965753424657534,
+              "actualGlyphOrigin": [
+                329.5,
+                354
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                77,
+                12
+              ]
+            },
+            {
+              "size": 12,
+              "family": "Open Sans",
+              "weight": "normal",
+              "kerning": "auto",
+              "phase": [
+                0.5,
+                0
+              ],
+              "foregroundContrast": 0.7206117754922664,
+              "fontMetrics": {
+                "ascent": 13,
+                "descent": 4
+              },
+              "meanAbsoluteAlphaError": 0.18014389020307348,
+              "binaryInkIoU": 0.4379310344827586,
+              "actualGlyphOrigin": [
+                329.5,
+                355
+              ],
+              "glyphBox": [
+                76,
+                12
+              ],
+              "expectedGlyphBox": [
+                76,
+                13
+              ]
+            }
+          ],
+          "anchorEncoding": "published native left-linebox-center",
+          "actualAnchor": [
+            329.5,
+            350
+          ],
+          "sourceCoordinates": [
+            0.4,
+            0.35
+          ],
+          "sourceProjectedPoint": [
+            329.40054933446015,
+            350.39861340376365
+          ],
+          "absoluteErrors": [
+            0.09945066553984816,
+            0.3986134037636475
+          ],
+          "positiveProfileQualified": false
+        }
+      ]
+    }
+  ],
+  "scope": "ActualPNGtext glyphs independently register to known frozenhostfont models with an alphabetictext origin. Family/size/weight/phase are unrequestedskin nuisance measurements, not source defaults imposed on another backend. No SVGposition/style is read; sourcecoordinates are compared only after the glyphfit and independentgrayplotframe measurement. Glyphfit must haveIoU>=.97,MAE<=.04,plausibleoriginspread<=.5px andsourcepoint error<=2px; otherwise unknown. Otheranchorencodings are not wrong-graded. No annotationlegend clamp permission or timing claim.",
+  "rendererInvocations": 0,
+  "codexApiInvocations": 0
+}
