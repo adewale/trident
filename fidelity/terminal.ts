@@ -24,7 +24,7 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   const grouping = expected.groups?.length ? inspectTerminalGrouping(output, expected.nodes, expected.groups) : undefined
   if (grouping && grouping.status !== 'passed') return verdict('unknown', grouping.reason)
   const groupBoxes = grouping?.groups ?? []
-  const boxes: Box[] = terminalRectangles(grid, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true }).filter(box => !groupBoxes.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)).map(box => ({ ...box, label: normalizedTerminalText(box.lines.join(' ')) }))
+  const boxes: Box[] = terminalRectangles(grid, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true, cornerPorts: true }).filter(box => !groupBoxes.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)).map(box => ({ ...box, label: normalizedTerminalText(box.lines.join(' ')) }))
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if (/^[●◉]$/.test(cell(x, y)) && expected.nodes.some(node => node.label === cell(x, y)) && !boxes.some(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)) boxes.push({ x, y, right: x, bottom: y, label: cell(x, y) })
   if (!boxes.length) return verdict('unknown', 'No qualified closed node containers or explicit state markers are inspectable in this output representation')
   for (const node of expected.nodes) {
@@ -48,6 +48,8 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   const groupBoundary = (x: number, y: number) => groupBoxes.find(box => (x === box.x || x === box.right) && y > box.y && y < box.bottom || (y === box.y || y === box.bottom) && x > box.x && x < box.right)
   const groupExits = (x: number, y: number) => { const group = groupBoundary(x, y); if (!group) return undefined; const perpendicular = y === group.y || y === group.bottom ? [0, 2] : [1, 3]; return (points[cell(x, y)] ?? []).filter(direction => perpendicular.includes(direction)) }
   const boundary = (x: number, y: number, sourceDirection?: number): Box | undefined => {
+    const corner = boxes.filter(box => (x === box.x || x === box.right) && (y === box.y || y === box.bottom) && sourceDirection !== undefined && (x === box.x && sourceDirection === 3 || x === box.right && sourceDirection === 1 || y === box.y && sourceDirection === 0 || y === box.bottom && sourceDirection === 2) && points[cell(x, y)]?.includes(sourceDirection))
+    if (corner.length === 1) return corner[0]
     const node = boxes.find(box => box.x === box.right && box.y === box.bottom && x === box.x && y === box.y || (x === box.x || x === box.right) && y > box.y && y < box.bottom || (y === box.y || y === box.bottom) && x > box.x && x < box.right)
     if (node) return node
     const group = groupBoundary(x, y), exits = groupExits(x, y)

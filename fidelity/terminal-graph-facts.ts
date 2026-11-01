@@ -13,7 +13,7 @@ export function inspectTerminalGraphFacts(output: string, contract: TerminalSour
   const set = (criterion: string, status: TerminalFactCheck['status'], detail: string, actual?: unknown) => { const row = checks.find(row => row.criterion === criterion); if (row) Object.assign(row, { status, detail, actual }) }
   const display = interpretTerminal(output, { columns: 4096, rows: 2048, inputBytes: 2_000_000 })
   if (display.status !== 'available') { for (const check of checks) check.detail = display.reason!; return checks }
-  const containers = terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true })
+  const containers = terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true, cornerPorts: true })
   const controlled = graph.nodes.filter(node => /[\x00-\x1f]/.test(node.label))
   if (controlled.length) {
     const escape = (text: string, style: string) => text.replace(/[\x00-\x1f]/g, glyph => glyph === '\x1b' ? style : '\\x' + glyph.charCodeAt(0).toString(16).padStart(2, '0'))

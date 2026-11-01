@@ -3,6 +3,7 @@ import { inspectTerminalClass, terminalClassSourceObservable } from './terminal-
 import { inspectTerminalState, terminalStateSourceObservable } from './terminal-state.ts'
 import { inspectTerminalFamilyFacts, terminalFamilySourceObservable } from './terminal-family-facts.ts'
 import { terminalAuthoredLinesObserved } from './terminal-text.ts'
+import { inspectTerminalStackedPie } from './terminal-pie.ts'
 import { inspectTerminalEr, terminalErSourceObservable } from './terminal-er.ts'
 import { inspectTerminalGrouping } from './terminal-groups.ts'
 import { terminalRectangles } from './terminal-rectangles.ts'
@@ -24,6 +25,7 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
   if (family) return family
   if (contract.family === 'er') return inspectTerminalEr(output, contract).checks
   if (contract.family === 'sequence') return inspectTerminalSequence(output, contract)
+  if (contract.family === 'pie') { const stacked = inspectTerminalStackedPie(output, contract); if (stacked) return stacked }
   const display = interpretTerminal(output)
   const checks = contract.facts.filter(fact => fact.required !== false).map(fact => ({ criterion: fact.criterion, expected: fact.expected, status: 'unknown' as TerminalFactCheck['status'], detail: 'No qualified observer for this source fact and output representation' }))
   if (contract.family === 'kanban') { const board = inspectTerminalKanban(output, contract); return checks.map(check => check.criterion === board.criterion ? board : check) }
@@ -118,6 +120,18 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
     }
     const unknownInk = lines.some(line => line.trim() && line.trim() !== title && !/^\s*\[[^\]]+\]\s*$/.test(line) && !/^\s*[○●]\s+\S.*$/.test(line) && !/^\s*│\s*[├└]─\s*.+$/.test(line))
     if (qualified && !unknownInk && !orphanInk && JSON.stringify(sections) === JSON.stringify([...new Set((expected as any[] ?? []).map(period => period.section))])) set('timeline-periods', JSON.stringify(actual) === JSON.stringify(expected) ? 'passed' : 'failed', 'Visible section headers, period bullets and owned tree-stroke event rows retain order and membership', actual)
+    if (!qualified) {
+      const tree: any[] = []; let section = '', recognized = false, complete = true
+      for (const raw of lines) {
+        const line = raw.trim(), heading = /^══\s+(.+?)\s+══$/.exec(line), period = /^●──\s+(.+)$/.exec(line), event = /^│\s+(.+)$/.exec(line)
+        if (!line || line === title || line === '│') continue
+        if (heading) section = heading[1]!
+        else if (period) { tree.push({ section, label: period[1]!, events: [] }); recognized = true }
+        else if (event && tree.length) tree.at(-1)!.events.push(event[1]!)
+        else complete = false
+      }
+      if (recognized && complete) set('timeline-periods', JSON.stringify(tree) === JSON.stringify(expected) ? 'passed' : 'failed', 'Closed row grammar observes every section, branch-owned period and following event row; continuation events cannot become extra periods', tree)
+    }
   }
   return checks
 }

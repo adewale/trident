@@ -1,0 +1,24 @@
+                        Value vs. cost
+
+                                │
+                                │
+                                │
+                                │          ● Beta
+                ● Alpha         │
+              Do now            │            Plan
+                                │
+                                │
+                                │
+                                │
+  ──────────────────────────────┼─────────────────────────────
+                                │
+                                │
+                   ● Gamma      │
+                                │             ● Delta
+               Maybe            │            Drop
+                                │
+                                │
+                                │
+                                │
+
+                     Low cost -> High cost

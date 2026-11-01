@@ -2,6 +2,7 @@ import { terminalRectangles } from './terminal-rectangles.ts'
 import { interpretTerminal } from './terminal-display.ts'
 import type { TerminalSourceContract } from './terminal-source.ts'
 import type { TerminalFactCheck } from './terminal-facts.ts'
+import { normalizedTerminalText, terminalAuthoredLinesObserved } from './terminal-text.ts'
 
 type Box = { x: number; y: number; right: number; bottom: number; lines: string[] }
 type Message = { source: string; target: string; marker: string; label: string; y: number; captionY: number; left: number; right: number }
@@ -83,7 +84,16 @@ export function inspectTerminalSequence(output: string, contract: TerminalSource
       actual.push({ position: note.position, actors: owners, text: box.lines.join('\n'), afterMessage: messages.filter(message => message.y < box.y).length }); rectangle(box)
     }
     const expectedOwners = (note: NonNullable<typeof notes>[number]) => { const endpoints = actors.filter(actor => note.actors.includes(actor.id)); return note.position === 'over' && endpoints.length ? actors.filter(actor => actor.x >= Math.min(...endpoints.map(endpoint => endpoint.x)) && actor.x <= Math.max(...endpoints.map(endpoint => endpoint.x))).map(actor => actor.id) : note.actors }
-    if (qualified) set('owned-notes', actual.every((note, n) => JSON.stringify([...note.actors].sort()) === JSON.stringify([...expectedOwners(notes[n]!)].sort()) && note.text === notes[n]!.text && note.afterMessage === notes[n]!.afterMessage) ? 'passed' : 'failed', 'Notes retain exact authored lines, chronology and geometric ownership; over-note endpoints include intervening lifelines', actual)
+    if (qualified) {
+      const lines = notes.map((note, n) => terminalAuthoredLinesObserved(noteBoxes[n]!.lines, note.text.split('\n'))), owners = actual.every((note, n) => JSON.stringify([...note.actors].sort()) === JSON.stringify([...expectedOwners(notes[n]!)].sort()) && note.afterMessage === notes[n]!.afterMessage)
+      set('owned-notes', !owners || lines.some(line => line === false) ? 'failed' : lines.some(line => line === undefined) ? 'unknown' : 'passed', 'Notes retain authored hard lines, permit soft wrapping within each line, and retain chronology and geometric ownership; over-note endpoints include intervening lifelines; blank authored lines require a padding projection', actual)
+    }
+    // A uniquely identified closed note can decisively lose its hard breaks
+    // even when an overlapping side-note layout leaves actor ownership unknown.
+    for (const note of notes) {
+      const text = normalizedTerminalText(note.text), owners = noteBoxes.filter(box => normalizedTerminalText(box.lines.join(' ')) === text)
+      if (notes.filter(other => normalizedTerminalText(other.text) === text).length === 1 && owners.length === 1 && terminalAuthoredLinesObserved(owners[0]!.lines, note.text.split('\n')) === false) set('owned-notes', 'failed', 'A uniquely owned closed note merges or changes an authored hard line', owners[0]!.lines)
+    }
   }
 
   const frames: { kind: string; label: string; top: number; bottom: number; branches: { label: string; y: number }[] }[] = []
