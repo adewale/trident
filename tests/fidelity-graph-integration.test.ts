@@ -97,6 +97,22 @@ for (const renderer of ['mermaid', 'pele']) {
   }, 30_000)
 }
 
+test('C4 endpoint contact cannot be borrowed by a foreign stroke, image or unbound relationship', async () => {
+  for (const kind of ['foreign-stroke', 'foreign-image', 'unbound-relationship']) {
+    const result = await inspect('mermaid-c4-elements.svg', 'meaning:family:c4', page => page.evaluate((kind: string) => {
+      const svg = document.querySelector('svg')!, stem = [...svg.querySelectorAll('line')].find(element => !element.closest('defs,marker'))!
+      const x = Number(stem.getAttribute('x1')), y = Number(stem.getAttribute('y1'))
+      if (kind === 'unbound-relationship') { stem.setAttribute('x2', String(Number(stem.getAttribute('x2')) - 40)); return }
+      const cover = document.createElementNS(svg.namespaceURI, kind === 'foreign-image' ? 'image' : 'line')
+      const attributes = kind === 'foreign-image' ? { x: x - 6, y: y - 6, width: 12, height: 12, href: 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27%3E%3Crect width=%2712%27 height=%2712%27 fill=%27white%27/%3E%3C/svg%3E' } : { x1: x, y1: y, x2: x + 12, y2: y, stroke: '#444444', 'stroke-width': 1, fill: 'none' }
+      for (const [name, value] of Object.entries(attributes)) cover.setAttribute(name, String(value))
+      svg.append(cover)
+    }, kind))
+    expect(status(result, 'painted-node-visibility')).not.toBe('passed')
+    expect(result.passed).toBe(false)
+  }
+}, 30_000)
+
 test('native retained UML field notation preserves actual name, type and access without requiring source spelling', async () => {
   const result = await inspect('native-class-members.svg', 'features:class:namespace-members-cardinality')
   expect(status(result, 'source-fact:members')).toBe('passed')
