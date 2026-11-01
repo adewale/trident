@@ -1,0 +1,1394 @@
+{
+  "schema": "terminal-retained-controls-v1",
+  "actualCalls": 8,
+  "rendererProjects": 2,
+  "sourceReferenceCalls": 0,
+  "sourceSha256": "d0827fb9f5c66c9f43e0db5d8c03429f55e58a95e52961977003084bc3104a02",
+  "originalTransportSha256": "332c08893a377cbdee085e288e74724557cb5e9739880338f70515144b5a5cfd",
+  "captureProducer": "9b0081c6832a7e58ef88d05afe868730241a95bc",
+  "classificationProducer": "98df885",
+  "calls": [
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "source": {
+        "id": "terminal:321aee6efed4a803",
+        "sourceSha256": "321aee6efed4a803c844ca07f799fedcd4bf5c0e0d52c326ce74572b70c72d10",
+        "source": "pie\n  Dogs : 1",
+        "family": "pie",
+        "features": [],
+        "intent": "invalid",
+        "expected": {
+          "status": "independently-reviewed",
+          "reason": "Independent source-token transcription; no candidate output, renderer AST or reference render defines these facts. Diagram data, relationships and qualified source geometry are required. Broad global/subgraph layout hints, CSS/theme configuration and accessibility metadata are retained separately from the core terminal-content requirements. Original source provenance remains in terminal-project-examples.json.",
+          "contract": {
+            "schema": "terminal-source-contract-v2",
+            "family": "pie",
+            "facts": [
+              {
+                "criterion": "typed-source-rejection",
+                "expected": true,
+                "scope": "Pinned Mermaid pie grammar requires quoted slice labels"
+              }
+            ],
+            "presentation": [],
+            "sourceUncertainties": []
+          },
+          "unverifiedFacts": []
+        },
+        "origins": [
+          {
+            "kind": "repository-file",
+            "repository": "dfadler/zombie-mermaid",
+            "commit": "8cc982128bed11d976fb38164c4cdb47be7bd34d",
+            "path": "packages/ascii-renderer/src/__tests__/pie-ascii.test.ts",
+            "blob": "07cdb4a7caa79fde31985ce73cc807ebb11a19cb",
+            "url": "https://github.com/dfadler/zombie-mermaid/blob/8cc982128bed11d976fb38164c4cdb47be7bd34d/packages/ascii-renderer/src/__tests__/pie-ascii.test.ts",
+            "bodySha256": "8e6942ca544e34805a900bd674bbd32324a0fd8191b40b2a67fc525bf3a41347",
+            "license": "MIT",
+            "channel": "project-regression-fixture",
+            "line": 344,
+            "extraction": "decoded-static-ts-literal",
+            "researchSnapshotSha256": "41b9df477b7f8c753ed39fb8f50062d101ed9a7569b803f482a5f4735b80e03b"
+          }
+        ]
+      },
+      "typedSourceOutcome": {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "caseId": "terminal:321aee6efed4a803",
+        "sourceSha256": "321aee6efed4a803c844ca07f799fedcd4bf5c0e0d52c326ce74572b70c72d10",
+        "publicBoundary": "Frozen public CLI stdin → completed command outcome",
+        "observerSha256": "9793fc2da4a4749df9fd9799590519b0b65b452224d8bdcaeaecf709a1b76dfd",
+        "measuredAt": "2026-11-01T00:44:22.264Z",
+        "kind": "unknown-family",
+        "detail": "failed to parse graph diagram: unsupported graph type 'pie'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)"
+      },
+      "originalTransportObservation": {
+        "suite": "community",
+        "surface": "cli:end-to-end",
+        "runtime": "linux-x64 public native CLI",
+        "family": "pie",
+        "caseId": "terminal:321aee6efed4a803",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "failed",
+        "metrics": {
+          "implementation": "AlexanderGrooff/mermaid-ascii",
+          "round": 1,
+          "featureCount": 2,
+          "rawInvocationId": "b5c1c464-a692-4df3-90cd-f792bd6507a5",
+          "rawInvocationDirectory": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations",
+          "stdoutFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/736ea42a7463c4e839bcbf561b9724774f69111a5d27ad959e48a4ea6e4aa548",
+          "firstMs": 29.223144000000048,
+          "timingScope": "one qualification call, not a repeated speed sample",
+          "rejected": true,
+          "failureStage": "public-command"
+        },
+        "detail": "time=\"2026-11-01T00:44:22Z\" level=fatal msg=\"failed to parse graph diagram: unsupported graph type 'pie'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)\"\n"
+      },
+      "invocationFrames": [
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "b5c1c464-a692-4df3-90cd-f792bd6507a5",
+          "identity": {
+            "coordinate": "round:1",
+            "project": "AlexanderGrooff/mermaid-ascii",
+            "caseId": "terminal:321aee6efed4a803",
+            "sourceSha256": "321aee6efed4a803c844ca07f799fedcd4bf5c0e0d52c326ce74572b70c72d10",
+            "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+            "bindingSha256": "3ff1849388a94deaf15d68fe274064e0f286f4b90bd7fe47e26879df3f42b57a",
+            "format": "terminal"
+          },
+          "state": "public-error",
+          "recordedAt": "2026-11-01T00:44:22.264Z",
+          "startedAt": "2026-11-01T00:44:22.228Z",
+          "finishedAt": "2026-11-01T00:44:22.264Z",
+          "durationMs": 29.223144000000048,
+          "output": null,
+          "detail": "time=\"2026-11-01T00:44:22Z\" level=fatal msg=\"failed to parse graph diagram: unsupported graph type 'pie'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)\"\n",
+          "startedReceiptSha256": "1cbecc4b37e832319471c0e405a00ea05159bb0ebc0848b5dba3364984817fda",
+          "streams": {
+            "stdout": {
+              "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0
+            },
+            "stderr": {
+              "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/736ea42a7463c4e839bcbf561b9724774f69111a5d27ad959e48a4ea6e4aa548",
+              "sha256": "736ea42a7463c4e839bcbf561b9724774f69111a5d27ad959e48a4ea6e4aa548",
+              "bytes": 195
+            }
+          }
+        },
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "b5c1c464-a692-4df3-90cd-f792bd6507a5",
+          "identity": {
+            "coordinate": "round:1",
+            "project": "AlexanderGrooff/mermaid-ascii",
+            "caseId": "terminal:321aee6efed4a803",
+            "sourceSha256": "321aee6efed4a803c844ca07f799fedcd4bf5c0e0d52c326ce74572b70c72d10",
+            "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+            "bindingSha256": "3ff1849388a94deaf15d68fe274064e0f286f4b90bd7fe47e26879df3f42b57a",
+            "format": "terminal"
+          },
+          "state": "started",
+          "recordedAt": "2026-11-01T00:44:22.228Z",
+          "startedAt": "2026-11-01T00:44:22.228Z",
+          "finishedAt": null,
+          "durationMs": null,
+          "output": null,
+          "detail": "Public-call entry is about to run; no return, rejection or duration is inferred"
+        }
+      ],
+      "retainedAssets": [
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "portablePath": "control-outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/736ea42a7463c4e839bcbf561b9724774f69111a5d27ad959e48a4ea6e4aa548",
+          "sha256": "736ea42a7463c4e839bcbf561b9724774f69111a5d27ad959e48a4ea6e4aa548",
+          "bytes": 195,
+          "portablePath": "control-outputs/736ea42a7463c4e839bcbf561b9724774f69111a5d27ad959e48a4ea6e4aa548"
+        }
+      ]
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "source": {
+        "id": "terminal:486d9d241d7bf98f",
+        "sourceSha256": "486d9d241d7bf98fb6be9d78a1734510b145ced330460ed54f3ced0973f0f74f",
+        "source": "not a diagram",
+        "family": "invalid",
+        "features": [],
+        "intent": "invalid",
+        "expected": {
+          "status": "independently-reviewed",
+          "reason": "Independent source-token transcription; no candidate output, renderer AST or reference render defines these facts. Diagram data, relationships and qualified source geometry are required. Broad global/subgraph layout hints, CSS/theme configuration and accessibility metadata are retained separately from the core terminal-content requirements. Original source provenance remains in terminal-project-examples.json.",
+          "contract": {
+            "schema": "terminal-source-contract-v2",
+            "family": "invalid",
+            "facts": [
+              {
+                "criterion": "typed-source-rejection",
+                "expected": true,
+                "scope": "No Mermaid family header or diagram syntax"
+              }
+            ],
+            "presentation": [],
+            "sourceUncertainties": []
+          },
+          "unverifiedFacts": []
+        },
+        "origins": [
+          {
+            "kind": "pull-diff",
+            "repository": "wevm/ondine",
+            "number": 10,
+            "url": "https://github.com/wevm/ondine/pull/10/files",
+            "path": "site/src/entry.server.test.ts",
+            "baseCommit": "0b589ec34481856b4153526f10a0a35558a201a8",
+            "headCommit": "9c95f359fb3766b062b65dc87ee79c42beb182c6",
+            "updatedAt": "2026-10-26T19:52:04Z",
+            "patchSha256": "ff188d71c1afb1ca7a9c5d474fbb5dffadee120a8cee970c5e6184b40bf0a164",
+            "fileSha": "e5547b8b5529f873cfcc54f7863df81a3055c742",
+            "channel": "pull-added-source",
+            "bodySha256": "a82208945950c99d6dc26e38a480a128b657511ac9105a0167a06620473c7997",
+            "adaptation": "Added patch lines only; diff prefixes removed. Partial literals may remain invalid and are not filtered by renderer success.",
+            "line": 8,
+            "extraction": "decoded-static-ts-literal",
+            "researchSnapshotSha256": "02c960993ded2ea54814160e29bf80fb8de92b45ddbe03ceedba945ce38d4e25"
+          }
+        ]
+      },
+      "typedSourceOutcome": {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "caseId": "terminal:486d9d241d7bf98f",
+        "sourceSha256": "486d9d241d7bf98fb6be9d78a1734510b145ced330460ed54f3ced0973f0f74f",
+        "publicBoundary": "Frozen public CLI stdin → completed command outcome",
+        "observerSha256": "9793fc2da4a4749df9fd9799590519b0b65b452224d8bdcaeaecf709a1b76dfd",
+        "measuredAt": "2026-11-01T00:44:22.284Z",
+        "kind": "unknown-family",
+        "detail": "failed to parse graph diagram: unsupported graph type 'not a diagram'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)"
+      },
+      "originalTransportObservation": {
+        "suite": "community",
+        "surface": "cli:end-to-end",
+        "runtime": "linux-x64 public native CLI",
+        "family": "invalid",
+        "caseId": "terminal:486d9d241d7bf98f",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "failed",
+        "metrics": {
+          "implementation": "AlexanderGrooff/mermaid-ascii",
+          "round": 1,
+          "featureCount": 2,
+          "rawInvocationId": "795b4b6f-8d4e-444f-a6f5-ea54f6476fdc",
+          "rawInvocationDirectory": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations",
+          "stdoutFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/5c1adc569227b2cfe74902d7195b4a0f70113ab3e9e4a45822d70bf65cebc3b3",
+          "firstMs": 13.715391000000011,
+          "timingScope": "one qualification call, not a repeated speed sample",
+          "rejected": true,
+          "failureStage": "public-command"
+        },
+        "detail": "time=\"2026-11-01T00:44:22Z\" level=fatal msg=\"failed to parse graph diagram: unsupported graph type 'not a diagram'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)\"\n"
+      },
+      "invocationFrames": [
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "795b4b6f-8d4e-444f-a6f5-ea54f6476fdc",
+          "identity": {
+            "coordinate": "round:1",
+            "project": "AlexanderGrooff/mermaid-ascii",
+            "caseId": "terminal:486d9d241d7bf98f",
+            "sourceSha256": "486d9d241d7bf98fb6be9d78a1734510b145ced330460ed54f3ced0973f0f74f",
+            "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+            "bindingSha256": "3ff1849388a94deaf15d68fe274064e0f286f4b90bd7fe47e26879df3f42b57a",
+            "format": "terminal"
+          },
+          "state": "public-error",
+          "recordedAt": "2026-11-01T00:44:22.283Z",
+          "startedAt": "2026-11-01T00:44:22.267Z",
+          "finishedAt": "2026-11-01T00:44:22.284Z",
+          "durationMs": 13.715391000000011,
+          "output": null,
+          "detail": "time=\"2026-11-01T00:44:22Z\" level=fatal msg=\"failed to parse graph diagram: unsupported graph type 'not a diagram'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)\"\n",
+          "startedReceiptSha256": "35114a591a1d436c9ec9178571fe88d291a0d4751b6a9eb94783d75b4c6ee5f4",
+          "streams": {
+            "stdout": {
+              "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0
+            },
+            "stderr": {
+              "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/5c1adc569227b2cfe74902d7195b4a0f70113ab3e9e4a45822d70bf65cebc3b3",
+              "sha256": "5c1adc569227b2cfe74902d7195b4a0f70113ab3e9e4a45822d70bf65cebc3b3",
+              "bytes": 205
+            }
+          }
+        },
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "795b4b6f-8d4e-444f-a6f5-ea54f6476fdc",
+          "identity": {
+            "coordinate": "round:1",
+            "project": "AlexanderGrooff/mermaid-ascii",
+            "caseId": "terminal:486d9d241d7bf98f",
+            "sourceSha256": "486d9d241d7bf98fb6be9d78a1734510b145ced330460ed54f3ced0973f0f74f",
+            "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+            "bindingSha256": "3ff1849388a94deaf15d68fe274064e0f286f4b90bd7fe47e26879df3f42b57a",
+            "format": "terminal"
+          },
+          "state": "started",
+          "recordedAt": "2026-11-01T00:44:22.267Z",
+          "startedAt": "2026-11-01T00:44:22.267Z",
+          "finishedAt": null,
+          "durationMs": null,
+          "output": null,
+          "detail": "Public-call entry is about to run; no return, rejection or duration is inferred"
+        }
+      ],
+      "retainedAssets": [
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "portablePath": "control-outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/5c1adc569227b2cfe74902d7195b4a0f70113ab3e9e4a45822d70bf65cebc3b3",
+          "sha256": "5c1adc569227b2cfe74902d7195b4a0f70113ab3e9e4a45822d70bf65cebc3b3",
+          "bytes": 205,
+          "portablePath": "control-outputs/5c1adc569227b2cfe74902d7195b4a0f70113ab3e9e4a45822d70bf65cebc3b3"
+        }
+      ]
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "source": {
+        "id": "terminal:955cacf9438d691d",
+        "sourceSha256": "955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616",
+        "source": "---\ntitle: 国际化发布历史\nconfig:\n  gitGraph:\n    mainBranchName: 主线\n---\ngitGraph BT:\n  accTitle: 国际化 Git 历史\n  commit id:\"基础\" tag:\"版本-1.0\" msg:\"建立稳定基线\"\n  branch \"cherry-pick\" order:2\n  commit id:\"修复\" msg:\"修复支付流程\"\n  checkout 主线\n  branch 1.0.1 order:3\n  commit id:\"维护\" type:REVERSE tag:\"长期支持\" msg:\"维护版本\"\n  checkout 主线\n  branch feature/東京 order:4\n  commit id:\"東京\" type:HIGHLIGHT msg:\"東京ユーザー向け機能\"\n  checkout 主线\n  merge feature/東京 id:\"合并\" tag:\"版本-2.0\"\n",
+        "family": "gitgraph",
+        "features": [
+          "configuration",
+          "edge-styles",
+          "unicode",
+          "wide-labels"
+        ],
+        "intent": "invalid",
+        "expected": {
+          "status": "independently-reviewed",
+          "reason": "Independent source-token transcription; no candidate output, renderer AST or reference render defines these facts. Diagram data, relationships and qualified source geometry are required. Broad global/subgraph layout hints, CSS/theme configuration and accessibility metadata are retained separately from the core terminal-content requirements. Original source provenance remains in terminal-project-examples.json.",
+          "contract": {
+            "schema": "terminal-source-contract-v2",
+            "family": "gitgraph",
+            "facts": [
+              {
+                "criterion": "title",
+                "expected": "国际化发布历史",
+                "scope": "Authored frontmatter title"
+              },
+              {
+                "criterion": "accessible-title",
+                "expected": "国际化 Git 历史",
+                "scope": "Source accessibility title; separate from visible title",
+                "required": false
+              },
+              {
+                "criterion": "git-operations",
+                "expected": {
+                  "mainBranch": "主线",
+                  "branches": [
+                    "主线",
+                    "cherry-pick",
+                    "1.0.1",
+                    "feature/東京"
+                  ],
+                  "operations": [
+                    {
+                      "operation": "commit",
+                      "branch": "主线",
+                      "id": "基础",
+                      "tag": "版本-1.0",
+                      "msg": "建立稳定基线"
+                    },
+                    {
+                      "operation": "branch",
+                      "branch": "cherry-pick",
+                      "namedBranch": "cherry-pick",
+                      "order": "2"
+                    },
+                    {
+                      "operation": "commit",
+                      "branch": "cherry-pick",
+                      "id": "修复",
+                      "msg": "修复支付流程"
+                    },
+                    {
+                      "operation": "checkout",
+                      "branch": "主线",
+                      "namedBranch": "主线"
+                    },
+                    {
+                      "operation": "branch",
+                      "branch": "1.0.1",
+                      "namedBranch": "1.0.1",
+                      "order": "3"
+                    },
+                    {
+                      "operation": "commit",
+                      "branch": "1.0.1",
+                      "id": "维护",
+                      "type": "REVERSE",
+                      "tag": "长期支持",
+                      "msg": "维护版本"
+                    },
+                    {
+                      "operation": "checkout",
+                      "branch": "主线",
+                      "namedBranch": "主线"
+                    },
+                    {
+                      "operation": "branch",
+                      "branch": "feature/東京",
+                      "namedBranch": "feature/東京",
+                      "order": "4"
+                    },
+                    {
+                      "operation": "commit",
+                      "branch": "feature/東京",
+                      "id": "東京",
+                      "type": "HIGHLIGHT",
+                      "msg": "東京ユーザー向け機能"
+                    },
+                    {
+                      "operation": "checkout",
+                      "branch": "主线",
+                      "namedBranch": "主线"
+                    },
+                    {
+                      "operation": "merge",
+                      "branch": "主线",
+                      "namedBranch": "feature/東京",
+                      "id": "合并",
+                      "tag": "版本-2.0"
+                    }
+                  ]
+                },
+                "scope": "Branch/commit identities and membership, chronology, tags/messages, merge/cherry-pick provenance"
+              },
+              {
+                "criterion": "typed-source-rejection",
+                "expected": true,
+                "scope": "Pinned Git graph reference grammar requires non-ASCII branch references to be quoted"
+              }
+            ],
+            "presentation": [
+              {
+                "configuration": {
+                  "gitGraph": {
+                    "mainBranchName": "主线"
+                  }
+                }
+              }
+            ],
+            "sourceUncertainties": []
+          },
+          "unverifiedFacts": []
+        },
+        "origins": [
+          {
+            "kind": "repository-file",
+            "repository": "adewale/agentic-mermaid",
+            "commit": "d18c718d0253f45d279a9c12e60a96ee8cc9283c",
+            "path": "eval/mindmap-gitgraph-content-corpus/gitgraph/unicode-and-unusual-branches.mmd",
+            "blob": "da5857f4312b0b0d0fc70cf74f970eb9543aaba9",
+            "url": "https://github.com/adewale/agentic-mermaid/blob/d18c718d0253f45d279a9c12e60a96ee8cc9283c/eval/mindmap-gitgraph-content-corpus/gitgraph/unicode-and-unusual-branches.mmd",
+            "bodySha256": "955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616",
+            "license": "MIT",
+            "channel": "project-docs-example",
+            "line": 1,
+            "extraction": "literal-file",
+            "researchSnapshotSha256": "3707ef93bb2caf79c7c09103a518ad800e92f4a02b95a6080dcf1a0111cd6165"
+          }
+        ]
+      },
+      "typedSourceOutcome": {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "caseId": "terminal:955cacf9438d691d",
+        "sourceSha256": "955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616",
+        "publicBoundary": "Frozen public CLI stdin → completed command outcome",
+        "observerSha256": "9793fc2da4a4749df9fd9799590519b0b65b452224d8bdcaeaecf709a1b76dfd",
+        "measuredAt": "2026-11-01T00:44:22.303Z",
+        "kind": "unknown-family",
+        "detail": "failed to parse graph diagram: unsupported graph type 'gitGraph BT:'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)"
+      },
+      "originalTransportObservation": {
+        "suite": "community",
+        "surface": "cli:end-to-end",
+        "runtime": "linux-x64 public native CLI",
+        "family": "gitgraph",
+        "caseId": "terminal:955cacf9438d691d",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "failed",
+        "metrics": {
+          "implementation": "AlexanderGrooff/mermaid-ascii",
+          "round": 1,
+          "featureCount": 2,
+          "rawInvocationId": "b8cb5d55-d77f-46f7-b227-da06395a7918",
+          "rawInvocationDirectory": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations",
+          "stdoutFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e73f0376111f64a784f30617961c06adaad8c31ccf32304096c23394b0e56a2b",
+          "firstMs": 11.592627999999934,
+          "timingScope": "one qualification call, not a repeated speed sample",
+          "rejected": true,
+          "failureStage": "public-command"
+        },
+        "detail": "time=\"2026-11-01T00:44:22Z\" level=fatal msg=\"failed to parse graph diagram: unsupported graph type 'gitGraph BT:'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)\"\n"
+      },
+      "invocationFrames": [
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "b8cb5d55-d77f-46f7-b227-da06395a7918",
+          "identity": {
+            "coordinate": "round:1",
+            "project": "AlexanderGrooff/mermaid-ascii",
+            "caseId": "terminal:955cacf9438d691d",
+            "sourceSha256": "955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616",
+            "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+            "bindingSha256": "3ff1849388a94deaf15d68fe274064e0f286f4b90bd7fe47e26879df3f42b57a",
+            "format": "terminal"
+          },
+          "state": "started",
+          "recordedAt": "2026-11-01T00:44:22.287Z",
+          "startedAt": "2026-11-01T00:44:22.287Z",
+          "finishedAt": null,
+          "durationMs": null,
+          "output": null,
+          "detail": "Public-call entry is about to run; no return, rejection or duration is inferred"
+        },
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "b8cb5d55-d77f-46f7-b227-da06395a7918",
+          "identity": {
+            "coordinate": "round:1",
+            "project": "AlexanderGrooff/mermaid-ascii",
+            "caseId": "terminal:955cacf9438d691d",
+            "sourceSha256": "955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616",
+            "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+            "bindingSha256": "3ff1849388a94deaf15d68fe274064e0f286f4b90bd7fe47e26879df3f42b57a",
+            "format": "terminal"
+          },
+          "state": "public-error",
+          "recordedAt": "2026-11-01T00:44:22.303Z",
+          "startedAt": "2026-11-01T00:44:22.287Z",
+          "finishedAt": "2026-11-01T00:44:22.303Z",
+          "durationMs": 11.592627999999934,
+          "output": null,
+          "detail": "time=\"2026-11-01T00:44:22Z\" level=fatal msg=\"failed to parse graph diagram: unsupported graph type 'gitGraph BT:'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)\"\n",
+          "startedReceiptSha256": "d3b8cab52f5c302e19998be7a8f08cd04fcaa54ad831786b259f5dc6444475d1",
+          "streams": {
+            "stdout": {
+              "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0
+            },
+            "stderr": {
+              "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e73f0376111f64a784f30617961c06adaad8c31ccf32304096c23394b0e56a2b",
+              "sha256": "e73f0376111f64a784f30617961c06adaad8c31ccf32304096c23394b0e56a2b",
+              "bytes": 204
+            }
+          }
+        }
+      ],
+      "retainedAssets": [
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "portablePath": "control-outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e73f0376111f64a784f30617961c06adaad8c31ccf32304096c23394b0e56a2b",
+          "sha256": "e73f0376111f64a784f30617961c06adaad8c31ccf32304096c23394b0e56a2b",
+          "bytes": 204,
+          "portablePath": "control-outputs/e73f0376111f64a784f30617961c06adaad8c31ccf32304096c23394b0e56a2b"
+        }
+      ]
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "source": {
+        "id": "terminal:c8082a89c0a3e258",
+        "sourceSha256": "c8082a89c0a3e258e46c12013938f3281ce101d0d24b241ce46aada868070995",
+        "source": "this is not a diagram",
+        "family": "invalid",
+        "features": [],
+        "intent": "invalid",
+        "expected": {
+          "status": "independently-reviewed",
+          "reason": "Independent source-token transcription; no candidate output, renderer AST or reference render defines these facts. Diagram data, relationships and qualified source geometry are required. Broad global/subgraph layout hints, CSS/theme configuration and accessibility metadata are retained separately from the core terminal-content requirements. Original source provenance remains in terminal-project-examples.json.",
+          "contract": {
+            "schema": "terminal-source-contract-v2",
+            "family": "invalid",
+            "facts": [
+              {
+                "criterion": "typed-source-rejection",
+                "expected": true,
+                "scope": "No Mermaid family header or diagram syntax"
+              }
+            ],
+            "presentation": [],
+            "sourceUncertainties": []
+          },
+          "unverifiedFacts": []
+        },
+        "origins": [
+          {
+            "kind": "repository-file",
+            "repository": "emtyty/merslim",
+            "commit": "746ddb4e71d7ebecbcfc98540dbf4dd9b5b54a61",
+            "path": "test/asciiBuilders.test.ts",
+            "blob": "329e16165880ddc32e298227236d122b50f7460d",
+            "url": "https://github.com/emtyty/merslim/blob/746ddb4e71d7ebecbcfc98540dbf4dd9b5b54a61/test/asciiBuilders.test.ts",
+            "bodySha256": "7b7d0697e6eeb5794e3da24a8d36d0b483559ff26bc4bd086a65504d7457117a",
+            "license": "MIT",
+            "channel": "project-regression-fixture",
+            "line": 421,
+            "extraction": "decoded-static-ts-literal",
+            "researchSnapshotSha256": "04bf35c308f0f915cde18a193aac06c9314bf1e9c45e154e9ae918f5ffcc5c55"
+          }
+        ]
+      },
+      "typedSourceOutcome": {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "caseId": "terminal:c8082a89c0a3e258",
+        "sourceSha256": "c8082a89c0a3e258e46c12013938f3281ce101d0d24b241ce46aada868070995",
+        "publicBoundary": "Frozen public CLI stdin → completed command outcome",
+        "observerSha256": "9793fc2da4a4749df9fd9799590519b0b65b452224d8bdcaeaecf709a1b76dfd",
+        "measuredAt": "2026-11-01T00:44:22.323Z",
+        "kind": "unknown-family",
+        "detail": "failed to parse graph diagram: unsupported graph type 'this is not a diagram'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)"
+      },
+      "originalTransportObservation": {
+        "suite": "community",
+        "surface": "cli:end-to-end",
+        "runtime": "linux-x64 public native CLI",
+        "family": "invalid",
+        "caseId": "terminal:c8082a89c0a3e258",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "failed",
+        "metrics": {
+          "implementation": "AlexanderGrooff/mermaid-ascii",
+          "round": 1,
+          "featureCount": 2,
+          "rawInvocationId": "837a3043-7317-4258-82f1-c350522bf83b",
+          "rawInvocationDirectory": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations",
+          "stdoutFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/331888d9de796d37cdc8c68fed2650ce5eac03f0839be14ee45477f219d13899",
+          "firstMs": 13.03509900000006,
+          "timingScope": "one qualification call, not a repeated speed sample",
+          "rejected": true,
+          "failureStage": "public-command"
+        },
+        "detail": "time=\"2026-11-01T00:44:22Z\" level=fatal msg=\"failed to parse graph diagram: unsupported graph type 'this is not a diagram'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)\"\n"
+      },
+      "invocationFrames": [
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "837a3043-7317-4258-82f1-c350522bf83b",
+          "identity": {
+            "coordinate": "round:1",
+            "project": "AlexanderGrooff/mermaid-ascii",
+            "caseId": "terminal:c8082a89c0a3e258",
+            "sourceSha256": "c8082a89c0a3e258e46c12013938f3281ce101d0d24b241ce46aada868070995",
+            "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+            "bindingSha256": "3ff1849388a94deaf15d68fe274064e0f286f4b90bd7fe47e26879df3f42b57a",
+            "format": "terminal"
+          },
+          "state": "started",
+          "recordedAt": "2026-11-01T00:44:22.305Z",
+          "startedAt": "2026-11-01T00:44:22.305Z",
+          "finishedAt": null,
+          "durationMs": null,
+          "output": null,
+          "detail": "Public-call entry is about to run; no return, rejection or duration is inferred"
+        },
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "837a3043-7317-4258-82f1-c350522bf83b",
+          "identity": {
+            "coordinate": "round:1",
+            "project": "AlexanderGrooff/mermaid-ascii",
+            "caseId": "terminal:c8082a89c0a3e258",
+            "sourceSha256": "c8082a89c0a3e258e46c12013938f3281ce101d0d24b241ce46aada868070995",
+            "artifactSha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+            "bindingSha256": "3ff1849388a94deaf15d68fe274064e0f286f4b90bd7fe47e26879df3f42b57a",
+            "format": "terminal"
+          },
+          "state": "public-error",
+          "recordedAt": "2026-11-01T00:44:22.323Z",
+          "startedAt": "2026-11-01T00:44:22.305Z",
+          "finishedAt": "2026-11-01T00:44:22.323Z",
+          "durationMs": 13.03509900000006,
+          "output": null,
+          "detail": "time=\"2026-11-01T00:44:22Z\" level=fatal msg=\"failed to parse graph diagram: unsupported graph type 'this is not a diagram'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)\"\n",
+          "startedReceiptSha256": "d0f8d867ba6d08cfa1567b2d862e95d977b38c114b0767be58a583df7cb067e3",
+          "streams": {
+            "stdout": {
+              "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0
+            },
+            "stderr": {
+              "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/331888d9de796d37cdc8c68fed2650ce5eac03f0839be14ee45477f219d13899",
+              "sha256": "331888d9de796d37cdc8c68fed2650ce5eac03f0839be14ee45477f219d13899",
+              "bytes": 213
+            }
+          }
+        }
+      ],
+      "retainedAssets": [
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "portablePath": "control-outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/raw-cli-invocations/outputs/331888d9de796d37cdc8c68fed2650ce5eac03f0839be14ee45477f219d13899",
+          "sha256": "331888d9de796d37cdc8c68fed2650ce5eac03f0839be14ee45477f219d13899",
+          "bytes": 213,
+          "portablePath": "control-outputs/331888d9de796d37cdc8c68fed2650ce5eac03f0839be14ee45477f219d13899"
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "source": {
+        "id": "terminal:321aee6efed4a803",
+        "sourceSha256": "321aee6efed4a803c844ca07f799fedcd4bf5c0e0d52c326ce74572b70c72d10",
+        "source": "pie\n  Dogs : 1",
+        "family": "pie",
+        "features": [],
+        "intent": "invalid",
+        "expected": {
+          "status": "independently-reviewed",
+          "reason": "Independent source-token transcription; no candidate output, renderer AST or reference render defines these facts. Diagram data, relationships and qualified source geometry are required. Broad global/subgraph layout hints, CSS/theme configuration and accessibility metadata are retained separately from the core terminal-content requirements. Original source provenance remains in terminal-project-examples.json.",
+          "contract": {
+            "schema": "terminal-source-contract-v2",
+            "family": "pie",
+            "facts": [
+              {
+                "criterion": "typed-source-rejection",
+                "expected": true,
+                "scope": "Pinned Mermaid pie grammar requires quoted slice labels"
+              }
+            ],
+            "presentation": [],
+            "sourceUncertainties": []
+          },
+          "unverifiedFacts": []
+        },
+        "origins": [
+          {
+            "kind": "repository-file",
+            "repository": "dfadler/zombie-mermaid",
+            "commit": "8cc982128bed11d976fb38164c4cdb47be7bd34d",
+            "path": "packages/ascii-renderer/src/__tests__/pie-ascii.test.ts",
+            "blob": "07cdb4a7caa79fde31985ce73cc807ebb11a19cb",
+            "url": "https://github.com/dfadler/zombie-mermaid/blob/8cc982128bed11d976fb38164c4cdb47be7bd34d/packages/ascii-renderer/src/__tests__/pie-ascii.test.ts",
+            "bodySha256": "8e6942ca544e34805a900bd674bbd32324a0fd8191b40b2a67fc525bf3a41347",
+            "license": "MIT",
+            "channel": "project-regression-fixture",
+            "line": 344,
+            "extraction": "decoded-static-ts-literal",
+            "researchSnapshotSha256": "41b9df477b7f8c753ed39fb8f50062d101ed9a7569b803f482a5f4735b80e03b"
+          }
+        ]
+      },
+      "typedSourceOutcome": {
+        "project": "fasouto/termaid",
+        "caseId": "terminal:321aee6efed4a803",
+        "sourceSha256": "321aee6efed4a803c844ca07f799fedcd4bf5c0e0d52c326ce74572b70c72d10",
+        "kind": "accepted",
+        "publicBoundary": "termaid.render(source)",
+        "detail": "Actual public function returned",
+        "observerSha256": "48cd94bbde75a3921925434cf0587f18ee4b2bdb1e513e3ba9afdf90928f0f6d"
+      },
+      "originalTransportObservation": {
+        "suite": "community",
+        "surface": "python:public-api",
+        "runtime": "Python public termaid.render API; process startup recorded separately",
+        "family": "pie",
+        "caseId": "terminal:321aee6efed4a803",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "failed",
+        "detail": "Public API accepted independently invalid source",
+        "metrics": {
+          "implementation": "fasouto/termaid",
+          "measuredAt": "2026-11-01T00:44:22.466954Z",
+          "measuredFrom": null,
+          "invocationId": "ef7247ee-b2c2-471a-8cc2-4720934a9d0c",
+          "invocationDirectory": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations",
+          "version": "0.10.0",
+          "outputFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "round": 1,
+          "workerAttempt": 1,
+          "firstMs": 12.537042988697067,
+          "sampleIterations": null,
+          "typedSourceOutcome": "{\"project\":\"fasouto/termaid\",\"caseId\":\"terminal:321aee6efed4a803\",\"sourceSha256\":\"321aee6efed4a803c844ca07f799fedcd4bf5c0e0d52c326ce74572b70c72d10\",\"kind\":\"accepted\",\"publicBoundary\":\"termaid.render(source)\",\"detail\":\"Actual public function returned\",\"observerSha256\":\"48cd94bbde75a3921925434cf0587f18ee4b2bdb1e513e3ba9afdf90928f0f6d\"}",
+          "timingQualified": false,
+          "timingProtocol": null,
+          "rejected": false,
+          "pngReturned": false,
+          "failureStage": null,
+          "qualification": "artifact-envelope-only",
+          "boundary": "native public API; executable startup excluded"
+        }
+      },
+      "invocationFrames": [
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "ef7247ee-b2c2-471a-8cc2-4720934a9d0c",
+          "identity": {
+            "project": "fasouto/termaid",
+            "caseId": "terminal:321aee6efed4a803",
+            "sourceSha256": "321aee6efed4a803c844ca07f799fedcd4bf5c0e0d52c326ce74572b70c72d10",
+            "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+            "bindingSha256": "ce8a7255d125244725c8785c6f3a6cf5ec5b427d957365a3d40df67c0009ba74",
+            "format": "terminal"
+          },
+          "state": "started",
+          "startedAt": "2026-11-01T00:44:22.453648Z",
+          "finishedAt": null,
+          "recordedAt": "2026-11-01T00:44:22.453667Z",
+          "durationMs": null,
+          "output": null,
+          "detail": "Scheduled public call; no return inferred"
+        },
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "ef7247ee-b2c2-471a-8cc2-4720934a9d0c",
+          "identity": {
+            "project": "fasouto/termaid",
+            "caseId": "terminal:321aee6efed4a803",
+            "sourceSha256": "321aee6efed4a803c844ca07f799fedcd4bf5c0e0d52c326ce74572b70c72d10",
+            "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+            "bindingSha256": "ce8a7255d125244725c8785c6f3a6cf5ec5b427d957365a3d40df67c0009ba74",
+            "format": "terminal"
+          },
+          "state": "returned",
+          "startedAt": "2026-11-01T00:44:22.453648Z",
+          "finishedAt": "2026-11-01T00:44:22.466954Z",
+          "recordedAt": "2026-11-01T00:44:22.466969Z",
+          "durationMs": 12.537042988697067,
+          "output": {
+            "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          "detail": "Actual public return retained before qualification; duration excludes retention"
+        }
+      ],
+      "retainedAssets": [
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "portablePath": "control-outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "source": {
+        "id": "terminal:486d9d241d7bf98f",
+        "sourceSha256": "486d9d241d7bf98fb6be9d78a1734510b145ced330460ed54f3ced0973f0f74f",
+        "source": "not a diagram",
+        "family": "invalid",
+        "features": [],
+        "intent": "invalid",
+        "expected": {
+          "status": "independently-reviewed",
+          "reason": "Independent source-token transcription; no candidate output, renderer AST or reference render defines these facts. Diagram data, relationships and qualified source geometry are required. Broad global/subgraph layout hints, CSS/theme configuration and accessibility metadata are retained separately from the core terminal-content requirements. Original source provenance remains in terminal-project-examples.json.",
+          "contract": {
+            "schema": "terminal-source-contract-v2",
+            "family": "invalid",
+            "facts": [
+              {
+                "criterion": "typed-source-rejection",
+                "expected": true,
+                "scope": "No Mermaid family header or diagram syntax"
+              }
+            ],
+            "presentation": [],
+            "sourceUncertainties": []
+          },
+          "unverifiedFacts": []
+        },
+        "origins": [
+          {
+            "kind": "pull-diff",
+            "repository": "wevm/ondine",
+            "number": 10,
+            "url": "https://github.com/wevm/ondine/pull/10/files",
+            "path": "site/src/entry.server.test.ts",
+            "baseCommit": "0b589ec34481856b4153526f10a0a35558a201a8",
+            "headCommit": "9c95f359fb3766b062b65dc87ee79c42beb182c6",
+            "updatedAt": "2026-10-26T19:52:04Z",
+            "patchSha256": "ff188d71c1afb1ca7a9c5d474fbb5dffadee120a8cee970c5e6184b40bf0a164",
+            "fileSha": "e5547b8b5529f873cfcc54f7863df81a3055c742",
+            "channel": "pull-added-source",
+            "bodySha256": "a82208945950c99d6dc26e38a480a128b657511ac9105a0167a06620473c7997",
+            "adaptation": "Added patch lines only; diff prefixes removed. Partial literals may remain invalid and are not filtered by renderer success.",
+            "line": 8,
+            "extraction": "decoded-static-ts-literal",
+            "researchSnapshotSha256": "02c960993ded2ea54814160e29bf80fb8de92b45ddbe03ceedba945ce38d4e25"
+          }
+        ]
+      },
+      "typedSourceOutcome": {
+        "project": "fasouto/termaid",
+        "caseId": "terminal:486d9d241d7bf98f",
+        "sourceSha256": "486d9d241d7bf98fb6be9d78a1734510b145ced330460ed54f3ced0973f0f74f",
+        "kind": "accepted",
+        "publicBoundary": "termaid.render(source)",
+        "detail": "Actual public function returned",
+        "observerSha256": "48cd94bbde75a3921925434cf0587f18ee4b2bdb1e513e3ba9afdf90928f0f6d"
+      },
+      "originalTransportObservation": {
+        "suite": "community",
+        "surface": "python:public-api",
+        "runtime": "Python public termaid.render API; process startup recorded separately",
+        "family": "invalid",
+        "caseId": "terminal:486d9d241d7bf98f",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "failed",
+        "detail": "Public API accepted independently invalid source",
+        "metrics": {
+          "implementation": "fasouto/termaid",
+          "measuredAt": "2026-11-01T00:44:22.469601Z",
+          "measuredFrom": null,
+          "invocationId": "3b3fbf1a-c92c-47a1-b676-93caf741ce32",
+          "invocationDirectory": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations",
+          "version": "0.10.0",
+          "outputFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "round": 1,
+          "workerAttempt": 1,
+          "firstMs": 0.04272900696378201,
+          "sampleIterations": null,
+          "typedSourceOutcome": "{\"project\":\"fasouto/termaid\",\"caseId\":\"terminal:486d9d241d7bf98f\",\"sourceSha256\":\"486d9d241d7bf98fb6be9d78a1734510b145ced330460ed54f3ced0973f0f74f\",\"kind\":\"accepted\",\"publicBoundary\":\"termaid.render(source)\",\"detail\":\"Actual public function returned\",\"observerSha256\":\"48cd94bbde75a3921925434cf0587f18ee4b2bdb1e513e3ba9afdf90928f0f6d\"}",
+          "timingQualified": false,
+          "timingProtocol": null,
+          "rejected": false,
+          "pngReturned": false,
+          "failureStage": null,
+          "qualification": "artifact-envelope-only",
+          "boundary": "native public API; executable startup excluded"
+        }
+      },
+      "invocationFrames": [
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "3b3fbf1a-c92c-47a1-b676-93caf741ce32",
+          "identity": {
+            "project": "fasouto/termaid",
+            "caseId": "terminal:486d9d241d7bf98f",
+            "sourceSha256": "486d9d241d7bf98fb6be9d78a1734510b145ced330460ed54f3ced0973f0f74f",
+            "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+            "bindingSha256": "ce8a7255d125244725c8785c6f3a6cf5ec5b427d957365a3d40df67c0009ba74",
+            "format": "terminal"
+          },
+          "state": "returned",
+          "startedAt": "2026-11-01T00:44:22.469272Z",
+          "finishedAt": "2026-11-01T00:44:22.469601Z",
+          "recordedAt": "2026-11-01T00:44:22.469606Z",
+          "durationMs": 0.04272900696378201,
+          "output": {
+            "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          "detail": "Actual public return retained before qualification; duration excludes retention"
+        },
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "3b3fbf1a-c92c-47a1-b676-93caf741ce32",
+          "identity": {
+            "project": "fasouto/termaid",
+            "caseId": "terminal:486d9d241d7bf98f",
+            "sourceSha256": "486d9d241d7bf98fb6be9d78a1734510b145ced330460ed54f3ced0973f0f74f",
+            "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+            "bindingSha256": "ce8a7255d125244725c8785c6f3a6cf5ec5b427d957365a3d40df67c0009ba74",
+            "format": "terminal"
+          },
+          "state": "started",
+          "startedAt": "2026-11-01T00:44:22.469272Z",
+          "finishedAt": null,
+          "recordedAt": "2026-11-01T00:44:22.469284Z",
+          "durationMs": null,
+          "output": null,
+          "detail": "Scheduled public call; no return inferred"
+        }
+      ],
+      "retainedAssets": [
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "portablePath": "control-outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "source": {
+        "id": "terminal:955cacf9438d691d",
+        "sourceSha256": "955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616",
+        "source": "---\ntitle: 国际化发布历史\nconfig:\n  gitGraph:\n    mainBranchName: 主线\n---\ngitGraph BT:\n  accTitle: 国际化 Git 历史\n  commit id:\"基础\" tag:\"版本-1.0\" msg:\"建立稳定基线\"\n  branch \"cherry-pick\" order:2\n  commit id:\"修复\" msg:\"修复支付流程\"\n  checkout 主线\n  branch 1.0.1 order:3\n  commit id:\"维护\" type:REVERSE tag:\"长期支持\" msg:\"维护版本\"\n  checkout 主线\n  branch feature/東京 order:4\n  commit id:\"東京\" type:HIGHLIGHT msg:\"東京ユーザー向け機能\"\n  checkout 主线\n  merge feature/東京 id:\"合并\" tag:\"版本-2.0\"\n",
+        "family": "gitgraph",
+        "features": [
+          "configuration",
+          "edge-styles",
+          "unicode",
+          "wide-labels"
+        ],
+        "intent": "invalid",
+        "expected": {
+          "status": "independently-reviewed",
+          "reason": "Independent source-token transcription; no candidate output, renderer AST or reference render defines these facts. Diagram data, relationships and qualified source geometry are required. Broad global/subgraph layout hints, CSS/theme configuration and accessibility metadata are retained separately from the core terminal-content requirements. Original source provenance remains in terminal-project-examples.json.",
+          "contract": {
+            "schema": "terminal-source-contract-v2",
+            "family": "gitgraph",
+            "facts": [
+              {
+                "criterion": "title",
+                "expected": "国际化发布历史",
+                "scope": "Authored frontmatter title"
+              },
+              {
+                "criterion": "accessible-title",
+                "expected": "国际化 Git 历史",
+                "scope": "Source accessibility title; separate from visible title",
+                "required": false
+              },
+              {
+                "criterion": "git-operations",
+                "expected": {
+                  "mainBranch": "主线",
+                  "branches": [
+                    "主线",
+                    "cherry-pick",
+                    "1.0.1",
+                    "feature/東京"
+                  ],
+                  "operations": [
+                    {
+                      "operation": "commit",
+                      "branch": "主线",
+                      "id": "基础",
+                      "tag": "版本-1.0",
+                      "msg": "建立稳定基线"
+                    },
+                    {
+                      "operation": "branch",
+                      "branch": "cherry-pick",
+                      "namedBranch": "cherry-pick",
+                      "order": "2"
+                    },
+                    {
+                      "operation": "commit",
+                      "branch": "cherry-pick",
+                      "id": "修复",
+                      "msg": "修复支付流程"
+                    },
+                    {
+                      "operation": "checkout",
+                      "branch": "主线",
+                      "namedBranch": "主线"
+                    },
+                    {
+                      "operation": "branch",
+                      "branch": "1.0.1",
+                      "namedBranch": "1.0.1",
+                      "order": "3"
+                    },
+                    {
+                      "operation": "commit",
+                      "branch": "1.0.1",
+                      "id": "维护",
+                      "type": "REVERSE",
+                      "tag": "长期支持",
+                      "msg": "维护版本"
+                    },
+                    {
+                      "operation": "checkout",
+                      "branch": "主线",
+                      "namedBranch": "主线"
+                    },
+                    {
+                      "operation": "branch",
+                      "branch": "feature/東京",
+                      "namedBranch": "feature/東京",
+                      "order": "4"
+                    },
+                    {
+                      "operation": "commit",
+                      "branch": "feature/東京",
+                      "id": "東京",
+                      "type": "HIGHLIGHT",
+                      "msg": "東京ユーザー向け機能"
+                    },
+                    {
+                      "operation": "checkout",
+                      "branch": "主线",
+                      "namedBranch": "主线"
+                    },
+                    {
+                      "operation": "merge",
+                      "branch": "主线",
+                      "namedBranch": "feature/東京",
+                      "id": "合并",
+                      "tag": "版本-2.0"
+                    }
+                  ]
+                },
+                "scope": "Branch/commit identities and membership, chronology, tags/messages, merge/cherry-pick provenance"
+              },
+              {
+                "criterion": "typed-source-rejection",
+                "expected": true,
+                "scope": "Pinned Git graph reference grammar requires non-ASCII branch references to be quoted"
+              }
+            ],
+            "presentation": [
+              {
+                "configuration": {
+                  "gitGraph": {
+                    "mainBranchName": "主线"
+                  }
+                }
+              }
+            ],
+            "sourceUncertainties": []
+          },
+          "unverifiedFacts": []
+        },
+        "origins": [
+          {
+            "kind": "repository-file",
+            "repository": "adewale/agentic-mermaid",
+            "commit": "d18c718d0253f45d279a9c12e60a96ee8cc9283c",
+            "path": "eval/mindmap-gitgraph-content-corpus/gitgraph/unicode-and-unusual-branches.mmd",
+            "blob": "da5857f4312b0b0d0fc70cf74f970eb9543aaba9",
+            "url": "https://github.com/adewale/agentic-mermaid/blob/d18c718d0253f45d279a9c12e60a96ee8cc9283c/eval/mindmap-gitgraph-content-corpus/gitgraph/unicode-and-unusual-branches.mmd",
+            "bodySha256": "955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616",
+            "license": "MIT",
+            "channel": "project-docs-example",
+            "line": 1,
+            "extraction": "literal-file",
+            "researchSnapshotSha256": "3707ef93bb2caf79c7c09103a518ad800e92f4a02b95a6080dcf1a0111cd6165"
+          }
+        ]
+      },
+      "typedSourceOutcome": {
+        "project": "fasouto/termaid",
+        "caseId": "terminal:955cacf9438d691d",
+        "sourceSha256": "955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616",
+        "kind": "accepted",
+        "publicBoundary": "termaid.render(source)",
+        "detail": "Actual public function returned",
+        "observerSha256": "48cd94bbde75a3921925434cf0587f18ee4b2bdb1e513e3ba9afdf90928f0f6d"
+      },
+      "originalTransportObservation": {
+        "suite": "community",
+        "surface": "python:public-api",
+        "runtime": "Python public termaid.render API; process startup recorded separately",
+        "family": "gitgraph",
+        "caseId": "terminal:955cacf9438d691d",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "failed",
+        "detail": "Public API accepted independently invalid source",
+        "metrics": {
+          "implementation": "fasouto/termaid",
+          "measuredAt": "2026-11-01T00:44:22.475441Z",
+          "measuredFrom": null,
+          "invocationId": "f1e5a1d9-ce91-42c4-a91c-895471e792d0",
+          "invocationDirectory": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations",
+          "version": "0.10.0",
+          "outputFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/fefbfc5b885e8b820216013f05851db0285abad636c82116a1056cf289a5d45a",
+          "round": 1,
+          "workerAttempt": 1,
+          "firstMs": 3.776622994337231,
+          "sampleIterations": null,
+          "typedSourceOutcome": "{\"project\":\"fasouto/termaid\",\"caseId\":\"terminal:955cacf9438d691d\",\"sourceSha256\":\"955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616\",\"kind\":\"accepted\",\"publicBoundary\":\"termaid.render(source)\",\"detail\":\"Actual public function returned\",\"observerSha256\":\"48cd94bbde75a3921925434cf0587f18ee4b2bdb1e513e3ba9afdf90928f0f6d\"}",
+          "timingQualified": false,
+          "timingProtocol": null,
+          "rejected": false,
+          "pngReturned": false,
+          "failureStage": null,
+          "qualification": "artifact-envelope-only",
+          "boundary": "native public API; executable startup excluded"
+        }
+      },
+      "invocationFrames": [
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "f1e5a1d9-ce91-42c4-a91c-895471e792d0",
+          "identity": {
+            "project": "fasouto/termaid",
+            "caseId": "terminal:955cacf9438d691d",
+            "sourceSha256": "955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616",
+            "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+            "bindingSha256": "ce8a7255d125244725c8785c6f3a6cf5ec5b427d957365a3d40df67c0009ba74",
+            "format": "terminal"
+          },
+          "state": "started",
+          "startedAt": "2026-11-01T00:44:22.470915Z",
+          "finishedAt": null,
+          "recordedAt": "2026-11-01T00:44:22.470923Z",
+          "durationMs": null,
+          "output": null,
+          "detail": "Scheduled public call; no return inferred"
+        },
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "f1e5a1d9-ce91-42c4-a91c-895471e792d0",
+          "identity": {
+            "project": "fasouto/termaid",
+            "caseId": "terminal:955cacf9438d691d",
+            "sourceSha256": "955cacf9438d691d1a73f2ceed733716f40cb503a2dc0a2ec300642490a3d616",
+            "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+            "bindingSha256": "ce8a7255d125244725c8785c6f3a6cf5ec5b427d957365a3d40df67c0009ba74",
+            "format": "terminal"
+          },
+          "state": "returned",
+          "startedAt": "2026-11-01T00:44:22.470915Z",
+          "finishedAt": "2026-11-01T00:44:22.475441Z",
+          "recordedAt": "2026-11-01T00:44:22.475453Z",
+          "durationMs": 3.776622994337231,
+          "output": {
+            "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/fefbfc5b885e8b820216013f05851db0285abad636c82116a1056cf289a5d45a",
+            "sha256": "fefbfc5b885e8b820216013f05851db0285abad636c82116a1056cf289a5d45a",
+            "bytes": 799
+          },
+          "detail": "Actual public return retained before qualification; duration excludes retention"
+        }
+      ],
+      "retainedAssets": [
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/fefbfc5b885e8b820216013f05851db0285abad636c82116a1056cf289a5d45a",
+          "sha256": "fefbfc5b885e8b820216013f05851db0285abad636c82116a1056cf289a5d45a",
+          "bytes": 799,
+          "portablePath": "control-outputs/fefbfc5b885e8b820216013f05851db0285abad636c82116a1056cf289a5d45a"
+        }
+      ]
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "source": {
+        "id": "terminal:c8082a89c0a3e258",
+        "sourceSha256": "c8082a89c0a3e258e46c12013938f3281ce101d0d24b241ce46aada868070995",
+        "source": "this is not a diagram",
+        "family": "invalid",
+        "features": [],
+        "intent": "invalid",
+        "expected": {
+          "status": "independently-reviewed",
+          "reason": "Independent source-token transcription; no candidate output, renderer AST or reference render defines these facts. Diagram data, relationships and qualified source geometry are required. Broad global/subgraph layout hints, CSS/theme configuration and accessibility metadata are retained separately from the core terminal-content requirements. Original source provenance remains in terminal-project-examples.json.",
+          "contract": {
+            "schema": "terminal-source-contract-v2",
+            "family": "invalid",
+            "facts": [
+              {
+                "criterion": "typed-source-rejection",
+                "expected": true,
+                "scope": "No Mermaid family header or diagram syntax"
+              }
+            ],
+            "presentation": [],
+            "sourceUncertainties": []
+          },
+          "unverifiedFacts": []
+        },
+        "origins": [
+          {
+            "kind": "repository-file",
+            "repository": "emtyty/merslim",
+            "commit": "746ddb4e71d7ebecbcfc98540dbf4dd9b5b54a61",
+            "path": "test/asciiBuilders.test.ts",
+            "blob": "329e16165880ddc32e298227236d122b50f7460d",
+            "url": "https://github.com/emtyty/merslim/blob/746ddb4e71d7ebecbcfc98540dbf4dd9b5b54a61/test/asciiBuilders.test.ts",
+            "bodySha256": "7b7d0697e6eeb5794e3da24a8d36d0b483559ff26bc4bd086a65504d7457117a",
+            "license": "MIT",
+            "channel": "project-regression-fixture",
+            "line": 421,
+            "extraction": "decoded-static-ts-literal",
+            "researchSnapshotSha256": "04bf35c308f0f915cde18a193aac06c9314bf1e9c45e154e9ae918f5ffcc5c55"
+          }
+        ]
+      },
+      "typedSourceOutcome": {
+        "project": "fasouto/termaid",
+        "caseId": "terminal:c8082a89c0a3e258",
+        "sourceSha256": "c8082a89c0a3e258e46c12013938f3281ce101d0d24b241ce46aada868070995",
+        "kind": "accepted",
+        "publicBoundary": "termaid.render(source)",
+        "detail": "Actual public function returned",
+        "observerSha256": "48cd94bbde75a3921925434cf0587f18ee4b2bdb1e513e3ba9afdf90928f0f6d"
+      },
+      "originalTransportObservation": {
+        "suite": "community",
+        "surface": "python:public-api",
+        "runtime": "Python public termaid.render API; process startup recorded separately",
+        "family": "invalid",
+        "caseId": "terminal:c8082a89c0a3e258",
+        "operation": "render",
+        "format": "terminal",
+        "mode": "feature-corpus-qualification",
+        "status": "failed",
+        "detail": "Public API accepted independently invalid source",
+        "metrics": {
+          "implementation": "fasouto/termaid",
+          "measuredAt": "2026-11-01T00:44:22.479025Z",
+          "measuredFrom": null,
+          "invocationId": "ac9348fa-c5dd-47aa-b5b7-1ed710431682",
+          "invocationDirectory": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations",
+          "version": "0.10.0",
+          "outputFile": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "round": 1,
+          "workerAttempt": 1,
+          "firstMs": 0.0426720071118325,
+          "sampleIterations": null,
+          "typedSourceOutcome": "{\"project\":\"fasouto/termaid\",\"caseId\":\"terminal:c8082a89c0a3e258\",\"sourceSha256\":\"c8082a89c0a3e258e46c12013938f3281ce101d0d24b241ce46aada868070995\",\"kind\":\"accepted\",\"publicBoundary\":\"termaid.render(source)\",\"detail\":\"Actual public function returned\",\"observerSha256\":\"48cd94bbde75a3921925434cf0587f18ee4b2bdb1e513e3ba9afdf90928f0f6d\"}",
+          "timingQualified": false,
+          "timingProtocol": null,
+          "rejected": false,
+          "pngReturned": false,
+          "failureStage": null,
+          "qualification": "artifact-envelope-only",
+          "boundary": "native public API; executable startup excluded"
+        }
+      },
+      "invocationFrames": [
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "ac9348fa-c5dd-47aa-b5b7-1ed710431682",
+          "identity": {
+            "project": "fasouto/termaid",
+            "caseId": "terminal:c8082a89c0a3e258",
+            "sourceSha256": "c8082a89c0a3e258e46c12013938f3281ce101d0d24b241ce46aada868070995",
+            "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+            "bindingSha256": "ce8a7255d125244725c8785c6f3a6cf5ec5b427d957365a3d40df67c0009ba74",
+            "format": "terminal"
+          },
+          "state": "started",
+          "startedAt": "2026-11-01T00:44:22.478462Z",
+          "finishedAt": null,
+          "recordedAt": "2026-11-01T00:44:22.478472Z",
+          "durationMs": null,
+          "output": null,
+          "detail": "Scheduled public call; no return inferred"
+        },
+        {
+          "schema": "trident-invocation-evidence-v1",
+          "attemptId": "ac9348fa-c5dd-47aa-b5b7-1ed710431682",
+          "identity": {
+            "project": "fasouto/termaid",
+            "caseId": "terminal:c8082a89c0a3e258",
+            "sourceSha256": "c8082a89c0a3e258e46c12013938f3281ce101d0d24b241ce46aada868070995",
+            "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+            "bindingSha256": "ce8a7255d125244725c8785c6f3a6cf5ec5b427d957365a3d40df67c0009ba74",
+            "format": "terminal"
+          },
+          "state": "returned",
+          "startedAt": "2026-11-01T00:44:22.478462Z",
+          "finishedAt": "2026-11-01T00:44:22.479025Z",
+          "recordedAt": "2026-11-01T00:44:22.479032Z",
+          "durationMs": 0.0426720071118325,
+          "output": {
+            "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          "detail": "Actual public return retained before qualification; duration excludes retention"
+        }
+      ],
+      "retainedAssets": [
+        {
+          "path": "/workspace/trident-terminal-invalid-controls-2026-11-01/community-raw/fasouto_termaid-terminal-r1-features.invocations/outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "portablePath": "control-outputs/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  ]
+}

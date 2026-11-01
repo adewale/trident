@@ -206,3 +206,10 @@ The [offline qualification receipt](evidence/terminal-observer-qualification-202
 publishes verified counts and remaining uncertainty for the retained 18-project
 collection. It includes per-case statuses and available output/evidence hashes
 without copying the historical raw witness directory or inventing call clocks.
+
+The [1 November completion](evidence/terminal-completion-2026-11-01/README.md)
+retains those grades and adds the generic merge/inventory/order checks above.
+Its normal saved-mode regrade resolves 48 formerly unknown drawing cells without
+new drawing calls. Eight actual minimum-cohort calls separately establish the
+invalid-control outcomes; missing returned output and present-output checker
+gaps remain explicit in the full 116-input population.

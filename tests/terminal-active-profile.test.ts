@@ -118,6 +118,8 @@ test('active recheck emits one verified-count drawing table, ranks observed posi
     expect(report.terminalRejectionAssessments[0]).toMatchObject({ planned: 4, correct: 0, unknown: 4 })
     expect(report.terminalRejectionAssessments[1]).toMatchObject({ planned: 4, correct: 0, incorrect: 1, unknown: 3 })
     const rejectionMarkdown = readFileSync(join(out, 'README.md'), 'utf8').split('## Invalid-source controls')[1]!
+    expect(rejectionMarkdown).toContain('| 1 | ' + observed)
+    expect(rejectionMarkdown).toContain('| — | ' + project)
     expect(rejectionMarkdown.indexOf('| 1 | ' + observed)).toBeLessThan(rejectionMarkdown.indexOf('| — | ' + project))
     expect(report.observations.some((row: any) => row.caseId === diagnosticId)).toBe(false)
     expect(report.recheck).toMatchObject({ rendererInvocations: 0, sourceReferenceCalls: 0, originalProfile: terminalActiveProfileId })
