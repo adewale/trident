@@ -111,6 +111,19 @@ regraded into v2 only when the exact 120 source identities match. Its original
 profile and collection clocks remain recorded. Results use the existing campaign
 publication and snapshot path.
 
+`timing:terminal` separately uses the existing qualified timing collector for a
+small common-correct cohort. Both implementations must expose frozen public
+stdin CLIs and have an actual full-fact console prerequisite for every selected
+source. Six balanced A0/A1/B rounds time the same host request through cold CLI
+startup/import, complete drained UTF-8 stdout and common RPC/stream bookkeeping.
+Worker initialization, artifact verification, durable retention and content
+grading stay outside the clock. Every returned drawing is checked again; A/A or
+content gaps withhold speed. Filesystem caches remain uncontrolled, so this is a
+fresh-process result, not a cold-storage or warm-API comparison. Python console
+bindings retain their actual entry script, interpreter, linked libraries,
+stdlib/package sources and bytecode identities. This does not repeat the
+18-project drawing campaign or compare its unlike invocation boundaries.
+
 ## What correctness establishes
 
 The observer finds actual boxes and labels, traces continuous routes backward
