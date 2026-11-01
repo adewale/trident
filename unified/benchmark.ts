@@ -110,6 +110,7 @@ Legacy portable diagnostics with --profile full --rounds ${FULL_SAMPLING.rounds}
     if (!['--community-force', '--allow-incomplete'].includes(flag)) forwarded.push(take(index++))
   }
   if (selected.some(id => !PUBLIC_SUITES.includes(id as PublicSuite)) || new Set(selected).size !== selected.length) throw Error('Unknown or duplicate suite')
+  if (selected.includes('mermaid-behaviour')) throw Error('Use mermaid:behaviour with an explicit native adapter or saved capture, then results:snapshot --campaign for its retained evidence.')
   if (selected.includes('public-conformance')) throw Error('PublicTests is a standalone diagnostic until frozen public bindings, source and original runtime are enrolled. Use mermaid:public-tests, then results:snapshot --campaign for its retained evidence.')
   if (selected.includes('upstream-fidelity')) throw Error('Mermaid Assertion Replay is retired as a comparative benchmark. Read its retained evidence or use explicit model/feature contracts.')
   if (cutoff && (!Number.isFinite(Date.parse(cutoff)) || Date.parse(cutoff) > Date.now())) throw Error('Cutoff must be a valid past timestamp')
