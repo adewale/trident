@@ -51,7 +51,7 @@ their physical contents while preserving convenient labels.
 | Pie | Owned arc fractions and explicitly requested absolute legend values | Fractions do not attest unprinted absolute totals; complete legends/configuration remain separate |
 | Sankey | Complete endpoint-owned flow proportions, adjacent node/value labels and requested value-printing behavior; wrong/borrowed numbers fail independently of geometry | Other label layouts, compound ribbons and unsupported appearance settings remain unknown |
 | Treemap | Exact immediate rectangle containment, independently reconstructed sibling area partitions and separately owned printed safe integers | Nonuniform/unqualified tilings and other numeric formats remain unknown |
-| XY, quadrant and radar | Actual numeric tick/category/legend/point/curve geometry and exact inventories; value/order/extra-series/borrowed-label/visibility controls | See retained chart fixtures: unprinted numeric bounds, annotations, grid variants and unsupported configuration remain unknown |
+| XY, quadrant and radar | Actual numeric tick/category/legend/point/curve geometry and exact inventories; radar grid/owned cubic vertices jointly attest normalized data/range, separately from explicit versioned curve-tension controls | Unsupported path/paint ownership, annotations, grid variants and configuration remain unknown; unprinted internal scale values are not inferred |
 | Accessibility metadata | Exact standalone SVG ARIA name/description references | This does not certify screen-reader behavior or visual accessibility |
 
 Fixture provenance and immutable hashes are in
@@ -131,7 +131,7 @@ credit. This matrix identifies proof gaps, not project defects.
 | Pie | Full source styles/configuration and unsupported legend variants |
 | XY chart | Numeric category axes, full range endpoints, annotations, configuration and unqualified series representations |
 | Quadrant | Point appearance, region configuration and unqualified region/axis representations |
-| Radar | Numeric range/ticks, noncircular grids, graticules and configuration |
+| Radar | Unqualified curve ownership/path syntax and grid variants; requested numeric tick-label content outside the grid/vertex profile; curve-tension conventions outside the named pinned parameter profile |
 | Venn | Exact sets/intersections, region text and configuration |
 | Cynefin | Exact domain entries, domain transitions and ownership |
 | Wardley | Component positions, evolution stages, links, pipelines, notes, annotation ownership and sizing |

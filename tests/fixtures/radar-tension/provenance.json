@@ -1,0 +1,26 @@
+{
+  "schema": "trident-retained-radar-tension-fixture-v1",
+  "docsIndex": 332,
+  "caseId": "packages/mermaid/src/docs/syntax/radar.md:189",
+  "sourceSha256": "8ac5e8cdf4bde31ea9d13949a16224fc52fb6c065b6c06f1a4fda6c2e4b9e107",
+  "svgSha256": "a95c94d0a495618711e3d6626e868473b680f3759d828b0b96cfae1352879b08",
+  "mutation": "none",
+  "publicReturnEvidence": {
+    "schema": "trident-docs-png-return-v1",
+    "project": "mermaid-js/mermaid",
+    "caseId": "packages/mermaid/src/docs/syntax/radar.md:189",
+    "round": 1,
+    "variant": "primary",
+    "attemptId": "430d7c4e-3a90-4cf1-802d-3039067a357a",
+    "sourceSha256": "8ac5e8cdf4bde31ea9d13949a16224fc52fb6c065b6c06f1a4fda6c2e4b9e107",
+    "artifactSha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f",
+    "bindingSha256": "21acd377699a70e6e285cfa35453b6968ad283c413102e172d8448241a5db19f",
+    "originalSvgSha256": "a95c94d0a495618711e3d6626e868473b680f3759d828b0b96cfae1352879b08",
+    "rasterizedSvgSha256": "ef2077fc5c0d382a8eb65bde0e76093e3138cd90df2c7aea3e420643c41cc9df",
+    "pngSha256": "ee004a9d7e59fe440f3b1c9bf6eeaef3abebd8a51468b0ce5cadd3b1359b0d0d",
+    "rawUnitSha256": "a0073edd5814caf291a9399023c5f75a698dbad4d1c584f2fc73ef5c1ffa4d88",
+    "startedFrameSha256": "35a02a84a778e880214a96eae4ec5865dddeedf83fe262f75b9f4559db207356",
+    "returnedFrameSha256": "7f20b6ee3a1b430d9dda75fda16b9e2aab0d3e0296a0c0470405fdb7adb39b57"
+  },
+  "surface": "Exact originalpublicSVG companion of source/artifactbound PNGexportreturn; no independentSVGinvocation ornewtiming."
+}

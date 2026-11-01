@@ -199,6 +199,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
   const themeCurveOwners = new Map<string, SVGGeometryElement>()
   const themeHierarchyRoutes = new Map<string, SVGGeometryElement | null>()
   let radarProfile: { axisScaleFactor: number } | null = null
+  let radarTensionProfile: { profile: string; expected: number; curves: any[]; passed: boolean | null } | null = null
   if (input.family === 'requirement') {
     const definitions: any[] = facts.definitions ?? [], aliases = new Map([['verifymethod', 'Verification'], ['docref', 'Doc. Ref.'], ['id', 'ID'], ['text', 'Text'], ['risk', 'Risk'], ['type', 'Type']])
     const kinds: Record<string, string> = { requirement: 'Requirement', functionalrequirement: 'Functional Requirement', interfacerequirement: 'Interface Requirement', performancerequirement: 'Performance Requirement', physicalrequirement: 'Physical Requirement', designconstraint: 'Design Constraint', element: 'Element' }
@@ -761,7 +762,62 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     if (facts.ticks) add('ticks', { count: rings.length }, prepared && /^\d+$/.test(String(facts.ticks)) ? rings.length === Number(facts.ticks) : null, 'An explicitly numeric tick-count request binds the exact independently measured radial ring inventory; other tick grammars remain unknown.')
     const numbers = text.filter(element => Number.isFinite(numeric(element.textContent ?? '')) && origin && Math.hypot(center(box(element)).x - origin.x, center(box(element)).y - origin.y) <= radius + 10).map(element => ({ value: numeric(element.textContent ?? ''), radius: origin ? Math.hypot(anchor(element).x - origin.x, anchor(element).y - origin.y) : NaN }))
     const low = numbers.find(item => Math.abs(item.value - range[0]!) < 1e-8 && item.radius < 10), high = numbers.find(item => Math.abs(item.value - range[1]!) < 1e-8 && Math.abs(item.radius - radius) < 10)
-    add('range', { ticks: numbers, center: origin, outerRadius: radius }, prepared && low && high ? true : null, 'Only independently painted numeric min/max ticks at the center and outer ring attest an absolute radar range. Unlabelled rings cannot supply numeric bounds.')
+    const tension = facts['authored-config']?.radar?.curveTension
+    let jointRangeProfile: { curves: any[]; passed: boolean | null } | null = null
+    const similarity = (shape: SVGGraphicsElement) => { const m=shape.getScreenCTM();if(!m)return false;const a=Math.hypot(m.a,m.b),b=Math.hypot(m.c,m.d);return a>0&&Math.abs(a-b)<1e-6&&Math.abs(m.a*m.c+m.b*m.d)<1e-6 }
+    if (prepared && rings.every(similarity) && spokes.every(similarity) && range.length === 2 && Number.isFinite(range[0]) && Number.isFinite(range[1]) && range[1]! > range[0]! && curves.length && curves.every(curve => curve.values.length === axes.length && curve.values.every((v: number) => Number.isFinite(v) && v >= range[0]! && v <= range[1]!))) {
+      const hasTension = typeof tension === 'number' && Number.isFinite(tension) && tension >= 0 && tension <= 1
+      // Named public Mermaid parameter convention at pin1fb7869, renderer.ts
+      //185–207; see the independently reviewed source-mapping receipt. Generic
+      // Catmull-Rom "tension" conventions differ. No default is introduced.
+      type P = { x: number; y: number }
+      type Cubic = { start: P; c1: P; c2: P; end: P }
+      const distance = (a: P, b: P) => Math.hypot(a.x - b.x, a.y - b.y)
+      const cubics = (path: SVGGeometryElement): Cubic[] | null => {
+        if (path.localName !== 'path') return null
+        const d = path.getAttribute('d') ?? '', tokens = d.match(/[-+]?(?:\d*\.)?\d+(?:[eE][-+]?\d+)?|[A-Za-z]/g) ?? [], matrix = path.getScreenCTM()
+        if (!matrix || tokens.join('') !== d.replace(/[\s,]/g, '')) return null
+        const screen = (p: P): P => { const s = new DOMPoint(p.x, p.y).matrixTransform(matrix); return { x: s.x, y: s.y } }
+        const result: Cubic[] = []; let i = 0, command = '', current: P | null = null, initial: P | null = null
+        while (i < tokens.length) {
+          if (/^[A-Za-z]$/.test(tokens[i]!)) command = tokens[i++]!
+          const kind = command.toUpperCase(), relative = command !== kind
+          if (kind === 'Z') return i === tokens.length && initial && current && distance(initial, current) < 1e-5 ? result : null
+          if (kind !== 'M' && kind !== 'C' || kind === 'M' && current) return null
+          const count = kind === 'M' ? 2 : 6, values = tokens.slice(i, i + count).map(Number); i += count
+          if (values.length !== count || values.some(v => !Number.isFinite(v))) return null
+          const point = (index: number): P => ({ x: values[index]! + (relative ? current?.x ?? 0 : 0), y: values[index + 1]! + (relative ? current?.y ?? 0 : 0) })
+          if (kind === 'M') { initial = current = point(0); command = ''; continue }
+          if (!current) return null
+          const c1 = point(0), c2 = point(2), end = point(4)
+          result.push({ start: screen(current), c1: screen(c1), c2: screen(c2), end: screen(end) }); current = end
+        }
+        return null
+      }
+      const ownedCurves = curves.map(curve => ({ curve, owner: themeCurveOwners.get(curve.id) })), observed: any[] = [], rangeObserved: any[] = []
+      for (const { curve, owner } of ownedCurves) {
+        const actual = owner ? cubics(owner) : null, vertices: P[] = prepared ? curve.values.map((value: number, i: number) => { const tip = axisOwners[i]!.tip!, length = Math.hypot(tip.x - origin!.x, tip.y - origin!.y), r = (value - range[0]!) / (range[1]! - range[0]!) * radius; return { x: origin!.x + (tip.x - origin!.x) / length * r, y: origin!.y + (tip.y - origin!.y) / length * r } }) : []
+        if (!owner || !similarity(owner) || !actual || actual.length !== axes.length || vertices.length !== axes.length) { observed.push({ id: curve.id, available: false, reason: 'Unique visible complete cubic path and independently measured similarity grid are required' }); continue }
+        const onAxis = (p: P, i: number) => { const tip = axisOwners[i]!.tip!, dx = tip.x - origin!.x, dy = tip.y - origin!.y, n = Math.hypot(dx,dy), x = p.x - origin!.x, y = p.y - origin!.y; return Math.abs(dx*y-dy*x)/n < .25 && (x*dx+y*dy)/n >= -.25 }
+        const reversed = [...actual].reverse().map(s => ({ start: s.end, c1: s.c2, c2: s.c1, end: s.start })), orderings = [actual, reversed].flatMap(segments => segments.map((_, offset) => [...segments.slice(offset), ...segments.slice(0, offset)])).filter(segments => segments.every((s, i) => onAxis(s.start,i) && onAxis(s.end,(i+1)%vertices.length)))
+        if (orderings.length !== 1) { observed.push({ id: curve.id, available: false, reason: 'Cyclic source-vertex ownership is absent or ambiguous' }); continue }
+        const segments = orderings[0]!, expected = hasTension ? vertices.map((p, i) => { const before = vertices[(i + vertices.length - 1) % vertices.length]!, next = vertices[(i + 1) % vertices.length]!, after = vertices[(i + 2) % vertices.length]!; return { start: p, c1: { x: p.x + tension * (next.x - before.x), y: p.y + tension * (next.y - before.y) }, c2: { x: next.x - tension * (after.x - p.x), y: next.y - tension * (after.y - p.y) }, end: next } }) : []
+        const covers = [...svg.querySelectorAll('rect,circle,ellipse,path,polygon,image,use,foreignObject')].filter(e => e !== owner && !e.contains(owner) && !owner.contains(e) && !e.closest('defs,marker,clipPath,mask') && !!(owner.compareDocumentPosition(e) & Node.DOCUMENT_POSITION_FOLLOWING)).map(e => { const s = getComputedStyle(e); let opacity = 1, shown = true; for (let p: Element | null = e; p; p = p.parentElement) { const c = getComputedStyle(p); opacity *= Number(c.opacity); if (c.display === 'none' || ['hidden','collapse'].includes(c.visibility)) shown = false; if (p === svg) break }; return { e, b: box(e), matrix: (e as SVGGraphicsElement).getScreenCTM?.(), fill: (color(s.fill)?.alpha ?? 0) * Number(s.fillOpacity) * opacity, stroke: (color(s.stroke)?.alpha ?? 0) * Number(s.strokeOpacity) * opacity * (Number.parseFloat(s.strokeWidth) > 0 ? 1 : 0), shown, boundCurve: ownedCurves.some(curve => curve.owner === e) } }).filter(c => c.shown && (c.fill >= .999 || c.stroke >= .999 || ['image','use','foreignObject'].includes(c.e.localName)))
+        let unqualifiedCover = false
+        const exposedSegments = segments.map(s => { let exposed = 0; for (let k = 0; k <= 16; k++) { const u = k / 16, v = 1 - u, p = { x: v ** 3 * s.start.x + 3 * v * v * u * s.c1.x + 3 * v * u * u * s.c2.x + u ** 3 * s.end.x, y: v ** 3 * s.start.y + 3 * v * v * u * s.c1.y + 3 * v * u * u * s.c2.y + u ** 3 * s.end.y }; let covered = false; for (const c of covers) { const shape = c.e, local = c.matrix ? new DOMPoint(p.x, p.y).matrixTransform(c.matrix.inverse()) : null, hit = shape instanceof SVGGeometryElement && local ? c.fill >= .999 && shape.isPointInFill(local) || c.stroke >= .999 && shape.isPointInStroke(local) : p.x >= c.b.x && p.x <= c.b.x + c.b.width && p.y >= c.b.y && p.y <= c.b.y + c.b.height; if (hit) { covered = true; if (!c.boundCurve) unqualifiedCover = true } }; if (!covered) exposed++ }; return exposed })
+        const carrier = visible(owner) && !unqualifiedCover && exposedSegments.every(n => n > 0), vertexErrors = segments.map((s,i)=>distance(s.start,vertices[i]!)), controlErrors = hasTension ? segments.map((s, i) => Math.max(distance(s.c1, expected[i]!.c1), distance(s.c2, expected[i]!.c2))) : []
+        rangeObserved.push({id:curve.id,available:carrier,sourceValues:curve.values,actualVertices:segments.map(s=>s.start),expectedVertices:vertices,vertexErrors,matches:vertexErrors.every(error=>error<=3)})
+        observed.push({ id: curve.id, available: carrier && vertexErrors.every(error=>error<=.25), actual: segments, expected, controlErrors, exposedSamplesPerSegment: exposedSegments, unqualifiedCover, matches: controlErrors.every(error => error <= .25) })
+      }
+      // Endpoint/range effects are independent of cubic controls. A wrong
+      // tension may preserve every source vertex and must not fail range.
+      const rangeReady = orderedAxes && closed.length === curves.length && rangeObserved.length === curves.length && rangeObserved.every(curve=>curve.available)
+      jointRangeProfile = {curves:rangeObserved,passed:rangeObserved.some(curve=>curve.available&&!curve.matches)?false:rangeReady?true:null}
+      const ready = jointRangeProfile.passed === true && observed.length === curves.length && observed.every(curve => curve.available)
+      if(hasTension)radarTensionProfile = { profile: 'mermaid-radar-cubic-coefficient-1fb7869-v1', expected: tension, curves: observed, passed: observed.some(curve=>curve.available&&!curve.matches)?false:ready?true:null }
+    }
+    const projectedRange = jointRangeProfile?.passed ?? null, printedRange = !!low && !!high
+    add('range', {profile:'source-normalized-radar-grid-and-vertices-v1',sourceRange:range,curves:jointRangeProfile?.curves??null,ticks:numbers,center:origin,outerRadius:radius}, projectedRange === false ? false : projectedRange === true && (!numbers.length || printedRange) ? true : prepared && printedRange ? true : null, 'The complete literal data/range pair predicts every independently owned cubic vertex as R*(v-min)/(max-min) in the independently measured grid frame, within3CSSpx. This proves the visible combined effect rather than hidden stored numbers; jointly rescaled values/range are equivalent when numeric labels are absent. Cubic controls/tension remain a separate obligation. Printed numeric endpoint labels retain their own scale check; unsupported vertex/paint ownership stays unknown.')
   }
   if (input.family === 'xychart' && (facts['displayed-bar-values'] || facts['series-annotations'])) {
     const series: any[] = facts.series ?? [], prior = input.quantitative.find(check => check.criterion === 'source-fact:series'), geometry: any[] = Array.isArray(prior?.actual) ? prior.actual : [], used = new Set<Element>()
@@ -918,6 +974,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     for (const [path, wanted] of leaves(config)) {
       let actual: unknown = null, passed: boolean | null = null
       if (input.family === 'radar' && path === 'radar.axisScaleFactor' && radarProfile) { actual = radarProfile.axisScaleFactor; passed = Math.abs(radarProfile.axisScaleFactor - Number(wanted)) < .005 }
+      if (input.family === 'radar' && path === 'radar.curveTension' && radarTensionProfile) { actual = radarTensionProfile; passed = radarTensionProfile.passed }
       if (input.family === 'packet' && path.startsWith('packet.')) {
         const result = checks.find(check => check.criterion === 'source-fact:fields'), printed = text.filter(element => /^\d+$/.test(norm(element.textContent ?? '')))
         if (path === 'packet.showBits') { actual = printed.length > 0; passed = actual === wanted }
