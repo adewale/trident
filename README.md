@@ -51,8 +51,8 @@ Ordinary DaveBench coverage makes one call per occurrence and format, with no
 warmups. It retains output before grading. Regrade those bytes when a checker
 changes; recollect only missing or unusable evidence. Qualified timing runs are
 separate and check every timed output plus A/A controls. Current PNG evidence is
-in the [summary](docs/evidence/png-remaining-2026-11-01/summary.json) and
-[grade ledger](docs/evidence/png-remaining-2026-11-01/current-content-grades.json.gz).
+in the [summary](results/tables/docs-1.md) and
+[grade ledger](results/current-outcomes-2026-11-01/normal/png-result.json.gz).
 Hashes bind a review to an image; they do not prove that its judgement is right.
 
 The 154 unchanged public API callbacks, authored feature/edit cases, legacy

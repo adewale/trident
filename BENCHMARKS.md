@@ -91,8 +91,8 @@ unless every timed output and A/A calibration qualify. The retained two-project 
 Flutter returns, inspected at native dimensions. Current admitted decisions,
 required-fact holds and native no-image outcomes are separate in the
 [benchmark report](docs/qualification-results-2026-10-31.md),
-[summary](docs/evidence/png-remaining-2026-11-01/summary.json) and
-[all grades](docs/evidence/png-remaining-2026-11-01/current-content-grades.json.gz).
+[summary](results/tables/docs-1.md) and
+[all grades](results/current-outcomes-2026-11-01/normal/png-result.json.gz).
 [Independent image evidence](docs/evidence/png-full-corpus-2026-10-31/README.md)
 preserves repairs and review histories. No viewing count supplies a correctness pass.
 
