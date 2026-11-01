@@ -933,6 +933,18 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
             const values = property && owner && elements?.length ? elements.map(element => { const css = getComputedStyle(element); return property === 'color' ? element.namespaceURI === 'http://www.w3.org/2000/svg' ? css.fill : css.color : css.getPropertyValue(property) }) : null
             return { key, expected: value, values, matches: values ? values.every(actual => colorMatches(actual, value) === true) : null }
           }
+          if (entry.kind === 'UpdateRelStyle' && ['offsetX', 'offsetY'].includes(key)) {
+            const candidates = relation(entry.positions[0], entry.positions[1]), route = candidates.length === 1 ? candidates[0] : null
+            const labels = route && routesBound ? paintedText.filter(element => route.labels?.includes(normalize(readText(element))) && !nodes.some(owner => contains(owner.box, box(element))) && route.box && Math.hypot(Math.max(route.box.x - center(box(element)).x, 0, center(box(element)).x - route.box.x - route.box.width), Math.max(route.box.y - center(box(element)).y, 0, center(box(element)).y - route.box.y - route.box.height)) <= 35) : []
+            const e = labels.length === 1 && labels[0] instanceof SVGTextElement ? labels[0] : null, matrix = e?.getScreenCTM(), css = e ? getComputedStyle(e) : null
+            // Pinned public C4 svgDraw byTspan: x = route midpoint + offsetX
+            // + measured caption advance/2; y = midpoint + offsetY. Observe
+            // those anchors and the actual font advance, never a second render.
+            const profile = e && matrix && Math.abs(matrix.b) < 1e-8 && Math.abs(matrix.c) < 1e-8 && matrix.a > 0 && matrix.d > 0 && css?.textAnchor === 'middle' && css.dominantBaseline === 'middle' && e.x.baseVal.numberOfItems === 1 && e.y.baseVal.numberOfItems === 1 && e.children.length === 1 && e.children[0] instanceof SVGTSpanElement && e.children[0].getAttribute('dy') === '0' && !e.hasAttribute('textLength') && !e.children[0].hasAttribute('textLength') && safeText(e)
+            const anchor = profile ? new DOMPoint(e.x.baseVal.getItem(0).value, e.y.baseVal.getItem(0).value).matrixTransform(matrix) : null
+            const actual = anchor && route?.start && route.end ? key === 'offsetX' ? (anchor.x - (route.start.x + route.end.x) / 2) / matrix!.a - e!.getComputedTextLength() / 2 : (anchor.y - (route.start.y + route.end.y) / 2) / matrix!.d : null
+            return { key, expected: value, actual, matches: actual !== null && Number.isFinite(actual) ? Math.abs(actual - Number.parseInt(String(value), 10)) <= 1 : null }
+          }
           if (entry.kind === 'UpdateRelStyle' && ['lineColor', 'textColor'].includes(key)) {
             const candidates = relation(entry.positions[0], entry.positions[1]), route = candidates.length === 1 ? candidates[0] : null
             if (key === 'lineColor') return { key, expected: value, actual: route?.style?.stroke ?? null, matches: route?.style?.stroke ? colorMatches(route.style.stroke, value) : null }
@@ -944,7 +956,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
         })
         return { kind: entry.kind, positions: entry.positions, attributes, matches: attributes.some(item => item.matches === false) ? false : attributes.some(item => item.matches === null) ? null : true }
       })
-      fact('authored-style', actual, actual.some((entry: any) => entry.matches === false) ? false : actual.some((entry: any) => entry.matches === null) ? null : true, 'C4 source style requests bind actual owned element/route/text colors and explicit maximum shapes/boundaries per measured row within each immediate boundary scope. Source row counts can be falsified by excess actual peers. Exact label offsets have no independently observed unshifted anchor in a single artifact and remain unknown; source offset values cannot attest themselves.')
+      fact('authored-style', actual, actual.some((entry: any) => entry.matches === false) ? false : actual.some((entry: any) => entry.matches === null) ? null : true, 'C4 source style requests bind actual owned element/route/text colors and explicit maximum shapes/boundaries per measured row within each immediate boundary scope. Source row counts can be falsified by excess actual peers. Finite C4 byTspan caption offsets bind actual route midpoints, text draw anchors and measured advances; unsupported placement modes or ambiguous labels remain unknown.')
     }
     if (Array.isArray(facts.elements)) {
       const typeName = (kind: string) => kind.replace(/_Ext$/, '').replace(/(?:Db|Queue)$/, '').replace(/_Boundary$/, '').toLowerCase()

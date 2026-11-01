@@ -118,29 +118,87 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = color; colorCanvas.fillRect(0, 0, 1, 1)
     const alpha = colorCanvas.getImageData(0, 0, 1, 1).data[3]! / 255; colors.set(color, alpha); return alpha
   }
-  const multiplyOnWhite = (element: Element) => {
-    if (input.family !== 'sankey' || element.localName !== 'path') return false
-    const path = element as SVGGeometryElement, matrix = path.getScreenCTM(), length = path.getTotalLength()
-    if (!matrix || !length) return false
-    const points = Array.from({ length: 9 }, (_, index) => path.getPointAtLength(length * index / 8).matrixTransform(matrix))
-    if (points.some(point => Math.abs(point.y - points[0]!.y) > .1)) return false
-    for (let parent: Element | null = element; parent; parent = parent.parentElement) { const style = getComputedStyle(parent); if (style.backgroundImage !== 'none' || colorAlpha(style.backgroundColor) !== 0 && style.backgroundColor !== 'rgb(255, 255, 255)') return false }
-    const b = rect(element), half = Number.parseFloat(getComputedStyle(element).strokeWidth) * Math.hypot(matrix.c, matrix.d) / 2, painted = { x: b.x, y: b.y - half, width: b.width, height: b.height + half * 2 }
-    for (const prior of svg.querySelectorAll('rect,circle,ellipse,polygon,path,line,image,use')) {
-      if (prior === element || !(prior.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) || prior.closest('defs,marker,clipPath,mask')) continue
-      const style = getComputedStyle(prior), box = rect(prior)
-      if (style.display === 'none' || ['hidden', 'collapse'].includes(style.visibility) || Number(style.opacity) === 0) continue
-      if (prior.localName === 'rect' && style.fill === 'rgb(255, 255, 255)' && colorAlpha(style.stroke) === 0) continue
-      if (colorAlpha(style.fill) === 0 && colorAlpha(style.stroke) === 0) continue
-      if (['path', 'line', 'polyline'].includes(prior.localName) && colorAlpha(style.stroke) !== 0) {
-        const matrix = (prior as SVGGraphicsElement).getScreenCTM(), width = Number.parseFloat(style.strokeWidth) * (matrix ? Math.max(Math.hypot(matrix.a, matrix.b), Math.hypot(matrix.c, matrix.d)) : 1)
-        if (box.height <= .1) { box.y -= width / 2; box.height += width }
-        else if (box.width <= .1) { box.x -= width / 2; box.width += width }
-        else { box.x -= width / 2; box.y -= width / 2; box.width += width; box.height += width }
-      }
-      if (Math.min(painted.x + painted.width, box.x + box.width) - Math.max(painted.x, box.x) > .5 && Math.min(painted.y + painted.height, box.y + box.height) - Math.max(painted.y, box.y) > .5) return false
+  const brightnessAmount = (filter: string) => { const found = /^brightness\(([-+]?\d*\.?\d+)(%?)\)$/.exec(filter); const amount = found ? Number(found[1]) / (found[2] ? 100 : 1) : NaN; return Number.isFinite(amount) && amount > 0 ? amount : null }
+  const filteredColorKey = (element: Element | null, paint: string): string | null => {
+    if (!CSS.supports('color', paint)) return null
+    colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = paint; colorCanvas.fillRect(0, 0, 1, 1)
+    const values = [...colorCanvas.getImageData(0, 0, 1, 1).data]
+    for (let owner = element; owner; owner = owner.parentElement) {
+      const style = getComputedStyle(owner)
+      if (style.mixBlendMode !== 'normal') return null
+      if (style.filter !== 'none') { const factor = brightnessAmount(style.filter); if (factor !== null) for (let index = 0; index < 3; index++) values[index] = Math.min(255, values[index]! * factor); else return null }
+      if (owner === svg) break
     }
-    return true
+    return values.every(Number.isFinite) ? JSON.stringify(values.map(Math.round)) : null
+  }
+  const neutralBrightnessPaint = (element: Element, filter: string, definitions: boolean) => {
+    const amount = brightnessAmount(filter)
+    if (amount === null || definitions && amount !== 1) return false
+    let filteredAncestors=0
+    for(let owner:Element|null=element;owner;owner=owner.parentElement){if(brightnessAmount(getComputedStyle(owner).filter)!==null)filteredAncestors++;if(owner===svg)break}
+    if(filteredAncestors>1)return false
+    const style = getComputedStyle(element), paints = element.namespaceURI === 'http://www.w3.org/1999/xhtml' ? [style.color] : [style.fill, ...(Number.parseFloat(style.strokeWidth) > 0 ? [style.stroke] : [])]
+    return paints.every(paint => {
+      if (colorAlpha(paint) === 0) return true
+      if (!CSS.supports('color', paint)) return false
+      colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = paint; colorCanvas.fillRect(0, 0, 1, 1)
+      const channels = [...colorCanvas.getImageData(0, 0, 1, 1).data].slice(0, 3)
+      if (channels.some(value => value > 0) && channels.every(value => value * amount < 1)) return false
+      // Saturated glyphs remain inspectable against their measured backdrop.
+      // For bodies, a newly white fill with no contrasting outline cannot use
+      // the raw pre-filter fill to establish a visible contour on white.
+      if (['rect', 'path', 'circle', 'ellipse', 'polygon', 'polyline'].includes(element.localName) && paint === style.fill && !channels.every(value => value === 255) && channels.every(value => value * amount >= 255)) {
+        const stroke = colorAlpha(style.stroke) && Number(style.strokeOpacity) >= 1 / 255 && Number.parseFloat(style.strokeWidth) >= .25 ? filteredColorKey(element, style.stroke) : null
+        if (!stroke || stroke === '[255,255,255,255]') return false
+      }
+      return true
+    })
+  }
+  const multiplyProfiles = new Map<Element, { box: Box; alpha: number; minimumAlpha: number; low: number[]; high: number[] } | null>()
+  const multiplyProfile = (element: Element) => {
+    if (multiplyProfiles.has(element)) return multiplyProfiles.get(element)!
+    multiplyProfiles.set(element,null)
+    if(input.family!=='sankey'||element.localName!=='path')return null
+    const path=element as SVGPathElement,matrix=path.getScreenCTM(),css=getComputedStyle(path),data=path.getAttribute('d')??'',commands=data.match(/[A-Za-z]/g),n=data.match(/[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi)?.map(Number)??[]
+    if(!matrix||Math.abs(matrix.b)>1e-8||Math.abs(matrix.c)>1e-8||matrix.a<=0||Math.abs(matrix.a-matrix.d)>1e-6||JSON.stringify(commands)!=='["M","C"]'||n.length!==8||n.some(v=>!Number.isFinite(v))||!(n[0]!<n[2]!&&n[2]===n[4]&&n[4]!<n[6]!)||Math.abs(n[1]!-n[3]!)>.01||Math.abs(n[5]!-n[7]!)>.01||css.fill!=='none'||Number.parseFloat(css.strokeWidth)*matrix.a<.25)return null
+    let blends=0
+    for(let owner:Element|null=element;owner;owner=owner.parentElement){const s=getComputedStyle(owner);if(s.display==='none'||s.visibility!=='visible'||Number(s.opacity)!==1||s.filter!=='none'||s.clipPath!=='none'||s.maskImage!=='none'||s.backgroundImage!=='none'||s.mixBlendMode!=='normal'&&s.mixBlendMode!=='multiply'||s.isolation!=='auto')return null;if(s.mixBlendMode==='multiply')blends++;if(owner===svg)break}
+    if(blends!==1)return null
+    const endpoints=[new DOMPoint(n[0],n[1]).matrixTransform(matrix),new DOMPoint(n[6],n[7]).matrixTransform(matrix)],width=Number.parseFloat(css.strokeWidth)*matrix.a
+    const ports=endpoints.map((point,index)=>[...svg.querySelectorAll('rect')].filter(rect=>{if(rect.closest('defs,marker,clipPath,mask'))return false;const b=rect.getBoundingClientRect(),s=getComputedStyle(rect);return b.width>0&&b.width<=40*matrix.a&&b.height>0&&s.display!=='none'&&s.visibility==='visible'&&Number(s.opacity)>0&&colorAlpha(s.fill)!==0&&Math.abs(point.x-(index?b.x:b.right))<.5&&point.y>=b.y-.5&&point.y<=b.bottom+.5&&width<=b.height+1}))
+    if(ports.some(port=>port.length!==1)||ports[0]![0]===ports[1]![0])return null
+    const rgba=(value:string)=>{if(!CSS.supports('color',value))return null;colorCanvas.clearRect(0,0,1,1);colorCanvas.fillStyle=value;colorCanvas.fillRect(0,0,1,1);return [...colorCanvas.getImageData(0,0,1,1).data]}
+    const match=/^url\(["']?#([^\s"')]+)["']?\)$/.exec(css.stroke),gradient=match?document.getElementById(decodeURIComponent(match[1]!)):null
+    let colors:(number[]|null)[]
+    if(gradient){if(gradient.localName!=='linearGradient'||gradient.hasAttribute('href')||gradient.hasAttributeNS('http://www.w3.org/1999/xlink','href')||gradient.hasAttribute('gradientTransform')||gradient.children.length!==2||[...gradient.children].some(e=>e.localName!=='stop'))return null;const stops=[...gradient.children] as SVGStopElement[];if(stops[0]!.offset.baseVal!==0||stops[1]!.offset.baseVal!==1)return null;colors=stops.map(stop=>{const s=getComputedStyle(stop),c=rgba(s.stopColor);if(c)c[3]=c[3]!*Number(s.stopOpacity);return s.display==='none'?null:c})}else colors=[rgba(css.stroke)]
+    if(colors.some(c=>!c)||!colors.length)return null
+    const known=colors as number[][],alpha=Math.max(...known.map(c=>c[3]!/255))*Number(css.strokeOpacity),minimumAlpha=Math.min(...known.map(c=>c[3]!/255))*Number(css.strokeOpacity)
+    if(!(minimumAlpha>=1/255&&alpha<=1))return null
+    const b=rect(path),profile={box:{x:b.x,y:b.y-width/2,width:b.width,height:b.height+width},alpha,minimumAlpha,low:[0,1,2].map(i=>Math.min(...known.map(c=>c[i]!))),high:[0,1,2].map(i=>Math.max(...known.map(c=>c[i]!)))}
+    multiplyProfiles.set(element,profile);return profile
+  }
+  const multiplyOnWhite = (element: Element) => {
+    const profile=multiplyProfile(element);if(!profile)return false
+    for(let owner:Element|null=element;owner;owner=owner.parentElement){const s=getComputedStyle(owner);if(s.backgroundImage!=='none'||colorAlpha(s.backgroundColor)!==0&&s.backgroundColor!=='rgb(255, 255, 255)'||s.filter!=='none'||Number(s.opacity)!==1||s.clipPath!=='none'||s.maskImage!=='none'||s.isolation!=='auto'||owner.namespaceURI!=='http://www.w3.org/2000/svg'&&s.mixBlendMode!=='normal')return false}
+    const background=[255,255,255],transmission=[1,1,1]
+    for(const other of svg.querySelectorAll('rect,circle,ellipse,polygon,path,line,polyline,image,use,foreignObject')){
+      if(other===element||other.closest('defs,marker,clipPath,mask'))continue
+      const s=getComputedStyle(other),b=rect(other)
+      if(s.display==='none'||s.visibility!=='visible'||Number(s.opacity)===0)continue
+      const bound=multiplyProfile(other),pad=Number.parseFloat(s.strokeWidth)*((other as SVGGraphicsElement).getScreenCTM?.()?Math.max(Math.hypot((other as SVGGraphicsElement).getScreenCTM()!.a,(other as SVGGraphicsElement).getScreenCTM()!.b),Math.hypot((other as SVGGraphicsElement).getScreenCTM()!.c,(other as SVGGraphicsElement).getScreenCTM()!.d)):1)/2,painted=bound?.box??{x:b.x-pad,y:b.y-pad,width:b.width+pad*2,height:b.height+pad*2}
+      if(Math.min(profile.box.x+profile.box.width,painted.x+painted.width)-Math.max(profile.box.x,painted.x)<=.5||Math.min(profile.box.y+profile.box.height,painted.y+painted.height)-Math.max(profile.box.y,painted.y)<=.5)continue
+      const prior=!!(other.compareDocumentPosition(element)&Node.DOCUMENT_POSITION_FOLLOWING)
+      if(bound){const target=prior?background:transmission;target.forEach((value,i)=>{target[i]=value*(1-bound.alpha+bound.alpha*bound.low[i]!/255)});continue}
+      if(prior&&other.localName==='rect'&&s.fill==='rgb(255, 255, 255)'&&Number(s.fillOpacity)===1&&Number(s.opacity)===1&&colorAlpha(s.stroke)===0){let plain=true;for(let owner:Element|null=other;owner;owner=owner.parentElement){const c=getComputedStyle(owner);if(c.filter!=='none'||Number(c.opacity)!==1||c.mixBlendMode!=='normal'||c.clipPath!=='none'||c.maskImage!=='none')plain=false;if(owner===svg)break}if(plain)continue}
+      if(!['image','use','foreignObject'].includes(other.localName)&&colorAlpha(s.fill)===0&&(colorAlpha(s.stroke)===0||Number(s.strokeOpacity)===0||Number.parseFloat(s.strokeWidth)===0))continue
+      return false
+    }
+    // Every accepted prior layer is a measured, port-bound multiply ribbon.
+    // Its closed color/alpha interval bounds the actual composite from below.
+    // At least one channel must retain >one8-bit unit of new visible contrast
+    // even at that worst backdrop and brightest gradient endpoint. White,
+    // darkened-away, opaque foreign and unbound later covers stay unknown.
+    return background.some((value,i)=>value*profile.minimumAlpha*(1-profile.high[i]!/255)*transmission[i]!>1)
   }
   const visible = (element: Element, definitions = false) => {
     let opacity = 1
@@ -149,7 +207,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       opacity *= Number(style.opacity)
       if ((!definitions && ['defs', 'marker', 'clipPath', 'mask', 'symbol'].includes(current.localName)) || ['none'].includes(style.display) || ['hidden', 'collapse'].includes(style.visibility) || Number(style.opacity) === 0) return false
       if (/opacity\(\s*0(?:\.0+)?%?\s*\)/.test(style.filter)) return false
-      if (style.filter && style.filter !== 'none' && !preservesSourceGraphic(style.filter)) unknownPaint.add('filter:' + style.filter)
+      if (style.filter && style.filter !== 'none' && !preservesSourceGraphic(style.filter) && !neutralBrightnessPaint(element, style.filter, definitions)) unknownPaint.add('filter:' + style.filter)
       if (style.mixBlendMode && style.mixBlendMode !== 'normal' && !(style.mixBlendMode === 'multiply' && multiplyOnWhite(element))) unknownPaint.add('blend:' + style.mixBlendMode)
       if (current === svg) break
     }
@@ -262,8 +320,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const foregroundAlpha = colorAlpha(foreground), strokeAlpha = colorAlpha(css.stroke)
     if (foregroundAlpha === null || strokeVisible && strokeAlpha === null) return false
     const uniform = (paint: string) => { const id = /#([^\s)"']+)/.exec(paint)?.[1], gradient = id ? document.getElementById(decodeURIComponent(id)) : null, stops = gradient && ['linearGradient', 'radialGradient'].includes(gradient.localName) ? [...gradient.querySelectorAll('stop')] : []; return stops.length && stops.every(stop => getComputedStyle(stop).stopColor === getComputedStyle(stops[0]!).stopColor) ? getComputedStyle(stops[0]!).stopColor : paint }
-    const paints = [...(foregroundAlpha && Number(css.fillOpacity) > 0 ? [uniform(foreground)] : []), ...(strokeVisible ? [uniform(css.stroke)] : [])]
-    if (!paints.length) return false
+    const paints = [...(foregroundAlpha && Number(css.fillOpacity) > 0 ? [filteredColorKey(element, uniform(foreground))] : []), ...(strokeVisible ? [filteredColorKey(element, uniform(css.stroke))] : [])]
+    if (!paints.length || paints.some(paint => paint === null)) return false
     // A zero-length line can paint a marker behind a number despite having
     // no own bounding rectangle. Qualify only an unclipped opaque circular
     // marker with a finite uniform transform and complete actual glyph-ink fit.
@@ -278,17 +336,17 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
         let plain=true;for(const part of [line,circle])for(let owner:Element|null=part;owner;owner=owner.parentElement){const css=getComputedStyle(owner);if(css.display==='none'||['hidden','collapse'].includes(css.visibility)||Number(css.opacity)!==1||css.clipPath!=='none'||css.maskImage!=='none'||css.filter!=='none')plain=false;if(owner===svg)break}
         if(!plain)continue
         const local=[[ink.x,ink.y],[ink.x+ink.width,ink.y],[ink.x,ink.y+ink.height],[ink.x+ink.width,ink.y+ink.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(matrix.inverse()))
-        if(local.every(p=>Math.hypot((p.x-line.x1.baseVal.value)/units+refX-cx,(p.y-line.y1.baseVal.value)/units+refY-cy)<=r-.1))return paints.every(paint=>paint===fill.fill)
+        if(local.every(p=>Math.hypot((p.x-line.x1.baseVal.value)/units+refX-cx,(p.y-line.y1.baseVal.value)/units+refY-cy)<=r-.1))return paints.every(paint=>paint===filteredColorKey(circle,fill.fill))
       }
     }
     const backdrop = [...svg.querySelectorAll('rect,circle,ellipse,polygon,path')].filter(shape => {
       if (shape.contains(element) || !(shape.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(shape)) return false
       const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.()
       if (!matrix || colorAlpha(style.fill) !== 1 || Number(style.fillOpacity) !== 1) return false
-      for (let parent: Element | null = shape; parent; parent = parent.parentElement) { const style = getComputedStyle(parent); if (Number(style.opacity) !== 1 || style.maskImage !== 'none' || style.clipPath !== 'none' || style.mixBlendMode !== 'normal' || style.filter !== 'none' && !preservesSourceGraphic(style.filter)) return false; if (parent === svg) break }
+      for (let parent: Element | null = shape; parent; parent = parent.parentElement) { const style = getComputedStyle(parent); if (Number(style.opacity) !== 1 || style.maskImage !== 'none' || style.clipPath !== 'none' || style.mixBlendMode !== 'normal' || style.filter !== 'none' && !preservesSourceGraphic(style.filter) && brightnessAmount(style.filter) === null) return false; if (parent === svg) break }
       return [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]].every(([x, y]) => (shape as SVGGeometryElement).isPointInFill?.(new DOMPoint(x, y).matrixTransform(matrix.inverse())))
     }).at(-1)
-    if (backdrop) return paints.every(color => color === getComputedStyle(backdrop).fill)
+    if (backdrop) { const background = filteredColorKey(backdrop, getComputedStyle(backdrop).fill); return !!background && paints.every(color => color === background) }
     // The observer's browser canvas is white unless an opaque CSS background
     // says otherwise. Use that only when no intervening ink can alter it.
     const intervening = [...svg.querySelectorAll('rect,circle,ellipse,polygon,path,line,image,use,foreignObject')].some(shape => {
@@ -303,7 +361,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       if (style.backgroundImage !== 'none' || alpha !== 0 && alpha !== 1) return false
       if (alpha === 1) { background = style.backgroundColor; break }
     }
-    return paints.every(color => color === background)
+    const backgroundKey = filteredColorKey(null, background)
+    return !!backgroundKey && paints.every(color => color === backgroundKey)
   }
   const camouflageResults = new Map<Element, boolean>()
   const camouflage = (element: Element) => { if (!camouflageResults.has(element)) camouflageResults.set(element, measureCamouflage(element)); return camouflageResults.get(element)! }
@@ -325,6 +384,39 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       ;(unresolved ? uncertain : painted).push(label)
     }
     check('hidden-authored-content', input.expected.forbiddenLabels, { painted, uncertain }, painted.length ? false : uninspectableLabels || uncertain.length ? null : true, 'Explicitly hidden source labels must not be drawn; metadata and display:none text are excluded, unprojected clipping remains unknown')
+  }
+  const htmlPaint = new Map<Element, Box[] | null>()
+  const transparentHtmlPaint = (element: Element): Box[] | null => {
+    if (htmlPaint.has(element)) return htmlPaint.get(element)!
+    htmlPaint.set(element, null)
+    const matrix = (element as SVGGraphicsElement).getScreenCTM?.(), scale = matrix ? Math.max(Math.hypot(matrix.a,matrix.b),Math.hypot(matrix.c,matrix.d)) : 0
+    if (element.localName !== 'foreignObject' || !matrix || !(scale>0) || Math.abs(matrix.b)>1e-8 || Math.abs(matrix.c)>1e-8) return null
+    for(let owner:Element|null=element;owner;owner=owner.parentElement){if(getComputedStyle(owner).filter!=='none')return null;if(owner===svg)break}
+    const allowed = ['span','div','p','br','b','strong','i','em']
+    for (const child of [element,...element.querySelectorAll('*')]) {
+      const css=getComputedStyle(child)
+      if (child!==element&&(child.namespaceURI!=='http://www.w3.org/1999/xhtml'||!allowed.includes(child.localName))||colorAlpha(css.backgroundColor)!==0||css.backgroundImage!=='none'||css.boxShadow!=='none'||css.textShadow!=='none'||css.transform!=='none'||css.filter!=='none'||css.mixBlendMode!=='normal'||css.maskImage!=='none'||css.textDecorationLine!=='none'||Number.parseFloat(css.webkitTextStrokeWidth)>0||['Top','Right','Bottom','Left'].some(side=>Number.parseFloat(css.getPropertyValue('border-'+side.toLowerCase()+'-width'))>0)||css.outlineStyle!=='none'&&Number.parseFloat(css.outlineWidth)>0) return null
+      for (const pseudo of ['::before','::after']) if (!['none','normal'].includes(getComputedStyle(child,pseudo).content)) return null
+      for (const pseudo of ['::first-letter','::first-line']) { const p=getComputedStyle(child,pseudo); if(colorAlpha(p.backgroundColor)!==0||p.textShadow!=='none'||p.filter!=='none'||p.fontSize!==css.fontSize||p.fontFamily!==css.fontFamily||p.fontStyle!==css.fontStyle||p.fontWeight!==css.fontWeight||p.fontVariant!==css.fontVariant||p.textTransform!==css.textTransform||p.textDecorationLine!==css.textDecorationLine)return null }
+    }
+    const walker=document.createTreeWalker(element,NodeFilter.SHOW_TEXT), boxes: Box[]=[];let node: Node|null
+    while ((node=walker.nextNode())) {
+      if(!node.textContent?.trim())continue
+      const parent=node.parentElement!,css=getComputedStyle(parent),font=Number.parseFloat(css.fontSize)
+      if(!/^[\x20-\x7e]+$/.test(node.textContent)||!css.font||!(font>0)||css.direction!=='ltr'||css.writingMode!=='horizontal-tb'||css.textTransform!=='none')return null
+      textCanvas.font=css.font;const metric=textCanvas.measureText(node.textContent)
+      if(![metric.actualBoundingBoxLeft,metric.actualBoundingBoxRight-metric.width,metric.actualBoundingBoxAscent,metric.actualBoundingBoxDescent].every(value=>Number.isFinite(value)&&Math.abs(value)<=font*2))return null
+      if (/(?:ff|fi|fl)/i.test(node.textContent) || css.fontStyle !== 'normal' || css.fontFeatureSettings !== 'normal' || css.fontVariationSettings !== 'normal' || !['normal','0px'].includes(css.letterSpacing) || !['normal','0px'].includes(css.wordSpacing)) return null
+      const ascent=metric.fontBoundingBoxAscent,descent=metric.fontBoundingBoxDescent
+      if(![ascent,descent].every(Number.isFinite)||ascent<metric.actualBoundingBoxAscent||descent<metric.actualBoundingBoxDescent)return null
+      const chars=[...node.textContent].map(value=>textCanvas.measureText(value)),left=Math.max(0,...chars.map(m=>m.actualBoundingBoxLeft)),right=Math.max(0,...chars.map(m=>m.actualBoundingBoxRight-m.width)),range=document.createRange();range.selectNodeContents(node)
+      // Each actual wrapped line's font cell must match the measured font box.
+      // The whole run's largest glyph ascent/descent and per-character edge
+      // overhang conservatively enclose every line; these are not layout boxes
+      // borrowed as opaque pixels from the transparent HTML container.
+      for(const b of range.getClientRects()){if(Math.abs(b.height-(ascent+descent)*scale)>.25)return null;boxes.push({x:b.x-left*scale,y:b.y+(ascent-metric.actualBoundingBoxAscent)*scale,width:b.width+(left+right)*scale,height:(metric.actualBoundingBoxAscent+metric.actualBoundingBoxDescent)*scale})}
+    }
+    htmlPaint.set(element,boxes);return boxes
   }
   const clipped: string[] = []
   let unknownClipping = false
@@ -358,11 +450,13 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   // label. Prove full occlusion only for simple convex filled primitives; an
   // overlapping unprojected cover withholds completeness instead of passing.
   for (const label of requiredLabels.filter(Boolean)) for (const element of visibleMatches(label)) {
-    const ink = labelBox(element)
+    const ink = labelInkBox(element) ?? labelBox(element)
     for (const cover of svg.querySelectorAll('rect,circle,ellipse,polygon,path,image,use,foreignObject')) {
       if (cover.contains(element) || element.contains(cover) || !(element.compareDocumentPosition(cover) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(cover)) continue
       const outer = rect(cover), overlap = Math.min(ink.x + ink.width, outer.x + outer.width) - Math.max(ink.x, outer.x) > .5 && Math.min(ink.y + ink.height, outer.y + outer.height) - Math.max(ink.y, outer.y) > .5
       if (!overlap) continue
+      const htmlBoxes = cover.localName === 'foreignObject' ? transparentHtmlPaint(cover) : null
+      if (htmlBoxes && htmlBoxes.every(b => Math.min(ink.x+ink.width,b.x+b.width)<=Math.max(ink.x,b.x)||Math.min(ink.y+ink.height,b.y+b.height)<=Math.max(ink.y,b.y))) continue
       const style = getComputedStyle(cover)
       if (!['image', 'use', 'foreignObject'].includes(cover.localName) && (colorAlpha(style.fill) === 0 || Number(style.fillOpacity) === 0)) continue
       let simple = ['rect', 'circle', 'ellipse'].includes(cover.localName) && colorAlpha(style.fill) === 1 && Number(style.fillOpacity) === 1

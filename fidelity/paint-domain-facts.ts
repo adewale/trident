@@ -14,8 +14,34 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
   const add = (key: string, actual: unknown, passed: boolean | null, scope: string) => { if (Object.hasOwn(facts, key)) checks.push({ criterion: 'source-fact:' + key, expected: facts[key], actual, status: passed === null || passed && uncertain ? 'unavailable' : passed ? 'passed' : 'failed', scope }) }
   const quantitative = (criterion: string, expected: unknown, actual: unknown, passed: boolean | null, scope: string) => checks.push({ criterion, expected, actual, status: passed === null || passed && uncertain ? 'unavailable' : passed ? 'passed' : 'failed', scope })
   const norm = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
+  const textValue = (element: Element): string => {
+    if (element.namespaceURI !== 'http://www.w3.org/2000/svg') return (element as HTMLElement).innerText ?? element.textContent ?? ''
+    let result = '', previous: DOMRect | undefined
+    for (const child of element.childNodes) {
+      if (child.nodeType === Node.TEXT_NODE) { result += child.textContent ?? ''; const range = document.createRange(); range.selectNodeContents(child); const bounds = range.getBoundingClientRect(); if (bounds.width && bounds.height) previous = bounds; continue }
+      if (!(child instanceof Element)) continue
+      const bounds = child.getBoundingClientRect()
+      if (previous && Math.abs(bounds.y - previous.y) > Math.max(1, Math.min(bounds.height, previous.height) * .4)) result += ' '
+      result += textValue(child); previous = bounds
+    }
+    return result
+  }
   const canvas = document.createElement('canvas').getContext('2d')!
   const color = (value: string) => { if (value === 'none' || value === 'transparent') return null; if (/url\(|var\(|context-|currentcolor/i.test(value) || !CSS.supports('color', value)) { uncertain = true; return null }; canvas.clearRect(0, 0, 1, 1); canvas.fillStyle = value; canvas.fillRect(0, 0, 1, 1); const rgba = canvas.getImageData(0, 0, 1, 1).data; return rgba[3] ? { rgb: [...rgba].slice(0, 3).join(','), alpha: rgba[3]! / 255 } : null }
+  const visiblePaint = (value: string): { rgb: string | null; alpha: number } | null => {
+    if(input.family==='sankey'&&/url\(/.test(value)&&input.paint.checks.some(check=>check.criterion==='paint-opacity-and-color'&&check.status==='passed')){
+      const id=/#([^\s)"']+)/.exec(value)?.[1],gradient=id?document.getElementById(decodeURIComponent(id)):null,stops=gradient&&svg.contains(gradient)&&gradient.localName==='linearGradient'&&!gradient.hasAttribute('href')&&!gradient.hasAttributeNS('http://www.w3.org/1999/xlink','href')?[...gradient.children].filter(e=>e.localName==='stop'):[],alphas=stops.map(stop=>{const css=getComputedStyle(stop),ink=color(css.stopColor);return ink?ink.alpha*Number(css.stopOpacity):0})
+      if(alphas.length&&alphas.every(alpha=>alpha>=1/255))return{rgb:null,alpha:Math.min(...alphas)}
+    }
+    return color(value)
+  }
+  const textClip = (element: Element, owner: Element, setting: string) => {
+    if(!['text','foreignObject'].includes(element.localName)&&element.namespaceURI!=='http://www.w3.org/1999/xhtml')return false
+    const id=/#([^\s)"']+)/.exec(setting)?.[1],clip=id?document.getElementById(decodeURIComponent(id)):null,children=clip?[...clip.children]:[],shape=children.length===1&&['rect','circle','ellipse'].includes(children[0]!.localName)?children[0] as SVGGeometryElement:null,matrix=(owner as SVGGraphicsElement).getScreenCTM?.()
+    if(!shape||!matrix||clip?.getAttribute('clipPathUnits')==='objectBoundingBox'||shape.hasAttribute('transform')||clip?.hasAttribute('transform'))return false
+    const css=getComputedStyle(shape);if(css.display==='none'||css.visibility!=='visible'||css.clipPath!=='none'||css.maskImage!=='none'||css.filter!=='none')return false
+    const b=element.getBoundingClientRect();return [[b.x,b.y],[b.right,b.y],[b.x,b.bottom],[b.right,b.bottom]].every(([x,y])=>shape.isPointInFill(new DOMPoint(x,y).matrixTransform(matrix.inverse())))
+  }
   const preservesSourceGraphic = (setting: string): boolean => {
     if (/^brightness\((?:[1-9]\d*(?:\.\d*)?|0?\.\d*[1-9]\d*)%?\)$/.test(setting)) return true
     if (/^drop-shadow\((?:rgba?\([^)]*\)|[^()])*\)$/.test(setting)) return true
@@ -49,7 +75,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     for (let owner: Element | null = element; owner; owner = owner.parentElement) {
       const style = getComputedStyle(owner)
       if (['defs', 'marker', 'clipPath', 'mask', 'title', 'desc'].includes(owner.localName) || style.display === 'none' || ['hidden', 'collapse'].includes(style.visibility) || Number(style.opacity) === 0) return false
-      if (style.clipPath && style.clipPath !== 'none' || style.maskImage && style.maskImage !== 'none' || style.filter && style.filter !== 'none' && !preservesSourceGraphic(style.filter)) localUncertain = true
+      if (style.clipPath && style.clipPath !== 'none' && !textClip(element, owner, style.clipPath) || style.maskImage && style.maskImage !== 'none' || style.filter && style.filter !== 'none' && !preservesSourceGraphic(style.filter)) localUncertain = true
       effectiveOpacity *= Number(style.opacity)
       if (owner === svg) break
     }
@@ -91,8 +117,8 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       if (opacity >= 1 && projected && rectangular && b.x <= bounds.x && b.y <= bounds.y && b.right >= bounds.right && b.bottom >= bounds.bottom) return false
       localUncertain = true
     }
-    const style = getComputedStyle(element), fill = element.localName === 'line' ? null : foreignInk ?? color(element.namespaceURI === 'http://www.w3.org/1999/xhtml' ? style.color : style.fill), stroke = color(style.stroke)
-    const paints = [fill && fill.alpha * Number(style.fillOpacity) * effectiveOpacity > 0 ? { ...fill, effectiveAlpha: fill.alpha * Number(style.fillOpacity) * effectiveOpacity } : null, stroke && stroke.alpha * Number(style.strokeOpacity) * effectiveOpacity > 0 && Number.parseFloat(style.strokeWidth) > 0 ? { ...stroke, effectiveAlpha: stroke.alpha * Number(style.strokeOpacity) * effectiveOpacity } : null].filter((paint): paint is { rgb: string; alpha: number; effectiveAlpha: number } => !!paint)
+    const style = getComputedStyle(element), fill = element.localName === 'line' ? null : foreignInk ?? color(element.namespaceURI === 'http://www.w3.org/1999/xhtml' ? style.color : style.fill), stroke = visiblePaint(style.stroke)
+    const paints = [fill && fill.alpha * Number(style.fillOpacity) * effectiveOpacity > 0 ? { ...fill, effectiveAlpha: fill.alpha * Number(style.fillOpacity) * effectiveOpacity } : null, stroke && stroke.alpha * Number(style.strokeOpacity) * effectiveOpacity > 0 && Number.parseFloat(style.strokeWidth) > 0 ? { ...stroke, effectiveAlpha: stroke.alpha * Number(style.strokeOpacity) * effectiveOpacity } : null].filter((paint): paint is { rgb: string | null; alpha: number; effectiveAlpha: number } => !!paint)
     if (!paints.length) return false
     if (paints.every(paint => paint.effectiveAlpha < 1 / 255)) { localUncertain = true; return false }
     if (!fill && stroke && Number.parseFloat(style.strokeWidth) < .25) { localUncertain = true; return false }
@@ -117,7 +143,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
   type Box = ReturnType<typeof box>
   const center = (b: Box) => ({ x: b.x + b.width / 2, y: b.y + b.height / 2 })
   const text = [...svg.querySelectorAll('text,foreignObject')].filter(element => visible(element) && box(element).width > 0 && box(element).height > 0 && norm(element.textContent ?? ''))
-  const label = (value: string) => { const found = text.filter(element => norm(element.textContent ?? '') === norm(value)); return found.length === 1 ? found[0] : undefined }
+  const label = (value: string) => { const found = text.filter(element => norm(textValue(element)) === norm(value)); return found.length === 1 ? found[0] : undefined }
   const point = (element: SVGGraphicsElement, x: number, y: number) => { const matrix = element.getScreenCTM(); return matrix ? new DOMPoint(x, y).matrixTransform(matrix) : new DOMPoint(NaN, NaN) }
   const anchor = (element: Element) => { const item = element as SVGTextElement; return item.x?.baseVal && item.y?.baseVal ? point(item, item.x.baseVal.numberOfItems ? item.x.baseVal.getItem(0).value : 0, item.y.baseVal.numberOfItems ? item.y.baseVal.getItem(0).value : 0) : center(box(element)) }
   const rectangles = [...svg.querySelectorAll('rect')].filter(element => visible(element) && box(element).width > 0 && box(element).height > 0)
@@ -149,8 +175,8 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     return candidates[0]
   }
   const ownedText = (owner: Element) => text.filter(element => inside(box(owner), box(element))).sort((a, b) => box(a).y - box(b).y || box(a).x - box(b).x)
-  const exactText = (wanted: string[], actual: Element[] = text) => same(wanted.map(norm).sort(), actual.map(element => norm(element.textContent ?? '')).sort())
-  const findText = (value: string) => text.filter(element => norm(element.textContent ?? '') === norm(value))
+  const exactText = (wanted: string[], actual: Element[] = text) => same(wanted.map(norm).sort(), actual.map(element => norm(textValue(element))).sort())
+  const findText = (value: string) => text.filter(element => norm(textValue(element)) === norm(value))
   const ordered = (values: ({ x: number; y: number } | null)[], axis: 'x' | 'y') => values.every((p, i) => p && (!i || values[i - 1] && p[axis] > values[i - 1]![axis] + 1))
   const geometryKey = (shape: Element) => { const b = box(shape); return [b.x, b.y, b.width, b.height].map(v => Math.round(v * 2) / 2).join(',') }
   const uniqueShapes = (items: SVGGeometryElement[]) => [...new Map(items.map(shape => [geometryKey(shape), shape])).values()]
@@ -224,20 +250,35 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     }
   }
   if (input.family === 'timeline') {
-    const periods: any[] = facts.periods ?? [], sections: string[] = facts.sections ?? []
-    const observations = periods.map(period => {
-      const header = label(period.period ?? period.label), owner = body(header), region = owner ? box(owner) : null
-      const events = (period.events ?? []).map((value: string) => { const found = findText(value).filter(e => region && center(box(e)).x >= region.x && center(box(e)).x <= region.x + region.width && box(e).y > region.y + region.height); return { label: value, box: found.length === 1 ? box(found[0]!) : null } })
+    const periods: any[] = facts.periods ?? [], sections: string[] = facts.sections ?? [], vertical = /^\s*timeline\s+TD\b/m.test(input.source)
+    const headers = periods.map(period => { const header = label(period.period ?? period.label), owner = body(header); return owner ? box(owner) : null })
+    const observations = periods.map((period, index) => {
+      const region = headers[index] ?? null, next = headers[index + 1]
+      const events = (period.events ?? []).map((value: string) => { const found = findText(value).filter(e => {
+        const b = box(e), c = center(b)
+        return region && (vertical ? b.x > region.x + region.width && b.y >= region.y - 2 && (!next || b.y + b.height < next.y + 2) : c.x >= region.x && c.x <= region.x + region.width && b.y > region.y + region.height)
+      }); return { label: value, box: found.length === 1 ? box(found[0]!) : null } })
       return { label: period.period ?? period.label, section: period.section ?? '', box: region, events }
     })
     const available = observations.length > 0 && observations.every(p => p.box) && periods.every(period => [period.period ?? period.label, ...(period.events ?? [])].every((value: string) => findText(value).length > 0))
-    let valid = ordered(observations.map(p => p.box && center(p.box)), 'x') && observations.every(p => ordered(p.events.map((e: any) => e.box && center(e.box)), 'y'))
+    let valid = ordered(observations.map(p => p.box && center(p.box)), vertical ? 'y' : 'x') && observations.every(p => ordered(p.events.map((e: any) => e.box && center(e.box)), 'y'))
     const headings = sections.map(section => { const e = label(section), b = body(e); return { section, box: b ? box(b) : e ? box(e) : null } })
-    const sectionOwned = !sections.length || headings.every(section => section.box && observations.filter(p => p.section === section.section).every(p => p.box && center(p.box).x >= section.box!.x - 2 && center(p.box).x <= section.box!.x + section.box!.width + 2 && p.box.y > section.box!.y))
+    const sectionOwned = !sections.length || headings.every((section, index) => section.box && observations.filter(p => p.section === section.section).every(p => p.box && (vertical ? p.box.y >= section.box!.y + section.box!.height - 2 && (!headings[index + 1]?.box || p.box.y < headings[index + 1]!.box!.y) : center(p.box).x >= section.box!.x - 2 && center(p.box).x <= section.box!.x + section.box!.width + 2 && p.box.y > section.box!.y)))
     const wanted = [...sourceTitle, ...sections, ...periods.flatMap(period => [period.period ?? period.label, ...(period.events ?? [])])]
     valid &&= exactText(wanted) && sectionOwned
-    add('periods', observations, available ? valid : null, 'Complete exact period/event text inventory; each event lies in its own measured period column below its body, periods progress left-to-right and events top-to-bottom. Sections independently own the corresponding horizontal span.')
-    add('sections', headings, available ? sectionOwned && ordered(headings.map(h => h.box && center(h.box)), 'x') && exactText(wanted) : null, 'Exact section headings and source order own their period columns; no sections preserves the exact unsectioned inventory.')
+    add('periods', observations, available ? valid : null, 'Complete exact period/event text inventory, including measured multiline glyph rows. Each event lies in its measured period column below its body, or in its right-hand bounded row band for authored TD; period and event order are independently geometric. Sections own the corresponding complete span.')
+    add('sections', headings, available ? sectionOwned && ordered(headings.map(h => h.box && center(h.box)), vertical ? 'y' : 'x') && exactText(wanted) : null, 'Exact section headings and source order own their period columns or authored TD row bands; no sections preserves the exact unsectioned inventory.')
+  }
+  if (input.family === 'treemap' && Array.isArray(facts['authored-style'])) {
+    const measured=input.paint.nodes as {id:string;label:string;box:Box}[],hierarchy:any[]=facts.hierarchy??[],rules=facts['authored-style'],observations:any[]=[]
+    let available=measured.length===input.expected.nodes?.length&&(input.expected.nodes??[]).every(node=>measured.some(actual=>actual.id===node.id&&actual.label===node.label))&&input.paint.checks.some(check=>check.criterion==='unclipped-authored-labels'&&check.status==='passed')&&input.paint.checks.some(check=>check.criterion==='paint-opacity-and-color'&&check.status==='passed'),valid=true
+    for(const rule of rules){const targets=hierarchy.filter(entry=>String(entry.class??'').split(',').includes(rule.selection));if(rule.kind!=='classDef'||!targets.length){available=false;continue}
+      for(const target of targets){const node=measured.find(node=>node.id===target.id),owners=node?uniqueShapes(shapes.filter(shape=>inside(node.box,box(shape),.25)&&inside(box(shape),node.box,.25))):[],owner=owners.length===1?owners[0]:undefined,rows=node?text.filter(e=>inside(node.box,box(e))&&!measured.some(child=>child.id!==node.id&&child.box.width*child.box.height<node.box.width*node.box.height-1&&inside(child.box,box(e)))):[]
+        const properties=rule.attributes.map((attribute:any)=>{const property=attribute.property,carriers=property==='color'?rows:owner?[owner]:[],wanted=color(attribute.value),actual=carriers.map(e=>{const css=getComputedStyle(e);return color(property==='color'?e.localName==='foreignObject'?getComputedStyle(e.querySelector('*')!).color:css.fill:property==='fill'?css.fill:css.stroke)?.rgb??null});if(!['fill','stroke','color'].includes(property)||!wanted||wanted.alpha!==1||/^(?:#[\da-f]{4}|#[\da-f]{8}|transparent|none)$/i.test(attribute.value)||/^(?:rgba|hsla)\(/i.test(attribute.value)||/\//.test(attribute.value)||!actual.length||actual.some(value=>value===null)||!owner)available=false;else if(actual.some(value=>value!==wanted.rgb))valid=false;return{property,expected:attribute.value,actual}})
+        observations.push({id:target.id,body:owner?box(owner):null,properties})
+      }
+    }
+    add('authored-style',observations,available?valid:null,'Every effective treemap classDef color binds each exact source hierarchy attachment to its independently owned body and own caption/value rows; descendants cannot borrow class membership. Computed base RGB is compared without imposing unrequested default alpha or width. Unsupported properties and unused selectors stay unknown.')
   }
   if (input.family === 'packet') {
     const fields: any[] = facts.fields ?? [], settings = facts['authored-config']?.packet ?? {}, bitsPerRow = settings.bitsPerRow ?? 32
@@ -269,7 +310,14 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       if (!column.body || !card.body || !inside(column.body, card.body)) valid = false
       const wanted = [card.label, ...['assigned', 'ticket'].flatMap(key => card.attributes[key] ? [String(card.attributes[key])] : [])]
       if (Object.keys(card.attributes).some(key => !['assigned', 'ticket', 'priority'].includes(key))) available = false
-      if (card.attributes.priority) available = false // priority is an unlabelled colored glyph, not literal text.
+      if (card.attributes.priority && card.body) {
+        const vocabulary: Record<string, string> = { 'Very High': 'red', High: 'orange', Medium: 'none', Low: 'blue', 'Very Low': 'lightblue' }
+        const stripes = paths.filter(path => path.localName === 'line' && (() => { const b = box(path); return b.width < .5 && Math.abs(b.x - card.body.x) <= 5 && b.y >= card.body.y - 1 && b.y + b.height <= card.body.y + card.body.height + 1 && b.height >= card.body.height * .8 && Number.parseFloat(getComputedStyle(path).strokeWidth) >= .25 })())
+        const actual = stripes.length === 1 ? color(getComputedStyle(stripes[0]!).stroke)?.rgb : null, wanted = vocabulary[card.attributes.priority]
+        if (wanted === 'none') { if (stripes.length) valid = false }
+        else if (!wanted || !actual) available = false
+        else if (actual !== color(wanted)?.rgb) { if (Object.values(vocabulary).some(value => color(value)?.rgb === actual)) valid = false; else available = false }
+      }
       if (!same(wanted.map(norm).sort(), card.rows?.map((row: string) => row.replace(/^@/, '')).sort())) valid = false
     }
     const wanted = columns.flatMap(column => [column.label, ...column.tasks.flatMap((task: any) => [task.label, ...['assigned', 'ticket'].flatMap(key => task.attributes?.[key] ? [String(task.attributes[key])] : [])])])
@@ -312,10 +360,11 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
   }
   if (input.family === 'gantt') {
     const tasks: any[] = facts.tasks ?? [], sections: string[] = facts.sections ?? [], settings = facts['calendar-settings'] ?? {}, day = 86400000
-    const parseDate = (value: string) => /^\d{4}-\d{2}-\d{2}$/.test(value) ? Date.parse(value + 'T00:00:00Z') / day : NaN
+    const clock = settings.dateFormat === 'HH:mm' && settings.axisFormat === '%H:%M'
+    const parseDate = (value: string) => clock ? /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(value) ? (Number(value.slice(0, 2)) * 60 + Number(value.slice(3))) / 1440 : NaN : /^\d{4}-\d{2}-\d{2}$/.test(value) ? Date.parse(value + 'T00:00:00Z') / day : NaN
     const ticks = text.map(element => ({ element, day: parseDate(norm(element.textContent ?? '')), x: anchor(element).x })).filter(tick => Number.isFinite(tick.day) && [...svg.querySelectorAll('line,path')].some(raw => { const path = raw as SVGGeometryElement; return linearSegments(path).some(ends => ends.length === 2 && inkAtPoint(path, ends[0]!.y > ends[1]!.y ? ends[0]! : ends[1]!) && Math.abs(ends[0]!.x - tick.x) < 2 && Math.abs(ends[1]!.x - tick.x) < 2 && Math.max(ends[0]!.y, ends[1]!.y) <= box(tick.element).y + 3 && Math.max(ends[0]!.y, ends[1]!.y) >= box(tick.element).y - 10) })).sort((a, b) => a.day - b.day)
     const first = ticks[0], last = ticks.at(-1), unit = first && last && first !== last ? (last.x - first.x) / (last.day - first.day) : NaN
-    let available = tasks.length > 0 && ticks.length >= 2 && unit > 0 && ticks.every(tick => Math.abs(tick.x - first!.x - (tick.day - first!.day) * unit) < 1.5) && ['YYYY-MM-DD', undefined].includes(settings.dateFormat), valid = true
+    let available = tasks.length > 0 && ticks.length >= 2 && unit > 0 && ticks.every(tick => Math.abs(tick.x - first!.x - (tick.day - first!.day) * unit) < 1.5) && (clock || ['YYYY-MM-DD', undefined].includes(settings.dateFormat)), valid = true
     const excluded = String(settings.excludes ?? '').split(/[ ,]+/).filter(Boolean), included = String(settings.includes ?? '').split(/[ ,]+/).filter(Boolean)
     // gantt.md146-149 explicitly selects Fri/Sat or Sat/Sun; this calendar is
     // derived from the authored setting, never fitted from the drawn endpoints.
@@ -331,7 +380,10 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       let start = parseDate(task.start)
       const after = /^after\s+(.+)$/.exec(task.start)
       if (after) { const parents = after[1]!.split(/\s+/).map(id => tasks.find(candidate => candidate.id === id)).map(parent => parent ? schedule(parent) : null); if (parents.every(Boolean)) start = Math.max(...parents.map(parent => parent!.end)) }
-      let end = parseDate(task.end), duration = /^(\d+(?:\.\d+)?)(d|h|m|w)$/.exec(task.end)
+      let end = parseDate(task.end)
+      const until = /^until\s+([\w:-]+)$/.exec(task.end)
+      if (until) { const target = tasks.find(candidate => candidate.id === until[1]), interval = target ? schedule(target) : null; if (interval) end = interval.start }
+      const duration = /^(\d+(?:\.\d+)?)(d|h|m|w)$/.exec(task.end)
       if (duration && Number.isFinite(start)) {
         let remaining = Number(duration[1]) * ({ d: 1, h: 1 / 24, m: 1 / 1440, w: 7 }[duration[2]!] ?? NaN); end = start
         if (!excluded.length) end += remaining
@@ -350,7 +402,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       if ((task.tags ?? []).some((tag: string) => !['milestone'].includes(tag))) available = false
       const milestone = task.tags?.includes('milestone'), start = dates && first ? first.x + (dates.start - first.day) * unit : NaN, end = dates && first ? first.x + (dates.end - first.day) * unit : NaN
       let glyph: string | null = null
-      if (shape && milestone) { const points = sample(shape, 128), bb = box(shape), corners = [[center(bb).x, bb.y], [bb.x + bb.width, center(bb).y], [center(bb).x, bb.y + bb.height], [bb.x, center(bb).y]]; glyph = corners.every(([x, y]) => points.some(p => Math.hypot(p.x - x!, p.y - y!) < 1.5)) ? 'diamond' : null; if (glyph !== 'diamond' || Math.abs(center(bb).x - start) > 2) valid = false }
+      if (shape && milestone) { const points = sample(shape, 128), bb = box(shape), corners = [[center(bb).x, bb.y], [bb.x + bb.width, center(bb).y], [center(bb).x, bb.y + bb.height], [bb.x, center(bb).y]]; glyph = corners.every(([x, y]) => points.some(p => Math.hypot(p.x - x!, p.y - y!) < 1.5)) ? 'diamond' : null; if (glyph !== 'diamond' || Math.abs(center(bb).x - (start + end) / 2) > 2) valid = false }
       else if (b && (Math.abs(b.x - start) > 2 || Math.abs(b.x + b.width - end) > 2)) valid = false
       return { id: task.id, label: task.label, body: b, calendar: dates, expectedStartX: start, expectedEndX: end, glyph, tags: task.tags ?? [], section: task.section }
     })
@@ -365,10 +417,11 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     if (!sectionRows.every(row => row.valid)) valid = false
     const taskShapes = uniqueShapes(shapes.filter(shape => { const b = box(shape); return observed.some(task => task.body && Math.abs(center(b).y - center(task.body).y) < 2 && b.height <= task.body.height + 1 && b.width < svg.getBoundingClientRect().width * .98) }))
     if (taskShapes.length !== tasks.length) available = false
-    add('tasks', { ticks: ticks.map(tick => ({ day: tick.day, x: tick.x })), measuredDayWidth: unit, tasks: observed }, available ? valid : null, 'Visible ISO calendar ticks independently calibrate absolute bar starts/ends; source dependencies and supported weekday/date exclusions are resolved before measuring output. Exact bar inventory and milestone diamonds are checked. Ordinary mode keeps task row order; authored compact mode permits same-section row reuse only for nonoverlapping independently resolved calendar spans. Unlabelled status colors, other date grammars and ambiguous external labels stay unknown.')
+    add('tasks', { ticks: ticks.map(tick => ({ day: tick.day, x: tick.x })), measuredDayWidth: unit, tasks: observed }, available ? valid : null, 'Visible ISO date or authored HH:mm calendar ticks independently calibrate absolute bar starts/ends; source dependencies and supported weekday/date exclusions are resolved before measuring output. Exact bar inventory and milestone diamonds at initial-date plus half-duration are checked. Ordinary mode keeps task row order; authored compact mode permits same-section row reuse only for nonoverlapping independently resolved calendar spans. Unlabelled status colors, other date grammars and ambiguous external labels stay unknown.')
     if(Object.hasOwn(facts,'frontmatter:displayMode'))add('frontmatter:displayMode',{rows:taskY,sharedRows},available&&compact?compactRowsValid?(sharedRows.some(pair=>pair.sameCenter)?true:null):false:null,'Pinned gantt.md301-303 permits compact same-row tasks. An actual shared row of nonoverlapping task spans proves that visible effect; separate rows alone cannot inverse-identify the internal mode and remain unknown. Overlapping calendar spans cannot borrow a compact row.')
+    quantitative('painted-duration-ratios', facts.tasks, { ticks: ticks.map(tick => ({ day: tick.day, x: tick.x })), measuredDayWidth: unit, tasks: observed }, available ? valid : null, 'Independently calibrated absolute task endpoints verify the complete source calendar duration projection, including authored weekday exclusions and milestone midpoint effects; no expected duration is fitted as an observed scale.')
     add('sections', sectionRows, available ? sectionRows.every(row => row.valid) : null, 'Each section caption lies beside its complete consecutive task-row span, in source section order.')
-    const settingKeys = Object.keys(settings), supported = settingKeys.every(key => ['dateFormat', 'excludes', 'includes', 'inclusiveEndDates', 'todayMarker','weekend'].includes(key))
+    const settingKeys = Object.keys(settings), supported = settingKeys.every(key => ['dateFormat', 'excludes', 'includes', 'inclusiveEndDates', 'todayMarker','weekend', ...(clock ? ['axisFormat'] : [])].includes(key))
     add('calendar-settings', { projected: settings, ticks: ticks.map(tick => ({ label: norm(tick.element.textContent ?? ''), x: tick.x })), tasks: observed }, available && supported ? valid && (settings.todayMarker !== 'off' || !paths.some(path => { const ends = endPoints(path); return ends.length === 2 && Math.abs(ends[0]!.x - ends[1]!.x) < 1 && !ticks.some(tick => Math.abs(tick.x - ends[0]!.x) < 2) && Math.min(...ends.map(p => p.y)) < Math.min(...observed.map(task => task.body!.y)) && Math.max(...ends.map(p => p.y)) > Math.max(...observed.map(task => task.body!.y + task.body!.height)) })) : null, 'Date format, source-selected Fri/Sat or Sat/Sun weekends, and inclusion/exclusion settings must produce the independently calibrated task calendar; todayMarker off requires no non-tick full-height date marker. Other display/axis/tick configuration stays required and unknown.')
   }
   if (input.family === 'treeview') {
@@ -420,6 +473,12 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     add('sets', observed.map(({ owner: _, ...entry }) => entry), available ? valid : null, 'Each set label uniquely owns a measured circular set outline; exact circle inventory and authored relative set areas are checked independently. Set names never borrow intersection labels.')
     add('intersections', unionObservations, available ? valid : null, 'Each region label has exactly its declared set membership. Actual overlap area is reconstructed as the boolean intersection of the owned painted set circles on a 128×128 grid, with authored proportional sizes within5%. Invisible overlay paths supply no region credit. Complete region and text inventories reject extra regions.')
     add('region-texts', regionTexts, available ? valid : null, 'Additional region text owns exactly its declared set or intersection membership in the actual filled set geometry.')
+    if(Array.isArray(facts['authored-style'])){
+      const styles=facts['authored-style'].map((rule:any)=>{const set=observed.find(set=>set.id===rule.selection),region=intersections.find(item=>[...item.members].sort().join(',')===rule.selection.split(',').sort().join(',')),entry=texts.find(item=>item.id===rule.selection),caption=label(set?.label??region?.label??entry?.label??''),owner=set?.owner
+        const properties=rule.attributes.map((attribute:any)=>{const property=attribute.property,wanted=color(attribute.value),carriers=property==='color'&&caption?caption.localName==='foreignObject'?[...caption.querySelectorAll('*')].filter(e=>norm(e.textContent??'')&&![...e.children].some(child=>norm(child.textContent??''))):[caption]:['fill','stroke'].includes(property)&&owner?[owner]:[],actual=carriers.map(e=>{const css=getComputedStyle(e);return color(property==='color'?e.namespaceURI==='http://www.w3.org/1999/xhtml'?css.color:css.fill:css[property as 'fill'|'stroke'])?.rgb??null});return{property,expected:attribute.value,actual,available:!!wanted&&wanted.alpha===1&&!/^(?:#[\da-f]{4}|#[\da-f]{8}|transparent|none)$/i.test(attribute.value)&&!/^(?:rgba|hsla)\(/i.test(attribute.value)&&!/\//.test(attribute.value)&&actual.length>0&&actual.every(value=>value!==null)&&!!caption,passed:!!wanted&&actual.every(value=>value===wanted.rgb)}})
+        return{selection:rule.selection,properties,available:rule.kind==='style'&&properties.every((p:any)=>p.available)}})
+      add('authored-style',styles,available&&styles.every((rule:any)=>rule.available)&&input.paint.checks.some(check=>check.criterion==='unclipped-authored-labels'&&check.status==='passed')&&input.paint.checks.some(check=>check.criterion==='paint-opacity-and-color'&&check.status==='passed')?styles.every((rule:any)=>rule.properties.every((p:any)=>p.passed)):null,'Set fill/stroke and exact set/union/region-text foreground styles bind independently measured membership owners. A comma selection identifies the exact intersection, not every individual set; foreignObject foreground comes from its actual painted HTML leaves. Unrequested alpha remains free; other style properties stay unknown.')
+    }
   }
   if (input.family === 'cynefin') {
     const names = ['complex', 'complicated', 'clear', 'chaotic', 'confusion'], domains: any[] = facts['framework-domains'] ?? [], entries: any[] = facts['domain-entries'] ?? [], transitions: any[] = facts['domain-transitions'] ?? []
@@ -447,7 +506,9 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     const horizontal = axisSegments.filter(b => b.height < 1 && b.width > 100 && axisX && b.y < box(axisX).y && b.y >= box(axisX).y - 50).sort((a, b) => b.width - a.width)[0]
     const plot = horizontal ? (() => { const h = horizontal, vertical = axisSegments.filter(b => b.width < 1 && Math.abs(b.x - h.x) < 1 && Math.abs(b.y + b.height - h.y) < 1 && b.height > 100).sort((a, b) => b.height - a.height)[0]; return vertical && axisY && box(axisY).x < h.x ? { x: h.x, y: vertical.y, width: h.width, height: vertical.height } : null })() : null
     const glyphs = [...shapes, ...paths.filter(path => path.localName === 'polyline')].filter(shape => box(shape).width >= 3 && box(shape).width <= 40 && box(shape).height >= 3 && box(shape).height <= 40)
-    const memberGlyph = (name: string) => { const e = label(name), candidates = e ? glyphs.filter(glyph => outlineKind(glyph) === 'circle').map(glyph => ({ glyph, d: distance(center(box(glyph)), box(e)) })).filter(item => item.d <= Math.max(25, box(e).height * 2)).sort((a, b) => a.d - b.d) : []; return candidates[0] && (!candidates[1] || candidates[1].d - candidates[0].d > 2) ? candidates[0].glyph : undefined }
+    const outerGlyphs = glyphs.filter(glyph => !glyphs.some(other => other !== glyph && box(other).width * box(other).height > box(glyph).width * box(glyph).height + 1 && inside(box(other), box(glyph), .5)))
+    const mapLabel = (name: string) => { const candidates = findText(name).filter(e => plot && box(e).y < plot.y + plot.height && box(e).y + box(e).height > plot.y - 25); return candidates.length === 1 ? candidates[0] : undefined }
+    const memberGlyph = (name: string) => { const e = mapLabel(name), candidates = e ? glyphs.filter(glyph => outlineKind(glyph) === 'circle').map(glyph => ({ glyph, d: distance(center(box(glyph)), box(e)) })).filter(item => item.d <= Math.max(25, box(e).height * 2)).sort((a, b) => a.d - b.d) : []; return candidates[0] && (!candidates[1] || candidates[1].d - candidates[0].d > 2) ? candidates[0].glyph : undefined }
     const pipelineObservations = (facts.pipelines ?? []).map((pipeline: any) => {
       const parent = components.find(component => component.name === pipeline.component), e = label(pipeline.component), members = pipeline.members.map((member: any) => { const glyph = memberGlyph(member.name), c = glyph ? center(box(glyph)) : null; return { ...member, glyph, point: c, observed: c && plot ? { visibility: (plot.y + plot.height - c.y) / plot.height, evolution: (c.x - plot.x) / plot.width } : null } })
       const headerCandidates = e ? glyphs.filter(glyph => outlineKind(glyph) === 'rectangle').map(glyph => ({ glyph, distance: distance(center(box(glyph)), box(e)) })).filter(item => item.distance < 25).sort((a, b) => a.distance - b.distance) : [], header = headerCandidates.length === 1 ? headerCandidates[0]!.glyph : undefined
@@ -457,24 +518,30 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       return { component: pipeline.component, owner, body: b, visibility, members, available, valid }
     })
     const observed = components.map(component => {
-      const e = label(component.name), candidates = e ? glyphs.map(glyph => ({ glyph, d: distance(center(box(glyph)), box(e)) })).filter(item => item.d <= 25).sort((a, b) => a.d - b.d) : [], glyph = candidates[0] && (!candidates[1] || candidates[1].d - candidates[0].d > 2) ? candidates[0].glyph : undefined, c = glyph ? center(box(glyph)) : component.kind === 'anchor' && e?.localName === 'text' && (e as SVGTextElement).x.baseVal.numberOfItems && (e as SVGTextElement).y.baseVal.numberOfItems ? point(e as SVGTextElement, (e as SVGTextElement).x.baseVal.getItem(0).value, (e as SVGTextElement).y.baseVal.getItem(0).value + 3) : null
+      const e = mapLabel(component.name), candidates = e ? outerGlyphs.map(glyph => ({ glyph, d: distance(center(box(glyph)), box(e)) })).filter(item => item.d <= 25).sort((a, b) => a.d - b.d) : [], glyph = candidates[0] && (!candidates[1] || candidates[1].d - candidates[0].d > 2) ? candidates[0].glyph : undefined, c = glyph ? center(box(glyph)) : component.kind === 'anchor' && e?.localName === 'text' && (e as SVGTextElement).x.baseVal.numberOfItems && (e as SVGTextElement).y.baseVal.numberOfItems ? point(e as SVGTextElement, (e as SVGTextElement).x.baseVal.getItem(0).value, (e as SVGTextElement).y.baseVal.getItem(0).value + 3) : null
       const pipeline = pipelineObservations.find((entry: any) => entry.component === component.name)
       const textMatrix = e?.localName === 'text' ? (e as SVGTextElement).getScreenCTM() : null, origin = e && c && textMatrix && getComputedStyle(e).textAnchor === 'start' && ['auto', 'alphabetic'].includes(getComputedStyle(e).dominantBaseline) && (e as SVGTextElement).getNumberOfChars() ? (e as SVGTextElement).getStartPositionOfChar(0).matrixTransform(textMatrix) : null
       const labelOffsetActual = component.labelOffset && origin && c && textMatrix && Math.abs(textMatrix.b) < 1e-8 && Math.abs(textMatrix.c) < 1e-8 ? [(origin.x - c.x) / textMatrix.a, (origin.y - c.y) / textMatrix.d] : null
       return { ...component, glyph, glyphKind: outlineKind(glyph), point: component.kind === 'pipeline-group' && pipeline?.body ? center(pipeline.body) : c, coordinates: component.kind === 'pipeline-group' ? null : c && plot ? [(plot.y + plot.height - c.y) / plot.height, (c.x - plot.x) / plot.width] : null, pipelineVisibility: pipeline?.visibility ?? null, labelOffsetActual, labelBox: e ? box(e) : null }
     })
-    let available = !!plot && components.length > 0 && observed.every(component => component.kind === 'pipeline-group' ? pipelineObservations.some((entry: any) => entry.component === component.name && entry.available) : component.coordinates && !component.inertia && !component.strategy && (!component.labelOffset || component.labelOffsetActual) && component.coordinates.length === 2), valid = true
+    const inertiaBars = paths.filter(path => path.localName === 'line' && (() => { const b = box(path); return plot && b.width < .5 && b.height >= 3 && b.height <= 40 && Number.parseFloat(getComputedStyle(path).strokeWidth) >= 3 && inside(plot, b) })())
+    const inertia = observed.map(component => ({ name: component.name, bars: component.point ? inertiaBars.filter(bar => { const b = box(bar), c = center(b); return c.x > component.point!.x && c.x - component.point!.x <= 30 && Math.abs(c.y - component.point!.y) < 1.5 }) : [] }))
+    const inertiaKnown = inertiaBars.every(bar => inertia.filter(entry => entry.bars.includes(bar)).length === 1)
+    const strategies: Record<string, string> = { build: 'triangle', buy: 'diamond', outsource: 'rectangle', market: 'circle' }
+    const strategyContradiction = observed.some(component => component.strategy && component.glyph && strategies[component.strategy] && ['circle', 'rectangle', 'diamond', 'triangle'].includes(component.glyphKind ?? '') && component.glyphKind !== strategies[component.strategy])
+    let available = !!plot && inertiaKnown && observed.every(component => component.kind === 'pipeline-group' ? pipelineObservations.some((entry: any) => entry.component === component.name && entry.available) : component.coordinates && (!component.strategy || component.glyphKind === strategies[component.strategy]) && inertia.find(entry => entry.name === component.name)?.bars.length === (component.inertia ? 1 : 0) && (!component.labelOffset || component.labelOffsetActual) && component.coordinates.length === 2), valid = true
     for (const component of observed) { if (component.kind === 'pipeline-group') { if (!pipelineObservations.some((entry: any) => entry.component === component.name && entry.valid)) valid = false; continue }; if (!component.coordinates || component.coordinates.some((value: number, i: number) => Math.abs(value - components.find(c => c.name === component.name).coordinates[i]) > .008)) valid = false; if (component.kind === 'component' && component.glyphKind !== 'circle' || component.labelOffsetActual?.some((value: number, i: number) => Math.abs(value - component.labelOffset[i]) > 1)) valid = false }
     const bind = (p: { x: number; y: number }) => { const nearest = observed.filter(component => component.point).map(component => ({ name: component.name, d: Math.hypot(component.point!.x - p.x, component.point!.y - p.y) })).sort((a, b) => a.d - b.d); return nearest[0] && nearest[0].d <= 22 && (!nearest[1] || nearest[1].d - nearest[0].d > 2) ? nearest[0].name : null }
     const linkCandidates = plot ? paths.filter(path => {
       const ends = endPoints(path)
       if (ends.length !== 2 || !ends.every(p => p.x > plot.x - 2 && p.x < plot.x + plot.width + 2 && p.y > plot.y - 2 && p.y < plot.y + plot.height + 2) || Math.hypot(ends[0]!.x - ends[1]!.x, ends[0]!.y - ends[1]!.y) < 2) return false
       if (bind(ends[0]!) && bind(ends[1]!) && bind(ends[0]!) !== bind(ends[1]!)) return true
+      if (bind(ends[0]!) && bind(ends[0]!) === bind(ends[1]!)) return false
       const segments = linearSegments(path), frameOnly = segments.length > 0 && segments.every(segment => segment.every(p => Math.abs(p.x - plot.x) < 1) || segment.every(p => Math.abs(p.y - plot.y - plot.height) < 1))
       return !frameOnly && Math.abs(ends[0]!.y - ends[1]!.y) > 1 && Math.abs(ends[0]!.x - ends[1]!.x) > 1
     }) : []
     const routes = linkCandidates.map(path => { const ends = endPoints(path); return { source: bind(ends[0]!), target: bind(ends[1]!), ends: ends.map(p => ({ x: p.x, y: p.y })) } })
-    const linkAvailable = available && links.every(link => link.kind === '->' && !link.label) && routes.every(route => route.source && route.target), canonical = (edge: any) => [edge.source, edge.target].sort().join('\0')
+    const linkAvailable = !!plot && observed.every(component => component.point) && links.every(link => link.source !== link.target && link.kind === '->' && !link.label) && routes.every(route => route.source && route.target), canonical = (edge: any) => [edge.source, edge.target].sort().join('\0')
     const linksOkay = same(links.map(canonical).sort(), routes.map(canonical).sort())
     const paintedTip = (route: SVGGeometryElement) => {
       const id = /#([^\s)"']+)/.exec(getComputedStyle(route).markerEnd)?.[1], marker = id ? document.getElementById(decodeURIComponent(id)) as SVGMarkerElement | null : null
@@ -491,13 +558,26 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     const evolution = (facts.evolution ?? []).map((entry: any) => { const component = observed.find(component => component.name === entry.component), p = component?.point, candidates = p && plot ? paths.filter(path => { const ends = endPoints(path); return ends.length === 2 && Math.abs(ends[0]!.x - p.x) < 2 && Math.abs(ends[0]!.y - p.y) < 2 && Math.abs(ends[1]!.y - p.y) < 2 && ends[1]!.x > p.x + 2 }) : [], route = candidates.length === 1 ? candidates[0] : undefined, endpoint = route ? endPoints(route)[1] : undefined, tip = route ? paintedTip(route) : null, wantedX = plot ? plot.x + entry.target * plot.width : NaN; return { component: entry.component, stemEndpoint: endpoint ?? null, visibleTip: tip, target: tip && plot ? (tip.x - plot.x) / plot.width : null, expected: entry.target, expectedVisibleX: wantedX, errorCSSPixels: tip ? Math.abs(tip.x - wantedX) : null } })
     const notes = (facts.notes ?? []).map((entry: any) => { const e = label(entry.text), p = e ? anchor(e) : null; return { text: entry.text, point: p && plot ? [(plot.y + plot.height - p.y) / plot.height, (p.x - plot.x) / plot.width] : null, wanted: entry.coordinates } })
     add('map-axes', { plot, xCaption: axisX ? box(axisX) : null, yCaption: axisY ? box(axisY) : null }, plot ? true : null, 'The separately captioned actual Evolution/Visibility axis strokes establish the complete [0,1] rightward/upward map frame in the qualified Wardley vocabulary, independent of authored component positions.')
-    add('components', observed.map(({ glyph: _, ...component }) => component), available ? valid && glyphs.length === components.filter(component => component.kind !== 'anchor').length + (facts.pipelines ?? []).reduce((n: number, pipeline: any) => n + pipeline.members.length, 0) : null, 'Each uniquely owned component/anchor glyph is measured in the independent painted map frame within0.8%. Complete glyph inventory prevents matching labels from borrowing positions; strategy, inertia, offsets and unknown glyph vocabularies remain unknown.')
+    add('components', observed.map(({ glyph: _, ...component }) => ({ ...component, inertiaBars: inertia.find(entry => entry.name === component.name)?.bars.map(box) })), strategyContradiction ? false : available ? valid && outerGlyphs.length === components.filter(component => component.kind !== 'anchor').length + (facts.pipelines ?? []).reduce((n: number, pipeline: any) => n + pipeline.members.length, 0) : null, 'Each uniquely owned component/anchor glyph is measured in the independent painted map frame within0.8%. Complete glyph inventory prevents matching labels from borrowing positions; an adjacent owned heavy vertical inertia marker is independently counted. Explicit strategy symbols follow the documented triangle/diamond/square/circle vocabulary; an independently owned contrary recognizable symbol fails while unfamiliar compounds stay unknown.')
     add('pipelines', pipelineObservations.map(({ owner: _, members, ...pipeline }: any) => ({ ...pipeline, members: members.map(({ glyph: __, ...member }: any) => member) })), available && pipelineObservations.every((entry: any) => entry.available) ? pipelineObservations.every((entry: any) => entry.valid) && valid : null, 'A separately captioned actual horizontal range encloses the exact pipeline member glyphs; its vertical center and every member center share authored visibility, while each member center preserves its own evolution. The source-reviewed pipeline-group representation replaces the parent standalone evolution point; the original point coordinate remains native/advisory metadata.')
     add('links', routes, linkAvailable ? linksOkay : null, 'Exact dependency inventory binds actual route endpoints to independently owned map glyphs; unheaded ordinary links encode endpoint pairs. Directed/decorated/value-chain relationship vocabulary needs separate marker evidence.')
     add('evolution', evolution, available && evolution.every((entry: any) => entry.target !== null) ? evolution.every((entry: any) => entry.errorCSSPixels <= 2) : null, 'Evolution routes start at the owned source component; their actual painted marker tip, reconstructed from visible triangle geometry and SVG marker viewport/ref transforms, must reach the authored normalized target within2 CSS pixels. A shortened stem or hypothetical unpainted target circle supplies no target credit.')
     add('notes', notes, plot && notes.every((entry: any) => entry.point) ? notes.every((entry: any) => entry.point.every((value: number, i: number) => Math.abs(value - entry.wanted[i]) < .012)) : null, 'Each note owns its separate visible text origin in the painted map coordinate frame within1.2%; no native coordinate metadata is observed.')
+    if (Array.isArray(facts.annotations)) {
+      if (facts.annotations.every((entry: any) => ['accelerator', 'deaccelerator'].includes(entry.kind))) {
+        const forces = facts.annotations.map((entry: any) => {
+          const caption = label(entry.label), candidates = caption ? paths.filter(path => {
+            const b = box(path), t = box(caption); return path.localName === 'path' && b.width >= 30 && b.width <= 100 && b.height >= 15 && b.height <= 100 && Math.abs(center(b).x - center(t).x) < 3 && t.y >= b.y + b.height - 4 && t.y - b.y - b.height < t.height * 2
+          }) : [], path = candidates.length === 1 ? candidates[0]! : null, matrix = path?.getScreenCTM(), raw = path?.getAttribute('d') ?? '', commands = raw.match(/[A-Za-z]/g), numbers = raw.match(/[-+]?(?:\d*\.)?\d+(?:e[-+]?\d+)?/gi)?.map(Number) ?? [], vertices = path && matrix && same(commands, ['M','L','L','L','L','L','L','Z']) && numbers.length === 14 ? Array.from({length: 7}, (_,i) => new DOMPoint(numbers[i*2],numbers[i*2+1]).matrixTransform(matrix)) : []
+          const b = path ? box(path) : null, middle = b ? center(b).y : NaN, tip = b ? vertices.filter(p => Math.abs(p.y - middle) < .5 && (Math.abs(p.x-b.x)<.5 || Math.abs(p.x-b.x-b.width)<.5)) : [], kind = b && tip.length === 1 ? Math.abs(tip[0]!.x-b.x-b.width)<.5 ? 'accelerator' : 'deaccelerator' : null, coordinate = b && plot ? [(plot.y+plot.height-middle)/plot.height,(b.x-plot.x)/plot.width] : null
+          return { label: entry.label, kind, box: b, coordinate, expected: entry.coordinates, available: !!b && vertices.length === 7 && vertices.every(p => inkAtPoint(path!, p)) && !!kind && !!coordinate }
+        })
+        add('annotations', forces, forces.every((entry: any) => entry.available) ? forces.every((actual: any,i:number) => actual.kind === facts.annotations[i].kind && actual.coordinate.every((v:number,j:number)=>Math.abs(v-actual.expected[j])<.008)) : null, 'Finite seven-corner force arrows bind a uniquely centered adjacent caption, actual left-edge/midheight map anchor, and right/left physical arrow tip. Complete actual contour exposure and the independently painted map frame are required; classes and source coordinates supply no observed geometry.')
+      } else add('annotations', { unavailableBecause: plot ? 'Numbered-circle legend ownership and anchor convention are not qualified' : 'Opaque annotation legend obscures the full axis endpoint; no independent complete map frame' }, null, 'Numbered annotations retain every source number, text and position; obscured axes and unqualified legend anchors remain unknown rather than fitting source positions to a frame.')
+    }
+    if (facts['annotation-legend-position']) add('annotation-legend-position', { unavailableBecause: 'Source position has no uniquely specified corner/overflow-clamping anchor in the public syntax' }, null, 'The literal legend position remains required; no inferred corner or renderer clamping rule substitutes for a qualified source coordinate anchor.')
     if (facts.size) { const view = svg.viewBox.baseVal; add('size', { width: view.width, height: view.height }, view.width > 0 && view.height > 0 ? Math.abs(view.width - facts.size[0]) < .01 && Math.abs(view.height - facts.size[1]) < .01 : null, 'Authored map size binds actual SVG viewBox user dimensions, independent of browser CSS scaling.') }
-    if (facts['evolution-stages']) { const stages = facts['evolution-stages'].map((entry: any, i: number, all: any[]) => { const e = label(entry.label), p = e ? center(box(e)) : null, lower = entry.position ?? i / all.length, upper = all[i + 1]?.position ?? (i + 1) / all.length; return { label: entry.label, position: p && plot ? (p.x - plot.x) / plot.width : null, lower, upper, belowAxis: p && plot ? p.y > plot.y + plot.height : null } }); add('evolution-stages', stages, plot && stages.every((entry: any) => entry.position !== null) ? stages.every((entry: any) => entry.belowAxis && entry.position >= entry.lower && entry.position <= entry.upper) : null, 'Each stage caption owns its measured interval along the independently established evolution axis; explicit boundary positions require corresponding physical separators.') }
+    if (facts['evolution-stages']) { const stages = facts['evolution-stages'].map((entry: any, i: number, all: any[]) => { const labels = findText(entry.label).filter(e => plot && box(e).y > plot.y + plot.height), e = labels.length === 1 ? labels[0] : undefined, p = e ? center(box(e)) : null, lower = i ? all[i - 1].position ?? i / all.length : 0, upper = entry.position ?? (i + 1) / all.length, separators = plot && upper < 1 ? axisSegments.filter(b => b.width < 1 && Math.abs(b.y - plot.y) < 1 && Math.abs(b.height - plot.height) < 1 && Math.abs((b.x - plot.x) / plot.width - upper) < .003) : []; return { label: entry.label, position: p && plot ? (p.x - plot.x) / plot.width : null, lower, upper, separator: upper === 1 || separators.length === 1 } }); add('evolution-stages', stages, plot && stages.every((entry: any) => entry.position !== null) ? stages.every((entry: any) => entry.position >= entry.lower && entry.position <= entry.upper && entry.separator) : null, 'Each below-axis caption owns its cumulative-upper-boundary stage interval and every internal source boundary has a complete actual separator. A component with the same caption cannot substitute for a stage label.') }
   }
   if (input.family.startsWith('railroad')) {
     type P = { x: number; y: number }
@@ -758,7 +838,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       if (painted !== false) routes.push({ source: commits[earlier].id, target: commits[later].id, visible: painted, ...(painted === null ? { unavailableBecause: routeGaps.get(path) ?? 'Unsupported stroke/transform/compositing' } : {}) })
     }
     const picked = observed.flatMap((item, index) => { if (commits[index].type !== 'CHERRY_PICK') return []; const annotation = item.cherryAnnotation, source = annotation ? observed.find(other => other.label === annotation.source)?.id : null, parent = annotation ? observed.find(other => other.label === annotation.parent)?.id : null; return [{ id: item.id, type: item.type, source, parent, expectedSource: commits[index].cherryPickSource, expectedParent: commits[index].cherryPickParent }] })
-    const pickedKnown = picked.every(item => item.type === 'CHERRY_PICK' && item.source && item.parent), pickedValid = picked.every(item => item.source === item.expectedSource && item.parent === item.expectedParent)
+    const pickedKnown = picked.every(item => item.type === 'CHERRY_PICK' && item.source && (item.expectedParent === undefined || item.parent)), pickedValid = picked.every(item => item.source === item.expectedSource && (item.expectedParent === undefined || item.parent === item.expectedParent))
     const wanted = commits.flatMap(commit => [...commit.parents.map((parent: string) => ({ source: parent, target: commit.id })), ...(commit.type === 'CHERRY_PICK' ? [{ source: commit.cherryPickSource, target: commit.id }] : [])]), key = (edge: any) => edge.source + '\0' + edge.target
     const parentsValid = same(routes.map(key).sort(), wanted.map(key).sort())
     const physicalChronology = observed.map(commit => commit.center ? sign * commit.center[axis] : null), chronologyValid = settings.parallelCommits === true || physicalChronology.every((value, index) => value !== null && (!index || value > physicalChronology[index - 1]! + 1))
@@ -793,7 +873,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
     const palette: Record<string, string> = { ui: config.emUiFill ?? 'white', processor: config.emProcessorFill ?? '#edb3f6', 'read-model': config.emReadModelFill ?? '#d3f1a2', command: config.emCommandFill ?? '#bcd6fe', event: config.emEventFill ?? '#ffb778' }
     const laneKind = (kind: string) => ['ui', 'processor'].includes(kind) ? 'UI/Automation' : ['command', 'read-model'].includes(kind) ? 'Command/Read Model' : 'Events'
     const observed = frames.map(frame => {
-      const parts = String(frame.label).split('.'), displayed = parts.length === 2 ? parts[1]! : frame.label, namespace = parts.length === 2 ? parts[0]! : null, html = [...svg.querySelectorAll('foreignObject b')].filter(element => norm(element.textContent ?? '') === norm(displayed) && visible(element)), head = html.length === 1 ? html[0] : label(displayed), owner = body(head), b = owner ? box(owner) : null
+      const parts = String(frame.label).split('.'), displayed = parts.length === 2 ? parts[1]! : frame.label, namespace = parts.length === 2 ? parts[0]! : null, html = [...svg.querySelectorAll('foreignObject b')].filter(element => norm(element.textContent ?? '') === norm(displayed) && visible(element)), qualified = html.filter(element => { if (!namespace) return true; const owner = body(element); if (!owner) return false; const prefix = { 'UI/Automation': 'UI/A: ', 'Command/Read Model': 'C/RM: ', Events: 'Stream: ' }[laneKind(frame.kind)], rows = rectangles.filter(rect => rect !== owner && inside(box(rect), box(owner)) && box(rect).width > box(owner).width + 30); return rows.some(row => ownedText(row).some(heading => box(heading).x < box(owner).x && norm(textValue(heading)) === prefix + namespace)) }), head = qualified.length === 1 ? qualified[0] : undefined, owner = body(head), b = owner ? box(owner) : null
       const content = owner ? [...svg.querySelectorAll('foreignObject')].filter(e => inside(box(owner), box(e))).map(e => norm((e.querySelector('div') as HTMLElement)?.innerText ?? e.textContent ?? '')) : []
       const colors = owner ? Object.entries(palette).filter(([, value]) => color(value)?.rgb === color(getComputedStyle(owner).fill)?.rgb).map(([kind]) => kind) : []
       const lanes = b ? rectangles.filter(rect => rect !== owner && inside(box(rect), b) && box(rect).width > b.width + 30).sort((a, b) => box(a).width * box(a).height - box(b).width * box(b).height) : []
@@ -983,6 +1063,12 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       type Cubic = { start: P; c1: P; c2: P; end: P }
       const distance = (a: P, b: P) => Math.hypot(a.x - b.x, a.y - b.y)
       const cubics = (path: SVGGeometryElement): Cubic[] | null => {
+        if (path instanceof SVGPolygonElement && !hasTension) {
+          const matrix = path.getScreenCTM(), vertices = Array.from({ length: path.points.numberOfItems }, (_, i) => path.points.getItem(i)).map(p => matrix ? new DOMPoint(p.x, p.y).matrixTransform(matrix) : null)
+          if (!matrix || vertices.length < 3 || vertices.some(p => !p || !Number.isFinite(p.x) || !Number.isFinite(p.y))) return null
+          if (distance(vertices[0]!, vertices.at(-1)!) < 1e-5) vertices.pop()
+          return vertices.map((p, i) => { const next = vertices[(i + 1) % vertices.length]!; return { start: p!, c1: { x: p!.x + (next.x - p!.x) / 3, y: p!.y + (next.y - p!.y) / 3 }, c2: { x: p!.x + (next.x - p!.x) * 2 / 3, y: p!.y + (next.y - p!.y) * 2 / 3 }, end: next } })
+        }
         if (path.localName !== 'path') return null
         const d = path.getAttribute('d') ?? '', tokens = d.match(/[-+]?(?:\d*\.)?\d+(?:[eE][-+]?\d+)?|[A-Za-z]/g) ?? [], matrix = path.getScreenCTM()
         if (!matrix || tokens.join('') !== d.replace(/[\s,]/g, '')) return null
@@ -1026,7 +1112,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
       if(hasTension)radarTensionProfile = { profile: 'mermaid-radar-cubic-coefficient-1fb7869-v1', expected: tension, curves: observed, passed: observed.some(curve=>curve.available&&!curve.matches)?false:ready?true:null }
     }
     const projectedRange = jointRangeProfile?.passed ?? null, printedRange = !!low && !!high
-    add('range', {profile:'source-normalized-radar-grid-and-vertices-v1',sourceRange:range,curves:jointRangeProfile?.curves??null,ticks:numbers,center:origin,outerRadius:radius}, projectedRange === false ? false : projectedRange === true && (!numbers.length || printedRange) ? true : prepared && printedRange ? true : null, 'The complete literal data/range pair predicts every independently owned cubic vertex as R*(v-min)/(max-min) in the independently measured grid frame, within3CSSpx. This proves the visible combined effect rather than hidden stored numbers; jointly rescaled values/range are equivalent when numeric labels are absent. Cubic controls/tension remain a separate obligation. Printed numeric endpoint labels retain their own scale check; unsupported vertex/paint ownership stays unknown.')
+    add('range', {profile:'source-normalized-radar-grid-and-vertices-v1',sourceRange:range,curves:jointRangeProfile?.curves??null,ticks:numbers,center:origin,outerRadius:radius}, projectedRange === false ? false : projectedRange === true && (!numbers.length || printedRange) ? true : prepared && printedRange ? true : null, 'The complete literal data/range pair predicts every independently owned polygon or cubic vertex as R*(v-min)/(max-min) in the independently measured grid frame, within3CSSpx. This proves the visible combined effect rather than hidden stored numbers; jointly rescaled values/range are equivalent when numeric labels are absent. Cubic controls/tension remain a separate obligation. Printed numeric endpoint labels retain their own scale check; unsupported vertex/paint ownership stays unknown.')
   }
   if (input.family === 'xychart' && (facts['displayed-bar-values'] || facts['series-annotations'])) {
     const series: any[] = facts.series ?? [], prior = input.quantitative.find(check => check.criterion === 'source-fact:series'), geometry: any[] = Array.isArray(prior?.actual) ? prior.actual : [], used = new Set<Element>()
@@ -1105,6 +1191,7 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
         const sameBox = inside(bounds, b, .1) && inside(b, bounds, .1), equivalent = sameBox && fill?.rgb === color(getComputedStyle(element).fill)?.rgb && css.stroke === getComputedStyle(element).stroke && css.strokeWidth === getComputedStyle(element).strokeWidth
         const child = (input.paint.nodes as any[]).some(node => node.id !== ownerId && inside(bounds, node.box) && inside(node.box, b, .1) && inside(b, node.box, .1)), caption = text.some(label => inside(b, box(label)) && b.width * b.height < bounds.width * bounds.height * .98)
         if (equivalent || child || caption) continue
+        if (input.family === 'radar' && property === 'stroke' && [...themeCurveOwners.values()].includes(element) && [...themeCurveOwners.values()].includes(cover as SVGGeometryElement) && checks.some(check => check.criterion === 'source-fact:range' && check.status === 'passed')) continue
         const transform = (cover as SVGGraphicsElement).getScreenCTM?.()
         const padding = strokeAlpha >= .999 ? Number.parseFloat(css.strokeWidth) / 2 * (transform ? Math.hypot(transform.a, transform.b, transform.c, transform.d) : 1) : 0
         if (points.some(p => inside(b, { x: p.x, y: p.y, width: 0, height: 0 }, padding) && (complex || !transform || !(cover instanceof SVGGeometryElement) || (() => { const local = new DOMPoint(p.x, p.y).matrixTransform(transform.inverse()); return fillAlpha >= .999 && cover.isPointInFill(local) || strokeAlpha >= .999 && cover.isPointInStroke(local) })()))) return false
@@ -1189,8 +1276,25 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
         if (path === 'packet.showBits') { actual = printed.length > 0; passed = actual === wanted }
         if (['packet.bitsPerRow', 'packet.bitOrder'].includes(path) && result?.status === 'passed') { actual = result.actual; passed = true }
       }
+      if (input.family === 'packet' && path === 'themeVariables.packet.startByteColor') {
+        const result = checks.find(check => check.criterion === 'source-fact:fields'), segments = (result?.actual as any)?.segments ?? []
+        const starts = segments.map((segment: any) => text.filter(element => norm(textValue(element)) === String(segment.offsets[0]) && Math.abs(box(element).x - segment.body.x) < 1 && box(element).y + box(element).height <= segment.body.y + 1 && segment.body.y - box(element).y - box(element).height <= 25))
+        actual = starts.map((elements: Element[]) => elements.length === 1 ? getComputedStyle(elements[0]!).fill : null)
+        passed = result?.status === 'passed' && starts.length > 0 && starts.every((elements: Element[]) => elements.length === 1) ? (actual as string[]).every(value => equalColor(value, String(wanted))) : null
+      }
       if (input.family === 'sankey') {
         const nodes = input.expected.nodes ?? [], owned = nodes.map(node => { const e = label(node.label), measured = (input.paint.nodes as any[]).find(item => item.id === node.id), candidates = measured?.box ? rectangles.filter(rect => Math.abs(box(rect).x - measured.box.x) < 1 && Math.abs(box(rect).y - measured.box.y) < 1 && Math.abs(box(rect).width - measured.box.width) < 1 && Math.abs(box(rect).height - measured.box.height) < 1) : e ? rectangles.filter(rect => { const b = box(rect), t = box(e), gap = Math.min(Math.abs(b.x - t.x - t.width), Math.abs(t.x - b.x - b.width)); return b.width <= 40 && b.height > 2 && gap < 20 && Math.abs(center(b).y - center(t).y) <= Math.max(t.height * 2, b.height / 2) }).sort((a, b) => Math.abs(center(box(a)).y - center(box(e)).y) - Math.abs(center(box(b)).y - center(box(e)).y)) : []; return { id: node.id, shape: candidates.length === 1 ? candidates[0] : body(e) } }), boxes = owned.filter(node => node.shape).map(node => ({ id: node.id, b: box(node.shape!), shape: node.shape! }))
+        if (path === 'sankey.showValues' && typeof wanted === 'boolean' && facts['show-values'] === wanted && boxes.length === nodes.length) {
+          const displayed: any[] = facts['displayed-node-values'] ?? [], labels = nodes.map(node => wanted ? displayed.some(entry=>entry.id===node.id) ? node.label+' '+displayed.find(entry=>entry.id===node.id).display : null : node.label)
+          actual=text.map(e=>norm(textValue(e)))
+          passed=labels.every(Boolean) ? exactText([...sourceTitle,...labels as string[]]) : null
+        }
+        if (path === 'sankey.labelStyle' && wanted === 'outlined') {
+          const observations=nodes.map(node=>{const owner=boxes.find(entry=>entry.id===node.id),labels=findText(node.label).filter(e=>owner&&Math.abs(center(box(e)).y-center(owner.b).y)<=Math.max(3,box(e).height*.5)&&Math.max(owner.b.x-box(e).x-box(e).width,box(e).x-owner.b.x-owner.b.width,0)<=30),paint=labels.map(e=>{const css=getComputedStyle(e);return{element:e,fill:color(css.fill)?.rgb,stroke:color(css.stroke)?.rgb,alpha:color(css.stroke)?.alpha,width:Number.parseFloat(css.strokeWidth),paintOrder:css.paintOrder,font:css.font}}),single=paint.length===1&&paint[0]!.stroke&&paint[0]!.fill!==paint[0]!.stroke&&paint[0]!.paintOrder.startsWith('stroke'),back=paint.filter(entry=>entry.stroke&&entry.alpha!>=1/255&&entry.width>=.25&&entry.stroke!==entry.fill),front=paint.filter(entry=>!entry.stroke),paired=paint.length===2&&back.length===1&&front.length===1&&back[0]!.fill===front[0]!.fill&&back[0]!.font===front[0]!.font&&inside(box(back[0]!.element),box(front[0]!.element),.25)&&inside(box(front[0]!.element),box(back[0]!.element),.25)&&!!(back[0]!.element.compareDocumentPosition(front[0]!.element)&Node.DOCUMENT_POSITION_FOLLOWING)
+            return{id:node.id,labels:paint.map(({element:_,...entry})=>entry),outlined:!!single||!!paired}})
+          actual=observations
+          passed=boxes.length===nodes.length&&input.paint.checks.some(check=>check.criterion==='unclipped-authored-labels'&&check.status==='passed') ? observations.every(entry=>entry.outlined) : null
+        }
         if (path === 'sankey.nodeWidth') { actual = boxes.map(node => { const matrix = node.shape.getScreenCTM(); return matrix ? node.b.width / Math.hypot(matrix.a, matrix.b) : null }); passed = boxes.length === nodes.length && boxes.length > 0 ? (actual as (number | null)[]).every(value => value !== null && Math.abs(value - Number(wanted)) < .1) : null }
         if (path === 'sankey.nodePadding') { const gaps = boxes.flatMap((a, i) => boxes.slice(i + 1).filter(b => Math.abs(a.b.x - b.b.x) < 2).map(b => { const matrix = a.shape.getScreenCTM(); return matrix ? Math.max(b.b.y - a.b.y - a.b.height, a.b.y - b.b.y - b.b.height) / Math.hypot(matrix.c, matrix.d) : NaN })); actual = gaps; passed = gaps.length ? Math.min(...gaps) >= Number(wanted) - .5 : null }
         if (path.startsWith('sankey.nodeColors.')) { const id = path.slice('sankey.nodeColors.'.length), node = boxes.find(node => node.id === id); actual = node ? getComputedStyle(node.shape).fill : null; passed = node ? equalColor(String(actual), String(wanted)) : null }
@@ -1203,6 +1307,24 @@ export function inspectDomainFacts(input: { family: string; source: string; expe
         if (path === 'treeView.rowIndent') { const fact = checks.find(check => check.criterion === 'source-fact:hierarchy'), matrix = svg.getScreenCTM(); actual = matrix && (fact?.actual as any)?.measuredIndent ? (fact!.actual as any).measuredIndent / Math.hypot(matrix.a, matrix.b) - Number(config.treeView?.paddingX ?? 5) : null; passed = typeof actual === 'number' ? Math.abs(actual - Number(wanted)) < .1 : null }
       }
       if (input.family === 'xychart' && ['xyChart.showDataLabel', 'xyChart.showDataLabelOutsideBar'].includes(path)) { const check = checks.find(check => check.criterion === 'source-fact:displayed-bar-values'); actual = check?.actual ?? null; passed = check?.status === 'passed' ? true : check?.status === 'failed' ? false : null }
+      if (input.family === 'treemap' && path === 'treemap.diagramPadding') {
+        const matrix = svg.getScreenCTM(), view = svg.viewBox.baseVal, ink = [...svg.querySelectorAll('rect,circle,ellipse,path,polygon,line,polyline,text,foreignObject')].filter(e => visible(e) && box(e).width + box(e).height > 0).map(box)
+        if (matrix && Math.abs(matrix.b)<1e-8 && Math.abs(matrix.c)<1e-8 && matrix.a>0 && matrix.d>0 && view.width>0 && view.height>0 && ink.length) {
+          const left = Math.min(...ink.map(b=>b.x)), top=Math.min(...ink.map(b=>b.y)), right=Math.max(...ink.map(b=>b.x+b.width)), bottom=Math.max(...ink.map(b=>b.y+b.height)), inverse=matrix.inverse(), a=new DOMPoint(left,top).matrixTransform(inverse), b=new DOMPoint(right,bottom).matrixTransform(inverse)
+          actual=[a.x-view.x,a.y-view.y,view.x+view.width-b.x,view.y+view.height-b.y]
+          passed=Number.isFinite(Number(wanted)) && Number(wanted)>=0 ? (actual as number[]).every(value=>value>=Number(wanted)-1) : null
+        }
+      }
+      if (input.family === 'xychart' && ['xyChart.width', 'xyChart.height'].includes(path)) {
+        const view = svg.viewBox.baseVal, measure = path.endsWith('width') ? view.width : view.height
+        actual = measure > 0 ? measure : null
+        passed = actual !== null && input.paint.checks.some(check => check.criterion === 'canvas' && check.status === 'passed') ? Math.abs(measure - Number(wanted)) < 1 : null
+      }
+      if (input.family === 'xychart' && path === 'themeVariables.xyChart.titleColor') {
+        const e = typeof facts.title === 'string' ? label(facts.title) : undefined
+        actual = e ? getComputedStyle(e).fill : null
+        passed = e && input.quantitative.some(check => check.criterion === 'source-fact:series' && check.status === 'passed') && input.paint.checks.some(check => check.criterion === 'visible-authored-labels' && check.status === 'passed') ? equalColor(String(actual), String(wanted)) : null
+      }
       if (input.family === 'quadrant' && ['quadrantChart.chartWidth', 'quadrantChart.chartHeight'].includes(path)) {
         const regionBoxes = rectangles.map(box).filter(b => rectangles.filter(other => Math.abs(box(other).width - b.width) < 2 && Math.abs(box(other).height - b.height) < 2).length === 4), matrix = svg.getScreenCTM(), view = svg.viewBox.baseVal
         const xs = [...new Set(regionBoxes.map(b => Math.round(b.x)))].sort((a, b) => a - b), ys = [...new Set(regionBoxes.map(b => Math.round(b.y)))].sort((a, b) => a - b)

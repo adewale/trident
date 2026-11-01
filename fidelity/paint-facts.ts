@@ -384,12 +384,20 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       continue
     }
     if (key === 'displayed-values' && input.family === 'treemap' && Array.isArray(facts[key])) {
+      // Closed public D3-format profile, independently evaluated from source
+      // aggregates; no output value is used to select a formatter or scale.
+      const format = (value: number, setting: string): string | null => {
+        if (!Number.isFinite(value)) return null
+        if ([',', '$0,0'].includes(setting) && Number.isSafeInteger(value) && value >= 0) return (setting === '$0,0' ? '$' : '') + String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        if (setting === '$.1%' && value >= 0 && value <= Number.MAX_SAFE_INTEGER / 100) return '$' + (value * 100).toFixed(1) + '%'
+        return null
+      }
       const observed = facts[key].map((entry: any) => {
-        const elements = ownedText(entry.id), numeric = bodyText(entry.id, elements).filter(element => /^[-+\d,]+$/.test(normalize(element.textContent ?? '')))
-        return { id: entry.id, expected: entry.value, format: entry.format, elements, numeric, actual: numeric.map(element => Number(normalize(element.textContent ?? '').replaceAll(',', ''))) }
+        const elements = ownedText(entry.id), numeric = bodyText(entry.id, elements).filter(element => /^\$?[-+−\d,.]+%?$/.test(normalize(element.textContent ?? '')))
+        return { id: entry.id, expected: entry.value, format: entry.format, wanted: format(entry.value, entry.format), elements, actual: numeric.map(element => normalize(element.textContent ?? '')) }
       })
-      const available = observed.every((entry: any) => entry.elements && rowPaint(entry.elements) && entry.format === ',' && Number.isSafeInteger(entry.expected))
-      add(key, observed.map(({ elements: _, numeric: __, ...entry }: any) => entry), available ? observed.every((entry: any) => entry.actual.length === 1 && entry.actual[0] === entry.expected) : null, 'Each owned treemap node prints its independent source value or subtree aggregate. This profile qualifies the default comma-formatted safe integers; other D3/currency/percentage formats need exact formatting projections')
+      const available = observed.every((entry: any) => entry.elements && rowPaint(entry.elements) && entry.wanted !== null)
+      add(key, observed.map(({ elements: _, ...entry }: any) => entry), available ? observed.every((entry: any) => entry.actual.length === 1 && entry.actual[0] === entry.wanted) : null, 'Each owned treemap node prints its independently source-derived value or subtree aggregate using the exact requested default comma, $0,0 currency or $.1% currency/percentage spelling. Duplicate, borrowed and wrong formatted amounts fail; other D3 formats remain unknown.')
       continue
     }
     if (key === 'show-values' && ['sankey', 'treemap'].includes(input.family) && typeof facts[key] === 'boolean') {

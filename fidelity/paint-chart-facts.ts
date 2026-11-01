@@ -12,6 +12,7 @@ export function inspectChartFacts(input: { family: string; source: string; expec
   const norm = (value: string) => value.normalize('NFC').replace(/\s+/g, ' ').trim()
   const canvas = document.createElement('canvas').getContext('2d')!
   const color = (value: string) => { if (value === 'none' || value === 'transparent') return null; if (/url\(|var\(|context-/.test(value)) { uncertain = true; return null }; canvas.clearRect(0, 0, 1, 1); canvas.fillStyle = value; canvas.fillRect(0, 0, 1, 1); const rgba = canvas.getImageData(0, 0, 1, 1).data; return rgba[3] ? { rgb: [...rgba].slice(0, 3).join(','), alpha: rgba[3]! / 255 } : null }
+  const sourcePalette = typeof facts['authored-config']?.themeVariables?.xyChart?.plotColorPalette === 'string' ? facts['authored-config'].themeVariables.xyChart.plotColorPalette.split(',').map((value: string) => color(value.trim())?.rgb) : []
   const visible = (element: Element) => {
     let effectiveOpacity = 1
     for (let owner: Element | null = element; owner; owner = owner.parentElement) {
@@ -36,6 +37,15 @@ export function inspectChartFacts(input: { family: string; source: string; expec
         if (owner === svg) break
       }
       if (!opacity) continue
+      if (input.family === 'xychart' && element.localName === 'rect' && cover.localName === 'rect' && sourcePalette.length && projected && opacity >= 1) {
+        const ink = color(getComputedStyle(element).fill), horizontal = facts.orientation === 'horizontal'
+        const sameCategory = horizontal ? Math.abs(b.y - bounds.y) < .2 && Math.abs(b.height - bounds.height) < .2 : Math.abs(b.x - bounds.x) < .2 && Math.abs(b.width - bounds.width) < .2
+        const sharedBase = horizontal ? Math.abs(b.x - bounds.x) < .2 && b.width < bounds.width - 1 : Math.abs(b.bottom - bounds.bottom) < .2 && b.height < bounds.height - 1
+        // A shorter later source-palette bar leaves the earlier cap exposed.
+        // Its baseline is independently checked against the actual value axis;
+        // hidden equal/taller bars and extra colored rectangles gain no credit.
+        if (sameCategory && sharedBase && ink && fill && ink.rgb !== fill.rgb && sourcePalette.includes(ink.rgb) && sourcePalette.includes(fill.rgb)) continue
+      }
       if (element.localName === 'circle') {
         const cx = bounds.x + bounds.width / 2, cy = bounds.y + bounds.height / 2, r = bounds.width / 2, near = Math.hypot(cx - Math.max(b.x, Math.min(b.right, cx)), cy - Math.max(b.y, Math.min(b.bottom, cy))), far = Math.max(...[[b.x, b.y], [b.right, b.y], [b.x, b.bottom], [b.right, b.bottom]].map(([x, y]) => Math.hypot(x! - cx, y! - cy))), elementStyle = getComputedStyle(element), filled = color(elementStyle.fill), stroke = Number.parseFloat(elementStyle.strokeWidth)
         if (near > r + stroke || !filled && far < r - stroke) continue
@@ -127,8 +137,9 @@ export function inspectChartFacts(input: { family: string; source: string; expec
     const expectedBars = series.filter(item => item.kind === 'bar'), expectedLines = series.filter(item => item.kind === 'line'), colorOf = (element: Element) => color(getComputedStyle(element).fill)?.rgb ?? color(getComputedStyle(element).stroke)?.rgb
     const observed: unknown[] = []; let available = !!positioned, passed = true
     const selected = new Set<Element>()
-    for (const item of series) {
-      const peers = item.kind === 'bar' ? expectedBars : expectedLines, key = item.label ? swatch(item.label) : peers.length > 1 ? null : undefined
+    const paletteReady = sourcePalette.length >= series.length && sourcePalette.every(Boolean) && new Set(sourcePalette).size === sourcePalette.length
+    for (const [ordinal, item] of series.entries()) {
+      const peers = item.kind === 'bar' ? expectedBars : expectedLines, key = item.label ? swatch(item.label) : paletteReady ? sourcePalette[ordinal] : peers.length > 1 ? null : undefined
       if ((item.label || peers.length > 1) && !key) { available = false; continue }
       if (item.label && !label(item.label)) { passed = false; continue }
       const candidates = (item.kind === 'bar' ? bars : lines).filter(element => key === undefined || colorOf(element) === key)
@@ -156,10 +167,23 @@ export function inspectChartFacts(input: { family: string; source: string; expec
       }
     }
     if (bars.length !== series.filter(item => item.kind === 'bar').reduce((sum, item) => sum + item.values.filter(value => value !== Math.max(range[0]!, Math.min(range[1]!, 0))).length, 0) || lines.length !== expectedLines.length) available = false
-    const scope = 'Exact category/series inventory with label-to-legend color ownership for repeated series kinds, visible numeric tick calibration, value positions within 3 CSS pixels and bounded baseline overhang. No series order or DOM class supplies ownership.'
+    const scope = 'Exact category/series inventory with label-to-legend or explicit source-ordinal palette ownership for repeated series kinds, visible numeric tick calibration, value positions within 3 CSS pixels and bounded baseline overhang. No series order or DOM class supplies ownership.'
     add('series', observed, available ? passed : null, scope); quantitative('painted-series-values', facts.series, observed, available ? passed : null, scope)
+    if (facts['authored-config']?.themeVariables?.xyChart?.plotColorPalette) {
+      add('authored-config', { palette: sourcePalette, series: observed }, paletteReady && available && Object.keys(facts['authored-config']).length === 1 && Object.keys(facts['authored-config'].themeVariables).length === 1 && Object.keys(facts['authored-config'].themeVariables.xyChart).length === 1 ? passed : null, 'The explicitly authored ordered palette binds the complete actual source-ordinal series inventory and calibrated values; no default palette or anonymous DOM order supplies ownership.')
+    }
     add('x-categories', positions, positioned ? increasing : null, 'Unique authored category labels occur in source order on the actual category axis; horizontal category charts progress top-to-bottom, vertical charts left-to-right')
-    add('y-range', { low, high, minimum: minimum?.textContent, maximum: maximum?.textContent }, positioned && calibrated!.some(tick => tick.element === minimum) && calibrated!.some(tick => tick.element === maximum) ? horizontal ? high > low : high < low : null, 'The explicit numeric range binds visible min/max tick labels and their actual axis orientation')
+    const axisCandidates = paths.flatMap(path => {
+      const samples = sample(path, 256), b = box(path), perpendicular = horizontal ? center(b).y : center(b).x, extent = horizontal ? [b.x, b.x + b.width] : [b.y, b.y + b.height]
+      if (color(getComputedStyle(path).fill) || Math.abs(perpendicular - first!.perpendicular) > Number.parseFloat(getComputedStyle(first!.element).fontSize) * 3 || Math.abs(extent[1]! - extent[0]!) < Math.abs(last!.coordinate! - first!.coordinate!) - 1 || samples.filter(p => Math.abs(p[categoryAxis] - perpendicular) <= 4).length < samples.length * .8 || calibrated!.some(tick => tick.coordinate! < extent[0]! - 1 || tick.coordinate! > extent[1]! + 1)) return []
+      const labelSize = Math.max(...calibrated!.map(tick => horizontal ? box(tick.element).width : box(tick.element).height)), padding = Math.min(labelSize / 2, Math.abs(extent[1]! - extent[0]!) * .2)
+      // Public BaseAxis.getRange trims half the independently measured maximum
+      // tick-label dimension from both full axis ends (capped at20%). The
+      // renderer extends its axis line through those typography gutters.
+      return [{ box: b, labelPadding: padding, values: [extent[0]! + padding, extent[1]! - padding].map(coordinate => first!.value + (coordinate - first!.coordinate!) / slope).sort((a, b) => a - b) }]
+    })
+    const axis = axisCandidates.length === 1 ? axisCandidates[0]! : null, printedBounds = calibrated!.some(tick => tick.element === minimum) && calibrated!.some(tick => tick.element === maximum)
+    add('y-range', { low, high, minimum: minimum?.textContent, maximum: maximum?.textContent, axis }, positioned && (printedBounds || axis) ? (horizontal ? high > low : high < low) && (printedBounds || !axis || axis.values.every((value, i) => Math.abs(value - range[i]!) <= Math.max(1e-7, Math.abs(range[1]! - range[0]!) * .003))) : null, 'The authored numerical domain binds actual full axis endpoints through independently printed linear ticks. Endpoint glyphs are optional; source range values never fit the tick scale or choose an axis. Missing/ambiguous full axes remain unknown.')
     add('orientation', { categoryAxis, valueAxis, positions, low, high }, positioned ? horizontal ? high > low && increasing : high < low && increasing : null, 'Requested orientation follows independently calibrated category and numeric axes')
     for (const [key, axis] of [['x-axis-label', categoryAxis], ['y-axis-label', valueAxis]] as const) if (Object.hasOwn(facts, key)) {
       const element = label(String(facts[key])), b = element ? center(box(element)) : null
