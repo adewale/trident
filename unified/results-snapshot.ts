@@ -43,6 +43,8 @@ export interface SnapshotAttempt {
 }
 export interface ResultsSnapshot {
   schema: 'trident-results-snapshot-v1'
+  /** Immutable reference snapshot; later rolling views retain its exact bytes. */
+  baseline?: { url: string; sha256: string }
   publications?: { title: string; url: string }[]
   projectNames?: Record<string, string>
   overviewRanking?: string
@@ -77,6 +79,7 @@ const validLink = (url: string) => /^(https:\/\/[^\s<>]+|(?:docs|results)\/[a-zA
 const receiptLink = (receipt: { url: string }) => `[evidence](${receipt.url})`
 export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog) {
   if (snapshot.schema !== 'trident-results-snapshot-v1' || !Array.isArray(snapshot.tables) || !Array.isArray(snapshot.attempts)) throw Error('Unknown results snapshot schema')
+  if (snapshot.baseline && (!/^results\/[a-zA-Z0-9_./%-]+\.json$/.test(snapshot.baseline.url) || snapshot.baseline.url.includes('..') || !/^[a-f0-9]{64}$/.test(snapshot.baseline.sha256))) throw Error('Invalid frozen baseline reference')
   const projects = new Set(catalog.nodes.map(node => node.id)), ids = new Set<string>(), anchors = new Set<string>()
   for (const publication of snapshot.publications ?? []) if (!publication.title.trim() || !validLink(publication.url)) throw Error('Invalid campaign publication link')
   for (const [project, name] of Object.entries(snapshot.projectNames ?? {})) if (!projects.has(project) || !name.trim()) throw Error('Invalid project display name')
@@ -310,6 +313,7 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
     `Last recorded measurement/update: **${latest ? date(latest) : 'none'}**. ${snapshot.attempts.length} imported project/benchmark attempts; ${snapshot.tables.length} retained result tables.`, '',
     '**Historical** marks retained measurements collected before the current reporting work. **Source candidates** are unreleased builds, ranked only within their own comparison tables; they do not replace release scores in the overview. This page is a rolling view across dated runs, not one matched ecosystem experiment. Regenerating it runs no benchmarks and does not qualify old outputs against newer source contracts or observers. Dates, versions, interfaces and qualification belong to each table.', '',
     '[Machine-readable results](results/latest.json) · [Benchmark methods](BENCHMARKS.md) · [Reading the tables](REPORTING.md) · [Update this page](results/README.md)', '',
+    ...(snapshot.baseline ? [`[Frozen reference baseline](${snapshot.baseline.url}) · input and outcome hashes are checked with these results.`, ''] : []),
     ...(primary?.suite === 'docs' && primary.columns.includes('Returned in all rounds') ? ['**The overview ranks SVG-return coverage. It does not rank drawing correctness.** Unknown source expectations and observers withhold correctness ranks; see the dated qualification evidence.', ''] : []),
     ...(snapshot.publications ?? []).flatMap(publication => [`[${md(publication.title)}](${publication.url})`, '']),
     '## Ecosystem overview', '',
@@ -451,7 +455,22 @@ export function retainedTableValues(snapshot: ResultsSnapshot, ids: string[]) {
   })
 }
 
+function linkedBaseline(snapshot: ResultsSnapshot, root: string): ResultsSnapshot | undefined {
+  if (!snapshot.baseline) return undefined
+  const { url, sha256: expected } = snapshot.baseline
+  if (!/^results\/[a-zA-Z0-9_./%-]+\.json$/.test(url) || url.includes('..') || !/^[a-f0-9]{64}$/.test(expected)) throw Error('Invalid frozen baseline reference')
+  const path = realpathSync(resolve(root, url)), within = relative(realpathSync(root), path)
+  if (isAbsolute(within) || within.startsWith('..')) throw Error('Frozen baseline escaped its repository')
+  const bytes = readFileSync(path)
+  if (sha256(bytes) !== expected) throw Error('Frozen baseline changed: ' + url)
+  const baseline = JSON.parse(bytes.toString()) as ResultsSnapshot
+  if (baseline.schema !== 'trident-results-snapshot-v1' || !Array.isArray(baseline.tables) || !Array.isArray(baseline.attempts) || baseline.baseline) throw Error('Invalid frozen baseline snapshot')
+  return baseline
+}
+
 export function validateSnapshotReceipts(snapshot: ResultsSnapshot, root: string) {
+  const baseline = linkedBaseline(snapshot, root)
+  if (baseline) validateSnapshotReceipts(baseline, root)
   const local = new Map<string, SnapshotTable[]>()
   for (const entry of snapshot.tables) if (!entry.receipt.url.startsWith('https://')) local.set(entry.receipt.url, [...(local.get(entry.receipt.url) ?? []), entry])
   for (const [url, entries] of local) {
@@ -497,6 +516,8 @@ export function main(argv = process.argv.slice(2)) {
   const catalog = JSON.parse(readFileSync(communityCatalogFile, 'utf8')) as LineageCatalog
   let snapshot = JSON.parse(readFileSync(input, 'utf8')) as ResultsSnapshot
   validateSnapshot(snapshot, catalog)
+  const baseline = linkedBaseline(snapshot, resolve(import.meta.dir, '..'))
+  if (baseline) validateSnapshot(baseline, catalog)
   validateSnapshotReceipts(snapshot, resolve(import.meta.dir, '..'))
   for (const entry of imports) {
     if (!entry.evidenceUrl) throw Error('--campaign needs --evidence-url')

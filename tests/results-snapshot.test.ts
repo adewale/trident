@@ -377,3 +377,20 @@ test('a frozen baseline binds its actual corpus and outcome bytes as well as the
     expect(() => validateSnapshotReceipts(data, root)).toThrow('escaped')
   })
 }))
+
+test('a rolling result view preserves and verifies its frozen baseline instead of rewriting it', () => temporary(root => {
+  mkdirSync(join(root, 'results')); mkdirSync(join(root, 'docs'))
+  const hash = (value: string) => createHash('sha256').update(value).digest('hex')
+  const original = snapshot(), payload = JSON.stringify(original)
+  writeFileSync(join(root, 'results/baseline.json'), payload)
+  const current = snapshot(); current.baseline = { url: 'results/baseline.json', sha256: hash(payload) }
+  expect(() => validateSnapshotReceipts(current, root)).not.toThrow()
+  expect(renderSnapshot(current, catalog)).toContain('[Frozen reference baseline](results/baseline.json)')
+  current.tables[0]!.rows[0]!.values[1] = 2; current.tables[0]!.rows[0]!.values[2] = 0
+  expect(() => validateSnapshotReceipts(current, root)).not.toThrow()
+  expect(readFileSync(join(root, 'results/baseline.json'), 'utf8')).toBe(payload)
+  writeFileSync(join(root, 'results/baseline.json'), JSON.stringify(current))
+  expect(() => validateSnapshotReceipts(current, root)).toThrow('Frozen baseline changed')
+  current.baseline.sha256 = hash(JSON.stringify(current))
+  expect(() => validateSnapshotReceipts(current, root)).toThrow('Invalid frozen baseline snapshot')
+}))
