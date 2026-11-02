@@ -16,7 +16,7 @@ export function measurementReport(snapshot: ResultsSnapshot, catalog: LineageCat
   validateSnapshot(snapshot, catalog)
   const evidence = (receipt: SnapshotTableReceipt) => source?.kind === 'campaign' ? { kind: 'local-campaign' as const, path: source.path, sha256: receipt.sha256 } : { kind: 'published-receipt' as const, ...receipt }
   return { schema: 'trident-measurement-report-v2', ...(source ? { source } : {}),
-    limits: 'Stored counts describe their named measurement. Assessment completeness is not observer qualification. Attempted calls, output size, resources and latency are never inferred from drawing grades. No renderer or observer was invoked by this report.',
+    limits: 'Stored counts describe their named measurement. Assessment completeness is not observer qualification. Attempted calls, output size, resources and latency are never inferred from drawing grades. No renderer was invoked; campaign reducers may reinspect retained bytes.',
     tables: snapshot.tables.map(table => {
       const id = measurementForTable(table), contract = measurementContracts[id]
       return { tableId: table.id, suite: table.suite, measurement: bindMeasurement(id), binding: table.measurement ? 'recorded' : 'inferred legacy schema',
