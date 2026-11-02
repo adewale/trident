@@ -30,7 +30,31 @@ require explicit selection. `full` applies to the selected inputs and sampling.
 Preparation freezes artifacts once; collection performs no latest-version lookup.
 [Baseline](BASELINE.md) and [report conventions](REPORTING.md) describe reuse.
 
-## DaveBench — Documentation Rendering
+## DaveBench — Documentation completion and time
+
+Run every `mermaid` and `mermaid-example` Markdown block under Mermaid's generated
+`docs/` directory, retaining duplicate occurrences. The current pinned corpus is
+**1,342 occurrences across 49 files**, at commit `370c4af57f43cb0bda05f4a9fe2d99c912ba16dd`.
+
+Report completed calls, failures and total elapsed render/export time separately
+for SVG and PNG. Use the same 30-example warm-up and three complete runs. PNG time
+includes conversion/encoding. Discard the outputs without saving or assessing
+them. Native CLI clocks include process startup and are shown separately.
+
+```sh
+bun commands.ts davebench --out FRESH_DIRECTORY
+```
+
+The [definition](docs/davebench-definition.md) records the exact extraction and
+clock rules. The [count breakdown](docs/evidence/davebench-docs-count-2026-11-02.json)
+explains the difference from Dave's earlier 1,095-example syntax-only workload.
+
+<details>
+<summary>Historical retained-output drawing-assessment workflow</summary>
+
+The following describes the earlier `bench --suites docs` assessment collector,
+not the completion-and-time DaveBench command above. Its results keep their
+original corpus, outputs and dates.
 
 Task: accurately render the examples in the pinned Mermaid syntax documentation
 as SVG and PNG, and measure completed rendering on matched verified work. Both
@@ -99,6 +123,9 @@ remain available. A viewing count supplies no correctness credit.
 
 The replaced v1 standalone PNG exporter and old studies retain their own protocols;
 their counts and timings are not silently imported into the new output lanes.
+
+
+</details>
 
 ## Harness and observer regressions — unscored
 

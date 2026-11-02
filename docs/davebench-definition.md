@@ -45,4 +45,4 @@ Total time is the sum of measured call times over every attempted input, includi
 
 Retain source revision, extraction rule, renderer versions, invocation/conversion path, environment, timeout and numeric results. No SVGs, PNGs, output hashes, output sizes or drawing judgments are needed.
 
-This document defines the simplified benchmark. The existing retained-evidence/semantic-assessment collector has not yet been converted to this execution contract.
+Run this benchmark with `bun commands.ts davebench --out FRESH_DIRECTORY`. It uses a separate counter-and-timer runner; it does not invoke the older drawing-assessment collectors. `--prepared FILE` reuses installed public artifacts, and `--projects OWNER/PROJECT,...` selects participants. Native CLI PNG exports write to `/dev/null`; encoded output is discarded without retaining an image file.

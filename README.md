@@ -35,7 +35,7 @@ remain historical campaigns. A verified count is a lower bound while unknowns re
 
 | Benchmark | What it measures | Corpus and expected answers | Results |
 |---|---|---|---|
-| **DaveBench — Documentation Rendering** | How many documentation diagrams a project renders correctly, as SVG and PNG separately; qualified rendering time on named matched subsets. | 548 literal occurrences from 34 Mermaid syntax pages at [commit `1fb7869`](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/docs/syntax): 546 drawings, one invalid control and one configuration-only input. [Source facts](corpus/docs-reviewed.json) come from the inputs and documented syntax. Inspired by [Dave Kiss](https://x.com/davekiss/status/2111512440106078554). | Verified correct counts, correctness bounds, grading coverage and all nonpasses. SVG and PNG have independent verdicts. |
+| **DaveBench — Documentation Rendering** | How many render/export calls complete and how long they take, separately for SVG and PNG. | 1,342 `mermaid` and `mermaid-example` block occurrences across 49 generated documentation files at [commit `370c4af`](https://github.com/mermaid-js/mermaid/tree/370c4af57f43cb0bda05f4a9fe2d99c912ba16dd/docs), with duplicates retained. Inspired by [Dave Kiss](https://x.com/davekiss/status/2111512440106078554). | Completed calls, failures and median total time over three runs. Outputs are discarded without assessment. [Definition](docs/davebench-definition.md). |
 | **Terminal Rendering — Project Examples** | How many diagrams a terminal renderer draws correctly, including visible relationships, labels and quantities; qualified time on matched inputs. | [Active v3](corpus/terminal-active-profile.json): 115 unchanged drawings from pinned project docs, tests, issues and PRs, one disclosed alias adaptation, and four invalid controls. [Original inventory](corpus/terminal-project-examples.json) retains URLs, revisions and licenses for 18 researched repositories. | 116 drawings ranked by verified correct count; unsupported, incorrect and unresolved outcomes remain visible. Mermaid ASCII is the terminal comparator; Mermaid is an unscored source reference. |
 | **Mermaid Behaviour Tests** | 30 syntax-family/precedence cases and 19 SVG accessible-name/description cases adapted from Mermaid tests. Public family returns and structural SVG metadata are checked; generated IDs and Mermaid-specific DOM conventions are not required. | A disclosed adapted subset of [Mermaid's pinned upstream tests](docs/mermaid-public-conformance.md), with original assertions and adaptation provenance preserved. | 49 whole behaviour cases, with per-assertion details; a case passes only when every required assertion passes. Exact API compatibility remains a separate diagnostic; the selected behaviour tests do not establish whole-suite conformance. |
 
@@ -50,13 +50,10 @@ available evidence. Overlapping correctness bounds do not establish an accuracy
 winner. Performance belongs to each workload: browser calls, fresh CLI processes
 and complete PNG exports have separate clocks.
 
-Ordinary DaveBench coverage makes one call per occurrence and format, with no
-warmups. It retains output before grading. Regrade those bytes when a checker
-changes; recollect only missing or unusable evidence. Qualified timing runs are
-separate and check every timed output plus A/A controls. Current PNG evidence is
-in the [ranked tables](RESULTS.md) and
-[raw evidence](https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-11-01).
-Hashes bind a review to an image; they do not prove that its judgement is right.
+DaveBench uses the same 30-example warm-up followed by three complete timed runs
+per renderer and output format. It retains numeric counts and timings only.
+The earlier retained-output drawing assessments and their qualified timing
+studies remain dated historical results in [RESULTS.md](RESULTS.md).
 
 The 154 unchanged public API callbacks, authored feature/edit cases, legacy
 compatibility, model editing contracts and adaptive cost studies are optional
