@@ -35,6 +35,10 @@ test('an actual wrong-format public string is retained independently of format a
     expect(value.svg).toBe('plain wrong-format output')
     expect(value.bytes).toBe(Buffer.byteLength(value.svg))
     expect(value.nativeError).toBeUndefined()
+    await page.evaluate(() => { (globalThis as any).__fidelityCommunity.render = () => '<s:svg xmlns:s="http://www.w3.org/2000/svg"/>' })
+    const prefixed = await page.evaluate(publicSvgBrowserAction, { type: 'measure-docs', source: 'flowchart LR\nA[Alpha]', id: 'prefixed', retainSvg: true })
+    expect(prefixed.status).toBe('passed')
+    expect(prefixed.publicStringReturned).toBe(true)
   } finally { await page.close() }
 })
 

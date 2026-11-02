@@ -20,17 +20,20 @@ export async function replayMeasurements(options: { kind: string; campaign: stri
   if (!['docs', 'terminal', 'behaviour', 'timing'].includes(options.kind)) throw Error(REPLAY_HELP)
   if (options.kind !== 'docs' && [options.formats, options.pngReviews, options.pngRasterProfile, options.executable].some(value => value !== undefined)) throw Error('SVG/PNG observer options apply only to docs replay')
   freshOutputOutside(source, out)
-  let sourceFile: string, qualification: unknown
+  const timingFile = options.kind === 'timing' ? (await import('./native-timing-report.ts')).nativeTimingFile(source) : undefined
+  if (options.kind === 'timing' && !timingFile) throw Error('No unambiguous native timing capture found')
+  const sourceFile = join(source, options.kind === 'terminal' ? 'raw.json' : timingFile ?? 'report.json')
+  const owned = relative(source, realpathSync(sourceFile))
+  if (isAbsolute(owned) || owned === '..' || owned.startsWith('../')) throw Error('Replay input escapes its owning directory')
+  const sourceSha256 = evidenceBytesDigest(readFileSync(sourceFile))
+  let qualification: unknown
   if (options.kind === 'docs') {
-    sourceFile = join(source, 'report.json')
     const { recheckRendering } = await import('./recheck-rendering.ts')
     qualification = await recheckRendering(source, out, options.pngReviews, options.executable, options.pngRasterProfile, options.formats)
   } else if (options.kind === 'terminal') {
-    sourceFile = join(source, 'raw.json')
     const { runTerminalProfile } = await import('./terminal-profile.ts')
     await runTerminalProfile(['--saved-terminal', source, '--out', out])
   } else if (options.kind === 'behaviour') {
-    sourceFile = join(source, 'report.json')
     const report = JSON.parse(readFileSync(sourceFile, 'utf8'))
     const { ownedBehaviourFile, replayMermaidBehaviours } = await import('./mermaid-behaviour.ts')
     if (report.captureMode === 'retained-upstream-public-calls') {
@@ -42,13 +45,13 @@ export async function replayMeasurements(options: { kind: string; campaign: stri
   } else {
     const { readNativeTiming } = await import('./native-timing-report.ts')
     const result = readNativeTiming(source)
-    if (!result) throw Error('No unambiguous native timing capture found')
-    sourceFile = join(source, result.file)
+    if (!result || result.file !== timingFile) throw Error('Native timing capture changed during replay')
     qualification = { qualified: result.qualified, status: result.status, gaps: result.gaps, scope: result.scope, rows: result.rows }
     mkdirSync(out, { recursive: true })
     writeFileSync(join(out, 'timing-qualification.json'), JSON.stringify(qualification, null, 2) + '\n', { flag: 'wx' })
   }
-  const receipt = { schema: 'trident-measurement-replay-v1', kind: options.kind, source, sourceFile: relative(source, sourceFile), sourceSha256: evidenceBytesDigest(readFileSync(sourceFile)), rendererInvocations: 0,
+  if (evidenceBytesDigest(readFileSync(sourceFile)) !== sourceSha256) throw Error('Replay input changed during grading; no completion receipt was written')
+  const receipt = { schema: 'trident-measurement-replay-v1', kind: options.kind, source, sourceFile: relative(source, sourceFile), sourceSha256, rendererInvocations: 0,
     limits: 'Fresh grading keeps original call clocks and artifacts. Successful replay is not full observer or workload qualification; inspect the new outcome ledger and property controls.', ...(qualification ? { qualification } : {}) }
   writeFileSync(join(out, 'measurement-replay.json'), JSON.stringify(receipt, null, 2) + '\n', { flag: 'wx' })
   return receipt

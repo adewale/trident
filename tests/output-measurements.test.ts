@@ -5,9 +5,20 @@ import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { campaignTables } from '../unified/campaign-tables.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
+import { qualifyOutputFormat, qualifyOutput } from '../unified/qualification.ts'
 const temp = useTempDirs('output-measurements-')
 
 const row = (id: string, metrics: BenchmarkObservation['metrics'] = {}, status: BenchmarkObservation['status'] = 'passed'): BenchmarkObservation => ({ suite: 'docs', surface: 'public:svg', runtime: 'fixture', family: 'flowchart', caseId: id, operation: 'render', format: 'svg', mode: 'one-call', status, metrics: { round: 1, ...metrics } })
+test('mechanical format validity does not require canvas admission, source meaning or nonblank content', () => {
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg"><text>flowchart LR A--&gt;B</text></svg>'
+  expect(qualifyOutputFormat(svg, 'svg')).toMatchObject({ ok: true, scope: 'format-only' })
+  expect(qualifyOutput({ id: 'source', family: 'flowchart', source: 'flowchart LR A-->B', expectedLabels: ['Missing'], features: [], provenance: 'Independent source-echo control' }, svg, 'svg').ok).toBe(false)
+  expect(qualifyOutputFormat('<s:svg xmlns:s="http://www.w3.org/2000/svg"/>', 'svg').ok).toBe(true)
+  expect(qualifyOutputFormat('<svg xmlns="urn:not-svg"/>', 'svg').ok).toBe(false)
+  expect(qualifyOutputFormat('<svg xmlns="http://www.w3.org/2000/svg"><text>', 'svg').ok).toBe(false)
+  expect(qualifyOutputFormat('', 'terminal').ok).toBe(true)
+  expect(qualifyOutputFormat(null, 'terminal').ok).toBe(false)
+})
 test('public return, format validity and size remain independent of drawing/admission verdicts', () => {
   const value = reduceOutputMeasurements(['bad-format', 'bad-drawing', 'unknown', 'wrong-type'], 1, [
     row('bad-format', { publicOutputReturned: true, formatValid: false, returnedBytes: 4 }, 'failed'),

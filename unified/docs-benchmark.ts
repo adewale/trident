@@ -17,7 +17,7 @@ import { evidenceDigest } from '../portable/evidence-contract.ts'
 import { makeSvgObservationBinding } from '../fidelity/svg-assessment.ts'
 import { admitDocsReviews, assessDocsDrawing, reviewedDocsCase, type DocsDrawingReview } from './docs-drawings.ts'
 import { assessDocsInvalidSource, docsPublicRejection } from './docs-invalid-source.ts'
-import { qualifyOutput } from './qualification.ts'
+import { qualifyOutput, qualifyOutputFormat } from './qualification.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { CollectionBudgetExhausted, CollectionCheckpoint, checkCollectionBudget } from '../portable/checkpoint.ts'
@@ -157,7 +157,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
             }
             const { value } = raw
             const publicOutputReturned = typeof value.svg === 'string' ? true : typeof value.publicStringReturned === 'boolean' ? value.publicStringReturned : null
-            const formatCheck = typeof value.svg === 'string' ? qualifyOutput({ id: testCase.id, family: testCase.family, source: testCase.source, features: [], provenance: 'Format-only public return check' }, value.svg, 'svg') : undefined
+            const formatCheck = typeof value.svg === 'string' ? qualifyOutputFormat(value.svg, 'svg') : undefined
             const formatValid = formatCheck && !formatCheck.unavailable ? formatCheck.ok : null
             roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId, round, variant: peer.artifact?.transportVariant ?? 'primary', publicOutputReturned, formatValid, returnedBytes: typeof value.svg === 'string' ? Buffer.byteLength(value.svg) : null, bytes: value.bytes ?? null, warmupAttempts: 0, warmupPassed: 0, ...(value.transportObservation ? { transportObservation: value.transportObservation } : {}) } })
             if (round === 1) {

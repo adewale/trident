@@ -34,6 +34,8 @@ Time to return output is a legitimate descriptive latency measurement. It become
 
 ## Replay actual evidence
 
+Mechanical SVG validity checks the SVG root namespace and parseable host serialization, including the existing HTML-void-element normalization for browser `foreignObject` output. It does not require an explicit finite canvas, inspect source echoes, require labels or assert nonblank output. Those belong to the stricter admission/content checks. Terminal string validity admits a legitimate empty return. These separate scopes prevent a content or canvas policy from being reported as invalid format.
+
 ```sh
 bun commands.ts measurements:replay --kind docs --campaign CAPTURE --formats svg --out FRESH_REPLAY
 bun commands.ts measurements:replay --kind terminal --campaign TERMINAL_CAPTURE --out FRESH_REPLAY

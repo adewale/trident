@@ -61,7 +61,7 @@ export async function publicSvgBrowserAction(input: any): Promise<any> {
       const svg = typeof value === 'string' ? value : (value as any)?.svg
       // Retain wrong-format strings too: successful return, format validity and
       // drawing assessment are separate measurements of the same public call.
-      const returned = typeof svg === 'string', looksSvg = returned && /<svg(?:\s|>)/i.test(svg)
+      const returned = typeof svg === 'string', looksSvg = returned && /<(?:[A-Za-z_][\w.-]*:)?svg(?:\s|\/?>)/i.test(svg)
       return { status: looksSvg ? 'passed' : 'failed', publicStringReturned: returned, durationMs,
         ...(returned ? { bytes: new TextEncoder().encode(svg).byteLength, ...(input.retainSvg ? { svg } : {}) } : {}),
         ...(!looksSvg ? { error: 'Public call did not return SVG' } : {}) }
