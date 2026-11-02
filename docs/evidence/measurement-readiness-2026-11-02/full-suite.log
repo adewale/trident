@@ -1,0 +1,1409 @@
+$ bun run commands.ts test:ci
+bun test v1.4.2 (744846f84)
+
+tests/output-evidence.test.ts:
+(pass) actual source-bound return bytes override stored summary flags and remain usable after moving [11.64ms]
+(pass) composite output lanes keep both proof paths relative to the combined capture root [2.19ms]
+(pass) changed sources, reused calls, altered bytes and foreign symlinks cannot supply measured output [2.98ms]
+(pass) completed API errors prove no returned value; interruptions remain unresolved, independent of saved flags [3.32ms]
+
+tests/terminal-output-measurements.test.ts:
+(pass) terminal production, UTF-8 validity and bytes come from retained output, never stale admission or drawing flags [3.74ms]
+(pass) invalid UTF-8 remains returned bytes while altered bytes, foreign paths and wrong source coordinates are rejected [2.77ms]
+(pass) original v1 captures survive assessment-profile migration only with the identical literal inventory [1.58ms]
+(pass) ordinary terminal report reductions expose actual output metrics beside separate unresolved drawing assessments [4.73ms]
+
+tests/output-measurements.test.ts:
+(pass) mechanical format validity does not require canvas admission, source meaning or nonblank content [1.09ms]
+(pass) public return, format validity and size remain independent of drawing/admission verdicts [0.13ms]
+(pass) historical statuses cannot invent return evidence, missing work remains planned and actual empty strings have zero bytes [0.07ms]
+(pass) duplicate calls, contradictory flags and incomplete rounds cannot produce a complete metric [0.17ms]
+(pass) ordinary campaign reporting compares the same raw population independently of failed admission grades [5.06ms]
+
+tests/measurement-contracts.test.ts:
+(pass) measurement schemas reject relabeling public returns as drawing correctness or rendering performance [1.60ms]
+(pass) assessment coverage separates renderer defects from observer gaps and never fabricates attempted calls [0.38ms]
+(pass) ordinary benchmark planning declares questions without asserting qualification or acquiring artifacts [256.56ms]
+(pass) binding gaps and unfamiliar outcomes cannot become resolved assessments or invented planned workloads [0.22ms]
+(pass) causal call tables expose known attempt bounds without inferring attempts from output or drawing grades [0.72ms]
+(pass) the public measurement command writes a separate audit without changing or collecting evidence [726.93ms]
+(pass) the public acceptance plan is inspectable in CI without oracle, acquisition or renderer calls [568.97ms]
+
+tests/measurement-replay.test.ts:
+(pass) one replay entrypoint re-evaluates real retained behaviours, keeps the parent unchanged and calls no renderer [2632.19ms]
+(pass) replay rejects nested physical outputs and invalid modes before modifying the input [0.36ms]
+
+tests/observer-controls.test.ts:
+(pass) static ARIA group names preserve valid equivalents while wrong, hidden, styled and nested targets cannot gain credit [0.72ms]
+(pass) actual label observer runs positive, wrong-output and equivalent controls with separate narrow qualification [3.91ms]
+(pass) false positives, false negatives, unsupported equivalents and observer crashes withhold qualification [1.37ms]
+(pass) each additional property and representation needs its own independent controls [2.31ms]
+
+tests/commands.test.ts:
+(pass) public help and artifact help require no product checkout, oracle or compiled kit [1240.78ms]
+(pass) project-specific source commands are rejected by the public CLI [104.83ms]
+(pass) a product source environment cannot relocate Trident oracle defaults [0.38ms]
+(pass) release version needs no renderer, oracle or compiled kit [15.10ms]
+
+tests/ci-commands.test.ts:
+(pass) CI runs help, support and a no-acquisition campaign plan without an oracle [1999.73ms]
+(pass) CI still rejects measurement, artifact acquisition and the local full suite before creating output [300.74ms]
+(pass) the retired PNG collector gives migration guidance without admitting benchmark work [33.81ms]
+
+tests/png-launchers.test.ts:
+(pass) both PNG entrypoints share container isolation, preserve runner arguments and write the runtime receipt [121.71ms]
+
+tests/lineage.test.ts:
+(pass) non-renderers and explicit catalogue exclusions cannot be enabled as descendant investigations [24.69ms]
+(pass) the measured diagram covers every selected renderer and omits the twelve removals and validator-only Rusty [15.29ms]
+(pass) lineage distinguishes historical versions, exact heads, changed forks, ports and dependencies [0.42ms]
+(pass) invalid ancestry cannot silently vanish from the tree [0.32ms]
+(pass) the complete catalog tree contains every entity once and retains changed comparison projects [4.92ms]
+(pass) branding excludes even changed descendants; explicit investigation override is visible [0.24ms]
+(pass) application workflows stay outside core comparisons even under the descendant override [0.38ms]
+(pass) catalog scope retains discovery while selecting only the 27 requested renderers [1.70ms]
+(pass) explicit application support verification fails before preparation or oracle acquisition [2.24ms]
+(pass) both public CLIs enforce exclusions before preparation and the plan records the override [7514.25ms]
+(pass) maintainer lineage corrections preserve a derivative relationship and the Mermaid Dart brand [1.40ms]
+(pass) Dart and Flutter are distinct eligible brands with separate outputs and shared-core ancestry [2.34ms]
+
+tests/results-snapshot.test.ts:
+(pass) one numeric source supplies both the visible table rate and Mermaid bar; missing observations stay missing [8.82ms]
+(pass) catalogue-only projects leave current tables and ranks while their original observations are retained [0.41ms]
+(pass) latest failed or partial attempt overrides historical success without deleting its dated evidence [2.57ms]
+(pass) multi-project process failure is not assigned to every project; individual counts and versions remain visible [1.83ms]
+(pass) snapshot rejects invented numeric chart values, unknown projects and broken population counts [0.33ms]
+(pass) campaign groups keep formats and operations separate and retain qualification failures after successful output [3.97ms]
+(pass) snapshot check detects stale Markdown without rewriting it; reads need no Mermaid oracle [815.13ms]
+(pass) large snapshots publish linked GitHub detail pages without dropping tables or missing stale pages [56.14ms]
+(pass) canonical historical values match their provenance digest without a second copy of the rows [4.88ms]
+(pass) result ranks use the named metric, share ties, put missing values last and reverse direction for cost [0.44ms]
+(pass) verified-count order puts missing values after positive and zero counts without changing shared ranks [0.35ms]
+(pass) table and Mermaid chart use the same best-first project order [1.24ms]
+(pass) an entirely blocked population is unranked while an observed zero retains its rank [0.10ms]
+(pass) charts and ranking share numeric parsing without coercing unavailable strings to zero [0.76ms]
+(pass) partial historical campaigns do not manufacture new core blockers for application workflows [0.37ms]
+(pass) source candidate tables rank within their cohort and cannot replace published-release overview scores [1.20ms]
+(pass) the Flutter brand gets no inherited Dart score in the regular results overview [2.69ms]
+(pass) reference comparisons keep incomplete, unknown and unlike populations out of winner claims [0.53ms]
+(pass) partial correctness compares verified counts without claiming an accuracy lead, including ties and unknown reference outcomes [0.18ms]
+(pass) legacy authored SVG tables cannot expose comparative ranks, charts or an overview score [0.68ms]
+(pass) a frozen baseline binds its actual corpus and outcome bytes as well as the table values [1.27ms]
+(pass) a rolling result view preserves and verifies its frozen baseline instead of rewriting it [0.91ms]
+(pass) local row and attempt owners retain their own hashes and repository containment [0.67ms]
+(pass) publishing an older input cannot drop or replace an existing frozen baseline [0.99ms]
+
+tests/portable-family-paint.test.ts:
+(pass) Agentic class: actual typed Result and independently owned visible ink qualify [6.41ms]
+(pass) Agentic class: typed identities and exact endpoint multiplicity cannot be replaced by labels [7.36ms]
+(pass) Agentic class: unchanged metadata cannot hide missing, invisible or redirected route geometry [9.30ms]
+(pass) Agentic er: actual typed Result and independently owned visible ink qualify [4.54ms]
+(pass) Agentic er: typed identities and exact endpoint multiplicity cannot be replaced by labels [12.74ms]
+(pass) Agentic er: unchanged metadata cannot hide missing, invisible or redirected route geometry [10.90ms]
+(pass) Agentic Class direction needs a referenced, visible and correctly oriented open arrow [2.39ms]
+(pass) Agentic ER exact glyph meaning and identifying appearance reject credible substitutions [8.87ms]
+(pass) Agentic parallel and reciprocal relations retain exact multiplicity independently of SVG DOM order [4.06ms]
+(pass) Agentic ER distinguishes all four reviewed cardinality glyphs and dashed identifying intent [1.12ms]
+(pass) published Pele ER cardinality bars remain separate painted strokes, not a connecting relation [5.73ms]
+(pass) class: owned geometry binds authored relations without guessing generated IDs [2.83ms]
+(pass) class: correct public model and labels cannot hide an edge redirected to another node [0.56ms]
+(pass) class: dropped relation ink fails despite unchanged labels and native graph [0.30ms]
+(pass) class: body paths without endpoint marker ink cannot certify the declared relation [0.29ms]
+(pass) state: owned geometry binds authored relations without guessing generated IDs [1.48ms]
+(pass) state: correct public model and labels cannot hide an edge redirected to another node [0.37ms]
+(pass) state: dropped relation ink fails despite unchanged labels and native graph [0.18ms]
+(pass) state: body paths without endpoint marker ink cannot certify the declared relation [0.16ms]
+(pass) er: owned geometry binds authored relations without guessing generated IDs [3.95ms]
+(pass) er: correct public model and labels cannot hide an edge redirected to another node [0.43ms]
+(pass) er: dropped relation ink fails despite unchanged labels and native graph [0.30ms]
+(pass) er: body paths without endpoint marker ink cannot certify the declared relation [0.35ms]
+(pass) duplicate relation owner IDs fail even when all expected geometric endpoint pairs are present [2.26ms]
+(pass) a degenerate move-only path is not a connecting segment [0.27ms]
+(pass) a failed canvas or authored-label criterion withholds semantic completion despite correct topology [0.61ms]
+(pass) unreviewed class marker profiles remain unmeasured rather than pretending to cover all relationship kinds [0.27ms]
+(pass) simple sequence messages bind to actor lifelines while legitimate footer duplicates stay distinct [1.39ms]
+(pass) sequence message paint redirected to a third actor fails with correct labels and unchanged native messages [1.26ms]
+(pass) duplicating a message label cannot be hidden by an unowned global copy of the missing text [1.47ms]
+(pass) sequence chronology comes from painted rows, not DOM order or native endpoint multiset alone [0.63ms]
+(pass) a duplicated actor header cannot impersonate a legitimate footer [0.56ms]
+(pass) unreviewed sequence signal styles stay unmeasured even when their labels and endpoints match [0.92ms]
+(pass) Agentic Class marker presentation cannot hide or add arrows behind valid SVG attributes [7.40ms]
+
+tests/campaign-workflows.test.ts:
+(pass) default collection excludes expensive clocks, optional models and retired replay [2.56ms]
+(pass) pilot headlines use owning counts, reconcile pauses, and reject foreign/duplicate evidence [1.56ms]
+(pass) a shared deadline retains complete units, resumes them once, and binds identity and bytes [1.87ms]
+(pass) full sampling has independent-round uncertainty with 70 percent fewer cold launch slots [3.03ms]
+(pass) campaign imports retain ranked return diagnostics without promoting them to correctness overview [2.96ms]
+(pass) missing docs rounds retain partial observations without a rank, and duplicates cannot inflate a return rate [4.91ms]
+(pass) observation counts compare equal populations and keep incompatible populations separate [0.63ms]
+(pass) release selection respects the cutoff and refuses a new CLI release without an archive binding [4.24ms]
+(pass) one preparation index rejects modified or escaping component files [4.40ms]
+(pass) release verification checks the actual archive, extracted manifest and executable version [74.88ms]
+(pass) portable tables keep invalid rejection separate and never rank unmeasured output as zero [1.58ms]
+(pass) inapplicable and skipped observations keep their own counts and receive no rank [0.61ms]
+
+tests/campaign-preparation-regressions.test.ts:
+(pass) release resolution retains observed-only catalog entries without acquisition or a crash [0.21ms]
+(pass) a source-only CLI retains the actual reviewed head when GitHub has no releases [1.41ms]
+(pass) canonical preparation blocks an independently valid browser from another primary release [2.43ms]
+(pass) canonical browser reconciliation preserves separate SDK versions and non-browser dispositions [0.39ms]
+(pass) a loaded canonical manifest rejects stale browser ownership and changed live browser bytes [2.61ms]
+(pass) identical browser metadata cannot bypass a missing or failed primary identity receipt [1.73ms]
+(pass) preparation retains selected documentation sources/formats after moves and refuses collection overrides [19.50ms]
+(pass) preparation freezes source/PNG reviews and profile fonts without borrowing mutable input paths [1.65ms]
+(pass) moved preparation restores fonts and reviews from its own archive after original paths disappear [1.90ms]
+(pass) prepared raster profiles cannot borrow absolute unowned fonts, even with a matching profile digest [0.93ms]
+(pass) changed frozen proof bytes fail admission instead of silently using live replacement inputs [0.46ms]
+
+tests/campaign-reporting-regressions.test.ts:
+(pass) changing only the SVG observer leaves the PNG comparison identity and values intact [9.29ms]
+(pass) documentation SVG return and reviewed drawing correctness retain separate populations and ranks [1.59ms]
+(pass) authored SVG case verdicts retain diagnostic counts without ranking renderers [1.03ms]
+(pass) newer PNG-only or unstarted PNG work cannot suppress retained SVG coverage [9.38ms]
+(pass) an inapplicable output lane has no fabricated score or setup blocker [0.56ms]
+(pass) a one-project docs rerun updates its row while comparable peer scores, dates and owning receipts survive [9.58ms]
+(pass) equal-sized docs inventories with changed input bytes cannot join a rolling comparison [2.12ms]
+(pass) a newer multi-project run cannot keep an omitted project score alive through another row’s publication date [5.76ms]
+(pass) fresh generated docs tables supply their own verified-count rank and correctness bounds [2.76ms]
+(pass) a genuinely later partial attempt hides older scores, but a later owning import restores reused dated evidence [4.17ms]
+(pass) candidate study tables and attempts cannot replace or suppress release scores, including unstarted boundaries [6.04ms]
+(pass) fully blocked generated docs data remains unranked with its full unresolved interval [2.04ms]
+(pass) an interrupted docs round retains partial observations without a fabricated zero rank or chart bar [2.76ms]
+(pass) CLI variants belong to their catalogue project while terminal compatibility shares only identical input populations [2.96ms]
+(pass) copied campaign evidence reads its own reports even while the original directory still exists [3.45ms]
+(pass) an extracted native pilot reads owning reports relative to its controller and retains usable report paths [0.41ms]
+(pass) latest core and external cohort statuses are both visible and a newer partial campaign supersedes the pair [3.97ms]
+(pass) recovered terminal content keeps a lost measurement clock unknown instead of borrowing another collection time [0.96ms]
+(pass) original SVG companions report owning PNG call dates and keep observer publication separate [2.02ms]
+(pass) ordinary drawing rows reconcile format, native failure, evidence gaps and recorded unrun cases [1.65ms]
+(pass) project-scoped artifact admission is a harness failure for each planned source, not an inferred engine failure or unrun [0.90ms]
+(pass) a complete literal source inventory keeps unrun drawings even before any content observer succeeds [1.24ms]
+
+tests/campaign-resume-regressions.test.ts:
+(pass) a force-fresh resume reuses this campaign only, keeping old and other-cohort cache entries fresh [16.83ms]
+(pass) release lookup excludes applications and unbranded descendants but may reconsider a paused version [0.35ms]
+{"phase":"family-support","project":"fixture/witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/witness","round":1,"caseId":"family:flowchart","completedCasesInRound":1}
+(pass) early admission failure retains the actual SVG from the first scheduled replica [365.82ms]
+(pass) forced retained-suite resume keeps same-campaign history and original dates [23.35ms]
+(pass) resumed boundary collection adds active windows without counting idle pause time [5.29ms]
+{"phase":"family-support","project":"fixture/later-witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/later-witness","round":1,"caseId":"fixture:witness","completedCasesInRound":1}
+(pass) a later warm failure retains its actual SVG without replacing the representative (process 3) [950.42ms]
+{"phase":"family-support","project":"fixture/later-witness","family":"flowchart","supported":true}
+{"phase":"warm","project":"fixture/later-witness","round":1,"caseId":"fixture:witness","completedCasesInRound":1}
+{"phase":"warm","project":"fixture/later-witness","round":2,"caseId":"fixture:witness","completedCasesInRound":1}
+(pass) a later warm failure retains its actual SVG without replacing the representative (process 5) [1063.06ms]
+
+tests/release-workflow-regressions.test.ts:
+(pass) source smoke requires the selected SVG and terminal interfaces independently [0.83ms]
+(pass) kit smoke retains blocked mapping attempts even when they have no qualification-bearing workers [1.10ms]
+(pass) planned kit cases cannot replace execution with missing evidence [0.66ms]
+(pass) planned kit cases cannot replace execution with probe evidence [0.74ms]
+(pass) planned kit cases cannot replace execution with baseline evidence [0.50ms]
+(pass) kit smoke binds exact case identities and the owning attempt rather than inventory length [0.47ms]
+(pass) a passing derived flowchart row still needs actual output admission in its worker evidence [0.58ms]
+(pass) an expired allowance can retain unavailable CLI views without starting a child [59.08ms]
+(pass) the resource deadline gates actual commands after unavailable observations are recorded [0.22ms]
+(pass) release parity preserves identical renderer findings and known option gaps without calling them workflow passes [9.34ms]
+(pass) shipped kit cannot turn a source workflow into a fresh failed result [5.69ms]
+(pass) shipped kit cannot turn a source workflow into a fresh blocked result [5.06ms]
+(pass) shipped kit cannot turn a source workflow into a fresh partial result [4.69ms]
+(pass) release parity rejects changed artifact bytes, old source expectations and missing negative preludes [20.24ms]
+(pass) equal worker summaries cannot hide an extracted kit witness missing declared source text [11.30ms]
+(pass) contradictory rejection evidence and unqualified transport failures cannot get packaging parity [4.31ms]
+(pass) an identical failed host error cannot become a renderer finding through packaging parity [5.74ms]
+(pass) a preserved output failure needs both actual returned bytes and an independently confirmed violated fact [9.23ms]
+(pass) release artifact parity ignores only runtime-dependent file gzip estimates and preserves original records [17.28ms]
+(pass) excluding gzip estimates does not excuse changed file hashes, raw sizes, paths, inventories or metadata [26.30ms]
+
+tests/physical-paths.test.ts:
+(pass) campaign publication copies evidence named through a symlink and refuses output inside it [1.63ms]
+(pass) a native launch refuses a manifest inside its bundle through a symlink and accepts its executable through one [0.96ms]
+(pass) a candidate directory reached through a symlink keeps its bundled dependencies [447.58ms]
+
+tests/terminal-meaning.test.ts:
+(pass) real terminal boxes, continuous routes and arrowheads establish directed relationships across layouts [28.03ms]
+(pass) correct labels cannot conceal wrong direction, disconnected stems, missing nodes or incorrect topology [3.80ms]
+(pass) a relationship label belongs to its traced route, not an unrelated text occurrence [5.51ms]
+(pass) terminal-state interpretation observes cleared and concealed ink instead of stripping controls [2.88ms]
+(pass) equal explicit SGR foreground/background cannot supply a complete graph or a hidden authored label [5.45ms]
+(pass) shared stems require one actual source and cannot borrow expected topology [3.35ms]
+(pass) floating captions containing arrow-like letters retain owned-label and layout requirements [4.48ms]
+(pass) actual vertical captions belong to a continuous route and missing captions cannot pass [3.67ms]
+(pass) caption spaces painted over by route ink stay unknown while a reversed arrow still fails [0.99ms]
+(pass) a caption beside one vertical route is owned, while an absent or detached caption cannot pass [0.90ms]
+
+tests/terminal-corpus.test.ts:
+(pass) literal Mermaid source and golden input sections preserve bytes and exclude output [1.14ms]
+(pass) static source extraction rejects test titles, type names, interpolation and dynamic fragments [15.95ms]
+(pass) source metadata describes feature strata without becoming drawing expectations [1.18ms]
+(pass) committed real corpus has authenticated source bytes, research snapshots and explicit missing correctness evidence [30.33ms]
+(pass) independent reviews bind exact source facts and unobserved facts withhold whole-drawing credit [42.76ms]
+(pass) a plausible hash string cannot replace the actual authenticated origin body [26.67ms]
+
+tests/terminal-profile.test.ts:
+(pass) terminal regrading uses retained ink and independent facts, not the old admission status [2.35ms]
+(pass) source-reference diagnostics cannot replace or veto independently authored drawing facts [0.89ms]
+(pass) live optional fields grade identically to the retained terminal JSON [1.13ms]
+(pass) a targeted extension regrades without rerunning ASCII while an unmarked cohort still requires it [0.66ms]
+(pass) omitted work stays in the denominator and unverifiable facts cannot receive a pass [1.73ms]
+(pass) typed rejection keeps its own denominator and rejects stale project/source evidence [2.16ms]
+(pass) changed witnesses, duplicate coordinates, missing reference and changed inventory reject regrading [0.78ms]
+(pass) existing external transport forwards an opt-in raw terminal witness from its completed worker record [115.46ms]
+(pass) public saved-output launcher works in CI without oracle or renderer; collection remains guarded [1408.72ms]
+community preparation 1/1: fixture/terminal-package-cli
+(pass) preparation freezes the declared package CLI and its dependency closure for terminal-only repair [485.80ms]
+(pass) terminal profile reuses a sealed Node binding and skips browser-only capability rows [316.41ms]
+(pass) terminal collection uses an admitted additional CLI for a browser-only primary instead of calling its SVG module [35.28ms]
+(pass) all-project terminal planning follows normal renderer and branding eligibility without scoring Mermaid as a terminal renderer [1512.65ms]
+
+tests/terminal-reporting.test.ts:
+(pass) new named terminal attempts preserve broad community evidence and its overview cell [3.92ms]
+(pass) the same terminal profile supersedes its old primary rank; another profile cannot hide it [0.45ms]
+(pass) an explicit metric-qualification blocker stays unranked while verified counts display best-first [0.16ms]
+
+tests/svg-assessment.test.ts:
+(pass) complete SVG evidence survives unavailable public-model APIs; one missing drawing check withholds a rank [3.59ms]
+(pass) an incorrect drawing cannot hide behind unknown observations, and explicit unsupported admission stays distinct [1.17ms]
+(pass) status rows cannot construct a correct verdict without actual output and observer identities [1.17ms]
+(pass) unplanned adverse findings withhold the certificate itself as well as the displayed disposition [1.09ms]
+(pass) old checks cannot be relabelled with changed source or expectations [1.01ms]
+
+tests/svg-opaque-labels.test.ts:
+(pass) all outlined labels need a qualified glyph observer rather than a missing-label renderer fault [725.88ms]
+(pass) mixed DOM and outlined labels need a qualified glyph observer rather than a missing-label renderer fault [722.54ms]
+(pass) image-only labels also stay unknown; recognized wrong and hidden DOM text still fail [1074.64ms]
+
+tests/docs-drawings.test.ts:
+(pass) successful SVG return without source review never supplies a correctness pass; stale reviews fail admission [0.83ms]
+(pass) drawing correctness requires all planned content checks, with wrong arrows and missing evidence kept distinct [2.79ms]
+(pass) a configuration-only example has no nonblank-image requirement or correctness credit [0.04ms]
+(pass) a source-bound checker receipt cannot be reused after changing documentation expectations [0.45ms]
+
+tests/docs-png-drawings.test.ts:
+(pass) PNG decode/nonblank and a reviewed SVG cannot supply PNG content credit [2.26ms]
+(pass) image content reviews bind actual PNG, exact source and all declared expectations [1.21ms]
+(pass) PNG-only artifacts are applicable to DaveBench without any SVG binding or browser [2.09ms]
+(pass) an initializer that never resolves is bounded and its page is closed [10.71ms]
+(pass) PNG full-content credit requires validated complete source metadata, including direct assessment [0.54ms]
+(pass) unsettled source intent cannot become a nonblank-image failure [0.67ms]
+
+tests/docs-png-lane.test.ts:
+(pass) PNG-only public transport retains source-owned images and completed resume units without SVG or Chromium [1225.66ms]
+(pass) one documentation corpus separates SVG/PNG return diagnostics without fabricating correctness overview [0.97ms]
+
+tests/recheck-observations.test.ts:
+(pass) copied retained witness paths reject foreign symlink bytes and keep ordinary missing witnesses unresolved [6.67ms]
+(pass) an observer exception cannot preserve a prior correct SVG verdict [2.39ms]
+(pass) an omitted new criterion cannot borrow the old passing check [3.15ms]
+(pass) duplicate checker coordinates invalidate the whole new observation [0.51ms]
+(pass) fresh failing evidence replaces an earlier pass and missing previous rows are constructed [1.14ms]
+(pass) historical unplanned diagnostics do not contaminate a fresh grade or erase another project [1.55ms]
+(pass) fresh unplanned adverse findings withhold the certificate even when every required criterion passes [1.95ms]
+(pass) fresh paint cannot reuse historical identities when its binding is absent or stale [0.34ms]
+(pass) retained admission is newly checked from the actual receipt and source, while preludes receive no new evidence [32.03ms]
+(pass) retained prelude admission requires an exact complete workflow and actual main bytes [40.52ms]
+(pass) raw prelude rechecking distinguishes public rejection from host failure and invalid SVG [49.70ms]
+(pass) sealed CLI ownership rechecks main returns without manufacturing shared-context prelude evidence [67.08ms]
+(pass) fresh grading permits enriched contracts but freezes every public source/options/prelude stimulus [24.03ms]
+(pass) old partial contracts receive only freshly observed full-source SVG checks, preserving bytes and original attempt IDs [589.18ms]
+(pass) moved archives load exact frozen image bytes under an image-only CSP and never borrow unowned resources [438.85ms]
+(pass) blocked external stylesheet imports do not become replay font prerequisites [0.66ms]
+(pass) old absolute font URLs require sealed peer bytes and exact policy sources [0.58ms]
+(pass) DaveBench regrading owns literal-source public returns in docs [5.54ms]
+(pass) DaveBench regrading owns literal-source public returns in docs/svg [2.77ms]
+(pass) native CLI SVG replay preserves the original subset render ID, inner process round and frozen output variant after moving [2.72ms]
+(pass) the real archive regrader reuses retained SVGs across contract enrichment and preserves every original view [7955.67ms]
+
+tests/evidence-contract.test.ts:
+(pass) a correct verdict is constructed only from the complete bound observation set [0.63ms]
+(pass) stale source/expectations, duplicate or unplanned checks cannot earn passing credit [0.60ms]
+(pass) admitted evidence is immutable and cannot be upgraded after validation [0.12ms]
+(pass) recovered output can retain unknown clocks without inventing zero or a measurement window [0.32ms]
+
+tests/invocation-journal.test.ts:
+(pass) actual return and clock survive a later grading exception [1.33ms]
+(pass) a start without an outcome remains incomplete, while missing clocks stay null [1.11ms]
+(pass) external returned frames retain explicit unknown clocks and cannot contradict an earlier outcome [0.83ms]
+
+tests/external-invocations.test.ts:
+(pass) Python crash after return preserves exact bytes, real API clock and stable attempt without retry [60.89ms]
+(pass) native raw receipt survives bridge loss; timestamps are not manufactured [0.76ms]
+(pass) a complete stale external frame is rejected instead of silently dropped [0.31ms]
+(pass) a completed Python grade uses the terminal return frame and preserves valid empty drawing semantics [70.76ms]
+(pass) a generic Python ValueError cannot earn typed source-rejection credit [70.72ms]
+
+tests/qualified-timing.test.ts:
+(pass) retained reduction shares the finalization gate and never exposes marked timing without its exact passed receipt [77.21ms]
+(pass) timing requires a checked actual output for every fixed-plan invocation [9.71ms]
+(pass) one passing initial output cannot qualify missing, failed or changed repeated outputs [5.40ms]
+(pass) stale expectations, observer, artifacts, duplicate calls and invalid A/A controls reject [6.96ms]
+(pass) unknown clocks and overlapping measured calls withhold speed [7.77ms]
+(pass) host and boundary relabelling and zero-width cloned clocks cannot qualify [10.29ms]
+(pass) post-hoc plan tuning and a selected subset of an exhaustive journal cannot qualify [6.98ms]
+(pass) first use cannot reuse an execution instance or accept an invented shorter duration [10.32ms]
+(pass) different A/A baselines cannot share a comparative timing key [9.12ms]
+(pass) offline timing reads the exhaustive journal without writes and rejects a symlinked output owner [22.11ms]
+(pass) derived grading reuses exact original clocks while freshly checking every retained output against new facts [21.67ms]
+(pass) derived grading cannot borrow old checks or omit a required fresh observation [18.35ms]
+(pass) derived grading rejects nonempty subsets, new source bytes and collection-plan overrides [24.37ms]
+(pass) fresh grading failure and changed actual bytes withhold timing without changing raw history [9.35ms]
+(pass) public offline timing reduction consumes explicit derived grading and preserves the collection files [43.75ms]
+(pass) derived grading binds original clocks and raw checks, including mutation during async inspection [7.60ms]
+(pass) fresh grading recovers raw returns omitted by a crashed old observer without calling a renderer [34.34ms]
+(pass) recovery rejects changed raw history, contradictory rows and replaced sources or UUID coordinates [20.95ms]
+(pass) raw recovery cannot select away missing, duplicate or interrupted public attempts [35.74ms]
+
+tests/qualified-timing-collection.test.ts:
+(pass) real per-call capture qualifies through the public offline CLI and never includes grading in API clocks [1171.41ms]
+(pass) grading crash resumes complete raw output with stable attempts, original clocks and zero new calls [1133.83ms]
+(pass) a renamed cached callback cannot claim a fresh runtime, and changed sources or warm tracks cannot invoke [1.51ms]
+(pass) interrupted raw capture remains incomplete without rerunning or silently filling planned calls [1.98ms]
+(pass) exposed Worker cleanup overrides cannot fabricate a close result [1087.61ms]
+(pass) the fixed six-round schedule balances every replica position on every source [0.51ms]
+(pass) a timed-out factory cannot issue a late public call and its late runtime is closed [64.03ms]
+(pass) a real child process ignoring termination is bounded and blocks subsequent planned calls [32.07ms]
+(pass) a global collection budget leaves unmeasured cells without manufacturing attempts [23.65ms]
+(pass) a bounded failed observer can regrade every retained call without reopening runtimes [1336.50ms]
+(pass) duck-typed browser objects cannot substitute a cached parent callback for a real browser [1.88ms]
+(pass) owned real-browser evaluation cannot be replaced by a parent callback on the exposed page [5403.62ms]
+(pass) a real Worker postMessage override cannot route the measured call to cached parent code [1010.81ms]
+(pass) owned child IPC send cannot be replaced by cached parent code [810.65ms]
+
+tests/fidelity-source-contract.test.ts:
+(pass) all100 authored sources enroll complete literal obligations while retaining their original native contracts [31.50ms]
+(pass) source conflicts and absent or stale completeness metadata cannot turn passed profile rows into whole-source correctness [3.20ms]
+(pass) indexed visible link styles use source declaration order while native unordered assertions retain their original order [0.58ms]
+(pass) native Node imports the complete model-worker dependency chain and constructs source contracts without TypeScript transforms [491.76ms]
+
+tests/visual-expectation.test.ts:
+(pass) only zero-owned-commit Git branch head pointers become native metadata; actual parents and committed heads stay required [1.64ms]
+(pass) scalar-array JSON rows bind one displayed key and ordered continuation values without dropping logical indices [5.78ms]
+(pass) symbol-only shapes preserve authored captions natively while requiring unique owned visible glyphs [1.03ms]
+(pass) Git commit message metadata never substitutes for displayed ID/tag text and remains complete native data [0.14ms]
+(pass) Wardley pipeline parent projects to shared visibility and exact member range while preserving original point data [0.34ms]
+(pass) global layout hints become normative order only for a defensible simple chain [0.20ms]
+(pass) complete class signature facts replace brittle literal signature display labels [0.15ms]
+(pass) unprinted pie totals project to fractions; showData retains explicit absolute values [0.14ms]
+(pass) unheaded sequence messages preserve endpoints and chronology without claiming an invisible sender [0.17ms]
+(pass) Sankey geometry permits common rescaling only when printed values are disabled [0.27ms]
+(pass) treemap sibling areas include aggregate subtree weights; default printed values remain absolute [0.38ms]
+(pass) explicit owned source breaks become obligations independently of family text representation [0.40ms]
+(pass) explicit requirement direction remains a visual obligation independently of relationship arrows [0.51ms]
+
+tests/checkpoint-reader.test.ts:
+(pass) readonly checkpoint readers admit all attempts and preserve files; keyed reads retain exact values [1.85ms]
+(pass) legacy gzip units, duplicate keys and missing headers are handled without creating evidence [0.44ms]
+
+tests/terminal-structured.test.ts:
+(pass) structured controls bind exact retained bytes, source cases, artifacts and original measurement clocks [0.28ms]
+(pass) board column and nested-card geometry establish exact membership and card order [12.25ms]
+(pass) empty isolated class bodies need exact drawn containers and no members or relationships [8.05ms]
+
+tests/harness-controls.test.ts:
+(pass) a static valid nonblank PNG cannot verify input propagation [1.53ms]
+(pass) a changed SVG must contain the new control label without retaining the stale one [1.11ms]
+(pass) one unrelated passing model row cannot satisfy the public model control [0.19ms]
+
+tests/internal-invocations.test.ts:
+(pass) Node resume preserves an actual return without silently repeating the renderer [266.38ms]
+(pass) Node death before an awaited return is unknown and cannot become renderer failure or an implicit retry [244.62ms]
+(pass) CLI resume regrades exact retained output, while a different round gets a distinct invocation [605.07ms]
+(pass) every legacy Node warm and sample public call has its own retained return [269.92ms]
+
+tests/docs-png-qualification.test.ts:
+(pass) the collection path builds a real exact-SVG proof, independent raster review and retained reference artifact [1209.31ms]
+(pass) changed rasterized arrow direction cannot borrow original SVG or approved PNG facts [1077.13ms]
+(pass) conversion cannot replace independent raster content review, and native PNG never borrows SVG proof [1144.27ms]
+(pass) profile fonts and retained exact SVG hashes cannot be silently substituted [13.77ms]
+(pass) derived witness substitutions cannot claim another raw conversion return [869.39ms]
+(pass) native PNG review ownership cannot borrow another project or altered actual image [9.85ms]
+(pass) an otherwise matching PNG return cannot acquire ownership with a contradictory terminal outcome [8.63ms]
+(pass) retained SVG pointers cannot escape through an owned-looking symlink [14.48ms]
+(pass) saving derived reference PNGs preserves prior bytes and cannot write through a copied symlink [19.50ms]
+
+tests/fidelity-chart-facts.test.ts:
+(pass) retained real XY, quadrant and radar drawings pass their owned chart value checks [1210.81ms]
+(pass) changed XY bar, line and source category order cannot retain correct fact credit [727.59ms]
+(pass) extra XY series and invisible or ambiguously owned chart content are not correct [748.49ms]
+(pass) actual quadrant points, exact inventory and axis roles are independently checked [870.07ms]
+(pass) radar detects altered radial values, swapped labels, extra curves and hidden geometry [1457.75ms]
+(pass) renderer IDs, metadata and CSS class names cannot supply ownership [1057.85ms]
+(pass) multiple named lines use legend ownership; swapping names cannot preserve credit [447.22ms]
+(pass) later opaque rectangles cannot leave hidden chart semantics qualified [701.83ms]
+(pass) an extra partial line cannot disappear from the XY series inventory [290.46ms]
+(pass) numeric range and category labels must own actual ticks rather than borrow other text [793.25ms]
+(pass) a named unique curve cannot borrow its label from unrelated text [290.65ms]
+(pass) flat background camouflage and subpixel effective opacity cannot qualify chart values [814.40ms]
+
+tests/terminal-sequence.test.ts:
+(pass) retained public sequence controls retain original bytes, artifacts, source identities and measurement clocks [0.41ms]
+(pass) independent source obligations retain fragment spans and note chronology [0.33ms]
+(pass) participant boxes, lifelines and owned routes qualify across CLI, module and Python sequence layouts [13.63ms]
+(pass) matching participant and message words cannot hide wrong direction, broken stems or wrong stroke [12.78ms]
+(pass) missing or duplicated messages, swapped order and detached captions receive no correctness credit [4.71ms]
+(pass) fragment labels, branch boundaries and enclosure own the exact messages [12.85ms]
+(pass) notes require their actual actor span, authored lines, text and chronological owner [4.01ms]
+(pass) over-notes cannot include extra actors and side notes cannot borrow a more distant actor [8.75ms]
+(pass) cleared, concealed, discontinuous and unknown display state cannot supply sequence facts [2.24ms]
+(pass) open or ambiguous heads and nested frame profiles remain unknown rather than inventing style or enclosure evidence [2.26ms]
+
+tests/png-pixel-identity.test.ts:
+(pass) canonical pixel identity ignores IDAT compression, chunk boundaries, filters and nonvisual annotations [0.40ms]
+(pass) palette, grayscale and 16-bit encodings agree only on identical full RGBA samples [0.62ms]
+(pass) Adam7 placement reconstructs row-major pixels rather than hashing the pass or color histogram [0.51ms]
+(pass) dimensions, alpha, color interpretation and unrecognized display metadata remain bound [0.65ms]
+(pass) animation and unsupported or damaged pixels cannot acquire a static pixel certificate [0.31ms]
+(pass) a reviewed original binds exact decoded ink without creating a new semantic review [1.21ms]
+(pass) scope changes, unresolved facts and contradictory or malformed trust records cannot supply a pass [0.64ms]
+(pass) explicitly empty drawings can replay a reviewed blank raster without a fictitious nonblank failure [0.24ms]
+(pass) persisted pixel aliases cannot replace the actual reviewed original PNG [1.14ms]
+(pass) display metadata placement and encoding-dependent interpretation cannot alias different display semantics [0.68ms]
+
+tests/png-preservation.test.ts:
+(pass) conversion certificate binds the exact fully checked SVG, independently checked raster, profile and actual PNG [10.73ms]
+(pass) matching raster bytes and a complete SVG alone cannot manufacture PNG content evidence [2.04ms]
+(pass) peer SVGs, missing source checks, stale expected facts and guessed fonts cannot receive certificates [1.10ms]
+(pass) pixel inequality with a trusted reference withholds a preservation claim rather than inventing semantic failure [0.95ms]
+
+tests/fidelity-source-facts.test.ts:
+(pass) every source fact is fixed in the required SVG plan, including facts without a qualified observer [0.47ms]
+(pass) a specialized observer may replace an unavailable projection but cannot hide a contrary check [0.21ms]
+(pass) owned geometry verifies global direction without treating a public model or source echo as layout [910.53ms]
+(pass) primitive shapes and solid/dotted appearance are actual owned geometry rather than source/model echoes [1044.02ms]
+(pass) compiled node paint uses exposed RGB tokens and explicit metrics rather than CSS class spelling [881.30ms]
+(pass) unsupported source semantics stay unknown despite matching nodes, labels and direction [197.08ms]
+(pass) source title requires painted text rather than SVG metadata [1298.29ms]
+(pass) transparent source titles and unbound accessibility metadata cannot supply fact credit [858.06ms]
+(pass) a source title cannot borrow an identically named node or survive a proved empty clip [624.79ms]
+(pass) mermaid real ordinary and rounded boxes retain source distinction despite skin corner rounding [857.05ms]
+(pass) pele real ordinary and rounded boxes retain source distinction despite skin corner rounding [783.25ms]
+
+tests/fidelity-structural-facts.test.ts:
+(pass) mermaid retained class members require complete owned signatures, not matching method names [1845.66ms]
+(pass) mermaid retained ER attributes bind types, names and keys to complete entity rows [1508.49ms]
+(pass) mermaid retained sequence order and styles come from owned painted routes [1208.91ms]
+(pass) pele retained class members require complete owned signatures, not matching method names [1545.06ms]
+(pass) pele retained ER attributes bind types, names and keys to complete entity rows [1380.75ms]
+(pass) pele retained sequence order and styles come from owned painted routes [1053.17ms]
+(pass) a repeated class header cannot conceal an additional member with the same spelling [1002.66ms]
+(pass) unheaded sequence routes qualify physical endpoint pairs independently of SVG path-writing direction [515.80ms]
+
+tests/artifact-variants.test.ts:
+(pass) explicit frozen CLI selection preserves project identity and never substitutes a primary transport [165.85ms]
+(pass) variant manifest rejects duplicate lane choices [0.27ms]
+(pass) exact pinned image URLs are served from authenticated local bytes and other remote requests stay blocked [0.42ms]
+(pass) the unscored verification plan covers every required mechanism with six projects [0.40ms]
+
+tests/docs-source-review.test.ts:
+(pass) duplicate Git IDs hold drawing identity semantics without forcing event count, overwrite or invalid-source rejection [0.77ms]
+(pass) Venn title uses the raw TITLE terminal while quoted set/union labels use delimiters [0.27ms]
+(pass) literal IDs and labels do not inherit JavaScript object properties or unintended Markdown [0.79ms]
+(pass) written endpoints, reversed markers, multiplicity, hidden edges and grouping remain separate obligations [0.20ms]
+(pass) edge attribute updates never invent a visible node for the edge identifier [0.54ms]
+(pass) state triple-colon classes are neither labels nor transition captions [0.21ms]
+(pass) class declarations and members do not get consumed as CSS class directives [0.16ms]
+(pass) inline class assignments survive source style lowering for ordinary and block declarations [0.57ms]
+(pass) entity cardinality aliases, attributes, groups and layout remain explicit [0.44ms]
+(pass) sequence order, aliases, notes and activation retain more than common labels [0.14ms]
+(pass) numeric chart contracts preserve exact source quantities and authored axes [0.22ms]
+(pass) ordered chart and hierarchy controls preserve values and ancestry [0.33ms]
+(pass) new dialects retain domain obligations rather than masquerading as simple flowcharts [0.68ms]
+(pass) railroad contracts retain expression structure and grammar dialect [0.53ms]
+(pass) accessibility title and description are metadata obligations, distinct from painted title [0.10ms]
+(pass) unknown syntax and stale or contradictory review contracts cannot qualify; malformed CSS never invents a property [0.55ms]
+(pass) a source quantity mutation changes its independent expected answer and bound obligations [0.09ms]
+(pass) sequence box colors are separate from labels, while ordinary multiword labels remain intact [0.29ms]
+(pass) ordered JSON tables keep integer-key source order, nested paths and last duplicate values [0.89ms]
+(pass) JSON scalar-array grouping follows actual AST structure, never bracket-shaped ordinary object keys [0.56ms]
+(pass) point styles, Venn region membership and Wardley annotation coordinates stay in expected facts [0.47ms]
+(pass) ZenUML sync nesting, explicit async senders, returns and control regions preserve order [0.14ms]
+(pass) shared agentflow nodes stay at top level when referenced inside multiple flows [0.27ms]
+(pass) Agentflow uses its shipped rounded default for unshaped nodes and connectors without overwriting explicit domain shapes [0.64ms]
+(pass) Agentflow carried metadata stays in the native profile and literal provenance without manufacturing static drawing obligations [2.43ms]
+(pass) fontawesome glyph references are resource obligations rather than literal visible words [0.15ms]
+(pass) the full pinned corpus keeps all 548 occurrences and 546 distinct literal diagrams [239.51ms]
+(pass) usecase label delimiters do not replace actor geometry or default ellipse semantics [0.75ms]
+(pass) ABNF prefix repetition cannot be consumed as postfix repetition on the preceding item [0.15ms]
+(pass) inline classes and compact edge tokens are grammar boundaries rather than node IDs [0.19ms]
+(pass) sequence fragments and branches bind their exact message ranges [0.13ms]
+(pass) ZenUML source-first explicit callers, bare returns and painted message comments remain explicit [0.12ms]
+(pass) a sequence box with only a color does not invent a visible caption [0.08ms]
+(pass) logging and navigation configuration is frozen provenance rather than a pixel obligation [0.36ms]
+(pass) authored radar legend intent and event fields after read dependencies remain explicit facts [0.20ms]
+(pass) visual contracts project unprinted ratios once while raw literal contracts preserve source quantities [0.32ms]
+(pass) class block colon members retain their owning class instead of inventing nodes [0.20ms]
+(pass) sequence arrow kinds follow the literal documentation table without invented arrowheads [0.19ms]
+(pass) sequence defaults, effective aliases and source-owned line breaks remain explicit [0.35ms]
+(pass) Mermaid named entities decode into their independently documented display characters [0.23ms]
+(pass) dialect-owned Markdown binds exact note and mindmap occurrences before flow adaptation [0.26ms]
+(pass) flowchart edge length requests use the right caption delimiter and stay advisory [0.25ms]
+(pass) flowchart Markdown facts bind exact node, group and edge owners despite duplicate text [0.27ms]
+(pass) Ishikawa distinguishes the problem from same-indent causes and nested causes [0.07ms]
+(pass) empty Cynefin and Wardley sources retain their diagram frameworks as mandatory domain facts [0.13ms]
+(pass) C4 named navigation and tag metadata never becomes a required painted label [0.09ms]
+(pass) class namespace paths preserve intermediate and syntactically nested containment while explicit flat mode stays flat [0.27ms]
+(pass) same-named lollipop interfaces remain separate occurrences owned by their classes [0.13ms]
+(pass) ER and requirement quoted Markdown separates raw IDs from owned displayed names and field text [0.13ms]
+(pass) state composite reopening preserves captions, special pseudostates omit ID paint, and concurrent region membership stays scoped [0.18ms]
+(pass) usecase generalization keeps its triangle without rewriting dashed include or extend arrows [0.23ms]
+(pass) duplicate Kanban task IDs are documented invalid-source controls and repair does not happen implicitly [0.19ms]
+(pass) the exact malformed animation fence keeps its edge owner, literal comma recovery and every active CSS property [0.60ms]
+(pass) Gantt frontmatter uses the declared YAML dialect without changing literal bytes, title precedence or fallback ticks [3.27ms]
+(pass) printed XY values are separately owned by bar, index, category and placement; line magnitudes are not invented bar labels [0.22ms]
+(pass) Git hidden labels have negative and owned visibility obligations without forbidding a same-text visible tag [0.16ms]
+
+tests/docs-source-admission.test.ts:
+(pass) all548 canonical source roles and exact semantic contracts match registered scoring data [76.59ms]
+(pass) edited canonical intent cannot manufacture a configuration exclusion or shrink its registered profile [0.78ms]
+(pass) self-consistent invented canonical facts receive unknown even with every declared synthetic check passed [0.70ms]
+(pass) editorial provenance edits and fixture source controls do not require a new canonical semantic identity [0.56ms]
+(pass) native Agentflow metadata profiles remain source-bound after static visual projection [0.33ms]
+
+tests/docs-benchmark.test.ts:
+(pass) docs rounds balance pairwise order after each round pair and positions over a full rotation [0.69ms]
+(pass) a method name supplies no option contract; reviewed browser mappings reach the actual public renderer [417.52ms]
+(pass) UTF-8 public bundles initialize before docs clocks await the real public return and exclude post-call cleanup; failures earn no successful sample [694.89ms]
+(pass) script loading and cleanup have host deadlines and close HTTP connections before awaiting context teardown [11.36ms]
+(pass) a repair selects missing literal documentation IDs without changing or reordering the corpus [0.27ms]
+(pass) a copied recheck resolves original provenance roots only into its own output and rejects unowned paths [0.30ms]
+(pass) full coverage defaults to one call and rejects repeated lanes before admission or acquisition [2.39ms]
+
+tests/terminal-source-contracts.test.ts:
+(pass) all120 immutable source inputs have complete explicit obligations, with no renderer-output facts or silently omitted families [66.61ms]
+(pass) source ampersands inside labels do not become graph operators; real fan-in expands independently [0.34ms]
+(pass) cyclic and grouped sources retain literal direction advisories without inventing node ordering [0.22ms]
+(pass) every explicit rectangle has a primitive obligation and generic parameters do not become class identity [0.22ms]
+(pass) source contracts retain chart values, ER cardinality, packet bit ranges and hierarchy ownership [0.14ms]
+(pass) empty valid source is not subject to a nonblank drawing requirement [2.70ms]
+(pass) zero-node title drawings stay meaningful and unsupported group ink is not misclassified as an empty-source defect [1.69ms]
+(pass) raw invalid UTF-8 stays unknown and binds actual bytes instead of replacement-decoded label evidence [1.77ms]
+(pass) unimplemented family facts remain unknown even when every source label and number is echoed [1.42ms]
+(pass) actual pie bar values need owned weights, percentages and complete output, not a source echo [3.63ms]
+(pass) pie proportions use an order-independent feasible scale and cannot pass uninformative equal bars [3.87ms]
+(pass) journey and timeline summaries retain section, actor, score, event and chronology ownership without orphan ink [6.50ms]
+(pass) invalid source rejection is separate and requires typed public evidence [3.66ms]
+(pass) canonical drawing and rejection verdicts require the exact independently audited source contract [1.71ms]
+
+tests/public-conformance.test.ts:
+(pass) the pinned inventory retains all original source files and preserves the exact upstream public test bytes [1.75ms]
+(pass) the implementation transform changes one public body and refuses stale or ambiguous source; it never changes tests [1.61ms]
+(pass) missing callbacks, lost call results and duplicate callbacks cannot supply conformance passes [3.08ms]
+(pass) a candidate cannot pass by throwing unsupported syntax into an original rejection expectation [0.47ms]
+(pass) missing asserted config is a binding gap; generic successful parse assertions do not require an invented config [0.59ms]
+(pass) reference equivalence requires every unchanged callback to pass on both actual original and public-boundary execution [0.74ms]
+(pass) a public Result binding never reads the source with a reference parser or fabricates absent config [1.84ms]
+(pass) actual native parse results and configuration are durably snapshotted before original assertions can inspect or mutate them [1.42ms]
+(pass) raw parse capture preserves JSON data and declares loss instead of silently invoking or replacing unsupported values [0.37ms]
+(pass) public-surface review does not disguise pending public tests or shadowed identifiers as internal-only exclusions [42.03ms]
+(pass) public detector delegation is separately SHA-bound and never substitutes the parser [1.42ms]
+(pass) the structural render matrix preserves original callback bytes and freezes all nineteen source parameters [0.66ms]
+(pass) public render adaptation preserves the complete native SVG rather than manufacturing accessibility attributes [0.69ms]
+(pass) retained original controls cannot change sources, parameters, host or public boundary to avoid rerunning [0.82ms]
+
+tests/public-test-reporting.test.ts:
+(pass) actual retained native controls produce one diagnostic table with the eligible scope and full census distinct [132.24ms]
+(pass) raw-capture claims remain bound to reviewed actual producer bytes and cannot upgrade old partial receipts [288.82ms]
+(pass) raw callback/event changes and inflated summaries cannot supply public-test passes [354.27ms]
+(pass) unqualified original controls yield no comparative table or inferred peer failure [83.80ms]
+(pass) standalone evidence uses normal publication and snapshot imports without assigning zeros to unmeasured projects [304.71ms]
+(pass) public-test ties share ranks, all-gap rows stay unranked, and diagnostics cannot replace the ecosystem primary [236.36ms]
+(pass) blocked standalone controls stay importable without invented native evidence or scheduler enrollment [654.26ms]
+
+tests/terminal-display.test.ts:
+(pass) display cells distinguish graphemes, CJK width, variation and combining marks [1.61ms]
+(pass) cursor moves, carriage return, erasure and saved positions change the actual display [0.29ms]
+(pass) concealed and matching-colour ink cannot supply visible labels [0.17ms]
+(pass) style and hyperlink metadata do not become drawing text; unsupported state remains unknown [0.16ms]
+(pass) wide cells overwritten through either half cannot leave an orphan glyph [0.14ms]
+(pass) an exited alternate screen cannot supply ink that is no longer displayed [0.18ms]
+(pass) explicit empty-drawing contracts admit real blank strings, reject extra ink and preserve unknown controls [0.15ms]
+
+tests/terminal-entities.test.ts:
+(pass) entity/state controls retain exact source, output, artifact and collection identities [0.54ms]
+(pass) documented attribute stars preserve primary-key semantics; all three public output layouts preserve the isolated ER table [12.24ms]
+(pass) column and prefix keys retain field roles; missing or changed keys cannot receive body credit [9.12ms]
+(pass) ambiguous unlabelled inline key placement stays unknown instead of borrowing source field roles [0.33ms]
+(pass) ordinary state cycles need exact states and real directed transitions; global direction remains advisory [13.64ms]
+(pass) numeric cardinalities, relationship identity and complete captions belong to their actual straight links [15.78ms]
+(pass) pseudostates require observed initial and final marker roles and connected owned routes [18.66ms]
+
+tests/terminal-groups.test.ts:
+(pass) group controls preserve literal retained bytes, source and artifact identity [0.75ms]
+(pass) real module, CLI and Python group contours establish containment and pass-through routes [49.32ms]
+(pass) group labels and direct membership cannot be replaced by text presence [8.45ms]
+(pass) a source group is an actual route endpoint, while a crossed wall cannot supply source identity [5.63ms]
+(pass) nested parentage is independent of routes; group-to-group edges retain real boundary ownership [7.48ms]
+(pass) overlapping non-nested group frames cannot assign their shared member by expected ownership or area ties [1.58ms]
+
+tests/terminal-primitives.test.ts:
+(pass) primitive controls preserve retained source, artifact, output and collection identities [0.44ms]
+(pass) explicit break boundaries survive multiline CLI and module output; printed HTML does not stand for a line break [8.68ms]
+(pass) diamond shape annotations have matching ownership across corner and midpoint conventions [16.45ms]
+(pass) circle and double-circle primitives keep distinct glyphs and authored lines [6.42ms]
+(pass) arrowheads painted on node boundaries retain their actual source and target [0.92ms]
+(pass) global direction does not invent mandatory precedence for a branched DAG [0.29ms]
+(pass) isolated parentheses, disconnected nested curves and misaligned inner walls cannot supply a primitive [2.98ms]
+
+tests/terminal-source-admission.test.ts:
+(pass) canonical source admission preserves all inputs when a full read is missing [47.81ms]
+(pass) a generator review string cannot admit changed values, removed checks or downgraded requirements [113.31ms]
+(pass) changed source, family and intent cannot inherit an existing source review [90.43ms]
+(pass) review wording, scope prose and provenance annotations do not invalidate unchanged semantics [65.73ms]
+(pass) a second observer graph cannot replace the reviewed contract meaning [51.33ms]
+(pass) duplicate receipts and unresolved expectation findings cannot confer source admission [25.81ms]
+
+tests/docs-resource-policy.test.ts:
+(pass) the isolated observer can decode exact pinned images while scripts and other remote assets remain blocked [440.89ms]
+(pass) resource policy sources cannot introduce another CSP directive [0.22ms]
+
+tests/fidelity-line-breaks.test.ts:
+(pass) owned glyph rows, not DOM newlines, prove explicit source breaks [1857.00ms]
+(pass) mermaid real sibling text/tspan actor lines qualify the same owned source contract [764.45ms]
+(pass) pele real sibling text/tspan actor lines qualify the same owned source contract [710.68ms]
+(pass) a route caption equal to a node title remains a separate physically owned text occurrence [280.70ms]
+
+tests/style-expectation.test.ts:
+(pass) source class selectors compile independently to owned paint, and inline styles override class rules [0.36ms]
+(pass) default applies to unassigned nodes and inline class metadata becomes its visible effect [0.33ms]
+(pass) unknown properties and unbound selectors retain every raw required style fact [0.16ms]
+(pass) source edge defaults and indexed overrides bind endpoints rather than renderer edge order [0.13ms]
+(pass) quadrant source point classes retain every unresolved radius/color/stroke definition [0.14ms]
+(pass) a genuinely unused class definition remains nonvisual without inventing an assignment [0.05ms]
+
+tests/fidelity-style-facts.test.ts:
+(pass) mermaid retained authored node and route styles retain complete owned paint requests [888.16ms]
+(pass) pele retained authored node and route styles retain complete owned paint requests [928.08ms]
+(pass) qualified shadow and endpoint contacts do not excuse clipped filters or foreign route overpaint [1607.07ms]
+
+tests/fidelity-text-inventory.test.ts:
+(pass) mermaid-flowchart-drop-shadow actual plain flowchart rejects an extra caption despite correct labels and topology [1126.00ms]
+(pass) pele-owned-styles actual plain flowchart rejects an extra caption despite correct labels and topology [1119.90ms]
+(pass) rs-flat-flowchart actual plain flowchart rejects an extra caption despite correct labels and topology [1085.19ms]
+(pass) merslim-flat-flowchart actual plain flowchart rejects an extra caption despite correct labels and topology [1057.80ms]
+(pass) an extra header or annotation cannot borrow its containing node owner [563.28ms]
+(pass) a source title needs its own occurrence outside an identically named route caption [398.83ms]
+
+tests/sequence-note-scope.test.ts:
+(pass) a note before the first message retains explicit colored-fragment ownership [0.68ms]
+(pass) nested notes retain both container and active branch ownership at a shared message boundary [0.18ms]
+(pass) pinned sequenceDiagram661 binds Alice note to the outer colored rectangle [2.50ms]
+
+tests/configuration-expectation.test.ts:
+(pass) implementation identifiers become exact advisories while every concrete setting remains required [0.77ms]
+(pass) timeline uses requested palette tokens and monochrome equality without a renderer brightness constant [0.75ms]
+(pass) git colors obey source-defined branch order and keep special glyph requests required [1.30ms]
+(pass) unsupported named themes and concrete variables fail closed rather than disappearing [1.85ms]
+(pass) redux role and rotation policies bind real node/group/route owners [0.78ms]
+(pass) canonical forest treemap requires named palette tokens without unrequested alpha or width [1.94ms]
+(pass) layout algorithm metadata is advisory while enclosure, members and shape stay required [0.48ms]
+(pass) documented mindmap depth policy binds root, child bodies and child-owned edges [0.57ms]
+(pass) radar explicit source colors and zero opacity become owned curve paint, retaining curve geometry settings [0.47ms]
+(pass) default skin has no inherited palette and explicit active tokens remain required individually [1.00ms]
+(pass) default disableMulticolor requires owned equality without selecting any fixed color [0.31ms]
+(pass) explicit owned style overrides win over palette defaults and retain authored widths [0.97ms]
+(pass) monochrome equality excludes fully lowered owner overrides and fails closed on unqualified styles [0.58ms]
+
+tests/docs-browser-deadline-audit.test.ts:
+(pass) an actual wrong-format public string is retained independently of format and drawing qualification [142.39ms]
+(pass) the inner browser deadline is an interruption rather than native source rejection or an output return [171.13ms]
+(pass) warmup and scored call deadlines discard their page before a fresh source can execute [649.60ms]
+(pass) a settled native exception with the same message cannot masquerade as the collector deadline [147.34ms]
+
+tests/docs-invalid-source.test.ts:
+(pass) documented invalid controls need exact native typed rejection rather than any thrown exception [0.51ms]
+(pass) typed rejection role is closed to incomplete, mixed and forged canonical contracts [3.34ms]
+
+tests/docs-png-benchmark.test.ts:
+(pass) PNG docs export awaits actual encoded bytes, retains intrinsic dimensions and rejects invalid SVG [515.54ms]
+(pass) export inlines only exact collector-owned image resources and retains the unmodified public SVG [413.21ms]
+
+tests/docs-png-capture.test.ts:
+(pass) optional capture freezes exact before/after inputs and covers only actual attempts entered during that execution [3.08ms]
+(pass) missing fontconfig or changed inputs withhold only the capture profile and preserve actual raw results [0.41ms]
+
+tests/docs-png-capture-adversarial.test.ts:
+(pass) a native call started before the font snapshot stays ineligible even when it returns during the capture [1.37ms]
+(pass) capture replay independently rejects changed durable-start and terminal coverage digests [2.02ms]
+
+tests/docs-png-clearance-contract.test.ts:
+(pass) the same forward minimum applies to registered usecase24 without removing fonts,colors or the full native/SVG setting [0.35ms]
+(pass) 24px and larger margins pass; independently cropped23px on each side fails without opposite-margin compensation [0.78ms]
+(pass) only exact pinned source receives a forward clearance projection; all literal/native facts remain retained [0.23ms]
+(pass) synthetic200px exact and larger asymmetric adapter margins pass all four bounds [0.13ms]
+(pass) 199px on any one side fails even when aggregate and opposite margins exceed400 [0.20ms]
+(pass) missing geometry or unqualified scale cannot borrow the minimum or fit a raster unit [0.13ms]
+(pass) a mutated projection cannot lower the threshold or change the declared source metric [0.39ms]
+(pass) every named owned bound must be present; absent evidence never becomes a successful comparison [0.30ms]
+
+tests/docs-png-legacy.test.ts:
+(pass) native PNG-only source ownership uses retained original job and per-source returns without SVG or new clocks [2.21ms]
+(pass) different literal source, peer, round or PNG cannot borrow legacy native receipts [1.19ms]
+(pass) changed job, dropped native return, duplicate result or substituted runtime withholds ownership [2.40ms]
+(pass) missing first pixels, changed sealed worker and escaping retained image cannot certify a reviewed PNG [2.33ms]
+
+tests/docs-png-offline-review.test.ts:
+(pass) offline receipt retains source-grounded judgment and reviewed original bytes for exact-pixel replay [7.18ms]
+(pass) extended source facts cannot silently upgrade an existing image judgment [0.50ms]
+(pass) actual image, packet, dimensions, source and reviewer provenance remain checked [2.66ms]
+(pass) identical project images keep separate inspection receipts and cannot carry conflicting verdicts [10.46ms]
+(pass) a newly authored canonical static-frame review must retain its exact named format projection [17.48ms]
+(pass) separate independent project receipt files preserve their own packet roots and shared exact image bytes [12.39ms]
+(pass) explicit review basis accepts ordinary human viewers and rejects derived claims even with a familiar tool name [3.85ms]
+(pass) selected heterogeneous imports verify untouched origins, retain each packet root and reject changed selection [13.25ms]
+(pass) legacy imports require an exact separately admitted direct-image audit and both materializers pin it [12.33ms]
+
+tests/docs-png-static-contract.test.ts:
+(pass) only exact registered animation/ARIA,responsive and minimum-clearance contracts receive PNG-specific identities; SVG and native contracts remain complete [23.02ms]
+(pass) one fixed PNG excludes only responsive useMaxWidth; full native/SVG and concrete fonts,padding and colors remain required [2.27ms]
+(pass) changed canonical facts cannot borrow a static projection and unrelated custom animation is never implicitly weakened [0.75ms]
+(pass) PNG reviews require the projected hash and declare temporal limits without upgrading old full-animation reviews [25.98ms]
+(pass) strong preservation re-inspects the PNG-projected static SVG plan; absent dash evidence cannot borrow temporal exclusions [42.08ms]
+(pass) conversion cannot omit the static paint criterion or reuse the original temporal SVG plan [2.06ms]
+
+tests/fidelity-document-rails.test.ts:
+(pass) retained full-height wave document rails 3 [818.34ms]
+(pass) retained full-height wave document rails 6 [696.81ms]
+(pass) retained full-height wave document rails 199 [649.47ms]
+(pass) a document owns its actual complete rails across curved and polygonal wave representations [2854.11ms]
+(pass) an inset line cannot borrow a missing wall, short rail, absent divider or wrong silhouette [5952.10ms]
+
+tests/terminal-independent-validation.test.ts:
+(pass) independent stratified retained review binds literal source, actual bytes and immutable B0 origin [96.32ms]
+(pass) independent point/boxed final styles and translated horizontal/vertical chains retain the same source meaning [4.21ms]
+(pass) circle likeness, text occurrences and hidden or ambiguous contact cannot establish a final endpoint [2.14ms]
+
+tests/mermaid-behaviour.test.ts:
+(pass) frozen49 adaptations preserve all154 original identities and source-derived ordered stimuli [54.88ms]
+(pass) family semantics accept explicit portable aliases but reject wrong families and source-free inference [0.22ms]
+(pass) prototype family names remain serializable wrong-family strings rather than inherited aliases [0.29ms]
+(pass) static SVG naming is independent of caller IDs and preserves actual XML text order [2.27ms]
+(pass) scripts, root hiding, role suppression and unresolved CSS cannot gain naming credit from readable bytes [1.12ms]
+(pass) actual retained154 raw values qualify49 reference behaviours, preserve absent peers and differ from exact API scores [2464.11ms]
+(pass) native capture sends no answers and retains complete source/artifact-bound raw bytes before grading [193.36ms]
+(pass) native process errors, wrong values and unsupported capabilities remain distinct [475.37ms]
+(pass) included thin Node bridge delegates native output without expected answers or source parsing [68.06ms]
+(pass) new-peer saved captures regrade portably with actual copied Mermaid reference and retain unrun cases [2324.19ms]
+(pass) included bridge automatically seals config selection and configured public module bytes [307.70ms]
+(pass) included bridge accepts logical absolute aliases and detects identical-byte target changes [452.72ms]
+
+tests/mermaid-behaviour-publication.test.ts:
+(pass) normal campaign publication reopens actual49 behaviours, retains unrun rows and ranks verified counts [4042.96ms]
+(pass) normal native-only publication retains the actual qualified reference without inventing a reference target or clock [2546.09ms]
+
+tests/drawing-outcomes.test.ts:
+(pass) eight exclusive outcomes require typed ownership and reconcile to the full corpus [1.55ms]
+(pass) overlapping bounds rank verified counts without claiming superiority; disjoint bounds can prove it [0.97ms]
+(pass) verified zero ranks while missing values and empty populations remain unavailable [0.64ms]
+(pass) snapshot validates derived bounds and binds the outcome policy without changing historical values [2.27ms]
+(pass) retained public-model tables keep their counts and receipts but lose comparative exposure [0.65ms]
+(pass) unresolved outcomes cannot manufacture a rank, while every resolved non-success can verify zero [0.89ms]
+
+tests/independent-svg-validation.test.ts:
+(pass) independent mechanism witnesses retain exact source and actual public-output ownership [1.08ms]
+(pass) packet absolute offsets and authored color separate valid geometry from a real saved wrong color [1539.18ms]
+(pass) wrapped packet fields keep the required absolute proof without an inapplicable ratio finding [1117.10ms]
+(pass) treemap values are owner-bound; equivalent SVG text spans work and borrowed numbers do not [2410.95ms]
+(pass) Wardley source strategy symbols cannot pass through matching labels or circular rings [879.03ms]
+(pass) known incomplete link vocabulary and unresolved filtered paint stay unknown rather than incorrect [974.71ms]
+(pass) intrinsic image overpaint withholds individual packet and radial geometry facts [2967.78ms]
+(pass) explicit requirement layout is independent from relation arrow direction [1350.40ms]
+
+tests/png-independent-validation.test.ts:
+(pass) fresh independent image/source judgments have ordinary admission and retain the negative and unknown controls [3418.45ms]
+(pass) restoring an explicit requirement direction invalidates both old positive admissions; fresh saved images disagree [197.30ms]
+(pass) actual independently owned requirement body pixels establish the authored axis without using SVG or old verdicts [73.30ms]
+(pass) direction proof accepts equivalent translations/scales and rejects wrong axis or reflection; ambiguous bodies stay unknown [0.23ms]
+
+tests/adapter-companion-identity.test.ts:
+(pass) changing an executed companion invalidates the owning public artifact [1.30ms]
+(pass) an unchanged entry cannot hide a changed imported module or installed dependency [1.49ms]
+(pass) bundled nested modules are sealed even without a dependency declaration [0.51ms]
+(pass) hoisted dependencies cannot hide executable bundled payload behind unchanged entry bytes [1.05ms]
+(pass) npm command links bind their target and reject targets outside the sealed packages [0.77ms]
+
+tests/docs-png-transport-ownership.test.ts:
+(pass) external PNG metric names preserve actual native journal coordinates and reject conflicting aliases [0.08ms]
+(pass) recovery binds the already retained public native call without rewriting its original raw PNG or adding a clock [2.08ms]
+(pass) another source, image, round or duplicate transport row cannot borrow a native recovery [1.06ms]
+(pass) missing durable output and altered artifact or journal path prevent recovery [2.79ms]
+
+tests/docs-population.test.ts:
+(pass) full literal docs inventory has a fixed drawing population and separate invalid/configuration controls [8.01ms]
+(pass) accepting invalid source earns no drawing credit and duplicate or excluded drawings are rejected [1.35ms]
+
+tests/fidelity-domain-facts.test.ts:
+(pass) retained public outputs and exact source bytes retain immutable provenance [12.08ms]
+(pass) retained physical domain facts: requirement-mermaid.svg [239.12ms]
+(pass) retained physical domain facts: timeline-mermaid.svg [200.24ms]
+(pass) retained physical domain facts: timeline-pele.svg [196.09ms]
+(pass) retained physical domain facts: journey-mermaid.svg [240.06ms]
+(pass) retained physical domain facts: journey-authored-agentic.svg [207.38ms]
+(pass) retained physical domain facts: mindmap-shaped-mermaid.svg [286.45ms]
+(pass) retained physical domain facts: gantt-mermaid.svg [381.57ms]
+(pass) retained physical domain facts: packet-mermaid.svg [261.84ms]
+(pass) retained physical domain facts: packet-pele.svg [250.39ms]
+(pass) retained physical domain facts: kanban-mermaid.svg [180.55ms]
+(pass) retained physical domain facts: treeview-mermaid.svg [207.53ms]
+(pass) retained physical domain facts: venn-mermaid.svg [1087.01ms]
+(pass) retained physical domain facts: venn-pele.svg [816.00ms]
+(pass) retained physical domain facts: wardley-mermaid.svg [200.30ms]
+(pass) retained physical domain facts: railroad-mermaid.svg [348.50ms]
+(pass) retained physical domain facts: railroad-abnf-mermaid.svg [285.48ms]
+(pass) retained physical domain facts: railroad-ebnf-mermaid.svg [287.56ms]
+(pass) retained physical domain facts: railroad-peg-mermaid.svg [330.59ms]
+(pass) retained physical domain facts: eventmodeling-mermaid.svg [213.69ms]
+(pass) retained physical domain facts: zenuml-mermaid.svg [273.43ms]
+(pass) requirement fields have body owners and an exact inventory [445.26ms]
+(pass) timeline events cannot borrow another period column or gain extra captions [421.66ms]
+(pass) journey absolute scores do not fit an expected relative ordering [1022.69ms]
+(pass) radar legend requests bind every exact curve label and color swatch to actual curve paint [1822.04ms]
+(pass) a structural actor heading is bound to the visible legend and score ticks remain absolute [467.88ms]
+(pass) mindmap endpoint covers allow only the actual exposed owned route [1007.25ms]
+(pass) Gantt uses independent printed calendar ticks for absolute starts and dependencies [1095.46ms]
+(pass) packet endpoints, extra rectangles and wrapped rows cannot reduce to relative width agreement [748.84ms]
+(pass) Kanban cards must remain in their owned source column [215.78ms]
+(pass) tree hierarchy requires indentation and physical parent connectors [406.62ms]
+(pass) Venn set and intersection membership derive from physical circles [1524.15ms]
+(pass) Wardley components, dependencies and evolution targets use the painted map frame [664.08ms]
+(pass) railroad grammar uses actual alternatives, terminal/reference shapes and wires [1159.84ms]
+(pass) event frames require their kind, exact route inventory and source chronology [437.70ms]
+(pass) ZenUML events bind actual captions, arrows, stroke and chronology [791.97ms]
+(pass) qualified ZenUML creation and external-call events retain complete inventories and unknown event kinds stay required [923.43ms]
+(pass) opaque alternatives and later paint cannot gain domain credit from metadata or labels [2578.87ms]
+(pass) arbitrary renderer classes and generated IDs supply no domain facts [1352.54ms]
+(pass) retained Wardley evolution arrows expose their real shortened painted tips [561.75ms]
+(pass) source-reviewed Wardley pipeline groups preserve shared visibility and every member evolution [1955.04ms]
+(pass) Wardley label offsets bind the actual painted first-glyph baseline to its owned component [887.20ms]
+(pass) empty Git branches retain owned names and documented lane order without invented native head dots [2033.65ms]
+(pass) qualified event identity and data bind the measured caption and enclosing typed namespace lane [1969.88ms]
+
+tests/fidelity-domain-integration.test.ts:
+(pass) the full SVG observer binds requirement enum formatting and relationship captions to their owners [1084.15ms]
+(pass) event lane headings require their enclosing row geometry and cannot hide an extra authored-looking body [715.70ms]
+(pass) optional pie percentages are independently quantitative and cannot replace requested absolute data [984.48ms]
+(pass) fishbone nodes and logical edges are owned by complete rooted branch geometry [740.43ms]
+(pass) qualified event identities require their own typed namespace rows and complete owned scalar data [851.69ms]
+(pass) the full observer binds qualified ZenUML creation and external caller routes independently [716.99ms]
+(pass) packet MSB-first rows obey declared descending order and retain contradictory spans [1503.58ms]
+
+tests/fidelity-graph-families.test.ts:
+(pass) group membership has its own planned obligation, including declared empty inventories [0.21ms]
+(pass) new polygon and compound outlines require actual silhouette and internal strokes [1095.17ms]
+(pass) curved document and cylinder silhouettes require their real waves and cap topology [2290.00ms]
+(pass) nested containers prove exact immediate members and reject borrowed descendant membership [882.38ms]
+(pass) a source node may be included by both its ancestor group and its nested subgroup [498.88ms]
+(pass) usecase stereotypes own actual glyph rows outside bare bodies and within combined text elements [487.49ms]
+(pass) a JSON title header cannot prove its data rows absent from an unowned table body [671.55ms]
+(pass) mermaid retained sequence headers and complete loop interval use physical ownership [1341.90ms]
+(pass) pele retained sequence headers and complete loop interval use physical ownership [1445.62ms]
+(pass) class annotations and cardinalities cannot borrow a matching label from the wrong endpoint or class [715.35ms]
+(pass) actual inline ER bars, optional circle and crow-foot topology prove endpoint cardinality [913.69ms]
+(pass) architecture side ports and alignment bind actual endpoints and service centers [722.82ms]
+(pass) block grid order and spans use one measured column lattice [733.14ms]
+(pass) anonymous block boundaries bind exact descendant ink before receiving a source identity [546.84ms]
+(pass) state parallel regions require real dashed partitions and exact member ownership [799.18ms]
+(pass) unlabelled state roles are assigned only after unique actual glyph adjacency and scope [1379.69ms]
+(pass) a hidden intermediate connector cannot pass because both visible endpoints and captions are correct [706.88ms]
+(pass) decorated class rows need actual generic text, italic abstract methods and underlined static members [1268.65ms]
+(pass) source style selections compile to owned body and text paint without matching class names [650.99ms]
+(pass) C4 elements own all visible properties, including a separate type and exact description [703.24ms]
+(pass) C4 type technology and description values cannot swap their visible field roles [441.09ms]
+(pass) an external usecase actor label needs a real connected head, spine, arms and legs [651.92ms]
+(pass) C4 explicit row limits are falsifiable even when another requested style offset is unknown [867.53ms]
+(pass) note line breaks need the actual owned note body and separate physical glyph rows [526.03ms]
+(pass) stroke-only outline exposure rejects full and partial opaque stroke overpaint [900.49ms]
+(pass) a white fill cover cannot replace an erased node outline on the white canvas [2278.79ms]
+
+tests/fidelity-graph-integration.test.ts:
+(pass) retained graph integration bytes and their independent literal source remain immutable [197.68ms]
+(pass) owned node silhouettes cannot earn correctness beneath an opaque cover painted before the label [1590.12ms]
+(pass) an unowned camouflaged cover over a connector stem withholds the integrated route pass [649.92ms]
+(pass) mermaid retained state discs and multi-layer final rings survive the integrated route reinspection [2750.52ms]
+(pass) mermaid retained C4 person owns its actual head and torso across different SVG classes [1052.72ms]
+(pass) pele retained state discs and multi-layer final rings survive the integrated route reinspection [888.63ms]
+(pass) pele retained C4 person owns its actual head and torso across different SVG classes [1125.70ms]
+(pass) C4 endpoint contact cannot be borrowed by a foreign stroke, image or unbound relationship [1051.17ms]
+(pass) native retained UML field notation preserves actual name, type and access without requiring source spelling [816.91ms]
+(pass) native composite header panels remain body ink when every renderer-specific class is removed [835.56ms]
+(pass) mermaid retained composite span calibration uses differing actual widths at the same column [823.18ms]
+(pass) pele retained composite span calibration uses differing actual widths at the same column [896.76ms]
+
+tests/fidelity-theme-paint.test.ts:
+(pass) source-owned concrete theme roles: timeline-base-mermaid.svg [375.05ms]
+(pass) source-owned concrete theme roles: timeline-forest-mermaid.svg [357.37ms]
+(pass) source-owned concrete theme roles: treemap-forest-mermaid.svg [370.10ms]
+(pass) source-owned concrete theme roles: usecase-redux-mermaid.svg [762.44ms]
+(pass) source-owned concrete theme roles: git-base-mermaid.svg [1145.24ms]
+(pass) source-owned concrete theme roles: mindmap-depth-mermaid.svg [555.98ms]
+(pass) source-owned concrete theme roles: radar-zero-alpha-mermaid.svg [1884.02ms]
+(pass) actual differing palette remains incorrect: timeline-base-pele.svg [307.25ms]
+(pass) actual differing palette remains incorrect: treemap-forest-pele.svg [319.71ms]
+(pass) actual differing palette remains incorrect: usecase-redux-pele.svg [484.31ms]
+(pass) actual differing palette remains incorrect: git-base-pele.svg [1118.00ms]
+(pass) actual differing palette remains incorrect: usecase-rotate-mermaid.svg [820.25ms]
+(pass) actual differing palette remains incorrect: mindmap-depth-pele.svg [431.81ms]
+(pass) zero-alpha curve fill compares the composed visible effect and retains stroke color obligations [4228.87ms]
+(pass) unqualified foreground colors cannot reuse a previous canvas paint as evidence [724.94ms]
+(pass) theme role captions cannot lend credit to wrong owned body paint or alpha [678.43ms]
+
+tests/public-conformance-bundle.test.ts:
+(pass) actual154 native callbacks reach normal campaign/table readers and stack ranks without new invocations [1632.50ms]
+(pass) normal union admission regrades owning raw callbacks and refuses changed parent or aggregate claims [1877.46ms]
+(pass) portable bundle writer preserves parent measured observations and validates copies after relocation [823.75ms]
+
+tests/public-conformance-expansion.test.ts:
+(pass) expanded scope preserves every historical callback and all4060 declarations while freezing154 unchanged callbacks [2.39ms]
+(pass) static registry fixture expansion executes no modules, keeps exact names/code hashes and refuses dynamic data [23.61ms]
+
+tests/public-conformance-union.test.ts:
+(pass) scope union preserves disjoint raw callback outcomes and refuses omissions, duplicates, changed contracts or cohorts [0.62ms]
+
+tests/qualification-adversarial-audit.test.ts:
+(pass) pathLength calibration keeps actual round-cap coverage in the same units as dash lengths [568.38ms]
+
+tests/svg-dash-paint.test.ts:
+(pass) zero-gap reveal masks and gaps beyond the actual route remain solid paint [499.51ms]
+(pass) visible dash gaps are distinct from a zero-ink butt-capped path [365.02ms]
+(pass) unresolved percentage dash lengths cannot certify relationships [199.41ms]
+(pass) a possible actual marker mask makes only terminal dash gaps unknown, preserving exposed gap negatives [251.68ms]
+(pass) an omitted marker orient cannot borrow automatic rotation on a vertical edge [226.83ms]
+
+tests/terminal-active-profile.test.ts:
+(pass) saved research121 projects a separately bound active120 grade record without relabelling or losing its original diagnostic [739.77ms]
+(pass) ordinary active corpus preserves all original research and admits only the independently reviewed fresh source identity [115.26ms]
+(pass) changed membership, missing invalid controls and unheld exclusions cannot silently revise the active corpus [283.02ms]
+(pass) active records require their named membership identity and cannot inherit old source grades [329.79ms]
+(pass) public planning defaults to active120 and keeps original120 as an explicitly named historical population [1160.30ms]
+(pass) active recheck emits one verified-count drawing table, ranks observed positives despite unknowns and keeps controls separate [1646.30ms]
+
+tests/terminal-adaptation-invocation-audit.test.ts:
+(pass) fresh adaptation admission rejects a mismatched durable start even when the terminal frame names the correct source [6.43ms]
+(pass) legacy missing predecessor hash stays explicit without permitting contradictory outcomes or uninvoked substitutes [0.56ms]
+
+tests/terminal-family-facts.test.ts:
+(pass) nineteen finite family cases retain original source, artifact, output and clock provenance [0.88ms]
+(pass) fifteen authenticated positive drawings establish every required family fact [41.50ms]
+(pass) source echoes, label inventories, empty strings and concealed drawings never establish whole drawing meaning [48.29ms]
+(pass) C4 role, description, enclosure, primitive and route direction have independent controls [11.70ms]
+(pass) Git operations require chronological IDs, owned tags, continuous branches and provenance stems [47.71ms]
+(pass) mindmap elbows and continuing ancestor stems bind exact parentage, order and the root shape [0.77ms]
+(pass) quadrant legends must independently agree with uniquely positioned plot dots and directed axis endpoints [2.91ms]
+(pass) block literal capacities project occupied rows and shared boundaries without inventing unused tail cells [3.65ms]
+(pass) architecture roles, enclosures and exact requested ports are separately observed [2.84ms]
+(pass) packet numbers belong to continuous field walls with proportional widths [3.53ms]
+(pass) Gantt dates, status and bar continuity are observed; invisible after-links remain required [1.41ms]
+(pass) XY values require calibrated bar geometry, orientation and owned categories [3.11ms]
+(pass) synthetic UML control exercises role, call direction, activation, arguments and stack depth without claiming a real renderer positive [4.94ms]
+(pass) synthetic treemap control separates exact weights, containment and proportional regions from the real truncated output [2.62ms]
+(pass) synthetic schedule annotations retain provenance and milestone instant without inventing renderer output [2.19ms]
+(pass) independent block grid controls reject wrong relative boundaries, rows, spans and containment [2.31ms]
+(pass) block projection rejects conflicting IDs, duplicate scopes and cyclic parentage [0.24ms]
+
+tests/terminal-graph-observers.test.ts:
+(pass) retained graph controls authenticate source, artifact, original output bytes and collection interval [0.63ms]
+(pass) dotted, thick, undirected, circle and cross markers require the actual route stroke and endpoint role [12.39ms]
+(pass) multiline edge captions own contiguous route cells; HTML and collapsed or detached captions earn no line-break credit [3.04ms]
+(pass) hexagon boundaries and 100-node identities remain inspectable while ambiguous routes retain unknown [114.56ms]
+(pass) a literal source escape cannot execute as terminal state; only explicit visible escapes can retain its label [1.72ms]
+(pass) class members retain generic parameters, field roles, visibility, stereotypes and method signatures [20.44ms]
+(pass) ER inline cardinalities own their actual route endpoints; ambiguous branch crossings cannot borrow source topology [15.51ms]
+(pass) self transitions need the same real state at both ends, and composite frames retain scope-qualified identities [7.94ms]
+(pass) source-only observer availability retains every graph/class/ER/state obligation without shrinking the corpus [0.96ms]
+(pass) independent closed scope control verifies scoped transitions, beyond retained nested-frame failure evidence [2.09ms]
+(pass) independent crossing-free ER branch control observes every port, identifying stroke and cardinality pair [5.42ms]
+(pass) independent concentric 100-node drawing verifies the complete large-source relation multiset [782.67ms]
+(pass) unsupported textual or unqualified representations remain unknown instead of becoming node faults [0.89ms]
+(pass) plain undirected endpoint order is independent of left/right placement [1.95ms]
+
+tests/terminal-integration-audit.test.ts:
+(pass) disputed nested-state interpretation retains every original obligation as unknown [28.14ms]
+(pass) independent block audit distinguishes wrong rows, columns, missing walls and extra owners [1.42ms]
+
+tests/terminal-state-adaptation.test.ts:
+(pass) fresh state adaptation independently binds exact source, aliases, scope, parent provenance and complete facts [37.08ms]
+(pass) independent nine-state display owns repeated labels, both nested groups, and all four aliased routes [60.76ms]
+(pass) two aliases with indistinguishable labels in one lexical scope remain unknown [0.18ms]
+(pass) three new-only frozen public invocations retain authentic containment counterexamples and unsupported receipt [92.43ms]
+
+tests/theme-source-policy.test.ts:
+(pass) independent CSS arithmetic preserves literal primaries and alpha composition [0.24ms]
+(pass) source palette formulae retain literal neutral/dark and algebraic forest constraints [0.63ms]
+(pass) explicit source overrides win after derived theme arithmetic [0.16ms]
+(pass) redux role color semantics differ from the independent rotation cycle [0.04ms]
+(pass) git special glyph colors preserve source first-pass inverse initialization [0.26ms]
+(pass) unqualified arithmetic color syntaxes never produce invented NaN palette colors [0.48ms]
+
+tests/checkpoint-durability.test.ts:
+(pass) raw return survives a grading exception and resumes without calling the renderer again [0.68ms]
+(pass) a torn unpublished unit cannot destroy previously completed units [0.38ms]
+(pass) recorded units reject mutation, duplicate overwrite and nonfinite clocks [0.28ms]
+(pass) legacy gzip journals remain readable and new units do not rewrite them [0.38ms]
+(pass) committed corruption is rejected rather than silently recollected [0.28ms]
+
+tests/event-data-expectation.test.ts:
+(pass) unused data-record changes cannot change the visible field contract, while every used field is owned and required [0.53ms]
+(pass) reference-ID renaming with identical records is not a printed ID obligation [0.19ms]
+(pass) resolved reference replaces inline body, retaining superseded values and native alias data exactly [0.58ms]
+(pass) unresolved or ambiguous definitions remain fail-closed and cannot invent empty/default field values [0.19ms]
+
+tests/fidelity-graph-retained-shapes.test.ts:
+(pass) retained actual compound shape 180 owns its real corners and divider/ridge paint [365.33ms]
+(pass) retained actual compound shape 181 owns its real corners and divider/ridge paint [332.95ms]
+(pass) retained actual compound shape 193 owns its real corners and divider/ridge paint [1509.67ms]
+(pass) retained actual compound shape 195 owns its real corners and divider/ridge paint [351.48ms]
+(pass) retained actual compound shape 197 owns its real corners and divider/ridge paint [375.17ms]
+
+tests/fidelity-visual-quantities.test.ts:
+(pass) retained Sankey separately proves proportional ribbons and default printed node totals [1193.71ms]
+(pass) common rescaling is equivalent when Sankey value printing is explicitly disabled [680.54ms]
+(pass) retained treemap areas and printed values are separate independent obligations [1686.25ms]
+
+tests/source-metadata-expectation.test.ts:
+(pass) source-only redundant-checkout twins retain identical visible ordered commits/parents/branches without requiring raw history [1.62ms]
+(pass) constructor and EBNF same-terminal twins retain the complete recursive AST independent of unprinted grammar dialect [0.47ms]
+(pass) selected cherry-pick diff base stays native while source provenance, type and drawn parent structure remain required [0.75ms]
+(pass) pure-space terminals require a positioned blank leaf while exact whitespace bytes remain native [0.75ms]
+(pass) only mindmap tree-order is metadata; rooted hierarchy and unrelated ordering keys remain required [0.19ms]
+(pass) event namespaces require owned basename plus correct typed row while qualified native identities remain intact [0.38ms]
+
+tests/svg-text-ink-clipping.test.ts:
+(pass) three retained actual title images prove ink fits despite their overflowing SVG font line boxes [200.69ms]
+(pass) top and bottom clipping of actual glyph ink still fail, independently confirmed by missing raster ink [78.04ms]
+(pass) unqualified font-box overflow cannot turn HTML, complex glyphs or stretched text into renderer faults [61.76ms]
+
+tests/timing-browser.test.ts:
+(pass) first-use selection requires full independently authored source contracts and excludes API/prelude workflows [64.77ms]
+(pass) pinned documentation timing uses the complete independently reviewed ordinary SVG contracts [104.43ms]
+(pass) CLI accepts explicit frozen prepared identities and rejects duplicate or unknown switches [0.35ms]
+(pass) shared transport string mode returns one actual result and preserves invalid/exception behavior [350.40ms]
+(pass) every retained timed SVG is independently observed; altered arrows, source bindings and resource gaps cannot qualify [546.96ms]
+(pass) static preparation freezes selected artifact versions, real fonts/resources and complete first-use contracts without rendering [974.30ms]
+
+tests/timing-driver-finalization.test.ts:
+(pass) predeclared driver finalization cannot disappear, retain errors or borrow a different capture [652.89ms]
+(pass) production driver failures after capture leave no qualified artifact or offline result [6675.78ms]
+(pass) isolated timing fixture reports the original preflight failure before reading missing capture files [368.99ms]
+
+tests/fidelity-graph-fragments.test.ts:
+(pass) a real alt frame owns both branches; an internal separator is not an outer frame border [897.81ms]
+
+tests/fidelity-shared-ownership.test.ts:
+(pass) same-call retained SVGs and source bytes are immutable [1.84ms]
+(pass) actual complete group body owns members: 424 [540.23ms]
+(pass) actual complete group body owns members: 425 [596.32ms]
+(pass) actual complete group body owns members: 426 [593.96ms]
+(pass) actual complete group body owns members: 427 [332.40ms]
+(pass) actual complete group body owns members: 428 [408.17ms]
+(pass) actual complete group body owns members: 429 [739.46ms]
+(pass) actual complete group body owns members: 430 [503.46ms]
+(pass) actual complete group body owns members: 431 [388.13ms]
+(pass) actual complete group body owns members: 432 [478.93ms]
+(pass) actual complete group body owns members: 433 [654.85ms]
+(pass) actual complete group body owns members: 434 [666.73ms]
+(pass) actual complete group body owns members: 435 [415.86ms]
+(pass) actual complete group body owns members: 436 [506.02ms]
+(pass) actual complete group body owns members: 481 [634.09ms]
+(pass) actual complete group body owns members: 482 [587.55ms]
+(pass) a borrowed header cannot manufacture a body and a member outside the actual body fails [1194.30ms]
+(pass) package top-right tab whitespace is outside its actual main container [661.88ms]
+(pass) complete note, caption and stereotype blocks own their nested fragments: 477 [449.35ms]
+(pass) complete note, caption and stereotype blocks own their nested fragments: 479 [658.00ms]
+(pass) complete note, caption and stereotype blocks own their nested fragments: 487 [600.32ms]
+(pass) complete note, caption and stereotype blocks own their nested fragments: 494 [1186.58ms]
+(pass) a nested word does not exempt a separate undeclared body [616.31ms]
+(pass) only a complete declared caption block owns its bold fragments [713.05ms]
+(pass) unqualified note attachment withholds generic exact-inventory credit [257.66ms]
+(pass) tree annotations belong to the declared inventory without becoming hierarchy nodes [1251.76ms]
+
+tests/png-review-basis-adversarial.test.ts:
+(pass) legacy schema cannot promote a wrong PNG from an earlier SVG verdict without an exact direct-image audit [0.87ms]
+(pass) exact separately audited historical negative imports without changing its receipt, while changed decisions cannot inherit that audit [4.73ms]
+
+tests/fidelity-theme-tokens.test.ts:
+(pass) source paint tokens permit unrequested alpha/neutral brightness while explicit paint remains strict [2008.85ms]
+(pass) same-kind equality has no palette assumption and can exclude an explicitly overridden owner [1040.20ms]
+(pass) color-only generic node paint keeps default alpha separate from explicit alpha/width/opacity [3062.42ms]
+(pass) retained source 466 explicit RGB does not demand an opaque default skin [369.46ms]
+(pass) retained source 467 explicit RGB does not demand an opaque default skin [306.21ms]
+
+tests/fidelity-theme-token-adversarial.test.ts:
+(pass) a required stroke cannot borrow its color from a fully overpainted earlier outline [491.52ms]
+(pass) zero and degenerate brightness cannot expose an underlying requested RGB token [944.72ms]
+(pass) monochrome equality requires each owned fill carrier to remain exposed [502.59ms]
+
+tests/fidelity-graph-retained-contradictions.test.ts:
+(pass) retained nested class generic types preserve every angle depth and type token [1122.15ms]
+(pass) retained class cardinalities belong to the uniquely nearest actual route endpoint [1821.50ms]
+(pass) retained filled concave sequence chevron 364 has a source-consistent open V contour independent of SVG fill syntax [4015.79ms]
+(pass) retained filled concave sequence chevron 400 has a source-consistent open V contour independent of SVG fill syntax [4187.87ms]
+(pass) retained filled concave sequence chevron 401 has a source-consistent open V contour independent of SVG fill syntax [5006.91ms]
+(pass) retained sequence condition 394 has a complete bracketed soft-wrapped caption [1075.27ms]
+(pass) retained sequence condition 395 has a complete bracketed soft-wrapped caption [1430.24ms]
+
+tests/fidelity-final-domain-fixes.test.ts:
+(pass) retained public output and authored source identities are exact [2.71ms]
+(pass) an exposed title uses already qualified actual glyph ink: 330 [5916.04ms]
+(pass) an exposed title uses already qualified actual glyph ink: 497 [3040.67ms]
+(pass) an exposed title uses already qualified actual glyph ink: 498 [2931.19ms]
+(pass) an exposed title uses already qualified actual glyph ink: 499 [1553.66ms]
+(pass) Doc Ref heading presentation preserves complete owned reference values [1951.93ms]
+(pass) C4 complete bracket rows are presentations owned by actual header stacks: 48 [11030.39ms]
+(pass) C4 complete bracket rows are presentations owned by actual header stacks: 49 [10824.80ms]
+(pass) C4 complete bracket rows are presentations owned by actual header stacks: 52 [1116.25ms]
+(pass) C4 complete bracket rows are presentations owned by actual header stacks: 53 [776.01ms]
+(pass) a known C4 badge cannot exempt a separate undeclared body [10904.46ms]
+(pass) a C4 badge cannot borrow an unrequested kind [10505.42ms]
+
+tests/edge-pattern-expectation.test.ts:
+(pass) enabled animation leaves its unspecified dash skin advisory while preserving every temporal and marker request [5.52ms]
+(pass) explicit class dash supersedes base solidity, while thick weight and disabled animation remain required [1.32ms]
+(pass) shared source lowering contains no default animation dash constants and handles exact authored patterns [0.18ms]
+(pass) unqualified multiple-class priority or CSS values cannot invent an effective dash pattern [0.67ms]
+
+tests/gantt-calendar-compact.test.ts:
+(pass) authored Friday/Saturday exclusion resolves source dates before comparing actual calibrated bars [879.61ms]
+(pass) compact mode admits nonoverlapping row reuse without disabling calendar or collision checks [1240.43ms]
+
+tests/terminal-completion.test.ts:
+(pass) one-target merge observes every actual source without choosing from expected edges [4.08ms]
+(pass) multi-source multi-target crossings retain ambiguous ownership [0.42ms]
+(pass) hard node breaks retain their own display rows while wrapping can add rows [0.57ms]
+(pass) closed disjoint extra nodes fail the exact inventory, while nested ownership remains unknown [0.99ms]
+(pass) node order is observed independently when caption ink or routes remain unknown [2.99ms]
+(pass) authenticated retained merge and invented-node outputs exercise whole source obligations [47.26ms]
+
+tests/terminal-cli-rejection.test.ts:
+(pass) exact frozen CLI family diagnostic answers only the no-family controls [8.46ms]
+(pass) exit, transport, generic diagnostics, mixed output and other executable bytes supply no type credit [4.20ms]
+(pass) an actual successful public CLI return is accepted-invalid rather than a rejection [0.98ms]
+
+tests/svg-exposed-borders.test.ts:
+(pass) actual stroke-only border does not claim inherited fill area: 55 [1132.79ms]
+(pass) actual stroke-only border does not claim inherited fill area: 64 [697.16ms]
+(pass) actual stroke-only border does not claim inherited fill area: 104 [690.04ms]
+(pass) collinear cubic borders need exposed nonzero stroke and do not excuse foreign covers [2168.48ms]
+(pass) retained delay border has collinear and zero-length subpaths, while a bowed fill cannot borrow it [549.53ms]
+
+tests/source-standalone-visual-policy.test.ts:
+(pass) layout spacing inputs do not invent fixed pixel anchors; explicit fonts, padding and other families retain their metrics [2.77ms]
+(pass) mindmap host class names without a stylesheet stay native; icons and supplied concrete CSS remain required [0.99ms]
+(pass) bare invalid CSS colour is retained without inserting #; valid authored paint and chart dimensions stay required [0.52ms]
+(pass) Kanban priority remains an exact task-owned enum without demanding duplicate text; real captions and wrong priorities remain distinct [2.38ms]
+(pass) quadrant point styles lower class then direct overrides and require border colour only with an effective width [1.66ms]
+
+tests/fidelity-radar-tension.test.ts:
+(pass) the named pinned radar coefficient owns exact actual cubic controls on retained source332 [6251.18ms]
+(pass) range and data are proved jointly from independent grid and actual vertices, separately from tension [5901.95ms]
+(pass) hand-authored cubic geometry verifies the coefficient, transformed geometry and exposed carrier without imposing an absent default [3252.29ms]
+
+tests/terminal-remaining.test.ts:
+(pass) remaining controls bind actual sources, frozen artifacts and original returned bytes [0.61ms]
+(pass) corner source port owns a closed self-loop and its complete route [4.18ms]
+(pass) a corner-port candidate cannot truncate an ordinary compartmented container [0.24ms]
+(pass) stacked plot, legend bars, labels and percentages jointly retain weights [1.75ms]
+(pass) retained pie strip permits full owned plot caption with abbreviated legend and rejects wrong weights [3.80ms]
+(pass) fully owned strip grammar detects missing title without confusing percentages for titles [0.67ms]
+(pass) timeline tree grammar observes explicit period versus following event rows [1.60ms]
+(pass) unique closed note detects merged authored breaks despite unresolved overlapping ownership [3.61ms]
+(pass) unframed quadrant extents own coordinates and all authored axis labels [3.58ms]
+(pass) complete wrong shape inventory can fail before labels resolve, but matching counts cannot pass identities [4.29ms]
+(pass) qualified entity bodies allow a clipped literal-caption negative without inventing route ports [4.95ms]
+
+tests/timing-terminal.test.ts:
+(pass) cold public CLI worker starts one real process and returns complete original Unicode bytes [39.05ms]
+(pass) actual CLI failure preserves stderr and cannot become a successful return [42.27ms]
+(pass) a blocked CLI is killed within the binding timeout and retains an error outcome [125.58ms]
+(pass) a CLI that ignores SIGTERM cannot escape its owned process deadline [229.60ms]
+
+tests/timing-png.test.ts:
+(pass) six independently reviewed PNG prerequisites qualify only their complete source/image identities [86.20ms]
+(pass) decode, a borrowed image and a missing actual public-return receipt cannot earn PNG timing credit [58.17ms]
+(pass) actual owned fork transports complete PNG bytes and rejects a second source call [24.83ms]
+
+tests/native-timing-report.test.ts:
+(pass) measurement replay revalidates timing raw bytes and retains unqualified attempts without any new public calls [528.48ms]
+(pass) native svg bundle imports through normal publication with both projects and actual clocks [756.09ms]
+(pass) native png bundle imports through normal publication with both projects and actual clocks [688.18ms]
+(pass) native terminal bundle imports through normal publication with both projects and actual clocks [1306.38ms]
+(pass) unqualified native returns remain visible and withhold both projects’ speed ranks [648.13ms]
+(pass) driver qualification revisions of one capture import without trusting their cached verdict [620.28ms]
+(pass) native publication rejects ambiguous attempts and preserves legacy report routing [500.72ms]
+(pass) a caller’s terminal-looking case ID cannot manufacture upstream corpus provenance [967.73ms]
+(pass) a qualified output-only bundle cannot replace the full current source obligations [607.14ms]
+(pass) a native bundle cannot borrow a foreign file through a symlink [479.92ms]
+(pass) separate paired controls survive importing several candidates with the same host and workload [1190.60ms]
+
+tests/results-presentation.test.ts:
+(pass) public ranks verified counts, preserves unresolved populations and avoids an overall rank [3.00ms]
+(pass) a new PNG failure cannot erase SVG scores or revive an old incompatible cohort [0.93ms]
+(pass) PNG noise does not obscure qualified SVG pairs, and raw return diagnostics stay in details [3.40ms]
+(pass) later comparisons retain each earlier pair’s actual reference rather than suppress or pool it [0.51ms]
+(pass) illustrated outputs preserve the retained image bytes and exact source identity [1.84ms]
+(pass) unlike planned populations cannot be presented as one accuracy league [0.30ms]
+
+tests/fidelity-git-facts.test.ts:
+(pass) retained Git outputs bind original project bytes and literal source hashes [1.66ms]
+(pass) complete retained Git commit/parent/lane facts 270 [292.11ms]
+(pass) complete retained Git commit/parent/lane facts 271 [300.18ms]
+(pass) complete retained Git commit/parent/lane facts 272 [273.11ms]
+(pass) complete retained Git commit/parent/lane facts 274 [377.56ms]
+(pass) complete retained Git commit/parent/lane facts 275 [437.06ms]
+(pass) complete retained Git commit/parent/lane facts 280 [515.56ms]
+(pass) complete retained Git commit/parent/lane facts 287 [230.79ms]
+(pass) complete retained Git commit/parent/lane facts 294 [433.43ms]
+(pass) missing and duplicated actual parent routes fail, while independent heads remain proven [862.21ms]
+(pass) reverse X and highlight bodies require their actual complete primitive geometry [1317.46ms]
+(pass) foreign interior covers and unrelated text cannot borrow endpoint-caption ownership [833.18ms]
+(pass) unprojected images and uses, and primitive strokes, cannot hide an owned Git parent route [1754.08ms]
+(pass) actual authored label/tag ownership and generated-ID independence [1156.98ms]
+(pass) parallel generation alignment is measured independently against both retained outputs [1143.87ms]
+(pass) source-suppressed headings and captions never remove topology or tag obligations [1798.65ms]
+(pass) authored tag paint rejects contrary values and unsupported cherry semantics remain unknown [1683.70ms]
+(pass) cherry-pick preserves visible copy origin and provenance while selected diff-base captions remain advisory [1675.73ms]
+(pass) independent retained Pele lane and commit geometry uses the same source contract [415.84ms]
+(pass) ordinary independent-branch commits retain global chronology even with all parents adapted [363.70ms]
+(pass) parent strokes cannot gain visibility from geometry when matching the painted background [502.86ms]
+
+tests/community-raw-first.test.ts:
+(pass) the actual collector survives process death at its first qualifier with all prelude/main bytes, then regrades without another host API call [1121.43ms]
+(pass) every actual return is durable before grading; a completed workflow replays bytes and original UUIDs without any public or initialization call [5.17ms]
+(pass) separate synthetic CLI processes retain both returns and grade the main without shared-context prelude credit [1049.57ms]
+(pass) CLI source/output ownership survives distinct per-step processes and binds the sealed argument protocol [5.18ms]
+(pass) a crash between prelude and main retains the partial attempt and never completes it in a fresh context [1.77ms]
+(pass) actual reinitialization withholds shared-runtime proof while source/options/artifact and byte ownership remain strict [6.53ms]
+(pass) moved archives resolve their own raw bytes; nested checkpoint symlinks cannot borrow another archive [4.46ms]
+(pass) host exceptions and timeouts never earn source-rejection credit even with parser-looking messages [0.09ms]
+
+tests/fidelity-quadrant-canvas.test.ts:
+(pass) retained documentation328 owns a400canvas and364plot with topX labels [294.91ms]
+(pass) independently authored fullcanvas dimensions include axis gutters and allow unrequested sides [1093.90ms]
+(pass) explicit side requests, canvas ownership and four distinct contiguous regions stay required [1393.02ms]
+
+tests/fidelity-graph-completion.test.ts:
+(pass) retained graph contours and topology under owned font bytes: 0 [485.19ms]
+(pass) retained graph contours and topology under owned font bytes: 151 [592.22ms]
+(pass) retained graph contours and topology under owned font bytes: 155 [409.69ms]
+(pass) retained graph contours and topology under owned font bytes: 166 [629.04ms]
+(pass) retained graph contours and topology under owned font bytes: 170 [414.36ms]
+(pass) retained graph contours and topology under owned font bytes: 26 [594.28ms]
+(pass) retained graph contours and topology under owned font bytes: 424 [614.51ms]
+(pass) retained graph contours and topology under owned font bytes: 30 [395.51ms]
+(pass) retained graph contours and topology under owned font bytes: 308 [390.84ms]
+(pass) retained graph contours and topology under owned font bytes: 182 [427.95ms]
+(pass) retained graph contours and topology under owned font bytes: 183 [2983.91ms]
+(pass) retained graph contours and topology under owned font bytes: 184 [450.01ms]
+(pass) retained graph contours and topology under owned font bytes: 185 [475.64ms]
+(pass) retained graph contours and topology under owned font bytes: 189 [463.73ms]
+(pass) retained graph contours and topology under owned font bytes: 198 [1634.89ms]
+(pass) retained graph contours and topology under owned font bytes: 207 [3026.11ms]
+(pass) retained graph contours and topology under owned font bytes: 54 [727.01ms]
+(pass) graph family admission requires all actual endpoints, markers and exact multiplicity [3847.65ms]
+(pass) straight cubic polygons preserve shape while bowed or wrong silhouettes cannot borrow it [752.35ms]
+(pass) stadium contours and separate coincident borders supply measured visible ink [1870.38ms]
+(pass) unprinted glyph ownership is unique before its independently measured shape is compared [2717.86ms]
+(pass) marker approach uses its measured direction and extent with scale-invariant unique ownership [1850.01ms]
+
+tests/fidelity-sequence-completion.test.ts:
+(pass) retained actual SVG companions retain their own source and invocation provenance [4.96ms]
+(pass) autonumbers cannot pass after their ink becomes identical to their opaque marker backdrop [1240.00ms]
+(pass) actual sequence 365 has independently owned headers, messages and complete finite source facts [653.46ms]
+(pass) actual sequence 369 has independently owned headers, messages and complete finite source facts [373.14ms]
+(pass) actual sequence 371 has independently owned headers, messages and complete finite source facts [382.15ms]
+(pass) actual sequence 372 has independently owned headers, messages and complete finite source facts [1316.50ms]
+(pass) actual sequence 373 has independently owned headers, messages and complete finite source facts [559.48ms]
+(pass) actual sequence 374 has independently owned headers, messages and complete finite source facts [1133.65ms]
+(pass) actual sequence 380 has independently owned headers, messages and complete finite source facts [426.10ms]
+(pass) actual sequence 381 has independently owned headers, messages and complete finite source facts [340.73ms]
+(pass) actual sequence 382 has independently owned headers, messages and complete finite source facts [322.15ms]
+(pass) actual sequence 384 has independently owned headers, messages and complete finite source facts [321.43ms]
+(pass) actual sequence 385 has independently owned headers, messages and complete finite source facts [299.00ms]
+(pass) actual sequence 387 has independently owned headers, messages and complete finite source facts [324.14ms]
+(pass) actual sequence 389 has independently owned headers, messages and complete finite source facts [338.82ms]
+(pass) actual sequence 392 has independently owned headers, messages and complete finite source facts [504.23ms]
+(pass) actual sequence 393 has independently owned headers, messages and complete finite source facts [431.05ms]
+(pass) actual sequence 394 has independently owned headers, messages and complete finite source facts [341.17ms]
+(pass) actual sequence 395 has independently owned headers, messages and complete finite source facts [422.99ms]
+(pass) actual sequence 396 has independently owned headers, messages and complete finite source facts [398.78ms]
+(pass) actual sequence 399 has independently owned headers, messages and complete finite source facts [441.70ms]
+(pass) actual ZenUML 534 independently binds its full event/control scope [467.38ms]
+(pass) actual ZenUML 536 independently binds its full event/control scope [420.20ms]
+(pass) actual ZenUML 538 independently binds its full event/control scope [408.84ms]
+(pass) actual ZenUML 540 independently binds its full event/control scope [549.39ms]
+(pass) actual ZenUML 541 independently binds its full event/control scope [540.20ms]
+(pass) actual ZenUML 542 independently binds its full event/control scope [386.59ms]
+(pass) actual ZenUML 543 independently binds its full event/control scope [454.34ms]
+(pass) actual ZenUML 544 independently binds its full event/control scope [409.72ms]
+(pass) actual ZenUML 545 independently binds its full event/control scope [423.82ms]
+(pass) actual ZenUML 546 independently binds its full event/control scope [435.36ms]
+(pass) actual ZenUML 547 independently binds its full event/control scope [529.33ms]
+(pass) symbolic sequence participants cannot borrow a missing limb or wrong kind [649.64ms]
+(pass) actual sequence message order, head orientation and activation ownership reject wrong outputs [1028.36ms]
+(pass) ZenUML external lane, complete event inventory and actual activation scope cannot be source echoes [1458.05ms]
+(pass) ZenUML control conditions, branch separator intervals and anonymous copies stay strict [1377.98ms]
+(pass) ZenUML independent glyph cover and route/head mutations cannot earn complete event credit [2140.13ms]
+(pass) blank railroad terminals require an actual rounded owned leaf in the exact grammar position [894.88ms]
+(pass) a completely reconstructed railroad cannot hide the absent source title in known connector paths [1228.60ms]
+(pass) only a valid missing local filter target is a no-op; a real erasing filter remains unavailable [230.32ms]
+(pass) independent adversarial controls reject mirrored and oval arrowheads and shared railroad entry/exit dots [1254.95ms]
+(pass) intrinsic image paint with fill:none remains a possible title carrier [607.99ms]
+(pass) sequence numbering needs exposed actual numbers on their own contrasting circular markers [2031.83ms]
+(pass) ZenUML symbolic headers and parameter tokens reject swapped kinds and changed identifiers [1365.08ms]
+(pass) a split painted title stays unknown rather than a false missing-title fault [598.94ms]
+(pass) wrapped note/fragment tails and branch boundaries need complete physical ownership [1397.49ms]
+(pass) control participant glyphs need a real visible concave arrow rather than a bare circle or square [1061.50ms]
+
+tests/fidelity-domain-completion.test.ts:
+(pass) retained completion witnesses preserve actual source and owning public return provenance [6.34ms]
+(pass) neutral brightness preserves exposed timeline paint and cannot hide text or excuse arbitrary filters [1407.48ms]
+(pass) brightness is evaluated after filtering when foreground and backdrop become identical [203.00ms]
+(pass) multiline timeline captions retain exact text and measured period and section ownership [2652.45ms]
+(pass) duplicate event basenames require their actual type-owned namespace rows [1175.26ms]
+(pass) treemap currency and percent formats require every actual owned amount [1263.86ms]
+(pass) a Kanban priority is a card-owned category stripe, not a literal or arbitrary accent [815.18ms]
+(pass) packet byte-color overrides bind the actual field-owned start endpoints [819.84ms]
+(pass) XY explicit ranges use independently calibrated axis gutters and preserve wrong-scale controls [2111.07ms]
+(pass) radar polygon vertices and exposed curve tokens remain independently required [5614.83ms]
+(pass) absolute Gantt calendars also prove excluded-day durations and clock milestone midpoints [1586.79ms]
+(pass) C4 actual route-midpoint caption offsets: 48 [10375.66ms]
+(pass) C4 actual route-midpoint caption offsets: 49 [11060.89ms]
+(pass) a moved C4 caption cannot retain its source offset [11583.25ms]
+(pass) unsupported C4 caption anchors remain unqualified [11427.30ms]
+(pass) Wardley empty inventories, scoped captions, inertia and cumulative stage boundaries are physical facts [2668.06ms]
+(pass) Wardley force arrows preserve physical direction and source anchor without fitted positions [1314.32ms]
+(pass) treemap requested minimum outer padding binds all actual ink geometry [750.79ms]
+(pass) curved multiply ribbons require bound ports, resolved alpha and actual contrast through overlays [5817.65ms]
+(pass) transparent HTML space cannot be mistaken for paint over Venn captions [8528.95ms]
+(pass) treemap class definitions bind every exact hierarchy attachment, including own value rows [1089.65ms]
+
+tests/terminal-caption-loss.test.ts:
+(pass) missing literal glyph is a necessary negative; global presence never proves caption or ownership [6.02ms]
+(pass) ordered left-point outline is an independently closed asymmetric primitive [2.05ms]
+(pass) retained HTML captions lose authored lines and ASCII Hebrew caption loses its final w [4.96ms]
+(pass) missing retry6 is a caption loss even while the shared self-loop routes are ambiguous [6.59ms]
+(pass) flat state identity remains inspectable when crossings prevent transition attribution [19.53ms]
+(pass) group endpoint ambiguity cannot hide a completely absent directional head [6.41ms]
+(pass) separate complete ER cards cannot obtain missing relationship ink from their own source fragments [2.13ms]
+(pass) an ambiguous component cannot hide a separate dangling arrowhead [1.22ms]
+(pass) literal rectangular shape cannot be supplied by shifted caption-row walls [2.61ms]
+(pass) state identity and actual top/bottom routes do not require an unrequested rectangle skin [5.03ms]
+(pass) ordinary-state credit preserves qualified marker-role faults without counting decorative corners as states [1.72ms]
+
+tests/terminal-known-encoding.test.ts:
+(pass) known glyph codes require exact retained artifact, archive members and source/output ownership [13.57ms]
+(pass) owned native faces, actor legends and section spans reject independent score/actor/task/timeline perturbations [6.33ms]
+(pass) day-axis calibration is output-owned, source intervals project forward and status codes need their exact dialect [6.53ms]
+(pass) native Git lanes project all source operations to independently visible parent history [13.61ms]
+(pass) independent unoccluded lane drawing qualifies all fork/current-head history, while occluded paths stay unknown [5.99ms]
+
+tests/terminal-retained-unsupported.test.ts:
+(pass) all37 legacy and one journal-owned actual unsupported inputs retain exact source/artifact/error ownership [20.95ms]
+(pass) host failures, source edits, forged ownership and invalid grammar controls get no unsupported admission [3.86ms]
+(pass) ordinary assessor emits unsupported drawing disposition and keeps invalid controls separate [2.48ms]
+
+ 1120 pass
+ 0 fail
+ 9481 expect() calls
+Ran 1120 tests across 137 files. [567.62s]

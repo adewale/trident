@@ -28,7 +28,38 @@
     }
   ],
   "assessmentCollectionStatus": "docs exit 1 retained; terminal exit 0. Acceptance verifies integration and replay, not drawing correctness.",
-  "validation": "Full-suite result recorded separately after completion.",
+  "validation": {
+    "fullSuite": {
+      "command": "bun run test:ci",
+      "exitCode": 0,
+      "tests": 1120,
+      "files": 137,
+      "seconds": 567.62,
+      "failures": 0,
+      "log": "full-suite.log",
+      "logSha256": "8888db8be53d0c899165fd68970310be81c7b53f5da8a137dc1f42c84fb0d891",
+      "documentationHeadAtCompletion": "1927c36a69f21f20fffcf8f0773f5f220c95a15d",
+      "scope": "Complete fixture suite. Public-release integration and bounded instrument verification are separate receipts."
+    },
+    "staticChecks": [
+      {
+        "command": "bun run lint",
+        "exitCode": 0
+      },
+      {
+        "command": "bun run typecheck",
+        "exitCode": 0
+      },
+      {
+        "command": "bun commands.ts results:snapshot --check",
+        "exitCode": 0
+      },
+      {
+        "command": "git diff --check",
+        "exitCode": 0
+      }
+    ]
+  },
   "relocationChecks": [
     {
       "lane": "docs",

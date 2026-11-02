@@ -8,6 +8,7 @@ These files support the [readiness report](../../measurement-readiness.md). They
 * `existing-benchmarks.json`: scope audit of the 42 original snapshot tables; it does not upgrade legacy evidence.
 * `raw-manifest.json`: relative paths, byte lengths and SHA-256 hashes of the full retained acceptance and instrument files.
 * `receipt.json`: collection/report revisions, exact source identities, replay and relocation comparisons, canonical-result preservation, and the local archive hash.
+* `full-suite.log`: final complete fixture run, 1,120 tests across 137 files and zero failures; its hash and separate static-check results are in the receipt.
 
 The raw archive is retained in this workspace at `.cache/measurement-readiness-2026-11-02/public-evidence.tar.gz` (about 5.9 MB). It includes captures, causal journals, preparation, replays, reports and command logs. It has **not** been remotely published. Original absolute paths in saved metadata describe collection provenance; relocated reduction resolves owned evidence under the new campaign root.
 

@@ -48,6 +48,8 @@ The [receipt](evidence/measurement-readiness-2026-11-02/receipt.json), [acceptan
 
 Unpacking that archive at a different location and auditing both output lanes reproduced the same mechanical values, with zero renderer calls. The receipt records these relocation checks separately from the original collection and replay.
 
+Validation completed with **1,120 passing fixture tests across 137 files, zero failures**, plus lint, TypeScript and generated-snapshot checks. The separate instrument verification passed 96 tests and all 18 controls. The [full-suite log](evidence/measurement-readiness-2026-11-02/full-suite.log) is retained and hashed in the receipt. These development checks are not additional renderer scores.
+
 ## Remaining work before a broad comparative drawing benchmark
 
 1. Complete independent positive, wrong-output and equivalent-valid controls for every claimed fact and actual SVG/terminal representation. Unknown observer support must withhold qualification, never become a renderer defect. Novel PNG semantics still need an independent assessment method.
