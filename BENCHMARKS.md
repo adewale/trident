@@ -230,6 +230,10 @@ failure. Retained replay re-evaluates actual values rather than copying the old
 
 ## Mermaid Public API Tests — diagnostic
 
+**Status:** Trident coverage-repair diagnostic. Only two projects were collected. Public-test campaign bindings are not enrolled; Trident reports adapter-missing rather than measured project incapability.
+
+**Repair:** Enroll reviewed public-operation bindings for additional projects, recording real incompatible or unsupported APIs as nonpasses. Establish eligibility before deciding whether to retire the standalone comparison. See the [breadth and retirement review](docs/benchmark-breadth.md).
+
 **Task:** Pass the 154 selected unchanged Mermaid public API test callbacks.
 
 **Better results:** Passed callbacks, highest first. More of these specific Mermaid API contracts can be used unchanged.
@@ -350,6 +354,10 @@ scope and cannot be relabelled with the new contracts.
 
 ## Terminal Invalid-input Rejection
 
+**Status:** Trident coverage-repair diagnostic. The corpus includes 18 projects, but 15 have no resolved rejection outcomes. Missing typed-outcome capture/classification leaves them unknown; it does not establish that they cannot participate.
+
+**Repair:** Complete public acceptance/rejection capture for each existing terminal transport. Preserve the distinction between source rejection and crashes, transport errors or unsupported families. See the [breadth and retirement review](docs/benchmark-breadth.md).
+
 **Task:** Explicitly reject the four independently invalid terminal-source controls.
 
 **Better results:** Verified correct rejections, highest first. More known-invalid sources receive the required rejection. Generic crashes and untyped failures earn no credit.
@@ -359,6 +367,10 @@ scope and cannot be relabelled with the new contracts.
 [Ranked results](docs/benchmark-scoreboards.md). Missing or unqualified results are unranked.
 
 ## Matched-workload Rendering Time
+
+**Status:** Trident coverage-repair diagnostic. Two latest paired SVG comparisons qualify, covering three distinct projects. Reference noise and capture/runtime failures withhold other pairs; broader qualification has not been established.
+
+**Repair:** Repair and stabilize collection on the same predeclared workload, then extend adapter/assessment coverage. DaveBench already supplies broad completion-and-time rankings; retain these stricter comparisons as diagnostics during repair. See the [breadth and retirement review](docs/benchmark-breadth.md).
 
 **Task:** Complete the same fixed rendering workload in a paired run with qualified sampled outputs and reference measurements.
 

@@ -14,6 +14,10 @@ Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt
 
 **Better results:** Passed callbacks, highest first. More of these specific Mermaid API contracts can be used unchanged. Equal pass counts share a rank. No comparable time tie-break was recorded.
 
+**Status:** Trident coverage-repair diagnostic. Only two projects were collected. Public-test campaign bindings are not enrolled; Trident reports adapter-missing rather than measured project incapability.
+
+**Repair:** Enroll reviewed public-operation bindings for additional projects, recording real incompatible or unsupported APIs as nonpasses. Establish eligibility before deciding whether to retire the standalone comparison.
+
 Ranked by **Passed / Planned eligible**, highest first. Equal values share a rank; unavailable values are unranked.
 
 “Higher” and “Lower” compare **Passed** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.

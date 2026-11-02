@@ -4,6 +4,10 @@ Each benchmark has one task, one score direction and its own stack rank. Equal s
 
 Case ranks order recorded passes on the fixed planned cases. Unresolved assessments remain visible. Timing ranks apply only within each qualified paired workload. This report runs no renderers or output graders.
 
+**Breadth policy:** Retire a standalone benchmark if a reviewed eligibility census establishes that at most two projects can meaningfully participate and no Trident collection, binding or assessment gap explains the limit. Missing evidence does not establish ineligibility. Known failures count as measured results.
+
+API compatibility, terminal invalid-input rejection and matched-workload timing are coverage-repair diagnostics. Their small recorded cohorts have documented Trident gaps; they are not established broad ecosystem benchmarks.
+
 ## Terminal Drawing Facts
 
 **Task:** Render the fixed 116 terminal drawing examples and satisfy every required fact in each whole case.
@@ -13,6 +17,8 @@ Case ranks order recorded passes on the fixed planned cases. Unresolved assessme
 **Ties:** Equal pass counts share a rank. No comparable time tie-break was recorded.
 
 **Source measurements:** 2026-11-01; 116 planned cases per project. No new collection.
+
+**Participation:** 18 recorded; 16 with rankable outcomes; 14 with at least one pass; 2 unranked.
 
 | Rank | Project | Version | Passed | Nonpasses | Unresolved |
 |---:|---|---|---:|---:|---:|
@@ -47,6 +53,8 @@ Source table: `run-f713bed5d1748b27fd042e31` · [Owning evidence](https://raw.gi
 
 **Source measurements:** 2026-11-01; 49 planned cases per project. No new collection.
 
+**Participation:** 27 recorded; 14 with rankable outcomes; 11 with at least one pass; 13 unranked.
+
 | Rank | Project | Version | Passed | Nonpasses | Unresolved |
 |---:|---|---|---:|---:|---:|
 | 1 | Mermaid | 12.2.0 | 49 | 0 | 0 |
@@ -78,6 +86,12 @@ Source table: `run-d633d9462dda6970cc8b462b` · [Owning evidence](https://raw.gi
 
 **Source measurements:** 2026-10-31; 154 planned cases per project. No new collection.
 
+**Participation:** 2 recorded; 2 with rankable outcomes; 2 with at least one pass; 0 unranked.
+
+**Status:** Trident coverage-repair diagnostic (breadth reviewed 2026-11-02). Only two projects were collected. Public-test campaign bindings are not enrolled; Trident reports adapter-missing rather than measured project incapability.
+
+**Repair:** Enroll reviewed public-operation bindings for additional projects, recording real incompatible or unsupported APIs as nonpasses. Establish eligibility before deciding whether to retire the standalone comparison.
+
 | Rank | Project | Version | Passed | Nonpasses | Unresolved |
 |---:|---|---|---:|---:|---:|
 | 1 | Mermaid | 12.2.0 | 154 | 0 | 0 |
@@ -94,6 +108,12 @@ Source table: `public-tests-c3939522719cf814e30c57c5` · [Owning evidence](../do
 **Ties:** Equal correct-rejection counts share a rank.
 
 **Source measurements:** 2026-11-01; 4 planned cases per project. No new collection.
+
+**Participation:** 18 recorded; 3 with rankable outcomes; 1 with at least one pass; 15 unranked.
+
+**Status:** Trident coverage-repair diagnostic (breadth reviewed 2026-11-02). The corpus includes 18 projects, but 15 have no resolved rejection outcomes. Missing typed-outcome capture/classification leaves them unknown; it does not establish that they cannot participate.
+
+**Repair:** Complete public acceptance/rejection capture for each existing terminal transport. Preserve the distinction between source rejection and crashes, transport errors or unsupported families.
 
 | Rank | Project | Version | Passed | Nonpasses | Unresolved |
 |---:|---|---|---:|---:|---:|
@@ -112,6 +132,12 @@ Source table: `run-cfd32885f5059ffe15d60844` · [Owning evidence](https://raw.gi
 **Better:** Paired time ratio, lowest first, within each matched run. The same qualified work takes less time relative to that run’s repeated reference.
 
 **Ties:** Equal ratios share a rank. Different pairs and workloads do not share a speed rank.
+
+**Status:** Trident coverage-repair diagnostic. Two latest paired SVG comparisons qualify, covering three distinct projects. Reference noise and capture/runtime failures withhold other pairs; broader qualification has not been established.
+
+**Participation:** 3 distinct qualified projects across 2 pairs; 7 distinct projects in the latest paired attempts.
+
+**Repair:** Repair and stabilize collection on the same predeclared workload, then extend adapter/assessment coverage. DaveBench already supplies broad completion-and-time rankings; retain these stricter comparisons as diagnostics during repair.
 
 ### SVG: Bezel / Mermaid
 

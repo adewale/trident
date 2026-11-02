@@ -37,3 +37,23 @@ export const benchmarkDefinitions = {
   },
 } as const
 export type BenchmarkDefinition = keyof typeof benchmarkDefinitions
+
+/** A sparse collected cohort is not proof of narrow project applicability. */
+export const benchmarkBreadthPolicy = 'Retire a standalone benchmark if a reviewed eligibility census establishes that at most two projects can meaningfully participate and no Trident collection, binding or assessment gap explains the limit. Missing evidence does not establish ineligibility. Known failures count as measured results.'
+export const benchmarkReadiness: Partial<Record<BenchmarkDefinition, { status: string; reviewedOn: string; gap: string; repair: string }>> = {
+  api: {
+    status: 'Trident coverage-repair diagnostic', reviewedOn: '2026-11-02',
+    gap: 'Only two projects were collected. Public-test campaign bindings are not enrolled; Trident reports adapter-missing rather than measured project incapability.',
+    repair: 'Enroll reviewed public-operation bindings for additional projects, recording real incompatible or unsupported APIs as nonpasses. Establish eligibility before deciding whether to retire the standalone comparison.',
+  },
+  rejection: {
+    status: 'Trident coverage-repair diagnostic', reviewedOn: '2026-11-02',
+    gap: 'The corpus includes 18 projects, but 15 have no resolved rejection outcomes. Missing typed-outcome capture/classification leaves them unknown; it does not establish that they cannot participate.',
+    repair: 'Complete public acceptance/rejection capture for each existing terminal transport. Preserve the distinction between source rejection and crashes, transport errors or unsupported families.',
+  },
+  timing: {
+    status: 'Trident coverage-repair diagnostic', reviewedOn: '2026-11-02',
+    gap: 'Two latest paired SVG comparisons qualify, covering three distinct projects. Reference noise and capture/runtime failures withhold other pairs; broader qualification has not been established.',
+    repair: 'Repair and stabilize collection on the same predeclared workload, then extend adapter/assessment coverage. DaveBench already supplies broad completion-and-time rankings; retain these stricter comparisons as diagnostics during repair.',
+  },
+}

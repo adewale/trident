@@ -21,6 +21,7 @@ test('case scoreboards share equal ranks, keep unknowns out of failures and dist
   expect(board.rows.map(row => [row.project, row.rank])).toEqual([['fixture/a', 1], ['fixture/b', 1], ['fixture/c', 3], ['fixture/missing', null]])
   expect(board.rows[0]).toMatchObject({ passed: 2, nonpasses: 0, unresolved: 2 })
   expect(board.rows[2]).toMatchObject({ passed: 0, nonpasses: 4, unresolved: 0 })
+  expect(board.participants).toEqual({ recorded: 4, ranked: 3, passing: 2, unresolved: 1 })
   expect(rankedRows(table, id => id).find(row => row.project === 'fixture/missing')!.rank).toBeNull()
   expect(JSON.stringify(table)).toBe(before)
 })
@@ -47,4 +48,12 @@ test('a newer failed attempt cannot revive earlier passes or an older qualified 
   expect(rejection.rows.find(row => row.project === 'fixture/a')!.unrankedReason).toContain('Superseded')
   expect(report.timing).toHaveLength(1)
   expect(report.timing[0]).toMatchObject({ tableId: 'new', qualified: false })
+  expect(report.timingParticipation).toEqual({ recordedProjects: 2, qualifiedProjects: 0, qualifiedPairs: 0 })
+})
+
+test('paired runs count distinct qualified projects, not pairs or positive case scores', () => {
+  const first = timing('first', true, '2026-02-01'), second = timing('second', true, '2026-02-02')
+  second.rows[1]!.project = 'fixture/c'
+  const report = benchmarkScoreboards({ schema: 'trident-results-snapshot-v1', tables: [first, second], attempts: [] }, catalog)
+  expect(report.timingParticipation).toEqual({ recordedProjects: 3, qualifiedProjects: 3, qualifiedPairs: 2 })
 })

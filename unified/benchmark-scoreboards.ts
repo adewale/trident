@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { benchmarkDefinitions, type BenchmarkDefinition } from './benchmark-definitions.ts'
+import { benchmarkDefinitions, benchmarkReadiness, benchmarkBreadthPolicy, type BenchmarkDefinition } from './benchmark-definitions.ts'
 import { rankResults, measurementNumber } from './result-ranking.ts'
 import { supersedingAttempt, validateSnapshot, type ResultsSnapshot, type SnapshotTable } from './results-snapshot.ts'
 import { communityCatalogFile, tridentDirectory } from './trident-paths.ts'
@@ -30,7 +30,8 @@ export function caseScoreboard(table: SnapshotTable, definition: Exclude<Benchma
   })
   if (new Set(rows.map(row => row.planned)).size !== 1 || !rows[0]?.planned) throw Error('Different planned populations cannot share a ranking')
   const ranked = rankResults(rows, { direction: 'descending', name: row => row.name, score: row => row.unrankedReason ? null : row.passed }).map(({ row, rank }) => ({ ...row, rank }))
-  return { definition, ...benchmarkDefinitions[definition], ...evidence(table), planned: rows[0].planned, rows: ranked }
+  return { definition, ...benchmarkDefinitions[definition], readiness: benchmarkReadiness[definition] ?? null, ...evidence(table), planned: rows[0].planned,
+    participants: { recorded: ranked.length, ranked: ranked.filter(row => row.rank !== null).length, passing: ranked.filter(row => row.rank !== null && row.passed > 0).length, unresolved: ranked.filter(row => row.rank === null).length }, rows: ranked }
 }
 
 export function timingScoreboard(table: SnapshotTable, name: (project: string) => string) {
@@ -41,7 +42,7 @@ export function timingScoreboard(table: SnapshotTable, name: (project: string) =
     interval: qualified ? row.values[table.columns.indexOf('Ratio interval')] : null,
     unrankedReason: qualified ? null : row.unrankedReason ?? 'The latest paired run did not qualify.' }))
   const ranked = rankResults(rows, { direction: 'ascending', name: row => row.name, score: row => row.ratio }).map(({ row, rank }) => ({ ...row, rank }))
-  return { definition: 'timing' as const, ...benchmarkDefinitions.timing, ...evidence(table), format: table.cohort?.split(':')[1] ?? null, cohort: table.cohort, qualified, scope: table.caption, rows: ranked }
+  return { definition: 'timing' as const, ...benchmarkDefinitions.timing, readiness: benchmarkReadiness.timing!, ...evidence(table), format: table.cohort?.split(':')[1] ?? null, cohort: table.cohort, qualified, scope: table.caption, rows: ranked }
 }
 
 export function benchmarkScoreboards(snapshot: ResultsSnapshot, catalog: LineageCatalog) {
@@ -61,7 +62,8 @@ export function benchmarkScoreboards(snapshot: ResultsSnapshot, catalog: Lineage
     const key = JSON.stringify([table.cohort!.split(':')[1], table.rows.map(row => row.project).sort()])
     if (!pairs.has(key)) pairs.set(key, table)
   }
-  return { schema: 'trident-benchmark-scoreboards-v1', rules: 'Each benchmark has one task, one score direction and its own stack rank. Equal scores share a rank. Entirely unresolved results stay unranked. No speed tie-break is invented for case tests.',
+  const timing = [...pairs.values()].map(table => timingScoreboard(table, name))
+  return { schema: 'trident-benchmark-scoreboards-v1', rules: 'Each benchmark has one task, one score direction and its own stack rank. Equal scores share a rank. Entirely unresolved results stay unranked. No speed tie-break is invented for case tests.', breadthPolicy: benchmarkBreadthPolicy,
     cases: selections.filter(selection => !!selection.table).map(selection => {
       const table = selection.table!
       return caseScoreboard({ ...table, rows: table.rows.map(row => {
@@ -70,7 +72,7 @@ export function benchmarkScoreboards(snapshot: ResultsSnapshot, catalog: Lineage
       }) }, selection.definition, name)
     }),
     missing: selections.filter(selection => !selection.table).map(selection => ({ definition: selection.definition, reason: 'No recorded table for this benchmark.' })),
-    timing: [...pairs.values()].map(table => timingScoreboard(table, name)),
+    timing, timingParticipation: { recordedProjects: new Set(timing.flatMap(board => board.rows.map(row => row.project))).size, qualifiedProjects: new Set(timing.filter(board => board.qualified).flatMap(board => board.rows.map(row => row.project))).size, qualifiedPairs: timing.filter(board => board.qualified).length },
     unscored: [{ name: 'Harness and Observer Regressions', reason: 'Development checks test Trident; they do not compare renderer results.' }, { name: 'Public Model Regressions', reason: 'Optional API maintenance checks have no shared renderer score.' }],
     limits: 'Case ranks order recorded passes on the fixed planned cases. Unresolved assessments remain visible. Timing ranks apply only within each qualified paired workload. This report runs no renderers or output graders.' }
 }
@@ -78,10 +80,13 @@ export function benchmarkScoreboards(snapshot: ResultsSnapshot, catalog: Lineage
 export function renderBenchmarkScoreboards(report: ReturnType<typeof benchmarkScoreboards>, localRoot = tridentDirectory) {
   const cell = (value: unknown) => String(value ?? '—').replaceAll('|', '&#124;').replaceAll('\n', ' ')
   const link = (url: string) => url.startsWith('https://') ? url : join(localRoot, url)
-  const lines = ['# Benchmark scoreboards', '', report.rules, '', report.limits, '']
+  const lines = ['# Benchmark scoreboards', '', report.rules, '', report.limits, '', '**Breadth policy:** ' + report.breadthPolicy, '', 'API compatibility, terminal invalid-input rejection and matched-workload timing are coverage-repair diagnostics. Their small recorded cohorts have documented Trident gaps; they are not established broad ecosystem benchmarks.', '']
   for (const board of report.cases) {
+    const status = board.readiness
     lines.push('## ' + board.name, '', '**Task:** ' + board.task, '', '**Better:** ' + board.score + ' ' + board.why, '', '**Ties:** ' + board.ties, '',
       `**Source measurements:** ${board.measuredAt.slice(0, 10)}; ${board.planned} planned cases per project. No new collection.`, '',
+      `**Participation:** ${board.participants.recorded} recorded; ${board.participants.ranked} with rankable outcomes; ${board.participants.passing} with at least one pass; ${board.participants.unresolved} unranked.`, '',
+      ...(status ? ['**Status:** ' + status.status + ' (breadth reviewed ' + status.reviewedOn + '). ' + status.gap, '', '**Repair:** ' + status.repair, ''] : []),
       '| Rank | Project | Version | Passed | Nonpasses | Unresolved |', '|---:|---|---|---:|---:|---:|')
     for (const row of board.rows.filter(row => row.rank !== null)) lines.push('| ' + [row.rank, row.name, row.version, row.passed, row.nonpasses, row.unresolved].map(cell).join(' | ') + ' |')
     const missing = new Map<string, string[]>()
@@ -90,6 +95,7 @@ export function renderBenchmarkScoreboards(report: ReturnType<typeof benchmarkSc
     lines.push('', 'Source table: `' + board.tableId + '` · [Owning evidence](' + link(board.receipt.url) + ').', '')
   }
   lines.push('## ' + benchmarkDefinitions.timing.name, '', '**Task:** ' + benchmarkDefinitions.timing.task, '', '**Better:** ' + benchmarkDefinitions.timing.score + ' ' + benchmarkDefinitions.timing.why, '', '**Ties:** ' + benchmarkDefinitions.timing.ties, '')
+  lines.push('**Status:** ' + benchmarkReadiness.timing!.status + '. ' + benchmarkReadiness.timing!.gap, '', `**Participation:** ${report.timingParticipation.qualifiedProjects} distinct qualified projects across ${report.timingParticipation.qualifiedPairs} pairs; ${report.timingParticipation.recordedProjects} distinct projects in the latest paired attempts.`, '', '**Repair:** ' + benchmarkReadiness.timing!.repair, '')
   for (const board of report.timing.filter(board => board.qualified)) {
     lines.push('### ' + board.format!.toUpperCase() + ': ' + board.rows.map(row => row.name).join(' / '), '',
       `${board.rows[0]!.examples} examples; ${board.rows[0]!.rounds} rounds; ${board.measuredAt.slice(0, 10)}.`, '',

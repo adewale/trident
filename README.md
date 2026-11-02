@@ -4,6 +4,8 @@
 
 [Other benchmark scoreboards](docs/benchmark-scoreboards.md) — explicit tasks, score directions, reasons and stack-ranked retained results. Regenerate with `bun commands.ts rankings --out FRESH_DIRECTORY`.
 
+[Benchmark breadth review](docs/benchmark-breadth.md): API compatibility, invalid-input rejection and matched timing are Trident coverage-repair diagnostics; their small measured cohorts do not establish narrow eligibility.
+
 [What Trident reliably measures](docs/measurement-contracts.md): executable measurement contracts, assessment coverage, instrument qualification and offline replay.
 
 [Readiness and executed evidence](docs/measurement-readiness.md): retained benchmarks, implemented repairs, actual public-release measurements and remaining qualification work.

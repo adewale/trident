@@ -146,6 +146,10 @@ Lower ratios are faster. The latest attempt for each project pair and format is 
 
 **Better results:** Paired time ratio, lowest first, within each matched run. The same qualified work takes less time relative to that run’s repeated reference. Equal ratios share a rank. Different pairs and workloads do not share a speed rank.
 
+**Status:** Trident coverage-repair diagnostic. Two latest paired SVG comparisons qualify, covering three distinct projects. Reference noise and capture/runtime failures withhold other pairs; broader qualification has not been established.
+
+**Repair:** Repair and stabilize collection on the same predeclared workload, then extend adapter/assessment coverage. DaveBench already supplies broad completion-and-time rankings; retain these stricter comparisons as diagnostics during repair.
+
 ### SVG
 
 **Mermaid / Ondine** · 6 examples · 6 rounds · 2026-11-01

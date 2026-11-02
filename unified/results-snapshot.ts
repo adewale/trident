@@ -9,7 +9,7 @@ import { communityCatalogFile } from './trident-paths.ts'
 import { measurementNumber, rankResults } from './result-ranking.ts'
 import { campaignTables } from './campaign-tables.ts'
 import { measurementContracts, measurementForTable, validateTableMeasurement, type MeasurementBinding } from './measurement-contracts.ts'
-import { benchmarkDefinitions } from './benchmark-definitions.ts'
+import { benchmarkDefinitions, benchmarkReadiness } from './benchmark-definitions.ts'
 
 type Cell = string | number
 export interface SnapshotTable {
@@ -425,6 +425,8 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
       lines.push('**Measurement:** ' + contract.question, '', '**Claim boundary:** ' + contract.limit, '')
       const definition = entry.suite === 'mermaid-behaviour' ? benchmarkDefinitions.behaviour : entry.suite === 'public-conformance' ? benchmarkDefinitions.api : entry.suite === 'community' && entry.drawingOutcomePolicy ? benchmarkDefinitions.terminal : entry.suite === 'community' && entry.unit === 'invalid-source controls' ? benchmarkDefinitions.rejection : undefined
       if (definition) lines.push('**Better results:** ' + definition.score + ' ' + definition.why + ' ' + definition.ties, '')
+      const readiness = entry.suite === 'public-conformance' ? benchmarkReadiness.api : entry.suite === 'community' && entry.unit === 'invalid-source controls' ? benchmarkReadiness.rejection : undefined
+      if (readiness) lines.push('**Status:** ' + readiness.status + '. ' + readiness.gap, '', '**Repair:** ' + readiness.repair, '')
       const rows = rankedRows(entry, name)
       lines.push(unscored ? 'Unscored harness/observer regressions; rows are alphabetical.' : entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked.${/\bms\b/.test(entry.unit ?? '') ? ' Timing ranks describe the displayed samples and retain their qualification limits.' : ''}` : 'No comparable numeric ranking measure is available.', '')
       if (entry.drawingOutcomePolicy) lines.push('Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.', '')
@@ -532,6 +534,7 @@ export function renderPublicResults(snapshot: ResultsSnapshot, catalog: LineageC
   }
   lines.push('## Rendering time', '', 'Lower ratios are faster. The latest attempt for each project pair and format is shown; older workloads remain in the details. Each table compares one fixed workload against its own reference in the same run. Workload times are median replica-round totals; ratios are medians of paired round ratios. Times include the stated public-call boundary and do not describe the full DaveBench corpus. Only runs with correct sampled outputs and sufficiently stable repeated reference measurements receive a rank.', '')
   lines.push('**Task:** ' + benchmarkDefinitions.timing.task, '', '**Better results:** ' + benchmarkDefinitions.timing.score + ' ' + benchmarkDefinitions.timing.why + ' ' + benchmarkDefinitions.timing.ties, '')
+  lines.push('**Status:** ' + benchmarkReadiness.timing!.status + '. ' + benchmarkReadiness.timing!.gap, '', '**Repair:** ' + benchmarkReadiness.timing!.repair, '')
   const latestPairs = new Map<string, SnapshotTable>()
   for (const entry of snapshot.tables.filter(entry => entry.suite === 'portable' && entry.artifactRole !== 'candidate' && entry.cohort?.startsWith('native-timing:')).sort(recent)) {
     const format = entry.cohort!.split(':')[1]!

@@ -92,6 +92,10 @@ Independently invalid sources in the full terminal inventory, checked for typed 
 
 **Better results:** Verified correct rejections, highest first. More known-invalid sources receive the required rejection. Generic crashes and untyped failures earn no credit. Equal correct-rejection counts share a rank.
 
+**Status:** Trident coverage-repair diagnostic. The corpus includes 18 projects, but 15 have no resolved rejection outcomes. Missing typed-outcome capture/classification leaves them unknown; it does not establish that they cannot participate.
+
+**Repair:** Complete public acceptance/rejection capture for each existing terminal transport. Preserve the distinction between source rejection and crashes, transport errors or unsupported families.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
@@ -128,6 +132,10 @@ Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt
 **Claim boundary:** A timeout, crash, missing adapter or observer exception is not a correct rejection.
 
 **Better results:** Verified correct rejections, highest first. More known-invalid sources receive the required rejection. Generic crashes and untyped failures earn no credit. Equal correct-rejection counts share a rank.
+
+**Status:** Trident coverage-repair diagnostic. The corpus includes 18 projects, but 15 have no resolved rejection outcomes. Missing typed-outcome capture/classification leaves them unknown; it does not establish that they cannot participate.
+
+**Repair:** Complete public acceptance/rejection capture for each existing terminal transport. Preserve the distinction between source rejection and crashes, transport errors or unsupported families.
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
