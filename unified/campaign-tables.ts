@@ -1,9 +1,10 @@
+import { verifiedOutputObservations } from './output-evidence.ts'
 import { readBehaviourEvidence } from './mermaid-behaviour-evidence.ts'
 import { drawingObservationsForCase, drawingOutcomeCells, drawingOutcomeColumns, drawingStatisticsColumns, retainedDrawingOutcome, summarizeDrawingOutcomes } from './drawing-outcomes.ts'
 import { documentationPopulation } from './docs-population.ts'
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { basename, dirname, join } from 'node:path'
 import { readBenchmarkDocument } from '../portable/project-records.ts'
 import { campaignResults, campaignProjectId, campaignArtifactRole, type CampaignEnvelope } from './campaign-publication.ts'
 import type { SnapshotTable } from './results-snapshot.ts'
@@ -12,8 +13,9 @@ import { summarizeSvgCases } from '../fidelity/svg-assessment.ts'
 import { publicTestTables } from './public-test-reporting.ts'
 import { qualifyRetainedTimingBundle } from './qualify-timing.ts'
 import { readNativeTiming } from './native-timing-report.ts'
-import { bindMeasurement, measurementForTable, validateTableMeasurement } from './measurement-contracts.ts'
+import { bindMeasurement, validateTableMeasurement, type MeasurementId } from './measurement-contracts.ts'
 import { reduceOutputMeasurements } from './output-measurements.ts'
+import { terminalOutputMeasurements } from './terminal-output-measurements.ts'
 
 const owningPngClock = (row: any): string | undefined => row.format === 'svg' && row.metrics?.measuredAt === null && row.metrics?.transport === 'owned-original-svg-companion-of-png-export' && row.metrics?.parentInvocationFormat === 'png' && row.metrics?.witnessRole === 'actual-original-public-svg-return' && typeof row.metrics?.parentMeasuredAt === 'string' && Number.isFinite(Date.parse(row.metrics.parentMeasuredAt)) ? row.metrics.parentMeasuredAt : undefined
 const measuredAt = (rows: any[], fallback: string): string => rows.map(row => row.metrics?.measuredAt ?? owningPngClock(row)).filter((value): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value))).sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? fallback
@@ -24,12 +26,37 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   const projectId = (value: unknown) => campaignProjectId(value, report.projects ?? [])
   const artifactRole = campaignArtifactRole(report), candidate = artifactRole === 'candidate'
   const tables = new Map<string, SnapshotTable>()
+  const reducerMeasurements: Record<string, MeasurementId> = {
+    'output-production': 'output-production', 'output-validity': 'output-validity', 'output-size': 'output-size',
+    docs: 'output-admission', 'portable-admission': 'output-admission', 'compatibility-inputs': 'output-admission',
+    'docs-source-controls': 'source-rejection', 'terminal-source-rejections': 'source-rejection',
+    'docs-drawings': 'drawing-assessment', 'docs-reviewed-profile': 'drawing-assessment', 'terminal-case-verdicts': 'drawing-assessment',
+    'mermaid-behaviour': 'observable-behaviour', 'native-public-timing': 'qualified-rendering-time', portable: 'qualified-rendering-time',
+    'public-model-contracts-v2': 'public-model', 'svg-case-verdicts': 'harness-regression',
+  }
   const add = (key: unknown[], suite: PublicSuite, measuredAt: string, caption: string, columns: string[], project: string, values: (string | number)[], ranking: SnapshotTable['ranking'], extra: Partial<SnapshotTable> = {}, unrankedReason?: string) => {
     const id = 'run-' + hash([receipt.sha256, ...key]).slice(0, 24)
     const entry = tables.get(id) ?? { id, suite, measuredAt, campaignUpdatedAt: report.updatedAt, historical: (report as any).schema !== 'trident-campaign-v2', unit: 'observations', caption, columns, rows: [], receipt, ranking: ['fidelity', 'native-fidelity'].includes(suite) ? undefined : ranking, ...(artifactRole ? { artifactRole } : {}), ...extra, ...(['fidelity', 'native-fidelity'].includes(suite) ? { diagnostic: true, ranking: undefined, overview: undefined, chart: undefined, summary: false, caption: 'Unscored harness/observer and public-model regressions from AM and Trident development fixtures. Counts retain raw diagnostic outcomes; they are not comparative renderer scores. ' + caption } : {}) }
+    entry.measurement = bindMeasurement(suite === 'fidelity' || suite === 'upstream-original' ? 'harness-regression' : suite === 'native-fidelity' ? 'public-model' : reducerMeasurements[String(key[0])] ?? 'recorded-checks')
     if (entry.rows.some(row => row.project === project)) throw Error('Duplicate project in reduced campaign cohort')
     if (Date.parse(measuredAt) > Date.parse(entry.measuredAt)) entry.measuredAt = measuredAt
     entry.rows.push({ project, values, ...(['fidelity', 'native-fidelity'].includes(suite) ? { unrankedReason: 'Unscored harness/observer regressions' } : {}), ...(unrankedReason ? { unrankedReason } : {}) }); tables.set(id, entry)
+  }
+  const addOutput = (output: NonNullable<ReturnType<typeof reduceOutputMeasurements>>, suite: PublicSuite, key: unknown[], format: string, planned: number, project: string, version: string, clock: string, cohort: string) => {
+    const p = output.production, v = output.validity
+    const extra = { cohort, ...(format === 'svg' || format === 'png' ? { outputFormat: format } : {}) } as Partial<SnapshotTable>
+    add(['output-production', ...key], suite, clock,
+      'Production of actual public output on the fixed source population, including invalid/configuration controls where present. Success requires an output in every planned round. Wrong-format bytes still count as returned. Missing raw evidence remains unknown; admission/content grades supply no return credit.',
+      ['Version', 'Returned output', 'No returned output', 'Unknown', 'Planned'], project, [version, p.returned, p.noOutput, p.unknown, planned],
+      { column: 'Returned output', direction: 'descending' }, { ...extra, unit: 'planned public output inputs', population: { total: 'Planned', outcomes: ['Returned output', 'No returned output', 'Unknown'] } })
+    add(['output-validity', ...key], suite, clock,
+      'Mechanical format-only inspection of returned bytes. SVG uses namespace/XML host parsing, PNG uses decoding and terminal text uses strict UTF-8 decoding. No labels or drawing facts are checked. Missing output and unknown inspection are separate from invalid format.',
+      ['Version', 'Valid format', 'Invalid format', 'No returned output', 'Unknown', 'Planned'], project, [version, v.valid, v.invalid, v.noOutput, v.unknown, planned],
+      { column: 'Valid format', direction: 'descending' }, { ...extra, unit: 'planned output format checks', population: { total: 'Planned', outcomes: ['Valid format', 'Invalid format', 'No returned output', 'Unknown'] } })
+    add(['output-size', ...key], suite, clock,
+      'Sum of actual returned bytes: UTF-8 SVG/terminal output or encoded PNG. Measured returns and planned calls disclose partial workloads. No comparative size rank is defined for incomplete or unlike populations.',
+      ['Version', 'Returned bytes', 'Measured returns', 'Planned calls', 'Complete byte population'], project, [version, output.returnedBytes ?? 'unavailable', output.measuredReturns, output.plannedCalls, output.completeBytePopulation ? 'yes' : 'no'],
+      undefined, { ...extra, unit: 'bytes of actual returned output' })
   }
   for (const boundary of report.results) {
     if (!boundary.out) continue
@@ -47,7 +74,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
       continue
     }
     if (boundary.suite === 'public-conformance') {
-      for (const table of publicTestTables(boundary.out, receipt, report.updatedAt)) tables.set(table.id, table)
+      for (const table of publicTestTables(boundary.out, receipt, report.updatedAt)) { table.measurement = bindMeasurement('api-compatibility'); tables.set(table.id, table) }
       continue
     }
     if (boundary.suite === 'portable') {
@@ -99,6 +126,15 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
         if (!terminalProfile?.id || !Array.isArray(terminalProfile.cases) || !terminalProfile.cases.length || !Array.isArray(terminalProfile.producers) || !terminalProfile.producers.length) throw Error('Terminal profile lacks source/observer identity')
         const rawIds = terminalProfile.cases.map((input: any) => input.id), allIds = terminalProfile.drawingCaseIds ?? rawIds, reviewedIds = terminalProfile.reviewedCaseIds
         if (!Array.isArray(allIds) || allIds.some((id: string) => !rawIds.includes(id)) || new Set(rawIds).size !== rawIds.length) throw Error('Terminal drawing inventory differs from its frozen source inventory')
+        const rawFile = join(dirname(boundary.out!), 'raw.json')
+        if (basename(boundary.out!) === 'terminal' && result.artifacts?.includes('../raw.json') && existsSync(rawFile)) {
+          const record = JSON.parse(readFileSync(rawFile, 'utf8'))
+          const outputs = terminalOutputMeasurements(record, dirname(rawFile), { profile: terminalProfile.id, cases: terminalProfile.cases, projects: terminal.map((entry: any) => entry.project) })
+          for (const target of outputs) {
+            const output = reduceOutputMeasurements(rawIds, 1, target.observations)
+            if (output) addOutput(output, 'community', [cohort, 'terminal', hash(terminalProfile.cases)], 'terminal', rawIds.length, target.project, target.version, measuredAt(target.observations, result.finishedAt), cohort)
+          }
+        }
         const rejectionIds = terminalProfile.rejectionCaseIds
         if (terminalProfile.drawingCaseIds && (!Array.isArray(rejectionIds) || rejectionIds.some((id: string) => !rawIds.includes(id) || allIds.includes(id)) || new Set(rejectionIds).size !== rejectionIds.length || allIds.length + rejectionIds.length !== rawIds.length)) throw Error('Terminal drawing and rejection populations must partition the source inventory')
         if (new Set(allIds).size !== allIds.length || !Array.isArray(reviewedIds) || new Set(reviewedIds).size !== reviewedIds.length || reviewedIds.some((id: string) => !allIds.includes(id))) throw Error('Terminal profile has an invalid planned inventory')
@@ -211,23 +247,8 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
           }
           const completeRounds = Array.from({ length: report.rounds }, (_, index) => index + 1).filter(round => inventory.cases.every((input: any) => coordinates.has(JSON.stringify([input.id, round])))).length
           const version = own.find(row => typeof row.metrics?.version === 'string')?.metrics?.version ?? result.toolVersions?.find(row => projectId(row.tool) === project)?.version ?? 'unavailable'
-          const output = reduceOutputMeasurements(inventory.cases.map((input: any) => input.id), report.rounds, own)
-          if (output) {
-            const key = [cohort, format, hash(inventory.cases), report.rounds]
-            const p = output.production, v = output.validity, clock = measuredAt(own, result.finishedAt)
-            add(['output-production', ...key], 'docs', clock,
-              'Public return production on the fixed documentation inventory, including separate invalid/configuration controls. One success requires returned output in every planned round. Wrong-format bytes still count as returned. Transport interruptions and historical calls without explicit return evidence remain unknown; no acceptance or drawing-correctness claim.',
-              ['Version', 'Returned output', 'No returned output', 'Unknown', 'Planned'], project, [String(version), p.returned, p.noOutput, p.unknown, inventory.cases.length],
-              { column: 'Returned output', direction: 'descending' }, { outputFormat: format as 'svg' | 'png', unit: 'planned public output inputs', population: { total: 'Planned', outcomes: ['Returned output', 'No returned output', 'Unknown'] } })
-            add(['output-validity', ...key], 'docs', clock,
-              'Mechanical format-only inspection of actual returned bytes: static SVG parsing or PNG decoding, without labels or drawing facts. No returned output and unassessed format evidence are separate from invalid format.',
-              ['Version', 'Valid format', 'Invalid format', 'No returned output', 'Unknown', 'Planned'], project, [String(version), v.valid, v.invalid, v.noOutput, v.unknown, inventory.cases.length],
-              { column: 'Valid format', direction: 'descending' }, { outputFormat: format as 'svg' | 'png', unit: 'planned output format checks', population: { total: 'Planned', outcomes: ['Valid format', 'Invalid format', 'No returned output', 'Unknown'] } })
-            add(['output-size', ...key], 'docs', clock,
-              'Sum of actual retained public-return bytes, uncompressed UTF-8 for SVG or actual PNG encoding. The count of measured returns and planned calls disclose partial workloads. Sizes are descriptive costs; no cross-format or partial-population size rank is defined.',
-              ['Version', 'Returned bytes', 'Measured returns', 'Planned calls', 'Complete byte population'], project, [String(version), output.returnedBytes ?? 'unavailable', output.measuredReturns, output.plannedCalls, output.completeBytePopulation ? 'yes' : 'no'],
-              undefined, { outputFormat: format as 'svg' | 'png', unit: 'bytes of actual returned output' })
-          }
+          const output = reduceOutputMeasurements(inventory.cases.map((input: any) => input.id), report.rounds, verifiedOutputObservations(boundary.out!, inventory.cases, own))
+          if (output) addOutput(output, 'docs', [cohort, format, hash(inventory.cases), report.rounds], String(format), inventory.cases.length, project, String(version), measuredAt(own, result.finishedAt), cohort)
           const incomplete = coordinates.size !== inventory.cases.length * report.rounds || counts.blocked > 0
           const unrankedReason = incomplete ? `${counts.blocked === inventory.cases.length ? 'blocked' : 'incomplete'} (${completeRounds}/${report.rounds} complete rounds)` : undefined
           const laneKey = format === 'svg' ? [] : ['png']
@@ -339,7 +360,6 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   // Charts use exactly the table's verified numeric rows. Fully unobserved rows
   // stay visible and unranked in the table, without a fabricated zero bar.
   for (const table of tables.values()) {
-    table.measurement = bindMeasurement(measurementForTable(table))
     validateTableMeasurement(table)
     if (table.suite === 'docs' && table.columns.includes('Returned in all rounds')) table.chart = { numerator: 'Returned in all rounds', denominator: 'Planned', title: table.caption.includes('PNG output lane') ? 'Documentation PNG return' : 'Documentation SVG return', axis: '%', maximum: 100 }
   }

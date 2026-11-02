@@ -1,3 +1,4 @@
+import { outputEvidence } from './output-evidence.ts'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { evidenceDigest, evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { gzipSync } from 'node:zlib'
@@ -6,7 +7,7 @@ import { artifactVariants, selectArtifactVariant } from './artifact-variants.ts'
 import { assertDocsCoverage, selectDocsCases } from './docs-selection.ts'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, relative, resolve } from 'node:path'
 import { chromium } from 'playwright'
 import { checkCollectionBudget, CollectionCheckpoint, CollectionBudgetExhausted } from '../portable/checkpoint.ts'
 import { admitPreparedFidelityEngine } from '../fidelity/community.ts'
@@ -95,7 +96,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
         for (const [index, input] of selectedCases.entries()) {
           checkCollectionBudget(options.collectionDeadline)
           const expected = sourceReviews.find(review => review.id === input.id) ?? null
-          let raw = checkpoint.get<{ bytesBase64?: string; status: BenchmarkObservation['status']; detail?: string; durationMs?: number; originalSvg?: string; rasterizedSvg?: string; nativeError?: DocsPublicRejectionEvidence['nativeError']; measuredAt: string | null; invocationId?: string }>(rawKey(project, round, input.id))
+          let raw = checkpoint.get<{ bytesBase64?: string; status: BenchmarkObservation['status']; detail?: string; durationMs?: number; originalSvg?: string; rasterizedSvg?: string; nativeError?: DocsPublicRejectionEvidence['nativeError']; measuredAt: string | null; invocationId?: string; invocationDirectory?: string }>(rawKey(project, round, input.id))
           if (!raw) {
             let nativeError: DocsPublicRejectionEvidence['nativeError']
             let bytes: Uint8Array | undefined, status: BenchmarkObservation['status'] = 'blocked', detail: string | undefined, durationMs: number | undefined, originalSvg: string | undefined, rasterizedSvg: string | undefined, invocationId: string | undefined, invocationDirectory: string | undefined
@@ -120,7 +121,7 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
               invocationId = invocation.invocationId
               invocationDirectory = invocation.invocationDirectory
             }
-            raw = checkpoint.record(rawKey(project, round, input.id), { ...(bytes ? { bytesBase64: Buffer.from(bytes).toString('base64') } : {}), status, detail, durationMs, originalSvg, rasterizedSvg, nativeError, measuredAt: invocationId && invocationDirectory ? new InvocationJournal(invocationDirectory).outcome(invocationId)?.finishedAt ?? null : null, recordedAt: new Date().toISOString(), invocationId })
+            raw = checkpoint.record(rawKey(project, round, input.id), { ...(bytes ? { bytesBase64: Buffer.from(bytes).toString('base64') } : {}), status, detail, durationMs, originalSvg, rasterizedSvg, nativeError, measuredAt: invocationId && invocationDirectory ? new InvocationJournal(invocationDirectory).outcome(invocationId)?.finishedAt ?? null : null, recordedAt: new Date().toISOString(), invocationId, invocationDirectory: invocationDirectory ? relative(options.out, invocationDirectory) : undefined })
           }
           let { status, detail, durationMs } = raw
           const bytes = typeof raw.bytesBase64 === 'string' ? Buffer.from(raw.bytesBase64, 'base64') : undefined
@@ -136,7 +137,8 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
           }
           const witness = bytes ? 'drawings/' + createHash('sha256').update(bytes).digest('hex') + '.png' : undefined
           if (bytes && witness && !existsSync(join(options.out, witness))) writeFileSync(join(options.out, witness), bytes)
-          const metrics = { project, version, round, variant: peer?.artifact?.transportVariant ?? 'primary', measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId ?? null, publicOutputReturned: bytes ? true : null, formatValid, returnedBytes: bytes?.length ?? null, ...svgWitnesses, transport, timingQualified: false, ...(witness ? { witness } : {}) }
+          const proof = witness && raw.invocationId && raw.invocationDirectory ? outputEvidence(options.out, resolve(options.out, raw.invocationDirectory), raw.invocationId, witness) : undefined
+          const metrics = { ...(proof ? { outputEvidence: proof } : {}), project, version, round, variant: peer?.artifact?.transportVariant ?? 'primary', measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId ?? null, publicOutputReturned: bytes ? true : null, formatValid, returnedBytes: bytes?.length ?? null, ...svgWitnesses, transport, timingQualified: false, ...(witness ? { witness } : {}) }
           own.push({ suite: 'docs', surface: transport === 'svg-conversion' ? 'browser:png-export' : 'public:png', runtime: transport === 'svg-conversion' ? 'Chromium' : 'see retained transport observations', family: input.family, caseId: input.id, operation: 'render', format: 'png', mode: 'one-public-output-call', status, detail, ...(status === 'passed' && durationMs !== undefined ? { samplesMs: [durationMs] } : {}), metrics: { ...metrics, bytes: bytes?.length ?? null } })
           if (round === 1) {
             const assessment = assessDocsPng(input, expected, bytes, imageReviews)

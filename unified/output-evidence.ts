@@ -1,0 +1,60 @@
+import { readFileSync, realpathSync } from 'node:fs'
+import { isAbsolute, join, relative, resolve } from 'node:path'
+import { gunzipSync } from 'node:zlib'
+import { readCheckpointValue } from '../portable/checkpoint.ts'
+import { admitInvocationEvidence, evidenceBytesDigest, evidenceDigest } from '../portable/evidence-contract.ts'
+import { qualifyOutputFormat } from './qualification.ts'
+import type { BenchmarkObservation } from './types.ts'
+
+const own = (root: string, path: string) => {
+  if (typeof path !== 'string' || isAbsolute(path)) throw Error('Output evidence must use an owned relative path')
+  const target = resolve(root, path), logical = relative(root, target), physical = relative(realpathSync(root), realpathSync(target))
+  if ([logical, physical].some(value => isAbsolute(value) || value === '..' || value.startsWith('../'))) throw Error('Output evidence escapes its owning capture')
+  return target
+}
+export function outputEvidence(root: string, journalDirectory: string, attemptId: string, witness: string) {
+  const directory = relative(resolve(root), resolve(journalDirectory))
+  own(resolve(root), directory); own(resolve(root), witness)
+  if (!readCheckpointValue(join(resolve(root), directory), attemptId + ':returned', { schema: 'trident-invocation-journal-v1' })) return null
+  return JSON.stringify({ schema: 'trident-output-return-v1', journal: directory, attemptId, witness })
+}
+
+/** Summary flags cannot supply measured output facts. Reopen the exact bytes
+ * and causal public return, check literal source/format/project ownership, then
+ * rerun the mechanical checker. Never touch the renderer or former machine. */
+export function verifiedOutputObservations(root: string, inputs: readonly { id: string; source: string }[], rows: readonly BenchmarkObservation[]) {
+  const used = new Set<string>()
+  const artifacts = new Map<string, string>()
+  return rows.map(row => {
+    if (row.operation !== 'render') return row
+    const clean = { ...row, metrics: { ...row.metrics, publicOutputReturned: null as boolean | null, formatValid: null as boolean | null, returnedBytes: null as number | null } }
+    const encoded = row.metrics?.outputEvidence
+    if (typeof encoded !== 'string') return clean
+    const proof = JSON.parse(encoded), input = inputs.find(input => input.id === row.caseId)
+    if (proof?.schema !== 'trident-output-return-v1' || typeof proof.attemptId !== 'string' || proof.attemptId !== row.metrics?.rawInvocationId || !input) throw Error('Output proof has a different source or invocation')
+    const directory = own(root, proof.journal), witness = own(root, proof.witness), identity = { schema: 'trident-invocation-journal-v1' }
+    const key = join(directory, proof.attemptId)
+    if (used.has(key)) throw Error('One public return cannot supply several planned output coordinates')
+    used.add(key)
+    const started = admitInvocationEvidence(readCheckpointValue(directory, proof.attemptId + ':started', identity)), returned = admitInvocationEvidence(readCheckpointValue(directory, proof.attemptId + ':returned', identity))
+    for (const state of ['public-error', 'interrupted']) if (readCheckpointValue(directory, proof.attemptId + ':' + state, identity)) throw Error('Output invocation has contradictory terminal outcomes')
+    if (started.state !== 'started' || returned.state !== 'returned' || started.attemptId !== proof.attemptId || returned.attemptId !== proof.attemptId || evidenceDigest(started.identity) !== evidenceDigest(returned.identity)
+      || returned.startedReceiptSha256 !== evidenceDigest(started) || returned.identity.project !== row.metrics?.project || returned.identity.caseId !== row.caseId && !/^docs_\d+_\d+$/.test(returned.identity.caseId)
+      || returned.identity.sourceSha256 !== evidenceBytesDigest(input.source) || returned.identity.format !== row.format || !returned.output) throw Error('Public return differs from the literal source/project/format')
+    const artifactKey = JSON.stringify([returned.identity.project, returned.identity.format]), prior = artifacts.get(artifactKey)
+    if (prior && prior !== returned.identity.artifactSha256) throw Error('Output population mixes different public artifacts')
+    artifacts.set(artifactKey, returned.identity.artifactSha256)
+    const retained = readFileSync(witness), bytes = witness.endsWith('.gz') ? gunzipSync(retained, { maxOutputLength: 128 * 1024 * 1024 }) : retained
+    if (returned.output.sha256 !== evidenceBytesDigest(bytes) || returned.output.bytes !== bytes.byteLength) throw Error('Measured output bytes differ from their public return')
+    // Use the owned content-addressed payload, never its former absolute path.
+    const journalBytes = readFileSync(own(root, relative(root, join(directory, 'outputs', returned.output.sha256))))
+    if (evidenceBytesDigest(journalBytes) !== returned.output.sha256 || journalBytes.length !== bytes.length) throw Error('Public journal output bytes changed')
+    let valid: boolean | null = null
+    try {
+      const checked = qualifyOutputFormat(row.format === 'png' ? bytes : new TextDecoder('utf-8', { fatal: true }).decode(bytes), row.format)
+      valid = checked.unavailable ? null : checked.ok
+    } catch { valid = false }
+    clean.metrics.publicOutputReturned = true; clean.metrics.formatValid = valid; clean.metrics.returnedBytes = bytes.length
+    return clean
+  })
+}

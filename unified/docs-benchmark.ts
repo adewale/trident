@@ -1,3 +1,4 @@
+import { outputEvidence } from './output-evidence.ts'
 import { documentationPopulation, documentationDrawingScore } from './docs-population.ts'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
@@ -170,6 +171,10 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
                   mkdirSync(join(options.out, 'drawings'), { recursive: true })
                   witness = 'drawings/' + hash + '.svg.gz'
                   if (!existsSync(join(options.out, witness))) writeFileSync(join(options.out, witness), gzipSync(value.svg))
+                  const renderRow = roundObservations.find(row => row.operation === 'render' && row.caseId === testCase.id)
+                  const directory = typeof value.transportObservation?.metrics?.rawInvocationDirectory === 'string' ? value.transportObservation.metrics.rawInvocationDirectory : journal.directory
+                  if (renderRow?.metrics && raw.invocationId) renderRow.metrics.outputEvidence = outputEvidence(options.out, directory, raw.invocationId, witness)
+
                 }
                 if (review?.intent === 'drawing' && typeof value.svg === 'string') {
                   const authored = reviewedDocsCase(testCase, review)

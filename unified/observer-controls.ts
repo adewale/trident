@@ -8,6 +8,8 @@ export interface ObserverControl {
   kind: 'positive' | 'wrong-output' | 'equivalent'
   source: string
   output: string
+  encoding?: 'utf8' | 'base64'
+  expected?: { labels?: string[]; title?: string; description?: string }
   /** Origin of the expected answer, independent of the observer under test. */
   provenance: string
 }
@@ -24,12 +26,15 @@ export async function qualifyObserverControls(controls: readonly ObserverControl
     const key = JSON.stringify([control.property, control.representation]), kinds = groups.get(key) ?? new Set<string>()
     kinds.add(control.kind); groups.set(key, kinds)
     const expected = control.kind === 'wrong-output' ? 'violated' : 'satisfied'
+    if (control.encoding !== undefined && !['utf8', 'base64'].includes(control.encoding)) throw Error('Unknown control output encoding')
+    const bytes = Buffer.from(control.output, control.encoding === 'base64' ? 'base64' : 'utf8')
+    if (control.encoding === 'base64' && bytes.toString('base64') !== control.output) throw Error('Control has noncanonical encoded output')
     let observed: ControlVerdict = 'unassessed', error: string | undefined
     try { observed = await observe(control); if (!['satisfied', 'violated', 'unassessed'].includes(observed)) throw Error('Observer returned an unknown verdict') }
     catch (cause) { observed = 'unassessed'; error = String(cause) }
     if (observed !== expected) gaps.push(control.id + ': expected ' + expected + ', observed ' + observed)
     rows.push({ id: control.id, property: control.property, representation: control.representation, kind: control.kind, provenance: control.provenance,
-      sourceSha256: evidenceBytesDigest(control.source), outputSha256: evidenceBytesDigest(control.output), expected, observed, ...(error ? { error } : {}) })
+      sourceSha256: evidenceBytesDigest(control.source), outputSha256: evidenceBytesDigest(bytes), outputEncoding: control.encoding ?? 'utf8', expected, observed, ...(error ? { error } : {}) })
   }
   for (const [scope, kinds] of groups) for (const kind of ['positive', 'wrong-output', 'equivalent']) if (!kinds.has(kind)) gaps.push(scope + ': missing ' + kind + ' control')
   return { schema: 'trident-observer-controls-v1', observerSha256, controlsSha256: evidenceDigest(controls), qualified: gaps.length === 0, gaps, rows,

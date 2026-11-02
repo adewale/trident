@@ -67,5 +67,19 @@ test('the public measurement command writes a separate audit without changing or
   expect(readFileSync(input, 'utf8')).toBe(snapshot)
   expect(JSON.parse(readFileSync(join(out, 'measurements.json'), 'utf8')).tables[0].rows[0].coverage.unresolved).toBe(1)
   expect(existsSync(join(out, 'README.md'))).toBe(true)
+  const audit = JSON.parse(readFileSync(join(out, 'measurements.json'), 'utf8'))
+  expect(audit.tables[0].rows[0].metrics['Returned in all rounds']).toBe(1)
+  expect(audit.tables[0].rows[0].observerQualification.status).toBe('not-established-by-summary')
+  expect(audit.source.path).toBe(input)
+  expect(readFileSync(join(out, 'README.md'), 'utf8')).toContain('| fixture/renderer | 1 | 1 | 0 | 1 | 2 |')
 })
 const resolveCommand = () => new URL('../commands.ts', import.meta.url).pathname
+
+test('the public acceptance plan is inspectable in CI without oracle, acquisition or renderer calls', () => {
+  const result = spawnSync(process.execPath, [resolveCommand(), 'verify:measurements:live', '--plan'], { encoding: 'utf8', env: { ...process.env, CI: 'true', MERMAID_REFERENCE_DIR: '/absent-oracle' } })
+  expect(result.status).toBe(0)
+  const plan = JSON.parse(result.stdout)
+  expect(plan.projects).toEqual(['mermaid-js/mermaid', 'obsidianmd/pele', 'lukilabs/beautiful-mermaid'])
+  expect(plan.docsCaseIds).toHaveLength(3)
+  expect(plan.purpose).toContain('no accuracy or speed ranking')
+})

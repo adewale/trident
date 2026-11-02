@@ -90,7 +90,7 @@ export function assertMeasurementBinding(value: MeasurementBinding) {
 }
 export const suiteMeasurements: Record<PublicSuite, readonly MeasurementId[]> = {
   docs: ['output-production', 'output-validity', 'output-size', 'output-admission', 'source-rejection', 'drawing-assessment'],
-  community: ['output-admission', 'source-rejection', 'drawing-assessment'],
+  community: ['output-production', 'output-validity', 'output-size', 'output-admission', 'source-rejection', 'drawing-assessment'],
   'mermaid-behaviour': ['observable-behaviour'], 'public-conformance': ['api-compatibility'],
   portable: ['output-admission', 'qualified-rendering-time'], fidelity: ['harness-regression'],
   'native-fidelity': ['public-model'], 'upstream-original': ['harness-regression'], 'upstream-fidelity': ['recorded-checks'],

@@ -6,6 +6,9 @@ import { join } from 'node:path'
 import { campaignTables } from '../unified/campaign-tables.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 import { qualifyOutputFormat, qualifyOutput } from '../unified/qualification.ts'
+import { InvocationJournal } from '../portable/invocation-journal.ts'
+import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
+import { outputEvidence } from '../unified/output-evidence.ts'
 const temp = useTempDirs('output-measurements-')
 
 const row = (id: string, metrics: BenchmarkObservation['metrics'] = {}, status: BenchmarkObservation['status'] = 'passed'): BenchmarkObservation => ({ suite: 'docs', surface: 'public:svg', runtime: 'fixture', family: 'flowchart', caseId: id, operation: 'render', format: 'svg', mode: 'one-call', status, metrics: { round: 1, ...metrics } })
@@ -52,7 +55,17 @@ test('duplicate calls, contradictory flags and incomplete rounds cannot produce 
 test('ordinary campaign reporting compares the same raw population independently of failed admission grades', () => {
   const root = temp.dir(), out = join(root, 'docs'); mkdirSync(out)
   writeFileSync(join(out, 'inventory.json'), JSON.stringify({ cases: [{ id: 'one' }, { id: 'two' }] }))
-  const observations = ['fixture/a', 'fixture/b'].flatMap(project => ['one', 'two'].map(id => row(id, { project, publicOutputReturned: true, formatValid: project === 'fixture/a', returnedBytes: project === 'fixture/a' ? 100 : 4 }, project === 'fixture/a' ? 'passed' : 'failed')))
+  const inputs = ['one', 'two'].map(id => ({ id, source: 'flowchart LR\nA[' + id + ']' }))
+  writeFileSync(join(out, 'inventory.json'), JSON.stringify({ cases: inputs }))
+  const journal = new InvocationJournal(join(out, 'invocations'))
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg"/>'
+  const observations = ['fixture/a', 'fixture/b'].flatMap(project => inputs.map(input => {
+    const body = project === 'fixture/a' ? svg : 'junk', witness = project.slice(-1) + '-' + input.id + '.svg'
+    writeFileSync(join(out, witness), body)
+    const frame = journal.start({ project, caseId: input.id, sourceSha256: evidenceBytesDigest(input.source), artifactSha256: 'a'.repeat(64), bindingSha256: 'b'.repeat(64), format: 'svg' })
+    journal.returned(frame, body, 1)
+    return row(input.id, { project, rawInvocationId: frame.attemptId, publicOutputReturned: false, formatValid: false, returnedBytes: 999, outputEvidence: outputEvidence(out, journal.directory, frame.attemptId, witness) }, project === 'fixture/a' ? 'passed' : 'failed')
+  }))
   writeFileSync(join(out, 'result.json'), JSON.stringify({ id: 'docs', finishedAt: '2026-01-01', observations }))
   const tables = campaignTables({ startedAt: '2026-01-01', updatedAt: '2026-01-01', projects: ['fixture/a', 'fixture/b'], profile: 'fixture', rounds: 1, results: [{ suite: 'docs', out, status: 'passed' }] }, { url: 'https://example.test/fixture', sha256: 'a'.repeat(64) })
   const production = tables.find(table => table.measurement?.id === 'output-production')!
@@ -61,6 +74,6 @@ test('ordinary campaign reporting compares the same raw population independently
   const validity = tables.find(table => table.measurement?.id === 'output-validity')!
   expect(validity.rows.map(row => row.values.slice(1, 3))).toEqual([[2, 0], [0, 2]])
   const sizes = tables.find(table => table.measurement?.id === 'output-size')!
-  expect(sizes.rows.map(row => row.values[1])).toEqual([200, 8])
+  expect(sizes.rows.map(row => row.values[1])).toEqual([Buffer.byteLength(svg) * 2, 8])
   expect(sizes.ranking).toBeUndefined()
 })
