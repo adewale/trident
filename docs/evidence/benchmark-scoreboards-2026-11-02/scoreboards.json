@@ -1,0 +1,1480 @@
+{
+  "schema": "trident-benchmark-scoreboards-v1",
+  "rules": "Each benchmark has one task, one score direction and its own stack rank. Equal scores share a rank. Entirely unresolved results stay unranked. No speed tie-break is invented for case tests.",
+  "cases": [
+    {
+      "definition": "terminal",
+      "name": "Terminal Drawing Facts",
+      "task": "Render the fixed 116 terminal drawing examples and satisfy every required fact in each whole case.",
+      "score": "Verified whole-case passes, highest first.",
+      "why": "More of the fixed examples satisfy their specified drawing checks.",
+      "ties": "Equal pass counts share a rank. No comparable time tie-break was recorded.",
+      "tableId": "run-f713bed5d1748b27fd042e31",
+      "measuredAt": "2026-11-01T14:32:41.601Z",
+      "updatedAt": "2026-11-01T14:40:31.374Z",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json",
+        "sha256": "226f7000c4e4d1de6f4480cc60e9407bc0080a782448d6b22a394b7e64537993"
+      },
+      "planned": 116,
+      "rows": [
+        {
+          "project": "fasouto/termaid",
+          "name": "Termaid",
+          "version": "0.10.0",
+          "planned": 116,
+          "passed": 65,
+          "nonpasses": 33,
+          "unresolved": 18,
+          "outcomes": {
+            "Correct": 65,
+            "Incorrect drawing": 33,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 18,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 1
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "name": "Zombie Mermaid",
+          "version": "5.10.2",
+          "planned": 116,
+          "passed": 60,
+          "nonpasses": 12,
+          "unresolved": 44,
+          "outcomes": {
+            "Correct": 60,
+            "Incorrect drawing": 12,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 44,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 2
+        },
+        {
+          "project": "adewale/agentic-mermaid",
+          "name": "Agentic Mermaid",
+          "version": "0.4.1",
+          "planned": 116,
+          "passed": 58,
+          "nonpasses": 16,
+          "unresolved": 42,
+          "outcomes": {
+            "Correct": 58,
+            "Incorrect drawing": 16,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 42,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 3
+        },
+        {
+          "project": "Yassimba/loom",
+          "name": "Loom renderer",
+          "version": "0.10.0",
+          "planned": 116,
+          "passed": 43,
+          "nonpasses": 27,
+          "unresolved": 46,
+          "outcomes": {
+            "Correct": 43,
+            "Incorrect drawing": 27,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 46,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 4
+        },
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "name": "Mermaid ASCII",
+          "version": "1.6.1",
+          "planned": 116,
+          "passed": 42,
+          "nonpasses": 24,
+          "unresolved": 50,
+          "outcomes": {
+            "Correct": 42,
+            "Incorrect drawing": 24,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 50,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 5
+        },
+        {
+          "project": "spacedock-dev/mermaidtext",
+          "name": "MermaidText",
+          "version": "git-a6b0c7657b94",
+          "planned": 116,
+          "passed": 40,
+          "nonpasses": 24,
+          "unresolved": 52,
+          "outcomes": {
+            "Correct": 40,
+            "Incorrect drawing": 24,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 52,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 6
+        },
+        {
+          "project": "lukilabs/beautiful-mermaid",
+          "name": "Beautiful Mermaid",
+          "version": "1.1.3",
+          "planned": 116,
+          "passed": 35,
+          "nonpasses": 23,
+          "unresolved": 58,
+          "outcomes": {
+            "Correct": 35,
+            "Incorrect drawing": 23,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 58,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 7
+        },
+        {
+          "project": "wevm/ondine",
+          "name": "Ondine",
+          "version": "0.0.3",
+          "planned": 116,
+          "passed": 31,
+          "nonpasses": 26,
+          "unresolved": 59,
+          "outcomes": {
+            "Correct": 31,
+            "Incorrect drawing": 26,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 59,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 8
+        },
+        {
+          "project": "kais-radwan/ascii-mermaid",
+          "name": "ASCII Mermaid",
+          "version": "0.1.0",
+          "planned": 116,
+          "passed": 28,
+          "nonpasses": 38,
+          "unresolved": 50,
+          "outcomes": {
+            "Correct": 28,
+            "Incorrect drawing": 38,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 50,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 9
+        },
+        {
+          "project": "anomalyco/opencode",
+          "name": "OpenCode Merman",
+          "version": "2.0.26",
+          "planned": 116,
+          "passed": 20,
+          "nonpasses": 33,
+          "unresolved": 63,
+          "outcomes": {
+            "Correct": 20,
+            "Incorrect drawing": 33,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 63,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 10
+        },
+        {
+          "project": "Mootikins/figurehead-rs",
+          "name": "Figurehead",
+          "version": "v0.4.3",
+          "planned": 116,
+          "passed": 18,
+          "nonpasses": 28,
+          "unresolved": 70,
+          "outcomes": {
+            "Correct": 18,
+            "Incorrect drawing": 28,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 70,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 11
+        },
+        {
+          "project": "kitlangton/merman",
+          "name": "Kitlangton Merman",
+          "version": "0.2.1",
+          "planned": 116,
+          "passed": 17,
+          "nonpasses": 32,
+          "unresolved": 67,
+          "outcomes": {
+            "Correct": 17,
+            "Incorrect drawing": 32,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 67,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 12
+        },
+        {
+          "project": "emtyty/merslim",
+          "name": "Merslim",
+          "version": "0.2.3",
+          "planned": 116,
+          "passed": 16,
+          "nonpasses": 48,
+          "unresolved": 52,
+          "outcomes": {
+            "Correct": 16,
+            "Incorrect drawing": 48,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 52,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 13
+        },
+        {
+          "project": "tariqshams/mermaidtui",
+          "name": "MermaidTUI",
+          "version": "0.0.6",
+          "planned": 116,
+          "passed": 7,
+          "nonpasses": 6,
+          "unresolved": 103,
+          "outcomes": {
+            "Correct": 7,
+            "Incorrect drawing": 6,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 103,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 14
+        },
+        {
+          "project": "Dicklesworthstone/frankenmermaid",
+          "name": "Frankenmermaid",
+          "version": "0.4.0",
+          "planned": 116,
+          "passed": 0,
+          "nonpasses": 1,
+          "unresolved": 115,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect drawing": 1,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 115,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 15
+        },
+        {
+          "project": "xai-org/grok-build",
+          "name": "Grok renderer",
+          "version": "git-2bdd1d6a6369",
+          "planned": 116,
+          "passed": 0,
+          "nonpasses": 24,
+          "unresolved": 92,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect drawing": 24,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 92,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": null,
+          "rank": 15
+        },
+        {
+          "project": "crafter-station/mermaid",
+          "name": "Crafter Mermaid",
+          "version": "0.0.3",
+          "planned": 116,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 116,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect drawing": 0,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 116,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": "No verified terminal drawing observations",
+          "rank": null
+        },
+        {
+          "project": "Latias94/merman",
+          "name": "Latias Merman",
+          "version": "0.9.2",
+          "planned": 116,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 116,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect drawing": 0,
+            "Invalid format": 0,
+            "Unsupported": 0,
+            "Renderer failure": 0,
+            "Unassessed": 116,
+            "Unrun": 0,
+            "Harness failure": 0
+          },
+          "unrankedReason": "No verified terminal drawing observations",
+          "rank": null
+        }
+      ]
+    },
+    {
+      "definition": "behaviour",
+      "name": "Mermaid Behaviour Tests",
+      "task": "Pass all assertions in each of 49 selected public family-detection and SVG naming cases.",
+      "score": "Passed whole cases, highest first.",
+      "why": "More of the selected observable Mermaid behaviours work through the public interface.",
+      "ties": "Equal pass counts share a rank. Individual assertions are not extra votes.",
+      "tableId": "run-d633d9462dda6970cc8b462b",
+      "measuredAt": "2026-11-01T15:19:27.825Z",
+      "updatedAt": "2026-11-01T15:19:30.283Z",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json",
+        "sha256": "b2ce2c4c4ca2aca4c824a05676a5cc735f996e273917ad283bfddc31084c2cd6"
+      },
+      "planned": 49,
+      "rows": [
+        {
+          "project": "mermaid-js/mermaid",
+          "name": "Mermaid",
+          "version": "12.2.0",
+          "planned": 49,
+          "passed": 49,
+          "nonpasses": 0,
+          "unresolved": 0,
+          "outcomes": {
+            "Passed": 49,
+            "Failed": 0,
+            "Unavailable": 0,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 1
+        },
+        {
+          "project": "obsidianmd/pele",
+          "name": "Pele",
+          "version": "1.9.0",
+          "planned": 49,
+          "passed": 49,
+          "nonpasses": 0,
+          "unresolved": 0,
+          "outcomes": {
+            "Passed": 49,
+            "Failed": 0,
+            "Unavailable": 0,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 1
+        },
+        {
+          "project": "adewale/agentic-mermaid",
+          "name": "Agentic Mermaid",
+          "version": "0.4.1",
+          "planned": 49,
+          "passed": 29,
+          "nonpasses": 0,
+          "unresolved": 20,
+          "outcomes": {
+            "Passed": 29,
+            "Failed": 0,
+            "Unavailable": 20,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 3
+        },
+        {
+          "project": "Dicklesworthstone/frankenmermaid",
+          "name": "Frankenmermaid",
+          "version": "0.4.0",
+          "planned": 49,
+          "passed": 27,
+          "nonpasses": 3,
+          "unresolved": 19,
+          "outcomes": {
+            "Passed": 27,
+            "Failed": 3,
+            "Unavailable": 19,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 4
+        },
+        {
+          "project": "evangwt/xmermaid",
+          "name": "XMermaid",
+          "version": "0.4.2",
+          "planned": 49,
+          "passed": 26,
+          "nonpasses": 4,
+          "unresolved": 19,
+          "outcomes": {
+            "Passed": 26,
+            "Failed": 4,
+            "Unavailable": 19,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 5
+        },
+        {
+          "project": "emtyty/merslim",
+          "name": "Merslim",
+          "version": "0.2.3",
+          "planned": 49,
+          "passed": 25,
+          "nonpasses": 16,
+          "unresolved": 8,
+          "outcomes": {
+            "Passed": 25,
+            "Failed": 16,
+            "Unavailable": 8,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 6
+        },
+        {
+          "project": "crabtalk/bezel",
+          "name": "Bezel",
+          "version": "0.2.21",
+          "planned": 49,
+          "passed": 19,
+          "nonpasses": 0,
+          "unresolved": 30,
+          "outcomes": {
+            "Passed": 19,
+            "Failed": 0,
+            "Unavailable": 30,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 7
+        },
+        {
+          "project": "wevm/ondine",
+          "name": "Ondine",
+          "version": "0.0.3",
+          "planned": 49,
+          "passed": 19,
+          "nonpasses": 0,
+          "unresolved": 30,
+          "outcomes": {
+            "Passed": 19,
+            "Failed": 0,
+            "Unavailable": 30,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 7
+        },
+        {
+          "project": "Latias94/merman",
+          "name": "Latias Merman",
+          "version": "0.9.2",
+          "planned": 49,
+          "passed": 18,
+          "nonpasses": 0,
+          "unresolved": 31,
+          "outcomes": {
+            "Passed": 18,
+            "Failed": 0,
+            "Unavailable": 31,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 9
+        },
+        {
+          "project": "KlangHaus/vitepress-plugin-diagram",
+          "name": "VitePress Plugin Diagram",
+          "version": "0.3.2",
+          "planned": 49,
+          "passed": 8,
+          "nonpasses": 2,
+          "unresolved": 39,
+          "outcomes": {
+            "Passed": 8,
+            "Failed": 2,
+            "Unavailable": 39,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 10
+        },
+        {
+          "project": "kitlangton/merman",
+          "name": "Kitlangton Merman",
+          "version": "0.2.1",
+          "planned": 49,
+          "passed": 6,
+          "nonpasses": 0,
+          "unresolved": 43,
+          "outcomes": {
+            "Passed": 6,
+            "Failed": 0,
+            "Unavailable": 43,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 11
+        },
+        {
+          "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+          "name": "DSH Mermaid GB SVG",
+          "version": "0.1.4",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 17,
+          "unresolved": 32,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 17,
+            "Unavailable": 32,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 12
+        },
+        {
+          "project": "orestesgaolin/mermaid",
+          "name": "Mermaid Dart",
+          "version": "0.3.2",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 16,
+          "unresolved": 33,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 16,
+            "Unavailable": 33,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 12
+        },
+        {
+          "project": "1jehuang/mermaid-rs-renderer",
+          "name": "Mermaid RS Renderer",
+          "version": "0.3.1",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 19,
+          "unresolved": 30,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 19,
+            "Unavailable": 30,
+            "Unrun": 0
+          },
+          "unrankedReason": null,
+          "rank": 12
+        },
+        {
+          "project": "kais-radwan/ascii-mermaid",
+          "name": "ASCII Mermaid",
+          "version": "0.1.0",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "lukilabs/beautiful-mermaid",
+          "name": "Beautiful Mermaid",
+          "version": "1.1.3",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "crafter-station/mermaid",
+          "name": "Crafter Mermaid",
+          "version": "0.0.3",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "Mootikins/figurehead-rs",
+          "name": "Figurehead",
+          "version": "v0.4.3",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "xai-org/grok-build",
+          "name": "Grok renderer",
+          "version": "git-2bdd1d6a6369",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "Yassimba/loom",
+          "name": "Loom renderer",
+          "version": "0.10.0",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "name": "Mermaid ASCII",
+          "version": "1.6.1",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "pub:mermaid_flutter",
+          "name": "Mermaid Flutter",
+          "version": "0.3.2",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "spacedock-dev/mermaidtext",
+          "name": "MermaidText",
+          "version": "git-a6b0c7657b94",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "tariqshams/mermaidtui",
+          "name": "MermaidTUI",
+          "version": "0.0.6",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "anomalyco/opencode",
+          "name": "OpenCode Merman",
+          "version": "2.0.26",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "fasouto/termaid",
+          "name": "Termaid",
+          "version": "0.10.0",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "name": "Zombie Mermaid",
+          "version": "5.10.2",
+          "planned": 49,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 49,
+          "outcomes": {
+            "Passed": 0,
+            "Failed": 0,
+            "Unavailable": 49,
+            "Unrun": 0
+          },
+          "unrankedReason": "No resolved case outcomes.",
+          "rank": null
+        }
+      ]
+    },
+    {
+      "definition": "api",
+      "name": "Mermaid API Compatibility",
+      "task": "Pass the 154 selected unchanged Mermaid public API test callbacks.",
+      "score": "Passed callbacks, highest first.",
+      "why": "More of these specific Mermaid API contracts can be used unchanged.",
+      "ties": "Equal pass counts share a rank. No comparable time tie-break was recorded.",
+      "tableId": "public-tests-c3939522719cf814e30c57c5",
+      "measuredAt": "2026-10-31T19:15:43.111Z",
+      "updatedAt": "2026-11-01T06:09:57.406Z",
+      "receipt": {
+        "url": "docs/evidence/b0/receipt.json",
+        "sha256": "4a9c9cca4fa9af9252649e3c2ba66121fd58b4390f2191ac1915bae48018933d"
+      },
+      "planned": 154,
+      "rows": [
+        {
+          "project": "mermaid-js/mermaid",
+          "name": "Mermaid",
+          "version": "12.2.0",
+          "planned": 154,
+          "passed": 154,
+          "nonpasses": 0,
+          "unresolved": 0,
+          "outcomes": {
+            "Passed": 154,
+            "Failed": 0,
+            "Unsupported": 0,
+            "Binding gaps": 0
+          },
+          "unrankedReason": null,
+          "rank": 1
+        },
+        {
+          "project": "adewale/agentic-mermaid",
+          "name": "Agentic Mermaid",
+          "version": "0.4.1",
+          "planned": 154,
+          "passed": 59,
+          "nonpasses": 90,
+          "unresolved": 5,
+          "outcomes": {
+            "Passed": 59,
+            "Failed": 27,
+            "Unsupported": 63,
+            "Binding gaps": 5
+          },
+          "unrankedReason": null,
+          "rank": 2
+        }
+      ]
+    },
+    {
+      "definition": "rejection",
+      "name": "Terminal Invalid-input Rejection",
+      "task": "Explicitly reject the four independently invalid terminal-source controls.",
+      "score": "Verified correct rejections, highest first.",
+      "why": "More known-invalid sources receive the required rejection. Generic crashes and untyped failures earn no credit.",
+      "ties": "Equal correct-rejection counts share a rank.",
+      "tableId": "run-cfd32885f5059ffe15d60844",
+      "measuredAt": "2026-11-01T14:32:41.601Z",
+      "updatedAt": "2026-11-01T14:40:31.374Z",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json",
+        "sha256": "226f7000c4e4d1de6f4480cc60e9407bc0080a782448d6b22a394b7e64537993"
+      },
+      "planned": 4,
+      "rows": [
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "name": "Mermaid ASCII",
+          "version": "1.6.1",
+          "planned": 4,
+          "passed": 2,
+          "nonpasses": 0,
+          "unresolved": 2,
+          "outcomes": {
+            "Correct": 2,
+            "Incorrect": 0,
+            "Unknown": 2
+          },
+          "unrankedReason": null,
+          "rank": 1
+        },
+        {
+          "project": "Mootikins/figurehead-rs",
+          "name": "Figurehead",
+          "version": "v0.4.3",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 1,
+          "unresolved": 3,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 1,
+            "Unknown": 3
+          },
+          "unrankedReason": null,
+          "rank": 2
+        },
+        {
+          "project": "fasouto/termaid",
+          "name": "Termaid",
+          "version": "0.10.0",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 4,
+          "unresolved": 0,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 4,
+            "Unknown": 0
+          },
+          "unrankedReason": null,
+          "rank": 2
+        },
+        {
+          "project": "adewale/agentic-mermaid",
+          "name": "Agentic Mermaid",
+          "version": "0.4.1",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "kais-radwan/ascii-mermaid",
+          "name": "ASCII Mermaid",
+          "version": "0.1.0",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "lukilabs/beautiful-mermaid",
+          "name": "Beautiful Mermaid",
+          "version": "1.1.3",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "crafter-station/mermaid",
+          "name": "Crafter Mermaid",
+          "version": "0.0.3",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "Dicklesworthstone/frankenmermaid",
+          "name": "Frankenmermaid",
+          "version": "0.4.0",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "xai-org/grok-build",
+          "name": "Grok renderer",
+          "version": "git-2bdd1d6a6369",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "kitlangton/merman",
+          "name": "Kitlangton Merman",
+          "version": "0.2.1",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "Latias94/merman",
+          "name": "Latias Merman",
+          "version": "0.9.2",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "Yassimba/loom",
+          "name": "Loom renderer",
+          "version": "0.10.0",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "spacedock-dev/mermaidtext",
+          "name": "MermaidText",
+          "version": "git-a6b0c7657b94",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "tariqshams/mermaidtui",
+          "name": "MermaidTUI",
+          "version": "0.0.6",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "emtyty/merslim",
+          "name": "Merslim",
+          "version": "0.2.3",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "wevm/ondine",
+          "name": "Ondine",
+          "version": "0.0.3",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "anomalyco/opencode",
+          "name": "OpenCode Merman",
+          "version": "2.0.26",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        },
+        {
+          "project": "dfadler/zombie-mermaid",
+          "name": "Zombie Mermaid",
+          "version": "5.10.2",
+          "planned": 4,
+          "passed": 0,
+          "nonpasses": 0,
+          "unresolved": 4,
+          "outcomes": {
+            "Correct": 0,
+            "Incorrect": 0,
+            "Unknown": 4
+          },
+          "unrankedReason": "No typed source-rejection observations",
+          "rank": null
+        }
+      ]
+    }
+  ],
+  "missing": [],
+  "timing": [
+    {
+      "definition": "timing",
+      "name": "Matched-workload Rendering Time",
+      "task": "Complete the same fixed rendering workload in a paired run with qualified sampled outputs and reference measurements.",
+      "score": "Paired time ratio, lowest first, within each matched run.",
+      "why": "The same qualified work takes less time relative to that run’s repeated reference.",
+      "ties": "Equal ratios share a rank. Different pairs and workloads do not share a speed rank.",
+      "tableId": "run-169f88905fdbc95c9ea7a07d",
+      "measuredAt": "2026-11-01T18:00:24.828Z",
+      "updatedAt": "2026-11-01T18:00:24.828Z",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/11/timing-bundle-32ddd35546775875c757119c.json",
+        "sha256": "2ee7ba753137ae9511a491cd46dd0369400bc94cf55268528177a957b919530f"
+      },
+      "format": "png",
+      "cohort": "native-timing:png:df71a086e7ef",
+      "qualified": false,
+      "scope": "PNG; first-use; 3 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running. Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 3 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+      "rows": [
+        {
+          "project": "mermaid-js/mermaid",
+          "name": "Mermaid",
+          "version": "artifact a8a6a6f805b074a8",
+          "examples": 3,
+          "rounds": 6,
+          "ratio": null,
+          "workloadMs": null,
+          "interval": null,
+          "unrankedReason": "Timing qualification is unresolved: Observed A/A control spread exceeds the declared noise ceiling",
+          "rank": null
+        },
+        {
+          "project": "pub:mermaid_flutter",
+          "name": "Mermaid Flutter",
+          "version": "artifact 3872a782c80a471e",
+          "examples": 3,
+          "rounds": 6,
+          "ratio": null,
+          "workloadMs": null,
+          "interval": null,
+          "unrankedReason": "Timing qualification is unresolved: Observed A/A control spread exceeds the declared noise ceiling",
+          "rank": null
+        }
+      ]
+    },
+    {
+      "definition": "timing",
+      "name": "Matched-workload Rendering Time",
+      "task": "Complete the same fixed rendering workload in a paired run with qualified sampled outputs and reference measurements.",
+      "score": "Paired time ratio, lowest first, within each matched run.",
+      "why": "The same qualified work takes less time relative to that run’s repeated reference.",
+      "ties": "Equal ratios share a rank. Different pairs and workloads do not share a speed rank.",
+      "tableId": "run-912eed771955188d1b8f65da",
+      "measuredAt": "2026-11-01T17:05:55.241Z",
+      "updatedAt": "2026-11-01T17:05:55.241Z",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/8/timing-bundle-f9a2724cdb046cd29a26887a.json",
+        "sha256": "c050ddb7211f3064bb94e271448da045e5c2c85d843cc6d5af3aa88b49c70cbc"
+      },
+      "format": "terminal",
+      "cohort": "native-timing:terminal:d54f8f86420b",
+      "qualified": false,
+      "scope": "TERMINAL; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host request through fresh owned Node-worker RPC, cold public CLI process startup/import/render, complete drained stdout bytes and RPC return; worker initialization, artifact verification, retention and full output grading excluded. Filesystem/OS caches uncontrolled; frozen package bytecode caches retained; no warm renderer. Corpus: Terminal project documentation and regression fixtures: tariqshams/mermaidtui@ca59dd9115c290be846c2bd62925b8bd44331d51; crafter-station/mermaid@1bac24116826233c3b0ad8da589d7223d77a451a; dfadler/zombie-mermaid@8cc982128bed11d976fb38164c4cdb47be7bd34d; spacedock-dev/mermaidtext@a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12; kais-radwan/ascii-mermaid@a91a0c7baec6392212c59221bc67389bb617feb7; 6 exact inputs matched to the committed corpus. Per-file origins and any authored adaptations are retained in the source inventory and terminal-inputs.json; exact source IDs and hashes are in the plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+      "rows": [
+        {
+          "project": "AlexanderGrooff/mermaid-ascii",
+          "name": "Mermaid ASCII",
+          "version": "artifact d790ceca22095b6a",
+          "examples": 6,
+          "rounds": 6,
+          "ratio": null,
+          "workloadMs": null,
+          "interval": null,
+          "unrankedReason": "Timing qualification is unresolved: Observed A/A control spread exceeds the declared noise ceiling",
+          "rank": null
+        },
+        {
+          "project": "fasouto/termaid",
+          "name": "Termaid",
+          "version": "artifact 88d0998d656a0a9f",
+          "examples": 6,
+          "rounds": 6,
+          "ratio": null,
+          "workloadMs": null,
+          "interval": null,
+          "unrankedReason": "Timing qualification is unresolved: Observed A/A control spread exceeds the declared noise ceiling",
+          "rank": null
+        }
+      ]
+    },
+    {
+      "definition": "timing",
+      "name": "Matched-workload Rendering Time",
+      "task": "Complete the same fixed rendering workload in a paired run with qualified sampled outputs and reference measurements.",
+      "score": "Paired time ratio, lowest first, within each matched run.",
+      "why": "The same qualified work takes less time relative to that run’s repeated reference.",
+      "ties": "Equal ratios share a rank. Different pairs and workloads do not share a speed rank.",
+      "tableId": "run-3a7bff74601aaf7979d96677",
+      "measuredAt": "2026-11-01T16:25:44.614Z",
+      "updatedAt": "2026-11-01T16:25:44.614Z",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/7/timing-bundle-faef08653bc195e68bbc8c90.json",
+        "sha256": "59daefc274716ac815366934e10cd3e2884bc7653e5b55b46b2bba4d69ef1c68"
+      },
+      "format": "svg",
+      "cohort": "native-timing:svg:46396f0063bf",
+      "qualified": true,
+      "scope": "SVG; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 6 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+      "rows": [
+        {
+          "project": "crabtalk/bezel",
+          "name": "Bezel",
+          "version": "artifact 4c4d1a36b9325205",
+          "examples": 6,
+          "rounds": 6,
+          "ratio": 0.1595717049481109,
+          "workloadMs": 229.5774005,
+          "interval": "0.14437694393278214–0.1930668527748263",
+          "unrankedReason": null,
+          "rank": 1
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "name": "Mermaid",
+          "version": "artifact a8a6a6f805b074a8",
+          "examples": 6,
+          "rounds": 6,
+          "ratio": 1,
+          "workloadMs": 1434.3678225,
+          "interval": "reference",
+          "unrankedReason": null,
+          "rank": 2
+        }
+      ]
+    },
+    {
+      "definition": "timing",
+      "name": "Matched-workload Rendering Time",
+      "task": "Complete the same fixed rendering workload in a paired run with qualified sampled outputs and reference measurements.",
+      "score": "Paired time ratio, lowest first, within each matched run.",
+      "why": "The same qualified work takes less time relative to that run’s repeated reference.",
+      "ties": "Equal ratios share a rank. Different pairs and workloads do not share a speed rank.",
+      "tableId": "run-8a3895883b28ce34ed78c1aa",
+      "measuredAt": "2026-11-01T16:20:47.248Z",
+      "updatedAt": "2026-11-01T16:20:47.248Z",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/6/timing-bundle-2818be639c8a16f60e39c81e.json",
+        "sha256": "931ee1ac67584b96b1618c9e7126d3d3eadbe8fc478641d909b49457ffa5c37a"
+      },
+      "format": "svg",
+      "cohort": "native-timing:svg:46396f0063bf",
+      "qualified": false,
+      "scope": "SVG; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 6 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+      "rows": [
+        {
+          "project": "mermaid-js/mermaid",
+          "name": "Mermaid",
+          "version": "artifact a8a6a6f805b074a8",
+          "examples": 6,
+          "rounds": 6,
+          "ratio": null,
+          "workloadMs": null,
+          "interval": null,
+          "unrankedReason": "Timing qualification is unresolved: Observed A/A control spread exceeds the declared noise ceiling",
+          "rank": null
+        },
+        {
+          "project": "obsidianmd/pele",
+          "name": "Pele",
+          "version": "artifact 323c16de7844d4b6",
+          "examples": 6,
+          "rounds": 6,
+          "ratio": null,
+          "workloadMs": null,
+          "interval": null,
+          "unrankedReason": "Timing qualification is unresolved: Observed A/A control spread exceeds the declared noise ceiling",
+          "rank": null
+        }
+      ]
+    },
+    {
+      "definition": "timing",
+      "name": "Matched-workload Rendering Time",
+      "task": "Complete the same fixed rendering workload in a paired run with qualified sampled outputs and reference measurements.",
+      "score": "Paired time ratio, lowest first, within each matched run.",
+      "why": "The same qualified work takes less time relative to that run’s repeated reference.",
+      "ties": "Equal ratios share a rank. Different pairs and workloads do not share a speed rank.",
+      "tableId": "run-fbd4eb61273053c68183839c",
+      "measuredAt": "2026-11-01T16:15:57.281Z",
+      "updatedAt": "2026-11-01T16:15:57.281Z",
+      "receipt": {
+        "url": "https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/5/timing-bundle-61c17619018ebfe1fd24cfd3.json",
+        "sha256": "64bca906148915a6e3f12bbe4095284109082147becf0033442c4f9ec0de46da"
+      },
+      "format": "svg",
+      "cohort": "native-timing:svg:46396f0063bf",
+      "qualified": true,
+      "scope": "SVG; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 6 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.",
+      "rows": [
+        {
+          "project": "wevm/ondine",
+          "name": "Ondine",
+          "version": "artifact 0fd3420d1cc8f9e0",
+          "examples": 6,
+          "rounds": 6,
+          "ratio": 0.08523873550987235,
+          "workloadMs": 125.054671,
+          "interval": "0.06921566547108297–0.10070715129587977",
+          "unrankedReason": null,
+          "rank": 1
+        },
+        {
+          "project": "mermaid-js/mermaid",
+          "name": "Mermaid",
+          "version": "artifact a8a6a6f805b074a8",
+          "examples": 6,
+          "rounds": 6,
+          "ratio": 1,
+          "workloadMs": 1458.243882,
+          "interval": "reference",
+          "unrankedReason": null,
+          "rank": 2
+        }
+      ]
+    }
+  ],
+  "unscored": [
+    {
+      "name": "Harness and Observer Regressions",
+      "reason": "Development checks test Trident; they do not compare renderer results."
+    },
+    {
+      "name": "Public Model Regressions",
+      "reason": "Optional API maintenance checks have no shared renderer score."
+    }
+  ],
+  "limits": "Case ranks order recorded passes on the fixed planned cases. Unresolved assessments remain visible. Timing ranks apply only within each qualified paired workload. This report runs no renderers or output graders.",
+  "source": {
+    "path": "/workspace/trident/results/latest.json",
+    "sha256": "eef4f32821a7acfe62baae7260233a696adfbc63ad12f785bc8967b593f8e0dc"
+  }
+}

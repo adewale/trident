@@ -2,6 +2,8 @@
 
 [Latest DaveBench rankings: SVG/PNG completion and time](docs/davebench-results-2026-11-02.md) — 1,342 documentation examples, three runs, outputs discarded.
 
+[Other benchmark scoreboards](docs/benchmark-scoreboards.md) — explicit tasks, score directions, reasons and stack-ranked retained results. Regenerate with `bun commands.ts rankings --out FRESH_DIRECTORY`.
+
 [What Trident reliably measures](docs/measurement-contracts.md): executable measurement contracts, assessment coverage, instrument qualification and offline replay.
 
 [Readiness and executed evidence](docs/measurement-readiness.md): retained benchmarks, implemented repairs, actual public-release measurements and remaining qualification work.

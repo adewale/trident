@@ -9,6 +9,7 @@ import { communityCatalogFile } from './trident-paths.ts'
 import { measurementNumber, rankResults } from './result-ranking.ts'
 import { campaignTables } from './campaign-tables.ts'
 import { measurementContracts, measurementForTable, validateTableMeasurement, type MeasurementBinding } from './measurement-contracts.ts'
+import { benchmarkDefinitions } from './benchmark-definitions.ts'
 
 type Cell = string | number
 export interface SnapshotTable {
@@ -158,7 +159,7 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
 }
 /** Owning import records publish the table rather than supersede it. Order
  * later attempts against that publication window, retaining original clocks. */
-function supersedingAttempt(attempts: SnapshotAttempt[], entry: SnapshotTable, project: string) {
+export function supersedingAttempt(attempts: SnapshotAttempt[], entry: SnapshotTable, project: string) {
   // Historical docs tables predate PNG lanes and describe SVG. A PNG-only
   // attempt cannot erase that SVG evidence, including when setup was blocked.
   const output = entry.outputFormat ?? (entry.suite === 'docs' ? 'svg' : undefined)
@@ -253,7 +254,7 @@ export function rankedRows(entry: SnapshotTable, name: (id: string) => string) {
     const numerator = metric ? numeric(row.values[entry.columns.indexOf(metric.column)]) : NaN
     const denominator = metric?.denominator ? numeric(row.values[entry.columns.indexOf(metric.denominator)]) : 1
     const total = entry.population ? numeric(row.values[entry.columns.indexOf(entry.population.total)]) : NaN
-    const unobserved = (entry.population?.outcomes ?? []).filter(column => /^(Blocked|Binding gaps|Unavailable|Unexecuted|Unmeasured|Missing|Not applicable|N\/A|Skipped)$/.test(column)).reduce((sum, column) => sum + numeric(row.values[entry.columns.indexOf(column)]), 0)
+    const unobserved = (entry.population?.outcomes ?? []).filter(column => /^(Unknown|Blocked|Binding gaps|Unavailable|Unexecuted|Unmeasured|Missing|Not applicable|N\/A|Skipped)$/.test(column)).reduce((sum, column) => sum + numeric(row.values[entry.columns.indexOf(column)]), 0)
     const value = numerator / denominator
     return Number.isFinite(numerator) && Number.isFinite(denominator) && denominator > 0 && Number.isFinite(value) && !(total > 0 && unobserved >= total) ? value : null
   } }).map(({ row, ...rank }) => ({ ...row, ...rank, ...(rankingNote(entry, row) ? { unrankedReason: rankingNote(entry, row) } : {}) }))
@@ -422,6 +423,8 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
       lines.push(`<a id="${anchor(entry.id)}"></a>`, '', `**${entry.id}** · ${date(entry.measuredAt)}${entry.historical ? ' · Historical' : ''}${entry.diagnostic ? ' · **Diagnostic subset**' : ''}${entry.artifactRole === 'candidate' ? ' · **Source candidates**' : ''} · unit: ${md(entry.unit)} · ${entry.rolling ? '[latest source run](' + entry.receipt.url + ')' : receiptLink(entry.receipt)}`, '', entry.caption, '')
       const contract = measurementContracts[measurementForTable(entry)]
       lines.push('**Measurement:** ' + contract.question, '', '**Claim boundary:** ' + contract.limit, '')
+      const definition = entry.suite === 'mermaid-behaviour' ? benchmarkDefinitions.behaviour : entry.suite === 'public-conformance' ? benchmarkDefinitions.api : entry.suite === 'community' && entry.drawingOutcomePolicy ? benchmarkDefinitions.terminal : entry.suite === 'community' && entry.unit === 'invalid-source controls' ? benchmarkDefinitions.rejection : undefined
+      if (definition) lines.push('**Better results:** ' + definition.score + ' ' + definition.why + ' ' + definition.ties, '')
       const rows = rankedRows(entry, name)
       lines.push(unscored ? 'Unscored harness/observer regressions; rows are alphabetical.' : entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked.${/\bms\b/.test(entry.unit ?? '') ? ' Timing ranks describe the displayed samples and retain their qualification limits.' : ''}` : 'No comparable numeric ranking measure is available.', '')
       if (entry.drawingOutcomePolicy) lines.push('Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.', '')
@@ -503,6 +506,8 @@ export function renderPublicResults(snapshot: ResultsSnapshot, catalog: LineageC
       if (occurrences && occurrences !== totals[0]) lines.push(`The full inventory has ${occurrences} documentation occurrences; invalid-source and configuration-only controls are reported separately from drawings.`, '')
     }
     if (!lane.drawing) lines.push('A case passes only when all its assertions pass. Unavailable includes missing public bindings and unrun cases. These are selected behaviours, not the entire Mermaid test suite.', '')
+    const definition = lane.suite === 'community' ? benchmarkDefinitions.terminal : lane.suite === 'mermaid-behaviour' ? benchmarkDefinitions.behaviour : undefined
+    if (definition) lines.push('**Task:** ' + definition.task, '', '**Better results:** ' + definition.score + ' ' + definition.why + ' ' + definition.ties, '')
     const compare = (row: typeof entry.rows[number], rank: number | null) => {
       if (row.project === reference) return rank === null ? 'Reference not assessed' : 'Reference'
       if (rank === null) return 'Not assessed'
@@ -526,6 +531,7 @@ export function renderPublicResults(snapshot: ResultsSnapshot, catalog: LineageC
     lines.push(`[Full outcomes, correctness bounds and collection details](${detail(entry)}) · [Source evidence](${entry.receipt.url})`, '')
   }
   lines.push('## Rendering time', '', 'Lower ratios are faster. The latest attempt for each project pair and format is shown; older workloads remain in the details. Each table compares one fixed workload against its own reference in the same run. Workload times are median replica-round totals; ratios are medians of paired round ratios. Times include the stated public-call boundary and do not describe the full DaveBench corpus. Only runs with correct sampled outputs and sufficiently stable repeated reference measurements receive a rank.', '')
+  lines.push('**Task:** ' + benchmarkDefinitions.timing.task, '', '**Better results:** ' + benchmarkDefinitions.timing.score + ' ' + benchmarkDefinitions.timing.why + ' ' + benchmarkDefinitions.timing.ties, '')
   const latestPairs = new Map<string, SnapshotTable>()
   for (const entry of snapshot.tables.filter(entry => entry.suite === 'portable' && entry.artifactRole !== 'candidate' && entry.cohort?.startsWith('native-timing:')).sort(recent)) {
     const format = entry.cohort!.split(':')[1]!

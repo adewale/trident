@@ -69,6 +69,10 @@ The full inventory has 548 documentation occurrences; invalid-source and configu
 
 **Corpus:** [Pinned terminal-project docs, tests, issues and PRs, with explicit adaptations](BENCHMARKS.md#terminal-rendering--project-examples). **Population:** 116 drawings per project. **Date:** 2026-11-01.
 
+**Task:** Render the fixed 116 terminal drawing examples and satisfy every required fact in each whole case.
+
+**Better results:** Verified whole-case passes, highest first. More of the fixed examples satisfy their specified drawing checks. Equal pass counts share a rank. No comparable time tie-break was recorded.
+
 | Rank | Project | Version | Correct | Failed | Unresolved | vs Mermaid ASCII |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Termaid | 0.10.0 | 65 | 33 | 18 | Uncertain |
@@ -97,6 +101,10 @@ The full inventory has 548 documentation occurrences; invalid-source and configu
 **Corpus:** [Adapted Mermaid upstream tests](BENCHMARKS.md#mermaid-behaviour-tests), covering syntax-family detection and SVG accessible names/descriptions at [1fb7869](https://github.com/mermaid-js/mermaid/tree/1fb7869866dd619168d840291c9c54b4f129758b). **Population:** 49 whole behaviour cases per project. **Date:** 2026-11-01.
 
 A case passes only when all its assertions pass. Unavailable includes missing public bindings and unrun cases. These are selected behaviours, not the entire Mermaid test suite.
+
+**Task:** Pass all assertions in each of 49 selected public family-detection and SVG naming cases.
+
+**Better results:** Passed whole cases, highest first. More of the selected observable Mermaid behaviours work through the public interface. Equal pass counts share a rank. Individual assertions are not extra votes.
 
 | Rank | Project | Version | Passed | Failed | Unavailable | vs Mermaid |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -133,6 +141,10 @@ A case passes only when all its assertions pass. Unavailable includes missing pu
 ## Rendering time
 
 Lower ratios are faster. The latest attempt for each project pair and format is shown; older workloads remain in the details. Each table compares one fixed workload against its own reference in the same run. Workload times are median replica-round totals; ratios are medians of paired round ratios. Times include the stated public-call boundary and do not describe the full DaveBench corpus. Only runs with correct sampled outputs and sufficiently stable repeated reference measurements receive a rank.
+
+**Task:** Complete the same fixed rendering workload in a paired run with qualified sampled outputs and reference measurements.
+
+**Better results:** Paired time ratio, lowest first, within each matched run. The same qualified work takes less time relative to that run’s repeated reference. Equal ratios share a rank. Different pairs and workloads do not share a speed rank.
 
 ### SVG
 

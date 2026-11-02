@@ -175,6 +175,17 @@ their separate scopes. [Measurement rules](MEASUREMENT.md) give the clock detail
 
 ## Mermaid Behaviour Tests
 
+**Task:** Pass all assertions in each of 49 selected public family-detection and SVG naming cases.
+
+**Better results:** Passed whole cases, highest first. More of the selected observable Mermaid behaviours work through the public interface.
+
+**Ties:** Equal pass counts share a rank. Individual assertions are not extra votes. Entirely unresolved rows are unranked.
+
+[Ranked results](docs/benchmark-scoreboards.md). No comparable latency tie-break is inferred.
+
+<details>
+<summary>Corpus, execution and assessment details</summary>
+
 Task: pass portable, observable behaviours adapted from Mermaid's tests. The
 [committed selection](corpus/mermaid-behaviour-tests.json) contains **49 whole
 cases, 56 ordered source stimuli and 75 individual checks**: 30 family/keyword
@@ -215,7 +226,20 @@ unrun cases remain visible. Missing capabilities earn no pass and no invented
 failure. Retained replay re-evaluates actual values rather than copying the old
 154-callback diagnostic's verdicts.
 
+</details>
+
 ## Mermaid Public API Tests — diagnostic
+
+**Task:** Pass the 154 selected unchanged Mermaid public API test callbacks.
+
+**Better results:** Passed callbacks, highest first. More of these specific Mermaid API contracts can be used unchanged.
+
+**Ties:** Equal pass counts share a rank. No comparable time tie-break was recorded. Entirely unresolved rows are unranked.
+
+[Ranked results](docs/benchmark-scoreboards.md). No comparable latency tie-break is inferred.
+
+<details>
+<summary>Corpus, execution and assessment details</summary>
 
 Task: pass the unchanged public-behaviour assertions in Mermaid's own tests.
 The current independently checked [expanded diagnostic scope](docs/mermaid-public-conformance.md)
@@ -260,7 +284,20 @@ Retained standalone results can enter the normal results snapshot; collection is
 explicit through `mermaid:public-tests` until source/runtime/binding prerequisites
 are frozen for campaign scheduling.
 
+</details>
+
 ## Terminal Rendering — Project Examples
+
+**Task:** Render the fixed 116 terminal drawing examples and satisfy every required fact in each whole case.
+
+**Better results:** Verified whole-case passes, highest first. More of the fixed examples satisfy their specified drawing checks.
+
+**Ties:** Equal pass counts share a rank. No comparable time tie-break was recorded. Entirely unresolved rows are unranked.
+
+[Ranked results](docs/benchmark-scoreboards.md). No comparable latency tie-break is inferred.
+
+<details>
+<summary>Corpus, execution and assessment details</summary>
 
 Task: correctly render the named source corpus as terminal display cells, then
 measure completed rendering on the same verified work. The unchanged [original
@@ -308,6 +345,28 @@ keeps original and active populations separate, including the three fresh
 adaptation calls and 15 uncollected project coordinates. The [dated earlier
 results](docs/terminal-results-2026-10-31.md) retain their original 16-drawing
 scope and cannot be relabelled with the new contracts.
+
+</details>
+
+## Terminal Invalid-input Rejection
+
+**Task:** Explicitly reject the four independently invalid terminal-source controls.
+
+**Better results:** Verified correct rejections, highest first. More known-invalid sources receive the required rejection. Generic crashes and untyped failures earn no credit.
+
+**Ties:** Equal correct-rejection counts share a rank.
+
+[Ranked results](docs/benchmark-scoreboards.md). Missing or unqualified results are unranked.
+
+## Matched-workload Rendering Time
+
+**Task:** Complete the same fixed rendering workload in a paired run with qualified sampled outputs and reference measurements.
+
+**Better results:** Paired time ratio, lowest first, within each matched run. The same qualified work takes less time relative to that run’s repeated reference.
+
+**Ties:** Equal ratios share a rank. Different pairs and workloads do not share a speed rank.
+
+[Ranked results](docs/benchmark-scoreboards.md). Missing or unqualified results are unranked.
 
 ## Public Model Contracts — maintenance diagnostic
 

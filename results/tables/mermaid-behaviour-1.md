@@ -12,6 +12,8 @@ Corpus: 49 whole source-derived observable behaviours from pinned Mermaid 1fb786
 
 **Claim boundary:** Selected family detection and structural naming behaviours; not whole-library conformance or drawing quality.
 
+**Better results:** Passed whole cases, highest first. More of the selected observable Mermaid behaviours work through the public interface. Equal pass counts share a rank. Individual assertions are not extra votes.
+
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Comparisons use whole-case verified pass counts. Unavailable or unrun cases leave outcomes unresolved; a count lead is not an overall quality claim. This is a comparison of the named metric, not overall project quality.
@@ -55,6 +57,8 @@ Corpus: 49 whole source-derived observable behaviours from pinned Mermaid 1fb786
 **Measurement:** Does every required assertion in the selected public behaviour case pass?
 
 **Claim boundary:** Selected family detection and structural naming behaviours; not whole-library conformance or drawing quality.
+
+**Better results:** Passed whole cases, highest first. More of the selected observable Mermaid behaviours work through the public interface. Equal pass counts share a rank. Individual assertions are not extra votes.
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked.
 

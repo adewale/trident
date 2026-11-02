@@ -12,6 +12,8 @@ Full planned terminal drawing corpus, retaining unmeasured and unreviewed inputs
 
 **Claim boundary:** Verified counts depend on assessment coverage. Unknown representations are assessment gaps, not renderer defects. PNG review reuse does not assess unseen images.
 
+**Better results:** Verified whole-case passes, highest first. More of the fixed examples satisfy their specified drawing checks. Equal pass counts share a rank. No comparable time tie-break was recorded.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
@@ -48,6 +50,8 @@ Current retained-evidence outcome reduction. Only the explicitly listed saved-ou
 **Measurement:** Which planned drawings satisfy every declared fact under the named output observer?
 
 **Claim boundary:** Verified counts depend on assessment coverage. Unknown representations are assessment gaps, not renderer defects. PNG review reuse does not assess unseen images.
+
+**Better results:** Verified whole-case passes, highest first. More of the fixed examples satisfy their specified drawing checks. Equal pass counts share a rank. No comparable time tie-break was recorded.
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
@@ -86,6 +90,8 @@ Independently invalid sources in the full terminal inventory, checked for typed 
 
 **Claim boundary:** A timeout, crash, missing adapter or observer exception is not a correct rejection.
 
+**Better results:** Verified correct rejections, highest first. More known-invalid sources receive the required rejection. Generic crashes and untyped failures earn no credit. Equal correct-rejection counts share a rank.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
@@ -120,6 +126,8 @@ Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt
 **Measurement:** Does the public interface explicitly reject the independently invalid source?
 
 **Claim boundary:** A timeout, crash, missing adapter or observer exception is not a correct rejection.
+
+**Better results:** Verified correct rejections, highest first. More known-invalid sources receive the required rejection. Generic crashes and untyped failures earn no credit. Equal correct-rejection counts share a rank.
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
