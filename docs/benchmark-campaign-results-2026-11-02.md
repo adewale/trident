@@ -81,41 +81,10 @@
 | 17 | kitlangton/merman | 0.2.1 | 181 | 1161 | 0 / 0 / 0 | 0.142 | persistent Bun public terminal API |
 | 18 | tariqshams/mermaidtui | 0.0.6 | 23 | 1319 | 0 / 0 / 0 | 0.021 | persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate |
 
-## Requested equal-weight synthesis
-
-**Weights: DaveBench ⅓, Drawing Correctness ⅓, Mermaid Fidelity ⅓.** DaveBench is normalized to a rank percentile within each format and averaged across applicable formats. The other two components have no new measurements. Missing results are not scored as zero and are not dropped from the average.
-
-Rows below are ordered by the measured DaveBench component, not by an overall rank. An overall score requires all three benchmarks.
-
-| Project | DaveBench / 100 | Drawing Correctness / 100 | Mermaid Fidelity / 100 | Overall / 100 |
-|---|---:|---:|---:|---|
-| spacedock-dev/mermaidtext | 100.0 | — | — | Unranked |
-| Dicklesworthstone/frankenmermaid | 96.1 | — | — | Unranked |
-| xai-org/grok-build | 94.1 | — | — | Unranked |
-| sandyyst/dsh-plugin-mermaid-gb-svg | 93.3 | — | — | Unranked |
-| mermaid-js/mermaid | 83.3 | — | — | Unranked |
-| fasouto/termaid | 82.4 | — | — | Unranked |
-| crabtalk/bezel | 73.3 | — | — | Unranked |
-| wevm/ondine | 72.2 | — | — | Unranked |
-| Latias94/merman | 68.2 | — | — | Unranked |
-| obsidianmd/pele | 66.7 | — | — | Unranked |
-| Yassimba/loom | 58.8 | — | — | Unranked |
-| 1jehuang/mermaid-rs-renderer | 56.7 | — | — | Unranked |
-| adewale/agentic-mermaid | 50.2 | — | — | Unranked |
-| orestesgaolin/mermaid | 46.7 | — | — | Unranked |
-| kais-radwan/ascii-mermaid | 41.2 | — | — | Unranked |
-| emtyty/merslim | 39.9 | — | — | Unranked |
-| dfadler/zombie-mermaid | 29.0 | — | — | Unranked |
-| evangwt/xmermaid | 26.7 | — | — | Unranked |
-| Mootikins/figurehead-rs | 23.5 | — | — | Unranked |
-| lukilabs/beautiful-mermaid | 18.7 | — | — | Unranked |
-| AlexanderGrooff/mermaid-ascii | 17.6 | — | — | Unranked |
-| crafter-station/mermaid | 16.2 | — | — | Unranked |
-| anomalyco/opencode | 11.8 | — | — | Unranked |
-| kitlangton/merman | 5.9 | — | — | Unranked |
-| KlangHaus/vitepress-plugin-diagram | 0.0 | — | — | Unranked |
-| pub:mermaid_flutter | Unresolved | — | — | Unranked |
-| tariqshams/mermaidtui | 0.0 | — | — | Unranked |
+Equal weights remain one third each. Drawing Correctness and Mermaid Fidelity
+have no measurements at the agreed scope, so overall scores are unavailable.
+The [original numeric archive](evidence/benchmark-campaign-2026-11-02/report.json)
+retains the earlier report schema; exact reproduction uses commit `344d5ab`.
 
 ## Blocked or incomplete execution
 
@@ -125,7 +94,7 @@ The expanded benchmarks need implementation before these rows can support a best
 
 ## Evidence and execution notes
 
-[All repeat rows (CSV)](evidence/benchmark-campaign-2026-11-02/runs.csv) · [Machine-readable report](evidence/benchmark-campaign-2026-11-02/report.json) · [Frozen 37-component version ledger](evidence/benchmark-campaign-2026-11-02/versions.json) · [Method, corrections and reproduction](evidence/benchmark-campaign-2026-11-02/README.md).
+[Archived repeat rows (CSV)](evidence/benchmark-campaign-2026-11-02/runs.csv) · [Machine-readable report](evidence/benchmark-campaign-2026-11-02/report.json) · [Frozen 37-component version ledger](evidence/benchmark-campaign-2026-11-02/versions.json) · [Method, corrections and reproduction](evidence/benchmark-campaign-2026-11-02/README.md).
 
 All 27 comparison projects had current releases or immutable source selections resolved before preparation; 26 were measured. This includes Agentic Mermaid 0.5.6, Pele 1.13.0, Bezel 0.2.24, DSH Mermaid GB SVG 0.1.5, Merman native CLI 0.9.3 and Dart mermaid_core 0.3.2. Source-only revisions and companion packages are in the ledger.
 
@@ -135,4 +104,4 @@ Execution used Chromium 154.0.8037.57, Bun 1.4.2 and Node workers 24.19.0. The 2
 
 These are counts of successful public operations, not verified correct diagrams. The full three-benchmark request remains incomplete because Trident still needs the expanded drawing assessment and full pinned-suite Fidelity campaign. Equal-weight synthesis is implemented but cannot manufacture those missing measurements.
 
-Harness checks: **61 counter, score, version and command regression tests passed**; typecheck, lint and the historical results snapshot check passed. Rebuilding this report from the archived numeric inputs reproduced its JSON, Markdown and CSV exactly.
+Harness checks: **61 counter, score, version and command regression tests passed**; typecheck, lint and the historical results snapshot check passed. At commit `344d5ab`, rebuilding the archived report reproduced its JSON, Markdown and CSV exactly. The active reporter now emits only measured rankings in JSON and Markdown.

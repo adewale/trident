@@ -1,99 +1,40 @@
 # Trident
 
-[The three benchmarks: DaveBench, Drawing Correctness and Mermaid Fidelity](docs/benchmark-portfolio.md) — definitions, score directions, source selection, history and implementation status.
+Trident benchmarks Mermaid implementations on three questions:
 
-[Campaign version ledger](docs/evidence/benchmark-campaign-2026-11-02/versions.json) — all 27 projects checked before preparation; DaveBench refreshes releases before preparation and rejects stale cached artifacts. Refresh the catalog for other collectors with `bun commands.ts versions --out FRESH_DIRECTORY` and use its `catalog.json` via `--community-catalog`.
+| Benchmark | Measures | Status |
+|---|---|---|
+| **DaveBench** | Completed documentation renders and elapsed time, separately for SVG, PNG and terminal text. | Implemented. [Results](docs/benchmark-campaign-results-2026-11-02.md). |
+| **Drawing Correctness** | Required drawing facts on a shared corpus of examples and real project regressions, across output formats. | Expanded corpus and cross-format checks still needed. |
+| **Mermaid Fidelity** | Original assertions from the full pinned Mermaid test inventory, through candidate adapters. | Shared runner and adapters still needed. |
 
-[Latest benchmark campaign: SVG, PNG and terminal DaveBench](docs/benchmark-campaign-results-2026-11-02.md) — 26 projects measured, 1,342 documentation examples and three runs per format, outputs discarded. The expanded Drawing Correctness and Mermaid Fidelity runners are still missing, so an overall score is unavailable.
+[Definitions and corpus requirements](docs/benchmark-portfolio.md) · [DaveBench method](docs/davebench-definition.md)
 
-[Historical subset scoreboards](docs/benchmark-scoreboards.md) — retained terminal drawing, selected behavior/API and timing results. These are not results for the expanded benchmarks. Regenerate with `bun commands.ts rankings --out FRESH_DIRECTORY`.
+## Work on the benchmarks
 
-[Benchmark breadth review](docs/benchmark-breadth.md): API compatibility, invalid-input rejection and matched timing are Trident coverage-repair diagnostics; their small measured cohorts do not establish narrow eligibility.
+The priority is implementing Drawing Correctness and Mermaid Fidelity. Existing
+readers, drivers and checks should be reused. Freeze versions once per campaign,
+check the changed invocation on a few known cases, then run the affected workload.
+Record a blocked project and continue with the others.
 
-[What Trident reliably measures](docs/measurement-contracts.md): executable measurement contracts, assessment coverage, instrument qualification and offline replay.
-
-[Readiness and executed evidence](docs/measurement-readiness.md): retained benchmarks, implemented repairs, actual public-release measurements and remaining qualification work.
-
-[Qualification results and supported claims](qualification/README.md).
-
-Trident compares Mermaid tools on input compatibility, diagram meaning and rendering cost. It invokes public interfaces and keeps drawing correctness, compatibility and timing separate.
-
-- [Benchmarks and their value](BENCHMARKS.md): what each workload measures, how to run it, and when to trust it.
-- [Initial baseline](BASELINE.md): frozen ecosystem evidence required for the first public 0.1 release.
-- [Release process](RELEASE.md): baseline assessment, exact-head checks and packaging.
-- [Scope](SCOPE.md): core benchmark work, application exclusions and optional maintenance.
-- [Methodology](METHODOLOGY.md): corpus, correctness checks, sampling and fair comparisons.
-- [Measurement rules](MEASUREMENT.md): interfaces, cache state, overfitting and claims.
-- [Catalog and support](CATALOG.md): what the entries mean and which suites have bindings.
-- [Verified support](SUPPORT-QUALITY.md): executed public interfaces and remaining gaps for every catalog entry.
-- [Comparison contracts](FAIRNESS.md): planning, independent inputs and comparable result rankings.
-- [Ecosystem results](RESULTS.md): benchmark tables and charts, measurement dates and missing results for every eligible project.
-
-The [1 November campaign](RESULTS.md) covers the 27 eligible projects: 548
-documentation inputs in SVG and PNG, 120 terminal inputs and 49 adapted Mermaid
-behaviour cases. Tables show recorded artifact versions, verified counts,
-missing bindings and unresolved content. The [raw archive](https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-11-01)
-keeps public-call records, outputs, source provenance and failed attempts.
-
-The [frozen B0 report](docs/qualification-results-2026-10-31.md) retains its
-original minimum cohorts, observer and separate timing comparisons.
-[31 October](docs/ecosystem-campaign-2026-10-31.md) and
-[30 October](https://github.com/adewale/trident/blob/8b2404b0bf2940e571ca0e14e54eeff0517a98ca/README.md)
-remain historical campaigns. A verified count is a lower bound while unknowns remain.
-
-## Benchmarks
-
-| Benchmark | What it measures | Corpus and expected answers | Results |
-|---|---|---|---|
-| **DaveBench** | Completed renders and elapsed time, separately for SVG, PNG and terminal text. | Every Mermaid block occurrence in the same pinned generated documentation tree; currently 1,342 occurrences across 49 files. | More completions first, then lower median total time over three runs. Outputs discarded without assessment. SVG, PNG and terminal measured. [Latest results](docs/benchmark-campaign-results-2026-11-02.md). [Definition](docs/davebench-definition.md). |
-| **Drawing Correctness** | Whether the output satisfies all specified drawing facts: objects, labels, connections, direction, groups, values and regression-specific geometry. Separate SVG, PNG and terminal tables. | Expand the existing 116 terminal drawing cases with tests, issues and PRs from all renderer projects, prioritizing popular and recurring rendering defects. | More whole-case passes. Broader corpus and cross-format assessment pending; old terminal scores retain their original scope. |
-| **Mermaid Fidelity** | How many original tests from a pinned Mermaid suite an implementation passes through adapters exposing its real behavior. | Start with the full pinned test inventory, execute original assertions, and account explicitly for skips, exclusions and adapter gaps. Follow Pele and Agentic Mermaid's pinned-suite approach. | More fully passed upstream cases on the same fixed population. Shared runner pending; the old 49/154 selections are partial evidence. |
-
-[Benchmark definitions](BENCHMARKS.md) give commands, selection rules and limits.
-[RESULTS.md](RESULTS.md) is the generated ecosystem overview; the [frozen B0
-report](docs/qualification-results-2026-10-31.md) preserves the initial measured
-population and observer. New grading does not rewrite that baseline.
-
-Every result names its corpus, revision, selection or adaptation, expected-answer
-origin, renderer artifact and output format. A verified-count rank orders the
-available evidence. Overlapping correctness bounds do not establish an accuracy
-winner. Performance belongs to each workload: browser calls, fresh CLI processes
-and complete PNG exports have separate clocks.
-
-DaveBench uses the same 30-example warm-up followed by three complete timed runs
-per renderer and output format. It retains numeric counts and timings only.
-The earlier retained-output drawing assessments and their qualified timing
-studies remain dated historical results in [RESULTS.md](RESULTS.md).
-
-The old 49 behavior cases and 154 public API callbacks feed Mermaid Fidelity;
-they are no longer separate headline benchmarks. Invalid-input controls and
-matched-workload timing retain their historical results without additional league
-tables. Authored feature/edit cases, legacy compatibility, model editing contracts
-and adaptive cost studies remain maintenance diagnostics. Product-specific
-editing contracts belong in their owning projects. Assertion Replay and the
-standalone nonblank PNG exporter are retired. [Historical methods](BENCHMARKS.md#retired-comparisons-and-reference-validation)
-remain available with their original evidence.
-
-### Verify Trident before collecting scores
-
-Use the [six-project harness profile](qualification/harness-profile.json) only
-when a transport changes. Mermaid, Mermaid ASCII, Agentic Mermaid, Mermaid
-Flutter, Latias Merman and Termaid cover the 16 execution paths with 56 output
-calls and two model workflows. Its five-minute collection budget excludes
-preparation. These are invocation controls, not renderer rankings.
+During development, run affected tests. Full timing repeats belong after the
+invocation works. A report needs the actual results and a readable table; extra
+manifests, duplicate archives and publication checks are optional release work.
+DaveBench keeps counts and times, discarding rendered outputs. Drawing checks
+and upstream assertions must still be validated; missing results stay explicit.
 
 ```sh
-bun commands.ts verify:harness --plan
-bun commands.ts bench --projects OWNER/TOOL,... --suites docs --profile full --plan
-bun commands.ts bench --projects OWNER/TOOL,... --suites docs --out FRESH_DIR
-bun commands.ts bench --terminal --plan
+bun commands.ts versions --out FRESH_VERSIONS
+bun commands.ts davebench --catalog FRESH_VERSIONS/catalog.json --prepared IMAGE_ARTIFACTS --out FRESH_IMAGES
+bun commands.ts davebench:terminal --catalog FRESH_VERSIONS/catalog.json --prepared TERMINAL_ARTIFACTS --out FRESH_TERMINAL
+bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal FRESH_TERMINAL/results.json --out FRESH_REPORT
 ```
 
-Use focused independent positive, wrong-output and equivalent-representation
-controls when grading changes. Run affected checks during development, then the
-full suite once the implementation is frozen. A broad renderer campaign is not
-a prerequisite for each observer fix. [Release checks](RELEASE.md) reuse the same
-corpora, ledgers and retained evidence.
+Prepared artifact lists identify installed public releases. Setup happens before
+timing. The report reads existing numbers and launches no renderers. Equal-weight
+[overall scoring](docs/overall-scoring.md) waits for all three benchmark results.
+
+[Historical results](RESULTS.md) · [Catalog](CATALOG.md) · [Development scope](SCOPE.md) · [Older collectors and release methods](BENCHMARKS.md)
 
 ## Supported projects
 

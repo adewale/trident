@@ -4,6 +4,17 @@ Trident compares Mermaid implementations through their public interfaces. Its
 core work is acquiring identified artifacts, invoking those interfaces, checking
 declared output, measuring comparable work and publishing readable evidence.
 
+## Current priority
+
+Implement Drawing Correctness and Mermaid Fidelity before adding reporting or
+release infrastructure. Reuse the existing public drivers, source cases and
+upstream execution machinery. Keep development runs small and affected checks
+focused; run the full workload after the changed path works. Freeze versions
+once, record blockers, and continue with available projects. Produce one result
+file and one readable table; archive packaging and publication are separate
+release tasks. Historical evidence stays available without being regenerated for
+every change.
+
 ## Core work
 
 - Public SVG, PNG and terminal rendering; portable observable behaviours selected from Mermaid tests.

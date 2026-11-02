@@ -1,30 +1,15 @@
 # Equal-weight overall score
 
-Requested on 2 November 2026: give DaveBench, Drawing Correctness and Mermaid
-Fidelity equal weight. The three original result tables remain visible.
-
-| Component | Score from 0 to 100 |
-|---|---|
-| DaveBench | Convert each format's completion-first rank to a percentile: 100 for first, 0 for last, with equal ranks sharing a score. Average the predeclared applicable formats. |
-| Drawing Correctness | For each applicable format, 100 × fully correct cases / the fixed drawing-corpus size; average those format scores. |
-| Mermaid Fidelity | 100 × fully passed upstream test cases / the fixed scored test population. |
-
 **Overall = (DaveBench + Drawing Correctness + Mermaid Fidelity) / 3.**
-Exact ties share a rank. Raw counts, times, output formats, versions and cohort
-sizes stay visible. DaveBench's score is relative to its measured participant
-cohort, not an absolute speed multiplier. A format the project does not provide
-is outside its format average; an applicable but unmeasured format is unknown.
+Each benchmark uses a 0–100 score; average its applicable output formats first.
+Missing or unresolved measurements leave the overall score unknown. Equal scores
+tie. This implements the user's equal-weight choice without inventing results.
 
-A Trident collection/assessment gap is not a zero or an omitted benchmark.
-Unresolved cases preserve a lower/upper score interval. An overall point score
-and rank require measurements for all three benchmarks. Even then, a claimed
-unique overall winner requires its score to exceed every other project's
-possible score; unresolved rivals cannot simply disappear from the comparison.
+Drawing Correctness and Mermaid Fidelity still lack the agreed campaigns.
+Current reports therefore show measured DaveBench ranks without a synthetic
+overall table. The historical 2 November archive retains its original score
+format; exact reproduction uses commit `344d5ab`.
 
-The newly defined broad Drawing Correctness and Mermaid Fidelity campaigns do
-not yet exist. Their old terminal-only and 49/154-test selections cannot be
-substituted into this formula. The [current campaign](benchmark-campaign-results-2026-11-02.md) therefore reports the
-measured DaveBench component and leaves overall scores unranked.
-
-Implementation: `unified/overall-score.ts`. The results writer is
-`bun commands.ts campaign:results --images IMAGE_RESULTS --terminal TERMINAL_RESULTS --versions VERSION_DIRECTORY --out FRESH_DIRECTORY`.
+Implementation: `overallScore` in `unified/overall-score.ts`. Apply it when all
+three measurements exist. Benchmark definitions remain in
+[the portfolio](benchmark-portfolio.md).

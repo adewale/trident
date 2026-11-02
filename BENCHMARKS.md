@@ -17,6 +17,11 @@ upstream Fidelity runner still require implementation. The older
 collectors and measurements documented below retain their original scope;
 they are not results for these expanded definitions.
 
+The development workflow is in the [README](README.md#work-on-the-benchmarks).
+Reuse the current drivers and run affected checks. New campaigns need one result
+file and a readable table; archive packaging, duplicate exports and release
+qualification are separate from implementing or running a benchmark.
+
 [Measurement contracts and qualification](docs/measurement-contracts.md) define the supported questions, executable report bindings, independent controls and retained-output replay workflow. Output production, format validity, behaviour, drawing assessment and execution cost remain separate measurements within these workloads.
 
 [Benchmark readiness](docs/measurement-readiness.md) maps the existing workloads to those questions and records executed public-release and observer-control evidence.
