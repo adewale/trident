@@ -55,6 +55,15 @@ test('invalid UTF-8 remains returned bytes while altered bytes, foreign paths an
   f.record.inventory[0]![1] = evidenceBytesDigest('different source')
   expect(() => terminalOutputMeasurements(f.record, f.root, f.expected)).toThrow('different source')
 })
+test('original v1 captures survive assessment-profile migration only with the identical literal inventory', () => {
+  const f = fixture()
+  f.record.profile = 'terminal-project-corpus-v1'
+  const expected = { ...f.expected, profile: 'terminal-project-corpus-v2' }
+  expect(terminalOutputMeasurements(f.record, f.root, expected)[0]!.observations).toHaveLength(2)
+  expect(() => terminalOutputMeasurements(f.record, f.root, { ...expected, profile: 'terminal-project-corpus-v3' })).toThrow('different source')
+  f.record.inventory[0]![1] = evidenceBytesDigest('changed source')
+  expect(() => terminalOutputMeasurements(f.record, f.root, expected)).toThrow('different source')
+})
 test('ordinary terminal report reductions expose actual output metrics beside separate unresolved drawing assessments', () => {
   const f = fixture(), out = join(f.root, 'terminal'); mkdirSync(out)
   writeFileSync(join(f.root, 'raw.json'), JSON.stringify(f.record))

@@ -8,7 +8,11 @@ export interface TerminalMeasurementCase { id: string; sourceSha256: string }
 /** Reconstruct mechanical measurements from owned raw text bytes. Stored
  * admission/content flags do not establish either return or format validity. */
 export function terminalOutputMeasurements(record: any, directory: string, expected: { profile: string; cases: readonly TerminalMeasurementCase[]; projects: readonly string[] }) {
-  if (!record || record.profile !== expected.profile || !Array.isArray(record.inventory) || JSON.stringify(record.inventory) !== JSON.stringify(expected.cases.map(input => [input.id, input.sourceSha256]))
+  // The saved-output regrader upgrades original v1 assessments to v2 while
+  // preserving the original raw record. This one migration keeps exactly the
+  // same literal source population; the inventory comparison still applies.
+  const sameProfile = record?.profile === expected.profile || record?.profile === 'terminal-project-corpus-v1' && expected.profile === 'terminal-project-corpus-v2'
+  if (!record || !sameProfile || !Array.isArray(record.inventory) || JSON.stringify(record.inventory) !== JSON.stringify(expected.cases.map(input => [input.id, input.sourceSha256]))
     || !Array.isArray(record.artifacts) || !Array.isArray(record.outputs) || new Set(record.artifacts.map((entry: any) => entry.project)).size !== record.artifacts.length
     || JSON.stringify(record.artifacts.map((entry: any) => entry.project).sort()) !== JSON.stringify([...expected.projects].sort())) throw Error('Terminal output measurement has a different source/artifact population')
   const root = realpathSync(directory), coordinates = new Set<string>()
