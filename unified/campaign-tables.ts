@@ -27,6 +27,7 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   const artifactRole = campaignArtifactRole(report), candidate = artifactRole === 'candidate'
   const tables = new Map<string, SnapshotTable>()
   const reducerMeasurements: Record<string, MeasurementId> = {
+    'invocation-outcomes': 'invocation-outcomes',
     'output-production': 'output-production', 'output-validity': 'output-validity', 'output-size': 'output-size',
     docs: 'output-admission', 'portable-admission': 'output-admission', 'compatibility-inputs': 'output-admission',
     'docs-source-controls': 'source-rejection', 'terminal-source-rejections': 'source-rejection',
@@ -45,6 +46,11 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   const addOutput = (output: NonNullable<ReturnType<typeof reduceOutputMeasurements>>, suite: PublicSuite, key: unknown[], format: string, planned: number, project: string, version: string, clock: string, cohort: string) => {
     const p = output.production, v = output.validity
     const extra = { cohort, ...(format === 'svg' || format === 'png' ? { outputFormat: format } : {}) } as Partial<SnapshotTable>
+    add(['invocation-outcomes', ...key], suite, clock,
+      'Causal public-call outcomes on the fixed planned population. Completed errors are not successful syntax rejections and do not identify fault ownership. Interrupted calls remain unresolved; missing proof includes unrun inputs and unsupported legacy evidence.',
+      ['Version', 'Returned calls', 'Completed errors', 'Interrupted calls', 'Missing proof', 'Planned calls'], project,
+      [version, output.calls.returned, output.calls.errors, output.calls.interrupted, output.calls.missing, output.plannedCalls], undefined,
+      { ...extra, unit: 'planned public calls', population: { total: 'Planned calls', outcomes: ['Returned calls', 'Completed errors', 'Interrupted calls', 'Missing proof'] } })
     add(['output-production', ...key], suite, clock,
       'Production of actual public output on the fixed source population, including invalid/configuration controls where present. Success requires an output in every planned round. Wrong-format bytes still count as returned. Missing raw evidence remains unknown; admission/content grades supply no return credit.',
       ['Version', 'Returned output', 'No returned output', 'Unknown', 'Planned'], project, [version, p.returned, p.noOutput, p.unknown, planned],

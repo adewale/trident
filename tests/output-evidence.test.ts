@@ -38,3 +38,13 @@ test('changed sources, reused calls, altered bytes and foreign symlinks cannot s
   const other = temp.dir(); writeFileSync(join(other, 'outside.svg'), f.body); symlinkSync(join(other, 'outside.svg'), join(f.root, 'foreign.svg'))
   expect(() => outputEvidence(f.root, f.journal.directory, 'any', 'foreign.svg')).toThrow('escapes')
 })
+test('completed API errors prove no returned value; interruptions remain unresolved, independent of saved flags', () => {
+  const f = fixture(), source = f.source
+  for (const state of ['public-error', 'interrupted'] as const) {
+    const frame = f.journal.start({ project: 'fixture/render', caseId: source.id, sourceSha256: evidenceBytesDigest(source.source), artifactSha256: 'a'.repeat(64), bindingSha256: 'b'.repeat(64), format: 'svg' })
+    f.journal.failed(frame, 'Independent public-call failure/interruption', null, state)
+    const row = { ...f.row, metrics: { ...f.row.metrics, rawInvocationId: frame.attemptId, publicOutputReturned: true, outputEvidence: outputEvidence(f.root, f.journal.directory, frame.attemptId) } }
+    const actual = verifiedOutputObservations(f.root, [source], [row])[0]!
+    expect(actual.metrics).toMatchObject({ outputState: state, publicOutputReturned: state === 'public-error' ? false : null, formatValid: null, returnedBytes: null })
+  }
+})

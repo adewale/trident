@@ -23,8 +23,13 @@ export function measurementReport(snapshot: ResultsSnapshot, catalog: LineageCat
         question: contract.question, limit: contract.limit, unit: table.unit, corpus: table.cohort ?? null, comparisonKey: table.comparisonKey ?? null,
         columns: table.columns, scope: table.caption, ranking: table.ranking ?? null,
         evidence: evidence(table.receipt), measuredAt: table.measuredAt,
-        rows: table.rows.map(row => ({ project: row.project, values: row.values, metrics: Object.fromEntries(table.columns.map((column, index) => [column, row.values[index]!])), coverage: measurementCoverage(table, row), evidence: evidence(row.receipt ?? table.receipt),
-          attemptedCalls: null, observerQualification: { status: 'not-established-by-summary', reason: 'Requires matching property/representation controls and actual-output evidence; stored counts cannot qualify an observer.' }, ...(row.unrankedReason ? { qualificationGap: row.unrankedReason } : {}) })) }
+        rows: table.rows.map(row => {
+          const metrics = Object.fromEntries(table.columns.map((column, index) => [column, row.values[index]!]))
+          const knownAttemptedCalls = id === 'invocation-outcomes' ? ['Returned calls', 'Completed errors', 'Interrupted calls'].reduce((sum, column) => sum + Number(metrics[column]), 0) : null
+          return { project: row.project, values: row.values, metrics, coverage: measurementCoverage(table, row), evidence: evidence(row.receipt ?? table.receipt), knownAttemptedCalls,
+            attemptedCalls: knownAttemptedCalls !== null && metrics['Missing proof'] === 0 ? knownAttemptedCalls : null,
+            observerQualification: { status: 'not-established-by-summary', reason: 'Requires matching property/representation controls and actual-output evidence; stored counts cannot qualify an observer.' }, ...(row.unrankedReason ? { qualificationGap: row.unrankedReason } : {}) }
+        }) }
     }) }
 }
 type SnapshotTableReceipt = ResultsSnapshot['tables'][number]['receipt']
@@ -47,6 +52,7 @@ export function main(argv = process.argv.slice(2)) {
   if (options.has('--campaign')) freshOutputOutside(resolve(options.get('--campaign')!), out)
   const catalog = JSON.parse(readFileSync(options.get('--catalog') ?? communityCatalogFile, 'utf8')) as LineageCatalog
   let snapshot: ResultsSnapshot, source: MeasurementReportSource
+  let collectionOutcomes: { suite: string; scope: string[]; status: string; detail: string | null }[] | undefined
   if (options.has('--snapshot')) {
     const path = resolve(options.get('--snapshot')!)
     snapshot = readBenchmarkDocument(path)
@@ -54,14 +60,20 @@ export function main(argv = process.argv.slice(2)) {
   }
   else {
     const directory = resolve(options.get('--campaign')!), report = readCampaign(directory), file = campaignReportFile(directory)
+    collectionOutcomes = report.results.map(boundary => ({ suite: boundary.suite, scope: boundary.project ? [boundary.project] : report.projects, status: boundary.status, detail: boundary.detail ?? null }))
     const actual = existsSync(join(directory, file)) ? join(directory, file) : join(directory, file + '.gz')
     source = { kind: 'campaign', path: actual, sha256: evidenceBytesDigest(readFileSync(actual)) }
     snapshot = { schema: 'trident-results-snapshot-v1', attempts: [], tables: campaignTables(report, { url: 'https://local.invalid/retained-report', sha256: evidenceBytesDigest(readFileSync(actual)) }) }
   }
-  const report = measurementReport(snapshot, catalog, source)
+  const report = { ...measurementReport(snapshot, catalog, source), ...(collectionOutcomes ? { collectionOutcomes } : {}) }
   mkdirSync(out, { recursive: true })
   writeFileSync(join(out, 'measurements.json'), JSON.stringify(report, null, 2) + '\n', { flag: 'wx' })
   const lines = ['# Trident measurements', '', report.limits, '']
+  if (collectionOutcomes) {
+    lines.push('## Collection outcomes', '', 'These are recorded suite-level outcomes, not per-project fault attribution. A successful reduction does not erase failed or unresolved assessments.', '')
+    for (const outcome of collectionOutcomes) lines.push('- ' + outcome.suite + ': ' + outcome.status + ' (' + outcome.scope.join(', ') + ')')
+    lines.push('')
+  }
   for (const entry of report.tables) {
     const cell = (value: unknown) => String(value ?? 'unavailable').replaceAll('|', '&#124;').replaceAll('\n', ' ')
     lines.push('## ' + entry.tableId, '', entry.question, '', entry.limit, '', '**Unit:** ' + cell(entry.unit) + ' · **Measured:** ' + cell(entry.measuredAt), '', entry.scope, '',

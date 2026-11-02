@@ -5,6 +5,11 @@ import type { PublicSuite } from './support.ts'
 /** Measurement identity is separate from corpus, artifact and observer identity.
  * Binding a contract describes a question; it never certifies its evidence. */
 export const measurementContracts = {
+  'invocation-outcomes': {
+    question: 'Which planned calls have a causal return, completed error, interruption or missing evidence?',
+    unit: 'planned public calls', evidence: 'Matching causal start/terminal frames bound to the source, project and artifact',
+    limit: 'A completed error establishes no returned value, not correct syntax rejection or renderer blame. Interrupted calls cannot establish non-return. Missing proof includes unrun work.', ranks: [] as string[],
+  },
   'output-production': {
     question: 'Does the public operation return a value in the requested output field?',
     unit: 'planned inputs', evidence: 'Retained output bytes or an explicit completed wrong-type return',
@@ -89,8 +94,8 @@ export function assertMeasurementBinding(value: MeasurementBinding) {
   if (!value || !Object.hasOwn(measurementContracts, value.id) || value.sha256 !== bindMeasurement(value.id).sha256) throw Error('Unknown or changed measurement contract')
 }
 export const suiteMeasurements: Record<PublicSuite, readonly MeasurementId[]> = {
-  docs: ['output-production', 'output-validity', 'output-size', 'output-admission', 'source-rejection', 'drawing-assessment'],
-  community: ['output-production', 'output-validity', 'output-size', 'output-admission', 'source-rejection', 'drawing-assessment'],
+  docs: ['invocation-outcomes', 'output-production', 'output-validity', 'output-size', 'output-admission', 'source-rejection', 'drawing-assessment'],
+  community: ['invocation-outcomes', 'output-production', 'output-validity', 'output-size', 'output-admission', 'source-rejection', 'drawing-assessment'],
   'mermaid-behaviour': ['observable-behaviour'], 'public-conformance': ['api-compatibility'],
   portable: ['output-admission', 'qualified-rendering-time'], fidelity: ['harness-regression'],
   'native-fidelity': ['public-model'], 'upstream-original': ['harness-regression'], 'upstream-fidelity': ['recorded-checks'],
@@ -99,6 +104,7 @@ export const suiteMeasurements: Record<PublicSuite, readonly MeasurementId[]> = 
 /** Select known reducer schemas, not words in a caption or project names.
  * Historical rows without bindings remain explicitly inferred, never certified. */
 export function measurementForTable(table: SnapshotTable): MeasurementId {
+  if (table.columns.includes('Returned calls')) return 'invocation-outcomes'
   if (table.columns.includes('Returned output')) return 'output-production'
   if (table.columns.includes('Valid format')) return 'output-validity'
   if (table.columns.includes('Returned bytes')) return 'output-size'
@@ -130,7 +136,7 @@ export function measurementCoverage(table: SnapshotTable, row: SnapshotTable['ro
   // A recorded-observation denominator says nothing about planned calls.
   const planned = table.population && table.population.total !== 'Recorded' ? number(table.population.total) : null
   if (!table.population || planned === null) return { planned, resolved: null, unresolved: null, assessmentComplete: false }
-  const resolved = new Set(['Correct', 'Incorrect', 'Incorrect drawing', 'Invalid format', 'Unsupported', 'Renderer failure', 'Passed', 'Failed', 'Correct rejection', 'Accepted invalid source', 'Rejected', 'Returned output', 'No returned output', 'Valid format', 'Returned in all rounds', 'Admitted'])
+  const resolved = new Set(['Correct', 'Incorrect', 'Incorrect drawing', 'Invalid format', 'Unsupported', 'Renderer failure', 'Passed', 'Failed', 'Correct rejection', 'Accepted invalid source', 'Rejected', 'Returned output', 'No returned output', 'Valid format', 'Returned in all rounds', 'Admitted', 'Returned calls', 'Completed errors'])
   const unknown = table.population.outcomes.filter(column => !resolved.has(column))
   const counts = unknown.map(number)
   if (counts.some(value => value === null)) throw Error('Unknown measurement coverage count')

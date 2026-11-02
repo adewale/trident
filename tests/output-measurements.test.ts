@@ -33,6 +33,7 @@ test('public return, format validity and size remain independent of drawing/admi
   expect(value.returnedBytes).toBe(104)
   expect(value.completeBytePopulation).toBe(false)
   expect(value.measuredReturns).toBe(2)
+  expect(value.calls).toEqual({ returned: 2, errors: 1, interrupted: 0, missing: 1 })
 })
 test('historical statuses cannot invent return evidence, missing work remains planned and actual empty strings have zero bytes', () => {
   expect(reduceOutputMeasurements(['one'], 1, [row('one')])).toBeUndefined()

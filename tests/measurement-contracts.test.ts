@@ -62,6 +62,20 @@ test('binding gaps and unfamiliar outcomes cannot become resolved assessments or
   recorded.columns[4] = 'Recorded'; recorded.population!.total = 'Recorded'
   expect(measurementCoverage(recorded, recorded.rows[0]!)).toEqual({ planned: null, resolved: null, unresolved: null, assessmentComplete: false })
 })
+test('causal call tables expose known attempt bounds without inferring attempts from output or drawing grades', () => {
+  const table = admission()
+  table.measurement = bindMeasurement('invocation-outcomes'); table.ranking = undefined
+  table.columns = ['Version', 'Returned calls', 'Completed errors', 'Interrupted calls', 'Missing proof', 'Planned calls']
+  table.population = { total: 'Planned calls', outcomes: table.columns.slice(1, -1) }
+  table.rows = [{ project, values: ['1', 1, 1, 1, 1, 4] }]
+  const audit = () => measurementReport({ schema: 'trident-results-snapshot-v1', tables: [table], attempts: [] }, catalog).tables[0]!.rows[0]!
+  expect(audit().knownAttemptedCalls).toBe(3)
+  expect(audit().attemptedCalls).toBeNull()
+  expect(audit().coverage).toEqual({ planned: 4, resolved: 2, unresolved: 2, assessmentComplete: false })
+  table.rows[0]!.values[4] = 0; table.rows[0]!.values[5] = 3
+  expect(audit().attemptedCalls).toBe(3)
+  expect(audit().coverage.assessmentComplete).toBe(false)
+})
 test('the public measurement command writes a separate audit without changing or collecting evidence', () => {
   const root = temp.dir(), input = join(root, 'snapshot.json'), catalogFile = join(root, 'catalog.json'), out = join(root, 'report')
   const snapshot = JSON.stringify({ schema: 'trident-results-snapshot-v1', tables: [admission()], attempts: [] })

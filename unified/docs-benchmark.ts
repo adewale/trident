@@ -161,6 +161,11 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
             const formatCheck = typeof value.svg === 'string' ? qualifyOutputFormat(value.svg, 'svg') : undefined
             const formatValid = formatCheck && !formatCheck.unavailable ? formatCheck.ok : null
             roundObservations.push({ suite: 'docs', surface: engine.kind === 'cli' ? 'public:svg' : 'browser:svg', runtime: engine.kind === 'cli' ? 'public CLI' : 'Chromium', family: testCase.family, caseId: testCase.id, operation: 'render', format: 'svg', mode: 'one-public-call', status: value.status, ...(value.status === 'passed' ? { samplesMs: [value.durationMs] } : { detail: value.error }), metrics: { project: peer.node.id, version: engine.version, measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId, round, variant: peer.artifact?.transportVariant ?? 'primary', publicOutputReturned, formatValid, returnedBytes: typeof value.svg === 'string' ? Buffer.byteLength(value.svg) : null, bytes: value.bytes ?? null, warmupAttempts: 0, warmupPassed: 0, ...(value.transportObservation ? { transportObservation: value.transportObservation } : {}) } })
+            if (typeof value.svg !== 'string' && raw.invocationId) {
+              const row = roundObservations.at(-1)!
+              const directory = typeof value.transportObservation?.metrics?.rawInvocationDirectory === 'string' ? value.transportObservation.metrics.rawInvocationDirectory : journal.directory
+              row.metrics!.outputEvidence = outputEvidence(options.out, directory, raw.invocationId)
+            }
             if (round === 1) {
               const review = drawingInventory.find(input => input.id === testCase.id)!.review
               let observerFailure = false

@@ -196,9 +196,12 @@ export async function runTerminalProfile(argv: string[]) {
     }
     mkdirSync(out, { recursive: true })
     const copiedJournals = new Set<string>()
-    for (const row of record.outputs) if (row.witness) {
-      const bytes = readFileSync(resolve(directory, row.witness)), name = hash(bytes) + '.txt'
-      writeFileSync(join(out, name), bytes); row.witness = name
+    for (const row of record.outputs) {
+      let name: string | undefined
+      if (row.witness) {
+        const bytes = readFileSync(resolve(directory, row.witness)); name = hash(bytes) + '.txt'
+        writeFileSync(join(out, name), bytes); row.witness = name
+      }
       if (typeof row.outputEvidence === 'string') row.outputEvidence = copyOutputEvidence(directory, out, row.outputEvidence, name, copiedJournals)
     }
   } else {
@@ -228,7 +231,7 @@ export async function runTerminalProfile(argv: string[]) {
         const typed = observation?.metrics?.typedSourceOutcome
         const typedSourceOutcome = typeof typed === 'string' ? JSON.parse(typed) : undefined
         const invocationId = observation?.metrics?.rawInvocationId, journalDirectory = observation?.metrics?.rawInvocationDirectory
-        const proof = witness && typeof invocationId === 'string' && typeof journalDirectory === 'string' ? outputEvidence(out, journalDirectory, invocationId, witness) : null
+        const proof = typeof invocationId === 'string' && typeof journalDirectory === 'string' ? outputEvidence(out, journalDirectory, invocationId, witness) : null
         if (typedSourceOutcome && input.intent === 'invalid') assessTerminalSourceRejection(input, typedSourceOutcome, peer.node.id)
         outputs.push({ project: peer.node.id, caseId: input.id, rawInvocationId: typeof invocationId === 'string' ? invocationId : null, outputEvidence: proof, measuredAt: typeof observation?.metrics?.measuredAt === 'string' ? observation.metrics.measuredAt : null, ...(typedSourceOutcome ? { typedSourceOutcome } : {}), witness, sha256: bytes ? hash(bytes) : undefined, runtimeExecuted: invocationObserved(observation), publicStatus: observation?.status ?? 'blocked', detail: observation?.detail ?? peer.error })
       }
