@@ -29,6 +29,34 @@ test('a missing public terminal API blocks initialization rather than counting e
   try { await expect(worker.ready).rejects.toThrow('terminal API') } finally { worker.close() }
 })
 
+test('MermaidTUI uses its exported pipeline so caught error strings cannot receive render-completion credit', async () => {
+  const root = temp.dir(), module = join(root, 'pipeline.mjs')
+  writeFileSync(module, `export function parseMermaid(source){if(source==='invalid')throw Error('syntax');return{source}}export function computeLayout(graph){graph.laidOut=true}export function renderGraph(graph){if(!graph.laidOut)throw Error('layout not executed');return 'fixture drawing'}export function renderMermaidToTui(source){try{const g=parseMermaid(source);computeLayout(g);return renderGraph(g)}catch(e){return 'Error: '+e.message}}`)
+  writeFileSync(join(root, 'package.json'), '{"name":"fixture","version":"1.0.0"}')
+  const peer: any = { node: { id: 'fixture/mermaidtui', benchmark: { adapter: 'published-extra', package: 'mermaidtui' } }, artifact: { kind: 'node', root, module, version: '1.0.0' } }
+  const worker = new TerminalCallWorker(peer, join(root, 'operand.json'))
+  try {
+    await worker.ready
+    expect((await worker.call('valid', 'positive', 2000)).outcome).toBe('completed')
+    expect((await worker.call('invalid', 'negative', 2000)).outcome).toBe('error')
+    expect(worker.identity.boundary).toContain('errors propagate')
+  } finally { await worker.close() }
+})
+
+test('native counter invocations use the same awaited transport without requiring a JavaScript renderer module', async () => {
+  const root = temp.dir(), module = join(root, 'native-protocol.mjs')
+  writeFileSync(module, `import readline from'node:readline';console.log(JSON.stringify({type:'ready',package:'native-fixture',version:'1.0.0'}));for await(const line of readline.createInterface({input:process.stdin})){const job=JSON.parse(line),start=performance.now();await new Promise(done=>setTimeout(done,20));console.log(JSON.stringify({type:'result',id:job.id,outcome:'completed',ms:performance.now()-start}))}`)
+  const peer: any = { node: { id: 'fixture/native', benchmark: { adapter: 'native-flutter' } }, artifact: { kind: 'jsonl-worker', root, version: '1.0.0' } }
+  const worker = new TerminalCallWorker(peer, join(root, 'operand.json'), ['node', module])
+  try {
+    await worker.ready
+    expect(worker.identity.package).toBe('native-fixture')
+    const result = await worker.call('source', 'one', 2000)
+    expect(result.outcome).toBe('completed'); expect(result.ms).toBeGreaterThanOrEqual(15)
+    expect(Object.keys(result).sort()).toEqual(['ms', 'outcome'])
+  } finally { await worker.close() }
+})
+
 test('native terminal calls count exit status, discard stdout, and kill a timed-out process', async () => {
   const root = temp.dir()
   const artifact: any = { kind: 'cli', executable: process.execPath, input: 'stdin', version: 'fixture', args: ['-e', `process.stdin.resume();process.stdin.on('end',()=>{process.stdout.write('drawing');process.exit(0)})`] }

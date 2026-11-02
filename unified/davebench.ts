@@ -1,7 +1,7 @@
 import { spawn, execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createServer } from 'node:http'
-import { extname, join, resolve, sep } from 'node:path'
+import { dirname, extname, join, resolve, sep } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { chromium, type Browser, type BrowserContext, type Page } from 'playwright'
 import { comparisonProjects } from './lineage.ts'
@@ -178,17 +178,19 @@ export async function main(args = process.argv.slice(2)) {
   const options = new Map<string, string>()
   for (let index = 0; index < args.length; index += 2) {
     const key = args[index]!, value = args[index + 1]
-    if (!['--out', '--prepared', '--upstream', '--projects'].includes(key) || !value || options.has(key)) throw Error('davebench --out FRESH_DIRECTORY [--prepared FILE] [--upstream MERMAID_CHECKOUT] [--projects IDS]')
+    if (!['--out', '--prepared', '--upstream', '--projects', '--catalog'].includes(key) || !value || options.has(key)) throw Error('davebench --out FRESH_DIRECTORY [--prepared FILE] [--upstream MERMAID_CHECKOUT] [--projects IDS] [--catalog FROZEN_CATALOG]')
     options.set(key, value)
   }
   if (!options.has('--out')) throw Error('Choose --out FRESH_DIRECTORY')
   const out = resolve(options.get('--out')!), upstream = resolve(options.get('--upstream') ?? join(tridentDirectory, '../mermaid'))
   if (existsSync(out)) throw Error('Choose a fresh output directory')
   mkdirSync(out, { recursive: true })
-  const inventory = davebenchInputs(upstream), recorded = JSON.parse(readFileSync(communityCatalogFile, 'utf8'))
+  const inventory = davebenchInputs(upstream), recorded = JSON.parse(readFileSync(options.get('--catalog') ?? communityCatalogFile, 'utf8'))
   const enrolled = comparisonProjects(recorded, options.get('--projects')?.split(',') ?? recorded.nodes.map((node: any) => node.id))
   const applicable = recorded.nodes.filter((node: any) => enrolled.included.includes(node.id) && node.benchmark?.outputs.some((format: string) => ['svg', 'png'].includes(format))).map((node: any) => node.id)
-  const current = await refreshBenchmarkVersions(recorded, applicable), catalog = current.catalog
+  const frozenAudit = options.has('--catalog') ? JSON.parse(readFileSync(join(dirname(resolve(options.get('--catalog')!)), 'versions.json'), 'utf8')) : undefined
+  if (frozenAudit && (!frozenAudit.complete || frozenAudit.checkedAt !== recorded.benchmarkVersionsCheckedAt || applicable.some((id: string) => !frozenAudit.rows.some((row: any) => row.project === id && row.component === 'primary' && !row.error)))) throw Error('Frozen catalog has no matching complete version selection')
+  const current = frozenAudit ? { catalog: recorded, report: frozenAudit } : await refreshBenchmarkVersions(recorded, applicable), catalog = current.catalog
   writeFileSync(join(out, 'versions.json'), JSON.stringify(current.report, null, 2) + '\n')
   if (!current.report.complete) throw Error('Latest-version selection is incomplete; see ' + join(out, 'versions.json'))
   const nodes = catalog.nodes.filter((node: any) => enrolled.included.includes(node.id) && node.benchmark?.outputs.some((format: string) => ['svg', 'png'].includes(format)))

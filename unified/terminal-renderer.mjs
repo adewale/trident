@@ -8,8 +8,13 @@ export async function terminalRenderer(peer) {
   const artifact = peer.artifact, config = peer.node.benchmark, cleanups = []
   if (!artifact?.module) throw Error('No in-process terminal module')
   const require = createRequire(resolve(artifact.root, 'package.json'))
-  let invoke, afterCall
-  if (['published-extra', 'extra-source'].includes(config.adapter)) {
+  let invoke, afterCall, boundary
+  if (config.package === 'mermaidtui') {
+    const api = await import(pathToFileURL(artifact.module).href)
+    for (const name of ['parseMermaid', 'computeLayout', 'renderGraph']) if (typeof api[name] !== 'function') throw Error('Published MermaidTUI pipeline is absent: ' + name)
+    invoke = source => { const graph = api.parseMermaid(source); api.computeLayout(graph); return api.renderGraph(graph, { ascii: false }) }
+    boundary = 'persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate'
+  } else if (['published-extra', 'extra-source'].includes(config.adapter)) {
     const { createExtraCommunityApi } = await import('./community-extra-adapters.mjs')
     const bound = await createExtraCommunityApi({ artifact, node: peer.node, config, output: 'terminal', require, cleanups })
     invoke = bound.invoke
@@ -32,5 +37,5 @@ export async function terminalRenderer(peer) {
       invoke = declaredRenderer(api, config.api.terminal, 'terminal')
     } else throw Error('No declared terminal API')
   }
-  return { invoke, afterCall, async close() { for (const cleanup of cleanups.reverse()) await cleanup() } }
+  return { invoke, afterCall, boundary, async close() { for (const cleanup of cleanups.reverse()) await cleanup() } }
 }

@@ -15,13 +15,14 @@ export class TerminalCallWorker {
   child: Bun.Subprocess<'pipe', 'pipe', 'pipe'>
   pending = new Map<string, (value: any) => void>()
   ready: Promise<void>
-  constructor(peer: PreparedCommunity, file: string) {
+  identity: any
+  constructor(peer: PreparedCommunity, file: string, invocation?: string[]) {
     writeFileSync(file, JSON.stringify(peer))
     const python = peer.artifact?.kind === 'python'
     const bun = /bun/i.test(peer.artifact?.runtime ?? '') || /\.tsx?$/.test(peer.artifact?.module ?? '')
     const command = python ? peer.artifact!.python ?? peer.artifact!.executable! : bun ? process.execPath : process.env.NODE_BIN ?? 'node'
     const args = python ? [join(tridentDirectory, 'unified/davebench-terminal-worker.py')] : [join(tridentDirectory, 'unified/davebench-terminal-worker.mjs'), file]
-    this.child = Bun.spawn([command, ...args], { stdin: 'pipe', stdout: 'pipe', stderr: 'pipe' })
+    this.child = Bun.spawn(invocation ?? [command, ...args], { stdin: 'pipe', stdout: 'pipe', stderr: 'pipe' })
     void this.child.stderr.pipeTo(new WritableStream({ write() {} })).catch(() => {})
     let buffer = '', ready = false
     this.ready = new Promise((done, reject) => {
@@ -38,7 +39,7 @@ export class TerminalCallWorker {
               const line = buffer.slice(0, end); buffer = buffer.slice(end + 1)
               try {
                 const row = JSON.parse(line)
-                if (row.type === 'ready') { ready = true; clearTimeout(timeout); done() }
+                if (row.type === 'ready') { this.identity = row; ready = true; clearTimeout(timeout); done() }
                 else if (row.type === 'blocked') { clearTimeout(timeout); reject(Error(row.detail)) }
                 else if (row.type === 'result') { this.pending.get(row.id)?.(row); this.pending.delete(row.id) }
               } catch { /* Library logs supply no outcome. */ }
@@ -102,10 +103,10 @@ export async function main(args = process.argv.slice(2)) {
     const a = peer.artifact, extra = a?.additionalCli?.find(cli => cli.outputs.includes('terminal'))?.artifact
     const native = a?.kind === 'cli' ? a : !communityModuleOutputSupported(peer.node, 'terminal') ? extra : undefined
     if (!a) { blocked.push({ project: peer.node.id, reason: peer.error ?? 'No prepared terminal artifact' }); save('running'); continue }
-    const boundary = native ? 'public CLI terminal; process startup included' : a.kind === 'python' ? 'persistent Python public terminal API' : /bun/i.test(a.runtime ?? '') || /\.tsx?$/.test(a.module ?? '') ? 'persistent Bun public terminal API' : 'persistent Node public terminal API'
+    let boundary = native ? 'public CLI terminal; process startup included' : a.kind === 'python' ? 'persistent Python public terminal API' : /bun/i.test(a.runtime ?? '') || /\.tsx?$/.test(a.module ?? '') ? 'persistent Bun public terminal API' : 'persistent Node public terminal API'
     const directory = join(out, encodeURIComponent(peer.node.id)); mkdirSync(directory, { recursive: true })
     let worker: TerminalCallWorker | undefined
-    const open = async () => { worker = new TerminalCallWorker(peer, join(directory, 'operand.json')); await worker.ready }
+    const open = async () => { worker = new TerminalCallWorker(peer, join(directory, 'operand.json')); await worker.ready; if (worker.identity?.boundary) boundary = worker.identity.boundary }
     try {
       for (let round = 1; round <= 3; round++) {
         if (!native) await open()

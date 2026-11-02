@@ -35,7 +35,10 @@ export async function publicSvgBrowserAction(input: any): Promise<any> {
       }) : (source, id) => owner.render(id, source)
     } else if (kind === 'extra') { const publicRender = await api.createRenderer(); fontOptions = false; render = (source, id) => publicRender(source, id, 'svg') }
     else if (kind === 'ondine') { const compiler = await api(); render = (source, _id, options) => compiler.render(source, options).svg }
-    else if (kind === 'function') render = (source, _id, options) => api(source, options)
+    else if (kind === 'function') {
+      if (typeof api !== 'function') throw Error('Prepared public SVG global is not callable')
+      render = (source, _id, options) => api(source, options)
+    }
     else if (kind === 'pele') render = (source, _id, options) => api.render(source, options).svg
     else {
       const publicRender = api.renderMermaidSVG ?? api.renderMermaidSVGAsync ?? api.renderMermaidSync ?? api.renderMermaid
