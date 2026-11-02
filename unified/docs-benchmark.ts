@@ -1,4 +1,4 @@
-import { outputEvidence } from './output-evidence.ts'
+import { outputEvidence, scopeOutputEvidence } from './output-evidence.ts'
 import { documentationPopulation, documentationDrawingScore } from './docs-population.ts'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
@@ -114,7 +114,7 @@ async function runSvgDocsBenchmark(options: UnifiedRunOptions, suppliedInventory
         const recorded = await checkpoint.collect(key, async () => {
         const roundObservations: BenchmarkObservation[] = []
         const engine = preparedSvgInvocation(peer, admitPreparedSvgEngine(peer)), root = resolve(engine.root)
-        console.log(`docs round ${round}/${options.rounds}: ${peer.node.id} (${inventory.occurrences} occurrences)`)
+        console.log(`docs round ${round}/${options.rounds}: ${peer.node.id} (${selectedCases.length}/${inventory.occurrences} selected occurrences)`)
         const server = docsArtifactServer(root, engine.zenuml, resources.resources.map((resource: any) => resource.url))
         await new Promise<void>(done => server.listen(0, '127.0.0.1', done))
         const origin = 'http://127.0.0.1:' + (server.address() as { port: number }).port
@@ -326,7 +326,7 @@ export async function runDocsBenchmark(options: UnifiedRunOptions): Promise<Unif
       break
     }
   }
-  const observations: BenchmarkObservation[] = results.flatMap(result => result.observations.map(row => ({ ...row, metrics: row.metrics ? { ...row.metrics, ...Object.fromEntries(['witness', 'originalSvgWitness', 'rasterizedSvgWitness', 'referencePngWitness'].flatMap(key => typeof row.metrics?.[key] === 'string' ? [[key, row.format + '/' + row.metrics[key]]] : [])) } : row.metrics })))
+  const observations: BenchmarkObservation[] = results.flatMap(result => result.observations.map(row => ({ ...row, metrics: row.metrics ? { ...row.metrics, ...(typeof row.metrics.outputEvidence === 'string' ? { outputEvidence: scopeOutputEvidence(row.metrics.outputEvidence, row.format as 'svg' | 'png') } : {}), ...Object.fromEntries(['witness', 'originalSvgWitness', 'rasterizedSvgWitness', 'referencePngWitness'].flatMap(key => typeof row.metrics?.[key] === 'string' ? [[key, row.format + '/' + row.metrics[key]]] : [])) } : row.metrics })))
   for (const project of projects) for (const format of formats) {
     const peer = [...prepared, ...browsers].find((peer: any) => peer.node.id === project)
     if (!peer) continue

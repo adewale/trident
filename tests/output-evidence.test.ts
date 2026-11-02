@@ -3,7 +3,7 @@ import { writeFileSync, cpSync, symlinkSync } from 'node:fs'
 import { join } from 'node:path'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
 import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
-import { outputEvidence, verifiedOutputObservations } from '../unified/output-evidence.ts'
+import { outputEvidence, verifiedOutputObservations, scopeOutputEvidence } from '../unified/output-evidence.ts'
 import type { BenchmarkObservation } from '../unified/types.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 const temp = useTempDirs('output-return-proof-')
@@ -21,6 +21,13 @@ test('actual source-bound return bytes override stored summary flags and remain 
   expect(verifiedOutputObservations(moved, [f.source], [f.row])[0]!.metrics).toEqual(actual.metrics)
   const invented = { ...f.row, metrics: { project: 'fixture/render', round: 1, publicOutputReturned: true, formatValid: true, returnedBytes: 9999 } }
   expect(verifiedOutputObservations(f.root, [f.source], [invented])[0]!.metrics).toMatchObject({ publicOutputReturned: null, formatValid: null, returnedBytes: null })
+})
+test('composite output lanes keep both proof paths relative to the combined capture root', () => {
+  const f = fixture(), root = temp.dir(); cpSync(f.root, join(root, 'svg'), { recursive: true })
+  const row = { ...f.row, metrics: { ...f.row.metrics, outputEvidence: scopeOutputEvidence(f.row.metrics!.outputEvidence as string, 'svg') } }
+  const checked = verifiedOutputObservations(root, [f.source], [row])[0]!
+  expect(checked.metrics).toMatchObject({ publicOutputReturned: true, formatValid: true, returnedBytes: Buffer.byteLength(f.body) })
+  expect(() => scopeOutputEvidence(JSON.stringify({ schema: 'trident-output-return-v1', journal: '../foreign', witness: 'x.svg' }), 'svg')).toThrow('unowned')
 })
 test('changed sources, reused calls, altered bytes and foreign symlinks cannot supply measured output', () => {
   const f = fixture()

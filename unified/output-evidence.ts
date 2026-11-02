@@ -31,6 +31,12 @@ export function copyOutputEvidence(source: string, out: string, encoded: string,
   }
   return JSON.stringify({ ...proof, witness })
 }
+export function scopeOutputEvidence(encoded: string, lane: 'svg' | 'png') {
+  const proof = JSON.parse(encoded)
+  if (proof?.schema !== 'trident-output-return-v1' || !['svg', 'png'].includes(lane)) throw Error('Unknown composite output proof')
+  for (const path of [proof.journal, proof.witness]) if (typeof path !== 'string' || isAbsolute(path) || path.split(/[\\/]/).includes('..')) throw Error('Composite output evidence has an unowned path')
+  return JSON.stringify({ ...proof, journal: join(lane, proof.journal), witness: join(lane, proof.witness) })
+}
 
 /** Summary flags cannot supply measured output facts. Reopen the exact bytes
  * and causal public return, check literal source/format/project ownership, then
@@ -41,6 +47,7 @@ export function verifiedOutputObservations(root: string, inputs: readonly { id: 
   return rows.map(row => {
     if (row.operation !== 'render') return row
     const clean = { ...row, metrics: { ...row.metrics, publicOutputReturned: null as boolean | null, formatValid: null as boolean | null, returnedBytes: null as number | null } }
+    if (row.metrics?.parentInvocationFormat === 'png' && row.metrics?.witnessRole === 'actual-original-public-svg-return') return clean
     const encoded = row.metrics?.outputEvidence
     if (typeof encoded !== 'string') return clean
     const proof = JSON.parse(encoded), input = inputs.find(input => input.id === row.caseId)
