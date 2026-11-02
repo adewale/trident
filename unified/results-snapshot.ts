@@ -1,3 +1,4 @@
+import { retainedBenchmarkLeagues } from './three-benchmark-report.ts'
 import { drawingOutcomeColumns, drawingOutcomeStatistics, drawingStatisticsColumns, type DrawingOutcomeCounts } from './drawing-outcomes.ts'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
@@ -76,7 +77,14 @@ const sha256 = (value: string | Buffer) => createHash('sha256').update(value).di
 const md = (value: unknown) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('|', '&#124;').replaceAll('\n', ' ')
 const anchor = (id: string) => id.toLowerCase().replace(/[^a-z0-9-]/g, '-')
 const date = (value: string) => value.slice(0, 10)
-const table = (columns: string[], rows: Cell[][]) => ['| ' + columns.map(md).join(' | ') + ' |', '| ' + columns.map(() => '---').join(' | ') + ' |', ...rows.map(row => '| ' + row.map(md).join(' | ') + ' |')].join('\n')
+const table = (columns: string[], rows: Cell[][]) => {
+  const project = columns.indexOf('Project'), version = columns.indexOf('Version')
+  if (project >= 0 && version >= 0) {
+    rows = rows.map(row => row.map((value, index) => index === project ? `${value} ${row[version]}` : value).filter((_value, index) => index !== version))
+    columns = columns.filter((_column, index) => index !== version)
+  }
+  return ['| ' + columns.map(md).join(' | ') + ' |', '| ' + columns.map(() => '---').join(' | ') + ' |', ...rows.map(row => '| ' + row.map(md).join(' | ') + ' |')].join('\n')
+}
 const stamp = (value: string) => {
   const time = Date.parse(value)
   if (!Number.isFinite(time)) throw Error('Invalid measurement date: ' + value)
@@ -552,14 +560,14 @@ export function renderPublicResults(snapshot: ResultsSnapshot, catalog: LineageC
     })) {
       const count = number(entry, entry.rows[0]!, 'Examples'), rounds = number(entry, entry.rows[0]!, 'Rounds')
       const boundary = entry.caption.split(' Corpus: ')[0]!.replace(/^[\s\S]*?Host /, 'Host ')
-      lines.push(`**${entry.rows.map(row => name(row.project)).join(' / ')}** · ${count} examples · ${rounds} rounds · ${date(entry.measuredAt)}`, '', 'Corpus and selection: ' + (entry.caption.split(' Corpus: ')[1]?.split(' Ranks use')[0] ?? 'See the linked source plan for exact input IDs.') + '', '',
-        table(['Rank', 'Project', 'Workload (ms)', 'Ratio to reference', 'Ratio interval'], rankedRows(entry, name).map(row => [row.rank ?? '—', name(row.project), Number(number(entry, row, 'Median replica-round ms')!.toFixed(1)), number(entry, row, 'Ratio to reference')!.toFixed(3), String(row.values[entry.columns.indexOf('Ratio interval')]).split('–').map(value => Number.isFinite(Number(value)) ? Number(value).toFixed(3) : value).join('–')])), '',
+      lines.push(`**${entry.rows.map(row => name(row.project) + ' ' + row.values[0]).join(' / ')}** · ${count} examples · ${rounds} rounds · ${date(entry.measuredAt)}`, '', 'Corpus and selection: ' + (entry.caption.split(' Corpus: ')[1]?.split(' Ranks use')[0] ?? 'See the linked source plan for exact input IDs.') + '', '',
+        table(['Rank', 'Project', 'Version', 'Workload (ms)', 'Ratio to reference', 'Ratio interval'], rankedRows(entry, name).map(row => [row.rank ?? '—', name(row.project), row.values[0]!, Number(number(entry, row, 'Median replica-round ms')!.toFixed(1)), number(entry, row, 'Ratio to reference')!.toFixed(3), String(row.values[entry.columns.indexOf('Ratio interval')]).split('–').map(value => Number.isFinite(Number(value)) ? Number(value).toFixed(3) : value).join('–')])), '',
         '**Clock:** ' + boundary, '', `[Exact artifacts, samples and timing method](${detail(entry)})`, '')
     }
     const withheld = entries.filter(entry => !qualified.includes(entry))
     if (withheld.length) lines.push(table(['Unranked pair', 'Reason', 'Details'], withheld.map(entry => {
       const reason = entry.rows.map(row => row.unrankedReason ?? '').join(' ')
-      return [entry.rows.map(row => name(row.project)).join(' / '), /noise ceiling/.test(reason) ? 'Reference measurements too noisy' : /incomplete|interrupted/.test(reason) ? 'Capture incomplete' : /source contract/.test(reason) ? 'Correctness not fully verified' : 'Timing not qualified', `[Run details](${detail(entry)})`]
+      return [entry.rows.map(row => name(row.project) + ' ' + row.values[0]).join(' / '), /noise ceiling/.test(reason) ? 'Reference measurements too noisy' : /incomplete|interrupted/.test(reason) ? 'Capture incomplete' : /source contract/.test(reason) ? 'Correctness not fully verified' : 'Timing not qualified', `[Run details](${detail(entry)})`]
     })), '')
   }
   lines.push('## Evidence and previous runs', '', 'Detailed pages retain return-rate diagnostics, invalid-input controls, every outcome category and superseded attempts. Original measurements and the frozen B0 baseline are unchanged.', '')
@@ -576,6 +584,13 @@ export function renderPublicResults(snapshot: ResultsSnapshot, catalog: LineageC
 }
 
 export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog, root: string, check = false, includeRecordedProjects = false) {
+  const leagues = retainedBenchmarkLeagues(root, snapshot.projectNames)
+  if (leagues !== undefined) {
+    const page = join(root, 'RESULTS.md')
+    if (check) { if (!existsSync(page) || readFileSync(page, 'utf8') !== leagues) throw Error('Results snapshot is stale: ' + page) }
+    else writeFileSync(page, leagues)
+    return
+  }
   const frozen = join(root, 'results/baseline.json')
   if (existsSync(frozen) && (snapshot.baseline?.url !== 'results/baseline.json' || snapshot.baseline.sha256 !== sha256(readFileSync(frozen)))) throw Error('Results must preserve the existing frozen baseline reference')
   snapshot = regressionSnapshot(snapshot)
@@ -707,6 +722,7 @@ export function main(argv = process.argv.slice(2)) {
     if (!entry.evidenceUrl) throw Error('--campaign needs --evidence-url')
     snapshot = importCampaign(snapshot, entry.directory, entry.evidenceUrl, catalog)
   }
+  if (imports.length && retainedBenchmarkLeagues(out, snapshot.projectNames) !== undefined) throw Error('Historical campaign imports need a separate --out directory; current leagues read the three benchmark result files')
   writeSnapshot(snapshot, catalog, out, check)
   console.log(check ? 'Results snapshot is current.' : 'Updated ' + join(out, 'RESULTS.md'))
 }

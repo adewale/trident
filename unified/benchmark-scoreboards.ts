@@ -87,20 +87,20 @@ export function renderBenchmarkScoreboards(report: ReturnType<typeof benchmarkSc
       `**Source measurements:** ${board.measuredAt.slice(0, 10)}; ${board.planned} planned cases per project. No new collection.`, '',
       `**Participation:** ${board.participants.recorded} recorded; ${board.participants.ranked} with rankable outcomes; ${board.participants.passing} with at least one pass; ${board.participants.unresolved} unranked.`, '',
       ...(status ? ['**Status:** ' + status.status + ' (breadth reviewed ' + status.reviewedOn + '). ' + status.gap, '', '**Repair:** ' + status.repair, ''] : []),
-      '| Rank | Project | Version | Passed | Nonpasses | Unresolved |', '|---:|---|---|---:|---:|---:|')
-    for (const row of board.rows.filter(row => row.rank !== null)) lines.push('| ' + [row.rank, row.name, row.version, row.passed, row.nonpasses, row.unresolved].map(cell).join(' | ') + ' |')
+      '| Rank | Project | Passed | Nonpasses | Unresolved |', '|---:|---|---:|---:|---:|')
+    for (const row of board.rows.filter(row => row.rank !== null)) lines.push('| ' + [row.rank, row.name + ' ' + row.version, row.passed, row.nonpasses, row.unresolved].map(cell).join(' | ') + ' |')
     const missing = new Map<string, string[]>()
-    for (const row of board.rows.filter(row => row.rank === null)) missing.set(row.unrankedReason!, [...(missing.get(row.unrankedReason!) ?? []), row.name])
+    for (const row of board.rows.filter(row => row.rank === null)) missing.set(row.unrankedReason!, [...(missing.get(row.unrankedReason!) ?? []), row.name + ' ' + row.version])
     for (const [reason, projects] of missing) lines.push('', '**Unranked:** ' + projects.join(', ') + '. ' + reason)
     lines.push('', 'Source table: `' + board.tableId + '` · [Owning evidence](' + link(board.receipt.url) + ').', '')
   }
   lines.push('## ' + benchmarkDefinitions.timing.name, '', '**Task:** ' + benchmarkDefinitions.timing.task, '', '**Better:** ' + benchmarkDefinitions.timing.score + ' ' + benchmarkDefinitions.timing.why, '', '**Ties:** ' + benchmarkDefinitions.timing.ties, '')
   lines.push('**Status:** ' + benchmarkReadiness.timing!.status + '. ' + benchmarkReadiness.timing!.gap, '', `**Participation:** ${report.timingParticipation.qualifiedProjects} distinct qualified projects across ${report.timingParticipation.qualifiedPairs} pairs; ${report.timingParticipation.recordedProjects} distinct projects in the latest paired attempts.`, '', '**Repair:** ' + benchmarkReadiness.timing!.repair, '')
   for (const board of report.timing.filter(board => board.qualified)) {
-    lines.push('### ' + board.format!.toUpperCase() + ': ' + board.rows.map(row => row.name).join(' / '), '',
+    lines.push('### ' + board.format!.toUpperCase() + ': ' + board.rows.map(row => row.name + ' ' + row.version).join(' / '), '',
       `${board.rows[0]!.examples} examples; ${board.rows[0]!.rounds} rounds; ${board.measuredAt.slice(0, 10)}.`, '',
       '| Rank | Project | Workload ms | Time ratio |', '|---:|---|---:|---:|')
-    for (const row of board.rows) lines.push('| ' + [row.rank, row.name, row.workloadMs!.toFixed(1), row.ratio!.toFixed(3)].map(cell).join(' | ') + ' |')
+    for (const row of board.rows) lines.push('| ' + [row.rank, row.name + ' ' + row.version, row.workloadMs!.toFixed(1), row.ratio!.toFixed(3)].map(cell).join(' | ') + ' |')
     lines.push('', 'Source table: `' + board.tableId + '` · [Owning evidence](' + link(board.receipt.url) + ').', '')
   }
   const unqualified = report.timing.filter(board => !board.qualified)
@@ -108,7 +108,7 @@ export function renderBenchmarkScoreboards(report: ReturnType<typeof benchmarkSc
     lines.push('### Unranked timing attempts', '', '| Format | Pair | Reason |', '|---|---|---|')
     for (const board of unqualified) {
       const reason = [...new Set(board.rows.map(row => row.unrankedReason))].join('; ')
-      lines.push('| ' + [board.format, board.rows.map(row => row.name).join(' / '), /noise ceiling/.test(reason) ? 'Reference measurements too noisy.' : reason].map(cell).join(' | ') + ' |')
+      lines.push('| ' + [board.format, board.rows.map(row => row.name + ' ' + row.version).join(' / '), /noise ceiling/.test(reason) ? 'Reference measurements too noisy.' : reason].map(cell).join(' | ') + ' |')
     }
     lines.push('')
   }

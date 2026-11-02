@@ -32,7 +32,7 @@ function temporary(run: (root: string) => void) {
 
 test('one numeric source supplies both the visible table rate and Mermaid bar; missing observations stay missing', () => {
   const output = renderSnapshot(snapshot(), catalog)
-  expect(output).toContain('| fixture/zebra | 1 | 1.0 | 1 | 1 | 2 | 50.0% |')
+  expect(output).toContain('| fixture/zebra 1.0 | 1 | 1 | 1 | 2 | 50.0% |')
   expect(output).toContain('bar [50]')
   expect(output).toContain('Historical: Docs')
   expect(output).toContain('2 eligible projects')
@@ -53,7 +53,7 @@ test('catalogue-only projects leave current tables and ranks while their origina
   data.tables[0]!.rows.push({ project: 'fixture/alpha', values: ['1.0', 2, 0, 2] })
   const scoped = { ...catalog, nodes: catalog.nodes.map(node => node.id === 'fixture/alpha' ? { ...node, comparisonScope: { kind: 'catalog-only' as const, reason: 'Explicit project selection' } } : node) }
   const output = renderSnapshot(data, scoped)
-  expect(output).toContain('| fixture/zebra | 1 | 1.0 | 1 | 1 | 2 | 50.0% |')
+  expect(output).toContain('| fixture/zebra 1.0 | 1 | 1 | 1 | 2 | 50.0% |')
   expect(output).toContain('bar [50]')
   expect(output).not.toContain('| fixture/alpha | 1 |')
   expect(output).toContain('| fixture/alpha | catalog-only |')
@@ -217,10 +217,10 @@ test('table and Mermaid chart use the same best-first project order', () => {
   expect(overview).not.toContain('99/100')
   expect(output).toContain('**another-docs-population**')
   const section = output.slice(output.indexOf('**docs-coverage**'))
-  expect(section.indexOf('| fixture/alpha | 1 |')).toBeLessThan(section.indexOf('| fixture/zebra | 2 |'))
+  expect(section.indexOf('| fixture/alpha 1.0 | 1 |')).toBeLessThan(section.indexOf('| fixture/zebra 1.0 | 2 |'))
   expect(section).toContain('x-axis ["fixture/alpha 1.0", "fixture/zebra 1.0"]')
   expect(section).toContain('bar [100, 50]')
-  expect(output.indexOf('| fixture/alpha | 1 |')).toBeLessThan(output.indexOf('| fixture/zebra | 2 |'))
+  expect(output.indexOf('| fixture/alpha 1.0 | 1 |')).toBeLessThan(output.indexOf('| fixture/zebra 1.0 | 2 |'))
   data.attempts.push({ id: 'new-failure', project: 'fixture/alpha', suite: 'docs', measuredFrom: '2026-02-01', updatedAt: '2026-02-02', status: 'failed', detail: 'Newer failure', receipt, groups: [] })
   const updated = renderSnapshot(data, catalog)
   expect(updated.split('\n').find(row => row.startsWith('| fixture/alpha |'))).toContain('| fixture/alpha | — |')
@@ -266,7 +266,7 @@ test('source candidate tables rank within their cohort and cannot replace publis
   expect(output.split('\n').find(line => line.startsWith('| fixture/zebra |'))).toBe(originalRow)
   expect(output).toContain('2026-10-29 · **Source candidates**')
   expect(output).toContain('Source candidates: Docs')
-  expect(output).toContain('| fixture/zebra | 1 | 2.0-dev | 2 | 0 | 2 | 100.0% |')
+  expect(output).toContain('| fixture/zebra 2.0-dev | 1 | 2 | 0 | 2 | 100.0% |')
   candidate.overview = { numerator: 'Returned', denominator: 'Planned', suffix: '' }
   expect(() => renderSnapshot(data, catalog)).toThrow('cannot replace the release overview')
   delete candidate.overview

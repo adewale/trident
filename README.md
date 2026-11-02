@@ -5,10 +5,10 @@ Trident benchmarks Mermaid implementations on three questions:
 | Benchmark | Measures | Status |
 |---|---|---|
 | **DaveBench** | Completed documentation renders and elapsed time, separately for SVG, PNG and terminal text. | Implemented. [Results](docs/benchmark-campaign-results-2026-11-02.md). |
-| **Drawing Correctness** | Required drawing facts on a shared corpus of examples and real project regressions, across output formats. | Implemented: 127 shared cases, SVG/PNG/text checks and explicit assessment gaps. |
-| **Mermaid Fidelity** | Original assertions from the full pinned Mermaid test inventory, through candidate adapters. | Implemented: original pinned Vitest tests, native adapters and explicit coverage gaps. |
+| **Drawing Correctness** | Required drawing facts on a shared corpus of examples and real project regressions, across output formats. | Partial: 127 shared cases; SVG/PNG/text assessment coverage remains incomplete. |
+| **Mermaid Fidelity** | Original assertions from the full pinned Mermaid test inventory, through candidate adapters. | Partial: original Vitest runner and three candidate adapters; 23 projects unassessed. |
 
-[Drawing and Fidelity results](docs/correctness-fidelity-results-2026-11-02.md) · [Definitions and corpus requirements](docs/benchmark-portfolio.md) · [DaveBench method](docs/davebench-definition.md)
+[League tables](RESULTS.md) · [Methods and coverage](docs/benchmark-results-details.md) · [Definitions and corpus requirements](docs/benchmark-portfolio.md) · [DaveBench method](docs/davebench-definition.md)
 
 ## Work on the benchmarks
 

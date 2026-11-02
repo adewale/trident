@@ -36,9 +36,9 @@ const render = (data: ResultsSnapshot) => renderPublicResults(data, catalog, new
 test('public ranks verified counts, preserves unresolved populations and avoids an overall rank', () => {
   const data = snapshot(drawing('svg')), before = JSON.stringify(retainedTableValues(data, data.tables.map(table => table.id)))
   const output = render(data)
-  expect(output).toContain('| 1 | fixture/peer | 1.0 | 9 | 1 | 10 | Uncertain |')
-  expect(output).toContain('| 2 | mermaid-js/mermaid | 1.0 | 8 | 2 | 10 | Reference |')
-  expect(output).toContain('| — | fixture/unknown | 1.0 | — | — | 20 | Not assessed |')
+  expect(output).toContain('| 1 | fixture/peer 1.0 | 9 | 1 | 10 | Uncertain |')
+  expect(output).toContain('| 2 | mermaid-js/mermaid 1.0 | 8 | 2 | 10 | Reference |')
+  expect(output).toContain('| — | fixture/unknown 1.0 | — | — | 20 | Not assessed |')
   expect(output).not.toContain('Overview rank')
   expect(output).not.toContain('xychart-beta')
   expect(output).not.toContain('Correctness upper (%)')
@@ -52,17 +52,17 @@ test('a new PNG failure cannot erase SVG scores or revive an old incompatible co
   const data = snapshot(old, svg, drawing('png'))
   data.attempts.push({ id: 'new-png', suite: 'docs', project: peer, outputFormats: ['png'], measuredFrom: '2026-03-01', updatedAt: '2026-03-01', status: 'blocked', detail: 'New PNG capture failed', receipt: { ...receipt, sha256: 'b'.repeat(64) }, groups: [] })
   const output = render(data), svgPart = output.split('## DaveBench SVG')[1]!.split('## DaveBench PNG')[0]!, pngPart = output.split('## DaveBench PNG')[1]!.split('## Terminal rendering')[0]!
-  expect(svgPart).toContain('| 1 | fixture/peer |')
+  expect(svgPart).toContain('| 1 | fixture/peer 1.0 |')
   expect(output).not.toContain('old-version')
-  expect(pngPart).not.toContain('| 1 | fixture/peer |')
+  expect(pngPart).not.toContain('| 1 | fixture/peer 1.0 |')
   expect(pngPart).toContain('Newer attempts supersede these scores: fixture/peer')
 })
 
 test('PNG noise does not obscure qualified SVG pairs, and raw return diagnostics stay in details', () => {
   const data = snapshot(drawing('svg'), timing('svg', true), timing('png', false)), output = render(data)
   const svg = output.split('### SVG')[1]!.split('### PNG')[0]!
-  expect(svg).toContain('| 1 | fixture/peer | 25 | 0.250 | 0.200–0.300 |')
-  expect(svg).toContain('| 2 | mermaid-js/mermaid | 100 | 1.000 | reference |')
+  expect(svg).toContain('| 1 | fixture/peer artifact 1 | 25 | 0.250 | 0.200–0.300 |')
+  expect(svg).toContain('| 2 | mermaid-js/mermaid artifact 0 | 100 | 1.000 | reference |')
   const png = output.split('### PNG')[1]!.split('### TERMINAL')[0]!
   expect(png).toContain('No paired run qualified')
   expect(png).toContain('Reference measurements too noisy')
@@ -84,7 +84,7 @@ test('later comparisons retain each earlier pair’s actual reference rather tha
   const output = render(data).split('### SVG')[1]!.split('### PNG')[0]!
   expect(output).toContain('100 | 1.000 | reference')
   expect(output).toContain('200 | 1.000 | reference')
-  expect(output.match(/\| 2 \| mermaid-js\/mermaid \|/g)).toHaveLength(2)
+  expect(output.match(/\| 2 \| mermaid-js\/mermaid artifact 0 \|/g)).toHaveLength(2)
 })
 
 
@@ -110,5 +110,5 @@ test('unlike planned populations cannot be presented as one accuracy league', ()
   for (const [index, value] of [stats.observerCoverage, stats.lowerPercent, stats.upperPercent].entries()) row.values[entry.columns.indexOf(drawingStatisticsColumns[index]!)] = Number(value!.toFixed(6))
   const output = render(snapshot(entry))
   expect(output).toContain('Different planned populations cannot share a compact ranking')
-  expect(output).not.toContain('| 1 | fixture/peer |')
+  expect(output).not.toContain('| 1 | fixture/peer 1.0 |')
 })

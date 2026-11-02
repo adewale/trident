@@ -1,43 +1,20 @@
 # Reading Trident results
 
-Start with a comparison table for the question you want answered. Put projects
-and versions in rows, measurements in columns, and units in the column headings.
-Link each row's failures and receipt so readers can inspect what happened.
-The [comparison tables](RESULTS.md#results-by-benchmark) retain current and historical collectors;
-[the research notes](docs/reporting-research.md) explain the examples we learned from.
+[RESULTS.md](RESULTS.md) contains league tables for DaveBench, Drawing Correctness
+and Mermaid Fidelity. DaveBench and Drawing Correctness have separate SVG, PNG
+and terminal-text tables. Project name and version form one display label; there
+is no separate Version column.
 
-The repository's [ecosystem results](RESULTS.md) provide a single entry point.
-They are generated from [results/latest.json](results/latest.json), including
-the detailed diagnostic chart values. Historical evidence keeps its original dates and
-protocols; the overview retains missing projects and newer failed attempts.
-See [publication instructions](results/README.md) to update or check the page.
-The [initial baseline](BASELINE.md) has a separate immutable snapshot and
-input/outcome receipt. The rolling snapshot pins its checksum; the ordinary
-consistency check verifies both. New imports cannot rewrite B0 or turn old pilot
-observations into qualified baseline scores.
+Method, corpus, qualification rules, blockers and limitations belong in
+[the details](docs/benchmark-results-details.md). The landing page contains only
+headings, tables and that details link. Unassessed work stays distinct from
+observed failure and never becomes a zero score. Existing equal-weight overall
+scoring remains withheld while required measurements are unresolved.
 
-## Public results page
-
-`RESULTS.md` has separate, compact rankings for DaveBench SVG, DaveBench PNG,
-terminal drawings and adapted Mermaid behaviours. It has no overall project
-rank. Each section names the corpus, date and population. The table shows the
-project version, verified passes, confirmed non-successes and unresolved work.
-The detailed pages retain all eight drawing outcomes and exact correctness bounds.
-A wholly unassessed project has no score or rank. “Better” and “Worse” require
-non-overlapping bounds; a higher verified count alone gives no accuracy verdict.
-
-Timing shows the latest paired attempt for each project pair and format, naming
-its fixed workload and clock boundary. Older corpora and interfaces stay in the
-details. Every qualified pair retains its own reference measurements. A later PNG failure cannot hide a
-qualified SVG comparison, and a later comparison against a different project
-cannot erase an earlier pair’s reference. Noisy or incomplete runs are listed
-without speed scores. Return-rate charts and collection logs belong in the
-linked details, alongside older runs and maintenance diagnostics.
-
-The summary uses Markdown tables and needs no diagram renderer. Mermaid chart
-blocks in the detailed pages are rendered by GitHub's Mermaid implementation;
-the exact GitHub version was not recorded for this campaign. Chart rendering
-supplies no benchmark output or correctness evidence.
+The page reads the current numeric results directly. Regenerate or check it with
+`bun commands.ts results:snapshot` or `bun commands.ts results:snapshot --check`.
+Neither command runs renderers or rebuilds historical evidence. See
+[results instructions](results/README.md) for the input files.
 
 ## Raw benchmark evidence archive
 

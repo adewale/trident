@@ -8,33 +8,33 @@ export function threeBenchmarkReport(images: any, terminal: any, versions?: any)
   if (images.corpus.commit !== terminal.corpus.commit || images.corpus.occurrences !== terminal.corpus.occurrences) throw Error('DaveBench formats must use one documentation corpus')
   const runs: DavebenchRun[] = [...images.runs, ...terminal.runs]
   const rankings = davebenchRankings(runs, images.corpus.occurrences)
-  return { schema: 'trident-davebench-report-v2', corpus: images.corpus, versionsCheckedAt: versions?.checkedAt, status: 'partial-benchmark-implementation',
+  return { schema: 'trident-davebench-report-v2', corpus: images.corpus, versionsCheckedAt: versions?.checkedAt, status: 'davebench-only',
     collection: { images: { startedAt: images.startedAt, finishedAt: images.updatedAt, environment: images.environment, method: images.method, consolidation: images.consolidation }, terminal: { startedAt: terminal.startedAt, finishedAt: terminal.updatedAt, environment: terminal.environment, method: terminal.method, consolidation: terminal.consolidation } },
-    measurements: { davebench: { status: 'measured', runs: runs.length, attemptedCalls: runs.reduce((sum, row) => sum + row.attempted, 0) }, drawing: { status: 'not-implemented', measuredProjects: 0 }, fidelity: { status: 'not-implemented', measuredProjects: 0 } },
+    measurements: { davebench: { status: 'measured', runs: runs.length, attemptedCalls: runs.reduce((sum, row) => sum + row.attempted, 0) }, drawing: { status: 'not-supplied' }, fidelity: { status: 'not-supplied' } },
     runs, rankings, blocked: [...images.blocked, ...terminal.blocked] }
 }
 
 export function renderThreeBenchmarkReport(report: ReturnType<typeof threeBenchmarkReport>) {
-  const lines = ['# DaveBench results', '', '**DaveBench was collected. Drawing Correctness and Mermaid Fidelity remain unimplemented at their newly agreed scope, so no overall winner can be established.** The earlier 116-case terminal and 49/154-case compatibility selections are not substituted for those benchmarks.', '',
+  const lines = ['# DaveBench results', '', '**This report contains DaveBench only.** Drawing Correctness and Mermaid Fidelity are collected separately; the current league tables are in `RESULTS.md`.', '',
     `${report.corpus.occurrences} documentation occurrences per format; three runs after the same 30 warm-ups. Completed counts show the minimum across the three full runs; times show their median total. The numeric run table retains every repeat. Outputs were discarded without drawing assessment. Versions were frozen at campaign preparation${report.versionsCheckedAt ? ' (' + report.versionsCheckedAt + ')' : ''}.`, '',
-    '| Benchmark | Result |', '|---|---|', `| DaveBench | ${report.measurements.davebench.runs} measured runs; ${report.measurements.davebench.attemptedCalls.toLocaleString('en-GB')} timed calls. |`, '| Drawing Correctness | Not run: the expanded issue/test corpus and cross-format assessment campaign are not implemented. |', '| Mermaid Fidelity | Not run: the shared full pinned-upstream-suite runner and project adapters are not implemented. |', '']
+    '| Benchmark | Result |', '|---|---|', `| DaveBench | ${report.measurements.davebench.runs} measured runs; ${report.measurements.davebench.attemptedCalls.toLocaleString('en-GB')} timed calls. |`, '| Drawing Correctness | Not supplied to this DaveBench report. |', '| Mermaid Fidelity | Not supplied to this DaveBench report. |', '']
   for (const format of ['svg', 'png', 'terminal'] as const) {
-    lines.push('## DaveBench — ' + format.toUpperCase(), '', '**More completions wins; lower median total time breaks ties.** Times include failed calls. The timeout is 15 seconds per call; timeouts are included in failures. CLI process startup is included in CLI rows; persistent API initialization is excluded.', '', '| Rank | Project | Version | Completed | Failed | Timeouts in runs 1/2/3 | Median total seconds | Boundary |', '|---:|---|---|---:|---:|---|---:|---|')
+    lines.push('## DaveBench — ' + format.toUpperCase(), '', '**More completions wins; lower median total time breaks ties.** Times include failed calls. The timeout is 15 seconds per call; timeouts are included in failures. CLI process startup is included in CLI rows; persistent API initialization is excluded.', '', '| Rank | Project | Completed | Failed | Timeouts in runs 1/2/3 | Median total seconds | Boundary |', '|---:|---|---:|---:|---|---:|---|')
     for (const row of report.rankings[format]) {
       const timeouts = report.runs.filter(run => run.project === row.project && run.format === format).sort((a, b) => a.run - b.run).map(run => run.timeouts).join(' / ')
-      lines.push(`| ${row.rank} | ${row.project} | ${row.version} | ${row.completed} | ${row.failed} | ${timeouts} | ${(row.medianTotalMs / 1000).toFixed(3)} | ${row.boundary} |`)
+      lines.push(`| ${row.rank} | ${projectVersion(row.project, row.version)} | ${row.completed} | ${row.failed} | ${timeouts} | ${(row.medianTotalMs / 1000).toFixed(3)} | ${row.boundary} |`)
     }
     lines.push('')
   }
   lines.push('', '## Blocked or incomplete execution', '')
   for (const row of report.blocked) lines.push('- **' + row.project + ':** ' + row.reason.replaceAll('\n', ' ').replaceAll('|', '\|'))
   for (const row of report.rankings.unranked) lines.push('- **' + row.project + ' (' + row.format + '):** ' + row.reason)
-  lines.push('', 'The expanded benchmarks need implementation before these rows can support a best-overall comparison. No renderer correctness or full Mermaid fidelity result is inferred from returning output.', '')
+  lines.push('', 'DaveBench measures completion and time. Drawing Correctness and Mermaid Fidelity have separate result files.', '')
   return lines.join('\n')
 }
 
 export async function main(args = process.argv.slice(2)) {
-  if (args.length === 1 && args[0] === '--help') { console.log('campaign:results --images FILE --terminal FILE --out FRESH_DIRECTORY [--versions DIRECTORY]\nReport measured DaveBench results. Overall scoring awaits the other two benchmarks.'); return }
+  if (args.length === 1 && args[0] === '--help') { console.log('campaign:results --images FILE --terminal FILE --out FRESH_DIRECTORY [--versions DIRECTORY]\nReport measured DaveBench results. Use results:snapshot for the three current benchmark leagues.'); return }
   const options = new Map<string, string>()
   for (let i = 0; i < args.length; i += 2) { if (!['--images', '--terminal', '--versions', '--out'].includes(args[i]!) || !args[i + 1] || options.has(args[i]!)) throw Error('campaign:results --images FILE --terminal FILE --out FRESH_DIRECTORY [--versions DIRECTORY]'); options.set(args[i]!, args[i + 1]!) }
   if (['--images', '--terminal', '--out'].some(key => !options.has(key))) throw Error('Supply images, terminal and output paths')
@@ -47,3 +47,59 @@ export async function main(args = process.argv.slice(2)) {
   writeFileSync(join(out, 'report.md'), renderThreeBenchmarkReport(report))
 }
 if (import.meta.main) await main()
+
+/** One display identity everywhere a measured project appears. */
+export function projectVersion(project: string, version: string, names: Record<string, string> = {}) {
+  if (!version) throw Error('Missing measured/frozen version for ' + project)
+  const revision = /^(?:git-)?([a-f0-9]{40})$/.exec(version)
+  return `${names[project] ?? project} ${revision ? 'git-' + revision[1]!.slice(0, 12) : version}`
+}
+
+/** Tables only, from the three existing numeric results. No renderer execution. */
+export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: any, catalog: any, displayNames: Record<string, string> = {}) {
+  if (drawing.state !== 'complete') throw Error('Drawing collection must be complete')
+  const names = { ...Object.fromEntries(catalog.nodes.filter((n: any) => n.comparisonBranding?.name).map((n: any) => [n.id, n.comparisonBranding.name])), ...displayNames }
+  const versions = new Map<string, string>(catalog.nodes.map((n: any) => [n.id, n.benchmark?.version]))
+  for (const row of [...(davebench.runs ?? []), ...drawing.results, ...fidelity.results]) versions.set(row.project, row.version)
+  const label = (row: any) => projectVersion(row.project, row.version ?? versions.get(row.project), names)
+  const escape = (v: unknown) => String(v).replaceAll('|', '\\|').replaceAll('\n', ' ')
+  const lines = ['# Benchmark league tables', '', '[Methods, scoring and coverage details](docs/benchmark-results-details.md)', '', '## DaveBench', '']
+  const table = (columns: string[], rows: unknown[][]) => lines.push('| ' + columns.join(' | ') + ' |', '| ' + columns.map(() => '---').join(' | ') + ' |', ...rows.map(r => '| ' + r.map(escape).join(' | ') + ' |'), '')
+  for (const format of ['svg', 'png', 'terminal']) {
+    lines.push('### ' + (format === 'terminal' ? 'Terminal text' : format.toUpperCase()), '')
+    const ranked = [...davebench.rankings[format]].sort((a: any, b: any) => a.rank - b.rank || label(a).localeCompare(label(b)))
+    const rows: unknown[][] = ranked.map((r: any) => [r.rank, label(r), r.completed, (r.medianTotalMs / 1000).toFixed(3)])
+    for (const block of davebench.blocked ?? []) if (!ranked.some((r: any) => r.project === block.project) && catalog.nodes.find((n: any) => n.id === block.project)?.benchmark?.outputs.includes(format)) rows.push(['—', label(block), 'Blocked', '—'])
+    table(['Rank', 'Project', `Completed / ${davebench.corpus.occurrences} ↑`, 'Median seconds ↓'], rows)
+  }
+  const caseTable = (entries: any[], population: number, blocks: any[]) => {
+    const measured = entries.map(r => ({ ...r, scored: r.passed + r.failed > 0 })).sort((a, b) => Number(b.scored) - Number(a.scored) || b.passed - a.passed || label(a).localeCompare(label(b)))
+    let rank = 0, previous: number | undefined
+    const rows: unknown[][] = measured.map((r, index) => {
+      if (r.scored && r.passed !== previous) { rank = index + 1; previous = r.passed }
+      return [r.scored ? rank : '—', label(r), r.scored ? r.passed : '—', r.scored ? r.failed : '—', r.gaps]
+    })
+    for (const block of [...blocks].sort((a, b) => label(a).localeCompare(label(b)))) if (!measured.some(r => r.project === block.project)) rows.push(['—', label(block), '—', '—', population])
+    table(['Rank', 'Project', `Passed / ${population} ↑`, 'Failed', 'Unassessed'], rows)
+  }
+  lines.push('## Drawing Correctness', '')
+  for (const format of ['svg', 'png', 'terminal']) {
+    lines.push('### ' + (format === 'terminal' ? 'Terminal text' : format.toUpperCase()), '')
+    caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => r.format.includes(format)))
+  }
+  lines.push('## Mermaid Fidelity', '')
+  const reference = fidelity.results.find((r: any) => r.project === 'mermaid-js/mermaid') ?? fidelity.results[0]
+  const population = fidelity.referenceQualifiedCallbacks + (reference?.counts['reference-unqualified'] ?? 0)
+  caseTable(fidelity.results.map((r: any) => ({ ...r, passed: r.counts.passed, failed: r.counts.failed + r.counts.unsupported, gaps: r.counts['trident-blocked'] + (r.counts['reference-unqualified'] ?? 0) })), population, fidelity.blocked)
+  return lines.join('\n')
+}
+
+/** Current campaign inputs already tracked in the repository; older snapshots
+ * continue to support explicit historical exports to other directories. */
+export function retainedBenchmarkLeagues(root: string, names: Record<string, string> = {}) {
+  const paths = ['docs/evidence/benchmark-campaign-2026-11-02/report.json', 'results/drawing-correctness-2026-11-02.json', 'results/mermaid-fidelity-2026-11-02.json', 'docs/evidence/benchmark-campaign-2026-11-02/catalog.json'].map(p => join(root, p))
+  if (!paths.slice(0, 3).some(p => existsSync(p))) return undefined
+  if (!paths.every(p => existsSync(p))) throw Error('Current league tables require all three benchmark result files and the frozen catalog')
+  const [davebench, drawing, fidelity, catalog] = paths.map(p => JSON.parse(readFileSync(p, 'utf8')))
+  return renderBenchmarkLeagues(davebench, drawing, fidelity, catalog, names)
+}

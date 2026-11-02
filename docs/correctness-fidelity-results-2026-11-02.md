@@ -22,68 +22,68 @@ Seven cases have incomplete common transcription or empty-drawing assessment. Ge
 
 ### SVG
 
-| Position | Project | Version | Pass / 127 | Failed facts | Output failures | Unknown | Unrun |
-|---:|---|---|---:|---:|---:|---:|---:|
-| 1 | mermaid-js/mermaid | 12.2.0 | 81 | 5 | 1 | 40 | 0 |
-| 2 | crabtalk/bezel | 0.2.24 | 76 | 6 | 1 | 44 | 0 |
-| 2 | obsidianmd/pele | 1.13.0 | 76 | 6 | 1 | 44 | 0 |
-| 4 | wevm/ondine | 0.0.3 | 74 | 6 | 1 | 46 | 0 |
-| 5 | orestesgaolin/mermaid | 0.3.2 | 61 | 12 | 3 | 51 | 0 |
-| 6 | Latias94/merman | 0.9.3 | 59 | 7 | 1 | 60 | 0 |
-| 7 | 1jehuang/mermaid-rs-renderer | 0.3.1 | 57 | 19 | 0 | 51 | 0 |
-| 8 | adewale/agentic-mermaid | 0.5.6 | 50 | 5 | 3 | 69 | 0 |
-| 9 | dfadler/zombie-mermaid | 5.14.1 | 47 | 8 | 20 | 52 | 0 |
-| 10 | lukilabs/beautiful-mermaid | 1.1.3 | 40 | 10 | 29 | 48 | 0 |
-| 11 | crafter-station/mermaid | 0.0.3 | 35 | 24 | 30 | 38 | 0 |
-| 12 | evangwt/xmermaid | 0.4.2 | 9 | 16 | 13 | 89 | 0 |
-| 13 | Dicklesworthstone/frankenmermaid | 0.4.0 | 6 | 13 | 1 | 107 | 0 |
-| 13 | emtyty/merslim | 0.2.3 | 6 | 27 | 14 | 80 | 0 |
-| 13 | sandyyst/dsh-plugin-mermaid-gb-svg | 0.1.5 | 6 | 44 | 1 | 76 | 0 |
-| 16 | KlangHaus/vitepress-plugin-diagram | 0.3.2 | 0 | 13 | 50 | 64 | 0 |
+| Position | Project | Pass / 127 | Failed facts | Output failures | Unknown | Unrun |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | mermaid-js/mermaid 12.2.0 | 81 | 5 | 1 | 40 | 0 |
+| 2 | crabtalk/bezel 0.2.24 | 76 | 6 | 1 | 44 | 0 |
+| 2 | obsidianmd/pele 1.13.0 | 76 | 6 | 1 | 44 | 0 |
+| 4 | wevm/ondine 0.0.3 | 74 | 6 | 1 | 46 | 0 |
+| 5 | orestesgaolin/mermaid 0.3.2 | 61 | 12 | 3 | 51 | 0 |
+| 6 | Latias94/merman 0.9.3 | 59 | 7 | 1 | 60 | 0 |
+| 7 | 1jehuang/mermaid-rs-renderer 0.3.1 | 57 | 19 | 0 | 51 | 0 |
+| 8 | adewale/agentic-mermaid 0.5.6 | 50 | 5 | 3 | 69 | 0 |
+| 9 | dfadler/zombie-mermaid 5.14.1 | 47 | 8 | 20 | 52 | 0 |
+| 10 | lukilabs/beautiful-mermaid 1.1.3 | 40 | 10 | 29 | 48 | 0 |
+| 11 | crafter-station/mermaid 0.0.3 | 35 | 24 | 30 | 38 | 0 |
+| 12 | evangwt/xmermaid 0.4.2 | 9 | 16 | 13 | 89 | 0 |
+| 13 | Dicklesworthstone/frankenmermaid 0.4.0 | 6 | 13 | 1 | 107 | 0 |
+| 13 | emtyty/merslim 0.2.3 | 6 | 27 | 14 | 80 | 0 |
+| 13 | sandyyst/dsh-plugin-mermaid-gb-svg 0.1.5 | 6 | 44 | 1 | 76 | 0 |
+| 16 | KlangHaus/vitepress-plugin-diagram 0.3.2 | 0 | 13 | 50 | 64 | 0 |
 
 ### PNG
 
-| Position | Project | Version | Pass / 127 | Failed facts | Output failures | Unknown | Unrun |
-|---:|---|---|---:|---:|---:|---:|---:|
-| 1 | wevm/ondine | 0.0.3 | 63 | 0 | 0 | 63 | 1 |
-| 2 | crabtalk/bezel | 0.2.24 | 58 | 0 | 0 | 68 | 1 |
-| 2 | obsidianmd/pele | 1.13.0 | 58 | 0 | 0 | 68 | 1 |
-| 4 | orestesgaolin/mermaid | 0.3.2 | 42 | 0 | 0 | 82 | 3 |
-| 5 | mermaid-js/mermaid | 12.2.0 | 41 | 0 | 0 | 85 | 1 |
-| 6 | evangwt/xmermaid | 0.4.2 | 9 | 0 | 0 | 105 | 13 |
-| 6 | sandyyst/dsh-plugin-mermaid-gb-svg | 0.1.5 | 9 | 0 | 0 | 117 | 1 |
-| 8 | Latias94/merman | 0.9.3 | 6 | 0 | 2 | 119 | 0 |
-| 9 | adewale/agentic-mermaid | 0.5.6 | 5 | 0 | 0 | 119 | 3 |
-| 10 | crafter-station/mermaid | 0.0.3 | 3 | 0 | 0 | 94 | 30 |
-| 11 | Dicklesworthstone/frankenmermaid | 0.4.0 | 1 | 0 | 0 | 125 | 1 |
-| 11 | dfadler/zombie-mermaid | 5.14.1 | 1 | 0 | 0 | 106 | 20 |
-| 11 | lukilabs/beautiful-mermaid | 1.1.3 | 1 | 0 | 0 | 97 | 29 |
-| 14 | 1jehuang/mermaid-rs-renderer | 0.3.1 | 0 | 0 | 1 | 126 | 0 |
-| 14 | KlangHaus/vitepress-plugin-diagram | 0.3.2 | 0 | 0 | 0 | 77 | 50 |
-| 14 | emtyty/merslim | 0.2.3 | 0 | 0 | 1 | 112 | 14 |
+| Position | Project | Pass / 127 | Failed facts | Output failures | Unknown | Unrun |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | wevm/ondine 0.0.3 | 63 | 0 | 0 | 63 | 1 |
+| 2 | crabtalk/bezel 0.2.24 | 58 | 0 | 0 | 68 | 1 |
+| 2 | obsidianmd/pele 1.13.0 | 58 | 0 | 0 | 68 | 1 |
+| 4 | orestesgaolin/mermaid 0.3.2 | 42 | 0 | 0 | 82 | 3 |
+| 5 | mermaid-js/mermaid 12.2.0 | 41 | 0 | 0 | 85 | 1 |
+| 6 | evangwt/xmermaid 0.4.2 | 9 | 0 | 0 | 105 | 13 |
+| 6 | sandyyst/dsh-plugin-mermaid-gb-svg 0.1.5 | 9 | 0 | 0 | 117 | 1 |
+| 8 | Latias94/merman 0.9.3 | 6 | 0 | 2 | 119 | 0 |
+| 9 | adewale/agentic-mermaid 0.5.6 | 5 | 0 | 0 | 119 | 3 |
+| 10 | crafter-station/mermaid 0.0.3 | 3 | 0 | 0 | 94 | 30 |
+| 11 | Dicklesworthstone/frankenmermaid 0.4.0 | 1 | 0 | 0 | 125 | 1 |
+| 11 | dfadler/zombie-mermaid 5.14.1 | 1 | 0 | 0 | 106 | 20 |
+| 11 | lukilabs/beautiful-mermaid 1.1.3 | 1 | 0 | 0 | 97 | 29 |
+| 14 | 1jehuang/mermaid-rs-renderer 0.3.1 | 0 | 0 | 1 | 126 | 0 |
+| 14 | KlangHaus/vitepress-plugin-diagram 0.3.2 | 0 | 0 | 0 | 77 | 50 |
+| 14 | emtyty/merslim 0.2.3 | 0 | 0 | 1 | 112 | 14 |
 
 ### Terminal text
 
-| Position | Project | Version | Pass / 127 | Failed facts | Output failures | Unknown | Unrun |
-|---:|---|---|---:|---:|---:|---:|---:|
-| 1 | adewale/agentic-mermaid | 0.5.6 | 72 | 12 | 3 | 40 | 0 |
-| 2 | fasouto/termaid | 0.10.0 | 69 | 35 | 0 | 23 | 0 |
-| 3 | dfadler/zombie-mermaid | 5.14.1 | 60 | 11 | 20 | 36 | 0 |
-| 4 | Yassimba/loom | 0.10.0 | 48 | 27 | 17 | 35 | 0 |
-| 5 | AlexanderGrooff/mermaid-ascii | 1.6.1 | 47 | 25 | 43 | 12 | 0 |
-| 6 | Latias94/merman | 0.9.3 | 45 | 17 | 23 | 42 | 0 |
-| 6 | spacedock-dev/mermaidtext | git-a6b0c7657b94 | 45 | 37 | 0 | 45 | 0 |
-| 8 | lukilabs/beautiful-mermaid | 1.1.3 | 41 | 21 | 29 | 36 | 0 |
-| 9 | wevm/ondine | 0.0.3 | 34 | 29 | 1 | 63 | 0 |
-| 10 | kais-radwan/ascii-mermaid | 0.1.0 | 30 | 40 | 24 | 33 | 0 |
-| 11 | Mootikins/figurehead-rs | v0.4.3 | 21 | 29 | 58 | 19 | 0 |
-| 12 | kitlangton/merman | 0.2.1 | 20 | 33 | 56 | 18 | 0 |
-| 13 | emtyty/merslim | 0.2.3 | 18 | 50 | 13 | 46 | 0 |
-| 14 | anomalyco/opencode | 2.2.5 | 12 | 27 | 26 | 14 | 48 |
-| 15 | tariqshams/mermaidtui | 0.0.6 | 6 | 5 | 114 | 2 | 0 |
-| 16 | crafter-station/mermaid | 0.0.3 | 5 | 56 | 25 | 41 | 0 |
-| 17 | Dicklesworthstone/frankenmermaid | 0.4.0 | 0 | 1 | 1 | 125 | 0 |
-| 17 | xai-org/grok-build | git-2bdd1d6a6369 | 0 | 37 | 0 | 90 | 0 |
+| Position | Project | Pass / 127 | Failed facts | Output failures | Unknown | Unrun |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | adewale/agentic-mermaid 0.5.6 | 72 | 12 | 3 | 40 | 0 |
+| 2 | fasouto/termaid 0.10.0 | 69 | 35 | 0 | 23 | 0 |
+| 3 | dfadler/zombie-mermaid 5.14.1 | 60 | 11 | 20 | 36 | 0 |
+| 4 | Yassimba/loom 0.10.0 | 48 | 27 | 17 | 35 | 0 |
+| 5 | AlexanderGrooff/mermaid-ascii 1.6.1 | 47 | 25 | 43 | 12 | 0 |
+| 6 | Latias94/merman 0.9.3 | 45 | 17 | 23 | 42 | 0 |
+| 6 | spacedock-dev/mermaidtext git-a6b0c7657b94 | 45 | 37 | 0 | 45 | 0 |
+| 8 | lukilabs/beautiful-mermaid 1.1.3 | 41 | 21 | 29 | 36 | 0 |
+| 9 | wevm/ondine 0.0.3 | 34 | 29 | 1 | 63 | 0 |
+| 10 | kais-radwan/ascii-mermaid 0.1.0 | 30 | 40 | 24 | 33 | 0 |
+| 11 | Mootikins/figurehead-rs v0.4.3 | 21 | 29 | 58 | 19 | 0 |
+| 12 | kitlangton/merman 0.2.1 | 20 | 33 | 56 | 18 | 0 |
+| 13 | emtyty/merslim 0.2.3 | 18 | 50 | 13 | 46 | 0 |
+| 14 | anomalyco/opencode 2.2.5 | 12 | 27 | 26 | 14 | 48 |
+| 15 | tariqshams/mermaidtui 0.0.6 | 6 | 5 | 114 | 2 | 0 |
+| 16 | crafter-station/mermaid 0.0.3 | 5 | 56 | 25 | 41 | 0 |
+| 17 | Dicklesworthstone/frankenmermaid 0.4.0 | 0 | 1 | 1 | 125 | 0 |
+| 17 | xai-org/grok-build git-2bdd1d6a6369 | 0 | 37 | 0 | 90 | 0 |
 
 OpenCode’s terminal worker stopped; 48 cases remain unrun after the affected regression cases were collected separately. Shared SVG-to-PNG paths require a successful SVG render; 168 PNG cases remain unrun at that prerequisite. Native PNG bindings were invoked independently on the two cases where their SVG call failed. Flutter remains an isolated setup blocker: its native release bundle was unavailable. No Flutter SDK setup was retried.
 
@@ -97,12 +97,12 @@ Original bodies, inputs and assertions execute unchanged; production imports are
 
 **Better means more qualified original tests passed on the same population.** The control qualifies **2,894 callbacks**. Another **2,408 are reference-unqualified** and **143 are upstream-skipped**; these counts apply equally to every participant. The table is ordered by observed qualified passes. Adapter gaps prevent a complete whole-suite score.
 
-| Project | Version | Qualified passes / 2,894 | Assertion nonpasses | Native unsupported | Trident adapter gaps |
-|---|---|---:|---:|---:|---:|
-| mermaid-js/mermaid | 12.2.0 | 2894 | 0 | 0 | 0 |
-| obsidianmd/pele | 1.13.0 | 1772 | 49 | 0 | 1073 |
-| adewale/agentic-mermaid | 0.5.6 | 999 | 596 | 197 | 1102 |
-| lukilabs/beautiful-mermaid | 1.1.3 | 105 | 1544 | 0 | 1245 |
+| Project | Qualified passes / 2,894 | Assertion nonpasses | Native unsupported | Trident adapter gaps |
+| --- | ---: | ---: | ---: | ---: |
+| mermaid-js/mermaid 12.2.0 | 2894 | 0 | 0 | 0 |
+| obsidianmd/pele 1.13.0 | 1772 | 49 | 0 | 1073 |
+| adewale/agentic-mermaid 0.5.6 | 999 | 596 | 197 | 1102 |
+| lukilabs/beautiful-mermaid 1.1.3 | 105 | 1544 | 0 | 1245 |
 
 Mermaid is the reference row. Assertion nonpasses are observed through schema adapters and require implementation/adapter triage; they are not diagnoses of drawing defects. The other **23 projects have explicit native adapter/artifact gaps**, including Zombie’s unavailable installed parser/database binding. They receive no zero score. Per-file outcomes, unexpanded files, outside-runner files and all blocked project names are in the [numeric Fidelity results](../results/mermaid-fidelity-2026-11-02.json).
 
