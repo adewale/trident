@@ -20,7 +20,7 @@ export function measurementReport(snapshot: ResultsSnapshot, catalog: LineageCat
     tables: snapshot.tables.map(table => {
       const id = measurementForTable(table), contract = measurementContracts[id]
       return { tableId: table.id, suite: table.suite, measurement: bindMeasurement(id), binding: table.measurement ? 'recorded' : 'inferred legacy schema',
-        question: contract.question, limit: contract.limit, unit: table.unit, corpus: table.cohort ?? null, comparisonKey: table.comparisonKey ?? null,
+        question: contract.question, limit: contract.limit, unit: table.unit, outputFormat: table.outputFormat ?? (table.cohort?.startsWith('terminal-') ? 'terminal' : null), corpus: table.cohort ?? null, comparisonKey: table.comparisonKey ?? null,
         columns: table.columns, scope: table.caption, ranking: table.ranking ?? null,
         evidence: evidence(table.receipt), measuredAt: table.measuredAt,
         rows: table.rows.map(row => {
@@ -77,7 +77,7 @@ export function main(argv = process.argv.slice(2)) {
   for (const entry of report.tables) {
     const cell = (value: unknown) => String(value ?? 'unavailable').replaceAll('|', '&#124;').replaceAll('\n', ' ')
     lines.push('## ' + entry.tableId, '', entry.question, '', entry.limit, '', '**Unit:** ' + cell(entry.unit) + ' · **Measured:** ' + cell(entry.measuredAt), '', entry.scope, '',
-      '| ' + ['Project', ...entry.columns].map(cell).join(' | ') + ' |', '| ' + ['Project', ...entry.columns].map(() => '---').join(' | ') + ' |')
+      '**Output format:** ' + cell(entry.outputFormat), '', '| ' + ['Project', ...entry.columns].map(cell).join(' | ') + ' |', '| ' + ['Project', ...entry.columns].map(() => '---').join(' | ') + ' |')
     for (const row of entry.rows) lines.push('| ' + [row.project, ...row.values].map(cell).join(' | ') + ' |')
     lines.push('', '| Project | Planned | Resolved | Unresolved | Stored assessment complete |', '|---|---:|---:|---:|---|')
     for (const row of entry.rows) lines.push('| ' + [row.project, row.coverage.planned, row.coverage.resolved, row.coverage.unresolved, row.coverage.assessmentComplete].map(cell).join(' | ') + ' |')

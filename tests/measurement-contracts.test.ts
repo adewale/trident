@@ -88,6 +88,7 @@ test('the public measurement command writes a separate audit without changing or
   expect(existsSync(join(out, 'README.md'))).toBe(true)
   const audit = JSON.parse(readFileSync(join(out, 'measurements.json'), 'utf8'))
   expect(audit.tables[0].rows[0].metrics['Returned in all rounds']).toBe(1)
+  expect(audit.tables[0].outputFormat).toBe('svg')
   expect(audit.tables[0].rows[0].observerQualification.status).toBe('not-established-by-summary')
   expect(audit.source.path).toBe(input)
   expect(readFileSync(join(out, 'README.md'), 'utf8')).toContain('| fixture/renderer | 1 | 1 | 0 | 1 | 2 |')
