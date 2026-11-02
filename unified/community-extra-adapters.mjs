@@ -167,16 +167,23 @@ async function bindExtraCommunityApi(context) {
       const testing = await companion(context, '@opentui/core/testing')
       const host = await fn(testing, 'createTestRenderer')({ width: 240, height: 160 })
       cleanups.push(async () => { await host.renderer?.destroy?.() })
+      let currentNode
       return { invoke: async source => {
         const renderNode = fn(api, 'createMermaidCodeBlockRenderer')(host.renderer)
         const node = renderNode({ text: source, lang: 'mermaid', type: 'code' }, { defaultRender: () => undefined })
         if (!node) throw Error('Unsupported diagram or no OpenTUI renderable')
+        currentNode = node
         host.renderer.root.add(node)
         await host.renderOnce()
         const value = typeof host.captureCharFrame === 'function' ? host.captureCharFrame() : typeof host.getTextLines === 'function' ? host.getTextLines().join('\n') : undefined
         host.renderer.root.remove(node); node.destroy?.()
         if (typeof value !== 'string') throw Error('Actual OpenTUI host did not expose captured terminal text')
         return value
+      }, afterCall() {
+        if (!currentNode) return
+        host.renderer.root.remove(currentNode)
+        currentNode.destroy?.()
+        currentNode = undefined
       }, qualification: 'actual published Markdown renderer in OpenTUI headless host; plugin install/config hooks excluded' }
     }
     case '@tayomi/termaid-bin': throw Error('Native CLI adapter required: termaidPath resolves executable; no fake in-process Node renderer')

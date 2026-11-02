@@ -1,6 +1,6 @@
 # DaveBench definition
 
-DaveBench measures how many Mermaid documentation examples each renderer completes and how long the render calls take, separately for SVG, PNG and terminal text. It does not assess drawing correctness or retain rendered outputs. The current runner and published measurements cover SVG and PNG; terminal collection is the next implementation extension. See the [three-benchmark portfolio](benchmark-portfolio.md).
+DaveBench measures how many Mermaid documentation examples each renderer completes and how long the render calls take, separately for SVG, PNG and terminal text. It does not assess drawing correctness or retain rendered outputs. Use `davebench` for SVG/PNG and `davebench:terminal` for native terminal text. See the [three-benchmark portfolio](benchmark-portfolio.md).
 
 ## Inputs
 
@@ -42,6 +42,8 @@ audit](benchmark-versions-2026-11-02.md).
 For **SVG**, completion means the public SVG render operation has completed. For **PNG**, completion means encoded PNG output has been returned: a native PNG export, or SVG rendering followed by a shared SVG-to-PNG conversion. Include conversion and encoding in PNG time and record which path was used. Do not substitute SVG-call time for PNG-export time.
 
 For **terminal text**, completion means the native terminal-rendering operation has completed. Measure its Unicode/ASCII/ANSI text path directly; do not rasterize it. Record persistent API/worker versus fresh-process CLI invocation boundaries. Discard text after the call, just as SVG and PNG output are discarded.
+
+Run terminal collection with `bun commands.ts davebench:terminal --prepared FILE --out FRESH_DIRECTORY`. It checks the current selected artifacts before collecting. A campaign can supply its previously resolved `--catalog FROZEN_CAMPAIGN_CATALOG` to keep all formats at one version cutoff. Published JavaScript runs in Node; packages declaring Bun or TypeScript source run in Bun; Python uses a persistent Python process. Timing occurs inside the worker around the awaited API, excluding IPC. Public CLI clocks include startup and drain/discard their output. OpenTUI host nodes are removed between cases outside the timer.
 
 ## Results
 

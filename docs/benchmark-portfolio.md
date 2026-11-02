@@ -12,7 +12,10 @@ already been implemented or measured.
 
 Equal correctness/fidelity counts share a rank. DaveBench retains its exact
 completion/time tie rule. There is no combined score across these three questions
-or across output formats. Each result names its workload and renderer version.
+or across output formats in the original tables. Each result names its workload
+and renderer version. The user's subsequent request adds an optional
+[equal-weight overall synthesis](overall-scoring.md); missing benchmarks withhold
+the overall score and rank.
 
 ## DaveBench: SVG, PNG and terminal text
 
@@ -32,8 +35,9 @@ Publish three tables: SVG, PNG and terminal text. Report completed, failed,
 timed-out and attempted counts alongside all three run times. DaveBench retains
 numeric results and provenance only; it saves and assesses no rendered outputs.
 
-**Existing measurements:** SVG and PNG only. Adding terminal text to this
-definition does not supply terminal measurements or extend the current runner.
+**Collectors:** `davebench` measures SVG/PNG; `davebench:terminal` measures native
+terminal text through persistent APIs or declared CLI boundaries. Both discard
+outputs without assessment and use the same pinned documentation occurrences.
 
 ## Drawing Correctness: real rendering failures across formats
 
@@ -163,6 +167,7 @@ the questions users want answered.
 - Harness/observer regressions, model/editing diagnostics and reference setup
   checks remain maintenance tools, not additional renderer benchmarks.
 
-This definition changes the portfolio, not recorded results. Next implementation
-work is terminal DaveBench collection, broader bug-corpus discovery and
-cross-format drawing assessment, and a shared original-upstream-test runner.
+This definition changes the portfolio, not historical results. Terminal DaveBench
+collection is implemented. Remaining implementation is broader bug-corpus
+discovery and cross-format drawing assessment, and a shared original-upstream-test
+runner.

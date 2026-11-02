@@ -109,7 +109,7 @@ export function davebenchRankings(runs: Run[], planned: number) {
     for (const [index, row] of rows.entries()) { const previous = rows[index - 1]; row.rank = previous && row.completed === previous.completed && row.medianTotalMs === previous.medianTotalMs ? previous.rank : index + 1 }
     return rows
   }
-  return { svg: format('svg'), png: format('png'), unranked }
+  return { svg: format('svg'), png: format('png'), terminal: format('terminal'), unranked }
 }
 
 function rankingMarkdown(rankings: ReturnType<typeof davebenchRankings>, planned: number, blocked: { project: string; reason: string }[]) {
