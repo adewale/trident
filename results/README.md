@@ -144,3 +144,8 @@ and caption.
 The [29 October AM/ZM comparison](../docs/comparison-2026-10-29.md) demonstrates
 this path with raw observations published at an immutable evidence commit and
 a reducer that reconciles all five tables.
+
+Current Drawing Correctness and Mermaid Fidelity measurements are in
+[drawing-correctness-2026-11-02.json](drawing-correctness-2026-11-02.json) and
+[mermaid-fidelity-2026-11-02.json](mermaid-fidelity-2026-11-02.json).
+[Tables, method and coverage gaps](../docs/correctness-fidelity-results-2026-11-02.md).

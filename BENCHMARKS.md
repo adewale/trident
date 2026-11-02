@@ -9,11 +9,12 @@ Correctness expands the terminal corpus across renderer projects and formats.
 Mermaid Fidelity starts from the full pinned upstream suite rather than the
 49-case behavior selection.
 
-[Latest measured campaign](docs/benchmark-campaign-results-2026-11-02.md): 26 projects, 150 runs, 201,300 timed calls; one Flutter setup block. The [equal-weight synthesis](docs/overall-scoring.md) has no overall winner while the two other benchmark campaigns are missing.
+[Latest measured campaign](docs/benchmark-campaign-results-2026-11-02.md): 26 projects, 150 runs, 201,300 timed calls; one Flutter setup block. The [equal-weight synthesis](docs/overall-scoring.md) has no overall winner while assessment and adapter gaps prevent complete scores. [Drawing and Fidelity results](docs/correctness-fidelity-results-2026-11-02.md).
 
 **Implementation status:** the simple DaveBench collectors measure SVG/PNG and
-terminal text. The expanded Drawing Correctness corpus/checkers and the shared
-upstream Fidelity runner still require implementation. The older
+terminal text. `drawing:correctness` runs the expanded 127-case shared corpus
+with SVG, PNG and text observers. `mermaid:fidelity` executes original pinned
+Vitest tests through native adapters, accounting for unavailable bindings. The older
 collectors and measurements documented below retain their original scope;
 they are not results for these expanded definitions.
 

@@ -127,7 +127,7 @@ function rankingMarkdown(rankings: ReturnType<typeof davebenchRankings>, planned
   return lines.join('\n') + '\n'
 }
 
-async function browserHost(browser: Browser, peer: PreparedCommunityBrowser, format: string) {
+export async function browserHost(browser: Browser, peer: PreparedCommunityBrowser, format: string) {
   const engine = peer.browser!, root = resolve(engine.root)
   const server = createServer((request, response) => {
     const url = new URL(request.url ?? '/', 'http://localhost')

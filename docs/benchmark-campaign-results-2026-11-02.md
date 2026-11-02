@@ -1,5 +1,7 @@
 # Benchmark campaign results — 2 November 2026
 
+Subsequent work implemented and collected [Drawing Correctness and Mermaid Fidelity](correctness-fidelity-results-2026-11-02.md). The DaveBench numbers below are unchanged; the implementation-status notes describe this earlier collection.
+
 **DaveBench was collected. Drawing Correctness and Mermaid Fidelity remain unimplemented at their newly agreed scope, so no overall winner can be established.** The earlier 116-case terminal and 49/154-case compatibility selections are not substituted for those benchmarks.
 
 1342 documentation occurrences per format; three runs after the same 30 warm-ups. Completed counts show the minimum across the three full runs; times show their median total. The numeric run table retains every repeat. Outputs were discarded without drawing assessment. Versions were frozen at campaign preparation (2026-11-02T15:09:38.022Z).

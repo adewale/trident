@@ -26,6 +26,11 @@ jobs:
         with:
           bun-version: '1.4.2'
       - run: bun install --frozen-lockfile
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r fidelity/drawing/requirements.txt
+      - run: sudo apt-get install -y tesseract-ocr
       # Chromium inspects checked-in fixtures; no project or benchmark runs.
       - run: bunx playwright install --with-deps chromium
       - run: bun run lint
@@ -59,6 +64,11 @@ jobs:
         with:
           bun-version: '1.4.2'
       - run: bun install --frozen-lockfile
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r fidelity/drawing/requirements.txt
+      - run: command -v tesseract || brew install tesseract
       # Chromium inspects checked-in fixtures; no project or benchmark runs.
       - run: bunx playwright install --with-deps chromium
       - run: bun run test:ci

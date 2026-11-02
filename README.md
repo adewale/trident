@@ -5,15 +5,15 @@ Trident benchmarks Mermaid implementations on three questions:
 | Benchmark | Measures | Status |
 |---|---|---|
 | **DaveBench** | Completed documentation renders and elapsed time, separately for SVG, PNG and terminal text. | Implemented. [Results](docs/benchmark-campaign-results-2026-11-02.md). |
-| **Drawing Correctness** | Required drawing facts on a shared corpus of examples and real project regressions, across output formats. | Expanded corpus and cross-format checks still needed. |
-| **Mermaid Fidelity** | Original assertions from the full pinned Mermaid test inventory, through candidate adapters. | Shared runner and adapters still needed. |
+| **Drawing Correctness** | Required drawing facts on a shared corpus of examples and real project regressions, across output formats. | Implemented: 127 shared cases, SVG/PNG/text checks and explicit assessment gaps. |
+| **Mermaid Fidelity** | Original assertions from the full pinned Mermaid test inventory, through candidate adapters. | Implemented: original pinned Vitest tests, native adapters and explicit coverage gaps. |
 
-[Definitions and corpus requirements](docs/benchmark-portfolio.md) · [DaveBench method](docs/davebench-definition.md)
+[Drawing and Fidelity results](docs/correctness-fidelity-results-2026-11-02.md) · [Definitions and corpus requirements](docs/benchmark-portfolio.md) · [DaveBench method](docs/davebench-definition.md)
 
 ## Work on the benchmarks
 
-The priority is implementing Drawing Correctness and Mermaid Fidelity. Existing
-readers, drivers and checks should be reused. Freeze versions once per campaign,
+The collectors reuse existing readers, drivers and checks. The remaining work
+is reducing observed assessment and adapter gaps. Freeze versions once per campaign,
 check the changed invocation on a few known cases, then run the affected workload.
 Record a blocked project and continue with the others.
 
@@ -27,6 +27,8 @@ and upstream assertions must still be validated; missing results stay explicit.
 bun commands.ts versions --out FRESH_VERSIONS
 bun commands.ts davebench --catalog FRESH_VERSIONS/catalog.json --prepared IMAGE_ARTIFACTS --out FRESH_IMAGES
 bun commands.ts davebench:terminal --catalog FRESH_VERSIONS/catalog.json --prepared TERMINAL_ARTIFACTS --out FRESH_TERMINAL
+bun commands.ts drawing:correctness --prepared IMAGE_ARTIFACTS --terminal-prepared TERMINAL_ARTIFACTS --catalog FROZEN_CATALOG --out FRESH_DRAWINGS
+bun commands.ts mermaid:fidelity --upstream PINNED_MERMAID --reference MERMAID_RUNTIME --runtime VITEST_RUNTIME --prepared ALL_ARTIFACTS --catalog FROZEN_CATALOG --out FRESH_FIDELITY
 bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal FRESH_TERMINAL/results.json --out FRESH_REPORT
 ```
 

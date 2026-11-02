@@ -1,8 +1,8 @@
 # Trident's three benchmarks
 
-Agreed direction, 2 November 2026. This defines the benchmark portfolio; it does
-not claim that the new collectors, expanded corpus or fidelity adapters have
-already been implemented or measured.
+Agreed direction, 2 November 2026. All three collectors are implemented. The
+[Drawing and Fidelity collection](correctness-fidelity-results-2026-11-02.md)
+reports the remaining assessment and adapter gaps explicitly.
 
 | Benchmark | Question | Workload | Better result |
 |---|---|---|---|
@@ -75,8 +75,14 @@ denominators, and pass/nonpass/unresolved counts. A checker that cannot assess a
 representation leaves an assessment gap; it does not establish a renderer bug.
 Trident must develop and validate those checks as part of this benchmark.
 
-**Existing measurements:** the old terminal corpus and bounded historical SVG/
-PNG assessments. There are no results for the expanded cross-format corpus yet.
+**Current implementation:** `drawing:correctness` uses 127 unique inputs across
+20 families and 19 source projects. The 116 valid seed entries contain 115 unique
+inputs; pinned project regressions add 12 more after deduplication. Checks reuse
+validated SVG and terminal observers, add regression geometry, and assess fresh
+PNG pixels through an independently checked SVG witness or a bounded OCR/frame/
+route observer. Unknown representations and incomplete source expectations stay
+unassessed. Reaction counts were unavailable; repeated independent regressions
+guide this initial expansion. The corpus does not claim a popularity ranking.
 
 ## Mermaid Fidelity: execute pinned upstream tests
 
@@ -127,8 +133,14 @@ complete suite execution.
 Adopt their pinned-test execution and explicit accounting, and extend the
 inventory systematically. Do not preserve the 49-case selection as the target.
 
-**Existing measurements:** 49 adapted behavior cases and 154 selected public API
-callbacks are historical partial evidence. Neither is the new Fidelity result.
+**Current implementation:** `mermaid:fidelity` inventories 368 files at Mermaid
+commit `1fb7869866dd619168d840291c9c54b4f129758b`, attempts the 316 core-package
+files in original Vitest, and lists the other 52 files outside that runner. Native
+adapters cover Mermaid 12.2.0, Pele, Agentic Mermaid and Beautiful Mermaid;
+missing native bindings stay explicit. The first collection registered 5,445
+expanded callbacks, of which 2,894 qualified against the native reference.
+Twenty-five selected files did not expand. The historical 49/154-case selections
+are not substituted for the original tests.
 
 ## How the portfolio drifted
 

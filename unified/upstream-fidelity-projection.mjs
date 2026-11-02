@@ -34,13 +34,13 @@ export function projectPublicDatabase(tool, family, raw) {
   if (tool === 'mermaid') return snapshotMermaidDatabase(raw)
   if (family === 'mindmap' || family === 'gitgraph') return publicDatabaseView(tool, raw, family)
   const view = { ...clone(raw) }, field = (name, property, object = raw) => { if (object && property in object) view[name] = () => clone(object[property]) }
-  field('getDiagramTitle', 'title'); field('getAccTitle', 'accessibilityTitle'); field('getAccDescription', 'accessibilityDescription'); field('getDirection', 'direction')
+  field('getDiagramTitle', 'title'); field('getAccTitle', raw && 'accTitle' in raw ? 'accTitle' : 'accessibilityTitle'); field('getAccDescription', raw && 'accDescr' in raw ? 'accDescr' : 'accessibilityDescription'); field('getDirection', 'direction')
   if (family === 'flowchart') {
     const graph = tool === 'agentic' ? raw.graph : raw
     const shapes = { rect: 'square', rounded: 'round', asymmetric: 'odd' }
     if (graph?.nodes) view.getVertices = () => new Map(entries(graph.nodes).map(([id, node]) => [id, { ...clone(node), text: node.label ?? node.text, type: shapes[node.shape] ?? node.type ?? node.shape, ...(graph.nodeStyles instanceof Map ? { styles: Object.entries(graph.nodeStyles.get(id) ?? {}).map(([key, value]) => `${key}:${value}`) } : {}) }]))
     if (graph?.edges) view.getEdges = () => graph.edges.map(edge => ({ ...clone(edge), start: edge.source ?? edge.start, end: edge.target ?? edge.end, ...(edge.label !== undefined ? { text: edge.label } : {}) }))
-    field('getDirection', 'direction', graph); field('getSubGraphs', 'subgraphs', graph); field('getClasses', 'classDefs', graph)
+    field('getDirection', 'direction', graph); field('getSubGraphs', 'subgraphs', graph); field('getClasses', graph && 'classes' in graph ? 'classes' : 'classDefs', graph)
   } else if (family === 'class') {
     if (raw.classes) view.getClasses = () => new Map(entries(raw.classes).map(([id, item]) => [id, { ...clone(item), ...(item.namespace !== undefined ? { parent: item.namespace } : {}) }]))
     if (view.getClasses) view.getClass = id => view.getClasses().get(id)
