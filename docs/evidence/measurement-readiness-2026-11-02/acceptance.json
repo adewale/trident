@@ -1,0 +1,623 @@
+{
+  "schema": "trident-live-measurement-acceptance-v1",
+  "state": "verified-integration",
+  "scope": "Integration acceptance of real public releases and immutable replay; no accuracy or speed ranking",
+  "selection": "Three unchanged documentation examples selected before collecting any project output: an edge, a lollipop interface and a pie with unequal values. The full documentation denominator remains planned; this is a partial integration check. Terminal uses the unchanged active corpus.",
+  "steps": [
+    {
+      "name": "prepare",
+      "args": [
+        "bench",
+        "--projects",
+        "mermaid-js/mermaid,obsidianmd/pele,lukilabs/beautiful-mermaid",
+        "--suites",
+        "docs",
+        "--docs-formats",
+        "svg,png",
+        "--docs-cases",
+        "/tmp/trident-live-release-17d0127/docs-cases.json",
+        "--executable",
+        "/usr/bin/chromium",
+        "--prepare",
+        "--out",
+        "/tmp/trident-live-release-17d0127/docs"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "logSha256": "f1805b965a29e14c3d1030f8d4a45182208508509b2b5f801b387f082aa7afd7"
+    },
+    {
+      "name": "docs",
+      "args": [
+        "bench",
+        "--prepared",
+        "/tmp/trident-live-release-17d0127/docs/preparation.json",
+        "--budget-minutes",
+        "5",
+        "--out",
+        "/tmp/trident-live-release-17d0127/docs"
+      ],
+      "exitCode": 1,
+      "signal": null,
+      "logSha256": "0f60683f2a330bd4eaabd1d94eeacec73b7f59e6f9c7ff167a220a674d25f6e2"
+    },
+    {
+      "name": "terminal",
+      "args": [
+        "bench",
+        "--terminal",
+        "--community-prepared",
+        "/tmp/trident-live-release-17d0127/docs/preparation/community-prepared.json",
+        "--projects",
+        "lukilabs/beautiful-mermaid",
+        "--out",
+        "/tmp/trident-live-release-17d0127/terminal"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "logSha256": "38a57fa394dfc79b84730ae4a0a448fa346420c597155069d74b2647dcda8879"
+    },
+    {
+      "name": "docs-audit",
+      "args": [
+        "measurements",
+        "--campaign",
+        "/tmp/trident-live-release-17d0127/docs",
+        "--out",
+        "/tmp/trident-live-release-17d0127/docs-audit"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "logSha256": "5dbdc7de0fbc73d2fc75f3e759a9e7591a38612e20309aa2ad4f7c4c269c51bc"
+    },
+    {
+      "name": "terminal-audit",
+      "args": [
+        "measurements",
+        "--campaign",
+        "/tmp/trident-live-release-17d0127/terminal",
+        "--out",
+        "/tmp/trident-live-release-17d0127/terminal-audit"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "logSha256": "4ba063d3263f360cfdb6898b56d05dbec55b48f7ce015a061dceff92b54d516f"
+    },
+    {
+      "name": "docs-replay",
+      "args": [
+        "measurements:replay",
+        "--kind",
+        "docs",
+        "--campaign",
+        "/tmp/trident-live-release-17d0127/docs",
+        "--formats",
+        "svg,png",
+        "--executable",
+        "/usr/bin/chromium",
+        "--out",
+        "/tmp/trident-live-release-17d0127/docs-replay"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "logSha256": "37a9ff0e3d3abe5a1678ff469fba656ce8de3fa2849f79b9a46aee27a92de3be"
+    },
+    {
+      "name": "terminal-replay",
+      "args": [
+        "measurements:replay",
+        "--kind",
+        "terminal",
+        "--campaign",
+        "/tmp/trident-live-release-17d0127/terminal",
+        "--out",
+        "/tmp/trident-live-release-17d0127/terminal-replay"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "logSha256": "f533d1818528e3c2e9ce5b0c069832aea79d142e62b8086866ad1714883b64d9"
+    },
+    {
+      "name": "replayed-audit",
+      "args": [
+        "measurements",
+        "--campaign",
+        "/tmp/trident-live-release-17d0127/docs-replay",
+        "--out",
+        "/tmp/trident-live-release-17d0127/replayed-audit"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "logSha256": "7778da91c61e656cb1a25b4f61e84599b9fb25d440225115d3972c3aba4a7612"
+    },
+    {
+      "name": "terminal-replayed-audit",
+      "args": [
+        "measurements",
+        "--campaign",
+        "/tmp/trident-live-release-17d0127/terminal-replay",
+        "--out",
+        "/tmp/trident-live-release-17d0127/terminal-replayed-audit"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "logSha256": "62a108e2f1700cd4cd1a4420910e6e3aed8355daa1bcf0787ada127ab8d6b733"
+    }
+  ],
+  "details": {
+    "docs": [
+      {
+        "measurement": "invocation-outcomes",
+        "outputFormat": "svg",
+        "scope": "Causal public-call outcomes on the fixed planned population. Completed errors are not successful syntax rejections and do not identify fault ownership. Interrupted calls remain unresolved; missing proof includes unrun inputs and unsupported legacy evidence.",
+        "columns": [
+          "Version",
+          "Returned calls",
+          "Completed errors",
+          "Interrupted calls",
+          "Missing proof",
+          "Planned calls"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              2,
+              1,
+              0,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "obsidianmd/pele",
+            "values": [
+              "1.9.0",
+              3,
+              0,
+              0,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "mermaid-js/mermaid",
+            "values": [
+              "12.2.0",
+              3,
+              0,
+              0,
+              545,
+              548
+            ]
+          }
+        ]
+      },
+      {
+        "measurement": "output-production",
+        "outputFormat": "svg",
+        "scope": "Production of actual public output on the fixed source population, including invalid/configuration controls where present. Success requires an output in every planned round. Wrong-format bytes still count as returned. Missing raw evidence remains unknown; admission/content grades supply no return credit.",
+        "columns": [
+          "Version",
+          "Returned output",
+          "No returned output",
+          "Unknown",
+          "Planned"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              2,
+              1,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "obsidianmd/pele",
+            "values": [
+              "1.9.0",
+              3,
+              0,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "mermaid-js/mermaid",
+            "values": [
+              "12.2.0",
+              3,
+              0,
+              545,
+              548
+            ]
+          }
+        ]
+      },
+      {
+        "measurement": "output-validity",
+        "outputFormat": "svg",
+        "scope": "Mechanical format-only inspection of returned bytes. SVG uses namespace/XML host parsing, PNG uses decoding and terminal text uses strict UTF-8 decoding. No labels or drawing facts are checked. Missing output and unknown inspection are separate from invalid format.",
+        "columns": [
+          "Version",
+          "Valid format",
+          "Invalid format",
+          "No returned output",
+          "Unknown",
+          "Planned"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              2,
+              0,
+              1,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "obsidianmd/pele",
+            "values": [
+              "1.9.0",
+              3,
+              0,
+              0,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "mermaid-js/mermaid",
+            "values": [
+              "12.2.0",
+              3,
+              0,
+              0,
+              545,
+              548
+            ]
+          }
+        ]
+      },
+      {
+        "measurement": "output-size",
+        "outputFormat": "svg",
+        "scope": "Sum of actual returned bytes: UTF-8 SVG/terminal output or encoded PNG. Measured returns and planned calls disclose partial workloads. No comparative size rank is defined for incomplete or unlike populations.",
+        "columns": [
+          "Version",
+          "Returned bytes",
+          "Measured returns",
+          "Planned calls",
+          "Complete byte population"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              4445,
+              2,
+              548,
+              "no"
+            ]
+          },
+          {
+            "project": "obsidianmd/pele",
+            "values": [
+              "1.9.0",
+              5362,
+              3,
+              548,
+              "no"
+            ]
+          },
+          {
+            "project": "mermaid-js/mermaid",
+            "values": [
+              "12.2.0",
+              51367,
+              3,
+              548,
+              "no"
+            ]
+          }
+        ]
+      },
+      {
+        "measurement": "invocation-outcomes",
+        "outputFormat": "png",
+        "scope": "Causal public-call outcomes on the fixed planned population. Completed errors are not successful syntax rejections and do not identify fault ownership. Interrupted calls remain unresolved; missing proof includes unrun inputs and unsupported legacy evidence.",
+        "columns": [
+          "Version",
+          "Returned calls",
+          "Completed errors",
+          "Interrupted calls",
+          "Missing proof",
+          "Planned calls"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              1,
+              2,
+              0,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "obsidianmd/pele",
+            "values": [
+              "1.9.0",
+              3,
+              0,
+              0,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "mermaid-js/mermaid",
+            "values": [
+              "12.2.0",
+              3,
+              0,
+              0,
+              545,
+              548
+            ]
+          }
+        ]
+      },
+      {
+        "measurement": "output-production",
+        "outputFormat": "png",
+        "scope": "Production of actual public output on the fixed source population, including invalid/configuration controls where present. Success requires an output in every planned round. Wrong-format bytes still count as returned. Missing raw evidence remains unknown; admission/content grades supply no return credit.",
+        "columns": [
+          "Version",
+          "Returned output",
+          "No returned output",
+          "Unknown",
+          "Planned"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              1,
+              2,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "obsidianmd/pele",
+            "values": [
+              "1.9.0",
+              3,
+              0,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "mermaid-js/mermaid",
+            "values": [
+              "12.2.0",
+              3,
+              0,
+              545,
+              548
+            ]
+          }
+        ]
+      },
+      {
+        "measurement": "output-validity",
+        "outputFormat": "png",
+        "scope": "Mechanical format-only inspection of returned bytes. SVG uses namespace/XML host parsing, PNG uses decoding and terminal text uses strict UTF-8 decoding. No labels or drawing facts are checked. Missing output and unknown inspection are separate from invalid format.",
+        "columns": [
+          "Version",
+          "Valid format",
+          "Invalid format",
+          "No returned output",
+          "Unknown",
+          "Planned"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              1,
+              0,
+              2,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "obsidianmd/pele",
+            "values": [
+              "1.9.0",
+              3,
+              0,
+              0,
+              545,
+              548
+            ]
+          },
+          {
+            "project": "mermaid-js/mermaid",
+            "values": [
+              "12.2.0",
+              3,
+              0,
+              0,
+              545,
+              548
+            ]
+          }
+        ]
+      },
+      {
+        "measurement": "output-size",
+        "outputFormat": "png",
+        "scope": "Sum of actual returned bytes: UTF-8 SVG/terminal output or encoded PNG. Measured returns and planned calls disclose partial workloads. No comparative size rank is defined for incomplete or unlike populations.",
+        "columns": [
+          "Version",
+          "Returned bytes",
+          "Measured returns",
+          "Planned calls",
+          "Complete byte population"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              1218,
+              1,
+              548,
+              "no"
+            ]
+          },
+          {
+            "project": "obsidianmd/pele",
+            "values": [
+              "1.9.0",
+              25240,
+              3,
+              548,
+              "no"
+            ]
+          },
+          {
+            "project": "mermaid-js/mermaid",
+            "values": [
+              "12.2.0",
+              46587,
+              3,
+              548,
+              "no"
+            ]
+          }
+        ]
+      }
+    ],
+    "terminal": [
+      {
+        "measurement": "invocation-outcomes",
+        "outputFormat": "terminal",
+        "scope": "Causal public-call outcomes on the fixed planned population. Completed errors are not successful syntax rejections and do not identify fault ownership. Interrupted calls remain unresolved; missing proof includes unrun inputs and unsupported legacy evidence.",
+        "columns": [
+          "Version",
+          "Returned calls",
+          "Completed errors",
+          "Interrupted calls",
+          "Missing proof",
+          "Planned calls"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              87,
+              33,
+              0,
+              0,
+              120
+            ]
+          }
+        ]
+      },
+      {
+        "measurement": "output-production",
+        "outputFormat": "terminal",
+        "scope": "Production of actual public output on the fixed source population, including invalid/configuration controls where present. Success requires an output in every planned round. Wrong-format bytes still count as returned. Missing raw evidence remains unknown; admission/content grades supply no return credit.",
+        "columns": [
+          "Version",
+          "Returned output",
+          "No returned output",
+          "Unknown",
+          "Planned"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              87,
+              33,
+              0,
+              120
+            ]
+          }
+        ]
+      },
+      {
+        "measurement": "output-validity",
+        "outputFormat": "terminal",
+        "scope": "Mechanical format-only inspection of returned bytes. SVG uses namespace/XML host parsing, PNG uses decoding and terminal text uses strict UTF-8 decoding. No labels or drawing facts are checked. Missing output and unknown inspection are separate from invalid format.",
+        "columns": [
+          "Version",
+          "Valid format",
+          "Invalid format",
+          "No returned output",
+          "Unknown",
+          "Planned"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              87,
+              0,
+              33,
+              0,
+              120
+            ]
+          }
+        ]
+      },
+      {
+        "measurement": "output-size",
+        "outputFormat": "terminal",
+        "scope": "Sum of actual returned bytes: UTF-8 SVG/terminal output or encoded PNG. Measured returns and planned calls disclose partial workloads. No comparative size rank is defined for incomplete or unlike populations.",
+        "columns": [
+          "Version",
+          "Returned bytes",
+          "Measured returns",
+          "Planned calls",
+          "Complete byte population"
+        ],
+        "rows": [
+          {
+            "project": "lukilabs/beautiful-mermaid",
+            "values": [
+              "1.1.3",
+              104777,
+              87,
+              120,
+              "no"
+            ]
+          }
+        ]
+      }
+    ],
+    "immutableReplay": true,
+    "limits": "Only the predeclared public releases/transports and selected sources. Unassessed drawings, missing outputs and unqualified timing remain unqualified; inspect all retained collection statuses and reports."
+  }
+}

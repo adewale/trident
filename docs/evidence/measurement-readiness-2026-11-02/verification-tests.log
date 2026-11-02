@@ -1,0 +1,129 @@
+bun test v1.4.2 (744846f84)
+
+
+tests/qualified-timing-collection.test.ts:
+(pass) real per-call capture qualifies through the public offline CLI and never includes grading in API clocks [1688.41ms]
+(pass) grading crash resumes complete raw output with stable attempts, original clocks and zero new calls [1792.52ms]
+(pass) a renamed cached callback cannot claim a fresh runtime, and changed sources or warm tracks cannot invoke [4.22ms]
+(pass) interrupted raw capture remains incomplete without rerunning or silently filling planned calls [4.75ms]
+(pass) exposed Worker cleanup overrides cannot fabricate a close result [1437.00ms]
+(pass) the fixed six-round schedule balances every replica position on every source [0.70ms]
+(pass) a timed-out factory cannot issue a late public call and its late runtime is closed [60.53ms]
+(pass) a real child process ignoring termination is bounded and blocks subsequent planned calls [39.24ms]
+(pass) a global collection budget leaves unmeasured cells without manufacturing attempts [23.77ms]
+(pass) a bounded failed observer can regrade every retained call without reopening runtimes [1630.20ms]
+(pass) duck-typed browser objects cannot substitute a cached parent callback for a real browser [6.27ms]
+(pass) owned real-browser evaluation cannot be replaced by a parent callback on the exposed page [6816.55ms]
+(pass) a real Worker postMessage override cannot route the measured call to cached parent code [1161.46ms]
+(pass) owned child IPC send cannot be replaced by cached parent code [909.43ms]
+
+tests/measurement-replay.test.ts:
+(pass) one replay entrypoint re-evaluates real retained behaviours, keeps the parent unchanged and calls no renderer [2750.41ms]
+(pass) replay rejects nested physical outputs and invalid modes before modifying the input [0.32ms]
+
+tests/docs-png-transport-ownership.test.ts:
+(pass) external PNG metric names preserve actual native journal coordinates and reject conflicting aliases [0.17ms]
+(pass) recovery binds the already retained public native call without rewriting its original raw PNG or adding a clock [6.88ms]
+(pass) another source, image, round or duplicate transport row cannot borrow a native recovery [1.20ms]
+(pass) missing durable output and altered artifact or journal path prevent recovery [2.53ms]
+
+tests/campaign-preparation-regressions.test.ts:
+(pass) release resolution retains observed-only catalog entries without acquisition or a crash [0.87ms]
+(pass) a source-only CLI retains the actual reviewed head when GitHub has no releases [1.17ms]
+(pass) canonical preparation blocks an independently valid browser from another primary release [3.77ms]
+(pass) canonical browser reconciliation preserves separate SDK versions and non-browser dispositions [0.44ms]
+(pass) a loaded canonical manifest rejects stale browser ownership and changed live browser bytes [4.90ms]
+(pass) identical browser metadata cannot bypass a missing or failed primary identity receipt [2.10ms]
+(pass) preparation retains selected documentation sources/formats after moves and refuses collection overrides [20.21ms]
+(pass) preparation freezes source/PNG reviews and profile fonts without borrowing mutable input paths [1.66ms]
+(pass) moved preparation restores fonts and reviews from its own archive after original paths disappear [1.42ms]
+(pass) prepared raster profiles cannot borrow absolute unowned fonts, even with a matching profile digest [1.10ms]
+(pass) changed frozen proof bytes fail admission instead of silently using live replacement inputs [0.49ms]
+
+tests/output-measurements.test.ts:
+(pass) mechanical format validity does not require canvas admission, source meaning or nonblank content [2.18ms]
+(pass) public return, format validity and size remain independent of drawing/admission verdicts [0.61ms]
+(pass) historical statuses cannot invent return evidence, missing work remains planned and actual empty strings have zero bytes [0.06ms]
+(pass) duplicate calls, contradictory flags and incomplete rounds cannot produce a complete metric [0.26ms]
+(pass) ordinary campaign reporting compares the same raw population independently of failed admission grades [8.73ms]
+
+tests/recheck-observations.test.ts:
+(pass) copied retained witness paths reject foreign symlink bytes and keep ordinary missing witnesses unresolved [0.67ms]
+(pass) an observer exception cannot preserve a prior correct SVG verdict [2.98ms]
+(pass) an omitted new criterion cannot borrow the old passing check [1.14ms]
+(pass) duplicate checker coordinates invalidate the whole new observation [0.47ms]
+(pass) fresh failing evidence replaces an earlier pass and missing previous rows are constructed [0.85ms]
+(pass) historical unplanned diagnostics do not contaminate a fresh grade or erase another project [1.01ms]
+(pass) fresh unplanned adverse findings withhold the certificate even when every required criterion passes [1.94ms]
+(pass) fresh paint cannot reuse historical identities when its binding is absent or stale [0.30ms]
+(pass) retained admission is newly checked from the actual receipt and source, while preludes receive no new evidence [38.34ms]
+(pass) retained prelude admission requires an exact complete workflow and actual main bytes [43.45ms]
+(pass) raw prelude rechecking distinguishes public rejection from host failure and invalid SVG [60.92ms]
+(pass) sealed CLI ownership rechecks main returns without manufacturing shared-context prelude evidence [91.78ms]
+(pass) fresh grading permits enriched contracts but freezes every public source/options/prelude stimulus [44.06ms]
+(pass) old partial contracts receive only freshly observed full-source SVG checks, preserving bytes and original attempt IDs [803.65ms]
+(pass) moved archives load exact frozen image bytes under an image-only CSP and never borrow unowned resources [559.23ms]
+(pass) blocked external stylesheet imports do not become replay font prerequisites [0.92ms]
+(pass) old absolute font URLs require sealed peer bytes and exact policy sources [0.46ms]
+(pass) DaveBench regrading owns literal-source public returns in docs [7.01ms]
+(pass) DaveBench regrading owns literal-source public returns in docs/svg [3.71ms]
+(pass) native CLI SVG replay preserves the original subset render ID, inner process round and frozen output variant after moving [2.84ms]
+(pass) the real archive regrader reuses retained SVGs across contract enrichment and preserves every original view [8339.57ms]
+
+tests/measurement-contracts.test.ts:
+(pass) measurement schemas reject relabeling public returns as drawing correctness or rendering performance [2.68ms]
+(pass) assessment coverage separates renderer defects from observer gaps and never fabricates attempted calls [0.41ms]
+(pass) ordinary benchmark planning declares questions without asserting qualification or acquiring artifacts [421.98ms]
+(pass) binding gaps and unfamiliar outcomes cannot become resolved assessments or invented planned workloads [1.75ms]
+(pass) causal call tables expose known attempt bounds without inferring attempts from output or drawing grades [0.63ms]
+(pass) the public measurement command writes a separate audit without changing or collecting evidence [745.95ms]
+(pass) the public acceptance plan is inspectable in CI without oracle, acquisition or renderer calls [702.82ms]
+
+tests/native-timing-report.test.ts:
+(pass) measurement replay revalidates timing raw bytes and retains unqualified attempts without any new public calls [1073.73ms]
+(pass) native svg bundle imports through normal publication with both projects and actual clocks [1443.15ms]
+(pass) native png bundle imports through normal publication with both projects and actual clocks [1386.10ms]
+(pass) native terminal bundle imports through normal publication with both projects and actual clocks [2268.76ms]
+(pass) unqualified native returns remain visible and withhold both projects’ speed ranks [1150.39ms]
+(pass) driver qualification revisions of one capture import without trusting their cached verdict [799.03ms]
+(pass) native publication rejects ambiguous attempts and preserves legacy report routing [626.48ms]
+(pass) a caller’s terminal-looking case ID cannot manufacture upstream corpus provenance [1100.66ms]
+(pass) a qualified output-only bundle cannot replace the full current source obligations [766.92ms]
+(pass) a native bundle cannot borrow a foreign file through a symlink [696.76ms]
+(pass) separate paired controls survive importing several candidates with the same host and workload [2566.40ms]
+
+tests/terminal-output-measurements.test.ts:
+(pass) terminal production, UTF-8 validity and bytes come from retained output, never stale admission or drawing flags [21.71ms]
+(pass) invalid UTF-8 remains returned bytes while altered bytes, foreign paths and wrong source coordinates are rejected [4.67ms]
+(pass) original v1 captures survive assessment-profile migration only with the identical literal inventory [1.83ms]
+(pass) ordinary terminal report reductions expose actual output metrics beside separate unresolved drawing assessments [2.54ms]
+
+tests/output-evidence.test.ts:
+(pass) actual source-bound return bytes override stored summary flags and remain usable after moving [2.41ms]
+(pass) composite output lanes keep both proof paths relative to the combined capture root [1.36ms]
+(pass) changed sources, reused calls, altered bytes and foreign symlinks cannot supply measured output [1.50ms]
+(pass) completed API errors prove no returned value; interruptions remain unresolved, independent of saved flags [2.24ms]
+
+tests/internal-invocations.test.ts:
+(pass) Node resume preserves an actual return without silently repeating the renderer [536.85ms]
+(pass) Node death before an awaited return is unknown and cannot become renderer failure or an implicit retry [495.21ms]
+(pass) CLI resume regrades exact retained output, while a different round gets a distinct invocation [754.74ms]
+(pass) every legacy Node warm and sample public call has its own retained return [364.63ms]
+
+tests/observer-controls.test.ts:
+(pass) static ARIA group names preserve valid equivalents while wrong, hidden, styled and nested targets cannot gain credit [0.79ms]
+(pass) actual label observer runs positive, wrong-output and equivalent controls with separate narrow qualification [1.58ms]
+(pass) false positives, false negatives, unsupported equivalents and observer crashes withhold qualification [0.92ms]
+(pass) each additional property and representation needs its own independent controls [0.90ms]
+
+tests/external-invocations.test.ts:
+(pass) Python crash after return preserves exact bytes, real API clock and stable attempt without retry [65.73ms]
+(pass) native raw receipt survives bridge loss; timestamps are not manufactured [1.12ms]
+(pass) a complete stale external frame is rejected instead of silently dropped [0.32ms]
+(pass) a completed Python grade uses the terminal return frame and preserves valid empty drawing semantics [72.13ms]
+(pass) a generic Python ValueError cannot earn typed source-rejection credit [87.56ms]
+
+ 96 pass
+ 0 fail
+ 651 expect() calls
+Ran 96 tests across 13 files. [46.96s]

@@ -2,6 +2,8 @@
 
 [What Trident reliably measures](docs/measurement-contracts.md): executable measurement contracts, assessment coverage, instrument qualification and offline replay.
 
+[Readiness and executed evidence](docs/measurement-readiness.md): retained benchmarks, implemented repairs, actual public-release measurements and remaining qualification work.
+
 [Qualification results and supported claims](qualification/README.md).
 
 Trident compares Mermaid tools on input compatibility, diagram meaning and rendering cost. It invokes public interfaces and keeps drawing correctness, compatibility and timing separate.

@@ -11,7 +11,7 @@ DaveBench, Terminal Rendering and Mermaid Behaviour Tests remain the main worklo
 | API compatibility | The 154-callback diagnostic | Exact selected Mermaid API assertions, original and public-reference controls. Useful for substitutability; optional APIs are not mandatory renderer capabilities. |
 | Specified drawing facts | DaveBench and terminal assessment | Independently reviewed source facts and validated observers for the actual output representation. Missing observer support remains an assessment gap. PNG matching reuses a review; it does not assess unseen images. |
 | Rendering time | Strict browser, terminal and PNG collectors | Fixed inputs, artifact, configuration, boundary and cache policy. Comparable correctly completed rendering additionally requires every sampled output and A/A controls to qualify. |
-| Returned bytes | Fresh DaveBench SVG/PNG captures | Actual uncompressed UTF-8 SVG or encoded PNG byte lengths, with measured returns and planned calls. Partial-population totals are descriptive, not comparative size ranks. |
+| Returned bytes | Fresh DaveBench and terminal captures | Actual uncompressed UTF-8 SVG/terminal or encoded PNG byte lengths, with measured returns and planned calls. Partial-population totals are descriptive, not comparative size ranks. |
 | Resources | Existing counter-specific cost machinery | A named counter, unit, process/time boundary, sampling method and resolution. CPU, RSS, peak RSS and browser heap are distinct. No new resource ranking is introduced by measurement contracts. |
 
 ## Plan, collect and inspect

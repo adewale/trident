@@ -2,6 +2,8 @@
 
 [Measurement contracts and qualification](docs/measurement-contracts.md) define the supported questions, executable report bindings, independent controls and retained-output replay workflow. Output production, format validity, behaviour, drawing assessment and execution cost remain separate measurements within these workloads.
 
+[Benchmark readiness](docs/measurement-readiness.md) maps the existing workloads to those questions and records executed public-release and observer-control evidence.
+
 Trident compares public rendering artifacts. The current workloads are
 DaveBench (SVG and PNG), Mermaid Behaviour Tests and Terminal Rendering.
 The unchanged Mermaid Public API Tests remain an optional compatibility diagnostic. Authored harness/observer regressions are unscored diagnostics; optional

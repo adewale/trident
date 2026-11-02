@@ -1,0 +1,61 @@
+{
+  "schema": "trident-measurement-readiness-v1",
+  "collectionCommit": "17d01271104538b7002551988e629add743e6b9b",
+  "reportCommit": "130af08ea0b7d8d781cd5575fd59d93b9638e429",
+  "originalCaptureDirectory": "/tmp/trident-live-release-17d0127",
+  "qualificationDirectory": "/tmp/trident-instruments-release",
+  "archive": {
+    "path": ".cache/measurement-readiness-2026-11-02/public-evidence.tar.gz",
+    "bytes": 5885511,
+    "sha256": "112ca4351c51320acc21e0cab02f5265977d227f68addbc548e5147cbec71f22",
+    "publication": "Local workspace artifact; not remotely published. Full bytes include all public captures, journals, replays, reports, preparation and logs."
+  },
+  "manifestSha256": "cb0cd3640fcb6f78655f9f529ed44c4b51b258501e497416d79f5dd011edd514",
+  "acceptanceSha256": "4ce8488e3b0434f277b6277db28287902ee57d5fb817c6159ccc3808b1f5fc9e",
+  "verificationSha256": "8259eba2d61a8e6c0d99f56e782d18d6b03b1483dc5e21bf8b2c913cf3457af9",
+  "replayChecks": [
+    {
+      "lane": "svg/png",
+      "originalSha256": "ddff7c3b6f01381b1d3aa32245a045d5a2b94135532b0286f66403733d21f826",
+      "replayedSha256": "e48776ec7706dde3b165d5921c5396a29d183ca57cff51499505e39120d4d5f9",
+      "mechanicalValuesIdentical": true
+    },
+    {
+      "lane": "terminal",
+      "originalSha256": "1ae6f16e7b1dcc473cac92aad877efe6f9dc0457819c04062a8457f6a6afad85",
+      "replayedSha256": "57f3e5f3f4089e0cb7419d4e6954c2eb6b054bac22cde9bb02a30a27787887b3",
+      "mechanicalValuesIdentical": true
+    }
+  ],
+  "assessmentCollectionStatus": "docs exit 1 retained; terminal exit 0. Acceptance verifies integration and replay, not drawing correctness.",
+  "validation": "Full-suite result recorded separately after completion.",
+  "relocationChecks": [
+    {
+      "lane": "docs",
+      "originalSha256": "ddff7c3b6f01381b1d3aa32245a045d5a2b94135532b0286f66403733d21f826",
+      "relocatedReportSha256": "8b2ae31a7127f5117b842a310825c96af0e46ab79825a1145b187cc4c436c177",
+      "mechanicalValuesIdentical": true,
+      "rendererInvocations": 0
+    },
+    {
+      "lane": "terminal",
+      "originalSha256": "1ae6f16e7b1dcc473cac92aad877efe6f9dc0457819c04062a8457f6a6afad85",
+      "relocatedReportSha256": "1831281156165a29545dca9228657d5c3259d4f2a799501473d4657b3c7dea56",
+      "mechanicalValuesIdentical": true,
+      "rendererInvocations": 0
+    }
+  ],
+  "existingSnapshotAuditSha256": "f0b0bf40cf9a6c7b3934ac1d662054ae0b8b1c4b92d502daf0ddf2a84d534a7e",
+  "preservedCanonicalResults": [
+    {
+      "path": "results/latest.json",
+      "sha256": "eef4f32821a7acfe62baae7260233a696adfbc63ad12f785bc8967b593f8e0dc",
+      "byteIdenticalTo": "origin/pr-74"
+    },
+    {
+      "path": "results/baseline.json",
+      "sha256": "81a8e3e0da0e813b33e77f01615d89464079aa2936a80103379c0ed2b7024feb",
+      "byteIdenticalTo": "origin/pr-74"
+    }
+  ]
+}

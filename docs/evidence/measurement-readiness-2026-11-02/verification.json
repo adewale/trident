@@ -1,0 +1,95 @@
+{
+  "schema": "trident-measurement-verification-v2",
+  "scope": "verify:measurements --plan | --out FRESH_DIRECTORY\nExecutes the bounded fixture matrix for measurement contracts, observer controls, Node/CLI/native-worker transports, raw-output replay and timing qualification. No ecosystem acquisition or renderer campaign. Success qualifies these harness fixtures, not every adapter or drawing representation.",
+  "harnessVerified": true,
+  "qualifiedInstrumentScopes": [
+    {
+      "property": "format-validity",
+      "representation": "static SVG"
+    },
+    {
+      "property": "literal-label-admission",
+      "representation": "SVG text"
+    },
+    {
+      "property": "literal-label-admission",
+      "representation": "terminal text"
+    },
+    {
+      "property": "format-validity",
+      "representation": "PNG bytes"
+    },
+    {
+      "property": "block-grid-layout",
+      "representation": "terminal Unicode boxes"
+    },
+    {
+      "property": "accessible-name-description",
+      "representation": "static SVG title/ARIA"
+    }
+  ],
+  "exclusions": [
+    "Catalogue adapter qualification requires actual frozen public-artifact invocation controls.",
+    "These finite controls do not qualify arbitrary SVG/terminal drawing representations or unseen PNG semantics.",
+    "Comparative timing requires its own actual workload, per-call evidence and A/A controls."
+  ],
+  "tests": 96,
+  "files": [
+    {
+      "file": "tests/campaign-preparation-regressions.test.ts",
+      "sha256": "1ae62ae24a5ec8741c4b0bd7cc36966955bc59a0f258a0930cba7e2143ea3de0"
+    },
+    {
+      "file": "tests/output-evidence.test.ts",
+      "sha256": "9a0af5dbbf0b59ad7090060b9f85f354dc780a7601477615885911858c1f2378"
+    },
+    {
+      "file": "tests/terminal-output-measurements.test.ts",
+      "sha256": "dd0f581563c43e3326c66887a8636193913cb082eeac74b2e6d8eed908dfe8ce"
+    },
+    {
+      "file": "tests/output-measurements.test.ts",
+      "sha256": "489db7a0b3f03cd9bd74f5a727558dffbda519d8bba0466174855ee30348572e"
+    },
+    {
+      "file": "tests/measurement-contracts.test.ts",
+      "sha256": "576d997a903278351b2bfebdee614b24ba26d3dabffbac20db7acebecf5e294b"
+    },
+    {
+      "file": "tests/measurement-replay.test.ts",
+      "sha256": "112e5a1e9332f5b81e7f9ce21647aa24c22239b6bd6e38a200a6be07c105d4b4"
+    },
+    {
+      "file": "tests/observer-controls.test.ts",
+      "sha256": "7a10bfd30c8bd52599ffe1964dbc09f78e30fdd45d68c6ac5c92bb023cbbaea2"
+    },
+    {
+      "file": "tests/internal-invocations.test.ts",
+      "sha256": "64792723338ee3de231be71ecc06f97d0f6c10f80160bb37ac2b6cc87731d9f6"
+    },
+    {
+      "file": "tests/external-invocations.test.ts",
+      "sha256": "a8fb7c3fa020aa6d414535ee6516813badc991a4ef246895a77d2bcd18a2c37e"
+    },
+    {
+      "file": "tests/docs-png-transport-ownership.test.ts",
+      "sha256": "473725cabfb826696c8075622b7ea6b3812c8ddb0ab25945c56691a6747b5943"
+    },
+    {
+      "file": "tests/qualified-timing-collection.test.ts",
+      "sha256": "7dd1673d41d81a09e521b31f4a53ba21448820aca3e7dbc344a1d5c6c1f59fcb"
+    },
+    {
+      "file": "tests/native-timing-report.test.ts",
+      "sha256": "c842c2c9ff3f3b4a56347848fa322022c2962946c5d64f56fd183969b1412c0e"
+    },
+    {
+      "file": "tests/recheck-observations.test.ts",
+      "sha256": "5144845abaaa2fed3b13685b72fca1e86c05abcb4faba8e19cef456285eb8282"
+    }
+  ],
+  "logSha256": "5b5c4d615dc35a42a8cfec6d51671b6cc3334c28dbc0ac6290658151688478dc",
+  "exitCode": 0,
+  "signal": null,
+  "error": null
+}
