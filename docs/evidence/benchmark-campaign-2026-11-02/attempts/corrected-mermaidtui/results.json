@@ -1,0 +1,75 @@
+{
+  "schema": "davebench-terminal-v1",
+  "state": "complete",
+  "startedAt": "2026-11-02T16:50:56.855Z",
+  "updatedAt": "2026-11-02T16:50:57.379Z",
+  "corpus": {
+    "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
+    "occurrences": 1342,
+    "files": 49
+  },
+  "method": {
+    "runs": 3,
+    "warmupsPerRun": 30,
+    "timeoutMs": 15000,
+    "outputsRetained": false,
+    "outputsAssessed": false,
+    "elapsed": "Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup."
+  },
+  "runs": [
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+      "attempted": 1342,
+      "completed": 23,
+      "failed": 1319,
+      "timeouts": 0,
+      "totalMs": 19.115169999999928
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+      "attempted": 1342,
+      "completed": 23,
+      "failed": 1319,
+      "timeouts": 0,
+      "totalMs": 21.55653100000024
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+      "attempted": 1342,
+      "completed": 23,
+      "failed": 1319,
+      "timeouts": 0,
+      "totalMs": 20.694131000000333
+    }
+  ],
+  "rankings": {
+    "svg": [],
+    "png": [],
+    "terminal": [
+      {
+        "project": "tariqshams/mermaidtui",
+        "version": "0.0.6",
+        "format": "terminal",
+        "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+        "completed": 23,
+        "failed": 1319,
+        "medianTotalMs": 20.694131000000333,
+        "rank": 1
+      }
+    ],
+    "unranked": []
+  },
+  "blocked": []
+}

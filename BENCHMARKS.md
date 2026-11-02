@@ -9,6 +9,8 @@ Correctness expands the terminal corpus across renderer projects and formats.
 Mermaid Fidelity starts from the full pinned upstream suite rather than the
 49-case behavior selection.
 
+[Latest measured campaign](docs/benchmark-campaign-results-2026-11-02.md): 26 projects, 150 runs, 201,300 timed calls; one Flutter setup block. The [equal-weight synthesis](docs/overall-scoring.md) has no overall winner while the two other benchmark campaigns are missing.
+
 **Implementation status:** the simple DaveBench collectors measure SVG/PNG and
 terminal text. The expanded Drawing Correctness corpus/checkers and the shared
 upstream Fidelity runner still require implementation. The older
@@ -20,7 +22,7 @@ they are not results for these expanded definitions.
 [Benchmark readiness](docs/measurement-readiness.md) maps the existing workloads to those questions and records executed public-release and observer-control evidence.
 
 Trident compares rendering implementations. Existing collectors include
-DaveBench (SVG and PNG), the historical Mermaid Behaviour Tests and Terminal Rendering.
+DaveBench (SVG, PNG and terminal text), the historical Mermaid Behaviour Tests and Terminal Rendering.
 The selected Mermaid Public API Tests are historical partial compatibility evidence. Authored harness/observer regressions are unscored diagnostics; optional
 Public Model Contracts retain their separate API scope. SVG inspection and cost measurement are shared machinery.
 The [optional equal-weight synthesis](docs/overall-scoring.md) requires all three

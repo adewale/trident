@@ -1,0 +1,6 @@
+Try `flutter pub outdated` for more information.
+[1/1] Linux SDK
+  ├─ [1/3] linux-x64-debug/linux-x64-flutter-gtk                    13ms
+  ├─ [1/3] linux-x64-debug/linux-x64-flutter-gtk                    12ms
+Failed to download https://storage.googleapis.com/flutter_infra_release/flutter/4c525dac5ebe5971c5708ef73558ed8edcf4a362/linux-x64-debug/linux-x64-flutter-gtk.zip. Ensure you have network connectivity and then try again.
+HttpException: Proxy failed to establish tunnel (403 Forbidden), uri = //storage.googleapis.com:443

@@ -1,0 +1,3437 @@
+{
+  "schema": "trident-three-benchmark-report-v1",
+  "corpus": {
+    "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
+    "directory": "docs/",
+    "occurrences": 1342,
+    "files": 49
+  },
+  "versionsCheckedAt": "2026-11-02T15:09:38.022Z",
+  "status": "partial-benchmark-implementation",
+  "collection": {
+    "images": {
+      "startedAt": "2026-11-02T15:37:18.960Z",
+      "finishedAt": "2026-11-02T17:16:25.624Z",
+      "environment": {
+        "bun": "1.4.2",
+        "platform": "linux",
+        "architecture": "x64",
+        "chromium": "154.0.8037.57",
+        "nodeCompatibilityReportedByBun": "26.3.0",
+        "nodeWorker": "v24.19.0",
+        "dartSdk": "3.13.7",
+        "dartSdkImage": "dart@sha256:94401ef63af60004afea439249c5b1c62264dc7ad62c487e0b30991322773d95"
+      },
+      "method": {
+        "runs": 3,
+        "warmupsPerRun": 30,
+        "timeoutMs": 15000,
+        "outputsRetained": false,
+        "outputsAssessed": false,
+        "elapsed": "Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.",
+        "png": "Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available. No image inspection."
+      },
+      "consolidation": {
+        "sources": [
+          {
+            "path": "attempts/final-images/results.json",
+            "sha256": "bc9b6e4108c4a0c1860451390cb580bfa37943b26c2b515fb9f8a89c2744a612"
+          },
+          {
+            "path": "attempts/final-dart/results.json",
+            "sha256": "5619450d5c655e372880be696d8d447953ebb1b70ff49bea0b30e5c7cde79031"
+          },
+          {
+            "path": "attempts/corrected-merman/results.json",
+            "sha256": "823bbc90f5ccdec24c8ddaad78d925fd36fd727f826f93017a1fe89b76f4ce4e"
+          }
+        ],
+        "excluded": [
+          {
+            "project": "Latias94/merman",
+            "formats": [
+              "svg",
+              "png"
+            ],
+            "runs": [
+              1,
+              2,
+              3
+            ],
+            "source": "attempts/final-images/results.json",
+            "reason": "The PNG destination /dev/null was rejected as a nonregular output file. Replaced all SVG and PNG repeats after correcting the documented stdout binding and discard descriptor."
+          }
+        ],
+        "note": "Retains every repeat. Initial missing-Dart setup block superseded by the complete supplemental six-run group. Merman replacement also supersedes its initial PNG invocation error."
+      }
+    },
+    "terminal": {
+      "startedAt": "2026-11-02T15:59:01.456Z",
+      "finishedAt": "2026-11-02T16:50:57.379Z",
+      "environment": {
+        "nodeWorker": "v24.19.0",
+        "bun": "1.4.2",
+        "platform": "linux",
+        "architecture": "x64",
+        "go": "go1.27.3",
+        "python": "Python 3.12.14"
+      },
+      "method": {
+        "runs": 3,
+        "warmupsPerRun": 30,
+        "timeoutMs": 15000,
+        "outputsRetained": false,
+        "outputsAssessed": false,
+        "elapsed": "Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup."
+      },
+      "consolidation": {
+        "sources": [
+          {
+            "path": "attempts/final-terminal/results.json",
+            "sha256": "1f9851fd92c4cc0d2ead1e2c86ad0937081223a5e2108143ccbe32b0d276dd71"
+          },
+          {
+            "path": "attempts/corrected-mermaidtui/results.json",
+            "sha256": "4a5305deecacb27b6914069fbc4bbf76079850ca89a5f66b4d3296405fb5d25d"
+          }
+        ],
+        "excluded": [
+          {
+            "project": "tariqshams/mermaidtui",
+            "runs": [
+              1,
+              2,
+              3
+            ],
+            "source": "attempts/final-terminal/results.json",
+            "reason": "The original convenience API swallowed parser exceptions and returned error strings. Replaced the entire repeat group with the exported parseMermaid → computeLayout → renderGraph pipeline so errors propagate. No drawing content was tested."
+          }
+        ]
+      }
+    }
+  },
+  "measurements": {
+    "davebench": {
+      "status": "measured",
+      "runs": 150,
+      "attemptedCalls": 201300
+    },
+    "drawing": {
+      "status": "not-implemented",
+      "measuredProjects": 0
+    },
+    "fidelity": {
+      "status": "not-implemented",
+      "measuredProjects": 0
+    }
+  },
+  "scoring": {
+    "weights": {
+      "davebench": 0.3333333333333333,
+      "drawing": 0.3333333333333333,
+      "fidelity": 0.3333333333333333
+    },
+    "davebench": "Mean format rank percentile among measured participants: 100 for first, 0 for last. Completion-first ranks retain their timing tie-break. Average the predeclared applicable formats; unmeasured applicable formats remain unknown.",
+    "drawing": "Mean applicable-format score: 100 × fully passed cases / fixed planned cases; unresolved assessments preserve uncertainty.",
+    "fidelity": "100 × fully passed upstream test cases / fixed scored population; Trident gaps preserve uncertainty.",
+    "overall": "Arithmetic mean of the three benchmark scores. A missing benchmark is neither zero nor omitted; overall rank is withheld."
+  },
+  "runs": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 1331.600000090897
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 1368.8999998271465
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 1446.700000114739
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 18867.20000001043
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 18635.19999973476
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 18750.40000023693
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 284.50000005215406
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 291.09999995678663
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 358.89999989420176
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 9884.600000113249
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 9621.100000098348
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 10875.599999681115
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1066,
+      "failed": 276,
+      "timeouts": 0,
+      "totalMs": 7056.299999952316
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1066,
+      "failed": 276,
+      "timeouts": 0,
+      "totalMs": 7091.499999761581
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1066,
+      "failed": 276,
+      "timeouts": 0,
+      "totalMs": 7405.100000061095
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1066,
+      "failed": 276,
+      "timeouts": 0,
+      "totalMs": 17627.099999919534
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1066,
+      "failed": 276,
+      "timeouts": 0,
+      "totalMs": 20203.199999950826
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1066,
+      "failed": 276,
+      "timeouts": 0,
+      "totalMs": 16635.499999918044
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 593,
+      "failed": 749,
+      "timeouts": 0,
+      "totalMs": 1963.1000000983477
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 593,
+      "failed": 749,
+      "timeouts": 0,
+      "totalMs": 2510.400000102818
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 593,
+      "failed": 749,
+      "timeouts": 0,
+      "totalMs": 2394.799999989569
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 577,
+      "failed": 765,
+      "timeouts": 0,
+      "totalMs": 6622.0999998524785
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 577,
+      "failed": 765,
+      "timeouts": 0,
+      "totalMs": 6677.199999928474
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 577,
+      "failed": 765,
+      "timeouts": 0,
+      "totalMs": 6257.300000093877
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "version": "0.3.1",
+      "format": "svg",
+      "run": 1,
+      "boundary": "native CLI svg; process startup included",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 14473.919218999974
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "version": "0.3.1",
+      "format": "svg",
+      "run": 2,
+      "boundary": "native CLI svg; process startup included",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 14046.600063000922
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "version": "0.3.1",
+      "format": "svg",
+      "run": 3,
+      "boundary": "native CLI svg; process startup included",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 13963.568180999253
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "version": "0.3.1",
+      "format": "png",
+      "run": 1,
+      "boundary": "native CLI png; process startup included",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 39911.880286998174
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "version": "0.3.1",
+      "format": "png",
+      "run": 2,
+      "boundary": "native CLI png; process startup included",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 40221.31491100165
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "version": "0.3.1",
+      "format": "png",
+      "run": 3,
+      "boundary": "native CLI png; process startup included",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 44388.11694700003
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 512,
+      "failed": 830,
+      "timeouts": 0,
+      "totalMs": 370.5000000745058
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 512,
+      "failed": 830,
+      "timeouts": 0,
+      "totalMs": 359.89999982714653
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 512,
+      "failed": 830,
+      "timeouts": 0,
+      "totalMs": 390.8000000268221
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 512,
+      "failed": 830,
+      "timeouts": 0,
+      "totalMs": 5089.89999999851
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 512,
+      "failed": 830,
+      "timeouts": 0,
+      "totalMs": 5707.200000159442
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 512,
+      "failed": 830,
+      "timeouts": 0,
+      "totalMs": 5902.999999932945
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 700,
+      "failed": 642,
+      "timeouts": 0,
+      "totalMs": 20899.300000049174
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 700,
+      "failed": 642,
+      "timeouts": 0,
+      "totalMs": 20403.999999947846
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 700,
+      "failed": 642,
+      "timeouts": 0,
+      "totalMs": 20511.200000204146
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium public PNG API",
+      "attempted": 1342,
+      "completed": 700,
+      "failed": 642,
+      "timeouts": 0,
+      "totalMs": 28248.90000012517
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium public PNG API",
+      "attempted": 1342,
+      "completed": 700,
+      "failed": 642,
+      "timeouts": 0,
+      "totalMs": 28900.50000011176
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium public PNG API",
+      "attempted": 1342,
+      "completed": 700,
+      "failed": 642,
+      "timeouts": 0,
+      "totalMs": 29449.299999974668
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "version": "0.4.2",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 682,
+      "failed": 660,
+      "timeouts": 0,
+      "totalMs": 709.2000000029802
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "version": "0.4.2",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 682,
+      "failed": 660,
+      "timeouts": 0,
+      "totalMs": 785.7999998554587
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "version": "0.4.2",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 682,
+      "failed": 660,
+      "timeouts": 0,
+      "totalMs": 603.1000000089407
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "version": "0.4.2",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 682,
+      "failed": 660,
+      "timeouts": 0,
+      "totalMs": 4806.800000138581
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "version": "0.4.2",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 682,
+      "failed": 660,
+      "timeouts": 0,
+      "totalMs": 5414.500000081956
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "version": "0.4.2",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 682,
+      "failed": 660,
+      "timeouts": 0,
+      "totalMs": 5027.200000114739
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "version": "0.3.2",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 398,
+      "failed": 944,
+      "timeouts": 0,
+      "totalMs": 126.09999997913837
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "version": "0.3.2",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 398,
+      "failed": 944,
+      "timeouts": 0,
+      "totalMs": 116.20000007003546
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "version": "0.3.2",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 398,
+      "failed": 944,
+      "timeouts": 0,
+      "totalMs": 114.39999994635582
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "version": "0.3.2",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 398,
+      "failed": 944,
+      "timeouts": 0,
+      "totalMs": 2006.9000000879169
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "version": "0.3.2",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 398,
+      "failed": 944,
+      "timeouts": 0,
+      "totalMs": 2255.5000000074506
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "version": "0.3.2",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 398,
+      "failed": 944,
+      "timeouts": 0,
+      "totalMs": 2237.1000000685453
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 537,
+      "failed": 805,
+      "timeouts": 0,
+      "totalMs": 1334.400000065565
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 537,
+      "failed": 805,
+      "timeouts": 0,
+      "totalMs": 1514.9000000208616
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 537,
+      "failed": 805,
+      "timeouts": 0,
+      "totalMs": 1389.9000000059605
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 513,
+      "failed": 829,
+      "timeouts": 0,
+      "totalMs": 4158.600000143051
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 513,
+      "failed": 829,
+      "timeouts": 0,
+      "totalMs": 4002.29999987036
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 513,
+      "failed": 829,
+      "timeouts": 0,
+      "totalMs": 3828.399999924004
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.13.0",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 607.3000000417233
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.13.0",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 699.399999819696
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.13.0",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 772.000000320375
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.13.0",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 9849.299999959767
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.13.0",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 9459.100000075996
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.13.0",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 9702.500000037253
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "version": "0.1.5",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1340,
+      "failed": 2,
+      "timeouts": 0,
+      "totalMs": 192.1999998614192
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "version": "0.1.5",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1340,
+      "failed": 2,
+      "timeouts": 0,
+      "totalMs": 186.40000011771917
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "version": "0.1.5",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1340,
+      "failed": 2,
+      "timeouts": 0,
+      "totalMs": 192.10000000149012
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "version": "0.1.5",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1340,
+      "failed": 2,
+      "timeouts": 0,
+      "totalMs": 6951.199999958277
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "version": "0.1.5",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1340,
+      "failed": 2,
+      "timeouts": 0,
+      "totalMs": 7749.100000247359
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "version": "0.1.5",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1340,
+      "failed": 2,
+      "timeouts": 0,
+      "totalMs": 6748.100000165403
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1336,
+      "failed": 6,
+      "timeouts": 0,
+      "totalMs": 47841.89999998361
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1336,
+      "failed": 6,
+      "timeouts": 0,
+      "totalMs": 46531.59999985993
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1336,
+      "failed": 6,
+      "timeouts": 0,
+      "totalMs": 44875.10000009835
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1336,
+      "failed": 6,
+      "timeouts": 0,
+      "totalMs": 68114.30000014603
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1336,
+      "failed": 6,
+      "timeouts": 0,
+      "totalMs": 60685.30000016093
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "version": "12.2.0",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1336,
+      "failed": 6,
+      "timeouts": 0,
+      "totalMs": 70862.29999986291
+    },
+    {
+      "project": "crabtalk/bezel",
+      "version": "0.2.24",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 413.4999998882413
+    },
+    {
+      "project": "crabtalk/bezel",
+      "version": "0.2.24",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 435.2999999523163
+    },
+    {
+      "project": "crabtalk/bezel",
+      "version": "0.2.24",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 405.69999973475933
+    },
+    {
+      "project": "crabtalk/bezel",
+      "version": "0.2.24",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 8923.999999858439
+    },
+    {
+      "project": "crabtalk/bezel",
+      "version": "0.2.24",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 9493.1000001356
+    },
+    {
+      "project": "crabtalk/bezel",
+      "version": "0.2.24",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 8524.59999988228
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 993.5999998599291
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 972.4000000283122
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 1187.600000165403
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 9723.700000032783
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 9115.099999941885
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 8472.999999985099
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "svg",
+      "run": 1,
+      "boundary": "native CLI svg; process startup included",
+      "attempted": 1342,
+      "completed": 1338,
+      "failed": 4,
+      "timeouts": 0,
+      "totalMs": 10762.659092000005
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "svg",
+      "run": 2,
+      "boundary": "native CLI svg; process startup included",
+      "attempted": 1342,
+      "completed": 1338,
+      "failed": 4,
+      "timeouts": 0,
+      "totalMs": 10593.571372000044
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "svg",
+      "run": 3,
+      "boundary": "native CLI svg; process startup included",
+      "attempted": 1342,
+      "completed": 1338,
+      "failed": 4,
+      "timeouts": 0,
+      "totalMs": 11354.151298999917
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "png",
+      "run": 1,
+      "boundary": "native CLI png; process startup included",
+      "attempted": 1342,
+      "completed": 1280,
+      "failed": 62,
+      "timeouts": 0,
+      "totalMs": 323215.63801499986
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "png",
+      "run": 2,
+      "boundary": "native CLI png; process startup included",
+      "attempted": 1342,
+      "completed": 1280,
+      "failed": 62,
+      "timeouts": 0,
+      "totalMs": 315528.9728419985
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "png",
+      "run": 3,
+      "boundary": "native CLI png; process startup included",
+      "attempted": 1342,
+      "completed": 1280,
+      "failed": 62,
+      "timeouts": 0,
+      "totalMs": 335679.1460109978
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 2994.9887410000033
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 2760.4937130000053
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 2884.893960000003
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 248441.87030600006
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 236459.0026909986
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1306,
+      "failed": 36,
+      "timeouts": 0,
+      "totalMs": 238982.39454500185
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 1068,
+      "failed": 274,
+      "timeouts": 0,
+      "totalMs": 6439.878598
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 1068,
+      "failed": 274,
+      "timeouts": 0,
+      "totalMs": 6656.002868000001
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 1068,
+      "failed": 274,
+      "timeouts": 0,
+      "totalMs": 6601.730131999986
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 593,
+      "failed": 749,
+      "timeouts": 0,
+      "totalMs": 2377.9548819999986
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 593,
+      "failed": 749,
+      "timeouts": 0,
+      "totalMs": 2346.9367480000146
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 593,
+      "failed": 749,
+      "timeouts": 0,
+      "totalMs": 2493.9164940000014
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 401,
+      "failed": 941,
+      "timeouts": 0,
+      "totalMs": 11732.564341000398
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 401,
+      "failed": 941,
+      "timeouts": 0,
+      "totalMs": 12625.734440998058
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 401,
+      "failed": 941,
+      "timeouts": 0,
+      "totalMs": 14414.055512996041
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.2.5",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 254,
+      "failed": 1088,
+      "timeouts": 0,
+      "totalMs": 989.0426700000021
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.2.5",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 254,
+      "failed": 1088,
+      "timeouts": 0,
+      "totalMs": 861.9918109999996
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.2.5",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 254,
+      "failed": 1088,
+      "timeouts": 0,
+      "totalMs": 918.934639999997
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 580,
+      "failed": 762,
+      "timeouts": 0,
+      "totalMs": 218.49580000000157
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 580,
+      "failed": 762,
+      "timeouts": 0,
+      "totalMs": 205.87298200000038
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 580,
+      "failed": 762,
+      "timeouts": 0,
+      "totalMs": 223.6109600000007
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 700,
+      "failed": 642,
+      "timeouts": 0,
+      "totalMs": 750.8993369999993
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 700,
+      "failed": 642,
+      "timeouts": 0,
+      "totalMs": 763.8426809999959
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 700,
+      "failed": 642,
+      "timeouts": 0,
+      "totalMs": 754.5996899999932
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Python public terminal API",
+      "attempted": 1342,
+      "completed": 1340,
+      "failed": 2,
+      "timeouts": 0,
+      "totalMs": 2790.8454540083767
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Python public terminal API",
+      "attempted": 1342,
+      "completed": 1340,
+      "failed": 2,
+      "timeouts": 0,
+      "totalMs": 2794.3604520114604
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Python public terminal API",
+      "attempted": 1342,
+      "completed": 1340,
+      "failed": 2,
+      "timeouts": 0,
+      "totalMs": 2752.0389499040903
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 181,
+      "failed": 1161,
+      "timeouts": 0,
+      "totalMs": 145.669461999998
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 181,
+      "failed": 1161,
+      "timeouts": 0,
+      "totalMs": 135.88191400000036
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 181,
+      "failed": 1161,
+      "timeouts": 0,
+      "totalMs": 141.74282200000025
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 794,
+      "failed": 548,
+      "timeouts": 0,
+      "totalMs": 10584.168800001615
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 794,
+      "failed": 548,
+      "timeouts": 0,
+      "totalMs": 10069.772304000682
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 794,
+      "failed": 548,
+      "timeouts": 0,
+      "totalMs": 11022.132315001683
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 533,
+      "failed": 809,
+      "timeouts": 0,
+      "totalMs": 290.0897130000044
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 533,
+      "failed": 809,
+      "timeouts": 0,
+      "totalMs": 223.04371599999806
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 533,
+      "failed": 809,
+      "timeouts": 0,
+      "totalMs": 221.05833999999933
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 418,
+      "failed": 924,
+      "timeouts": 8,
+      "totalMs": 235537.65002799896
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 418,
+      "failed": 924,
+      "timeouts": 0,
+      "totalMs": 197801.66316999937
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 418,
+      "failed": 924,
+      "timeouts": 0,
+      "totalMs": 200908.68646499515
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 1758.11898299912
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 1728.1001609952655
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 1748.3056670026854
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 745,
+      "failed": 597,
+      "timeouts": 0,
+      "totalMs": 403.4652220000015
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 745,
+      "failed": 597,
+      "timeouts": 0,
+      "totalMs": 387.7091439999988
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 745,
+      "failed": 597,
+      "timeouts": 0,
+      "totalMs": 431.4276970000011
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 581,
+      "failed": 761,
+      "timeouts": 0,
+      "totalMs": 151.2234009999998
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 581,
+      "failed": 761,
+      "timeouts": 0,
+      "totalMs": 153.476843
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 581,
+      "failed": 761,
+      "timeouts": 0,
+      "totalMs": 157.1555659999994
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 1666.5419479992706
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 1699.1987560067791
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 1764.1399130050559
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+      "attempted": 1342,
+      "completed": 23,
+      "failed": 1319,
+      "timeouts": 0,
+      "totalMs": 19.115169999999928
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+      "attempted": 1342,
+      "completed": 23,
+      "failed": 1319,
+      "timeouts": 0,
+      "totalMs": 21.55653100000024
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+      "attempted": 1342,
+      "completed": 23,
+      "failed": 1319,
+      "timeouts": 0,
+      "totalMs": 20.694131000000333
+    }
+  ],
+  "rankings": {
+    "svg": [
+      {
+        "project": "Dicklesworthstone/frankenmermaid",
+        "version": "0.4.0",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 1342,
+        "failed": 0,
+        "medianTotalMs": 1368.8999998271465,
+        "rank": 1
+      },
+      {
+        "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+        "version": "0.1.5",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 1340,
+        "failed": 2,
+        "medianTotalMs": 192.10000000149012,
+        "rank": 2
+      },
+      {
+        "project": "Latias94/merman",
+        "version": "0.9.3",
+        "format": "svg",
+        "boundary": "native CLI svg; process startup included",
+        "completed": 1338,
+        "failed": 4,
+        "medianTotalMs": 10762.659092000005,
+        "rank": 3
+      },
+      {
+        "project": "mermaid-js/mermaid",
+        "version": "12.2.0",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 1336,
+        "failed": 6,
+        "medianTotalMs": 46531.59999985993,
+        "rank": 4
+      },
+      {
+        "project": "wevm/ondine",
+        "version": "0.0.3",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 291.09999995678663,
+        "rank": 5
+      },
+      {
+        "project": "crabtalk/bezel",
+        "version": "0.2.24",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 413.4999998882413,
+        "rank": 6
+      },
+      {
+        "project": "obsidianmd/pele",
+        "version": "1.13.0",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 699.399999819696,
+        "rank": 7
+      },
+      {
+        "project": "1jehuang/mermaid-rs-renderer",
+        "version": "0.3.1",
+        "format": "svg",
+        "boundary": "native CLI svg; process startup included",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 14046.600063000922,
+        "rank": 8
+      },
+      {
+        "project": "orestesgaolin/mermaid",
+        "version": "0.3.2",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 1114,
+        "failed": 228,
+        "medianTotalMs": 993.5999998599291,
+        "rank": 9
+      },
+      {
+        "project": "adewale/agentic-mermaid",
+        "version": "0.5.6",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 1066,
+        "failed": 276,
+        "medianTotalMs": 7091.499999761581,
+        "rank": 10
+      },
+      {
+        "project": "emtyty/merslim",
+        "version": "0.2.3",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 700,
+        "failed": 642,
+        "medianTotalMs": 20511.200000204146,
+        "rank": 11
+      },
+      {
+        "project": "evangwt/xmermaid",
+        "version": "0.4.2",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 682,
+        "failed": 660,
+        "medianTotalMs": 709.2000000029802,
+        "rank": 12
+      },
+      {
+        "project": "dfadler/zombie-mermaid",
+        "version": "5.14.1",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 593,
+        "failed": 749,
+        "medianTotalMs": 2394.799999989569,
+        "rank": 13
+      },
+      {
+        "project": "lukilabs/beautiful-mermaid",
+        "version": "1.1.3",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 537,
+        "failed": 805,
+        "medianTotalMs": 1389.9000000059605,
+        "rank": 14
+      },
+      {
+        "project": "crafter-station/mermaid",
+        "version": "0.0.3",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 512,
+        "failed": 830,
+        "medianTotalMs": 370.5000000745058,
+        "rank": 15
+      },
+      {
+        "project": "KlangHaus/vitepress-plugin-diagram",
+        "version": "0.3.2",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 398,
+        "failed": 944,
+        "medianTotalMs": 116.20000007003546,
+        "rank": 16
+      }
+    ],
+    "png": [
+      {
+        "project": "Dicklesworthstone/frankenmermaid",
+        "version": "0.4.0",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1342,
+        "failed": 0,
+        "medianTotalMs": 18750.40000023693,
+        "rank": 1
+      },
+      {
+        "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+        "version": "0.1.5",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1340,
+        "failed": 2,
+        "medianTotalMs": 6951.199999958277,
+        "rank": 2
+      },
+      {
+        "project": "mermaid-js/mermaid",
+        "version": "12.2.0",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1336,
+        "failed": 6,
+        "medianTotalMs": 68114.30000014603,
+        "rank": 3
+      },
+      {
+        "project": "crabtalk/bezel",
+        "version": "0.2.24",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 8923.999999858439,
+        "rank": 4
+      },
+      {
+        "project": "obsidianmd/pele",
+        "version": "1.13.0",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 9702.500000037253,
+        "rank": 5
+      },
+      {
+        "project": "wevm/ondine",
+        "version": "0.0.3",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 9884.600000113249,
+        "rank": 6
+      },
+      {
+        "project": "1jehuang/mermaid-rs-renderer",
+        "version": "0.3.1",
+        "format": "png",
+        "boundary": "native CLI png; process startup included",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 40221.31491100165,
+        "rank": 7
+      },
+      {
+        "project": "Latias94/merman",
+        "version": "0.9.3",
+        "format": "png",
+        "boundary": "native CLI png; process startup included",
+        "completed": 1280,
+        "failed": 62,
+        "medianTotalMs": 323215.63801499986,
+        "rank": 8
+      },
+      {
+        "project": "orestesgaolin/mermaid",
+        "version": "0.3.2",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1114,
+        "failed": 228,
+        "medianTotalMs": 9115.099999941885,
+        "rank": 9
+      },
+      {
+        "project": "adewale/agentic-mermaid",
+        "version": "0.5.6",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1066,
+        "failed": 276,
+        "medianTotalMs": 17627.099999919534,
+        "rank": 10
+      },
+      {
+        "project": "emtyty/merslim",
+        "version": "0.2.3",
+        "format": "png",
+        "boundary": "Chromium public PNG API",
+        "completed": 700,
+        "failed": 642,
+        "medianTotalMs": 28900.50000011176,
+        "rank": 11
+      },
+      {
+        "project": "evangwt/xmermaid",
+        "version": "0.4.2",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 682,
+        "failed": 660,
+        "medianTotalMs": 5027.200000114739,
+        "rank": 12
+      },
+      {
+        "project": "dfadler/zombie-mermaid",
+        "version": "5.14.1",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 577,
+        "failed": 765,
+        "medianTotalMs": 6622.0999998524785,
+        "rank": 13
+      },
+      {
+        "project": "lukilabs/beautiful-mermaid",
+        "version": "1.1.3",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 513,
+        "failed": 829,
+        "medianTotalMs": 4002.29999987036,
+        "rank": 14
+      },
+      {
+        "project": "crafter-station/mermaid",
+        "version": "0.0.3",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 512,
+        "failed": 830,
+        "medianTotalMs": 5707.200000159442,
+        "rank": 15
+      },
+      {
+        "project": "KlangHaus/vitepress-plugin-diagram",
+        "version": "0.3.2",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 398,
+        "failed": 944,
+        "medianTotalMs": 2237.1000000685453,
+        "rank": 16
+      }
+    ],
+    "terminal": [
+      {
+        "project": "spacedock-dev/mermaidtext",
+        "version": "git-a6b0c7657b94",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 1342,
+        "failed": 0,
+        "medianTotalMs": 1699.1987560067791,
+        "rank": 1
+      },
+      {
+        "project": "xai-org/grok-build",
+        "version": "git-2bdd1d6a6369",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 1342,
+        "failed": 0,
+        "medianTotalMs": 1748.3056670026854,
+        "rank": 2
+      },
+      {
+        "project": "Dicklesworthstone/frankenmermaid",
+        "version": "0.4.0",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 1342,
+        "failed": 0,
+        "medianTotalMs": 2884.893960000003,
+        "rank": 3
+      },
+      {
+        "project": "fasouto/termaid",
+        "version": "0.10.0",
+        "format": "terminal",
+        "boundary": "persistent Python public terminal API",
+        "completed": 1340,
+        "failed": 2,
+        "medianTotalMs": 2790.8454540083767,
+        "rank": 4
+      },
+      {
+        "project": "wevm/ondine",
+        "version": "0.0.3",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 238982.39454500185,
+        "rank": 5
+      },
+      {
+        "project": "adewale/agentic-mermaid",
+        "version": "0.5.6",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 1068,
+        "failed": 274,
+        "medianTotalMs": 6601.730131999986,
+        "rank": 6
+      },
+      {
+        "project": "Latias94/merman",
+        "version": "0.9.3",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 794,
+        "failed": 548,
+        "medianTotalMs": 10584.168800001615,
+        "rank": 7
+      },
+      {
+        "project": "Yassimba/loom",
+        "version": "0.10.0",
+        "format": "terminal",
+        "boundary": "persistent Bun public terminal API",
+        "completed": 745,
+        "failed": 597,
+        "medianTotalMs": 403.4652220000015,
+        "rank": 8
+      },
+      {
+        "project": "emtyty/merslim",
+        "version": "0.2.3",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 700,
+        "failed": 642,
+        "medianTotalMs": 754.5996899999932,
+        "rank": 9
+      },
+      {
+        "project": "dfadler/zombie-mermaid",
+        "version": "5.14.1",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 593,
+        "failed": 749,
+        "medianTotalMs": 2377.9548819999986,
+        "rank": 10
+      },
+      {
+        "project": "kais-radwan/ascii-mermaid",
+        "version": "0.1.0",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 581,
+        "failed": 761,
+        "medianTotalMs": 153.476843,
+        "rank": 11
+      },
+      {
+        "project": "crafter-station/mermaid",
+        "version": "0.0.3",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 580,
+        "failed": 762,
+        "medianTotalMs": 218.49580000000157,
+        "rank": 12
+      },
+      {
+        "project": "lukilabs/beautiful-mermaid",
+        "version": "1.1.3",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 533,
+        "failed": 809,
+        "medianTotalMs": 223.04371599999806,
+        "rank": 13
+      },
+      {
+        "project": "Mootikins/figurehead-rs",
+        "version": "v0.4.3",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 418,
+        "failed": 924,
+        "medianTotalMs": 200908.68646499515,
+        "rank": 14
+      },
+      {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "version": "1.6.1",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 401,
+        "failed": 941,
+        "medianTotalMs": 12625.734440998058,
+        "rank": 15
+      },
+      {
+        "project": "anomalyco/opencode",
+        "version": "2.2.5",
+        "format": "terminal",
+        "boundary": "persistent Bun public terminal API",
+        "completed": 254,
+        "failed": 1088,
+        "medianTotalMs": 918.934639999997,
+        "rank": 16
+      },
+      {
+        "project": "kitlangton/merman",
+        "version": "0.2.1",
+        "format": "terminal",
+        "boundary": "persistent Bun public terminal API",
+        "completed": 181,
+        "failed": 1161,
+        "medianTotalMs": 141.74282200000025,
+        "rank": 17
+      },
+      {
+        "project": "tariqshams/mermaidtui",
+        "version": "0.0.6",
+        "format": "terminal",
+        "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+        "completed": 23,
+        "failed": 1319,
+        "medianTotalMs": 20.694131000000333,
+        "rank": 18
+      }
+    ],
+    "unranked": []
+  },
+  "blocked": [
+    {
+      "project": "pub:mermaid_flutter",
+      "reason": "Setup blocked before rendering: the pinned Flutter 3.44.0 Linux engine download from storage.googleapis.com was denied by the environment proxy (HTTP 403). mermaid_flutter 0.3.2 dependencies resolved and the counts-only Dart worker passed static analysis, but no native release bundle could be built. Not a renderer failure or a score of zero."
+    }
+  ],
+  "overall": {
+    "weights": {
+      "davebench": 0.3333333333333333,
+      "drawing": 0.3333333333333333,
+      "fidelity": 0.3333333333333333
+    },
+    "ranked": [],
+    "unranked": [
+      {
+        "project": "spacedock-dev/mermaidtext",
+        "formats": [
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 100,
+            "lower": 100,
+            "upper": 100
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 33.333333333333336,
+          "upper": 100
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "Dicklesworthstone/frankenmermaid",
+        "formats": [
+          "svg",
+          "png",
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 96.07843137254902,
+            "lower": 96.07843137254902,
+            "upper": 96.07843137254902
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 32.02614379084967,
+          "upper": 98.69281045751633
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "xai-org/grok-build",
+        "formats": [
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 94.11764705882354,
+            "lower": 94.11764705882354,
+            "upper": 94.11764705882354
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 31.372549019607845,
+          "upper": 98.03921568627452
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+        "formats": [
+          "svg",
+          "png"
+        ],
+        "components": {
+          "davebench": {
+            "score": 93.33333333333333,
+            "lower": 93.33333333333333,
+            "upper": 93.33333333333333
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 31.11111111111111,
+          "upper": 97.77777777777777
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "mermaid-js/mermaid",
+        "formats": [
+          "svg",
+          "png"
+        ],
+        "components": {
+          "davebench": {
+            "score": 83.33333333333334,
+            "lower": 83.33333333333334,
+            "upper": 83.33333333333334
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 27.777777777777782,
+          "upper": 94.44444444444446
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "fasouto/termaid",
+        "formats": [
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 82.3529411764706,
+            "lower": 82.3529411764706,
+            "upper": 82.3529411764706
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 27.450980392156865,
+          "upper": 94.11764705882354
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "crabtalk/bezel",
+        "formats": [
+          "svg",
+          "png"
+        ],
+        "components": {
+          "davebench": {
+            "score": 73.33333333333334,
+            "lower": 73.33333333333334,
+            "upper": 73.33333333333334
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 24.444444444444446,
+          "upper": 91.11111111111113
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "wevm/ondine",
+        "formats": [
+          "svg",
+          "png",
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 72.15686274509804,
+            "lower": 72.15686274509804,
+            "upper": 72.15686274509804
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 24.052287581699346,
+          "upper": 90.718954248366
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "Latias94/merman",
+        "formats": [
+          "svg",
+          "png",
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 68.23529411764706,
+            "lower": 68.23529411764706,
+            "upper": 68.23529411764706
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 22.745098039215687,
+          "upper": 89.41176470588236
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "obsidianmd/pele",
+        "formats": [
+          "svg",
+          "png"
+        ],
+        "components": {
+          "davebench": {
+            "score": 66.66666666666666,
+            "lower": 66.66666666666666,
+            "upper": 66.66666666666666
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 22.222222222222218,
+          "upper": 88.88888888888887
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "Yassimba/loom",
+        "formats": [
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 58.8235294117647,
+            "lower": 58.8235294117647,
+            "upper": 58.8235294117647
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 19.6078431372549,
+          "upper": 86.27450980392156
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "1jehuang/mermaid-rs-renderer",
+        "formats": [
+          "svg",
+          "png"
+        ],
+        "components": {
+          "davebench": {
+            "score": 56.66666666666667,
+            "lower": 56.66666666666667,
+            "upper": 56.66666666666667
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 18.88888888888889,
+          "upper": 85.55555555555556
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "adewale/agentic-mermaid",
+        "formats": [
+          "svg",
+          "png",
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 50.19607843137255,
+            "lower": 50.19607843137255,
+            "upper": 50.19607843137255
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 16.73202614379085,
+          "upper": 83.39869281045752
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "orestesgaolin/mermaid",
+        "formats": [
+          "svg",
+          "png"
+        ],
+        "components": {
+          "davebench": {
+            "score": 46.666666666666664,
+            "lower": 46.666666666666664,
+            "upper": 46.666666666666664
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 15.555555555555555,
+          "upper": 82.22222222222221
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "kais-radwan/ascii-mermaid",
+        "formats": [
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 41.1764705882353,
+            "lower": 41.1764705882353,
+            "upper": 41.1764705882353
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 13.725490196078432,
+          "upper": 80.3921568627451
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "emtyty/merslim",
+        "formats": [
+          "svg",
+          "png",
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 39.869281045751634,
+            "lower": 39.869281045751634,
+            "upper": 39.869281045751634
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 13.289760348583878,
+          "upper": 79.95642701525054
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "dfadler/zombie-mermaid",
+        "formats": [
+          "svg",
+          "png",
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 29.019607843137255,
+            "lower": 29.019607843137255,
+            "upper": 29.019607843137255
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 9.673202614379084,
+          "upper": 76.33986928104575
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "evangwt/xmermaid",
+        "formats": [
+          "svg",
+          "png"
+        ],
+        "components": {
+          "davebench": {
+            "score": 26.666666666666668,
+            "lower": 26.666666666666668,
+            "upper": 26.666666666666668
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 8.88888888888889,
+          "upper": 75.55555555555556
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "Mootikins/figurehead-rs",
+        "formats": [
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 23.529411764705884,
+            "lower": 23.529411764705884,
+            "upper": 23.529411764705884
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 7.843137254901961,
+          "upper": 74.50980392156863
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "lukilabs/beautiful-mermaid",
+        "formats": [
+          "svg",
+          "png",
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 18.69281045751634,
+            "lower": 18.69281045751634,
+            "upper": 18.69281045751634
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 6.230936819172114,
+          "upper": 72.89760348583879
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "formats": [
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 17.647058823529413,
+            "lower": 17.647058823529413,
+            "upper": 17.647058823529413
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 5.882352941176471,
+          "upper": 72.54901960784314
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "crafter-station/mermaid",
+        "formats": [
+          "svg",
+          "png",
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 16.20915032679739,
+            "lower": 16.20915032679739,
+            "upper": 16.20915032679739
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 5.4030501089324625,
+          "upper": 72.06971677559913
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "anomalyco/opencode",
+        "formats": [
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 11.764705882352942,
+            "lower": 11.764705882352942,
+            "upper": 11.764705882352942
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 3.9215686274509807,
+          "upper": 70.58823529411764
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "kitlangton/merman",
+        "formats": [
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 5.882352941176471,
+            "lower": 5.882352941176471,
+            "upper": 5.882352941176471
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 1.9607843137254903,
+          "upper": 68.62745098039215
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "KlangHaus/vitepress-plugin-diagram",
+        "formats": [
+          "svg",
+          "png"
+        ],
+        "components": {
+          "davebench": {
+            "score": 0,
+            "lower": 0,
+            "upper": 0
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 0,
+          "upper": 66.66666666666667
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "pub:mermaid_flutter",
+        "formats": [
+          "png"
+        ],
+        "components": {
+          "davebench": {
+            "score": null,
+            "lower": 0,
+            "upper": 100
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 0,
+          "upper": 100
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "davebench",
+          "drawing",
+          "fidelity"
+        ]
+      },
+      {
+        "project": "tariqshams/mermaidtui",
+        "formats": [
+          "terminal"
+        ],
+        "components": {
+          "davebench": {
+            "score": 0,
+            "lower": 0,
+            "upper": 0
+          },
+          "drawing": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Expanded cross-format drawing corpus and assessment campaign are not implemented"
+          },
+          "fidelity": {
+            "score": null,
+            "lower": 0,
+            "upper": 100,
+            "reason": "Shared full pinned-upstream-suite campaign runner is not implemented"
+          }
+        },
+        "overall": {
+          "score": null,
+          "lower": 0,
+          "upper": 66.66666666666667
+        },
+        "rank": null,
+        "missingBenchmarks": [
+          "drawing",
+          "fidelity"
+        ]
+      }
+    ],
+    "overallWinner": null
+  }
+}

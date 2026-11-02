@@ -1,0 +1,388 @@
+{
+  "schema": "trident-benchmark-versions-v1",
+  "checkedAt": "2026-11-02T15:09:38.022Z",
+  "policy": "Registry current stable latest; latest stable version tag for native releases; current default-branch HEAD for source-only components and repository-hosted distributions. Freeze exact selections before preparation. No fallback to stale artifacts.",
+  "projects": 27,
+  "complete": true,
+  "rows": [
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "component": "native-cli",
+      "registry": "git-tag",
+      "version": "0.3.1",
+      "revision": "2f993bd79a55235eb59a34d807852276ba25bea7",
+      "previousVersion": "0.3.1",
+      "previousRevision": "2f993bd79a55235eb59a34d807852276ba25bea7",
+      "source": "https://github.com/1jehuang/mermaid-rs-renderer"
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "component": "primary",
+      "registry": "git-tag",
+      "version": "0.3.1",
+      "revision": "2f993bd79a55235eb59a34d807852276ba25bea7",
+      "previousVersion": "0.3.1",
+      "previousRevision": "2f993bd79a55235eb59a34d807852276ba25bea7",
+      "source": "https://github.com/1jehuang/mermaid-rs-renderer"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "component": "primary",
+      "registry": "npm",
+      "package": "agentic-mermaid",
+      "version": "0.5.6",
+      "previousVersion": "0.5.5",
+      "source": "https://registry.npmjs.org/agentic-mermaid",
+      "integrity": "sha512-fHA2btF+GZ6s+AInzOJFzQQOCRX1ntFG94fpmu68TECTXg5iTOeDiVvhT6AhyALXtcDCpr51EfJFGipjq642TQ==",
+      "publishedAt": "2026-11-02T15:05:50.613Z"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "component": "native-cli",
+      "registry": "git-tag",
+      "version": "1.6.1",
+      "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+      "previousVersion": "1.6.1",
+      "previousRevision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+      "source": "https://github.com/AlexanderGrooff/mermaid-ascii"
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "component": "primary",
+      "registry": "git-tag",
+      "version": "1.6.1",
+      "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+      "previousVersion": "1.6.1",
+      "previousRevision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+      "source": "https://github.com/AlexanderGrooff/mermaid-ascii"
+    },
+    {
+      "project": "anomalyco/opencode",
+      "component": "primary",
+      "registry": "source-head",
+      "revision": "67139d6827af3a337c80472c33f9cb7c6c2ce500",
+      "previousRevision": "67139d6827af3a337c80472c33f9cb7c6c2ce500",
+      "source": "https://github.com/anomalyco/opencode"
+    },
+    {
+      "project": "crabtalk/bezel",
+      "component": "primary",
+      "registry": "crates",
+      "package": "bezel-mermaid",
+      "version": "0.2.24",
+      "previousVersion": "0.2.24",
+      "source": "https://crates.io/api/v1/crates/bezel-mermaid"
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "component": "layout",
+      "registry": "npm",
+      "package": "@crafter/mermaid-layout",
+      "version": "0.0.4",
+      "previousVersion": "0.0.4",
+      "source": "https://registry.npmjs.org/%40crafter%2Fmermaid-layout",
+      "integrity": "sha512-y/ZjIu4k2NNdhDs1xjfXHR9m+lrfKQc0KDFgCkzfH4Eff2GUYAitbcUWMKdCfZ0Hgszdq+4veFw/kNeoMZfDaw==",
+      "publishedAt": "2026-07-23T17:29:15.994Z"
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "component": "parse",
+      "registry": "npm",
+      "package": "@crafter/mermaid-parser",
+      "version": "0.0.4",
+      "previousVersion": "0.0.4",
+      "source": "https://registry.npmjs.org/%40crafter%2Fmermaid-parser",
+      "integrity": "sha512-wyOjJlbR//q1UWkoo70xZ1sAt/XZBv+MsVSQO40F1uoEIZ6c8GscJr1QibOvNdwqrqOxJ+xWL6zw2tqswRevNA==",
+      "publishedAt": "2026-07-23T17:29:07.144Z"
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "component": "primary",
+      "registry": "npm",
+      "package": "@crafter/mermaid-renderer",
+      "version": "0.0.3",
+      "previousVersion": "0.0.3",
+      "source": "https://registry.npmjs.org/%40crafter%2Fmermaid-renderer",
+      "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
+      "publishedAt": "2026-03-12T06:50:59.649Z"
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "component": "render",
+      "registry": "npm",
+      "package": "@crafter/mermaid-renderer",
+      "version": "0.0.3",
+      "previousVersion": "0.0.3",
+      "source": "https://registry.npmjs.org/%40crafter%2Fmermaid-renderer",
+      "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
+      "publishedAt": "2026-03-12T06:50:59.649Z"
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "component": "terminal",
+      "registry": "npm",
+      "package": "@crafter/mermaid-cli",
+      "version": "0.0.4",
+      "previousVersion": "0.0.4",
+      "source": "https://registry.npmjs.org/%40crafter%2Fmermaid-cli",
+      "integrity": "sha512-V3ZcvHMWFPCo9gxvewpsb7b7p1qLbVRK70G05qlYnwYsChiiWVs8gukH4aJxuH4rGj2PttnEFe8PvZeB86NsAQ==",
+      "publishedAt": "2026-07-23T17:29:38.650Z"
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "component": "themes",
+      "registry": "npm",
+      "package": "@crafter/mermaid-themes",
+      "version": "0.0.4",
+      "previousVersion": "0.0.4",
+      "source": "https://registry.npmjs.org/%40crafter%2Fmermaid-themes",
+      "integrity": "sha512-6qUej0VU6a47LKsixToACUSJwPuGkuDHkOD94tEnFxEpA15LhIx6NakGiIkm5WGVkAcUJZxox8q3rEN7XWWiNw==",
+      "publishedAt": "2026-07-23T17:29:29.234Z"
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "component": "primary",
+      "registry": "npm",
+      "package": "zombie-mermaid",
+      "version": "5.14.1",
+      "previousVersion": "5.14.1",
+      "source": "https://registry.npmjs.org/zombie-mermaid",
+      "integrity": "sha512-DLVyaSaE6vgFkNxRqxHO4fKs2tORlspzEg7w2OJZ8hmE+R7ZW5aMHwGXM67t8rDmPnW65LWC4aFnLizF5azxPQ==",
+      "publishedAt": "2026-10-31T22:06:08.349Z"
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "component": "native-cli",
+      "registry": "git-tag",
+      "version": "0.4.0",
+      "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
+      "previousVersion": "0.4.0",
+      "previousRevision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
+      "source": "https://github.com/Dicklesworthstone/frankenmermaid"
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "component": "primary",
+      "registry": "source-distribution",
+      "version": "0.4.0",
+      "revision": "3d338ff26022e448a26e6a9d5a4127a315d27fe7",
+      "previousVersion": "0.4.0",
+      "previousRevision": "3d338ff26022e448a26e6a9d5a4127a315d27fe7",
+      "source": "https://raw.githubusercontent.com/Dicklesworthstone/frankenmermaid/3d338ff26022e448a26e6a9d5a4127a315d27fe7/pkg/package.json"
+    },
+    {
+      "project": "emtyty/merslim",
+      "component": "primary",
+      "registry": "npm",
+      "package": "merslim",
+      "version": "0.2.3",
+      "previousVersion": "0.2.3",
+      "source": "https://registry.npmjs.org/merslim",
+      "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
+      "publishedAt": "2026-05-22T11:13:59.885Z"
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "component": "primary",
+      "registry": "npm",
+      "package": "@evangwt/xmermaid",
+      "version": "0.4.2",
+      "previousVersion": "0.4.2",
+      "source": "https://registry.npmjs.org/%40evangwt%2Fxmermaid",
+      "integrity": "sha512-/KxDLMfR0THbxtrZiGxDuTKp0NGJTJRHH5ForIvxVxf9ctveEPN9irXUBFYIiKB337CXMhH2w+ds8pJ5hpRGvA==",
+      "publishedAt": "2026-10-06T18:27:42.403Z"
+    },
+    {
+      "project": "fasouto/termaid",
+      "component": "primary",
+      "registry": "pypi",
+      "package": "termaid",
+      "version": "0.10.0",
+      "previousVersion": "0.10.0",
+      "source": "https://pypi.org/pypi/termaid/json"
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "component": "primary",
+      "registry": "source-head",
+      "revision": "a91a0c7baec6392212c59221bc67389bb617feb7",
+      "previousRevision": "a91a0c7baec6392212c59221bc67389bb617feb7",
+      "source": "https://github.com/kais-radwan/ascii-mermaid"
+    },
+    {
+      "project": "kitlangton/merman",
+      "component": "primary",
+      "registry": "npm",
+      "package": "@kitlangton/merman",
+      "version": "0.2.1",
+      "previousVersion": "0.2.1",
+      "source": "https://registry.npmjs.org/%40kitlangton%2Fmerman",
+      "integrity": "sha512-SqKB/VjkjxNgyxAkvGGbTQACrTpPkg5udiDtJswYEnSkOjKdRISYKtK2Hzi/Y8TjK3beHMHyOQeoCS10V+AD4g==",
+      "publishedAt": "2026-06-04T00:14:05.664Z"
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "component": "primary",
+      "registry": "npm",
+      "package": "vitepress-plugin-mermaid-diagram",
+      "version": "0.3.2",
+      "previousVersion": "0.3.2",
+      "source": "https://registry.npmjs.org/vitepress-plugin-mermaid-diagram",
+      "integrity": "sha512-ECmsDtEy7745CMQqDP1zkCxHx2zq5Vj+FGOss1gUowirJvYmtxahMQ2jV6/BvPm9cltcm2XQajAqPTYJKmVKEA==",
+      "publishedAt": "2026-03-14T21:20:23.920Z"
+    },
+    {
+      "project": "Latias94/merman",
+      "component": "browser-sdk",
+      "registry": "npm",
+      "package": "@mermanjs/web",
+      "version": "0.9.2",
+      "previousVersion": "0.9.2",
+      "source": "https://registry.npmjs.org/%40mermanjs%2Fweb",
+      "integrity": "sha512-phFCmewQ+i9gpMD94G2edie9JSj2Kw7BaSA5UbwN1RqcAAayDTaJYN92AgdlMbmu2bPQa4aB5fXE3rUwsUPlYg==",
+      "publishedAt": "2026-10-22T01:56:03.628Z"
+    },
+    {
+      "project": "Latias94/merman",
+      "component": "native-cli",
+      "registry": "git-tag",
+      "version": "0.9.3",
+      "revision": "3b915f69c02d55b873d252cf6c8a6048e7f3427d",
+      "previousVersion": "0.9.3",
+      "previousRevision": "3b915f69c02d55b873d252cf6c8a6048e7f3427d",
+      "source": "https://github.com/Latias94/merman"
+    },
+    {
+      "project": "Latias94/merman",
+      "component": "primary",
+      "registry": "npm",
+      "package": "@mermanjs/node",
+      "version": "0.9.2",
+      "previousVersion": "0.9.2",
+      "source": "https://registry.npmjs.org/%40mermanjs%2Fnode",
+      "integrity": "sha512-cYnkgZC9WYaHJ1bjHctobSkrheROGdqIUnHzZeJHuTq0sWyKWud2x4g3Ui95lsqooPF70Nb42p75QdKShTtCFw==",
+      "publishedAt": "2026-10-22T02:06:59.377Z"
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "component": "primary",
+      "registry": "npm",
+      "package": "beautiful-mermaid",
+      "version": "1.1.3",
+      "previousVersion": "1.1.3",
+      "source": "https://registry.npmjs.org/beautiful-mermaid",
+      "integrity": "sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==",
+      "publishedAt": "2026-02-26T14:23:06.116Z"
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "component": "primary",
+      "registry": "npm",
+      "package": "mermaid",
+      "version": "12.2.0",
+      "previousVersion": "12.2.0",
+      "source": "https://registry.npmjs.org/mermaid",
+      "integrity": "sha512-w7nr/SFrLO7BaVTs3dQTvYSV6nYSBj0Yy9DjBhsIJtAcHqRzXSq4Pg32ujHZ/AdWsAMNEvvhbm5dt9E2tOiHzw==",
+      "publishedAt": "2026-10-13T08:42:16.513Z"
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "component": "primary",
+      "registry": "git-tag",
+      "version": "0.4.3",
+      "revision": "34c47a93cd792f24e06b49b5196a1c876240f03a",
+      "previousVersion": "0.4.3",
+      "previousRevision": "34c47a93cd792f24e06b49b5196a1c876240f03a",
+      "source": "https://github.com/Mootikins/figurehead-rs"
+    },
+    {
+      "project": "obsidianmd/pele",
+      "component": "primary",
+      "registry": "npm",
+      "package": "pele",
+      "version": "1.13.0",
+      "previousVersion": "1.13.0",
+      "source": "https://registry.npmjs.org/pele",
+      "integrity": "sha512-Ie8UKY9x00MsuR3jO6AzUwzK2Z6MIV3Tf4EDdITiuk8Uaz8K7g0R082WqsqNaSU8DdgkrRvZThzhit83mi/uiw==",
+      "publishedAt": "2026-10-31T00:24:29.976Z"
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "component": "primary",
+      "registry": "pub",
+      "package": "mermaid_core",
+      "version": "0.3.2",
+      "previousVersion": "0.3.2",
+      "source": "https://pub.dev/api/packages/mermaid_core"
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "component": "primary",
+      "registry": "pub",
+      "package": "mermaid_flutter",
+      "version": "0.3.2",
+      "previousVersion": "0.3.2",
+      "source": "https://pub.dev/api/packages/mermaid_flutter"
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "component": "primary",
+      "registry": "npm",
+      "package": "dsh-plugin-mermaid-gb-svg",
+      "version": "0.1.5",
+      "previousVersion": "0.1.5",
+      "source": "https://registry.npmjs.org/dsh-plugin-mermaid-gb-svg",
+      "integrity": "sha512-hZRSXWNw6xPLcJnqI2xwv2+xuoq/b55bAxge3iueo/XMFJELK1WsGXkpmXBNMzW9qqIvReL+CybUJapVOexE5g==",
+      "publishedAt": "2026-11-02T02:51:06.932Z"
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "component": "primary",
+      "registry": "source-head",
+      "revision": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12",
+      "previousRevision": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12",
+      "source": "https://github.com/spacedock-dev/mermaidtext"
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "component": "primary",
+      "registry": "npm",
+      "package": "mermaidtui",
+      "version": "0.0.6",
+      "previousVersion": "0.0.6",
+      "source": "https://registry.npmjs.org/mermaidtui",
+      "integrity": "sha512-DN8UewGe7CH25pT9BLiV19CSbhnnT03T9o2Xnyy1KupBrsxWUevUAsYAO63yn7ujMNQCPEYm2xxzoItRWlP8Pw==",
+      "publishedAt": "2026-04-27T14:23:08.167Z"
+    },
+    {
+      "project": "wevm/ondine",
+      "component": "primary",
+      "registry": "npm",
+      "package": "ondine",
+      "version": "0.0.3",
+      "previousVersion": "0.0.3",
+      "source": "https://registry.npmjs.org/ondine",
+      "integrity": "sha512-O5lb0DvNhiQJQKitkTYEPRyR83uyGxB2SsLcyu1zD3zJeL+sWxAzW+kM+s8srliERxxx3fFUijEfs26EYXZ5OA==",
+      "publishedAt": "2026-10-20T10:47:09.245Z"
+    },
+    {
+      "project": "xai-org/grok-build",
+      "component": "primary",
+      "registry": "source-head",
+      "revision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+      "previousRevision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+      "source": "https://github.com/xai-org/grok-build"
+    },
+    {
+      "project": "Yassimba/loom",
+      "component": "primary",
+      "registry": "npm",
+      "package": "@yassimba/pi-loom-mermaid",
+      "version": "0.10.0",
+      "previousVersion": "0.10.0",
+      "source": "https://registry.npmjs.org/%40yassimba%2Fpi-loom-mermaid",
+      "integrity": "sha512-oLph3MkCXPRZ3QqFgbtquKqwdO3rHOEGicTcsO0M8yoUeMmO+Fvxros0EMl+o4J1PmX2XhvATOyHz1yhH6pmwg==",
+      "publishedAt": "2026-10-04T18:49:09.455Z"
+    }
+  ]
+}

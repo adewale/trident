@@ -860,7 +860,7 @@
         {
           "registry": "npm",
           "name": "agentic-mermaid",
-          "version": "0.5.5",
+          "version": "0.5.6",
           "license": "MIT"
         }
       ],
@@ -883,7 +883,7 @@
         ],
         "package": "agentic-mermaid",
         "subpath": "agent",
-        "version": "0.5.5",
+        "version": "0.5.6",
         "cli": {
           "bin": "am",
           "args": [
@@ -3929,7 +3929,7 @@
                 "--format",
                 "png",
                 "--output",
-                "{output}",
+                "-",
                 "--quiet"
               ],
               "input": "stdin"

@@ -1,0 +1,186 @@
+{
+  "schema": "davebench-simple-v1",
+  "state": "complete",
+  "startedAt": "2026-11-02T16:59:16.774Z",
+  "updatedAt": "2026-11-02T17:16:25.624Z",
+  "corpus": {
+    "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
+    "directory": "docs/",
+    "occurrences": 1342,
+    "files": 49
+  },
+  "method": {
+    "runs": 3,
+    "warmupsPerRun": 30,
+    "timeoutMs": 15000,
+    "outputsRetained": false,
+    "outputsAssessed": false,
+    "elapsed": "Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.",
+    "png": "Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available. No image inspection."
+  },
+  "environment": {
+    "node": "26.3.0",
+    "bun": "1.4.2",
+    "platform": "linux",
+    "architecture": "x64",
+    "chromium": "154.0.8037.57"
+  },
+  "runs": [
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "svg",
+      "run": 1,
+      "boundary": "native CLI svg; process startup included",
+      "attempted": 1342,
+      "completed": 1338,
+      "failed": 4,
+      "timeouts": 0,
+      "totalMs": 10762.659092000005
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "svg",
+      "run": 2,
+      "boundary": "native CLI svg; process startup included",
+      "attempted": 1342,
+      "completed": 1338,
+      "failed": 4,
+      "timeouts": 0,
+      "totalMs": 10593.571372000044
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "svg",
+      "run": 3,
+      "boundary": "native CLI svg; process startup included",
+      "attempted": 1342,
+      "completed": 1338,
+      "failed": 4,
+      "timeouts": 0,
+      "totalMs": 11354.151298999917
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "png",
+      "run": 1,
+      "boundary": "native CLI png; process startup included",
+      "attempted": 1342,
+      "completed": 1280,
+      "failed": 62,
+      "timeouts": 0,
+      "totalMs": 323215.63801499986
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "png",
+      "run": 2,
+      "boundary": "native CLI png; process startup included",
+      "attempted": 1342,
+      "completed": 1280,
+      "failed": 62,
+      "timeouts": 0,
+      "totalMs": 315528.9728419985
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "png",
+      "run": 3,
+      "boundary": "native CLI png; process startup included",
+      "attempted": 1342,
+      "completed": 1280,
+      "failed": 62,
+      "timeouts": 0,
+      "totalMs": 335679.1460109978
+    }
+  ],
+  "summary": [
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "svg",
+      "boundary": "native CLI svg; process startup included",
+      "completed": [
+        1338,
+        1338,
+        1338
+      ],
+      "failed": [
+        4,
+        4,
+        4
+      ],
+      "totalMs": [
+        10762.659092000005,
+        10593.571372000044,
+        11354.151298999917
+      ],
+      "medianTotalMs": 10762.659092000005,
+      "runs": 3
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "png",
+      "boundary": "native CLI png; process startup included",
+      "completed": [
+        1280,
+        1280,
+        1280
+      ],
+      "failed": [
+        62,
+        62,
+        62
+      ],
+      "totalMs": [
+        323215.63801499986,
+        315528.9728419985,
+        335679.1460109978
+      ],
+      "medianTotalMs": 323215.63801499986,
+      "runs": 3
+    }
+  ],
+  "rankingRule": {
+    "primary": "More completed examples is better; use the minimum completion count across three complete runs.",
+    "secondary": "For equal completion counts, lower median total render/export time is better.",
+    "ties": "Identical completion counts and median times share a rank.",
+    "scope": "Rank SVG and PNG separately through the declared public execution paths. Native CLI time includes per-example process startup.",
+    "incomplete": "Fewer than three complete runs, or mixed versions/boundaries, remain unranked."
+  },
+  "rankings": {
+    "svg": [
+      {
+        "project": "Latias94/merman",
+        "version": "0.9.3",
+        "format": "svg",
+        "boundary": "native CLI svg; process startup included",
+        "completed": 1338,
+        "failed": 4,
+        "medianTotalMs": 10762.659092000005,
+        "rank": 1
+      }
+    ],
+    "png": [
+      {
+        "project": "Latias94/merman",
+        "version": "0.9.3",
+        "format": "png",
+        "boundary": "native CLI png; process startup included",
+        "completed": 1280,
+        "failed": 62,
+        "medianTotalMs": 323215.63801499986,
+        "rank": 1
+      }
+    ],
+    "terminal": [],
+    "unranked": []
+  },
+  "blocked": []
+}

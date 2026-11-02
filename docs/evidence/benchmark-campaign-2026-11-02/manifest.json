@@ -1,0 +1,96 @@
+{
+  "schema": "trident-numeric-campaign-manifest-v1",
+  "generatedAt": "2026-11-02T17:16:57.573078+00:00",
+  "status": "DaveBench measured; expanded Drawing Correctness and Mermaid Fidelity not implemented",
+  "validRuns": 150,
+  "timedCalls": 201300,
+  "measuredProjects": 26,
+  "setupBlockedProjects": 1,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 6267,
+      "sha256": "1c63ed745cf5c2d645f945210b08be9133ddf44ee5c251dd1d83fafdc478ea9d"
+    },
+    {
+      "path": "artifact-identities.json",
+      "bytes": 42120,
+      "sha256": "03139fd432ed48c81ad3683c17ff257018f08b963da5c8b6f268f04aacd708a1"
+    },
+    {
+      "path": "attempts/corrected-mermaidtui/results.json",
+      "bytes": 2133,
+      "sha256": "4a5305deecacb27b6914069fbc4bbf76079850ca89a5f66b4d3296405fb5d25d"
+    },
+    {
+      "path": "attempts/corrected-merman/results.json",
+      "bytes": 4889,
+      "sha256": "823bbc90f5ccdec24c8ddaad78d925fd36fd727f826f93017a1fe89b76f4ce4e"
+    },
+    {
+      "path": "attempts/final-dart/results.json",
+      "bytes": 4873,
+      "sha256": "5619450d5c655e372880be696d8d447953ebb1b70ff49bea0b30e5c7cde79031"
+    },
+    {
+      "path": "attempts/final-images/results.json",
+      "bytes": 51387,
+      "sha256": "bc9b6e4108c4a0c1860451390cb580bfa37943b26c2b515fb9f8a89c2744a612"
+    },
+    {
+      "path": "attempts/final-terminal/results.json",
+      "bytes": 22913,
+      "sha256": "1f9851fd92c4cc0d2ead1e2c86ad0937081223a5e2108143ccbe32b0d276dd71"
+    },
+    {
+      "path": "catalog.json",
+      "bytes": 200309,
+      "sha256": "037ae86a6785f07a29ac37b0503c443786a77458d449ba6b31351494234201d9"
+    },
+    {
+      "path": "flutter-counter-analysis.txt",
+      "bytes": 52,
+      "sha256": "e5b30fda4b3baf8f1edbf867b84e572685518509a19cc3e38bb1bf5de00fb5e3"
+    },
+    {
+      "path": "flutter-engine-download-failure.txt",
+      "bytes": 540,
+      "sha256": "93dccc227e4f580c3a86ae9a29270d3269f5b6c9fe25a36a84831705b7cadc0b"
+    },
+    {
+      "path": "images.json",
+      "bytes": 32149,
+      "sha256": "daf4fc372a96f91165e2f38ea48f545db418759248b2d1a027e1ead790d9dccd"
+    },
+    {
+      "path": "report.json",
+      "bytes": 92720,
+      "sha256": "ffc5b7caf57142060f8655c1db1ad2b18af528148b58c48289776f2f31fdf4db"
+    },
+    {
+      "path": "report.md",
+      "bytes": 10502,
+      "sha256": "4e94786cb1203181e9fb7db66519ba58d4584e7b075a5b303c70b1dc825e17bf"
+    },
+    {
+      "path": "runs.csv",
+      "bytes": 10561,
+      "sha256": "c5049860fc5867a0c94cace678a6564dcf00c1ee17f69b722b4d19cf7b190fdf"
+    },
+    {
+      "path": "setup-status.json",
+      "bytes": 960,
+      "sha256": "5edb63198fa99d1bc6eb3e43194458d6f5a95f2850cd1ffa71b9c6c110209536"
+    },
+    {
+      "path": "terminal.json",
+      "bytes": 18724,
+      "sha256": "e2d4dbacc9864a70099295cbf2d30587bbd72495c2ef00a74cc9add1580ed5b9"
+    },
+    {
+      "path": "versions.json",
+      "bytes": 15057,
+      "sha256": "b894692b72088c80acbb47768c4c0b8208d8ec7b4e2289919520907a9c135f7b"
+    }
+  ]
+}

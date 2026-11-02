@@ -3,11 +3,23 @@ import { execFileSync } from 'node:child_process'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright'
-import { davebenchBrowserCall, davebenchInputs, davebenchRankings, type DavebenchRun } from '../unified/davebench.ts'
+import { davebenchBrowserCall, davebenchCliCall, davebenchInputs, davebenchRankings, type DavebenchRun } from '../unified/davebench.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 import { defaultChromium } from '../unified/benchmark-context.ts'
 
 const temp = useTempDirs('simple-davebench-')
+test('native PNG stdout bindings reach a discard device without retaining an output file', async () => {
+  const root = temp.dir(), fixture = join(root, 'export.mjs')
+  writeFileSync(fixture, `import { fstatSync } from 'node:fs';
+if (process.argv[2] !== '-' || !fstatSync(1).isCharacterDevice()) process.exit(7);
+for await (const chunk of process.stdin) {}
+process.stdout.write(Buffer.alloc(1024 * 1024));
+`)
+  const peer: any = { artifact: { executable: 'node', outputBindings: { png: { args: [fixture, '-'] } } } }
+  const result = await davebenchCliCall(peer, 'flowchart TD; A-->B', 'png', 5000)
+  expect(result.outcome).toBe('completed')
+  expect(Object.keys(result).sort()).toEqual(['ms', 'outcome'])
+})
 test('completion wins before speed, speed breaks equal completion, exact ties share ranks and incomplete runs remain unranked', () => {
   const runs = (project: string, completed: number[], times: number[], format = 'svg'): DavebenchRun[] => completed.map((count, index) => ({ project, version: 'fixture', format, run: index + 1, boundary: 'fixture public API', attempted: 10, completed: count, failed: 10 - count, timeouts: 0, totalMs: times[index]! }))
   const result = davebenchRankings([

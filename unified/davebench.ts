@@ -79,7 +79,7 @@ export const davebenchRankingRule = {
   primary: 'More completed examples is better; use the minimum completion count across three complete runs.',
   secondary: 'For equal completion counts, lower median total render/export time is better.',
   ties: 'Identical completion counts and median times share a rank.',
-  scope: 'Rank SVG and PNG separately through the declared public execution paths. Native CLI time includes per-example process startup.',
+  scope: 'Rank SVG, PNG and terminal text separately through the declared public execution paths. Native CLI time includes per-example process startup.',
   incomplete: 'Fewer than three complete runs, or mixed versions/boundaries, remain unranked.',
 } as const
 function median(values: number[]) { const sorted = [...values].sort((a, b) => a - b); return sorted[Math.floor(sorted.length / 2)]! }
@@ -157,14 +157,14 @@ async function browserHost(browser: Browser, peer: PreparedCommunityBrowser, for
   return { open, close: () => new Promise<void>(done => server.close(() => done())) }
 }
 
-async function cliCall(peer: PreparedCommunityBrowser, source: string, format: string, timeoutMs: number) {
+export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: string, format: string, timeoutMs: number) {
   const artifact = peer.artifact!, binding = artifact.outputBindings![format]!, started = performance.now()
   return new Promise<{ outcome: string; ms: number }>(done => {
-    // Bun/libuv stdout can be a socket, which native file exporters cannot
-    // reopen through /dev/stdout. /dev/null accepts the fully encoded PNG
-    // without retaining it or requiring a temporary image file.
-    const child = spawn(artifact.executable!, binding.args.map(arg => arg.replaceAll('{output}', '/dev/null')), { stdio: ['pipe', 'pipe', 'pipe'] })
-    child.stdout.resume(); child.stderr.resume(); child.stdin.on('error', () => {}); child.stdin.end(source)
+    // Discard stdout directly: some native exporters reopen /dev/stdout and
+    // cannot use Bun/libuv's socket-backed pipe. Respect explicit stdout '-'
+    // bindings; Merman rejects /dev/null as a nonregular output file.
+    const child = spawn(artifact.executable!, binding.args.map(arg => arg.replaceAll('{output}', '/dev/null')), { stdio: ['pipe', 'ignore', 'pipe'] })
+    child.stderr!.resume(); child.stdin!.on('error', () => {}); child.stdin!.end(source)
     let timeout = false
     const timer = setTimeout(() => { timeout = true; child.kill('SIGKILL') }, timeoutMs)
     child.once('error', () => { clearTimeout(timer); done({ outcome: 'error', ms: performance.now() - started }) })
@@ -173,7 +173,7 @@ async function cliCall(peer: PreparedCommunityBrowser, source: string, format: s
 }
 
 export async function main(args = process.argv.slice(2)) {
-  if (args.length === 1 && args[0] === '--help') { console.log('davebench --out FRESH_DIRECTORY [--prepared FILE] [--upstream MERMAID_CHECKOUT] [--projects IDS]\nThree runs of every pinned documentation example, SVG and PNG. Reports completion and time only; discards outputs without assessment.'); return }
+  if (args.length === 1 && args[0] === '--help') { console.log('davebench --out FRESH_DIRECTORY [--prepared FILE] [--upstream MERMAID_CHECKOUT] [--projects IDS] [--catalog FROZEN_CATALOG]\nThree runs of every pinned documentation example, SVG and PNG. Reports completion and time only; discards outputs without assessment.'); return }
   assertBenchmarkExecutionAllowed()
   const options = new Map<string, string>()
   for (let index = 0; index < args.length; index += 2) {
@@ -242,7 +242,7 @@ export async function main(args = process.argv.slice(2)) {
           for (let round = 1; round <= 3; round++) {
             if (!cli) await open()
             const call = async (input: { id: string; source: string }, index: number) => {
-              if (cli) return cliCall(peer, input.source, format, timeoutMs)
+              if (cli) return davebenchCliCall(peer, input.source, format, timeoutMs)
               let timer: ReturnType<typeof setTimeout> | undefined
               const started = performance.now()
               try {

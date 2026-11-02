@@ -1,5 +1,7 @@
 # DaveBench: documentation rendering, 2 November 2026
 
+A [later campaign](benchmark-campaign-results-2026-11-02.md) adds terminal text, updates versions, measures Dart and corrects the Merman PNG invocation. This earlier report retains its original measurements.
+
 **1,342 examples per format per run. Three runs, with the same 30-example warm-up before each.** Counts were identical across all three repeats. Times below are medians of the total render/export call time, including failures. Outputs were discarded without assessment.
 
 Inputs: all standalone `mermaid` and `mermaid-example` Markdown fences under generated `docs/`, including duplicate occurrences, at Mermaid commit [`370c4af57f43cb0bda05f4a9fe2d99c912ba16dd`](https://github.com/mermaid-js/mermaid/tree/370c4af57f43cb0bda05f4a9fe2d99c912ba16dd/docs), across 49 files.

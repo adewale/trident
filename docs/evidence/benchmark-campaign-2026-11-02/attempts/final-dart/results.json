@@ -1,0 +1,186 @@
+{
+  "schema": "davebench-simple-v1",
+  "state": "complete",
+  "startedAt": "2026-11-02T16:50:58.069Z",
+  "updatedAt": "2026-11-02T16:51:43.877Z",
+  "corpus": {
+    "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
+    "directory": "docs/",
+    "occurrences": 1342,
+    "files": 49
+  },
+  "method": {
+    "runs": 3,
+    "warmupsPerRun": 30,
+    "timeoutMs": 15000,
+    "outputsRetained": false,
+    "outputsAssessed": false,
+    "elapsed": "Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.",
+    "png": "Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available. No image inspection."
+  },
+  "environment": {
+    "node": "26.3.0",
+    "bun": "1.4.2",
+    "platform": "linux",
+    "architecture": "x64",
+    "chromium": "154.0.8037.57"
+  },
+  "runs": [
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "svg",
+      "run": 1,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 993.5999998599291
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "svg",
+      "run": 2,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 972.4000000283122
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "svg",
+      "run": 3,
+      "boundary": "Chromium public SVG API",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 1187.600000165403
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "png",
+      "run": 1,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 9723.700000032783
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "png",
+      "run": 2,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 9115.099999941885
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "png",
+      "run": 3,
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "attempted": 1342,
+      "completed": 1114,
+      "failed": 228,
+      "timeouts": 0,
+      "totalMs": 8472.999999985099
+    }
+  ],
+  "summary": [
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "svg",
+      "boundary": "Chromium public SVG API",
+      "completed": [
+        1114,
+        1114,
+        1114
+      ],
+      "failed": [
+        228,
+        228,
+        228
+      ],
+      "totalMs": [
+        993.5999998599291,
+        972.4000000283122,
+        1187.600000165403
+      ],
+      "medianTotalMs": 993.5999998599291,
+      "runs": 3
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "format": "png",
+      "boundary": "Chromium SVG API + canvas PNG conversion",
+      "completed": [
+        1114,
+        1114,
+        1114
+      ],
+      "failed": [
+        228,
+        228,
+        228
+      ],
+      "totalMs": [
+        9723.700000032783,
+        9115.099999941885,
+        8472.999999985099
+      ],
+      "medianTotalMs": 9115.099999941885,
+      "runs": 3
+    }
+  ],
+  "rankingRule": {
+    "primary": "More completed examples is better; use the minimum completion count across three complete runs.",
+    "secondary": "For equal completion counts, lower median total render/export time is better.",
+    "ties": "Identical completion counts and median times share a rank.",
+    "scope": "Rank SVG and PNG separately through the declared public execution paths. Native CLI time includes per-example process startup.",
+    "incomplete": "Fewer than three complete runs, or mixed versions/boundaries, remain unranked."
+  },
+  "rankings": {
+    "svg": [
+      {
+        "project": "orestesgaolin/mermaid",
+        "version": "0.3.2",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 1114,
+        "failed": 228,
+        "medianTotalMs": 993.5999998599291,
+        "rank": 1
+      }
+    ],
+    "png": [
+      {
+        "project": "orestesgaolin/mermaid",
+        "version": "0.3.2",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1114,
+        "failed": 228,
+        "medianTotalMs": 9115.099999941885,
+        "rank": 1
+      }
+    ],
+    "terminal": [],
+    "unranked": []
+  },
+  "blocked": []
+}

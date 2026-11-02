@@ -1,6 +1,6 @@
-# Current benchmark versions
+# Pre-campaign version audit
 
-Checked 2026-11-02T14:35:41.361Z. All 27 comparison projects resolved. These are upcoming artifact selections, not new rendering measurements.
+Checked 2026-11-02T14:35:41.361Z. All 27 comparison projects resolved. This preserves the earlier preparation audit. The subsequent [measured campaign](benchmark-campaign-results-2026-11-02.md) refreshed and froze selections at **2026-11-02T15:09:38.022Z**, including Agentic Mermaid **0.5.6**. Its [37-component ledger](evidence/benchmark-campaign-2026-11-02/versions.json) records the versions actually selected for the measurements.
 
 Registry current stable latest; latest stable version tag for native releases; current default-branch HEAD for source-only components and repository-hosted distributions. Freeze exact selections before preparation. No fallback to stale artifacts.
 

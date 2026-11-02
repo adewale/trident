@@ -2,9 +2,9 @@
 
 [The three benchmarks: DaveBench, Drawing Correctness and Mermaid Fidelity](docs/benchmark-portfolio.md) — definitions, score directions, source selection, history and implementation status.
 
-[Current versions for the next benchmark](docs/benchmark-versions-2026-11-02.md) — all 27 projects checked; DaveBench refreshes releases before preparation and rejects stale cached artifacts. Refresh the catalog for other collectors with `bun commands.ts versions --out FRESH_DIRECTORY` and use its `catalog.json` via `--community-catalog`.
+[Campaign version ledger](docs/evidence/benchmark-campaign-2026-11-02/versions.json) — all 27 projects checked before preparation; DaveBench refreshes releases before preparation and rejects stale cached artifacts. Refresh the catalog for other collectors with `bun commands.ts versions --out FRESH_DIRECTORY` and use its `catalog.json` via `--community-catalog`.
 
-[Latest DaveBench rankings: SVG/PNG completion and time](docs/davebench-results-2026-11-02.md) — 1,342 documentation examples, three runs, outputs discarded.
+[Latest benchmark campaign: SVG, PNG and terminal DaveBench](docs/benchmark-campaign-results-2026-11-02.md) — 26 projects measured, 1,342 documentation examples and three runs per format, outputs discarded. The expanded Drawing Correctness and Mermaid Fidelity runners are still missing, so an overall score is unavailable.
 
 [Historical subset scoreboards](docs/benchmark-scoreboards.md) — retained terminal drawing, selected behavior/API and timing results. These are not results for the expanded benchmarks. Regenerate with `bun commands.ts rankings --out FRESH_DIRECTORY`.
 
@@ -45,7 +45,7 @@ remain historical campaigns. A verified count is a lower bound while unknowns re
 
 | Benchmark | What it measures | Corpus and expected answers | Results |
 |---|---|---|---|
-| **DaveBench** | Completed renders and elapsed time, separately for SVG, PNG and terminal text. | Every Mermaid block occurrence in the same pinned generated documentation tree; currently 1,342 occurrences across 49 files. | More completions first, then lower median total time over three runs. Outputs discarded without assessment. SVG/PNG measured; terminal collection pending. [Definition](docs/davebench-definition.md). |
+| **DaveBench** | Completed renders and elapsed time, separately for SVG, PNG and terminal text. | Every Mermaid block occurrence in the same pinned generated documentation tree; currently 1,342 occurrences across 49 files. | More completions first, then lower median total time over three runs. Outputs discarded without assessment. SVG, PNG and terminal measured. [Latest results](docs/benchmark-campaign-results-2026-11-02.md). [Definition](docs/davebench-definition.md). |
 | **Drawing Correctness** | Whether the output satisfies all specified drawing facts: objects, labels, connections, direction, groups, values and regression-specific geometry. Separate SVG, PNG and terminal tables. | Expand the existing 116 terminal drawing cases with tests, issues and PRs from all renderer projects, prioritizing popular and recurring rendering defects. | More whole-case passes. Broader corpus and cross-format assessment pending; old terminal scores retain their original scope. |
 | **Mermaid Fidelity** | How many original tests from a pinned Mermaid suite an implementation passes through adapters exposing its real behavior. | Start with the full pinned test inventory, execute original assertions, and account explicitly for skips, exclusions and adapter gaps. Follow Pele and Agentic Mermaid's pinned-suite approach. | More fully passed upstream cases on the same fixed population. Shared runner pending; the old 49/154 selections are partial evidence. |
 
