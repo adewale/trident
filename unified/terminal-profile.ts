@@ -1,4 +1,6 @@
 import { terminalRetainedUnsupported } from './terminal-unsupported.ts'
+import { outputEvidence, copyOutputEvidence } from './output-evidence.ts'
+import { terminalOutputMeasurements } from './terminal-output-measurements.ts'
 import { terminalKnownEncodingContext } from '../fidelity/terminal-encoding.ts'
 import { createHash } from 'node:crypto'
 import { InvocationJournal } from '../portable/invocation-journal.ts'
@@ -186,13 +188,19 @@ export async function runTerminalProfile(argv: string[]) {
   if (saved) {
     const directory = resolve(saved); record = savedRecord; parentSha256 = hash(savedBytes!)
     assessTerminalRecord(record, directory, cases)
+    terminalOutputMeasurements(record, directory, { profile: record.profile, cases, projects: record.artifacts.map((artifact: any) => artifact.project) })
     if (flags.has('--refresh-source-reference')) {
       const historical = record.sourceReference
       record.sourceReference = await collectTerminalSourceReference(cases)
       record.sourceReferenceHistory = [...(record.sourceReferenceHistory ?? []), { sha256: hash(JSON.stringify(historical)), rows: historical }]
     }
     mkdirSync(out, { recursive: true })
-    for (const row of record.outputs) if (row.witness) { const bytes = readFileSync(resolve(directory, row.witness)), name = hash(bytes) + '.txt'; writeFileSync(join(out, name), bytes); row.witness = name }
+    const copiedJournals = new Set<string>()
+    for (const row of record.outputs) if (row.witness) {
+      const bytes = readFileSync(resolve(directory, row.witness)), name = hash(bytes) + '.txt'
+      writeFileSync(join(out, name), bytes); row.witness = name
+      if (typeof row.outputEvidence === 'string') row.outputEvidence = copyOutputEvidence(directory, out, row.outputEvidence, name, copiedJournals)
+    }
   } else {
     assertBenchmarkExecutionAllowed()
     const projects = projectSelection, prepared = read(resolve(preparedFile!)) as PreparedCommunity[]
@@ -219,8 +227,10 @@ export async function runTerminalProfile(argv: string[]) {
         if (bytes) writeFileSync(join(out, witness!), bytes)
         const typed = observation?.metrics?.typedSourceOutcome
         const typedSourceOutcome = typeof typed === 'string' ? JSON.parse(typed) : undefined
+        const invocationId = observation?.metrics?.rawInvocationId, journalDirectory = observation?.metrics?.rawInvocationDirectory
+        const proof = witness && typeof invocationId === 'string' && typeof journalDirectory === 'string' ? outputEvidence(out, journalDirectory, invocationId, witness) : null
         if (typedSourceOutcome && input.intent === 'invalid') assessTerminalSourceRejection(input, typedSourceOutcome, peer.node.id)
-        outputs.push({ project: peer.node.id, caseId: input.id, measuredAt: typeof observation?.metrics?.measuredAt === 'string' ? observation.metrics.measuredAt : null, ...(typedSourceOutcome ? { typedSourceOutcome } : {}), witness, sha256: bytes ? hash(bytes) : undefined, runtimeExecuted: invocationObserved(observation), publicStatus: observation?.status ?? 'blocked', detail: observation?.detail ?? peer.error })
+        outputs.push({ project: peer.node.id, caseId: input.id, rawInvocationId: typeof invocationId === 'string' ? invocationId : null, outputEvidence: proof, measuredAt: typeof observation?.metrics?.measuredAt === 'string' ? observation.metrics.measuredAt : null, ...(typedSourceOutcome ? { typedSourceOutcome } : {}), witness, sha256: bytes ? hash(bytes) : undefined, runtimeExecuted: invocationObserved(observation), publicStatus: observation?.status ?? 'blocked', detail: observation?.detail ?? peer.error })
       }
     }
     record = { profile: profileId, source, producers, startedAt, finishedAt: new Date().toISOString(), inventory: cases.map(input => [input.id, input.sourceSha256]), corpusFile: corpus.corpusFile, corpusVersion: corpus.version, corpusSha256: corpus.corpusSha256, sourceInventorySha256: corpus.sourceInventorySha256, diagnosticSources: corpus.diagnostics, originalCorpus: { file: 'corpus/terminal-project-examples.json', sources: corpus.originals.length, sha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-examples.json'))) }, reviewsSha256: hash(readFileSync(join(tridentDirectory, 'corpus/terminal-project-reviews.json'))), selectedCaseIds: targets.map(input => input.id), allInputs: true, targetedExtension: options.has('--projects'), artifacts: selected.map(peer => ({ project: peer.node.id, version: peer.artifact?.version ?? 'unavailable', artifact: peer.artifact ?? null, error: peer.error })), sourceReference, outputs, transportObservations }

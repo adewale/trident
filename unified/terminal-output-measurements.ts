@@ -2,6 +2,7 @@ import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { isAbsolute, relative, resolve } from 'node:path'
 import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import type { BenchmarkObservation } from './types.ts'
+import { verifiedOutputObservations } from './output-evidence.ts'
 
 export interface TerminalMeasurementCase { id: string; sourceSha256: string }
 /** Reconstruct mechanical measurements from owned raw text bytes. Stored
@@ -17,7 +18,7 @@ export function terminalOutputMeasurements(record: any, directory: string, expec
     coordinates.add(key)
   }
   return record.artifacts.map((artifact: any) => ({ project: String(artifact.project), version: String(artifact.version ?? 'unavailable'),
-    observations: expected.cases.map((input): BenchmarkObservation => {
+    observations: verifiedOutputObservations(root, expected.cases, expected.cases.map((input): BenchmarkObservation => {
       const output = record.outputs.find((row: any) => row.project === artifact.project && row.caseId === input.id)
       let bytes: Buffer | undefined, formatValid: boolean | null = null
       if (output?.witness !== undefined && output.witness !== null) {
@@ -31,7 +32,7 @@ export function terminalOutputMeasurements(record: any, directory: string, expec
         try { new TextDecoder('utf-8', { fatal: true }).decode(bytes); formatValid = true } catch { formatValid = false }
       }
       return { suite: 'community', surface: 'terminal:raw-return', runtime: 'retained terminal bytes', family: 'fixed corpus', caseId: input.id, operation: 'render', format: 'terminal', mode: 'raw-output-reduction',
-        status: bytes ? 'passed' : 'blocked', metrics: { project: String(artifact.project), round: 1, publicOutputReturned: bytes ? true : null, formatValid, returnedBytes: bytes?.byteLength ?? null,
+        status: bytes ? 'passed' : 'blocked', metrics: { project: String(artifact.project), round: 1, rawInvocationId: typeof output?.rawInvocationId === 'string' ? output.rawInvocationId : null, ...(typeof output?.outputEvidence === 'string' ? { outputEvidence: output.outputEvidence } : {}), publicOutputReturned: bytes ? true : null, formatValid, returnedBytes: bytes?.byteLength ?? null,
           sourceSha256: input.sourceSha256, outputSha256: bytes ? evidenceBytesDigest(bytes) : null, measuredAt: typeof output?.measuredAt === 'string' ? output.measuredAt : null } }
-    }) }))
+    })) }))
 }

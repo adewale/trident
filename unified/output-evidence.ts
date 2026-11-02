@@ -1,4 +1,4 @@
-import { readFileSync, realpathSync } from 'node:fs'
+import { cpSync, lstatSync, readFileSync, realpathSync } from 'node:fs'
 import { isAbsolute, join, relative, resolve } from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import { readCheckpointValue } from '../portable/checkpoint.ts'
@@ -15,14 +15,27 @@ const own = (root: string, path: string) => {
 export function outputEvidence(root: string, journalDirectory: string, attemptId: string, witness: string) {
   const directory = relative(resolve(root), resolve(journalDirectory))
   own(resolve(root), directory); own(resolve(root), witness)
-  if (!readCheckpointValue(join(resolve(root), directory), attemptId + ':returned', { schema: 'trident-invocation-journal-v1' })) return null
+  const identity = { schema: 'trident-invocation-journal-v1' }, returned = readCheckpointValue<any>(join(resolve(root), directory), attemptId + ':returned', identity)
+  if (!returned) return null
+  const started = readCheckpointValue(join(resolve(root), directory), attemptId + ':started', identity)
+  if (!started || returned.startedReceiptSha256 !== evidenceDigest(started)) return null // Legacy frames are not silently upgraded.
   return JSON.stringify({ schema: 'trident-output-return-v1', journal: directory, attemptId, witness })
+}
+export function copyOutputEvidence(source: string, out: string, encoded: string, witness: string, copied: Set<string>) {
+  const proof = JSON.parse(encoded)
+  if (proof?.schema !== 'trident-output-return-v1' || !proof.journal || proof.journal === '.') throw Error('Invalid copied output journal')
+  const directory = own(source, proof.journal)
+  if (!copied.has(proof.journal)) {
+    cpSync(directory, resolve(out, proof.journal), { recursive: true, dereference: false, filter: path => { if (lstatSync(path).isSymbolicLink()) throw Error('Output journal contains a symlink'); return true } })
+    copied.add(proof.journal)
+  }
+  return JSON.stringify({ ...proof, witness })
 }
 
 /** Summary flags cannot supply measured output facts. Reopen the exact bytes
  * and causal public return, check literal source/format/project ownership, then
  * rerun the mechanical checker. Never touch the renderer or former machine. */
-export function verifiedOutputObservations(root: string, inputs: readonly { id: string; source: string }[], rows: readonly BenchmarkObservation[]) {
+export function verifiedOutputObservations(root: string, inputs: readonly { id: string; source?: string; sourceSha256?: string }[], rows: readonly BenchmarkObservation[]) {
   const used = new Set<string>()
   const artifacts = new Map<string, string>()
   return rows.map(row => {
@@ -40,7 +53,7 @@ export function verifiedOutputObservations(root: string, inputs: readonly { id: 
     for (const state of ['public-error', 'interrupted']) if (readCheckpointValue(directory, proof.attemptId + ':' + state, identity)) throw Error('Output invocation has contradictory terminal outcomes')
     if (started.state !== 'started' || returned.state !== 'returned' || started.attemptId !== proof.attemptId || returned.attemptId !== proof.attemptId || evidenceDigest(started.identity) !== evidenceDigest(returned.identity)
       || returned.startedReceiptSha256 !== evidenceDigest(started) || returned.identity.project !== row.metrics?.project || returned.identity.caseId !== row.caseId && !/^docs_\d+_\d+$/.test(returned.identity.caseId)
-      || returned.identity.sourceSha256 !== evidenceBytesDigest(input.source) || returned.identity.format !== row.format || !returned.output) throw Error('Public return differs from the literal source/project/format')
+      || returned.identity.sourceSha256 !== (typeof input.source === 'string' ? evidenceBytesDigest(input.source) : input.sourceSha256) || returned.identity.format !== row.format || !returned.output) throw Error('Public return differs from the literal source/project/format')
     const artifactKey = JSON.stringify([returned.identity.project, returned.identity.format]), prior = artifacts.get(artifactKey)
     if (prior && prior !== returned.identity.artifactSha256) throw Error('Output population mixes different public artifacts')
     artifacts.set(artifactKey, returned.identity.artifactSha256)

@@ -46,6 +46,11 @@ test('ordinary benchmark planning declares questions without asserting qualifica
   expect(plan.rows[0]!.measurements.map(binding => binding.id)).toEqual([...suiteMeasurements.docs])
   expect(plan.rows.every(row => row.acquisition === 'not attempted')).toBe(true)
   expect(plan.rows[0]!.missing).toContain('chromium')
+  expect(plan.docsWorkload!.plannedOccurrences).toBe(548)
+  const partial = campaignPlan({ projects: catalog.nodes, suites: ['docs'], rounds: 1, profile: 'full', docsFormats: ['svg'], docsCaseIds: ['packages/mermaid/src/docs/syntax/flowchart.md:686'] })
+  expect(partial.docsWorkload!.selectedOccurrences).toBe(1)
+  expect(partial.docsWorkload!.requestedOutputCoordinates).toBe(1)
+  expect(partial.docsWorkload!.plannedOccurrences).toBe(548)
 })
 test('binding gaps and unfamiliar outcomes cannot become resolved assessments or invented planned workloads', () => {
   for (const gap of ['Binding gaps', 'Missing', 'Future unqualified representation']) {

@@ -6,6 +6,8 @@ import { terminalOutputMeasurements } from '../unified/terminal-output-measureme
 import { reduceOutputMeasurements } from '../unified/output-measurements.ts'
 import { campaignTables } from '../unified/campaign-tables.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
+import { InvocationJournal } from '../portable/invocation-journal.ts'
+import { outputEvidence } from '../unified/output-evidence.ts'
 const temp = useTempDirs('terminal-output-facts-'), project = 'fixture/terminal'
 function fixture() {
   const root = temp.dir(), cases = [{ id: 'case:empty', sourceSha256: evidenceBytesDigest('flowchart LR') }, { id: 'case:text', sourceSha256: evidenceBytesDigest('flowchart LR\nA') }]
@@ -13,7 +15,14 @@ function fixture() {
   const record = { profile: 'fixture-terminal-v1', inventory: cases.map(input => [input.id, input.sourceSha256]), artifacts: [{ project, version: 'fixture' }],
     outputs: cases.map((input, index) => ({ project, caseId: input.id, witness: index ? 'text.txt' : 'empty.txt', sha256: evidenceBytesDigest(index ? '[A]' : ''), publicStatus: 'failed', runtimeExecuted: false })) }
   const expected = { profile: record.profile, cases, projects: [project] }
-  return { root, cases, record, expected }
+  const journal = new InvocationJournal(join(root, 'invocations'))
+  const outputs = record.outputs.map((output, index) => {
+    const frame = journal.start({ project, caseId: output.caseId, sourceSha256: cases[index]!.sourceSha256, artifactSha256: 'a'.repeat(64), bindingSha256: 'b'.repeat(64), format: 'terminal' })
+    journal.returned(frame, readFileSync(join(root, output.witness)), null)
+    return { ...output, rawInvocationId: frame.attemptId, outputEvidence: outputEvidence(root, journal.directory, frame.attemptId, output.witness) }
+  })
+  const measured = { ...record, outputs }
+  return { root, cases, record: measured, expected }
 }
 test('terminal production, UTF-8 validity and bytes come from retained output, never stale admission or drawing flags', () => {
   const f = fixture(), values = terminalOutputMeasurements(f.record, f.root, f.expected)
@@ -30,7 +39,11 @@ test('terminal production, UTF-8 validity and bytes come from retained output, n
 })
 test('invalid UTF-8 remains returned bytes while altered bytes, foreign paths and wrong source coordinates are rejected', () => {
   const f = fixture(), bad = Buffer.from([0xff, 0xfe])
+  // Create a separate actual invalid-UTF8 return; do not relabel a prior call.
+  const journal = new InvocationJournal(join(f.root, 'invalid-invocations')), frame = journal.start({ project, caseId: f.cases[1]!.id, sourceSha256: f.cases[1]!.sourceSha256, artifactSha256: 'a'.repeat(64), bindingSha256: 'b'.repeat(64), format: 'terminal' })
+  journal.returned(frame, bad, null)
   writeFileSync(join(f.root, 'text.txt'), bad); f.record.outputs[1]!.sha256 = evidenceBytesDigest(bad)
+  f.record.outputs[1]!.rawInvocationId = frame.attemptId; f.record.outputs[1]!.outputEvidence = outputEvidence(f.root, journal.directory, frame.attemptId, 'text.txt')
   const result = reduceOutputMeasurements(f.cases.map(input => input.id), 1, terminalOutputMeasurements(f.record, f.root, f.expected)[0]!.observations)!
   expect(result.production.returned).toBe(2)
   expect(result.validity.invalid).toBe(1)

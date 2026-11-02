@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test'
 import { createHash } from 'node:crypto'
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
-import { reconcileCampaignBrowsers, loadCampaignPreparation, freezeCampaignProofInputs } from '../unified/campaign-preparation.ts'
+import { reconcileCampaignBrowsers, loadCampaignPreparation, freezeCampaignProofInputs, assertPreparedDocsSelection } from '../unified/campaign-preparation.ts'
 import { projectPackageIdentity } from '../unified/project-update.ts'
 import { resolveReleaseCatalog } from '../unified/release-selection.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
@@ -127,6 +127,26 @@ function proofPreparation() {
   write(file, manifest)
   return { ...f, archive, preparation, source, reviews, images, profile, font, manifest, file }
 }
+
+test('preparation retains selected documentation sources/formats after moves and refuses collection overrides', () => {
+  const f = proofPreparation(), ids = ['source:one', 'source:two'], live = join(f.root, 'selection.json')
+  write(live, ids)
+  // A new preparation seals its source selection in the same owning manifest.
+  const directory = join(f.root, 'selected'); mkdirSync(directory)
+  const files = freezeCampaignProofInputs({ docsCasesFile: live, docsFormats: ['svg'] }, directory)
+  const selected = JSON.parse(readFileSync(join(f.root, files.docsSelection!.path), 'utf8'))
+  expect(selected).toEqual({ caseIds: ids, formats: ['svg'] })
+  const f2 = proofPreparation()
+  const target = join(f2.archive, f2.manifest.files.docsSelection!.path)
+  write(target, selected); f2.manifest.files.docsSelection!.sha256 = sha(target); write(f2.file, f2.manifest)
+  const moved = join(f2.root, 'moved-selection'); cpSync(f2.archive, moved, { recursive: true }); rmSync(f2.archive, { recursive: true }); rmSync(live)
+  const frozen = loadCampaignPreparation(join(moved, 'preparation.json')).options
+  expect(frozen.docsCaseIds).toEqual(ids)
+  expect(frozen.docsFormats).toEqual(['svg'])
+  expect(() => assertPreparedDocsSelection({ docsFormats: ['png'] }, frozen, new Set(['--docs-formats']))).toThrow('freezes documentation output')
+  write(live, ['source:changed'])
+  expect(() => assertPreparedDocsSelection({ docsCasesFile: live }, frozen, new Set(['--docs-cases']))).toThrow('freezes documentation source')
+})
 
 test('preparation freezes source/PNG reviews and profile fonts without borrowing mutable input paths', () => {
   const f = proofPreparation(), loaded = loadCampaignPreparation(f.file), rasterFile = (loaded.options as any).docsPngRasterProfileFile

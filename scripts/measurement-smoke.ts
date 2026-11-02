@@ -7,6 +7,8 @@ import { defaultChromium } from '../unified/benchmark-context.ts'
 import { chromium } from 'playwright'
 import { freshOutputOutside } from '../unified/measurement-replay.ts'
 import plan from '../qualification/measurement-smoke.json' with { type: 'json' }
+import { loadCampaignPreparation } from '../unified/campaign-preparation.ts'
+import { readBenchmarkDocument } from '../portable/project-records.ts'
 
 const root = resolve(import.meta.dir, '..'), command = join(root, 'commands.ts')
 const help = 'verify:measurements:live --plan | --out FRESH_DIRECTORY [--executable CHROMIUM]\nAcquires the three frozen catalogue releases in qualification/measurement-smoke.json, collects the predeclared partial SVG/PNG workload and active terminal corpus, then replays retained bytes. This is public-adapter integration evidence, not whole-corpus accuracy or speed qualification. Run locally with the pinned oracle and source installed.'
@@ -39,7 +41,12 @@ export function main(args = process.argv.slice(2)) {
   try {
     const docs = join(out, 'docs'), terminal = join(out, 'terminal'), replay = join(out, 'docs-replay')
     run('prepare', ['bench', '--projects', plan.projects.join(','), '--suites', 'docs', '--docs-formats', plan.formats.join(','), '--docs-cases', join(out, 'docs-cases.json'), '--executable', executable, '--prepare', '--out', docs])
-    run('docs', ['bench', '--prepared', join(docs, 'preparation.json'), '--out', docs], true)
+    const selected = loadCampaignPreparation(join(docs, 'preparation.json')).options
+    if (JSON.stringify(selected.docsCaseIds) !== JSON.stringify(plan.docsCaseIds) || JSON.stringify(selected.docsFormats) !== JSON.stringify(plan.formats)) throw Error('Preparation lost or changed the predeclared smoke workload; collection was not started')
+    run('docs', ['bench', '--prepared', join(docs, 'preparation.json'), '--budget-minutes', '5', '--out', docs], true)
+    const collected = readBenchmarkDocument(join(docs, 'docs/result.json')) as any
+    const calls = collected.observations.filter((row: any) => row.operation === 'render')
+    if (calls.length !== plan.projects.length * plan.formats.length * plan.docsCaseIds.length || calls.some((row: any) => !plan.docsCaseIds.includes(row.caseId))) throw Error('Collector executed a different documentation source population')
     run('terminal', ['bench', '--terminal', '--community-prepared', join(docs, 'preparation/community-prepared.json'), '--projects', plan.terminalProject, '--out', terminal], true)
     const before = evidenceBytesDigest(readFileSync(join(docs, 'report.json'))), terminalBefore = evidenceBytesDigest(readFileSync(join(terminal, 'raw.json')))
     run('docs-audit', ['measurements', '--campaign', docs, '--out', join(out, 'docs-audit')])

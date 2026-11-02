@@ -29,7 +29,19 @@ interface PreparationManifest {
   files: Record<string, { path: string; sha256: string }>
   artifacts: { project: string; version?: string; identity?: unknown; error?: string }[]
 }
-type ProofInputOptions = Pick<UnifiedRunOptions, 'docsReviewFile' | 'docsPngReviewFile'> & { docsPngRasterProfileFile?: string }
+type ProofInputOptions = Pick<UnifiedRunOptions, 'docsReviewFile' | 'docsPngReviewFile' | 'docsCaseIds' | 'docsCasesFile' | 'docsFormats'> & { docsPngRasterProfileFile?: string }
+function docsSelection(value: any): { caseIds: string[] | null; formats: ('svg' | 'png')[] } {
+  if (!value || value.caseIds !== null && (!Array.isArray(value.caseIds) || !value.caseIds.length || value.caseIds.some((id: unknown) => typeof id !== 'string' || !id.trim()) || new Set(value.caseIds).size !== value.caseIds.length)
+    || !Array.isArray(value.formats) || !value.formats.length || value.formats.some((format: unknown) => !['svg', 'png'].includes(String(format))) || new Set(value.formats).size !== value.formats.length) throw Error('Invalid frozen documentation source/output selection')
+  return { caseIds: value.caseIds, formats: value.formats }
+}
+export function assertPreparedDocsSelection(requested: Partial<UnifiedRunOptions>, frozen: Partial<UnifiedRunOptions>, flags: ReadonlySet<string>) {
+  if (flags.has('--docs-formats') && stableValue(requested.docsFormats) !== stableValue(frozen.docsFormats)) throw Error('A prepared campaign freezes documentation output formats')
+  if (flags.has('--docs-cases')) {
+    const ids = requested.docsCaseIds ?? (requested.docsCasesFile ? JSON.parse(readFileSync(requested.docsCasesFile, 'utf8')) : null)
+    if (stableValue(ids) !== stableValue(frozen.docsCaseIds ?? null)) throw Error('A prepared campaign freezes documentation source selection')
+  }
+}
 /** Proof inputs use the existing preparation manifest and content-addressed
  * blobs. The frozen profile contains relative paths so an archive can move. */
 export function freezeCampaignProofInputs(options: ProofInputOptions, directory: string): PreparationManifest['files'] {
@@ -45,6 +57,8 @@ export function freezeCampaignProofInputs(options: ProofInputOptions, directory:
   const imageBytes = options.docsPngReviewFile ? readFileSync(options.docsPngReviewFile) : Buffer.from('[]\n')
   if (!Array.isArray(JSON.parse(imageBytes.toString()))) throw Error('PNG content reviews must be a JSON array')
   save('docsPngReviews', 'docs-png-reviewed.json', imageBytes)
+  const selection = docsSelection({ caseIds: options.docsCaseIds ?? (options.docsCasesFile ? JSON.parse(readFileSync(options.docsCasesFile, 'utf8')) : null), formats: options.docsFormats ?? ['svg', 'png'] })
+  save('docsSelection', 'docs-selection.json', Buffer.from(JSON.stringify(selection, null, 2) + '\n'))
   if (options.docsPngRasterProfileFile) {
     const profile = JSON.parse(readFileSync(options.docsPngRasterProfileFile, 'utf8'))
     if (profile?.schema !== 'trident-raster-profile-v1' || !['#ffffff', 'transparent'].includes(profile.background) || typeof profile.defaultFontFamily !== 'string' || !Array.isArray(profile.fontFiles)) throw Error('Invalid frozen PNG raster profile')
@@ -65,7 +79,7 @@ export function freezeCampaignProofInputs(options: ProofInputOptions, directory:
 }
 function restoredProofInputs(manifestFile: string, files: Record<string, string>, receipts: PreparationManifest['files']): Partial<UnifiedRunOptions> {
   const root = realpathSync(dirname(manifestFile)), owned = (path: string) => { const suffix = relative(root, realpathSync(path)); if (isAbsolute(suffix) || suffix === '..' || suffix.startsWith('../')) throw Error('Prepared proof input borrows an unowned file'); return path }
-  for (const key of ['docsReviews', 'docsPngReviews', 'docsPngRasterProfile']) if (files[key]) owned(files[key]!)
+  for (const key of ['docsReviews', 'docsPngReviews', 'docsPngRasterProfile', 'docsSelection']) if (files[key]) owned(files[key]!)
   if (files.docsPngRasterProfile) {
     const profile = JSON.parse(readFileSync(files.docsPngRasterProfile, 'utf8'))
     if (profile?.schema !== 'trident-raster-profile-v1' || !['#ffffff', 'transparent'].includes(profile.background) || typeof profile.defaultFontFamily !== 'string' || !Array.isArray(profile.fontFiles)) throw Error('Invalid prepared PNG raster profile')
@@ -77,7 +91,8 @@ function restoredProofInputs(manifestFile: string, files: Record<string, string>
       seen.add(path)
     }
   }
-  return { ...(files.docsReviews ? { docsReviewFile: files.docsReviews } : {}), ...(files.docsPngReviews ? { docsPngReviewFile: files.docsPngReviews } : {}), ...(files.docsPngRasterProfile ? { docsPngRasterProfileFile: files.docsPngRasterProfile } : {}) }
+  const selection = files.docsSelection ? docsSelection(JSON.parse(readFileSync(files.docsSelection, 'utf8'))) : undefined
+  return { ...(selection ? { docsCaseIds: selection.caseIds ?? undefined, docsFormats: selection.formats } : {}), ...(files.docsReviews ? { docsReviewFile: files.docsReviews } : {}), ...(files.docsPngReviews ? { docsPngReviewFile: files.docsPngReviews } : {}), ...(files.docsPngRasterProfile ? { docsPngRasterProfileFile: files.docsPngRasterProfile } : {}) }
 }
 
 /** Bind browser dispositions to the selected primary artifact without requiring

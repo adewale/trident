@@ -24,7 +24,7 @@ import type { UnifiedSuiteResult } from './types.ts'
 import { PUBLIC_SUITES, CAMPAIGN_SUITES, DEFAULT_SUITES, coreScopeReason, nativeAdapter, portableAdapter, portableBinding, projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
 import { comparisonProjects } from './lineage.ts'
 import { campaignPlan } from './campaign-plan.ts'
-import { loadCampaignPreparation, prepareCampaign } from './campaign-preparation.ts'
+import { loadCampaignPreparation, prepareCampaign, assertPreparedDocsSelection } from './campaign-preparation.ts'
 import { resolveReleaseCatalog } from './release-selection.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 
@@ -131,6 +131,7 @@ Legacy portable diagnostics with --profile full --rounds ${FULL_SAMPLING.rounds}
   }
   if (preparedFile) {
     const frozen = loadCampaignPreparation(preparedFile)
+    if (frozen.manifest.files.docsSelection) assertPreparedDocsSelection(options, frozen.options, seen)
     if (cutoff && cutoff !== frozen.manifest.cutoff) throw Error('A frozen preparation cannot change its release cutoff')
     if (seen.has('--profile') && options.profile !== frozen.manifest.profile || seen.has('--rounds') && options.rounds !== frozen.manifest.rounds) throw Error('A prepared campaign freezes sampling; create a new preparation for another profile')
     options = { ...options, ...frozen.options, profile: frozen.manifest.profile as 'smoke' | 'full', rounds: frozen.manifest.rounds, communityProjects: options.communityProjects ?? frozen.manifest.projects }
@@ -154,7 +155,7 @@ Legacy portable diagnostics with --profile full --rounds ${FULL_SAMPLING.rounds}
   projects = comparisonSelection.included; options.communityProjects = projects
   if (list) { console.log(JSON.stringify({ suites: chosen, projects, profile: options.profile, rounds: options.rounds, comparisonSelection, support: catalog.nodes.filter((node: CatalogMember) => projects.includes(node.id)).map(projectSupport) }, null, 2)); return }
   if (!projects.length && !planOnly) throw Error('No projects remain after scope/lineage/branding exclusions or release skips: ' + comparisonSelection.excluded.map(node => node.project + ': ' + node.comparison).join('; '))
-  const plan = { ...campaignPlan({ catalog, projects: catalog.nodes.filter((node: CatalogMember) => projects.includes(node.id)), suites: chosen as PublicSuite[], profile: options.profile, rounds: options.rounds, executable: options.executable, upstreamRunnerRoot, budgetMinutes, portableCaseIds: pilotOnly ? PILOT_CASES : undefined }), comparisonSelection, pilot: pilotOnly, portableCaseIds: pilotOnly ? PILOT_CASES : undefined }
+  const plan = { ...campaignPlan({ catalog, projects: catalog.nodes.filter((node: CatalogMember) => projects.includes(node.id)), suites: chosen as PublicSuite[], profile: options.profile, rounds: options.rounds, executable: options.executable, upstreamRunnerRoot, budgetMinutes, docsCaseIds: options.docsCaseIds, docsCasesFile: options.docsCasesFile, docsFormats: options.docsFormats, portableCaseIds: pilotOnly ? PILOT_CASES : undefined }), comparisonSelection, pilot: pilotOnly, portableCaseIds: pilotOnly ? PILOT_CASES : undefined }
   if (planOnly) { console.log(JSON.stringify(plan, null, 2)); return }
   options.executable ??= plan.tools.chromium ?? undefined
   assertBenchmarkExecutionAllowed()

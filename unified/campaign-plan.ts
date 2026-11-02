@@ -9,8 +9,11 @@ import { lineageInventory, type LineageCatalog } from './lineage.ts'
 import { projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
 import { bindMeasurement, suiteMeasurements } from './measurement-contracts.ts'
 import { defaultChromium } from './benchmark-context.ts'
+import { gunzipSync } from 'node:zlib'
+import { selectDocsCases } from './docs-selection.ts'
+import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 
-export interface CampaignPlanOptions { projects: CatalogMember[]; catalog?: LineageCatalog; suites: readonly PublicSuite[]; rounds: number; profile: 'smoke' | 'full'; executable?: string; upstreamRunnerRoot?: string; budgetMinutes?: number; portableCaseIds?: string[]; docsFormats?: readonly ('svg' | 'png')[] }
+export interface CampaignPlanOptions { projects: CatalogMember[]; catalog?: LineageCatalog; suites: readonly PublicSuite[]; rounds: number; profile: 'smoke' | 'full'; executable?: string; upstreamRunnerRoot?: string; budgetMinutes?: number; portableCaseIds?: string[]; docsFormats?: readonly ('svg' | 'png')[]; docsCaseIds?: string[]; docsCasesFile?: string }
 export function campaignPlan(options: CampaignPlanOptions) {
   const lineage = options.catalog ? lineageInventory(options.catalog) : undefined
   const comparisonSelection = lineage ? { projects: lineage.nodes.filter(node => options.projects.some(project => project.id === node.project)), policy: lineage.policy } : null
@@ -42,7 +45,15 @@ export function campaignPlan(options: CampaignPlanOptions) {
     })
   })
   const estimatedMinutes = { low: rows.reduce((sum, row) => sum + row.estimatedMinutes.low, 0), high: rows.reduce((sum, row) => sum + row.estimatedMinutes.high, 0) }
-  return { protocol: 'trident-campaign-plan-v1', comparisonSelection, selection: options.projects.map(node => node.id), suites: options.suites, rounds: options.rounds, profile: options.profile, tools, versions, oracleError, rows, estimatedMinutes, budgetMinutes: options.budgetMinutes ?? null,
+  let docsWorkload
+  if (options.suites.includes('docs')) {
+    const bytes = readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url)), inventory = JSON.parse(gunzipSync(bytes).toString())
+    const cases = selectDocsCases(inventory.cases as { id: string }[], options)
+    docsWorkload = { sourceInventorySha256: evidenceBytesDigest(bytes), pin: inventory.pin, plannedOccurrences: inventory.cases.length, selectedOccurrences: cases.length,
+      selectedCaseIds: cases.map(input => input.id), formats: options.docsFormats ?? ['svg', 'png'], requestedOutputCoordinates: cases.length * options.projects.length * (options.docsFormats?.length ?? 2),
+      scope: 'Selected coverage inputs; unselected occurrences remain planned and unrun. Requested coordinates include declared unsupported output lanes; actual invocation counts require captured evidence.' }
+  }
+  return { protocol: 'trident-campaign-plan-v1', comparisonSelection, selection: options.projects.map(node => node.id), suites: options.suites, rounds: options.rounds, profile: options.profile, docsWorkload, tools, versions, oracleError, rows, estimatedMinutes, budgetMinutes: options.budgetMinutes ?? null,
     preparation: { estimatedMinutes: null, scope: 'Acquisition, downloads and source builds are not included in the planning range. Their duration is unknown until artifacts/toolchains are admitted.' },
     budgetExceededByEstimate: options.budgetMinutes !== undefined && estimatedMinutes.high > options.budgetMinutes,
     policy: 'Planning performs no acquisition or rendering. Estimates are deliberately broad and do not establish feasibility or a maximum. A runtime budget stops new work at collector checkpoints; an active worker retains its declared deadline. Missing external observers are unavailable counters, not free work.' }

@@ -6,7 +6,7 @@ import { freshOutputOutside } from '../unified/measurement-replay.ts'
 import { runMeasurementControls } from '../unified/admission-controls.ts'
 
 const root = resolve(import.meta.dir, '..')
-const files = ['output-evidence', 'terminal-output-measurements', 'output-measurements', 'measurement-contracts', 'measurement-replay', 'observer-controls', 'internal-invocations', 'external-invocations', 'docs-png-transport-ownership', 'qualified-timing-collection', 'native-timing-report', 'recheck-observations'].map(name => 'tests/' + name + '.test.ts')
+const files = ['campaign-preparation-regressions', 'output-evidence', 'terminal-output-measurements', 'output-measurements', 'measurement-contracts', 'measurement-replay', 'observer-controls', 'internal-invocations', 'external-invocations', 'docs-png-transport-ownership', 'qualified-timing-collection', 'native-timing-report', 'recheck-observations'].map(name => 'tests/' + name + '.test.ts')
 const help = 'verify:measurements --plan | --out FRESH_DIRECTORY\nExecutes the bounded fixture matrix for measurement contracts, observer controls, Node/CLI/native-worker transports, raw-output replay and timing qualification. No ecosystem acquisition or renderer campaign. Success qualifies these harness fixtures, not every adapter or drawing representation.'
 export async function main(args = process.argv.slice(2)) {
   if (args.length === 1 && args[0] === '--help') { console.log(help); return }

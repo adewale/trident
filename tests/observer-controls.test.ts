@@ -2,6 +2,8 @@ import { expect, test } from 'bun:test'
 import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { qualifyOutput, SVG_QUALIFICATION_PROTOCOL } from '../unified/qualification.ts'
 import { qualifyObserverControls, type ObserverControl } from '../unified/observer-controls.ts'
+import { evaluateBehaviourStep } from '../unified/mermaid-behaviour.ts'
+import type { BehaviourCase } from '../unified/mermaid-behaviour-corpus.ts'
 
 const source = 'flowchart LR\nA["Crème & Tea"]'
 const svg = (body: string) => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">' + body + '</svg>'
@@ -15,6 +17,17 @@ const observe = (control: ObserverControl) => {
   const value = qualifyOutput({ id: control.id, family: 'flowchart', source: control.source, expectedLabels: ['Crème & Tea'], features: [], provenance: control.provenance }, control.output, 'svg')
   return value.unavailable ? 'unassessed' as const : value.ok ? 'satisfied' as const : 'violated' as const
 }
+test('static ARIA group names preserve valid equivalents while wrong, hidden, styled and nested targets cannot gain credit', () => {
+  const step = { source: 'classDiagram\naccTitle: Name\naccDescr: Description', sourceSha256: 'a'.repeat(64), expected: { title: 'Name', description: 'Description' } }
+  const input: BehaviourCase = { id: 'independent-aria', operation: 'svg-accessibility', steps: [step], origin: { callbackId: 'independent', callbackSha256: 'b'.repeat(64), sourcePath: 'independent', sourceSha256: 'a'.repeat(64), line: 1 }, adaptation: 'Independent static naming control' }
+  const inspect = (body: string) => evaluateBehaviourStep(input, step, { kind: 'svg', svg: '<svg xmlns="http://www.w3.org/2000/svg" aria-labelledby="n" aria-describedby="d">' + body + '</svg>' })
+  const body = '<g id="n">Name</g><g id="d">Description</g>'
+  expect(inspect(body).every(check => check.status === 'passed')).toBe(true)
+  expect(inspect(body.replace('>Name<', '>Wrong<')).some(check => check.status === 'failed')).toBe(true)
+  expect(inspect(body.replace('id="n"', 'id="n" style="display:none"')).some(check => check.status === 'unavailable')).toBe(true)
+  expect(inspect('<style>g{display:none}</style>' + body).some(check => check.status === 'unavailable')).toBe(true)
+  expect(inspect('<g>' + body + '</g>').some(check => check.status === 'unavailable')).toBe(true)
+})
 test('actual label observer runs positive, wrong-output and equivalent controls with separate narrow qualification', async () => {
   const result = await qualifyObserverControls(controls, identity, observe)
   expect(result.qualified).toBe(true)

@@ -96,7 +96,8 @@ export function evaluateBehaviourStep(input: BehaviourCase, step: BehaviourStep,
     if (reference !== undefined && reference.trim()) {
       const names = reference.trim().split(/\s+/), targets = names.map(id => ids.get(id))
       if (targets.some(target => target?.length !== 1)) return { unknown: 'ARIA references do not resolve to unique actual descendants' }
-      if (targets.some(target => target![0]!.uri !== actualRoot.uri || !['title', 'desc', 'text', 'tspan'].includes(target![0]!.name))) return { unknown: 'ARIA target content is outside the finite structural SVG naming profile' }
+      if (targets.some(target => target![0]!.uri !== actualRoot.uri || !['title', 'desc', 'text', 'tspan', 'g'].includes(target![0]!.name))) return { unknown: 'ARIA target content is outside the finite structural SVG naming profile' }
+      if (targets.some(target => target![0]!.name === 'g' && (!actualRoot.children.includes(target![0]!) || nodes.some(node => node.name === 'style')))) return { unknown: 'Only direct unstyled plain group targets have qualified static naming semantics' }
       if (targets.some(target => !plainContent(target![0]!) || ['text', 'tspan'].includes(target![0]!.name) && nodes.some(node => node.name === 'style'))) return { unknown: 'Referenced naming content has unresolved ARIA, role, hiding, styling or descendant semantics' }
       return { value: targets.map(target => text(target![0]!)).join(' ') }
     }
