@@ -127,11 +127,14 @@ export function measurementCoverage(table: SnapshotTable, row: SnapshotTable['ro
     const value = row.values[table.columns.indexOf(column)]
     return typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 ? value : null
   }
-  const planned = table.population ? number(table.population.total) : null
+  // A recorded-observation denominator says nothing about planned calls.
+  const planned = table.population && table.population.total !== 'Recorded' ? number(table.population.total) : null
   if (!table.population || planned === null) return { planned, resolved: null, unresolved: null, assessmentComplete: false }
-  const unknown = table.population.outcomes.filter(column => ['Unassessed', 'Unrun', 'Harness failure', 'Blocked', 'Unknown', 'Unavailable', 'Unexecuted', 'Unmeasured', 'Partially observed', 'Other'].includes(column))
+  const resolved = new Set(['Correct', 'Incorrect', 'Incorrect drawing', 'Invalid format', 'Unsupported', 'Renderer failure', 'Passed', 'Failed', 'Correct rejection', 'Accepted invalid source', 'Rejected', 'Returned output', 'No returned output', 'Valid format', 'Returned in all rounds', 'Admitted'])
+  const unknown = table.population.outcomes.filter(column => !resolved.has(column))
   const counts = unknown.map(number)
   if (counts.some(value => value === null)) throw Error('Unknown measurement coverage count')
   const unresolved = (counts as number[]).reduce((a, b) => a + b, 0)
+  if (unresolved > planned) throw Error('Measurement gaps exceed the planned population')
   return { planned, resolved: planned - unresolved, unresolved, assessmentComplete: planned > 0 && unresolved === 0 }
 }

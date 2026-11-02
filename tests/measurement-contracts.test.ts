@@ -47,6 +47,16 @@ test('ordinary benchmark planning declares questions without asserting qualifica
   expect(plan.rows.every(row => row.acquisition === 'not attempted')).toBe(true)
   expect(plan.rows[0]!.missing).toContain('chromium')
 })
+test('binding gaps and unfamiliar outcomes cannot become resolved assessments or invented planned workloads', () => {
+  for (const gap of ['Binding gaps', 'Missing', 'Future unqualified representation']) {
+    const table = admission()
+    table.columns[3] = gap; table.population!.outcomes[2] = gap
+    expect(measurementCoverage(table, table.rows[0]!)).toEqual({ planned: 2, resolved: 1, unresolved: 1, assessmentComplete: false })
+  }
+  const recorded = admission()
+  recorded.columns[4] = 'Recorded'; recorded.population!.total = 'Recorded'
+  expect(measurementCoverage(recorded, recorded.rows[0]!)).toEqual({ planned: null, resolved: null, unresolved: null, assessmentComplete: false })
+})
 test('the public measurement command writes a separate audit without changing or collecting evidence', () => {
   const root = temp.dir(), input = join(root, 'snapshot.json'), catalogFile = join(root, 'catalog.json'), out = join(root, 'report')
   const snapshot = JSON.stringify({ schema: 'trident-results-snapshot-v1', tables: [admission()], attempts: [] })
