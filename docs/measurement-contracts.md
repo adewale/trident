@@ -49,6 +49,8 @@ Changed source bytes, missing calls, changed artifacts or a different timing bou
 
 ## Qualify the measurement instruments
 
+Trident seals executable measurement producers from Git. Commit changes to those producers before running collection, retained-evidence reuse or the qualification command. Focused unit tests can run while editing. CI uploads the qualification receipts and logs as the `measurement-verification` artifact, including failed runs.
+
 ```sh
 bun commands.ts verify:measurements --plan
 bun commands.ts verify:measurements --out /tmp/FRESH_VERIFICATION
