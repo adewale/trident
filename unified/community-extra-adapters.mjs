@@ -5,13 +5,17 @@ import { createHash } from 'node:crypto'
 import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-export function extraPackagePreparation(name) {
+export function extraPackagePreparation(name, config = {}) {
   switch (name) {
     case '@ramtinj95/pi-mermaid-tui': return { entry: 'src/grok-renderer.ts', runtime: 'Bun (published Pi renderer component)', boundary: 'published WASM renderer component; Pi host hooks excluded' }
     case '@yassimba/pi-loom-mermaid': return { entry: 'src/loom-mermaid/index.ts', runtime: 'Bun (published Loom renderer component)', boundary: 'published terminal renderer component; Pi host hooks excluded' }
     case 'opencode-merman': return { entry: 'src/markdown.ts', runtime: 'Bun (OpenTUI headless integration)', companions: ['@opentui/core@0.5.14', '@opentui/solid@0.5.14', 'solid-js@1.9.12', '@opencode/plugin@2.0.22', '@opencode/theme@2.0.22'], boundary: 'published Markdown renderer in real OpenTUI headless host' }
     case '@kitlangton/merman': return { runtime: 'Bun (published terminal renderer)', boundary: 'public render(content,{color:false})' }
-    case '@crafter/mermaid-renderer': return { companions: ['@crafter/mermaid-parser@0.0.4', '@crafter/mermaid-layout@0.0.3', '@crafter/mermaid-themes@0.0.3'], additionalCompanions: ['@crafter/mermaid-cli@0.0.4'], overrides: { '@crafter/mermaid-cli': { '@crafter/mermaid-parser': '0.0.4', '@crafter/mermaid-layout': '0.0.3', '@crafter/mermaid-themes': '0.0.3' } }, boundary: 'public parse → layout → renderToString pipeline' }
+    case '@crafter/mermaid-renderer': {
+      const selected = (name, fallback) => config.operationPackages?.find(pkg => pkg.package === name)?.version ?? fallback
+      const parser = selected('@crafter/mermaid-parser', '0.0.4'), layout = selected('@crafter/mermaid-layout', '0.0.3'), themes = selected('@crafter/mermaid-themes', '0.0.3'), cli = selected('@crafter/mermaid-cli', '0.0.4')
+      return { companions: [`@crafter/mermaid-parser@${parser}`, `@crafter/mermaid-layout@${layout}`, `@crafter/mermaid-themes@${themes}`], additionalCompanions: [`@crafter/mermaid-cli@${cli}`], overrides: { '@crafter/mermaid-cli': { '@crafter/mermaid-parser': parser, '@crafter/mermaid-layout': layout, '@crafter/mermaid-themes': themes } }, boundary: 'public parse → layout → renderToString pipeline' }
+    }
     case '@toeverything/mermaid-wasm': return { wasmRelativePath: 'pkg/affine_mermaid_renderer_wasm_bg.wasm', boundary: 'public Rust/WASM renderer' }
     case '@evangwt/xmermaid': return { wasmRelativePath: 'dist/xmermaid_wasm_bg.wasm', boundary: 'public browser XMermaid SVG API; DOM measurement included' }
     case 'dsh-plugin-mermaid-gb-svg': return { subpath: 'engine', boundary: 'public /engine renderDiagram with DEFAULT_OPTIONS' }

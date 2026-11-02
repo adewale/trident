@@ -1,8 +1,12 @@
 # Trident
 
+[The three benchmarks: DaveBench, Drawing Correctness and Mermaid Fidelity](docs/benchmark-portfolio.md) — definitions, score directions, source selection, history and implementation status.
+
+[Current versions for the next benchmark](docs/benchmark-versions-2026-11-02.md) — all 27 projects checked; DaveBench refreshes releases before preparation and rejects stale cached artifacts. Refresh the catalog for other collectors with `bun commands.ts versions --out FRESH_DIRECTORY` and use its `catalog.json` via `--community-catalog`.
+
 [Latest DaveBench rankings: SVG/PNG completion and time](docs/davebench-results-2026-11-02.md) — 1,342 documentation examples, three runs, outputs discarded.
 
-[Other benchmark scoreboards](docs/benchmark-scoreboards.md) — explicit tasks, score directions, reasons and stack-ranked retained results. Regenerate with `bun commands.ts rankings --out FRESH_DIRECTORY`.
+[Historical subset scoreboards](docs/benchmark-scoreboards.md) — retained terminal drawing, selected behavior/API and timing results. These are not results for the expanded benchmarks. Regenerate with `bun commands.ts rankings --out FRESH_DIRECTORY`.
 
 [Benchmark breadth review](docs/benchmark-breadth.md): API compatibility, invalid-input rejection and matched timing are Trident coverage-repair diagnostics; their small measured cohorts do not establish narrow eligibility.
 
@@ -41,9 +45,9 @@ remain historical campaigns. A verified count is a lower bound while unknowns re
 
 | Benchmark | What it measures | Corpus and expected answers | Results |
 |---|---|---|---|
-| **DaveBench — Documentation Rendering** | How many render/export calls complete and how long they take, separately for SVG and PNG. | 1,342 `mermaid` and `mermaid-example` block occurrences across 49 generated documentation files at [commit `370c4af`](https://github.com/mermaid-js/mermaid/tree/370c4af57f43cb0bda05f4a9fe2d99c912ba16dd/docs), with duplicates retained. Inspired by [Dave Kiss](https://x.com/davekiss/status/2111512440106078554). | Ranked by completed calls first, then lower median total time over three runs. Failures remain visible; outputs are discarded without assessment. [Definition](docs/davebench-definition.md). |
-| **Terminal Rendering — Project Examples** | How many diagrams a terminal renderer draws correctly, including visible relationships, labels and quantities; qualified time on matched inputs. | [Active v3](corpus/terminal-active-profile.json): 115 unchanged drawings from pinned project docs, tests, issues and PRs, one disclosed alias adaptation, and four invalid controls. [Original inventory](corpus/terminal-project-examples.json) retains URLs, revisions and licenses for 18 researched repositories. | 116 drawings ranked by verified correct count; unsupported, incorrect and unresolved outcomes remain visible. Mermaid ASCII is the terminal comparator; Mermaid is an unscored source reference. |
-| **Mermaid Behaviour Tests** | 30 syntax-family/precedence cases and 19 SVG accessible-name/description cases adapted from Mermaid tests. Public family returns and structural SVG metadata are checked; generated IDs and Mermaid-specific DOM conventions are not required. | A disclosed adapted subset of [Mermaid's pinned upstream tests](docs/mermaid-public-conformance.md), with original assertions and adaptation provenance preserved. | 49 whole behaviour cases, with per-assertion details; a case passes only when every required assertion passes. Exact API compatibility remains a separate diagnostic; the selected behaviour tests do not establish whole-suite conformance. |
+| **DaveBench** | Completed renders and elapsed time, separately for SVG, PNG and terminal text. | Every Mermaid block occurrence in the same pinned generated documentation tree; currently 1,342 occurrences across 49 files. | More completions first, then lower median total time over three runs. Outputs discarded without assessment. SVG/PNG measured; terminal collection pending. [Definition](docs/davebench-definition.md). |
+| **Drawing Correctness** | Whether the output satisfies all specified drawing facts: objects, labels, connections, direction, groups, values and regression-specific geometry. Separate SVG, PNG and terminal tables. | Expand the existing 116 terminal drawing cases with tests, issues and PRs from all renderer projects, prioritizing popular and recurring rendering defects. | More whole-case passes. Broader corpus and cross-format assessment pending; old terminal scores retain their original scope. |
+| **Mermaid Fidelity** | How many original tests from a pinned Mermaid suite an implementation passes through adapters exposing its real behavior. | Start with the full pinned test inventory, execute original assertions, and account explicitly for skips, exclusions and adapter gaps. Follow Pele and Agentic Mermaid's pinned-suite approach. | More fully passed upstream cases on the same fixed population. Shared runner pending; the old 49/154 selections are partial evidence. |
 
 [Benchmark definitions](BENCHMARKS.md) give commands, selection rules and limits.
 [RESULTS.md](RESULTS.md) is the generated ecosystem overview; the [frozen B0
@@ -61,9 +65,11 @@ per renderer and output format. It retains numeric counts and timings only.
 The earlier retained-output drawing assessments and their qualified timing
 studies remain dated historical results in [RESULTS.md](RESULTS.md).
 
-The 154 unchanged public API callbacks, authored feature/edit cases, legacy
-compatibility, model editing contracts and adaptive cost studies are optional
-diagnostics. They supply no combined renderer-quality score. Product-specific
+The old 49 behavior cases and 154 public API callbacks feed Mermaid Fidelity;
+they are no longer separate headline benchmarks. Invalid-input controls and
+matched-workload timing retain their historical results without additional league
+tables. Authored feature/edit cases, legacy compatibility, model editing contracts
+and adaptive cost studies remain maintenance diagnostics. Product-specific
 editing contracts belong in their owning projects. Assertion Replay and the
 standalone nonblank PNG exporter are retired. [Historical methods](BENCHMARKS.md#retired-comparisons-and-reference-validation)
 remain available with their original evidence.

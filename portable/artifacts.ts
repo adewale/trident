@@ -65,7 +65,7 @@ export function artifactIdentity(artifact: PortableArtifact): PortableArtifactId
     payload = join(artifact.root, directory)
   }
   const files = walk(payload)
-  const companionSpecs = artifact.adapter === 'public-package' ? extraPackagePreparation(String(artifact.publicConfig?.package)).companions ?? [] : []
+  const companionSpecs = artifact.adapter === 'public-package' ? extraPackagePreparation(String(artifact.publicConfig?.package), artifact.publicConfig).companions ?? [] : []
   const req = companionSpecs.length ? createRequire(join(artifact.root, 'package.json')) : undefined
   const adapterCompanions = companionSpecs.map((spec: string) => {
     const split = spec.lastIndexOf('@'), name = spec.slice(0, split), version = spec.slice(split + 1)

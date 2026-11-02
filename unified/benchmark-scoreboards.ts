@@ -80,7 +80,7 @@ export function benchmarkScoreboards(snapshot: ResultsSnapshot, catalog: Lineage
 export function renderBenchmarkScoreboards(report: ReturnType<typeof benchmarkScoreboards>, localRoot = tridentDirectory) {
   const cell = (value: unknown) => String(value ?? '—').replaceAll('|', '&#124;').replaceAll('\n', ' ')
   const link = (url: string) => url.startsWith('https://') ? url : join(localRoot, url)
-  const lines = ['# Benchmark scoreboards', '', report.rules, '', report.limits, '', '**Breadth policy:** ' + report.breadthPolicy, '', 'API compatibility, terminal invalid-input rejection and matched-workload timing are coverage-repair diagnostics. Their small recorded cohorts have documented Trident gaps; they are not established broad ecosystem benchmarks.', '']
+  const lines = ['# Benchmark scoreboards', '', '**Historical subset results.** The current portfolio is DaveBench, Drawing Correctness and Mermaid Fidelity (see `docs/benchmark-portfolio.md`). These tables retain their original populations; they are not scores for the expanded drawing corpus or the full upstream Fidelity benchmark.', '', report.rules, '', report.limits, '', '**Breadth policy:** ' + report.breadthPolicy, '', 'API compatibility, terminal invalid-input rejection and matched-workload timing are coverage-repair diagnostics. Their small recorded cohorts have documented Trident gaps; they are not established broad ecosystem benchmarks.', '']
   for (const board of report.cases) {
     const status = board.readiness
     lines.push('## ' + board.name, '', '**Task:** ' + board.task, '', '**Better:** ' + board.score + ' ' + board.why, '', '**Ties:** ' + board.ties, '',

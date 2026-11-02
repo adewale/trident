@@ -147,7 +147,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
     return { ...archive, ...pkg }
   }).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
   const extra = await import('./community-extra-adapters.mjs'),
-    plan = extra.extraPackagePreparation(name)
+    plan = extra.extraPackagePreparation(name, config)
   // Mermaid's row is the pinned oracle install itself, never a second copy of Mermaid.
   const oracle = node.id === 'mermaid-js/mermaid' ? assertMermaidOracle() : undefined
   if (oracle && version !== oracle.version) throw new Error(`Mermaid's row must be the pinned oracle ${oracle.version}; the catalog records ${version}`)

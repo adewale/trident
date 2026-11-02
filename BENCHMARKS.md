@@ -1,12 +1,27 @@
 # Benchmarks: tasks, evidence and limits
 
+Trident's benchmark portfolio is **DaveBench**, **Drawing Correctness** and
+**Mermaid Fidelity**. The [portfolio definition](docs/benchmark-portfolio.md)
+defines each task, score, workload, consolidation and implementation status,
+with a review of the history and Pele/Agentic Mermaid's upstream test runners.
+DaveBench includes separate SVG, PNG and terminal-text formats. Drawing
+Correctness expands the terminal corpus across renderer projects and formats.
+Mermaid Fidelity starts from the full pinned upstream suite rather than the
+49-case behavior selection.
+
+**Implementation status:** the current simple DaveBench runner measures SVG/PNG.
+Terminal DaveBench, the expanded Drawing Correctness corpus/checkers and the
+shared upstream Fidelity runner still require implementation. The older
+collectors and measurements documented below retain their original scope;
+they are not results for these expanded definitions.
+
 [Measurement contracts and qualification](docs/measurement-contracts.md) define the supported questions, executable report bindings, independent controls and retained-output replay workflow. Output production, format validity, behaviour, drawing assessment and execution cost remain separate measurements within these workloads.
 
 [Benchmark readiness](docs/measurement-readiness.md) maps the existing workloads to those questions and records executed public-release and observer-control evidence.
 
-Trident compares public rendering artifacts. The current workloads are
-DaveBench (SVG and PNG), Mermaid Behaviour Tests and Terminal Rendering.
-The unchanged Mermaid Public API Tests remain an optional compatibility diagnostic. Authored harness/observer regressions are unscored diagnostics; optional
+Trident compares rendering implementations. Existing collectors include
+DaveBench (SVG and PNG), the historical Mermaid Behaviour Tests and Terminal Rendering.
+The selected Mermaid Public API Tests are historical partial compatibility evidence. Authored harness/observer regressions are unscored diagnostics; optional
 Public Model Contracts retain their separate API scope. SVG inspection and cost measurement are shared machinery.
 There is no combined renderer-quality score or validated production holdout.
 
@@ -37,7 +52,8 @@ Run every `mermaid` and `mermaid-example` Markdown block under Mermaid's generat
 **1,342 occurrences across 49 files**, at commit `370c4af57f43cb0bda05f4a9fe2d99c912ba16dd`.
 
 Report completed calls, failures and total elapsed render/export time separately
-for SVG and PNG. Use the same 30-example warm-up and three complete runs. PNG time
+for SVG, PNG and terminal text. Terminal collection remains to be implemented;
+the current command supports SVG/PNG. Use the same 30-example warm-up and three complete runs. PNG time
 includes conversion/encoding. Discard the outputs without saving or assessing
 them. Rank each format by more completed examples first, then lower median total
 time. Use the minimum completion count over three runs; blocked and incomplete
@@ -175,6 +191,9 @@ their separate scopes. [Measurement rules](MEASUREMENT.md) give the clock detail
 
 ## Mermaid Behaviour Tests
 
+Historical 49-case subset, to be subsumed by **Mermaid Fidelity**. This is not
+the target population for the new benchmark.
+
 **Task:** Pass all assertions in each of 49 selected public family-detection and SVG naming cases.
 
 **Better results:** Passed whole cases, highest first. More of the selected observable Mermaid behaviours work through the public interface.
@@ -291,6 +310,9 @@ are frozen for campaign scheduling.
 </details>
 
 ## Terminal Rendering — Project Examples
+
+Historical terminal-only collector. Its 116 reviewed drawings seed **Drawing
+Correctness**, which expands the source corpus and assesses multiple formats.
 
 **Task:** Render the fixed 116 terminal drawing examples and satisfy every required fact in each whole case.
 

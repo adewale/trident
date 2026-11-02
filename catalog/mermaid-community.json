@@ -344,9 +344,8 @@
         "path": "pkg/",
         "name": "@frankenmermaid/core",
         "version": "0.4.0",
-        "revision": "29536a1308acd1bae4da8b72b4cebffb39709ae0",
-        "lastUpdatedCommit": "f85cf30d16918b5819f27e5eb1f962b324390c13",
-        "wasmSha256": "c2ba665b60abdd57d9c357fc6e28891b4bed7b62bcfc75d714fb059c87af3ea1"
+        "revision": "3d338ff26022e448a26e6a9d5a4127a315d27fe7",
+        "lastUpdatedCommit": "f85cf30d16918b5819f27e5eb1f962b324390c13"
       },
       "notes": "Separate git root; README describes a ground-up implementation. Checked-in pkg/ 0.4.0 distribution is pinned and individually hash-verified for Node/browser benchmarks. The advertised @frankenmermaid/core npm name returns 404. Distributed WASM predates current Rust source changes and differs from live-site JS/WASM bytes; no build-from-current-source or deployment parity is claimed. Public WASM exposes SVG, Canvas2D, parse/diagnostics, source-lens edits and deck manifests; native terminal rendering has no exported WASM terminal function. License includes the named restrictive rider and is not recorded as plain MIT. Published native v0.4.0 CLI was benchmarked separately, including startup; its release predates the measured WASM. Parser recovery returned SVG for the full browser inventory, with warnings/partial detections recorded separately from acceptance.",
       "nativeRelease": {
@@ -403,6 +402,10 @@
         "engineScope": "independent-engine-candidate",
         "adapterReview": "existing-adapter; outcomes remain independent",
         "reason": "Catalog declares svg, terminal, parse, diagnostics, source operations with adapter franken. Actual artifact/API availability, family coverage, correctness and timing are determined by execution, not role selection or configuration."
+      },
+      "release": {
+        "tag": "v0.4.0",
+        "commit": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f"
       }
     },
     {
@@ -427,10 +430,8 @@
         {
           "registry": "npm",
           "name": "ondine",
-          "version": "0.0.1",
-          "license": "MIT",
-          "provenanceCommit": "f662aa795b91bf2dfc7162f48035be3884201193",
-          "publishedFromDefaultBranch": true
+          "version": "0.0.3",
+          "license": "MIT"
         }
       ],
       "roles": [
@@ -460,7 +461,9 @@
           "outputs": [
             "terminal"
           ]
-        }
+        },
+        "version": "0.0.3",
+        "versionPolicy": "recorded"
       },
       "benchmarkEligibility": {
         "classification": "port-implementation",
@@ -507,7 +510,9 @@
         "adapter": "dart",
         "outputs": [
           "svg"
-        ]
+        ],
+        "version": "0.3.2",
+        "versionPolicy": "recorded"
       },
       "benchmarkEligibility": {
         "classification": "port-implementation",
@@ -556,7 +561,8 @@
         ],
         "version": "0.3.2",
         "runtime": "native Linux Flutter release",
-        "apiBoundary": "mermaid_flutter.renderToPng(source,pixelRatio:1)"
+        "apiBoundary": "mermaid_flutter.renderToPng(source,pixelRatio:1)",
+        "versionPolicy": "recorded"
       },
       "benchmarkEligibility": {
         "classification": "branded-native-renderer",
@@ -854,10 +860,8 @@
         {
           "registry": "npm",
           "name": "agentic-mermaid",
-          "version": "0.4.1",
-          "license": "MIT",
-          "provenanceCommit": "d2d821cb07f46d39770c3b731c346ef0c22ea773",
-          "publishedFromDefaultBranch": true
+          "version": "0.5.5",
+          "license": "MIT"
         }
       ],
       "roles": [
@@ -879,7 +883,7 @@
         ],
         "package": "agentic-mermaid",
         "subpath": "agent",
-        "version": "0.4.1",
+        "version": "0.5.5",
         "cli": {
           "bin": "am",
           "args": [
@@ -892,7 +896,8 @@
             "svg",
             "terminal"
           ]
-        }
+        },
+        "versionPolicy": "recorded"
       },
       "benchmarkEligibility": {
         "classification": "diverged-fork",
@@ -1271,10 +1276,8 @@
         {
           "registry": "npm",
           "name": "zombie-mermaid",
-          "version": "5.7.1",
-          "license": "MIT",
-          "provenanceCommit": "3e688e4e5e00ec9f92444af4757e0ec7c449e84b",
-          "publishedFromDefaultBranch": true
+          "version": "5.14.1",
+          "license": "MIT"
         }
       ],
       "roles": [
@@ -1289,7 +1292,9 @@
         "outputs": [
           "svg",
           "terminal"
-        ]
+        ],
+        "version": "5.14.1",
+        "versionPolicy": "recorded"
       },
       "benchmarkEligibility": {
         "classification": "diverged-fork",
@@ -3261,7 +3266,7 @@
       "benchmark": {
         "adapter": "extra-source",
         "sourceAdapter": "opencode-source",
-        "sourcePin": "4617210822bdbb31e5749751afbfb4584ccedac8",
+        "sourcePin": "67139d6827af3a337c80472c33f9cb7c6c2ce500",
         "outputs": [
           "terminal"
         ]
@@ -3349,17 +3354,14 @@
           "name": "@crafter/mermaid-parser",
           "version": "0.0.4",
           "license": null,
-          "gitHead": "a5b105412a714d3fe3681114d867f16c6603e9d5",
-          "provenanceCommit": "a5b105412a714d3fe3681114d867f16c6603e9d5",
-          "publishedFromDefaultBranch": true
+          "gitHead": "a5b105412a714d3fe3681114d867f16c6603e9d5"
         },
         {
           "registry": "npm",
           "name": "@crafter/mermaid-renderer",
           "version": "0.0.3",
           "license": null,
-          "gitHead": "03381fd83ed25b249862d4b4d5a8b005dde621ab",
-          "publishedFromDefaultBranch": true
+          "gitHead": "03381fd83ed25b249862d4b4d5a8b005dde621ab"
         }
       ],
       "roles": [
@@ -3387,7 +3389,7 @@
           },
           {
             "package": "@crafter/mermaid-layout",
-            "version": "0.0.3",
+            "version": "0.0.4",
             "operation": "layout"
           },
           {
@@ -3399,6 +3401,11 @@
             "package": "@crafter/mermaid-cli",
             "version": "0.0.4",
             "operation": "terminal"
+          },
+          {
+            "package": "@crafter/mermaid-themes",
+            "version": "0.0.4",
+            "operation": "themes"
           }
         ],
         "portable": {
@@ -3439,8 +3446,7 @@
           "name": "merslim",
           "version": "0.2.3",
           "license": "MIT",
-          "gitHead": "4514215108d79a5bc8d7d9215b41b70b8d2b1cc2",
-          "publishedFromDefaultBranch": true
+          "gitHead": "4514215108d79a5bc8d7d9215b41b70b8d2b1cc2"
         }
       ],
       "roles": [
@@ -3497,9 +3503,7 @@
           "name": "@evangwt/xmermaid",
           "version": "0.4.2",
           "license": "MIT",
-          "gitHead": "d7dcff197bf2595d06a797bbc2bf25f19ee39cfe",
-          "provenanceCommit": "d7dcff197bf2595d06a797bbc2bf25f19ee39cfe",
-          "publishedFromDefaultBranch": true
+          "gitHead": "d7dcff197bf2595d06a797bbc2bf25f19ee39cfe"
         }
       ],
       "roles": [
@@ -3544,7 +3548,7 @@
         {
           "registry": "pypi",
           "name": "termaid",
-          "version": "0.9.1",
+          "version": "0.10.0",
           "license": "MIT"
         }
       ],
@@ -3556,7 +3560,9 @@
         "adapter": "termaid",
         "outputs": [
           "terminal"
-        ]
+        ],
+        "version": "0.10.0",
+        "versionPolicy": "recorded"
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3738,9 +3744,7 @@
           "name": "@kitlangton/merman",
           "version": "0.2.1",
           "license": "MIT",
-          "gitHead": "37b735e8c54c479902bb52e4f0f5efdb0c6c10de",
-          "provenanceCommit": "37b735e8c54c479902bb52e4f0f5efdb0c6c10de",
-          "publishedFromDefaultBranch": true
+          "gitHead": "37b735e8c54c479902bb52e4f0f5efdb0c6c10de"
         }
       ],
       "roles": [
@@ -3788,8 +3792,7 @@
           "name": "vitepress-plugin-mermaid-diagram",
           "version": "0.3.2",
           "license": "MIT",
-          "gitHead": "6f4b8a2310d8f416d255832c97c40ff81380c8fb",
-          "publishedFromDefaultBranch": true
+          "gitHead": "6f4b8a2310d8f416d255832c97c40ff81380c8fb"
         }
       ],
       "roles": [
@@ -3847,18 +3850,14 @@
         {
           "registry": "npm",
           "name": "@mermanjs/node",
-          "version": "0.9.1",
-          "license": "MIT OR Apache-2.0",
-          "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
-          "publishedFromDefaultBranch": false
+          "version": "0.9.2",
+          "license": "MIT OR Apache-2.0"
         },
         {
           "registry": "npm",
           "name": "@mermanjs/web",
-          "version": "0.9.1",
-          "license": "MIT OR Apache-2.0",
-          "provenanceCommit": "f6202f702dbde0a75049b1a62b3124feae709b3d",
-          "publishedFromDefaultBranch": false
+          "version": "0.9.2",
+          "license": "MIT OR Apache-2.0"
         },
         {
           "registry": "pypi",
@@ -3892,9 +3891,9 @@
         ],
         "cliRelease": {
           "repository": "Latias94/merman",
-          "tag": "v0.9.2",
-          "version": "0.9.2",
-          "revision": "8e303a43b548c9e40e73f0bc657925d66e7d4fb5",
+          "tag": "v0.9.3",
+          "version": "0.9.3",
+          "revision": "3b915f69c02d55b873d252cf6c8a6048e7f3427d",
           "outputs": {
             "terminal": {
               "args": [
@@ -3939,11 +3938,13 @@
           "platforms": {
             "linux-x64": {
               "asset": "merman-cli-x86_64-unknown-linux-gnu.tar.xz",
-              "sha256": "7e33156646127bcd7794e7fd36cf76a7d19b501f77f945a186b98394a3451c55",
+              "sha256": "e93dbf741319190d53107c4277b373d357dcdad3f4f7e50f114a51c9b682109b",
               "executable": "merman-cli-x86_64-unknown-linux-gnu/merman-cli"
             }
           }
-        }
+        },
+        "version": "0.9.2",
+        "versionPolicy": "recorded"
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -3977,8 +3978,7 @@
           "name": "beautiful-mermaid",
           "version": "1.1.3",
           "license": "MIT",
-          "gitHead": "65f4e0ab8c289e9691a9e5bc4f9eac7108cf449b",
-          "publishedFromDefaultBranch": true
+          "gitHead": "65f4e0ab8c289e9691a9e5bc4f9eac7108cf449b"
         }
       ],
       "roles": [
@@ -3992,7 +3992,9 @@
         "outputs": [
           "svg",
           "terminal"
-        ]
+        ],
+        "version": "1.1.3",
+        "versionPolicy": "recorded"
       },
       "benchmarkEligibility": {
         "classification": "derivative-implementation",
@@ -4117,10 +4119,8 @@
         {
           "registry": "npm",
           "name": "pele",
-          "version": "1.9.0",
-          "license": "MIT",
-          "provenanceCommit": "e7f092a4de147cc32210913c20e36eaa5fcd0ef1",
-          "publishedFromDefaultBranch": true
+          "version": "1.13.0",
+          "license": "MIT"
         }
       ],
       "roles": [
@@ -4133,7 +4133,8 @@
         "outputs": [
           "svg"
         ],
-        "version": "1.9.0"
+        "version": "1.13.0",
+        "versionPolicy": "recorded"
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -4216,10 +4217,9 @@
         {
           "registry": "npm",
           "name": "dsh-plugin-mermaid-gb-svg",
-          "version": "0.1.4",
+          "version": "0.1.5",
           "license": "MIT",
-          "gitHead": "83814cf987acc5f8d50d460d48ce22d2ea9be12f",
-          "publishedFromDefaultBranch": false
+          "gitHead": "03f46b12befd3825aea36c629b5fb24fd2f4d2f8"
         }
       ],
       "roles": [
@@ -4229,7 +4229,7 @@
       "benchmark": {
         "adapter": "published-extra",
         "package": "dsh-plugin-mermaid-gb-svg",
-        "version": "0.1.4",
+        "version": "0.1.5",
         "versionPolicy": "recorded",
         "outputs": [
           "svg"
@@ -4322,8 +4322,7 @@
           "name": "mermaidtui",
           "version": "0.0.6",
           "license": "Apache-2.0",
-          "gitHead": "e84760ebb5cc8be8a1f64501ec69fe639377b842",
-          "publishedFromDefaultBranch": true
+          "gitHead": "e84760ebb5cc8be8a1f64501ec69fe639377b842"
         }
       ],
       "roles": [
@@ -4405,9 +4404,7 @@
           "name": "@yassimba/pi-loom-mermaid",
           "version": "0.10.0",
           "license": "MIT",
-          "gitHead": "d919760bdeeeb9b0c1fdd3f9b3a2ae6d0c211560",
-          "provenanceCommit": "d919760bdeeeb9b0c1fdd3f9b3a2ae6d0c211560",
-          "publishedFromDefaultBranch": true
+          "gitHead": "d919760bdeeeb9b0c1fdd3f9b3a2ae6d0c211560"
         }
       ],
       "roles": [
@@ -4767,9 +4764,7 @@
           "registry": "npm",
           "name": "mermaid",
           "version": "12.2.0",
-          "license": "MIT",
-          "provenanceCommit": "1fb7869866dd619168d840291c9c54b4f129758b",
-          "publishedFromDefaultBranch": true
+          "license": "MIT"
         }
       ],
       "roles": [
@@ -4782,7 +4777,9 @@
         "outputs": [
           "svg",
           "parse"
-        ]
+        ],
+        "version": "12.2.0",
+        "versionPolicy": "recorded"
       },
       "benchmarkEligibility": {
         "classification": "language-reference",
@@ -4809,7 +4806,7 @@
         {
           "registry": "crates.io",
           "name": "bezel-mermaid",
-          "version": "0.2.19",
+          "version": "0.2.24",
           "license": "MIT"
         }
       ],
@@ -4822,7 +4819,9 @@
         "adapter": "bezel",
         "outputs": [
           "svg"
-        ]
+        ],
+        "version": "0.2.24",
+        "versionPolicy": "recorded"
       },
       "benchmarkEligibility": {
         "classification": "port-implementation",
@@ -5436,5 +5435,7 @@
       "name": "HealthSamurai/beautiful-mermaid@5f17f630",
       "reason": "C4 commit cited in docs/design/families/c4.md is not on the default branch and was not fetched."
     }
-  ]
+  ],
+  "benchmarkVersionsCheckedAt": "2026-11-02T14:35:41.361Z",
+  "benchmarkVersionPolicy": "Registry current stable latest; latest stable version tag for native releases; current default-branch HEAD for source-only components and repository-hosted distributions. Freeze exact selections before preparation. No fallback to stale artifacts."
 }

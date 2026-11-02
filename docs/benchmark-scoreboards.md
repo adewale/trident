@@ -1,5 +1,7 @@
 # Benchmark scoreboards
 
+**Historical subset results.** The current portfolio is DaveBench, Drawing Correctness and Mermaid Fidelity (see `docs/benchmark-portfolio.md`). These tables retain their original populations; they are not scores for the expanded drawing corpus or the full upstream Fidelity benchmark.
+
 Each benchmark has one task, one score direction and its own stack rank. Equal scores share a rank. Entirely unresolved results stay unranked. No speed tie-break is invented for case tests.
 
 Case ranks order recorded passes on the fixed planned cases. Unresolved assessments remain visible. Timing ranks apply only within each qualified paired workload. This report runs no renderers or output graders.

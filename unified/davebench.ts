@@ -5,6 +5,7 @@ import { extname, join, resolve, sep } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { chromium, type Browser, type BrowserContext, type Page } from 'playwright'
 import { comparisonProjects } from './lineage.ts'
+import { refreshBenchmarkVersions, assertCurrentBenchmarkArtifact, latestBenchmarkRenderingArtifact } from './benchmark-versions.ts'
 import { prepareCommunity } from './community.ts'
 import { prepareCommunityBrowsers, type PreparedCommunityBrowser } from './community-browser.ts'
 import { publicSvgBrowserAction } from './public-svg-browser.ts'
@@ -184,18 +185,35 @@ export async function main(args = process.argv.slice(2)) {
   const out = resolve(options.get('--out')!), upstream = resolve(options.get('--upstream') ?? join(tridentDirectory, '../mermaid'))
   if (existsSync(out)) throw Error('Choose a fresh output directory')
   mkdirSync(out, { recursive: true })
-  const inventory = davebenchInputs(upstream), catalog = JSON.parse(readFileSync(communityCatalogFile, 'utf8'))
-  const enrolled = comparisonProjects(catalog, options.get('--projects')?.split(',') ?? catalog.nodes.map((node: any) => node.id))
+  const inventory = davebenchInputs(upstream), recorded = JSON.parse(readFileSync(communityCatalogFile, 'utf8'))
+  const enrolled = comparisonProjects(recorded, options.get('--projects')?.split(',') ?? recorded.nodes.map((node: any) => node.id))
+  const applicable = recorded.nodes.filter((node: any) => enrolled.included.includes(node.id) && node.benchmark?.outputs.some((format: string) => ['svg', 'png'].includes(format))).map((node: any) => node.id)
+  const current = await refreshBenchmarkVersions(recorded, applicable), catalog = current.catalog
+  writeFileSync(join(out, 'versions.json'), JSON.stringify(current.report, null, 2) + '\n')
+  if (!current.report.complete) throw Error('Latest-version selection is incomplete; see ' + join(out, 'versions.json'))
   const nodes = catalog.nodes.filter((node: any) => enrolled.included.includes(node.id) && node.benchmark?.outputs.some((format: string) => ['svg', 'png'].includes(format)))
   if (!nodes.length) throw Error('No applicable SVG/PNG projects selected')
   let prepared: PreparedCommunityBrowser[]
-  if (options.has('--prepared')) prepared = JSON.parse(readFileSync(options.get('--prepared')!, 'utf8')).filter((peer: PreparedCommunityBrowser) => nodes.some((node: any) => node.id === peer.node.id))
+  if (options.has('--prepared')) {
+    prepared = JSON.parse(readFileSync(options.get('--prepared')!, 'utf8')).filter((peer: PreparedCommunityBrowser) => nodes.some((node: any) => node.id === peer.node.id))
+    for (const peer of prepared) {
+      const selected = nodes.find((node: any) => node.id === peer.node.id)!
+      assertCurrentBenchmarkArtifact(peer, selected)
+      peer.node = selected
+    }
+  }
   else {
-    // Terminal-only companions are unrelated to this SVG/PNG benchmark.
-    for (const node of nodes) { if (node.benchmark.adapter !== 'source-cli') delete node.benchmark.cliRelease; delete node.benchmark.cli }
+    // Preserve native SVG releases: they may be newer than a browser SDK.
+    for (const node of nodes) { if (node.benchmark.adapter !== 'source-cli' && !node.benchmark.cliRelease?.outputs.svg) delete node.benchmark.cliRelease; delete node.benchmark.cli }
     const file = join(out, 'catalog.json'); writeFileSync(file, JSON.stringify({ ...catalog, nodes }))
     const config: any = { root: tridentDirectory, harnessRoot: tridentDirectory, out: join(out, 'preparation'), profile: 'full', rounds: 3, communityCatalogFile: file, communityProjects: nodes.map((node: any) => node.id) }
     prepared = await prepareCommunityBrowsers(await prepareCommunity(config), config)
+  }
+  for (const peer of prepared) {
+    try {
+      const artifact = latestBenchmarkRenderingArtifact(peer)
+      if (artifact !== peer.artifact) { peer.artifact = artifact; delete peer.browser; peer.browserStatus = 'not-applicable' }
+    } catch (error) { delete peer.artifact; delete peer.browser; peer.error = String(error); peer.browserStatus = 'blocked' }
   }
   for (const node of nodes) if (!prepared.some(peer => peer.node.id === node.id)) prepared.push({ node, browserStatus: 'blocked', error: 'No prepared artifact supplied' })
   const startedAt = new Date().toISOString(), runs: Run[] = [], blocked: { project: string; reason: string }[] = [], timeoutMs = 15_000
