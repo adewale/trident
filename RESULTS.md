@@ -2,6 +2,8 @@
 
 Updated **2026-11-01**. Each benchmark has its own ranking; there is no overall project rank.
 
+Output production, mechanical format validity, selected behaviours, drawing assessment and execution cost are separate measurements. [Measurement contracts and qualification](docs/measurement-contracts.md) define their evidence and limits. Drawing-count completeness does not certify an observer or establish overall accuracy.
+
 [DaveBench SVG](#davebench-svg) · [DaveBench PNG](#davebench-png) · [Terminal rendering](#terminal-rendering) · [Behaviour tests](#mermaid-behaviour-tests) · [Rendering time](#rendering-time)
 
 Rank counts verified correct results, highest first; ties share a rank. **Unresolved results can change the accuracy order.** “Better” or “Worse” means the correctness bounds do not overlap. “Uncertain” means they do. Unassessed projects receive no rank.

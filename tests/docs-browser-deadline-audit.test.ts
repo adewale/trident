@@ -25,6 +25,19 @@ async function controlledPage(): Promise<Page> {
   return page
 }
 
+test('an actual wrong-format public string is retained independently of format and drawing qualification', async () => {
+  const page = await controlledPage()
+  try {
+    await page.evaluate(() => { (globalThis as any).__fidelityCommunity.render = async () => 'plain wrong-format output' })
+    const value = await page.evaluate(publicSvgBrowserAction, { type: 'measure-docs', source: 'flowchart LR\nA[Alpha]', id: 'wrong-format', retainSvg: true })
+    expect(value.status).toBe('failed')
+    expect(value.publicStringReturned).toBe(true)
+    expect(value.svg).toBe('plain wrong-format output')
+    expect(value.bytes).toBe(Buffer.byteLength(value.svg))
+    expect(value.nativeError).toBeUndefined()
+  } finally { await page.close() }
+})
+
 test('the inner browser deadline is an interruption rather than native source rejection or an output return', async () => {
   const page = await controlledPage()
   try {

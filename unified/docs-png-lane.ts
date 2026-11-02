@@ -128,13 +128,15 @@ export async function runDocsPngLane(options: UnifiedRunOptions, inventory: Retu
           for (const [role, value] of [['originalSvg', raw.originalSvg], ['rasterizedSvg', raw.rasterizedSvg]] as const) if (typeof value === 'string') {
             const name = role + '/' + evidenceBytesDigest(value) + '.svg.gz'; mkdirSync(join(options.out, role), { recursive: true }); if (!existsSync(join(options.out, name))) writeFileSync(join(options.out, name), gzipSync(value)); svgWitnesses[role + 'Witness'] = name
           }
+          let formatValid: boolean | null = null
           if (bytes) {
             const inspection = inspectPng(bytes, false)
+            formatValid = inspection.unavailable ? null : inspection.findings.length === 0
             if (inspection.findings.length) { status = inspection.unavailable ? 'blocked' : 'failed'; detail = inspection.findings.join('; ') }
           }
           const witness = bytes ? 'drawings/' + createHash('sha256').update(bytes).digest('hex') + '.png' : undefined
           if (bytes && witness && !existsSync(join(options.out, witness))) writeFileSync(join(options.out, witness), bytes)
-          const metrics = { project, version, round, variant: peer?.artifact?.transportVariant ?? 'primary', measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId ?? null, ...svgWitnesses, transport, timingQualified: false, ...(witness ? { witness } : {}) }
+          const metrics = { project, version, round, variant: peer?.artifact?.transportVariant ?? 'primary', measuredAt: raw.measuredAt, rawInvocationId: raw.invocationId ?? null, publicOutputReturned: bytes ? true : null, formatValid, returnedBytes: bytes?.length ?? null, ...svgWitnesses, transport, timingQualified: false, ...(witness ? { witness } : {}) }
           own.push({ suite: 'docs', surface: transport === 'svg-conversion' ? 'browser:png-export' : 'public:png', runtime: transport === 'svg-conversion' ? 'Chromium' : 'see retained transport observations', family: input.family, caseId: input.id, operation: 'render', format: 'png', mode: 'one-public-output-call', status, detail, ...(status === 'passed' && durationMs !== undefined ? { samplesMs: [durationMs] } : {}), metrics: { ...metrics, bytes: bytes?.length ?? null } })
           if (round === 1) {
             const assessment = assessDocsPng(input, expected, bytes, imageReviews)

@@ -8,6 +8,10 @@
 
 PNG; first-use; 3 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running. Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 3 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.
 
+**Measurement:** How long does the fixed, correctly completed rendering workload take through the declared boundary?
+
+**Claim boundary:** Only the frozen workload and execution boundary. API, CLI, conversion, cold and warm costs are separate.
+
 Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unavailable values are unranked.
 
 | Project | Rank | Version | Examples | Rounds | Retained samples | Planned samples | Median replica-round ms | Ratio to reference | Ratio interval | Qualification | Measured | Ranking note |
@@ -20,6 +24,10 @@ Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unava
 **run-744d612fecba1618ebc01fcd** · 2026-11-01 · unit: paired normalized workload time · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/10/timing-bundle-3da055b522db8e2f59400966.json)
 
 PNG; first-use; 3 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running. Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 3 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.
+
+**Measurement:** How long does the fixed, correctly completed rendering workload take through the declared boundary?
+
+**Claim boundary:** Only the frozen workload and execution boundary. API, CLI, conversion, cold and warm costs are separate.
 
 Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unavailable values are unranked.
 
@@ -34,6 +42,10 @@ Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unava
 
 PNG; first-use; 3 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running. Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 3 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.
 
+**Measurement:** How long does the fixed, correctly completed rendering workload take through the declared boundary?
+
+**Claim boundary:** Only the frozen workload and execution boundary. API, CLI, conversion, cold and warm costs are separate.
+
 Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unavailable values are unranked.
 
 | Project | Rank | Version | Examples | Rounds | Retained samples | Planned samples | Median replica-round ms | Ratio to reference | Ratio interval | Qualification | Measured | Ranking note |
@@ -46,6 +58,10 @@ Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unava
 **run-912eed771955188d1b8f65da** · 2026-11-01 · unit: paired normalized workload time · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/8/timing-bundle-f9a2724cdb046cd29a26887a.json)
 
 TERMINAL; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host request through fresh owned Node-worker RPC, cold public CLI process startup/import/render, complete drained stdout bytes and RPC return; worker initialization, artifact verification, retention and full output grading excluded. Filesystem/OS caches uncontrolled; frozen package bytecode caches retained; no warm renderer. Corpus: Terminal project documentation and regression fixtures: tariqshams/mermaidtui@ca59dd9115c290be846c2bd62925b8bd44331d51; crafter-station/mermaid@1bac24116826233c3b0ad8da589d7223d77a451a; dfadler/zombie-mermaid@8cc982128bed11d976fb38164c4cdb47be7bd34d; spacedock-dev/mermaidtext@a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12; kais-radwan/ascii-mermaid@a91a0c7baec6392212c59221bc67389bb617feb7; 6 exact inputs matched to the committed corpus. Per-file origins and any authored adaptations are retained in the source inventory and terminal-inputs.json; exact source IDs and hashes are in the plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.
+
+**Measurement:** How long does the fixed, correctly completed rendering workload take through the declared boundary?
+
+**Claim boundary:** Only the frozen workload and execution boundary. API, CLI, conversion, cold and warm costs are separate.
 
 Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unavailable values are unranked.
 
@@ -60,6 +76,10 @@ Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unava
 
 SVG; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 6 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.
 
+**Measurement:** How long does the fixed, correctly completed rendering workload take through the declared boundary?
+
+**Claim boundary:** Only the frozen workload and execution boundary. API, CLI, conversion, cold and warm costs are separate.
+
 Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unavailable values are unranked.
 
 | Project | Rank | Version | Examples | Rounds | Retained samples | Planned samples | Median replica-round ms | Ratio to reference | Ratio interval | Qualification | Measured |
@@ -72,6 +92,10 @@ Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unava
 **run-8a3895883b28ce34ed78c1aa** · 2026-11-01 · unit: paired normalized workload time · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/6/timing-bundle-2818be639c8a16f60e39c81e.json)
 
 SVG; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 6 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.
+
+**Measurement:** How long does the fixed, correctly completed rendering workload take through the declared boundary?
+
+**Claim boundary:** Only the frozen workload and execution boundary. API, CLI, conversion, cold and warm costs are separate.
 
 Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unavailable values are unranked.
 
@@ -86,6 +110,10 @@ Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unava
 
 SVG; first-use; 6 examples; 6 balanced A0/A1/B rounds; 1 sample(s) per example and replica-round. Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 6 unchanged examples. Exact source IDs and hashes are in the owning plan. Ranks use the paired normalized ratio, with the reference at 1. Median replica-round time sums actual calls, including all declared samples; control medians include both A replicas. Every planned timed return, A/A control and current complete source contract must qualify; otherwise all speed values and ranks are withheld. Grading remains bound to the recorded observer; importing runs no renderer or new output observer. Intervals describe this fixed exposed workload, not ecosystem-wide speed.
 
+**Measurement:** How long does the fixed, correctly completed rendering workload take through the declared boundary?
+
+**Claim boundary:** Only the frozen workload and execution boundary. API, CLI, conversion, cold and warm costs are separate.
+
 Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unavailable values are unranked.
 
 | Project | Rank | Version | Examples | Rounds | Retained samples | Planned samples | Median replica-round ms | Ratio to reference | Ratio interval | Qualification | Measured |
@@ -98,6 +126,10 @@ Ranked by **Ratio to reference**, lowest first. Equal values share a rank; unava
 **b0-cost-png** · 2026-11-01 · unit: ms per fixed corpus · [evidence](../../docs/evidence/b0/receipt.json)
 
 Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Three edge-style flowcharts from pinned Mermaid syntax documentation. Host source request through fresh owned fork RPC, cold engine/process startup and complete public PNG export bytes returned through RPC; Mermaid includes public SVG render plus XML serialization, Image.decode, white canvas draw and PNG encoding; native uses public renderToPng(source,pixelRatio:1) plus its durable byte bridge. Includes required in-call source/job and returned-byte bridge, hash/receipt writes, common IPC transport. Common worker module initialization, artifact verification, engine teardown, controller retention and full grading excluded. OS/filesystem caches uncontrolled; no warm renderer; display service already running. Six balanced rounds; every timed return qualifies. A/A envelope 0.820–1.219. Compare only this named corpus, artifacts and call boundary; no full-corpus, warm-engine or cross-format speed claim. The paired ratio need not equal the ratio of displayed medians.
+
+**Measurement:** What outcomes were recorded for these explicitly named checks?
+
+**Claim boundary:** Legacy or unclassified checks supply no inferred full-population, drawing or performance qualification.
 
 Ranked by **Median corpus ms**, lowest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
@@ -112,6 +144,10 @@ Ranked by **Median corpus ms**, lowest first. Equal values share a rank; unavail
 
 Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Six examples from pinned Mermaid syntax documentation (flowchart, sequence, journey, pie, packet and treemap). Host page.evaluate request through returned SVG string, including RPC serialization, shared public adapter and render cleanup; package initialization/import, browser/context startup and correctness grading excluded Six balanced rounds; every timed return qualifies. A/A envelope 0.820–1.219. Compare only this named corpus, artifacts and call boundary; no full-corpus, warm-engine or cross-format speed claim. The paired ratio need not equal the ratio of displayed medians.
 
+**Measurement:** What outcomes were recorded for these explicitly named checks?
+
+**Claim boundary:** Legacy or unclassified checks supply no inferred full-population, drawing or performance qualification.
+
 Ranked by **Median corpus ms**, lowest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 
 | Project | Rank | Version | Correct timed returns | Planned returns | Median corpus ms | Paired time / Mermaid | 96.875% ratio interval |
@@ -124,6 +160,10 @@ Ranked by **Median corpus ms**, lowest first. Equal values share a rank; unavail
 **b0-cost-terminal** · 2026-11-01 · unit: ms per fixed corpus · [evidence](../../docs/evidence/b0/receipt.json)
 
 Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Six terminal-project examples from the frozen 18-repository research corpus. Host request through fresh owned Node-worker RPC, cold public CLI process startup/import/render, complete drained stdout bytes and RPC return; worker initialization, artifact verification, retention and full output grading excluded. Filesystem/OS caches uncontrolled; frozen package bytecode caches retained; no warm renderer. Six balanced rounds; every timed return qualifies. A/A envelope 0.850–1.177. Compare only this named corpus, artifacts and call boundary; no full-corpus, warm-engine or cross-format speed claim. The paired ratio need not equal the ratio of displayed medians.
+
+**Measurement:** What outcomes were recorded for these explicitly named checks?
+
+**Claim boundary:** Legacy or unclassified checks supply no inferred full-population, drawing or performance qualification.
 
 Ranked by **Median corpus ms**, lowest first. Equal values share a rank; unavailable values are unranked. Timing ranks describe the displayed samples and retain their qualification limits.
 

@@ -7,13 +7,15 @@ import { portableCases } from '../portable/cohorts.ts'
 import { FULL_SAMPLING } from '../portable/protocol.ts'
 import { lineageInventory, type LineageCatalog } from './lineage.ts'
 import { projectSupport, type CatalogMember, type PublicSuite } from './support.ts'
+import { bindMeasurement, suiteMeasurements } from './measurement-contracts.ts'
+import { defaultChromium } from './benchmark-context.ts'
 
 export interface CampaignPlanOptions { projects: CatalogMember[]; catalog?: LineageCatalog; suites: readonly PublicSuite[]; rounds: number; profile: 'smoke' | 'full'; executable?: string; upstreamRunnerRoot?: string; budgetMinutes?: number; portableCaseIds?: string[]; docsFormats?: readonly ('svg' | 'png')[] }
 export function campaignPlan(options: CampaignPlanOptions) {
   const lineage = options.catalog ? lineageInventory(options.catalog) : undefined
   const comparisonSelection = lineage ? { projects: lineage.nodes.filter(node => options.projects.some(project => project.id === node.project)), policy: lineage.policy } : null
   const binary = (name: string) => { try { return execFileSync('which', [name], { encoding: 'utf8', timeout: 2000, stdio: ['ignore', 'pipe', 'ignore'] }).trim() } catch { return null } }
-  const browser = options.executable ?? chromium.executablePath()
+  const browser = options.executable ?? defaultChromium(chromium)
   let oracle: string | null = null, oracleError: string | undefined
   try { oracle = admitMermaidOracle(mermaidOracleDirectory()).directory } catch (error) { oracleError = String(error) }
   const tools = { bun: binary('bun'), node: binary('node'), npm: binary('npm'), git: binary('git'), go: binary('go'), cargo: binary('cargo'), dart: binary('dart'), chromium: existsSync(browser) ? browser : null, gnuTime: existsSync('/usr/bin/time') ? '/usr/bin/time' : null, oracle, originalRunner: options.upstreamRunnerRoot && existsSync(options.upstreamRunnerRoot) ? options.upstreamRunnerRoot : null }
@@ -35,7 +37,7 @@ export function campaignPlan(options: CampaignPlanOptions) {
       const freshWorkers = portable ? cases.filter(testCase => testCase.expected.accept).length * options.rounds * 3 * (options.profile === 'full' ? FULL_SAMPLING.coldSamples : 1) : 0
       // Planning range, not a measured duration. No project-specific speed assumption.
       const range = capability.state === 'adapter-missing' || capability.state === 'project-unsupported' || capability.state === 'reference-only' || capability.state === 'out-of-scope' || capability.state === 'disabled' ? [0, 0] : portable ? [Math.ceil(freshWorkers / 600), Math.ceil(freshWorkers / 6)] : suite === 'upstream-original' ? [5, 45] : [1, 30]
-      return { project: node.id, suite, capability, prerequisites: required, missing, acquisition: 'not attempted', freshWorkers,
+      return { project: node.id, suite, capability, measurements: suiteMeasurements[suite].map(bindMeasurement), prerequisites: required, missing, acquisition: 'not attempted', freshWorkers,
         estimatedMinutes: { low: range[0]!, high: range[1]!, basis: portable ? '0.1–10 seconds per fresh worker, plus warm/resource/qualification work; actual time depends on artifact and machine.' : 'Planning allowance per suite boundary; not a project performance prediction.' } }
     })
   })

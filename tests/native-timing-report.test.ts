@@ -9,6 +9,7 @@ import { defineCaseEvidenceContract, evidenceBytesDigest as hash } from '../port
 import { readCampaign, publishCampaigns } from '../unified/campaign-publication.ts'
 import { importCampaign, rankedRows, writeSnapshot, type ResultsSnapshot } from '../unified/results-snapshot.ts'
 import { nativeTimingFile } from '../unified/native-timing-report.ts'
+import { replayMeasurements } from '../unified/measurement-replay.ts'
 import { reviewedDocsCase } from '../unified/docs-drawings.ts'
 import { makeSvgCaseContract } from '../fidelity/svg-assessment.ts'
 import { terminalProfileCorpus } from '../fidelity/terminal-active-corpus.ts'
@@ -19,6 +20,17 @@ import { useTempDirs } from './helpers/temp-dir.ts'
 const temp = useTempDirs('native-timing-report-')
 const catalog: LineageCatalog = { nodes: ['fixture/a', 'fixture/b'].map(id => ({ id, roles: ['peer'], outputs: ['svg', 'png', 'terminal'], benchmark: { adapter: 'declared', outputs: ['svg'], api: { svg: { export: 'render' } } } })) }
 const empty = (): ResultsSnapshot => ({ schema: 'trident-results-snapshot-v1', tables: [], attempts: [] })
+
+test('measurement replay revalidates timing raw bytes and retains unqualified attempts without any new public calls', async () => {
+  const f = await capture('svg', true), out = join(temp.dir(), 'replay')
+  const receipt = await replayMeasurements({ kind: 'timing', campaign: f.out, out })
+  expect(receipt.rendererInvocations).toBe(0)
+  const result = JSON.parse(readFileSync(join(out, 'timing-qualification.json'), 'utf8'))
+  expect(result.qualified).toBe(false)
+  expect(result.rows.every((row: any) => row.ratio === null && row.medianWorkloadMs === null)).toBe(true)
+  writeFileSync(f.result.samples[0]!.invocation.output!.path, 'changed actual return')
+  await expect(replayMeasurements({ kind: 'timing', campaign: f.out, out: join(temp.dir(), 'tampered') })).rejects.toThrow('changed')
+}, 20_000)
 
 async function capture(format: 'svg' | 'png' | 'terminal', unknown = false, caseId?: string, partial = false, candidateProject = 'fixture/b') {
   const root = temp.dir(), out = join(root, 'capture'), worker = join(root, 'worker.mjs')

@@ -12,6 +12,8 @@ import { summarizeSvgCases } from '../fidelity/svg-assessment.ts'
 import { publicTestTables } from './public-test-reporting.ts'
 import { qualifyRetainedTimingBundle } from './qualify-timing.ts'
 import { readNativeTiming } from './native-timing-report.ts'
+import { bindMeasurement, measurementForTable, validateTableMeasurement } from './measurement-contracts.ts'
+import { reduceOutputMeasurements } from './output-measurements.ts'
 
 const owningPngClock = (row: any): string | undefined => row.format === 'svg' && row.metrics?.measuredAt === null && row.metrics?.transport === 'owned-original-svg-companion-of-png-export' && row.metrics?.parentInvocationFormat === 'png' && row.metrics?.witnessRole === 'actual-original-public-svg-return' && typeof row.metrics?.parentMeasuredAt === 'string' && Number.isFinite(Date.parse(row.metrics.parentMeasuredAt)) ? row.metrics.parentMeasuredAt : undefined
 const measuredAt = (rows: any[], fallback: string): string => rows.map(row => row.metrics?.measuredAt ?? owningPngClock(row)).filter((value): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value))).sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? fallback
@@ -208,9 +210,26 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
             else counts.missing++
           }
           const completeRounds = Array.from({ length: report.rounds }, (_, index) => index + 1).filter(round => inventory.cases.every((input: any) => coordinates.has(JSON.stringify([input.id, round])))).length
+          const version = own.find(row => typeof row.metrics?.version === 'string')?.metrics?.version ?? result.toolVersions?.find(row => projectId(row.tool) === project)?.version ?? 'unavailable'
+          const output = reduceOutputMeasurements(inventory.cases.map((input: any) => input.id), report.rounds, own)
+          if (output) {
+            const key = [cohort, format, hash(inventory.cases), report.rounds]
+            const p = output.production, v = output.validity, clock = measuredAt(own, result.finishedAt)
+            add(['output-production', ...key], 'docs', clock,
+              'Public return production on the fixed documentation inventory, including separate invalid/configuration controls. One success requires returned output in every planned round. Wrong-format bytes still count as returned. Transport interruptions and historical calls without explicit return evidence remain unknown; no acceptance or drawing-correctness claim.',
+              ['Version', 'Returned output', 'No returned output', 'Unknown', 'Planned'], project, [String(version), p.returned, p.noOutput, p.unknown, inventory.cases.length],
+              { column: 'Returned output', direction: 'descending' }, { outputFormat: format as 'svg' | 'png', unit: 'planned public output inputs', population: { total: 'Planned', outcomes: ['Returned output', 'No returned output', 'Unknown'] } })
+            add(['output-validity', ...key], 'docs', clock,
+              'Mechanical format-only inspection of actual returned bytes: static SVG parsing or PNG decoding, without labels or drawing facts. No returned output and unassessed format evidence are separate from invalid format.',
+              ['Version', 'Valid format', 'Invalid format', 'No returned output', 'Unknown', 'Planned'], project, [String(version), v.valid, v.invalid, v.noOutput, v.unknown, inventory.cases.length],
+              { column: 'Valid format', direction: 'descending' }, { outputFormat: format as 'svg' | 'png', unit: 'planned output format checks', population: { total: 'Planned', outcomes: ['Valid format', 'Invalid format', 'No returned output', 'Unknown'] } })
+            add(['output-size', ...key], 'docs', clock,
+              'Sum of actual retained public-return bytes, uncompressed UTF-8 for SVG or actual PNG encoding. The count of measured returns and planned calls disclose partial workloads. Sizes are descriptive costs; no cross-format or partial-population size rank is defined.',
+              ['Version', 'Returned bytes', 'Measured returns', 'Planned calls', 'Complete byte population'], project, [String(version), output.returnedBytes ?? 'unavailable', output.measuredReturns, output.plannedCalls, output.completeBytePopulation ? 'yes' : 'no'],
+              undefined, { outputFormat: format as 'svg' | 'png', unit: 'bytes of actual returned output' })
+          }
           const incomplete = coordinates.size !== inventory.cases.length * report.rounds || counts.blocked > 0
           const unrankedReason = incomplete ? `${counts.blocked === inventory.cases.length ? 'blocked' : 'incomplete'} (${completeRounds}/${report.rounds} complete rounds)` : undefined
-          const version = own.find(row => typeof row.metrics?.version === 'string')?.metrics?.version ?? result.toolVersions?.find(row => projectId(row.tool) === project)?.version ?? 'unavailable'
           const laneKey = format === 'svg' ? [] : ['png']
           const clockScope = format === 'svg' && own.some(row => owningPngClock(row)) ? ' Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.' : ''
           const laneProtocol = inventory.protocol === 'public-docs-output-lanes-v2' ? (format === 'svg' ? 'public-docs-svg-return-v1' : 'public-docs-png-return-v2') : inventory.protocol ?? 'public-docs-svg-return-v1'
@@ -320,6 +339,8 @@ export function campaignTables(report: CampaignEnvelope, receipt: SnapshotTable[
   // Charts use exactly the table's verified numeric rows. Fully unobserved rows
   // stay visible and unranked in the table, without a fabricated zero bar.
   for (const table of tables.values()) {
+    table.measurement = bindMeasurement(measurementForTable(table))
+    validateTableMeasurement(table)
     if (table.suite === 'docs' && table.columns.includes('Returned in all rounds')) table.chart = { numerator: 'Returned in all rounds', denominator: 'Planned', title: table.caption.includes('PNG output lane') ? 'Documentation PNG return' : 'Documentation SVG return', axis: '%', maximum: 100 }
   }
   return [...tables.values()]

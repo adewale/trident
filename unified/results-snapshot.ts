@@ -8,9 +8,11 @@ import { PUBLIC_SUITES, coreScopeReason, projectSupport, type PublicSuite } from
 import { communityCatalogFile } from './trident-paths.ts'
 import { measurementNumber, rankResults } from './result-ranking.ts'
 import { campaignTables } from './campaign-tables.ts'
+import { measurementContracts, measurementForTable, validateTableMeasurement, type MeasurementBinding } from './measurement-contracts.ts'
 
 type Cell = string | number
 export interface SnapshotTable {
+  measurement?: MeasurementBinding
   id: string; suite: PublicSuite; measuredAt: string; historical: boolean; unit: string; caption: string
   artifactRole?: 'candidate'
   /** A bounded diagnostic cannot replace the ecosystem's primary ranking. */
@@ -96,6 +98,7 @@ export function validateSnapshot(snapshot: ResultsSnapshot, catalog: LineageCata
     if (!validLink(entry.receipt.url) || !/^[a-f0-9]{64}$/.test(entry.receipt.sha256)) throw Error('Invalid evidence receipt')
   }
   for (const entry of snapshot.tables) {
+    validateTableMeasurement(entry)
     if (entry.suite === 'public-conformance' && entry.diagnostic !== true) throw Error('PublicTests remains a diagnostic subset until campaign enrollment')
     if (entry.diagnostic !== undefined && typeof entry.diagnostic !== 'boolean' || entry.diagnostic && entry.id === snapshot.overviewRanking) throw Error('A diagnostic table cannot supply the primary ecosystem ranking')
     if (entry.outputFormat !== undefined && !['svg', 'png'].includes(entry.outputFormat)) throw Error('Unknown table output lane')
@@ -417,6 +420,8 @@ export function renderSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalo
     for (const entry of entries.filter(entry => !detailLinks || entry.summary || entry.id === primary?.id)) {
       const unscored = unscoredSuite(entry.suite)
       lines.push(`<a id="${anchor(entry.id)}"></a>`, '', `**${entry.id}** · ${date(entry.measuredAt)}${entry.historical ? ' · Historical' : ''}${entry.diagnostic ? ' · **Diagnostic subset**' : ''}${entry.artifactRole === 'candidate' ? ' · **Source candidates**' : ''} · unit: ${md(entry.unit)} · ${entry.rolling ? '[latest source run](' + entry.receipt.url + ')' : receiptLink(entry.receipt)}`, '', entry.caption, '')
+      const contract = measurementContracts[measurementForTable(entry)]
+      lines.push('**Measurement:** ' + contract.question, '', '**Claim boundary:** ' + contract.limit, '')
       const rows = rankedRows(entry, name)
       lines.push(unscored ? 'Unscored harness/observer regressions; rows are alphabetical.' : entry.ranking ? `Ranked by **${md(entry.ranking.column)}${entry.ranking.denominator ? ' / ' + md(entry.ranking.denominator) : ''}**, ${entry.ranking.direction === 'ascending' ? 'lowest' : 'highest'} first. Equal values share a rank; unavailable values are unranked.${/\bms\b/.test(entry.unit ?? '') ? ' Timing ranks describe the displayed samples and retain their qualification limits.' : ''}` : 'No comparable numeric ranking measure is available.', '')
       if (entry.drawingOutcomePolicy) lines.push('Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.', '')
@@ -467,6 +472,7 @@ export function renderPublicResults(snapshot: ResultsSnapshot, catalog: LineageC
   const number = (entry: SnapshotTable, row: SnapshotTable['rows'][number], column: string) => measurementNumber(row.values[entry.columns.indexOf(column)])
   const latest = [...snapshot.tables.map(entry => entry.measuredAt), ...snapshot.attempts.map(entry => entry.updatedAt)].sort((a, b) => stamp(a) - stamp(b)).at(-1)
   const lines = ['# Mermaid ecosystem benchmark results', '', `Updated **${latest ? date(latest) : 'no measurements'}**. Each benchmark has its own ranking; there is no overall project rank.`, '',
+    'Output production, mechanical format validity, selected behaviours, drawing assessment and execution cost are separate measurements. [Measurement contracts and qualification](docs/measurement-contracts.md) define their evidence and limits. Drawing-count completeness does not certify an observer or establish overall accuracy.', '',
     '[DaveBench SVG](#davebench-svg) · [DaveBench PNG](#davebench-png) · [Terminal rendering](#terminal-rendering) · [Behaviour tests](#mermaid-behaviour-tests) · [Rendering time](#rendering-time)', '',
     'Rank counts verified correct results, highest first; ties share a rank. **Unresolved results can change the accuracy order.** “Better” or “Worse” means the correctness bounds do not overlap. “Uncertain” means they do. Unassessed projects receive no rank.', '',
     'Failed includes incorrect drawings, invalid output, proven unsupported input and renderer errors. Unresolved includes missing assessments, unrun work and Trident failures. Invalid-source and configuration-only controls are in the details.', '',

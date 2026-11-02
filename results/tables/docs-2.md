@@ -2,6 +2,32 @@
 
 [Ecosystem overview](../../RESULTS.md) · [All parts](docs.md)
 
+<a id="attempt-9312c5b0150160f1aa775b90"></a>
+
+### Grok renderer: DaveBench — Documentation Rendering (core)
+
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **not-applicable** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/docs/)
+
+emtyty/merslim round 1: Error: Browser call exceeded its declared host deadline; SVG return and reviewed drawing content are separate results. First-round SVG witnesses are retained; missing source reviews and incomplete observers remain unknown. Timings are descriptive public return samples, without A/A or per-call semantic qualification; no speed ranking is supported.; PNG return/decode and reviewed source-content are separate. Native PNG needs no SVG. SVG conversion, native API and CLI clocks retain different boundaries; no qualified speed ranking.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.
+
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| git-2bdd1d6a6369 / default | declared-capability / not-invoked | svg / format-admission | format-not-applicable / not round-based | 1 | 0 | 0 | 0 | 0 | {"not-applicable":1} | 1 |
+| git-2bdd1d6a6369 / default | declared-capability / not-invoked | png / format-admission | format-not-applicable / not round-based | 1 | 0 | 0 | 0 | 0 | {"not-applicable":1} | 1 |
+
+<a id="attempt-9460e9e4763bc029c94c83e6"></a>
+
+### MermaidText: DaveBench — Documentation Rendering (core)
+
+Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **not-applicable** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/docs/)
+
+emtyty/merslim round 1: Error: Browser call exceeded its declared host deadline; SVG return and reviewed drawing content are separate results. First-round SVG witnesses are retained; missing source reviews and incomplete observers remain unknown. Timings are descriptive public return samples, without A/A or per-call semantic qualification; no speed ranking is supported.; PNG return/decode and reviewed source-content are separate. Native PNG needs no SVG. SVG conversion, native API and CLI clocks retain different boundaries; no qualified speed ranking.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.
+
+| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| git-a6b0c7657b94 / default | declared-capability / not-invoked | svg / format-admission | format-not-applicable / not round-based | 1 | 0 | 0 | 0 | 0 | {"not-applicable":1} | 1 |
+| git-a6b0c7657b94 / default | declared-capability / not-invoked | png / format-admission | format-not-applicable / not round-based | 1 | 0 | 0 | 0 | 0 | {"not-applicable":1} | 1 |
+
 <a id="attempt-963caf565e2c5c904b69fcbd"></a>
 
 ### Mermaid Dart: DaveBench — Documentation Rendering (core)

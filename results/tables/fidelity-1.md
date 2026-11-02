@@ -8,6 +8,10 @@
 
 Unscored harness/observer regressions: AM/Trident-authored feature, reset and edit cases; not a comparative renderer benchmark. Original retained report context: Whole-diagram outcomes for the same authored case inventory and planned SVG checks. Public-model APIs confer no drawing credit. Raw criterion evidence remains in the owning report.
 
+**Measurement:** Do the harness and its observers satisfy their development regression cases?
+
+**Claim boundary:** Tests Trident; supplies no comparative renderer score.
+
 Unscored harness/observer regressions; rows are alphabetical.
 
 | Project | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | Diagnostic note |

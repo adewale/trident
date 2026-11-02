@@ -8,6 +8,10 @@
 
 Unscored harness/observer regressions: AM/Trident-authored feature, reset and edit cases; not a comparative renderer benchmark. Original retained report context: Corpus: the same AM/Trident-authored feature cases, evaluated through public Node models. One correct case requires every declared native criterion. Missing projections remain unknown. These are optional model contracts, not drawing accuracy, editor integration or an overall renderer score.
 
+**Measurement:** Do the shared public model operations preserve their specified postconditions?
+
+**Claim boundary:** Optional API scope; model agreement supplies no painted-output correctness.
+
 Unscored harness/observer regressions; rows are alphabetical.
 
 | Project | Version | Correct | Incorrect | Unknown | Planned | Measured | Diagnostic note |

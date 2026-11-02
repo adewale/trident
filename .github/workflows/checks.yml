@@ -31,6 +31,7 @@ jobs:
       - run: bun run lint
       - run: bun run typecheck
       - run: bun commands.ts results:snapshot --check
+      - run: bun commands.ts verify:measurements --out "$RUNNER_TEMP/trident-measurements"
       - run: bun run test:ci
   macos-tests:
     # macOS temporary folders are symlinks (/var -> /private/var), which Linux paths never

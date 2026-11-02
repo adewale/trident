@@ -8,6 +8,10 @@
 
 Corpus: 49 whole source-derived observable behaviours from pinned Mermaid 1fb7869866dd619168d840291c9c54b4f129758b. Every ordered stimulus and declared check in a case must pass; detail checks are not extra votes. Source adaptations compare explicit diagram-family aliases and static SVG accessible naming through native public returns, without private model/API-shape requirements. Unavailable and unrun observations remain unresolved, not unsupported or failed. Actual Mermaid reference qualification: qualified; its actual artifact and raw checks remain in the owning evidence, and no reference target row is invented. Dates use the retained owning public-call collection or native invocation journal; targets without recorded calls keep an unknown clock. If no call clock exists, the table date is explicitly the assessment publication date. Assessment publication: 2026-11-01T15:19:30.283Z. This finite corpus supplies no whole-library conformance, drawing-accuracy or timing claim.
 
+**Measurement:** Does every required assertion in the selected public behaviour case pass?
+
+**Claim boundary:** Selected family detection and structural naming behaviours; not whole-library conformance or drawing quality.
+
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Comparisons use whole-case verified pass counts. Unavailable or unrun cases leave outcomes unresolved; a count lead is not an overall quality claim. This is a comparison of the named metric, not overall project quality.
@@ -47,6 +51,10 @@ Comparisons use whole-case verified pass counts. Unavailable or unrun cases leav
 **run-31502e3c9d8f57f2c2ee6d1e** · 2026-10-31 · unit: whole observable behaviour cases · [evidence](../../results/mermaid-behaviour-2026-11-01/receipt.json)
 
 Corpus: 49 whole source-derived observable behaviours from pinned Mermaid 1fb7869866dd619168d840291c9c54b4f129758b. Every ordered stimulus and declared check in a case must pass; detail checks are not extra votes. Source adaptations compare explicit diagram-family aliases and static SVG accessible naming through native public returns, without private model/API-shape requirements. Unavailable and unrun observations remain unresolved, not unsupported or failed. Actual Mermaid reference qualification: qualified; its actual artifact and raw checks remain in the owning evidence, and no reference target row is invented. Dates use the retained owning public-call collection or native invocation journal; targets without recorded calls keep an unknown clock. If no call clock exists, the table date is explicitly the assessment publication date. Assessment publication: 2026-11-01T08:42:38.604Z. This finite corpus supplies no whole-library conformance, drawing-accuracy or timing claim.
+
+**Measurement:** Does every required assertion in the selected public behaviour case pass?
+
+**Claim boundary:** Selected family detection and structural naming behaviours; not whole-library conformance or drawing quality.
 
 Ranked by **Passed**, highest first. Equal values share a rank; unavailable values are unranked.
 

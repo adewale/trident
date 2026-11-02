@@ -8,6 +8,10 @@
 
 Corpus: the same pinned Mermaid documentation inventory. First-round actual PNG witnesses checked against source expectations. PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unassessed sources/observers, unrun work and typed failures remain separate. Bounds span unresolved cases only; observer coverage counts actual drawing or format verdicts. Overlapping bounds establish no accuracy winner. Complete accuracy requires zero unresolved cases; speed requires its own qualified timing evidence.
 
+**Measurement:** Which planned drawings satisfy every declared fact under the named output observer?
+
+**Claim boundary:** Verified counts depend on assessment coverage. Unknown representations are assessment gaps, not renderer defects. PNG review reuse does not assess unseen images.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
@@ -40,6 +44,10 @@ Comparisons claim superiority only when correctness bounds are disjoint; otherwi
 
 Corpus: the same pinned Mermaid documentation inventory. First-round actual SVG witnesses checked against source expectations. Shared SVG paint/meaning observer. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unassessed sources/observers, unrun work and typed failures remain separate. Bounds span unresolved cases only; observer coverage counts actual drawing or format verdicts. Overlapping bounds establish no accuracy winner. Complete accuracy requires zero unresolved cases; speed requires its own qualified timing evidence.
 
+**Measurement:** Which planned drawings satisfy every declared fact under the named output observer?
+
+**Claim boundary:** Verified counts depend on assessment coverage. Unknown representations are assessment gaps, not renderer defects. PNG review reuse does not assess unseen images.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
@@ -71,6 +79,10 @@ Comparisons claim superiority only when correctness bounds are disjoint; otherwi
 
 Current retained-evidence outcome reduction. Only the explicitly listed saved-output corrections use new observers/contracts; all other rows retain their original per-case epochs in the attached normal results. No new renderer/API calls. Corpus: the same pinned Mermaid documentation inventory. First-round actual SVG witnesses checked against source expectations. Shared SVG paint/meaning observer. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unassessed sources/observers, unrun work and typed failures remain separate. Bounds span unresolved cases only; observer coverage counts actual drawing or format verdicts. Overlapping bounds establish no accuracy winner. Complete accuracy requires zero unresolved cases; speed requires its own qualified timing evidence. Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.
 
+**Measurement:** Which planned drawings satisfy every declared fact under the named output observer?
+
+**Claim boundary:** Verified counts depend on assessment coverage. Unknown representations are assessment gaps, not renderer defects. PNG review reuse does not assess unseen images.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
@@ -86,6 +98,10 @@ Comparisons claim superiority only when correctness bounds are disjoint; otherwi
 **run-4c98b569db43bffecf6f3193** · 2026-10-31 · unit: documentation drawings · [evidence](../../results/current-outcomes-2026-11-01/receipt.json)
 
 Current retained-evidence outcome reduction. Only the explicitly listed saved-output corrections use new observers/contracts; all other rows retain their original per-case epochs in the attached normal results. No new renderer/API calls. Corpus: the same pinned Mermaid documentation inventory. First-round actual PNG witnesses checked against source expectations. PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unassessed sources/observers, unrun work and typed failures remain separate. Bounds span unresolved cases only; observer coverage counts actual drawing or format verdicts. Overlapping bounds establish no accuracy winner. Complete accuracy requires zero unresolved cases; speed requires its own qualified timing evidence.
+
+**Measurement:** Which planned drawings satisfy every declared fact under the named output observer?
+
+**Claim boundary:** Verified counts depend on assessment coverage. Unknown representations are assessment gaps, not renderer defects. PNG review reuse does not assess unseen images.
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
@@ -103,6 +119,10 @@ Comparisons claim superiority only when correctness bounds are disjoint; otherwi
 **run-4cba210a4cf14cd50f478f9e** · 2026-11-01 · unit: documentation occurrences · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
 Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 548 occurrences, retaining duplicates. PNG output lane. Returned means the occurrence returned PNG in all 1 declared rounds. Failures and unexecuted work retain the full inventory. Output return does not certify drawing content.
+
+**Measurement:** Does the public invocation produce output satisfying the declared admission checks?
+
+**Claim boundary:** Admission may include labels. It establishes neither complete drawing correctness nor syntax rejection.
 
 Ranked by **Returned in all rounds / Planned**, highest first. Equal values share a rank; unavailable values are unranked.
 
@@ -142,6 +162,10 @@ xychart-beta horizontal
 
 Corpus: 1 invalid-source documentation example(s), retained verbatim in the 548-occurrence inventory. A source-bound typed native rejection passes; an actual public return fails. Generic exceptions and missing evidence remain unknown.
 
+**Measurement:** Does the public interface explicitly reject the independently invalid source?
+
+**Claim boundary:** A timeout, crash, missing adapter or observer exception is not a correct rejection.
+
 Ranked by **Correct rejection**, highest first. Equal values share a rank; unavailable values are unranked.
 
 “Higher” and “Lower” compare **Correct rejection** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
@@ -171,6 +195,10 @@ Ranked by **Correct rejection**, highest first. Equal values share a rank; unava
 **run-98873db1ec330a155097477e** · 2026-11-01 · unit: documentation occurrences · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
 Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 548 occurrences, retaining duplicates. SVG output lane. Returned means the occurrence returned SVG in all 1 declared rounds. Failures and unexecuted work retain the full inventory. Output return does not certify drawing content.
+
+**Measurement:** Does the public invocation produce output satisfying the declared admission checks?
+
+**Claim boundary:** Admission may include labels. It establishes neither complete drawing correctness nor syntax rejection.
 
 Ranked by **Returned in all rounds / Planned**, highest first. Equal values share a rank; unavailable values are unranked.
 
@@ -209,6 +237,10 @@ xychart-beta horizontal
 
 Corpus: 1 invalid-source documentation example(s), retained verbatim in the 548-occurrence inventory. A source-bound typed native rejection passes; an actual public return fails. Generic exceptions and missing evidence remain unknown.
 
+**Measurement:** Does the public interface explicitly reject the independently invalid source?
+
+**Claim boundary:** A timeout, crash, missing adapter or observer exception is not a correct rejection.
+
 Ranked by **Correct rejection**, highest first. Equal values share a rank; unavailable values are unranked.
 
 “Higher” and “Lower” compare **Correct rejection** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
@@ -238,6 +270,10 @@ Ranked by **Correct rejection**, highest first. Equal values share a rank; unava
 
 Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 548 occurrences, retaining duplicates. PNG output lane. Returned means the occurrence returned PNG in all 1 declared rounds. Failures and unexecuted work retain the full inventory. Output return does not certify drawing content.
 
+**Measurement:** Does the public invocation produce output satisfying the declared admission checks?
+
+**Claim boundary:** Admission may include labels. It establishes neither complete drawing correctness nor syntax rejection.
+
 Ranked by **Returned in all rounds / Planned**, highest first. Equal values share a rank; unavailable values are unranked.
 
 “Higher” and “Lower” compare **Returned in all rounds** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
@@ -261,6 +297,10 @@ xychart-beta horizontal
 
 Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: 1 invalid-source documentation example(s), retained verbatim in the 548-occurrence inventory. A source-bound typed native rejection passes; an actual public return fails. Generic exceptions and missing evidence remain unknown.
 
+**Measurement:** Does the public interface explicitly reject the independently invalid source?
+
+**Claim boundary:** A timeout, crash, missing adapter or observer exception is not a correct rejection.
+
 Ranked by **Correct rejection**, highest first. Equal values share a rank; unavailable values are unranked.
 
 “Higher” and “Lower” compare **Correct rejection** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
@@ -275,6 +315,10 @@ Ranked by **Correct rejection**, highest first. Equal values share a rank; unava
 **run-b206851a3126313e782400b2** · 2026-10-31 · unit: documentation occurrences · [evidence](../../docs/evidence/b0/receipt.json)
 
 Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 548 occurrences, retaining duplicates. SVG output lane. Returned means the occurrence returned SVG in all 1 declared rounds. Failures and unexecuted work retain the full inventory. Output return does not certify drawing content. Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.
+
+**Measurement:** Does the public invocation produce output satisfying the declared admission checks?
+
+**Claim boundary:** Admission may include labels. It establishes neither complete drawing correctness nor syntax rejection.
 
 Ranked by **Returned in all rounds / Planned**, highest first. Equal values share a rank; unavailable values are unranked.
 
@@ -298,6 +342,10 @@ xychart-beta horizontal
 
 Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: 1 invalid-source documentation example(s), retained verbatim in the 548-occurrence inventory. A source-bound typed native rejection passes; an actual public return fails. Generic exceptions and missing evidence remain unknown. Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.
 
+**Measurement:** Does the public interface explicitly reject the independently invalid source?
+
+**Claim boundary:** A timeout, crash, missing adapter or observer exception is not a correct rejection.
+
 Ranked by **Correct rejection**, highest first. Equal values share a rank; unavailable values are unranked.
 
 “Higher” and “Lower” compare **Correct rejection** on this population. Unknown evidence remains unresolved. This is a comparison of the named metric, not overall project quality.
@@ -311,6 +359,10 @@ Ranked by **Correct rejection**, highest first. Equal values share a rank; unava
 **run-71503b7aeb3bcf1ae763dc22** · 2026-10-31 · unit: documentation occurrences · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
 Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 548 occurrences, retaining duplicates. PNG output lane. Returned means the occurrence returned PNG in all 1 declared rounds. Failures and unexecuted work retain the full inventory. Output return does not certify drawing content.
+
+**Measurement:** Does the public invocation produce output satisfying the declared admission checks?
+
+**Claim boundary:** Admission may include labels. It establishes neither complete drawing correctness nor syntax rejection.
 
 Ranked by **Returned in all rounds / Planned**, highest first. Equal values share a rank; unavailable values are unranked.
 
@@ -350,6 +402,10 @@ xychart-beta horizontal
 
 Corpus: the same pinned Mermaid documentation inventory. First-round actual PNG witnesses checked against source expectations. PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit. Rank counts verified correct drawings; unknown sources/observers remain visible, and full accuracy and speed are unqualified.
 
+**Measurement:** What outcomes were recorded for these explicitly named checks?
+
+**Claim boundary:** Legacy or unclassified checks supply no inferred full-population, drawing or performance qualification.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
@@ -380,6 +436,10 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 
 Corpus: the same pinned Mermaid documentation inventory. First-round actual SVG witnesses checked against source expectations. Shared SVG paint/meaning observer. Rank counts verified correct drawings; unknown sources/observers remain visible, and full accuracy and speed are unqualified.
 
+**Measurement:** What outcomes were recorded for these explicitly named checks?
+
+**Claim boundary:** Legacy or unclassified checks supply no inferred full-population, drawing or performance qualification.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
@@ -408,6 +468,10 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 **run-8d55a6fb4a81c18aed400c58** · 2026-10-31 · unit: documentation occurrences · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
 Corpus: Mermaid syntax documentation at 1fb7869866dd619168d840291c9c54b4f129758b; 548 occurrences, retaining duplicates. SVG output lane. Returned means the occurrence returned SVG in all 1 declared rounds. Failures and unexecuted work retain the full inventory. Output return does not certify drawing content.
+
+**Measurement:** Does the public invocation produce output satisfying the declared admission checks?
+
+**Claim boundary:** Admission may include labels. It establishes neither complete drawing correctness nor syntax rejection.
 
 Ranked by **Returned in all rounds / Planned**, highest first. Equal values share a rank; unavailable values are unranked.
 
@@ -446,6 +510,10 @@ xychart-beta horizontal
 
 Archived frozen B0 table, superseded for current scores; its original source and observer epochs remain unchanged. Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: the same pinned Mermaid documentation inventory. First-round actual PNG witnesses checked against source expectations. PNG content reviews bind actual image, source and expected-fact hashes; SVG and nonblank checks supply no raster correctness credit. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence.
 
+**Measurement:** What outcomes were recorded for these explicitly named checks?
+
+**Claim boundary:** Legacy or unclassified checks supply no inferred full-population, drawing or performance qualification.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
@@ -461,6 +529,10 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 
 Archived frozen B0 table, superseded for current scores; its original source and observer epochs remain unchanged. Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Corpus: the same pinned Mermaid documentation inventory. First-round actual SVG witnesses checked against source expectations. Shared SVG paint/meaning observer. Rank counts verified correct drawings out of 546; 1 configuration example(s) and 1 independently invalid-source control(s) are separate. Unknown sources/observers remain visible. Complete accuracy requires zero unknowns; speed requires its own qualified timing evidence. Dates use the owning PNG-export calls; these companion SVGs have no independent SVG clock. Observer publication/recheck time is separate in campaignUpdatedAt.
 
+**Measurement:** What outcomes were recorded for these explicitly named checks?
+
+**Claim boundary:** Legacy or unclassified checks supply no inferred full-population, drawing or performance qualification.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. This is a comparison of the named metric, not overall project quality.
@@ -474,6 +546,10 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 **run-22a4e4549a96ba57423ed301** · 2026-10-31 · unit: reviewed documentation occurrences · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
 Archived diagnostic profile; it supplies no current comparative score. Corpus: reviewed 16-occurrence subset of 548 Mermaid documentation occurrences, bound to exact source hashes; SVG lane. This development-exposed profile ranks verified correct counts and keeps unresolved observations explicit. It supplies no full DaveBench accuracy, holdout or speed claim.
+
+**Measurement:** Which planned drawings satisfy every declared fact under the named output observer?
+
+**Claim boundary:** Verified counts depend on assessment coverage. Unknown representations are assessment gaps, not renderer defects. PNG review reuse does not assess unseen images.
 
 No comparable numeric ranking measure is available.
 
@@ -501,6 +577,10 @@ No comparable numeric ranking measure is available.
 **run-87c7d06be3ec5a0cad582f61** · 2026-10-31 · unit: reviewed documentation occurrences · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
 Archived diagnostic profile; it supplies no current comparative score. Corpus: reviewed 16-occurrence subset of 548 Mermaid documentation occurrences, bound to exact source hashes; PNG lane. This development-exposed profile ranks verified correct counts and keeps unresolved observations explicit. It supplies no full DaveBench accuracy, holdout or speed claim.
+
+**Measurement:** Which planned drawings satisfy every declared fact under the named output observer?
+
+**Claim boundary:** Verified counts depend on assessment coverage. Unknown representations are assessment gaps, not renderer defects. PNG review reuse does not assess unseen images.
 
 No comparable numeric ranking measure is available.
 
@@ -1183,30 +1263,4 @@ emtyty/merslim round 1: Error: Browser call exceeded its declared host deadline;
 | 12.2.0 / default | browser:svg / Chromium | svg / render | one-public-call / 1 | 548 | 547 | 1 | 0 | 0 | {} | 548 |
 | 12.2.0 / default | browser:svg / Chromium | svg / drawing-checks | reviewed-first-round-output / 1 | 548 | 16 | 0 | 0 | 531 | {"not-applicable":1} | 548 |
 | 12.2.0 / default | png:reviewed-content / retained PNG | png / drawing-checks | reviewed-first-round-output / 1 | 548 | 16 | 0 | 0 | 531 | {"not-applicable":1} | 548 |
-
-<a id="attempt-9312c5b0150160f1aa775b90"></a>
-
-### Grok renderer: DaveBench — Documentation Rendering (core)
-
-Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **not-applicable** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/docs/)
-
-emtyty/merslim round 1: Error: Browser call exceeded its declared host deadline; SVG return and reviewed drawing content are separate results. First-round SVG witnesses are retained; missing source reviews and incomplete observers remain unknown. Timings are descriptive public return samples, without A/A or per-call semantic qualification; no speed ranking is supported.; PNG return/decode and reviewed source-content are separate. Native PNG needs no SVG. SVG conversion, native API and CLI clocks retain different boundaries; no qualified speed ranking.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.
-
-| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| git-2bdd1d6a6369 / default | declared-capability / not-invoked | svg / format-admission | format-not-applicable / not round-based | 1 | 0 | 0 | 0 | 0 | {"not-applicable":1} | 1 |
-| git-2bdd1d6a6369 / default | declared-capability / not-invoked | png / format-admission | format-not-applicable / not round-based | 1 | 0 | 0 | 0 | 0 | {"not-applicable":1} | 1 |
-
-<a id="attempt-9460e9e4763bc029c94c83e6"></a>
-
-### MermaidText: DaveBench — Documentation Rendering (core)
-
-Campaign invocation: 2026-10-31T08:41:04.951Z → 2026-10-31T10:06:52.125Z · **not-applicable** · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json) · [owning results and failures](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/docs/)
-
-emtyty/merslim round 1: Error: Browser call exceeded its declared host deadline; SVG return and reviewed drawing content are separate results. First-round SVG witnesses are retained; missing source reviews and incomplete observers remain unknown. Timings are descriptive public return samples, without A/A or per-call semantic qualification; no speed ranking is supported.; PNG return/decode and reviewed source-content are separate. Native PNG needs no SVG. SVG conversion, native API and CLI clocks retain different boundaries; no qualified speed ranking.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.
-
-| Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| git-a6b0c7657b94 / default | declared-capability / not-invoked | svg / format-admission | format-not-applicable / not round-based | 1 | 0 | 0 | 0 | 0 | {"not-applicable":1} | 1 |
-| git-a6b0c7657b94 / default | declared-capability / not-invoked | png / format-admission | format-not-applicable / not round-based | 1 | 0 | 0 | 0 | 0 | {"not-applicable":1} | 1 |
 

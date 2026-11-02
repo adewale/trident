@@ -8,6 +8,10 @@
 
 Full planned terminal drawing corpus, retaining unmeasured and unreviewed inputs. Corpus: 116 drawings from 120 selected source inputs in pinned terminal-project research, without selection on renderer outcomes. Any authored adaptations have separate content identities and independent source review. 1 source diagnostics are retained separately and receive no drawing score. Invalid-source controls are separate from drawing accuracy. Source/review hashes and all origins remain in the owning receipt. Ranks order verified correct counts only; unknown work prevents a complete accuracy claim. Mermaid source reference is unscored; no speed or aesthetics score.
 
+**Measurement:** Which planned drawings satisfy every declared fact under the named output observer?
+
+**Claim boundary:** Verified counts depend on assessment coverage. Unknown representations are assessment gaps, not renderer defects. PNG review reuse does not assess unseen images.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Ranks order verified correct counts once an outcome is resolved; observed zero remains ranked and fully unresolved rows are unranked. Observer coverage counts drawing and format verdicts. Correctness bounds include unresolved cases; overlapping bounds establish no accuracy winner. Unsupported inputs and proven renderer failures remain explicit non-successes on this corpus.
@@ -40,6 +44,10 @@ Comparisons claim superiority only when correctness bounds are disjoint; otherwi
 **run-3ffc7bedce92721e135091b1** · 2026-10-31 · unit: terminal input cases · [evidence](../../results/current-outcomes-2026-11-01/receipt.json)
 
 Current retained-evidence outcome reduction. Only the explicitly listed saved-output corrections use new observers/contracts; all other rows retain their original per-case epochs in the attached normal results. No new renderer/API calls. Full planned terminal drawing corpus, retaining unmeasured and unreviewed inputs. Corpus: 116 drawings from 120 selected source inputs in pinned terminal-project research, without selection on renderer outcomes. Any authored adaptations have separate content identities and independent source review. 1 source diagnostics are retained separately and receive no drawing score. Invalid-source controls are separate from drawing accuracy. Source/review hashes and all origins remain in the owning receipt. Ranks order verified correct counts only; unknown work prevents a complete accuracy claim. Mermaid source reference is unscored; no speed or aesthetics score.
+
+**Measurement:** Which planned drawings satisfy every declared fact under the named output observer?
+
+**Claim boundary:** Verified counts depend on assessment coverage. Unknown representations are assessment gaps, not renderer defects. PNG review reuse does not assess unseen images.
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
@@ -74,6 +82,10 @@ Comparisons claim superiority only when correctness bounds are disjoint; otherwi
 
 Independently invalid sources in the full terminal inventory, checked for typed public grammar rejection. Process exits, missing ink and transport failures remain unknown. This is separate from drawing correctness and supplies no speed score.
 
+**Measurement:** Does the public interface explicitly reject the independently invalid source?
+
+**Claim boundary:** A timeout, crash, missing adapter or observer exception is not a correct rejection.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
@@ -104,6 +116,10 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 **run-e387dc3612390b84c63aeb27** · 2026-10-31 · unit: invalid-source controls · [evidence](../../docs/evidence/b0/receipt.json)
 
 Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Independently invalid sources in the full terminal inventory, checked for typed public grammar rejection. Process exits, missing ink and transport failures remain unknown. This is separate from drawing correctness and supplies no speed score.
+
+**Measurement:** Does the public interface explicitly reject the independently invalid source?
+
+**Claim boundary:** A timeout, crash, missing adapter or observer exception is not a correct rejection.
 
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
@@ -136,6 +152,10 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 
 Archived frozen B0 table, superseded for current scores; its original source and observer epochs remain unchanged. Frozen B0; exact input, contract epochs and owned outcomes are in the B0 receipt. Full planned terminal drawing corpus, retaining unmeasured and unreviewed inputs. Corpus: 116 drawings from 120 selected source inputs in pinned terminal-project research, without selection on renderer outcomes. Any authored adaptations have separate content identities and independent source review. 1 source diagnostics are retained separately and receive no drawing score. Invalid-source controls are separate from drawing accuracy. Source/review hashes and all origins remain in the owning receipt. Ranks order verified correct counts only; unknown work prevents a complete accuracy claim. Mermaid source reference is unscored; no speed or aesthetics score.
 
+**Measurement:** What outcomes were recorded for these explicitly named checks?
+
+**Claim boundary:** Legacy or unclassified checks supply no inferred full-population, drawing or performance qualification.
+
 Ranked by **Correct**, highest first. Equal values share a rank; unavailable values are unranked.
 
 Comparisons use **Correct** counts. “More verified” and “Fewer verified” mean accuracy is unresolved because either project has unknown outcomes. Mermaid has no terminal output; Mermaid ASCII is the terminal baseline.
@@ -167,6 +187,10 @@ Comparisons use **Correct** counts. “More verified” and “Fewer verified”
 
 Archived diagnostic profile; it supplies no current comparative score. Full planned terminal corpus, retaining unmeasured and unreviewed inputs. Corpus: 120 selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.
 
+**Measurement:** What outcomes were recorded for these explicitly named checks?
+
+**Claim boundary:** Legacy or unclassified checks supply no inferred full-population, drawing or performance qualification.
+
 No comparable numeric ranking measure is available.
 
 | Project | Rank | Version | Correct | Incorrect | Unsupported | Unknown | Planned | Measured | Ranking note |
@@ -195,6 +219,10 @@ No comparable numeric ranking measure is available.
 **run-a6fa463f6d3455d15e79a2d5** · 2026-10-31 · unit: terminal input cases · [evidence](https://github.com/adewale/trident/blob/9a74e093893f45d5b1316912711c5314267acd69/evidence/1/report.json)
 
 Archived diagnostic profile; it supplies no current comparative score. Independently reviewed drawing subset, ranked by verified correct count only. Unknown outcomes leave complete accuracy unresolved; this count rank cannot establish full-corpus correctness. Corpus: 120 selected inputs from pinned terminal-project documentation, issues and PRs, without selection on renderer outcomes. Source/review hashes and all origins remain in the owning receipt. Full-inventory accuracy ranks are withheld for unknown work; reviewed-subset ranks order only verified counts. Mermaid source reference is unscored; no speed or aesthetics score.
+
+**Measurement:** What outcomes were recorded for these explicitly named checks?
+
+**Claim boundary:** Legacy or unclassified checks supply no inferred full-population, drawing or performance qualification.
 
 No comparable numeric ranking measure is available.
 
