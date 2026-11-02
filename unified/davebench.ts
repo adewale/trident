@@ -69,10 +69,18 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
   return { outcome, ms }
 }
 
-interface Run {
+export interface DavebenchRun {
   project: string; version: string; format: string; run: number; boundary: string
   attempted: number; completed: number; failed: number; timeouts: number; totalMs: number
 }
+type Run = DavebenchRun
+export const davebenchRankingRule = {
+  primary: 'More completed examples is better; use the minimum completion count across three complete runs.',
+  secondary: 'For equal completion counts, lower median total render/export time is better.',
+  ties: 'Identical completion counts and median times share a rank.',
+  scope: 'Rank SVG and PNG separately through the declared public execution paths. Native CLI time includes per-example process startup.',
+  incomplete: 'Fewer than three complete runs, or mixed versions/boundaries, remain unranked.',
+} as const
 function median(values: number[]) { const sorted = [...values].sort((a, b) => a - b); return sorted[Math.floor(sorted.length / 2)]! }
 export function davebenchSummary(runs: Run[]) {
   const keys = [...new Set(runs.map(run => JSON.stringify([run.project, run.format])))]
@@ -81,6 +89,41 @@ export function davebenchSummary(runs: Run[]) {
     return { project: rows[0]!.project, version: rows[0]!.version, format: rows[0]!.format, boundary: rows[0]!.boundary,
       completed: rows.map(row => row.completed), failed: rows.map(row => row.failed), totalMs: rows.map(row => row.totalMs), medianTotalMs: median(rows.map(row => row.totalMs)), runs: rows.length }
   })
+}
+
+export function davebenchRankings(runs: Run[], planned: number) {
+  const ranked: { project: string; version: string; format: string; boundary: string; completed: number; failed: number; medianTotalMs: number; rank: number }[] = []
+  const unranked: { project: string; format: string; reason: string }[] = []
+  for (const summary of davebenchSummary(runs)) {
+    const rows = runs.filter(row => row.project === summary.project && row.format === summary.format)
+    if (rows.length !== 3 || JSON.stringify(rows.map(row => row.run).sort()) !== '[1,2,3]' || rows.some(row => row.attempted !== planned || row.completed + row.failed !== planned || row.version !== summary.version || row.boundary !== summary.boundary)) {
+      unranked.push({ project: summary.project, format: summary.format, reason: 'Three complete runs with one version and boundary are required.' }); continue
+    }
+    if (rows.some(row => !Number.isSafeInteger(row.completed) || row.completed < 0 || row.completed > planned || !Number.isFinite(row.totalMs) || row.totalMs < 0)) throw Error('Invalid DaveBench ranking measurements')
+    const completed = Math.min(...rows.map(row => row.completed))
+    ranked.push({ project: summary.project, version: summary.version, format: summary.format, boundary: summary.boundary, completed, failed: planned - completed, medianTotalMs: summary.medianTotalMs, rank: 0 })
+  }
+  const format = (name: string) => {
+    const rows = ranked.filter(row => row.format === name).sort((a, b) => b.completed - a.completed || a.medianTotalMs - b.medianTotalMs || a.project.localeCompare(b.project))
+    for (const [index, row] of rows.entries()) { const previous = rows[index - 1]; row.rank = previous && row.completed === previous.completed && row.medianTotalMs === previous.medianTotalMs ? previous.rank : index + 1 }
+    return rows
+  }
+  return { svg: format('svg'), png: format('png'), unranked }
+}
+
+function rankingMarkdown(rankings: ReturnType<typeof davebenchRankings>, planned: number, blocked: { project: string; reason: string }[]) {
+  const lines = ['# DaveBench rankings', '', `${planned} examples per format; three runs after 30 warm-ups. Outputs are discarded without assessment.`, '', ...Object.values(davebenchRankingRule).map(rule => '- ' + rule), '']
+  for (const format of ['svg', 'png'] as const) {
+    lines.push('## ' + format.toUpperCase(), '', '| Rank | Project | Version | Completed | Failed | Median total seconds | Path |', '|---:|---|---|---:|---:|---:|---|')
+    for (const row of rankings[format]) lines.push(`| ${row.rank} | ${row.project} | ${row.version} | ${row.completed} | ${row.failed} | ${(row.medianTotalMs / 1000).toFixed(3)} | ${row.boundary.includes('CLI') ? 'Native CLI' : 'Browser API'} |`)
+    lines.push('')
+  }
+  if (blocked.length || rankings.unranked.length) {
+    lines.push('## Unranked', '')
+    for (const row of blocked) lines.push('- ' + row.project + ': ' + row.reason.replaceAll('\n', ' '))
+    for (const row of rankings.unranked) lines.push('- ' + row.project + ' (' + row.format + '): ' + row.reason)
+  }
+  return lines.join('\n') + '\n'
 }
 
 async function browserHost(browser: Browser, peer: PreparedCommunityBrowser, format: string) {
@@ -160,8 +203,9 @@ export async function main(args = process.argv.slice(2)) {
     const report = { schema: 'davebench-simple-v1', state, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, directory: 'docs/', occurrences: inventory.cases.length, files: inventory.files },
       method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, elapsed: 'Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.', png: 'Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available. No image inspection.' },
       environment: { node: process.versions.node, bun: process.versions.bun, platform: process.platform, architecture: process.arch, chromium: browser.version() },
-      runs, summary: davebenchSummary(runs), blocked }
+      runs, summary: davebenchSummary(runs), rankingRule: davebenchRankingRule, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
     writeFileSync(join(out, 'results.json'), JSON.stringify(report, null, 2) + '\n')
+    if (state === 'complete') writeFileSync(join(out, 'rankings.md'), rankingMarkdown(report.rankings, inventory.cases.length, blocked))
   }
   const browser = await chromium.launch({ executablePath: process.env.AM_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium), headless: true })
   try {

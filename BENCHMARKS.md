@@ -39,7 +39,10 @@ Run every `mermaid` and `mermaid-example` Markdown block under Mermaid's generat
 Report completed calls, failures and total elapsed render/export time separately
 for SVG and PNG. Use the same 30-example warm-up and three complete runs. PNG time
 includes conversion/encoding. Discard the outputs without saving or assessing
-them. Native CLI clocks include process startup and are shown separately.
+them. Rank each format by more completed examples first, then lower median total
+time. Use the minimum completion count over three runs; blocked and incomplete
+collections remain unranked. Native CLI clocks include process startup; each row
+shows its execution path.
 
 ```sh
 bun commands.ts davebench --out FRESH_DIRECTORY

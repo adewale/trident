@@ -3,11 +3,28 @@ import { execFileSync } from 'node:child_process'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright'
-import { davebenchBrowserCall, davebenchInputs } from '../unified/davebench.ts'
+import { davebenchBrowserCall, davebenchInputs, davebenchRankings, type DavebenchRun } from '../unified/davebench.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 import { defaultChromium } from '../unified/benchmark-context.ts'
 
 const temp = useTempDirs('simple-davebench-')
+test('completion wins before speed, speed breaks equal completion, exact ties share ranks and incomplete runs remain unranked', () => {
+  const runs = (project: string, completed: number[], times: number[], format = 'svg'): DavebenchRun[] => completed.map((count, index) => ({ project, version: 'fixture', format, run: index + 1, boundary: 'fixture public API', attempted: 10, completed: count, failed: 10 - count, timeouts: 0, totalMs: times[index]! }))
+  const result = davebenchRankings([
+    ...runs('fast-partial', [8, 8, 8], [1, 1, 1]),
+    ...runs('complete-slow', [10, 10, 10], [100, 100, 100]),
+    ...runs('complete-fast', [10, 10, 10], [15, 20, 90]),
+    ...runs('complete-tie', [10, 10, 10], [20, 20, 20]),
+    ...runs('flaky', [10, 10, 9], [1, 1, 1]),
+    ...runs('incomplete', [10, 10], [1, 1]),
+    ...runs('png-only', [10, 10, 10], [1, 1, 1], 'png'),
+  ], 10)
+  expect(result.svg.map(row => [row.project, row.rank, row.completed])).toEqual([
+    ['complete-fast', 1, 10], ['complete-tie', 1, 10], ['complete-slow', 3, 10], ['flaky', 4, 9], ['fast-partial', 5, 8],
+  ])
+  expect(result.png.map(row => [row.project, row.rank])).toEqual([['png-only', 1]])
+  expect(result.unranked.map(row => row.project)).toEqual(['incomplete'])
+})
 test('documentation extraction retains duplicate blocks and excludes a Mermaid fence inside a Markdown example', () => {
   const root = temp.dir(); mkdirSync(join(root, 'docs'))
   writeFileSync(join(root, 'docs/example.md'), '```mermaid\ngraph LR; A-->B\n```\n```mermaid-example\ngraph LR; A-->B\n```\n````markdown\n```mermaid\nnot a separate block\n```\n````\n')

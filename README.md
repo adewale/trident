@@ -1,6 +1,6 @@
 # Trident
 
-[Latest DaveBench results: SVG/PNG completion and time](docs/davebench-results-2026-11-02.md) — 1,342 documentation examples, three runs, outputs discarded.
+[Latest DaveBench rankings: SVG/PNG completion and time](docs/davebench-results-2026-11-02.md) — 1,342 documentation examples, three runs, outputs discarded.
 
 [What Trident reliably measures](docs/measurement-contracts.md): executable measurement contracts, assessment coverage, instrument qualification and offline replay.
 
@@ -37,7 +37,7 @@ remain historical campaigns. A verified count is a lower bound while unknowns re
 
 | Benchmark | What it measures | Corpus and expected answers | Results |
 |---|---|---|---|
-| **DaveBench — Documentation Rendering** | How many render/export calls complete and how long they take, separately for SVG and PNG. | 1,342 `mermaid` and `mermaid-example` block occurrences across 49 generated documentation files at [commit `370c4af`](https://github.com/mermaid-js/mermaid/tree/370c4af57f43cb0bda05f4a9fe2d99c912ba16dd/docs), with duplicates retained. Inspired by [Dave Kiss](https://x.com/davekiss/status/2111512440106078554). | Completed calls, failures and median total time over three runs. Outputs are discarded without assessment. [Definition](docs/davebench-definition.md). |
+| **DaveBench — Documentation Rendering** | How many render/export calls complete and how long they take, separately for SVG and PNG. | 1,342 `mermaid` and `mermaid-example` block occurrences across 49 generated documentation files at [commit `370c4af`](https://github.com/mermaid-js/mermaid/tree/370c4af57f43cb0bda05f4a9fe2d99c912ba16dd/docs), with duplicates retained. Inspired by [Dave Kiss](https://x.com/davekiss/status/2111512440106078554). | Ranked by completed calls first, then lower median total time over three runs. Failures remain visible; outputs are discarded without assessment. [Definition](docs/davebench-definition.md). |
 | **Terminal Rendering — Project Examples** | How many diagrams a terminal renderer draws correctly, including visible relationships, labels and quantities; qualified time on matched inputs. | [Active v3](corpus/terminal-active-profile.json): 115 unchanged drawings from pinned project docs, tests, issues and PRs, one disclosed alias adaptation, and four invalid controls. [Original inventory](corpus/terminal-project-examples.json) retains URLs, revisions and licenses for 18 researched repositories. | 116 drawings ranked by verified correct count; unsupported, incorrect and unresolved outcomes remain visible. Mermaid ASCII is the terminal comparator; Mermaid is an unscored source reference. |
 | **Mermaid Behaviour Tests** | 30 syntax-family/precedence cases and 19 SVG accessible-name/description cases adapted from Mermaid tests. Public family returns and structural SVG metadata are checked; generated IDs and Mermaid-specific DOM conventions are not required. | A disclosed adapted subset of [Mermaid's pinned upstream tests](docs/mermaid-public-conformance.md), with original assertions and adaptation provenance preserved. | 49 whole behaviour cases, with per-assertion details; a case passes only when every required assertion passes. Exact API compatibility remains a separate diagnostic; the selected behaviour tests do not establish whole-suite conformance. |
 

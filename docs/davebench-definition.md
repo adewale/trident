@@ -35,6 +35,14 @@ For **SVG**, completion means the public SVG render operation has completed. For
 
 ## Results
 
+Publish a separate stack-ranked table for SVG and PNG:
+
+1. **More completed examples is better.** Use the minimum completion count observed across the three complete runs. This rewards handling more of the fixed documentation workload consistently.
+2. **For equal completion counts, less time is better.** Use the median total render/export time across those runs. This rewards spending less time on the same full attempted workload at the same completion count.
+3. Exact ties share a rank. Incomplete collections and blocked projects remain unranked. Different renderer versions or invocation boundaries cannot be pooled into one three-run result.
+
+The ranking covers each declared public execution path. Native CLI times include per-example process startup; browser API times use initialized runtimes. Show the path beside each score so the measured integration cost is explicit. Completion follows API success; outputs are not assessed.
+
 Keep one small result row per renderer, output format and run:
 
 | Renderer/version | Format | Run | Attempted | Completed | Failed | Total render/export time |
@@ -42,6 +50,8 @@ Keep one small result row per renderer, output format and run:
 | … | SVG or PNG | 1–3 | 1,342 | … | … | … ms |
 
 Total time is the sum of measured call times over every attempted input, including failed calls. Show all three runs and summarize their total times with the median. Keep completion counts alongside timing; faster failures do not establish faster rendering of the same completed work.
+
+The runner writes the rule and rankings to `results.json` and a readable `rankings.md`. Rank before rounding displayed times. There is no weighted combination of completion and speed, and no combined SVG/PNG rank.
 
 Retain source revision, extraction rule, renderer versions, invocation/conversion path, environment, timeout and numeric results. No SVGs, PNGs, output hashes, output sizes or drawing judgments are needed.
 
