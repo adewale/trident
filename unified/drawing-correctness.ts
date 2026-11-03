@@ -15,6 +15,12 @@ import { latestBenchmarkRenderingArtifact, assertCurrentBenchmarkArtifact } from
 import { communityModuleOutputSupported } from './community.ts'
 import { comparisonProjects } from './lineage.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
+import { svgTextValidity, terminalTextValidity } from './davebench-validity.ts'
+
+class InadmissibleOutput extends Error {}
+/** Cases whose correct drawing is empty: there, an empty or zero-area output is
+ * assessed by the empty-drawing observer instead of being refused admission. */
+const expectsEmptyDrawing = (test: DrawingCase) => test.terminal.expected.graph?.nodes.length === 0 && test.terminal.expected.graph.edges.length === 0 && !test.terminal.expected.graph.groups?.length && !test.expected.groups?.length && !Object.keys(test.expected.facts ?? {}).length
 
 const nativeCall = (artifact: any, source: string, format: string) => {
   const binding = artifact.outputBindings?.[format] ?? (format === 'terminal' ? { args: artifact.args ?? [], input: artifact.input ?? 'stdin' } : undefined)
@@ -89,7 +95,7 @@ export async function main(args = process.argv.slice(2)) {
         2,
       ),
     )
-  const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
+  const browser = await chromium.launch({ headless: true, executablePath: process.env.AM_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium) })
   let inspect = await browser.newPage({ viewport: { width: 1600, height: 1200 } })
   await inspect.route('**/*', route => route.abort())
   const bounded = async <T>(work: Promise<T>, label: string, ms = 8000): Promise<T> => {
@@ -138,6 +144,8 @@ export async function main(args = process.argv.slice(2)) {
                     'Public SVG invocation',
                     15000,
                   )
+              const admission = expectsEmptyDrawing(test) ? { valid: true as const } : svgTextValidity(svg, test.source)
+              if (!admission.valid) throw new InadmissibleOutput(admission.reason)
               try {
                 if (!complexityGap(test)) await inspect.setContent('<style>html,body{margin:0;padding:0;background:transparent}svg{max-width:none}</style>' + svg, { timeout: 8000 })
                 assessment = complexityGap(test) ? { status: 'unknown', failed: [], unknown: ['Trident observer bound: more than 40 nodes or 80 edges'], sourceGaps: test.sourceGaps } : await bounded(inspectSvgDrawing(inspect, test), 'Trident SVG assessment')
@@ -149,6 +157,17 @@ export async function main(args = process.argv.slice(2)) {
               }
               rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: assessment.status, failed: assessment.failed, unknown: assessment.unknown, sourceGaps: assessment.sourceGaps })
             } catch (error) {
+              if (error instanceof InadmissibleOutput) {
+                // A zero-size or error-placeholder SVG is a known nonpass; the shared PNG path exports the same document.
+                rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: 'invalid-format', reason: 'Inadmissible SVG output: ' + error.message })
+                if (!native && !imagePeer.browser?.additionalOutputs?.includes('png')) {
+                  rows.push({ project, version: artifact.version, format: 'png', caseId: test.id, status: 'invalid-format', reason: 'Shared PNG path received an inadmissible SVG: ' + error.message })
+                  save()
+                  continue
+                }
+                assessment = { status: 'unknown' }
+                svg = ''
+              } else {
               rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: 'renderer-failure', reason: String(error).slice(0, 400) })
               if (!native && !imagePeer.browser?.additionalOutputs?.includes('png')) {
                 rows.push({ project, version: artifact.version, format: 'png', caseId: test.id, status: 'renderer-failure', reason: 'Shared PNG path failed at SVG render: ' + String(error).slice(0, 300) })
@@ -157,6 +176,7 @@ export async function main(args = process.argv.slice(2)) {
               }
               assessment = { status: 'unknown' }
               svg = ''
+              }
             }
             try {
               if (native) png = nativeCall(artifact, test.source, 'png')
@@ -239,6 +259,14 @@ export async function main(args = process.argv.slice(2)) {
                 await worker?.close()
                 worker = undefined
               }
+              save()
+              continue
+            }
+            // An empty return, an error message or the source printed back is not a
+            // drawing to assess: it is a known nonpass, not an observer gap.
+            const admission = expectsEmptyDrawing(test) ? { valid: true as const } : terminalTextValidity(result.text, test.source)
+            if (!admission.valid) {
+              rows.push({ project, version: native?.version ?? a.version, format: 'terminal', caseId: test.id, status: 'invalid-format', reason: 'Inadmissible terminal output: ' + admission.reason })
               save()
               continue
             }
