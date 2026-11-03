@@ -4,7 +4,7 @@ Fresh collection covers the 27 eligible projects at their frozen installed artif
 
 This branch contains the current reader-facing tables, illustrated examples, original report receipts and the raw archive manifest. [Report generation code](https://github.com/adewale/trident/blob/06bb0d3f56eab433f0890e800d69433b73bb8b1c/unified/results-snapshot.ts) is separate from collection and grading; presentation changes preserve the numeric results.
 
-The raw evidence archive has been restored, checked and reduced back into the original tables. Its GitHub upload is pending release-asset authentication; [PR #74 records publication status](https://github.com/adewale/trident/pull/74). The manifest describes the original archive, including its original report pages, rather than subsequent presentation changes on this branch. Capture bytes, grading decisions and the frozen evidence tag are unchanged.
+The 605 MB raw-output archive was checked and reduced back into the original tables, then discarded rather than published: this campaign measured the superseded benchmark set, and current results are verified by re-running frozen versions against pinned inputs (see the [evidence rule](https://github.com/adewale/trident/blob/bench/full-campaign-2026-11-01/docs/benchmark-results-details.md#evidence-and-verification)). This branch keeps the tables, report receipts and the archive's file manifest as the historical record; no download is available.
 
 [Ranked results](RESULTS.md) · [Timing by fixed workload](TIMING.md) · [Benchmark definitions](BENCHMARKS.md)
 
@@ -22,4 +22,4 @@ The raw evidence archive has been restored, checked and reduced back into the or
 | [evidence/10](evidence/10/timing-bundle-3da055b522db8e2f59400966.json) | 2 | 2026-11-01T17:50:49.427Z | 2026-11-01T17:51:57.244Z | `f0f9f59aae5775417042201cafb5331b30d1a9944bd6cc9e66edd2f061396f35` |
 | [evidence/11](evidence/11/timing-bundle-32ddd35546775875c757119c.json) | 2 | 2026-11-01T17:55:48.395Z | 2026-11-01T18:00:24.828Z | `2ee7ba753137ae9511a491cd46dd0369400bc94cf55268528177a957b919530f` |
 
-Collection failures and superseded attempts remain in the archive. Unknown content receives no correctness credit; failed qualification receives no speed rank. The frozen B0 baseline is unchanged.
+Collection failures and superseded attempts are recorded in the tables and receipts. Unknown content receives no correctness credit; failed qualification receives no speed rank. The frozen B0 baseline is unchanged.
