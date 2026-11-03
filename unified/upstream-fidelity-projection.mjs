@@ -39,12 +39,21 @@ export function projectPublicDatabase(tool, family, raw, unavailable) {
     const graph = tool === 'agentic' ? raw.graph : raw
     const missing = detail => { if (unavailable) return unavailable('Unmapped native flowchart schema: ' + detail); return undefined }
     const shapes = { rect: 'square', rectangle: 'square', process: 'square', box: 'square', rounded: 'round', asymmetric: 'odd', 'trapezoid-alt': 'inv_trapezoid' }
+    // Native enums often spell Mermaid's own shape names differently (DIAMOND,
+    // DOUBLE_CIRCLE). Match case- and separator-insensitively; unknown names pass through.
+    const vocabulary = ['square', 'round', 'stadium', 'subroutine', 'cylinder', 'circle', 'doublecircle', 'diamond', 'hexagon', 'lean_right', 'lean_left', 'trapezoid', 'inv_trapezoid', 'odd', 'ellipse', 'rect']
+    const shapeName = shape => {
+      if (typeof shape !== 'string') return undefined
+      if (shapes[shape]) return shapes[shape]
+      const folded = shape.toLowerCase(), bare = folded.replace(/[-_\s]/g, '')
+      return shapes[folded] ?? shapes[bare] ?? vocabulary.find(name => name === folded || name.replace(/_/g, '') === bare)
+    }
     const observe = (value, fields) => new Proxy(value, { get(target, key) { if (typeof key === 'string' && fields.includes(key) && !(key in target)) return missing(key); return target[key] } })
     if (graph?.nodes) view.getVertices = () => {
       const observed = entries(graph.nodes)
       if (observed.some(([key, node]) => !node || typeof node !== 'object' || Array.isArray(graph.nodes) && typeof node.id !== 'string' || typeof (node.id ?? key) !== 'string' || typeof (node.label ?? node.text) !== 'string')) return missing('node identities and labels')
       return new Map(observed.map(([key, node]) => {
-        const id = node.id ?? key, type = shapes[node.shape] ?? node.type ?? node.shape
+        const id = node.id ?? key, type = shapeName(node.shape) ?? node.type ?? node.shape
         return [id, observe({ ...clone(node), id, text: node.label ?? node.text, ...(typeof type === 'string' ? { type } : {}), ...(graph.nodeStyles instanceof Map ? { styles: Object.entries(graph.nodeStyles.get(id) ?? {}).map(([key, value]) => `${key}:${value}`) } : {}) }, ['type', 'styles', 'classes', 'labelType', 'props', 'link', 'linkTarget', 'haveCallback', 'tooltip'])]
       }))
     }

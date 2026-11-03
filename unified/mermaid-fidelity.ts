@@ -106,7 +106,7 @@ export async function main(args = process.argv.slice(2)) {
     const project = peer.node.id
     if (project === 'mermaid-js/mermaid' || (opts.has('--projects') && !opts.get('--projects')!.split(',').includes(project))) continue
     // A registered out-of-process bridge calls the project's own parser in its own language.
-    const bridge = parserBridge(peer)
+    const bridge = await parserBridge(peer, join(dirname(import.meta.dirname), 'node_modules/.cache/fidelity-bridges'))
     if (bridge) {
       targets.push({ project, version: bridge.version, tool: 'bridge', bridge, peer })
       continue

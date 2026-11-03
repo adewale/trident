@@ -5,24 +5,29 @@
 // Protocol (one process per parse): stdin {"family", "source"}; the last stdout
 // line is {"value"} | {"error": {"name", "message"}} | {"unsupported"} | {"adapterGap"}.
 // A bridge reports `error` with name "ParseError" only for the parser's own
-// syntax rejection, `unsupported` for a family the project does not parse, and
-// `adapterGap` for anything it cannot classify.
-import { existsSync } from 'node:fs'
+// syntax rejection, `unsupported` for a family or source the project does not
+// parse, and `adapterGap` for anything it cannot classify.
+import { execFileSync } from 'node:child_process'
+import { existsSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 
-export interface ParserBridge { command: string[]; cwd?: string; version: string; description: string }
-type Resolver = (peer: any, directory: string) => ParserBridge | undefined
+export interface ParserBridge { command: string[]; version: string; description: string }
+/** Returns the bridge for a prepared peer, building it into outDir if needed, or undefined when it does not apply. */
+export type Resolver = (peer: any, outDir: string) => Promise<ParserBridge | undefined>
 
 const resolvers: Record<string, Resolver> = {}
-
-/** Register a resolver; it returns undefined when the prepared artifact lacks what the bridge needs. */
 export function registerBridge(project: string, resolve: Resolver) { resolvers[project] = resolve }
-
-export function parserBridge(peer: any, directory = join(import.meta.dirname, 'bridges')): ParserBridge | undefined {
-  const resolve = resolvers[peer?.node?.id]
-  const bridge = resolve?.(peer, directory)
-  if (bridge && bridge.command.every((part, index) => index > 0 || existsSync(part))) return bridge
-  return undefined
-}
-
 export const bridgedProjects = () => Object.keys(resolvers)
+
+/** Bridges run under the Node used by the Vitest runner, not Bun. */
+export const nodeExecutable = () => process.env.NODE_BIN ?? execFileSync('which', ['node'], { encoding: 'utf8' }).trim()
+
+export async function parserBridge(peer: any, outRoot: string): Promise<ParserBridge | undefined> {
+  const resolve = resolvers[peer?.node?.id]
+  if (!resolve) return undefined
+  const outDir = join(outRoot, encodeURIComponent(peer.node.id))
+  mkdirSync(outDir, { recursive: true })
+  const bridge = await resolve(peer, outDir)
+  if (bridge && !existsSync(bridge.command[0]!)) throw Error(`Parser bridge for ${peer.node.id} has no executable ${bridge.command[0]}`)
+  return bridge
+}
