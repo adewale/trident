@@ -1,0 +1,52 @@
+import { expect, test } from 'bun:test'
+import { assessLabels, expectedLabels, labelFound, leakedSyntax, svgText, terminalText } from '../fidelity/drawing/labels.ts'
+
+const flow: any = {
+  id: 'fixture', family: 'flowchart', source: 'flowchart TD\nMermaid[Mermaid.js] -->|derivative| Beautiful[Beautiful Mermaid]\n', sourceGaps: [], geometry: [],
+  expected: { nodes: [{ id: 'Mermaid', label: 'Mermaid.js' }, { id: 'Beautiful', label: 'Beautiful Mermaid' }], edges: [{ source: 'Mermaid', target: 'Beautiful', label: 'derivative' }], facts: { 'authored-config': { title: 'not a label' } } },
+  terminal: { expected: { graph: { nodes: [{}, {}], edges: [{}] } } },
+}
+
+test('expected labels come from reviewed nodes, edges and named facts, not configuration', () => {
+  expect(expectedLabels(flow)).toEqual(['Mermaid.js', 'Beautiful Mermaid', 'derivative'])
+  const pie: any = { ...flow, expected: { facts: { title: 'Pets', slices: [{ label: 'Dogs', value: 0.8 }, { label: 'Cats', value: 0.2 }], 'show-data': false } } }
+  expect(expectedLabels(pie)).toEqual(['Pets', 'Dogs', 'Cats'])
+  const markdown: any = { ...flow, expected: { nodes: [{ id: 'a', label: '**Bold** and `code`<br>next' }] } }
+  expect(expectedLabels(markdown)).toEqual(['Bold and code next'])
+})
+
+test('SVG text includes HTML labels and excludes styles and accessibility metadata', () => {
+  const svg = '<svg><title>Mermaid.js</title><style>.label{}</style><g><foreignObject><div>Beautiful<br/>Mermaid</div></foreignObject><text><tspan>derivative</tspan></text></g></svg>'
+  expect(svgText(svg).replace(/\s+/g, ' ').trim()).toBe('Beautiful Mermaid derivative')
+  expect(assessLabels(flow, 'svg', svgText(svg))).toMatchObject({ status: 'incorrect', missing: ['Mermaid.js'] })
+})
+
+test('terminal labels wrapped inside boxes are still found', () => {
+  const drawing = '┌────────────┐      ┌───────────┐\n│ Mermaid.js ├─────►│ Beautiful │\n└────────────┘ deri │ Mermaid   │\n               vative└───────────┘'
+  expect(labelFound('Beautiful Mermaid', terminalText(drawing))).toBe(true)
+  expect(assessLabels(flow, 'terminal', terminalText(drawing.replace('deri', 'deri ').replace('vative', 'derivative')))).toMatchObject({ status: 'correct' })
+})
+
+test('raw source syntax in the output is a failure even when labels are present', () => {
+  const echoed = 'flowchart TD Mermaid[Mermaid.js] -->|derivative| Beautiful[Beautiful Mermaid]'
+  expect(leakedSyntax(flow, echoed)).toEqual(['flowchart TD', 'Mermaid[Mermaid.js', 'Beautiful[Beautiful Mermaid', '|derivative|'])
+  expect(assessLabels(flow, 'svg', echoed).status).toBe('incorrect')
+  // ASCII art draws edge labels beside '|' line characters.
+  expect(leakedSyntax(flow, '|derivative|', 'terminal')).toEqual([])
+  // Very short identifiers are not checked: OCR and drawings produce such sequences by chance.
+  expect(leakedSyntax({ ...flow, source: 'C4Context\nSystem(s, "S")', expected: { nodes: [{ id: 's', label: 'S' }] } }, 's[S')).toEqual([])
+})
+
+test('OCR matching tolerates case and one character error in longer words only', () => {
+  expect(labelFound('Prototype', 'prototvpe', true)).toBe(true)
+  expect(labelFound('Bar', 'ear', true)).toBe(false)
+  expect(labelFound('Prototype', 'prototvpe', false)).toBe(false)
+})
+
+test('an empty diagram passes only without text, and a case without labels stays unassessed', () => {
+  const empty: any = { ...flow, source: 'flowchart\n', expected: { nodes: [], edges: [], facts: {} }, terminal: { expected: { graph: { nodes: [], edges: [] } } } }
+  expect(assessLabels(empty, 'svg', '   ').status).toBe('correct')
+  expect(assessLabels(empty, 'svg', 'Syntax error').status).toBe('incorrect')
+  const unlabeled: any = { ...flow, source: 'xychart-beta\n bar [1]', expected: { facts: { series: [{ kind: 'bar', values: [1] }] } }, terminal: { expected: {} } }
+  expect(assessLabels(unlabeled, 'svg', 'anything').status).toBe('unknown')
+})
