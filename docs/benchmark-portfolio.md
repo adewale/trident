@@ -7,7 +7,7 @@ reports the remaining assessment and adapter gaps explicitly.
 | Benchmark | Question | Workload | Better result |
 |---|---|---|---|
 | **DaveBench** | How many documentation examples complete, and how long does rendering take? | Every Mermaid block occurrence in the same pinned generated `docs/` tree. Separate SVG, PNG and terminal-text runs. | More completed examples first; for equal completion counts, lower median total time over three runs. |
-| **Drawing Correctness** | Does the output draw the specified diagram correctly? | One shared, versioned corpus of real examples and bug reproducers from renderer tests, issues and PRs, starting with the existing 116 drawing cases and expanding beyond terminal projects. Assess SVG, PNG and terminal text separately. | More whole examples satisfying every required drawing fact. |
+| **Drawing Correctness** | Does the output show the specified diagram's labels, without errors or raw syntax? | One shared, versioned corpus of real examples and bug reproducers from renderer tests, issues and PRs, starting with the existing 116 drawing cases and expanding beyond terminal projects. Assess SVG and terminal text separately. | More whole examples with every expected label shown and no raw syntax. |
 | **Mermaid Fidelity** | How many tests from the pinned Mermaid test suite does the implementation pass? | Inventory the full pinned suite, execute original tests through candidate adapters, and account for every test and omission. | More fully passed upstream test cases on the same fixed test population. |
 
 Equal correctness/fidelity counts share a rank. DaveBench retains its
@@ -71,27 +71,37 @@ score weight. Retain family and feature coverage alongside the bug-focused cases
 The expanded corpus size follows discovery and review; do not invent a new
 arbitrary replacement for 116.
 
-Each case declares concrete facts: objects, labels, connections, direction,
-group membership, quantities, and any geometry required by that regression.
-For example, a reported edge-through-node defect requires a route/obstruction
-check; finding both endpoint labels cannot pass it. Each whole case earns one
-pass only when every required fact passes. This measures specified correctness,
-not general aesthetics or pixel identity with Mermaid.
+Each case declares concrete facts from its source: objects, labels, connections,
+direction, group membership and quantities. Drawing Correctness checks the cheap,
+deterministic part of those facts: **labels**. A case passes when every label the
+facts name appears in the output and no raw Mermaid syntax is shown (the diagram
+header, a node definition such as `A[Label]`, or outside terminal art a piped edge
+label `|label|`). An empty return, an error message, the source printed back or a
+zero-size SVG is a nonpass. Each whole case earns one pass. This measures whether
+the specified content is shown, not edges, arrow direction, layout, styling or
+pixel identity with Mermaid.
 
-Use the same source cases and required meaning across SVG, PNG and terminal
-text, with format-appropriate checks. Publish separate format tables, fixed
-denominators, and pass/nonpass/unresolved counts. A checker that cannot assess a
-representation leaves an assessment gap; it does not establish a renderer bug.
-Trident must develop and validate those checks as part of this benchmark.
+Earlier versions measured painted geometry: which shapes enclose which labels,
+which strokes connect which bodies, arrowheads and dash patterns. That was
+expensive to extend and left 2,805 of 6,350 results unassessed. The label check
+resolves all but 20 of 4,318 and agrees with every result the geometry checkers had
+confirmed correct; results they had failed on edge or layout grounds can now pass.
+
+**Formats:** SVG text is read from the document and terminal text directly,
+including labels wrapped inside boxes. **PNG is not part of Drawing Correctness.**
+OCR cannot read diagram labels reliably enough: on Mermaid PNGs rasterized from
+SVGs that pass 124 of 127 cases, Tesseract found every label in only 43. PNG
+production and speed remain in DaveBench. A project with no SVG or terminal output
+(Mermaid Flutter) has no Drawing result; the synthesis treats Drawing as not
+applicable to it rather than unknown.
 
 **Current implementation:** `drawing:correctness` uses 127 unique inputs across
 20 families and 19 source projects. The 116 valid seed entries contain 115 unique
-inputs; pinned project regressions add 12 more after deduplication. Checks reuse
-validated SVG and terminal observers, add regression geometry, and assess fresh
-PNG pixels through an independently checked SVG witness or a bounded OCR/frame/
-route observer. Unknown representations and incomplete source expectations stay
-unassessed. Reaction counts were unavailable; repeated independent regressions
-guide this initial expansion. The corpus does not claim a popularity ranking.
+inputs; pinned project regressions add 12 more after deduplication. Expected labels
+come from the reviewed source facts (`fidelity/drawing/labels.ts`); one unlabelled
+chart stays unassessed. Reaction counts were unavailable; repeated independent
+regressions guide this initial expansion. The corpus does not claim a popularity
+ranking.
 
 ## Mermaid Fidelity: execute pinned upstream tests
 

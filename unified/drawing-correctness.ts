@@ -4,9 +4,8 @@ import { resolve, join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { chromium } from 'playwright'
 import { drawingCases, type DrawingCase } from '../fidelity/drawing/corpus.ts'
-import { captureDrawingPng } from '../fidelity/drawing/export-png.ts'
 import { DrawingWorker } from '../fidelity/drawing/worker.ts'
-import { assessLabels, expectsEmptyDrawing, pngText, svgText, terminalText } from '../fidelity/drawing/labels.ts'
+import { assessLabels, expectsEmptyDrawing, svgText, terminalText } from '../fidelity/drawing/labels.ts'
 import { browserHost } from './davebench.ts'
 import { defaultChromium } from './benchmark-context.ts'
 import { latestBenchmarkRenderingArtifact, assertCurrentBenchmarkArtifact } from './benchmark-versions.ts'
@@ -33,7 +32,7 @@ const nativeCall = (artifact: any, source: string, format: string) => {
 }
 export async function main(args = process.argv.slice(2)) {
   if (args.includes('--help')) {
-    console.log('drawing:correctness --prepared IMAGE_ARTIFACTS --terminal-prepared TERMINAL_ARTIFACTS --catalog FROZEN_CATALOG --out FRESH_DIR [--projects IDS] [--case ID_FRAGMENTS] [--formats svg,png|terminal]\nOne functional drawing assessment per case/output, with explicit gaps. No timing repeats.')
+    console.log('drawing:correctness --prepared IMAGE_ARTIFACTS --terminal-prepared TERMINAL_ARTIFACTS --catalog FROZEN_CATALOG --out FRESH_DIR [--projects IDS] [--case ID_FRAGMENTS] [--formats svg,terminal]\nLabel assessment of SVG and terminal outputs, one per case/output. PNG is not part of Drawing Correctness. No timing repeats.')
     return
   }
   assertBenchmarkExecutionAllowed()
@@ -48,9 +47,9 @@ export async function main(args = process.argv.slice(2)) {
   if (existsSync(out)) throw Error('Use a fresh result directory')
   const catalog = read(opts.get('--catalog')!),
     projects = comparisonProjects(catalog, opts.get('--projects')?.split(',') ?? catalog.nodes.map((n: any) => n.id)).included
-  const formats = opts.get('--formats')?.split(',') ?? ['svg', 'png', 'terminal']
-  if (formats.some(f => !['svg', 'png', 'terminal'].includes(f))) throw Error('Unknown drawing format')
-  if (formats.includes('png') && !formats.includes('svg')) throw Error('PNG assessment needs the SVG stage: select svg,png, svg, or terminal')
+  const formats = opts.get('--formats')?.split(',') ?? ['svg', 'terminal']
+  if (formats.includes('png')) throw Error('PNG is not part of Drawing Correctness: OCR cannot read diagram labels reliably. Select svg and/or terminal')
+  if (formats.some(f => !['svg', 'terminal'].includes(f))) throw Error('Unknown drawing format')
   const images = read(opts.get('--prepared')!),
     terminals = read(opts.get('--terminal-prepared')!)
   const cases = drawingCases().filter(
@@ -75,8 +74,8 @@ export async function main(args = process.argv.slice(2)) {
           selection: opts.get('--case') ? 'functional subset' : 'full shared corpus',
           corpus: { cases: cases.length, ids: cases.map(c => c.id), seed: 'reviewed Terminal Drawing Facts, invalid controls excluded', regressions: 'corpus/drawing-regressions.json' },
           versionsFrozenAt: catalog.benchmarkVersionsCheckedAt,
-          method: 'Label assessment: a case passes when every label named by its reviewed source facts appears in the output and no raw Mermaid syntax (diagram header, node definition or piped edge label) is shown. SVG text is read from the document, terminal text directly and PNG text by Tesseract OCR. Edges, arrow direction, layout and styling are not checked.',
-          assessmentLimits: { invocationMs: 15000, terminalWorkerMs: 20000, ocrMs: 20000 },
+          method: 'Label assessment: a case passes when every label named by its reviewed source facts appears in the output and no raw Mermaid syntax (diagram header, node definition or piped edge label) is shown. SVG text is read from the document and terminal text directly. Edges, arrow direction, layout and styling are not checked. PNG is not assessed.',
+          assessmentLimits: { invocationMs: 15000, terminalWorkerMs: 20000 },
           rows,
           blocked,
         },
@@ -103,7 +102,7 @@ export async function main(args = process.argv.slice(2)) {
       const node = catalog.nodes.find((n: any) => n.id === project),
         imagePeer = images.find((p: any) => p.node.id === project),
         terminalPeer = terminals.find((p: any) => p.node.id === project)
-      if (formats.some(f => f === 'svg' || f === 'png') && imagePeer?.artifact) {
+      if (formats.includes('svg') && imagePeer?.artifact) {
         let host: any, session: any
         try {
           assertCurrentBenchmarkArtifact(imagePeer, node)
@@ -113,12 +112,12 @@ export async function main(args = process.argv.slice(2)) {
           const native = artifact.kind === 'cli'
           if (!native && !imagePeer.browser) throw Error('No prepared SVG public interface')
           if (!native) {
-            host = await browserHost(browser, imagePeer, 'png')
+            host = await browserHost(browser, imagePeer, 'svg')
             session = await host.open()
           }
           for (const test of cases) {
-            console.log(project, test.id, 'SVG/PNG')
-            let svg: string, png: Buffer | undefined, assessment: any, witnessSvg: string | undefined
+            console.log(project, test.id, 'SVG')
+            let svg: string, assessment: any
             try {
               svg = native
                 ? nativeCall(artifact, test.source, 'svg').toString('utf8')
@@ -135,48 +134,9 @@ export async function main(args = process.argv.slice(2)) {
               assessment = assessLabels(test, 'svg', svgText(svg))
               rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: assessment.status, reason: assessment.reason, failed: assessment.missing, leaked: assessment.leaked })
             } catch (error) {
-              if (error instanceof InadmissibleOutput) {
-                // A zero-size or error-placeholder SVG is a known nonpass; the shared PNG path exports the same document.
-                rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: 'invalid-format', reason: 'Inadmissible SVG output: ' + error.message })
-                if (!native && !imagePeer.browser?.additionalOutputs?.includes('png')) {
-                  if (formats.includes('png')) rows.push({ project, version: artifact.version, format: 'png', caseId: test.id, status: 'invalid-format', reason: 'Shared PNG path received an inadmissible SVG: ' + error.message })
-                  save()
-                  continue
-                }
-                assessment = { status: 'unknown' }
-                svg = ''
-              } else {
-              rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: 'renderer-failure', reason: String(error).slice(0, 400) })
-              if (!native && !imagePeer.browser?.additionalOutputs?.includes('png')) {
-                if (formats.includes('png')) rows.push({ project, version: artifact.version, format: 'png', caseId: test.id, status: 'renderer-failure', reason: 'Shared PNG path failed at SVG render: ' + String(error).slice(0, 300) })
-                save()
-                continue
-              }
-              assessment = { status: 'unknown' }
-              svg = ''
-              }
-            }
-            if (!formats.includes('png')) {
-              save()
-              continue
-            }
-            try {
-              if (native) png = nativeCall(artifact, test.source, 'png')
-              else {
-                const exported = await bounded<any>(session.page.evaluate(captureDrawingPng, { svg: svg!, source: test.source }), 'Public PNG invocation', 15000)
-                png = Buffer.from(exported.bytes)
-                witnessSvg = exported.witnessSvg
-              }
-              if (png.length < 8 || png.subarray(0, 8).toString('hex') !== '89504e470d0a1a0a') {
-                rows.push({ project, version: artifact.version, format: 'png', caseId: test.id, status: 'invalid-format', reason: 'PNG export returned bytes without the PNG signature' })
-                save()
-                continue
-              }
-              const result = assessLabels(test, 'png', pngText(png))
-              rows.push({ project, version: artifact.version, format: 'png', caseId: test.id, status: result.status, reason: result.reason, failed: result.missing, leaked: result.leaked })
-            } catch (error) {
-              const nativePng = native || imagePeer.browser?.additionalOutputs?.includes('png')
-              rows.push({ project, version: artifact.version, format: 'png', caseId: test.id, status: png || !nativePng ? 'unknown' : 'renderer-failure', reason: (png ? 'Trident OCR: ' : !nativePng ? 'Trident shared PNG export: ' : '') + String(error).slice(0, 400) })
+              // A zero-size or error-placeholder SVG is a known nonpass, not an observer gap.
+              if (error instanceof InadmissibleOutput) rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: 'invalid-format', reason: 'Inadmissible SVG output: ' + error.message })
+              else rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: 'renderer-failure', reason: String(error).slice(0, 400) })
             }
             save()
             if (session)
@@ -186,12 +146,12 @@ export async function main(args = process.argv.slice(2)) {
               })
           }
         } catch (error) {
-          blocked.push({ project, format: 'svg/png', reason: String(error).slice(0, 400) })
+          blocked.push({ project, format: 'svg', reason: String(error).slice(0, 400) })
         } finally {
           await session?.context.close()
           await host?.close()
         }
-      } else if (formats.some(f => f === 'svg' || f === 'png') && node.benchmark?.outputs.some((s: string) => s === 'svg' || s === 'png')) blocked.push({ project, format: node.benchmark.outputs.includes('svg') ? 'svg/png' : 'png', reason: imagePeer?.error ?? 'No prepared public artifact; setup remains isolated' })
+      } else if (formats.includes('svg') && node.benchmark?.outputs.includes('svg')) blocked.push({ project, format: 'svg', reason: imagePeer?.error ?? 'No prepared public artifact; setup remains isolated' })
       if (formats.includes('terminal') && terminalPeer?.artifact) {
         let worker: DrawingWorker | undefined
         try {

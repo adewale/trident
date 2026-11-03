@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Drawing Correctness checks labels instead of measured geometry: every label named by the reviewed source facts must appear, with no raw Mermaid syntax. Unassessed results fall from 2,805 to 20; the check agrees with every result the geometry checkers had confirmed correct. PNG is dropped from Drawing Correctness because OCR cannot read diagram labels reliably; it stays in DaveBench. The synthesis treats Drawing as not applicable to PNG-only renderers.
 - Discard the 1 November raw-output archive instead of publishing it. Results are verified by re-running frozen versions against pinned inputs; references to a downloadable archive are removed and the evidence rule is documented.
 - DaveBench: a completion now needs an output that passes mechanical admission after the clock stops (sized SVG, valid PNG, terminal text that is not empty, an error message or the source printed back). Two terminal CLIs printed unsupported input back inside a box and exited 0, which had counted as 861 completed renders each. Time now separates equal completion counts only between rows with the same boundary kind (fresh process or persistent API).
 - Mermaid Fidelity: score the callbacks the pinned Mermaid control passes. Callbacks the control cannot pass were everyone's unknowns and capped Mermaid at 54.6% of its own tests. Every bindable candidate now attempts all selected files against one shared control run; ten had previously been run on 42 of 316 files. Add `--reuse-reference`, a configurable per-target timeout and a merge script.

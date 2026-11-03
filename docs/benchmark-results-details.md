@@ -9,7 +9,7 @@ reuse the version freeze from 2 November 2026; changing presentation runs no ren
 | Benchmark | Population | Ordering | Missing results |
 |---|---|---|---|
 | DaveBench | 1,342 documentation occurrences, separately for SVG, PNG and terminal text (3 November collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
-| Drawing Correctness | The same 127 cases per applicable format | More verified whole-case passes; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed combines unknown verdicts and unrun cases |
+| Drawing Correctness | The same 127 cases, separately for SVG and terminal text | More whole cases with every expected label shown and no raw syntax; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed: cases with no label to check, or unrun |
 | Mermaid Fidelity | The expanded upstream callbacks that pinned Mermaid itself passes | More passed callbacks; equal counts share a rank. **Possible rank** shows the positions still reachable | Candidate adapter gaps remain unassessed |
 
 For DaveBench, completions are the minimum across three runs and seconds are the
@@ -20,8 +20,8 @@ measures output production and time, without judging drawing meaning. CLI rows
 include process startup; persistent API rows exclude initialization, so time
 orders equal completion counts only within one boundary kind.
 
-For Drawing Correctness, Failed combines contradicted drawing facts, invalid output
-and render/export failures. For Fidelity, Failed combines assertion nonpasses and
+For Drawing Correctness, Failed combines missing labels, raw syntax shown, invalid
+output and render failures. For Fidelity, Failed combines assertion nonpasses and
 native unsupported results; Unassessed is candidate adapter gaps. A Fidelity pass
 needs the original assertions to pass for the candidate and for the pinned Mermaid
 control, so callbacks the control cannot pass are unpassable for everyone. They are
@@ -48,10 +48,10 @@ The format is shared; the questions and input corpora differ:
   native terminal text. Count completed operations and measure total time. No
   drawing assessment or conversion to PNG takes place.
 - **Drawing Correctness — Terminal correctness:** render the 127 reviewed drawing
-  cases to native terminal text. Check their labels, objects, connections, direction
-  and other required facts. Timing does not contribute to this rank.
+  cases to native terminal text and check that every expected label is shown without
+  raw syntax. Timing does not contribute to this rank.
 
-The same distinction applies to SVG and PNG. A fast renderer may fail correctness
+The same distinction applies to SVG. PNG appears only in DaveBench. A fast renderer may fail correctness
 checks, and a correct renderer may be slow; both questions have useful answers.
 
 ## Why coverage is incomplete
@@ -97,34 +97,23 @@ internal diagram registries). Nobody can pass them, so they are reported as
 reference-adapter coverage work instead of being counted as every participant's
 unknowns, which had capped Mermaid itself at 54.6% of its own tests.
 
-**Drawing observers remain bounded.** The expanded corpus is shared across formats,
-but recognition still depends on the representation. SVG body/route/cardinality
-ownership is sometimes unqualified. PNG checks either require an exact raster match
-to an independently assessed SVG, or the narrow OCR/frame/route profile. Other images
-remain unknown. All common source transcriptions now qualify, including the seven repaired cases.
-Empty drawings have dedicated pixel checks, normalized PNG witnesses receive fresh
-assessment, and the full SVG compound-body observer is reused. OpenCode worker
-recovery and independent native PNG invocations remove the formerly unrun rows.
-The 6,350 available slots have zero unrun rows, but 2,805 remain unassessed because
-the actual representation is outside a qualified observer profile. Large stress
-cases also exceed the observer bound. These are Trident assessment limits, not proof
-that those drawings are wrong.
+**Drawing Correctness checks labels.** A case passes when every label named by its
+reviewed source facts appears in the output and no raw Mermaid syntax is shown. SVG
+text is read from the document without a browser, and terminal text directly. Empty,
+error, echoed or zero-size outputs are nonpasses; the one case whose correct drawing
+is empty passes only without text. Edges, arrow direction, layout and styling are
+not checked. The earlier geometry checkers left 2,805 of 6,350 results unassessed;
+the label check leaves 20 of 4,318: the one corpus chart that names no labels,
+wherever a renderer draws it. On the same outputs it agrees with every result the geometry
+checkers had confirmed correct.
 
-An output that is not a drawing at all is a known nonpass, not an observer gap:
-an empty terminal return, an error message, the source printed back inside a box,
-or a zero-size or error-placeholder SVG is recorded as invalid output. The one
-corpus case whose correct drawing is empty is exempt. All terminal cases were
-recollected with the frozen artifacts on 3 November; unaffected rows reproduced the
-published counts exactly, 49 unknowns became nonpasses and 26 echoes previously
-scored as incorrect drawings were reclassified. SVG/PNG rows were not recollected:
-this run's Chromium (153) and Tesseract (5.3.4) differ from the published
-environment (154, 5.5.0), which could shift verdicts for reasons unrelated to the
-change. The Drawing collector supports native PNG only through CLI and browser
-paths, so Mermaid Flutter remains unassessed there.
+PNG is not part of Drawing Correctness. OCR found every label in only 43 of 127
+Mermaid PNGs whose source SVGs pass 124, so a PNG score would mostly measure the
+OCR. Mermaid Flutter, which only outputs PNG, has no Drawing result.
 
 Broad assessment and original-test operation coverage are still incomplete; calling
 the whole benchmark effort finished would be premature. The remaining work is to
-extend and validate the drawing observers, write parser/model bindings for the
+write parser/model bindings for the
 unbound projects, reach more Mermaid internals through the reference adapter, and
 run the unexpanded and outside-runner tests. The combined table displays score
 ranges; an exact overall score remains unavailable while required measurements are
@@ -146,9 +135,9 @@ published result is backed by four small, committed things:
 
 Anyone can check a result by preparing the same frozen versions and running the same
 commands. On 3 November that reproduced every count the changes did not touch: every
-DaveBench completion count, Fidelity's 2,894 qualified tests and every terminal Drawing
-row. Re-running is also how a scoring change is applied; the terminal Drawing
-recollection took about three minutes.
+DaveBench completion count and Fidelity's 2,894 qualified tests. Re-running is also
+how a scoring change is applied; the full label-based Drawing collection takes a few
+minutes.
 
 Rendered SVGs, PNGs and terminal text are not kept. The 605 MB raw archive of the
 1 November campaign was discarded rather than published. That campaign measured the
@@ -175,11 +164,11 @@ retain their original measurements and are no longer the landing page's source.
 | Benchmark | Projects with scored results | Projects with no Trident gaps in the reported population |
 |---|---:|---:|
 | DaveBench | 27: 16 SVG, 17 PNG, 18 terminal | 27 |
-| Drawing Correctness | 26: 16 SVG, 16 PNG, 18 terminal (Mermaid Flutter's native PNG worker has no Drawing binding) | 0 |
+| Drawing Correctness | 26: 16 SVG, 18 terminal (Mermaid Flutter outputs only PNG, which Drawing does not assess) | 0 |
 | Mermaid Fidelity | 14, including Mermaid 12.2.0 | 1 (Mermaid) |
 
 A scored result can include failures. It does not mean every input passed, every
 output was assessable, or that the project has complete benchmark coverage.
-Drawing's 2,805 unknown assessments and Fidelity's missing operations/reference
+Drawing's 20 unassessed results and Fidelity's missing operations/reference
 bindings remain unfinished Trident work. The synthetic table combines the measured
 components now; no project has enough coverage for an exact overall score.

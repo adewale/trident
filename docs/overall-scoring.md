@@ -7,9 +7,9 @@ output formats are averaged within DaveBench and Drawing Correctness first.
 | Component | Score on a 0–100 scale |
 |---|---|
 | DaveBench | `100 × completed / planned` occurrences, averaged across applicable formats. Completions are the minimum across the three runs and require an [admissible output](davebench-definition.md#output-admission). |
-| Drawing Correctness | `100 × passed / 127`, averaged across applicable formats |
+| Drawing Correctness | `100 × passed / 127`, averaged across the project's SVG and terminal formats. Not applicable to a project with neither (Mermaid Flutter) |
 | Mermaid Fidelity | `100 × passed / qualified population`: the expanded upstream callbacks that pinned Mermaid itself passes |
-| Overall | Arithmetic mean of the three components |
+| Overall | Arithmetic mean of the applicable components |
 
 ## Why these components
 
@@ -57,8 +57,15 @@ coincide and the table becomes an ordinary ranking. Until then, overlapping
 ranges are unresolved, not ties. The intervals describe unresolved work; they are
 not statistical confidence intervals.
 
-While Drawing and Fidelity coverage remain incomplete, **no project qualifies for
-an exact overall score**. The table does not declare an overall winner. The
+A benchmark that cannot apply to any of a project's outputs is left out of that
+project's mean and shown as `n/a`. That differs from unmeasured work, which stays a
+0–100 range: Drawing Correctness assesses only SVG and terminal text, so a PNG-only
+renderer has no Drawing component at all, whereas a missing Fidelity binding could
+still be written.
+
+While Fidelity coverage and a few Drawing cases remain incomplete, **most projects
+do not have an exact overall score**. A position is decided only where a project's
+possible rank is a single number. The
 scores cover the reported populations: unexpanded and outside-runner upstream
 files still prevent a claim of full Mermaid-suite fidelity.
 

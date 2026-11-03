@@ -5,7 +5,7 @@ Trident benchmarks Mermaid implementations on three questions:
 | Benchmark | Measures | Status |
 |---|---|---|
 | **DaveBench** | Completed documentation renders and elapsed time, separately for SVG, PNG and terminal text. A completion needs a usable output: a sized SVG, a valid PNG, or terminal text that is not empty, an error message or the source printed back. | Implemented. [Results](docs/benchmark-campaign-results-2026-11-03.md). |
-| **Drawing Correctness** | Required drawing facts on a shared corpus of examples and real project regressions, across output formats. | Partial: 127 shared cases; SVG/PNG/text observer coverage remains incomplete, so most ranks are still ranges. |
+| **Drawing Correctness** | Every expected label shown, without errors or raw syntax, on a shared corpus of examples and real project regressions; SVG and terminal text. | Implemented: 127 shared cases; 20 of 4,318 results unassessed. Edges and layout are not checked. |
 | **Mermaid Fidelity** | Original assertions from the full pinned Mermaid test inventory, through candidate adapters, scored over the tests pinned Mermaid itself passes. | Partial: see the [league tables](RESULTS.md) for measured projects; projects without a parser/model binding remain unassessed. |
 
 [League tables](RESULTS.md) · [Methods and coverage](docs/benchmark-results-details.md) · [Definitions and corpus requirements](docs/benchmark-portfolio.md) · [DaveBench method](docs/davebench-definition.md)

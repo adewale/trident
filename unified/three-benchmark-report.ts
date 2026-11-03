@@ -91,15 +91,15 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
     table(['Verified rank', 'Possible rank', 'Project', `Passed / ${population} ↑`, 'Failed', 'Unassessed'], rows)
   }
   lines.push('## Drawing Correctness', '')
-  for (const format of ['svg', 'png', 'terminal']) {
+  for (const format of drawing.formats ?? ['svg', 'png', 'terminal']) {
     lines.push('### ' + (format === 'terminal' ? 'Terminal correctness' : format.toUpperCase() + ' correctness'), '')
-    caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => r.format.includes(format)), 'Blocked')
+    caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => String(r.format).split('/').includes(format)), 'Blocked')
   }
   lines.push('## Mermaid Fidelity', '')
   const population = fidelityPopulation(fidelity)
   caseTable(fidelity.results.map((r: any) => ({ ...r, passed: r.counts.passed, failed: r.counts.failed + r.counts.unsupported, gaps: r.counts['trident-blocked'] })), population, fidelity.blocked)
   lines.push('## Equal-weight synthesis', '')
-  const bounds = (value: ScoreBounds) => Math.abs(value.upper - value.lower) < 1e-9 ? value.lower.toFixed(2) : value.lower.toFixed(2) + '–' + value.upper.toFixed(2)
+  const bounds = (value: ScoreBounds | null) => value === null ? 'n/a' : Math.abs(value.upper - value.lower) < 1e-9 ? value.lower.toFixed(2) : value.lower.toFixed(2) + '–' + value.upper.toFixed(2)
   const rank = (row: { bestRank: number; worstRank: number }) => row.bestRank === row.worstRank ? String(row.bestRank) : row.bestRank + '–' + row.worstRank
   table(['Possible rank', 'Project', 'DaveBench / 100', 'Drawing / 100', 'Fidelity / 100', 'Overall / 100 ↑'], synthesiseBenchmarks(davebench, drawing, fidelity, catalog).map(row => [rank(row), label(row), bounds(row.davebench), bounds(row.drawing), bounds(row.fidelity), bounds(row.overall)]))
   return lines.join('\n')

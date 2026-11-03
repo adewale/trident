@@ -37,10 +37,10 @@ test('raw source syntax in the output is a failure even when labels are present'
   expect(leakedSyntax({ ...flow, source: 'C4Context\nSystem(s, "S")', expected: { nodes: [{ id: 's', label: 'S' }] } }, 's[S')).toEqual([])
 })
 
-test('OCR matching tolerates case and one character error in longer words only', () => {
-  expect(labelFound('Prototype', 'prototvpe', true)).toBe(true)
-  expect(labelFound('Bar', 'ear', true)).toBe(false)
-  expect(labelFound('Prototype', 'prototvpe', false)).toBe(false)
+test('label matching is exact apart from whitespace and wrapping', () => {
+  expect(labelFound('Prototype', 'Proto type')).toBe(true)
+  expect(labelFound('Prototype', 'prototype')).toBe(false)
+  expect(labelFound('Prototype', 'Prototvpe')).toBe(false)
 })
 
 test('an empty diagram passes only without text, and a case without labels stays unassessed', () => {

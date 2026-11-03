@@ -43,8 +43,9 @@ export function possibleRanks<T extends { overall: ScoreBounds }>(rows: T[]) {
   }))
 }
 
-/** Equal-weight synthesis of the three current benchmarks. Bounds preserve
- * missing work. DaveBench contributes its absolute completion rate per format,
+/** Equal-weight synthesis of the three current benchmarks; a benchmark that
+ * does not apply to any of a project's outputs is left out of its mean. Bounds
+ * preserve missing work. DaveBench contributes its absolute completion rate per format,
  * so the score cannot move when other participants are added or removed and
  * unlike CLI/API timing boundaries do not enter the overall score. */
 export function synthesiseBenchmarks(davebench: any, drawing: any, fidelity: any, catalog: any) {
@@ -53,6 +54,7 @@ export function synthesiseBenchmarks(davebench: any, drawing: any, fidelity: any
   const planned = davebench.corpus?.occurrences
   if (!Number.isInteger(planned) || planned <= 0) throw Error('DaveBench synthesis needs the planned occurrence count')
   const faithfulPopulation = fidelityPopulation(fidelity)
+  const drawingFormats: string[] = drawing.formats ?? formats
   const rows = [...ids].map(project => {
     const declared = catalog.nodes.find((n: any) => n.id === project)?.benchmark?.outputs ?? []
     const applicable = formats.filter(format => declared.includes(format) || format === 'png' && declared.includes('svg') || drawing.results.some((r: any) => r.project === project && r.format === format) || davebench.rankings[format]?.some((r: any) => r.project === project))
@@ -66,15 +68,20 @@ export function synthesiseBenchmarks(davebench: any, drawing: any, fidelity: any
       const score = 100 * row.completed / planned
       return { lower: score, upper: score }
     }))
-    const draw = meanBounds(applicable.map(format => {
+    // Drawing Correctness assesses only its own formats (SVG and terminal text).
+    // A project with none of them has no Drawing component: not applicable, not unknown.
+    const drawable = applicable.filter(format => drawingFormats.includes(format))
+    const draw: ScoreBounds | null = drawable.length ? meanBounds(drawable.map(format => {
       const row = drawing.results.find((r: any) => r.project === project && r.format === format)
       return row ? caseBounds(row.counts.correct, row.counts.unknown + row.counts.unrun, drawing.corpus.cases) : unknownBounds()
-    }))
+    })) : null
     const native = fidelity.results.find((r: any) => r.project === project)
     const faithful = native ? caseBounds(native.counts.passed, native.counts['trident-blocked'], faithfulPopulation) : unknownBounds()
-    const overall = meanBounds([dave, draw, faithful])
+    const components = [dave, draw, faithful].filter((value): value is ScoreBounds => value !== null)
+    const overall = meanBounds(components)
+    const exact = components.every(value => value.lower === value.upper)
     return { project, formats: applicable, davebench: dave, drawing: draw, fidelity: faithful, overall, observed: observations.length > 0,
-      score: overallScore({ davebench: dave.lower === dave.upper ? dave.lower : null, drawing: draw.lower === draw.upper ? draw.lower : null, fidelity: faithful.lower === faithful.upper ? faithful.lower : null }) }
+      score: exact ? overall.lower : null }
   })
   // Order by the position each row is guaranteed to reach, then by its best
   // reachable position. The displayed range, not this order, is the claim.

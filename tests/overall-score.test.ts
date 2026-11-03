@@ -80,7 +80,7 @@ test('applicable formats cannot disappear from a synthesis when their measuremen
   expect(a.formats).toEqual(['svg', 'png', 'terminal'])
   expect(a.davebench.lower).toBeCloseTo(100 / 3)
   expect(a.davebench.upper).toBe(100)
-  expect(a.drawing.lower).toBeCloseTo(80 / 3)
+  expect(a.drawing!.lower).toBeCloseTo(80 / 3)
   expect(a.score).toBeNull()
 })
 test('complete observations yield a point score while different versions cannot be combined', () => {
@@ -91,4 +91,17 @@ test('complete observations yield a point score while different versions cannot 
   expect(a.score).toBeCloseTo((100 + 80 + 50) / 3)
   fidelity.results[0]!.version = '2'
   expect(() => synthesiseBenchmarks(davebench, drawing, fidelity, catalog)).toThrow('different project versions')
+})
+
+test('Drawing is not applicable, not unknown, for a project with none of its formats', () => {
+  const { davebench, drawing, fidelity, catalog } = synthesisFixture()
+  ;(drawing as any).formats = ['svg', 'terminal']
+  davebench.rankings.png = [{ project: 'p', version: '1', format: 'png', rank: 1, completed: 10 }] as any
+  davebench.runs.push({ project: 'p', version: '1', format: 'png' })
+  catalog.nodes.push({ id: 'p', benchmark: { outputs: ['png'] } })
+  fidelity.results.push({ project: 'p', version: '1', counts: { passed: 10, failed: 0, unsupported: 0, 'trident-blocked': 0, 'reference-unqualified': 0 } })
+  const p = synthesiseBenchmarks(davebench, drawing, fidelity, catalog).find(r => r.project === 'p')!
+  expect(p.drawing).toBeNull()
+  expect(p.overall).toEqual({ lower: 75, upper: 75 })
+  expect(p.score).toBe(75)
 })
