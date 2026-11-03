@@ -1,0 +1,1026 @@
+{
+  "schema": "davebench-terminal-v1",
+  "state": "complete",
+  "startedAt": "2026-11-03T15:14:28.536Z",
+  "updatedAt": "2026-11-03T15:45:21.975Z",
+  "corpus": {
+    "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
+    "occurrences": 1342,
+    "files": 49
+  },
+  "method": {
+    "runs": 3,
+    "warmupsPerRun": 30,
+    "timeoutMs": 15000,
+    "outputsRetained": false,
+    "outputsAssessed": false,
+    "admission": "A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse to an svg root with positive size; PNG must have a PNG signature and positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription=\"error\"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. No drawing meaning is judged and outputs are not retained.",
+    "elapsed": "Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup."
+  },
+  "runs": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 5144.70107699999,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 4547.756349000053,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1342,
+      "failed": 0,
+      "timeouts": 0,
+      "totalMs": 4706.866556000041,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1304,
+      "failed": 38,
+      "timeouts": 0,
+      "totalMs": 270398.215487,
+      "invalid": 2,
+      "invalidReasons": {
+        "empty output": 2
+      }
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1304,
+      "failed": 38,
+      "timeouts": 0,
+      "totalMs": 280313.39157699933,
+      "invalid": 2,
+      "invalidReasons": {
+        "empty output": 2
+      }
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 1304,
+      "failed": 38,
+      "timeouts": 0,
+      "totalMs": 301612.65137900074,
+      "invalid": 2,
+      "invalidReasons": {
+        "empty output": 2
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 1068,
+      "failed": 274,
+      "timeouts": 0,
+      "totalMs": 9356.101041,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 1068,
+      "failed": 274,
+      "timeouts": 0,
+      "totalMs": 9586.501269999942,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 1068,
+      "failed": 274,
+      "timeouts": 0,
+      "totalMs": 9278.658304,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 577,
+      "failed": 765,
+      "timeouts": 0,
+      "totalMs": 3137.659943000014,
+      "invalid": 16,
+      "invalidReasons": {
+        "empty output": 16
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 577,
+      "failed": 765,
+      "timeouts": 0,
+      "totalMs": 3226.7796950000034,
+      "invalid": 16,
+      "invalidReasons": {
+        "empty output": 16
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.1",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 577,
+      "failed": 765,
+      "timeouts": 0,
+      "totalMs": 3306.8635430000063,
+      "invalid": 16,
+      "invalidReasons": {
+        "empty output": 16
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 401,
+      "failed": 941,
+      "timeouts": 0,
+      "totalMs": 18254.67737000098,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 401,
+      "failed": 941,
+      "timeouts": 0,
+      "totalMs": 17836.583414998604,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 401,
+      "failed": 941,
+      "timeouts": 0,
+      "totalMs": 18286.28911300213,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.2.5",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 254,
+      "failed": 1088,
+      "timeouts": 0,
+      "totalMs": 1193.3257219999982,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.2.5",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 254,
+      "failed": 1088,
+      "timeouts": 0,
+      "totalMs": 1035.2183239999995,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.2.5",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 254,
+      "failed": 1088,
+      "timeouts": 0,
+      "totalMs": 980.1806429999966,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 536,
+      "failed": 806,
+      "timeouts": 0,
+      "totalMs": 448.78679700000066,
+      "invalid": 44,
+      "invalidReasons": {
+        "empty output": 44
+      }
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 536,
+      "failed": 806,
+      "timeouts": 0,
+      "totalMs": 468.7140490000007,
+      "invalid": 44,
+      "invalidReasons": {
+        "empty output": 44
+      }
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 536,
+      "failed": 806,
+      "timeouts": 0,
+      "totalMs": 410.15887199999884,
+      "invalid": 44,
+      "invalidReasons": {
+        "empty output": 44
+      }
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 538,
+      "failed": 804,
+      "timeouts": 0,
+      "totalMs": 921.6973720000025,
+      "invalid": 162,
+      "invalidReasons": {
+        "empty output": 162
+      }
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 538,
+      "failed": 804,
+      "timeouts": 0,
+      "totalMs": 1066.1547340000016,
+      "invalid": 162,
+      "invalidReasons": {
+        "empty output": 162
+      }
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 538,
+      "failed": 804,
+      "timeouts": 0,
+      "totalMs": 913.391984000002,
+      "invalid": 162,
+      "invalidReasons": {
+        "empty output": 162
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Python public terminal API",
+      "attempted": 1342,
+      "completed": 1310,
+      "failed": 32,
+      "timeouts": 0,
+      "totalMs": 3448.2514220053417,
+      "invalid": 30,
+      "invalidReasons": {
+        "empty output": 30
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Python public terminal API",
+      "attempted": 1342,
+      "completed": 1310,
+      "failed": 32,
+      "timeouts": 0,
+      "totalMs": 3411.9414440265246,
+      "invalid": 30,
+      "invalidReasons": {
+        "empty output": 30
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Python public terminal API",
+      "attempted": 1342,
+      "completed": 1310,
+      "failed": 32,
+      "timeouts": 0,
+      "totalMs": 3140.068370024892,
+      "invalid": 30,
+      "invalidReasons": {
+        "empty output": 30
+      }
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 181,
+      "failed": 1161,
+      "timeouts": 0,
+      "totalMs": 175.24480000000074,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 181,
+      "failed": 1161,
+      "timeouts": 0,
+      "totalMs": 205.8874060000001,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 181,
+      "failed": 1161,
+      "timeouts": 0,
+      "totalMs": 160.27933300000063,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 509,
+      "failed": 833,
+      "timeouts": 0,
+      "totalMs": 366.86926100000034,
+      "invalid": 24,
+      "invalidReasons": {
+        "empty output": 24
+      }
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 509,
+      "failed": 833,
+      "timeouts": 0,
+      "totalMs": 340.0960550000013,
+      "invalid": 24,
+      "invalidReasons": {
+        "empty output": 24
+      }
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 509,
+      "failed": 833,
+      "timeouts": 0,
+      "totalMs": 354.6626170000009,
+      "invalid": 24,
+      "invalidReasons": {
+        "empty output": 24
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 408,
+      "failed": 934,
+      "timeouts": 16,
+      "totalMs": 256435.4012360021,
+      "invalid": 10,
+      "invalidReasons": {
+        "empty output": 10
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 408,
+      "failed": 934,
+      "timeouts": 16,
+      "totalMs": 254357.65675100195,
+      "invalid": 10,
+      "invalidReasons": {
+        "empty output": 10
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 408,
+      "failed": 934,
+      "timeouts": 16,
+      "totalMs": 255440.62662000395,
+      "invalid": 10,
+      "invalidReasons": {
+        "empty output": 10
+      }
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+      "attempted": 1342,
+      "completed": 23,
+      "failed": 1319,
+      "timeouts": 0,
+      "totalMs": 27.60148900000037,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+      "attempted": 1342,
+      "completed": 23,
+      "failed": 1319,
+      "timeouts": 0,
+      "totalMs": 25.202996000000333,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+      "attempted": 1342,
+      "completed": 23,
+      "failed": 1319,
+      "timeouts": 0,
+      "totalMs": 24.820731000000208,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 481,
+      "failed": 861,
+      "timeouts": 0,
+      "totalMs": 3198.392656004755,
+      "invalid": 861,
+      "invalidReasons": {
+        "echoed source": 861
+      }
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 481,
+      "failed": 861,
+      "timeouts": 0,
+      "totalMs": 3132.1155069966335,
+      "invalid": 861,
+      "invalidReasons": {
+        "echoed source": 861
+      }
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 481,
+      "failed": 861,
+      "timeouts": 0,
+      "totalMs": 3078.3134650038555,
+      "invalid": 861,
+      "invalidReasons": {
+        "echoed source": 861
+      }
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 745,
+      "failed": 597,
+      "timeouts": 0,
+      "totalMs": 594.3949479999998,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 745,
+      "failed": 597,
+      "timeouts": 0,
+      "totalMs": 578.7479189999989,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Bun public terminal API",
+      "attempted": 1342,
+      "completed": 745,
+      "failed": 597,
+      "timeouts": 0,
+      "totalMs": 610.2292079999976,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 555,
+      "failed": 787,
+      "timeouts": 0,
+      "totalMs": 226.08390300000264,
+      "invalid": 26,
+      "invalidReasons": {
+        "empty output": 26
+      }
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 555,
+      "failed": 787,
+      "timeouts": 0,
+      "totalMs": 266.83575699999847,
+      "invalid": 26,
+      "invalidReasons": {
+        "empty output": 26
+      }
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "persistent Node public terminal API",
+      "attempted": 1342,
+      "completed": 555,
+      "failed": 787,
+      "timeouts": 0,
+      "totalMs": 280.41985399999885,
+      "invalid": 26,
+      "invalidReasons": {
+        "empty output": 26
+      }
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 481,
+      "failed": 861,
+      "timeouts": 0,
+      "totalMs": 2918.685362000484,
+      "invalid": 861,
+      "invalidReasons": {
+        "echoed source": 861
+      }
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 481,
+      "failed": 861,
+      "timeouts": 0,
+      "totalMs": 2950.472157004755,
+      "invalid": 861,
+      "invalidReasons": {
+        "echoed source": 861
+      }
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 481,
+      "failed": 861,
+      "timeouts": 0,
+      "totalMs": 2804.306087994948,
+      "invalid": 861,
+      "invalidReasons": {
+        "echoed source": 861
+      }
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "terminal",
+      "run": 1,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 794,
+      "failed": 548,
+      "timeouts": 0,
+      "totalMs": 12330.288582998794,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "terminal",
+      "run": 2,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 794,
+      "failed": 548,
+      "timeouts": 0,
+      "totalMs": 12197.877899998799,
+      "invalid": 0,
+      "invalidReasons": {}
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "format": "terminal",
+      "run": 3,
+      "boundary": "public CLI terminal; process startup included",
+      "attempted": 1342,
+      "completed": 794,
+      "failed": 548,
+      "timeouts": 0,
+      "totalMs": 13171.147590998095,
+      "invalid": 0,
+      "invalidReasons": {}
+    }
+  ],
+  "rankings": {
+    "svg": [],
+    "png": [],
+    "terminal": [
+      {
+        "project": "Dicklesworthstone/frankenmermaid",
+        "version": "0.4.0",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 1342,
+        "failed": 0,
+        "medianTotalMs": 4706.866556000041,
+        "rank": 1
+      },
+      {
+        "project": "fasouto/termaid",
+        "version": "0.10.0",
+        "format": "terminal",
+        "boundary": "persistent Python public terminal API",
+        "completed": 1310,
+        "failed": 32,
+        "medianTotalMs": 3411.9414440265246,
+        "rank": 2
+      },
+      {
+        "project": "wevm/ondine",
+        "version": "0.0.3",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 1304,
+        "failed": 38,
+        "medianTotalMs": 280313.39157699933,
+        "rank": 3
+      },
+      {
+        "project": "adewale/agentic-mermaid",
+        "version": "0.5.6",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 1068,
+        "failed": 274,
+        "medianTotalMs": 9356.101041,
+        "rank": 4
+      },
+      {
+        "project": "Latias94/merman",
+        "version": "0.9.3",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 794,
+        "failed": 548,
+        "medianTotalMs": 12330.288582998794,
+        "rank": 5
+      },
+      {
+        "project": "Yassimba/loom",
+        "version": "0.10.0",
+        "format": "terminal",
+        "boundary": "persistent Bun public terminal API",
+        "completed": 745,
+        "failed": 597,
+        "medianTotalMs": 594.3949479999998,
+        "rank": 6
+      },
+      {
+        "project": "dfadler/zombie-mermaid",
+        "version": "5.14.1",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 577,
+        "failed": 765,
+        "medianTotalMs": 3226.7796950000034,
+        "rank": 7
+      },
+      {
+        "project": "kais-radwan/ascii-mermaid",
+        "version": "0.1.0",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 555,
+        "failed": 787,
+        "medianTotalMs": 266.83575699999847,
+        "rank": 8
+      },
+      {
+        "project": "emtyty/merslim",
+        "version": "0.2.3",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 538,
+        "failed": 804,
+        "medianTotalMs": 921.6973720000025,
+        "rank": 9
+      },
+      {
+        "project": "crafter-station/mermaid",
+        "version": "0.0.3",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 536,
+        "failed": 806,
+        "medianTotalMs": 448.78679700000066,
+        "rank": 10
+      },
+      {
+        "project": "lukilabs/beautiful-mermaid",
+        "version": "1.1.3",
+        "format": "terminal",
+        "boundary": "persistent Node public terminal API",
+        "completed": 509,
+        "failed": 833,
+        "medianTotalMs": 354.6626170000009,
+        "rank": 11
+      },
+      {
+        "project": "spacedock-dev/mermaidtext",
+        "version": "git-a6b0c7657b94",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 481,
+        "failed": 861,
+        "medianTotalMs": 2918.685362000484,
+        "rank": 12
+      },
+      {
+        "project": "xai-org/grok-build",
+        "version": "git-2bdd1d6a6369",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 481,
+        "failed": 861,
+        "medianTotalMs": 3132.1155069966335,
+        "rank": 13
+      },
+      {
+        "project": "Mootikins/figurehead-rs",
+        "version": "v0.4.3",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 408,
+        "failed": 934,
+        "medianTotalMs": 255440.62662000395,
+        "rank": 14
+      },
+      {
+        "project": "AlexanderGrooff/mermaid-ascii",
+        "version": "1.6.1",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 401,
+        "failed": 941,
+        "medianTotalMs": 18254.67737000098,
+        "rank": 15
+      },
+      {
+        "project": "anomalyco/opencode",
+        "version": "2.2.5",
+        "format": "terminal",
+        "boundary": "persistent Bun public terminal API",
+        "completed": 254,
+        "failed": 1088,
+        "medianTotalMs": 1035.2183239999995,
+        "rank": 16
+      },
+      {
+        "project": "kitlangton/merman",
+        "version": "0.2.1",
+        "format": "terminal",
+        "boundary": "persistent Bun public terminal API",
+        "completed": 181,
+        "failed": 1161,
+        "medianTotalMs": 175.24480000000074,
+        "rank": 17
+      },
+      {
+        "project": "tariqshams/mermaidtui",
+        "version": "0.0.6",
+        "format": "terminal",
+        "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
+        "completed": 23,
+        "failed": 1319,
+        "medianTotalMs": 25.202996000000333,
+        "rank": 18
+      }
+    ],
+    "unranked": []
+  },
+  "blocked": []
+}

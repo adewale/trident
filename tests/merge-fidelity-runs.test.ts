@@ -17,6 +17,12 @@ test('merging shares one control and keeps every candidate on the qualified popu
   expect(merged.results[1]!.perFile).toEqual([{ path: 'x.spec.ts', counts: { passed: 1, failed: 1 } }])
 })
 
+test('a candidate with no assessable callback is unassessed, not a measured zero', () => {
+  const merged = mergeFidelityRuns([run([reference, { project: 'renderer-only', version: '1', counts: counts(0, 0, 4), missingFiles: [], cases: [{ file: 'f', status: 'trident-blocked', reason: 'Installed public module has no synchronous flowchart parser binding' }] }])])
+  expect(merged.results.map(r => r.project)).toEqual(['mermaid-js/mermaid'])
+  expect(merged.blocked).toEqual([{ project: 'renderer-only', reason: 'No original test reached a candidate operation: Installed public module has no synchronous flowchart parser binding' }])
+})
+
 test('runs with different selections, missing controls or unaccounted callbacks cannot merge', () => {
   expect(() => mergeFidelityRuns([run([reference]), run([reference], { selectedFiles: 2 })])).toThrow('one pin and file selection')
   expect(() => mergeFidelityRuns([run([{ project: 'a', version: '1', counts: counts(1, 0, 0), missingFiles: [] }])])).toThrow('no Mermaid control')

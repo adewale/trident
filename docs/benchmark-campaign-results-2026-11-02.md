@@ -1,5 +1,7 @@
 # Benchmark campaign results — 2 November 2026
 
+> **Superseded** by the [3 November DaveBench results](benchmark-campaign-results-2026-11-03.md), which require an admissible output for each completion. These counts treated any call that returned without an error as completed, including terminal output that printed the source back. They are kept unchanged for the record.
+
 [Current league tables](../RESULTS.md) · [Drawing Correctness and Mermaid Fidelity](correctness-fidelity-results-2026-11-02.md). This page contains DaveBench method and detailed results.
 
 1342 documentation occurrences per format; three runs after the same 30 warm-ups. Completed counts show the minimum across the three full runs; times show their median total. The numeric run table retains every repeat. Outputs were discarded without drawing assessment. Versions were frozen at campaign preparation (2026-11-02T15:09:38.022Z).

@@ -1,0 +1,12 @@
+[
+  { "project": "1jehuang/mermaid-rs-renderer", "reason": "Native Rust CLI only; no JavaScript parser/model operation the original Vitest tests can call. Unassessed Trident work, not a renderer failure." },
+  { "project": "AlexanderGrooff/mermaid-ascii", "reason": "Native Go CLI only; no JavaScript parser/model operation the original Vitest tests can call. Unassessed Trident work, not a renderer failure." },
+  { "project": "spacedock-dev/mermaidtext", "reason": "Native Go CLI only; no JavaScript parser/model operation the original Vitest tests can call. Unassessed Trident work, not a renderer failure." },
+  { "project": "Mootikins/figurehead-rs", "reason": "Native Rust CLI only; no JavaScript parser/model operation the original Vitest tests can call. Unassessed Trident work, not a renderer failure." },
+  { "project": "xai-org/grok-build", "reason": "Native CLI only; no JavaScript parser/model operation the original Vitest tests can call. Unassessed Trident work, not a renderer failure." },
+  { "project": "fasouto/termaid", "reason": "Python package; the original tests run in JavaScript Vitest and no Python parser bridge exists. Unassessed Trident work, not a renderer failure." },
+  { "project": "pub:mermaid_flutter", "reason": "Native Dart/Flutter package; no JavaScript parser/model operation the original Vitest tests can call. Unassessed Trident work, not a renderer failure." },
+  { "project": "orestesgaolin/mermaid", "reason": "Dart compiled to a browser global exposing rendering only; no parser/model binding has been written. Unassessed Trident work, not a renderer failure." },
+  { "project": "crabtalk/bezel", "reason": "WebAssembly browser bundle exposing rendering only; no parser/model binding has been written. Unassessed Trident work, not a renderer failure." },
+  { "project": "Latias94/merman", "reason": "The frozen JavaScript package is 0.9.2 while the measured native CLI is 0.9.3; one project version per benchmark prevents combining them. Unassessed Trident work, not a renderer failure." }
+]

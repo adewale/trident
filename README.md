@@ -4,9 +4,9 @@ Trident benchmarks Mermaid implementations on three questions:
 
 | Benchmark | Measures | Status |
 |---|---|---|
-| **DaveBench** | Completed documentation renders and elapsed time, separately for SVG, PNG and terminal text. | Implemented. [Results](docs/benchmark-campaign-results-2026-11-02.md). |
-| **Drawing Correctness** | Required drawing facts on a shared corpus of examples and real project regressions, across output formats. | Partial: 127 shared cases; SVG/PNG/text assessment coverage remains incomplete. |
-| **Mermaid Fidelity** | Original assertions from the full pinned Mermaid test inventory, through candidate adapters. | Partial: measured original-test outcomes for 14 projects; 13 remain unassessed. |
+| **DaveBench** | Completed documentation renders and elapsed time, separately for SVG, PNG and terminal text. A completion needs a usable output: a sized SVG, a valid PNG, or terminal text that is not empty, an error message or the source printed back. | Implemented. [Results](docs/benchmark-campaign-results-2026-11-03.md). |
+| **Drawing Correctness** | Required drawing facts on a shared corpus of examples and real project regressions, across output formats. | Partial: 127 shared cases; SVG/PNG/text observer coverage remains incomplete, so most ranks are still ranges. |
+| **Mermaid Fidelity** | Original assertions from the full pinned Mermaid test inventory, through candidate adapters, scored over the tests pinned Mermaid itself passes. | Partial: see the [league tables](RESULTS.md) for measured projects; projects without a parser/model binding remain unassessed. |
 
 [League tables](RESULTS.md) · [Methods and coverage](docs/benchmark-results-details.md) · [Definitions and corpus requirements](docs/benchmark-portfolio.md) · [DaveBench method](docs/davebench-definition.md)
 
@@ -34,8 +34,9 @@ bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal F
 
 Prepared artifact lists identify installed public releases. Setup happens before
 timing. The report reads existing numbers and launches no renderers. Equal-weight
-[overall synthesis](docs/overall-scoring.md) now shows score bounds; exact overall
-scores await complete coverage.
+[overall synthesis](docs/overall-scoring.md) shows score ranges and each project's
+possible rank; exact overall scores await complete coverage, and missing work is
+never counted as zero.
 
 [Historical results](RESULTS.md) · [Catalog](CATALOG.md) · [Development scope](SCOPE.md) · [Older collectors and release methods](BENCHMARKS.md)
 
