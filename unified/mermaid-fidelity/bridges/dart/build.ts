@@ -24,7 +24,7 @@ function dartTool(): string {
     const probe = spawnSync(candidate, ['--version'], { encoding: 'utf8' })
     if (probe.error || probe.status !== 0) continue
     const version = probe.stdout + probe.stderr
-    const [major, minor] = (version.match(/Dart SDK version: (\d+)\.(\d+)/) ?? []).slice(1).map(Number)
+    const [major = 0, minor = 0] = (version.match(/Dart SDK version: (\d+)\.(\d+)/) ?? []).slice(1).map(Number)
     if (major > 3 || (major === 3 && minor >= 12)) return candidate
   }
   throw Error('Dart bridge: no Dart SDK >= 3.12 found (set AM_BENCH_DART, as the Dart community adapter does, or put dart on PATH)')
