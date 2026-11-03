@@ -268,7 +268,7 @@ No comparable numeric ranking measure is available.
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -281,7 +281,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -294,7 +294,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -307,7 +307,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -320,7 +320,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -333,7 +333,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -346,7 +346,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -359,7 +359,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -372,7 +372,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -385,7 +385,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -398,7 +398,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -411,7 +411,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -424,7 +424,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -437,7 +437,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -450,7 +450,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -463,7 +463,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -476,7 +476,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -489,7 +489,7 @@ Campaign process status: blocked; Recorded observation dispositions; process com
 
 Campaign invocation: 2026-11-01T14:28:03.387Z → 2026-11-01T14:40:31.374Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/3/report.json)
 
-Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/3/terminal/
+Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

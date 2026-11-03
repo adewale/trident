@@ -20,8 +20,10 @@ Record a blocked project and continue with the others.
 During development, run affected tests. Full timing repeats belong after the
 invocation works. A report needs the actual results and a readable table; extra
 manifests, duplicate archives and publication checks are optional release work.
-DaveBench keeps counts and times, discarding rendered outputs. Drawing checks
-and upstream assertions must still be validated; missing results stay explicit.
+DaveBench keeps counts and times, discarding rendered outputs. No benchmark keeps a
+raw-output archive: a result is verified by re-running its frozen versions and pinned
+inputs ([evidence rule](docs/benchmark-results-details.md#evidence-and-verification)).
+Missing results stay explicit.
 
 ```sh
 bun commands.ts versions --out FRESH_VERSIONS

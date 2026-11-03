@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Discard the 1 November raw-output archive instead of publishing it. Results are verified by re-running frozen versions against pinned inputs; references to a downloadable archive are removed and the evidence rule is documented.
 - DaveBench: a completion now needs an output that passes mechanical admission after the clock stops (sized SVG, valid PNG, terminal text that is not empty, an error message or the source printed back). Two terminal CLIs printed unsupported input back inside a box and exited 0, which had counted as 861 completed renders each. Time now separates equal completion counts only between rows with the same boundary kind (fresh process or persistent API).
 - Mermaid Fidelity: score the callbacks the pinned Mermaid control passes. Callbacks the control cannot pass were everyone's unknowns and capped Mermaid at 54.6% of its own tests. Every bindable candidate now attempts all selected files against one shared control run; ten had previously been run on 42 of 316 files. Add `--reuse-reference`, a configurable per-target timeout and a merge script.
 - Recollect DaveBench for all 27 projects with output admission (3 November). Grok renderer and MermaidText fall from 1,342 to 481 terminal completions; empty returns and zero-size SVGs cost 10–162 completions for eight more projects; every other count reproduces 2 November. Mermaid Flutter's native PNG counter is measured for the first time (1,114/1,342), built from the committed lockfile and run under host Xvfb (`davebench:native-png --host-display`).

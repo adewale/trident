@@ -609,7 +609,7 @@ No comparable numeric ranking measure is available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-05cc3e466712d182900734a6"></a>
 
@@ -617,7 +617,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-2012ac0e33485dc2ca782883"></a>
 
@@ -625,7 +625,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-21dbdbabd43eea06b808c294"></a>
 
@@ -633,7 +633,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-565abc7e288223fa503b1d43"></a>
 
@@ -641,7 +641,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-56c2296e1dd6a2c391eab19a"></a>
 
@@ -649,7 +649,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-7ac917621e80856367dbc490"></a>
 
@@ -657,7 +657,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-7cd2d791eb850feed50bfb6b"></a>
 
@@ -665,7 +665,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-8926ae8af00d06e540371224"></a>
 
@@ -673,7 +673,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-92d7ae2d4baef1b9d1b574f1"></a>
 
@@ -681,7 +681,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-9d0afa9e06320f52d230c7e5"></a>
 
@@ -689,7 +689,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-b03f914eb61b030383deaf84"></a>
 
@@ -697,7 +697,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-b142fd0606f097454338dfac"></a>
 
@@ -705,7 +705,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-cefd4bd9f627d7865d624f2d"></a>
 
@@ -713,7 +713,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -727,7 +727,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-d5459a06cc02648b61f4ba04"></a>
 
@@ -735,7 +735,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-e63b6d31cd4e197d81ff2581"></a>
 
@@ -743,7 +743,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:38:08.771Z · **unavailable** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/2/report.json)
 
-Campaign process status: failed; No per-project observation table was available.; Owning raw results are in the downloadable archive at evidence/2/sources/2/docs/
+Campaign process status: failed; No per-project observation table was available.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 <a id="attempt-02fc1e7f9ebc3439f6f8e84f"></a>
 
@@ -751,7 +751,7 @@ Campaign process status: failed; No per-project observation table was available.
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -765,7 +765,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -779,7 +779,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -793,7 +793,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -807,7 +807,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -821,7 +821,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -835,7 +835,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -849,7 +849,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -863,7 +863,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -877,7 +877,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -891,7 +891,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -905,7 +905,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -919,7 +919,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -933,7 +933,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -947,7 +947,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -961,7 +961,7 @@ Campaign process status: failed; Recorded observation dispositions; process comp
 
 Campaign invocation: 2026-11-01T11:25:15.438Z → 2026-11-01T17:05:34.206Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/1/report.json)
 
-Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/1/sources/0/docs/
+Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

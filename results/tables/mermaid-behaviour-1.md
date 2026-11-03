@@ -74,7 +74,7 @@ Comparisons use whole-case verified pass counts. Unavailable or unrun cases leav
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/14/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -86,7 +86,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/08/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -98,7 +98,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/17/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -110,7 +110,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/03/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -122,7 +122,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/21/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -134,7 +134,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/13/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -146,7 +146,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/11/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -158,7 +158,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **recorded** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: passed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/18/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: passed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -170,7 +170,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/02/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -182,7 +182,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/15/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -194,7 +194,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/05/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -206,7 +206,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **recorded** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: passed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/25/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: passed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -218,7 +218,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/07/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -230,7 +230,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/01/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -242,7 +242,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/23/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -254,7 +254,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/00/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -266,7 +266,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/12/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -278,7 +278,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/19/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -290,7 +290,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/16/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -302,7 +302,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/22/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -314,7 +314,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/26/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -326,7 +326,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/10/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -338,7 +338,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/20/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -350,7 +350,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/09/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -362,7 +362,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/04/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -374,7 +374,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **failed** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/06/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: failed; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -386,7 +386,7 @@ Whole source-derived observable behaviours; original public-call ownership and a
 
 Campaign invocation: 2026-11-01T14:35:59.282Z → 2026-11-01T15:19:30.283Z · **blocked** · [evidence](https://raw.githubusercontent.com/adewale/trident/2c464366c5f05c01b29e41993a64e1eddb77be58/evidence/4/report.json)
 
-Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Owning raw results are in the downloadable archive at evidence/4/projects/24/
+Whole source-derived observable behaviours; original public-call ownership and actual reference qualification are revalidated from raw evidence.; Campaign process status: blocked; Recorded observation dispositions; process completion does not establish benchmark qualification.; Raw outputs were not retained: the 1 November archive was discarded, and these recorded counts are the record
 
 | Version / artifact role | Interface / runtime | Format / operation | Mode / round | Distinct case IDs | Passed observations | Failed | Unsupported | Blocked | Other dispositions | Recorded observations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

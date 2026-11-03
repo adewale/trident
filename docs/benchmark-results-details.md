@@ -130,6 +130,32 @@ run the unexpanded and outside-runner tests. The combined table displays score
 ranges; an exact overall score remains unavailable while required measurements are
 missing.
 
+## Evidence and verification
+
+Results are verified by re-running them, not by archiving rendered outputs. Each
+published result is backed by four small, committed things:
+
+1. **The frozen version list:** the exact release or source revision of every
+   project, resolved once per campaign (`docs/evidence/benchmark-campaign-2026-11-02/versions.json`
+   and `catalog.json`).
+2. **The pinned inputs:** the Mermaid documentation commit for DaveBench, the 127-case
+   Drawing corpus in the repository, and the Mermaid test-suite commit for Fidelity.
+3. **The code commit** that collected and scored the result.
+4. **The numeric results:** per-run counts and times for DaveBench, and per-case or
+   per-file outcomes for Drawing Correctness and Mermaid Fidelity.
+
+Anyone can check a result by preparing the same frozen versions and running the same
+commands. On 3 November that reproduced every count the changes did not touch: every
+DaveBench completion count, Fidelity's 2,894 qualified tests and every terminal Drawing
+row. Re-running is also how a scoring change is applied; the terminal Drawing
+recollection took about three minutes.
+
+Rendered SVGs, PNGs and terminal text are not kept. The 605 MB raw archive of the
+1 November campaign was discarded rather than published. That campaign measured the
+superseded benchmark set; its tables and report receipts remain on the
+[`evidence/full-campaign-2026-11-01`](https://github.com/adewale/trident/tree/evidence/full-campaign-2026-11-01)
+branch as a historical record.
+
 ## Detailed results and numeric inputs
 
 - [DaveBench method and detailed results](benchmark-campaign-results-2026-11-03.md)
