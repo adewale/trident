@@ -39,7 +39,7 @@ test('the landing page contains all three leagues, one project-version label and
   const { davebench, drawing, fidelity, catalog } = leaguesFixture()
   const before = JSON.stringify({ davebench, drawing, fidelity })
   const page = renderBenchmarkLeagues(davebench, drawing, fidelity, catalog, { a: 'Alpha', b: 'Beta' })
-  expect(page.match(/^## .+$/gm)).toEqual(['## DaveBench', '## Drawing Correctness', '## Mermaid Fidelity'])
+  expect(page.match(/^## .+$/gm)).toEqual(['## DaveBench', '## Drawing Correctness', '## Mermaid Fidelity', '## Equal-weight synthesis'])
   expect(page).toContain('| 1 | Alpha 1.0.0 |')
   expect(page).not.toContain('| Version |')
   expect(page).toContain('### Terminal rendering')

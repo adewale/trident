@@ -1,3 +1,4 @@
+import { synthesiseBenchmarks, type ScoreBounds } from './overall-score.ts'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { davebenchRankings, type DavebenchRun } from './davebench.ts'
@@ -91,6 +92,9 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   const reference = fidelity.results.find((r: any) => r.project === 'mermaid-js/mermaid') ?? fidelity.results[0]
   const population = fidelity.referenceQualifiedCallbacks + (reference?.counts['reference-unqualified'] ?? 0)
   caseTable(fidelity.results.map((r: any) => ({ ...r, passed: r.counts.passed, failed: r.counts.failed + r.counts.unsupported, gaps: r.counts['trident-blocked'] + (r.counts['reference-unqualified'] ?? 0) })), population, fidelity.blocked)
+  lines.push('## Equal-weight synthesis', '')
+  const bounds = (value: ScoreBounds) => Math.abs(value.upper - value.lower) < 1e-9 ? value.lower.toFixed(2) : value.lower.toFixed(2) + '–' + value.upper.toFixed(2)
+  table(['Rank by minimum', 'Project', 'DaveBench / 100', 'Drawing / 100', 'Fidelity / 100', 'Overall bounds / 100 ↑'], synthesiseBenchmarks(davebench, drawing, fidelity, catalog).map(row => [row.minimumRank ?? '—', label(row), bounds(row.davebench), bounds(row.drawing), bounds(row.fidelity), bounds(row.overall)]))
   return lines.join('\n')
 }
 

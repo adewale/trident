@@ -34,7 +34,8 @@ bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal F
 
 Prepared artifact lists identify installed public releases. Setup happens before
 timing. The report reads existing numbers and launches no renderers. Equal-weight
-[overall scoring](docs/overall-scoring.md) waits for all three benchmark results.
+[overall synthesis](docs/overall-scoring.md) now shows score bounds; exact overall
+scores await complete coverage.
 
 [Historical results](RESULTS.md) · [Catalog](CATALOG.md) · [Development scope](SCOPE.md) · [Older collectors and release methods](BENCHMARKS.md)
 

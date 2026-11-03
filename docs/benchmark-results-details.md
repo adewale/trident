@@ -23,7 +23,9 @@ and candidate adapter gaps, keeping the 5,302-case population fixed. The 143 ups
 skips are outside that population. Detailed tables separate these categories. A wholly
 unassessed project has neither a score nor a rank. An observed zero with known
 failures remains a measured result. Ranks order observed passes; unresolved cases
-can change that order. They do not establish an overall winner.
+can change that order. They do not establish an overall winner. The [equal-weight synthesis](overall-scoring.md)
+combines score bounds and orders their verified minima; it does not impute unknown
+measurements as zero point scores.
 
 ## Why terminal output appears in two benchmarks
 
@@ -89,8 +91,8 @@ The follow-up removes source/transport omissions and expands measured Fidelity
 participation from four to fourteen projects. Broad assessment and original-test
 operation coverage are still incomplete; calling the whole benchmark effort finished
 would be premature. The remaining work is to extend and validate the observers, bind
-candidate operations, and run the unexpanded/outside-runner tests. No overall score
-is synthesized from missing measurements.
+candidate operations, and run the unexpanded/outside-runner tests. The combined table displays score bounds; an exact overall score remains unavailable
+while required measurements are missing.
 
 ## Detailed results and numeric inputs
 
@@ -104,3 +106,17 @@ is synthesized from missing measurements.
 new results were published elsewhere. `results:snapshot` now reads the three current
 numeric results for the landing page. Historical snapshots and their detailed pages
 retain their original measurements and are no longer the landing page's source.
+
+## Current project participation
+
+| Benchmark | Projects with scored results | Projects with no Trident gaps in the reported population |
+|---|---:|---:|
+| DaveBench | 26: 16 SVG, 16 PNG, 18 terminal | 26 |
+| Drawing Correctness | 26: 16 SVG, 16 PNG, 18 terminal | 0 |
+| Mermaid Fidelity | 14, including Mermaid 12.2.0 | 0 |
+
+A scored result can include failures. It does not mean every input passed, every
+output was assessable, or that the project has complete benchmark coverage.
+Drawing's 2,854 unknown assessments and Fidelity's missing operations/reference
+bindings remain unfinished Trident work. The synthetic table combines the measured
+components now; no project has enough coverage for an exact overall score.

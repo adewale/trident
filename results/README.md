@@ -1,7 +1,7 @@
 # Benchmark results
 
 [RESULTS.md](../RESULTS.md) is the league-table page for **DaveBench**, **Drawing
-Correctness** and **Mermaid Fidelity**. It contains tables and a link to the
+Correctness** and **Mermaid Fidelity**, plus their equal-weight synthesis. It contains tables and a link to the
 [methods and coverage details](../docs/benchmark-results-details.md). Project names
 and versions always form one display label.
 

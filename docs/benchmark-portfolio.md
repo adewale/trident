@@ -14,8 +14,8 @@ Equal correctness/fidelity counts share a rank. DaveBench retains its exact
 completion/time tie rule. There is no combined score across these three questions
 or across output formats in the original tables. Each result names its workload
 and renderer version. The user's subsequent request adds an optional
-[equal-weight overall synthesis](overall-scoring.md); missing benchmarks withhold
-the overall score and rank.
+[equal-weight overall synthesis](overall-scoring.md); missing measurements preserve score bounds and withhold
+an exact overall score and rank.
 
 ## DaveBench: SVG, PNG and terminal text
 
