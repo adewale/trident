@@ -66,26 +66,26 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   const lines = ['# Benchmark league tables', '', '[Methods, scoring and coverage details](docs/benchmark-results-details.md)', '', '## DaveBench', '']
   const table = (columns: string[], rows: unknown[][]) => lines.push('| ' + columns.join(' | ') + ' |', '| ' + columns.map(() => '---').join(' | ') + ' |', ...rows.map(r => '| ' + r.map(escape).join(' | ') + ' |'), '')
   for (const format of ['svg', 'png', 'terminal']) {
-    lines.push('### ' + (format === 'terminal' ? 'Terminal text' : format.toUpperCase()), '')
+    lines.push('### ' + (format === 'terminal' ? 'Terminal rendering' : format.toUpperCase() + ' rendering'), '')
     const ranked = [...davebench.rankings[format]].sort((a: any, b: any) => a.rank - b.rank || label(a).localeCompare(label(b)))
     const rows: unknown[][] = ranked.map((r: any) => [r.rank, label(r), r.completed, (r.medianTotalMs / 1000).toFixed(3)])
     for (const block of davebench.blocked ?? []) if (!ranked.some((r: any) => r.project === block.project) && catalog.nodes.find((n: any) => n.id === block.project)?.benchmark?.outputs.includes(format)) rows.push(['—', label(block), 'Blocked', '—'])
     table(['Rank', 'Project', `Completed / ${davebench.corpus.occurrences} ↑`, 'Median seconds ↓'], rows)
   }
-  const caseTable = (entries: any[], population: number, blocks: any[]) => {
+  const caseTable = (entries: any[], population: number, blocks: any[], blockedLabel = 'Not run') => {
     const measured = entries.map(r => ({ ...r, scored: r.passed + r.failed > 0 })).sort((a, b) => Number(b.scored) - Number(a.scored) || b.passed - a.passed || label(a).localeCompare(label(b)))
     let rank = 0, previous: number | undefined
     const rows: unknown[][] = measured.map((r, index) => {
       if (r.scored && r.passed !== previous) { rank = index + 1; previous = r.passed }
-      return [r.scored ? rank : '—', label(r), r.scored ? r.passed : '—', r.scored ? r.failed : '—', r.gaps]
+      return [r.scored ? rank : '—', label(r), r.scored ? r.passed : 'Not assessed', r.scored ? r.failed : '—', r.gaps]
     })
-    for (const block of [...blocks].sort((a, b) => label(a).localeCompare(label(b)))) if (!measured.some(r => r.project === block.project)) rows.push(['—', label(block), '—', '—', population])
+    for (const block of [...blocks].sort((a, b) => label(a).localeCompare(label(b)))) if (!measured.some(r => r.project === block.project)) rows.push(['—', label(block), blockedLabel, '—', population])
     table(['Rank', 'Project', `Passed / ${population} ↑`, 'Failed', 'Unassessed'], rows)
   }
   lines.push('## Drawing Correctness', '')
   for (const format of ['svg', 'png', 'terminal']) {
-    lines.push('### ' + (format === 'terminal' ? 'Terminal text' : format.toUpperCase()), '')
-    caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => r.format.includes(format)))
+    lines.push('### ' + (format === 'terminal' ? 'Terminal correctness' : format.toUpperCase() + ' correctness'), '')
+    caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => r.format.includes(format)), 'Blocked')
   }
   lines.push('## Mermaid Fidelity', '')
   const reference = fidelity.results.find((r: any) => r.project === 'mermaid-js/mermaid') ?? fidelity.results[0]

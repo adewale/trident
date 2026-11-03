@@ -21,3 +21,10 @@ export async function compareRasterWitness(input: { png: string; witness: string
     return { status: 'unknown', reason: 'PNG raster equivalence could not be decoded' }
   }
 }
+
+/** A narrower observer cannot overturn an exact, fully assessed SVG witness. */
+export function resolveRasterObservation(witness: any, independent: any, sourceGaps: string[] = []) {
+  if (witness.status === 'correct' || witness.status === 'incorrect') return witness
+  if (!sourceGaps.length && ['correct', 'incorrect'].includes(independent.status)) return independent
+  return { status: 'unknown', reason: sourceGaps.length ? 'Source obligations are incomplete' : (independent.reason ?? independent.error ?? witness.reason) }
+}

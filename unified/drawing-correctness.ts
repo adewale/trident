@@ -6,7 +6,7 @@ import { chromium } from 'playwright'
 import { drawingCases, type DrawingCase } from '../fidelity/drawing/corpus.ts'
 import { inspectSvgDrawing } from '../fidelity/drawing/svg.ts'
 import { captureDrawingPng } from '../fidelity/drawing/export-png.ts'
-import { compareRasterWitness } from '../fidelity/drawing/png.ts'
+import { compareRasterWitness, resolveRasterObservation } from '../fidelity/drawing/png.ts'
 import { DrawingWorker } from '../fidelity/drawing/worker.ts'
 import { assessTextDrawing } from '../fidelity/drawing/terminal.ts'
 import { browserHost } from './davebench.ts'
@@ -81,7 +81,7 @@ export async function main(args = process.argv.slice(2)) {
           selection: opts.get('--case') ? 'functional subset' : 'full shared corpus',
           corpus: { cases: cases.length, ids: cases.map(c => c.id), seed: 'reviewed Terminal Drawing Facts, invalid controls excluded', regressions: 'corpus/drawing-regressions.json' },
           versionsFrozenAt: catalog.benchmarkVersionsCheckedAt,
-          assessmentLimits: { nodes: 40, edges: 80, svgMs: 8000, invocationMs: 15000, rasterWorkerMs: 20000 },
+          assessmentLimits: { nodes: 40, edges: 80, svgMs: 8000, invocationMs: 15000, rasterWorkerMs: 20000, terminalWorkerMs: 20000 },
           rows,
           blocked,
         },
@@ -126,7 +126,7 @@ export async function main(args = process.argv.slice(2)) {
           }
           for (const test of cases) {
             console.log(project, test.id, 'SVG/PNG')
-            let svg: string, png: Buffer | undefined, assessment: any
+            let svg: string, png: Buffer | undefined, assessment: any, witnessSvg: string | undefined
             try {
               svg = native
                 ? nativeCall(artifact, test.source, 'svg').toString('utf8')
@@ -151,7 +151,7 @@ export async function main(args = process.argv.slice(2)) {
             } catch (error) {
               rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: 'renderer-failure', reason: String(error).slice(0, 400) })
               if (!native && !imagePeer.browser?.additionalOutputs?.includes('png')) {
-                rows.push({ project, version: artifact.version, format: 'png', caseId: test.id, status: 'unrun', reason: 'Shared PNG conversion requires the SVG render that failed' })
+                rows.push({ project, version: artifact.version, format: 'png', caseId: test.id, status: 'renderer-failure', reason: 'Shared PNG path failed at SVG render: ' + String(error).slice(0, 300) })
                 save()
                 continue
               }
@@ -160,22 +160,31 @@ export async function main(args = process.argv.slice(2)) {
             }
             try {
               if (native) png = nativeCall(artifact, test.source, 'png')
-              else png = Buffer.from(await bounded(session.page.evaluate(captureDrawingPng, { svg: svg!, source: test.source }), 'Public PNG invocation', 15000))
+              else {
+                const exported = await bounded<any>(session.page.evaluate(captureDrawingPng, { svg: svg!, source: test.source }), 'Public PNG invocation', 15000)
+                png = Buffer.from(exported.bytes)
+                witnessSvg = exported.witnessSvg
+              }
               if (png.length < 8 || png.subarray(0, 8).toString('hex') !== '89504e470d0a1a0a') {
                 rows.push({ project, version: artifact.version, format: 'png', caseId: test.id, status: 'invalid-format', reason: 'PNG export returned bytes without the PNG signature' })
                 save()
                 continue
               }
               let result: any = { status: 'unknown', reason: 'No qualified raster assessment' }
-              if (assessment.status === 'correct') {
-                const witness = await inspect.locator('svg').first().screenshot({ type: 'png', omitBackground: true, timeout: 5000 })
-                result = await inspect.evaluate(compareRasterWitness, { png: 'data:image/png;base64,' + png.toString('base64'), witness: 'data:image/png;base64,' + witness.toString('base64') })
+              let rasterAssessment = assessment
+              if (witnessSvg && !complexityGap(test)) {
+                await inspect.setContent('<style>html,body{margin:0;padding:0;background:transparent}svg{max-width:none}</style><div style="width:' + png.readUInt32BE(16) + 'px;height:' + png.readUInt32BE(20) + 'px">' + witnessSvg + '</div>', { timeout: 8000 })
+                rasterAssessment = await bounded(inspectSvgDrawing(inspect, test), 'Trident normalized PNG witness assessment')
               }
-              if (result.status !== 'correct' && !complexityGap(test) && test.family === 'flowchart' && !test.expected.groups?.length) {
+              if (['correct', 'incorrect'].includes(rasterAssessment.status)) {
+                const witness = await inspect.locator('svg').first().screenshot({ type: 'png', omitBackground: true, timeout: 5000 })
+                const equivalent = await inspect.evaluate(compareRasterWitness, { png: 'data:image/png;base64,' + png.toString('base64'), witness: 'data:image/png;base64,' + witness.toString('base64') })
+                result = equivalent.status === 'correct' ? { status: rasterAssessment.status, reason: rasterAssessment.status === 'incorrect' ? 'PNG exactly preserves independently observed drawing failures: ' + rasterAssessment.failed.join(', ') : equivalent.reason } : equivalent
+              }
+              if (result.status === 'unknown' && !complexityGap(test) && test.family === 'flowchart' && !test.expected.groups?.length) {
                 const layout = test.terminal.expected.contract?.facts.find(f => f.criterion === 'layout-order')?.expected
                 const independent = raster ? await raster.call({ png: png.toString('base64'), family: test.family, expected: test.expected, layout, geometry: test.geometry }) : { status: 'unknown', reason: rasterError }
-                if ((independent.status === 'correct' && !test.sourceGaps.length) || independent.status === 'incorrect') result = independent
-                else result = { status: 'unknown', reason: independent.reason ?? result.reason }
+                result = resolveRasterObservation(result, independent, test.sourceGaps)
               }
               rows.push({ project, version: artifact.version, format: 'png', caseId: test.id, status: result.status, reason: result.reason })
             } catch (error) {
@@ -204,14 +213,16 @@ export async function main(args = process.argv.slice(2)) {
           const a = terminalPeer.artifact,
             extra = a.additionalCli?.find((c: any) => c.outputs.includes('terminal'))?.artifact
           const native = a.kind === 'cli' ? a : !communityModuleOutputSupported(node, 'terminal') ? extra : undefined
-          if (!native) {
+          const openWorker = async () => {
             const python = a.kind === 'python',
               executable = python ? a.executable : /bun/i.test(a.runtime ?? '') || /\.tsx?$/.test(a.module ?? '') ? process.execPath : 'node'
             worker = new DrawingWorker([executable, join(import.meta.dirname, '../fidelity/drawing/terminal-worker.' + (python ? 'py' : 'mjs'))])
             const ready = await worker.call({ type: 'init', peer: terminalPeer })
             if (!ready.ok) throw Error(ready.error)
           }
+          if (!native) await openWorker()
           for (const test of cases) {
+            if (!native && (!worker || worker.child.exitCode !== null)) await openWorker()
             const result = native
               ? (() => {
                   try {
@@ -220,15 +231,13 @@ export async function main(args = process.argv.slice(2)) {
                     return { ok: false, error: String(e) }
                   }
                 })()
-              : await worker!.call({ source: test.source })
+              : await worker!.call({ source: test.source }).catch(error => ({ ok: false, error: 'Worker transport: ' + String(error) }))
             if (!result.ok) {
-              const stopped = /Worker has stopped|Worker exited/.test(result.error ?? '')
+              const stopped = /Worker has stopped|Worker exited|Worker transport/.test(result.error ?? '')
               rows.push({ project, version: native?.version ?? a.version, format: 'terminal', caseId: test.id, status: stopped ? 'unrun' : 'renderer-failure', reason: result.error })
               if (stopped || /Worker timed out/.test(result.error ?? '')) {
-                blocked.push({ project, format: 'terminal', reason: 'Public worker stopped; remaining cases were not invoked' })
-                for (const pending of cases.slice(cases.indexOf(test) + 1)) rows.push({ project, version: a.version, format: 'terminal', caseId: pending.id, status: 'unrun', reason: 'Public worker stopped' })
-                save()
-                break
+                await worker?.close()
+                worker = undefined
               }
               save()
               continue

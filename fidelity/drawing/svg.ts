@@ -1,10 +1,9 @@
+import { inspectEmptySvgDrawing } from './empty.ts'
 import type { DrawingCase } from './corpus.ts'
-import { plannedPaintCriteria, inspectFidelityPaint, type PaintCheck, type PaintEvidence } from '../paint.ts'
-import { inspectQuantitativePaint, plannedQuantitativeCriteria } from '../paint-values.ts'
-import { inspectGraphFamilyPaint } from '../paint-graph-families.ts'
-import { inspectSourceFacts, plannedSourceFactCriteria, mergePaintChecks } from '../paint-facts.ts'
-import { inspectDomainFacts } from '../paint-domain-facts.ts'
-import { inspectChartFacts } from '../paint-chart-facts.ts'
+import { plannedPaintCriteria, type PaintCheck, type PaintEvidence } from '../paint.ts'
+import { plannedQuantitativeCriteria } from '../paint-values.ts'
+import { inspectSvgDrawing as observeSvg } from '../inspect-svg.ts'
+import { plannedSourceFactCriteria, mergePaintChecks } from '../paint-facts.ts'
 
 export function wholeDrawing(checks: Pick<PaintCheck, 'criterion' | 'status'>[], required: string[], sourceGaps: string[] = []) {
   required = required.filter(key => key !== 'svg-unique-ids')
@@ -105,20 +104,15 @@ export function inspectRegressionGeometry(input: { paint: PaintEvidence; geometr
   return checks
 }
 export async function inspectSvgDrawing(page: any, test: DrawingCase) {
-  let paint: PaintEvidence = await page.evaluate(inspectFidelityPaint, test)
-  const quantitative = await page.evaluate(inspectQuantitativePaint, { ...test, nodes: paint.nodes, labelRepresentation: paint.labelRepresentation })
-  const graph = await page.evaluate(inspectGraphFamilyPaint, { ...test, paint, quantitative })
-  paint = { ...paint, nodes: graph.nodes, connections: graph.connections, groups: graph.groups }
-  const source = await page.evaluate(inspectSourceFacts, { ...test, paint, quantitative })
-  const domain = await page.evaluate(inspectDomainFacts, { ...test, paint, quantitative })
-  const chart = await page.evaluate(inspectChartFacts, { ...test, paint, quantitative })
+  if (test.family === 'flowchart' && test.terminal.expected.graph?.nodes.length === 0 && test.terminal.expected.graph.edges.length === 0 && !test.terminal.expected.graph.groups?.length && !test.expected.groups?.length && !Object.keys(test.expected.facts ?? {}).length) return inspectEmptySvgDrawing(page, test)
+  const paint = await observeSvg(page, test)
   const layout = test.terminal.expected.contract?.facts.find(f => f.criterion === 'layout-order' && f.required !== false)?.expected as any[] | undefined
   const geometry = await page.evaluate(inspectRegressionGeometry, { paint, geometry: test.geometry, layout })
-  const checks = mergePaintChecks(paint.checks, quantitative, graph.checks, source, domain, chart, geometry)
+  const checks = mergePaintChecks(paint.checks, geometry)
   // A topology mismatch needs qualified endpoint ownership. Grid/glyph and
   // other unrecognized body representations are observer gaps, not proof
   // that a renderer omitted or reversed an edge.
-  if (test.expected.nodes?.length && graph.checks.find((c: PaintCheck) => c.criterion === 'painted-node-visibility')?.status !== 'passed') {
+  if (test.expected.nodes?.length && paint.checks.find((c: PaintCheck) => c.criterion === 'painted-node-visibility')?.status !== 'passed') {
     const dependent = new Set(['painted-relationships', 'painted-relationship-markers', 'painted-relationship-label-counts', 'painted-relationship-label-ownership', 'edge-node-clearance', 'orthogonal-node-approach', 'distinct-node-bodies'])
     for (const check of checks)
       if ((dependent.has(check.criterion) || check.criterion.startsWith('source-fact:')) && check.status === 'failed') {

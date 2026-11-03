@@ -25,23 +25,45 @@ unassessed project has neither a score nor a rank. An observed zero with known
 failures remains a measured result. Ranks order observed passes; unresolved cases
 can change that order. They do not establish an overall winner.
 
+## Why terminal output appears in two benchmarks
+
+The format is shared; the questions and input corpora differ:
+
+- **DaveBench — Terminal rendering:** render all 1,342 documentation examples to
+  native terminal text. Count completed operations and measure total time. No
+  drawing assessment or conversion to PNG takes place.
+- **Drawing Correctness — Terminal correctness:** render the 127 reviewed drawing
+  cases to native terminal text. Check their labels, objects, connections, direction
+  and other required facts. Timing does not contribute to this rank.
+
+The same distinction applies to SVG and PNG. A fast renderer may fail correctness
+checks, and a correct renderer may be slow; both questions have useful answers.
+
 ## Why coverage is incomplete
 
 These gaps mostly describe unfinished Trident implementation, rather than demonstrated
 limitations of the projects being benchmarked.
 
-**Fidelity stopped at a small adapter list.** The runner currently selects Mermaid,
-Pele, Agentic Mermaid and Beautiful Mermaid explicitly. Zombie was checked but its
-installed artifact had no binding usable by that adapter. The other projects were
-blocked before their original tests ran because Trident has no adapter for them.
-The resulting 23 project gaps are not 23 observed test-suite failures.
+**Fidelity originally stopped at a small adapter list.** The earlier runner selected
+Mermaid and three candidates, and incorrectly blocked Zombie because an expected
+source file was absent. The bundled native parser was present. Generic native
+bindings, a guarded Bun/async parser bridge, native model schema views and the
+Frankenmermaid WASM binding now give measured original-test outcomes to **14 projects**.
+The 43 affected original files were collected only after functional checks.
+
+The other **13 projects remain unassessed**: their original-test operation bindings
+have not been collected. Their rows say **Not run**, not failed or zero. Newly
+admitted projects also retain unassessed callbacks outside the collected files.
+A produced drawing that could not be judged says **Not assessed**. No result is
+inferred from a project's identity or relationship to another renderer.
 
 The pinned tests frequently import Mermaid's parser and mutable diagram database,
-including getters and host configuration. Existing rendering drivers alone do not
-supply those operations. Trident needs bindings to each candidate's actual available
-operations, with missing operations accounted for per test. Blocking an entire
-project at adapter selection also prevents any otherwise usable public-interface
-tests from contributing. That is a coverage problem in the current runner.
+including getters and host configuration. A working renderer does not automatically
+provide those operations. The bridge invokes actual candidate parsers and preserves
+native data; it does not run Mermaid on their behalf or invent missing methods.
+Unavailable operations, unknown schemas and import/transport errors remain explicit
+per-test gaps. The missing root/helper bindings in the reference API tests remain
+unrepaired as well.
 
 Even the reference path is incomplete: 5,445 callbacks expanded, but 2,408 were
 reference-unqualified and 143 were upstream-skipped. Twenty-five selected files did
@@ -54,14 +76,19 @@ outside-runner files remain listed separately; their expanded case counts are un
 but recognition still depends on the representation. SVG body/route/cardinality
 ownership is sometimes unqualified. PNG checks either require an exact raster match
 to an independently assessed SVG, or the narrow OCR/frame/route profile. Other images
-remain unknown. Seven cases have common source-transcription or empty-drawing gaps;
-large stress cases exceed the observer bound. These are assessment gaps, not proof
-that those diagrams are wrong. OpenCode's stopped terminal worker leaves 48 unrun
-cases, and Flutter's native bundle remains an isolated setup blocker.
+remain unknown. All common source transcriptions now qualify, including the seven repaired cases.
+Empty drawings have dedicated pixel checks, normalized PNG witnesses receive fresh
+assessment, and the full SVG compound-body observer is reused. OpenCode worker
+recovery and independent native PNG invocations remove the formerly unrun rows.
+The 6,350 available slots now have zero unrun rows, but 2,854 remain unassessed
+because the actual representation is outside a qualified observer profile. Large
+stress cases also exceed the observer bound. These are Trident assessment limits,
+not proof that those drawings are wrong. Flutter remains an isolated setup blocker.
 
-The earlier delivery implemented and exercised the runners, but did not finish
-broad assessment and adapter coverage. Describing that as finishing the benchmarks
-was premature. The remaining work is to extend and validate the observers, bind
+The follow-up removes source/transport omissions and expands measured Fidelity
+participation from four to fourteen projects. Broad assessment and original-test
+operation coverage are still incomplete; calling the whole benchmark effort finished
+would be premature. The remaining work is to extend and validate the observers, bind
 candidate operations, and run the unexpanded/outside-runner tests. No overall score
 is synthesized from missing measurements.
 

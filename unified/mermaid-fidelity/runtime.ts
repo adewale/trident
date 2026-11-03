@@ -1,5 +1,6 @@
 // Original test bodies run once in Vitest. Only production imports are adapted.
 import { readFileSync, appendFileSync } from 'node:fs'
+import { spawnSync } from 'node:child_process'
 import { resolve, dirname, join } from 'node:path'
 import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
@@ -8,6 +9,8 @@ import { projectPublicDatabase } from '../upstream-fidelity-projection.mjs'
 
 const job = JSON.parse(readFileSync(process.env.TRIDENT_FIDELITY_JOB!, 'utf8'))
 const referenceRequire = createRequire(join(job.reference, 'package.json'))
+let nativeLoadGap: string | undefined,
+  useBunParser = false
 let api: any,
   definitions = new Map<string, any>(),
   configurations: any,
@@ -90,7 +93,7 @@ export async function initialize(file?: string) {
           definitions.set(family, await api.mermaidAPI.getDiagramFromText(examples[family]))
         } catch {}
       }
-  } else if (['beautiful', 'zombie'].includes(job.target.tool)) {
+  } else if (job.target.tool === 'beautiful') {
     const family = job.files.find((f: any) => f.absolute === file)?.family
     const modules: Record<string, string> = { flowchart: 'src/parser.ts', state: 'src/parser.ts', sequence: 'src/sequence/parser.ts', class: 'src/class/parser.ts', er: 'src/er/parser.ts' }
     if (modules[family]) {
@@ -101,7 +104,16 @@ export async function initialize(file?: string) {
         api = await import(/* @vite-ignore */ pathToFileURL(job.target.entry).href)
       }
     } else api = {}
-  } else api = await import(/* @vite-ignore */ pathToFileURL(job.target.entry).href)
+  } else {
+    try {
+      api = await import(/* @vite-ignore */ pathToFileURL(job.target.entry).href)
+      if (job.target.peer?.artifact?.kind === 'franken') api.initSync({ module: readFileSync(job.target.peer.artifact.wasm) })
+    } catch (error) {
+      api = {}
+      nativeLoadGap = 'Installed native module could not load: ' + String(error)
+      useBunParser = /Bun/.test(job.target.peer?.artifact?.runtime ?? '')
+    }
+  }
 }
 export function begin(task: any) {
   const flatten = (node: any): any[] => (node.tasks ? node.tasks.flatMap(flatten) : node.type === 'test' ? [node] : [])
@@ -149,16 +161,105 @@ function nativeParse(family: string, source: string) {
     }
     return { ...result.value.body, ...(result.value.meta?.title !== undefined ? { title: result.value.meta.title } : {}), ...(result.value.meta?.accessibility?.title !== undefined ? { accessibilityTitle: result.value.meta.accessibility.title } : {}) }
   }
-  if (['beautiful', 'zombie'].includes(job.target.tool)) {
+  if (job.target.tool === 'beautiful') {
     const names: Record<string, string> = { flowchart: 'parseMermaid', state: 'parseMermaid', sequence: 'parseSequenceDiagram', class: 'parseClassDiagram', er: 'parseErDiagram' }
     const parse = api[names[family]!]
     if (typeof parse !== 'function') return gap('Native parser/schema adapter is unavailable for ' + family)
     try {
-      const value = parse(source)
+      const value = parse(
+        family === 'flowchart' || family === 'state'
+          ? source
+          : source
+              .split(/\r?\n/)
+              .map(line => line.trim())
+              .filter(Boolean),
+      )
       if (value?.then) return gap('Native parse is asynchronous; synchronous database view unavailable')
       return value
     } catch (error: any) {
       if (error?.name !== 'Error' || !String(error.stack).includes(job.target.root)) return gap('Unclassified native parser exception: ' + String(error))
+      active && active.rejections++
+      throw error
+    }
+  }
+  if (job.target.tool === 'native' || job.target.tool === 'zombie') {
+    if (nativeLoadGap && !useBunParser && !job.target.parserEntries?.[family]) return gap(nativeLoadGap)
+    const selectors: Record<string, string[]> = {
+      flowchart: ['parseFlowchart', 'parseFlowchartToGraph', 'parseMermaidFlowchartDiagram', 'parseMermaid'],
+      class: ['parseClassDiagram'],
+      sequence: ['parseSequenceDiagram', 'parseMermaidSequenceDiagram', 'parseSequence'],
+      er: ['parseErDiagram'],
+      state: ['parseStateDiagram', 'parseMermaidStateDiagram'],
+      gantt: ['parseMermaidGanttDiagram'],
+      timeline: ['parseMermaidTimelineDiagram'],
+      gitgraph: ['parseMermaidGitGraphDiagram'],
+    }
+    if (useBunParser || job.target.parserEntries?.[family] || typeof api.parseToIR === 'function') {
+      const entry = job.target.parserEntries?.[family] ?? job.target.entry
+      const child = spawnSync(job.target.bun, [join(import.meta.dirname, 'native-call.mjs')], { input: JSON.stringify({ entry, source, methods: [...(selectors[family] ?? []), 'parse', 'parseToIR'] }), encoding: 'utf8', timeout: 5000, maxBuffer: 16 * 1024 * 1024 })
+      if (child.error || child.status !== 0) return gap('Native Bun parser bridge failed: ' + (child.error?.message ?? child.stderr.slice(0, 400)))
+      let reply: any
+      try {
+        reply = JSON.parse(child.stdout.trim().split('\n').at(-1)!, (_key, v) => (v?.__tridentNativeMap ? new Map(v.__tridentNativeMap) : v?.__tridentNativeSet ? new Set(v.__tridentNativeSet) : v?.__tridentNativeDate ? new Date(v.__tridentNativeDate) : v))
+      } catch {
+        return gap('Native Bun parser bridge returned no structured observation')
+      }
+      if (reply.adapterGap) return gap(reply.adapterGap)
+      if (reply.error) {
+        const e = reply.error
+        if (/Unsupported|UnknownDiagram/.test(e.name) || /unsupported diagram|unknown diagram|unrecognized diagram type|unsupported .*diagram type/i.test(e.message)) {
+          active?.unsupported.push(e.message)
+          throw Error(e.message)
+        }
+        if (!/^(?:ParseError|MermaidSyntaxError|SyntaxError)$/.test(e.name) && !/parse error|parsing failed|invalid (?:syntax|flowchart)|syntax error/i.test(e.message)) return gap('Unclassified native parser refusal: ' + e.message)
+        active && active.rejections++
+        throw Error(e.message)
+      }
+      if (reply.value?.kind && reply.value.diagram && reply.value.kind !== family) return gap('Native generic parser returned ' + reply.value.kind + '; requested ' + family + ' parser operation is not available')
+      return reply.value?.kind && reply.value.diagram ? reply.value.diagram : reply.value
+    }
+    const selected = (selectors[family] ?? []).find(name => typeof api[name] === 'function')
+    // Generic parse is used only for an API whose own returned kind distinguishes
+    // families; no source prefix detector is invented by this adapter.
+    const parser = selected ? api[selected] : typeof api.parse === 'function' ? api.parse : undefined
+    if (!parser) return gap('Installed public module has no synchronous ' + family + ' parser binding')
+    try {
+      const result = parser(source)
+      if (result?.then) {
+        void result.catch(() => {})
+        return gap('Native parser requires an asynchronous schema binding')
+      }
+      if (result?.ir?.diagram_type) {
+        const ir = result.ir
+        if (family !== 'flowchart' || ir.diagram_type !== 'Flowchart') return gap('Native IR schema for ' + ir.diagram_type + ' is not mapped to the original ' + family + ' database')
+        const shapes: Record<string, string> = { Rect: 'square', Rounded: 'round', Circle: 'circle', Diamond: 'diamond', Stadium: 'stadium', Hexagon: 'hexagon', Cylinder: 'cylinder', Subroutine: 'subroutine', DoubleCircle: 'doublecircle' }
+        const nodes = ir.nodes.map((node: any) => {
+          const label = node.label == null ? node.id : ir.labels[node.label]?.text
+          if (typeof node.id !== 'string' || typeof label !== 'string') return gap('Native IR node/label index is unqualified')
+          return { ...node, label, ...(shapes[node.shape] ? { type: shapes[node.shape] } : {}) }
+        })
+        const endpoint = (value: any) => (typeof value?.Node === 'number' && nodes[value.Node]?.id) || gap('Native IR endpoint is not an ordinary observed node')
+        return {
+          direction: ir.direction,
+          nodes,
+          edges: ir.edges.map((edge: any) => ({ source: endpoint(edge.from), target: endpoint(edge.to), ...(edge.label !== undefined ? { label: ir.labels[edge.label]?.text } : {}), ...(edge.arrow === 'Arrow' ? { type: 'arrow_point' } : edge.arrow === 'None' ? { type: 'arrow_open' } : {}) })),
+          ...(ir.clusters?.length === 0 ? { subgraphs: [] } : {}),
+        }
+      }
+      if (result?.kind && result.diagram) {
+        if (result.kind !== family) return gap('Native generic parser returned ' + result.kind + '; requested ' + family + ' parser operation is not available')
+        return result.diagram
+      }
+      return result
+    } catch (error: any) {
+      if (error instanceof AdapterGap) throw error
+      const name = String(error?.name ?? ''),
+        message = String(error?.message ?? error)
+      if (/Unsupported|UnknownDiagram/.test(name) || /unsupported diagram|unknown diagram|unrecognized diagram type|unsupported .*diagram type/i.test(message)) {
+        active?.unsupported.push(message)
+        throw error
+      }
+      if (!/^(?:ParseError|MermaidSyntaxError|SyntaxError)$/.test(name) && !/parse error|parsing failed|invalid (?:syntax|flowchart)|syntax error/i.test(message)) return gap('Unclassified native parser refusal: ' + message)
       active && active.rejections++
       throw error
     }
@@ -193,8 +294,9 @@ function nativeAst(family: string, source: string): any {
   }
 }
 function projectView(family: string, raw: any) {
+  if (raw == null) return {}
   try {
-    return projectPublicDatabase(job.target.tool, family, raw)
+    return projectPublicDatabase(job.target.tool, family, raw, (reason: string) => gap(reason))
   } catch (error) {
     return gap('Native schema projection failed: ' + String(error))
   }
@@ -224,7 +326,7 @@ function context(family: string) {
     const caseAudit = active
     active = undefined
     try {
-      const initial = nativeParse(family, examples[family] ?? family)
+      const initial = ['native', 'zombie'].includes(job.target.tool) ? undefined : nativeParse(family, examples[family] ?? family)
       if (initial?.constructor?.name !== 'Object') Constructor = initial?.constructor
     } catch {
     } finally {
@@ -381,7 +483,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
   }
   if (/\.jison$|[Pp]arser\.[jt]s$|\/parser\.[jt]s$/.test(source)) {
     let parser = c.parser
-    if (job.target.tool !== 'mermaid' && !source.endsWith('.jison') && ['architecture', 'packet', 'pie', 'radar', 'gitgraph', 'treemap', 'eventmodeling'].includes(family))
+    if (job.target.tool !== 'mermaid' && !source.endsWith('.jison') && ['architecture', 'packet', 'pie', 'radar', 'gitgraph', 'treemap', 'eventmodeling', 'info'].includes(family))
       parser = new Proxy(c.parser, {
         get(target, key) {
           return key === 'parse' ? async (text: string) => target.parse(text) : target[key]
@@ -411,7 +513,18 @@ export function moduleFor(family: string, source: string, file: string, locals: 
     )
   if (/mermaidAPI/.test(source)) {
     if (job.target.tool !== 'mermaid') return deferred('Native public Mermaid API adapter')
-    return { mermaidAPI: api.mermaidAPI, default: api.mermaidAPI }
+    const observed = new Proxy(api.mermaidAPI, {
+      get(target, key) {
+        const value = target[key]
+        return typeof value === 'function'
+          ? (...params: any[]) => {
+              active && active.calls++
+              return value.apply(target, params)
+            }
+          : value
+      },
+    })
+    return { mermaidAPI: observed, default: observed }
   }
   return boundModule(
     new Proxy(

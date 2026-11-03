@@ -6,7 +6,7 @@ Trident benchmarks Mermaid implementations on three questions:
 |---|---|---|
 | **DaveBench** | Completed documentation renders and elapsed time, separately for SVG, PNG and terminal text. | Implemented. [Results](docs/benchmark-campaign-results-2026-11-02.md). |
 | **Drawing Correctness** | Required drawing facts on a shared corpus of examples and real project regressions, across output formats. | Partial: 127 shared cases; SVG/PNG/text assessment coverage remains incomplete. |
-| **Mermaid Fidelity** | Original assertions from the full pinned Mermaid test inventory, through candidate adapters. | Partial: original Vitest runner and three candidate adapters; 23 projects unassessed. |
+| **Mermaid Fidelity** | Original assertions from the full pinned Mermaid test inventory, through candidate adapters. | Partial: measured original-test outcomes for 14 projects; 13 remain unassessed. |
 
 [League tables](RESULTS.md) · [Methods and coverage](docs/benchmark-results-details.md) · [Definitions and corpus requirements](docs/benchmark-portfolio.md) · [DaveBench method](docs/davebench-definition.md)
 

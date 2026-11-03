@@ -2,8 +2,7 @@ import { readFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { readTerminalCorpus, reviewedTerminalCases, type TerminalProjectCase } from '../terminal-corpus.ts'
 import { analyseTerminalSource } from '../terminal-source.ts'
-import { reviewDocumentationSource } from '../../unified/docs-source-review.ts'
-import { projectVisualExpectation } from '../visual-expectation.ts'
+import { reviewedDrawingSource } from './source-review.ts'
 import type { MeaningExpectation } from '../meaning.ts'
 
 export interface DrawingCase {
@@ -49,12 +48,11 @@ export function drawingCases(): DrawingCase[] {
       previous.geometry = [...new Set([...previous.geometry, ...((input as any).geometry ?? [])])]
       continue
     }
-    const literal = reviewDocumentationSource({ id: input.id, source: input.source, family: input.family }, { visual: false })
-    const expected = (input as any).drawingExpected ?? (literal.expected ? projectVisualExpectation(input.family, literal.expected).expected : { labels: [] })
-    const sourceGaps = [...((input as any).drawingExpected ? [] : (literal.sourceReview?.unresolved ?? [])), ...(input.expected.unverifiedFacts ?? [])]
-    if (input.family === 'flowchart' && input.expected.graph?.nodes.length === 0 && expected.nodes?.length) sourceGaps.push('Common source transcription invents a node for a reviewed empty flowchart; empty SVG drawing assessment is unqualified')
+    const literal = reviewedDrawingSource(input)
+    const expected = (input as any).drawingExpected ?? literal.expected
+    const sourceGaps = [...((input as any).drawingExpected ? [] : literal.unresolved), ...(input.expected.unverifiedFacts ?? [])]
     if (input.expected.status !== 'independently-reviewed') sourceGaps.push('Seed source expectations have not been admitted')
-    if (!(input as any).drawingExpected && (!literal.expected || !literal.sourceReview.expectedFactsComplete)) sourceGaps.push('Common drawing source transcription is incomplete')
+    if (!(input as any).drawingExpected && !literal.complete) sourceGaps.push('Common drawing source transcription is incomplete')
     if (!input.expected.contract || input.expected.contract.sourceUncertainties.length) sourceGaps.push(...(input.expected.contract?.sourceUncertainties ?? ['No shared source contract']))
     const item = { id: input.id, family: input.family, source: input.source, origins: [...input.origins], expected, sourceGaps, terminal: input, geometry: (input as any).geometry ?? [] }
     cases.push(item)

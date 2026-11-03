@@ -904,15 +904,19 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const first = a.matrixTransform(matrix), last = b.matrixTransform(matrix), magnitude = Math.hypot(last.x - first.x, last.y - first.y), localMagnitude = Math.hypot(b.x - a.x, b.y - a.y)
     return magnitude && localMagnitude ? { x: (last.x - first.x) / magnitude, y: (last.y - first.y) / magnitude, scale: magnitude / localMagnitude, localPositiveX: b.x > a.x && Math.abs(b.y - a.y) <= localMagnitude * 1e-7 } : undefined
   }
+  // A flat drawing may put several independently owned bodies and their
+  // connectors in one group. That ancestor is not all one node's artwork.
+  const sharedFlowOwners = new Set(input.family === 'flowchart' ? [...anchors.values()].filter(node => [...anchors.values()].some(other => other.id !== node.id && other.owner === node.owner)).map(node => node.owner) : [])
+  const nodeContainsArtwork = (node: { owner: Element; box: Box }, element: Element) => node.owner.contains(element) && (!sharedFlowOwners.has(node.owner) || contains(node.box, rect(element), .5))
   const inlineShape = (element: Element): boolean => {
     if (element.matches('[class$="-marker"],.arrowhead,.return-arrow,[data-role="marker"]') || element.closest('svg.arrow-head')) return true
     const parent = element.parentElement, box = rect(element)
-    if (parent?.localName === 'g' && Math.max(box.width, box.height) <= 16 && ['arrow', 'triangle'].includes(shapeKind(element)) && ![...anchors.values()].some(node => node.owner.contains(element))) {
+    if (parent?.localName === 'g' && Math.max(box.width, box.height) <= 16 && ['arrow', 'triangle'].includes(shapeKind(element)) && ![...anchors.values()].some(node => nodeContainsArtwork(node, element))) {
       const siblings = [...parent.children].filter(shape => ['path', 'line', 'polyline', 'polygon'].includes(shape.localName) && visible(shape))
       if (siblings.length >= 2 && siblings.length <= 4 && siblings.some(shape => shape !== element && getComputedStyle(shape).fill === 'none')) return true
     }
-    if (Math.max(box.width, box.height) <= 16 && ['arrow', 'triangle'].includes(shapeKind(element)) && ![...anchors.values()].some(node => node.owner.contains(element))) {
-      const stems = geometry.filter(shape => shape !== element && ['path', 'line', 'polyline'].includes(shape.localName) && getComputedStyle(shape).fill === 'none' && ![...anchors.values()].some(node => node.owner.contains(shape)))
+    if (Math.max(box.width, box.height) <= 16 && ['arrow', 'triangle'].includes(shapeKind(element)) && ![...anchors.values()].some(node => nodeContainsArtwork(node, element))) {
+      const stems = geometry.filter(shape => shape !== element && ['path', 'line', 'polyline'].includes(shape.localName) && getComputedStyle(shape).fill === 'none' && ![...anchors.values()].some(node => nodeContainsArtwork(node, shape)))
       const attached = stems.filter(stem => [pointFor(stem, false), pointFor(stem, true)].some(point => point && distanceToInk(point, element) <= 2))
       if (attached.length === 1) return true
     }
@@ -973,7 +977,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   }
   const inlineMarker = (element: Element, side: 'start' | 'end', endpoint: Point, other: Point): Marker => {
     const parent = element.parentElement
-    const owner = element.closest('g[class$="-edge"],g.edge,g[data-edge-id],g.message,g.return') ?? (parent?.localName === 'g' && parent.children.length <= 4 && ![...anchors.values()].some(node => node.owner.contains(element)) ? parent : null)
+    const owner = element.closest('g[class$="-edge"],g.edge,g[data-edge-id],g.message,g.return') ?? (parent?.localName === 'g' && parent.children.length <= 4 && ![...anchors.values()].some(node => nodeContainsArtwork(node, element)) ? parent : null)
     const scope = owner ?? svg
     const shapes = [...scope.querySelectorAll('path,polygon,polyline,circle,line')].filter(shape => inlineShape(shape) && visible(shape) && shape !== element && (owner || distanceToInk(endpoint, shape) <= 2) && Math.hypot(center(rect(shape)).x - endpoint.x, center(rect(shape)).y - endpoint.y) < Math.hypot(center(rect(shape)).x - other.x, center(rect(shape)).y - other.y))
     if (!shapes.length) return { kind: 'none', point: endpoint }
@@ -1022,7 +1026,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const edgeSelector = '.edge path,.edgePath path,.edge-path,.edge-paths path,g[class$="-edge"] path,g[class*="-edge "] path,path.edge,line.edge,polyline.edge,path.flowchart-link,path.relation,path.relationshipLine,path.transition,path.em-relation,g.message line,g.message path,g.return line,g.return path,[data-relationship="sequence-message"],line.messageLine0,line.messageLine1,path.messageLine0,path.messageLine1,[data-edge-id],polyline.class-relationship,polyline.er-relationship'
   let paths = [...svg.querySelectorAll(edgeSelector)].filter(element => visible(element) && !camouflage(element) && ['path', 'line', 'polyline'].includes(element.localName))
   let unboundRelations = false, invalidMarker = false
-  if (!paths.length) paths = geometry.filter(element => ['path', 'line', 'polyline'].includes(element.localName) && ![...anchors.values()].some(node => node.owner.contains(element)))
+  if (!paths.length) paths = geometry.filter(element => ['path', 'line', 'polyline'].includes(element.localName) && ![...anchors.values()].some(node => nodeContainsArtwork(node, element)))
   const qualifiedNodeInk = new Set([...anchors.values()].flatMap(node => node.outlines ?? [node.shape]))
   paths = paths.filter(element => !qualifiedNodeInk.has(element) && !noteConnectorInk.has(element) && !inlineShape(element))
   paths = paths.filter(element => {

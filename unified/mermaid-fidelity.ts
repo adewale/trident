@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { resolve, join, dirname, relative } from 'node:path'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
-import { assertCurrentBenchmarkArtifact } from './benchmark-versions.ts'
+import { assertCurrentBenchmarkArtifact, latestBenchmarkRenderingArtifact } from './benchmark-versions.ts'
 import { inventoryOriginalDeclarations } from './upstream-fidelity-census.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 
@@ -16,6 +16,14 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
     const evidence = audit.find((t: any) => t.file === control.file && t.index === control.index && t.name.replaceAll(' > ', ' ') === control.fullName)
     const referenceEvidence = referenceAudit?.find((t: any) => t.file === control.file && t.index === control.index && t.name.replaceAll(' > ', ' ') === control.fullName)
     const controlGap = referenceAudit && (!referenceEvidence || referenceEvidence.gaps.length || !referenceEvidence.calls)
+    const unmappedMemberCall = result?.failureMessages?.some(
+      (message: string) =>
+        /^TypeError:.*getDisplayDetails.*not a function/.test(message) &&
+        message
+          .split('\n')
+          .find(line => line.trim().startsWith('at '))
+          ?.includes(control.file),
+    )
     const skipped = ['pending', 'todo', 'skipped'].includes(control.status)
     const status = skipped
       ? 'upstream-skipped'
@@ -23,7 +31,7 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
         ? 'upstream-expected-failure'
         : control.status !== 'passed' || controlGap
           ? 'reference-unqualified'
-          : !result || !evidence || evidence.gaps.length || !evidence.calls
+          : !result || !evidence || evidence.gaps.length || !evidence.calls || unmappedMemberCall
             ? 'trident-blocked'
             : evidence?.unsupported?.length
               ? 'unsupported'
@@ -40,7 +48,9 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
         ? 'Original test is marked expected-failure'
         : controlGap
           ? 'Reference native-operation/adapter guard did not qualify'
-          : evidence?.gaps?.join('; ') || evidence?.unsupported?.join('; ') || result?.failureMessages?.join('\n').slice(0, 1000) || (result ? undefined : 'Candidate test not collected'),
+          : unmappedMemberCall
+            ? 'Original ClassMember.getDisplayDetails has no native schema binding; no renderer defect is established'
+            : evidence?.gaps?.join('; ') || evidence?.unsupported?.join('; ') || result?.failureMessages?.join('\n').slice(0, 1000) || (result ? undefined : 'Candidate test not collected'),
     }
   })
 }
@@ -93,17 +103,21 @@ export async function main(args = process.argv.slice(2)) {
   for (const peer of prepared) {
     const project = peer.node.id
     if (project === 'mermaid-js/mermaid' || (opts.has('--projects') && !opts.get('--projects')!.split(',').includes(project))) continue
-    const tool = project === 'adewale/agentic-mermaid' ? 'agentic' : project === 'obsidianmd/pele' ? 'pele' : project === 'lukilabs/beautiful-mermaid' ? 'beautiful' : project === 'dfadler/zombie-mermaid' ? 'zombie' : undefined
-    if (!tool || !peer.artifact?.root) {
+    const artifact = latestBenchmarkRenderingArtifact(peer)
+    const tool = project === 'adewale/agentic-mermaid' ? 'agentic' : project === 'obsidianmd/pele' ? 'pele' : project === 'lukilabs/beautiful-mermaid' ? 'beautiful' : project === 'dfadler/zombie-mermaid' ? 'zombie' : (artifact?.kind === 'node' || artifact?.kind === 'franken') && artifact.module ? 'native' : undefined
+    if (!tool || !artifact?.root) {
       blocked.push({ project, reason: 'Trident has no native database/schema adapter for this public artifact yet' })
       continue
     }
-    const root = peer.artifact.root
-    if (tool === 'zombie' && !existsSync(join(root, 'src/parser.ts'))) {
-      blocked.push({ project, reason: 'Functional check found no exposed native parser/database binding in this installed artifact; Trident adapter gap' })
-      continue
-    }
-    targets.push({ project, version: peer.artifact.version, tool, root, entry: tool === 'agentic' ? join(root, 'dist/agent-core.js') : tool === 'pele' ? join(root, 'dist/pele.js') : peer.artifact.module })
+    const root = artifact.root
+    const parserEntries: Record<string, string> = {}
+    if (tool === 'native')
+      for (const family of ['flowchart', 'sequence', 'class', 'er', 'state', 'gantt', 'timeline', 'gitgraph']) {
+        const candidates = [join(root, 'src', family, 'parser.ts'), ...(family === 'flowchart' ? [join(root, 'src/parser.ts')] : [])]
+        const entry = candidates.find(p => existsSync(p))
+        if (entry) parserEntries[family] = entry
+      }
+    targets.push({ project, version: artifact.version, tool, root, peer: { ...peer, artifact }, bun: process.execPath, parserEntries, entry: tool === 'agentic' ? join(root, 'dist/agent-core.js') : tool === 'pele' ? join(root, 'dist/pele.js') : artifact.module })
   }
   const require = createRequire(join(runtime, 'package.json')),
     cli = join(dirname(require.resolve('vitest/package.json')), 'vitest.mjs')
@@ -146,6 +160,9 @@ export async function main(args = process.argv.slice(2)) {
     JSON.stringify(
       {
         benchmark: 'Mermaid Fidelity',
+        updatedAt: new Date().toISOString(),
+        collectedThrough: new Date().toISOString(),
+        versionsFrozenAt: opts.has('--catalog') ? JSON.parse(readFileSync(opts.get('--catalog')!, 'utf8')).benchmarkVersionsCheckedAt : undefined,
         pin: PIN,
         selection: opts.get('--filter') ?? 'all core package tests',
         inventory: inventory.counts,

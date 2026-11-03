@@ -42,8 +42,11 @@ test('the landing page contains all three leagues, one project-version label and
   expect(page.match(/^## .+$/gm)).toEqual(['## DaveBench', '## Drawing Correctness', '## Mermaid Fidelity'])
   expect(page).toContain('| 1 | Alpha 1.0.0 |')
   expect(page).not.toContain('| Version |')
+  expect(page).toContain('### Terminal rendering')
+  expect(page).toContain('### Terminal correctness')
+  expect(page).not.toContain('### Terminal text')
   expect(page).toContain('| 1 | Beta 1.0.0 | 1 | 0 | 1 |') // equal drawing passes tie
-  expect(page).toContain('| — | Beta 1.0.0 | — | — | 2 |') // missing adapter is not zero
+  expect(page).toContain('| — | Beta 1.0.0 | Not run | — | 2 |') // missing adapter is not zero
   expect(page).not.toContain('remain unimplemented')
   expect(page.split('\n').every(line => !line || /^[#|[]/.test(line))).toBe(true)
   expect(JSON.stringify({ davebench, drawing, fidelity })).toBe(before)
@@ -54,7 +57,7 @@ test('observed zero and wholly unassessed drawing outputs remain different', () 
   drawing.results[1]!.counts = { correct: 0, incorrect: 0, 'renderer-failure': 0, 'invalid-format': 0, unknown: 2, unrun: 0 }
   const page = renderBenchmarkLeagues(davebench, drawing, fidelity, catalog)
   expect(page).toContain('| 1 | a 1.0.0 | 0 | 2 | 0 |')
-  expect(page).toContain('| — | b 1.0.0 | — | — | 2 |')
+  expect(page.split('## Drawing Correctness')[1]!.split('## Mermaid Fidelity')[0]).toContain('| — | b 1.0.0 | Not assessed | — | 2 |')
 })
 
 test('snapshot regeneration reads all three current results rather than reviving the legacy page', () => {
@@ -83,5 +86,5 @@ test('reference adapter gaps stay in the common Fidelity population', () => {
   const league = page.split('## Mermaid Fidelity')[1]!
   expect(league).toContain('Passed / 5')
   expect(league).toContain('| 1 | a 1.0.0 | 1 | 1 | 3 |')
-  expect(league).toContain('| — | b 1.0.0 | — | — | 5 |')
+  expect(league).toContain('| — | b 1.0.0 | Not run | — | 5 |')
 })

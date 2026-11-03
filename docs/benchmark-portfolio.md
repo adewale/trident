@@ -136,7 +136,7 @@ inventory systematically. Do not preserve the 49-case selection as the target.
 **Current implementation:** `mermaid:fidelity` inventories 368 files at Mermaid
 commit `1fb7869866dd619168d840291c9c54b4f129758b`, attempts the 316 core-package
 files in original Vitest, and lists the other 52 files outside that runner. Native
-adapters cover Mermaid 12.2.0, Pele, Agentic Mermaid and Beautiful Mermaid;
+adapters now have measured outcomes for Mermaid 12.2.0 and 13 candidates;
 missing native bindings stay explicit. The first collection registered 5,445
 expanded callbacks, of which 2,894 qualified against the native reference.
 Twenty-five selected files did not expand. The historical 49/154-case selections
