@@ -157,10 +157,10 @@ commit `1fb7869866dd619168d840291c9c54b4f129758b` (the `mermaid@12.2.0` tag),
 attempts the 316 core-package files in original Vitest, and lists the other 52 files
 outside that runner. The 3 November collection expanded 5,459 callbacks; Mermaid 12.2.0
 passes 2,894 of them through the reference adapter, and those are the scored
-population. Every bindable candidate (13 plus Mermaid) attempted all 316 files against
-one shared control run (`--reuse-reference`). Thirteen projects have no working
-parser/model binding and are listed with reasons. Twenty-three selected files did not
-expand. The historical 49/154-case selections are not substituted for the original
+population. Every candidate attempted all 316 files against one shared control run
+(`--reuse-reference`): 13 through their JavaScript parsers and 13 through parser
+bridges, small programs in each project's own language that call its own parser
+(`unified/mermaid-fidelity/bridges/`). Twenty-three selected files did not expand. The historical 49/154-case selections are not substituted for the original
 tests.
 
 ## How the portfolio drifted

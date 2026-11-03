@@ -68,14 +68,40 @@ run on only 42 files, so most of their earlier unassessed callbacks were tests T
 had not run rather than missing bindings. Full-suite runs raised Pele from 2,157 to
 2,204 passes, Agentic Mermaid from 1,186 to 1,202 and Merslim from 113 to 157.
 
-The other **13 projects remain unassessed**, each with a stated reason in the
-numeric results. Seven are native Rust, Go, Python or Dart/Flutter packages with no
-JavaScript parser/model operation for the original Vitest tests to call. Mermaid
-Dart and Bezel are browser bundles that expose rendering only. Ondine, Crafter
-Mermaid and Loom were attempted on every file, but no original test reached a
-candidate operation because their public modules expose no parser. Latias Merman's
-frozen JavaScript package is 0.9.2 while its measured CLI is 0.9.3, and one version
-per project prevents combining them. Their rows say **Not run**, not failed or zero.
+**Parser bridges reach the other 13 projects.** Their parsers are not JavaScript
+modules the original tests can import, so each has a small bridge program in the
+project's own language (`unified/mermaid-fidelity/bridges/`). A bridge calls the
+project's own parser for the requested family and prints the model it returns, with
+native field names; it parses nothing itself. Only the parser's own syntax rejection
+counts as a rejection; a family or source the project does not parse is
+unsupported; anything else is a Trident gap. Each bridge's build verifies the
+prepared artifact (revision, crate checksum or package version) and the measured
+version matches the one DaveBench and Drawing record.
+
+| Project | Parser the bridge calls |
+|---|---|
+| Latias Merman 0.9.3 | the native CLI's own `parse` command |
+| Crafter Mermaid 0.0.3 | the renderer's own `@crafter/mermaid-parser` dependency |
+| Termaid 0.10.0 | `termaid.parser.<family>.parse_<family>()` |
+| Mermaid Dart and Mermaid Flutter 0.3.2 | `mermaid_core` 0.3.2 `parseX` functions (Flutter uses core's parser unchanged) |
+| Bezel 0.2.24 | `bezel-mermaid` `mermaid::parse` |
+| Figurehead v0.4.3 | `figurehead::parse` and its per-family parser types |
+| Mermaid RS Renderer 0.3.1 | `parse_mermaid`, the entry point its CLI uses |
+| Mermaid ASCII 1.6.1 | its `pkg/graph`, `pkg/sequence` and `pkg/er` parsers |
+| Grok renderer | the binary's private `mermaid.rs` parsers, compiled unchanged beside an export |
+| MermaidText | its unexported Go parsers, reached by an injected export |
+| Loom 0.10.0 | its module-private parsers, from an unchanged source copy with exports appended |
+| Ondine 0.0.3 | no parser exists: `render()` reports acceptance or rejection only |
+
+Three limits are the projects' own. Ondine exposes no model, so assertions about
+the parsed model stay unassessed for it. MermaidText's and Grok's parsers return
+nothing rather than an error, so they cannot reject input; such sources count as
+unsupported. Termaid's parsers never reject input either and return a partial model.
+Models are mapped to the databases the tests query by the same generic schema view
+used for every candidate; fields it does not map remain unassessed. Native enum
+spellings of Mermaid's shape names (`DIAMOND`, `DOUBLE_CIRCLE`) are matched
+case-insensitively rather than counted as failures.
+
 A produced drawing that could not be judged says **Not assessed**. No result is
 inferred from a project's identity or relationship to another renderer.
 
