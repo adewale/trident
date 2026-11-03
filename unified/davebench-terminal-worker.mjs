@@ -8,10 +8,12 @@ try { renderer = await terminalRenderer(JSON.parse(fs.readFileSync(process.argv[
 catch (error) { send({ type: 'blocked', detail: String(error).slice(0, 500) }); process.exit(1) }
 for await (const line of readline.createInterface({ input: process.stdin })) {
   const job = JSON.parse(line), started = performance.now()
-  let outcome = 'completed'
-  try { await renderer.invoke(job.source) } catch { outcome = 'error' }
+  let outcome = 'completed', value
+  try { value = await renderer.invoke(job.source) } catch { outcome = 'error' }
   const ms = performance.now() - started
+  // Text is returned only for mechanical admission by the host; it is not retained.
+  const output = typeof value === 'string' ? value : value instanceof Uint8Array ? new TextDecoder().decode(value) : typeof value?.output === 'string' ? value.output : typeof value?.text === 'string' ? value.text : null
   try { await renderer.afterCall?.() } catch (error) { send({ type: 'result', id: job.id, outcome: 'cleanup-error', ms }); process.exit(2) }
-  send({ type: 'result', id: job.id, outcome, ms })
+  send({ type: 'result', id: job.id, outcome, ms, output })
 }
 await renderer.close()

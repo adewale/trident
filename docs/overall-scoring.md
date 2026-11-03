@@ -1,38 +1,67 @@
 # Equal-weight overall synthesis
 
-The [combined table](../RESULTS.md#equal-weight-synthesis) now reads all three current
+The [combined table](../RESULTS.md#equal-weight-synthesis) reads all three current
 numeric results. Each benchmark receives one third of the overall score. Applicable
 output formats are averaged within DaveBench and Drawing Correctness first.
 
 | Component | Score on a 0–100 scale |
 |---|---|
-| DaveBench | Mean format rank percentile: `100 × (participants − rank) / (participants − 1)`. Its existing completion-first, time-second ranking supplies the ranks. A sole participant receives 100. |
+| DaveBench | `100 × completed / planned` occurrences, averaged across applicable formats. Completions are the minimum across the three runs and require an [admissible output](davebench-definition.md#output-admission). |
 | Drawing Correctness | `100 × passed / 127`, averaged across applicable formats |
-| Mermaid Fidelity | `100 × passed / 5302` expanded, unskipped original callbacks |
+| Mermaid Fidelity | `100 × passed / qualified population`: the expanded upstream callbacks that pinned Mermaid itself passes |
 | Overall | Arithmetic mean of the three components |
 
-The DaveBench normalization reuses the previously declared campaign policy. It is
-relative to the measured participants, not an absolute accuracy percentage. A changed
-participant set can change that component even without new renderer measurements.
+## Why these components
 
-Unknown results are score intervals. For a case benchmark, the lower endpoint counts
-only verified passes; the upper endpoint also allows every unassessed case to pass.
-A missing applicable format or whole benchmark contributes **0–100**, not a zero
-point score and not an omitted component. Render failures, contradicted facts and
-actual unsupported results are known nonpasses and cannot raise the upper endpoint.
+**DaveBench is an absolute completion rate.** An earlier version used each
+project's rank percentile in the DaveBench tables. That made a project's score
+move whenever another participant was added or removed, and imported the
+DaveBench speed tiebreak, which can compare a fresh-process CLI clock against a
+persistent API clock. The completion rate depends only on the project's own
+measurements. Speed remains in the DaveBench tables, where boundaries are shown.
 
-Average lower endpoints and upper endpoints separately using the same equal weights.
-The table sorts by the **verified minimum overall score**, with ties sharing a rank.
-This is a ranking of verified minima, not a proven final ordering: overlapping ranges
-can change order when gaps are resolved. The intervals describe unresolved work;
-they are not statistical confidence intervals.
+**Fidelity uses the qualified population.** A Fidelity pass needs the original
+assertions to pass for the candidate *and* for the pinned Mermaid control. A
+callback the control cannot pass is unpassable for everyone, including Mermaid.
+Keeping those callbacks in the denominator capped every project, Mermaid
+included, at the qualified share (2,894 of 5,302 at the current pin) and showed
+Mermaid's own tests as only 54.6% passed. Those callbacks are reference-adapter
+coverage work, reported beside the table, not shared unknowns.
 
-All current projects have unresolved Drawing/Fidelity coverage, so **zero projects
-qualify for an exact overall score**. The combined table remains useful as an explicit
-summary of current observations and their limits. It does not declare an overall winner.
-The scores cover the reported populations: the 25 unexpanded reference files and 52
-outside-runner files still prevent a claim of full Mermaid-suite fidelity.
+## Unknown results are ranges
 
-Implementation: `overallScore` and `synthesiseBenchmarks` in
-[unified/overall-score.ts](../unified/overall-score.ts). No benchmark is run to build
-the table. Versions and measured results remain unchanged.
+For a case benchmark, the lower endpoint counts only verified passes; the upper
+endpoint also allows every unassessed case to pass. A missing applicable format
+or whole benchmark contributes **0–100**, not a zero point score and not an
+omitted component. Render failures, contradicted facts and actual unsupported
+results are known nonpasses and cannot raise the upper endpoint. Lower and upper
+endpoints are averaged separately using the same equal weights.
+
+## Possible rank, not rank by minimum
+
+The table shows each project's **possible rank**: the best and worst position it
+can still reach once its unresolved work is measured.
+
+- Best rank = 1 + the number of projects whose verified minimum exceeds this project's maximum.
+- Worst rank = 1 + the number of projects whose maximum exceeds this project's verified minimum.
+
+An earlier version sorted and ranked by the verified minimum. That treats every
+unmeasured case as a failure for ordering purposes: a project whose whole
+Fidelity third was not run lost up to 33 points of rank position because of
+Trident's coverage gap rather than its own results. Possible ranks make no such
+assumption. Rows are listed by worst reachable rank, then best reachable rank;
+the displayed range, not the row order, is the claim.
+
+When every component of every project is measured, best and worst ranks
+coincide and the table becomes an ordinary ranking. Until then, overlapping
+ranges are unresolved, not ties. The intervals describe unresolved work; they are
+not statistical confidence intervals.
+
+While Drawing and Fidelity coverage remain incomplete, **no project qualifies for
+an exact overall score**. The table does not declare an overall winner. The
+scores cover the reported populations: unexpanded and outside-runner upstream
+files still prevent a claim of full Mermaid-suite fidelity.
+
+Implementation: `overallScore`, `fidelityPopulation`, `possibleRanks` and
+`synthesiseBenchmarks` in [unified/overall-score.ts](../unified/overall-score.ts).
+No benchmark is run to build the table.

@@ -144,9 +144,11 @@ credit into SVG. Historical transfer records retain their original protocol.
 Content without an admissible current review stays unknown. Settings-only
 sources have no nonblank-drawing requirement. New PNG clocks remain descriptive
 unless every timed output and A/A calibration qualify. The PNG lane contains actual SVG conversions and native Flutter returns.
-The [current tables](RESULTS.md) retain their output and pipeline boundaries;
-the [raw archive](https://github.com/adewale/trident/releases/tag/ecosystem-evidence-2026-11-01)
-contains every grade and its owning output. [Original image-review histories](docs/evidence/png-full-corpus-2026-10-31/README.md)
+The [1 November tables](https://github.com/adewale/trident/blob/evidence/full-campaign-2026-11-01/RESULTS.md)
+retain their output and pipeline boundaries. Their 605 MB raw archive, with every
+grade and its owning output, is prepared but not yet uploaded as a release asset;
+the [evidence branch](https://github.com/adewale/trident/blob/evidence/full-campaign-2026-11-01/README.md)
+holds its manifest and report receipts. [Original image-review histories](docs/evidence/png-full-corpus-2026-10-31/README.md)
 remain available. A viewing count supplies no correctness credit.
 
 The replaced v1 standalone PNG exporter and old studies retain their own protocols;

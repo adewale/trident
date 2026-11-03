@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync } from 'nod
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { writeSnapshot } from '../unified/results-snapshot.ts'
-import { threeBenchmarkReport, renderThreeBenchmarkReport, renderBenchmarkLeagues } from '../unified/three-benchmark-report.ts'
+import { currentBenchmarkResultFiles, threeBenchmarkReport, renderThreeBenchmarkReport, renderBenchmarkLeagues } from '../unified/three-benchmark-report.ts'
 
 function fixture() {
   const runs = (format: string) => [1, 2, 3].flatMap(run => ['a', 'b'].map((project, index) => ({ project, version: '1.0.0', format, run, boundary: 'fixture public API', attempted: 10, completed: 10 - index, failed: index, timeouts: 0, totalMs: 100 + index })))
@@ -45,8 +45,9 @@ test('the landing page contains all three leagues, one project-version label and
   expect(page).toContain('### Terminal rendering')
   expect(page).toContain('### Terminal correctness')
   expect(page).not.toContain('### Terminal text')
-  expect(page).toContain('| 1 | Beta 1.0.0 | 1 | 0 | 1 |') // equal drawing passes tie
-  expect(page).toContain('| — | Beta 1.0.0 | Not run | — | 2 |') // missing adapter is not zero
+  expect(page).toContain('| 1 | 1–2 | Beta 1.0.0 | 1 | 0 | 1 |') // equal drawing passes tie; one unassessed case leaves either order possible
+  expect(page).toContain('| — | — | Beta 1.0.0 | Not run | — | 2 |') // missing adapter is not zero
+  expect(page).toContain('| 1–2 | Alpha 1.0.0 |') // synthesis shows reachable ranks, not rank by minimum
   expect(page).not.toContain('remain unimplemented')
   expect(page.split('\n').every(line => !line || /^[#|[]/.test(line))).toBe(true)
   expect(JSON.stringify({ davebench, drawing, fidelity })).toBe(before)
@@ -56,14 +57,14 @@ test('observed zero and wholly unassessed drawing outputs remain different', () 
   drawing.results[0]!.counts = { correct: 0, incorrect: 2, 'renderer-failure': 0, 'invalid-format': 0, unknown: 0, unrun: 0 }
   drawing.results[1]!.counts = { correct: 0, incorrect: 0, 'renderer-failure': 0, 'invalid-format': 0, unknown: 2, unrun: 0 }
   const page = renderBenchmarkLeagues(davebench, drawing, fidelity, catalog)
-  expect(page).toContain('| 1 | a 1.0.0 | 0 | 2 | 0 |')
-  expect(page.split('## Drawing Correctness')[1]!.split('## Mermaid Fidelity')[0]).toContain('| — | b 1.0.0 | Not assessed | — | 2 |')
+  expect(page).toContain('| 1 | 1 | a 1.0.0 | 0 | 2 | 0 |')
+  expect(page.split('## Drawing Correctness')[1]!.split('## Mermaid Fidelity')[0]).toContain('| — | — | b 1.0.0 | Not assessed | — | 2 |')
 })
 
 test('snapshot regeneration reads all three current results rather than reviving the legacy page', () => {
   const { davebench, drawing, fidelity, catalog } = leaguesFixture()
   const root = mkdtempSync(join(tmpdir(), 'trident-current-leagues-'))
-  const files = ['docs/evidence/benchmark-campaign-2026-11-02/report.json', 'results/drawing-correctness-2026-11-02.json', 'results/mermaid-fidelity-2026-11-02.json', 'docs/evidence/benchmark-campaign-2026-11-02/catalog.json']
+  const files = currentBenchmarkResultFiles
   try {
     const data = [davebench, drawing, fidelity, catalog]
     for (let i = 0; i < files.length; i++) { const path = join(root, files[i]!); mkdirSync(join(path, '..'), { recursive: true }); writeFileSync(path, JSON.stringify(data[i])) }
@@ -79,12 +80,12 @@ test('snapshot regeneration reads all three current results rather than reviving
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 
-test('reference adapter gaps stay in the common Fidelity population', () => {
+test('Fidelity scores the reference-qualified population; callbacks the control cannot pass are not everyone\'s unknowns', () => {
   const { davebench, drawing, fidelity, catalog } = leaguesFixture()
   Object.assign(fidelity.results[0]!.counts, { 'reference-unqualified': 3 })
   const page = renderBenchmarkLeagues(davebench, drawing, fidelity, catalog)
-  const league = page.split('## Mermaid Fidelity')[1]!
-  expect(league).toContain('Passed / 5')
-  expect(league).toContain('| 1 | a 1.0.0 | 1 | 1 | 3 |')
-  expect(league).toContain('| — | b 1.0.0 | Not run | — | 5 |')
+  const league = page.split('## Mermaid Fidelity')[1]!.split('## Equal-weight synthesis')[0]!
+  expect(league).toContain('Passed / 2 ↑')
+  expect(league).toContain('| 1 | 1 | a 1.0.0 | 1 | 1 | 0 |')
+  expect(league).toContain('| — | — | b 1.0.0 | Not run | — | 2 |')
 })

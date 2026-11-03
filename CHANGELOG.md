@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- DaveBench: a completion now needs an output that passes mechanical admission after the clock stops (sized SVG, valid PNG, terminal text that is not empty, an error message or the source printed back). Two terminal CLIs printed unsupported input back inside a box and exited 0, which had counted as 861 completed renders each. Time now separates equal completion counts only between rows with the same boundary kind (fresh process or persistent API).
+- Mermaid Fidelity: score the callbacks the pinned Mermaid control passes. Callbacks the control cannot pass were everyone's unknowns and capped Mermaid at 54.6% of its own tests. Every bindable candidate now attempts all selected files against one shared control run; ten had previously been run on 42 of 316 files. Add `--reuse-reference`, a configurable per-target timeout and a merge script.
+- Equal-weight synthesis: show each project's possible rank instead of ranking by verified minimum, which treated unmeasured work as zero. DaveBench contributes its absolute completion rate, not a participant-relative rank percentile. Drawing and Fidelity tables also show possible ranks beside verified ranks.
+
 - Replace the results overview with separate compact benchmark rankings, explicit paired timing tables, unassessed states and illustrated retained PNG examples. Keep detailed diagnostics linked and explain what archive verification establishes.
 
 - Publish the full 27-project campaign with separate SVG, PNG, terminal and behaviour tables, scoped timing and downloadable raw evidence; preserve B0.

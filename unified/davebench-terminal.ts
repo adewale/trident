@@ -1,10 +1,11 @@
 import { spawn } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
 import { communityCliRequest } from './community-cli-request.ts'
-import { davebenchInputs, davebenchRankings, type DavebenchRun } from './davebench.ts'
+import { davebenchAdmission, davebenchInputs, davebenchRankings, type DavebenchRun } from './davebench.ts'
+import { terminalTextValidity } from './davebench-validity.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { communityModuleOutputSupported } from './community.ts'
@@ -16,7 +17,11 @@ export class TerminalCallWorker {
   pending = new Map<string, (value: any) => void>()
   ready: Promise<void>
   identity: any
-  constructor(peer: PreparedCommunity, file: string, invocation?: string[]) {
+  /** `admit` checks returned text after the clock stops; native counter workers
+   * that report their own outcome without returning output pass none. */
+  admit?: (output: unknown, source: string) => { valid: boolean; reason?: string }
+  constructor(peer: PreparedCommunity, file: string, invocation?: string[], admit?: (output: unknown, source: string) => { valid: boolean; reason?: string }) {
+    this.admit = admit
     writeFileSync(file, JSON.stringify(peer))
     const python = peer.artifact?.kind === 'python'
     const bun = /bun/i.test(peer.artifact?.runtime ?? '') || /\.tsx?$/.test(peer.artifact?.module ?? '')
@@ -50,13 +55,19 @@ export class TerminalCallWorker {
       void this.child.exited.then(() => { clearTimeout(timeout); if (!ready) reject(Error('Terminal worker stopped during initialization')); for (const done of this.pending.values()) done({ outcome: 'error', ms: 0 }); this.pending.clear() })
     })
   }
-  async call(source: string, id: string, timeoutMs: number): Promise<{ outcome: string; ms: number }> {
+  async call(source: string, id: string, timeoutMs: number): Promise<{ outcome: string; ms: number; invalid?: string }> {
     await this.ready
     if (typeof this.child.exitCode === 'number' || typeof this.child.signalCode === 'string') throw Error('Terminal worker has stopped')
     const started = performance.now()
     return new Promise(done => {
       const timer = setTimeout(() => { this.pending.delete(id); this.close(); done({ outcome: 'timeout', ms: performance.now() - started }) }, timeoutMs)
-      this.pending.set(id, value => { clearTimeout(timer); done({ outcome: value.outcome, ms: value.outcome === 'error' && value.ms === 0 ? performance.now() - started : value.ms }) })
+      this.pending.set(id, value => {
+        clearTimeout(timer)
+        const ms = value.outcome === 'error' && value.ms === 0 ? performance.now() - started : value.ms
+        if (value.outcome !== 'completed' || !this.admit) return done(typeof value.invalid === 'string' ? { outcome: value.outcome, ms, invalid: value.invalid } : { outcome: value.outcome, ms })
+        const validity = this.admit(value.output, source)
+        done(validity.valid ? { outcome: 'completed', ms } : { outcome: 'invalid', ms, invalid: validity.reason })
+      })
       this.child.stdin.write(JSON.stringify({ source, id }) + '\n')
       void this.child.stdin.flush()
     })
@@ -64,18 +75,28 @@ export class TerminalCallWorker {
   close() { this.child.kill('SIGKILL'); return this.child.exited }
 }
 
+/** Fresh terminal CLI process. Text goes to a regular scratch file and is read
+ * for admission after the clock stops, then deleted. */
 export async function terminalCliCall(artifact: CommunityArtifact, source: string, directory: string, timeoutMs: number) {
   const request = communityCliRequest(artifact, 'terminal', directory)
   if (request.inputMode === 'file') writeFileSync(request.input, source)
-  const args = request.args.map(arg => arg.replaceAll(request.destination, '/dev/null')), started = performance.now()
-  return new Promise<{ outcome: string; ms: number }>(done => {
+  const destination = join(directory, 'davebench-output.txt'), captured = join(directory, 'davebench-stdout.txt')
+  rmSync(destination, { force: true })
+  const args = request.args.map(arg => arg.replaceAll(request.destination, destination)), stdout = openSync(captured, 'w'), started = performance.now()
+  const result = await new Promise<{ outcome: string; ms: number }>(done => {
     let timeout = false, finished = false
-    const child = spawn(artifact.executable!, args, { stdio: ['pipe', 'ignore', 'ignore'] })
+    const child = spawn(artifact.executable!, args, { stdio: ['pipe', stdout, 'ignore'] })
     const timer = setTimeout(() => { timeout = true; child.kill('SIGKILL') }, timeoutMs)
     const finish = (outcome: string) => { if (finished) return; finished = true; clearTimeout(timer); done({ outcome, ms: performance.now() - started }) }
     child.once('error', () => finish('error')); child.once('exit', code => finish(timeout ? 'timeout' : code === 0 ? 'completed' : 'error'))
-    child.stdin.on('error', () => {}); child.stdin.end(request.inputMode === 'stdin' ? source : undefined)
+    child.stdin!.on('error', () => {}); child.stdin!.end(request.inputMode === 'stdin' ? source : undefined)
   })
+  closeSync(stdout)
+  if (result.outcome !== 'completed') return result
+  const text = args.some(arg => arg.includes(destination)) && existsSync(destination) ? readFileSync(destination, 'utf8') : readFileSync(captured, 'utf8')
+  rmSync(destination, { force: true }); rmSync(captured, { force: true })
+  const validity = terminalTextValidity(text, source)
+  return validity.valid ? result : { ...result, outcome: 'invalid', invalid: validity.reason }
 }
 
 export async function main(args = process.argv.slice(2)) {
@@ -97,7 +118,7 @@ export async function main(args = process.argv.slice(2)) {
   }
   const inventory = davebenchInputs(resolve(options.get('--upstream') ?? join(tridentDirectory, '../mermaid'))), runs: DavebenchRun[] = [], blocked: { project: string; reason: string }[] = []
   const startedAt = new Date().toISOString(), timeoutMs = 15_000
-  const save = (state: string) => writeFileSync(join(out, 'results.json'), JSON.stringify({ schema: 'davebench-terminal-v1', state, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files }, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, elapsed: 'Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup.' }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked }, null, 2) + '\n')
+  const save = (state: string) => writeFileSync(join(out, 'results.json'), JSON.stringify({ schema: 'davebench-terminal-v1', state, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files }, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, elapsed: 'Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup.' }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked }, null, 2) + '\n')
   save('running')
   for (const peer of prepared) {
     const a = peer.artifact, extra = a?.additionalCli?.find(cli => cli.outputs.includes('terminal'))?.artifact
@@ -106,22 +127,23 @@ export async function main(args = process.argv.slice(2)) {
     let boundary = native ? 'public CLI terminal; process startup included' : a.kind === 'python' ? 'persistent Python public terminal API' : /bun/i.test(a.runtime ?? '') || /\.tsx?$/.test(a.module ?? '') ? 'persistent Bun public terminal API' : 'persistent Node public terminal API'
     const directory = join(out, encodeURIComponent(peer.node.id)); mkdirSync(directory, { recursive: true })
     let worker: TerminalCallWorker | undefined
-    const open = async () => { worker = new TerminalCallWorker(peer, join(directory, 'operand.json')); await worker.ready; if (worker.identity?.boundary) boundary = worker.identity.boundary }
+    const open = async () => { worker = new TerminalCallWorker(peer, join(directory, 'operand.json'), undefined, terminalTextValidity); await worker.ready; if (worker.identity?.boundary) boundary = worker.identity.boundary }
     try {
       for (let round = 1; round <= 3; round++) {
         if (!native) await open()
-        const call = async (input: { source: string }, index: number) => {
+        const call = async (input: { source: string }, index: number): Promise<{ outcome: string; ms: number; invalid?: string }> => {
           const row = native ? await terminalCliCall(native, input.source, directory, timeoutMs) : await worker!.call(input.source, `${round}:${index}`, timeoutMs)
           if (row.outcome === 'cleanup-error') throw Error('Terminal host cleanup failed; no further timing from accumulated drawings is admitted')
           if (!native && (row.outcome === 'timeout' || typeof worker!.child.exitCode === 'number' || typeof worker!.child.signalCode === 'string')) { await worker!.child.exited; await open() }
           return row
         }
         for (const [index, input] of inventory.cases.slice(0, 30).entries()) await call(input, -index - 1)
-        const row: DavebenchRun = { project: peer.node.id, version: native?.version ?? a.version, format: 'terminal', run: round, boundary, attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0 }; runs.push(row)
+        const row: DavebenchRun = { project: peer.node.id, version: native?.version ?? a.version, format: 'terminal', run: round, boundary, attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {} }; runs.push(row)
         console.log(`${peer.node.id} terminal ${round}/3`)
         for (const [index, input] of inventory.cases.entries()) {
           const result = await call(input, index); row.attempted++; row.totalMs += result.ms
           if (result.outcome === 'completed') row.completed++; else row.failed++
+          if (result.outcome === 'invalid') { row.invalid!++; const reason = result.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1 }
           if (result.outcome === 'timeout') row.timeouts++
           if ((index + 1) % 100 === 0) save('running')
         }

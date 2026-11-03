@@ -56,13 +56,13 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
 }
 export async function main(args = process.argv.slice(2)) {
   if (args.includes('--help')) {
-    console.log('mermaid:fidelity --upstream DIR --reference DIR --runtime DIR --prepared FILE --out FRESH_DIR [--projects IDS] [--filter PATH_FRAGMENT]\nExecute original pinned tests in Vitest, once per candidate and control.')
+    console.log('mermaid:fidelity --upstream DIR --reference DIR --runtime DIR --prepared FILE --out FRESH_DIR [--projects IDS] [--filter PATH_FRAGMENT] [--reuse-reference PRIOR_OUT] [--timeout-minutes N]\nExecute original pinned tests in Vitest, once per candidate and control. --reuse-reference reads an earlier complete control run for the same selection instead of repeating it.')
     return
   }
   assertBenchmarkExecutionAllowed()
   const opts = new Map<string, string>()
   for (let i = 0; i < args.length; i += 2) {
-    if (!['--upstream', '--reference', '--runtime', '--prepared', '--out', '--projects', '--filter', '--catalog'].includes(args[i]!) || !args[i + 1]) throw Error('Invalid fidelity arguments')
+    if (!['--upstream', '--reference', '--runtime', '--prepared', '--out', '--projects', '--filter', '--catalog', '--reuse-reference', '--timeout-minutes'].includes(args[i]!) || !args[i + 1]) throw Error('Invalid fidelity arguments')
     opts.set(args[i]!, args[i + 1]!)
   }
   for (const key of ['--upstream', '--reference', '--runtime', '--prepared', '--out']) if (!opts.has(key)) throw Error('Missing ' + key)
@@ -131,6 +131,18 @@ export async function main(args = process.argv.slice(2)) {
           .map(s => JSON.parse(s))
       : []
   const collected: any[] = []
+  const timeout = 60_000 * Number(opts.get('--timeout-minutes') ?? 60)
+  if (!(timeout > 0)) throw Error('--timeout-minutes must be positive')
+  if (opts.has('--reuse-reference')) {
+    // An unchanged control run for the identical file selection, collected earlier.
+    const prior = join(resolve(opts.get('--reuse-reference')!), encodeURIComponent('mermaid-js/mermaid'))
+    const priorJob = read(join(prior, 'job.json'))
+    if (!priorJob || JSON.stringify(priorJob.files.map((f: any) => f.path)) !== JSON.stringify(files.map(f => f.path)) || priorJob.upstream !== upstream || priorJob.reference !== reference) throw Error('Reused reference run must cover the same upstream, reference and file selection')
+    const native = read(join(prior, 'vitest.json'))
+    if (!native?.numTotalTests) throw Error('Reused reference run has no collected Vitest results')
+    collected.push({ target: targets[0], native, audit: audit(join(prior, 'audit.jsonl')), exit: 0, reused: prior })
+    targets.shift()
+  }
   for (const target of targets) {
     const directory = join(out, encodeURIComponent(target.project))
     mkdirSync(directory)
@@ -138,8 +150,9 @@ export async function main(args = process.argv.slice(2)) {
     const jobPath = join(directory, 'job.json')
     writeFileSync(jobPath, JSON.stringify(job))
     console.log('Original Vitest tests:', target.project, files.length, 'files')
-    const child = spawnSync('node', [cli, 'run', '--config', join(import.meta.dirname, 'mermaid-fidelity/config.ts')], { cwd: runtime, env: { ...process.env, CI: 'true', TRIDENT_FIDELITY_JOB: jobPath }, encoding: 'utf8', timeout: 600000, maxBuffer: 8 * 1024 * 1024 })
+    const child = spawnSync('node', [cli, 'run', '--config', join(import.meta.dirname, 'mermaid-fidelity/config.ts')], { cwd: runtime, env: { ...process.env, CI: 'true', TRIDENT_FIDELITY_JOB: jobPath }, encoding: 'utf8', timeout, maxBuffer: 8 * 1024 * 1024 })
     writeFileSync(join(directory, 'runner.log'), child.stdout + '\n' + child.stderr)
+    if (child.error) writeFileSync(join(directory, 'runner-error.txt'), String(child.error))
     collected.push({ target, native: read(job.results), audit: audit(job.audit), exit: child.status })
     if (target.tool === 'mermaid' && !collected[0].native?.numTotalTests) {
       blocked.push(...targets.slice(1).map(t => ({ project: t.project, reason: 'Reference Vitest control did not collect; candidate collection withheld' })))

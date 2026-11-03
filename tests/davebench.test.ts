@@ -4,21 +4,26 @@ import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright'
 import { davebenchBrowserCall, davebenchCliCall, davebenchInputs, davebenchRankings, type DavebenchRun } from '../unified/davebench.ts'
+import { errorPatternSources } from '../unified/davebench-validity.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 import { defaultChromium } from '../unified/benchmark-context.ts'
 
 const temp = useTempDirs('simple-davebench-')
-test('native PNG stdout bindings reach a discard device without retaining an output file', async () => {
+test('native PNG stdout bindings write to a regular scratch file that is admitted after the clock and then removed', async () => {
   const root = temp.dir(), fixture = join(root, 'export.mjs')
+  // Merman-style exporters reopen stdout and reject non-regular files such as /dev/null.
   writeFileSync(fixture, `import { fstatSync } from 'node:fs';
-if (process.argv[2] !== '-' || !fstatSync(1).isCharacterDevice()) process.exit(7);
+if (process.argv[2] !== '-' || !fstatSync(1).isFile()) process.exit(7);
 for await (const chunk of process.stdin) {}
-process.stdout.write(Buffer.alloc(1024 * 1024));
+const header = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13, 0x49, 0x48, 0x44, 0x52, 0, 0, 0, 4, 0, 0, 0, 3]);
+process.stdout.write(process.argv[3] === 'bad' ? Buffer.alloc(1024) : Buffer.concat([header, Buffer.alloc(1024 * 1024)]));
 `)
   const peer: any = { artifact: { executable: 'node', outputBindings: { png: { args: [fixture, '-'] } } } }
   const result = await davebenchCliCall(peer, 'flowchart TD; A-->B', 'png', 5000)
   expect(result.outcome).toBe('completed')
   expect(Object.keys(result).sort()).toEqual(['ms', 'outcome'])
+  const bad: any = { artifact: { executable: 'node', outputBindings: { png: { args: [fixture, '-', 'bad'] } } } }
+  expect(await davebenchCliCall(bad, 'flowchart TD; A-->B', 'png', 5000)).toMatchObject({ outcome: 'invalid', invalid: 'not a PNG' })
 })
 test('completion wins before speed, speed breaks equal completion, exact ties share ranks and incomplete runs remain unranked', () => {
   const runs = (project: string, completed: number[], times: number[], format = 'svg'): DavebenchRun[] => completed.map((count, index) => ({ project, version: 'fixture', format, run: index + 1, boundary: 'fixture public API', attempted: 10, completed: count, failed: 10 - count, timeouts: 0, totalMs: times[index]! }))
@@ -37,6 +42,20 @@ test('completion wins before speed, speed breaks equal completion, exact ties sh
   expect(result.png.map(row => [row.project, row.rank])).toEqual([['png-only', 1]])
   expect(result.unranked.map(row => row.project)).toEqual(['incomplete'])
 })
+test('time breaks equal completion only between rows with the same boundary kind', () => {
+  const runs = (project: string, completed: number, ms: number, boundary: string): DavebenchRun[] => [1, 2, 3].map(run => ({ project, version: 'fixture', format: 'svg', run, boundary, attempted: 10, completed, failed: 10 - completed, timeouts: 0, totalMs: ms }))
+  const mixed = davebenchRankings([
+    ...runs('api-fast', 10, 1, 'Chromium public SVG API'),
+    ...runs('api-slow', 10, 5, 'Chromium public SVG API'),
+    ...runs('cli', 10, 3, 'native CLI svg; process startup included'),
+    ...runs('partial', 9, 1, 'Chromium public SVG API'),
+  ], 10)
+  // A fresh-process clock includes startup on every call, so it cannot be ordered
+  // against persistent API time; the whole equal-completion group shares a rank.
+  expect(mixed.svg.map(row => [row.project, row.rank])).toEqual([['cli', 1], ['api-fast', 1], ['api-slow', 1], ['partial', 4]])
+  const alike = davebenchRankings([...runs('api-fast', 10, 1, 'Chromium public SVG API'), ...runs('api-slow', 10, 5, 'Chromium public SVG API')], 10)
+  expect(alike.svg.map(row => [row.project, row.rank])).toEqual([['api-fast', 1], ['api-slow', 2]])
+})
 test('documentation extraction retains duplicate blocks and excludes a Mermaid fence inside a Markdown example', () => {
   const root = temp.dir(); mkdirSync(join(root, 'docs'))
   writeFileSync(join(root, 'docs/example.md'), '```mermaid\ngraph LR; A-->B\n```\n```mermaid-example\ngraph LR; A-->B\n```\n````markdown\n```mermaid\nnot a separate block\n```\n````\n')
@@ -46,20 +65,33 @@ test('documentation extraction retains duplicate blocks and excludes a Mermaid f
   expect(inputs.cases).toHaveLength(2)
   expect(inputs.cases[0]!.source).toBe(inputs.cases[1]!.source)
 })
-test('the browser runner awaits completion, includes failed-call time and returns no output or drawing verdict', async () => {
+test('the browser runner awaits completion, includes failed-call time and admits only usable outputs', async () => {
   const browser = await chromium.launch({ executablePath: process.env.AM_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium), headless: true })
   try {
     const page = await browser.newPage()
-    await page.evaluate(() => { (globalThis as any).__fidelityCommunity = { render: async (source: string) => { await new Promise(done => setTimeout(done, 20)); if (source === 'reject') throw Error('Expected fixture failure'); return '' } } })
-    const complete = await page.evaluate(davebenchBrowserCall, { source: 'empty public return', id: 'fixture', format: 'svg' })
+    await page.evaluate(() => {
+      const outputs: Record<string, string> = { drawn: '<svg viewBox="0 0 40 20"><rect width="10" height="10"/><text>A</text></svg>', empty: '', placeholder: '<svg aria-roledescription="error" viewBox="0 0 9 9"><path d="M0 0"/></svg>', message: '<svg viewBox="0 0 90 20"><text>Syntax error in text</text></svg>' }
+      ;(globalThis as any).__fidelityCommunity = { render: async (source: string) => { await new Promise(done => setTimeout(done, 20)); if (source === 'reject') throw Error('Expected fixture failure'); return outputs[source] } }
+    })
+    const call = (source: string, format = 'svg') => page.evaluate(davebenchBrowserCall, { source, id: 'fixture', format, errorPatterns: errorPatternSources })
+    const complete = await call('drawn')
     expect(complete.outcome).toBe('completed'); expect(complete.ms).toBeGreaterThanOrEqual(15)
     expect(Object.keys(complete).sort()).toEqual(['ms', 'outcome'])
-    const failed = await page.evaluate(davebenchBrowserCall, { source: 'reject', id: 'fixture', format: 'svg' })
+    const failed = await call('reject')
     expect(failed.outcome).toBe('error'); expect(failed.ms).toBeGreaterThanOrEqual(15)
-    await page.evaluate(() => { (globalThis as any).__davebenchNativePng = async () => { await new Promise(done => setTimeout(done, 20)); (globalThis as any).__pngCompleted = true; return new Blob(['fixture bytes']) } })
-    const png = await page.evaluate(davebenchBrowserCall, { source: 'PNG fixture', id: 'fixture', format: 'png' })
+    // A returned value that is not a usable drawing is a failure, timed like any other call.
+    expect(await call('empty')).toMatchObject({ outcome: 'invalid', invalid: 'no SVG document' })
+    expect(await call('placeholder')).toMatchObject({ outcome: 'invalid', invalid: 'error placeholder' })
+    expect(await call('message')).toMatchObject({ outcome: 'invalid', invalid: 'error message: Syntax error' })
+    expect((await call('empty')).ms).toBeGreaterThanOrEqual(15)
+    await page.evaluate(() => {
+      const bytes = new Uint8Array(33); bytes.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13, 0x49, 0x48, 0x44, 0x52, 0, 0, 0, 4, 0, 0, 0, 3])
+      ;(globalThis as any).__davebenchNativePng = async (source: string) => { await new Promise(done => setTimeout(done, 20)); (globalThis as any).__pngCompleted = true; return source === 'bad' ? new Blob(['fixture bytes']) : new Blob([bytes]) }
+    })
+    const png = await call('PNG fixture', 'png')
     expect(png.outcome).toBe('completed'); expect(png.ms).toBeGreaterThanOrEqual(15)
     expect(await page.evaluate(() => (globalThis as any).__pngCompleted)).toBe(true)
     expect(Object.keys(png).sort()).toEqual(['ms', 'outcome'])
+    expect(await call('bad', 'png')).toMatchObject({ outcome: 'invalid', invalid: 'not a PNG' })
   } finally { await browser.close() }
 })

@@ -8,24 +8,37 @@ reuse the version freeze from 2 November 2026; changing presentation runs no ren
 
 | Benchmark | Population | Ordering | Missing results |
 |---|---|---|---|
-| DaveBench | 1,342 documentation occurrences, separately for SVG, PNG and terminal text | More completions first; lower median total seconds breaks ties | Blocked projects have no completion or timing score |
-| Drawing Correctness | The same 127 cases per applicable format | More verified whole-case passes; equal counts share a rank | Unassessed combines unknown verdicts and unrun cases |
-| Mermaid Fidelity | 5,302 expanded, unskipped original callbacks | More passed callbacks; equal counts share a rank | Reference and candidate adapter gaps remain unassessed |
+| DaveBench | 1,342 documentation occurrences, separately for SVG, PNG and terminal text | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
+| Drawing Correctness | The same 127 cases per applicable format | More verified whole-case passes; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed combines unknown verdicts and unrun cases |
+| Mermaid Fidelity | The expanded upstream callbacks that pinned Mermaid itself passes | More passed callbacks; equal counts share a rank. **Possible rank** shows the positions still reachable | Candidate adapter gaps remain unassessed |
 
 For DaveBench, completions are the minimum across three runs and seconds are the
-median total time. It measures output production and time, without judging drawings.
-CLI rows include process startup; persistent API rows exclude initialization.
+median total time. A completion needs an output that passes [mechanical
+admission](davebench-definition.md#output-admission): a sized SVG, a valid PNG, or
+terminal text that is not empty, an error message or the source printed back. It
+measures output production and time, without judging drawing meaning. CLI rows
+include process startup; persistent API rows exclude initialization, so time
+orders equal completion counts only within one boundary kind.
 
 For Drawing Correctness, Failed combines contradicted drawing facts, invalid output
 and render/export failures. For Fidelity, Failed combines assertion nonpasses and
-native unsupported results. Fidelity Unassessed includes both reference-unqualified
-and candidate adapter gaps, keeping the 5,302-case population fixed. The 143 upstream
-skips are outside that population. Detailed tables separate these categories. A wholly
+native unsupported results; Unassessed is candidate adapter gaps. A Fidelity pass
+needs the original assertions to pass for the candidate and for the pinned Mermaid
+control, so callbacks the control cannot pass are unpassable for everyone. They are
+reported beside the table as reference-adapter coverage work instead of being
+counted as everyone's unknowns, which had capped Mermaid at 54.6% of its own tests.
+Upstream skips are outside the population.
+
+**Verified rank** orders observed passes. **Possible rank** is the best and worst
+position a project can still reach when its unassessed cases resolve either way:
+best = 1 + projects whose passes exceed this project's passes plus gaps; worst = 1 +
+projects whose passes plus gaps exceed this project's passes. A wide range means the
+order is not established yet. Detailed tables separate these categories. A wholly
 unassessed project has neither a score nor a rank. An observed zero with known
 failures remains a measured result. Ranks order observed passes; unresolved cases
 can change that order. They do not establish an overall winner. The [equal-weight synthesis](overall-scoring.md)
-combines score bounds and orders their verified minima; it does not impute unknown
-measurements as zero point scores.
+combines score bounds and shows each project's possible rank; it never treats
+unknown measurements as zero, for scoring or for ordering.
 
 ## Why terminal output appears in two benchmarks
 

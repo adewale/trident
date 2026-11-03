@@ -10,12 +10,15 @@ reports the remaining assessment and adapter gaps explicitly.
 | **Drawing Correctness** | Does the output draw the specified diagram correctly? | One shared, versioned corpus of real examples and bug reproducers from renderer tests, issues and PRs, starting with the existing 116 drawing cases and expanding beyond terminal projects. Assess SVG, PNG and terminal text separately. | More whole examples satisfying every required drawing fact. |
 | **Mermaid Fidelity** | How many tests from the pinned Mermaid test suite does the implementation pass? | Inventory the full pinned suite, execute original tests through candidate adapters, and account for every test and omission. | More fully passed upstream test cases on the same fixed test population. |
 
-Equal correctness/fidelity counts share a rank. DaveBench retains its exact
-completion/time tie rule. There is no combined score across these three questions
-or across output formats in the original tables. Each result names its workload
-and renderer version. The user's subsequent request adds an optional
-[equal-weight overall synthesis](overall-scoring.md); missing measurements preserve score bounds and withhold
-an exact overall score and rank.
+Equal correctness/fidelity counts share a rank. DaveBench retains its
+completion/time tie rule. Each benchmark has its own league tables, one per output
+format, and those tables never combine benchmarks or formats. Each result names its
+workload and renderer version.
+
+Separately, an optional [equal-weight overall synthesis](overall-scoring.md)
+combines the three benchmarks in one extra table. It shows score ranges and the
+range of ranks each project can still reach; while measurements are missing it
+withholds an exact overall score and never treats missing work as zero.
 
 ## DaveBench: SVG, PNG and terminal text
 
@@ -32,12 +35,18 @@ CLI process boundaries; include process startup when that is the chosen path.
 SVG-to-PNG conversion and encoding remain inside PNG timing.
 
 Publish three tables: SVG, PNG and terminal text. Report completed, failed,
-timed-out and attempted counts alongside all three run times. DaveBench retains
-numeric results and provenance only; it saves and assesses no rendered outputs.
+timed-out and attempted counts alongside all three run times. A completion needs a
+returned output that passes [mechanical admission](davebench-definition.md#output-admission):
+a sized SVG, a valid PNG, or terminal text that is neither empty, an error message
+nor the source printed back. Time breaks equal completion counts only between rows
+with the same boundary kind (fresh process or persistent API). DaveBench retains
+numeric results and provenance only; it saves no rendered outputs and judges no
+drawing meaning.
 
 **Collectors:** `davebench` measures SVG/PNG; `davebench:terminal` measures native
-terminal text through persistent APIs or declared CLI boundaries. Both discard
-outputs without assessment and use the same pinned documentation occurrences.
+terminal text through persistent APIs or declared CLI boundaries. Both admit each
+output mechanically after the clock stops, then discard it, and use the same pinned
+documentation occurrences.
 
 ## Drawing Correctness: real rendering failures across formats
 

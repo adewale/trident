@@ -2,22 +2,24 @@ import { expect, test } from 'bun:test'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { TerminalCallWorker, terminalCliCall } from '../unified/davebench-terminal.ts'
+import { terminalTextValidity } from '../unified/davebench-validity.ts'
 import { davebenchRankings, type DavebenchRun } from '../unified/davebench.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 
 const temp = useTempDirs('davebench-terminal-')
-test('persistent terminal calls await the actual API and return only timing and outcome, including empty successful returns', async () => {
+test('persistent terminal calls await the actual API, return only timing and outcome, and do not admit empty returns', async () => {
   const root = temp.dir(); mkdirSync(join(root, 'fixture'))
   const module = join(root, 'fixture/render.mjs')
-  writeFileSync(module, `export async function render(source){await new Promise(done=>setTimeout(done,20));if(source==='reject')throw Error('fixture rejection');return ''}`)
+  writeFileSync(module, `export async function render(source){await new Promise(done=>setTimeout(done,20));if(source==='reject')throw Error('fixture rejection');return source==='empty'?'':'A ──► B'}`)
   writeFileSync(join(root, 'fixture/package.json'), '{"name":"fixture","version":"1.0.0","type":"module"}')
   const peer: any = { node: { id: 'fixture/terminal', benchmark: { adapter: 'declared', api: { terminal: { export: 'render' } } } }, artifact: { kind: 'node', version: '1.0.0', root: join(root, 'fixture'), module } }
-  const worker = new TerminalCallWorker(peer, join(root, 'operand.json'))
+  const worker = new TerminalCallWorker(peer, join(root, 'operand.json'), undefined, terminalTextValidity)
   try {
     await worker.ready
-    const ok = await worker.call('source', 'one', 2000), error = await worker.call('reject', 'two', 2000)
+    const ok = await worker.call('source', 'one', 2000), error = await worker.call('reject', 'two', 2000), empty = await worker.call('empty', 'three', 2000)
     expect(ok.outcome).toBe('completed'); expect(ok.ms).toBeGreaterThanOrEqual(15)
     expect(error.outcome).toBe('error'); expect(error.ms).toBeGreaterThanOrEqual(15)
+    expect(empty).toMatchObject({ outcome: 'invalid', invalid: 'empty output' }); expect(empty.ms).toBeGreaterThanOrEqual(15)
     expect(Object.keys(ok).sort()).toEqual(['ms', 'outcome'])
   } finally { worker.close() }
 })
@@ -57,11 +59,15 @@ test('native counter invocations use the same awaited transport without requirin
   } finally { await worker.close() }
 })
 
-test('native terminal calls count exit status, discard stdout, and kill a timed-out process', async () => {
+test('native terminal calls count exit status, admit only usable text, and kill a timed-out process', async () => {
   const root = temp.dir()
   const artifact: any = { kind: 'cli', executable: process.execPath, input: 'stdin', version: 'fixture', args: ['-e', `process.stdin.resume();process.stdin.on('end',()=>{process.stdout.write('drawing');process.exit(0)})`] }
   const ok = await terminalCliCall(artifact, 'source', root, 2000)
   expect(ok.outcome).toBe('completed'); expect(Object.keys(ok).sort()).toEqual(['ms', 'outcome'])
+  const errorText = await terminalCliCall({ ...artifact, args: ['-e', `process.stdin.resume();process.stdin.on('end',()=>{process.stdout.write('Error: unsupported diagram');process.exit(0)})`] }, 'source', root, 2000)
+  expect(errorText).toMatchObject({ outcome: 'invalid', invalid: 'error message: unsupported diagram' })
+  const silent = await terminalCliCall({ ...artifact, args: ['-e', `process.stdin.resume();process.stdin.on('end',()=>process.exit(0))`] }, 'source', root, 2000)
+  expect(silent).toMatchObject({ outcome: 'invalid', invalid: 'empty output' })
   const rejected = await terminalCliCall({ ...artifact, args: ['-e', 'process.exit(2)'] }, 'source', root, 2000)
   expect(rejected.outcome).toBe('error')
   const timeout = await terminalCliCall({ ...artifact, args: ['-e', 'setTimeout(()=>{},10000)'] }, 'source', root, 30)
