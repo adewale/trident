@@ -59,14 +59,16 @@ checks, and a correct renderer may be slow; both questions have useful answers.
 These gaps mostly describe unfinished Trident implementation, rather than demonstrated
 limitations of the projects being benchmarked.
 
-**Fidelity runs every bindable candidate on the whole selected suite.** Generic
-native bindings, a guarded Bun/async parser bridge, native model schema views and the
-Frankenmermaid WASM binding give measured original-test outcomes to **13 candidates
-plus Mermaid**. On 3 November every one of them attempted all 316 selected core-package
-files against one shared Mermaid 12.2.0 control run. Ten of them had previously been
-run on only 42 files, so most of their earlier unassessed callbacks were tests Trident
-had not run rather than missing bindings. Full-suite runs raised Pele from 2,157 to
-2,204 passes, Agentic Mermaid from 1,186 to 1,202 and Merslim from 113 to 157.
+**Fidelity runs every candidate on the whole selected suite.** All 26 candidates
+plus Mermaid attempted all 316 selected core-package files on 3 November against one
+shared Mermaid 12.2.0 control run. Thirteen are reached through their JavaScript
+parsers (generic native bindings, a guarded Bun/async parser bridge, native model
+schema views and the Frankenmermaid WASM binding) and thirteen through parser bridges.
+Ten of the JavaScript candidates had previously been run on only 42 files, so most of
+their earlier unassessed callbacks were tests Trident had not run rather than missing
+bindings. Full-suite runs raised Pele from 2,157 to 2,204 passes, Agentic Mermaid from
+1,186 to 1,202 and Merslim from 113 to 157; the shape-name fix below raised
+Frankenmermaid from 308 to 367.
 
 **Parser bridges reach the other 13 projects.** Their parsers are not JavaScript
 modules the original tests can import, so each has a small bridge program in the
@@ -101,6 +103,12 @@ Models are mapped to the databases the tests query by the same generic schema vi
 used for every candidate; fields it does not map remain unassessed. Native enum
 spellings of Mermaid's shape names (`DIAMOND`, `DOUBLE_CIRCLE`) are matched
 case-insensitively rather than counted as failures.
+
+MermaidText is a declared Go port of the Grok renderer's `mermaid.rs`. Its Go bridge
+and Grok's Rust bridge were built independently and produced the same outcome for
+every one of the 5,459 expanded callbacks; only the wording of their unsupported
+messages differs. Mermaid Dart and Mermaid Flutter share one bridge because Flutter
+calls `mermaid_core`'s parser unchanged, so their rows are identical by construction.
 
 A produced drawing that could not be judged says **Not assessed**. No result is
 inferred from a project's identity or relationship to another renderer.
@@ -138,10 +146,11 @@ Mermaid PNGs whose source SVGs pass 124, so a PNG score would mostly measure the
 OCR. Mermaid Flutter, which only outputs PNG, has no Drawing result.
 
 Broad assessment and original-test operation coverage are still incomplete; calling
-the whole benchmark effort finished would be premature. The remaining work is to
-write parser/model bindings for the
-unbound projects, reach more Mermaid internals through the reference adapter, and
-run the unexpanded and outside-runner tests. The combined table displays score
+the whole benchmark effort finished would be premature. Every project now has a
+Fidelity binding. The remaining work is to map more native model fields in the schema
+views (most bridged projects' unassessed callbacks are fields the generic view does not
+map), reach more Mermaid internals through the reference adapter, and run the
+unexpanded and outside-runner tests. The combined table displays score
 ranges; an exact overall score remains unavailable while required measurements are
 missing.
 
@@ -177,7 +186,7 @@ branch as a historical record.
 - [Drawing Correctness and Fidelity method and earlier detailed results](correctness-fidelity-results-2026-11-02.md)
 - [DaveBench numeric results](evidence/benchmark-campaign-2026-11-03/report.json)
 - [Drawing Correctness numeric results](../results/drawing-correctness-2026-11-03.json)
-- [Mermaid Fidelity numeric results](../results/mermaid-fidelity-2026-11-03.json) and [unmeasured-project reasons](evidence/benchmark-campaign-2026-11-03/fidelity-unmeasured.json)
+- [Mermaid Fidelity numeric results](../results/mermaid-fidelity-2026-11-03.json)
 - Superseded 2 November results: [DaveBench](evidence/benchmark-campaign-2026-11-02/report.json), [Drawing](../results/drawing-correctness-2026-11-02.json), [Fidelity](../results/mermaid-fidelity-2026-11-02.json)
 
 `RESULTS.md` previously remained attached to the 1 November legacy snapshot while
