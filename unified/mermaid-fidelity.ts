@@ -5,6 +5,8 @@ import { createRequire } from 'node:module'
 import { assertCurrentBenchmarkArtifact, latestBenchmarkRenderingArtifact } from './benchmark-versions.ts'
 import { inventoryOriginalDeclarations } from './upstream-fidelity-census.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
+import { parserBridge } from './mermaid-fidelity/bridges.ts'
+import './mermaid-fidelity/bridge-registry.ts'
 
 const PIN = '1fb7869866dd619168d840291c9c54b4f129758b'
 export function fidelityOutcomes(reference: any, candidate: any, audit: any[], referenceAudit?: any[]) {
@@ -103,6 +105,12 @@ export async function main(args = process.argv.slice(2)) {
   for (const peer of prepared) {
     const project = peer.node.id
     if (project === 'mermaid-js/mermaid' || (opts.has('--projects') && !opts.get('--projects')!.split(',').includes(project))) continue
+    // A registered out-of-process bridge calls the project's own parser in its own language.
+    const bridge = parserBridge(peer)
+    if (bridge) {
+      targets.push({ project, version: bridge.version, tool: 'bridge', bridge, peer })
+      continue
+    }
     const artifact = latestBenchmarkRenderingArtifact(peer)
     const tool = project === 'adewale/agentic-mermaid' ? 'agentic' : project === 'obsidianmd/pele' ? 'pele' : project === 'lukilabs/beautiful-mermaid' ? 'beautiful' : project === 'dfadler/zombie-mermaid' ? 'zombie' : (artifact?.kind === 'node' || artifact?.kind === 'franken') && artifact.module ? 'native' : undefined
     if (!tool || !artifact?.root) {

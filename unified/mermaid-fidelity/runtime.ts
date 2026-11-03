@@ -104,6 +104,8 @@ export async function initialize(file?: string) {
         api = await import(/* @vite-ignore */ pathToFileURL(job.target.entry).href)
       }
     } else api = {}
+  } else if (job.target.tool === 'bridge') {
+    api = {}
   } else {
     try {
       api = await import(/* @vite-ignore */ pathToFileURL(job.target.entry).href)
@@ -144,8 +146,45 @@ export function finish(task: any) {
   active = undefined
   if (reason && task.result?.state !== 'skip') throw new AdapterGap('TRIDENT_ADAPTER_GAP: ' + reason)
 }
+
+/** One reply protocol for every out-of-process parser bridge: the last stdout
+ * line is {value} | {error:{name,message}} | {unsupported} | {adapterGap}.
+ * Only a parser's own syntax errors count as rejections; transport, import and
+ * unclassified failures are Trident gaps. */
+function bridgeReply(stdout: string, family: string, label: string) {
+  let reply: any
+  try {
+    reply = JSON.parse(stdout.trim().split('\n').at(-1)!, (_key, v) => (v?.__tridentNativeMap ? new Map(v.__tridentNativeMap) : v?.__tridentNativeSet ? new Set(v.__tridentNativeSet) : v?.__tridentNativeDate ? new Date(v.__tridentNativeDate) : v))
+  } catch {
+    return gap(label + ' returned no structured observation')
+  }
+  if (reply.adapterGap) return gap(reply.adapterGap)
+  if (reply.unsupported) {
+    active?.unsupported.push(reply.unsupported)
+    throw Error(reply.unsupported)
+  }
+  if (reply.error) {
+    const e = reply.error
+    if (/Unsupported|UnknownDiagram/.test(e.name) || /unsupported diagram|unknown diagram|unrecognized diagram type|unsupported .*diagram type/i.test(e.message)) {
+      active?.unsupported.push(e.message)
+      throw Error(e.message)
+    }
+    if (!/^(?:ParseError|MermaidSyntaxError|SyntaxError)$/.test(e.name) && !/parse error|parsing failed|invalid (?:syntax|flowchart)|syntax error/i.test(e.message)) return gap('Unclassified native parser refusal: ' + e.message)
+    active && active.rejections++
+    throw Error(e.message)
+  }
+  if (reply.value?.kind && reply.value.diagram && reply.value.kind !== family) return gap('Native generic parser returned ' + reply.value.kind + '; requested ' + family + ' parser operation is not available')
+  return reply.value?.kind && reply.value.diagram ? reply.value.diagram : reply.value
+}
 function nativeParse(family: string, source: string) {
   active && active.calls++
+  if (job.target.tool === 'bridge') {
+    // The project's own parser, in its own language, behind a per-call process.
+    const [command, ...args] = job.target.bridge.command
+    const child = spawnSync(command, args, { input: JSON.stringify({ family, source }), cwd: job.target.bridge.cwd, encoding: 'utf8', timeout: 10_000, maxBuffer: 16 * 1024 * 1024 })
+    if (child.error || child.status !== 0) return gap('Parser bridge failed: ' + (child.error?.message ?? child.stderr.slice(0, 400)))
+    return bridgeReply(child.stdout, family, 'Parser bridge')
+  }
   if (job.target.tool === 'agentic') {
     const result = api.parseRegisteredMermaid(source)
     if (result?.then) return gap('Asynchronous parser cannot supply the original synchronous parse interface')
@@ -198,25 +237,7 @@ function nativeParse(family: string, source: string) {
       const entry = job.target.parserEntries?.[family] ?? job.target.entry
       const child = spawnSync(job.target.bun, [join(import.meta.dirname, 'native-call.mjs')], { input: JSON.stringify({ entry, source, methods: [...(selectors[family] ?? []), 'parse', 'parseToIR'] }), encoding: 'utf8', timeout: 5000, maxBuffer: 16 * 1024 * 1024 })
       if (child.error || child.status !== 0) return gap('Native Bun parser bridge failed: ' + (child.error?.message ?? child.stderr.slice(0, 400)))
-      let reply: any
-      try {
-        reply = JSON.parse(child.stdout.trim().split('\n').at(-1)!, (_key, v) => (v?.__tridentNativeMap ? new Map(v.__tridentNativeMap) : v?.__tridentNativeSet ? new Set(v.__tridentNativeSet) : v?.__tridentNativeDate ? new Date(v.__tridentNativeDate) : v))
-      } catch {
-        return gap('Native Bun parser bridge returned no structured observation')
-      }
-      if (reply.adapterGap) return gap(reply.adapterGap)
-      if (reply.error) {
-        const e = reply.error
-        if (/Unsupported|UnknownDiagram/.test(e.name) || /unsupported diagram|unknown diagram|unrecognized diagram type|unsupported .*diagram type/i.test(e.message)) {
-          active?.unsupported.push(e.message)
-          throw Error(e.message)
-        }
-        if (!/^(?:ParseError|MermaidSyntaxError|SyntaxError)$/.test(e.name) && !/parse error|parsing failed|invalid (?:syntax|flowchart)|syntax error/i.test(e.message)) return gap('Unclassified native parser refusal: ' + e.message)
-        active && active.rejections++
-        throw Error(e.message)
-      }
-      if (reply.value?.kind && reply.value.diagram && reply.value.kind !== family) return gap('Native generic parser returned ' + reply.value.kind + '; requested ' + family + ' parser operation is not available')
-      return reply.value?.kind && reply.value.diagram ? reply.value.diagram : reply.value
+      return bridgeReply(child.stdout, family, 'Native Bun parser bridge')
     }
     const selected = (selectors[family] ?? []).find(name => typeof api[name] === 'function')
     // Generic parse is used only for an API whose own returned kind distinguishes
@@ -326,7 +347,7 @@ function context(family: string) {
     const caseAudit = active
     active = undefined
     try {
-      const initial = ['native', 'zombie'].includes(job.target.tool) ? undefined : nativeParse(family, examples[family] ?? family)
+      const initial = ['native', 'zombie', 'bridge'].includes(job.target.tool) ? undefined : nativeParse(family, examples[family] ?? family)
       if (initial?.constructor?.name !== 'Object') Constructor = initial?.constructor
     } catch {
     } finally {
