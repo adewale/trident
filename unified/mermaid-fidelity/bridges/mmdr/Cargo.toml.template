@@ -1,0 +1,18 @@
+# Filled in by build.ts: {{MMDR_CRATE}} is the crates.io source of mermaid-rs-renderer
+# at the prepared artifact's version, fetched and checksum-verified into the build directory.
+[package]
+name = "mmdr-bridge"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[[bin]]
+name = "mmdr-bridge"
+path = "src/main.rs"
+
+[dependencies]
+# Default features only add the CLI (clap) and PNG output; parsing needs neither.
+mermaid-rs-renderer = { path = "{{MMDR_CRATE}}", default-features = false }
+serde_json = { version = "1", features = ["preserve_order"] }
+
+[workspace]

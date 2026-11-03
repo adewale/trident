@@ -25,7 +25,8 @@ export const nodeExecutable = () => process.env.NODE_BIN ?? execFileSync('which'
 export async function parserBridge(peer: any, outRoot: string): Promise<ParserBridge | undefined> {
   const resolve = resolvers[peer?.node?.id]
   if (!resolve) return undefined
-  const outDir = join(outRoot, encodeURIComponent(peer.node.id))
+  // Plain directory names: some linkers mishandle '%' in paths.
+  const outDir = join(outRoot, peer.node.id.replace(/[^A-Za-z0-9._-]+/g, '-'))
   mkdirSync(outDir, { recursive: true })
   const bridge = await resolve(peer, outDir)
   if (bridge && !existsSync(bridge.command[0]!)) throw Error(`Parser bridge for ${peer.node.id} has no executable ${bridge.command[0]}`)

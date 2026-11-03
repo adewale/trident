@@ -48,5 +48,5 @@ registerBridge('1jehuang/mermaid-rs-renderer', built('mmdr', 'mermaid_rs_rendere
 registerBridge('crabtalk/bezel', built('bezel', 'bezel-mermaid mermaid::parse'))
 registerBridge('AlexanderGrooff/mermaid-ascii', built('mermaid-ascii', 'pkg/graph, pkg/sequence and pkg/er Parse'))
 registerBridge('spacedock-dev/mermaidtext', built('mermaidtext', 'unexported Go parsers, reached through an overlay-injected export'))
-registerBridge('orestesgaolin/mermaid', built('dart', 'mermaid_core 0.3.2 public parseX functions'))
-registerBridge('pub:mermaid_flutter', built('dart', "mermaid_core 0.3.2 public parseX functions (mermaid_flutter uses core's parser unchanged)", () => '0.3.2'))
+registerBridge('orestesgaolin/mermaid', built('dart', "mermaid_core 0.3.2 parseX functions, from its public library or its own src/ libraries where not re-exported"))
+registerBridge('pub:mermaid_flutter', built('dart', "mermaid_core 0.3.2 parseX functions (mermaid_flutter uses core's parser unchanged)", () => '0.3.2'))

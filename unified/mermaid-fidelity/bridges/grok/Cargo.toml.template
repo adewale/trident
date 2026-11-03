@@ -1,0 +1,19 @@
+# Filled in by build.ts. The bridge compiles grok-build's own mermaid.rs (see build.rs),
+# with the dependency versions taken from grok-build's Cargo.lock.
+[package]
+name = "grok-bridge"
+version = "0.0.0"
+edition = "2024"
+publish = false
+build = "build.rs"
+
+[[bin]]
+name = "grok-bridge"
+path = "src/main.rs"
+
+[dependencies]
+ratatui = "0.29"
+unicode-width = "0.2"
+serde_json = { version = "1", features = ["preserve_order"] }
+
+[workspace]

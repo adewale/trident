@@ -1,0 +1,29 @@
+// Injected into package mermaidtext by Trident's parser bridge with `go build -overlay`;
+// it is not part of the project and the checkout is never written to. It only exposes
+// the project's unexported per-family parsers, unchanged, to the bridge's main package.
+
+package mermaidtext
+
+// TridentBridgeParse calls the package's own parser for one family and returns its
+// results in order. declined reports the parser's own refusal (a nil graph or ok=false);
+// known is false for a family the package has no parser for.
+func TridentBridgeParse(family, src string) (results []any, declined, known bool) {
+	switch family {
+	case "flowchart":
+		g := parseGraph(src)
+		return []any{g}, g == nil, true
+	case "state":
+		g, ok := parseState(src)
+		return []any{g}, !ok, true
+	case "class":
+		g, infos, ok := parseClass(src)
+		return []any{g, infos}, !ok, true
+	case "er":
+		g, infos, ok := parseER(src)
+		return []any{g, infos}, !ok, true
+	case "sequence":
+		seq, ok := parseSequence(src)
+		return []any{seq}, !ok, true
+	}
+	return nil, false, false
+}

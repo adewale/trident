@@ -1,0 +1,17 @@
+# Filled in by build.ts: {{FIGUREHEAD_CRATE}} is the prepared figurehead-rs source's crates/figurehead.
+[package]
+name = "figurehead-bridge"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[[bin]]
+name = "figurehead-bridge"
+path = "src/main.rs"
+
+[dependencies]
+figurehead = { path = "{{FIGUREHEAD_CRATE}}" }
+anyhow = "1"
+serde_json = { version = "1", features = ["preserve_order"] }
+
+[workspace]
