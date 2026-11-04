@@ -791,6 +791,130 @@ C4['emtyty/merslim'] = raw => {
   }
 }
 
+// Sequence diagrams. Mermaid's getMessages() is one flat list in source order: messages,
+// notes (type NOTE, from/to the noted participants), activations, block start / section /
+// end markers whose message is the block's label, and autonumber, each with its list
+// index as id. `A->>+B` records activate on the message and then an activation; a model
+// that keeps only the activation cannot say which.
+const SEQ = { SOLID: 0, DOTTED: 1, NOTE: 2, SOLID_CROSS: 3, DOTTED_CROSS: 4, SOLID_OPEN: 5, DOTTED_OPEN: 6, LOOP_START: 10, LOOP_END: 11, ALT_START: 12, ALT_ELSE: 13, ALT_END: 14, OPT_START: 15, OPT_END: 16, ACTIVE_START: 17, ACTIVE_END: 18, PAR_START: 19, PAR_AND: 20, PAR_END: 21, RECT_START: 22, RECT_END: 23, SOLID_POINT: 24, DOTTED_POINT: 25, AUTONUMBER: 26, CRITICAL_START: 27, CRITICAL_OPTION: 28, CRITICAL_END: 29, BREAK_START: 30, BREAK_END: 31, PAR_OVER_START: 32, BIDIRECTIONAL_SOLID: 33, BIDIRECTIONAL_DOTTED: 34 }
+const PLACEMENT = { leftof: 0, rightof: 1, over: 2 }
+// Block kind -> [start, section, end] line types.
+const SEQ_BLOCK = { loop: [SEQ.LOOP_START, undefined, SEQ.LOOP_END], alt: [SEQ.ALT_START, SEQ.ALT_ELSE, SEQ.ALT_END], par: [SEQ.PAR_START, SEQ.PAR_AND, SEQ.PAR_END], par_over: [SEQ.PAR_OVER_START, SEQ.PAR_AND, SEQ.PAR_END], opt: [SEQ.OPT_START, undefined, SEQ.OPT_END], critical: [SEQ.CRITICAL_START, SEQ.CRITICAL_OPTION, SEQ.CRITICAL_END], break: [SEQ.BREAK_START, undefined, SEQ.BREAK_END], rect: [SEQ.RECT_START, undefined, SEQ.RECT_END] }
+const MESSAGE_FIELDS = ['id', 'from', 'to', 'message', 'wrap', 'type']
+const SEQ_ABSENT = Symbol('absent for this message')
+function sequenceView(entries, absent, hooks) {
+  const records = () => entries().map((fields, index) => record({ id: String(index), ...fields }, 'message', MESSAGE_FIELDS, { ...absent, ...(fields[SEQ_ABSENT] ?? {}) }, hooks))
+  return {
+    getMessages: records,
+    getNotes: () => entries().filter(item => item.type === SEQ.NOTE).map(item => record({ actor: item.from === item.to ? item.from : [item.from, item.to], placement: item.placement, message: item.message, ...('wrap' in item ? { wrap: item.wrap } : {}) }, 'note', ['actor', 'placement', 'message', 'wrap'], absent, hooks)),
+    LINETYPE: SEQ,
+    PLACEMENT: { LEFTOF: 0, RIGHTOF: 1, OVER: 2 },
+  }
+}
+const noteEnds = list => [list[0], list.length > 1 ? list[1] : list[0]]
+const SEQUENCE = {
+  // termaid sequence model: events in order; a block nests its events and its further
+  // sections; activations are their own events; autonumber is one flag.
+  'fasouto/termaid': (raw, hooks) => {
+    const ARROW = { solid: { arrow: SEQ.SOLID, open: SEQ.SOLID_OPEN, cross: SEQ.SOLID_CROSS, async: SEQ.SOLID_POINT, bidirectional: SEQ.BIDIRECTIONAL_SOLID }, dotted: { arrow: SEQ.DOTTED, open: SEQ.DOTTED_OPEN, cross: SEQ.DOTTED_CROSS, async: SEQ.DOTTED_POINT, bidirectional: SEQ.BIDIRECTIONAL_DOTTED } }
+    const plain = { activate: false }
+    const flatten = events => events.flatMap(event => {
+      if ('source' in event && 'target' in event) {
+        const type = ARROW[event.line_type]?.[event.arrow_type]
+        if (type === undefined) return hooks.unavailable(`termaid sequence arrow ${event.line_type}/${event.arrow_type}`)
+        return [{ from: event.source, to: event.target, message: event.label ?? '', type, [SEQ_ABSENT]: { activate: "termaid records A->>+B as a message followed by an activation, the same as an activate line" } }]
+      }
+      if ('text' in event && 'position' in event) { const [from, to] = noteEnds(event.participants); return [{ from, to, message: event.text, type: SEQ.NOTE, placement: PLACEMENT[event.position] }] }
+      if ('participant' in event && 'active' in event) return [{ from: event.participant, to: undefined, message: '', type: event.active ? SEQ.ACTIVE_START : SEQ.ACTIVE_END, ...plain }]
+      if ('kind' in event && Array.isArray(event.events)) {
+        const block = SEQ_BLOCK[event.kind]
+        if (!block || (event.sections?.length && block[1] === undefined)) return hooks.unavailable('termaid sequence block ' + event.kind)
+        return [
+          { from: undefined, to: undefined, message: event.label ?? '', type: block[0], ...plain },
+          ...flatten(event.events),
+          ...(event.sections ?? []).flatMap(section => [{ from: undefined, to: undefined, message: section.label ?? '', type: block[1], ...plain }, ...flatten(section.events)]),
+          { from: undefined, to: undefined, message: '', type: block[2], ...plain },
+        ]
+      }
+      return hooks.unavailable('termaid sequence event ' + Object.keys(event).join(','))
+    })
+    return {
+      entries: () => (raw.autonumber ? hooks.unsupported('termaid keeps autonumber as one flag, not where it was written or its start and step') : flatten(raw.events)),
+      absent: { wrap: "termaid's sequence model keeps no text wrapping per message" },
+    }
+  },
+}
+// mermaid_core 0.3.2 (Mermaid Dart and Flutter): one flat event list in which a block
+// start names its kind, a { label } entry opens the next section and {} closes the block;
+// messages and notes keep their own wrap flag.
+const dartSequence = (raw, hooks) => {
+  const ARROW = { solidArrow: SEQ.SOLID, dottedArrow: SEQ.DOTTED, solidOpen: SEQ.SOLID_OPEN, dottedOpen: SEQ.DOTTED_OPEN, solidCross: SEQ.SOLID_CROSS, dottedCross: SEQ.DOTTED_CROSS, solidPoint: SEQ.SOLID_POINT, dottedPoint: SEQ.DOTTED_POINT, bidirectionalSolid: SEQ.BIDIRECTIONAL_SOLID, bidirectionalDotted: SEQ.BIDIRECTIONAL_DOTTED }
+  const KIND = { loop: 'loop', alt: 'alt', par: 'par', parOver: 'par_over', opt: 'opt', critical: 'critical', breakBlock: 'break', rect: 'rect' }
+  const noWrap = { [SEQ_ABSENT]: { wrap: "mermaid_core keeps a wrap flag only on messages and notes" } }
+  return {
+    entries: () => {
+      const stack = []
+      return raw.events.map(event => {
+        const keys = Object.keys(event)
+        if ('from' in event && 'arrow' in event) {
+          const type = ARROW[event.arrow]
+          if (type === undefined) return hooks.unavailable('mermaid_core sequence arrow ' + event.arrow)
+          return { from: event.from, to: event.to, message: event.text ?? '', wrap: event.wrap, type, [SEQ_ABSENT]: { activate: "mermaid_core records A->>+B as a message followed by an activation, the same as an activate line" } }
+        }
+        if ('placement' in event) return { from: event.target, to: event.target2 ?? event.target, message: event.text ?? '', wrap: event.wrap, type: SEQ.NOTE, placement: PLACEMENT[String(event.placement).toLowerCase()] }
+        if ('active' in event && 'id' in event) return { from: event.id, to: undefined, message: '', type: event.active ? SEQ.ACTIVE_START : SEQ.ACTIVE_END, activate: false, ...noWrap }
+        if ('on' in event) return { from: undefined, to: undefined, message: { start: event.start ?? undefined, step: event.step ?? undefined, visible: event.on }, wrap: false, type: SEQ.AUTONUMBER }
+        if ('kind' in event) {
+          const block = SEQ_BLOCK[KIND[event.kind]]
+          if (!block) return hooks.unavailable('mermaid_core sequence block ' + event.kind)
+          stack.push(block)
+          return { from: undefined, to: undefined, message: event.kind === 'rect' ? event.color ?? '' : event.label ?? '', type: block[0], activate: false, ...noWrap }
+        }
+        if (keys.length === 1 && keys[0] === 'label') {
+          const block = stack.at(-1)
+          if (!block?.[1]) return hooks.unavailable('mermaid_core sequence section outside a sectioned block')
+          return { from: undefined, to: undefined, message: event.label ?? '', type: block[1], activate: false, ...noWrap }
+        }
+        if (keys.length === 0) {
+          const block = stack.pop()
+          if (!block) return hooks.unavailable('mermaid_core sequence block end without a start')
+          return { from: undefined, to: undefined, message: '', type: block[2], activate: false, ...noWrap }
+        }
+        return hooks.unavailable('mermaid_core sequence event ' + keys.join(','))
+      })
+    },
+    absent: {},
+  }
+}
+SEQUENCE['orestesgaolin/mermaid'] = dartSequence
+SEQUENCE['pub:mermaid_flutter'] = dartSequence
+
+// Pele, Bezel and Latias94/merman keep Mermaid's own treeView and kanban records.
+const deepUnset = value => (Array.isArray(value) ? value.map(deepUnset) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, item === null ? undefined : deepUnset(item)])) : value)
+const PORTS = ['obsidianmd/pele', 'crabtalk/bezel', 'Latias94/merman']
+// Kanban getData(): one node per section followed by its items. Mermaid's look and
+// config, and the item's rx, ry and cssStyles, are its renderer's settings.
+const KANBAN_FIELDS = ['id', 'label', 'labelType', 'isGroup', 'shape', 'level', 'look']
+const KANBAN_RENDERER = { look: "Mermaid's kanban look is its renderer's configuration", rx: "a kanban item's corner radius is Mermaid's renderer setting", ry: "a kanban item's corner radius is Mermaid's renderer setting", cssStyles: "a kanban item's text alignment style is Mermaid's renderer setting", width: "a kanban section's width is Mermaid's renderer setting", padding: "a kanban section's padding is Mermaid's renderer setting" }
+function kanbanView(project, raw, hooks) {
+  // Bezel and Pele nest each section's items; Latias94/merman lists getData's nodes.
+  const sections = raw.sections.map(section => ({ id: section.id, label: section.label, level: section.level, isGroup: false, ...(section.ticket !== undefined ? { ticket: section.ticket ?? undefined } : {}) }))
+  const items = section => (raw.nodes ? raw.nodes.filter(node => node.parentId === section.id) : raw.sections.find(item => item.id === section.id)?.items ?? [])
+  const node = fields => record(deepUnset(fields), 'kanban node', KANBAN_FIELDS, KANBAN_RENDERER, hooks)
+  return {
+    getSections: () => sections.map(section => record(section, 'kanban section', ['id', 'label', 'level', 'width', 'padding', 'isGroup'], KANBAN_RENDERER, hooks)),
+    getData: () => ({
+      nodes: sections.flatMap(section => [
+        node({ id: section.id, label: section.label, labelType: 'markdown', isGroup: true, ticket: section.ticket, shape: 'kanbanSection', level: section.level }),
+        ...items(section).map(item => node({ id: item.id, parentId: section.id, label: item.label, labelType: 'markdown', isGroup: false, ticket: item.ticket, priority: item.priority, assigned: item.assigned, icon: item.icon, shape: 'kanbanItem', level: item.level })),
+      ]),
+      edges: [],
+      other: {},
+      get config() { return hooks.unsupported("Mermaid's kanban getData config is its renderer's configuration") },
+    }),
+  }
+}
+
 // Git graphs. Mermaid's getCommits() and getBranches() are Maps (commit id -> commit,
 // branch name -> head commit id). Bezel mirrors both; Latias94/merman lists commits and
 // branch names, without each branch's head.
@@ -872,6 +996,9 @@ export function nativeSchemaView(project, family, raw, hooks) {
   if (family === 'er' && ER[project]) return erView(ER[project](raw), hooks)
   if (family === 'gitgraph' && GITGRAPH[project]) return GITGRAPH[project](raw, hooks)
   if (family === 'c4' && C4[project]) return c4View(C4[project](raw, hooks), hooks)
+  if (family === 'treeview' && PORTS.includes(project) && raw.root) return { getRoot: () => deepUnset(raw.root), ...(typeof raw.count === 'number' ? { getCount: () => raw.count } : {}) }
+  if (family === 'kanban' && PORTS.includes(project) && Array.isArray(raw.sections)) return kanbanView(project, raw, hooks)
+  if (family === 'sequence' && SEQUENCE[project]) { const model = SEQUENCE[project](raw, hooks); return sequenceView(model.entries, model.absent, hooks) }
   return undefined
 }
 

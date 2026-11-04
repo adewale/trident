@@ -231,3 +231,41 @@ test('C4 views: Mermaid shape types, the global boundary, and what each model ke
   expect(() => dart.getRels()[0].type).toThrow('unsupported')
   expect(log.at(-1)).toContain('Rel_U/D/L/R')
 })
+
+test('sequence: block events flatten into Mermaid start, section and end markers in source order', () => {
+  const { hooks, log } = verdicts()
+  const termaid = {
+    participants: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }],
+    events: [
+      { source: 'A', target: 'B', label: 'Hello', line_type: 'solid', arrow_type: 'arrow' },
+      { participant: 'B', active: true },
+      { kind: 'alt', label: 'ok', events: [{ source: 'A', target: 'B', label: 'x', line_type: 'dotted', arrow_type: 'open' }], sections: [{ label: 'bad', events: [] }] },
+      { text: 'both', position: 'over', participants: ['A', 'B'] },
+    ],
+    autonumber: false,
+  }
+  const view = nativeSchemaView('fasouto/termaid', 'sequence', termaid, hooks)
+  expect(view.getMessages().map((m: any) => [m.id, m.from, m.to, m.message, m.type])).toEqual([
+    ['0', 'A', 'B', 'Hello', 0], ['1', 'B', undefined, '', 17], ['2', undefined, undefined, 'ok', 12], ['3', 'A', 'B', 'x', 6], ['4', undefined, undefined, 'bad', 13], ['5', undefined, undefined, '', 14], ['6', 'A', 'B', 'both', 2],
+  ])
+  expect(view.getMessages()[6].placement).toBe(2)
+  expect(() => view.getMessages()[0].activate).toThrow('unsupported')
+  expect(() => view.getMessages()[0].wrap).toThrow('unsupported')
+  expect(() => nativeSchemaView('fasouto/termaid', 'sequence', { ...termaid, autonumber: true }, hooks).getMessages()).toThrow('unsupported')
+  expect(log.at(-1)).toContain('autonumber')
+  const dart = nativeSchemaView('orestesgaolin/mermaid', 'sequence', { participants: new Map(), events: [{ kind: 'loop', label: 'L', color: null }, { from: 'A', to: 'B', arrow: 'dottedPoint', text: 'p', wrap: true }, {}] }, hooks)
+  expect(dart.getMessages().map((m: any) => [m.type, m.message])).toEqual([[10, 'L'], [25, 'p'], [11, '']])
+  expect(dart.getMessages()[1].wrap).toBe(true)
+})
+
+test('ports: kanban sections and getData nodes; treeView root', () => {
+  const { hooks } = verdicts()
+  const bezel = { type: 'kanban', sections: [{ id: 'todo', level: 2, label: 'Todo', items: [{ id: 't1', level: 4, label: 'Docs', priority: 'High' }] }] }
+  const view = nativeSchemaView('crabtalk/bezel', 'kanban', bezel, hooks)
+  expect(view.getSections().map((s: any) => s.label)).toEqual(['Todo'])
+  expect(view.getData().nodes.map((n: any) => [n.id, n.parentId, n.isGroup, n.shape, n.priority])).toEqual([['todo', undefined, true, 'kanbanSection', undefined], ['t1', 'todo', false, 'kanbanItem', 'High']])
+  expect(() => view.getData().config).toThrow('unsupported')
+  expect(() => view.getData().nodes[1].rx).toThrow('unsupported')
+  const tree = nativeSchemaView('obsidianmd/pele', 'treeview', { root: { id: 0, level: -1, name: '/', nodeType: 'directory', children: [{ id: 1, level: 0, name: 'src', nodeType: 'file', icon: null, children: [] }] }, count: 2 }, hooks)
+  expect([tree.getRoot().children[0].name, tree.getRoot().children[0].icon, tree.getCount()]).toEqual(['src', undefined, 2])
+})
