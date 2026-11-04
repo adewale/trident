@@ -197,6 +197,7 @@ function asciiGraph(graph, _project, hooks) {
 // each edge has a stroke-and-arrow style word ('arrow' is a solid line ending in an
 // arrowhead) with optional start/end markers; linkStyle rules are kept by edge index;
 // subgraphs nest. Its resolved per-node style merges classDef and style statements.
+// Mermaid has no start-only edge type: such an edge keeps its own spelling.
 const XMERMAID_STROKE = { arrow: 'normal', line: 'normal', dotted: 'dotted', thick: 'thick', invisible: 'invisible' }
 function xmermaidGraph(graph, _project, hooks) {
   const flat = []
@@ -211,9 +212,10 @@ function xmermaidGraph(graph, _project, hooks) {
     edges: () =>
       graph.edges.map((edge, index) => {
         const end = edge.end_marker ? headOf(edge.end_marker) : edge.style === 'arrow' ? 'point' : 'none'
+        const start = edge.start_marker ? headOf(edge.start_marker) : 'none'
         const rules = linkStyles.filter(rule => rule.targets_default || rule.indices?.includes(index))
         if (rules.some(rule => rule.targets_default)) return hooks.unavailable('XMermaid linkStyle default rule')
-        return { start: edge.from, end: edge.to, text: edge.label ?? '', type: edgeType(edge.start_marker ? headOf(edge.start_marker) : 'none', end), stroke: XMERMAID_STROKE[edge.style], length: edge.min_length, style: rules.length ? rules.flatMap(rule => styleStrings(rule.style)) : undefined }
+        return { start: edge.from, end: edge.to, text: edge.label ?? '', type: edgeType(start, end) ?? (end === 'none' && start ? 'xmermaid:start-only-' + start : undefined), stroke: XMERMAID_STROKE[edge.style], length: edge.min_length, style: rules.length ? rules.flatMap(rule => styleStrings(rule.style)) : undefined }
       }),
     subgraphs: () => flat,
     direction: directionOf(graph.direction),
