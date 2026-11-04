@@ -174,7 +174,24 @@ function latiasGraph(graph) {
   }
 }
 
+// mermaid-ascii pkg/graph: nodeSpecs for nodes, an adjacency map for edges; it parses no
+// node shapes (a shape bracket becomes part of the node name).
+function asciiGraph(graph, hooks) {
+  return {
+    nodes: () =>
+      entriesOf(graph.nodeSpecs).map(([id, spec]) => {
+        if (spec.label.lines.length !== 1) return hooks.unavailable('Multi-line mermaid-ascii label')
+        return [id, { text: spec.label.lines[0], classes: spec.styleClass ? [spec.styleClass] : [] }]
+      }),
+    edges: () => entriesOf(graph.data).flatMap(([, list]) => list.map(edge => ({ start: edge.parent.name, end: edge.child.name, text: edge.label ?? '', type: edgeType(edge.isBidirectional ? headOf(edge.head) : 'none', headOf(edge.head)), stroke: strokeOf(String(edge.stroke).replace(/^stroke/, '')) }))),
+    subgraphs: () => (graph.subgraphs ?? []).map(group => ({ id: group.id, title: group.name, nodes: [...(group.nodes ?? []), ...(group.children ?? []).map(child => child.id ?? child)] })),
+    direction: directionOf(graph.graphDirection),
+    absent: { vertex: { type: 'mermaid-ascii parses no node shapes', styles: 'mermaid-ascii keeps no per-node styles' }, edge: { length: "mermaid-ascii's edge model has no link length" } },
+  }
+}
+
 const FLOWCHART = {
+  'AlexanderGrooff/mermaid-ascii': asciiGraph,
   'xai-org/grok-build': indexGraph,
   'spacedock-dev/mermaidtext': indexGraph,
   'Yassimba/loom': indexGraph,
