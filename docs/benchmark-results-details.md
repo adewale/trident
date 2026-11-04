@@ -60,8 +60,17 @@ These gaps mostly describe unfinished Trident implementation, rather than demons
 limitations of the projects being benchmarked.
 
 **Fidelity runs every candidate on the whole selected suite.** All 26 candidates
-plus Mermaid attempted all 316 selected core-package files on 3 November against one
-shared Mermaid 12.2.0 control run. Thirteen are reached through their JavaScript
+plus Mermaid attempted all 316 selected core-package files on 4 November against one
+shared Mermaid 12.2.0 control run. With the reviewed schema views and unsupported
+operations described below, the bridged projects' unassessed callbacks fell from
+roughly 1,000–2,650 each to 250–1,000 (Grok renderer 2,146 → 336, Mermaid ASCII
+1,490 → 296, Crafter Mermaid 828 → 250), and passes rose where native fields were
+already present but unmapped (Bezel 1,804 → 2,304, Latias Merman 1,345 → 2,237,
+Mermaid Dart 815 → 1,703, Mermaid RS Renderer 212 → 1,226). Several JavaScript
+candidates (Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH
+Mermaid GB SVG, MermaidTUI) still leave 2,000–2,700 callbacks unassessed: their
+modules expose no synchronous parser Trident can call for ER, class, C4, state or
+agentflow diagrams, so those tests stay binding gaps. Thirteen are reached through their JavaScript
 parsers (generic native bindings, a guarded Bun/async parser bridge, native model
 schema views and the Frankenmermaid WASM binding) and thirteen through parser bridges.
 Ten of the JavaScript candidates had previously been run on only 42 files, so most of
@@ -224,7 +233,7 @@ branch as a historical record.
 - [Drawing Correctness and Fidelity method and earlier detailed results](correctness-fidelity-results-2026-11-02.md)
 - [DaveBench numeric results](evidence/benchmark-campaign-2026-11-03/report.json)
 - [Drawing Correctness numeric results](../results/drawing-correctness-2026-11-03.json)
-- [Mermaid Fidelity numeric results](../results/mermaid-fidelity-2026-11-03.json)
+- [Mermaid Fidelity numeric results](../results/mermaid-fidelity-2026-11-04.json)
 - Superseded 2 November results: [DaveBench](evidence/benchmark-campaign-2026-11-02/report.json), [Drawing](../results/drawing-correctness-2026-11-02.json), [Fidelity](../results/mermaid-fidelity-2026-11-02.json)
 
 `RESULTS.md` previously remained attached to the 1 November legacy snapshot while
