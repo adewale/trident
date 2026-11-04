@@ -76,7 +76,7 @@ export default {
     testTimeout: 5000,
     hookTimeout: 30000,
     restoreMocks: true,
-    reporters: ['json'],
+    reporters: process.env.TRIDENT_FIDELITY_PROFILE ? ['json', 'default'] : ['json'],
     outputFile: job.results,
     update: false,
   },

@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict'
 import vm from 'node:vm'
-import ts from 'typescript'
+import { createRequire } from 'node:module'
+// The TypeScript compiler is only needed to transpile specs in executeUpstreamSpecs; the
+// Fidelity runtime imports this module in every isolated test file, so load it lazily.
+let typescript
+const tsCompiler = () => (typescript ??= createRequire(import.meta.url)('typescript'))
 
 export class ProjectionUnavailable extends Error {}
 export class TargetParseRejection extends Error {}
@@ -121,6 +125,7 @@ export async function executeUpstreamSpecs(files, parse) {
       if (/logger\.js$/.test(id)) return { log: {} }
       throw new ProjectionUnavailable(`Unreviewed upstream import ${id}`)
     } })
+    const ts = tsCompiler()
     vm.runInContext(ts.transpileModule(file.text, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText, context, { filename: file.path })
   }
   for (const test of tests) {
