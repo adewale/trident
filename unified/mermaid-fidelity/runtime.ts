@@ -691,6 +691,9 @@ export function moduleFor(family: string, source: string, file: string, locals: 
                   return c.database(...args)
                 }
               }
+            // A getter imported by name (getAccTitle from commonDb) reads whatever the
+            // file's database holds when it is called, after the test has parsed.
+            if (job.target.tool !== 'mermaid' && /^get[A-Z]\w*$/.test(key)) return (...args: any[]) => c.db[key](...args)
             return c.db[key]
           },
         },
