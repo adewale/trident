@@ -16,6 +16,11 @@ test('a caught missing-adapter exception, unsupported result, or absent target i
   const rows = fidelityOutcomes(native(['passed', 'passed', 'passed']), native(['passed', 'passed', 'passed']), [audit(0, { gaps: ['missing native getter'] }), audit(1, { unsupported: ['actual opaque model'] }), audit(2, { calls: 0 })])
   expect(rows.map((r: any) => r.status)).toEqual(['trident-blocked', 'unsupported', 'trident-blocked'])
 })
+test('an operation the candidate does not offer outranks a Trident gap in the same test', () => {
+  const rows = fidelityOutcomes(native(['passed', 'passed']), native(['passed', 'passed']), [audit(0, { gaps: ['unmapped getter'], unsupported: ['no parser for this family'] }), audit(1, { gaps: ['unmapped getter'] })])
+  expect(rows.map((r: any) => r.status)).toEqual(['unsupported', 'trident-blocked'])
+  expect(rows[0].reason).toBe('no parser for this family')
+})
 test('upstream skips and unqualified control tests stay separate from candidate failures', () => {
   expect(fidelityOutcomes(native(['pending', 'failed']), native(['failed', 'failed']), [audit(0), audit(1)]).map((r: any) => r.status)).toEqual(['upstream-skipped', 'reference-unqualified'])
 })

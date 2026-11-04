@@ -150,8 +150,8 @@ test('a one-project docs rerun updates its row while comparable peer scores, dat
   expect(overview(data, 'fixture/b').rank).toBe('1')
   const output = renderSnapshot(data, catalog)
   const currentTable = output.split(`<a id="${comparison.id}"></a>`)[1]!.split('<a id=')[0]!
-  expect(currentTable).not.toContain('| fixture/a |')
-  expect(currentTable).toContain('| fixture/b | 1 |')
+  expect(currentTable).not.toContain('| fixture/a ')
+  expect(currentTable).toContain('| fixture/b 1.0.0 | 1 | 1 |')
 })
 
 test('equal-sized docs inventories with changed input bytes cannot join a rolling comparison', () => {

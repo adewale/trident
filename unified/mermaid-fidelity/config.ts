@@ -10,6 +10,8 @@ const runtime = resolve(import.meta.dirname, 'runtime.ts')
 const family = new Map(job.files.map((file: any) => [file.absolute, file.family]))
 export default {
   resolve: { alias: { vitest: resolve(dirname(require.resolve('vitest/package.json')), 'dist/index.js') } },
+  // Keep Vite's cache in the runner kit, never in the pinned upstream checkout.
+  cacheDir: resolve(job.runtime, 'node_modules/.vite'),
   server: { fs: { allow: [job.upstream, job.reference, job.runtime, resolve(import.meta.dirname, '../..')] } },
   plugins: [
     {

@@ -33,10 +33,12 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
         ? 'upstream-expected-failure'
         : control.status !== 'passed' || controlGap
           ? 'reference-unqualified'
-          : !result || !evidence || evidence.gaps.length || !evidence.calls || unmappedMemberCall
-            ? 'trident-blocked'
-            : evidence?.unsupported?.length
-              ? 'unsupported'
+          : // A refused parse, an operation the candidate does not offer or a concept its
+            // model does not carry means the test cannot pass, whatever else Trident maps.
+            result && evidence?.unsupported?.length
+            ? 'unsupported'
+            : !result || !evidence || evidence.gaps.length || !evidence.calls || unmappedMemberCall
+              ? 'trident-blocked'
               : result.status === 'passed'
                 ? 'passed'
                 : 'failed'
@@ -52,7 +54,7 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
           ? 'Reference native-operation/adapter guard did not qualify'
           : unmappedMemberCall
             ? 'Original ClassMember.getDisplayDetails has no native schema binding; no renderer defect is established'
-            : evidence?.gaps?.join('; ') || evidence?.unsupported?.join('; ') || result?.failureMessages?.join('\n').slice(0, 1000) || (result ? undefined : 'Candidate test not collected'),
+            : (status === 'unsupported' && evidence.unsupported.join('; ')) || evidence?.gaps?.join('; ') || evidence?.unsupported?.join('; ') || result?.failureMessages?.join('\n').slice(0, 1000) || (result ? undefined : 'Candidate test not collected'),
     }
   })
 }
@@ -158,7 +160,9 @@ export async function main(args = process.argv.slice(2)) {
     const jobPath = join(directory, 'job.json')
     writeFileSync(jobPath, JSON.stringify(job))
     console.log('Original Vitest tests:', target.project, files.length, 'files')
-    const child = spawnSync('node', [cli, 'run', '--config', join(import.meta.dirname, 'mermaid-fidelity/config.ts')], { cwd: runtime, env: { ...process.env, CI: 'true', TRIDENT_FIDELITY_JOB: jobPath }, encoding: 'utf8', timeout, maxBuffer: 8 * 1024 * 1024 })
+    // Mermaid's own suite runs from its repository root; tests that read source files
+    // relative to the working directory need the same.
+    const child = spawnSync('node', [cli, 'run', '--config', join(import.meta.dirname, 'mermaid-fidelity/config.ts')], { cwd: upstream, env: { ...process.env, CI: 'true', TRIDENT_FIDELITY_JOB: jobPath }, encoding: 'utf8', timeout, maxBuffer: 8 * 1024 * 1024 })
     writeFileSync(join(directory, 'runner.log'), child.stdout + '\n' + child.stderr)
     if (child.error) writeFileSync(join(directory, 'runner-error.txt'), String(child.error))
     collected.push({ target, native: read(job.results), audit: audit(job.audit), exit: child.status })

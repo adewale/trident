@@ -1,4 +1,5 @@
 import { publicDatabaseView } from './upstream-test-assertions.mjs'
+import { nativeSchemaView } from './mermaid-fidelity/schema-views.mjs'
 
 const entries = value => value instanceof Map ? [...value] : Array.isArray(value) ? value.map(item => [String(item.id ?? item.name), item]) : value && typeof value === 'object' ? Object.entries(value) : []
 const clone = (value, seen = new Map()) => {
@@ -30,15 +31,19 @@ export function snapshotMermaidDatabase(db) {
 
 /** Translate actual observed public field names, retaining representation gaps.
  * These projections do not promise Mermaid's private renderer/database API. */
-export function projectPublicDatabase(tool, family, raw, unavailable) {
+export function projectPublicDatabase(tool, family, raw, unavailable, unsupported, project) {
   if (tool === 'mermaid') return snapshotMermaidDatabase(raw)
+  // A reviewed per-project view takes precedence over the generic field-name guesses.
+  const native = project && unavailable && unsupported ? nativeSchemaView(project, family, raw, { unavailable, unsupported }) : undefined
+  if (native?.whole) return native.whole
+  if (native) return { ...projectPublicDatabase(tool, family, raw, unavailable), ...native }
   if (family === 'mindmap' || family === 'gitgraph') return publicDatabaseView(tool, raw, family)
   const view = { ...clone(raw) }, field = (name, property, object = raw) => { if (object && property in object) view[name] = () => clone(object[property]) }
   field('getDiagramTitle', 'title'); field('getAccTitle', raw && 'accTitle' in raw ? 'accTitle' : 'accessibilityTitle'); field('getAccDescription', raw && 'accDescr' in raw ? 'accDescr' : 'accessibilityDescription'); field('getDirection', 'direction')
   if (family === 'flowchart') {
     const graph = tool === 'agentic' ? raw.graph : raw
     const missing = detail => { if (unavailable) return unavailable('Unmapped native flowchart schema: ' + detail); return undefined }
-    const shapes = { rect: 'square', rectangle: 'square', process: 'square', box: 'square', rounded: 'round', asymmetric: 'odd', 'trapezoid-alt': 'inv_trapezoid' }
+    const shapes = { rect: 'square', rectangle: 'square', process: 'square', box: 'square', rounded: 'round', asymmetric: 'odd', 'trapezoid-alt': 'inv_trapezoid', roundrect: 'round', roundedrect: 'round', parallelogram: 'lean_right', parallelogramalt: 'lean_left', trapezoidalt: 'inv_trapezoid' }
     // Native enums often spell Mermaid's own shape names differently (DIAMOND,
     // DOUBLE_CIRCLE). Match case- and separator-insensitively; unknown names pass through.
     const vocabulary = ['square', 'round', 'stadium', 'subroutine', 'cylinder', 'circle', 'doublecircle', 'diamond', 'hexagon', 'lean_right', 'lean_left', 'trapezoid', 'inv_trapezoid', 'odd', 'ellipse', 'rect']
@@ -58,7 +63,7 @@ export function projectPublicDatabase(tool, family, raw, unavailable) {
       }))
     }
     if (graph?.edges) view.getEdges = () => {
-      if (!Array.isArray(graph.edges) || graph.edges.some(edge => typeof (edge.source ?? edge.from ?? edge.start) !== 'string' || typeof (edge.target ?? edge.to ?? edge.end) !== 'string' || edge.label !== undefined && typeof edge.label !== 'string')) return missing('edge endpoints and labels')
+      if (!Array.isArray(graph.edges) || graph.edges.some(edge => typeof (edge.source ?? edge.from ?? edge.start) !== 'string' || typeof (edge.target ?? edge.to ?? edge.end) !== 'string' || edge.label != null && typeof edge.label !== 'string')) return missing('edge endpoints and labels')
       return graph.edges.map(edge => {
         if (!edge.type && edge.hasArrowStart === true && edge.hasArrowEnd === false) return missing('start-only marker direction has no qualified original edge view')
         const heads = { arrow: 'arrow_point', open: 'arrow_open', none: 'arrow_open', circle: 'arrow_circle', cross: 'arrow_cross' }

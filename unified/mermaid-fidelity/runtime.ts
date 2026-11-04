@@ -6,6 +6,7 @@ import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
 import ts from 'typescript'
 import { projectPublicDatabase } from '../upstream-fidelity-projection.mjs'
+import { nativeAstView } from './schema-views.mjs'
 
 const job = JSON.parse(readFileSync(process.env.TRIDENT_FIDELITY_JOB!, 'utf8'))
 const referenceRequire = createRequire(join(job.reference, 'package.json'))
@@ -17,7 +18,19 @@ let api: any,
   language: any
 let active: { protocol: string; expectedFailure: boolean; id: string; file: string; name: string; index: number; gaps: Set<string>; calls: number; rejections: number; unsupported: string[] } | undefined
 const contexts = new Map<string, any>(),
-  deferredValues = new WeakMap<object, string>()
+  deferredValues = new WeakMap<object, string>(),
+  ownDatabases = new WeakSet<object>()
+/** An operation the candidate's real interface does not offer. The candidate's
+ * interface is parse(source) -> its own model; Mermaid's mutable database API and
+ * jison callback protocol are not part of it. Recorded as a known nonpass. */
+function unsupportedOperation(reason: string): never {
+  // The verdict comes from the candidate's own interface, so it counts as exercised.
+  if (active) active.calls++
+  active?.unsupported.push(reason)
+  throw Error('Unsupported candidate operation: ' + reason)
+}
+// Mermaid database members that change or compute state rather than observe a parse.
+const DATABASE_OPERATION = /^(?:add|set|update|define|make|insert|remove|push|pop|enter|exit|apply|toggle|commit|branch|merge|checkout|cherryPick|draw|lookUp|sanitize|edgeStrTo|parse[A-Z])/
 export class AdapterGap extends Error {}
 function gap(reason: string): never {
   active?.gaps.add(reason)
@@ -63,9 +76,24 @@ const examples: Record<string, string> = {
   radar: 'radar-beta\naxis a["A"], b["B"]\ncurve c["C"]{1,2}',
   treemap: 'treemap-beta\n"A": 1',
   c4: 'C4Context\nPerson(a,"A")',
-  eventmodeling: 'eventModeling\nswimlane A {\n event E["E"]\n}',
+  eventmodeling: 'eventmodeling\n\ntf 01 ui CartUI\ntf 02 cmd AddItem\ntf 03 evt ItemAdded',
   ishikawa: 'ishikawa-beta\nA\n  B',
+  // Families added to Mermaid after the original example list; headers follow each detector.
+  agentflow: 'agentflow-beta TB\n  a["A"] --> b["B"]',
+  railroad: 'railroad-beta\nexpression = terminal("a") ;',
+  'railroad:ebnf': 'railroad-ebnf-beta\nsign = "+" | "-" ;',
+  'railroad:abnf': 'railroad-abnf-beta\nsign = "+" / "-"',
+  'railroad:peg': 'railroad-peg-beta\nsign <- "+" / "-"',
+  usecase: 'usecase-beta\nactor User\nLogin\nUser --> Login',
+  treeview: 'treeView-beta\n    "packages"\n        "mermaid"',
+  cynefin: 'cynefin-beta\n  complex\n  clear',
+  venn: 'venn-beta\n  set A["Alpha"]\n  set B["Beta"]',
+  wardley: 'wardley-beta\ntitle A\nsize [800, 1000]',
+  swimlanes: 'swimlane-beta\n  subgraph Sales\n    lead[Qualify lead]\n  end',
 }
+// One test family can hold several Mermaid diagram types, told apart by their header.
+const variants: Record<string, [RegExp, string][]> = { railroad: [[/^\s*railroad-ebnf-beta/i, 'railroad:ebnf'], [/^\s*railroad-abnf-beta/i, 'railroad:abnf'], [/^\s*railroad-peg-beta/i, 'railroad:peg']] }
+const definitionFor = (family: string, source: string) => definitions.get(variants[family]?.find(([header]) => header.test(source))?.[1] ?? family)
 export async function initialize(file?: string) {
   if (api) return
   if (job.target.tool === 'mermaid') {
@@ -88,11 +116,12 @@ export async function initialize(file?: string) {
       })!
     language = await import(/* @vite-ignore */ pathToFileURL(resolve(dirname(manifest), JSON.parse(readFileSync(manifest, 'utf8')).exports['.'].import)).href)
     for (const family of new Set(job.files.filter((f: any) => !file || f.absolute === file).map((f: any) => f.family)) as Set<string>)
-      if (examples[family]) {
-        try {
-          definitions.set(family, await api.mermaidAPI.getDiagramFromText(examples[family]))
-        } catch {}
-      }
+      for (const key of [family, ...(variants[family] ?? []).map(([, key]) => key)])
+        if (examples[key]) {
+          try {
+            definitions.set(key, await api.mermaidAPI.getDiagramFromText(examples[key]))
+          } catch {}
+        }
   } else if (job.target.tool === 'beautiful') {
     const family = job.files.find((f: any) => f.absolute === file)?.family
     const modules: Record<string, string> = { flowchart: 'src/parser.ts', state: 'src/parser.ts', sequence: 'src/sequence/parser.ts', class: 'src/class/parser.ts', er: 'src/er/parser.ts' }
@@ -117,6 +146,14 @@ export async function initialize(file?: string) {
     }
   }
 }
+/** Source text without comments: a commented-out call does not use an import. */
+function withoutComments(text: string) {
+  const scanner = ts.createScanner(ts.ScriptTarget.Latest, false, ts.LanguageVariant.Standard, text)
+  let out = ''
+  for (let token = scanner.scan(); token !== ts.SyntaxKind.EndOfFileToken; token = scanner.scan())
+    if (token !== ts.SyntaxKind.SingleLineCommentTrivia && token !== ts.SyntaxKind.MultiLineCommentTrivia) out += scanner.getTokenText()
+  return out
+}
 export function begin(task: any) {
   const flatten = (node: any): any[] => (node.tasks ? node.tasks.flatMap(flatten) : node.type === 'test' ? [node] : [])
   const index = flatten(task.file).findIndex(t => t.id === task.id)
@@ -135,7 +172,8 @@ export function begin(task: any) {
     const ast = ts.createSourceFile('test.ts', lines.join('\n'), ts.ScriptTarget.Latest, true)
     const imports = ast.statements.filter(ts.isImportDeclaration).map(n => ({ start: ast.getLineAndCharacterOfPosition(n.getStart(ast)).line, end: ast.getLineAndCharacterOfPosition(n.end).line }))
     const helpers = lines.filter((_line, i) => !imports.some(r => i >= r.start && i <= r.end) && !file.declarations.some((d: any) => i >= d.line - 1 && i < d.endLine)).join('\n')
-    for (const [name, reason] of c.unavailableImports) if (new RegExp('\\b' + name + '\\b').test(text + '\n' + helpers)) active.gaps.add('Unavailable imported value used by original test: ' + name + ' (' + reason + ')')
+    const code = withoutComments(text + '\n' + helpers)
+    for (const [name, reason] of c.unavailableImports) if (new RegExp('\\b' + name + '\\b').test(code)) active.gaps.add('Unavailable imported value used by original test: ' + name + ' (' + reason + ')')
   }
 }
 export function finish(task: any) {
@@ -300,8 +338,26 @@ function nativeParse(family: string, source: string) {
     throw error
   }
 }
+// Langium service names in the parser package, against the runner's family keys.
+const astFamilies: Record<string, string> = { Architecture: 'architecture', GitGraph: 'gitgraph', Info: 'info', Packet: 'packet', Pie: 'pie', Radar: 'radar', Treemap: 'treemap', TreeView: 'treeview', EventModeling: 'eventmodeling', Railroad: 'railroad', Wardley: 'wardley', Venn: 'venn', Usecase: 'usecase', Cynefin: 'cynefin', Ishikawa: 'ishikawa' }
 function nativeAst(family: string, source: string): any {
-  if (family !== 'Pie') return gap('Native Langium AST schema adapter: ' + family)
+  if (family !== 'Pie') {
+    // Ask the candidate's own parser first: a family it does not parse is its own
+    // unsupported operation, and its syntax rejection is a real parser error. Only an
+    // accepted parse that no AST schema view can express remains a Trident gap.
+    const native = astFamilies[family]
+    if (!native) return gap('Native Langium AST schema adapter: ' + family)
+    const before = active?.rejections ?? 0
+    let raw: any
+    try {
+      raw = nativeParse(native, source)
+    } catch (error) {
+      if (error instanceof AdapterGap || (active?.rejections ?? 0) === before) throw error
+      return { value: undefined, lexerErrors: [], parserErrors: [error] }
+    }
+    const value = nativeAstView(job.target.project, family, raw, { unavailable: (reason: string) => gap(reason), unsupported: (reason: string) => unsupportedOperation(reason) })
+    return value ? { value, lexerErrors: [], parserErrors: [] } : gap('Native Langium AST schema adapter: ' + family)
+  }
   const before = active?.rejections ?? 0
   try {
     const raw = nativeParse('pie', source)
@@ -317,7 +373,7 @@ function nativeAst(family: string, source: string): any {
 function projectView(family: string, raw: any) {
   if (raw == null) return {}
   try {
-    return projectPublicDatabase(job.target.tool, family, raw, (reason: string) => gap(reason))
+    return projectPublicDatabase(job.target.tool, family, raw, (reason: string) => gap(reason), (reason: string) => unsupportedOperation(reason), job.target.project)
   } catch (error) {
     return gap('Native schema projection failed: ' + String(error))
   }
@@ -332,6 +388,8 @@ function context(family: string) {
       return new Proxy(instance, {
         get(target, key) {
           const value = target[key]
+          // A test's own vi.spyOn mock must reach the test unchanged.
+          if (typeof value === 'function' && (value as any)._isMockFunction) return value
           return typeof value === 'function'
             ? (...params: any[]) => {
                 active && active.calls++
@@ -365,7 +423,7 @@ function context(family: string) {
         view = projectView(family, raw)
       },
     }
-    return new Proxy(target, {
+    const proxy: any = new Proxy(target, {
       get(t, key: string) {
         if (key in t) return t[key]
         if (key === 'then') return undefined
@@ -379,17 +437,27 @@ function context(family: string) {
           active && active.calls++
           return value
         }
+        // FlowDB's constructor already selects gen-2; re-selecting it changes nothing.
+        if (family === 'flowchart' && key === 'setGen') return (version?: string) => ((version || 'gen-2') === 'gen-2' ? undefined : gap('Native flowchart generation selector: ' + version))
+        if (typeof key === 'string' && DATABASE_OPERATION.test(key)) return () => unsupportedOperation(`${family} database operation ${key} (the candidate exposes a parser, not Mermaid's mutable database)`)
         return deferred(family + '.db.' + key)
       },
     })
+    ownDatabases.add(proxy)
+    return proxy
   }
   c.database = database
   c.db = database()
   c.parser = {
     yy: c.db,
     parse(source: string) {
-      if (job.target.tool !== 'mermaid') return c.parser.yy.parse(source)
-      const definition = definitions.get(family)
+      if (job.target.tool !== 'mermaid') {
+        // A test that installs its own yy object checks Mermaid's jison callback
+        // protocol; a candidate parser returns its model instead of driving that object.
+        if (!ownDatabases.has(c.parser.yy)) return unsupportedOperation(family + ' parser driving a caller-supplied database (Mermaid jison yy callback protocol)')
+        return c.parser.yy.parse(source)
+      }
+      const definition = definitionFor(family, source)
       if (!definition) return gap(family + ': reference diagram unavailable')
       const p = definition.getParser()
       p.yy = c.parser.yy
@@ -426,6 +494,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
   const nondefault = (value: any) => Object.keys(value).some(key => key !== 'securityLevel' || value[key] !== 'strict')
   const changed = (value: any) => {
     if (job.target.tool !== 'mermaid' && nondefault(value)) {
+      c.configChanged = true
       if (active) gap('Native host configuration setter is not bound')
       else c.initialConfigGap = true
     }
@@ -450,18 +519,58 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       return configurations?.getSiteConfig?.() ?? c.config
     },
     reset() {
-      if (job.target.tool !== 'mermaid' && active) return gap('Native host configuration reset is not bound')
+      // Resetting a configuration that was never changed is a no-op for any candidate.
+      if (job.target.tool !== 'mermaid' && active && c.configChanged) return gap('Native host configuration reset is not bound')
       configurations?.reset?.()
     },
   }
-  if (/config\.js$|diagramAPI\.js$/.test(source)) return { ...config, default: config }
+  // Log verbosity changes no observable result.
+  const setLogLevel = () => undefined
+  if (/config\.js$/.test(source)) return { ...config, default: config }
+  if (/diagramAPI\.js$/.test(source)) return boundModule({ ...config, setLogLevel, log: deferred('Logger side effects are not bound to the candidate'), default: config }, c, locals)
+  // The public package registers every diagram at import; candidates need no registry.
+  if (/diagram-orchestration\.js$/.test(source)) return { addDiagrams: () => undefined }
+  // A diagram module's `diagram` definition: the family's parser and database.
+  if (/\w(?:Diagram|Diagram-v2)\.js$/.test(source) && locals.diagram) {
+    if (job.target.tool === 'mermaid') {
+      const definition = definitions.get(family)
+      return { diagram: definition ? { ...definition, parser: c.parser, db: c.db } : deferred(family + ': reference diagram unavailable') }
+    }
+    return boundModule({ diagram: { parser: c.parser, db: c.db, renderer: deferred('Mermaid renderer module'), styles: deferred('Mermaid diagram styles') } }, c, locals)
+  }
+  if (/(?:^|\/)Diagram\.js$/.test(source)) {
+    if (job.target.tool === 'mermaid')
+      return {
+        // Diagram is not exported publicly; getDiagramFromText is the public route to it.
+        Diagram: {
+          fromText(text: any, metadata?: any) {
+            active && active.calls++
+            return api.mermaidAPI.getDiagramFromText(typeof text === 'string' ? text : text.raw, metadata)
+          },
+        },
+      }
+    if (family === '<shared>') return boundModule({ Diagram: deferred('Diagram.fromText without a diagram family') }, c, locals)
+    return {
+      Diagram: {
+        // The candidate's own parser for this file's family, observed through the same database view.
+        async fromText(text: any) {
+          const db = c.database()
+          // Outside a test this is a loader warm-up whose result no assertion reads.
+          if (!active)
+            try {
+              db.parse(typeof text === 'string' ? text : text.raw)
+            } catch {}
+          else db.parse(typeof text === 'string' ? text : text.raw)
+          return { type: family, db, parser: c.parser }
+        },
+      },
+    }
+  }
   if (/logger/.test(source))
     return boundModule(
       {
         log: deferred('Logger side effects are not bound to the candidate'),
-        setLogLevel() {
-          if (active) return gap('Native log-level setter is not bound')
-        },
+        setLogLevel,
       },
       c,
       locals,
@@ -496,13 +605,14 @@ export function moduleFor(family: string, source: string, file: string, locals: 
               const name = key.slice(6, -8)
               return { [name === 'EventModeling' ? 'EventModel' : name]: { parser: { LangiumParser: { parse: (text: string) => nativeAst(name, text) } } } }
             }
-          if (key === 'Pie') return { $type: 'Pie' }
+          // Generated AST type constants (Radar.$type === 'Radar'): grammar vocabulary, not behaviour.
+          if (/^[A-Z][A-Za-z]*$/.test(key)) return { $type: key }
           return deferred('Native AST type: ' + key)
         },
       },
     )
   }
-  if (/\.jison$|[Pp]arser\.[jt]s$|\/parser\.[jt]s$/.test(source)) {
+  if (/\.jison$|[Pp]arser\.[jt]s$|\/parser\.[jt]s$|\.chevrotain\.[jt]s$/.test(source)) {
     let parser = c.parser
     if (job.target.tool !== 'mermaid' && !source.endsWith('.jison') && ['architecture', 'packet', 'pie', 'radar', 'gitgraph', 'treemap', 'eventmodeling', 'info'].includes(family))
       parser = new Proxy(c.parser, {
