@@ -100,15 +100,18 @@ export async function terminalCliCall(artifact: CommunityArtifact, source: strin
 }
 
 export async function main(args = process.argv.slice(2)) {
-  if (args.length === 1 && args[0] === '--help') { console.log('davebench:terminal --prepared FILE --out FRESH_DIRECTORY [--upstream CHECKOUT] [--catalog FROZEN_CAMPAIGN_CATALOG]\nThree documentation runs; native text output discarded without assessment.'); return }
+  if (args.length === 1 && args[0] === '--help') { console.log('davebench:terminal --prepared FILE --out FRESH_DIRECTORY [--upstream CHECKOUT] [--catalog FROZEN_CAMPAIGN_CATALOG] [--projects IDS]\nThree documentation runs; native text output discarded without assessment. --projects measures only the named projects; times are comparable only within one collection on one machine.'); return }
   assertBenchmarkExecutionAllowed()
   const options = new Map<string, string>()
-  for (let i = 0; i < args.length; i += 2) { if (!['--out', '--prepared', '--upstream', '--catalog'].includes(args[i]!) || !args[i + 1] || options.has(args[i]!)) throw Error('Invalid terminal DaveBench arguments'); options.set(args[i]!, args[i + 1]!) }
+  for (let i = 0; i < args.length; i += 2) { if (!['--out', '--prepared', '--upstream', '--catalog', '--projects'].includes(args[i]!) || !args[i + 1] || options.has(args[i]!)) throw Error('Invalid terminal DaveBench arguments'); options.set(args[i]!, args[i + 1]!) }
   if (!options.has('--out') || !options.has('--prepared')) throw Error('Choose --out and a current frozen --prepared artifact list')
   const out = resolve(options.get('--out')!)
   if (existsSync(out)) throw Error('Choose a fresh output directory')
   mkdirSync(out, { recursive: true })
-  const prepared: PreparedCommunity[] = JSON.parse(readFileSync(options.get('--prepared')!, 'utf8'))
+  const wanted = options.get('--projects')?.split(',')
+  const all: PreparedCommunity[] = JSON.parse(readFileSync(options.get('--prepared')!, 'utf8'))
+  const prepared = wanted ? all.filter(peer => wanted.includes(peer.node.id)) : all
+  if (wanted) for (const id of wanted) if (!prepared.some(peer => peer.node.id === id)) throw Error('No prepared terminal artifact for ' + id)
   const recorded = JSON.parse(readFileSync(options.get('--catalog') ?? communityCatalogFile, 'utf8'))
   const selected = options.has('--catalog') ? recorded : (await refreshBenchmarkVersions(recorded, prepared.map(peer => peer.node.id))).catalog
   for (const peer of prepared) {
