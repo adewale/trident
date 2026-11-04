@@ -149,11 +149,11 @@
       "version": "0.3.1",
       "format": "svg",
       "counts": {
-        "correct": 117,
+        "correct": 118,
         "incorrect": 9,
         "renderer-failure": 0,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -245,6 +245,7 @@
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -289,25 +290,21 @@
         ],
         "renderer-failure": [],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "adewale/agentic-mermaid",
       "version": "0.5.6",
       "format": "svg",
       "counts": {
-        "correct": 121,
+        "correct": 122,
         "incorrect": 2,
         "renderer-failure": 3,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -402,6 +399,7 @@
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -444,25 +442,21 @@
           "regression:68230bdf498c2525"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "adewale/agentic-mermaid",
       "version": "0.5.6",
       "format": "terminal",
       "counts": {
-        "correct": 122,
+        "correct": 123,
         "incorrect": 1,
         "renderer-failure": 3,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -558,6 +552,7 @@
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -599,14 +594,10 @@
           "regression:68230bdf498c2525"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "AlexanderGrooff/mermaid-ascii",
@@ -917,11 +908,11 @@
       "version": "0.2.24",
       "format": "svg",
       "counts": {
-        "correct": 124,
+        "correct": 125,
         "incorrect": 1,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -1018,6 +1009,7 @@
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -1058,14 +1050,10 @@
           "terminal:d7362afef7c26051"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "crafter-station/mermaid",
@@ -1377,11 +1365,11 @@
       "version": "5.14.1",
       "format": "svg",
       "counts": {
-        "correct": 104,
+        "correct": 105,
         "incorrect": 1,
         "renderer-failure": 20,
         "invalid-format": 1,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -1461,6 +1449,7 @@
           "terminal:c18237e0a535bdb7",
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -1519,25 +1508,21 @@
         "invalid-format": [
           "terminal:9e4e5a5e072642e8"
         ],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "dfadler/zombie-mermaid",
       "version": "5.14.1",
       "format": "terminal",
       "counts": {
-        "correct": 102,
+        "correct": 103,
         "incorrect": 3,
         "renderer-failure": 20,
         "invalid-format": 1,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -1615,6 +1600,7 @@
           "terminal:c18237e0a535bdb7",
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -1675,25 +1661,21 @@
         "invalid-format": [
           "terminal:9e4e5a5e072642e8"
         ],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "Dicklesworthstone/frankenmermaid",
       "version": "0.4.0",
       "format": "svg",
       "counts": {
-        "correct": 119,
+        "correct": 120,
         "incorrect": 6,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -1787,6 +1769,7 @@
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -1830,25 +1813,21 @@
           "terminal:ef20265c9ef84973"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "Dicklesworthstone/frankenmermaid",
       "version": "0.4.0",
       "format": "terminal",
       "counts": {
-        "correct": 110,
+        "correct": 111,
         "incorrect": 15,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -1934,6 +1913,7 @@
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -1985,14 +1965,10 @@
           "terminal:ef20265c9ef84973"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "emtyty/merslim",
@@ -2304,11 +2280,11 @@
       "version": "0.4.2",
       "format": "svg",
       "counts": {
-        "correct": 106,
+        "correct": 107,
         "incorrect": 7,
         "renderer-failure": 13,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -2389,6 +2365,7 @@
           "terminal:c18237e0a535bdb7",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d2896678981aedb8",
           "terminal:d3cc8b77d097ec56",
@@ -2445,25 +2422,21 @@
           "terminal:d7362afef7c26051"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "fasouto/termaid",
       "version": "0.10.0",
       "format": "terminal",
       "counts": {
-        "correct": 110,
+        "correct": 111,
         "incorrect": 16,
         "renderer-failure": 0,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -2546,6 +2519,7 @@
           "terminal:c18237e0a535bdb7",
           "terminal:c2e297448b5388ba",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -2599,14 +2573,10 @@
         ],
         "renderer-failure": [],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "kais-radwan/ascii-mermaid",
@@ -3070,11 +3040,11 @@
       "version": "0.9.3",
       "format": "svg",
       "counts": {
-        "correct": 123,
+        "correct": 124,
         "incorrect": 2,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -3170,6 +3140,7 @@
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -3211,25 +3182,21 @@
           "terminal:dbc553f665d05c10"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "Latias94/merman",
       "version": "0.9.3",
       "format": "terminal",
       "counts": {
-        "correct": 98,
+        "correct": 99,
         "incorrect": 5,
         "renderer-failure": 23,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -3302,6 +3269,7 @@
           "terminal:c18237e0a535bdb7",
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
+          "terminal:cd2dd60c268497d1",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
           "terminal:d3cc8b77d097ec56",
@@ -3366,25 +3334,21 @@
           "terminal:dbc553f665d05c10"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "lukilabs/beautiful-mermaid",
       "version": "1.1.3",
       "format": "svg",
       "counts": {
-        "correct": 92,
+        "correct": 93,
         "incorrect": 4,
         "renderer-failure": 29,
         "invalid-format": 1,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -3454,6 +3418,7 @@
           "terminal:bfad6c5a05be093a",
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d3cc8b77d097ec56",
@@ -3522,25 +3487,21 @@
         "invalid-format": [
           "terminal:9e4e5a5e072642e8"
         ],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "lukilabs/beautiful-mermaid",
       "version": "1.1.3",
       "format": "terminal",
       "counts": {
-        "correct": 83,
+        "correct": 84,
         "incorrect": 13,
         "renderer-failure": 29,
         "invalid-format": 1,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -3602,6 +3563,7 @@
           "terminal:bf9642a4ab479973",
           "terminal:bfad6c5a05be093a",
           "terminal:c5455d2e2f5f8672",
+          "terminal:cd2dd60c268497d1",
           "terminal:d04b45557e7b8f2e",
           "terminal:d3cc8b77d097ec56",
           "terminal:d98a600399ba3ce5",
@@ -3678,25 +3640,21 @@
         "invalid-format": [
           "terminal:9e4e5a5e072642e8"
         ],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "mermaid-js/mermaid",
       "version": "12.2.0",
       "format": "svg",
       "counts": {
-        "correct": 124,
+        "correct": 125,
         "incorrect": 1,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -3793,6 +3751,7 @@
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -3833,14 +3792,10 @@
           "regression:68230bdf498c2525"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "Mootikins/figurehead-rs",
@@ -3999,11 +3954,11 @@
       "version": "1.13.0",
       "format": "svg",
       "counts": {
-        "correct": 124,
+        "correct": 125,
         "incorrect": 1,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -4100,6 +4055,7 @@
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -4140,25 +4096,21 @@
           "terminal:d7362afef7c26051"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "orestesgaolin/mermaid",
       "version": "0.3.2",
       "format": "svg",
       "counts": {
-        "correct": 122,
+        "correct": 123,
         "incorrect": 1,
         "renderer-failure": 3,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -4254,6 +4206,7 @@
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -4295,25 +4248,21 @@
           "terminal:e54c4b6195e240be"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
       "version": "0.1.5",
       "format": "svg",
       "counts": {
-        "correct": 67,
+        "correct": 68,
         "incorrect": 58,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -4367,6 +4316,7 @@
           "terminal:b4c60f465d6bcb5b",
           "terminal:bf9642a4ab479973",
           "terminal:bfad6c5a05be093a",
+          "terminal:cd2dd60c268497d1",
           "terminal:d2896678981aedb8",
           "terminal:dbc553f665d05c10",
           "terminal:de6e8bf0fd559efc",
@@ -4450,14 +4400,10 @@
           "terminal:a5204531005bef25"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "spacedock-dev/mermaidtext",
@@ -4768,11 +4714,11 @@
       "version": "0.0.3",
       "format": "svg",
       "counts": {
-        "correct": 124,
+        "correct": 125,
         "incorrect": 1,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -4869,6 +4815,7 @@
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
           "terminal:c64d9c102f509905",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -4909,25 +4856,21 @@
           "terminal:d7362afef7c26051"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "wevm/ondine",
       "version": "0.0.3",
       "format": "terminal",
       "counts": {
-        "correct": 120,
+        "correct": 121,
         "incorrect": 5,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -5021,6 +4964,7 @@
           "terminal:c18237e0a535bdb7",
           "terminal:c2e297448b5388ba",
           "terminal:c5455d2e2f5f8672",
+          "terminal:cd2dd60c268497d1",
           "terminal:cd771fca2659a460",
           "terminal:d04b45557e7b8f2e",
           "terminal:d2896678981aedb8",
@@ -5064,14 +5008,10 @@
           "terminal:d7362afef7c26051"
         ],
         "invalid-format": [],
-        "unknown": [
-          "terminal:cd2dd60c268497d1"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "The reviewed source facts name no labels to check": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "xai-org/grok-build",
@@ -5379,11 +5319,11 @@
     }
   ],
   "totals": {
-    "correct": 3254,
+    "correct": 3274,
     "incorrect": 325,
     "renderer-failure": 642,
     "invalid-format": 77,
-    "unknown": 20,
+    "unknown": 0,
     "unrun": 0
   },
   "collection": {
@@ -5391,13 +5331,13 @@
     "terminal": {},
     "outputsRetained": false
   },
-  "updatedAt": "2026-11-04T14:40:05.166Z",
+  "updatedAt": "2026-11-04T23:40:21.771Z",
   "recollectedFormats": {
     "formats": [
       "svg",
       "terminal"
     ],
-    "at": "2026-11-04T14:40:05.166Z",
-    "reason": "Inadmissible outputs (empty text, error messages, source printed back, zero-size or error-placeholder SVG) are recorded as invalid-format nonpasses instead of observer gaps; every case of the selected formats was recollected with the same frozen artifacts."
+    "at": "2026-11-04T23:40:21.771Z",
+    "reason": "Every case of the selected formats was recollected with the same frozen artifacts after the label check changed: a case with no labels is judged only on whether raw source syntax leaks into the output."
   }
 }
