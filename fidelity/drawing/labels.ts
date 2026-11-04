@@ -82,7 +82,13 @@ export const expectsEmptyDrawing = (test: DrawingCase) => test.terminal.expected
 export function assessLabels(test: DrawingCase, format: 'svg' | 'terminal', text: string): LabelVerdict {
   const labels = expectedLabels(test)
   if (expectsEmptyDrawing(test)) return squash(text) ? { status: 'incorrect', reason: 'An empty diagram shows text', labels: 0 } : { status: 'correct', labels: 0 }
-  if (!labels.length) return { status: 'unknown', reason: 'The reviewed source facts name no labels to check', labels: 0 }
+  // A chart that names nothing has no label to find, so only the other half of the check
+  // applies: no raw Mermaid syntax, including any source statement printed verbatim.
+  if (!labels.length) {
+    const statements = test.source.split('\n').slice(1).map(line => line.trim()).filter(line => line.length >= 4)
+    const leaked = [...leakedSyntax(test, text, format), ...statements.filter(line => squash(text).includes(squash(line)))]
+    return leaked.length ? { status: 'incorrect', reason: 'Raw source syntax shown: ' + leaked.join(', '), leaked, labels: 0 } : { status: 'correct', reason: 'No label to find; no raw source syntax shown', labels: 0 }
+  }
   const missing = labels.filter(label => !labelFound(label, text))
   const leaked = leakedSyntax(test, text, format)
   if (missing.length || leaked.length) return { status: 'incorrect', reason: [missing.length ? 'Missing labels: ' + missing.join(', ') : '', leaked.length ? 'Raw source syntax shown: ' + leaked.join(', ') : ''].filter(Boolean).join('; '), missing, leaked, labels: labels.length }

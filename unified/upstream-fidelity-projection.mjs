@@ -1,5 +1,5 @@
 import { publicDatabaseView } from './upstream-test-assertions.mjs'
-import { nativeSchemaView } from './mermaid-fidelity/schema-views.mjs'
+import { mermaidConstants, nativeSchemaView } from './mermaid-fidelity/schema-views.mjs'
 
 const entries = value => value instanceof Map ? [...value] : Array.isArray(value) ? value.map(item => [String(item.id ?? item.name), item]) : value && typeof value === 'object' ? Object.entries(value) : []
 const clone = (value, seen = new Map()) => {
@@ -36,8 +36,10 @@ export function projectPublicDatabase(tool, family, raw, unavailable, unsupporte
   // A reviewed per-project view takes precedence over the generic field-name guesses.
   const native = project && unavailable && unsupported ? nativeSchemaView(project, family, raw, { unavailable, unsupported }) : undefined
   if (native?.whole) return native.whole
-  if (native && family === 'gitgraph') return native
-  if (native) return { ...projectPublicDatabase(tool, family, raw, unavailable), ...native }
+  const constants = project ? mermaidConstants(project, family, Boolean(native)) : undefined
+  if (native && family === 'gitgraph') return { ...constants, ...native }
+  if (native) return { ...constants, ...projectPublicDatabase(tool, family, raw, unavailable), ...native }
+  if (constants) return { ...constants, ...projectPublicDatabase(tool, family, raw, unavailable) }
   if (family === 'mindmap' || family === 'gitgraph') return publicDatabaseView(tool, raw, family)
   const view = { ...clone(raw) }, field = (name, property, object = raw) => { if (object && property in object) view[name] = () => clone(object[property]) }
   field('getDiagramTitle', 'title'); field('getAccTitle', raw && 'accTitle' in raw ? 'accTitle' : 'accessibilityTitle'); field('getAccDescription', raw && 'accDescr' in raw ? 'accDescr' : 'accessibilityDescription'); field('getDirection', 'direction')

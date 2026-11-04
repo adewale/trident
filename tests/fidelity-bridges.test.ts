@@ -13,5 +13,5 @@ test('a project-reported diagram type matches only its own family', () => {
 })
 
 test('every project without an importable synchronous parser per family has a registered parser bridge', () => {
-  expect(bridgedProjects().sort()).toEqual(['1jehuang/mermaid-rs-renderer', 'AlexanderGrooff/mermaid-ascii', 'KlangHaus/vitepress-plugin-diagram', 'Latias94/merman', 'Mootikins/figurehead-rs', 'Yassimba/loom', 'anomalyco/opencode', 'crabtalk/bezel', 'crafter-station/mermaid', 'dfadler/zombie-mermaid', 'evangwt/xmermaid', 'fasouto/termaid', 'lukilabs/beautiful-mermaid', 'orestesgaolin/mermaid', 'pub:mermaid_flutter', 'sandyyst/dsh-plugin-mermaid-gb-svg', 'spacedock-dev/mermaidtext', 'tariqshams/mermaidtui', 'wevm/ondine', 'xai-org/grok-build'])
+  expect(bridgedProjects().sort()).toEqual(['1jehuang/mermaid-rs-renderer', 'AlexanderGrooff/mermaid-ascii', 'KlangHaus/vitepress-plugin-diagram', 'Latias94/merman', 'Mootikins/figurehead-rs', 'Yassimba/loom', 'anomalyco/opencode', 'crabtalk/bezel', 'crafter-station/mermaid', 'dfadler/zombie-mermaid', 'evangwt/xmermaid', 'fasouto/termaid', 'kais-radwan/ascii-mermaid', 'lukilabs/beautiful-mermaid', 'orestesgaolin/mermaid', 'pub:mermaid_flutter', 'sandyyst/dsh-plugin-mermaid-gb-svg', 'spacedock-dev/mermaidtext', 'tariqshams/mermaidtui', 'wevm/ondine', 'xai-org/grok-build'])
 })

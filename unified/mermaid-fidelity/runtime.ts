@@ -18,6 +18,17 @@ const referenceRequire = createRequire(join(job.reference, 'package.json'))
 let typescript: typeof TypeScript | undefined
 const tsCompiler = () => (typescript ??= createRequire(join(job.runtime, 'package.json'))('typescript') as typeof TypeScript)
 let bridgeClient: ReturnType<typeof persistentBridge> | undefined
+// Non-default host configuration a test has set for the candidate. Cleared at each test
+// start, as the control's Mermaid configuration is, so a setting made outside a test
+// never reaches a later test.
+let hostConfig: Record<string, any> | undefined
+const configKeys = (value: any) => Object.keys(value ?? {}).filter(key => key !== 'securityLevel' || value[key] !== 'strict')
+/** Candidate parse calls see the configuration in effect; one without a configuration interface is a gap. */
+function configuredCall() {
+  if (!hostConfig || !configKeys(hostConfig).length) return undefined
+  if (job.target.configInterface) return hostConfig
+  return gap(`Host configuration in effect for this parse (${configKeys(hostConfig).join(', ')}); the candidate's interface takes source text only`)
+}
 let nativeLoadGap: string | undefined,
   useBunParser = false
 let api: any,
@@ -39,6 +50,9 @@ function unsupportedOperation(reason: string): never {
 }
 // Mermaid database members that change or compute state rather than observe a parse.
 const DATABASE_OPERATION = /^(?:add|set|update|define|make|insert|remove|push|pop|enter|exit|apply|toggle|commit|branch|merge|checkout|cherryPick|draw|lookUp|sanitize|edgeStrTo|parse[A-Z])/
+// Mermaid database API that observes Mermaid's own state rather than a parse result.
+const DATABASE_API = new Set(['getConfig', 'getConfigField', 'exists', 'createModel', 'prettyPrint', 'bindFunctions'])
+const mermaidDatabaseMember = (key: unknown) => typeof key === 'string' && (DATABASE_OPERATION.test(key) || DATABASE_API.has(key))
 export class AdapterGap extends Error {}
 function gap(reason: string): never {
   active?.gaps.add(reason)
@@ -175,8 +189,8 @@ export function begin(task: any) {
   for (let suite = task.suite; suite; suite = suite.suite) if (suite.name) names.unshift(suite.name)
   active = { protocol: 'native-operations-v2', expectedFailure: !!task.fails, id: task.id, file: task.file.filepath, index, name: names.join(' > '), gaps: new Set(), calls: 0, rejections: 0, unsupported: [] }
   if (job.target.tool === 'mermaid') configurations?.reset?.()
+  hostConfig = undefined
   const c = contexts.get(task.file.filepath)
-  if (c?.initialConfigGap) active.gaps.add('Module requires native global configuration mapping that Trident has not implemented')
   if (c?.unavailableImports?.size) {
     const file = job.files.find((f: any) => f.absolute === task.file.filepath),
       lines = readFileSync(task.file.filepath, 'utf8').split('\n')
@@ -222,7 +236,7 @@ function bridgeReply(stdout: string, family: string, label: string) {
       active?.unsupported.push(e.message)
       throw Error(e.message)
     }
-    if (!/^(?:ParseError|MermaidSyntaxError|SyntaxError)$/.test(e.name) && !/parse error|parsing failed|invalid (?:syntax|flowchart)|syntax error/i.test(e.message)) return gap('Unclassified native parser refusal: ' + e.message)
+    if (!/^(?:ParseError|MermaidSyntaxError|MermaidParseError|SyntaxError)$/.test(e.name) && !/parse error|parsing failed|invalid (?:syntax|flowchart)|syntax error/i.test(e.message)) return gap('Unclassified native parser refusal: ' + e.message)
     active && active.rejections++
     throw Error(e.message)
   }
@@ -231,6 +245,7 @@ function bridgeReply(stdout: string, family: string, label: string) {
 }
 function nativeParse(family: string, source: string) {
   active && active.calls++
+  const config = configuredCall()
   if (job.target.tool === 'bridge' && job.target.bridge.persistent) {
     // The same bridge, loaded once per test file and answering one request per line.
     const [command, ...args] = job.target.bridge.command
@@ -343,7 +358,7 @@ function nativeParse(family: string, source: string) {
         active?.unsupported.push(message)
         throw error
       }
-      if (!/^(?:ParseError|MermaidSyntaxError|SyntaxError)$/.test(name) && !/parse error|parsing failed|invalid (?:syntax|flowchart)|syntax error/i.test(message)) return gap('Unclassified native parser refusal: ' + message)
+      if (!/^(?:ParseError|MermaidSyntaxError|MermaidParseError|SyntaxError)$/.test(name) && !/parse error|parsing failed|invalid (?:syntax|flowchart)|syntax error/i.test(message)) return gap('Unclassified native parser refusal: ' + message)
       active && active.rejections++
       throw error
     }
@@ -380,12 +395,14 @@ function nativeAst(family: string, source: string): any {
       if (error instanceof AdapterGap || (active?.rejections ?? 0) === before) throw error
       return { value: undefined, lexerErrors: [], parserErrors: [error] }
     }
+    if (job.target.project === 'wevm/ondine') return unsupportedOperation('Ondine exposes no parsed model; render() reports acceptance or rejection only')
     const value = nativeAstView(job.target.project, family, raw, { unavailable: (reason: string) => gap(reason), unsupported: (reason: string) => unsupportedOperation(reason) })
     return value ? { value, lexerErrors: [], parserErrors: [] } : gap('Native Langium AST schema adapter: ' + family)
   }
   const before = active?.rejections ?? 0
   try {
     const raw = nativeParse('pie', source)
+    if (job.target.project === 'wevm/ondine') return unsupportedOperation('Ondine exposes no parsed model; render() reports acceptance or rejection only')
     // A model that names its family must name pie; one that names none came from the pie parser.
     const kind = raw.kind ?? raw.type
     if (kind !== undefined && String(kind).toLowerCase() !== 'pie') return gap('Returned native family differs from requested Pie AST')
@@ -474,8 +491,21 @@ function context(family: string) {
         }
         // FlowDB's and AgentFlowDB's constructors already select gen-2; re-selecting it changes nothing.
         if (key === 'setGen') return (version?: string) => ((version || 'gen-2') === 'gen-2' ? undefined : gap('Native flowchart generation selector: ' + version))
-        if (typeof key === 'string' && DATABASE_OPERATION.test(key)) return () => unsupportedOperation(`${family} database operation ${key} (the candidate exposes a parser, not Mermaid's mutable database)`)
+        // Reading Mermaid's database API (to call it, spy on it or check that it exists) is
+        // an operation the candidate does not offer.
+        if (mermaidDatabaseMember(key)) return unsupportedOperation(`${family} database ${key} (the candidate exposes a parser, not Mermaid's database API)`)
         return deferred(family + '.db.' + key)
+      },
+      // vi.spyOn looks a member up by descriptor (or `in`) before spying on it. A spy on a
+      // Mermaid database member checks the parser -> database call protocol, which a
+      // candidate parser never drives, even when its own model has a same-named method.
+      getOwnPropertyDescriptor(t, key) {
+        if (!(key in t) && key !== 'setGen' && mermaidDatabaseMember(key)) return unsupportedOperation(`${family} database ${String(key)} spied on or inspected (Mermaid's parser -> database protocol)`)
+        return Reflect.getOwnPropertyDescriptor(t, key)
+      },
+      has(t, key) {
+        if (!(key in t) && key !== 'setGen' && mermaidDatabaseMember(key)) return unsupportedOperation(`${family} database ${String(key)} spied on or inspected (Mermaid's parser -> database protocol)`)
+        return key in t || (typeof key === 'string' && (view[key] !== undefined || raw?.[key] !== undefined))
       },
     })
     ownDatabases.add(proxy)
@@ -526,22 +556,14 @@ export function moduleFor(family: string, source: string, file: string, locals: 
     c.unavailableImports = new Map()
     contexts.set(file, c)
   }
-  const nondefault = (value: any) => Object.keys(value).some(key => key !== 'securityLevel' || value[key] !== 'strict')
-  const changed = (value: any) => {
-    if (job.target.tool !== 'mermaid' && nondefault(value)) {
-      c.configChanged = true
-      if (active) gap('Native host configuration setter is not bound')
-      else c.initialConfigGap = true
-    }
-  }
   const config = {
     setConfig(value: any) {
-      changed(value)
+      if (job.target.tool !== 'mermaid' && configKeys(value).length) hostConfig = { ...hostConfig, ...value }
       c.config = { ...c.config, ...value }
       configurations?.setConfig?.(value)
     },
     setSiteConfig(value: any) {
-      changed(value)
+      if (job.target.tool !== 'mermaid') hostConfig = configKeys(value).length ? { ...value } : undefined
       c.config = value
       configurations?.setSiteConfig?.(value)
     },
@@ -554,8 +576,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       return configurations?.getSiteConfig?.() ?? c.config
     },
     reset() {
-      // Resetting a configuration that was never changed is a no-op for any candidate.
-      if (job.target.tool !== 'mermaid' && active && c.configChanged) return gap('Native host configuration reset is not bound')
+      hostConfig = undefined
       configurations?.reset?.()
     },
   }

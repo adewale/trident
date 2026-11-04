@@ -42,6 +42,19 @@ const PROJECTS = {
       families: { flowchart: flow.parseMermaid, state: flow.parseMermaid, sequence: text => seq.parseSequenceDiagram(lines(text)), class: text => cls.parseClassDiagram(lines(text)), er: text => er.parseErDiagram(lines(text)), xychart: text => xy.parseXYChart(lines(text)) },
     }
   },
+  // kais-radwan/ascii-mermaid 0.1.0 (ts/): its renderer's detectDiagramType recognizes
+  // sequence, class, er, pie, timeline and gantt headers and renders everything else through
+  // parseMermaid (flowchart and stateDiagram); the statement parsers take the lines each
+  // renderer builds (trimmed, without blank or %% lines). Run by Bun: TypeScript sources.
+  asciimermaid: async root => {
+    const src = join(root, 'src'), lines = text => text.split('\n').map(line => line.trim()).filter(line => line.length > 0 && !line.startsWith('%%'))
+    const of = async (dir, fn) => { const m = await load(join(src, dir, 'parser.ts')); return text => m[fn](lines(text)) }
+    const flow = await load(join(src, 'parser.ts'))
+    return {
+      name: 'ascii-mermaid',
+      families: { flowchart: flow.parseMermaid, state: flow.parseMermaid, sequence: await of('sequence', 'parseSequenceDiagram'), class: await of('class', 'parseClassDiagram'), er: await of('er', 'parseErDiagram'), pie: await of('pie', 'parsePieChart'), timeline: await of('timeline', 'parseTimeline'), gantt: await of('gantt', 'parseGanttChart') },
+    }
+  },
   // KlangHaus/vitepress-plugin-diagram 0.3.2: detectDiagramType accepts only flowchart,
   // sequence and classDiagram headers.
   vitepress: async module => {

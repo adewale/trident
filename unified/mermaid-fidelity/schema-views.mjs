@@ -279,6 +279,7 @@ CLASS['dfadler/zombie-mermaid'] = raw => ({
 // beautiful-mermaid 1.1.3 class/types.ts: the same ClassRelationship vocabulary (markerAt
 // 'from' | 'to', no lollipop) and no class notes.
 CLASS['lukilabs/beautiful-mermaid'] = raw => CLASS['dfadler/zombie-mermaid'](raw)
+CLASS['kais-radwan/ascii-mermaid'] = raw => CLASS['dfadler/zombie-mermaid'](raw)
 // XMermaid class: members are one display list and relations are normalized child -> parent.
 CLASS['evangwt/xmermaid'] = raw => ({
   classes: () => raw.classes.map(item => [item.id, { label: item.label }]),
@@ -331,6 +332,7 @@ const NO_CLASS_NOTES = {
   '1jehuang/mermaid-rs-renderer': "mermaid-rs-renderer's class model keeps no notes",
   'crafter-station/mermaid': "Crafter's class model keeps no notes",
   'lukilabs/beautiful-mermaid': "beautiful-mermaid's class model keeps no notes",
+  'kais-radwan/ascii-mermaid': "ascii-mermaid's class model keeps no notes",
 }
 function classNotes(project, raw, hooks) {
   if (project === 'Dicklesworthstone/frankenmermaid') raw = { notes: raw.state_notes ?? [] }
@@ -419,6 +421,8 @@ ER['dfadler/zombie-mermaid'] = raw => ({
   absent: { entity: { alias: "zombie-mermaid's ER entity model keeps no alias" } },
 })
 // beautiful-mermaid 1.1.3 shares these ER types with its fork zombie-mermaid (er/types.ts).
+// kais-radwan/ascii-mermaid's er/types.ts and class/types.ts are the same as beautiful-mermaid's.
+ER['kais-radwan/ascii-mermaid'] = raw => ({ ...ER['dfadler/zombie-mermaid'](raw), absent: { entity: { alias: "ascii-mermaid's ER entity model keeps no alias" } } })
 ER['lukilabs/beautiful-mermaid'] = raw => ({ ...ER['dfadler/zombie-mermaid'](raw), absent: { entity: { alias: "beautiful-mermaid's ER entity model keeps no alias" } } })
 // XMermaid parse_dsl: from/to cardinality words and a non_identifying flag.
 ER['evangwt/xmermaid'] = raw => ({
@@ -497,6 +501,37 @@ const GITGRAPH = {
     getCurrentBranch: () => raw.currentBranch,
     getDirection: () => raw.direction,
   }),
+}
+
+// Mermaid's constant vocabularies at the pinned tag (requirementDb.ts, erDb.ts,
+// sequenceDb.ts, gitGraphTypes.ts, classDb.ts). Tests use them to build input and to
+// state expectations, so they are supplied only where values are already in Mermaid's
+// vocabulary: a reviewed view that translates them, or a port that keeps Mermaid's own.
+export const MERMAID_CONSTANTS = {
+  requirement: {
+    RequirementType: { REQUIREMENT: 'Requirement', FUNCTIONAL_REQUIREMENT: 'Functional Requirement', INTERFACE_REQUIREMENT: 'Interface Requirement', PERFORMANCE_REQUIREMENT: 'Performance Requirement', PHYSICAL_REQUIREMENT: 'Physical Requirement', DESIGN_CONSTRAINT: 'Design Constraint' },
+    RiskLevel: { LOW_RISK: 'Low', MED_RISK: 'Medium', HIGH_RISK: 'High' },
+    VerifyType: { VERIFY_ANALYSIS: 'Analysis', VERIFY_DEMONSTRATION: 'Demonstration', VERIFY_INSPECTION: 'Inspection', VERIFY_TEST: 'Test' },
+    Relationships: { CONTAINS: 'contains', COPIES: 'copies', DERIVES: 'derives', SATISFIES: 'satisfies', VERIFIES: 'verifies', REFINES: 'refines', TRACES: 'traces' },
+  },
+  er: {
+    Cardinality: { ZERO_OR_ONE: 'ZERO_OR_ONE', ZERO_OR_MORE: 'ZERO_OR_MORE', ONE_OR_MORE: 'ONE_OR_MORE', ONLY_ONE: 'ONLY_ONE', MD_PARENT: 'MD_PARENT' },
+    Identification: { NON_IDENTIFYING: 'NON_IDENTIFYING', IDENTIFYING: 'IDENTIFYING' },
+  },
+  sequence: {
+    LINETYPE: { SOLID: 0, DOTTED: 1, NOTE: 2, SOLID_CROSS: 3, DOTTED_CROSS: 4, SOLID_OPEN: 5, DOTTED_OPEN: 6, LOOP_START: 10, LOOP_END: 11, ALT_START: 12, ALT_ELSE: 13, ALT_END: 14, OPT_START: 15, OPT_END: 16, ACTIVE_START: 17, ACTIVE_END: 18, PAR_START: 19, PAR_AND: 20, PAR_END: 21, RECT_START: 22, RECT_END: 23, SOLID_POINT: 24, DOTTED_POINT: 25, AUTONUMBER: 26, CRITICAL_START: 27, CRITICAL_OPTION: 28, CRITICAL_END: 29, BREAK_START: 30, BREAK_END: 31, PAR_OVER_START: 32, BIDIRECTIONAL_SOLID: 33, BIDIRECTIONAL_DOTTED: 34, SOLID_TOP: 41, SOLID_BOTTOM: 42, STICK_TOP: 43, STICK_BOTTOM: 44, SOLID_ARROW_TOP_REVERSE: 45, SOLID_ARROW_BOTTOM_REVERSE: 46, STICK_ARROW_TOP_REVERSE: 47, STICK_ARROW_BOTTOM_REVERSE: 48, SOLID_TOP_DOTTED: 51, SOLID_BOTTOM_DOTTED: 52, STICK_TOP_DOTTED: 53, STICK_BOTTOM_DOTTED: 54, SOLID_ARROW_TOP_REVERSE_DOTTED: 55, SOLID_ARROW_BOTTOM_REVERSE_DOTTED: 56, STICK_ARROW_TOP_REVERSE_DOTTED: 57, STICK_ARROW_BOTTOM_REVERSE_DOTTED: 58, CENTRAL_CONNECTION: 59, CENTRAL_CONNECTION_REVERSE: 60, CENTRAL_CONNECTION_DUAL: 61 },
+    ARROWTYPE: { FILLED: 0, OPEN: 1 },
+    PLACEMENT: { LEFTOF: 0, RIGHTOF: 1, OVER: 2 },
+  },
+  gitgraph: { commitType: { NORMAL: 0, REVERSE: 1, HIGHLIGHT: 2, MERGE: 3, CHERRY_PICK: 4 } },
+  class: { relationType: RELATION_TYPE, lineType: LINE_TYPE },
+}
+// Ports that keep Mermaid's own database field names and vocabularies (Latias94/merman
+// also ships these constants in its model).
+const MERMAID_VOCABULARY_PORTS = new Set(['obsidianmd/pele', 'crabtalk/bezel', 'Latias94/merman'])
+/** Mermaid's constants for a family, where the target's values are in that vocabulary. */
+export function mermaidConstants(project, family, reviewed) {
+  return reviewed || MERMAID_VOCABULARY_PORTS.has(project) ? MERMAID_CONSTANTS[family] : undefined
 }
 
 /** Mermaid database getters from one bridged project's native model, or undefined

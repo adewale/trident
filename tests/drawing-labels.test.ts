@@ -43,10 +43,12 @@ test('label matching is exact apart from whitespace and wrapping', () => {
   expect(labelFound('Prototype', 'Prototvpe')).toBe(false)
 })
 
-test('an empty diagram passes only without text, and a case without labels stays unassessed', () => {
+test('an empty diagram passes only without text; a case without labels is judged on raw syntax alone', () => {
   const empty: any = { ...flow, source: 'flowchart\n', expected: { nodes: [], edges: [], facts: {} }, terminal: { expected: { graph: { nodes: [], edges: [] } } } }
   expect(assessLabels(empty, 'svg', '   ').status).toBe('correct')
   expect(assessLabels(empty, 'svg', 'Syntax error').status).toBe('incorrect')
   const unlabeled: any = { ...flow, source: 'xychart-beta\n bar [1]', expected: { facts: { series: [{ kind: 'bar', values: [1] }] } }, terminal: { expected: {} } }
-  expect(assessLabels(unlabeled, 'svg', 'anything').status).toBe('unknown')
+  expect(assessLabels(unlabeled, 'svg', 'a horizontal bar of length 1').status).toBe('correct')
+  expect(assessLabels(unlabeled, 'terminal', 'bar [1]').status).toBe('incorrect')
+  expect(assessLabels(unlabeled, 'svg', 'xychart-beta').status).toBe('incorrect')
 })
