@@ -137,16 +137,42 @@ inferred from a project's identity or relationship to another renderer.
 The pinned tests frequently import Mermaid's parser and mutable diagram database,
 including getters and host configuration. A candidate's interface is its parser: source
 in, its own model out. Trident never runs Mermaid on a candidate's behalf or invents a
-missing method, so four kinds of operation are **unsupported candidate operations**, a
-known nonpass, as the portfolio definition requires: parsing a family the candidate
-does not parse; calling Mermaid's mutable database API (`addVertex`, `setDateFormat`,
-`parseDuration`); driving a caller-supplied database through the jison `yy` callback
-protocol (a test's own `mockDB`); and reading a concept the candidate's model does not
-carry. One of these in a test outranks any Trident gap in the same test, since no
-adapter work could make it pass. Two setup calls are bound as no-ops because they
-change nothing: re-selecting FlowDB's default `gen-2`, and resetting a configuration
-no test changed. Unknown schemas, host configuration a test changes, and import or
-transport errors remain explicit per-test gaps.
+missing method, so these are **unsupported candidate operations**, a known nonpass, as
+the portfolio definition requires: parsing a family the candidate does not parse;
+reading, calling, spying on or inspecting Mermaid's database API (`addVertex`,
+`setDateFormat`, `getConfig`, `exists`, a test's `vi.spyOn(classDb, 'setLink')`);
+driving a caller-supplied database through the jison `yy` callback protocol (a test's
+own `mockDB`); and reading a concept the candidate's model does not carry. One of these
+in a test outranks any Trident gap in the same test, since no adapter work could make it
+pass. Re-selecting FlowDB's default `gen-2` is bound as a no-op because it changes
+nothing.
+
+Three policies, decided on 4 November, settle what Trident supplies:
+
+- **Mermaid's layout data (`getData`).** Layout data is computed from each project's own
+  reviewed flowchart getters with Mermaid's FlowDB translation (shape names, arrow types,
+  groups, parents, edge ids). Fields Mermaid's renderer decides itself (padding, look,
+  compiled styles, colour slots, curve defaults) are not a parse result, so reading them
+  is unsupported. Kanban, mindmap, state and agentflow layout data follow as each
+  project's views for those families are written; until then they are gaps.
+- **Host configuration.** Trident records the non-default configuration a test sets and
+  clears it at the start of every test, exactly as the control's Mermaid configuration
+  is cleared, so a setting made outside a test never reaches a later one. When a
+  candidate parses with non-default configuration in effect, the configuration is
+  passed through the candidate's own configuration interface where it has one, and the
+  test stays a gap where it takes source text only.
+- **Mermaid's constant vocabularies.** `RiskLevel`, `Cardinality`, `LINETYPE`,
+  `commitType` and the class relation codes are supplied where the candidate's values are
+  already in Mermaid's vocabulary: with a reviewed view that translates them, and for the
+  ports that keep Mermaid's own records (Pele, Bezel, Latias Merman). Elsewhere a test
+  that uses them stays a gap rather than risk comparing an untranslated value.
+
+Langium AST tests get reviewed AST views where a model can express the AST (radar,
+architecture, treeView, treemap and info for the ports; architecture and treemap for
+`mermaid_core`). An accepted parse with no reviewed view is still an AST of the right
+type, so tests that check only `$type` are assessed, while every other field is a gap.
+Unknown schemas and import or transport errors remain explicit per-test gaps;
+`scripts/fidelity-gaps.ts` lists them per project and cause.
 
 **The reference path defines the scored population.** The control is the public
 Mermaid 12.2.0 package behind the same import substitution the candidates get. On
