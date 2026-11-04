@@ -397,7 +397,7 @@ function nativeAst(family: string, source: string): any {
     }
     if (job.target.project === 'wevm/ondine') return unsupportedOperation('Ondine exposes no parsed model; render() reports acceptance or rejection only')
     const value = nativeAstView(job.target.project, family, raw, { unavailable: (reason: string) => gap(reason), unsupported: (reason: string) => unsupportedOperation(reason) })
-    return value ? { value, lexerErrors: [], parserErrors: [] } : gap('Native Langium AST schema adapter: ' + family)
+    return { value, lexerErrors: [], parserErrors: [] }
   }
   const before = active?.rejections ?? 0
   try {

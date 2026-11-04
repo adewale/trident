@@ -94,7 +94,13 @@ test('Ondine has no model, and an AST view claims only what a resolved database 
   expect(() => radar.axes[1].label).toThrow('gap')
   expect(radar.curves[0].entries.map((e: any) => [e.$type, e.value])).toEqual([['Entry', 1], ['Entry', 2]])
   expect(() => radar.options).toThrow('gap')
-  expect(nativeAstView('xai-org/grok-build', 'Radar', {}, hooks)).toBeUndefined()
+  // Without a reviewed view an accepted parse is an AST of the right type whose fields are gaps.
+  const bare = nativeAstView('xai-org/grok-build', 'Radar', {}, hooks)
+  expect(bare.$type).toBe('Radar')
+  expect(() => bare.axes).toThrow('gap')
+  const tree = nativeAstView('obsidianmd/pele', 'TreeView', { root: { level: -1, children: [{ level: 0, name: 'Root', children: [{ level: 4, name: 'a', cssClass: 'hl', children: [] }] }] } }, hooks)
+  expect(tree.nodes.map((n: any) => [n.name, n.indent])).toEqual([['Root', undefined], ['a', 4]])
+  expect(tree.nodes[1].classAnnotation).toBe('hl')
 })
 
 test('zombie-mermaid: crow\'s-foot words map to Mermaid cardinalities; an association is not a recorded marker', () => {

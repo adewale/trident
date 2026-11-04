@@ -1,5 +1,5 @@
 import { publicDatabaseView } from './upstream-test-assertions.mjs'
-import { mermaidConstants, nativeSchemaView } from './mermaid-fidelity/schema-views.mjs'
+import { flowchartLayoutData, mermaidConstants, nativeSchemaView } from './mermaid-fidelity/schema-views.mjs'
 
 const entries = value => value instanceof Map ? [...value] : Array.isArray(value) ? value.map(item => [String(item.id ?? item.name), item]) : value && typeof value === 'object' ? Object.entries(value) : []
 const clone = (value, seen = new Map()) => {
@@ -37,9 +37,11 @@ export function projectPublicDatabase(tool, family, raw, unavailable, unsupporte
   const native = project && unavailable && unsupported ? nativeSchemaView(project, family, raw, { unavailable, unsupported }) : undefined
   if (native?.whole) return native.whole
   const constants = project ? mermaidConstants(project, family, Boolean(native)) : undefined
+  // Flowchart layout data from whichever reviewed or generic flowchart getters exist.
+  const withLayout = view => (family === 'flowchart' && unsupported && typeof view.getVertices === 'function' && typeof view.getData !== 'function' ? { ...view, getData: flowchartLayoutData(view, { unavailable, unsupported }, project) } : view)
   if (native && family === 'gitgraph') return { ...constants, ...native }
-  if (native) return { ...constants, ...projectPublicDatabase(tool, family, raw, unavailable), ...native }
-  if (constants) return { ...constants, ...projectPublicDatabase(tool, family, raw, unavailable) }
+  if (native) return withLayout({ ...constants, ...projectPublicDatabase(tool, family, raw, unavailable), ...native })
+  if (project && unsupported) return withLayout({ ...constants, ...projectPublicDatabase(tool, family, raw, unavailable) })
   if (family === 'mindmap' || family === 'gitgraph') return publicDatabaseView(tool, raw, family)
   const view = { ...clone(raw) }, field = (name, property, object = raw) => { if (object && property in object) view[name] = () => clone(object[property]) }
   field('getDiagramTitle', 'title'); field('getAccTitle', raw && 'accTitle' in raw ? 'accTitle' : 'accessibilityTitle'); field('getAccDescription', raw && 'accDescr' in raw ? 'accDescr' : 'accessibilityDescription'); field('getDirection', 'direction')

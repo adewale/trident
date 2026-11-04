@@ -574,10 +574,143 @@ const DATABASE_AST = {
     }, hooks),
   Info: (_raw, hooks) => astNode('Info', {}, hooks),
 }
-const AST_VIEWS = { 'crabtalk/bezel': DATABASE_AST, 'Latias94/merman': DATABASE_AST }
+// Pele, Bezel and Latias94/merman return Mermaid's database records for these families.
+const PORT_AST = {
+  ...DATABASE_AST,
+  Architecture: (raw, hooks) => {
+    const list = value => (Array.isArray(value) ? value : entriesOf(value).map(([, item]) => item))
+    const services = (raw.services ?? list(raw.nodes).filter(node => node.type === 'service')).map(item => astNode('Service', { id: item.id, title: item.title ?? undefined, icon: item.icon ?? undefined, ...(item.in ? { in: item.in } : {}) }, hooks))
+    const groups = list(raw.groups).map(item => astNode('Group', { id: item.id, title: item.title ?? undefined, icon: item.icon ?? undefined, ...(item.in ? { in: item.in } : {}) }, hooks))
+    return astNode('Architecture', { title: raw.title ?? undefined, accTitle: raw.accTitle ?? undefined, accDescr: raw.accDescr ?? undefined, services, groups }, hooks)
+  },
+  // The database stores each node's indentation width as its level; the AST's indent is
+  // that width, absent at the margin.
+  TreeView: (raw, hooks) => {
+    const nodes = []
+    const walk = node => {
+      for (const child of node.children ?? []) {
+        nodes.push(astNode('TreeNode', { name: child.name, indent: child.level ? child.level : undefined, ...(child.cssClass ? { classAnnotation: child.cssClass } : {}), ...(child.icon ? { iconAnnotation: child.icon } : {}) }, hooks))
+        walk(child)
+      }
+    }
+    if (raw.root) walk(raw.root)
+    return astNode('TreeView', { nodes, title: raw.title ?? undefined, accTitle: raw.accTitle ?? undefined, accDescr: raw.accDescr ?? undefined }, hooks)
+  },
+  // Rows in source order are the pre-order walk of the tree, unless classDef rows are
+  // interleaved: their position is not kept, so rows are then not claimed.
+  Treemap: (raw, hooks) => {
+    if (raw.classes && Object.keys(raw.classes).length) return astNode('Treemap', { title: raw.title ?? undefined }, hooks)
+    const rows = []
+    const walk = node => {
+      rows.push(astNode('TreemapRow', { item: astNode(node.children?.length ? 'Section' : 'Leaf', { name: node.name, ...(node.value !== undefined ? { value: node.value } : {}) }, hooks) }, hooks))
+      for (const child of node.children ?? []) walk(child)
+    }
+    for (const root of raw.roots ?? raw.root?.children ?? []) walk(root)
+    return astNode('Treemap', { TreemapRows: rows, title: raw.title ?? undefined, accTitle: raw.accTitle ?? undefined, accDescr: raw.accDescr ?? undefined }, hooks)
+  },
+}
+Object.assign(AST_FIELDS, { Architecture: ['title', 'accTitle', 'accDescr', 'services', 'groups', 'junctions', 'edges'], Service: ['id', 'title', 'icon', 'iconText', 'in'], Group: ['id', 'title', 'icon', 'in'], TreeView: ['nodes', 'title', 'accTitle', 'accDescr'], TreeNode: ['name', 'indent', 'classAnnotation', 'iconAnnotation'], Treemap: ['TreemapRows', 'title', 'accTitle', 'accDescr'], TreemapRow: ['item', 'indent'], Section: ['name', 'classSelector'], Leaf: ['name', 'value', 'classSelector'] })
+// mermaid_core 0.3.2 (Mermaid Dart and Flutter): services list junctions with isJunction,
+// groups carry label/parent, and treemap nodes carry label, value, children, isLeafNode.
+// Its architecture model keeps no title or accessibility text.
+const DART_AST = {
+  Architecture: (raw, hooks) =>
+    record({
+      $type: 'Architecture',
+      services: raw.services.filter(item => !item.isJunction).map(item => astNode('Service', { id: item.id, title: item.label || undefined, icon: item.icon ?? undefined, ...(item.group ? { in: item.group } : {}) }, hooks)),
+      groups: raw.groups.map(item => astNode('Group', { id: item.id, title: item.label || undefined, icon: item.icon ?? undefined, ...(item.parent ? { in: item.parent } : {}) }, hooks)),
+    }, 'Architecture', AST_FIELDS.Architecture, { title: "mermaid_core's architecture model keeps no title", accTitle: "mermaid_core's architecture model keeps no accessibility title", accDescr: "mermaid_core's architecture model keeps no accessibility description" }, hooks),
+  Treemap: (raw, hooks) => {
+    if (raw.classes instanceof Map ? raw.classes.size : raw.classes && Object.keys(raw.classes).length) return astNode('Treemap', {}, hooks)
+    const rows = []
+    const walk = node => {
+      rows.push(astNode('TreemapRow', { item: astNode(node.isLeafNode ? 'Leaf' : 'Section', { name: node.label, ...(node.isLeafNode ? { value: node.value } : {}) }, hooks) }, hooks))
+      for (const child of node.children ?? []) walk(child)
+    }
+    for (const root of raw.roots ?? []) walk(root)
+    return astNode('Treemap', { TreemapRows: rows, title: raw.title ?? undefined }, hooks)
+  },
+}
+const AST_VIEWS = { 'crabtalk/bezel': PORT_AST, 'Latias94/merman': PORT_AST, 'obsidianmd/pele': PORT_AST, 'orestesgaolin/mermaid': DART_AST, 'pub:mermaid_flutter': DART_AST }
 
-/** The Langium AST value for an accepted native parse, or undefined without a view. */
+/** The Langium AST value for an accepted native parse. Without a reviewed view for the
+ * family, an accepted parse is still an AST of that type, but every field is a gap. */
 export function nativeAstView(project, astFamily, raw, hooks) {
   const view = AST_VIEWS[project]?.[astFamily]
-  return view && raw && typeof raw === 'object' ? view(raw, hooks) : undefined
+  if (view && raw && typeof raw === 'object') return view(raw, hooks)
+  const benign = key => typeof key !== 'string' || ['then', 'toJSON', 'asymmetricMatch', 'nodeType', 'constructor', '$$typeof', '@@__IMMUTABLE_ITERABLE__@@', '@@__IMMUTABLE_RECORD__@@'].includes(key)
+  const missing = key => hooks.unavailable(`Native ${astFamily} AST field ${String(key)} has no reviewed view for this project`)
+  return new Proxy({ $type: astFamily }, {
+    get(target, key) { return key in target || benign(key) ? target[key] : missing(key) },
+    has(target, key) { return key in target || benign(key) ? key in target : missing(key) },
+    getOwnPropertyDescriptor(target, key) { return key in target || benign(key) ? Reflect.getOwnPropertyDescriptor(target, key) : missing(key) },
+  })
+}
+
+// Mermaid's layout data for flowcharts (FlowDB.getData at the pinned tag), computed from a
+// candidate's own reviewed flowchart getters. Only the translation Mermaid applies to its
+// parse state is reproduced: getTypeFromVertex for shapes, destructEdgeType for arrows,
+// subgraph parent/group structure and getEdgeId. Values Mermaid's renderer decides itself
+// (padding, look, compiled styles, colour slots, curve defaults, minimum widths, edge CSS
+// and arrowhead styles, collapsed-subgraph metadata) are not the candidate's to supply, so
+// reading them is unsupported.
+const LAYOUT_RENDERER_ONLY = Object.fromEntries(['padding', 'look', 'cssCompiledStyles', 'labelStyle', 'colorIndex', 'minWidth', 'curve', 'arrowheadStyle', 'metadata', 'width', 'height', 'rx', 'ry'].map(field => [field, "Mermaid's renderer decides this layout field; it is not part of a parse result"]))
+const LAYOUT_NODE_FIELDS = ['id', 'label', 'labelType', 'parentId', 'cssStyles', 'cssClasses', 'dir', 'domId', 'link', 'linkTarget', 'tooltip', 'icon', 'pos', 'img', 'assetWidth', 'assetHeight', 'constraint', 'isGroup', 'shape']
+const LAYOUT_EDGE_FIELDS = ['id', 'isUserDefinedId', 'start', 'end', 'type', 'label', 'labelType', 'labelpos', 'thickness', 'minlen', 'classes', 'arrowTypeStart', 'arrowTypeEnd', 'style', 'pattern', 'animate', 'animation']
+// A port that keeps Mermaid's own vertex records leaves `type` out for an undeclared shape,
+// exactly as Mermaid does; for any other model a missing type stays unmapped.
+const layoutShape = (vertex, mermaidVocabulary) => {
+  if (vertex.img) return 'imageSquare'
+  if (vertex.icon) return { circle: 'iconCircle', square: 'iconSquare', rounded: 'iconRounded' }[vertex.form] ?? 'icon'
+  const type = mermaidVocabulary && !('type' in vertex) ? undefined : vertex.type
+  return type === 'square' || type === undefined ? 'squareRect' : type === 'round' ? 'roundedRect' : type
+}
+const arrowEnds = type => {
+  if (['arrow_point', 'arrow_circle', 'arrow_cross'].includes(type)) return ['none', type]
+  if (['double_arrow_point', 'double_arrow_circle', 'double_arrow_cross'].includes(type)) return [type.replace('double_', ''), type.replace('double_', '')]
+  return ['none', 'arrow_point']
+}
+export function flowchartLayoutData(view, hooks, project) {
+  const mermaidVocabulary = MERMAID_VOCABULARY_PORTS.has(project)
+  return () => {
+    const subGraphs = view.getSubGraphs ? view.getSubGraphs() : []
+    const vertices = view.getVertices(), edges = view.getEdges ? view.getEdges() : []
+    const parentOf = new Map(), groups = new Set(), nodes = []
+    for (let i = subGraphs.length - 1; i >= 0; i--) {
+      const sg = subGraphs[i]
+      if (sg.nodes.length) groups.add(sg.id)
+      for (const id of sg.nodes) parentOf.set(id, sg.id)
+    }
+    const node = fields => record(fields, 'layout node', LAYOUT_NODE_FIELDS, LAYOUT_RENDERER_ONLY, hooks)
+    const lazy = (fields, getters) => {
+      for (const [key, get] of Object.entries(getters)) Object.defineProperty(fields, key, { get, enumerable: true, configurable: true })
+      return fields
+    }
+    for (let i = subGraphs.length - 1; i >= 0; i--) {
+      const sg = subGraphs[i]
+      nodes.push(node({ id: sg.id, label: sg.title, labelType: sg.labelType, parentId: parentOf.get(sg.id), cssClasses: (sg.classes ?? []).join(' '), shape: 'rect', dir: sg.dir, isGroup: true }))
+    }
+    // Vertex-derived fields are read when a test reads them, so an unmapped or absent
+    // vertex field surfaces as that test's gap or unsupported verdict, not as undefined.
+    for (const [id, vertex] of vertices) {
+      if (nodes.some(n => n.id === id)) continue
+      const isGroup = groups.has(id)
+      nodes.push(node(lazy({ id, parentId: parentOf.get(id), isGroup }, {
+        label: () => vertex.text, labelType: () => vertex.labelType, cssStyles: () => vertex.styles, cssClasses: () => 'default ' + (vertex.classes ?? []).join(' '),
+        dir: () => vertex.dir, domId: () => vertex.domId, link: () => vertex.link, linkTarget: () => vertex.linkTarget, icon: () => vertex.icon, pos: () => vertex.pos,
+        img: () => vertex.img, assetWidth: () => vertex.assetWidth, assetHeight: () => vertex.assetHeight, constraint: () => vertex.constraint,
+        shape: () => (isGroup ? 'rect' : layoutShape(vertex, mermaidVocabulary)),
+      })))
+    }
+    const layoutEdges = edges.map((edge, index) =>
+      record(lazy({ start: edge.start, end: edge.end, labelpos: 'c' }, {
+        id: () => ('id' in edge && edge.id ? edge.id : `L_${edge.start}_${edge.end}_${index}`), isUserDefinedId: () => edge.isUserDefinedId, type: () => edge.type ?? 'normal',
+        label: () => edge.text, labelType: () => edge.labelType, thickness: () => edge.stroke, minlen: () => edge.length,
+        classes: () => (edge.stroke === 'invisible' ? '' : 'edge-thickness-normal edge-pattern-solid flowchart-link'),
+        arrowTypeStart: () => (edge.stroke === 'invisible' || edge.type === 'arrow_open' ? 'none' : arrowEnds(edge.type)[0]),
+        arrowTypeEnd: () => (edge.stroke === 'invisible' || edge.type === 'arrow_open' ? 'none' : arrowEnds(edge.type)[1]),
+        style: () => edge.style ?? [], pattern: () => edge.stroke, animate: () => edge.animate, animation: () => edge.animation,
+      }), 'layout edge', LAYOUT_EDGE_FIELDS, LAYOUT_RENDERER_ONLY, hooks))
+    return record({ nodes, edges: layoutEdges, other: {} }, 'layout data', ['nodes', 'edges', 'other', 'config'], { config: "Mermaid's host configuration is not part of a parse result" }, hooks)
+  }
 }
