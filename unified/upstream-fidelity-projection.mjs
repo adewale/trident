@@ -36,6 +36,7 @@ export function projectPublicDatabase(tool, family, raw, unavailable, unsupporte
   // A reviewed per-project view takes precedence over the generic field-name guesses.
   const native = project && unavailable && unsupported ? nativeSchemaView(project, family, raw, { unavailable, unsupported }) : undefined
   if (native?.whole) return native.whole
+  if (native && family === 'gitgraph') return native
   if (native) return { ...projectPublicDatabase(tool, family, raw, unavailable), ...native }
   if (family === 'mindmap' || family === 'gitgraph') return publicDatabaseView(tool, raw, family)
   const view = { ...clone(raw) }, field = (name, property, object = raw) => { if (object && property in object) view[name] = () => clone(object[property]) }

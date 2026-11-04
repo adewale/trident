@@ -381,6 +381,39 @@ function graphEr(raw, name) {
   }
 }
 
+// Git graphs. Mermaid's getCommits() and getBranches() are Maps (commit id -> commit,
+// branch name -> head commit id). Bezel mirrors both; Latias94/merman lists commits and
+// branch names, without each branch's head.
+class BranchNames extends Map {
+  constructor(names, hooks) {
+    super(names.map(name => [name, undefined]))
+    this.hooks = hooks
+  }
+  get() { return this.hooks.unavailable("Latias94/merman's branch list carries no head commit") }
+  values() { return this.get() }
+  entries() { return this.get() }
+  forEach() { return this.get() }
+  [Symbol.iterator]() { return this.get() }
+}
+const unsetCommit = commit => Object.fromEntries(Object.entries(commit).map(([key, value]) => [key, value === null ? undefined : value]))
+const GITGRAPH = {
+  'crabtalk/bezel': raw => ({
+    getCommits: () => new Map(entriesOf(raw.commits)),
+    getCommitsArray: () => [...entriesOf(raw.commits).map(([, commit]) => commit)].sort((a, b) => a.seq - b.seq),
+    getBranches: () => new Map(entriesOf(raw.branches)),
+    getCurrentBranch: () => raw.currentBranch,
+    getDirection: () => raw.direction,
+    getHead: () => raw.head,
+  }),
+  'Latias94/merman': (raw, hooks) => ({
+    getCommits: () => new Map(raw.commits.map(commit => [commit.id, unsetCommit(commit)])),
+    getCommitsArray: () => raw.commits.map(unsetCommit).sort((a, b) => a.seq - b.seq),
+    getBranches: () => new BranchNames(raw.branches.map(branch => branch.name), hooks),
+    getCurrentBranch: () => raw.currentBranch,
+    getDirection: () => raw.direction,
+  }),
+}
+
 /** Mermaid database getters from one bridged project's native model, or undefined
  * when this project and family have no reviewed view. */
 export function nativeSchemaView(project, family, raw, hooks) {
@@ -396,6 +429,7 @@ export function nativeSchemaView(project, family, raw, hooks) {
     : {}
   if (family === 'class' && (CLASS[project] || project in NO_CLASS_NOTES || ['Latias94/merman', 'crabtalk/bezel'].includes(project))) return { ...(CLASS[project] ? classView(CLASS[project](raw), hooks) : {}), ...latiasCodes, ...classNotes(project, raw, hooks) }
   if (family === 'er' && ER[project]) return erView(ER[project](raw), hooks)
+  if (family === 'gitgraph' && GITGRAPH[project]) return GITGRAPH[project](raw, hooks)
   return undefined
 }
 

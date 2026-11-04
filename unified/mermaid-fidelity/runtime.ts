@@ -361,8 +361,18 @@ function nativeAst(family: string, source: string): any {
   const before = active?.rejections ?? 0
   try {
     const raw = nativeParse('pie', source)
-    if ((raw.kind ?? raw.type) !== 'pie') return gap('Returned native family differs from requested Pie AST')
-    const sections = raw.sections instanceof Map ? [...raw.sections].map(([label, value]) => ({ $type: 'PieSection', label, value })) : raw.slices?.map((slice: any) => ({ $type: 'PieSection', label: slice.label, value: slice.value }))
+    // A model that names its family must name pie; one that names none came from the pie parser.
+    const kind = raw.kind ?? raw.type
+    if (kind !== undefined && String(kind).toLowerCase() !== 'pie') return gap('Returned native family differs from requested Pie AST')
+    const slices = raw.sections ?? raw.slices ?? raw.pie_slices
+    const sections =
+      slices instanceof Map
+        ? [...slices].map(([label, value]) => ({ $type: 'PieSection', label, value }))
+        : Array.isArray(slices)
+          ? slices.map((slice: any) => ({ $type: 'PieSection', label: slice.label, value: slice.value }))
+          : slices && typeof slices === 'object'
+            ? Object.entries(slices).map(([label, value]) => ({ $type: 'PieSection', label, value }))
+            : undefined
     if (!sections) return gap('Native pie sections are unavailable')
     return { value: { $type: 'Pie', title: raw.title, accTitle: raw.accTitle ?? raw.accessibilityTitle, accDescr: raw.accDescr ?? raw.accessibilityDescription, showData: raw.showData, sections }, lexerErrors: [], parserErrors: [] }
   } catch (error) {
@@ -437,8 +447,8 @@ function context(family: string) {
           active && active.calls++
           return value
         }
-        // FlowDB's constructor already selects gen-2; re-selecting it changes nothing.
-        if (family === 'flowchart' && key === 'setGen') return (version?: string) => ((version || 'gen-2') === 'gen-2' ? undefined : gap('Native flowchart generation selector: ' + version))
+        // FlowDB's and AgentFlowDB's constructors already select gen-2; re-selecting it changes nothing.
+        if (key === 'setGen') return (version?: string) => ((version || 'gen-2') === 'gen-2' ? undefined : gap('Native flowchart generation selector: ' + version))
         if (typeof key === 'string' && DATABASE_OPERATION.test(key)) return () => unsupportedOperation(`${family} database operation ${key} (the candidate exposes a parser, not Mermaid's mutable database)`)
         return deferred(family + '.db.' + key)
       },
