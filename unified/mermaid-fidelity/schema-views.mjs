@@ -129,9 +129,9 @@ function mmdrGraph(graph, hooks) {
 // mermaid_core 0.3.2 (Mermaid Dart and Mermaid Flutter): FlowNodeShape, ArrowHead, EdgeStroke.
 function dartGraph(graph) {
   return {
-    nodes: () => entriesOf(graph.nodes).map(([id, node]) => [id, { text: node.label, ...(node.shape === 'plain' ? { type: undefined } : shapeOf(node.shape) ? { type: shapeOf(node.shape) } : {}), classes: node.classes ?? [], styles: styleStrings(node.styles), ...(node.link ? { link: node.link } : {}), ...(node.tooltip ? { tooltip: node.tooltip } : {}) }]),
+    nodes: () => entriesOf(graph.nodes).map(([id, node]) => [id, { text: node.label, ...(node.shape === 'plain' ? { type: undefined } : shapeOf(node.shape) ? { type: shapeOf(node.shape) } : {}), classes: node.classes ?? [], styles: styleStrings(node.styles), link: node.link ?? undefined, tooltip: node.tooltip ?? undefined }]),
     edges: () => graph.edges.map(edge => ({ start: edge.from, end: edge.to, text: edge.label ?? '', type: edgeType(headOf(edge.headFrom), headOf(edge.headTo)), stroke: strokeOf(edge.stroke), length: edge.minLen, ...(edge.interpolate ? { interpolate: edge.interpolate } : {}), style: styleStrings(edge.styles) })),
-    subgraphs: () => graph.subgraphs.map(group => ({ id: group.id, title: group.title, nodes: group.nodeIds, ...(group.direction ? { dir: group.direction.toUpperCase() } : {}) })),
+    subgraphs: () => graph.subgraphs.map(group => ({ id: group.id, title: group.title, nodes: group.nodeIds, dir: group.direction ? group.direction.toUpperCase() : undefined })),
     direction: directionOf(graph.direction),
     absent: {},
   }
@@ -176,7 +176,7 @@ function latiasGraph(graph) {
 
 // mermaid-ascii pkg/graph: nodeSpecs for nodes, an adjacency map for edges; it parses no
 // node shapes (a shape bracket becomes part of the node name).
-function asciiGraph(graph, hooks) {
+function asciiGraph(graph, _project, hooks) {
   return {
     nodes: () =>
       entriesOf(graph.nodeSpecs).map(([id, spec]) => {
@@ -187,6 +187,91 @@ function asciiGraph(graph, hooks) {
     subgraphs: () => (graph.subgraphs ?? []).map(group => ({ id: group.id, title: group.name, nodes: [...(group.nodes ?? []), ...(group.children ?? []).map(child => child.id ?? child)] })),
     direction: directionOf(graph.graphDirection),
     absent: { vertex: { type: 'mermaid-ascii parses no node shapes', styles: 'mermaid-ascii keeps no per-node styles' }, edge: { length: "mermaid-ascii's edge model has no link length" } },
+  }
+}
+
+// XMermaid parse_dsl flowchart: a node's label is null when the source gave none (Mermaid's
+// text is then the id, and a bare node has no shape: XMermaid reports it as 'rect');
+// each edge has a stroke-and-arrow style word ('arrow' is a solid line ending in an
+// arrowhead) with optional start/end markers; linkStyle rules are kept by edge index;
+// subgraphs nest. Its resolved per-node style merges classDef and style statements.
+const XMERMAID_STROKE = { arrow: 'normal', line: 'normal', dotted: 'dotted', thick: 'thick', invisible: 'invisible' }
+function xmermaidGraph(graph, _project, hooks) {
+  const flat = []
+  const walk = group => {
+    for (const child of group.subgraphs ?? []) walk(child)
+    flat.push({ id: group.id, title: group.title ?? group.id, nodes: [...(group.nodes ?? []), ...(group.subgraphs ?? []).map(child => child.id)] })
+  }
+  for (const group of graph.subgraphs ?? []) walk(group)
+  const linkStyles = graph.link_styles ?? []
+  return {
+    nodes: () => graph.nodes.map(node => [node.id, { text: node.label ?? node.id, ...(node.label == null && node.shape === 'rect' ? { type: undefined } : shapeOf(node.shape) ? { type: shapeOf(node.shape) } : {}), classes: node.classes ?? [] }]),
+    edges: () =>
+      graph.edges.map((edge, index) => {
+        const end = edge.end_marker ? headOf(edge.end_marker) : edge.style === 'arrow' ? 'point' : 'none'
+        const rules = linkStyles.filter(rule => rule.targets_default || rule.indices?.includes(index))
+        if (rules.some(rule => rule.targets_default)) return hooks.unavailable('XMermaid linkStyle default rule')
+        return { start: edge.from, end: edge.to, text: edge.label ?? '', type: edgeType(edge.start_marker ? headOf(edge.start_marker) : 'none', end), stroke: XMERMAID_STROKE[edge.style], length: edge.min_length, style: rules.length ? rules.flatMap(rule => styleStrings(rule.style)) : undefined }
+      }),
+    subgraphs: () => flat,
+    direction: directionOf(graph.direction),
+    absent: {
+      vertex: { styles: "XMermaid keeps one resolved node style that merges classDef and style statements", link: "XMermaid's flowchart model keeps no click links", tooltip: "XMermaid's flowchart model keeps no tooltips" },
+      edge: { id: "XMermaid's edge model keeps no edge ids", interpolate: "XMermaid's edge model keeps no curve", animate: "XMermaid's edge model keeps no animation" },
+      subgraph: { dir: "XMermaid's subgraph model keeps no direction", classes: "XMermaid's subgraph model keeps no classes" },
+    },
+  }
+}
+
+// Frankenmermaid 0.4.0 flowchart IR: nodes with a label index (none for a bare node, whose
+// shape is still 'Rect'), a NodeShape word and classes ('has-link' marks a node with a
+// click link); edges with one ArrowType word naming the line and both ends; subgraphs in
+// graph.subgraphs with their source key, children and members (nested members included);
+// style statements kept per target in style_refs. Edges keep no length or id.
+const FRANKEN_SHAPE = { Rect: 'square', Rounded: 'round', Stadium: 'stadium', Subroutine: 'subroutine', Cylinder: 'cylinder', Circle: 'circle', DoubleCircle: 'doublecircle', Diamond: 'diamond', Hexagon: 'hexagon', Parallelogram: 'lean_right', InvParallelogram: 'lean_left', Trapezoid: 'trapezoid', InvTrapezoid: 'inv_trapezoid', Asymmetric: 'odd' }
+function frankenArrow(word) {
+  const match = /^(Double)?(Dotted|Thick)?(Arrow|Line|Circle|Cross)(Both)?$/.exec(word ?? '')
+  if (word === 'Invisible') return ['arrow_open', 'invisible']
+  if (!match) return []
+  const [, double, line, end, both] = match
+  const head = { Arrow: 'point', Circle: 'circle', Cross: 'cross', Line: 'none' }[end]
+  return [edgeType(double || both ? head : 'none', head), { Dotted: 'dotted', Thick: 'thick' }[line] ?? 'normal']
+}
+const styleList = (hooks, style) => (/[()]/.test(style) ? hooks.unavailable('Frankenmermaid style text with a parenthesized value') : style.split(',').map(part => part.trim()).filter(Boolean))
+function frankenGraph(ir, _project, hooks) {
+  const label = index => (typeof index === 'number' ? ir.labels[index]?.text : undefined)
+  const ids = ir.nodes.map(node => node.id)
+  const refs = target => (ir.style_refs ?? []).filter(ref => typeof ref.target === 'object' && ref.target && Object.keys(ref.target)[0] === target)
+  const groups = ir.graph?.subgraphs ?? []
+  const ordered = []
+  const walk = group => { for (const child of group.children ?? []) walk(groups[child]); ordered.push(group) }
+  for (const group of groups) if (group.parent == null) walk(group)
+  return {
+    nodes: () =>
+      ir.nodes.map((node, index) => {
+        const text = label(node.label)
+        const styles = refs('Node').filter(ref => ref.target.Node === index).flatMap(ref => styleList(hooks, ref.style))
+        return [node.id, { text: text ?? node.id, ...(text === undefined && node.shape === 'Rect' ? { type: undefined } : FRANKEN_SHAPE[node.shape] ? { type: FRANKEN_SHAPE[node.shape] } : {}), classes: (node.classes ?? []).filter(name => !(name === 'has-link' && node.interaction?.href)), styles, link: node.interaction?.href ?? undefined, tooltip: node.interaction?.tooltip ?? undefined }]
+      }),
+    edges: () => {
+      if ((ir.style_refs ?? []).some(ref => ref.target === 'LinkDefault')) return hooks.unavailable('Frankenmermaid linkStyle default')
+      return ir.edges.map((edge, index) => {
+        if (typeof edge.from?.Node !== 'number' || typeof edge.to?.Node !== 'number') return hooks.unavailable('Frankenmermaid edge endpoint that is not a node')
+        const [type, stroke] = frankenArrow(edge.arrow)
+        const style = refs('Link').filter(ref => ref.target.Link === index).flatMap(ref => styleList(hooks, ref.style))
+        return { start: ids[edge.from?.Node], end: ids[edge.to?.Node], text: label(edge.label) ?? '', type, stroke, style: style.length ? style : undefined }
+      })
+    },
+    subgraphs: () =>
+      ordered.map(group => {
+        const nested = new Set((group.children ?? []).flatMap(child => groups[child].members ?? []))
+        return { id: group.key, title: label(group.title) ?? group.key, nodes: [...(group.members ?? []).filter(member => !nested.has(member)).map(member => ids[member]), ...(group.children ?? []).map(child => groups[child].key)], dir: group.direction ?? undefined }
+      }),
+    direction: directionOf(ir.direction),
+    absent: {
+      edge: { length: "Frankenmermaid's edge model keeps no link length", id: "Frankenmermaid's edge model keeps no edge ids", interpolate: "Frankenmermaid's edge model keeps no curve", animate: "Frankenmermaid's edge model keeps no animation" },
+      subgraph: { classes: "Frankenmermaid's subgraph model keeps no classes" },
+    },
   }
 }
 
@@ -201,6 +286,8 @@ const FLOWCHART = {
   'Mootikins/figurehead-rs': figureheadGraph,
   'fasouto/termaid': termaidGraph,
   'Latias94/merman': latiasGraph,
+  'evangwt/xmermaid': xmermaidGraph,
+  'Dicklesworthstone/frankenmermaid': frankenGraph,
 }
 
 // Class diagrams. Mermaid's ClassDB codes a relation end as AGGREGATION 0, EXTENSION 1,
@@ -233,7 +320,8 @@ function classView(model, hooks) {
           if (relation.lineType === undefined && !lineAbsent) return hooks.unavailable('Unmapped native class relation line')
           if (lineAbsent) fields = { ...fields, relation: record({ type1: relation.type1, type2: relation.type2 }, 'relation', ['type1', 'type2', 'lineType'], { lineType: lineAbsent }, hooks) }
         }
-        return record(fields, 'relation', RELATION_FIELDS, absent.relation ?? {}, hooks)
+        // Mermaid's relation has no title key without a label, so reading it is undefined.
+        return record({ ...(absent.relation?.title ? {} : { title: undefined }), ...fields }, 'relation', RELATION_FIELDS, absent.relation ?? {}, hooks)
       })
   return view
 }
@@ -305,6 +393,39 @@ CLASS['Dicklesworthstone/frankenmermaid'] = ir => ({
     }),
   absent: {},
 })
+// agentic-mermaid 0.5.6 class body: relations as written (from = left-hand class) with
+// markerAt 'from' | 'to' | 'both' | 'none', a kind per end when they differ, and an
+// explicit lineStyle only where it departs from the kind's own line (dependency,
+// realization and link-dashed are dotted). A lollipop end is its own interface<n> class,
+// as in Mermaid. Members are display rows that still include <<annotation>> rows.
+const AGENTIC_KIND = { inheritance: [1, 0], realization: [1, 1], composition: [2, 0], aggregation: [0, 0], dependency: [3, 1], association: [3, 0], lollipop: [4, 0], 'link-solid': ['none', 0], 'link-dashed': ['none', 1] }
+CLASS['adewale/agentic-mermaid'] = raw => ({
+  classes: () => raw.classes.map(item => [item.id, { label: item.label ?? item.id, ...(item.generic ? { type: item.generic } : {}) }]),
+  relations: () =>
+    raw.relations.map(rel => {
+      const at = rel.markerAt, code = kind => AGENTIC_KIND[kind]?.[0]
+      const line = rel.lineStyle === 'dashed' ? 1 : rel.lineStyle === 'solid' ? 0 : AGENTIC_KIND[rel.kind]?.[1]
+      const relation = { type1: at === 'from' || at === 'both' ? code(rel.fromKind ?? rel.kind) : 'none', type2: at === 'to' || at === 'both' ? code(rel.toKind ?? rel.kind) : 'none', lineType: line }
+      return { id1: rel.from, id2: rel.to, relation, relationTitle1: card(rel.fromCardinality), relationTitle2: card(rel.toCardinality), ...(rel.label ? { title: rel.label } : {}) }
+    }),
+  absent: {},
+})
+// vitepress-plugin-mermaid-diagram 0.3.2: members split by isMethod, one annotation, and
+// relations from the left-hand class with a type word but no record of the marker's side
+// (A --|> B and A <|-- B are both 'inheritance').
+CLASS['KlangHaus/vitepress-plugin-diagram'] = raw => ({
+  classes: () => entriesOf(raw.classes).map(([id, item]) => [id, { label: item.label ?? id, annotations: item.annotation ? [item.annotation] : [], members: item.members.filter(m => !m.isMethod), methods: item.members.filter(m => m.isMethod) }]),
+  relations: () => raw.relationships.map(rel => ({ id1: rel.from, id2: rel.to, relationTitle1: card(rel.fromCardinality), relationTitle2: card(rel.toCardinality), ...(rel.label ? { title: rel.label } : {}) })),
+  absent: { relation: { relation: "vitepress-plugin-mermaid-diagram's class relation keeps no record of which end carries the marker" } },
+})
+// merslim 0.2.3 parseToIR class: members with kind 'attribute' | 'method'; relations are
+// source -> target with inheritance normalized child -> parent, so the written left-hand
+// class (id1) is not recoverable from the model.
+CLASS['emtyty/merslim'] = raw => ({
+  classes: () => raw.classes.map(item => [item.id, { label: item.label ?? item.id, members: item.members.filter(m => m.kind !== 'method'), methods: item.members.filter(m => m.kind === 'method') }]),
+  relationsGap: "Merslim normalizes inheritance child -> parent, so the left-hand class (id1) is not recorded",
+  absent: {},
+})
 function dartClasses(raw) {
   return {
     classes: () => entriesOf(raw.classes).map(([id, item]) => [id, { label: item.label, annotations: item.annotations ?? [], members: item.attributes ?? [], methods: item.methods ?? [], styles: styleStrings(item.styles), ...(item.link ? { link: item.link } : {}) }]),
@@ -333,6 +454,9 @@ const NO_CLASS_NOTES = {
   'crafter-station/mermaid': "Crafter's class model keeps no notes",
   'lukilabs/beautiful-mermaid': "beautiful-mermaid's class model keeps no notes",
   'kais-radwan/ascii-mermaid': "ascii-mermaid's class model keeps no notes",
+  'KlangHaus/vitepress-plugin-diagram': "vitepress-plugin-mermaid-diagram's class model keeps no notes",
+  'emtyty/merslim': "Merslim's class model keeps no notes",
+  'evangwt/xmermaid': "XMermaid's class model keeps no notes",
 }
 function classNotes(project, raw, hooks) {
   if (project === 'Dicklesworthstone/frankenmermaid') raw = { notes: raw.state_notes ?? [] }
@@ -345,7 +469,7 @@ function classNotes(project, raw, hooks) {
   const notes = new Map(
     native.map((note, index) => {
       const id = typeof note.id === 'string' ? note.id : 'note' + index
-      const target = note.class ?? note.forClass ?? (note.target === '' ? null : note.target)
+      const target = note.class ?? note.forClass ?? note.for ?? (note.target === '' ? null : note.target)
       return [id, { id, class: target ?? undefined, text: note.text, index }]
     }),
   )
@@ -445,6 +569,18 @@ ER['Dicklesworthstone/frankenmermaid'] = ir => ({
     }),
   absent: {},
 })
+// merslim 0.2.3 parseToIR er: a table schema. Columns carry name, type and PK/FK/UK flags;
+// a relation keeps its label (as fromCol and toCol) and one nullable flag, not the two
+// cardinalities or the line, and comments and entity aliases are not kept.
+ER['emtyty/merslim'] = raw => ({
+  entities: () => raw.schema.tables.map(table => [table.name, { label: table.name, attributes: table.columns.map(c => ({ type: c.type, name: c.name, keys: [...(c.isPK ? ['PK'] : []), ...(c.isFK ? ['FK'] : []), ...(c.isUnique ? ['UK'] : [])] })) }]),
+  relationships: () => raw.schema.relations.map(rel => ({ entityA: rel.fromTable, entityB: rel.toTable, roleA: rel.fromCol })),
+  absent: {
+    entity: { alias: "Merslim's ER table model keeps no alias" },
+    attribute: { comment: "Merslim's ER column model keeps no comments" },
+    relationship: { relSpec: "Merslim keeps one nullable flag per relationship, not its two cardinalities or line style" },
+  },
+})
 function dartEr(raw) {
   return {
     entities: () => entriesOf(raw.entities).map(([name, entity]) => [name, { label: entity.label, attributes: entity.attributes.map(a => ({ type: a.type, name: a.name, keys: a.keys ?? [], comment: a.comment ?? '' })), cssStyles: entity.cssStyles, cssClasses: entity.cssClasses }]),
@@ -467,6 +603,133 @@ function graphEr(raw, name) {
       entity: { alias: `${name}'s ER model keeps no entity alias` },
       relationship: { roleA: `${name} folds the relationship role and cardinalities into one display label`, relSpec: `${name} folds the relationship cardinalities into its display label` },
     },
+  }
+}
+
+// C4 diagrams. Mermaid's C4 database keeps shapes, boundaries (led by its own 'global'
+// boundary) and relations as records whose text fields are { text }. A shape's techn
+// exists only for containers and components (and a boundary's descr only for deployment
+// nodes); sprite, tags and link exist only when given.
+// Each element's wrap flag is Mermaid's text-wrapping configuration, which none of these
+// models keeps per element.
+const C4_SHAPE_FIELDS = ['alias', 'label', 'descr', 'typeC4Shape', 'parentBoundary', 'wrap', 'sprite', 'tags', 'link']
+const C4_BOUNDARY_FIELDS = ['alias', 'label', 'type', 'parentBoundary', 'wrap', 'tags', 'link']
+const C4_REL_FIELDS = ['type', 'from', 'to', 'label', 'techn', 'descr', 'wrap', 'sprite', 'tags', 'link']
+const GLOBAL_BOUNDARY = { alias: 'global', label: { text: 'global' }, type: { text: 'global' }, tags: null, link: null, parentBoundary: '' }
+const text = value => ({ text: value ?? '' })
+const optional = (fields, value) => Object.fromEntries(Object.entries(value).map(([key, item]) => [key, item == null || item === '' ? undefined : item]).concat(fields.filter(key => !(key in value)).map(key => [key, undefined])))
+const usesTechn = type => /container|component/.test(type)
+// Mermaid's C4 macros and the typeC4Shape / rel type each one records.
+const C4_MACRO = {
+  Person: 'person', Person_Ext: 'external_person', System: 'system', SystemDb: 'system_db', SystemQueue: 'system_queue', System_Ext: 'external_system', SystemDb_Ext: 'external_system_db', SystemQueue_Ext: 'external_system_queue',
+  Container: 'container', ContainerDb: 'container_db', ContainerQueue: 'container_queue', Container_Ext: 'external_container', ContainerDb_Ext: 'external_container_db', ContainerQueue_Ext: 'external_container_queue',
+  Component: 'component', ComponentDb: 'component_db', ComponentQueue: 'component_queue', Component_Ext: 'external_component', ComponentDb_Ext: 'external_component_db', ComponentQueue_Ext: 'external_component_queue',
+}
+const C4_REL_MACRO = { Rel: 'rel', BiRel: 'birel', Rel_U: 'rel_u', Rel_Up: 'rel_u', Rel_D: 'rel_d', Rel_Down: 'rel_d', Rel_L: 'rel_l', Rel_Left: 'rel_l', Rel_R: 'rel_r', Rel_Right: 'rel_r', Rel_Back: 'rel_b', RelIndex: 'rel' }
+const C4_BOUNDARY_MACRO = { Enterprise_Boundary: 'ENTERPRISE', System_Boundary: 'SYSTEM', Container_Boundary: 'CONTAINER' }
+const snake = name => name.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase()
+
+function c4View(model, hooks) {
+  const { absent } = model
+  const shape = fields => record(fields, 'C4 shape', C4_SHAPE_FIELDS, absent.shape ?? {}, hooks)
+  const boundary = fields => record(fields, 'C4 boundary', C4_BOUNDARY_FIELDS, absent.boundary ?? {}, hooks)
+  const rel = fields => record(fields, 'C4 relation', C4_REL_FIELDS, absent.rel ?? {}, hooks)
+  const shapes = () => model.shapes().map(shape)
+  const byParent = (list, parent) => (parent == null ? list : list.filter(item => item.parentBoundary === parent))
+  const view = {
+    getC4ShapeArray: parent => byParent(shapes(), parent),
+    getC4Shape: alias => shapes().find(item => item.alias === alias),
+    getC4ShapeKeys: parent => byParent(shapes(), parent).map(item => item.alias),
+    getRels: () => model.rels().map(rel),
+    ...(model.type ? { getC4Type: () => model.type } : {}),
+  }
+  if (model.boundaries) {
+    const boundaries = () => [GLOBAL_BOUNDARY, ...model.boundaries()].map(boundary)
+    view.getBoundaries = parent => byParent(boundaries(), parent)
+    view.getBoundary = alias => boundaries().find(item => item.alias === alias)
+  } else if (absent.getBoundaries) view.getBoundaries = view.getBoundary = () => hooks.unsupported(absent.getBoundaries)
+  return view
+}
+const WRAP = name => ({ wrap: `${name} keeps text wrapping as a renderer setting, not per C4 element` })
+const C4 = {
+  // mermaid-rs-renderer ir.rs C4Shape/C4Boundary/C4Rel: kind enums whose as_str is Mermaid's
+  // own vocabulary. For people and systems the third positional argument is its type_label
+  // (drawn as "[type]"), not the description. Named-argument values keep their quotes.
+  '1jehuang/mermaid-rs-renderer': raw => {
+    const c4 = raw.c4, unquote = value => (typeof value === 'string' && /^".*"$/s.test(value) ? value.slice(1, -1) : value)
+    return {
+      type: c4.c4_type,
+      shapes: () => c4.shapes.map(item => { const type = snake(item.kind); return { alias: item.id, label: text(item.label), descr: text(unquote(item.descr)), ...(usesTechn(type) ? { techn: text(unquote(item.techn)) } : {}), typeC4Shape: { text: type }, parentBoundary: item.parent_boundary, ...optional(['sprite', 'tags', 'link'], { sprite: unquote(item.sprite), tags: unquote(item.tags), link: unquote(item.link) }) } }),
+      boundaries: () => c4.boundaries.filter(item => item.id !== 'global').map(item => ({ alias: item.id, label: text(item.label), parentBoundary: item.parent_boundary, ...optional(['tags', 'link'], { tags: unquote(item.tags), link: unquote(item.link) }) })),
+      rels: () => c4.rels.map(item => ({ type: { Rel: 'rel', BiRel: 'birel', RelUp: 'rel_u', RelDown: 'rel_d', RelLeft: 'rel_l', RelRight: 'rel_r', RelBack: 'rel_b' }[item.kind], from: item.from, to: item.to, label: text(item.label), techn: text(unquote(item.techn)), descr: text(unquote(item.descr)), ...optional(['sprite', 'tags', 'link'], { sprite: unquote(item.sprite), tags: unquote(item.tags), link: unquote(item.link) }) })),
+      absent: { shape: WRAP('mermaid-rs-renderer'), boundary: { ...WRAP('mermaid-rs-renderer'), type: "mermaid-rs-renderer records System_Boundary and an untyped Boundary as the same 'system' type" }, rel: WRAP('mermaid-rs-renderer') },
+    }
+  },
+  // zombie-mermaid C4Diagram (shared/index.d.ts): element kind + shape + external, nested
+  // boundaries listing their direct element aliases, relationships with bidirectional,
+  // reversed (Rel_Back) and a layout hint (Rel_U/D/L/R). No sprites, tags or links.
+  'dfadler/zombie-mermaid': raw => {
+    const parentOf = {}, flat = []
+    const walk = (group, parent) => {
+      flat.push({ alias: group.alias, label: text(group.label), type: { text: group.type ?? 'system' }, parentBoundary: parent })
+      for (const alias of group.elementAliases ?? []) parentOf[alias] = group.alias
+      for (const child of group.children ?? []) walk(child, group.alias)
+    }
+    for (const group of raw.boundaries ?? []) walk(group, 'global')
+    const none = "zombie-mermaid's C4 model keeps no sprites, tags or links"
+    return {
+      type: 'C4' + raw.variant[0].toUpperCase() + raw.variant.slice(1),
+      shapes: () => raw.elements.map(item => { const type = (item.external ? 'external_' : '') + item.kind + (item.shape === 'default' ? '' : '_' + item.shape); return { alias: item.alias, label: text(item.label), descr: text(item.description), ...(usesTechn(type) ? { techn: text(item.technology) } : {}), typeC4Shape: { text: type }, parentBoundary: parentOf[item.alias] ?? 'global' } }),
+      boundaries: raw.variant === 'deployment' ? undefined : () => flat,
+      rels: () => raw.relationships.map(item => ({ type: item.bidirectional ? 'birel' : item.reversed ? 'rel_b' : item.layout ? { up: 'rel_u', down: 'rel_d', left: 'rel_l', right: 'rel_r' }[item.layout] : 'rel', from: item.from, to: item.to, label: text(item.label), techn: text(item.technology), descr: text('') })),
+      absent: { shape: { ...WRAP('zombie-mermaid'), sprite: none, tags: none, link: none }, boundary: { ...WRAP('zombie-mermaid'), tags: none, link: none }, rel: { ...WRAP('zombie-mermaid'), sprite: none, tags: none, link: none, descr: "zombie-mermaid's C4 relationship keeps no description" } },
+    }
+  },
+  // agentic-mermaid 0.5.6 c4 body: each element, boundary and relationship keeps the macro
+  // that declared it, its parentId, a tags list, sprite and link.
+  'adewale/agentic-mermaid': (raw, hooks) => {
+    const tags = list => (list.length > 1 ? hooks.unavailable('agentic-mermaid C4 tag list of several tags') : list[0])
+    return {
+      type: raw.variant,
+      shapes: () => raw.elements.map(item => { const type = C4_MACRO[item.macro]; if (!type) return hooks.unavailable('agentic-mermaid C4 macro ' + item.macro); return { alias: item.id, label: text(item.label), descr: text(item.description), ...(usesTechn(type) ? { techn: text(item.technology) } : {}), typeC4Shape: { text: type }, parentBoundary: item.parentId ?? 'global', ...optional(['sprite', 'tags', 'link'], { sprite: item.sprite, tags: tags(item.tags ?? []), link: item.link }) } }),
+      boundaries: () => raw.boundaries.map(item => { if (!(item.macro in C4_BOUNDARY_MACRO) && item.macro !== 'Boundary') return hooks.unavailable('agentic-mermaid C4 boundary macro ' + item.macro); return { alias: item.id, label: text(item.label), type: { text: C4_BOUNDARY_MACRO[item.macro] ?? item.type ?? 'system' }, parentBoundary: item.parentId ?? 'global', ...optional(['tags', 'link'], { tags: tags(item.tags ?? []), link: item.link }) } }),
+      rels: () => raw.relationships.map(item => ({ type: C4_REL_MACRO[item.macro] ?? hooks.unavailable('agentic-mermaid C4 relation macro ' + item.macro), from: item.from, to: item.to, label: text(item.label), techn: text(item.technology), descr: text(item.description), ...optional(['sprite', 'tags', 'link'], { sprite: item.sprite, tags: tags(item.tags ?? []), link: item.link }) })),
+      absent: { shape: WRAP('agentic-mermaid'), boundary: WRAP('agentic-mermaid'), rel: WRAP('agentic-mermaid') },
+    }
+  },
+}
+// mermaid_core 0.3.2 (Mermaid Dart and Flutter): each node's styleKey is Mermaid's own
+// shape type; boundary types are the macro word (Enterprise, System, Container) or the
+// written type; a relation records bidirectional and backwards (Rel_Back) but not the
+// Rel_U/D/L/R direction. No sprites, tags or links.
+const dartC4 = raw => {
+  const none = "mermaid_core's C4 model keeps no sprites, tags or links"
+  const boundaryType = type => ({ Enterprise: 'ENTERPRISE', System: 'SYSTEM', Container: 'CONTAINER' })[type] ?? (type || 'system')
+  return {
+    type: raw.subtype ? 'C4' + raw.subtype[0].toUpperCase() + raw.subtype.slice(1) : undefined,
+    shapes: () => entriesOf(raw.nodes).map(([id, item]) => ({ alias: id, label: text(item.label), descr: text(item.description), ...(usesTechn(item.styleKey) ? { techn: text(item.technology) } : {}), typeC4Shape: { text: item.styleKey }, parentBoundary: item.boundary ?? 'global' })),
+    boundaries: raw.boundaries.some(item => item.isNode) ? undefined : () => raw.boundaries.map(item => ({ alias: item.id, label: text(item.label), type: { text: boundaryType(item.type) }, parentBoundary: item.parent ?? 'global' })),
+    rels: () => raw.rels.map(item => ({ ...(item.bidirectional ? { type: 'birel' } : item.backwards ? { type: 'rel_b' } : {}), from: item.from, to: item.to, label: text(item.label), techn: text(item.technology), descr: text('') })),
+    absent: { shape: { ...WRAP('mermaid_core'), sprite: none, tags: none, link: none }, boundary: { ...WRAP('mermaid_core'), tags: none, link: none }, rel: { ...WRAP('mermaid_core'), type: "mermaid_core's C4 relation keeps no Rel_U/D/L/R direction", sprite: none, tags: none, link: none, descr: "mermaid_core's C4 relation keeps no description" } },
+  }
+}
+C4['orestesgaolin/mermaid'] = dartC4
+C4['pub:mermaid_flutter'] = dartC4
+// merslim 0.2.3 parseToIR c4: elements with a hyphenated kind ('system-external',
+// 'container-db', 'system-boundary'); boundaries are elements too (a plain boundary keeps
+// its written type as description), and children name their parent. Relations keep no
+// macro, so their direction is not recorded. The third positional argument of a person
+// or system is kept as technology.
+C4['emtyty/merslim'] = raw => {
+  const isBoundary = item => /(^|-)boundary$/.test(item.kind)
+  const typeOf = kind => { const parts = kind.split('-'), external = parts.includes('external'); return (external ? 'external_' : '') + parts.filter(part => part !== 'external').join('_') }
+  const none = "Merslim's C4 model keeps no sprites, tags or links"
+  return {
+    type: raw.variant ? 'C4' + raw.variant[0].toUpperCase() + raw.variant.slice(1) : undefined,
+    shapes: () => raw.elements.filter(item => !isBoundary(item)).map(item => { const type = typeOf(item.kind); return { alias: item.id, label: text(item.label), descr: text(item.description), ...(usesTechn(type) ? { techn: text(item.technology) } : {}), typeC4Shape: { text: type }, parentBoundary: item.parent ?? 'global' } }),
+    boundaries: () => raw.elements.filter(isBoundary).map(item => ({ alias: item.id, label: text(item.label), type: { text: { 'enterprise-boundary': 'ENTERPRISE', 'system-boundary': 'SYSTEM', 'container-boundary': 'CONTAINER' }[item.kind] ?? item.description ?? 'system' }, parentBoundary: item.parent ?? 'global' })),
+    rels: () => (raw.relations ?? []).map(item => ({ from: item.source, to: item.target, label: text(item.label), techn: text(item.technology), descr: text('') })),
+    absent: { shape: { ...WRAP('Merslim'), sprite: none, tags: none, link: none }, boundary: { ...WRAP('Merslim'), tags: none, link: none }, rel: { ...WRAP('Merslim'), type: "Merslim's C4 relation keeps no macro, so its direction is not recorded", sprite: none, tags: none, link: none, descr: "Merslim's C4 relation keeps no description" } },
   }
 }
 
@@ -550,6 +813,7 @@ export function nativeSchemaView(project, family, raw, hooks) {
   if (family === 'class' && (CLASS[project] || project in NO_CLASS_NOTES || ['Latias94/merman', 'crabtalk/bezel'].includes(project))) return { ...(CLASS[project] ? classView(CLASS[project](raw), hooks) : {}), ...latiasCodes, ...classNotes(project, raw, hooks) }
   if (family === 'er' && ER[project]) return erView(ER[project](raw), hooks)
   if (family === 'gitgraph' && GITGRAPH[project]) return GITGRAPH[project](raw, hooks)
+  if (family === 'c4' && C4[project]) return c4View(C4[project](raw, hooks), hooks)
   return undefined
 }
 

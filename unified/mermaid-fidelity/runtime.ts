@@ -328,8 +328,8 @@ function nativeParse(family: string, source: string) {
       }
       if (result?.ir?.diagram_type) {
         const ir = result.ir
-        // ER and class IR are read by Frankenmermaid's reviewed schema views (schema-views.mjs).
-        if (job.target.project === 'Dicklesworthstone/frankenmermaid' && String(ir.diagram_type).toLowerCase() === family && ['er', 'class'].includes(family)) return ir
+        // ER, class and flowchart IR are read by Frankenmermaid's reviewed schema views (schema-views.mjs).
+        if (job.target.project === 'Dicklesworthstone/frankenmermaid' && String(ir.diagram_type).toLowerCase() === family && ['er', 'class', 'flowchart'].includes(family)) return ir
         if (family !== 'flowchart' || ir.diagram_type !== 'Flowchart') return gap('Native IR schema for ' + ir.diagram_type + ' is not mapped to the original ' + family + ' database')
         const shapes: Record<string, string> = { Rect: 'square', Rounded: 'round', Circle: 'circle', Diamond: 'diamond', Stadium: 'stadium', Hexagon: 'hexagon', Cylinder: 'cylinder', Subroutine: 'subroutine', DoubleCircle: 'doublecircle' }
         const nodes = ir.nodes.map((node: any) => {

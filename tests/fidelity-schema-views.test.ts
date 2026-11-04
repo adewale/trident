@@ -123,3 +123,111 @@ test('XMermaid: exactly_one is ONLY_ONE, and normalized class relations stay a g
   const cls = nativeSchemaView('evangwt/xmermaid', 'class', { type: 'class', classes: [{ id: 'A', label: 'A' }], relations: [{ from: 'B', to: 'A', kind: 'inheritance' }] }, hooks)
   expect(() => cls.getRelations()).toThrow('gap')
 })
+
+test('XMermaid flowchart: a null label is the id on a bare node; style words and markers make the edge type', () => {
+  const { hooks, log } = verdicts()
+  const raw = {
+    type: 'flowchart', direction: 'TD',
+    nodes: [{ id: 'A', label: 'Start', shape: 'rect', classes: [] }, { id: 'B', label: null, shape: 'rect', classes: ['hl'] }, { id: 'C', label: 'Decide', shape: 'diamond', classes: [] }],
+    edges: [
+      { from: 'A', to: 'B', style: 'arrow', label: 'yes', min_length: 1 },
+      { from: 'B', to: 'C', style: 'dotted', label: null, min_length: 2, end_marker: 'arrow' },
+      { from: 'A', to: 'C', style: 'line', label: null, min_length: 1, start_marker: 'cross', end_marker: 'cross' },
+    ],
+    subgraphs: [{ id: 'outer', title: 'outer', nodes: ['B'], subgraphs: [{ id: 'inner', title: 'In', nodes: ['C'], subgraphs: [] }] }],
+    link_styles: [{ indices: [0], targets_default: false, style: { stroke: 'red' } }],
+  }
+  const view = nativeSchemaView('evangwt/xmermaid', 'flowchart', raw, hooks)
+  const vertices = view.getVertices()
+  expect(vertices.get('A').type).toBe('square')
+  expect([vertices.get('B').text, vertices.get('B').type, vertices.get('B').classes]).toEqual(['B', undefined, ['hl']])
+  expect(view.getEdges().map((e: any) => [e.type, e.stroke, e.length, e.text, e.style])).toEqual([
+    ['arrow_point', 'normal', 1, 'yes', ['stroke:red']],
+    ['arrow_point', 'dotted', 2, '', undefined],
+    ['double_arrow_cross', 'normal', 1, '', undefined],
+  ])
+  expect(view.getSubGraphs().map((g: any) => [g.id, g.nodes])).toEqual([['inner', ['C']], ['outer', ['B', 'inner']]])
+  expect(view.getDirection()).toBe('TB')
+  expect(() => vertices.get('A').styles).toThrow('unsupported')
+  expect(log.at(-1)).toContain('merges classDef and style')
+})
+
+test('agentic-mermaid class relations: markerAt and kind give each end; notes keep their class', () => {
+  const { hooks } = verdicts()
+  const raw = {
+    kind: 'class',
+    classes: [{ id: 'Animal', members: [] }, { id: 'P', generic: 'T', members: [] }],
+    relations: [
+      { from: 'Animal', to: 'Duck', kind: 'inheritance', label: 'extends', markerAt: 'from' },
+      { from: 'A', to: 'B', kind: 'dependency', markerAt: 'to' },
+      { from: 'C', to: 'D', kind: 'composition', markerAt: 'from', lineStyle: 'dashed', fromCardinality: '1' },
+      { from: 'M', to: 'N', kind: 'realization', markerAt: 'both', fromKind: 'realization', toKind: 'realization' },
+      { from: 'I', to: 'J', kind: 'link-dashed', markerAt: 'none' },
+    ],
+    notes: [{ text: 'quack', for: 'Duck' }, { text: 'general' }],
+  }
+  const view = nativeSchemaView('adewale/agentic-mermaid', 'class', raw, hooks)
+  expect(view.getRelations().map((r: any) => [r.id1, r.id2, r.relation.type1, r.relation.type2, r.relation.lineType, r.relationTitle1, r.title])).toEqual([
+    ['Animal', 'Duck', 1, 'none', 0, 'none', 'extends'],
+    ['A', 'B', 'none', 3, 1, 'none', undefined],
+    ['C', 'D', 2, 'none', 1, '1', undefined],
+    ['M', 'N', 1, 1, 1, 'none', undefined],
+    ['I', 'J', 'none', 'none', 1, 'none', undefined],
+  ])
+  expect(view.getClass('P').type).toBe('T')
+  expect(view.getNote(0)).toEqual({ id: 'note0', class: 'Duck', text: 'quack', index: 0 })
+  expect(view.getNote(1).class).toBeUndefined()
+})
+
+test('VitePress relations keep no marker side; Merslim ER keeps keys but not cardinalities', () => {
+  const { hooks, log } = verdicts()
+  const vp = nativeSchemaView('KlangHaus/vitepress-plugin-diagram', 'class', { classes: { Animal: { id: 'Animal', members: [{ name: 'int age', isMethod: false }, { name: 'eat', isMethod: true }], annotation: 'interface' } }, relationships: [{ from: 'A', to: 'B', type: 'inheritance', label: 'x' }] }, hooks)
+  expect([vp.getClass('Animal').members.length, vp.getClass('Animal').methods.length, vp.getClass('Animal').annotations]).toEqual([1, 1, ['interface']])
+  expect([vp.getRelations()[0].id1, vp.getRelations()[0].title]).toEqual(['A', 'x'])
+  expect(() => vp.getRelations()[0].relation).toThrow('unsupported')
+  expect(() => vp.getNote(0)).toThrow('unsupported')
+  const er = nativeSchemaView('emtyty/merslim', 'er', { type: 'er', schema: { tables: [{ name: 'CUSTOMER', columns: [{ name: 'id', type: 'string', isPK: true, isFK: false, isUnique: true }] }], relations: [{ fromTable: 'CUSTOMER', fromCol: 'places', toTable: 'ORDER', toCol: 'places', nullable: true }] } }, hooks)
+  expect(er.getEntities().get('CUSTOMER').attributes[0].keys).toEqual(['PK', 'UK'])
+  expect(() => er.getEntities().get('CUSTOMER').attributes[0].comment).toThrow('unsupported')
+  expect([er.getRelationships()[0].entityA, er.getRelationships()[0].roleA]).toEqual(['CUSTOMER', 'places'])
+  expect(() => er.getRelationships()[0].relSpec).toThrow('unsupported')
+  expect(log.at(-1)).toContain('nullable flag')
+})
+
+test('Frankenmermaid flowchart IR: arrow words name both ends and the line; subgraphs come out innermost first', () => {
+  const { hooks, log } = verdicts()
+  const ir = {
+    direction: 'LR', labels: [{ text: 'Start' }, { text: 'yes' }, { text: 'Outer' }, { text: 'inner' }],
+    nodes: [{ id: 'A', label: 0, shape: 'Rect', classes: ['has-link'], interaction: { href: 'http://x' } }, { id: 'B', shape: 'Rect', classes: [] }, { id: 'C', shape: 'Asymmetric', classes: [] }],
+    edges: [{ from: { Node: 0 }, to: { Node: 1 }, arrow: 'Arrow', label: 1 }, { from: { Node: 1 }, to: { Node: 2 }, arrow: 'DoubleDottedArrow' }, { from: { Node: 0 }, to: { Node: 2 }, arrow: 'ThickCircle' }],
+    style_refs: [{ target: { Node: 0 }, style: 'fill:#f00,stroke:#333' }, { target: { Link: 1 }, style: 'stroke:red' }],
+    graph: { subgraphs: [{ id: 0, key: 'outer', title: 2, children: [1], members: [1, 2], direction: 'TB' }, { id: 1, key: 'inner', title: 3, parent: 0, children: [], members: [2] }] },
+  }
+  const view = nativeSchemaView('Dicklesworthstone/frankenmermaid', 'flowchart', ir, hooks)
+  const vertices = view.getVertices()
+  expect([vertices.get('A').type, vertices.get('A').classes, vertices.get('A').styles, vertices.get('A').link]).toEqual(['square', [], ['fill:#f00', 'stroke:#333'], 'http://x'])
+  expect([vertices.get('B').text, vertices.get('B').type, vertices.get('B').link]).toEqual(['B', undefined, undefined])
+  expect(view.getEdges().map((e: any) => [e.type, e.stroke, e.text, e.style])).toEqual([['arrow_point', 'normal', 'yes', undefined], ['double_arrow_point', 'dotted', '', ['stroke:red']], ['arrow_circle', 'thick', '', undefined]])
+  expect(view.getSubGraphs().map((g: any) => [g.id, g.title, g.nodes, g.dir])).toEqual([['inner', 'inner', ['C'], undefined], ['outer', 'Outer', ['B', 'inner'], 'TB']])
+  expect(() => view.getEdges()[0].length).toThrow('unsupported')
+  expect(log.at(-1)).toContain('no link length')
+})
+
+test('C4 views: Mermaid shape types, the global boundary, and what each model keeps', () => {
+  const { hooks, log } = verdicts()
+  const zombie = nativeSchemaView('dfadler/zombie-mermaid', 'c4', {
+    variant: 'container',
+    elements: [{ alias: 'web', kind: 'container', shape: 'default', external: false, label: 'Web', technology: 'React', description: 'UI' }, { alias: 'db', kind: 'container', shape: 'db', external: true, label: 'DB' }, { alias: 'p', kind: 'person', shape: 'default', external: false, label: 'P' }],
+    boundaries: [{ alias: 'sb', label: 'Sys', type: 'SYSTEM', elementAliases: ['web'], children: [{ alias: 'in', label: 'In', elementAliases: ['db'], children: [] }] }],
+    relationships: [{ from: 'p', to: 'web', label: 'Uses', bidirectional: false, layout: 'up' }, { from: 'web', to: 'db', label: 'Reads', bidirectional: false, reversed: true, technology: 'SQL' }],
+  }, hooks)
+  expect(zombie.getC4Type()).toBe('C4Container')
+  expect(zombie.getC4ShapeArray().map((s: any) => [s.alias, s.typeC4Shape.text, s.parentBoundary, s.techn])).toEqual([['web', 'container', 'sb', { text: 'React' }], ['db', 'external_container_db', 'in', { text: '' }], ['p', 'person', 'global', undefined]])
+  expect(zombie.getBoundaries().map((b: any) => [b.alias, b.type.text, b.parentBoundary])).toEqual([['global', 'global', ''], ['sb', 'SYSTEM', 'global'], ['in', 'system', 'sb']])
+  expect(zombie.getRels().map((r: any) => [r.type, r.techn.text])).toEqual([['rel_u', ''], ['rel_b', 'SQL']])
+  expect(() => zombie.getC4ShapeArray()[0].wrap).toThrow('unsupported')
+  const dart = nativeSchemaView('orestesgaolin/mermaid', 'c4', { nodes: new Map([['q', { id: 'q', kind: 'queue', label: 'Q', description: 'Async', technology: '', styleKey: 'system_queue', boundary: 'b1' }]]), boundaries: [{ id: 'b1', label: 'Custom', type: 'Enterprise', parent: null, isNode: false }], rels: [{ from: 'q', to: 'q', label: 'Self', technology: '', bidirectional: false, backwards: false }], subtype: 'context' }, hooks)
+  expect([dart.getC4Shape('q').typeC4Shape.text, dart.getC4Shape('q').descr.text, dart.getBoundary('b1').type.text]).toEqual(['system_queue', 'Async', 'ENTERPRISE'])
+  expect(() => dart.getRels()[0].type).toThrow('unsupported')
+  expect(log.at(-1)).toContain('Rel_U/D/L/R')
+})
