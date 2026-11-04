@@ -276,6 +276,9 @@ CLASS['dfadler/zombie-mermaid'] = raw => ({
     }),
   absent: { relation: { relation: "zombie-mermaid records a plain link (--) and an arrow (-->) as the same 'association'" } },
 })
+// beautiful-mermaid 1.1.3 class/types.ts: the same ClassRelationship vocabulary (markerAt
+// 'from' | 'to', no lollipop) and no class notes.
+CLASS['lukilabs/beautiful-mermaid'] = raw => CLASS['dfadler/zombie-mermaid'](raw)
 // XMermaid class: members are one display list and relations are normalized child -> parent.
 CLASS['evangwt/xmermaid'] = raw => ({
   classes: () => raw.classes.map(item => [item.id, { label: item.label }]),
@@ -308,6 +311,7 @@ const NO_CLASS_NOTES = {
   'Yassimba/loom': "Loom's class model keeps no notes",
   '1jehuang/mermaid-rs-renderer': "mermaid-rs-renderer's class model keeps no notes",
   'crafter-station/mermaid': "Crafter's class model keeps no notes",
+  'lukilabs/beautiful-mermaid': "beautiful-mermaid's class model keeps no notes",
 }
 function classNotes(project, raw, hooks) {
   if (NO_CLASS_NOTES[project]) {
@@ -394,6 +398,8 @@ ER['dfadler/zombie-mermaid'] = raw => ({
   relationships: () => raw.relationships.map(rel => ({ entityA: rel.entity1, entityB: rel.entity2, roleA: rel.label ?? '', relSpec: { cardA: ZOMBIE_CARD[rel.cardinality2], cardB: ZOMBIE_CARD[rel.cardinality1], relType: identifying(rel.identifying) } })),
   absent: { entity: { alias: "zombie-mermaid's ER entity model keeps no alias" } },
 })
+// beautiful-mermaid 1.1.3 shares these ER types with its fork zombie-mermaid (er/types.ts).
+ER['lukilabs/beautiful-mermaid'] = raw => ({ ...ER['dfadler/zombie-mermaid'](raw), absent: { entity: { alias: "beautiful-mermaid's ER entity model keeps no alias" } } })
 // XMermaid parse_dsl: from/to cardinality words and a non_identifying flag.
 ER['evangwt/xmermaid'] = raw => ({
   entities: () => raw.entities.map(entity => [entity.name, { label: entity.name, attributes: (entity.attributes ?? []).map(a => ({ type: a.kind, name: a.name, keys: a.keys ?? [], comment: a.comment ?? '' })) }]),

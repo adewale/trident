@@ -44,6 +44,7 @@ registerBridge('sandyyst/dsh-plugin-mermaid-gb-svg', javascript('dsh', a => a.mo
 registerBridge('tariqshams/mermaidtui', javascript('mermaidtui', a => a.module))
 // OpenCode's merman package is TypeScript source run by Bun, as its prepared artifact is.
 registerBridge('anomalyco/opencode', javascript('opencode', a => a.root, () => process.execPath))
+registerBridge('lukilabs/beautiful-mermaid', javascript('beautiful', a => a.root, () => process.execPath))
 
 /** Compiled or copied bridges keep their own build step in bridges/<name>/build.ts. */
 const built = (name: string, description: string, version: (peer: any) => string | undefined = peer => peer.artifact?.version) => async (peer: any, outDir: string): Promise<ParserBridge | undefined> => {

@@ -29,6 +29,19 @@ const PROJECTS = {
       },
     }
   },
+  // lukilabs/beautiful-mermaid 1.1.3: its renderer's detectDiagramType recognizes xychart,
+  // sequence, class and er headers and renders every other source through parseMermaid
+  // (flowchart and stateDiagram). The statement parsers take the lines its renderer
+  // builds: split, trimmed, without blank or %% comment lines. Run by Bun: these are
+  // the package's TypeScript sources.
+  beautiful: async root => {
+    const src = join(root, 'src'), lines = text => text.split('\n').map(line => line.trim()).filter(line => line.length > 0 && !line.startsWith('%%'))
+    const flow = await load(join(src, 'parser.ts')), seq = await load(join(src, 'sequence/parser.ts')), cls = await load(join(src, 'class/parser.ts')), er = await load(join(src, 'er/parser.ts')), xy = await load(join(src, 'xychart/parser.ts'))
+    return {
+      name: 'beautiful-mermaid',
+      families: { flowchart: flow.parseMermaid, state: flow.parseMermaid, sequence: text => seq.parseSequenceDiagram(lines(text)), class: text => cls.parseClassDiagram(lines(text)), er: text => er.parseErDiagram(lines(text)), xychart: text => xy.parseXYChart(lines(text)) },
+    }
+  },
   // KlangHaus/vitepress-plugin-diagram 0.3.2: detectDiagramType accepts only flowchart,
   // sequence and classDiagram headers.
   vitepress: async module => {
