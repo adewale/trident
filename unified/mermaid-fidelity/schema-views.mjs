@@ -58,10 +58,12 @@ function edgeType(from, to) {
 }
 const styleStrings = styles => entriesOf(styles).filter(([, value]) => value !== null && value !== undefined).map(([key, value]) => `${key}:${value}`)
 
+/** A vertex may name fields absent for that vertex alone. */
+const VERTEX_ABSENT = Symbol('absent for this vertex')
 /** One flowchart view from a project-specific reading of nodes, edges and groups. */
 function flowchartView(model, hooks) {
   const { nodes, edges, subgraphs, direction, absent } = model
-  const vertex = (id, fields) => record({ id, labelType: 'text', ...fields }, 'vertex', VERTEX_FIELDS, absent.vertex ?? {}, hooks)
+  const vertex = (id, fields) => record({ id, labelType: 'text', ...fields }, 'vertex', VERTEX_FIELDS, { ...(absent.vertex ?? {}), ...(fields[VERTEX_ABSENT] ?? {}) }, hooks)
   const view = {}
   view.getVertices = () => new Map(nodes().map(([id, fields]) => [id, vertex(id, fields)]))
   view.getEdges = () =>
@@ -275,6 +277,59 @@ function frankenGraph(ir, _project, hooks) {
   }
 }
 
+// zombie-mermaid 5.14.1 MermaidGraph (shared with beautiful-mermaid 1.1.3 and
+// ascii-mermaid 0.1.0, which keep fewer of its maps): a node's label is its id when none
+// was written, so a bare node and `A[A]` are the same rectangle; edges have a line style
+// and arrow flags with optional start/end markers and no length; class assignments, node
+// styles (from style statements), link styles and click interactions are separate maps.
+// Mermaid has no start-only edge type: such an edge keeps its own spelling, which no
+// Mermaid edge type equals.
+function mermaidGraphView(name) {
+  return (graph, _project, hooks) => {
+    const get = (map, key) => (map instanceof Map ? map.get(key) : undefined)
+    const flat = []
+    const walk = group => {
+      const children = (group.children ?? []).map(child => (typeof child === 'string' ? undefined : child)).filter(Boolean)
+      for (const child of children) walk(child)
+      flat.push({ id: group.id, title: group.label ?? group.id, nodes: [...(group.nodeIds ?? []), ...(group.children ?? []).map(child => (typeof child === 'string' ? child : child.id))], dir: group.direction ?? undefined })
+    }
+    for (const group of graph.subgraphs ?? []) walk(group)
+    const ambiguous = `${name} records a bare node and a rectangle labelled with its own id as the same 'rectangle'`
+    return {
+      nodes: () =>
+        entriesOf(graph.nodes).map(([id, node]) => {
+          const assigned = get(graph.classAssignments, id)
+          if (typeof assigned === 'string' && /\s|,/.test(assigned)) return hooks.unavailable(`${name} class assignment of several classes`)
+          const bare = node.shape === 'rectangle' && node.label === id
+          return [id, {
+            text: node.label,
+            ...(bare ? { [VERTEX_ABSENT]: { type: ambiguous } } : shapeOf(node.shape) ? { type: shapeOf(node.shape) } : {}),
+            ...(graph.classAssignments instanceof Map ? { classes: assigned ? [assigned] : [] } : {}),
+            ...(graph.nodeStyles instanceof Map ? { styles: styleStrings(get(graph.nodeStyles, id)) } : {}),
+            ...(graph.interactions instanceof Map ? { link: get(graph.interactions, id)?.href ?? undefined, tooltip: get(graph.interactions, id)?.tooltip ?? undefined } : {}),
+          }]
+        }),
+      edges: () =>
+        graph.edges.map((edge, index) => {
+          const start = edge.hasArrowStart ? headOf(edge.startMarker ?? 'arrow') : 'none', end = edge.hasArrowEnd ? headOf(edge.endMarker ?? 'arrow') : 'none'
+          const type = edgeType(start, end) ?? (end === 'none' && start ? `${name}:start-only-${start}` : undefined)
+          const style = graph.linkStyles instanceof Map ? styleStrings(get(graph.linkStyles, index)) : undefined
+          return { start: edge.source, end: edge.target, text: edge.label ?? '', type, stroke: strokeOf(edge.style), ...(graph.linkStyles instanceof Map ? { style: style.length ? style : undefined } : {}) }
+        }),
+      subgraphs: () => flat,
+      direction: directionOf(graph.direction),
+      absent: {
+        vertex: {
+          ...(graph.classAssignments instanceof Map ? {} : { classes: `${name}'s graph keeps no class assignments` }),
+          ...(graph.interactions instanceof Map ? {} : { link: `${name}'s graph keeps no click links`, tooltip: `${name}'s graph keeps no tooltips` }),
+        },
+        edge: { length: `${name}'s edge model keeps no link length`, id: `${name}'s edge model keeps no edge ids`, ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), interpolate: `${name}'s edge model keeps no curve`, animate: `${name}'s edge model keeps no animation` },
+        subgraph: { classes: `${name}'s subgraph model keeps no classes` },
+      },
+    }
+  }
+}
+
 const FLOWCHART = {
   'AlexanderGrooff/mermaid-ascii': asciiGraph,
   'xai-org/grok-build': indexGraph,
@@ -288,6 +343,9 @@ const FLOWCHART = {
   'Latias94/merman': latiasGraph,
   'evangwt/xmermaid': xmermaidGraph,
   'Dicklesworthstone/frankenmermaid': frankenGraph,
+  'dfadler/zombie-mermaid': mermaidGraphView('zombie-mermaid'),
+  'lukilabs/beautiful-mermaid': mermaidGraphView('beautiful-mermaid'),
+  'kais-radwan/ascii-mermaid': mermaidGraphView('ascii-mermaid'),
 }
 
 // Class diagrams. Mermaid's ClassDB codes a relation end as AGGREGATION 0, EXTENSION 1,
