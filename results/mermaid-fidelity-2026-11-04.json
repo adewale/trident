@@ -276,6 +276,7 @@
   "referenceVersion": "12.2.0",
   "expandedCallbacks": 5737,
   "referenceQualifiedCallbacks": 3602,
+  "referenceDigest": "ae8ad60a1341715e17699ed826712dd3b520fe4b29f481d921c564e367f87b75",
   "results": [
     {
       "project": "mermaid-js/mermaid",
@@ -2221,10 +2222,10 @@
       "project": "Dicklesworthstone/frankenmermaid",
       "version": "0.4.0",
       "counts": {
-        "passed": 405,
-        "failed": 302,
-        "unsupported": 247,
-        "trident-blocked": 2648,
+        "passed": 708,
+        "failed": 903,
+        "unsupported": 253,
+        "trident-blocked": 1738,
         "reference-unqualified": 2034,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
@@ -2691,9 +2692,12 @@
         {
           "path": "packages/mermaid/src/diagrams/class/classDiagram.spec.ts",
           "counts": {
-            "trident-blocked": 374,
+            "trident-blocked": 43,
             "reference-unqualified": 9,
-            "upstream-skipped": 1
+            "upstream-skipped": 1,
+            "passed": 242,
+            "failed": 83,
+            "unsupported": 6
           }
         },
         {
@@ -3441,14 +3445,16 @@
         {
           "path": "packages/mermaid/src/diagrams/class/parser/class.spec.js",
           "counts": {
-            "trident-blocked": 3
+            "passed": 3
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js",
           "counts": {
-            "trident-blocked": 633,
-            "upstream-skipped": 1
+            "passed": 58,
+            "failed": 518,
+            "upstream-skipped": 1,
+            "trident-blocked": 57
           }
         },
         {
@@ -4194,8 +4200,19 @@
         "architecture.db.getConfigField; No candidate operation was exercised by this test": 2,
         "Error: TRIDENT_ADAPTER_GAP: Native host configuration setter is not bound": 2,
         "Native IR schema for BlockBeta is not mapped to the original block database": 6,
-        "Native IR schema for Class is not mapped to the original class database": 372,
+        "class.cssClasses": 9,
+        "class.styles": 3,
+        "class.parent": 2,
+        "class member.getDisplayDetails": 8,
+        "class.db.getNamespaces": 2,
+        "class.db.getData": 1,
+        "class.db.getAccTitle": 2,
+        "class.haveCallback": 1,
+        "class.tooltip": 1,
+        "class.link": 5,
         "No candidate operation was exercised by this test": 34,
+        "class member.id": 2,
+        "class.db.getNamespace": 2,
         "Native IR schema for Flowchart is not mapped to the original cynefin database": 10,
         "Native IR schema for Sequence is not mapped to the original cynefin database": 5,
         "Native IR schema for EventModeling is not mapped to the original eventmodeling database": 9,
@@ -4228,7 +4245,19 @@
         "Native IR schema for CNComponent is not mapped to the original cN database": 17,
         "Native IR schema for CNContainer is not mapped to the original cN database": 11,
         "Native IR schema for CNDeployment is not mapped to the original cN database": 5,
-        "Native IR schema for Er is not mapped to the original er database": 649,
+        "entity.alias": 4,
+        "er.db.Cardinality; er.db.Cardinality.ZERO_OR_MORE; er.db.Cardinality.ZERO_OR_MORE.constructor; er.db.Cardinality.ZERO_OR_MORE.Symbol(Symbol.toStringTag); er.db.": 7,
+        "er.db.getAccTitle": 2,
+        "er.db.Cardinality; er.db.Cardinality.ONE_OR_MORE; er.db.Cardinality.ONE_OR_MORE.constructor; er.db.Cardinality.ONE_OR_MORE.Symbol(Symbol.toStringTag); er.db.Car": 10,
+        "er.db.Cardinality; er.db.Cardinality.ONLY_ONE; er.db.Cardinality.ONLY_ONE.constructor; er.db.Cardinality.ONLY_ONE.Symbol(Symbol.toStringTag); er.db.Cardinality.": 8,
+        "er.db.Cardinality; er.db.Cardinality.ZERO_OR_ONE; er.db.Cardinality.ZERO_OR_ONE.constructor; er.db.Cardinality.ZERO_OR_ONE.Symbol(Symbol.toStringTag); er.db.Car": 5,
+        "er.db.Identification; er.db.Identification.IDENTIFYING; er.db.Identification.IDENTIFYING.constructor; er.db.Identification.IDENTIFYING.Symbol(Symbol.toStringTag": 2,
+        "er.db.Identification; er.db.Identification.NON_IDENTIFYING; er.db.Identification.NON_IDENTIFYING.constructor; er.db.Identification.NON_IDENTIFYING.Symbol(Symbol": 2,
+        "entity.cssStyles": 3,
+        "entity.cssClasses": 9,
+        "er.db.getClasses": 2,
+        "Unmapped native ER cardinality or line": 1,
+        "er.db.getSubGraphs": 18,
         "Unmapped native flowchart schema: stroke": 17,
         "Unmapped native flowchart schema: type": 118,
         "Unmapped native flowchart schema: interpolate": 7,
@@ -12716,10 +12745,10 @@
       "project": "lukilabs/beautiful-mermaid",
       "version": "1.1.3",
       "counts": {
-        "passed": 153,
-        "failed": 1649,
-        "unsupported": 247,
-        "trident-blocked": 1553,
+        "passed": 164,
+        "failed": 1607,
+        "unsupported": 1516,
+        "trident-blocked": 315,
         "reference-unqualified": 2034,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
@@ -12902,57 +12931,57 @@
         {
           "path": "packages/parser/tests/architecture.test.ts",
           "counts": {
-            "trident-blocked": 27
+            "unsupported": 27
           }
         },
         {
           "path": "packages/parser/tests/gitGraph.test.ts",
           "counts": {
-            "trident-blocked": 27
+            "unsupported": 27
           }
         },
         {
           "path": "packages/parser/tests/info.test.ts",
           "counts": {
-            "trident-blocked": 12
+            "unsupported": 12
           }
         },
         {
           "path": "packages/parser/tests/packet.test.ts",
           "counts": {
-            "trident-blocked": 8
+            "unsupported": 8
           }
         },
         {
           "path": "packages/parser/tests/pie.test.ts",
           "counts": {
-            "trident-blocked": 32
+            "unsupported": 32
           }
         },
         {
           "path": "packages/parser/tests/radar.test.ts",
           "counts": {
-            "trident-blocked": 80,
+            "unsupported": 80,
             "reference-unqualified": 6
           }
         },
         {
           "path": "packages/parser/tests/railroad.test.ts",
           "counts": {
-            "trident-blocked": 6,
+            "unsupported": 6,
             "reference-unqualified": 1
           }
         },
         {
           "path": "packages/parser/tests/treeView.test.ts",
           "counts": {
-            "trident-blocked": 28
+            "unsupported": 28
           }
         },
         {
           "path": "packages/parser/tests/treemap.test.ts",
           "counts": {
-            "trident-blocked": 17
+            "unsupported": 17
           }
         },
         {
@@ -13073,7 +13102,7 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
-            "trident-blocked": 4
+            "unsupported": 4
           }
         },
         {
@@ -13085,7 +13114,7 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts",
           "counts": {
-            "trident-blocked": 4
+            "unsupported": 4
           }
         },
         {
@@ -13103,13 +13132,13 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-semantic-model.spec.ts",
           "counts": {
-            "trident-blocked": 11
+            "unsupported": 11
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-shape-catalogue.spec.ts",
           "counts": {
-            "trident-blocked": 6
+            "unsupported": 6
           }
         },
         {
@@ -13128,7 +13157,7 @@
           "path": "packages/mermaid/src/diagrams/agentflow/diagnostics.spec.ts",
           "counts": {
             "reference-unqualified": 2,
-            "trident-blocked": 4
+            "unsupported": 4
           }
         },
         {
@@ -13140,9 +13169,9 @@
         {
           "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
           "counts": {
-            "trident-blocked": 24,
+            "unsupported": 27,
             "reference-unqualified": 1,
-            "unsupported": 7
+            "trident-blocked": 4
           }
         },
         {
@@ -13154,7 +13183,7 @@
         {
           "path": "packages/mermaid/src/diagrams/block/blockColorIndex.spec.ts",
           "counts": {
-            "trident-blocked": 4,
+            "unsupported": 4,
             "reference-unqualified": 4
           }
         },
@@ -13180,17 +13209,19 @@
         {
           "path": "packages/mermaid/src/diagrams/class/classDiagram-styles.spec.js",
           "counts": {
-            "failed": 10
+            "failed": 5,
+            "trident-blocked": 5
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/class/classDiagram.spec.ts",
           "counts": {
-            "failed": 117,
+            "trident-blocked": 42,
             "reference-unqualified": 9,
-            "trident-blocked": 217,
+            "failed": 87,
             "upstream-skipped": 1,
-            "passed": 40
+            "passed": 48,
+            "unsupported": 197
           }
         },
         {
@@ -13214,7 +13245,7 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
-            "trident-blocked": 15
+            "unsupported": 15
           }
         },
         {
@@ -13244,7 +13275,7 @@
         {
           "path": "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts",
           "counts": {
-            "trident-blocked": 9,
+            "unsupported": 9,
             "reference-unqualified": 1
           }
         },
@@ -13298,9 +13329,10 @@
         {
           "path": "packages/mermaid/src/diagrams/git/gitGraph.spec.ts",
           "counts": {
-            "trident-blocked": 67,
+            "unsupported": 62,
             "upstream-skipped": 4,
-            "reference-unqualified": 3
+            "reference-unqualified": 3,
+            "trident-blocked": 5
           }
         },
         {
@@ -13312,19 +13344,19 @@
         {
           "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
           "counts": {
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
-            "trident-blocked": 30
+            "unsupported": 30
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmap.spec.ts",
           "counts": {
-            "trident-blocked": 26
+            "unsupported": 26
           }
         },
         {
@@ -13349,7 +13381,7 @@
         {
           "path": "packages/mermaid/src/diagrams/packet/packet.spec.ts",
           "counts": {
-            "trident-blocked": 15
+            "unsupported": 15
           }
         },
         {
@@ -13361,7 +13393,7 @@
         {
           "path": "packages/mermaid/src/diagrams/pie/pie.spec.ts",
           "counts": {
-            "trident-blocked": 13,
+            "unsupported": 13,
             "upstream-skipped": 2,
             "reference-unqualified": 1
           }
@@ -13588,7 +13620,7 @@
         {
           "path": "packages/mermaid/src/diagrams/treeView/parser.spec.ts",
           "counts": {
-            "trident-blocked": 33
+            "unsupported": 33
           }
         },
         {
@@ -13600,7 +13632,7 @@
         {
           "path": "packages/mermaid/src/diagrams/usecase/usecase-colorIndex.spec.ts",
           "counts": {
-            "trident-blocked": 6
+            "unsupported": 6
           }
         },
         {
@@ -13612,7 +13644,7 @@
         {
           "path": "packages/mermaid/src/diagrams/usecase/usecase.parser.spec.ts",
           "counts": {
-            "trident-blocked": 65,
+            "unsupported": 65,
             "reference-unqualified": 1,
             "upstream-skipped": 13
           }
@@ -13620,7 +13652,8 @@
         {
           "path": "packages/mermaid/src/diagrams/usecase/usecase.spec.ts",
           "counts": {
-            "trident-blocked": 33,
+            "unsupported": 31,
+            "trident-blocked": 2,
             "reference-unqualified": 1,
             "upstream-skipped": 5
           }
@@ -13671,7 +13704,7 @@
         {
           "path": "packages/mermaid/src/diagrams/wardley/wardleyParser.spec.ts",
           "counts": {
-            "trident-blocked": 20
+            "unsupported": 20
           }
         },
         {
@@ -13767,179 +13800,178 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-attachment-mapping.spec.ts",
           "counts": {
-            "trident-blocked": 8
+            "unsupported": 8
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-blank-line-fold.spec.ts",
           "counts": {
-            "trident-blocked": 6
+            "unsupported": 6
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-comments.spec.ts",
           "counts": {
-            "trident-blocked": 13
+            "unsupported": 13
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-containment-cycle.spec.ts",
           "counts": {
-            "trident-blocked": 8
+            "unsupported": 8
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-edge-instruction.spec.ts",
           "counts": {
-            "trident-blocked": 4
+            "unsupported": 4
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-edge-semantic.spec.ts",
           "counts": {
-            "trident-blocked": 8
+            "unsupported": 8
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-empty-metadata.spec.ts",
           "counts": {
-            "trident-blocked": 8
+            "unsupported": 8
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flow-metadata.spec.ts",
           "counts": {
-            "trident-blocked": 4
+            "unsupported": 4
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flow-self-reference.spec.ts",
           "counts": {
-            "trident-blocked": 7
+            "unsupported": 7
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flowchart-parity.spec.ts",
           "counts": {
             "reference-unqualified": 6,
-            "trident-blocked": 2
+            "unsupported": 2
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-global.spec.ts",
           "counts": {
-            "trident-blocked": 10
+            "unsupported": 10
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-inline-metadata-mapping.spec.ts",
           "counts": {
-            "trident-blocked": 4
+            "unsupported": 4
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "trident-blocked": 12,
-            "unsupported": 2
+            "trident-blocked": 2,
+            "unsupported": 12
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts",
           "counts": {
-            "trident-blocked": 11
+            "unsupported": 11
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-prototype-keys.spec.ts",
           "counts": {
-            "trident-blocked": 4
+            "unsupported": 4
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-trailing-comma.spec.ts",
           "counts": {
-            "trident-blocked": 11
+            "unsupported": 11
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-subgraph-span.spec.ts",
           "counts": {
-            "trident-blocked": 5
+            "unsupported": 5
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-tool-validators.spec.ts",
           "counts": {
-            "trident-blocked": 9
+            "unsupported": 9
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts",
           "counts": {
-            "trident-blocked": 6,
-            "unsupported": 2
+            "unsupported": 8
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts",
           "counts": {
-            "trident-blocked": 31
+            "unsupported": 31
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/block/parser/block.spec.ts",
           "counts": {
             "reference-unqualified": 24,
-            "trident-blocked": 2
+            "unsupported": 2
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
           "counts": {
-            "trident-blocked": 7
+            "unsupported": 7
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Component.spec.ts",
           "counts": {
-            "trident-blocked": 12
+            "unsupported": 12
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Container.spec.ts",
           "counts": {
-            "trident-blocked": 48
+            "unsupported": 48
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Diagram.spec.ts",
           "counts": {
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4NamedAttributes.spec.ts",
           "counts": {
-            "trident-blocked": 42
+            "unsupported": 42
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Person.spec.ts",
           "counts": {
-            "trident-blocked": 8
+            "unsupported": 8
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4PersonExt.spec.ts",
           "counts": {
-            "trident-blocked": 7
+            "unsupported": 7
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4System.spec.ts",
           "counts": {
-            "trident-blocked": 42
+            "unsupported": 42
           }
         },
         {
@@ -13951,10 +13983,11 @@
         {
           "path": "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js",
           "counts": {
-            "failed": 582,
+            "failed": 575,
             "upstream-skipped": 1,
-            "passed": 32,
-            "trident-blocked": 19
+            "unsupported": 2,
+            "passed": 35,
+            "trident-blocked": 21
           }
         },
         {
@@ -14069,7 +14102,8 @@
         {
           "path": "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js",
           "counts": {
-            "trident-blocked": 28
+            "unsupported": 25,
+            "trident-blocked": 3
           }
         },
         {
@@ -14082,32 +14116,33 @@
           "path": "packages/mermaid/src/diagrams/railroad/parser/abnfDiagram.spec.ts",
           "counts": {
             "reference-unqualified": 11,
-            "trident-blocked": 1
+            "unsupported": 1
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/railroad/parser/ebnfDiagram.spec.ts",
           "counts": {
-            "trident-blocked": 14
+            "unsupported": 14
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/railroad/parser/pegDiagram.spec.ts",
           "counts": {
             "reference-unqualified": 13,
-            "trident-blocked": 1
+            "unsupported": 1
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/railroad/parser/railroadDiagram.spec.ts",
           "counts": {
-            "trident-blocked": 26
+            "unsupported": 26
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/requirement/parser/requirementDiagram.spec.js",
           "counts": {
-            "trident-blocked": 43
+            "trident-blocked": 22,
+            "unsupported": 21
           }
         },
         {
@@ -14150,13 +14185,13 @@
         {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
-            "trident-blocked": 7
+            "unsupported": 7
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
-            "trident-blocked": 17
+            "unsupported": 17
           }
         },
         {
@@ -14681,33 +14716,25 @@
       ],
       "gapReasons": {
         "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
-        "Native parser/schema adapter is unavailable for architecture": 47,
-        "Native parser/schema adapter is unavailable for gitgraph": 89,
-        "Native parser/schema adapter is unavailable for info": 12,
-        "Native parser/schema adapter is unavailable for packet": 23,
-        "Native parser/schema adapter is unavailable for pie": 45,
-        "Native parser/schema adapter is unavailable for radar": 80,
-        "Native parser/schema adapter is unavailable for railroad": 48,
-        "Native parser/schema adapter is unavailable for treeview": 61,
-        "Native parser/schema adapter is unavailable for treemap": 17,
-        "Native parser/schema adapter is unavailable for agentflow": 198,
         "architecture.db.getConfigField; No candidate operation was exercised by this test": 2,
         "Error: TRIDENT_ADAPTER_GAP: Native host configuration setter is not bound": 2,
-        "Native parser/schema adapter is unavailable for block": 6,
+        "class.cssClasses": 5,
+        "class.styles": 1,
+        "class.parent": 3,
+        "class.type": 1,
         "class.db.getData": 1,
         "class.db.getAccTitle": 2,
-        "class.db.getNote": 196,
+        "class.haveCallback": 1,
+        "class.tooltip": 1,
+        "class.link": 5,
         "class.db.getDirection": 1,
+        "class member.getDisplayDetails": 7,
         "No candidate operation was exercised by this test": 34,
+        "class member.id": 2,
         "class.db.getNamespace": 2,
-        "Native parser/schema adapter is unavailable for cynefin": 15,
-        "Native parser/schema adapter is unavailable for eventmodeling": 9,
         "flowchart.db.exists; No candidate operation was exercised by this test": 2,
         "flowchart.db.getData": 29,
         "gitgraph.db.getConfig; No candidate operation was exercised by this test": 5,
-        "Native parser/schema adapter is unavailable for ishikawa": 3,
-        "Native parser/schema adapter is unavailable for kanban": 30,
-        "Native parser/schema adapter is unavailable for mindmap": 26,
         "mindmap.db.getData; No candidate operation was exercised by this test": 1,
         "railroad.db.getRule; No candidate operation was exercised by this test": 1,
         "sequence.db.getActor": 5,
@@ -14735,26 +14762,25 @@
         "treeview.db.getRoot; No candidate operation was exercised by this test": 1,
         "treeview.db.getCount; No candidate operation was exercised by this test": 1,
         "treeview.db.getConfig; No candidate operation was exercised by this test": 1,
-        "Native parser/schema adapter is unavailable for usecase": 37,
-        "Unavailable imported value used by original test: getAccDescription (usecase.db.getAccDescription); Unavailable imported value used by original test: getAccTitl": 65,
         "usecase.db.getActor; No candidate operation was exercised by this test": 1,
         "usecase.db.getUseCase; No candidate operation was exercised by this test": 1,
         "usecase.db.createModel; No candidate operation was exercised by this test": 3,
-        "Native parser/schema adapter is unavailable for wardley": 20,
         "agentflow.db.preserveCommentsWhenParsing; agentflow.db.preserveCommentsWhenParsing.constructor; agentflow.db.preserveCommentsWhenParsing.Symbol(Symbol.toStringT": 1,
         "agentflow.db.getElementMappings; No candidate operation was exercised by this test": 1,
-        "Native parser/schema adapter is unavailable for cN": 169,
+        "er.db.Cardinality; er.db.Cardinality.ZERO_OR_MORE; er.db.Cardinality.ZERO_OR_MORE.constructor; er.db.Cardinality.ZERO_OR_MORE.Symbol(Symbol.toStringTag); er.db.": 4,
         "er.db.getAccTitle": 2,
-        "er.db.getEntity": 13,
+        "er.db.Cardinality; er.db.Cardinality.ONE_OR_MORE; er.db.Cardinality.ONE_OR_MORE.constructor; er.db.Cardinality.ONE_OR_MORE.Symbol(Symbol.toStringTag); er.db.Car": 3,
+        "er.db.Cardinality; er.db.Cardinality.ONLY_ONE; er.db.Cardinality.ONLY_ONE.constructor; er.db.Cardinality.ONLY_ONE.Symbol(Symbol.toStringTag); er.db.Cardinality.": 3,
+        "er.db.Cardinality; er.db.Cardinality.ZERO_OR_ONE; er.db.Cardinality.ZERO_OR_ONE.constructor; er.db.Cardinality.ZERO_OR_ONE.Symbol(Symbol.toStringTag); er.db.Car": 3,
+        "er.db.Identification; er.db.Identification.IDENTIFYING; er.db.Identification.IDENTIFYING.constructor; er.db.Identification.IDENTIFYING.Symbol(Symbol.toStringTag": 1,
+        "er.db.Identification; er.db.Identification.NON_IDENTIFYING; er.db.Identification.NON_IDENTIFYING.constructor; er.db.Identification.NON_IDENTIFYING.Symbol(Symbol": 1,
         "er.db.getClasses": 2,
         "er.db.getSubGraphs": 18,
         "Unmapped native flowchart schema: length": 1,
         "flowchart.db.getVertices; No candidate operation was exercised by this test": 14,
         "Unmapped native flowchart schema: classes": 1,
         "flowchart.db.getAccTitle": 2,
-        "Native parser/schema adapter is unavailable for gantt": 25,
         "requirement.db.RiskLevel; requirement.db.RiskLevel.HIGH_RISK; requirement.db.VerifyType; requirement.db.VerifyType.VERIFY_ANALYSIS; requirement.db.RiskLevel.HIG": 3,
-        "Native parser/schema adapter is unavailable for requirement": 21,
         "requirement.db.Relationships; requirement.db.Relationships.CONTAINS; requirement.db.Relationships.CONTAINS.Symbol(Symbol.toPrimitive); No candidate operation wa": 2,
         "requirement.db.RequirementType; requirement.db.RequirementType.REQUIREMENT; requirement.db.RiskLevel; requirement.db.RiskLevel.HIGH_RISK; requirement.db.VerifyT": 1,
         "requirement.db.RequirementType; requirement.db.RequirementType.FUNCTIONAL_REQUIREMENT; requirement.db.RiskLevel; requirement.db.RiskLevel.HIGH_RISK; requirement": 1,
@@ -14772,9 +14798,7 @@
         "requirement.db.Relationships; requirement.db.Relationships.VERIFIES; requirement.db.Relationships.VERIFIES.Symbol(Symbol.toPrimitive); No candidate operation wa": 1,
         "requirement.db.Relationships; requirement.db.Relationships.REFINES; requirement.db.Relationships.REFINES.Symbol(Symbol.toPrimitive); No candidate operation was ": 1,
         "requirement.db.Relationships; requirement.db.Relationships.TRACES; requirement.db.Relationships.TRACES.Symbol(Symbol.toPrimitive); No candidate operation was ex": 1,
-        "state.db.getClasses": 9,
-        "Native parser/schema adapter is unavailable for journey": 7,
-        "Native parser/schema adapter is unavailable for venn": 17
+        "state.db.getClasses": 9
       }
     },
     {
@@ -56159,6 +56183,15 @@
       }
     }
   ],
-  "updatedAt": "2026-11-04T14:39:23.902Z",
-  "collectedThrough": "2026-11-04T14:39:23.902Z"
+  "updatedAt": "2026-11-04T17:43:50.336Z",
+  "collectedThrough": "2026-11-04T17:43:50.336Z",
+  "partialReruns": [
+    {
+      "projects": [
+        "Dicklesworthstone/frankenmermaid",
+        "lukilabs/beautiful-mermaid"
+      ],
+      "collectedThrough": "2026-11-04T17:43:50.336Z"
+    }
+  ]
 }

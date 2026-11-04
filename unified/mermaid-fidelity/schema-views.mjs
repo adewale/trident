@@ -285,6 +285,25 @@ CLASS['evangwt/xmermaid'] = raw => ({
   relationsGap: 'XMermaid normalizes class relations child -> parent, so the left-hand class (id1) is not recorded',
   absent: { class: { members: "XMermaid keeps class members and methods as one display list", methods: "XMermaid keeps class members and methods as one display list" } },
 })
+// Frankenmermaid class IR: class_meta attributes/methods, a stereotype enum and generics;
+// relation kinds name the marker and its side (Inheritance = <|--, InheritanceReverse =
+// --|>). A dotted realization (..|>) is also InheritanceReverse, so no line style is
+// claimed for inheritance, composition or aggregation.
+const FRANKEN_RELATION = { Inheritance: [1, 'from'], InheritanceReverse: [1, 'to'], Composition: [2, 'from'], CompositionReverse: [2, 'to'], Aggregation: [0, 'from'], AggregationReverse: [0, 'to'], Arrow: [3, 'to', 0], DottedArrow: [3, 'to', 1], Line: ['none', 'none', 0], DottedLine: ['none', 'none', 1] }
+CLASS['Dicklesworthstone/frankenmermaid'] = ir => ({
+  classes: () => ir.nodes.map(node => [node.id, { label: node.id, annotations: node.class_meta?.stereotype ? [String(node.class_meta.stereotype).toLowerCase()] : [], members: node.class_meta?.attributes ?? [], methods: node.class_meta?.methods ?? [], ...(node.class_meta?.generics?.length ? { type: node.class_meta.generics.join(',') } : {}) }]),
+  relations: () =>
+    ir.edges.map(edge => {
+      const [code, side, line] = FRANKEN_RELATION[edge.arrow] ?? []
+      const extra = { relationTitle1: card(edge.extras?.source_cardinality), relationTitle2: card(edge.extras?.target_cardinality), ...(frankenLabel(ir, edge.label) ? { title: frankenLabel(ir, edge.label) } : {}) }
+      const ids = { id1: frankenNodes(ir)[edge.from?.Node], id2: frankenNodes(ir)[edge.to?.Node] }
+      if (code === undefined) return { ...ids, ...extra }
+      const relation = side === 'none' ? { type1: 'none', type2: 'none', lineType: line } : { type1: side === 'from' ? code : 'none', type2: side === 'to' ? code : 'none', ...(line !== undefined ? { lineType: line } : {}) }
+      if (line === undefined) Object.defineProperty(relation, LINE_ABSENT, { value: "Frankenmermaid's relation kind does not record the line style for this marker" })
+      return { ...ids, relation, ...extra }
+    }),
+  absent: {},
+})
 function dartClasses(raw) {
   return {
     classes: () => entriesOf(raw.classes).map(([id, item]) => [id, { label: item.label, annotations: item.annotations ?? [], members: item.attributes ?? [], methods: item.methods ?? [], styles: styleStrings(item.styles), ...(item.link ? { link: item.link } : {}) }]),
@@ -314,6 +333,7 @@ const NO_CLASS_NOTES = {
   'lukilabs/beautiful-mermaid': "beautiful-mermaid's class model keeps no notes",
 }
 function classNotes(project, raw, hooks) {
+  if (project === 'Dicklesworthstone/frankenmermaid') raw = { notes: raw.state_notes ?? [] }
   if (NO_CLASS_NOTES[project]) {
     const reason = NO_CLASS_NOTES[project]
     return { getNote: () => hooks.unsupported(reason), getNotes: () => hooks.unsupported(reason) }
@@ -405,6 +425,21 @@ ER['evangwt/xmermaid'] = raw => ({
   entities: () => raw.entities.map(entity => [entity.name, { label: entity.name, attributes: (entity.attributes ?? []).map(a => ({ type: a.kind, name: a.name, keys: a.keys ?? [], comment: a.comment ?? '' })) }]),
   relationships: () => raw.relationships.map(rel => ({ entityA: rel.from, entityB: rel.to, roleA: rel.label ?? '', relSpec: { cardA: cardWord(rel.to_cardinality), cardB: cardWord(rel.from_cardinality), relType: identifying(rel.non_identifying === undefined ? undefined : !rel.non_identifying) } })),
   absent: { entity: { alias: "XMermaid's ER entity model keeps no alias" } },
+})
+// Frankenmermaid 0.4.0 IR (Rust/WASM parse()): entity members carry data_type, name, keys
+// (Pk/Fk/Uk) and comment; each relationship keeps its normalized crow's-foot notation
+// (er_notation, e.g. "||--o{") and a label index.
+const frankenNodes = ir => ir.nodes.map(node => node.id)
+const frankenLabel = (ir, index) => (typeof index === 'number' ? ir.labels[index]?.text : undefined)
+ER['Dicklesworthstone/frankenmermaid'] = ir => ({
+  entities: () => ir.nodes.map(node => [node.id, { label: node.id, attributes: (node.members ?? []).map(m => ({ type: m.data_type, name: m.name, keys: (m.keys ?? []).map(key => String(key).toUpperCase()), comment: m.comment ?? '' })) }]),
+  relationships: () =>
+    ir.edges.map(edge => {
+      const notation = edge.extras?.er_notation ?? ''
+      const line = notation.slice(2, 4)
+      return { entityA: frankenNodes(ir)[edge.from?.Node], entityB: frankenNodes(ir)[edge.to?.Node], roleA: frankenLabel(ir, edge.label) ?? '', relSpec: { cardA: CARD_SYMBOL[notation.slice(4, 6)], cardB: CARD_SYMBOL[notation.slice(0, 2)], relType: identifying(line === '--' ? true : line === '..' ? false : undefined) } }
+    }),
+  absent: {},
 })
 function dartEr(raw) {
   return {
