@@ -889,6 +889,28 @@ const dartSequence = (raw, hooks) => {
 SEQUENCE['orestesgaolin/mermaid'] = dartSequence
 SEQUENCE['pub:mermaid_flutter'] = dartSequence
 
+// Sequence participants. Mermaid's getActors() is a Map in declaration order whose
+// records link to their neighbours (prevActor / nextActor); description is the alias, or
+// the id when none was given.
+const ACTOR_FIELDS = ['name', 'description', 'type', 'wrap', 'links', 'properties', 'prevActor', 'nextActor', 'box', 'actorCnt']
+function actorsView(list, absent, hooks) {
+  const actors = () => new Map(list().map(([id, label], index, all) => [id, record({ name: id, description: label, prevActor: all[index - 1]?.[0], nextActor: all[index + 1]?.[0] }, 'actor', ACTOR_FIELDS, absent, hooks)]))
+  return { getActors: actors, getActor: id => actors().get(id), getActorKeys: () => list().map(([id]) => id) }
+}
+const indexedLabels = raw => entriesOf(raw.index).sort((a, b) => a[1] - b[1]).map(([id, index]) => [id, raw.labels[index]])
+const ACTORS = {
+  // Grok, its Go port MermaidText and Loom: an id -> index table over one label list.
+  'xai-org/grok-build': raw => ({ list: () => indexedLabels(raw), name: 'Grok' }),
+  'spacedock-dev/mermaidtext': raw => ({ list: () => indexedLabels(raw), name: 'MermaidText' }),
+  'Yassimba/loom': raw => ({ list: () => indexedLabels(raw), name: 'Loom' }),
+  // mermaid-rs-renderer: sequence_participants in order, each a node whose shape is the
+  // same ActorBox for a participant and an actor.
+  '1jehuang/mermaid-rs-renderer': raw => ({ list: () => raw.sequence_participants.map(id => [id, raw.nodes[id]?.label ?? id]), name: 'mermaid-rs-renderer' }),
+  // mermaid-ascii pkg/sequence: Participants with ID, Label and Index.
+  'AlexanderGrooff/mermaid-ascii': raw => ({ list: () => [...raw.Participants].sort((a, b) => a.Index - b.Index).map(p => [p.ID, p.Label]), name: 'mermaid-ascii' }),
+}
+const actorAbsent = name => ({ type: `${name} records a participant and an actor the same way`, wrap: `${name} keeps no text wrapping per participant`, links: `${name} keeps no participant links`, properties: `${name} keeps no participant properties`, box: `${name}'s participant model keeps no boxes` })
+
 // Pele, Bezel and Latias94/merman keep Mermaid's own treeView and kanban records.
 const deepUnset = value => (Array.isArray(value) ? value.map(deepUnset) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, item === null ? undefined : deepUnset(item)])) : value)
 const PORTS = ['obsidianmd/pele', 'crabtalk/bezel', 'Latias94/merman']
@@ -998,7 +1020,10 @@ export function nativeSchemaView(project, family, raw, hooks) {
   if (family === 'c4' && C4[project]) return c4View(C4[project](raw, hooks), hooks)
   if (family === 'treeview' && PORTS.includes(project) && raw.root) return { getRoot: () => deepUnset(raw.root), ...(typeof raw.count === 'number' ? { getCount: () => raw.count } : {}) }
   if (family === 'kanban' && PORTS.includes(project) && Array.isArray(raw.sections)) return kanbanView(project, raw, hooks)
-  if (family === 'sequence' && SEQUENCE[project]) { const model = SEQUENCE[project](raw, hooks); return sequenceView(model.entries, model.absent, hooks) }
+  if (family === 'sequence' && (SEQUENCE[project] || ACTORS[project])) {
+    const model = SEQUENCE[project]?.(raw, hooks), actors = ACTORS[project]?.(raw)
+    return { ...(actors ? actorsView(actors.list, actorAbsent(actors.name), hooks) : {}), ...(model ? sequenceView(model.entries, model.absent, hooks) : {}) }
+  }
   return undefined
 }
 
