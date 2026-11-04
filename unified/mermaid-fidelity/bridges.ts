@@ -11,7 +11,8 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 
-export interface ParserBridge { command: string[]; version: string; description: string }
+/** persistent: the bridge also answers one request per line under TRIDENT_BRIDGE_SERVE=1. */
+export interface ParserBridge { command: string[]; version: string; description: string; persistent?: boolean; cwd?: string }
 /** Returns the bridge for a prepared peer, building it into outDir if needed, or undefined when it does not apply. */
 export type Resolver = (peer: any, outDir: string) => Promise<ParserBridge | undefined>
 

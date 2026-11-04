@@ -4,12 +4,20 @@ import { spawnSync } from 'node:child_process'
 import { resolve, dirname, join } from 'node:path'
 import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
-import ts from 'typescript'
+import type TypeScript from 'typescript'
 import { projectPublicDatabase } from '../upstream-fidelity-projection.mjs'
+import { persistentBridge } from './bridge-client.mjs'
 import { nativeAstView } from './schema-views.mjs'
 
 const job = JSON.parse(readFileSync(process.env.TRIDENT_FIDELITY_JOB!, 'utf8'))
+// Parallel test files run in separate worker processes; each appends to its own part.
+const auditFile = (job.workers ?? 1) > 1 ? `${job.audit}.${process.pid}` : job.audit
 const referenceRequire = createRequire(join(job.reference, 'package.json'))
+// The TypeScript compiler is large and every test file loads this module afresh, so it
+// is required only when a file actually imports a value Trident cannot bind.
+let typescript: typeof TypeScript | undefined
+const tsCompiler = () => (typescript ??= createRequire(join(job.runtime, 'package.json'))('typescript') as typeof TypeScript)
+let bridgeClient: ReturnType<typeof persistentBridge> | undefined
 let nativeLoadGap: string | undefined,
   useBunParser = false
 let api: any,
@@ -148,11 +156,17 @@ export async function initialize(file?: string) {
 }
 /** Source text without comments: a commented-out call does not use an import. */
 function withoutComments(text: string) {
+  const ts = tsCompiler()
   const scanner = ts.createScanner(ts.ScriptTarget.Latest, false, ts.LanguageVariant.Standard, text)
   let out = ''
   for (let token = scanner.scan(); token !== ts.SyntaxKind.EndOfFileToken; token = scanner.scan())
     if (token !== ts.SyntaxKind.SingleLineCommentTrivia && token !== ts.SyntaxKind.MultiLineCommentTrivia) out += scanner.getTokenText()
   return out
+}
+/** End of a test file: stop its persistent bridge process. */
+export function shutdown() {
+  bridgeClient?.close()
+  bridgeClient = undefined
 }
 export function begin(task: any) {
   const flatten = (node: any): any[] => (node.tasks ? node.tasks.flatMap(flatten) : node.type === 'test' ? [node] : [])
@@ -169,6 +183,7 @@ export function begin(task: any) {
     const title = String(task.name)
     const selected = file.declarations.filter((d: any) => d.name === title || title.startsWith(d.name.split(/%[sdifjo#]|\$\w+/)[0]))
     const text = selected.length ? selected.map((d: any) => lines.slice(d.line - 1, d.endLine).join('\n')).join('\n') : lines.join('\n')
+    const ts = tsCompiler()
     const ast = ts.createSourceFile('test.ts', lines.join('\n'), ts.ScriptTarget.Latest, true)
     const imports = ast.statements.filter(ts.isImportDeclaration).map(n => ({ start: ast.getLineAndCharacterOfPosition(n.getStart(ast)).line, end: ast.getLineAndCharacterOfPosition(n.end).line }))
     const helpers = lines.filter((_line, i) => !imports.some(r => i >= r.start && i <= r.end) && !file.declarations.some((d: any) => i >= d.line - 1 && i < d.endLine)).join('\n')
@@ -179,7 +194,7 @@ export function begin(task: any) {
 export function finish(task: any) {
   if (!active) return
   if (!active.calls && !active.unsupported.length) active.gaps.add('No candidate operation was exercised by this test')
-  appendFileSync(job.audit, JSON.stringify({ ...active, gaps: [...active.gaps] }) + '\n')
+  appendFileSync(auditFile, JSON.stringify({ ...active, gaps: [...active.gaps] }) + '\n')
   const reason = [...active.gaps].join('; ')
   active = undefined
   if (reason && task.result?.state !== 'skip') throw new AdapterGap('TRIDENT_ADAPTER_GAP: ' + reason)
@@ -216,6 +231,14 @@ function bridgeReply(stdout: string, family: string, label: string) {
 }
 function nativeParse(family: string, source: string) {
   active && active.calls++
+  if (job.target.tool === 'bridge' && job.target.bridge.persistent) {
+    // The same bridge, loaded once per test file and answering one request per line.
+    const [command, ...args] = job.target.bridge.command
+    bridgeClient ??= persistentBridge(command, args, job.target.bridge.cwd, 10_000)
+    const reply = bridgeClient.call({ family, source })
+    if (reply.failure) return gap('Parser bridge failed: ' + reply.failure)
+    return bridgeReply(reply.line, family, 'Parser bridge')
+  }
   if (job.target.tool === 'bridge') {
     // The project's own parser, in its own language, behind a per-call process.
     const [command, ...args] = job.target.bridge.command

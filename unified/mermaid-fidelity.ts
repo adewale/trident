@@ -1,5 +1,5 @@
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
-import { resolve, join, dirname, relative } from 'node:path'
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'node:fs'
+import { resolve, join, dirname, relative, basename } from 'node:path'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { assertCurrentBenchmarkArtifact, latestBenchmarkRenderingArtifact } from './benchmark-versions.ts'
@@ -13,10 +13,23 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
   const tests = (report: any) => (report?.testResults ?? []).flatMap((f: any) => f.assertionResults.map((t: any, index: number) => ({ ...t, file: f.name, index })))
   const controls = tests(reference),
     attempted = tests(candidate)
+  // Index every report and audit by (file, index, full name): the first entry wins, as find() did.
+  const index = (rows: any[], name: (row: any) => string) => {
+    const map = new Map<string, any>()
+    for (const row of rows) {
+      const key = `${row.file}\u0000${row.index}\u0000${name(row)}`
+      if (!map.has(key)) map.set(key, row)
+    }
+    return map
+  }
+  const attemptedBy = index(attempted, t => t.fullName),
+    auditBy = index(audit, t => t.name.replaceAll(' > ', ' ')),
+    referenceBy = referenceAudit && index(referenceAudit, t => t.name.replaceAll(' > ', ' '))
   return controls.map((control: any) => {
-    const result = attempted.find((t: any) => t.file === control.file && t.index === control.index && t.fullName === control.fullName)
-    const evidence = audit.find((t: any) => t.file === control.file && t.index === control.index && t.name.replaceAll(' > ', ' ') === control.fullName)
-    const referenceEvidence = referenceAudit?.find((t: any) => t.file === control.file && t.index === control.index && t.name.replaceAll(' > ', ' ') === control.fullName)
+    const key = `${control.file}\u0000${control.index}\u0000${control.fullName}`
+    const result = attemptedBy.get(key)
+    const evidence = auditBy.get(key)
+    const referenceEvidence = referenceBy?.get(key)
     const controlGap = referenceAudit && (!referenceEvidence || referenceEvidence.gaps.length || !referenceEvidence.calls)
     const unmappedMemberCall = result?.failureMessages?.some(
       (message: string) =>
@@ -60,13 +73,13 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
 }
 export async function main(args = process.argv.slice(2)) {
   if (args.includes('--help')) {
-    console.log('mermaid:fidelity --upstream DIR --reference DIR --runtime DIR --prepared FILE --out FRESH_DIR [--projects IDS] [--filter PATH_FRAGMENT] [--reuse-reference PRIOR_OUT] [--timeout-minutes N]\nExecute original pinned tests in Vitest, once per candidate and control. --reuse-reference reads an earlier complete control run for the same selection instead of repeating it.')
+    console.log('mermaid:fidelity --upstream DIR --reference DIR --runtime DIR --prepared FILE --out FRESH_DIR [--projects IDS] [--filter PATH_FRAGMENT] [--reuse-reference PRIOR_OUT] [--timeout-minutes N] [--workers N]\nExecute original pinned tests in Vitest, once per candidate and control. --reuse-reference reads an earlier complete control run for the same selection instead of repeating it. --workers runs that many test files at once (default 1); tests inside a file always run one at a time.')
     return
   }
   assertBenchmarkExecutionAllowed()
   const opts = new Map<string, string>()
   for (let i = 0; i < args.length; i += 2) {
-    if (!['--upstream', '--reference', '--runtime', '--prepared', '--out', '--projects', '--filter', '--catalog', '--reuse-reference', '--timeout-minutes'].includes(args[i]!) || !args[i + 1]) throw Error('Invalid fidelity arguments')
+    if (!['--upstream', '--reference', '--runtime', '--prepared', '--out', '--projects', '--filter', '--catalog', '--reuse-reference', '--timeout-minutes', '--workers'].includes(args[i]!) || !args[i + 1]) throw Error('Invalid fidelity arguments')
     opts.set(args[i]!, args[i + 1]!)
   }
   for (const key of ['--upstream', '--reference', '--runtime', '--prepared', '--out']) if (!opts.has(key)) throw Error('Missing ' + key)
@@ -140,6 +153,15 @@ export async function main(args = process.argv.slice(2)) {
           .filter(Boolean)
           .map(s => JSON.parse(s))
       : []
+  const workers = Number(opts.get('--workers') ?? 1)
+  if (!Number.isInteger(workers) || workers < 1) throw Error('--workers must be a positive integer')
+  // Parallel files append to one audit part per worker process; recombine them.
+  const combineAudit = (path: string) => {
+    const parts = readdirSync(dirname(path)).filter(name => name.startsWith(basename(path) + '.')).map(name => join(dirname(path), name))
+    if (!parts.length) return
+    writeFileSync(path, parts.map(part => readFileSync(part, 'utf8')).join(''), { flag: 'a' })
+    for (const part of parts) rmSync(part)
+  }
   const collected: any[] = []
   const timeout = 60_000 * Number(opts.get('--timeout-minutes') ?? 60)
   if (!(timeout > 0)) throw Error('--timeout-minutes must be positive')
@@ -156,7 +178,7 @@ export async function main(args = process.argv.slice(2)) {
   for (const target of targets) {
     const directory = join(out, encodeURIComponent(target.project))
     mkdirSync(directory)
-    const job = { upstream, reference, runtime, files, target, results: join(directory, 'vitest.json'), audit: join(directory, 'audit.jsonl') }
+    const job = { upstream, reference, runtime, files, target, workers, results: join(directory, 'vitest.json'), audit: join(directory, 'audit.jsonl') }
     const jobPath = join(directory, 'job.json')
     writeFileSync(jobPath, JSON.stringify(job))
     console.log('Original Vitest tests:', target.project, files.length, 'files')
@@ -165,6 +187,7 @@ export async function main(args = process.argv.slice(2)) {
     const child = spawnSync('node', [cli, 'run', '--config', join(import.meta.dirname, 'mermaid-fidelity/config.ts')], { cwd: upstream, env: { ...process.env, CI: 'true', TRIDENT_FIDELITY_JOB: jobPath }, encoding: 'utf8', timeout, maxBuffer: 8 * 1024 * 1024 })
     writeFileSync(join(directory, 'runner.log'), child.stdout + '\n' + child.stderr)
     if (child.error) writeFileSync(join(directory, 'runner-error.txt'), String(child.error))
+    combineAudit(job.audit)
     collected.push({ target, native: read(job.results), audit: audit(job.audit), exit: child.status })
     if (target.tool === 'mermaid' && !collected[0].native?.numTotalTests) {
       blocked.push(...targets.slice(1).map(t => ({ project: t.project, reason: 'Reference Vitest control did not collect; candidate collection withheld' })))

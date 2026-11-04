@@ -8,7 +8,7 @@
 import { existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { emit, request } from './common.mjs'
+import { serve } from './common.mjs'
 
 const load = path => import(pathToFileURL(path).href)
 
@@ -69,31 +69,26 @@ const PROJECTS = {
 const loaded = {}, lazy = {}
 
 const [key, location] = process.argv.slice(2)
-const { family, source } = request()
 let project
-try {
-  project = await PROJECTS[key](location)
-} catch (error) {
-  emit({ adapterGap: `${key} parser import failed: ` + String(error) })
-  process.exit(0)
-}
-const parse = project.families[family]
-if (!parse) {
-  emit({ unsupported: `${project.name} has no ${family} parser (it parses ${Object.keys(project.families).join(', ')})` })
-  process.exit(0)
-}
-if (typeof parse !== 'function') {
-  emit({ adapterGap: `${project.name} no longer exports its ${family} parser` })
-  process.exit(0)
-}
-try {
-  if (lazy[family]) await lazy[family]()
-  const value = parse(source)
-  if (value && typeof value.then === 'function') emit({ adapterGap: `${project.name}'s ${family} parser is asynchronous` })
-  else emit({ value })
-} catch (error) {
-  // A deliberate throw from the project's own parser is its syntax rejection; a
-  // runtime fault inside it (TypeError and the like) is not a classified refusal.
-  if (error instanceof TypeError || error instanceof ReferenceError || error instanceof RangeError) emit({ adapterGap: `${project.name} ${family} parser fault: ${String(error).slice(0, 300)}` })
-  else emit({ error: { name: !error?.name || error.name === 'Error' ? 'ParseError' : String(error.name), message: String(error?.message ?? error) } })
-}
+await serve(async (family, _source) => {
+  if (!project)
+    try {
+      project = await PROJECTS[key](location)
+    } catch (error) {
+      return { adapterGap: `${key} parser import failed: ` + String(error) }
+    }
+  const parse = project.families[family]
+  if (!parse) return { unsupported: `${project.name} has no ${family} parser (it parses ${Object.keys(project.families).join(', ')})` }
+  if (typeof parse !== 'function') return { adapterGap: `${project.name} no longer exports its ${family} parser` }
+  try {
+    if (lazy[family] && !loaded[family]) await lazy[family]()
+    const value = parse(_source)
+    if (value && typeof value.then === 'function') return { adapterGap: `${project.name}'s ${family} parser is asynchronous` }
+    return { value }
+  } catch (error) {
+    // A deliberate throw from the project's own parser is its syntax rejection; a
+    // runtime fault inside it (TypeError and the like) is not a classified refusal.
+    if (error instanceof TypeError || error instanceof ReferenceError || error instanceof RangeError) return { adapterGap: `${project.name} ${family} parser fault: ${String(error).slice(0, 300)}` }
+    return { error: { name: !error?.name || error.name === 'Error' ? 'ParseError' : String(error.name), message: String(error?.message ?? error) } }
+  }
+})

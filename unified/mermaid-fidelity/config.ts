@@ -69,8 +69,9 @@ export default {
     globals: true,
     environment: 'jsdom',
     setupFiles: [resolve(import.meta.dirname, 'setup.ts')],
-    fileParallelism: false,
-    maxWorkers: 1,
+    // Files are isolated from each other; tests inside a file still run one at a time.
+    fileParallelism: (job.workers ?? 1) > 1,
+    maxWorkers: job.workers ?? 1,
     maxConcurrency: 1,
     testTimeout: 5000,
     hookTimeout: 30000,

@@ -2,7 +2,7 @@
 
 termaid's parsers never raise on invalid input; whatever model they return is
 the observation. See ../bridges.ts for the reply protocol."""
-import dataclasses, enum, importlib, json, sys
+import dataclasses, enum, importlib, json, os, sys
 
 PARSERS = {
     'flowchart': ('flowchart', 'parse_flowchart'), 'state': ('statediagram', 'parse_state_diagram'),
@@ -30,8 +30,7 @@ def plain(value, seen):
         return value
     return str(value)
 
-def main():
-    request = json.loads(sys.stdin.read())
+def handle(request):
     family = request['family']
     if family not in PARSERS:
         return {'unsupported': 'termaid has no ' + family + ' parser'}
@@ -46,4 +45,12 @@ def main():
         return {'adapterGap': 'termaid parser raised (it is documented never to): ' + repr(error)}
     return {'value': plain(model, frozenset())}
 
-print(json.dumps(main()))
+# One request on stdin, or with TRIDENT_BRIDGE_SERVE=1 one per line, each reply
+# marked so library output on stdout cannot be mistaken for it (see common.mjs).
+if os.environ.get('TRIDENT_BRIDGE_SERVE') == '1':
+    for line in iter(sys.stdin.readline, ""):
+        if line.strip():
+            sys.stdout.write('\x01TRIDENT\x01' + json.dumps(handle(json.loads(line))) + '\n')
+            sys.stdout.flush()
+else:
+    print(json.dumps(handle(json.loads(sys.stdin.read()))))

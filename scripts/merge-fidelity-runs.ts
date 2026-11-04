@@ -2,11 +2,43 @@
 // published Fidelity result file. No tests are executed.
 //
 //   bun scripts/merge-fidelity-runs.ts --out FILE --catalog FROZEN_CATALOG [--blocked REASONS.json] RUN_DIR...
+//   bun scripts/merge-fidelity-runs.ts --out FILE --base PUBLISHED.json RUN_DIR...
 //
 // The first RUN_DIR must contain the Mermaid control; later directories must
 // have been collected with --reuse-reference pointing at it (or contain it).
+// With --base, only the projects in RUN_DIRs are replaced in a published result,
+// and only when their control run is the one the published result was scored
+// against (same pin, selection and reference outcome digest).
+import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
+
+/** Identity of one control run: every reference callback and its outcome. */
+export function referenceDigest(reference: any) {
+  if (!reference?.cases?.length) throw Error('The Mermaid control row has no per-callback outcomes')
+  const lines = reference.cases.map((c: any) => `${c.file}\u0000${c.name}\u0000${c.status}`).sort()
+  return createHash('sha256').update(lines.join('\n')).digest('hex')
+}
+
+/** Replace the re-run projects of a published result; every other row is kept unchanged. */
+export function mergeIntoPublished(published: any, runs: any[], extras: { catalog?: any } = {}) {
+  if (!published.referenceDigest) throw Error('The published result records no control digest; merge a full campaign first')
+  const fresh: any = mergeFidelityRuns(runs, extras)
+  for (const key of ['pin', 'selection', 'selectedFiles', 'referenceVersion', 'expandedCallbacks', 'referenceQualifiedCallbacks', 'referenceDigest'])
+    if (JSON.stringify(fresh[key]) !== JSON.stringify(published[key])) throw Error(`Re-run differs from the published result in ${key}; re-run against the published control`)
+  const replaced = new Set(fresh.results.map((r: any) => r.project).concat(fresh.blocked.map((r: any) => r.project)).filter((p: string) => p !== "mermaid-js/mermaid"))
+  const keep = (row: any) => !replaced.has(row.project)
+  const order = published.results.map((r: any) => r.project)
+  const results = [...published.results.filter(keep), ...fresh.results.filter((r: any) => r.project !== 'mermaid-js/mermaid')].sort((a: any, b: any) => (order.indexOf(a.project) + 1 || Infinity) - (order.indexOf(b.project) + 1 || Infinity))
+  return {
+    ...published,
+    blocked: [...published.blocked.filter(keep), ...fresh.blocked],
+    results,
+    updatedAt: [published.updatedAt, fresh.updatedAt].sort().at(-1),
+    collectedThrough: [published.collectedThrough, fresh.collectedThrough].sort().at(-1),
+    partialReruns: [...(published.partialReruns ?? []), { projects: [...replaced].sort(), collectedThrough: fresh.collectedThrough }],
+  }
+}
 
 export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?: any[] } = {}) {
   if (!runs.length) throw Error('Supply at least one Fidelity run')
@@ -59,6 +91,7 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
     referenceVersion: reference.version,
     expandedCallbacks: expanded,
     referenceQualifiedCallbacks: qualified,
+    referenceDigest: referenceDigest(reference.cases ? reference : runs.flatMap(run => run.results).find(row => row.project === 'mermaid-js/mermaid' && row.cases)),
     results: scored,
     updatedAt: runs.map(run => run.updatedAt).sort().at(-1),
     collectedThrough: runs.map(run => run.collectedThrough).sort().at(-1),
@@ -67,11 +100,12 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
 
 if (import.meta.main) {
   const args = process.argv.slice(2), take = (flag: string) => { const i = args.indexOf(flag); if (i < 0) return undefined; const [, value] = args.splice(i, 2); return value }
-  const out = take('--out'), catalogFile = take('--catalog'), blockedFile = take('--blocked')
-  if (!out || !args.length) throw Error('merge-fidelity-runs --out FILE [--catalog FROZEN_CATALOG] [--blocked UNMEASURED_REASONS.json] RUN_DIR...')
-  if (existsSync(out)) throw Error('Choose a fresh output file')
+  const out = take('--out'), catalogFile = take('--catalog'), blockedFile = take('--blocked'), baseFile = take('--base')
+  if (!out || !args.length) throw Error('merge-fidelity-runs --out FILE [--catalog FROZEN_CATALOG] [--blocked UNMEASURED_REASONS.json] [--base PUBLISHED.json] RUN_DIR...')
+  if (existsSync(out) && out !== baseFile) throw Error('Choose a fresh output file')
   const runs = args.map(dir => JSON.parse(readFileSync(join(dir, 'results.json'), 'utf8')))
   const catalog = catalogFile ? JSON.parse(readFileSync(catalogFile, 'utf8')) : undefined
   const blocked = blockedFile ? JSON.parse(readFileSync(blockedFile, 'utf8')) : undefined
-  writeFileSync(out, JSON.stringify(mergeFidelityRuns(runs, { catalog, blocked }), null, 2) + '\n')
+  const merged = baseFile ? mergeIntoPublished(JSON.parse(readFileSync(baseFile, 'utf8')), runs, { catalog }) : mergeFidelityRuns(runs, { catalog, blocked })
+  writeFileSync(out, JSON.stringify(merged, null, 2) + '\n')
 }
