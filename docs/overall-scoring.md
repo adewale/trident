@@ -24,7 +24,7 @@ measurements. Speed remains in the DaveBench tables, where boundaries are shown.
 assertions to pass for the candidate *and* for the pinned Mermaid control. A
 callback the control cannot pass is unpassable for everyone, including Mermaid.
 Keeping those callbacks in the denominator capped every project, Mermaid
-included, at the qualified share (2,894 of 5,302 at the current pin) and showed
+included, at the qualified share (2,894 of 5,302 when this was changed) and showed
 Mermaid's own tests as only 54.6% passed. Those callbacks are reference-adapter
 coverage work, reported beside the table, not shared unknowns.
 

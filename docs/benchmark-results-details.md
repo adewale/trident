@@ -95,18 +95,30 @@ version matches the one DaveBench and Drawing record.
 | Loom 0.10.0 | its module-private parsers, from an unchanged source copy with exports appended |
 | Ondine 0.0.3 | no parser exists: `render()` reports acceptance or rejection only |
 
-Three limits are the projects' own. Ondine exposes no model, so assertions about
-the parsed model stay unassessed for it. MermaidText's and Grok's parsers return
-nothing rather than an error, so they cannot reject input; such sources count as
-unsupported. Termaid's parsers never reject input either and return a partial model.
-Models are mapped to the databases the tests query by the same generic schema view
-used for every candidate; fields it does not map remain unassessed. Native enum
-spellings of Mermaid's shape names (`DIAMOND`, `DOUBLE_CIRCLE`) are matched
-case-insensitively rather than counted as failures.
+Three limits are the projects' own. Ondine exposes no model, so every assertion about
+the parsed model is an operation it does not offer (unsupported); only acceptance and
+rejection can pass. MermaidText's and Grok's parsers return nothing rather than an
+error, so they cannot reject input; such sources count as unsupported. Termaid's
+parsers never reject input either and return a partial model.
+
+**Reviewed schema views map each bridged model.** A view
+(`unified/mermaid-fidelity/schema-views.mjs`) reads one project's own model field by
+field and answers the Mermaid database getters the tests call: flowchart vertices,
+edges, subgraphs and direction; class members, relations and notes; ER entities,
+attributes and relationships; and the radar and info ASTs where a project's model can
+express them. Every mapping was checked against the project's type definitions or
+parser source: Mermaid's own vocabularies (shape names, edge types, strokes, ER
+cardinalities, class relation codes) are matched from each native spelling. A view
+never parses source text or re-splits a display string. A concept a native model does
+not carry at all — Grok's class notes, Loom's node styles, MermaidText's ER
+cardinalities, which it folds into a display label — is declared absent with its
+reason, and reading it is that project's unsupported operation. A field the tests read
+that no view maps stays a Trident gap. Projects without a reviewed view use the
+generic field-name projection.
 
 MermaidText is a declared Go port of the Grok renderer's `mermaid.rs`. Its Go bridge
 and Grok's Rust bridge were built independently and produced the same outcome for
-every one of the 5,459 expanded callbacks; only the wording of their unsupported
+every expanded callback; only the wording of their unsupported
 messages differs. Mermaid Dart and Mermaid Flutter share one bridge because Flutter
 calls `mermaid_core`'s parser unchanged, so their rows are identical by construction.
 
@@ -114,22 +126,48 @@ A produced drawing that could not be judged says **Not assessed**. No result is
 inferred from a project's identity or relationship to another renderer.
 
 The pinned tests frequently import Mermaid's parser and mutable diagram database,
-including getters and host configuration. A working renderer does not automatically
-provide those operations. The bridge invokes actual candidate parsers and preserves
-native data; it does not run Mermaid on their behalf or invent missing methods.
-Unavailable operations, unknown schemas and import/transport errors remain explicit
-per-test gaps.
+including getters and host configuration. A candidate's interface is its parser: source
+in, its own model out. Trident never runs Mermaid on a candidate's behalf or invents a
+missing method, so four kinds of operation are **unsupported candidate operations**, a
+known nonpass, as the portfolio definition requires: parsing a family the candidate
+does not parse; calling Mermaid's mutable database API (`addVertex`, `setDateFormat`,
+`parseDuration`); driving a caller-supplied database through the jison `yy` callback
+protocol (a test's own `mockDB`); and reading a concept the candidate's model does not
+carry. One of these in a test outranks any Trident gap in the same test, since no
+adapter work could make it pass. Two setup calls are bound as no-ops because they
+change nothing: re-selecting FlowDB's default `gen-2`, and resetting a configuration
+no test changed. Unknown schemas, host configuration a test changes, and import or
+transport errors remain explicit per-test gaps.
 
-**The reference path defines the scored population.** 5,459 callbacks expanded;
-2,422 were reference-unqualified and 143 upstream-skipped. Installing the
-`ajv` and `csstree-validator` test dependencies in the runtime let two more files
-expand (23 of the 316 selected files still do not); 52 files remain outside the core
-Vitest runner. Mermaid passes **2,894** callbacks through the reference adapter, and
-those are the scored population. The 2,422 it cannot pass mostly import Mermaid
-internals the public package does not expose (rendering helpers, theme internals,
-internal diagram registries). Nobody can pass them, so they are reported as
-reference-adapter coverage work instead of being counted as every participant's
-unknowns, which had capped Mermaid itself at 54.6% of its own tests.
+**The reference path defines the scored population.** The control is the public
+Mermaid 12.2.0 package behind the same import substitution the candidates get. On
+4 November 5,737 callbacks expanded: Mermaid passes **3,602**, the scored population;
+2,034 are reference-unqualified and 101 upstream-skipped. 15 of the 316 selected files
+do not load and 52 files remain outside the core Vitest runner.
+
+Most of the earlier unqualified callbacks were reference-adapter defects, now fixed:
+the adapter had no example diagram for the families added to Mermaid since its list was
+written (agentflow, railroad and its EBNF/ABNF/PEG variants, usecase, treeView,
+cynefin, venn, wardley, swimlanes; eventmodeling's header was misspelled);
+`addDiagrams`, `setLogLevel`, `Diagram.fromText`, diagram definition modules and
+Chevrotain parser modules were unbound; a test's own `vi.spyOn` mock was wrapped; and a
+commented-out `log.debug` call marked every test in its file as using the unavailable
+logger. The suite now runs from Mermaid's repository root on the locked runtime that
+`upstream:prepare` builds from Mermaid's own lockfile, as Mermaid's CI does. Together
+these raised the scored population from 2,894 to 3,602 and cut unloaded files from 23
+to 15 (`sequenceDiagram.spec.js`, 157 callbacks, now loads).
+
+The 2,034 callbacks Mermaid's public package still cannot pass test Mermaid's
+internals rather than its parse results: rendering, layout and drawing helpers (841);
+diagram-module internals such as lexers, member types and renderer state (537); host
+API, configuration, utilities and docs tooling (399); themes, palettes and styles
+(231); other (26). The 15 unloaded files fail at import on the same kind of internal
+(theme tables, ELK algorithm lists, Langium validators and value converters, the
+examples packages) or on Mermaid's own YAML-schema build plugin. Reaching them would
+mean running Mermaid's private source, which tests Mermaid's implementation rather
+than behaviour another implementation could match; no participant, Mermaid's public
+package included, can pass them. They are accounted for outside the scored
+population, as the portfolio definition allows, and reported beside the table.
 
 **Drawing Correctness checks labels.** A case passes when every label named by its
 reviewed source facts appears in the output and no raw Mermaid syntax is shown. SVG
