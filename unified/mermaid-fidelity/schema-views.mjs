@@ -206,6 +206,8 @@ const FLOWCHART = {
 // Class diagrams. Mermaid's ClassDB codes a relation end as AGGREGATION 0, EXTENSION 1,
 // COMPOSITION 2, DEPENDENCY 3, LOLLIPOP 4 or 'none', and a line as LINE 0 or DOTTED_LINE 1;
 // type1 is the marker at id1, the relation's left-hand class.
+// A view marks a relation whose native model carries no line style with this key and its reason.
+const LINE_ABSENT = Symbol('line style absent')
 const RELATION_TYPE = { AGGREGATION: 0, EXTENSION: 1, COMPOSITION: 2, DEPENDENCY: 3, LOLLIPOP: 4 }
 const LINE_TYPE = { LINE: 0, DOTTED_LINE: 1 }
 const END = { extension: 1, triangle: 1, '<|': 1, '|>': 1, composition: 2, diamondfill: 2, '*': 2, aggregation: 0, diamondopen: 0, o: 0, dependency: 3, arrow: 3, '<': 3, '>': 3, lollipop: 4, '()': 4, none: 'none', '': 'none' }
@@ -220,11 +222,17 @@ function classView(model, hooks) {
   const node = (id, fields) => record({ id, ...fields, ...(fields.members ? { members: fields.members.map(member) } : {}), ...(fields.methods ? { methods: fields.methods.map(member) } : {}) }, 'class', CLASS_FIELDS, absent.class ?? {}, hooks)
   const map = () => new Map(classes().map(([id, fields]) => [id, node(id, fields)]))
   const view = { getClasses: map, getClass: id => map().get(id), relationType: RELATION_TYPE, lineType: LINE_TYPE }
-  if (relations)
+  if (model.relationsGap) view.getRelations = () => hooks.unavailable(model.relationsGap)
+  else if (relations)
     view.getRelations = () =>
       relations().map(fields => {
-        const { type1, type2, lineType } = fields.relation
-        if (type1 === undefined || type2 === undefined || lineType === undefined) return hooks.unavailable('Unmapped native class relation marker')
+        const relation = fields.relation
+        if (relation) {
+          if (relation.type1 === undefined || relation.type2 === undefined) return hooks.unavailable('Unmapped native class relation marker')
+          const lineAbsent = relation[LINE_ABSENT]
+          if (relation.lineType === undefined && !lineAbsent) return hooks.unavailable('Unmapped native class relation line')
+          if (lineAbsent) fields = { ...fields, relation: record({ type1: relation.type1, type2: relation.type2 }, 'relation', ['type1', 'type2', 'lineType'], { lineType: lineAbsent }, hooks) }
+        }
         return record(fields, 'relation', RELATION_FIELDS, absent.relation ?? {}, hooks)
       })
   return view
@@ -251,6 +259,29 @@ const CLASS = {
     absent: {},
   }),
 }
+// zombie-mermaid ClassRelationship: type and markerAt ('from' | 'to' | 'both'). Realization
+// (..|>) and dependency (..>) are dotted by definition; the model has no line style for the
+// other types, and 'association' covers both a plain link (--) and an arrow (-->).
+const ZOMBIE_RELATION = { inheritance: [1, 0], realization: [1, 1], composition: [2], aggregation: [0], dependency: [3, 1], lollipop: [4] }
+CLASS['dfadler/zombie-mermaid'] = raw => ({
+  classes: () => raw.classes.map(item => [item.id, { label: item.label, annotations: item.annotation ? [item.annotation] : item.annotations ?? [], members: item.attributes ?? [], methods: item.methods ?? [] }]),
+  relations: () =>
+    raw.relationships.map(rel => {
+      const [code, line] = ZOMBIE_RELATION[rel.type] ?? []
+      const extra = { relationTitle1: card(rel.fromCardinality), relationTitle2: card(rel.toCardinality), ...(rel.label ? { title: rel.label } : {}) }
+      if (code === undefined) return { id1: rel.from, id2: rel.to, ...extra }
+      const relation = { type1: rel.markerAt === 'to' ? 'none' : code, type2: rel.markerAt === 'from' ? 'none' : code, ...(line !== undefined ? { lineType: line } : {}) }
+      if (line === undefined) Object.defineProperty(relation, LINE_ABSENT, { value: "zombie-mermaid's class relation has no line style for this type" })
+      return { id1: rel.from, id2: rel.to, relation, ...extra }
+    }),
+  absent: { relation: { relation: "zombie-mermaid records a plain link (--) and an arrow (-->) as the same 'association'" } },
+})
+// XMermaid class: members are one display list and relations are normalized child -> parent.
+CLASS['evangwt/xmermaid'] = raw => ({
+  classes: () => raw.classes.map(item => [item.id, { label: item.label }]),
+  relationsGap: 'XMermaid normalizes class relations child -> parent, so the left-hand class (id1) is not recorded',
+  absent: { class: { members: "XMermaid keeps class members and methods as one display list", methods: "XMermaid keeps class members and methods as one display list" } },
+})
 function dartClasses(raw) {
   return {
     classes: () => entriesOf(raw.classes).map(([id, item]) => [id, { label: item.label, annotations: item.annotations ?? [], members: item.attributes ?? [], methods: item.methods ?? [], styles: styleStrings(item.styles), ...(item.link ? { link: item.link } : {}) }]),
@@ -297,7 +328,7 @@ function classNotes(project, raw, hooks) {
 
 // Entity-relationship diagrams. Mermaid records cardA from the right-hand marker and
 // cardB from the left-hand one, with IDENTIFYING for a solid line.
-const CARD_WORD = { onlyone: 'ONLY_ONE', zeroorone: 'ZERO_OR_ONE', oneormore: 'ONE_OR_MORE', zeroormore: 'ZERO_OR_MORE', mdparent: 'MD_PARENT' }
+const CARD_WORD = { exactlyone: 'ONLY_ONE', onlyone: 'ONLY_ONE', zeroorone: 'ZERO_OR_ONE', oneormore: 'ONE_OR_MORE', zeroormore: 'ZERO_OR_MORE', mdparent: 'MD_PARENT' }
 const cardWord = value => (typeof value === 'string' ? CARD_WORD[value.toLowerCase().replace(/[_\s-]/g, '')] : undefined)
 const CARD_SYMBOL = { '||': 'ONLY_ONE', '|o': 'ZERO_OR_ONE', 'o|': 'ZERO_OR_ONE', '}|': 'ONE_OR_MORE', '|{': 'ONE_OR_MORE', '}o': 'ZERO_OR_MORE', 'o{': 'ZERO_OR_MORE' }
 const LOOM_CARD = { 1: 'ONLY_ONE', '0..1': 'ZERO_OR_ONE', '1..*': 'ONE_OR_MORE', '*': 'ZERO_OR_MORE' }
@@ -356,6 +387,19 @@ const ER = {
     absent: { entity: { attributes: "mermaid-rs-renderer folds ER attributes into the node's display label", alias: "mermaid-rs-renderer's ER model keeps no entity alias" } },
   }),
 }
+// zombie-mermaid: Cardinality 'one' | 'zero-one' | 'many' | 'zero-many' (crow's foot ||, |o, }|, }o).
+const ZOMBIE_CARD = { one: 'ONLY_ONE', 'zero-one': 'ZERO_OR_ONE', many: 'ONE_OR_MORE', 'zero-many': 'ZERO_OR_MORE' }
+ER['dfadler/zombie-mermaid'] = raw => ({
+  entities: () => raw.entities.map(entity => [entity.id, { label: entity.label, attributes: entity.attributes.map(a => ({ type: a.type, name: a.name, keys: a.keys ?? [], comment: a.comment ?? '' })) }]),
+  relationships: () => raw.relationships.map(rel => ({ entityA: rel.entity1, entityB: rel.entity2, roleA: rel.label ?? '', relSpec: { cardA: ZOMBIE_CARD[rel.cardinality2], cardB: ZOMBIE_CARD[rel.cardinality1], relType: identifying(rel.identifying) } })),
+  absent: { entity: { alias: "zombie-mermaid's ER entity model keeps no alias" } },
+})
+// XMermaid parse_dsl: from/to cardinality words and a non_identifying flag.
+ER['evangwt/xmermaid'] = raw => ({
+  entities: () => raw.entities.map(entity => [entity.name, { label: entity.name, attributes: (entity.attributes ?? []).map(a => ({ type: a.kind, name: a.name, keys: a.keys ?? [], comment: a.comment ?? '' })) }]),
+  relationships: () => raw.relationships.map(rel => ({ entityA: rel.from, entityB: rel.to, roleA: rel.label ?? '', relSpec: { cardA: cardWord(rel.to_cardinality), cardB: cardWord(rel.from_cardinality), relType: identifying(rel.non_identifying === undefined ? undefined : !rel.non_identifying) } })),
+  absent: { entity: { alias: "XMermaid's ER entity model keeps no alias" } },
+})
 function dartEr(raw) {
   return {
     entities: () => entriesOf(raw.entities).map(([name, entity]) => [name, { label: entity.label, attributes: entity.attributes.map(a => ({ type: a.type, name: a.name, keys: a.keys ?? [], comment: a.comment ?? '' })), cssStyles: entity.cssStyles, cssClasses: entity.cssClasses }]),

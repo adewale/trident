@@ -96,3 +96,24 @@ test('Ondine has no model, and an AST view claims only what a resolved database 
   expect(() => radar.options).toThrow('gap')
   expect(nativeAstView('xai-org/grok-build', 'Radar', {}, hooks)).toBeUndefined()
 })
+
+test('zombie-mermaid: crow\'s-foot words map to Mermaid cardinalities; an association is not a recorded marker', () => {
+  const { hooks, log } = verdicts()
+  const er = nativeSchemaView('dfadler/zombie-mermaid', 'er', { entities: [{ id: 'A', label: 'A', attributes: [] }, { id: 'B', label: 'B', attributes: [] }], relationships: [{ entity1: 'A', entity2: 'B', cardinality1: 'one', cardinality2: 'zero-many', label: 'has', identifying: false }] }, hooks)
+  expect(er.getRelationships()[0].relSpec).toEqual({ cardA: 'ZERO_OR_MORE', cardB: 'ONLY_ONE', relType: 'NON_IDENTIFYING' })
+  const cls = nativeSchemaView('dfadler/zombie-mermaid', 'class', { classes: [], relationships: [{ from: 'A', to: 'B', type: 'realization', markerAt: 'to' }, { from: 'C', to: 'D', type: 'association', markerAt: 'to' }, { from: 'E', to: 'F', type: 'composition', markerAt: 'from' }] }, hooks)
+  const [realization, association, composition] = cls.getRelations()
+  expect(realization.relation).toEqual({ type1: 'none', type2: cls.relationType.EXTENSION, lineType: cls.lineType.DOTTED_LINE })
+  expect(() => association.relation).toThrow('unsupported')
+  expect(log.at(-1)).toContain("same 'association'")
+  expect(composition.relation.type1).toBe(cls.relationType.COMPOSITION)
+  expect(() => composition.relation.lineType).toThrow('unsupported')
+})
+
+test('XMermaid: exactly_one is ONLY_ONE, and normalized class relations stay a gap', () => {
+  const { hooks } = verdicts()
+  const er = nativeSchemaView('evangwt/xmermaid', 'er', { type: 'er', entities: [{ name: 'A' }, { name: 'B' }], relationships: [{ from: 'A', to: 'B', label: 'x', from_cardinality: 'exactly_one', to_cardinality: 'zero_or_more', non_identifying: true }] }, hooks)
+  expect(er.getRelationships()[0].relSpec).toEqual({ cardA: 'ZERO_OR_MORE', cardB: 'ONLY_ONE', relType: 'NON_IDENTIFYING' })
+  const cls = nativeSchemaView('evangwt/xmermaid', 'class', { type: 'class', classes: [{ id: 'A', label: 'A' }], relations: [{ from: 'B', to: 'A', kind: 'inheritance' }] }, hooks)
+  expect(() => cls.getRelations()).toThrow('gap')
+})

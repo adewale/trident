@@ -1,7 +1,7 @@
 // Concrete parser bridges. Each one calls the project's own parser; see bridges.ts.
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { nodeExecutable, registerBridge, type ParserBridge } from './bridges.ts'
+import { nodeExecutable, registerBridge, type ParserBridge, type Resolver } from './bridges.ts'
 
 const here = join(import.meta.dirname, 'bridges')
 const script = (name: string) => join(here, name)
@@ -31,6 +31,20 @@ registerBridge('wevm/ondine', async peer => {
   return { command: [nodeExecutable(), script('ondine.mjs'), compiler], version: peer.artifact.version, description: 'render() only: acceptance and rejection, no parsed model' }
 })
 
+// JavaScript projects whose public module has no synchronous parser per family the tests
+// can import: bridges/javascript.mjs names each project's own parser per family.
+const javascript = (key: string, location: (artifact: any) => string | undefined, runtime: () => string = nodeExecutable): Resolver => async peer => {
+  const where = peer.artifact && location(peer.artifact)
+  if (!where || !existsSync(where)) return undefined
+  return { command: [runtime(), script('javascript.mjs'), key, where], version: peer.artifact.version, description: `${key}: the project's own per-family parsers` }
+}
+registerBridge('dfadler/zombie-mermaid', javascript('zombie', a => a.root))
+registerBridge('KlangHaus/vitepress-plugin-diagram', javascript('vitepress', a => a.module))
+registerBridge('sandyyst/dsh-plugin-mermaid-gb-svg', javascript('dsh', a => a.module))
+registerBridge('tariqshams/mermaidtui', javascript('mermaidtui', a => a.module))
+// OpenCode's merman package is TypeScript source run by Bun, as its prepared artifact is.
+registerBridge('anomalyco/opencode', javascript('opencode', a => a.root, () => process.execPath))
+
 /** Compiled or copied bridges keep their own build step in bridges/<name>/build.ts. */
 const built = (name: string, description: string, version: (peer: any) => string | undefined = peer => peer.artifact?.version) => async (peer: any, outDir: string): Promise<ParserBridge | undefined> => {
   const file = join(here, name, 'build.ts')
@@ -50,3 +64,4 @@ registerBridge('AlexanderGrooff/mermaid-ascii', built('mermaid-ascii', 'pkg/grap
 registerBridge('spacedock-dev/mermaidtext', built('mermaidtext', 'unexported Go parsers, reached through an overlay-injected export'))
 registerBridge('orestesgaolin/mermaid', built('dart', "mermaid_core 0.3.2 parseX functions, from its public library or its own src/ libraries where not re-exported"))
 registerBridge('pub:mermaid_flutter', built('dart', "mermaid_core 0.3.2 parseX functions (mermaid_flutter uses core's parser unchanged)", () => '0.3.2'))
+registerBridge('evangwt/xmermaid', built('xmermaid', 'parse_dsl, its WASM parser for every family, from an unchanged copy of the glue with one export appended'))
