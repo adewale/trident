@@ -114,14 +114,27 @@ parsers never reject input either and return a partial model.
 (`unified/mermaid-fidelity/schema-views.mjs`) reads one project's own model field by
 field and answers the Mermaid database getters the tests call: flowchart vertices,
 edges, subgraphs and direction; class members, relations and notes; ER entities,
-attributes and relationships; and the radar and info ASTs where a project's model can
-express them. Every mapping was checked against the project's type definitions or
-parser source: Mermaid's own vocabularies (shape names, edge types, strokes, ER
-cardinalities, class relation codes) are matched from each native spelling. A view
+attributes and relationships; C4 shapes, boundaries and relations; sequence
+participants and the flat message list (messages, notes, activations and block
+markers in source order); git graphs; the Mermaid ports' kanban and treeView records;
+and the radar and info ASTs where a project's model can express them. Every mapping
+was checked against the project's type definitions, parser source or captured parser
+output: Mermaid's own vocabularies (shape names, edge types, strokes, ER
+cardinalities, class relation codes, C4 shape types, sequence line types) are matched
+from each native spelling. A native value Mermaid's vocabulary has no word for (a
+start-only flowchart edge) keeps the project's own spelling, so it can equal no
+Mermaid value. A field Mermaid itself leaves undefined (an unlabelled relation's
+title, a node without a link) reads as undefined, not as a gap. A view
 never parses source text or re-splits a display string. A concept a native model does
 not carry at all — Grok's class notes, Loom's node styles, MermaidText's ER
-cardinalities, which it folds into a display label — is declared absent with its
-reason, and reading it is that project's unsupported operation. A field the tests read
+cardinalities, which it folds into a display label, Merslim's ER cardinalities, the
+marker side VitePress drops from class relations, Frankenmermaid's link lengths — is
+declared absent with its reason, and reading it is that project's unsupported
+operation. Where two written forms collapse into one native value (zombie-mermaid's
+bare node and `A[A]`, mermaid-rs-renderer's `System_Boundary` and an untyped
+`Boundary`), only the ambiguous reading is unsupported. Text wrapping per element is
+Mermaid's renderer configuration, which no candidate model keeps per C4 element or
+per message unless it records a wrap flag itself. A field the tests read
 that no view maps stays a Trident gap. Projects without a reviewed view use the
 generic field-name projection.
 
