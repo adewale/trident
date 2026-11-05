@@ -227,8 +227,8 @@ Unknown schemas and import or transport errors remain explicit per-test gaps;
 
 **The reference path defines the scored population.** The control is the public
 Mermaid 12.2.0 package behind the same import substitution the candidates get. In the
-current collection <!-- fact:fidelity-expanded -->5,737<!-- /fact --> callbacks expanded: Mermaid passes **<!-- fact:fidelity-population -->3,620<!-- /fact -->**, the scored population;
-<!-- fact:fidelity-unqualified -->2,016<!-- /fact --> are reference-unqualified and <!-- fact:fidelity-skipped -->101<!-- /fact --> upstream-skipped. 15 of the <!-- fact:fidelity-files -->316<!-- /fact --> selected files
+current collection <!-- fact:fidelity-expanded -->5,737<!-- /fact --> callbacks expanded: Mermaid passes **<!-- fact:fidelity-population -->3,618<!-- /fact -->**, the scored population;
+<!-- fact:fidelity-unqualified -->2,018<!-- /fact --> are reference-unqualified and <!-- fact:fidelity-skipped -->101<!-- /fact --> upstream-skipped. 15 of the <!-- fact:fidelity-files -->316<!-- /fact --> selected files
 do not load and 52 files remain outside the core Vitest runner.
 
 Most of the earlier unqualified callbacks were reference-adapter defects, now fixed:

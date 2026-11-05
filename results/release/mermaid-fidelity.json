@@ -272,21 +272,21 @@
   ],
   "blocked": [],
   "versionsFrozenAt": "2026-11-02T15:09:38.022Z",
-  "scope": "Every candidate attempted all 316 selected core-package files against one shared Mermaid 12.2.0 control run. Scores use the 3620 expanded callbacks the control passes.",
+  "scope": "Every candidate attempted all 316 selected core-package files against one shared Mermaid 12.2.0 control run. Scores use the 3618 expanded callbacks the control passes.",
   "referenceVersion": "12.2.0",
   "expandedCallbacks": 5737,
-  "referenceQualifiedCallbacks": 3620,
-  "referenceDigest": "ae78fa16d74b3f6cdcf0f3f0f77c4ec1d6b0aa2f9b03176b7bf1c712960f05ae",
+  "referenceQualifiedCallbacks": 3618,
+  "referenceDigest": "0d74c330245affd3da83b83f193f5edde790caea84386b948f48110ea98e50cb",
   "results": [
     {
       "project": "mermaid-js/mermaid",
       "version": "12.2.0",
       "counts": {
-        "passed": 3620,
+        "passed": 3618,
         "failed": 0,
         "unsupported": 0,
         "trident-blocked": 0,
-        "reference-unqualified": 2016,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -1394,7 +1394,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "passed": 14
+            "reference-unqualified": 1,
+            "passed": 13
           }
         },
         {
@@ -1579,8 +1580,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
           "counts": {
-            "passed": 24,
-            "reference-unqualified": 1
+            "passed": 23,
+            "reference-unqualified": 2
           }
         },
         {
@@ -2226,11 +2227,11 @@
       "project": "Dicklesworthstone/frankenmermaid",
       "version": "0.4.0",
       "counts": {
-        "passed": 1299,
+        "passed": 1313,
         "failed": 1222,
-        "unsupported": 1062,
-        "trident-blocked": 37,
-        "reference-unqualified": 2016,
+        "unsupported": 1061,
+        "trident-blocked": 22,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -2474,9 +2475,8 @@
         {
           "path": "packages/parser/tests/pie.test.ts",
           "counts": {
-            "passed": 10,
+            "passed": 24,
             "unsupported": 4,
-            "trident-blocked": 14,
             "failed": 4
           }
         },
@@ -3416,7 +3416,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -3627,8 +3628,7 @@
           "counts": {
             "failed": 5,
             "passed": 18,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -4286,7 +4286,6 @@
         }
       ],
       "gapReasons": {
-        "Native pie sections are unavailable": 14,
         "architecture.db.getLayoutHints().Symbol(Symbol.toStringTag); architecture.db.getLayoutHints().length; architecture.db.getLayoutHints().length.Symbol(Symbol.toPr": 2,
         "architecture.db.getLayoutHints().N; architecture.db.getLayoutHints().N.members; architecture.db.getLayoutHints().N.members.Symbol(Symbol.toStringTag)": 1,
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
@@ -4294,7 +4293,6 @@
         "packet.db.getPacket().$$typeof; packet.db.getPacket().constructor; packet.db.getPacket().constructor.name; packet.db.getPacket().nodeType; packet.db.getPacket()": 8,
         "Unmapped native ER cardinality or line": 1,
         "Frankenmermaid linkStyle default": 1,
-        "No candidate operation was exercised by this test": 1,
         "gantt.db.getTasks().N; gantt.db.getTasks().N.startTime; gantt.db.getTasks().N.startTime.Symbol(Symbol.toStringTag)": 2,
         "gantt.db.getTasks().N; gantt.db.getTasks().N.active": 4,
         "gantt.db.getTasks().N; gantt.db.getTasks().N.active; gantt.db.getTasks().N.done": 1
@@ -4306,9 +4304,9 @@
       "counts": {
         "passed": 960,
         "failed": 1216,
-        "unsupported": 1443,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 1442,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -5464,7 +5462,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -5671,8 +5670,7 @@
           "counts": {
             "failed": 9,
             "passed": 14,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -6320,9 +6318,7 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "crafter-station/mermaid",
@@ -6330,9 +6326,9 @@
       "counts": {
         "passed": 211,
         "failed": 1648,
-        "unsupported": 1735,
-        "trident-blocked": 26,
-        "reference-unqualified": 2016,
+        "unsupported": 1734,
+        "trident-blocked": 25,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -7487,7 +7483,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -7684,8 +7681,7 @@
           "counts": {
             "failed": 17,
             "passed": 6,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -8348,7 +8344,6 @@
         "sequence.db.LINETYPE.DOTTED; sequence.db.LINETYPE.DOTTED.Symbol(Symbol.toStringTag)": 1,
         "sequence.db.getDestroyedActors().get": 1,
         "sequence.db.getCreatedActors().get": 1,
-        "No candidate operation was exercised by this test": 1,
         "gantt.db.getTasks().N; gantt.db.getTasks().N.startTime; gantt.db.getTasks().N.startTime.Symbol(Symbol.toStringTag)": 2,
         "gantt.db.getTasks().N; gantt.db.getTasks().N.active": 4,
         "gantt.db.getTasks().N; gantt.db.getTasks().N.active; gantt.db.getTasks().N.done": 1
@@ -8360,9 +8355,9 @@
       "counts": {
         "passed": 56,
         "failed": 269,
-        "unsupported": 3294,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 3293,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -9513,7 +9508,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -9704,8 +9700,7 @@
           "counts": {
             "unsupported": 18,
             "passed": 4,
-            "trident-blocked": 1,
-            "reference-unqualified": 1,
+            "reference-unqualified": 2,
             "failed": 1
           }
         },
@@ -10356,9 +10351,7 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "Mootikins/figurehead-rs",
@@ -10366,9 +10359,9 @@
       "counts": {
         "passed": 359,
         "failed": 1092,
-        "unsupported": 2168,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 2167,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -11522,7 +11515,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -11718,8 +11712,7 @@
             "failed": 6,
             "unsupported": 13,
             "passed": 4,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -12368,19 +12361,17 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "xai-org/grok-build",
       "version": "git-2bdd1d6a6369",
       "counts": {
-        "passed": 614,
-        "failed": 873,
-        "unsupported": 2133,
+        "passed": 638,
+        "failed": 923,
+        "unsupported": 2057,
         "trident-blocked": 0,
-        "reference-unqualified": 2016,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -12960,8 +12951,9 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts",
           "counts": {
-            "unsupported": 31,
-            "reference-unqualified": 1
+            "unsupported": 24,
+            "reference-unqualified": 1,
+            "failed": 7
           }
         },
         {
@@ -13533,7 +13525,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -13672,7 +13665,7 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-direction.spec.js",
           "counts": {
-            "unsupported": 4
+            "failed": 4
           }
         },
         {
@@ -13713,7 +13706,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
           "counts": {
-            "unsupported": 30,
+            "failed": 29,
+            "passed": 1,
             "upstream-skipped": 1
           }
         },
@@ -13728,8 +13722,10 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
           "counts": {
-            "unsupported": 24,
-            "reference-unqualified": 1
+            "unsupported": 18,
+            "failed": 1,
+            "passed": 4,
+            "reference-unqualified": 2
           }
         },
         {
@@ -13742,7 +13738,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js",
           "counts": {
-            "unsupported": 7
+            "passed": 6,
+            "unsupported": 1
           }
         },
         {
@@ -13756,8 +13753,10 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js",
           "counts": {
-            "unsupported": 23,
-            "upstream-skipped": 1
+            "failed": 9,
+            "upstream-skipped": 1,
+            "passed": 13,
+            "unsupported": 1
           }
         },
         {
@@ -14384,9 +14383,9 @@
       "counts": {
         "passed": 2101,
         "failed": 488,
-        "unsupported": 1029,
-        "trident-blocked": 2,
-        "reference-unqualified": 2016,
+        "unsupported": 1028,
+        "trident-blocked": 1,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -15563,7 +15562,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -15768,8 +15768,7 @@
           "counts": {
             "passed": 21,
             "failed": 2,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -16427,8 +16426,7 @@
         }
       ],
       "gapReasons": {
-        "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "No candidate operation was exercised by this test": 1
+        "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1
       }
     },
     {
@@ -16437,9 +16435,9 @@
       "counts": {
         "passed": 282,
         "failed": 57,
-        "unsupported": 3280,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 3279,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -17598,7 +17596,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -17794,8 +17793,7 @@
           "counts": {
             "unsupported": 22,
             "failed": 1,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -18444,9 +18442,7 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "1jehuang/mermaid-rs-renderer",
@@ -18454,9 +18450,9 @@
       "counts": {
         "passed": 1457,
         "failed": 503,
-        "unsupported": 1659,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 1658,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -19626,7 +19622,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -19834,8 +19831,7 @@
             "failed": 5,
             "unsupported": 13,
             "passed": 5,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -20490,9 +20486,7 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "emtyty/merslim",
@@ -20500,9 +20494,9 @@
       "counts": {
         "passed": 311,
         "failed": 1747,
-        "unsupported": 1561,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 1560,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -21665,7 +21659,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -21870,8 +21865,7 @@
           "counts": {
             "failed": 6,
             "unsupported": 17,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -22525,9 +22519,7 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "KlangHaus/vitepress-plugin-diagram",
@@ -22535,9 +22527,9 @@
       "counts": {
         "passed": 138,
         "failed": 1049,
-        "unsupported": 2432,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 2431,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -23687,7 +23679,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -23877,8 +23870,7 @@
           "counts": {
             "failed": 12,
             "unsupported": 11,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -24522,9 +24514,7 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "obsidianmd/pele",
@@ -24532,9 +24522,9 @@
       "counts": {
         "passed": 3135,
         "failed": 142,
-        "unsupported": 332,
-        "trident-blocked": 11,
-        "reference-unqualified": 2016,
+        "unsupported": 331,
+        "trident-blocked": 10,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -25711,8 +25701,9 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 3,
-            "passed": 11
+            "reference-unqualified": 1,
+            "passed": 11,
+            "unsupported": 2
           }
         },
         {
@@ -25912,8 +25903,7 @@
           "counts": {
             "passed": 22,
             "failed": 1,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -26568,19 +26558,18 @@
         "xychart.db.getXYChartData().plots; xychart.db.getXYChartData().plots.Symbol(Symbol.toStringTag)": 1,
         "xychart.db.getXYChartData().plots; xychart.db.getXYChartData().plots.Symbol(Symbol.toStringTag); xychart.db.getXYChartData().plots.length; xychart.db.getXYChart": 2,
         "xychart.db.getXYChartData().plots; xychart.db.getXYChartData().plots.N; xychart.db.getXYChartData().plots.N.data; xychart.db.getXYChartData().plots.N.data.Symbo": 2,
-        "xychart.db.getXYChartData().yAxis; xychart.db.getXYChartData().yAxis.type": 1,
-        "No candidate operation was exercised by this test": 1
+        "xychart.db.getXYChartData().yAxis; xychart.db.getXYChartData().yAxis.type": 1
       }
     },
     {
       "project": "Yassimba/loom",
       "version": "0.10.0",
       "counts": {
-        "passed": 711,
-        "failed": 883,
-        "unsupported": 2026,
+        "passed": 747,
+        "failed": 930,
+        "unsupported": 1941,
         "trident-blocked": 0,
-        "reference-unqualified": 2016,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -27165,8 +27154,9 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts",
           "counts": {
-            "unsupported": 31,
-            "reference-unqualified": 1
+            "unsupported": 24,
+            "reference-unqualified": 1,
+            "failed": 7
           }
         },
         {
@@ -27741,7 +27731,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -27880,7 +27871,7 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-direction.spec.js",
           "counts": {
-            "unsupported": 4
+            "failed": 4
           }
         },
         {
@@ -27921,7 +27912,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
           "counts": {
-            "unsupported": 30,
+            "failed": 26,
+            "passed": 4,
             "upstream-skipped": 1
           }
         },
@@ -27936,8 +27928,10 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
           "counts": {
-            "unsupported": 24,
-            "reference-unqualified": 1
+            "unsupported": 10,
+            "failed": 1,
+            "passed": 12,
+            "reference-unqualified": 2
           }
         },
         {
@@ -27950,7 +27944,7 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js",
           "counts": {
-            "unsupported": 7
+            "passed": 7
           }
         },
         {
@@ -27964,8 +27958,10 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js",
           "counts": {
-            "unsupported": 23,
-            "upstream-skipped": 1
+            "failed": 9,
+            "upstream-skipped": 1,
+            "passed": 13,
+            "unsupported": 1
           }
         },
         {
@@ -28591,9 +28587,9 @@
       "counts": {
         "passed": 3033,
         "failed": 139,
-        "unsupported": 443,
-        "trident-blocked": 5,
-        "reference-unqualified": 2016,
+        "unsupported": 442,
+        "trident-blocked": 4,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -29765,8 +29761,9 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 3,
-            "passed": 11
+            "reference-unqualified": 1,
+            "passed": 11,
+            "unsupported": 2
           }
         },
         {
@@ -29966,8 +29963,7 @@
           "counts": {
             "passed": 11,
             "failed": 12,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -30620,8 +30616,7 @@
       "gapReasons": {
         "Bezel architecture nodes: a JSON object from the bridge loses the declaration order of integer-like ids": 1,
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "sequence.db.getAccDescription().constructor; sequence.db.getAccDescription().Symbol(Symbol.toStringTag)": 2,
-        "No candidate operation was exercised by this test": 1
+        "sequence.db.getAccDescription().constructor; sequence.db.getAccDescription().Symbol(Symbol.toStringTag)": 2
       }
     },
     {
@@ -30630,9 +30625,9 @@
       "counts": {
         "passed": 2101,
         "failed": 488,
-        "unsupported": 1029,
-        "trident-blocked": 2,
-        "reference-unqualified": 2016,
+        "unsupported": 1028,
+        "trident-blocked": 1,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -31809,7 +31804,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -32014,8 +32010,7 @@
           "counts": {
             "passed": 21,
             "failed": 2,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -32673,8 +32668,7 @@
         }
       ],
       "gapReasons": {
-        "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "No candidate operation was exercised by this test": 1
+        "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1
       }
     },
     {
@@ -32683,9 +32677,9 @@
       "counts": {
         "passed": 715,
         "failed": 945,
-        "unsupported": 1959,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 1958,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -33832,7 +33826,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -34027,9 +34022,8 @@
           "counts": {
             "failed": 17,
             "passed": 5,
-            "trident-blocked": 1,
-            "unsupported": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2,
+            "unsupported": 1
           }
         },
         {
@@ -34674,9 +34668,7 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "evangwt/xmermaid",
@@ -34684,9 +34676,9 @@
       "counts": {
         "passed": 887,
         "failed": 2088,
-        "unsupported": 633,
-        "trident-blocked": 12,
-        "reference-unqualified": 2016,
+        "unsupported": 632,
+        "trident-blocked": 11,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -35864,9 +35856,10 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 3,
+            "reference-unqualified": 1,
             "trident-blocked": 1,
-            "failed": 10
+            "failed": 10,
+            "unsupported": 2
           }
         },
         {
@@ -36077,8 +36070,7 @@
           "counts": {
             "failed": 20,
             "passed": 3,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -36738,7 +36730,7 @@
         "architecture.db.getGroups().map": 1,
         "architecture.db.getServices().map": 1,
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "No candidate operation was exercised by this test": 4,
+        "No candidate operation was exercised by this test": 3,
         "treeview.db.getRoot().level; treeview.db.getRoot().level.constructor; treeview.db.getRoot().level.Symbol(Symbol.toStringTag); No candidate operation was exercis": 1,
         "treeview.db.getCount().constructor; treeview.db.getCount().Symbol(Symbol.toStringTag); No candidate operation was exercised by this test": 1,
         "agentflow.db.getElementMappings().Symbol(Symbol.toStringTag); agentflow.db.getElementMappings().length; agentflow.db.getElementMappings().length.Symbol(Symbol.t": 1,
@@ -36751,9 +36743,9 @@
       "counts": {
         "passed": 2851,
         "failed": 298,
-        "unsupported": 464,
-        "trident-blocked": 7,
-        "reference-unqualified": 2016,
+        "unsupported": 463,
+        "trident-blocked": 6,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -37940,7 +37932,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -38138,8 +38131,7 @@
           "counts": {
             "passed": 11,
             "failed": 12,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -38793,8 +38785,7 @@
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
         "LatiasN/merman's branch list carries no head commit": 3,
         "treeview.db.getCount().constructor; treeview.db.getCount().Symbol(Symbol.toStringTag); No candidate operation was exercised by this test": 1,
-        "cN.db.getCNShape().constructor; cN.db.getCNShape().Symbol(Symbol.toStringTag)": 1,
-        "No candidate operation was exercised by this test": 1
+        "cN.db.getCNShape().constructor; cN.db.getCNShape().Symbol(Symbol.toStringTag)": 1
       }
     },
     {
@@ -38803,9 +38794,9 @@
       "counts": {
         "passed": 125,
         "failed": 640,
-        "unsupported": 2854,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 2853,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -39949,7 +39940,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -40144,8 +40136,7 @@
           "counts": {
             "failed": 11,
             "unsupported": 12,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -40792,9 +40783,7 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "kais-radwan/ascii-mermaid",
@@ -40802,9 +40791,9 @@
       "counts": {
         "passed": 352,
         "failed": 1548,
-        "unsupported": 1719,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 1718,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -41959,7 +41948,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -42154,8 +42144,7 @@
           "counts": {
             "failed": 17,
             "passed": 6,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -42806,19 +42795,17 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "adewale/agentic-mermaid",
       "version": "0.5.6",
       "counts": {
-        "passed": 2200,
+        "passed": 2202,
         "failed": 109,
-        "unsupported": 1301,
-        "trident-blocked": 10,
-        "reference-unqualified": 2016,
+        "unsupported": 1300,
+        "trident-blocked": 7,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -43662,8 +43649,7 @@
         {
           "path": "packages/mermaid/src/diagrams/state/stateDiagram-v2.spec.js",
           "counts": {
-            "passed": 20,
-            "trident-blocked": 1,
+            "passed": 21,
             "unsupported": 7,
             "failed": 2,
             "reference-unqualified": 1
@@ -43672,8 +43658,7 @@
         {
           "path": "packages/mermaid/src/diagrams/state/stateDiagram.spec.js",
           "counts": {
-            "passed": 21,
-            "trident-blocked": 1,
+            "passed": 22,
             "unsupported": 7,
             "upstream-skipped": 1
           }
@@ -43987,7 +43972,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -44193,8 +44179,7 @@
           "counts": {
             "passed": 22,
             "failed": 1,
-            "trident-blocked": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2
           }
         },
         {
@@ -44846,10 +44831,8 @@
       ],
       "gapReasons": {
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "state.db.getAccDescription().constructor; state.db.getAccDescription().Symbol(Symbol.toStringTag)": 2,
         "agentic-mermaid CN boundary macro Node": 5,
-        "agentic-mermaid CN tag list of several tags": 1,
-        "No candidate operation was exercised by this test": 1
+        "agentic-mermaid CN tag list of several tags": 1
       }
     },
     {
@@ -44858,9 +44841,9 @@
       "counts": {
         "passed": 88,
         "failed": 1122,
-        "unsupported": 2402,
-        "trident-blocked": 8,
-        "reference-unqualified": 2016,
+        "unsupported": 2401,
+        "trident-blocked": 7,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -46017,7 +46000,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -46208,9 +46192,8 @@
           "counts": {
             "failed": 17,
             "passed": 4,
-            "trident-blocked": 1,
-            "unsupported": 2,
-            "reference-unqualified": 1
+            "reference-unqualified": 2,
+            "unsupported": 2
           }
         },
         {
@@ -46868,8 +46851,7 @@
         "sequence.db.LINETYPE.SOLID_POINT; sequence.db.LINETYPE.SOLID_POINT.Symbol(Symbol.toStringTag)": 1,
         "sequence.db.LINETYPE.DOTTED_POINT; sequence.db.LINETYPE.DOTTED_POINT.Symbol(Symbol.toStringTag)": 1,
         "sequence.db.LINETYPE.SOLID; sequence.db.LINETYPE.SOLID.Symbol(Symbol.toStringTag)": 1,
-        "sequence.db.LINETYPE.DOTTED; sequence.db.LINETYPE.DOTTED.Symbol(Symbol.toStringTag)": 1,
-        "No candidate operation was exercised by this test": 1
+        "sequence.db.LINETYPE.DOTTED; sequence.db.LINETYPE.DOTTED.Symbol(Symbol.toStringTag)": 1
       }
     },
     {
@@ -46878,9 +46860,9 @@
       "counts": {
         "passed": 1069,
         "failed": 1144,
-        "unsupported": 1406,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 1405,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -48049,7 +48031,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -48247,9 +48230,8 @@
           "counts": {
             "failed": 8,
             "passed": 14,
-            "trident-blocked": 1,
-            "unsupported": 1,
-            "reference-unqualified": 1
+            "reference-unqualified": 2,
+            "unsupported": 1
           }
         },
         {
@@ -48901,9 +48883,7 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "lukilabs/beautiful-mermaid",
@@ -48911,9 +48891,9 @@
       "counts": {
         "passed": 234,
         "failed": 1627,
-        "unsupported": 1758,
-        "trident-blocked": 1,
-        "reference-unqualified": 2016,
+        "unsupported": 1757,
+        "trident-blocked": 0,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -50066,7 +50046,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -50259,8 +50240,7 @@
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
           "counts": {
             "failed": 22,
-            "trident-blocked": 1,
-            "reference-unqualified": 1,
+            "reference-unqualified": 2,
             "passed": 1
           }
         },
@@ -50910,19 +50890,17 @@
           }
         }
       ],
-      "gapReasons": {
-        "No candidate operation was exercised by this test": 1
-      }
+      "gapReasons": {}
     },
     {
       "project": "tariqshams/mermaidtui",
       "version": "0.0.6",
       "counts": {
         "passed": 0,
-        "failed": 2,
-        "unsupported": 3618,
+        "failed": 43,
+        "unsupported": 3575,
         "trident-blocked": 0,
-        "reference-unqualified": 2016,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -51499,8 +51477,9 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts",
           "counts": {
-            "unsupported": 31,
-            "reference-unqualified": 1
+            "unsupported": 22,
+            "reference-unqualified": 1,
+            "failed": 9
           }
         },
         {
@@ -52065,7 +52044,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -52201,7 +52181,7 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-direction.spec.js",
           "counts": {
-            "unsupported": 4
+            "failed": 4
           }
         },
         {
@@ -52239,7 +52219,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
           "counts": {
-            "unsupported": 30,
+            "failed": 25,
+            "unsupported": 5,
             "upstream-skipped": 1
           }
         },
@@ -52252,8 +52233,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
           "counts": {
-            "unsupported": 24,
-            "reference-unqualified": 1
+            "unsupported": 23,
+            "reference-unqualified": 2
           }
         },
         {
@@ -52277,8 +52258,9 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js",
           "counts": {
-            "unsupported": 23,
-            "upstream-skipped": 1
+            "unsupported": 20,
+            "upstream-skipped": 1,
+            "failed": 3
           }
         },
         {
@@ -52899,11 +52881,11 @@
       "project": "spacedock-dev/mermaidtext",
       "version": "git-a6b0c7657b94",
       "counts": {
-        "passed": 614,
-        "failed": 873,
-        "unsupported": 2133,
+        "passed": 638,
+        "failed": 923,
+        "unsupported": 2057,
         "trident-blocked": 0,
-        "reference-unqualified": 2016,
+        "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -53483,8 +53465,9 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts",
           "counts": {
-            "unsupported": 31,
-            "reference-unqualified": 1
+            "unsupported": 24,
+            "reference-unqualified": 1,
+            "failed": 7
           }
         },
         {
@@ -54056,7 +54039,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "unsupported": 14
+            "reference-unqualified": 1,
+            "unsupported": 13
           }
         },
         {
@@ -54195,7 +54179,7 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-direction.spec.js",
           "counts": {
-            "unsupported": 4
+            "failed": 4
           }
         },
         {
@@ -54236,7 +54220,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
           "counts": {
-            "unsupported": 30,
+            "failed": 29,
+            "passed": 1,
             "upstream-skipped": 1
           }
         },
@@ -54251,8 +54236,10 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
           "counts": {
-            "unsupported": 24,
-            "reference-unqualified": 1
+            "unsupported": 18,
+            "failed": 1,
+            "passed": 4,
+            "reference-unqualified": 2
           }
         },
         {
@@ -54265,7 +54252,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js",
           "counts": {
-            "unsupported": 7
+            "passed": 6,
+            "unsupported": 1
           }
         },
         {
@@ -54279,8 +54267,10 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js",
           "counts": {
-            "unsupported": 23,
-            "upstream-skipped": 1
+            "failed": 9,
+            "upstream-skipped": 1,
+            "passed": 13,
+            "unsupported": 1
           }
         },
         {
@@ -54902,6 +54892,6 @@
       "gapReasons": {}
     }
   ],
-  "updatedAt": "2026-11-05T17:00:49.161Z",
-  "collectedThrough": "2026-11-05T17:00:49.161Z"
+  "updatedAt": "2026-11-05T18:02:00.423Z",
+  "collectedThrough": "2026-11-05T18:02:00.423Z"
 }

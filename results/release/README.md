@@ -27,7 +27,6 @@ bun commands.ts davebench:native-png --host-display --bundle native-flutter/app/
 bun commands.ts drawing:correctness --prepared IMAGE_PREPARED --terminal-prepared TERMINAL_PREPARED --catalog CATALOG --out drawing
 bun commands.ts mermaid:fidelity ... --projects GROUP_1 --workers 4 --out fidelity-g1
 bun commands.ts mermaid:fidelity ... --projects GROUP_N --reuse-reference fidelity-g1 --workers 4 --out fidelity-gN   # N = 2..4
-bun scripts/rescore-fidelity.ts fidelity-gN [--reference-run fidelity-g1]
 bun scripts/merge-fidelity-runs.ts --out mermaid-fidelity.json --catalog CATALOG fidelity-g1 fidelity-g2 fidelity-g3 fidelity-g4
 bun scripts/merge-drawing-results.ts --run drawing --out drawing-correctness.json --collected-at TIME
 ```
@@ -40,10 +39,15 @@ Three things happened during the collection, and each is recorded here:
   rule was corrected each time (`key: value` lines are data, not statements) and every
   DaveBench step was collected again from the start. Each run now records which inputs
   were rejected and why (`rejected`).
-- **Fidelity outcomes were re-scored** after collection with `rescore-fidelity.ts`, so all
-  four groups use the same outcome rules. Group 2 had run before the rule that a test file
-  failing on the candidate's own unsupported operation counts as unsupported. No test ran
-  again; only recorded outcomes were classified.
+- **Fidelity was collected three times; the third is published.** The first collection
+  showed nine radar tests counted as Trident gaps when the test file fails on the
+  candidate's own unsupported operation (now unsupported), and one test that observes
+  nothing qualifying in the control because its setup's `setGen('gen-2')` counted as an
+  operation. Reading `setGen` before a parse also marked whole tests unsupported for
+  candidates that reject a header-only flowchart (Grok, MermaidText, Loom). After those
+  fixes all four groups were collected again on one commit; the second attempt was
+  stopped because its runtime changed mid-run. `rescore-fidelity.ts` can apply a later
+  outcome rule to recorded reports without running any test.
 - **Drawing was collected twice.** The first collection recorded one OpenCode terminal case
   as unrun because Trident's worker pipe had broken. After the fix (restart the worker,
   call the case again), Drawing was collected again in full. That run predates the

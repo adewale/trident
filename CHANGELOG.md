@@ -2,6 +2,39 @@
 
 ## Unreleased
 
+- **Release campaign (5 November).** All three benchmarks were collected on one machine against the frozen 2 November catalog, and the results live at fixed paths in `results/release/`. File names no longer carry a hand-chosen date (a file named 2026-11-04 had held data from 5 November); published dates come from each file's own timestamps. Every number quoted in the docs is generated from these files, and `results:snapshot --check` fails when the docs drift from them.
+- **DaveBench rejects fallback renders.** Output that shows the source's header line verbatim, or at least three and at least half of its syntax-bearing statements, was drawn from the source text, not from an understood diagram. It no longer counts as a completion. Calibration: Mermaid 0 rejections, Agentic Mermaid 0. Rejections by project:
+  - DSH GB SVG, 956 (it draws every diagram as a flowchart): 1,340 → 384 SVG/PNG completions.
+  - Frankenmermaid, 157 (block, swimlane, agentflow and railroad headers drawn as nodes): 1,342 → 1,185 SVG/PNG.
+  - Latias Merman, 68 (its terminal CLI prints a debug dump of git-graph models).
+  - Termaid, 26.
+  - Grok and MermaidText, 6 each.
+  - A few each for Mermaid RS Renderer, Crafter and XMermaid.
+
+  Each run records which inputs were rejected and why.
+- **Mermaid Fidelity: Trident gaps fall from 843 to 94**, and 16 of the 26 candidates have none.
+  - **New views:** Mermaid Dart's railroad, wardley, venn, cynefin and ishikawa; more Frankenmermaid families; the ports' class members, namespaces, Treemap and Radar ASTs; XMermaid sequence, cynefin, wardley and ishikawa.
+  - **Defects fixed where Trident, not the project, decided a result:**
+    - Values a failed assertion prints in its message no longer turn the failure into an unsupported verdict.
+    - The control no longer counts setup (`setGen('gen-2')`) as an operation.
+    - Reading `setGen` before a parse no longer marks a whole test unsupported for parsers that reject a header-only flowchart (Grok, MermaidText, Loom).
+    - A test file that fails on the candidate's own unsupported operation counts as unsupported, not as a gap.
+    - C4 records keep their identity across getters, as Mermaid's do.
+  - **Scored population:** 3,599 → 3,618 tests Mermaid passes.
+  - **Passes:** Pele 3,100 → 3,135, Bezel 2,980 → 3,033, Latias Merman 2,815 → 2,851, Agentic Mermaid 2,196 → 2,202, Mermaid Dart and Flutter 2,023 → 2,101, Frankenmermaid 1,251 → 1,313, Loom 711 → 747, Grok and MermaidText 614 → 638.
+- **Fidelity speed.**
+  - The census records each test's identifiers, so workers no longer load TypeScript.
+  - 291 candidate test files that never touch the DOM run without jsdom.
+  - Native Bun parsers are called through one persistent process (Merslim 120 → 77 s, Kitlangton Merman 158 → 103 s).
+  - Running test files in VM contexts (vmForks) was measured and rejected: it was no faster with two or more workers and changed outcomes.
+- **Drawing Correctness.**
+  - A dead worker pipe no longer records a case as unrun: the worker restarts and the case is called again.
+  - Case ids are `drawing:` instead of `terminal:`.
+  - Runs record when they started and finished, and a merge takes its date from the run.
+- **CI and tooling.**
+  - CI runs every test file except a reviewed skip list, each entry with a reason; it previously ran a hand-maintained list that left 61 files out.
+  - New `scripts/rescore-fidelity.ts` applies the current outcome rules to a recorded Fidelity run.
+
 - Mermaid Fidelity (5 November, second full re-run): Trident gaps across the 26 candidates fall from 9,108 to 843; every Fidelity rank is decided except exact ties. Reviewed views now cover every family each project parses (sequence, state, git graph, C4, kanban, gantt, architecture, mindmap, requirement, pie, packet, block, journey, the ports' agentflow, usecase, railroad, wardley, venn, cynefin, ishikawa and treeView, and the Langium ASTs), in per-area modules under `unified/mermaid-fidelity/views/`; `scripts/fidelity-probe.ts` prints the native model a view receives. Runtime: an unparsed database is the candidate's own parse of a header-only diagram (unsupported when the candidate does not parse the family); a getter read but never used is not an observation; requirement constants are supplied to every candidate; Mermaid's public `parse()` and `Diagram.fromText` use the candidate's own parser and the file's own database. Several false failures were Trident's: Agentic Mermaid's authored shape names, Pele and Bezel C4 records read untranslated, whole-record comparisons against a model that keeps no wrap flag. The control no longer counts `clear()` as an operation, so three tests that exercise nothing leave the scored population (3,602 → 3,599).
 - Drawing Correctness: labels are compared as visible text; the escape-sequence case, which only a renderer echoing raw control characters could pass, was re-rendered for every project (21 rows incorrect → correct).
 - DaveBench: failed calls are counted by their first error line (diagnostic, not ranked); every recorded failure in the audited runs is the renderer's own. A renderer process past 2 GB resident memory is stopped and the call fails with `memory limit` (Figurehead grew to 11 GB on 16 inputs), which also shortens the terminal run from 33 to about 12 minutes.
