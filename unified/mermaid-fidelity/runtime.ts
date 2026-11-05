@@ -185,6 +185,11 @@ export async function initialize(file?: string) {
     }
   }
 }
+/** The native model a candidate's parser returns for one source, as the views receive it
+ * (scripts/fidelity-probe.ts). */
+export function probeNative(family: string, source: string) {
+  return nativeParse(family, source)
+}
 /** Source text without comments: a commented-out call does not use an import. */
 function withoutComments(text: string) {
   const ts = tsCompiler()
