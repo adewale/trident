@@ -783,17 +783,22 @@ function c4View(model, hooks) {
   const shape = fields => record(fields, 'C4 shape', C4_SHAPE_FIELDS, absent.shape ?? {}, hooks, ['wrap'])
   const boundary = fields => record(fields, 'C4 boundary', C4_BOUNDARY_FIELDS, absent.boundary ?? {}, hooks, ['wrap'])
   const rel = fields => record(fields, 'C4 relation', C4_REL_FIELDS, absent.rel ?? {}, hooks, ['wrap'])
-  const shapes = () => model.shapes().map(shape)
+  // Each record is built once per parse, so the same element is the same object through
+  // every getter, as in Mermaid's database (a test compares them with toBe).
+  const once = build => { let made; return () => (made ??= build()) }
+  const shapes = once(() => model.shapes().map(shape))
+  const boundaries = model.boundaries ? once(() => [GLOBAL_BOUNDARY, ...model.boundaries()].map(boundary)) : undefined
   const byParent = (list, parent) => (parent == null ? list : list.filter(item => item.parentBoundary === parent))
   const view = {
     getC4ShapeArray: parent => byParent(shapes(), parent),
-    getC4Shape: alias => shapes().find(item => item.alias === alias),
-    getC4ShapeKeys: parent => byParent(shapes(), parent).map(item => item.alias),
-    getRels: () => model.rels().map(rel),
+    // Relations may target a boundary as well as a shape, so Mermaid falls back to boundaries.
+    getC4Shape: alias => shapes().find(item => item.alias === alias) ?? (boundaries ? boundaries().find(item => item.alias === alias) : absent.getBoundaries ? hooks.unsupported(absent.getBoundaries) : undefined),
+    // Mermaid returns Object.keys of the shape array: its indexes, as strings.
+    getC4ShapeKeys: parent => Object.keys(byParent(shapes(), parent)),
+    getRels: once(() => model.rels().map(rel)),
     ...(model.type ? { getC4Type: () => model.type } : {}),
   }
-  if (model.boundaries) {
-    const boundaries = () => [GLOBAL_BOUNDARY, ...model.boundaries()].map(boundary)
+  if (boundaries) {
     view.getBoundaries = parent => byParent(boundaries(), parent)
     view.getBoundary = alias => boundaries().find(item => item.alias === alias)
   } else if (absent.getBoundaries) view.getBoundaries = view.getBoundary = () => hooks.unsupported(absent.getBoundaries)

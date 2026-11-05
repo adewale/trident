@@ -570,7 +570,10 @@ function context(family: string) {
           if (model && /^get[A-Z]/.test(key)) {
             raw = model.raw
             try {
+              // The header-only parse stands in for the empty database, which has published
+              // no AST (Mermaid's usecaseDb.getAST() is undefined until a parse succeeds).
               view = projectView(family, raw)
+              if ('getAST' in view) view = { ...view, getAST: () => undefined }
             } catch {
               raw = undefined
             }
