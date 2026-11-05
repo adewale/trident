@@ -5,8 +5,9 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { communityCoreWorkloads, prepareCommunity, runCommunitySuite } from '../unified/community.ts'
 import { harnessRepository } from '../unified/trident-paths.ts'
+import { pinnedOracle } from './pinned-oracle.ts'
 
-test('a tool declared only in its catalog entry is benchmarked through its named public export', async () => {
+test.skipIf(!pinnedOracle)('a tool declared only in its catalog entry is benchmarked through its named public export', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'am-declared-adapter-'))
   try {
     const module = join(directory, 'index.mjs')
