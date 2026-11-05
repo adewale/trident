@@ -371,3 +371,96 @@ test('a family Frankenmermaid does not recognise is unsupported, not read from i
   // A view never reads another family's IR: a Sequence IR answers no state getters.
   expect(nativeSchemaView(PROJECT, 'state', sequence, hooks)).toBeUndefined()
 })
+
+// erDiagram / accTitle: My title / CUSTOMER["Customer Alias"] ||--o{ ORDER : places /
+// CUSTOMER { string name PK "the name" } / PRODUCT:::foo / classDef foo fill:#f9f,stroke:#333,color:red /
+// classDef bar stroke-width:4px / class ORDER foo,bar / style CUSTOMER fill:#bbb,stroke:#000
+const er = {
+  diagram_type: 'Er',
+  nodes: [
+    { id: 'CUSTOMER', label: 0, classes: [], members: [{ data_type: 'string', name: 'name', keys: ['Pk'], comment: 'the name' }], inline_style: { properties: { fill: '#bbb' } } },
+    { id: 'ORDER', classes: ['foo,bar'] },
+    { id: 'PRODUCT', classes: ['foo'], inline_style: { properties: { color: 'red' } } },
+  ],
+  edges: [edge(0, 1, 'Line', 1, { er_notation: '||--o{' })],
+  labels: labels('Customer Alias', 'places'),
+  style_refs: [{ target: { Class: 'foo' }, style: 'fill:#f9f,stroke:#333,color:red' }, { target: { Class: 'bar' }, style: 'stroke-width:4px' }, { target: { Node: 0 }, style: 'fill:#bbb,stroke:#000' }],
+  meta: { acc_title: 'My title' },
+}
+test('ER: classes as written, style statements, classDefs; a labelled entity has no alias that can be told', () => {
+  const { hooks, log } = verdicts()
+  const view = nativeSchemaView(PROJECT, 'er', er, hooks)
+  const entities = view.getEntities()
+  expect(entities.get('ORDER').cssClasses).toBe('default foo,bar')
+  expect(entities.get('ORDER').alias).toBe('')
+  expect(entities.get('CUSTOMER').cssStyles).toEqual(['fill:#bbb', 'stroke:#000'])
+  expect(entities.get('PRODUCT').cssStyles).toEqual([])
+  expect(entities.get('CUSTOMER').attributes[0].keys).toEqual(['PK'])
+  expect(() => entities.get('CUSTOMER').alias).toThrow('unsupported')
+  expect(log.at(-1)).toContain('quoted entity name')
+  // Mermaid's entity always has an alias, so a whole-entity comparison reads it.
+  expect(() => ({ ...entities.get('CUSTOMER') })).toThrow('unsupported')
+  expect(view.getClasses()).toEqual(new Map([['foo', { id: 'foo', styles: ['fill:#f9f', 'stroke:#333', 'color:red'], textStyles: ['color:red'] }], ['bar', { id: 'bar', styles: ['stroke-width:4px'], textStyles: [] }]]))
+  expect([view.getAccTitle(), view.getAccDescription()]).toEqual(['My title', ''])
+  expect(() => view.getSubGraphs()).toThrow('unsupported')
+  expect(view.getRelationships()[0].relSpec).toEqual({ cardA: 'ZERO_OR_MORE', cardB: 'ONLY_ONE', relType: 'IDENTIFYING' })
+})
+
+// flowchart LR / accTitle: Big Title / classDef exClass fill:#f9f,stroke:#333,color:red /
+// classDef c2,c3 stroke-width:4px / subgraph one ["`**md** title`"] A --> B end / class A exClass
+const flow = {
+  diagram_type: 'Flowchart',
+  direction: 'LR',
+  nodes: [{ id: 'A', shape: 'Rect', classes: ['exClass'] }, { id: 'B', shape: 'Rect', classes: [] }],
+  edges: [edge(0, 1, 'Arrow')],
+  labels: labels('md title'),
+  graph: { subgraphs: [{ id: 0, key: 'one', title: 0, children: [], members: [0, 1] }] },
+  style_refs: [{ target: { Class: 'exClass' }, style: 'fill:#f9f,stroke:#333,color:red' }, { target: { Class: 'c2' }, style: 'stroke-width:4px' }, { target: { Class: 'c3' }, style: 'stroke-width:4px' }],
+  meta: { acc_title: 'Big Title' },
+}
+test('flowchart: classDefs, accessibility text; a subgraph title does not record markdown', () => {
+  const { hooks } = verdicts()
+  const view = nativeSchemaView(PROJECT, 'flowchart', flow, hooks)
+  expect(view.getClasses().get('exClass')).toEqual({ id: 'exClass', styles: ['fill:#f9f', 'stroke:#333', 'color:red'], textStyles: ['color:red'] })
+  expect([...view.getClasses().keys()]).toEqual(['exClass', 'c2', 'c3'])
+  expect([view.getAccTitle(), view.getAccDescription()]).toEqual(['Big Title', ''])
+  expect(view.getSubGraphs()[0].title).toBe('md title')
+  expect(() => view.getSubGraphs()[0].labelType).toThrow('unsupported')
+  expect(nativeSchemaView(PROJECT, 'flowchart', er, hooks)?.getClasses).toBeUndefined()
+})
+
+// classDiagram / namespace Space { class Animal { +String name; -int age$; +makeSound(int x) bool*;
+// +foo : string } } / class Dog:::cls1 / style Dog fill:#f9f,stroke:#333 / link Dog "u"
+const cls = {
+  diagram_type: 'Class',
+  nodes: [
+    { id: 'Animal', classes: [], class_meta: { attributes: [{ visibility: 'Public', name: 'String name', is_static: false, is_abstract: false }, { visibility: 'Private', name: 'int age', is_static: true, is_abstract: false }, { visibility: 'Public', name: 'foo', return_type: 'string', is_static: false, is_abstract: false }], methods: [{ visibility: 'Public', name: 'makeSound(int x)', return_type: 'bool', is_static: false, is_abstract: true }] } },
+    { id: 'Dog', classes: ['cls1'] },
+  ],
+  edges: [],
+  labels: labels('Space'),
+  graph: { subgraphs: [{ id: 0, key: 'Space', title: 0, children: [], members: [0] }] },
+  style_refs: [{ target: { Node: 1 }, style: 'fill:#f9f,stroke:#333' }],
+  meta: { acc_title: 'T' },
+}
+test("class: members, classes, styles and namespaces; links and a method's parts are not kept", () => {
+  const { hooks } = verdicts()
+  const view = nativeSchemaView(PROJECT, 'class', cls, hooks)
+  const animal = view.getClass('Animal'), dog = view.getClass('Dog')
+  expect(animal.members[0].getDisplayDetails()).toEqual({ displayText: '+String name', cssStyle: '' })
+  expect(animal.members[1].getDisplayDetails()).toEqual({ displayText: '-int age', cssStyle: 'text-decoration:underline;' })
+  expect(animal.members[0].id).toBe('String name')
+  expect(() => animal.members[2].id).toThrow('unsupported')
+  expect(animal.methods[0].returnType).toBe('bool')
+  expect(animal.methods[0].classifier).toBe('*')
+  expect(() => animal.methods[0].getDisplayDetails()).toThrow('unsupported')
+  expect(dog.cssClasses).toBe('default cls1')
+  expect(dog.styles).toEqual(['fill:#f9f', 'stroke:#333'])
+  expect(animal.parent).toBe('Space')
+  expect(dog.parent).toBeUndefined()
+  expect(animal.type).toBe('')
+  expect(() => dog.link).toThrow('unsupported')
+  expect(view.getNamespace('Space').classes.has('Animal')).toBe(true)
+  expect(view.getNamespace('Space').label).toBe('Space')
+  expect(view.getAccTitle()).toBe('T')
+})

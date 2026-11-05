@@ -552,13 +552,20 @@ const CARD_SYMBOL = { '||': 'ONLY_ONE', '|o': 'ZERO_OR_ONE', 'o|': 'ZERO_OR_ONE'
 const LOOM_CARD = { 1: 'ONLY_ONE', '0..1': 'ZERO_OR_ONE', '1..*': 'ONE_OR_MORE', '*': 'ZERO_OR_MORE' }
 const MMDR_CARD = { CrowsFootOne: 'ONLY_ONE', CrowsFootZeroOne: 'ZERO_OR_ONE', CrowsFootMany: 'ONE_OR_MORE', CrowsFootZeroMany: 'ZERO_OR_MORE' }
 const ENTITY_FIELDS = ['id', 'label', 'alias', 'attributes', 'cssClasses', 'cssStyles', 'shape']
+// erDb.addEntity creates every entity with alias ('' by default), attributes [], cssClasses
+// 'default' and cssStyles [], so a whole-entity comparison reads them.
+const ENTITY_ALWAYS = ['alias', 'attributes', 'cssClasses', 'cssStyles']
 const ATTRIBUTE_FIELDS = ['type', 'name', 'keys', 'comment']
 const RELATIONSHIP_FIELDS = ['entityA', 'roleA', 'entityB', 'relSpec']
 
 function erView(model, hooks) {
   const { entities, relationships, absent } = model
   const attribute = fields => record(fields, 'attribute', ATTRIBUTE_FIELDS, absent.attribute ?? {}, hooks)
-  const entity = (name, fields) => record({ ...fields, ...(fields.attributes ? { attributes: fields.attributes.map(attribute) } : {}) }, 'entity', ENTITY_FIELDS, absent.entity ?? {}, hooks)
+  // An entity may name fields absent for that entity alone (VERTEX_ABSENT).
+  const entity = (name, fields) => {
+    const { [VERTEX_ABSENT]: only, ...rest } = fields
+    return record({ ...rest, ...(rest.attributes ? { attributes: rest.attributes.map(attribute) } : {}) }, 'entity', ENTITY_FIELDS, { ...(absent.entity ?? {}), ...(only ?? {}) }, hooks, ENTITY_ALWAYS)
+  }
   const map = () => new Map(entities().map(([name, fields]) => [name, entity(name, fields)]))
   const view = { getEntities: map, getEntity: name => map().get(name) }
   if (relationships)
@@ -1239,7 +1246,7 @@ export function flowchartLayoutData(view, hooks, project) {
 // Helpers and view builders for views/*.mjs. A view module uses them only inside its
 // functions, never at its own top level, because this file imports the views.
 export {
-  entriesOf, record, VERTEX_FIELDS, EDGE_FIELDS, SUBGRAPH_FIELDS, shapeOf, headOf, strokeOf, directionOf, edgeType, styleStrings, VERTEX_ABSENT, flowchartView,
+  entriesOf, record, styleList, VERTEX_FIELDS, EDGE_FIELDS, SUBGRAPH_FIELDS, shapeOf, headOf, strokeOf, directionOf, edgeType, styleStrings, VERTEX_ABSENT, flowchartView,
   unset, deepUnset, text, optional, snake, card, endOf, RELATION_TYPE, LINE_TYPE, LINE_ABSENT, classView, relation, erView, cardWord, CARD_SYMBOL, identifying,
   c4View, C4_MACRO, C4_REL_MACRO, C4_BOUNDARY_MACRO, usesTechn, WRAP, SEQ, PLACEMENT, SEQ_BLOCK, SEQ_ABSENT, sequenceView, actorsView, kanbanView, astNode,
 }

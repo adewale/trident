@@ -7,7 +7,7 @@
 // not carry is declared absent with its reason, and nothing is parsed from source text or
 // re-split from a display string. Every mapping was checked against the project's parser
 // source where it is cited, and against probe output (scripts/fidelity-probe.ts).
-import { entriesOf, record, styleStrings, classView, card, headOf, shapeOf, edgeType, strokeOf, c4View, C4_MACRO, C4_BOUNDARY_MACRO, text, WRAP, flowchartView, VERTEX_ABSENT, nativeSchemaView, erView, identifying } from '../schema-views.mjs'
+import { entriesOf, record, styleList, styleStrings, classView, card, headOf, shapeOf, edgeType, strokeOf, c4View, C4_MACRO, C4_BOUNDARY_MACRO, text, WRAP, flowchartView, VERTEX_ABSENT, nativeSchemaView, erView, identifying } from '../schema-views.mjs'
 
 // ---------------------------------------------------------------------------------------
 // Class diagrams.
@@ -455,7 +455,56 @@ const crafterClass = (_raw, hooks) => {
   return { getAccTitle: none('accessibility title'), getAccDescription: none('accessibility description'), getDirection: none('direction') }
 }
 
+// Frankenmermaid 0.4.0 IR (diagram_type Class): class_meta keeps each member's visibility
+// word, its name as written (an attribute's whole text, 'String name'; a method's name with
+// its parameter list as written, 'bar( int x )'; 'foo : string' as name foo) and return_type, with static/abstract
+// flags, a stereotype and generic parameters. :::name classes are node classes (cssClass
+// statements are not kept), style statements are style_refs { Node: i } with the written
+// style text, and namespaces are graph.subgraphs (key, title label, members, children).
+// Link and click statements leave no record.
+const FRANKEN_VISIBILITY = { Public: '+', Private: '-', Protected: '#', Package: '~', Unmarked: '' }
+function frankenClassModel(ir, hooks) {
+  if (ir?.diagram_type !== 'Class') return undefined
+  const labelText = index => (typeof index === 'number' ? ir.labels?.[index]?.text : undefined)
+  const spaces = ir.graph?.subgraphs ?? []
+  const nested = spaces.some(space => (space.children ?? []).length || space.parent != null)
+  const visibility = word => (word in FRANKEN_VISIBILITY ? FRANKEN_VISIBILITY[word] : hooks.unavailable(`${NAME_FRANKEN} member visibility ${word}`))
+  const owner = index => {
+    const owners = spaces.filter(space => (space.members ?? []).includes(index))
+    return owners.find(space => !(space.children ?? []).some(child => (spaces[child]?.members ?? []).includes(index)))?.key
+  }
+  const noLinks = `${NAME_FRANKEN}'s class parser keeps no link or click statements`
+  const asWritten = `${NAME_FRANKEN} keeps a method's name and parameter list as one written text, and splits an attribute's 'name : type' text without its spacing`
+  return {
+    classes: () => ir.nodes.map((node, index) => [node.id, {
+      label: node.id,
+      type: (node.class_meta?.generics ?? []).join(','),
+      annotations: node.class_meta?.stereotype ? [String(node.class_meta.stereotype).toLowerCase()] : [],
+      // An attribute written 'foo : string' is split into name and return_type: Mermaid's id is
+      // the whole text, whose spacing around the colon is not kept.
+      members: (node.class_meta?.attributes ?? []).map(item => ({ visibility: visibility(item.visibility), ...(item.return_type == null ? { id: item.name } : {}), ...flags({ isStatic: item.is_static, isAbstract: item.is_abstract }) })),
+      methods: (node.class_meta?.methods ?? []).map(item => ({ visibility: visibility(item.visibility), returnType: item.return_type ?? '', ...flags({ isStatic: item.is_static, isAbstract: item.is_abstract }) })),
+      styles: (ir.style_refs ?? []).filter(ref => ref.target?.Node === index).flatMap(ref => styleList(hooks, ref.style)),
+      cssClasses: ['default', ...(node.classes ?? [])].join(' '),
+      parent: owner(index),
+    }]),
+    namespaces: () => spaces.map(space => ({ id: space.key, label: labelText(space.title) ?? space.key, classIds: (space.members ?? []).filter(index => owner(index) === space.key).map(index => ir.nodes[index]?.id), ...(nested ? {} : { children: new Map(), parent: undefined }) })),
+    getAccTitle: ir.meta?.acc_title ?? '',
+    getAccDescription: ir.meta?.acc_descr ?? '',
+    absent: {
+      class: { link: noLinks, linkTarget: noLinks, tooltip: noLinks, haveCallback: noLinks },
+      member: { id: asWritten, parameters: asWritten, text: asWritten },
+      namespace: {
+        notes: `${NAME_FRANKEN} keeps class notes outside its namespaces`,
+        explicit: `${NAME_FRANKEN} does not record whether a namespace was declared or implied by a dotted name`,
+        ...(nested ? { children: `${NAME_FRANKEN}'s nested namespaces are not mapped to Mermaid's qualified ids`, parent: `${NAME_FRANKEN}'s nested namespaces are not mapped to Mermaid's qualified ids` } : {}),
+      },
+    },
+  }
+}
+const NAME_FRANKEN = 'Frankenmermaid'
 const CLASS_MODELS = {
+  'Dicklesworthstone/frankenmermaid': frankenClassModel,
   'orestesgaolin/mermaid': dartClassModel,
   'pub:mermaid_flutter': dartClassModel,
   'dfadler/zombie-mermaid': (raw, hooks) => zombieClassModel(raw, 'zombie-mermaid', hooks),
@@ -471,7 +520,10 @@ const CLASS_MODELS = {
   'evangwt/xmermaid': raw => xmermaidClassModel(raw),
   '1jehuang/mermaid-rs-renderer': raw => mmdrClassModel(raw),
 }
-const classSchema = Object.fromEntries(Object.entries(CLASS_MODELS).map(([project, model]) => [project, (raw, hooks) => classesView(model(raw, hooks), hooks)]))
+const classSchema = Object.fromEntries(Object.entries(CLASS_MODELS).map(([project, model]) => [project, (raw, hooks) => {
+  const read = model(raw, hooks)
+  return read ? classesView(read, hooks) : undefined
+}]))
 classSchema['1jehuang/mermaid-rs-renderer'] = (raw, hooks) => ({ ...classesView(mmdrClassModel(raw), hooks), getRelations: mmdrRelations(raw, hooks) })
 classSchema['crafter-station/mermaid'] = crafterClass
 
@@ -621,8 +673,36 @@ function dartEr(raw) {
     absent: { entity: { alias: "mermaid_core's ER entity model keeps no alias" }, getSubGraphs: "mermaid_core's ER model keeps no subgraphs", getAccTitle: "mermaid_core's ER model keeps no accessibility title", getAccDescription: "mermaid_core's ER model keeps no accessibility description" },
   }
 }
+// Frankenmermaid 0.4.0 IR (diagram_type Er): an entity's label slot holds either its alias
+// (NAME["alias"]) or the written text of a quoted name ("my entity", whose id becomes
+// my_entity), so an entity with a label has no alias that can be told; one without has
+// none. Classes are kept as written per class statement or :::name (a comma list stays one
+// name); style statements and classDefs are style_refs (target Node index or Class name)
+// with their written style text; subgraph and end lines are read as entities.
+function frankenEr(ir, hooks) {
+  if (ir?.diagram_type !== 'Er') return undefined
+  const refs = target => (ir.style_refs ?? []).filter(ref => ref.target && typeof ref.target === 'object' && target in ref.target)
+  return {
+    entities: () => ir.nodes.map((node, index) => [node.id, {
+      label: node.id,
+      ...(typeof node.label === 'number' ? { [VERTEX_ABSENT]: { alias: "Frankenmermaid keeps an entity's alias and the text of a quoted entity name in the same label" } } : { alias: '' }),
+      attributes: (node.members ?? []).map(m => ({ type: m.data_type, name: m.name, keys: (m.keys ?? []).map(key => String(key).toUpperCase()), comment: m.comment ?? '' })),
+      ...erCss(node.classes, refs('Node').filter(ref => ref.target.Node === index).flatMap(ref => styleList(hooks, ref.style))),
+    }]),
+    getClasses: () => {
+      const defs = new Map()
+      for (const ref of refs('Class')) defs.set(ref.target.Class, [...(defs.get(ref.target.Class) ?? []), ...styleList(hooks, ref.style)])
+      return erClasses([...defs])
+    },
+    getAccTitle: () => ir.meta?.acc_title ?? '',
+    getAccDescription: () => ir.meta?.acc_descr ?? '',
+    absent: { getSubGraphs: "Frankenmermaid's ER parser reads no subgraphs: subgraph and end lines become entities" },
+  }
+}
+ER_MODELS['Dicklesworthstone/frankenmermaid'] = frankenEr
 const erSchema = Object.fromEntries(Object.entries(ER_MODELS).map(([project, model]) => [project, (raw, hooks) => {
   const read = model(raw, hooks)
+  if (!read) return undefined
   if (!read.entities) return Object.fromEntries(Object.entries(read.absent).map(([key, reason]) => [key, () => hooks.unsupported(reason)]))
   return erExtra(read, hooks)
 }]))
@@ -740,6 +820,23 @@ const FLOW_MODELS = {
   // subgraph keeps no classes, and a markdown title is kept without its backticks.
   'orestesgaolin/mermaid': raw => dartFlow(raw),
   'pub:mermaid_flutter': raw => dartFlow(raw),
+  // Frankenmermaid 0.4.0 IR (diagram_type Flowchart): each classDef name is a style_ref
+  // { Class: name } with its written style text (classDef a,b gives one per name); the
+  // accessibility title and description are meta fields. A subgraph title written as
+  // markdown keeps only its text, the markers stripped.
+  'Dicklesworthstone/frankenmermaid': (ir, hooks) =>
+    ir?.diagram_type !== 'Flowchart'
+      ? undefined
+      : {
+          getClasses: () => {
+            const defs = new Map()
+            for (const ref of ir.style_refs ?? []) if (ref.target && typeof ref.target === 'object' && 'Class' in ref.target) defs.set(ref.target.Class, [...(defs.get(ref.target.Class) ?? []), ...styleList(hooks, ref.style)])
+            return flowClasses([...defs])
+          },
+          getAccTitle: () => ir.meta?.acc_title ?? '',
+          getAccDescription: () => ir.meta?.acc_descr ?? '',
+          subgraph: { absent: { labelType: "Frankenmermaid strips a markdown subgraph title's markers and does not record that it was markdown" } },
+        },
 }
 /** Grok's and MermaidText's edges as ../schema-views.mjs reads them (indexGraph), with a
  * start-only or mixed pair of heads kept in the project's own spelling. */
@@ -800,9 +897,9 @@ function dshFlowchart(raw, hooks) {
 const flowchartSchema = Object.fromEntries(Object.entries(FLOW_MODELS).map(([project, model]) => [project, (raw, hooks) => {
   if (hooks[BASE_ONLY]) return undefined
   const more = model(raw, hooks)
+  if (!more) return undefined
   const view = refineFlowchart(baseView(project, 'flowchart', raw, hooks), more, hooks)
-  if (more.getClasses) view.getClasses = more.getClasses
-  if (more.getEdges) view.getEdges = more.getEdges
+  for (const key of ['getClasses', 'getEdges', 'getAccTitle', 'getAccDescription']) if (more[key]) view[key] = more[key]
   for (const [key, reason] of Object.entries(more.absent ?? {})) if (!view[key]) view[key] = () => hooks.unsupported(reason)
   return view
 }]))
