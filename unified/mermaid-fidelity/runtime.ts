@@ -759,7 +759,20 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       locals,
     )
   if (/mermaidAPI/.test(source)) {
-    if (job.target.tool !== 'mermaid') return deferred('Native public Mermaid API adapter')
+    if (job.target.tool !== 'mermaid') {
+      // Mermaid's public parse() for this file's family is the candidate's own parser;
+      // initialize() and reset() are host configuration, recorded as setConfig() is.
+      const candidateAPI = {
+        async parse(text: string) {
+          c.database().parse(text)
+          return { diagramType: family }
+        },
+        initialize: (value: any) => config.setConfig(value ?? {}),
+        reset: () => config.reset(),
+        getConfig: () => config.getConfig(),
+      }
+      return boundModule({ ...candidateAPI, mermaidAPI: candidateAPI, default: candidateAPI }, c, locals)
+    }
     const observed = new Proxy(api.mermaidAPI, {
       get(target, key) {
         const value = target[key]
