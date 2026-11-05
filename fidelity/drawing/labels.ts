@@ -49,11 +49,18 @@ export function svgText(svg: string) {
 
 export function terminalText(text: string) { return text.replace(ansi, '').replace(boxDrawing, ' ') }
 
+/** Control characters are never visible text. A label written with an escape
+ * sequence ("\u001b[31mX") is shown either without the escape character ("[31mX") or
+ * without the whole sequence ("X"); a renderer is not required to echo raw control
+ * characters to pass. */
+const controls = /[\u0000-\u0008\u000b-\u001f\u007f]/g
+const visibleForms = (label: string) => [...new Set([label, label.replace(controls, ''), label.replace(ansi, '').replace(controls, '')])].filter(form => form.trim())
+
 /** A label is found when its text appears with whitespace ignored, or, for text
  * wrapped inside a box, when each of its words appears. */
 export function labelFound(label: string, text: string) {
-  const haystack = squash(text)
-  return haystack.includes(squash(label)) || label.split(/\s+/).filter(Boolean).every(token => haystack.includes(squash(token)))
+  const haystack = squash(text.replace(controls, ''))
+  return visibleForms(label).some(form => haystack.includes(squash(form)) || form.split(/\s+/).filter(Boolean).every(token => haystack.includes(squash(token))))
 }
 
 /** Raw source syntax that a drawing would never show: the diagram header line,

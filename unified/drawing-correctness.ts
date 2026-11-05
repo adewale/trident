@@ -129,6 +129,8 @@ export async function main(args = process.argv.slice(2)) {
                     'Public SVG invocation',
                     15000,
                   )
+              // Debugging only: TRIDENT_DRAWING_DUMP keeps outputs, which published runs never retain.
+              if (process.env.TRIDENT_DRAWING_DUMP) writeFileSync(join(process.env.TRIDENT_DRAWING_DUMP, encodeURIComponent(project) + '.' + test.id.replace(/\W/g, '_') + '.svg'), svg)
               const admission = expectsEmptyDrawing(test) ? { valid: true as const } : svgTextValidity(svg, test.source)
               if (!admission.valid) throw new InadmissibleOutput(admission.reason)
               assessment = assessLabels(test, 'svg', svgText(svg))

@@ -52,3 +52,10 @@ test('an empty diagram passes only without text; a case without labels is judged
   expect(assessLabels(unlabeled, 'terminal', 'bar [1]').status).toBe('incorrect')
   expect(assessLabels(unlabeled, 'svg', 'xychart-beta').status).toBe('incorrect')
 })
+
+test('a label written with an escape sequence is found in its visible forms', () => {
+  expect(labelFound('\u001b[31mX', 'A [31mX B')).toBe(true)
+  expect(labelFound('\u001b[31mX', 'A X B')).toBe(true)
+  expect(labelFound('\u001b[31mX', 'A \u001b[31mX B')).toBe(true)
+  expect(labelFound('\u001b[31mX', 'A Y B')).toBe(false)
+})
