@@ -183,6 +183,17 @@ export async function main(args = process.argv.slice(2)) {
             if (!ready.ok) throw Error(ready.error)
           }
           if (!native) await openWorker()
+          // A worker can die after answering one case and before its exit is observed; the
+          // next write then fails. Trident restarts it and gives the case one more call, so a
+          // dead transport never decides a result.
+          const callWorker = async (source: string): Promise<any> => {
+            const once = () => worker!.call({ source }).catch(error => ({ ok: false, error: 'Worker transport: ' + String(error) }))
+            const first = await once()
+            if (first.ok || !/Worker has stopped|Worker exited|Worker transport/.test(first.error ?? '')) return first
+            await worker?.close()
+            await openWorker()
+            return once()
+          }
           for (const test of cases) {
             if (!native && (!worker || worker.child.exitCode !== null)) await openWorker()
             const result = native
@@ -193,10 +204,12 @@ export async function main(args = process.argv.slice(2)) {
                     return { ok: false, error: String(e) }
                   }
                 })()
-              : await worker!.call({ source: test.source }).catch(error => ({ ok: false, error: 'Worker transport: ' + String(error) }))
+              : await callWorker(test.source)
             if (!result.ok) {
               const stopped = /Worker has stopped|Worker exited|Worker transport/.test(result.error ?? '')
-              rows.push({ project, version: native?.version ?? a.version, format: 'terminal', caseId: test.id, status: stopped ? 'unrun' : 'renderer-failure', reason: result.error })
+              // The worker stopped on this input twice, the second time freshly started: the
+              // renderer's process cannot survive it, which is the renderer's failure.
+              rows.push({ project, version: native?.version ?? a.version, format: 'terminal', caseId: test.id, status: 'renderer-failure', reason: stopped ? 'Renderer process stopped on this input, also in a fresh worker: ' + result.error : result.error })
               if (stopped || /Worker timed out/.test(result.error ?? '')) {
                 await worker?.close()
                 worker = undefined
