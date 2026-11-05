@@ -1,6 +1,36 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 — 5 November 2026
+
+The first published Trident release. It benchmarks Mermaid implementations with three
+benchmarks and publishes one consistent collection of them.
+
+- **DaveBench**: completions and time for the 1,342 Mermaid documentation examples, in
+  SVG, PNG and terminal text. A completion needs usable output, and fallback renders drawn
+  from the source text are rejected.
+- **Drawing Correctness**: whether 127 reviewed cases draw their labels without raw
+  syntax, in SVG and terminal text.
+- **Mermaid Fidelity**: Mermaid's own test suite, run against each candidate's parser
+  through reviewed views. It is scored over the 3,618 tests the pinned Mermaid passes.
+- **Results**: the [release campaign](results/release/README.md) covers 27 projects on
+  one machine at the versions frozen on 2 November. Every number in the docs is generated
+  from it, and CI checks that the result files reconcile with each other.
+- **Commands**: `prepare`, `davebench`, `davebench:terminal`, `davebench:native-png`,
+  `drawing:correctness`, `mermaid:fidelity`, `campaign:results`, `results:snapshot`,
+  `versions`, `upstream:prepare` and `mermaid:install`. Earlier designs' commands and
+  pipelines are removed (see below).
+
+Known limits:
+
+- Trident cannot assess 94 Fidelity tests, in 10 projects.
+- Results use the versions frozen on 2 November, collected on one machine; absolute times
+  compare only within the campaign.
+- Benchmarks never run in CI.
+- Fidelity needs a pinned Mermaid checkout and a locked Vitest runtime (`upstream:prepare`).
+
+The `v0.1.0` tag (an unpublished draft of an earlier design) is unchanged.
+
+### Detailed changes
 
 - **Release campaign (5 November).** All three benchmarks were collected on one machine against the frozen 2 November catalog, and the results live at fixed paths in `results/release/`. File names no longer carry a hand-chosen date (a file named 2026-11-04 had held data from 5 November); published dates come from each file's own timestamps. Every number quoted in the docs is generated from these files, and `results:snapshot --check` fails when the docs drift from them.
 - **DaveBench rejects fallback renders.** Output that shows the source's header line verbatim, or at least three and at least half of its syntax-bearing statements, was drawn from the source text, not from an understood diagram. It no longer counts as a completion. Calibration: Mermaid 0 rejections, Agentic Mermaid 0. Rejections by project:

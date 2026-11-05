@@ -44,5 +44,5 @@ test('a product source environment cannot relocate Trident oracle defaults', () 
 test('release version needs no renderer, oracle or compiled kit', () => {
   const result = help(['--version'])
   expect(result.status).toBe(0)
-  expect(result.stdout.trim()).toBe('Trident 0.1.0')
+  expect(result.stdout.trim()).toBe('Trident 0.2.0')
 })

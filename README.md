@@ -138,7 +138,7 @@ node commands.ts --version
 Mermaid Fidelity also needs a checkout of the pinned Mermaid source and its test
 runtime, built with `bun commands.ts upstream:prepare` ([runtime notes](docs/upstream-original-runtime.md)).
 The native Mermaid Flutter PNG counter is built separately ([native Flutter](native-flutter/README.md)).
-No public release has been published; see the [release notes](CHANGELOG.md).
+The current release is 0.2.0; see the [release notes](CHANGELOG.md).
 
 ## Add a tool
 
