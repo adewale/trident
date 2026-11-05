@@ -65,7 +65,7 @@ const VERTEX_ABSENT = Symbol('absent for this vertex')
 /** One flowchart view from a project-specific reading of nodes, edges and groups. */
 function flowchartView(model, hooks) {
   const { nodes, edges, subgraphs, direction, absent } = model
-  const vertex = (id, fields) => record({ id, labelType: 'text', ...fields }, 'vertex', VERTEX_FIELDS, { ...(absent.vertex ?? {}), ...(fields[VERTEX_ABSENT] ?? {}) }, hooks)
+  const vertex = (id, fields) => { const { [VERTEX_ABSENT]: only, ...rest } = fields; return record({ id, labelType: 'text', ...rest }, 'vertex', VERTEX_FIELDS, { ...(absent.vertex ?? {}), ...(only ?? {}) }, hooks) }
   const view = {}
   view.getVertices = () => new Map(nodes().map(([id, fields]) => [id, vertex(id, fields)]))
   view.getEdges = () =>
@@ -807,7 +807,9 @@ const SEQ_BLOCK = { loop: [SEQ.LOOP_START, undefined, SEQ.LOOP_END], alt: [SEQ.A
 const MESSAGE_FIELDS = ['id', 'from', 'to', 'message', 'wrap', 'type']
 const SEQ_ABSENT = Symbol('absent for this message')
 function sequenceView(entries, absent, hooks) {
-  const records = () => entries().map((fields, index) => record({ id: String(index), ...fields }, 'message', MESSAGE_FIELDS, { ...absent, ...(fields[SEQ_ABSENT] ?? {}) }, hooks))
+  // The per-message absence marker is not part of the record (it would show in toEqual).
+  const plain = fields => { const { [SEQ_ABSENT]: _absent, ...rest } = fields; return rest }
+  const records = () => entries().map((fields, index) => record({ id: String(index), ...plain(fields) }, 'message', MESSAGE_FIELDS, { ...absent, ...(fields[SEQ_ABSENT] ?? {}) }, hooks))
   return {
     getMessages: records,
     getNotes: () => entries().filter(item => item.type === SEQ.NOTE).map(item => record({ actor: item.from === item.to ? item.from : [item.from, item.to], placement: item.placement, message: item.message, ...('wrap' in item ? { wrap: item.wrap } : {}) }, 'note', ['actor', 'placement', 'message', 'wrap'], absent, hooks)),
