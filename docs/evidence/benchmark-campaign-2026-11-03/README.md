@@ -6,7 +6,7 @@ stopped and then discarded.
 
 - `report.json`, `report.md`: consolidated rankings and every valid run row, produced by `campaign:results`.
 - `images.json`, `terminal.json`, `flutter.json`: the complete SVG/PNG, terminal and native Flutter PNG collections with method, environment, admission rule and per-run rejected-output counts.
-- Mermaid Fidelity counts, per-file outcomes and gap reasons for all 27 projects are in [`results/mermaid-fidelity-2026-11-04.json`](../../../results/mermaid-fidelity-2026-11-04.json); no project is left without a binding.
+- Mermaid Fidelity counts, per-file outcomes and gap reasons for all 27 projects are in [`results/release/mermaid-fidelity.json`](../../../results/release/mermaid-fidelity.json); no project is left without a binding.
 
 ## What changed from 2 November
 

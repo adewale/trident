@@ -89,3 +89,9 @@ test('Fidelity scores the reference-qualified population; callbacks the control 
   expect(league).toContain('| 1 | 1 | a 1.0.0 | 1 | 1 | 0 |')
   expect(league).toContain('| — | — | b 1.0.0 | Not run | — | 2 |')
 })
+
+test('current result files carry no hand-chosen collection date in their names', () => {
+  // A dated name once claimed 4 November for Fidelity collected on 5 November. Dates are
+  // published from the timestamps inside each file; only the frozen catalog is named for its cutoff.
+  for (const path of currentBenchmarkResultFiles.slice(0, 3)) expect(path).not.toMatch(/\d{4}-\d{2}-\d{2}/)
+})

@@ -288,7 +288,7 @@ branch as a historical record.
 - [Drawing Correctness and Fidelity method and earlier detailed results](correctness-fidelity-results-2026-11-02.md)
 - [DaveBench numeric results](evidence/benchmark-campaign-2026-11-03/report.json)
 - [Drawing Correctness numeric results](../results/drawing-correctness-2026-11-03.json)
-- [Mermaid Fidelity numeric results](../results/mermaid-fidelity-2026-11-04.json)
+- [Mermaid Fidelity numeric results](../results/release/mermaid-fidelity.json)
 - Superseded 2 November results: [DaveBench](evidence/benchmark-campaign-2026-11-02/report.json), [Drawing](../results/drawing-correctness-2026-11-02.json), [Fidelity](../results/mermaid-fidelity-2026-11-02.json)
 
 `RESULTS.md` previously remained attached to the 1 November legacy snapshot while

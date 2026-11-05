@@ -106,7 +106,10 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
 }
 
 /** DaveBench, Drawing Correctness, Mermaid Fidelity and the frozen catalog behind the landing page. */
-export const currentBenchmarkResultFiles = ['docs/evidence/benchmark-campaign-2026-11-04/report.json', 'results/drawing-correctness-2026-11-04.json', 'results/mermaid-fidelity-2026-11-04.json', 'docs/evidence/benchmark-campaign-2026-11-02/catalog.json']
+/** The release campaign lives at fixed paths: a file name never claims a collection date.
+ * Published dates come from the timestamps each result file records (published-facts.ts).
+ * The catalog is the version cutoff the campaign ran against, named for the day it was frozen. */
+export const currentBenchmarkResultFiles = ['results/release/report.json', 'results/release/drawing-correctness.json', 'results/release/mermaid-fidelity.json', 'docs/evidence/benchmark-campaign-2026-11-02/catalog.json']
 
 /** Current campaign inputs already tracked in the repository; older snapshots
  * continue to support explicit historical exports to other directories. */

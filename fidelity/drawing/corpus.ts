@@ -54,7 +54,9 @@ export function drawingCases(): DrawingCase[] {
     if (input.expected.status !== 'independently-reviewed') sourceGaps.push('Seed source expectations have not been admitted')
     if (!(input as any).drawingExpected && !literal.complete) sourceGaps.push('Common drawing source transcription is incomplete')
     if (!input.expected.contract || input.expected.contract.sourceUncertainties.length) sourceGaps.push(...(input.expected.contract?.sourceUncertainties ?? ['No shared source contract']))
-    const item = { id: input.id, family: input.family, source: input.source, origins: [...input.origins], expected, sourceGaps, terminal: input, geometry: (input as any).geometry ?? [] }
+    // Seeds come from the reviewed terminal corpus; a Drawing case is named for its source,
+    // not for the corpus it was first collected in (its SVG rows are not terminal cases).
+    const item = { id: input.id.replace(/^terminal:/, 'drawing:'), family: input.family, source: input.source, origins: [...input.origins], expected, sourceGaps, terminal: input, geometry: (input as any).geometry ?? [] }
     cases.push(item)
     seen.set(key, item)
   }

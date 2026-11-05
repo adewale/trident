@@ -589,7 +589,7 @@ export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog
   if (leagues !== undefined) {
     // RESULTS.md and every number quoted in the docs come from the same result files.
     const [davebench, drawing, fidelity] = currentBenchmarkResultFiles.slice(0, 3).map(path => JSON.parse(readFileSync(join(root, path), 'utf8')))
-    const outputs: [string, string][] = [[join(root, 'RESULTS.md'), leagues], ...factOutputs(root, publishedFacts(davebench, drawing, fidelity))]
+    const outputs: [string, string][] = [[join(root, 'RESULTS.md'), leagues], ...factOutputs(root, () => publishedFacts(davebench, drawing, fidelity))]
     for (const [path, expected] of outputs)
       if (check) { if (!existsSync(path) || readFileSync(path, 'utf8') !== expected) throw Error('Results snapshot is stale: ' + path + ' (run bun commands.ts results:snapshot)') }
       else writeFileSync(path, expected)

@@ -211,27 +211,27 @@ test('reviewed contracts close lexical source gaps without changing renderer inp
   const cases = drawingCases(),
     get = (id: string) => cases.find(c => c.id === id)!
   expect(cases.flatMap(c => c.sourceGaps)).toEqual([])
-  const entity = get('terminal:478ab66bb4c7e4f5')
+  const entity = get('drawing:478ab66bb4c7e4f5')
   expect(entity.source).toContain('&lt;T&gt;')
   expect(entity.expected.nodes?.map(n => n.id)).toEqual(['A', 'B'])
   expect(entity.expected.edges?.[0]?.label).toBe('returns <T>')
-  const state = get('terminal:9e4e5a5e072642e8')
+  const state = get('drawing:9e4e5a5e072642e8')
   expect(state.expected.edges?.map(e => [e.source, e.target])).toEqual([
     ['[start:root]', 'שָלוֹם'],
     ['שָלוֹם', '[end:root]'],
   ])
-  expect(get('terminal:e84af4bd39ddf3eb').expected.labels).toEqual(['空闲', '完成'])
-  const generic = get('terminal:c5455d2e2f5f8672')
+  expect(get('drawing:e84af4bd39ddf3eb').expected.labels).toEqual(['空闲', '完成'])
+  const generic = get('drawing:c5455d2e2f5f8672')
   expect(generic.source).toContain('Box~T~ <|-- IntBox')
   expect(generic.expected.edges?.[0]).toMatchObject({ source: 'Box', target: 'IntBox', startMarker: 'triangle', label: 'specializes' })
   expect(generic.expected.facts?.generics).toEqual([{ id: 'Box', parameter: 'T' }])
-  expect(get('terminal:b1428b5b59888938').expected.edges?.map(e => e.label)).toEqual(['read', 'write'])
-  expect(get('terminal:d7362afef7c26051').expected.facts?.['participant-kinds']).toContainEqual({ id: 'Shop', kind: 'Control' })
+  expect(get('drawing:b1428b5b59888938').expected.edges?.map(e => e.label)).toEqual(['read', 'write'])
+  expect(get('drawing:d7362afef7c26051').expected.facts?.['participant-kinds']).toContainEqual({ id: 'Shop', kind: 'Control' })
 })
 test('empty drawings need no differentiated ink; extra visible ink fails SVG and canonical PNG', async () => {
   const page = await browser.newPage()
   try {
-    const input = drawingCases().find(c => c.id === 'terminal:a5204531005bef25')!
+    const input = drawingCases().find(c => c.id === 'drawing:a5204531005bef25')!
     expect(input.expected.nodes).toEqual([])
     expect(input.expected.labels).toEqual([])
     for (const [body, status] of [
@@ -300,7 +300,7 @@ test('compound state glyphs use the shared reinspection chain and missing glyphs
   try {
     const svg =
       '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><defs><marker id="head" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="black"/></marker></defs><path d="M100 28 V70" stroke="black" fill="none" marker-end="url(#head)"/><path d="M100 110 V156" stroke="black" fill="none" marker-end="url(#head)"/><circle cx="100" cy="20" r="8" fill="black"/><rect x="60" y="70" width="80" height="40" fill="white" stroke="black"/><text x="80" y="95" font-size="16">Ready</text><circle cx="100" cy="165" r="9" fill="white" stroke="black"/><circle id="final-disc" cx="100" cy="165" r="5" fill="black"/></svg>'
-    const base = drawingCases().find(c => c.id === 'terminal:9e4e5a5e072642e8')!
+    const base = drawingCases().find(c => c.id === 'drawing:9e4e5a5e072642e8')!
     const expected: any = structuredClone(base.expected)
     const replace = (v: any): any => (typeof v === 'string' ? v.replaceAll('שָלוֹם', 'Ready') : Array.isArray(v) ? v.map(replace) : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, replace(x)])) : v)
     const input = { ...base, source: 'stateDiagram-v2\n[*] --> Ready\nReady --> [*]', expected: replace(expected) }

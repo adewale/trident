@@ -7,8 +7,8 @@ and artifact versions. No rendered output is retained.
   native Flutter PNG collections, each run alone on the machine. The three Flutter runs
   are appended to `images.json`, as on 3 November.
 - `report.json`, `report.md`: the DaveBench rankings built from them by `campaign:results`.
-- Drawing Correctness: [`results/drawing-correctness-2026-11-04.json`](../../../results/drawing-correctness-2026-11-04.json).
-- Mermaid Fidelity: [`results/mermaid-fidelity-2026-11-04.json`](../../../results/mermaid-fidelity-2026-11-04.json),
+- Drawing Correctness: [`drawing-correctness.json`](drawing-correctness.json).
+- Mermaid Fidelity: [`mermaid-fidelity.json`](mermaid-fidelity.json),
   scored against the 4 November control run (3,602 qualified of 5,737 expanded callbacks).
 
 ## What reproduced

@@ -15,7 +15,7 @@ const day = (iso: string | undefined) => (iso ? new Date(iso).toLocaleDateString
 export function publishedFacts(davebench: any, drawing: any, fidelity: any): Record<string, string> {
   const control = fidelity.results.find((row: any) => row.project === 'mermaid-js/mermaid')
   const candidates = fidelity.results.filter((row: any) => row.project !== 'mermaid-js/mermaid')
-  const assessed = Object.values(drawing.totals as Record<string, number>).reduce((sum, n) => sum + n, 0)
+  const assessed = drawing.results.reduce((sum: number, row: any) => sum + Object.values(row.counts as Record<string, number>).reduce((a, n) => a + n, 0), 0)
   const projects = new Set([...(davebench.runs ?? []).map((run: any) => run.project), ...drawing.results.map((row: any) => row.project), ...fidelity.results.map((row: any) => row.project)])
   return {
     'davebench-inputs': count(davebench.corpus.occurrences),
@@ -48,6 +48,9 @@ export function fillFacts(text: string, facts: Record<string, string>, file = 'd
 }
 
 /** [path, filled content] for every fact document that differs from its filled form. */
-export function factOutputs(root: string, facts: Record<string, string>) {
-  return factDocuments.map(file => join(root, file)).filter(path => existsSync(path)).map(path => [path, fillFacts(readFileSync(path, 'utf8'), facts, path)] as [string, string])
+export function factOutputs(root: string, facts: () => Record<string, string>) {
+  const documents = factDocuments.map(file => join(root, file)).filter(path => existsSync(path))
+  if (!documents.length) return []
+  const values = facts()
+  return documents.map(path => [path, fillFacts(readFileSync(path, 'utf8'), values, path)] as [string, string])
 }
