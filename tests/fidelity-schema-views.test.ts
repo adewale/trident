@@ -197,7 +197,7 @@ test('VitePress relations keep no marker side; Merslim ER keeps keys but not car
 test('Frankenmermaid flowchart IR: arrow words name both ends and the line; subgraphs come out innermost first', () => {
   const { hooks, log } = verdicts()
   const ir = {
-    direction: 'LR', labels: [{ text: 'Start' }, { text: 'yes' }, { text: 'Outer' }, { text: 'inner' }],
+    diagram_type: 'Flowchart', direction: 'LR', labels: [{ text: 'Start' }, { text: 'yes' }, { text: 'Outer' }, { text: 'inner' }],
     nodes: [{ id: 'A', label: 0, shape: 'Rect', classes: ['has-link'], interaction: { href: 'http://x' } }, { id: 'B', shape: 'Rect', classes: [] }, { id: 'C', shape: 'Asymmetric', classes: [] }],
     edges: [{ from: { Node: 0 }, to: { Node: 1 }, arrow: 'Arrow', label: 1 }, { from: { Node: 1 }, to: { Node: 2 }, arrow: 'DoubleDottedArrow' }, { from: { Node: 0 }, to: { Node: 2 }, arrow: 'ThickCircle' }],
     style_refs: [{ target: { Node: 0 }, style: 'fill:#f00,stroke:#333' }, { target: { Link: 1 }, style: 'stroke:red' }],
