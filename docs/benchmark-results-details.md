@@ -112,12 +112,17 @@ parsers never reject input either and return a partial model.
 
 **Reviewed schema views map each bridged model.** A view
 (`unified/mermaid-fidelity/schema-views.mjs`) reads one project's own model field by
-field and answers the Mermaid database getters the tests call: flowchart vertices,
-edges, subgraphs and direction; class members, relations and notes; ER entities,
-attributes and relationships; C4 shapes, boundaries and relations; sequence
-participants and the flat message list (messages, notes, activations and block
-markers in source order); git graphs; the Mermaid ports' kanban and treeView records;
-and the radar and info ASTs where a project's model can express them. Every mapping
+field and answers the Mermaid database getters the tests call, for every family a
+project parses: flowchart, class, ER, C4, sequence (participants and the flat message
+list of messages, notes, activations and block markers in source order, rebuilt from
+index-addressed models where the indexes can order every statement), state, git graph,
+kanban, gantt, architecture, mindmap, requirement, pie, packet, block, journey, the
+Mermaid ports' agentflow, usecase, railroad, wardley, venn, cynefin, ishikawa and
+treeView records, and the Langium ASTs (radar, info, git graph, architecture, treemap,
+treeView, railroad) where a model can express them. Views live in
+`unified/mermaid-fidelity/schema-views.mjs` and per-area modules under
+`unified/mermaid-fidelity/views/`; `scripts/fidelity-probe.ts` prints the native model a
+view receives. Every mapping
 was checked against the project's type definitions, parser source or captured parser
 output: Mermaid's own vocabularies (shape names, edge types, strokes, ER
 cardinalities, class relation codes, C4 shape types, sequence line types) are matched
@@ -166,8 +171,9 @@ Three policies, decided on 4 November, settle what Trident supplies:
   reviewed flowchart getters with Mermaid's FlowDB translation (shape names, arrow types,
   groups, parents, edge ids). Fields Mermaid's renderer decides itself (padding, look,
   compiled styles, colour slots, curve defaults) are not a parse result, so reading them
-  is unsupported. Kanban, mindmap, state and agentflow layout data follow as each
-  project's views for those families are written; until then they are gaps.
+  is unsupported. State, kanban, agentflow and usecase layout data follow the same rule
+  with Mermaid's own data fetchers; mindmap, class and architecture layout computation
+  is unsupported.
 - **Host configuration.** Trident records the non-default configuration a test sets and
   clears it at the start of every test, exactly as the control's Mermaid configuration
   is cleared, so a setting made outside a test never reaches a later one. When a
@@ -177,12 +183,22 @@ Three policies, decided on 4 November, settle what Trident supplies:
 - **Mermaid's constant vocabularies.** `RiskLevel`, `Cardinality`, `LINETYPE`,
   `commitType` and the class relation codes are supplied where the candidate's values are
   already in Mermaid's vocabulary: with a reviewed view that translates them, and for the
-  ports that keep Mermaid's own records (Pele, Bezel, Latias Merman). Elsewhere a test
-  that uses them stays a gap rather than risk comparing an untranslated value.
+  ports that keep Mermaid's own records (Pele, Bezel, Latias Merman). Requirement
+  constants are the words a test writes into its source text (`risk: High`), so they are
+  supplied to every candidate, before or after a parse; a candidate's own values are
+  still compared only through a view. Elsewhere a test that uses them stays a gap rather
+  than risk comparing an untranslated value.
 
-Langium AST tests get reviewed AST views where a model can express the AST (radar,
-architecture, treeView, treemap and info for the ports; architecture and treemap for
-`mermaid_core`). An accepted parse with no reviewed view is still an AST of the right
+A database the test reads before parsing (or after `clear()`) is, for a candidate with
+no database class of its own, the candidate's own parse of a diagram with only its
+header (`usecase-beta`); a candidate that rejects a header-only diagram has no empty
+model and such reads stay gaps. A getter read whose value no assertion uses is not an
+observation. A getter imported by name from a database module (`getAccDescription`
+from `commonDb`) reads the parsed diagram when called, and Mermaid's public
+`mermaidAPI.parse` is the candidate's own parser for the file's family.
+
+Langium AST tests get reviewed AST views where a model can express the AST. An accepted
+parse with no reviewed view is still an AST of the right
 type, so tests that check only `$type` are assessed, while every other field is a gap.
 Unknown schemas and import or transport errors remain explicit per-test gaps;
 `scripts/fidelity-gaps.ts` lists them per project and cause.

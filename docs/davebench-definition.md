@@ -35,7 +35,7 @@ audit](benchmark-versions-2026-11-02.md).
 
 1. Initialize the selected renderer. For browser comparisons, use one fixed Chromium environment and run participants sequentially.
 2. Warm up each renderer/output path with the same first 30 inputs before each run. Exclude warm-up calls from result counts and timing.
-3. Attempt every input sequentially and independently for each applicable format: SVG, PNG and terminal text. Run each format three times. Use the same declared timeout for all participants; timeout calls count as failures.
+3. Attempt every input sequentially and independently for each applicable format: SVG, PNG and terminal text. Run each format three times. Use the same declared timeout for all participants; timeout calls count as failures. A renderer process (native CLI or persistent worker) whose resident memory passes the same declared limit for all participants (2 GB, `TRIDENT_RENDERER_MEMORY_MB`) is stopped and the call counts as a failure with reason `memory limit`, so one runaway process cannot exhaust the machine and disturb other measurements.
 4. Measure elapsed time around each awaited render/export operation with a monotonic clock. Include failed-call time. Stop the clock on completion or failure. Initialization, warm-up, reporting and subsequent cleanup are outside the clock.
 5. Count a render as completed when the operation finishes without reporting an error **and its output passes mechanical admission** (below). Count explicit errors, rejected calls, timeouts and inadmissible outputs as failures. Admission runs after the clock stops. Discard returned output after admission; do not save it.
 
@@ -79,6 +79,6 @@ Total time is the sum of measured call times over every attempted input, includi
 
 The runner writes the rule and rankings to `results.json` and a readable `rankings.md`. Rank before rounding displayed times. There is no weighted combination of completion and speed, and no combined rank across output formats.
 
-Retain source revision, extraction rule, renderer versions, invocation/conversion path, environment, timeout and numeric results. No SVGs, PNGs, terminal outputs, output hashes, output sizes or drawing judgments are needed.
+Retain source revision, extraction rule, renderer versions, invocation/conversion path, environment, timeout and numeric results. Each run also counts failed calls by their first error line (`errorReasons`, numbers folded to `N`) beside the admission failures (`invalidReasons`); these are diagnostics, not part of the ranking, and they show whether a failure is the renderer's own or the harness's. No SVGs, PNGs, terminal outputs, output hashes, output sizes or drawing judgments are needed.
 
 Run this benchmark with `bun commands.ts davebench --out FRESH_DIRECTORY`. It uses a separate counter-and-timer runner; it does not invoke the older drawing-assessment collectors. `--prepared FILE` reuses installed public artifacts, and `--projects OWNER/PROJECT,...` selects participants. Native CLI PNG exports use the declared stdout binding where supported (including Merman), or a scratch destination. Stdout goes to a regular scratch file, so native exporters can reopen it without a socket-backed pipe; Merman rejects `/dev/null` as a non-regular file. The file is admitted after the clock stops and deleted; no image file is retained.
