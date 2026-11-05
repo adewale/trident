@@ -12,7 +12,7 @@ setDefaultTimeout(30_000)
 const directory = './fixtures/graph-families/retained-contradictions/'
 const retained = JSON.parse(readFileSync(new URL(directory + 'provenance.json', import.meta.url), 'utf8')).retained
 const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases
-const reviews = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8'))
+const reviews = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString())
 const status = (paint: PaintEvidence, criterion: string) => paint.checks.find(check => check.criterion === criterion)?.status
 let browser: any
 beforeAll(async () => { browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable }) })

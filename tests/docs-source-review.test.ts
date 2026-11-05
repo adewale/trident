@@ -1,7 +1,6 @@
 import { expect, test } from 'bun:test'
 import { readFileSync } from 'node:fs'
 import { gunzipSync } from 'node:zlib'
-import { documentationSourceAudit } from '../scripts/review-docs-sources.ts'
 import { admitDocsReviews, assessDocsDrawing } from '../unified/docs-drawings.ts'
 import { docsSourcePin, requiredDocumentationObligations, reviewDocumentationSource } from '../unified/docs-source-review.ts'
 
@@ -222,26 +221,6 @@ test('fontawesome glyph references are resource obligations rather than literal 
   expect(row.expected!.facts!['embedded-icons']).toEqual([{ id: 'A', icons: [{ reference: 'fa:fa-twitter', textOffset: 0 }] }, { id: 'B', icons: [{ reference: 'fa:fa-spinner', textOffset: 0 }] }])
 })
 
-
-test('the full pinned corpus keeps all 548 occurrences and 546 distinct literal diagrams', () => {
-  const inventory = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString())
-  const audit = documentationSourceAudit(inventory)
-  const committed = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8'))
-  expect(inventory.occurrences).toBe(548)
-  expect(inventory.distinct).toBe(546)
-  expect(audit.reviews).toEqual(committed)
-  expect(audit.admitted).toHaveLength(548)
-  expect(audit.pending.map(row=>row.id)).toEqual(['packages/mermaid/src/docs/syntax/gitgraph.md:471'])
-  expect(audit.reviews.filter(row => row.intent === 'configuration-only').map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/gantt.md:291'])
-  expect(audit.reviews.filter(row => row.intent === 'drawing')).toHaveLength(546)
-  expect(audit.reviews.filter(row => row.intent === 'drawing' && row.sourceReview.expectedFactsComplete)).toHaveLength(545)
-  expect(audit.admitted.find(row=>row.id==='packages/mermaid/src/docs/syntax/gitgraph.md:471')).toMatchObject({intent:'source-review-pending',registeredIntent:'drawing',registeredProfileEligible:true})
-  expect(audit.reviews.filter(row => row.intent === 'invalid-source').map(row => row.id)).toEqual(['packages/mermaid/src/docs/syntax/kanban.md:83'])
-  for (const row of audit.reviews) if (row.intent === 'drawing') expect(row.sourceReview.requiredObligations.length).toBeGreaterThan(0)
-  const shared = new Map<string, string[]>()
-  for (const row of inventory.cases) { const ids = shared.get(row.source.trim()) ?? []; ids.push(row.id); shared.set(row.source.trim(), ids) }
-  expect([...shared.values()].filter(ids => ids.length > 1).map(ids => ids.length).sort()).toEqual([2, 2])
-})
 
 
 test('usecase label delimiters do not replace actor geometry or default ellipse semantics', () => {

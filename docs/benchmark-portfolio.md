@@ -1,8 +1,8 @@
 # Trident's three benchmarks
 
 Agreed direction, 2 November 2026. All three collectors are implemented. The
-[Drawing and Fidelity collection](correctness-fidelity-results-2026-11-02.md)
-reports the remaining assessment and adapter gaps explicitly.
+[methods and coverage details](benchmark-results-details.md#why-coverage-is-incomplete)
+report the remaining assessment and adapter gaps explicitly.
 
 | Benchmark | Question | Workload | Better result |
 |---|---|---|---|

@@ -9,7 +9,7 @@ import { chromiumExecutable } from './helpers/environment.ts'
 setDefaultTimeout(30_000)
 const fixture = new URL('./fixtures/quadrant-canvas/', import.meta.url), provenance = JSON.parse(readFileSync(new URL('provenance.json', fixture), 'utf8'))
 const retained = readFileSync(new URL(provenance.file, fixture), 'utf8'), source = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases.find((c: any) => c.id === provenance.id).source
-const canonical = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8')).find((c: any) => c.id === provenance.id).expected
+const canonical = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString()).find((c: any) => c.id === provenance.id).expected
 let browser: any
 beforeAll(async () => { browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable }) })
 afterAll(async () => { await browser?.close() })

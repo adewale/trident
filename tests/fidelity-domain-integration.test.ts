@@ -12,7 +12,7 @@ beforeAll(async () => { browser = await chromium.launch({ executablePath: chromi
 afterAll(async () => { await browser?.close() })
 const directory = new URL('./fixtures/domain-facts/', import.meta.url)
 const provenance = JSON.parse(readFileSync(new URL('provenance.json', directory), 'utf8')) as any[]
-const docs = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8')) as any[]
+const docs = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString()) as any[]
 const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases as any[]
 async function inspect(file: string, change?: string, expectedOverride?: any) {
   const entry = provenance.find(entry => entry.file === file)!, sourceCase = expandedFidelityCases().find(c => c.id === entry.caseId) ?? docs.find(c => c.id === entry.caseId), page = await browser.newPage({ viewport: { width: 1600, height: 1200 } })

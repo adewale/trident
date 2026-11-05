@@ -5,20 +5,21 @@ Correctness** and **Mermaid Fidelity**, plus their equal-weight synthesis. It co
 [methods and coverage details](../docs/benchmark-results-details.md). Project names
 and versions always form one display label.
 
-The current page reads the existing numeric measurements:
+The page and every generated number in the docs read these numeric results
+(`currentBenchmarkResultFiles` in `unified/three-benchmark-report.ts`):
 
-- [DaveBench](../docs/evidence/benchmark-campaign-2026-11-02/report.json)
-- [Drawing Correctness](drawing-correctness-2026-11-02.json)
-- [Mermaid Fidelity](mermaid-fidelity-2026-11-02.json)
+- [DaveBench](release/report.json), built from [images](release/images.json), [terminal](release/terminal.json) and [native Flutter PNG](release/flutter.json)
+- [Drawing Correctness](release/drawing-correctness.json)
+- [Mermaid Fidelity](release/mermaid-fidelity.json)
+- [Frozen catalog](../docs/evidence/benchmark-campaign-2026-11-02/catalog.json)
 
-Regenerate or check it without executing a benchmark:
+`release/` holds one campaign under fixed names; [its README](release/README.md) describes it. File names carry no dates: published dates come from the timestamps each file records.
+
+Regenerate or check them without executing a benchmark:
 
 ```sh
 bun commands.ts results:snapshot
 bun commands.ts results:snapshot --check
 ```
 
-`latest.json`, `baseline.json` and `tables/` retain historical measurements. They do
-not supply the current landing page. Explicit historical campaign imports require
-a separate `--out` directory. Current presentation changes do not regenerate
-historical archives or change measured values.
+Superseded collections and the legacy results snapshot remain in Git history.

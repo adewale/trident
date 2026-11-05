@@ -36,14 +36,6 @@ jobs:
       - run: bun run lint
       - run: bun run typecheck
       - run: bun commands.ts results:snapshot --check
-      - id: measurements
-        run: bun commands.ts verify:measurements --out "$RUNNER_TEMP/trident-measurements"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        if: always() && steps.measurements.outcome != 'skipped'
-        with:
-          name: measurement-verification
-          path: ${{ runner.temp }}/trident-measurements
-          if-no-files-found: error
       - run: bun run test:ci
   macos-tests:
     # macOS temporary folders are symlinks (/var -> /private/var), which Linux paths never

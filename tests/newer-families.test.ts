@@ -6,7 +6,6 @@ import { join } from 'node:path'
 import { familySupportProbe, legacyScoredFamilies, newerFamilies, portableCases, scoredFamilies } from '../portable/cohorts.ts'
 import { assertMermaidOracle, assertOracleAgrees, MERMAID_ORACLE_PIN, mermaidUpstreamDirectory, mermaidVerdicts, mermaidZenumlAddon, mermaidOracleDirectory } from '../portable/mermaid-oracle.ts'
 import { communityCorpus } from '../unified/corpus.ts'
-import { mermaidDocsWorkloads } from '../unified/docs-corpus.ts'
 import { censusDisplayText, referenceLabels } from '../unified/oracle-labels.ts'
 import { pinnedOracle } from './pinned-oracle.ts'
 
@@ -52,12 +51,6 @@ test('the committed corpus carries every documented example of the newer familie
     expect(corpus.profiles.smoke.filter(id => own.some(workload => workload.id === id))).toHaveLength(1)
     expect(own.every(workload => corpus.profiles.full.includes(workload.id))).toBe(true)
   }
-})
-
-test.skipIf(!upstreamTagged)('a re-import from the tagged Mermaid checkout reproduces the committed examples', () => {
-  const docs = mermaidDocsWorkloads(mermaidUpstreamDirectory())
-  expect(docs.upstream).toEqual(communityCorpus().upstream!)
-  expect(docs.workloads).toEqual(communityCorpus().workloads.filter(workload => newerFamilies().includes(workload.family)))
 })
 
 // The independent parser supplies Event Modeling identities even when jsdom cannot

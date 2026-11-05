@@ -12,7 +12,7 @@ let browser: any
 beforeAll(async () => { browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable }) })
 afterAll(async () => { await browser?.close() })
 const directory = new URL('./fixtures/graph-completion/', import.meta.url), provenance = JSON.parse(readFileSync(new URL('provenance.json', directory), 'utf8'))
-const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases, reviews = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8'))
+const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases, reviews = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString())
 async function inspect(svg: string, input: any, frozenFonts = false) { const page = await browser.newPage(); try { await page.setContent(svg); const fontContext = frozenFonts ? await retainedGraphFonts(page) : undefined; return { ...await inspectSvgDrawing(page, input), fontContext } } finally { await page.close() } }
 const status = (paint: any, criterion: string) => paint.checks.find((c: any) => c.criterion === criterion)?.status
 for (const meta of provenance) test('retained graph contours and topology under owned font bytes: ' + meta.index, async () => {

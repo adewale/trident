@@ -61,22 +61,21 @@ test('observed zero and wholly unassessed drawing outputs remain different', () 
   expect(page.split('## Drawing Correctness')[1]!.split('## Mermaid Fidelity')[0]).toContain('| — | — | b 1.0.0 | Not assessed | — | 2 |')
 })
 
-test('snapshot regeneration reads all three current results rather than reviving the legacy page', () => {
+test('snapshot regeneration reads all three current results', () => {
   const { davebench, drawing, fidelity, catalog } = leaguesFixture()
   const root = mkdtempSync(join(tmpdir(), 'trident-current-leagues-'))
   const files = currentBenchmarkResultFiles
   try {
     const data = [davebench, drawing, fidelity, catalog]
     for (let i = 0; i < files.length; i++) { const path = join(root, files[i]!); mkdirSync(join(path, '..'), { recursive: true }); writeFileSync(path, JSON.stringify(data[i])) }
-    const legacy = { schema: 'trident-results-snapshot-v1' as const, tables: [], attempts: [] }
-    writeSnapshot(legacy, catalog as any, root)
+    writeSnapshot(root)
     expect(readFileSync(join(root, 'RESULTS.md'), 'utf8')).toContain('## Mermaid Fidelity')
-    writeSnapshot(legacy, catalog as any, root, true)
+    writeSnapshot(root, true)
     fidelity.results[0]!.counts.passed = 2; fidelity.results[0]!.counts.failed = 0
     writeFileSync(join(root, files[2]!), JSON.stringify(fidelity))
-    expect(() => writeSnapshot(legacy, catalog as any, root, true)).toThrow('stale')
+    expect(() => writeSnapshot(root, true)).toThrow('stale')
     rmSync(join(root, files[2]!))
-    expect(() => writeSnapshot(legacy, catalog as any, root)).toThrow('all three')
+    expect(() => writeSnapshot(root)).toThrow('all three')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 

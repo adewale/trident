@@ -1,1 +1,0 @@
-time="2026-11-01T00:44:22Z" level=fatal msg="failed to parse graph diagram: unsupported graph type 'not a diagram'. Supported types: 'graph' or 'flowchart' with an optional direction (TD, TB, BT, LR, RL)"

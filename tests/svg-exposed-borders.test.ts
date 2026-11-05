@@ -10,7 +10,7 @@ let browser:any
 beforeAll(async()=>{browser=await chromium.launch({executablePath:chromiumExecutable,headless:true})})
 afterAll(async()=>{await browser?.close()})
 const directory=new URL('./fixtures/svg-exposed-borders/',import.meta.url),provenance=JSON.parse(readFileSync(new URL('provenance.json',directory),'utf8'))
-const reviewed=JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json',import.meta.url),'utf8')),sources=JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz',import.meta.url))).toString()).cases
+const reviewed=JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString()),sources=JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz',import.meta.url))).toString()).cases
 const status=(paint:any)=>paint.checks.find((check:any)=>check.criterion==='painted-node-visibility')?.status
 async function inspect(svg:string,input:any,mutation?:string){const page=await browser.newPage({viewport:{width:1400,height:1000}});try{await page.setContent(svg);if(mutation)await page.evaluate(mutation);return await inspectSvgDrawing(page,input)}finally{await page.close()}}
 for(const index of[55,64,104])test('actual stroke-only border does not claim inherited fill area: '+index,async()=>{

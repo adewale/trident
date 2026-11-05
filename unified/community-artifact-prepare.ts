@@ -45,7 +45,7 @@ function environment(cache: string): NodeJS.ProcessEnv {
  * manifest can bypass toolchain work, but must match the resolved version and
  * every shipped/fetched file digest. Timings are always rerun separately. */
 export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: string, providedManifest?: string): Promise<CommunityArtifact> {
-  if (node.benchmark?.adapter === 'native-flutter') throw Error('Native Flutter requires a sealed release bundle. Run bun native-flutter/prepare-community.ts --bundle RELEASE_BUNDLE --out FRESH_DIRECTORY, then supply its prepared.json with --community-prepared (or --prepared for support:verify); no catalog override is required.')
+  if (node.benchmark?.adapter === 'native-flutter') throw Error('Native Flutter has no prepared artifact: DaveBench measures it with davebench:native-png from a release bundle (see native-flutter/README.md).')
   const adapter = node.benchmark?.adapter,
     recorded = !!node.benchmark?.version || node.benchmark?.versionPolicy === 'recorded' || process.env.AM_COMMUNITY_VERSION_POLICY === 'recorded'
   const cache = resolve(cacheRoot)
