@@ -433,6 +433,16 @@ export function selectCommunityProjects(nodes: CommunityNode[], projects?: strin
   return nodes.filter(node => projects.includes(node.id))
 }
 
+/** Whether a project's catalog binding declares this output anywhere: its module, its npm
+ * CLI or its release CLI. Collectors take only the projects that declare their format, so a
+ * prepared list that holds every project (the prepare command writes one) is safe to pass. */
+export function communityDeclaresOutput(node: CommunityNode, output: string): boolean {
+  const binding = node.benchmark
+  if (!binding) return false
+  const release = binding.cliRelease?.outputs as unknown
+  const releaseOutputs = Array.isArray(release) ? release : Object.keys((release as Record<string, unknown>) ?? {})
+  return [...(binding.outputs ?? []), ...releaseOutputs, ...(binding.cli?.outputs ?? [])].map(normalizeCommunityOutput).includes(normalizeCommunityOutput(output))
+}
 export function communityModuleOutputSupported(node: CommunityNode, output: string): boolean {
   const declared = node.benchmark?.moduleOutputs
   if (declared) return declared.map(normalizeCommunityOutput).includes(normalizeCommunityOutput(output))

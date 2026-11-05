@@ -10,7 +10,7 @@ import { assessLabels, expectsEmptyDrawing, svgText, terminalText } from '../fid
 import { browserHost } from './davebench.ts'
 import { defaultChromium } from './benchmark-context.ts'
 import { latestBenchmarkRenderingArtifact, assertCurrentBenchmarkArtifact } from './benchmark-versions.ts'
-import { communityModuleOutputSupported } from './community.ts'
+import { communityDeclaresOutput, communityModuleOutputSupported } from './community.ts'
 import { comparisonProjects } from './lineage.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { svgTextValidity, terminalTextValidity } from './davebench-validity.ts'
@@ -119,7 +119,9 @@ export async function main(args = process.argv.slice(2)) {
       const node = catalog.nodes.find((n: any) => n.id === project),
         imagePeer = images.find((p: any) => p.node.id === project),
         terminalPeer = terminals.find((p: any) => p.node.id === project)
-      if (formats.includes('svg') && imagePeer?.artifact) {
+      // Only formats the project's catalog binding declares take part, so the full lists that
+      // prepare writes can be passed unchanged.
+      if (formats.includes('svg') && communityDeclaresOutput(node, 'svg') && imagePeer?.artifact) {
         let host: any, session: any
         try {
           assertCurrentBenchmarkArtifact(imagePeer, node)
@@ -170,8 +172,8 @@ export async function main(args = process.argv.slice(2)) {
           await session?.context.close()
           await host?.close()
         }
-      } else if (formats.includes('svg') && node.benchmark?.outputs.includes('svg')) blocked.push({ project, format: 'svg', reason: imagePeer?.error ?? 'No prepared public artifact; setup remains isolated' })
-      if (formats.includes('terminal') && terminalPeer?.artifact) {
+      } else if (formats.includes('svg') && communityDeclaresOutput(node, 'svg')) blocked.push({ project, format: 'svg', reason: imagePeer?.error ?? 'No prepared public artifact; setup remains isolated' })
+      if (formats.includes('terminal') && communityDeclaresOutput(node, 'terminal') && terminalPeer?.artifact) {
         let worker: DrawingWorker | undefined
         try {
           assertCurrentBenchmarkArtifact(terminalPeer, node)

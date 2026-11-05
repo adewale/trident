@@ -33,6 +33,12 @@ jobs:
       - run: sudo apt-get install -y tesseract-ocr
       # Chromium inspects checked-in fixtures; no project or benchmark runs.
       - run: bunx playwright install --with-deps chromium
+      # The first browser test in a run has intermittently timed out on the Linux runner
+      # (cause not yet established). This launches Chromium once and logs how long it took,
+      # so a slow cold launch can be told apart from a hang inside the test. On 5 November the
+      # first launch took about 1 s on Linux and 3 s on macOS.
+      - name: Warm up Chromium
+        run: bun -e "const { chromium } = await import('playwright'); const t = performance.now(); const b = await chromium.launch(); await (await b.newPage()).setContent('<p>warm</p>'); await b.close(); console.log('first Chromium launch', Math.round(performance.now() - t), 'ms')"
       - run: bun run lint
       - run: bun run typecheck
       - run: bun commands.ts results:snapshot --check
@@ -63,4 +69,10 @@ jobs:
       - run: command -v tesseract || brew install tesseract
       # Chromium inspects checked-in fixtures; no project or benchmark runs.
       - run: bunx playwright install --with-deps chromium
+      # The first browser test in a run has intermittently timed out on the Linux runner
+      # (cause not yet established). This launches Chromium once and logs how long it took,
+      # so a slow cold launch can be told apart from a hang inside the test. On 5 November the
+      # first launch took about 1 s on Linux and 3 s on macOS.
+      - name: Warm up Chromium
+        run: bun -e "const { chromium } = await import('playwright'); const t = performance.now(); const b = await chromium.launch(); await (await b.newPage()).setContent('<p>warm</p>'); await b.close(); console.log('first Chromium launch', Math.round(performance.now() - t), 'ms')"
       - run: bun run test:ci

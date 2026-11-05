@@ -28,17 +28,22 @@ Missing results stay explicit.
 ```sh
 bun commands.ts versions --out FRESH_VERSIONS
 bun commands.ts prepare --catalog FRESH_VERSIONS/catalog.json --out FRESH_ARTIFACTS
-bun commands.ts davebench --catalog FRESH_VERSIONS/catalog.json --prepared IMAGE_ARTIFACTS --out FRESH_IMAGES
-bun commands.ts davebench:terminal --catalog FRESH_VERSIONS/catalog.json --prepared TERMINAL_ARTIFACTS --out FRESH_TERMINAL
-bun commands.ts drawing:correctness --prepared IMAGE_ARTIFACTS --terminal-prepared TERMINAL_ARTIFACTS --catalog FROZEN_CATALOG --out FRESH_DRAWINGS
-bun commands.ts mermaid:fidelity --upstream PINNED_MERMAID --reference MERMAID_RUNTIME --runtime VITEST_RUNTIME --prepared ALL_ARTIFACTS --catalog FROZEN_CATALOG --out FRESH_FIDELITY
+bun commands.ts davebench --catalog FRESH_VERSIONS/catalog.json --prepared FRESH_ARTIFACTS/community-browser-prepared.json --out FRESH_IMAGES
+bun commands.ts davebench:terminal --catalog FRESH_VERSIONS/catalog.json --prepared FRESH_ARTIFACTS/community-prepared.json --out FRESH_TERMINAL
+bun commands.ts davebench:native-png --host-display --bundle native-flutter/app/build/linux/x64/release/bundle --out FRESH_FLUTTER
+bun commands.ts drawing:correctness --prepared FRESH_ARTIFACTS/community-browser-prepared.json --terminal-prepared FRESH_ARTIFACTS/community-prepared.json --catalog FRESH_VERSIONS/catalog.json --out FRESH_DRAWINGS
+bun commands.ts mermaid:fidelity --upstream PINNED_MERMAID --reference MERMAID_RUNTIME --runtime VITEST_RUNTIME --prepared FRESH_ARTIFACTS/community-prepared.json --catalog FRESH_VERSIONS/catalog.json --out FRESH_FIDELITY
 bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal FRESH_TERMINAL/results.json --out FRESH_REPORT
 ```
 
 Prepared artifact lists identify installed public releases. `prepare` installs the
 frozen versions and writes `community-browser-prepared.json` (browser-ready image
-artifacts) and `community-prepared.json` (every artifact); `davebench` without
-`--prepared` prepares its image artifacts itself. Setup happens before timing. The report reads existing numbers and launches no renderers. Equal-weight
+artifacts) and `community-prepared.json` (every artifact). Pass them unchanged: each
+collector takes only the projects whose catalog binding declares its format. `davebench`
+without `--prepared` prepares its image artifacts itself. Native Mermaid Flutter has no
+prepared artifact; `davebench:native-png` measures its release bundle
+([build guide](native-flutter/README.md)), and its runs are appended to the image results
+before `campaign:results`. Setup happens before timing. The report reads existing numbers and launches no renderers. Equal-weight
 [overall synthesis](docs/overall-scoring.md) shows score ranges and each project's
 possible rank; exact overall scores await complete coverage, and missing work is
 never counted as zero.
@@ -133,7 +138,7 @@ node commands.ts --version
 Mermaid Fidelity also needs a checkout of the pinned Mermaid source and its test
 runtime, built with `bun commands.ts upstream:prepare` ([runtime notes](docs/upstream-original-runtime.md)).
 The native Mermaid Flutter PNG counter is built separately ([native Flutter](native-flutter/README.md)).
-No public release has been published; see the [release notes](CHANGELOG.md).
+The current release is 0.2.0; see the [release notes](CHANGELOG.md).
 
 ## Add a tool
 
