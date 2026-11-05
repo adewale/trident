@@ -1332,9 +1332,11 @@ function beautifulGraph(graph, name, keeps, hooks) {
     nodes: () => entriesOf(graph.nodes).map(([id, node]) => {
       const assigned = get(graph.classAssignments, id)
       const shape = GRAPH_SHAPE[node.shape] ?? shapeOf(node.shape)
+      // A shape written as @{ shape: X } is Mermaid's vertex type X as written; agentic-mermaid
+      // keeps that name as authoredShape (absent for bracket syntax).
       return [id, {
         text: node.label,
-        ...(node.shape === 'rectangle' && node.label === id ? { [VERTEX_ABSENT]: { type: ambiguous } } : shape ? { type: shape } : {}),
+        ...(typeof node.authoredShape === 'string' ? { type: node.authoredShape } : node.shape === 'rectangle' && node.label === id ? { [VERTEX_ABSENT]: { type: ambiguous } } : shape ? { type: shape } : {}),
         classes: assigned ? [assigned] : [],
         styles: styleStrings(get(graph.nodeStyles, id)),
       }]

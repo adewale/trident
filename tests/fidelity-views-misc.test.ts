@@ -247,3 +247,12 @@ test('requirement and C4: vocabulary words are translated; collapsed forms are u
   expect(c4.getTitle()).toBe('T')
   expect(c4.getC4Type()).toBe('C4Context')
 })
+
+test('agentic-mermaid: a shape written as @{ shape: X } is the vertex type X', async () => {
+  const { projectPublicDatabase } = await import('../unified/upstream-fidelity-projection.mjs')
+  const graph = { direction: 'TB', nodes: new Map<string, any>([['A', { id: 'A', label: 'A', shape: 'rounded' }], ['C', { id: 'C', label: 'C', shape: 'rounded', semanticShape: 'rounded', authoredShape: 'rounded' }], ['D', { id: 'D', label: 'D', shape: 'rectangle', semanticShape: 'rect', authoredShape: 'rect' }]]), edges: [], subgraphs: [], classDefs: new Map(), classAssignments: new Map(), nodeStyles: new Map(), linkStyles: new Map() }
+  const fail = (reason: string) => { throw Error(reason) }
+  const db: any = projectPublicDatabase('agentic', 'flowchart', { kind: 'flowchart', graph }, fail, fail, 'adewale/agentic-mermaid')
+  expect([...db.getVertices()].map(([id, v]: any) => [id, v.type])).toEqual([['A', 'round'], ['C', 'rounded'], ['D', 'rect']])
+  expect(db.getData().nodes.map((n: any) => n.shape)).toEqual(['roundedRect', 'rounded', 'rect'])
+})
