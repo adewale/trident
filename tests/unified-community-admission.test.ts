@@ -11,6 +11,7 @@ import type { PreparedCommunity } from '../unified/community-types.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from '../unified/types.ts'
 import { mermaidOracleDirectory } from '../portable/mermaid-oracle.ts'
 import { harnessRepository } from '../unified/trident-paths.ts'
+import { pinnedOracle } from './pinned-oracle.ts'
 
 const driver = harnessRepository
 const example: UnifiedWorkload = { id: 'authored-flow', family: 'flowchart', source: 'flowchart LR\nA[Start] --> B[End]', features: [], provenance: 'independently authored admission regression', expectedLabels: ['Start', 'End'] }
@@ -184,7 +185,7 @@ describe('matched family evidence and artifact alias guards', () => {
   })
 })
 
-describe('negative admission survives crashed workers', () => {
+describe.skipIf(!pinnedOracle)('negative admission survives crashed workers', () => {
   test('retains first-attempt sidecar and withholds earlier core pass after contradictory restarted admission', async () => {
     const directory = mkdtempSync(join(tmpdir(), 'am-negative-attempts-'))
     const referenceDir = process.env.MERMAID_REFERENCE_DIR

@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { MERMAID_ORACLE_PIN, mermaidOracleDirectory } from '../portable/mermaid-oracle.ts'
+import { pinnedOracle } from './pinned-oracle.ts'
 
 test('CI execution is rejected even when the generic indicator is explicitly false', () => {
   const local = { mermaidOracle: false }
@@ -15,7 +16,7 @@ test('CI execution is rejected even when the generic indicator is explicitly fal
   expect(() => assertBenchmarkExecutionAllowed({}, local)).not.toThrow()
 })
 
-test('a benchmark run refuses without exactly the pinned Mermaid oracle, and runs with it', () => {
+test.skipIf(!pinnedOracle)('a benchmark run refuses without exactly the pinned Mermaid oracle, and runs with it', () => {
   const directory = mkdtempSync(join(tmpdir(), 'trident-oracle-'))
   try {
     expect(() => assertBenchmarkExecutionAllowed({ MERMAID_REFERENCE_DIR: directory })).toThrow('no install exists')

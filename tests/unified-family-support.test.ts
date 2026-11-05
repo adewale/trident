@@ -6,8 +6,9 @@ import { join } from 'node:path'
 import { communityCoreWorkloads, runCommunitySuite } from '../unified/community.ts'
 import { writeBenchmarkDocument } from '../portable/project-records.ts'
 import { harnessRepository } from '../unified/trident-paths.ts'
+import { pinnedOracle } from './pinned-oracle.ts'
 
-test('a community tool that rejects a family canonical source runs none of that family, and keeps failures elsewhere', async () => {
+test.skipIf(!pinnedOracle)('a community tool that rejects a family canonical source runs none of that family, and keeps failures elsewhere', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'am-family-support-'))
   try {
     const cli = join(directory, 'flow-only'),
@@ -43,7 +44,7 @@ test('a community tool that rejects a family canonical source runs none of that 
   }
 }, 60_000)
 
-test('an error that says unsupported, inside a supported family, is a failure', async () => {
+test.skipIf(!pinnedOracle)('an error that says unsupported, inside a supported family, is a failure', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'am-unsupported-message-'))
   try {
     const module = join(directory, 'fixture.mjs')
