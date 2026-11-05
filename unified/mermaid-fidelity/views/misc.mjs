@@ -1483,6 +1483,39 @@ flowchartSchema['crafter-station/mermaid'] = (raw, hooks) => {
   return { ...beautifulGraph(raw, 'Crafter', { markers: false, length: false }, hooks), ...unsupportedGetters(flowAcc('Crafter'), hooks) }
 }
 
+// ---------------------------------------------------------------------------------------
+// Ishikawa. Mermaid's ishikawaDb.ts getRoot() is the effect line with its causes nested
+// as { text, children } in source order; the root's text is also the diagram title.
+// agentic-mermaid 0.5.6 keeps the nodes in source order, each with its parent's id.
+// XMermaid 0.4.2 keeps the effect and the causes in source order, each with its depth and
+// its parent's label: the parent is the nearest earlier cause one level up, which must
+// carry that label.
+function agenticIshikawa(raw, hooks) {
+  const nodes = raw.nodes ?? []
+  const node = item => ({ text: item.label, children: nodes.filter(child => child.parentId === item.id).map(node) })
+  const root = () => nodes.find(item => item.parentId == null)
+  return { getRoot: () => (root() ? node(root()) : undefined), getDiagramTitle: () => root()?.label ?? '' }
+}
+function xmermaidIshikawa(raw, hooks) {
+  const tree = () => {
+    const root = { text: raw.effect, children: [] }
+    const placed = []
+    for (const [index, cause] of (raw.causes ?? []).entries()) {
+      const node = { text: cause.label, children: [] }
+      if (cause.parent == null) root.children.push(node)
+      else {
+        const parent = placed.slice(0, index).reverse().find(item => item.cause.depth === cause.depth - 1)
+        if (!parent || parent.cause.label !== cause.parent) return hooks.unavailable(`XMermaid ishikawa cause ${cause.label} whose parent label is not the cause one level up`)
+        parent.node.children.push(node)
+      }
+      placed.push({ cause, node })
+    }
+    return root
+  }
+  return { getRoot: () => (raw.effect == null ? undefined : tree()), getDiagramTitle: () => raw.effect ?? '' }
+}
+const ishikawaSchema = { 'adewale/agentic-mermaid': agenticIshikawa, 'evangwt/xmermaid': xmermaidIshikawa }
+
 export default {
   schema: {
     class: classSchema,
@@ -1499,6 +1532,7 @@ export default {
     kanban: kanbanSchema,
     flowchart: flowchartSchema,
     er: erSchema,
+    ishikawa: ishikawaSchema,
   },
   ast: {},
 }

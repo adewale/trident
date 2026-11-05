@@ -338,3 +338,16 @@ test('mermaid-rs-renderer requirement relationships: source to destination, type
   expect(view.getRelationships()).toEqual([{ type: 'copies', src: 'e1', dst: 'r1' }, { type: 'traces', src: 'e1', dst: 'r1' }])
   expect(() => view.getRequirements()).toThrow('unsupported')
 })
+
+// ishikawa / Effect / Cause A / (indented) Sub 1 / Cause B
+test('ishikawa trees: agentic-mermaid parent ids, XMermaid depth and parent label', () => {
+  const { hooks } = verdicts()
+  const tree = { text: 'Effect', children: [{ text: 'Cause A', children: [{ text: 'Sub 1', children: [] }] }, { text: 'Cause B', children: [] }] }
+  const agentic = nativeSchemaView('adewale/agentic-mermaid', 'ishikawa', { kind: 'ishikawa', nodes: [{ id: 'effect', label: 'Effect' }, { id: 'cause-1', label: 'Cause A', parentId: 'effect' }, { id: 'cause-2', label: 'Sub 1', parentId: 'cause-1' }, { id: 'cause-3', label: 'Cause B', parentId: 'effect' }] }, hooks)
+  expect(agentic.getRoot()).toEqual(tree)
+  expect(agentic.getDiagramTitle()).toBe('Effect')
+  const causes = [{ label: 'Cause A', parent: null, depth: 0 }, { label: 'Sub 1', parent: 'Cause A', depth: 1 }, { label: 'Cause B', parent: null, depth: 0 }]
+  const xmermaid = nativeSchemaView('evangwt/xmermaid', 'ishikawa', { type: 'ishikawa', effect: 'Effect', causes }, hooks)
+  expect(xmermaid.getRoot()).toEqual(tree)
+  expect(() => nativeSchemaView('evangwt/xmermaid', 'ishikawa', { type: 'ishikawa', effect: 'E', causes: [{ label: 'A', parent: null, depth: 0 }, { label: 'B', parent: 'Z', depth: 1 }] }, hooks).getRoot()).toThrow('gap')
+})
