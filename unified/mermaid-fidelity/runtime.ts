@@ -427,9 +427,11 @@ function nativeAst(family: string, source: string): any {
     const raw = nativeParse('pie', source)
     if (job.target.project === 'wevm/ondine') return unsupportedOperation('Ondine exposes no parsed model; render() reports acceptance or rejection only')
     // A model that names its family must name pie; one that names none came from the pie parser.
-    const kind = raw.kind ?? raw.type
+    const kind = raw.kind ?? raw.type ?? raw.diagram_type
     if (kind !== undefined && String(kind).toLowerCase() !== 'pie') return gap('Returned native family differs from requested Pie AST')
-    const slices = raw.sections ?? raw.slices ?? raw.pie_slices
+    // Frankenmermaid keeps every written slice, title and showData in pie_meta.
+    const meta = raw.pie_meta
+    const slices = raw.sections ?? raw.slices ?? raw.pie_slices ?? meta?.slices
     const sections =
       slices instanceof Map
         ? [...slices].map(([label, value]) => ({ $type: 'PieSection', label, value }))
@@ -439,7 +441,7 @@ function nativeAst(family: string, source: string): any {
             ? Object.entries(slices).map(([label, value]) => ({ $type: 'PieSection', label, value }))
             : undefined
     if (!sections) return gap('Native pie sections are unavailable')
-    return { value: { $type: 'Pie', title: raw.title, accTitle: raw.accTitle ?? raw.accessibilityTitle, accDescr: raw.accDescr ?? raw.accessibilityDescription, showData: raw.showData, sections }, lexerErrors: [], parserErrors: [] }
+    return { value: { $type: 'Pie', title: raw.title ?? meta?.title, accTitle: raw.accTitle ?? raw.accessibilityTitle ?? raw.meta?.acc_title, accDescr: raw.accDescr ?? raw.accessibilityDescription ?? raw.meta?.acc_descr, showData: raw.showData ?? (meta ? meta.show_data === true : undefined), sections }, lexerErrors: [], parserErrors: [] }
   } catch (error) {
     if (error instanceof AdapterGap || (active?.rejections ?? 0) === before) throw error
     return { value: undefined, lexerErrors: [], parserErrors: [error] }
