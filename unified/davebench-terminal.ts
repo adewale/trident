@@ -55,7 +55,7 @@ export class TerminalCallWorker {
       void this.child.exited.then(() => { clearTimeout(timeout); if (!ready) reject(Error('Terminal worker stopped during initialization')); for (const done of this.pending.values()) done({ outcome: 'error', ms: 0 }); this.pending.clear() })
     })
   }
-  async call(source: string, id: string, timeoutMs: number): Promise<{ outcome: string; ms: number; invalid?: string }> {
+  async call(source: string, id: string, timeoutMs: number): Promise<{ outcome: string; ms: number; invalid?: string; error?: string }> {
     await this.ready
     if (typeof this.child.exitCode === 'number' || typeof this.child.signalCode === 'string') throw Error('Terminal worker has stopped')
     const started = performance.now()
@@ -64,7 +64,7 @@ export class TerminalCallWorker {
       this.pending.set(id, value => {
         clearTimeout(timer)
         const ms = value.outcome === 'error' && value.ms === 0 ? performance.now() - started : value.ms
-        if (value.outcome !== 'completed' || !this.admit) return done(typeof value.invalid === 'string' ? { outcome: value.outcome, ms, invalid: value.invalid } : { outcome: value.outcome, ms })
+        if (value.outcome !== 'completed' || !this.admit) return done(typeof value.invalid === 'string' ? { outcome: value.outcome, ms, invalid: value.invalid } : typeof value.error === 'string' ? { outcome: value.outcome, ms, error: value.error } : { outcome: value.outcome, ms })
         const validity = this.admit(value.output, source)
         done(validity.valid ? { outcome: 'completed', ms } : { outcome: 'invalid', ms, invalid: validity.reason })
       })
@@ -83,12 +83,14 @@ export async function terminalCliCall(artifact: CommunityArtifact, source: strin
   const destination = join(directory, 'davebench-output.txt'), captured = join(directory, 'davebench-stdout.txt')
   rmSync(destination, { force: true })
   const args = request.args.map(arg => arg.replaceAll(request.destination, destination)), stdout = openSync(captured, 'w'), started = performance.now()
-  const result = await new Promise<{ outcome: string; ms: number }>(done => {
+  let stderr = ''
+  const result = await new Promise<{ outcome: string; ms: number; error?: string }>(done => {
     let timeout = false, finished = false
-    const child = spawn(artifact.executable!, args, { stdio: ['pipe', stdout, 'ignore'] })
+    const child = spawn(artifact.executable!, args, { stdio: ['pipe', stdout, 'pipe'] })
+    child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) })
     const timer = setTimeout(() => { timeout = true; child.kill('SIGKILL') }, timeoutMs)
-    const finish = (outcome: string) => { if (finished) return; finished = true; clearTimeout(timer); done({ outcome, ms: performance.now() - started }) }
-    child.once('error', () => finish('error')); child.once('exit', code => finish(timeout ? 'timeout' : code === 0 ? 'completed' : 'error'))
+    const finish = (outcome: string, error?: string) => { if (finished) return; finished = true; clearTimeout(timer); done({ outcome, ms: performance.now() - started, ...(error ? { error } : {}) }) }
+    child.once('error', thrown => finish('error', String(thrown.message).slice(0, 160))); child.once('close', code => finish(timeout ? 'timeout' : code === 0 ? 'completed' : 'error', code === 0 || timeout ? undefined : (stderr.trim().split('\n').at(-1) || 'exit code ' + code).slice(0, 160)))
     child.stdin!.on('error', () => {}); child.stdin!.end(request.inputMode === 'stdin' ? source : undefined)
   })
   closeSync(stdout)
@@ -134,18 +136,19 @@ export async function main(args = process.argv.slice(2)) {
     try {
       for (let round = 1; round <= 3; round++) {
         if (!native) await open()
-        const call = async (input: { source: string }, index: number): Promise<{ outcome: string; ms: number; invalid?: string }> => {
+        const call = async (input: { source: string }, index: number): Promise<{ outcome: string; ms: number; invalid?: string; error?: string }> => {
           const row = native ? await terminalCliCall(native, input.source, directory, timeoutMs) : await worker!.call(input.source, `${round}:${index}`, timeoutMs)
           if (row.outcome === 'cleanup-error') throw Error('Terminal host cleanup failed; no further timing from accumulated drawings is admitted')
           if (!native && (row.outcome === 'timeout' || typeof worker!.child.exitCode === 'number' || typeof worker!.child.signalCode === 'string')) { await worker!.child.exited; await open() }
           return row
         }
         for (const [index, input] of inventory.cases.slice(0, 30).entries()) await call(input, -index - 1)
-        const row: DavebenchRun = { project: peer.node.id, version: native?.version ?? a.version, format: 'terminal', run: round, boundary, attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {} }; runs.push(row)
+        const row: DavebenchRun = { project: peer.node.id, version: native?.version ?? a.version, format: 'terminal', run: round, boundary, attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, errorReasons: {} }; runs.push(row)
         console.log(`${peer.node.id} terminal ${round}/3`)
         for (const [index, input] of inventory.cases.entries()) {
           const result = await call(input, index); row.attempted++; row.totalMs += result.ms
           if (result.outcome === 'completed') row.completed++; else row.failed++
+          if (result.outcome === 'error') { const reason = (result.error ?? 'no message').replace(/\d+/g, 'N'); row.errorReasons![reason] = (row.errorReasons![reason] ?? 0) + 1 }
           if (result.outcome === 'invalid') { row.invalid!++; const reason = result.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1 }
           if (result.outcome === 'timeout') row.timeouts++
           if ((index + 1) % 100 === 0) save('running')

@@ -42,7 +42,7 @@ export function davebenchInputs(upstream: string, commit = revision) {
  * outputs never leave the page. The clock stops before admission checks. */
 export async function davebenchBrowserCall(input: { source: string; id: string; format: string; errorPatterns?: [string, string][] }) {
   const host = globalThis as any, state = host.__fidelityCommunity, started = performance.now()
-  let outcome = 'completed', svgText: string | undefined, pngValue: unknown, pngBytes = 0
+  let outcome = 'completed', svgText: string | undefined, pngValue: unknown, pngBytes = 0, error: string | undefined
   try {
     if (input.format === 'png' && host.__davebenchNativePng) {
       pngValue = await host.__davebenchNativePng(input.source, input.id, 'png')
@@ -67,7 +67,7 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
         canvas.width = 0; canvas.height = 0
       }
     }
-  } catch { outcome = 'error' }
+  } catch (thrown: any) { outcome = 'error'; error = (input.format === 'png' && svgText !== undefined ? 'PNG conversion: ' : '') + String(thrown?.message ?? thrown ?? 'unknown error').split('\n')[0]!.slice(0, 160) }
   const ms = performance.now() - started
   let invalid: string | undefined
   if (outcome === 'completed') {
@@ -108,7 +108,7 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
   }
   try { host.__communityAfterCall?.() } catch {}
   for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove()
-  return invalid ? { outcome, ms, invalid } : { outcome, ms }
+  return invalid ? { outcome, ms, invalid } : error ? { outcome, ms, error } : { outcome, ms }
 }
 
 export const davebenchAdmission = 'A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse to an svg root with positive size; PNG must have a PNG signature and positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription="error"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. No drawing meaning is judged and outputs are not retained.'
@@ -118,6 +118,8 @@ export interface DavebenchRun {
   attempted: number; completed: number; failed: number; timeouts: number; totalMs: number
   /** Calls that returned without error but whose output failed mechanical admission; included in failed. */
   invalid?: number; invalidReasons?: Record<string, number>
+  /** Calls that threw or exited nonzero, by their first error line (diagnostic only). */
+  errorReasons?: Record<string, number>
 }
 type Run = DavebenchRun
 export const davebenchRankingRule = {
@@ -224,14 +226,15 @@ export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: s
   const output = scratchFile('output.' + format), captured = scratchFile('stdout.' + format)
   rmSync(output, { force: true })
   const stdout = openSync(captured, 'w'), started = performance.now()
-  const result = await new Promise<{ outcome: string; ms: number }>(done => {
+  let stderr = ''
+  const result = await new Promise<{ outcome: string; ms: number; error?: string }>(done => {
     // Respect explicit stdout '-' bindings; Merman rejects /dev/null as a nonregular output file.
     const child = spawn(artifact.executable!, binding.args.map(arg => arg.replaceAll('{output}', output)), { stdio: ['pipe', stdout, 'pipe'] })
-    child.stderr!.resume(); child.stdin!.on('error', () => {}); child.stdin!.end(source)
+    child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) }); child.stdin!.on('error', () => {}); child.stdin!.end(source)
     let timeout = false
     const timer = setTimeout(() => { timeout = true; child.kill('SIGKILL') }, timeoutMs)
     child.once('error', () => { clearTimeout(timer); done({ outcome: 'error', ms: performance.now() - started }) })
-    child.once('close', code => { clearTimeout(timer); done({ outcome: timeout ? 'timeout' : code === 0 ? 'completed' : 'error', ms: performance.now() - started }) })
+    child.once('close', code => { clearTimeout(timer); const ms = performance.now() - started; done(timeout ? { outcome: 'timeout', ms } : code === 0 ? { outcome: 'completed', ms } : { outcome: 'error', ms, error: (stderr.trim().split('\n').at(-1) || 'exit code ' + code).slice(0, 160) }) })
   })
   closeSync(stdout)
   if (result.outcome !== 'completed') return result
@@ -310,23 +313,24 @@ export async function main(args = process.argv.slice(2)) {
           if (!cli) host = await browserHost(browser, peer, format)
           for (let round = 1; round <= 3; round++) {
             if (!cli) await open()
-            const call = async (input: { id: string; source: string }, index: number): Promise<{ outcome: string; ms: number; invalid?: string }> => {
+            const call = async (input: { id: string; source: string }, index: number): Promise<{ outcome: string; ms: number; invalid?: string; error?: string }> => {
               if (cli) return davebenchCliCall(peer, input.source, format, timeoutMs)
               let timer: ReturnType<typeof setTimeout> | undefined
               const started = performance.now()
               try {
-                return await Promise.race<{ outcome: string; ms: number; invalid?: string }>([session!.page.evaluate(davebenchBrowserCall, { ...input, id: 'dave_' + round + '_' + index, format, errorPatterns: errorPatternSources }), new Promise<{ outcome: string; ms: number }>(done => { timer = setTimeout(() => { void session!.context.close().catch(() => {}); done({ outcome: 'timeout', ms: performance.now() - started }) }, timeoutMs) })])
+                return await Promise.race<{ outcome: string; ms: number; invalid?: string; error?: string }>([session!.page.evaluate(davebenchBrowserCall, { ...input, id: 'dave_' + round + '_' + index, format, errorPatterns: errorPatternSources }), new Promise<{ outcome: string; ms: number }>(done => { timer = setTimeout(() => { void session!.context.close().catch(() => {}); done({ outcome: 'timeout', ms: performance.now() - started }) }, timeoutMs) })])
               } catch { return { outcome: 'error', ms: performance.now() - started } }
               finally { if (timer) clearTimeout(timer) }
             }
             for (const [index, input] of inventory.cases.slice(0, 30).entries()) { const value = await call(input, -index - 1); if (value.outcome === 'timeout' && !cli) await open() }
-            const row: Run = { project: peer.node.id, version: peer.artifact!.version, format, run: round, boundary, attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {} }
+            const row: Run = { project: peer.node.id, version: peer.artifact!.version, format, run: round, boundary, attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, errorReasons: {} }
             runs.push(row)
             console.log(`${peer.node.id} ${format} run ${round}/3`)
             for (const [index, input] of inventory.cases.entries()) {
               const value = await call(input, index)
               row.attempted++; row.totalMs += value.ms
               if (value.outcome === 'completed') row.completed++; else row.failed++
+              if (value.outcome === 'error') { const reason = (value.error ?? 'no message').replace(/\d+/g, 'N'); row.errorReasons![reason] = (row.errorReasons![reason] ?? 0) + 1 }
               if (value.outcome === 'invalid') { row.invalid!++; const reason = value.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1 }
               if (value.outcome === 'timeout') { row.timeouts++; if (!cli) await open() }
               if ((index + 1) % 100 === 0) { save('running'); console.log(`  ${index + 1}/${inventory.cases.length}: ${row.completed} completed, ${row.failed} failed, ${(row.totalMs / 1000).toFixed(2)} s`) }
