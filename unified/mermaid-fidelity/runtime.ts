@@ -679,7 +679,9 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       Diagram: {
         // The candidate's own parser for this file's family, observed through the same database view.
         async fromText(text: any) {
-          const db = c.database()
+          // The file's own database, which a test may read through the module's db export
+          // after Diagram.fromText (usecase's singleton db), as Mermaid's registered diagram does.
+          const db = c.db
           // Outside a test this is a loader warm-up whose result no assertion reads.
           if (!active)
             try {
