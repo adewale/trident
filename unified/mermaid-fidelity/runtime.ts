@@ -467,9 +467,11 @@ function context(family: string) {
           const value = target[key]
           // A test's own vi.spyOn mock must reach the test unchanged.
           if (typeof value === 'function' && (value as any)._isMockFunction) return value
+          // clear() is setup, as it is for candidates: a test that only clears the
+          // database exercises no operation and does not qualify.
           return typeof value === 'function'
             ? (...params: any[]) => {
-                active && active.calls++
+                if (active && key !== 'clear') active.calls++
                 return value.apply(target, params)
               }
             : value
@@ -492,16 +494,19 @@ function context(family: string) {
     // a diagram with nothing but its header ("usecase-beta"), taken only when a test
     // reads the database before parsing (or after clear()). A candidate that rejects a
     // header-only diagram has no empty model, and such reads stay gaps.
-    let empty: { raw: any } | null | undefined, parsed = false
+    // A candidate that does not parse the family at all says so for the header-only
+    // diagram too; reading that database is then its unsupported operation.
+    let empty: { raw?: any; unsupported?: string } | null | undefined, parsed = false
     const emptyModel = () => {
       if (empty !== undefined) return empty
       const header = (examples[family] ?? '').split('\n')[0]
       const caseAudit = active
-      active = undefined
+      const probe: any = { gaps: new Set(), unsupported: [], calls: 0, rejections: 0 }
+      active = probe
       try {
         empty = header ? { raw: nativeParse(family, header) } : null
       } catch {
-        empty = null
+        empty = probe.unsupported.length ? { unsupported: String(probe.unsupported[0]) } : null
       } finally {
         active = caseAudit
       }
@@ -529,9 +534,10 @@ function context(family: string) {
         // where this target receives them at all.
         const constants = job.target.tool === 'mermaid' ? undefined : mermaidConstants(job.target.project, family, false)
         if (constants && key in constants && !(key in view)) return constants[key]
-        if (!parsed && raw === undefined && !(key in view) && /^get[A-Z]/.test(key)) {
+        if (!parsed && raw === undefined && !(key in view) && typeof key === 'string') {
           const model = emptyModel()
-          if (model) {
+          if (model?.unsupported) return unsupportedOperation(model.unsupported)
+          if (model && /^get[A-Z]/.test(key)) {
             raw = model.raw
             try {
               view = projectView(family, raw)
