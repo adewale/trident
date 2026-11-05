@@ -9,7 +9,7 @@ import { watchMemory } from './process-memory.ts'
 import { davebenchTerminalValidity } from './davebench-validity.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
-import { communityModuleOutputSupported } from './community.ts'
+import { communityDeclaresOutput, communityModuleOutputSupported } from './community.ts'
 import { assertCurrentBenchmarkArtifact, refreshBenchmarkVersions } from './benchmark-versions.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 
@@ -117,9 +117,12 @@ export async function main(args = process.argv.slice(2)) {
   mkdirSync(out, { recursive: true })
   const wanted = options.get('--projects')?.split(',')
   const all: PreparedCommunity[] = JSON.parse(readFileSync(options.get('--prepared')!, 'utf8'))
-  const prepared = wanted ? all.filter(peer => wanted.includes(peer.node.id)) : all
-  if (wanted) for (const id of wanted) if (!prepared.some(peer => peer.node.id === id)) throw Error('No prepared terminal artifact for ' + id)
   const recorded = JSON.parse(readFileSync(options.get('--catalog') ?? communityCatalogFile, 'utf8'))
+  // Only projects whose catalog binding declares terminal output take part, so the full list
+  // that prepare writes can be passed unchanged.
+  const terminalProject = (peer: PreparedCommunity) => { const node = recorded.nodes.find((node: any) => node.id === peer.node.id); return Boolean(node && communityDeclaresOutput(node, 'terminal')) }
+  const prepared = (wanted ? all.filter(peer => wanted.includes(peer.node.id)) : all).filter(terminalProject)
+  if (wanted) for (const id of wanted) if (!prepared.some(peer => peer.node.id === id)) throw Error(all.some(peer => peer.node.id === id) ? id + ' declares no terminal output' : 'No prepared terminal artifact for ' + id)
   const selected = options.has('--catalog') ? recorded : (await refreshBenchmarkVersions(recorded, prepared.map(peer => peer.node.id))).catalog
   for (const peer of prepared) {
     const node = selected.nodes.find((node: any) => node.id === peer.node.id)

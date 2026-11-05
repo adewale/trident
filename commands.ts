@@ -55,7 +55,9 @@ async function main() {
     lint: ['x', '--no-install', 'biome', 'lint', '--config-path', resolve(directory, 'biome.json'), directory],
   }
   if (command === 'mermaid:install') {
-    if (args.length && (args.length !== 2 || args[0] !== '--dir')) throw Error('Use mermaid:install [--dir DIRECTORY]')
+    const usage = 'mermaid:install [--dir DIRECTORY]\nInstalls the pinned Mermaid oracle (the control every benchmark checks against) into DIRECTORY,\nby default ../mermaid-reference beside this checkout or MERMAID_REFERENCE_DIR.'
+    if (args.length === 1 && args[0] === '--help') { console.log(usage); return }
+    if (args.length && (args.length !== 2 || args[0] !== '--dir')) throw Error('Use ' + usage.split('\n')[0])
     assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: false })
     const { installMermaidOracle, mermaidOracleDirectory } = await import('./portable/mermaid-oracle.ts')
     console.log(JSON.stringify(installMermaidOracle(args[1] ? resolve(args[1]) : mermaidOracleDirectory()), null, 2))
