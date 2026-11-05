@@ -16,17 +16,22 @@ const entriesOf = value => value instanceof Map ? [...value] : value && typeof v
 
 /** A Mermaid-shaped record. Reading a declared-absent field is unsupported; reading a
  * field the tests expect but the view has not mapped is a Trident gap. */
-function record(object, label, expected, absent, hooks) {
+function record(object, label, expected, absent, hooks, always = []) {
   const missing = key => {
     if (typeof key !== 'string' || key in object) return false
     if (absent[key]) return hooks.unsupported(absent[key])
     if (expected.includes(key)) return hooks.unavailable(label + '.' + key)
     return false
   }
+  // A declared-absent field that Mermaid's record always has (C4 wrap) is listed among the
+  // record's keys, so inspecting the whole record (toEqual, a snapshot) reads it and is
+  // unsupported, rather than failing on a key count.
+  const listed = always.filter(key => absent[key] && !(key in object))
   return new Proxy(object, {
     get(target, key) { if (!(key in target)) missing(key); return target[key] },
     has(target, key) { if (!(key in target)) missing(key); return key in target },
     getOwnPropertyDescriptor(target, key) { if (!(key in target)) missing(key); return Object.getOwnPropertyDescriptor(target, key) },
+    ...(listed.length ? { ownKeys: target => [...Reflect.ownKeys(target), ...listed] } : {}),
   })
 }
 
@@ -694,9 +699,9 @@ const snake = name => name.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase()
 
 function c4View(model, hooks) {
   const { absent } = model
-  const shape = fields => record(fields, 'C4 shape', C4_SHAPE_FIELDS, absent.shape ?? {}, hooks)
-  const boundary = fields => record(fields, 'C4 boundary', C4_BOUNDARY_FIELDS, absent.boundary ?? {}, hooks)
-  const rel = fields => record(fields, 'C4 relation', C4_REL_FIELDS, absent.rel ?? {}, hooks)
+  const shape = fields => record(fields, 'C4 shape', C4_SHAPE_FIELDS, absent.shape ?? {}, hooks, ['wrap'])
+  const boundary = fields => record(fields, 'C4 boundary', C4_BOUNDARY_FIELDS, absent.boundary ?? {}, hooks, ['wrap'])
+  const rel = fields => record(fields, 'C4 relation', C4_REL_FIELDS, absent.rel ?? {}, hooks, ['wrap'])
   const shapes = () => model.shapes().map(shape)
   const byParent = (list, parent) => (parent == null ? list : list.filter(item => item.parentBoundary === parent))
   const view = {
@@ -776,6 +781,18 @@ const dartC4 = raw => {
     absent: { shape: { ...WRAP('mermaid_core'), sprite: none, tags: none, link: none }, boundary: { ...WRAP('mermaid_core'), tags: none, link: none }, rel: { ...WRAP('mermaid_core'), type: "mermaid_core's C4 relation keeps no Rel_U/D/L/R direction", sprite: none, tags: none, link: none, descr: "mermaid_core's C4 relation keeps no description" } },
   }
 }
+// Pele and Bezel keep Mermaid's own C4 records with plain strings where Mermaid wraps text
+// in { text }, each element's parent boundary as an object, and the boundary type already
+// in Mermaid's spelling. Text wrapping is Mermaid's renderer configuration.
+const portC4 = name => raw => ({
+  type: raw.c4Type,
+  shapes: () => raw.shapes.map(item => ({ alias: item.alias, label: text(item.label), descr: text(item.descr), ...(usesTechn(item.kind) ? { techn: text(item.techn) } : {}), typeC4Shape: { text: item.kind }, parentBoundary: item.parent?.alias ?? 'global', ...optional(['sprite', 'tags', 'link'], { sprite: item.sprite, tags: item.tags, link: item.link }) })),
+  boundaries: () => raw.boundaries.filter(item => item.alias !== 'global').map(item => ({ alias: item.alias, label: text(item.label), type: { text: item.type }, parentBoundary: item.parent?.alias ?? 'global', link: item.link ?? undefined, tags: item.tags ?? undefined })),
+  rels: () => raw.rels.map(item => ({ type: item.type, from: item.from, to: item.to, label: text(item.label), techn: text(item.techn), descr: text(item.descr), ...optional(['sprite', 'tags', 'link'], { sprite: item.sprite, tags: item.tags, link: item.link }) })),
+  absent: { shape: WRAP(name), boundary: WRAP(name), rel: WRAP(name) },
+})
+C4['obsidianmd/pele'] = portC4('Pele')
+C4['crabtalk/bezel'] = portC4('Bezel')
 C4['orestesgaolin/mermaid'] = dartC4
 C4['pub:mermaid_flutter'] = dartC4
 // merslim 0.2.3 parseToIR c4: elements with a hyphenated kind ('system-external',
@@ -810,7 +827,7 @@ const SEQ_ABSENT = Symbol('absent for this message')
 function sequenceView(entries, absent, hooks) {
   // The per-message absence marker is not part of the record (it would show in toEqual).
   const plain = fields => { const { [SEQ_ABSENT]: _absent, ...rest } = fields; return rest }
-  const records = () => entries().map((fields, index) => record({ id: String(index), ...plain(fields) }, 'message', MESSAGE_FIELDS, { ...absent, ...(fields[SEQ_ABSENT] ?? {}) }, hooks))
+  const records = () => entries().map((fields, index) => record({ id: String(index), ...plain(fields) }, 'message', MESSAGE_FIELDS, { ...absent, ...(fields[SEQ_ABSENT] ?? {}) }, hooks, ['wrap']))
   return {
     getMessages: records,
     getNotes: () => entries().filter(item => item.type === SEQ.NOTE).map(item => record({ actor: item.from === item.to ? item.from : [item.from, item.to], placement: item.placement, message: item.message, ...('wrap' in item ? { wrap: item.wrap } : {}) }, 'note', ['actor', 'placement', 'message', 'wrap'], absent, hooks)),
