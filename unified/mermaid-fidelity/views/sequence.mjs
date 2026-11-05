@@ -650,63 +650,69 @@ function termaid(raw, hooks) {
 // mermaid_core 0.3.2 (Mermaid Dart and Flutter) sequence_model.dart: participants keep
 // isActor, boxes keep label / members / color (null without one), the title is kept;
 // accTitle, accDescr, link, links and properties lines are "parsed and discarded"
-// (sequence_parser.dart). Events are one flat list: a block start names its kind, a
-// { label } entry opens the next section and {} closes the block; SeqCreate and
-// SeqDestroy both reach the view as { id } and add no Mermaid entry either way; a +/- mark
-// becomes a SeqActivation right after its message, the same as an activate line there.
+// (sequence_parser.dart). Events are one flat list of SeqEvent kinds, each named by the
+// bridge's $class: a block start names its kind, a divider opens the next section and a
+// block end closes it; SeqCreate and SeqDestroy add no Mermaid entry, and Mermaid's
+// created/destroyed index is the length of the message list where the statement stands;
+// a +/- mark becomes a SeqActivation right after its message, the same as an activate line there.
 const DART_ARROW = { solidArrow: 'SOLID', dottedArrow: 'DOTTED', solidOpen: 'SOLID_OPEN', dottedOpen: 'DOTTED_OPEN', solidCross: 'SOLID_CROSS', dottedCross: 'DOTTED_CROSS', solidPoint: 'SOLID_POINT', dottedPoint: 'DOTTED_POINT', bidirectionalSolid: 'BIDIRECTIONAL_SOLID', bidirectionalDotted: 'BIDIRECTIONAL_DOTTED' }
 const DART_KIND = { loop: 'loop', alt: 'alt', par: 'par', parOver: 'par_over', opt: 'opt', critical: 'critical', breakBlock: 'break', rect: 'rect' }
-function dartMessages(raw, hooks) {
+function dartEvents(raw, hooks) {
   const name = 'mermaid_core'
   const noWrap = { wrap: `${name} keeps a wrap flag only on messages and notes` }
   return () => {
-    const stack = [], out = []
+    const stack = [], out = [], created = new Map(), destroyed = new Map()
     raw.events.forEach((event, index) => {
-      const keys = Object.keys(event)
-      if ('from' in event && 'arrow' in event) {
-        const type = views.MERMAID_CONSTANTS.sequence.LINETYPE[DART_ARROW[event.arrow]]
-        if (type === undefined) return hooks.unavailable(`${name} sequence arrow ${event.arrow}`)
-        const next = raw.events[index + 1]
-        const shorthand = next && next.active === true && next.id === event.to
-        const entry = { from: event.from, to: event.to, message: event.text ?? '', wrap: event.wrap, type, ...(shorthand ? {} : { activate: false }) }
-        out.push(withAbsent(entry, { centralConnection: `${name} has no central connections`, ...(shorthand ? { activate: `${name} records A->>+B as a message followed by an activation, the same as an activate line` } : {}) }))
-      } else if ('placement' in event) out.push({ from: event.target, to: event.target2 ?? event.target, message: event.text ?? '', wrap: event.wrap, type: views.SEQ.NOTE, placement: placementOf(event.placement) })
-      else if ('active' in event && 'id' in event) out.push(withAbsent(marker(event.active ? views.SEQ.ACTIVE_START : views.SEQ.ACTIVE_END, '', event.id), noWrap))
-      else if (keys.length === 1 && keys[0] === 'id') return
-      else if ('on' in event) out.push({ from: undefined, to: undefined, message: { start: event.start ?? undefined, step: event.step ?? undefined, visible: event.on }, wrap: false, type: views.SEQ.AUTONUMBER })
-      else if ('kind' in event) {
-        const block = blockTypes(DART_KIND[event.kind] ?? event.kind, false, hooks, name)
-        stack.push(block)
-        out.push(withAbsent(marker(block[0], event.kind === 'rect' ? event.color ?? '' : event.label ?? ''), noWrap))
-      } else if (keys.length === 1 && keys[0] === 'label') {
-        const block = stack.at(-1)
-        if (!block?.[1]) return hooks.unavailable(`${name} sequence section outside a sectioned block`)
-        out.push(withAbsent(marker(block[1], event.label ?? ''), noWrap))
-      } else if (keys.length === 0) {
-        const block = stack.pop()
-        if (!block) return hooks.unavailable(`${name} sequence block end without a start`)
-        out.push(withAbsent(marker(block[2]), noWrap))
-      } else hooks.unavailable(`${name} sequence event ${keys.join(',')}`)
+      switch (event.$class) {
+        case 'SeqMessage': {
+          const type = views.MERMAID_CONSTANTS.sequence.LINETYPE[DART_ARROW[event.arrow]]
+          if (type === undefined) return hooks.unavailable(`${name} sequence arrow ${event.arrow}`)
+          const next = raw.events[index + 1]
+          const shorthand = next && next.$class === 'SeqActivation' && next.active === true && next.id === event.to
+          const entry = { from: event.from, to: event.to, message: event.text ?? '', wrap: event.wrap, type, ...(shorthand ? {} : { activate: false }) }
+          return out.push(withAbsent(entry, { centralConnection: `${name} has no central connections`, ...(shorthand ? { activate: `${name} records A->>+B as a message followed by an activation, the same as an activate line` } : {}) }))
+        }
+        case 'SeqNote': return out.push({ from: event.target, to: event.target2 ?? event.target, message: event.text ?? '', wrap: event.wrap, type: views.SEQ.NOTE, placement: placementOf(event.placement) })
+        case 'SeqActivation': return out.push(withAbsent(marker(event.active ? views.SEQ.ACTIVE_START : views.SEQ.ACTIVE_END, '', event.id), noWrap))
+        case 'SeqCreate': return created.set(event.id, out.length)
+        case 'SeqDestroy': return destroyed.set(event.id, out.length)
+        case 'SeqAutonumber': return out.push({ from: undefined, to: undefined, message: { start: event.start ?? undefined, step: event.step ?? undefined, visible: event.on }, wrap: false, type: views.SEQ.AUTONUMBER })
+        case 'SeqBlockStart': {
+          const block = blockTypes(DART_KIND[event.kind] ?? event.kind, false, hooks, name)
+          stack.push(block)
+          return out.push(withAbsent(marker(block[0], event.kind === 'rect' ? event.color ?? '' : event.label ?? ''), noWrap))
+        }
+        case 'SeqBlockDivider': {
+          const block = stack.at(-1)
+          if (!block?.[1]) return hooks.unavailable(`${name} sequence section outside a sectioned block`)
+          return out.push(withAbsent(marker(block[1], event.label ?? ''), noWrap))
+        }
+        case 'SeqBlockEnd': {
+          const block = stack.pop()
+          if (!block) return hooks.unavailable(`${name} sequence block end without a start`)
+          return out.push(withAbsent(marker(block[2]), noWrap))
+        }
+        default: return hooks.unavailable(`${name} sequence event ${event.$class ?? Object.keys(event).join(',')}`)
+      }
     })
-    return out
+    return { out, created, destroyed }
   }
 }
 function dart(raw, hooks) {
   const name = 'mermaid_core'
+  const events = dartEvents(raw, hooks)
   const boxes = () => (raw.boxes ?? []).map(box => boxRecord({ name: boxName(box.label), fill: box.color ?? 'transparent', actorKeys: box.members }, { wrap: `${name} keeps no text wrapping per box` }, hooks))
   const discarded = what => `${name} parses ${what} and discards it`
   return {
-    ...messageView(dartMessages(raw, hooks), {}, hooks),
+    ...messageView(() => events().out, {}, hooks),
     ...actorView(() => views.entriesOf(raw.participants).map(([id, p]) => ({ id, description: p.label, type: p.isActor ? 'actor' : 'participant', box: boxes().find(box => box.actorKeys.includes(id)) })), {
       wrap: `${name} keeps no text wrapping per participant`, links: discarded('link statements'), properties: discarded('properties statements'),
     }, hooks),
     getBoxes: boxes,
     getDiagramTitle: () => raw.title ?? '',
     ...unsupported(hooks, { getAccTitle: discarded('accTitle'), getAccDescription: discarded('accDescr') }),
-    // SeqCreate and SeqDestroy are distinct classes, but the bridge serializes both as
-    // { id }, so the view cannot tell them apart: a Trident gap, not a candidate absence.
-    getCreatedActors: () => hooks.unavailable("mermaid_core's SeqCreate reaches the view as { id }, the same as SeqDestroy"),
-    getDestroyedActors: () => hooks.unavailable("mermaid_core's SeqDestroy reaches the view as { id }, the same as SeqCreate"),
+    getCreatedActors: () => events().created,
+    getDestroyedActors: () => events().destroyed,
   }
 }
 

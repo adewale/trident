@@ -7,6 +7,11 @@
 // public instance fields (and their type arguments), and adds every public class
 // in the same packages that implements or extends a class already reached.
 //
+// A concrete class that extends or implements an abstract model class (a sealed
+// expression or event hierarchy) is one of several kinds of the same declared type, so
+// its class name is listed too: the bridge prints it as `$class`, the only field that
+// tells such kinds apart when their own fields coincide (SeqCreate and SeqDestroy).
+//
 //   dart run tool/gen.dart <output file>
 import 'dart:io';
 import 'dart:mirrors';
@@ -163,6 +168,23 @@ void main(List<String> args) {
   out
     ..writeln('  return null;')
     ..writeln('}')
+    ..writeln();
+  final kinds = [
+    for (final c in concrete)
+      if (supertypes(c).any((s) => reached.contains(s) && s.isAbstract)) c,
+  ];
+  out
+    ..writeln(
+      '/// The class name of a model object that is one kind of an abstract model class, else null.',
+    )
+    ..writeln('String? modelKind(Object o) {');
+  for (final c in kinds) {
+    final simple = MirrorSystem.getName(c.simpleName);
+    out.writeln("  if (o is ${prefix[libName(c)]}.$simple) return '$simple';");
+  }
+  out
+    ..writeln('  return null;')
+    ..writeln('}')
     ..writeln()
     ..writeln(
       '/// Fields whose static type does not name a model class (dynamic/Object/function): ${untyped.isEmpty ? 'none' : (untyped.toList()..sort()).join(', ')}.',
@@ -172,6 +194,6 @@ void main(List<String> args) {
     );
   File(args.single).writeAsStringSync(out.toString());
   stderr.writeln(
-    'gen: ${concrete.length} model classes from ${libraries.length} libraries; untyped fields: ${untyped.length}; record fields: ${records.length}',
+    'gen: ${concrete.length} model classes from ${libraries.length} libraries; untyped fields: ${untyped.length}; record fields: ${records.length}; kinds: ${kinds.map((c) => MirrorSystem.getName(c.simpleName)).join(', ')}',
   );
 }

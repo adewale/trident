@@ -253,7 +253,7 @@ test('sequence: block events flatten into Mermaid start, section and end markers
   expect(() => view.getMessages()[0].wrap).toThrow('unsupported')
   expect(() => nativeSchemaView('fasouto/termaid', 'sequence', { ...termaid, autonumber: true }, hooks).getMessages()).toThrow('unsupported')
   expect(log.at(-1)).toContain('autonumber')
-  const dart = nativeSchemaView('orestesgaolin/mermaid', 'sequence', { participants: new Map(), events: [{ kind: 'loop', label: 'L', color: null }, { from: 'A', to: 'B', arrow: 'dottedPoint', text: 'p', wrap: true }, {}] }, hooks)
+  const dart = nativeSchemaView('orestesgaolin/mermaid', 'sequence', { participants: new Map(), events: [{ $class: 'SeqBlockStart', kind: 'loop', label: 'L', color: null }, { $class: 'SeqMessage', from: 'A', to: 'B', arrow: 'dottedPoint', text: 'p', wrap: true }, { $class: 'SeqBlockEnd' }] }, hooks)
   expect(dart.getMessages().map((m: any) => [m.type, m.message])).toEqual([[10, 'L'], [25, 'p'], [11, '']])
   expect(dart.getMessages()[1].wrap).toBe(true)
 })

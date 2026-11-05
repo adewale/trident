@@ -5,7 +5,8 @@
 // Models have no toJson, so their public instance fields are read through
 // lib/model_fields.g.dart, generated at build time by reflecting on mermaid_core's
 // classes. Enums print as their names; Map, Set and DateTime keep their native kind;
-// positional records print as arrays.
+// positional records print as arrays. An object that is one kind of an abstract model
+// class (a RailroadExpr, a SeqEvent) also prints its class name as `$class`.
 import 'dart:convert';
 import 'dart:io';
 
@@ -41,13 +42,20 @@ Object? encode(Object? v) {
         '__tridentNativeSet': [for (final e in v) encode(e)],
       };
     if (v is Iterable) return [for (final e in v) encode(e)];
-    if (v is Record) return _positional(v).map(encode).toList();
+    if (v is Record) {
+      final named = _named(v);
+      if (named != null)
+        return {for (final e in named.entries) e.key: encode(e.value)};
+      return _positional(v).map(encode).toList();
+    }
     final fields = modelFields(v);
     if (fields == null)
       throw _Unserializable(
         'mermaid_core returned a ${v.runtimeType}, which the bridge has no field list for',
       );
+    final kind = modelKind(v);
     return {
+      if (kind != null) r'$class': kind,
       for (final (name, value) in fields)
         if (!_isBackReference(name, value)) name: encode(value),
     };
@@ -79,6 +87,16 @@ List<Object?> _positional(Record r) => switch (r) {
   _ => throw _Unserializable(
     'mermaid_core returned a record ${r.runtimeType} with named or more than 8 fields, which the bridge cannot read',
   ),
+};
+
+/// A named-field record of a shape a model field declares, printed as an object. Records
+/// cannot be inspected generically, so each shape mermaid_core's model fields declare
+/// (WardleyMap.annotationsBox and size; tool/gen.dart lists the record fields) is matched
+/// by its own pattern; a pattern matches only a record with exactly these fields.
+Map<String, Object?>? _named(Record r) => switch (r) {
+  (:var x, :var y) => {'x': x, 'y': y},
+  (:var width, :var height) => {'width': width, 'height': height},
+  _ => null,
 };
 
 bool _isBackReference(String name, Object? value) =>

@@ -303,11 +303,11 @@ test('termaid: destroy events give Mermaid indexes; activate is known unless an 
   expect(() => view.getCreatedActors()).toThrow('unsupported')
 })
 
-test('mermaid_core: create and destroy events add no entry; telling them apart needs the bridge', () => {
+test('mermaid_core: create and destroy events add no entry and index the message list', () => {
   const { hooks, log } = verdicts()
   const raw = {
     participants: new Map([['A', { id: 'A', label: 'Alice', isActor: true }], ['C', { id: 'C', label: 'C', isActor: false }]]),
-    events: [{ id: 'C' }, { from: 'A', to: 'C', arrow: 'solidArrow', text: 'hi', wrap: false }, { kind: 'rect', label: '', color: 'rgb(1,2,3)' }, {}],
+    events: [{ $class: 'SeqCreate', id: 'C' }, { $class: 'SeqMessage', from: 'A', to: 'C', arrow: 'solidArrow', text: 'hi', wrap: false }, { $class: 'SeqBlockStart', kind: 'rect', label: '', color: 'rgb(1,2,3)' }, { $class: 'SeqDestroy', id: 'C' }, { $class: 'SeqBlockEnd' }],
     title: 'T',
     boxes: [{ label: '', members: ['A'], color: null }],
   }
@@ -318,6 +318,8 @@ test('mermaid_core: create and destroy events add no entry; telling them apart n
   expect(pick(view.getBoxes()[0], ['name', 'fill'])).toEqual({ name: undefined, fill: 'transparent' })
   expect(view.getDiagramTitle()).toBe('T')
   expect(() => view.getAccTitle()).toThrow('unsupported')
-  expect(() => view.getCreatedActors()).toThrow('gap')
-  expect(log.at(-1)).toContain('same as SeqDestroy')
+  expect(view.getCreatedActors()).toEqual(new Map([['C', 0]]))
+  expect(view.getDestroyedActors()).toEqual(new Map([['C', 2]]))
+  expect(() => nativeSchemaView('orestesgaolin/mermaid', 'sequence', { ...raw, events: [{ id: 'C' }] }, hooks).getMessages()).toThrow('gap')
+  expect(log.at(-1)).toContain('sequence event id')
 })
