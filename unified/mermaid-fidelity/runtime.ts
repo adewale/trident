@@ -7,7 +7,7 @@ import { pathToFileURL } from 'node:url'
 import type TypeScript from 'typescript'
 import { projectPublicDatabase } from '../upstream-fidelity-projection.mjs'
 import { persistentBridge } from './bridge-client.mjs'
-import { nativeAstView } from './schema-views.mjs'
+import { nativeAstView, mermaidConstants } from './schema-views.mjs'
 
 const job = JSON.parse(readFileSync(process.env.TRIDENT_FIDELITY_JOB!, 'utf8'))
 // Parallel test files run in separate worker processes; each appends to its own part.
@@ -525,6 +525,10 @@ function context(family: string) {
       get(t, key: string) {
         if (key in t) return t[key]
         if (key === 'then') return undefined
+        // Mermaid's enum constants a test reads before parsing (requirementDb.RiskLevel),
+        // where this target receives them at all.
+        const constants = job.target.tool === 'mermaid' ? undefined : mermaidConstants(job.target.project, family, false)
+        if (constants && key in constants && !(key in view)) return constants[key]
         if (!parsed && raw === undefined && !(key in view) && /^get[A-Z]/.test(key)) {
           const model = emptyModel()
           if (model) {

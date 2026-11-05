@@ -116,12 +116,12 @@ test('zombie-mermaid: crow\'s-foot words map to Mermaid cardinalities; an associ
   expect(() => composition.relation.lineType).toThrow('unsupported')
 })
 
-test('XMermaid: exactly_one is ONLY_ONE, and normalized class relations stay a gap', () => {
+test('XMermaid: exactly_one is ONLY_ONE, and normalized class relations are unsupported', () => {
   const { hooks } = verdicts()
   const er = nativeSchemaView('evangwt/xmermaid', 'er', { type: 'er', entities: [{ name: 'A' }, { name: 'B' }], relationships: [{ from: 'A', to: 'B', label: 'x', from_cardinality: 'exactly_one', to_cardinality: 'zero_or_more', non_identifying: true }] }, hooks)
   expect(er.getRelationships()[0].relSpec).toEqual({ cardA: 'ZERO_OR_MORE', cardB: 'ONLY_ONE', relType: 'NON_IDENTIFYING' })
   const cls = nativeSchemaView('evangwt/xmermaid', 'class', { type: 'class', classes: [{ id: 'A', label: 'A' }], relations: [{ from: 'B', to: 'A', kind: 'inheritance' }] }, hooks)
-  expect(() => cls.getRelations()).toThrow('gap')
+  expect(() => cls.getRelations()).toThrow('unsupported')
 })
 
 test('XMermaid flowchart: a null label is the id on a bare node; style words and markers make the edge type', () => {

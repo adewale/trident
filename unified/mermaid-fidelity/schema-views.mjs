@@ -371,7 +371,8 @@ function classView(model, hooks) {
   const node = (id, fields) => record({ id, ...fields, ...(fields.members ? { members: fields.members.map(member) } : {}), ...(fields.methods ? { methods: fields.methods.map(member) } : {}) }, 'class', CLASS_FIELDS, absent.class ?? {}, hooks)
   const map = () => new Map(classes().map(([id, fields]) => [id, node(id, fields)]))
   const view = { getClasses: map, getClass: id => map().get(id), relationType: RELATION_TYPE, lineType: LINE_TYPE }
-  if (model.relationsGap) view.getRelations = () => hooks.unavailable(model.relationsGap)
+  // A model that does not record the written left-hand class lacks the concept: unsupported.
+  if (model.relationsGap) view.getRelations = () => hooks.unsupported(model.relationsGap)
   else if (relations)
     view.getRelations = () =>
       relations().map(fields => {
