@@ -2,12 +2,9 @@
 
 Mermaid Flutter (`pub:mermaid_flutter`, `mermaid_flutter` 0.3.2) renders PNG through
 its native `renderToPng` API, so Trident measures it with a native Linux release
-application instead of a browser. The app in `app/` has two release targets:
-
-| Target | Used by |
-|---|---|
-| `lib/davebench_worker.dart` | `bun commands.ts davebench:native-png`: DaveBench PNG completions and API time. PNG bytes are admitted mechanically and discarded. |
-| `lib/community_worker.dart` | The shared community protocol: `prepare-community.ts` seals the bundle as a prepared artifact for the other collectors. |
+application instead of a browser. The app in `app/` builds one release target,
+`lib/davebench_worker.dart`, which `bun commands.ts davebench:native-png` runs for DaveBench
+PNG completions and API time. PNG bytes are admitted mechanically and discarded.
 
 `lib/main.dart` is the app's default entry point and is not used by the benchmarks.
 
@@ -20,12 +17,11 @@ optional non-system SDK (`FLUTTER_ROOT`) or sysroot (`BENCH_SYSROOT`).
 ```sh
 cd native-flutter/app
 flutter pub get --enforce-lockfile
-flutter build linux --release --target lib/davebench_worker.dart   # or lib/community_worker.dart
+flutter build linux --release --target lib/davebench_worker.dart
 ```
 
 Keep the complete release bundle (`build/linux/x64/release/bundle`), including its
-data and shared libraries. Building the wrong target does not implement the
-protocol the command expects.
+data and shared libraries.
 
 ## Run
 
@@ -40,14 +36,5 @@ that the bundle was built from the current `davebench_worker.dart` and the locke
 `mermaid_flutter` 0.3.2. Append its runs to the DaveBench image results before
 `campaign:results` builds the report.
 
-To use the `community_worker.dart` bundle as a prepared artifact:
-
-```sh
-bun native-flutter/prepare-community.ts \
-  --bundle native-flutter/app/build/linux/x64/release/bundle --out FRESH_DIRECTORY
-```
-
-Preparation hashes the wrapper, launch manifest and every bundle file. It builds
-and renders nothing. Each launch checks the bundle inventory, hashes and runtime
-API/version before accepting rows. Mermaid Dart (`orestesgaolin/mermaid`) remains
+Mermaid Dart (`orestesgaolin/mermaid`) remains
 the distinct SVG product; both use the Dart core for parsing and layout.

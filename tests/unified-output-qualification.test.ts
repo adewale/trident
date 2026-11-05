@@ -1,7 +1,4 @@
 import { describe, expect, test } from 'bun:test'
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, rmSync } from 'node:fs'
-import { runCommunityNodeRound, runCommunityCli } from '../unified/community.ts'
-import { parseOptions } from '../unified/options.ts'
 import { spawnSync } from 'node:child_process'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -130,34 +127,4 @@ test('PNG admission requires complete decodable pixels and content, not an inven
   expect(qualifyOutput(workload(['Alpha']), image(new Uint8Array([0, 255, 255, 255, 255, 0, 255, 255, 255, 255]), { interlace: 1 }), 'png').ok).toBe(false)
   const sixteenBit = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255])
   expect(qualifyOutput(workload(['Alpha']), image(sixteenBit, { depth: 16 }), 'png').ok).toBe(true)
-})
-
-
-test('PNG inspection limits block module and CLI qualification without blaming the renderer', async () => {
-  const root = mkdtempSync(join(tmpdir(), 'trident-png-observer-limit-'))
-  try {
-    const width = 4200, height = 4000, stride = Math.ceil(width / 8) + 1
-    const scanlines = Buffer.alloc(stride * height, 255)
-    for (let row = 0; row < height; row++) scanlines[row * stride] = 0
-    scanlines[1] = 0
-    const png = pngImage(scanlines, { width, height, color: 0, depth: 1 })
-    expect(qualifyOutput(workload(['Alpha']), png, 'png')).toMatchObject({ ok: false, unavailable: true })
-    const file = join(root, 'output.png'), module = join(root, 'index.mjs'), cli = join(root, 'cli.mjs')
-    writeFileSync(file, png)
-    writeFileSync(join(root, 'package.json'), '{"name":"png-budget-fixture","version":"1.0.0","type":"module"}')
-    writeFileSync(module, `import {readFileSync} from 'node:fs';export function render(){return readFileSync(${JSON.stringify(file)})}`)
-    writeFileSync(cli, `import {readFileSync} from 'node:fs';process.stdout.write(readFileSync(${JSON.stringify(file)}))`)
-    const node = { id: 'fixture/png-limit', roles: ['renderer'], outputs: ['png'], benchmark: { adapter: 'declared', outputs: ['png'], api: { png: { export: 'render' } } } }
-    const rows = await runCommunityNodeRound({ node, artifact: { kind: 'node', root, module, version: '1.0.0' } }, 'png', [workload(['Alpha'])], 1, parseOptions(['--out', join(root, 'module'), '--profile', 'smoke']))
-    expect(rows[0]).toMatchObject({ status: 'blocked' })
-    expect(rows[0]?.samplesMs).toBeUndefined()
-    expect(typeof rows[0]?.metrics?.outputFile).toBe('string')
-    expect(readFileSync(rows[0]!.metrics!.outputFile as string)).toEqual(png)
-    mkdirSync(join(root, 'cli'))
-    const row = runCommunityCli({ node, artifact: { kind: 'cli', executable: process.env.NODE_BIN ?? 'node', args: [cli], input: 'stdin', format: 'png', version: '1.0.0' } }, 'png', workload(['Alpha']), 1, join(root, 'cli'))
-    expect(row.status).toBe('blocked')
-    expect(row.findings?.join(' ')).toContain('qualification budget')
-    expect(readFileSync(row.metrics!.outputFile as string)).toEqual(png)
-    expect(readdirSync(join(root, 'cli/raw-cli-invocations/checkpoint-units')).filter(name => name.endsWith('.json.gz'))).toHaveLength(2)
-  } finally { rmSync(root, { recursive: true, force: true }) }
 })
