@@ -49,7 +49,7 @@ function unsupportedOperation(reason: string): never {
   throw Error('Unsupported candidate operation: ' + reason)
 }
 // Mermaid database members that change or compute state rather than observe a parse.
-const DATABASE_OPERATION = /^(?:add|set|update|define|make|insert|remove|push|pop|enter|exit|apply|toggle|commit|branch|merge|checkout|cherryPick|draw|lookUp|sanitize|edgeStrTo|parse[A-Z])/
+const DATABASE_OPERATION = /^(?:add|set|update|define|make|insert|remove|push|pop|enter|exit|apply|toggle|commit|branch|merge|checkout|cherryPick|draw|lookUp|sanitize|edgeStrTo|emit[A-Z]|parse[A-Z])/
 // Mermaid database API that observes Mermaid's own state rather than a parse result.
 const DATABASE_API = new Set(['getConfig', 'getConfigField', 'exists', 'createModel', 'prettyPrint', 'bindFunctions'])
 const mermaidDatabaseMember = (key: unknown) => typeof key === 'string' && (DATABASE_OPERATION.test(key) || DATABASE_API.has(key))
@@ -486,14 +486,35 @@ function context(family: string) {
     } finally {
       active = caseAudit
     }
+    // Without a native database class, an empty database is the candidate's own parse of
+    // a diagram with nothing but its header ("usecase-beta"), taken only when a test
+    // reads the database before parsing (or after clear()). A candidate that rejects a
+    // header-only diagram has no empty model, and such reads stay gaps.
+    let empty: { raw: any } | null | undefined, parsed = false
+    const emptyModel = () => {
+      if (empty !== undefined) return empty
+      const header = (examples[family] ?? '').split('\n')[0]
+      const caseAudit = active
+      active = undefined
+      try {
+        empty = header ? { raw: nativeParse(family, header) } : null
+      } catch {
+        empty = null
+      } finally {
+        active = caseAudit
+      }
+      return empty
+    }
     const clear = () => {
       raw = Constructor ? new Constructor() : undefined
       view = raw ? projectView(family, raw) : {}
+      parsed = Boolean(Constructor)
     }
     clear()
     const target: any = {
       clear,
       parse(source: string) {
+        parsed = true
         raw = nativeParse(family, source)
         view = projectView(family, raw)
       },
@@ -502,6 +523,17 @@ function context(family: string) {
       get(t, key: string) {
         if (key in t) return t[key]
         if (key === 'then') return undefined
+        if (!parsed && raw === undefined && !(key in view) && /^get[A-Z]/.test(key)) {
+          const model = emptyModel()
+          if (model) {
+            raw = model.raw
+            try {
+              view = projectView(family, raw)
+            } catch {
+              raw = undefined
+            }
+          }
+        }
         const value = view[key] ?? raw?.[key]
         if (typeof value === 'function')
           return (...a: any[]) => {
