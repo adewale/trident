@@ -311,3 +311,9 @@ test('ports Treemap AST: class selectors kept; classDefs leave the row list unkn
   expect(radar.curves[0].entries[0].value).toBe(4)
   expect(() => radar.curves[0].entries[0].axis).toThrow('unsupported')
 })
+
+test('Latias94/merman requirement relationships are its relationships list', () => {
+  const { hooks } = verdicts()
+  const view = nativeSchemaView('Latias94/merman', 'requirement', { classes: {}, relationships: [{ type: 'contains', src: 'e1', dst: 'r1' }] }, hooks)
+  expect(view.getRelationships()).toEqual([{ type: 'contains', src: 'e1', dst: 'r1' }])
+})

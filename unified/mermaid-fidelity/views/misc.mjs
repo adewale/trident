@@ -7,7 +7,7 @@
 // not carry is declared absent with its reason, and nothing is parsed from source text or
 // re-split from a display string. Every mapping was checked against the project's parser
 // source where it is cited, and against probe output (scripts/fidelity-probe.ts).
-import { entriesOf, record, styleList, styleStrings, classView, card, headOf, shapeOf, edgeType, strokeOf, c4View, C4_MACRO, C4_BOUNDARY_MACRO, text, WRAP, flowchartView, VERTEX_ABSENT, nativeSchemaView, erView, identifying } from '../schema-views.mjs'
+import { entriesOf, record, styleList, CLASS_ALWAYS, styleStrings, classView, card, headOf, shapeOf, edgeType, strokeOf, c4View, C4_MACRO, C4_BOUNDARY_MACRO, text, WRAP, flowchartView, VERTEX_ABSENT, nativeSchemaView, erView, identifying } from '../schema-views.mjs'
 
 // ---------------------------------------------------------------------------------------
 // Class diagrams.
@@ -119,7 +119,7 @@ function classesView(model, hooks) {
       else if (typeof value === 'function') Object.defineProperty(object, key, { get: value, enumerable: true })
       else object[key] = value
     }
-    return record(object, 'class', CLASS_FIELDS, absent, hooks)
+    return record(object, 'class', CLASS_FIELDS, absent, hooks, CLASS_ALWAYS)
   }
   const classes = () => new Map(model.classes().map(([id, fields]) => [id, node(id, fields)]))
   const view = { getClasses: classes, getClass: id => classes().get(id), getData: () => hooks.unsupported(CLASS_LAYOUT) }
@@ -1169,7 +1169,11 @@ const requirementSchema = {
   // acc statements are read as nodes.
   '1jehuang/mermaid-rs-renderer': (_raw, hooks) => {
     const folded = () => hooks.unsupported("mermaid-rs-renderer folds a requirement's and an element's fields into one display label")
-    return { getRequirements: folded, getElements: folded, getClasses: () => hooks.unsupported('mermaid-rs-renderer keeps a classDef as a fixed set of typed style properties, not the written style list'), getAccTitle: () => hooks.unsupported("mermaid-rs-renderer's requirement model keeps no accessibility title"), getAccDescription: () => hooks.unsupported("mermaid-rs-renderer's requirement model keeps no accessibility description") }
+    // A relationship is an edge from its source to its destination (either arrow direction
+    // as written) labelled with its type word, Mermaid's Relationships vocabulary.
+    const RELATIONSHIPS = ['contains', 'copies', 'derives', 'satisfies', 'verifies', 'refines', 'traces']
+    const relationships = () => (_raw.edges ?? []).map(edge => ({ type: RELATIONSHIPS.includes(String(edge.label).toLowerCase()) ? String(edge.label).toLowerCase() : edge.label, src: edge.from, dst: edge.to }))
+    return { getRequirements: folded, getElements: folded, getRelationships: relationships, getClasses: () => hooks.unsupported('mermaid-rs-renderer keeps a classDef as a fixed set of typed style properties, not the written style list'), getAccTitle: () => hooks.unsupported("mermaid-rs-renderer's requirement model keeps no accessibility title"), getAccDescription: () => hooks.unsupported("mermaid-rs-renderer's requirement model keeps no accessibility description") }
   },
 }
 
@@ -1396,10 +1400,16 @@ const BLOCK_MODELS = {
   'fasouto/termaid': raw => ({ blocks: () => raw.blocks, fields: () => ({}), absent: BLOCK_PALETTE('termaid') }),
   'orestesgaolin/mermaid': raw => ({ blocks: () => raw.root, fields: () => ({}), absent: BLOCK_PALETTE('mermaid_core') }),
   'pub:mermaid_flutter': raw => ({ blocks: () => raw.root, fields: () => ({}), absent: BLOCK_PALETTE('mermaid_core') }),
+  // Frankenmermaid 0.4.0 IR (diagram_type BlockBeta): blocks are nodes, composites are
+  // graph.subgraphs keyed by their id.
+  'Dicklesworthstone/frankenmermaid': raw => (raw?.diagram_type !== 'BlockBeta' ? undefined : { blocks: () => [...raw.nodes.map(node => ({ id: node.id })), ...(raw.graph?.subgraphs ?? []).map(group => ({ id: group.key }))], fields: () => ({}), absent: BLOCK_PALETTE('Frankenmermaid') }),
   // mermaid-rs-renderer lists the top-level blocks only (a composite's children are not kept).
   '1jehuang/mermaid-rs-renderer': raw => ({ blocks: () => raw.block?.nodes ?? [], fields: () => ({}), absent: BLOCK_PALETTE('mermaid-rs-renderer') }),
 }
-const blockSchema = Object.fromEntries(Object.entries(BLOCK_MODELS).map(([project, model]) => [project, (raw, hooks) => blockView(model(raw), hooks)]))
+const blockSchema = Object.fromEntries(Object.entries(BLOCK_MODELS).map(([project, model]) => [project, (raw, hooks) => {
+  const read = model(raw)
+  return read ? blockView(read, hooks) : undefined
+}]))
 
 // agentic-mermaid 0.5.6 (its flowchart graph) and Crafter (@crafter/mermaid-renderer 0.0.3)
 // keep beautiful-mermaid's MermaidGraph: a node's label is its id when none was written

@@ -637,7 +637,11 @@ function stateView(raw, hooks, project) {
 }
 
 // requirementDb getClasses(): the classDef Map.
-const requirementView = (raw, hooks, project) => ({ getClasses: () => orderedMap(raw.classes, hooks, NAME[project] + ' requirement classes') })
+// Latias94/merman names Mermaid's relation list (requirementDb { type, src, dst }) relationships.
+const requirementView = (raw, hooks, project) => ({
+  getClasses: () => orderedMap(raw.classes, hooks, NAME[project] + ' requirement classes'),
+  ...(project === MERMAN && Array.isArray(raw.relationships) ? { getRelationships: () => raw.relationships.map(item => deepUnset(item)) } : {}),
+})
 // erDb getEntity(name): one entity of the entity Map; getClasses(): the classDef Map.
 const erView = (raw, hooks, project) => ({
   getEntity: name => { const found = new Map(entriesOf(raw.entities)).get(name); return found == null ? undefined : deepUnset(found) },

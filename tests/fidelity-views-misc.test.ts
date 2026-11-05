@@ -330,3 +330,11 @@ test('XMermaid cynefin and wardley', () => {
   expect(() => data.nodes[0].inertia).toThrow('unsupported')
   expect(wardley.getDiagramTitle()).toBe('Example')
 })
+
+// requirementDiagram / requirement r1 { id: 1 } / element e1 { type: sim } / r1 <- copies - e1 / e1 - traces -> r1
+test('mermaid-rs-renderer requirement relationships: source to destination, typed by the edge word', () => {
+  const { hooks } = verdicts()
+  const view = nativeSchemaView('1jehuang/mermaid-rs-renderer', 'requirement', { nodes: {}, edges: [{ from: 'e1', to: 'r1', label: 'copies' }, { from: 'e1', to: 'r1', label: 'traces' }] }, hooks)
+  expect(view.getRelationships()).toEqual([{ type: 'copies', src: 'e1', dst: 'r1' }, { type: 'traces', src: 'e1', dst: 'r1' }])
+  expect(() => view.getRequirements()).toThrow('unsupported')
+})

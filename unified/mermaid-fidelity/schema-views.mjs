@@ -434,13 +434,17 @@ const LINE_TYPE = { LINE: 0, DOTTED_LINE: 1 }
 const END = { extension: 1, triangle: 1, '<|': 1, '|>': 1, composition: 2, diamondfill: 2, '*': 2, aggregation: 0, diamondopen: 0, o: 0, dependency: 3, arrow: 3, '<': 3, '>': 3, lollipop: 4, '()': 4, none: 'none', '': 'none' }
 const endOf = marker => (typeof marker === 'string' ? END[marker.toLowerCase().replace(/^head/, '')] : undefined)
 const CLASS_FIELDS = ['id', 'type', 'label', 'text', 'cssClasses', 'methods', 'members', 'annotations', 'domId', 'styles', 'parent', 'link', 'linkTarget', 'haveCallback', 'tooltip']
+// classDb.addClass creates every class with these keys set (type '', cssClasses 'default',
+// empty member, method, annotation and style lists, a counted domId), so a whole-class
+// comparison or snapshot reads them.
+const CLASS_ALWAYS = ['id', 'type', 'label', 'text', 'cssClasses', 'methods', 'members', 'annotations', 'domId', 'styles']
 const MEMBER_FIELDS = ['id', 'memberType', 'visibility', 'classifier', 'parameters', 'returnType', 'text', 'cssStyle', 'getDisplayDetails']
 const RELATION_FIELDS = ['id1', 'id2', 'relation', 'relationTitle1', 'relationTitle2', 'title']
 function classView(model, hooks) {
   const { classes, relations, absent } = model
   // Members are counted; their Mermaid ClassMember fields are not claimed.
   const member = () => record({}, 'class member', MEMBER_FIELDS, {}, hooks)
-  const node = (id, fields) => record({ id, ...fields, ...(fields.members ? { members: fields.members.map(member) } : {}), ...(fields.methods ? { methods: fields.methods.map(member) } : {}) }, 'class', CLASS_FIELDS, absent.class ?? {}, hooks)
+  const node = (id, fields) => record({ id, ...fields, ...(fields.members ? { members: fields.members.map(member) } : {}), ...(fields.methods ? { methods: fields.methods.map(member) } : {}) }, 'class', CLASS_FIELDS, absent.class ?? {}, hooks, CLASS_ALWAYS)
   const map = () => new Map(classes().map(([id, fields]) => [id, node(id, fields)]))
   const view = { getClasses: map, getClass: id => map().get(id), relationType: RELATION_TYPE, lineType: LINE_TYPE }
   // A model that does not record the written left-hand class lacks the concept: unsupported.
@@ -453,10 +457,13 @@ function classView(model, hooks) {
           if (relation.type1 === undefined || relation.type2 === undefined) return hooks.unavailable('Unmapped native class relation marker')
           const lineAbsent = relation[LINE_ABSENT]
           if (relation.lineType === undefined && !lineAbsent) return hooks.unavailable('Unmapped native class relation line')
-          if (lineAbsent) fields = { ...fields, relation: record({ type1: relation.type1, type2: relation.type2 }, 'relation', ['type1', 'type2', 'lineType'], { lineType: lineAbsent }, hooks) }
+          // The grammar's relation object always has a lineType (classDiagram.jison relationType).
+          if (lineAbsent) fields = { ...fields, relation: record({ type1: relation.type1, type2: relation.type2 }, 'relation', ['type1', 'type2', 'lineType'], { lineType: lineAbsent }, hooks, ['lineType']) }
         }
         // Mermaid's relation has no title key without a label, so reading it is undefined.
-        return record({ ...(absent.relation?.title ? {} : { title: undefined }), ...fields }, 'relation', RELATION_FIELDS, absent.relation ?? {}, hooks)
+        // classDiagram.jison's relationStatement always sets id1, id2, relation and both
+        // relation titles ('none' when unwritten); title only with a label.
+        return record({ ...(absent.relation?.title ? {} : { title: undefined }), ...fields }, 'relation', RELATION_FIELDS, absent.relation ?? {}, hooks, ['id1', 'id2', 'relation', 'relationTitle1', 'relationTitle2'])
       })
   return view
 }
@@ -1319,7 +1326,7 @@ export function flowchartLayoutData(view, hooks, project) {
 // Helpers and view builders for views/*.mjs. A view module uses them only inside its
 // functions, never at its own top level, because this file imports the views.
 export {
-  entriesOf, record, styleList, VERTEX_FIELDS, EDGE_FIELDS, SUBGRAPH_FIELDS, shapeOf, headOf, strokeOf, directionOf, edgeType, styleStrings, VERTEX_ABSENT, flowchartView,
+  entriesOf, record, styleList, CLASS_ALWAYS, VERTEX_FIELDS, EDGE_FIELDS, SUBGRAPH_FIELDS, shapeOf, headOf, strokeOf, directionOf, edgeType, styleStrings, VERTEX_ABSENT, flowchartView,
   unset, deepUnset, text, optional, snake, card, endOf, RELATION_TYPE, LINE_TYPE, LINE_ABSENT, classView, relation, erView, cardWord, CARD_SYMBOL, identifying,
   c4View, C4_MACRO, C4_REL_MACRO, C4_BOUNDARY_MACRO, usesTechn, WRAP, SEQ, PLACEMENT, SEQ_BLOCK, SEQ_ABSENT, sequenceView, actorsView, kanbanView, astNode,
 }

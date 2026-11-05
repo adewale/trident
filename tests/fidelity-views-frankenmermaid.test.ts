@@ -517,3 +517,26 @@ test("state getData: dataFetcher's nodes and edges from the IR; what it does not
   expect([data.edges[0].start, data.edges[0].end, data.edges[2].start, data.edges[2].end, data.edges[2].label]).toEqual(['root_start', 'A', 'A', 'Comp', 'go'])
   expect(() => data.edges[1].start).toThrow('unsupported')
 })
+
+test("records list the keys Mermaid always sets: a whole class or relation reads its absent fields", () => {
+  const { hooks } = verdicts()
+  const view = nativeSchemaView(PROJECT, 'class', { ...cls, edges: [edge(0, 1, 'Inheritance')] }, hooks)
+  // classDb.addClass always sets domId, which no candidate keeps (Mermaid's renderer identity).
+  expect(() => ({ ...view.getClass('Dog') })).toThrow('unsupported')
+  const relation = view.getRelations()[0]
+  expect(relation.relation.type1).toBe(1)
+  // The grammar's relation object always has a lineType; Frankenmermaid's Inheritance does not record it.
+  expect(() => ({ ...relation.relation })).toThrow('unsupported')
+})
+
+test('gantt weekday from its day index; block composites answer getBlock with no palette slot', () => {
+  const { hooks } = verdicts()
+  const gantt = (meta: unknown) => nativeSchemaView(PROJECT, 'gantt', { diagram_type: 'Gantt', nodes: [], edges: [], labels: [], gantt_meta: meta }, hooks)
+  expect(gantt({ weekday_start: 5 }).getWeekday()).toBe('friday')
+  expect(gantt({}).getWeekday()).toBe('sunday')
+  const block = nativeSchemaView(PROJECT, 'block', { diagram_type: 'BlockBeta', nodes: [{ id: 'a' }, { id: 'b' }], edges: [], labels: [], graph: { subgraphs: [{ key: 'first', members: [0, 1] }] } }, hooks)
+  expect(block.getBlock('first').id).toBe('first')
+  expect(block.getBlock('a').id).toBe('a')
+  expect(block.getBlock('zzz')).toBeUndefined()
+  expect(() => block.getBlock('first').colorIndex).toThrow('unsupported')
+})

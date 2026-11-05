@@ -519,6 +519,7 @@ function mindmap(ir, hooks) {
 // Gantt (ganttDb.js). gantt_meta keeps the date format, excludes ('Weekends' or a list of
 // dates, normalised to ISO) and each task's start/end specification; Mermaid's task
 // records carry dates its database computes, which are not mapped here.
+const WEEKDAY = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 function gantt(ir, hooks) {
   if (!isType(ir, 'Gantt')) return undefined
   const meta = ir.gantt_meta ?? {}
@@ -526,6 +527,9 @@ function gantt(ir, hooks) {
     ...commonText(ir),
     getDiagramTitle: () => meta.title ?? ir.meta?.title ?? '',
     getDateFormat: () => meta.date_format ?? '',
+    // gantt_meta.weekday_start is the weekday statement's day as an index from Sunday (0);
+    // Mermaid keeps the word, 'sunday' when none was written (ganttDb.setWeekday).
+    getWeekday: () => (meta.weekday_start == null ? 'sunday' : WEEKDAY[meta.weekday_start] ?? hooks.unavailable(`${NAME} gantt weekday_start ${meta.weekday_start}`)),
     // Mermaid keeps each excludes token lower-cased; a date keeps the IR's ISO spelling.
     getExcludes: () => (meta.excludes ?? []).flatMap(item => (typeof item === 'string' ? [item.toLowerCase()] : Array.isArray(item?.Dates) ? item.Dates : hooks.unavailable(`${NAME} gantt excludes entry ${JSON.stringify(item)}`))),
   }
