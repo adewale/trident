@@ -323,3 +323,41 @@ test('mermaid_core: create and destroy events add no entry and index the message
   expect(() => nativeSchemaView('orestesgaolin/mermaid', 'sequence', { ...raw, events: [{ id: 'C' }] }, hooks).getMessages()).toThrow('gap')
   expect(log.at(-1)).toContain('sequence event id')
 })
+
+// sequenceDiagram / participant A as Alice / actor B / A->>+B: x / B--)A: y / Note over A,B: n /
+// alt yes / A-xB: z / else no / end / rect rgb(1,2,3) / end / autonumber / create participant C /
+// A->>C: hi / destroy C / A->>C: bye / box Aqua G (A)
+test('XMermaid sequence: one event list in Mermaid line types; what it reformats or folds is not claimed', () => {
+  const { hooks } = verdicts()
+  const msg = (from: string, to: string, label: string, line_style: string, end_marker: string, extra = {}) => ({ from, to, label, line_style, end_marker, activate_target: false, deactivate_source: false, bidirectional: false, ...extra })
+  const raw = {
+    type: 'sequence',
+    participants: [{ id: 'A', label: 'Alice', kind: 'participant' }, { id: 'B', label: 'B', kind: 'actor' }, { id: 'C', label: 'C', kind: 'participant' }],
+    messages: [msg('A', 'B', 'x', 'solid', 'arrow', { activate_target: true }), msg('B', 'A', 'y', 'dashed', 'open'), msg('A', 'B', 'z', 'solid', 'cross'), msg('A', 'C', 'hi', 'solid', 'arrow'), msg('A', 'C', 'bye', 'solid', 'arrow')],
+    events: [
+      { kind: 'message', message_index: 0 }, { kind: 'message', message_index: 1 }, { kind: 'note', placement: 'over', participants: ['A', 'B'], text: 'n' },
+      { kind: 'block_start', block: 'alt', label: 'yes' }, { kind: 'message', message_index: 2 }, { kind: 'block_divider', divider: 'else', label: 'no' }, { kind: 'block_end' },
+      { kind: 'block_start', block: 'rect', label: '', color: 'rgb(1, 2, 3)' }, { kind: 'block_end' }, { kind: 'autonumber', start: 1, increment: 1 },
+      { kind: 'create', participant: 'C' }, { kind: 'message', message_index: 3 }, { kind: 'destroy', participant: 'C' }, { kind: 'message', message_index: 4 },
+    ],
+    boxes: [{ label: 'Aqua G', participants: ['A'] }],
+  }
+  const view = nativeSchemaView('evangwt/xmermaid', 'sequence', raw, hooks)
+  const messages = view.getMessages()
+  expect(messages.slice(0, 4).map((m: any) => [m.type, m.from, m.to])).toEqual([[LT.SOLID, 'A', 'B'], [LT.ACTIVE_START, 'B', undefined], [LT.DOTTED_POINT, 'B', 'A'], [LT.NOTE, 'A', 'B']])
+  expect(messages[0].activate).toBe(true)
+  expect(messages.slice(4, 8).map((m: any) => [m.type, m.message])).toEqual([[LT.ALT_START, 'yes'], [LT.SOLID_CROSS, 'z'], [LT.ALT_ELSE, 'no'], [LT.ALT_END, '']])
+  expect(messages[8].type).toBe(LT.RECT_START)
+  expect(() => messages[8].message).toThrow('unsupported')
+  expect(() => messages[10].message).toThrow('unsupported')
+  expect(() => messages[0].wrap).toThrow('unsupported')
+  // Mermaid's message entry always has wrap: a whole-entry comparison reads it.
+  expect(() => ({ ...messages[0] })).toThrow('unsupported')
+  expect(view.getCreatedActors()).toEqual(new Map([['C', 11]]))
+  expect(view.getDestroyedActors()).toEqual(new Map([['C', 12]]))
+  expect(pick(view.getActor('A'), ['description', 'type'])).toEqual({ description: 'Alice', type: 'participant' })
+  expect(view.getBoxes()[0].actorKeys).toEqual(['A'])
+  expect(() => view.getBoxes()[0].name).toThrow('unsupported')
+  expect(() => view.getDiagramTitle()).toThrow('unsupported')
+  expect(view.LINETYPE.SOLID).toBe(0)
+})

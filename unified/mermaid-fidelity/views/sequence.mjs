@@ -48,12 +48,15 @@ const unlabelled = (type, reason) => {
 function messageView(entries, absent, hooks) {
   // The per-record reasons travel on a symbol key, which must not reach the record itself
   // (toEqual and snapshots compare symbol keys too).
-  const recordOf = ({ [views.SEQ_ABSENT]: own, ...fields }, index) => views.record({ id: String(index), ...fields }, 'message', MESSAGE_FIELDS, { ...absent, ...(own ?? {}) }, hooks)
+  // sequenceDb's addSignal and addNote always set message, wrap and type (wrap from the
+  // autoWrap configuration when none was written), and a note record its wrap: a whole-
+  // record comparison or snapshot reads them.
+  const recordOf = ({ [views.SEQ_ABSENT]: own, ...fields }, index) => views.record({ id: String(index), ...fields }, 'message', MESSAGE_FIELDS, { ...absent, ...(own ?? {}) }, hooks, views.SEQ_ALWAYS)
   const noteOf = item => {
     const own = item[views.SEQ_ABSENT] ?? {}
     const note = { placement: item.placement, message: item.message, ...('wrap' in item ? { wrap: item.wrap } : {}) }
     if (!own.from && !own.to) note.actor = item.from === item.to ? item.from : [item.from, item.to]
-    return views.record(note, 'note', NOTE_FIELDS, { ...absent, ...(own.from || own.to ? { actor: own.from ?? own.to } : {}) }, hooks)
+    return views.record(note, 'note', NOTE_FIELDS, { ...absent, ...(own.from || own.to ? { actor: own.from ?? own.to } : {}) }, hooks, ['wrap'])
   }
   const { LINETYPE, ARROWTYPE, PLACEMENT } = views.MERMAID_CONSTANTS.sequence
   return {
@@ -716,6 +719,70 @@ function dart(raw, hooks) {
   }
 }
 
+// ---------------------------------------------------------------------------------------
+// XMermaid 0.4.2 parse_dsl sequence (captured parser output; its WASM ships no source):
+// participants { id, label, kind }; messages { from, to, label, line_style solid|dashed,
+// end_marker arrow|open|cross|none, bidirectional, activate_target (+), deactivate_source
+// (-) }; one event list in source order (message, note, block_start / block_divider /
+// block_end, activation, create, destroy, autonumber). A bare autonumber is kept as start 1,
+// increment 1, the same as `autonumber 1 1`; a rect's colour is re-spaced ('rgb(1, 2, 3)');
+// a box keeps its colour and name as one label. It rejects title lines and keeps no
+// accessibility text, links, properties or wrap flags.
+const XMERMAID_LINE = { 'solid:arrow': 'SOLID', 'dashed:arrow': 'DOTTED', 'solid:cross': 'SOLID_CROSS', 'dashed:cross': 'DOTTED_CROSS', 'solid:open': 'SOLID_POINT', 'dashed:open': 'DOTTED_POINT', 'solid:none': 'SOLID_OPEN', 'dashed:none': 'DOTTED_OPEN' }
+function xmermaidSequence(raw, hooks) {
+  if (raw.type !== 'sequence') return undefined
+  const name = 'XMermaid'
+  const LINE = views.MERMAID_CONSTANTS.sequence.LINETYPE
+  const noWrap = { wrap: `${name}'s sequence model keeps no text wrapping` }
+  const walk = () => {
+    const out = [], stack = [], created = new Map(), destroyed = new Map()
+    for (const event of raw.events ?? []) {
+      if (event.kind === 'message') {
+        const item = raw.messages[event.message_index]
+        const word = item.bidirectional ? (item.end_marker === 'arrow' ? (item.line_style === 'dashed' ? 'BIDIRECTIONAL_DOTTED' : 'BIDIRECTIONAL_SOLID') : undefined) : XMERMAID_LINE[`${item.line_style}:${item.end_marker}`]
+        if (word === undefined) return hooks.unavailable(`${name} sequence message ${item.line_style}/${item.end_marker}${item.bidirectional ? ' two-way' : ''}`)
+        out.push(withAbsent({ from: item.from, to: item.to, message: item.label ?? '', type: LINE[word], activate: Boolean(item.activate_target), centralConnection: 0 }, noWrap))
+        if (item.activate_target) out.push(withAbsent(marker(views.SEQ.ACTIVE_START, '', item.to), noWrap))
+        if (item.deactivate_source) out.push(withAbsent(marker(views.SEQ.ACTIVE_END, '', item.from), noWrap))
+      } else if (event.kind === 'note') {
+        const [from, to] = noteEnds(event.participants ?? [])
+        out.push(withAbsent({ from, to, message: event.text ?? '', type: views.SEQ.NOTE, placement: placementOf(event.placement) }, noWrap))
+      } else if (event.kind === 'activation') out.push(withAbsent(marker(event.active ? views.SEQ.ACTIVE_START : views.SEQ.ACTIVE_END, '', event.participant), noWrap))
+      else if (event.kind === 'create') created.set(event.participant, out.length)
+      else if (event.kind === 'destroy') destroyed.set(event.participant, out.length)
+      else if (event.kind === 'block_start') {
+        const block = blockTypes(event.block, false, hooks, name)
+        stack.push(block)
+        out.push(withAbsent(event.block === 'rect' ? unlabelled(block[0], `${name} re-spaces a rect's colour text`) : marker(block[0], event.label ?? ''), noWrap))
+      } else if (event.kind === 'block_divider') {
+        const block = stack.at(-1)
+        if (!block?.[1]) return hooks.unavailable(`${name} sequence section outside a sectioned block`)
+        out.push(withAbsent(marker(block[1], event.label ?? ''), noWrap))
+      } else if (event.kind === 'block_end') {
+        const block = stack.pop()
+        if (!block) return hooks.unavailable(`${name} sequence block end without a start`)
+        out.push(withAbsent(marker(block[2]), noWrap))
+      } else if (event.kind === 'autonumber' && Object.keys(event).every(key => ['kind', 'start', 'increment'].includes(key))) {
+        const entry = { from: undefined, to: undefined, type: views.SEQ.AUTONUMBER, wrap: false }
+        out.push(event.start === 1 && event.increment === 1 ? withAbsent(entry, { message: `${name} keeps a bare autonumber as start 1, increment 1, the same as autonumber 1 1` }) : { ...entry, message: { start: event.start, step: event.increment, visible: true } })
+      } else return hooks.unavailable(`${name} sequence event ${event.kind}`)
+    }
+    return { out, created, destroyed }
+  }
+  const box = item => boxRecord({ actorKeys: [...(item.participants ?? [])] }, { name: `${name} keeps a box's colour and name as one label`, fill: `${name} keeps a box's colour and name as one label`, wrap: `${name} keeps no text wrapping per box` }, hooks)
+  const boxes = () => (raw.boxes ?? []).map(box)
+  return {
+    ...messageView(() => walk().out, {}, hooks),
+    ...actorView(() => (raw.participants ?? []).map(p => ({ id: p.id, description: p.label, type: p.kind, box: boxes().find(item => item.actorKeys.includes(p.id)) })), {
+      wrap: `${name} keeps no text wrapping per participant`, links: `${name}'s sequence model keeps no participant links`, properties: `${name}'s sequence model keeps no participant properties`,
+    }, hooks),
+    getBoxes: boxes,
+    getCreatedActors: () => walk().created,
+    getDestroyedActors: () => walk().destroyed,
+    ...unsupported(hooks, { getDiagramTitle: `${name}'s sequence parser rejects title lines`, getAccTitle: `${name}'s sequence model keeps no accessibility title`, getAccDescription: `${name}'s sequence model keeps no accessibility description` }),
+  }
+}
+
 export default {
   schema: {
     sequence: {
@@ -734,6 +801,7 @@ export default {
       'fasouto/termaid': termaid,
       'orestesgaolin/mermaid': dart,
       'pub:mermaid_flutter': dart,
+      'evangwt/xmermaid': xmermaidSequence,
     },
   },
 }

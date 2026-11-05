@@ -905,10 +905,13 @@ const PLACEMENT = { leftof: 0, rightof: 1, over: 2 }
 const SEQ_BLOCK = { loop: [SEQ.LOOP_START, undefined, SEQ.LOOP_END], alt: [SEQ.ALT_START, SEQ.ALT_ELSE, SEQ.ALT_END], par: [SEQ.PAR_START, SEQ.PAR_AND, SEQ.PAR_END], par_over: [SEQ.PAR_OVER_START, SEQ.PAR_AND, SEQ.PAR_END], opt: [SEQ.OPT_START, undefined, SEQ.OPT_END], critical: [SEQ.CRITICAL_START, SEQ.CRITICAL_OPTION, SEQ.CRITICAL_END], break: [SEQ.BREAK_START, undefined, SEQ.BREAK_END], rect: [SEQ.RECT_START, undefined, SEQ.RECT_END] }
 const MESSAGE_FIELDS = ['id', 'from', 'to', 'message', 'wrap', 'type']
 const SEQ_ABSENT = Symbol('absent for this message')
+// sequenceDb's addSignal and addNote always set message, wrap (autoWrap when unwritten) and
+// type on every message-list entry.
+const SEQ_ALWAYS = ['message', 'wrap', 'type']
 function sequenceView(entries, absent, hooks) {
   // The per-message absence marker is not part of the record (it would show in toEqual).
   const plain = fields => { const { [SEQ_ABSENT]: _absent, ...rest } = fields; return rest }
-  const records = () => entries().map((fields, index) => record({ id: String(index), ...plain(fields) }, 'message', MESSAGE_FIELDS, { ...absent, ...(fields[SEQ_ABSENT] ?? {}) }, hooks, ['wrap']))
+  const records = () => entries().map((fields, index) => record({ id: String(index), ...plain(fields) }, 'message', MESSAGE_FIELDS, { ...absent, ...(fields[SEQ_ABSENT] ?? {}) }, hooks, SEQ_ALWAYS))
   return {
     getMessages: records,
     getNotes: () => entries().filter(item => item.type === SEQ.NOTE).map(item => record({ actor: item.from === item.to ? item.from : [item.from, item.to], placement: item.placement, message: item.message, ...('wrap' in item ? { wrap: item.wrap } : {}) }, 'note', ['actor', 'placement', 'message', 'wrap'], absent, hooks)),
@@ -1328,5 +1331,5 @@ export function flowchartLayoutData(view, hooks, project) {
 export {
   entriesOf, record, styleList, CLASS_ALWAYS, VERTEX_FIELDS, EDGE_FIELDS, SUBGRAPH_FIELDS, shapeOf, headOf, strokeOf, directionOf, edgeType, styleStrings, VERTEX_ABSENT, flowchartView,
   unset, deepUnset, text, optional, snake, card, endOf, RELATION_TYPE, LINE_TYPE, LINE_ABSENT, classView, relation, erView, cardWord, CARD_SYMBOL, identifying,
-  c4View, C4_MACRO, C4_REL_MACRO, C4_BOUNDARY_MACRO, usesTechn, WRAP, SEQ, PLACEMENT, SEQ_BLOCK, SEQ_ABSENT, sequenceView, actorsView, kanbanView, astNode,
+  c4View, C4_MACRO, C4_REL_MACRO, C4_BOUNDARY_MACRO, usesTechn, WRAP, SEQ, PLACEMENT, SEQ_BLOCK, SEQ_ABSENT, SEQ_ALWAYS, sequenceView, actorsView, kanbanView, astNode,
 }
