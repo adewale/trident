@@ -77,6 +77,8 @@ export async function main(args = process.argv.slice(2)) {
   mkdirSync(out, { recursive: true })
   const rows: any[] = [],
     blocked: any[] = []
+  // The collection's own times: published dates come from these, never from a later merge.
+  const startedAt = new Date().toISOString()
   const save = (state = 'running') =>
     writeFileSync(
       join(out, 'results.json'),
@@ -84,6 +86,8 @@ export async function main(args = process.argv.slice(2)) {
         {
           benchmark: 'Drawing Correctness',
           state,
+          startedAt,
+          updatedAt: new Date().toISOString(),
           selection: opts.get('--case') ? 'functional subset' : 'full shared corpus',
           corpus: { cases: cases.length, ids: cases.map(c => c.id), seed: 'reviewed Terminal Drawing Facts, invalid controls excluded', regressions: 'corpus/drawing-regressions.json' },
           versionsFrozenAt: catalog.benchmarkVersionsCheckedAt,

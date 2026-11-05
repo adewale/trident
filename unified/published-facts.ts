@@ -6,7 +6,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 /** Docs that may quote generated numbers. */
-export const factDocuments = ['README.md', 'docs/benchmark-portfolio.md', 'docs/benchmark-results-details.md', 'docs/davebench-definition.md', 'docs/overall-scoring.md']
+export const factDocuments = ['README.md', 'docs/benchmark-portfolio.md', 'docs/benchmark-results-details.md', 'docs/davebench-definition.md', 'docs/overall-scoring.md', 'results/release/README.md']
 
 const count = (n: number) => n.toLocaleString('en-US')
 const day = (iso: string | undefined) => (iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) : 'unknown')

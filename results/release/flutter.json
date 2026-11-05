@@ -1,8 +1,8 @@
 {
   "schema": "davebench-native-png-v1",
   "state": "complete",
-  "startedAt": "2026-11-04T17:13:38.663Z",
-  "updatedAt": "2026-11-04T17:15:52.778Z",
+  "startedAt": "2026-11-05T16:27:04.165Z",
+  "updatedAt": "2026-11-05T16:28:59.782Z",
   "corpus": {
     "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
     "occurrences": 1342,
@@ -24,7 +24,7 @@
     "outputsRetained": false,
     "outputsAssessed": false,
     "boundary": "Native Linux Flutter renderToPng(source,pixelRatio:1); Stopwatch inside release app on the host under a private Xvfb display. App startup, warm-ups, IPC, admission and reporting excluded.",
-    "admission": "A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse to an svg root with positive size; PNG must have a PNG signature and positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription=\"error\"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. No drawing meaning is judged and outputs are not retained."
+    "admission": "A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse to an svg root with positive size; PNG must have a PNG signature and positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription=\"error\"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained."
   },
   "runs": [
     {
@@ -37,7 +37,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 34565.11800000003,
+      "totalMs": 35048.19100000005,
       "invalid": 0,
       "invalidReasons": {}
     },
@@ -51,7 +51,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 36266.752,
+      "totalMs": 35187.24299999998,
       "invalid": 0,
       "invalidReasons": {}
     },
@@ -65,7 +65,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 36788.797000000086,
+      "totalMs": 34327.40499999995,
       "invalid": 0,
       "invalidReasons": {}
     }
@@ -80,7 +80,7 @@
         "boundary": "native Flutter renderToPng API; app startup excluded",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 36266.752,
+        "medianTotalMs": 35048.19100000005,
         "rank": 1
       }
     ],

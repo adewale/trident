@@ -272,21 +272,21 @@
   ],
   "blocked": [],
   "versionsFrozenAt": "2026-11-02T15:09:38.022Z",
-  "scope": "Every candidate attempted all 316 selected core-package files against one shared Mermaid 12.2.0 control run. Scores use the 3599 expanded callbacks the control passes.",
+  "scope": "Every candidate attempted all 316 selected core-package files against one shared Mermaid 12.2.0 control run. Scores use the 3620 expanded callbacks the control passes.",
   "referenceVersion": "12.2.0",
   "expandedCallbacks": 5737,
-  "referenceQualifiedCallbacks": 3599,
-  "referenceDigest": "1a807801ec322bbb023f946fd162f6b59661627925e04d032c3b22c75420a1b8",
+  "referenceQualifiedCallbacks": 3620,
+  "referenceDigest": "ae78fa16d74b3f6cdcf0f3f0f77c4ec1d6b0aa2f9b03176b7bf1c712960f05ae",
   "results": [
     {
       "project": "mermaid-js/mermaid",
       "version": "12.2.0",
       "counts": {
-        "passed": 3599,
+        "passed": 3620,
         "failed": 0,
         "unsupported": 0,
         "trident-blocked": 0,
-        "reference-unqualified": 2037,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -645,7 +645,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "passed": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -783,7 +784,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "passed": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -942,7 +944,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "passed": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -2223,11 +2226,11 @@
       "project": "Dicklesworthstone/frankenmermaid",
       "version": "0.4.0",
       "counts": {
-        "passed": 1251,
-        "failed": 1194,
-        "unsupported": 981,
-        "trident-blocked": 173,
-        "reference-unqualified": 2037,
+        "passed": 1299,
+        "failed": 1222,
+        "unsupported": 1062,
+        "trident-blocked": 37,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -2258,9 +2261,24 @@
           "reason": "Unsupported candidate operation: radar database getConfig (the candidate exposes a parser, not Mermaid's database API)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -2271,6 +2289,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -2286,6 +2309,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -2354,7 +2387,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -2441,8 +2474,9 @@
         {
           "path": "packages/parser/tests/pie.test.ts",
           "counts": {
-            "trident-blocked": 22,
-            "passed": 6,
+            "passed": 10,
+            "unsupported": 4,
+            "trident-blocked": 14,
             "failed": 4
           }
         },
@@ -2602,7 +2636,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -2667,8 +2702,8 @@
             "passed": 8,
             "failed": 7,
             "reference-unqualified": 1,
-            "unsupported": 12,
-            "trident-blocked": 4
+            "unsupported": 13,
+            "trident-blocked": 3
           }
         },
         {
@@ -2680,7 +2715,7 @@
         {
           "path": "packages/mermaid/src/diagrams/block/blockColorIndex.spec.ts",
           "counts": {
-            "trident-blocked": 4,
+            "unsupported": 4,
             "reference-unqualified": 4
           }
         },
@@ -2706,18 +2741,18 @@
         {
           "path": "packages/mermaid/src/diagrams/class/classDiagram-styles.spec.js",
           "counts": {
-            "trident-blocked": 10
+            "passed": 4,
+            "failed": 6
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/class/classDiagram.spec.ts",
           "counts": {
-            "trident-blocked": 28,
+            "passed": 250,
+            "unsupported": 37,
+            "failed": 87,
             "reference-unqualified": 9,
-            "upstream-skipped": 1,
-            "passed": 242,
-            "failed": 83,
-            "unsupported": 21
+            "upstream-skipped": 1
           }
         },
         {
@@ -2747,7 +2782,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -2792,11 +2828,10 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts",
           "counts": {
-            "unsupported": 23,
+            "unsupported": 26,
             "reference-unqualified": 1,
             "passed": 1,
-            "failed": 4,
-            "trident-blocked": 3
+            "failed": 4
           }
         },
         {
@@ -2872,8 +2907,7 @@
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 11
+            "unsupported": 12
           }
         },
         {
@@ -2920,7 +2954,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -3017,10 +3052,10 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "unsupported": 16,
+            "unsupported": 7,
+            "failed": 46,
             "passed": 61,
             "reference-unqualified": 31,
-            "failed": 37,
             "upstream-skipped": 12
           }
         },
@@ -3046,7 +3081,7 @@
         {
           "path": "packages/mermaid/src/diagrams/state/stateDiagram-colorIndex.spec.ts",
           "counts": {
-            "trident-blocked": 9
+            "unsupported": 9
           }
         },
         {
@@ -3069,13 +3104,13 @@
         {
           "path": "packages/mermaid/src/diagrams/state/stateNoteEdge.spec.ts",
           "counts": {
-            "trident-blocked": 3
+            "passed": 3
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/state/stateNoteNode.spec.js",
           "counts": {
-            "trident-blocked": 2
+            "passed": 2
           }
         },
         {
@@ -3381,8 +3416,7 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 13
+            "unsupported": 14
           }
         },
         {
@@ -3440,8 +3474,8 @@
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
           "counts": {
-            "unsupported": 4,
-            "passed": 3
+            "unsupported": 3,
+            "passed": 4
           }
         },
         {
@@ -3502,17 +3536,18 @@
         {
           "path": "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js",
           "counts": {
-            "passed": 92,
-            "failed": 518,
+            "passed": 101,
+            "failed": 527,
             "upstream-skipped": 1,
-            "trident-blocked": 21,
-            "reference-unqualified": 2
+            "unsupported": 2,
+            "reference-unqualified": 2,
+            "trident-blocked": 1
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/er/parser/subgraph.spec.js",
           "counts": {
-            "trident-blocked": 18
+            "unsupported": 18
           }
         },
         {
@@ -3568,7 +3603,7 @@
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-md-string.spec.js",
           "counts": {
             "failed": 1,
-            "trident-blocked": 1
+            "unsupported": 1
           }
         },
         {
@@ -3591,8 +3626,8 @@
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
           "counts": {
             "failed": 5,
-            "passed": 7,
-            "trident-blocked": 12,
+            "passed": 18,
+            "trident-blocked": 1,
             "reference-unqualified": 1
           }
         },
@@ -3606,16 +3641,14 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js",
           "counts": {
-            "passed": 6,
-            "trident-blocked": 1
+            "passed": 7
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow.spec.js",
           "counts": {
-            "passed": 22,
-            "failed": 2,
-            "trident-blocked": 2
+            "passed": 24,
+            "failed": 2
           }
         },
         {
@@ -3631,8 +3664,8 @@
           "counts": {
             "passed": 10,
             "failed": 1,
-            "unsupported": 3,
-            "trident-blocked": 14
+            "unsupported": 10,
+            "trident-blocked": 7
           }
         },
         {
@@ -3694,10 +3727,9 @@
         {
           "path": "packages/mermaid/src/diagrams/state/parser/state-style.spec.js",
           "counts": {
-            "passed": 11,
+            "passed": 14,
             "failed": 6,
-            "unsupported": 4,
-            "trident-blocked": 3
+            "unsupported": 4
           }
         },
         {
@@ -4254,63 +4286,29 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
-        "Native pie sections are unavailable": 22,
-        "architecture.db.getDataStructures().groupAlignments; architecture.db.getDataStructures().groupAlignments.get": 1,
+        "Native pie sections are unavailable": 14,
         "architecture.db.getLayoutHints().Symbol(Symbol.toStringTag); architecture.db.getLayoutHints().length; architecture.db.getLayoutHints().length.Symbol(Symbol.toPr": 2,
-        "architecture.db.getLayoutHints().N; architecture.db.getLayoutHints().N.members; architecture.db.getLayoutHints().N.members.Symbol(Symbol.toStringTag); architect": 1,
-        "block.db.getBlock().colorIndex; block.db.getBlock().colorIndex.Symbol(Symbol.toStringTag); block.db.getBlock().colorIndex.name; block.db.getBlock().colorIndex.S": 3,
-        "block.db.getBlock().colorIndex; block.db.getBlock().colorIndex.constructor; block.db.getBlock().colorIndex.Symbol(Symbol.toStringTag); block.db.getBlock().color": 1,
-        "class.cssClasses": 9,
-        "class.styles": 3,
-        "class.parent": 3,
-        "class member.getDisplayDetails": 8,
-        "class.db.getData().nodes; class.db.getData().nodes.filter": 1,
-        "class.db.getNamespaces().get": 1,
-        "class.db.getAccTitle().constructor; class.db.getAccTitle().Symbol(Symbol.toStringTag); class.db.getAccTitle().name; class.db.getAccTitle().Symbol(Symbol.toStrin": 2,
-        "class.haveCallback": 1,
-        "class.tooltip": 1,
-        "class.link": 5,
-        "class member.id": 2,
-        "class.db.getNamespace().classes; class.db.getNamespace().classes.size; class.db.getNamespace().classes.size.constructor; class.db.getNamespace().classes.size.Sy": 2,
+        "architecture.db.getLayoutHints().N; architecture.db.getLayoutHints().N.members; architecture.db.getLayoutHints().N.members.Symbol(Symbol.toStringTag)": 1,
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "subgraph.labelType": 4,
         "Frankenmermaid mindmap shape Asymmetric": 1,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.name; mindmap.db.getData().nodes.Symbol(Symbol.toS": 1,
         "packet.db.getPacket().$$typeof; packet.db.getPacket().constructor; packet.db.getPacket().constructor.name; packet.db.getPacket().nodeType; packet.db.getPacket()": 8,
-        "state.db.getData().nodes; state.db.getData().nodes.map": 9,
-        "state.db.getData().edges; state.db.getData().edges.find": 2,
-        "state.db.getData().edges; state.db.getData().edges.filter": 1,
-        "state.db.getData().nodes; state.db.getData().nodes.find": 2,
-        "agentflow.db.preserveCommentsWhenParsing.constructor; agentflow.db.preserveCommentsWhenParsing.Symbol(Symbol.toStringTag); agentflow.db.preserveCommentsWhenPars": 1,
-        "entity.alias": 4,
-        "er.db.getAccTitle().constructor; er.db.getAccTitle().Symbol(Symbol.toStringTag); er.db.getAccTitle().name; er.db.getAccTitle().Symbol(Symbol.toStringTag).Symbol": 1,
-        "er.db.getAccTitle().Symbol(Symbol.toStringTag); er.db.getAccTitle().name; er.db.getAccTitle().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive)": 1,
-        "entity.cssStyles": 3,
-        "entity.cssClasses": 9,
-        "er.db.getClasses().Symbol(Symbol.toStringTag); er.db.getClasses().name; er.db.getClasses().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive)": 2,
         "Unmapped native ER cardinality or line": 1,
-        "er.db.getSubGraphs().length; er.db.getSubGraphs().length.constructor; er.db.getSubGraphs().length.Symbol(Symbol.toStringTag); er.db.getSubGraphs().length.name; ": 18,
         "Frankenmermaid linkStyle default": 1,
-        "flowchart.db.getClasses().get": 12,
         "No candidate operation was exercised by this test": 1,
-        "flowchart.db.getAccTitle().constructor; flowchart.db.getAccTitle().Symbol(Symbol.toStringTag); flowchart.db.getAccTitle().name; flowchart.db.getAccTitle().Symbo": 2,
-        "gantt.db.getTasks().N; gantt.db.getTasks().N.startTime; gantt.db.getTasks().N.startTime.Symbol(Symbol.toStringTag); gantt.db.getTasks().N.startTime.name; gantt.": 2,
-        "gantt.db.getTasks().N; gantt.db.getTasks().N.active; gantt.db.getTasks().N.active.Symbol(Symbol.toStringTag); gantt.db.getTasks().N.active.name; gantt.db.getTas": 4,
-        "gantt.db.getTasks().N; gantt.db.getTasks().N.active; gantt.db.getTasks().N.done; gantt.db.getTasks().N.done.Symbol(Symbol.toStringTag); gantt.db.getTasks().N.do": 1,
-        "gantt.db.getWeekday().constructor; gantt.db.getWeekday().Symbol(Symbol.toStringTag); gantt.db.getWeekday().name; gantt.db.getWeekday().Symbol(Symbol.toStringTag": 7,
-        "state.db.getData().nodes; state.db.getData().nodes.N; state.db.getData().nodes.N.cssStyles; state.db.getData().nodes.N.cssStyles.Symbol(Symbol.toStringTag); sta": 3
+        "gantt.db.getTasks().N; gantt.db.getTasks().N.startTime; gantt.db.getTasks().N.startTime.Symbol(Symbol.toStringTag)": 2,
+        "gantt.db.getTasks().N; gantt.db.getTasks().N.active": 4,
+        "gantt.db.getTasks().N; gantt.db.getTasks().N.active; gantt.db.getTasks().N.done": 1
       }
     },
     {
       "project": "dfadler/zombie-mermaid",
       "version": "5.14.1",
       "counts": {
-        "passed": 959,
-        "failed": 1217,
-        "unsupported": 1419,
-        "trident-blocked": 4,
-        "reference-unqualified": 2037,
+        "passed": 960,
+        "failed": 1216,
+        "unsupported": 1443,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -4341,9 +4339,24 @@
           "reason": "Unsupported candidate operation: zombie-mermaid has no radar parser (it parses flowchart, state, sequence, class, er, c4, xychart, architecture, pie, quadrant)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -4354,6 +4367,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -4369,6 +4387,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -4437,7 +4465,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -4676,7 +4704,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -4819,7 +4848,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -4979,7 +5009,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -5076,8 +5107,8 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 25,
-            "unsupported": 24,
+            "unsupported": 25,
+            "failed": 24,
             "passed": 65,
             "reference-unqualified": 31,
             "upstream-skipped": 12
@@ -5488,8 +5519,8 @@
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
           "counts": {
-            "unsupported": 4,
-            "passed": 3
+            "unsupported": 3,
+            "passed": 4
           }
         },
         {
@@ -6290,7 +6321,6 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "No candidate operation was exercised by this test": 1
       }
     },
@@ -6300,9 +6330,9 @@
       "counts": {
         "passed": 211,
         "failed": 1648,
-        "unsupported": 1710,
-        "trident-blocked": 30,
-        "reference-unqualified": 2037,
+        "unsupported": 1735,
+        "trident-blocked": 26,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -6333,9 +6363,24 @@
           "reason": "Unsupported candidate operation: Unable to detect diagram type"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -6346,6 +6391,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -6361,6 +6411,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -6429,7 +6489,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -6667,7 +6727,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -6808,7 +6869,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -6924,8 +6986,7 @@
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 11
+            "unsupported": 12
           }
         },
         {
@@ -6972,7 +7033,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -8272,37 +8334,35 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "class.db.getNamespace().classes; class.db.getNamespace().classes.size; class.db.getNamespace().classes.size.constructor; class.db.getNamespace().classes.size.Sy": 2,
-        "mindmap.db.nodeType.HEXAGON; mindmap.db.nodeType.HEXAGON.Symbol(Symbol.toStringTag); mindmap.db.nodeType.HEXAGON.name; mindmap.db.nodeType.HEXAGON.Symbol(Symbol": 1,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.name; mindmap.db.getData().nodes.Symbol(Symbol.toS": 1,
-        "sequence.db.getActor().links; sequence.db.getActor().links.Symbol(Symbol.toStringTag); sequence.db.getActor().links.name; sequence.db.getActor().links.Symbol(Sy": 3,
-        "sequence.db.getActor().properties; sequence.db.getActor().properties.Symbol(Symbol.toStringTag); sequence.db.getActor().properties.name; sequence.db.getActor().": 2,
-        "sequence.db.getDiagramTitle().constructor; sequence.db.getDiagramTitle().Symbol(Symbol.toStringTag); sequence.db.getDiagramTitle().name; sequence.db.getDiagramT": 1,
-        "sequence.db.getAccTitle().constructor; sequence.db.getAccTitle().Symbol(Symbol.toStringTag); sequence.db.getAccTitle().name; sequence.db.getAccTitle().Symbol(Sy": 1,
-        "sequence.db.LINETYPE.SOLID_CROSS; sequence.db.LINETYPE.SOLID_CROSS.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.SOLID_CROSS.name; sequence.db.LINETYPE.SOLID": 1,
-        "sequence.db.LINETYPE.DOTTED_CROSS; sequence.db.LINETYPE.DOTTED_CROSS.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.DOTTED_CROSS.name; sequence.db.LINETYPE.DO": 1,
-        "sequence.db.LINETYPE.SOLID_POINT; sequence.db.LINETYPE.SOLID_POINT.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.SOLID_POINT.name; sequence.db.LINETYPE.SOLID": 1,
-        "sequence.db.LINETYPE.DOTTED_POINT; sequence.db.LINETYPE.DOTTED_POINT.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.DOTTED_POINT.name; sequence.db.LINETYPE.DO": 1,
-        "sequence.db.LINETYPE.SOLID; sequence.db.LINETYPE.SOLID.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.SOLID.name; sequence.db.LINETYPE.SOLID.Symbol(Symbol.toS": 1,
-        "sequence.db.LINETYPE.DOTTED; sequence.db.LINETYPE.DOTTED.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.DOTTED.name; sequence.db.LINETYPE.DOTTED.Symbol(Symbol": 1,
+        "mindmap.db.nodeType.HEXAGON; mindmap.db.nodeType.HEXAGON.Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.getActor().links; sequence.db.getActor().links.Symbol(Symbol.toStringTag)": 3,
+        "sequence.db.getActor().properties; sequence.db.getActor().properties.Symbol(Symbol.toStringTag)": 2,
+        "sequence.db.getDiagramTitle().constructor; sequence.db.getDiagramTitle().Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.getAccTitle().constructor; sequence.db.getAccTitle().Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.LINETYPE.SOLID_CROSS; sequence.db.LINETYPE.SOLID_CROSS.Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.LINETYPE.DOTTED_CROSS; sequence.db.LINETYPE.DOTTED_CROSS.Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.LINETYPE.SOLID_POINT; sequence.db.LINETYPE.SOLID_POINT.Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.LINETYPE.DOTTED_POINT; sequence.db.LINETYPE.DOTTED_POINT.Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.LINETYPE.SOLID; sequence.db.LINETYPE.SOLID.Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.LINETYPE.DOTTED; sequence.db.LINETYPE.DOTTED.Symbol(Symbol.toStringTag)": 1,
         "sequence.db.getDestroyedActors().get": 1,
         "sequence.db.getCreatedActors().get": 1,
         "No candidate operation was exercised by this test": 1,
-        "gantt.db.getTasks().N; gantt.db.getTasks().N.startTime; gantt.db.getTasks().N.startTime.Symbol(Symbol.toStringTag); gantt.db.getTasks().N.startTime.name; gantt.": 2,
-        "gantt.db.getTasks().N; gantt.db.getTasks().N.active; gantt.db.getTasks().N.active.Symbol(Symbol.toStringTag); gantt.db.getTasks().N.active.name; gantt.db.getTas": 4,
-        "gantt.db.getTasks().N; gantt.db.getTasks().N.active; gantt.db.getTasks().N.done; gantt.db.getTasks().N.done.Symbol(Symbol.toStringTag); gantt.db.getTasks().N.do": 1
+        "gantt.db.getTasks().N; gantt.db.getTasks().N.startTime; gantt.db.getTasks().N.startTime.Symbol(Symbol.toStringTag)": 2,
+        "gantt.db.getTasks().N; gantt.db.getTasks().N.active": 4,
+        "gantt.db.getTasks().N; gantt.db.getTasks().N.active; gantt.db.getTasks().N.done": 1
       }
     },
     {
       "project": "kitlangton/merman",
       "version": "0.2.1",
       "counts": {
-        "passed": 48,
-        "failed": 273,
-        "unsupported": 3260,
-        "trident-blocked": 18,
-        "reference-unqualified": 2037,
+        "passed": 56,
+        "failed": 269,
+        "unsupported": 3294,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -8333,9 +8393,24 @@
           "reason": "Unsupported candidate operation: Could not detect diagram kind. Expected the first non-empty line to start with \"flowchart\", \"graph\", \"sequenceDiagram\", or \"stateDiagram[-v2]\". Got: \"radar-beta\""
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -8346,6 +8421,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -8361,6 +8441,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -8429,7 +8519,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -8666,7 +8756,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -8804,7 +8895,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -8964,7 +9056,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -9543,9 +9636,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-arrows.spec.js",
           "counts": {
-            "unsupported": 11,
-            "reference-unqualified": 1,
-            "trident-blocked": 2
+            "unsupported": 13,
+            "reference-unqualified": 1
           }
         },
         {
@@ -9583,8 +9675,7 @@
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-lines.spec.js",
           "counts": {
             "failed": 5,
-            "trident-blocked": 4,
-            "unsupported": 3
+            "unsupported": 7
           }
         },
         {
@@ -9596,7 +9687,9 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
           "counts": {
-            "failed": 30,
+            "failed": 28,
+            "unsupported": 1,
+            "passed": 1,
             "upstream-skipped": 1
           }
         },
@@ -9609,8 +9702,9 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
           "counts": {
-            "unsupported": 17,
-            "trident-blocked": 6,
+            "unsupported": 18,
+            "passed": 4,
+            "trident-blocked": 1,
             "reference-unqualified": 1,
             "failed": 1
           }
@@ -9618,15 +9712,15 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js",
           "counts": {
-            "unsupported": 340,
-            "failed": 2
+            "unsupported": 341,
+            "failed": 1
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js",
           "counts": {
             "failed": 6,
-            "trident-blocked": 1
+            "unsupported": 1
           }
         },
         {
@@ -9640,11 +9734,10 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js",
           "counts": {
-            "failed": 13,
+            "failed": 12,
             "upstream-skipped": 1,
             "unsupported": 7,
-            "trident-blocked": 2,
-            "passed": 1
+            "passed": 4
           }
         },
         {
@@ -10264,12 +10357,7 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
-        "Unmapped native flowchart schema: type": 8,
-        "Unmapped native flowchart schema: interpolate": 4,
-        "No candidate operation was exercised by this test": 1,
-        "Unmapped native flowchart schema: style": 1,
-        "flowchart.db.getClasses().get": 1
+        "No candidate operation was exercised by this test": 1
       }
     },
     {
@@ -10277,10 +10365,10 @@
       "version": "v0.4.3",
       "counts": {
         "passed": 359,
-        "failed": 1093,
-        "unsupported": 2143,
-        "trident-blocked": 4,
-        "reference-unqualified": 2037,
+        "failed": 1092,
+        "unsupported": 2168,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -10311,9 +10399,24 @@
           "reason": "Unsupported candidate operation: figurehead has no radar parser (it parses flowchart, class, sequence, state, gitgraph)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -10324,6 +10427,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -10339,6 +10447,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -10407,7 +10525,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -10645,7 +10763,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -10785,7 +10904,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -10946,7 +11066,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -11043,10 +11164,10 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 58,
+            "unsupported": 37,
+            "failed": 57,
             "reference-unqualified": 31,
             "passed": 20,
-            "unsupported": 36,
             "upstream-skipped": 12
           }
         },
@@ -12248,7 +12369,6 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "No candidate operation was exercised by this test": 1
       }
     },
@@ -12257,10 +12377,10 @@
       "version": "git-2bdd1d6a6369",
       "counts": {
         "passed": 614,
-        "failed": 874,
-        "unsupported": 2108,
-        "trident-blocked": 3,
-        "reference-unqualified": 2037,
+        "failed": 873,
+        "unsupported": 2133,
+        "trident-blocked": 0,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -12291,9 +12411,24 @@
           "reason": "Unsupported candidate operation: grok has no radar parser (it parses flowchart, state, class, er, sequence)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -12304,6 +12439,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -12319,6 +12459,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -12387,7 +12537,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -12624,7 +12774,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -12765,7 +12916,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -12924,7 +13076,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -13022,8 +13175,8 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 26,
-            "unsupported": 64,
+            "unsupported": 65,
+            "failed": 25,
             "passed": 24,
             "reference-unqualified": 31,
             "upstream-skipped": 12
@@ -14223,19 +14376,17 @@
           }
         }
       ],
-      "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3
-      }
+      "gapReasons": {}
     },
     {
       "project": "orestesgaolin/mermaid",
       "version": "0.3.2",
       "counts": {
-        "passed": 2023,
-        "failed": 474,
-        "unsupported": 999,
-        "trident-blocked": 103,
-        "reference-unqualified": 2037,
+        "passed": 2101,
+        "failed": 488,
+        "unsupported": 1029,
+        "trident-blocked": 2,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -14266,9 +14417,24 @@
           "reason": "Unsupported candidate operation: radar database getConfig (the candidate exposes a parser, not Mermaid's database API)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -14279,6 +14445,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -14294,6 +14465,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -14362,7 +14543,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -14465,8 +14646,7 @@
         {
           "path": "packages/parser/tests/railroad.test.ts",
           "counts": {
-            "unsupported": 1,
-            "trident-blocked": 4,
+            "unsupported": 5,
             "passed": 1,
             "reference-unqualified": 1
           }
@@ -14480,8 +14660,8 @@
         {
           "path": "packages/parser/tests/treemap.test.ts",
           "counts": {
-            "passed": 12,
-            "trident-blocked": 5
+            "passed": 14,
+            "unsupported": 3
           }
         },
         {
@@ -14608,7 +14788,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -14745,14 +14926,15 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
-            "trident-blocked": 13,
-            "passed": 2
+            "passed": 15
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "passed": 1,
+            "unsupported": 10,
+            "reference-unqualified": 16
           }
         },
         {
@@ -14847,7 +15029,7 @@
         {
           "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
           "counts": {
-            "trident-blocked": 3
+            "passed": 3
           }
         },
         {
@@ -14875,8 +15057,7 @@
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 11
+            "unsupported": 12
           }
         },
         {
@@ -14924,7 +15105,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -14949,7 +15131,7 @@
           "path": "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts",
           "counts": {
             "unsupported": 11,
-            "trident-blocked": 1
+            "passed": 1
           }
         },
         {
@@ -15024,9 +15206,8 @@
           "counts": {
             "failed": 55,
             "unsupported": 10,
-            "passed": 46,
+            "passed": 49,
             "reference-unqualified": 31,
-            "trident-blocked": 3,
             "upstream-skipped": 12
           }
         },
@@ -15213,7 +15394,7 @@
         {
           "path": "packages/mermaid/src/diagrams/wardley/wardleyParser.spec.ts",
           "counts": {
-            "trident-blocked": 20
+            "passed": 20
           }
         },
         {
@@ -15437,8 +15618,8 @@
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
           "counts": {
-            "unsupported": 4,
-            "passed": 3
+            "unsupported": 3,
+            "passed": 4
           }
         },
         {
@@ -15644,8 +15825,7 @@
         {
           "path": "packages/mermaid/src/diagrams/railroad/parser/ebnfDiagram.spec.ts",
           "counts": {
-            "trident-blocked": 12,
-            "passed": 1,
+            "passed": 13,
             "failed": 1
           }
         },
@@ -15659,9 +15839,8 @@
         {
           "path": "packages/mermaid/src/diagrams/railroad/parser/railroadDiagram.spec.ts",
           "counts": {
-            "trident-blocked": 23,
-            "passed": 1,
-            "failed": 2
+            "failed": 15,
+            "passed": 11
           }
         },
         {
@@ -15723,9 +15902,8 @@
         {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
-            "trident-blocked": 13,
-            "failed": 2,
-            "passed": 2
+            "passed": 14,
+            "failed": 3
           }
         },
         {
@@ -16249,49 +16427,19 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
-        "RailroadRule.definition": 4,
-        "Treemap.TreemapRows": 3,
-        "Section.classSelector": 1,
-        "Leaf.classSelector": 1,
-        "cynefin.db.getDomains().size; cynefin.db.getDomains().size.constructor; cynefin.db.getDomains().size.Symbol(Symbol.toStringTag); cynefin.db.getDomains().size.na": 5,
-        "cynefin.db.getDomains().has": 1,
-        "cynefin.db.getDomains().get": 1,
-        "cynefin.db.getTransitions().Symbol(Symbol.toStringTag); cynefin.db.getTransitions().length; cynefin.db.getTransitions().length.Symbol(Symbol.toPrimitive)": 5,
-        "cynefin.db.getAccDescription().constructor; cynefin.db.getAccDescription().Symbol(Symbol.toStringTag); cynefin.db.getAccDescription().name; cynefin.db.getAccDes": 1,
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "ishikawa.db.getRoot().text; ishikawa.db.getRoot().text.Symbol(Symbol.toStringTag); ishikawa.db.getRoot().text.name; ishikawa.db.getRoot().text.Symbol(Symbol.toS": 3,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.name; mindmap.db.getData().nodes.Symbol(Symbol.toS": 1,
-        "railroad.db.getRule().Symbol(Symbol.toStringTag); railroad.db.getRule().name; railroad.db.getRule().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive); No ca": 1,
-        "mermaid_core's SeqCreate reaches the view as { id }, the same as SeqDestroy": 2,
-        "mermaid_core's SeqDestroy reaches the view as { id }, the same as SeqCreate": 1,
-        "wardley.db.getWardleyData().nodes; wardley.db.getWardleyData().nodes.Symbol(Symbol.toStringTag); wardley.db.getWardleyData().nodes.length; wardley.db.getWardley": 1,
-        "wardley.db.getWardleyData().axes; wardley.db.getWardleyData().axes.stages; wardley.db.getWardleyData().axes.stages.Symbol(Symbol.toStringTag); wardley.db.getWar": 3,
-        "wardley.db.getWardleyData().nodes; wardley.db.getWardleyData().nodes.find": 7,
-        "wardley.db.getWardleyData().notes; wardley.db.getWardleyData().notes.Symbol(Symbol.toStringTag); wardley.db.getWardleyData().notes.length; wardley.db.getWardley": 1,
-        "mermaid_core returned a record ({double x, double y}) with named or more than N fields, which the bridge cannot read": 2,
-        "wardley.db.getWardleyData().nodes; wardley.db.getWardleyData().nodes.filter": 1,
-        "wardley.db.getWardleyData().trends; wardley.db.getWardleyData().trends.Symbol(Symbol.toStringTag); wardley.db.getWardleyData().trends.length; wardley.db.getWard": 1,
-        "mermaid_core returned a record ({double height, double width}) with named or more than N fields, which the bridge cannot read": 1,
-        "wardley.db.getWardleyData().links; wardley.db.getWardleyData().links.Symbol(Symbol.toStringTag); wardley.db.getWardleyData().links.length; wardley.db.getWardley": 3,
-        "No candidate operation was exercised by this test": 1,
-        "railroad.db.getRules().Symbol(Symbol.toStringTag); railroad.db.getRules().length; railroad.db.getRules().length.Symbol(Symbol.toPrimitive)": 27,
-        "railroad.db.getRules().N; railroad.db.getRules().N.definition; railroad.db.getRules().N.definition.type; railroad.db.getRules().N.definition.type.constructor; r": 6,
-        "railroad.db.getTitle().constructor; railroad.db.getTitle().Symbol(Symbol.toStringTag); railroad.db.getTitle().name; railroad.db.getTitle().Symbol(Symbol.toStrin": 2,
-        "venn.db.getSubsetData().Symbol(Symbol.toStringTag); venn.db.getSubsetData().name; venn.db.getSubsetData().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive)": 6,
-        "venn.db.getTextData().Symbol(Symbol.toStringTag); venn.db.getTextData().name; venn.db.getTextData().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive)": 2,
-        "venn.db.getStyleData().Symbol(Symbol.toStringTag); venn.db.getStyleData().name; venn.db.getStyleData().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive)": 5
+        "No candidate operation was exercised by this test": 1
       }
     },
     {
       "project": "wevm/ondine",
       "version": "0.0.3",
       "counts": {
-        "passed": 277,
+        "passed": 282,
         "failed": 57,
-        "unsupported": 3236,
-        "trident-blocked": 29,
-        "reference-unqualified": 2037,
+        "unsupported": 3280,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -16317,9 +16465,24 @@
           "reason": "TRIDENT_ADAPTER_GAP: ./colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -16330,6 +16493,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -16345,6 +16513,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -16413,7 +16591,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -16655,7 +16833,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -16796,7 +16975,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -16914,8 +17094,7 @@
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 11
+            "unsupported": 12
           }
         },
         {
@@ -16962,7 +17141,9 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "passed": 5,
+            "unsupported": 4,
+            "reference-unqualified": 11
           }
         },
         {
@@ -17186,9 +17367,8 @@
         {
           "path": "packages/mermaid/src/diagrams/usecase/usecase.parser.spec.ts",
           "counts": {
-            "unsupported": 24,
+            "unsupported": 47,
             "failed": 18,
-            "trident-blocked": 23,
             "reference-unqualified": 1,
             "upstream-skipped": 13
           }
@@ -17418,8 +17598,7 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 13
+            "unsupported": 14
           }
         },
         {
@@ -18266,10 +18445,6 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.name; mindmap.db.getData().nodes.Symbol(Symbol.toS": 1,
-        "usecase.db.getActors().size; usecase.db.getActors().size.constructor; usecase.db.getActors().size.Symbol(Symbol.toStringTag); usecase.db.getActors().size.name; ": 23,
-        "agentflow.db.preserveCommentsWhenParsing.constructor; agentflow.db.preserveCommentsWhenParsing.Symbol(Symbol.toStringTag); agentflow.db.preserveCommentsWhenPars": 1,
         "No candidate operation was exercised by this test": 1
       }
     },
@@ -18277,11 +18452,11 @@
       "project": "1jehuang/mermaid-rs-renderer",
       "version": "0.3.1",
       "counts": {
-        "passed": 1449,
-        "failed": 504,
-        "unsupported": 1634,
-        "trident-blocked": 12,
-        "reference-unqualified": 2037,
+        "passed": 1457,
+        "failed": 503,
+        "unsupported": 1659,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -18312,9 +18487,24 @@
           "reason": "Unsupported candidate operation: radar database getConfig (the candidate exposes a parser, not Mermaid's database API)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -18325,6 +18515,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -18340,6 +18535,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -18408,7 +18613,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -18652,7 +18857,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -18795,7 +19001,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -18914,8 +19121,7 @@
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 11
+            "unsupported": 12
           }
         },
         {
@@ -18963,7 +19169,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -19060,8 +19267,8 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 35,
-            "unsupported": 50,
+            "unsupported": 51,
+            "failed": 34,
             "passed": 29,
             "reference-unqualified": 31,
             "upstream-skipped": 12
@@ -19474,8 +19681,8 @@
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
           "counts": {
-            "unsupported": 5,
-            "passed": 2
+            "unsupported": 4,
+            "passed": 3
           }
         },
         {
@@ -19706,7 +19913,7 @@
           "path": "packages/mermaid/src/diagrams/requirement/parser/requirementDiagram.spec.js",
           "counts": {
             "unsupported": 32,
-            "trident-blocked": 7,
+            "passed": 7,
             "failed": 4
           }
         },
@@ -20284,21 +20491,18 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.name; mindmap.db.getData().nodes.Symbol(Symbol.toS": 1,
-        "No candidate operation was exercised by this test": 1,
-        "requirement.db.getRelationships().N; requirement.db.getRelationships().N.type; requirement.db.getRelationships().N.type.constructor; requirement.db.getRelations": 7
+        "No candidate operation was exercised by this test": 1
       }
     },
     {
       "project": "emtyty/merslim",
       "version": "0.2.3",
       "counts": {
-        "passed": 310,
-        "failed": 1763,
-        "unsupported": 1483,
-        "trident-blocked": 43,
-        "reference-unqualified": 2037,
+        "passed": 311,
+        "failed": 1747,
+        "unsupported": 1561,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -20329,9 +20533,24 @@
           "reason": "Unsupported candidate operation: Unrecognized diagram type"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -20342,6 +20561,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -20357,6 +20581,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -20425,7 +20659,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -20667,7 +20901,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -20810,7 +21045,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -20853,9 +21089,9 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts",
           "counts": {
-            "unsupported": 22,
+            "unsupported": 24,
             "reference-unqualified": 1,
-            "failed": 9
+            "failed": 7
           }
         },
         {
@@ -20974,7 +21210,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -21071,8 +21308,8 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 50,
-            "unsupported": 39,
+            "unsupported": 40,
+            "failed": 49,
             "passed": 25,
             "reference-unqualified": 31,
             "upstream-skipped": 12
@@ -21483,8 +21720,8 @@
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
           "counts": {
-            "unsupported": 2,
-            "passed": 3,
+            "unsupported": 1,
+            "passed": 4,
             "failed": 2
           }
         },
@@ -21567,20 +21804,20 @@
           "counts": {
             "failed": 11,
             "reference-unqualified": 1,
-            "trident-blocked": 2
+            "unsupported": 2
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-comments.spec.js",
           "counts": {
             "failed": 4,
-            "trident-blocked": 5
+            "unsupported": 5
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-direction.spec.js",
           "counts": {
-            "failed": 4
+            "unsupported": 4
           }
         },
         {
@@ -21605,7 +21842,7 @@
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-lines.spec.js",
           "counts": {
             "failed": 7,
-            "trident-blocked": 5
+            "unsupported": 5
           }
         },
         {
@@ -21618,7 +21855,7 @@
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
           "counts": {
             "failed": 29,
-            "trident-blocked": 1,
+            "passed": 1,
             "upstream-skipped": 1
           }
         },
@@ -21632,7 +21869,8 @@
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
           "counts": {
             "failed": 6,
-            "trident-blocked": 18,
+            "unsupported": 17,
+            "trident-blocked": 1,
             "reference-unqualified": 1
           }
         },
@@ -21640,31 +21878,30 @@
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js",
           "counts": {
             "failed": 341,
-            "trident-blocked": 1
+            "unsupported": 1
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js",
           "counts": {
             "failed": 6,
-            "trident-blocked": 1
+            "unsupported": 1
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow.spec.js",
           "counts": {
-            "failed": 11,
-            "unsupported": 1,
-            "passed": 12,
-            "trident-blocked": 2
+            "failed": 10,
+            "unsupported": 5,
+            "passed": 11
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js",
           "counts": {
-            "failed": 17,
+            "unsupported": 13,
+            "failed": 9,
             "upstream-skipped": 1,
-            "trident-blocked": 5,
             "passed": 1
           }
         },
@@ -22289,14 +22526,7 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
-        "Unmapped native flowchart schema: type": 18,
-        "Unmapped native flowchart schema: interpolate": 5,
-        "flowchart.db.getClasses().get": 12,
-        "No candidate operation was exercised by this test": 1,
-        "Unmapped native flowchart schema: style": 1,
-        "Unmapped native flowchart schema: classes": 1,
-        "flowchart.db.getAccTitle().constructor; flowchart.db.getAccTitle().Symbol(Symbol.toStringTag); flowchart.db.getAccTitle().name; flowchart.db.getAccTitle().Symbo": 2
+        "No candidate operation was exercised by this test": 1
       }
     },
     {
@@ -22305,9 +22535,9 @@
       "counts": {
         "passed": 138,
         "failed": 1049,
-        "unsupported": 2408,
-        "trident-blocked": 4,
-        "reference-unqualified": 2037,
+        "unsupported": 2432,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -22338,9 +22568,24 @@
           "reason": "Unsupported candidate operation: vitepress-plugin-mermaid-diagram has no radar parser (it parses flowchart, sequence, class)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -22351,6 +22596,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -22366,6 +22616,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -22434,7 +22694,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -22671,7 +22931,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -22812,7 +23073,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -22972,7 +23234,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -24260,7 +24523,6 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "No candidate operation was exercised by this test": 1
       }
     },
@@ -24268,11 +24530,11 @@
       "project": "obsidianmd/pele",
       "version": "1.13.0",
       "counts": {
-        "passed": 3100,
-        "failed": 148,
-        "unsupported": 286,
-        "trident-blocked": 65,
-        "reference-unqualified": 2037,
+        "passed": 3135,
+        "failed": 142,
+        "unsupported": 332,
+        "trident-blocked": 11,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -24303,9 +24565,24 @@
           "reason": "Unsupported candidate operation: radar database getConfig (the candidate exposes a parser, not Mermaid's database API)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -24316,6 +24593,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -24331,6 +24613,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -24399,7 +24691,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -24493,8 +24785,7 @@
           "path": "packages/parser/tests/radar.test.ts",
           "counts": {
             "passed": 67,
-            "trident-blocked": 6,
-            "unsupported": 7,
+            "unsupported": 13,
             "reference-unqualified": 6
           }
         },
@@ -24516,9 +24807,9 @@
         {
           "path": "packages/parser/tests/treemap.test.ts",
           "counts": {
-            "passed": 10,
-            "failed": 5,
-            "trident-blocked": 2
+            "passed": 12,
+            "unsupported": 3,
+            "failed": 2
           }
         },
         {
@@ -24645,7 +24936,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "passed": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -24740,7 +25032,7 @@
         {
           "path": "packages/mermaid/src/diagrams/class/classDiagram-colorIndex.spec.ts",
           "counts": {
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -24752,11 +25044,10 @@
         {
           "path": "packages/mermaid/src/diagrams/class/classDiagram.spec.ts",
           "counts": {
-            "passed": 356,
+            "passed": 358,
             "reference-unqualified": 9,
-            "trident-blocked": 3,
-            "upstream-skipped": 1,
-            "unsupported": 15
+            "unsupported": 16,
+            "upstream-skipped": 1
           }
         },
         {
@@ -24786,7 +25077,9 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "passed": 1,
+            "unsupported": 10,
+            "reference-unqualified": 16
           }
         },
         {
@@ -24835,8 +25128,7 @@
             "passed": 17,
             "reference-unqualified": 1,
             "unsupported": 8,
-            "failed": 5,
-            "trident-blocked": 1
+            "failed": 6
           }
         },
         {
@@ -24910,8 +25202,7 @@
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
           "counts": {
-            "trident-blocked": 11,
-            "unsupported": 1
+            "unsupported": 12
           }
         },
         {
@@ -24957,7 +25248,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -25187,9 +25479,8 @@
           "path": "packages/mermaid/src/diagrams/usecase/usecase.parser.spec.ts",
           "counts": {
             "failed": 24,
-            "passed": 15,
+            "passed": 38,
             "unsupported": 3,
-            "trident-blocked": 23,
             "reference-unqualified": 1,
             "upstream-skipped": 13
           }
@@ -25225,8 +25516,8 @@
         {
           "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
           "counts": {
-            "passed": 5,
-            "failed": 4
+            "passed": 8,
+            "failed": 1
           }
         },
         {
@@ -25420,9 +25711,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "trident-blocked": 1,
-            "passed": 11,
-            "unsupported": 2
+            "unsupported": 3,
+            "passed": 11
           }
         },
         {
@@ -25481,8 +25771,8 @@
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
           "counts": {
-            "unsupported": 4,
-            "passed": 3
+            "unsupported": 3,
+            "passed": 4
           }
         },
         {
@@ -25503,8 +25793,7 @@
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Diagram.spec.ts",
           "counts": {
             "failed": 1,
-            "trident-blocked": 1,
-            "passed": 1
+            "passed": 2
           }
         },
         {
@@ -25741,8 +26030,8 @@
         {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
-            "passed": 5,
-            "failed": 2
+            "passed": 6,
+            "failed": 1
           }
         },
         {
@@ -26272,31 +26561,14 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
-        "Entry.axis": 6,
-        "Section.classSelector": 1,
-        "Leaf.classSelector": 1,
-        "class.db.getData().nodes; class.db.getData().nodes.map": 3,
-        "class.db.getData().nodes; class.db.getData().nodes.filter": 1,
-        "class.db.getNamespace().classes; class.db.getNamespace().classes.size; class.db.getNamespace().classes.size.constructor; class.db.getNamespace().classes.size.Sy": 2,
         "er.db.getData().nodes; er.db.getData().nodes.find": 1,
         "er.db.getData().edges; er.db.getData().edges.Symbol(Symbol.toStringTag); er.db.getData().edges.length; er.db.getData().edges.length.Symbol(Symbol.toPrimitive)": 1,
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "Unmapped native flowchart schema: style": 1,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.name; mindmap.db.getData().nodes.Symbol(Symbol.toS": 1,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.length; mindmap.db.getData().nodes.length.Symbol(S": 5,
-        "mindmap.db.getData().edges; mindmap.db.getData().edges.map": 1,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.N; mindmap.db.getData().nodes.N.section; mindmap.db.getData().nodes.N.section.Symbol(Symbol.toStringTag);": 1,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.find": 2,
-        "mindmap.db.getData().edges; mindmap.db.getData().edges.Symbol(Symbol.toStringTag); mindmap.db.getData().edges.length; mindmap.db.getData().edges.length.Symbol(S": 1,
         "requirement.db.getData().edges; requirement.db.getData().edges.map": 1,
-        "usecase.db.getActors().size; usecase.db.getActors().size.constructor; usecase.db.getActors().size.Symbol(Symbol.toStringTag); usecase.db.getActors().size.name; ": 23,
-        "xychart.db.getXYChartData().plots; xychart.db.getXYChartData().plots.Symbol(Symbol.toStringTag); xychart.db.getXYChartData().plots.name; xychart.db.getXYChartDa": 1,
+        "xychart.db.getXYChartData().plots; xychart.db.getXYChartData().plots.Symbol(Symbol.toStringTag)": 1,
         "xychart.db.getXYChartData().plots; xychart.db.getXYChartData().plots.Symbol(Symbol.toStringTag); xychart.db.getXYChartData().plots.length; xychart.db.getXYChart": 2,
         "xychart.db.getXYChartData().plots; xychart.db.getXYChartData().plots.N; xychart.db.getXYChartData().plots.N.data; xychart.db.getXYChartData().plots.N.data.Symbo": 2,
         "xychart.db.getXYChartData().yAxis; xychart.db.getXYChartData().yAxis.type": 1,
-        "agentflow.db.preserveCommentsWhenParsing.constructor; agentflow.db.preserveCommentsWhenParsing.Symbol(Symbol.toStringTag); agentflow.db.preserveCommentsWhenPars": 1,
-        "cN.db.getTitle().constructor; cN.db.getTitle().Symbol(Symbol.toStringTag); cN.db.getTitle().name; cN.db.getTitle().Symbol(Symbol.toStringTag).Symbol(Symbol.toPr": 1,
         "No candidate operation was exercised by this test": 1
       }
     },
@@ -26305,10 +26577,10 @@
       "version": "0.10.0",
       "counts": {
         "passed": 711,
-        "failed": 884,
-        "unsupported": 2001,
-        "trident-blocked": 3,
-        "reference-unqualified": 2037,
+        "failed": 883,
+        "unsupported": 2026,
+        "trident-blocked": 0,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -26339,9 +26611,24 @@
           "reason": "Unsupported candidate operation: Loom has no radar parser"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -26352,6 +26639,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -26367,6 +26659,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -26435,7 +26737,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -26675,7 +26977,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -26818,7 +27121,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -26981,7 +27285,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -27079,8 +27384,8 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 24,
-            "unsupported": 63,
+            "unsupported": 64,
+            "failed": 23,
             "passed": 27,
             "reference-unqualified": 31,
             "upstream-skipped": 12
@@ -28278,19 +28583,17 @@
           }
         }
       ],
-      "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3
-      }
+      "gapReasons": {}
     },
     {
       "project": "crabtalk/bezel",
       "version": "0.2.24",
       "counts": {
-        "passed": 2980,
-        "failed": 142,
-        "unsupported": 409,
-        "trident-blocked": 68,
-        "reference-unqualified": 2037,
+        "passed": 3033,
+        "failed": 139,
+        "unsupported": 443,
+        "trident-blocked": 5,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -28321,9 +28624,24 @@
           "reason": "Unsupported candidate operation: radar database getConfig (the candidate exposes a parser, not Mermaid's database API)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -28334,6 +28652,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -28349,6 +28672,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -28417,7 +28750,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -28511,8 +28844,7 @@
           "path": "packages/parser/tests/radar.test.ts",
           "counts": {
             "passed": 67,
-            "trident-blocked": 6,
-            "unsupported": 7,
+            "unsupported": 13,
             "reference-unqualified": 6
           }
         },
@@ -28534,8 +28866,8 @@
         {
           "path": "packages/parser/tests/treemap.test.ts",
           "counts": {
-            "passed": 10,
-            "trident-blocked": 5,
+            "passed": 12,
+            "unsupported": 3,
             "failed": 2
           }
         },
@@ -28663,7 +28995,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -28772,12 +29105,10 @@
         {
           "path": "packages/mermaid/src/diagrams/class/classDiagram.spec.ts",
           "counts": {
-            "passed": 336,
-            "trident-blocked": 20,
-            "failed": 3,
+            "passed": 358,
             "reference-unqualified": 9,
-            "upstream-skipped": 1,
-            "unsupported": 15
+            "unsupported": 16,
+            "upstream-skipped": 1
           }
         },
         {
@@ -28807,7 +29138,9 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "passed": 1,
+            "unsupported": 10,
+            "reference-unqualified": 16
           }
         },
         {
@@ -28887,9 +29220,8 @@
         {
           "path": "packages/mermaid/src/diagrams/git/gitGraph.spec.ts",
           "counts": {
-            "passed": 60,
+            "passed": 62,
             "upstream-skipped": 4,
-            "trident-blocked": 2,
             "reference-unqualified": 4,
             "unsupported": 4
           }
@@ -28928,8 +29260,7 @@
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 11
+            "unsupported": 12
           }
         },
         {
@@ -28974,7 +29305,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -29202,9 +29534,8 @@
           "path": "packages/mermaid/src/diagrams/usecase/usecase.parser.spec.ts",
           "counts": {
             "failed": 24,
-            "passed": 15,
+            "passed": 38,
             "unsupported": 3,
-            "trident-blocked": 23,
             "reference-unqualified": 1,
             "upstream-skipped": 13
           }
@@ -29434,9 +29765,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "trident-blocked": 1,
-            "passed": 11,
-            "unsupported": 2
+            "unsupported": 3,
+            "passed": 11
           }
         },
         {
@@ -29495,8 +29825,8 @@
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
           "counts": {
-            "unsupported": 4,
-            "passed": 3
+            "unsupported": 3,
+            "passed": 4
           }
         },
         {
@@ -29517,8 +29847,7 @@
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Diagram.spec.ts",
           "counts": {
             "failed": 1,
-            "trident-blocked": 1,
-            "passed": 1
+            "passed": 2
           }
         },
         {
@@ -29758,8 +30087,7 @@
         {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
-            "passed": 5,
-            "trident-blocked": 1,
+            "passed": 6,
             "failed": 1
           }
         },
@@ -30290,35 +30618,21 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
-        "Entry.axis": 6,
-        "Treemap.TreemapRows": 3,
-        "Section.classSelector": 1,
-        "Leaf.classSelector": 1,
         "Bezel architecture nodes: a JSON object from the bridge loses the declaration order of integer-like ids": 1,
-        "Original ClassMember.getDisplayDetails has no native schema binding; no renderer defect is established": 17,
-        "class.db.getData().nodes; class.db.getData().nodes.filter": 1,
-        "class.db.getNamespace().classes; class.db.getNamespace().classes.size; class.db.getNamespace().classes.size.constructor; class.db.getNamespace().classes.size.Sy": 2,
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "gitgraph.db.getAccTitle().constructor; gitgraph.db.getAccTitle().Symbol(Symbol.toStringTag); gitgraph.db.getAccTitle().name; gitgraph.db.getAccTitle().Symbol(Sy": 2,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.name; mindmap.db.getData().nodes.Symbol(Symbol.toS": 1,
-        "sequence.db.getAccDescription().constructor; sequence.db.getAccDescription().Symbol(Symbol.toStringTag); sequence.db.getAccDescription().name; sequence.db.getAc": 2,
-        "usecase.db.getActors().size; usecase.db.getActors().size.constructor; usecase.db.getActors().size.Symbol(Symbol.toStringTag); usecase.db.getActors().size.name; ": 23,
-        "agentflow.db.preserveCommentsWhenParsing.constructor; agentflow.db.preserveCommentsWhenParsing.Symbol(Symbol.toStringTag); agentflow.db.preserveCommentsWhenPars": 1,
-        "cN.db.getTitle().constructor; cN.db.getTitle().Symbol(Symbol.toStringTag); cN.db.getTitle().name; cN.db.getTitle().Symbol(Symbol.toStringTag).Symbol(Symbol.toPr": 1,
-        "No candidate operation was exercised by this test": 1,
-        "journey.db.getAccDescription().constructor; journey.db.getAccDescription().Symbol(Symbol.toStringTag); journey.db.getAccDescription().name; journey.db.getAccDes": 1
+        "sequence.db.getAccDescription().constructor; sequence.db.getAccDescription().Symbol(Symbol.toStringTag)": 2,
+        "No candidate operation was exercised by this test": 1
       }
     },
     {
       "project": "pub:mermaid_flutter",
       "version": "0.3.2",
       "counts": {
-        "passed": 2023,
-        "failed": 474,
-        "unsupported": 999,
-        "trident-blocked": 103,
-        "reference-unqualified": 2037,
+        "passed": 2101,
+        "failed": 488,
+        "unsupported": 1029,
+        "trident-blocked": 2,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -30349,9 +30663,24 @@
           "reason": "Unsupported candidate operation: radar database getConfig (the candidate exposes a parser, not Mermaid's database API)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -30362,6 +30691,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -30377,6 +30711,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -30445,7 +30789,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -30548,8 +30892,7 @@
         {
           "path": "packages/parser/tests/railroad.test.ts",
           "counts": {
-            "unsupported": 1,
-            "trident-blocked": 4,
+            "unsupported": 5,
             "passed": 1,
             "reference-unqualified": 1
           }
@@ -30563,8 +30906,8 @@
         {
           "path": "packages/parser/tests/treemap.test.ts",
           "counts": {
-            "passed": 12,
-            "trident-blocked": 5
+            "passed": 14,
+            "unsupported": 3
           }
         },
         {
@@ -30691,7 +31034,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -30828,14 +31172,15 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
-            "trident-blocked": 13,
-            "passed": 2
+            "passed": 15
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "passed": 1,
+            "unsupported": 10,
+            "reference-unqualified": 16
           }
         },
         {
@@ -30930,7 +31275,7 @@
         {
           "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
           "counts": {
-            "trident-blocked": 3
+            "passed": 3
           }
         },
         {
@@ -30958,8 +31303,7 @@
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 11
+            "unsupported": 12
           }
         },
         {
@@ -31007,7 +31351,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -31032,7 +31377,7 @@
           "path": "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts",
           "counts": {
             "unsupported": 11,
-            "trident-blocked": 1
+            "passed": 1
           }
         },
         {
@@ -31107,9 +31452,8 @@
           "counts": {
             "failed": 55,
             "unsupported": 10,
-            "passed": 46,
+            "passed": 49,
             "reference-unqualified": 31,
-            "trident-blocked": 3,
             "upstream-skipped": 12
           }
         },
@@ -31296,7 +31640,7 @@
         {
           "path": "packages/mermaid/src/diagrams/wardley/wardleyParser.spec.ts",
           "counts": {
-            "trident-blocked": 20
+            "passed": 20
           }
         },
         {
@@ -31520,8 +31864,8 @@
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
           "counts": {
-            "unsupported": 4,
-            "passed": 3
+            "unsupported": 3,
+            "passed": 4
           }
         },
         {
@@ -31727,8 +32071,7 @@
         {
           "path": "packages/mermaid/src/diagrams/railroad/parser/ebnfDiagram.spec.ts",
           "counts": {
-            "trident-blocked": 12,
-            "passed": 1,
+            "passed": 13,
             "failed": 1
           }
         },
@@ -31742,9 +32085,8 @@
         {
           "path": "packages/mermaid/src/diagrams/railroad/parser/railroadDiagram.spec.ts",
           "counts": {
-            "trident-blocked": 23,
-            "passed": 1,
-            "failed": 2
+            "failed": 15,
+            "passed": 11
           }
         },
         {
@@ -31806,9 +32148,8 @@
         {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
-            "trident-blocked": 13,
-            "failed": 2,
-            "passed": 2
+            "passed": 14,
+            "failed": 3
           }
         },
         {
@@ -32332,38 +32673,8 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
-        "RailroadRule.definition": 4,
-        "Treemap.TreemapRows": 3,
-        "Section.classSelector": 1,
-        "Leaf.classSelector": 1,
-        "cynefin.db.getDomains().size; cynefin.db.getDomains().size.constructor; cynefin.db.getDomains().size.Symbol(Symbol.toStringTag); cynefin.db.getDomains().size.na": 5,
-        "cynefin.db.getDomains().has": 1,
-        "cynefin.db.getDomains().get": 1,
-        "cynefin.db.getTransitions().Symbol(Symbol.toStringTag); cynefin.db.getTransitions().length; cynefin.db.getTransitions().length.Symbol(Symbol.toPrimitive)": 5,
-        "cynefin.db.getAccDescription().constructor; cynefin.db.getAccDescription().Symbol(Symbol.toStringTag); cynefin.db.getAccDescription().name; cynefin.db.getAccDes": 1,
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "ishikawa.db.getRoot().text; ishikawa.db.getRoot().text.Symbol(Symbol.toStringTag); ishikawa.db.getRoot().text.name; ishikawa.db.getRoot().text.Symbol(Symbol.toS": 3,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.name; mindmap.db.getData().nodes.Symbol(Symbol.toS": 1,
-        "railroad.db.getRule().Symbol(Symbol.toStringTag); railroad.db.getRule().name; railroad.db.getRule().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive); No ca": 1,
-        "mermaid_core's SeqCreate reaches the view as { id }, the same as SeqDestroy": 2,
-        "mermaid_core's SeqDestroy reaches the view as { id }, the same as SeqCreate": 1,
-        "wardley.db.getWardleyData().nodes; wardley.db.getWardleyData().nodes.Symbol(Symbol.toStringTag); wardley.db.getWardleyData().nodes.length; wardley.db.getWardley": 1,
-        "wardley.db.getWardleyData().axes; wardley.db.getWardleyData().axes.stages; wardley.db.getWardleyData().axes.stages.Symbol(Symbol.toStringTag); wardley.db.getWar": 3,
-        "wardley.db.getWardleyData().nodes; wardley.db.getWardleyData().nodes.find": 7,
-        "wardley.db.getWardleyData().notes; wardley.db.getWardleyData().notes.Symbol(Symbol.toStringTag); wardley.db.getWardleyData().notes.length; wardley.db.getWardley": 1,
-        "mermaid_core returned a record ({double x, double y}) with named or more than N fields, which the bridge cannot read": 2,
-        "wardley.db.getWardleyData().nodes; wardley.db.getWardleyData().nodes.filter": 1,
-        "wardley.db.getWardleyData().trends; wardley.db.getWardleyData().trends.Symbol(Symbol.toStringTag); wardley.db.getWardleyData().trends.length; wardley.db.getWard": 1,
-        "mermaid_core returned a record ({double height, double width}) with named or more than N fields, which the bridge cannot read": 1,
-        "wardley.db.getWardleyData().links; wardley.db.getWardleyData().links.Symbol(Symbol.toStringTag); wardley.db.getWardleyData().links.length; wardley.db.getWardley": 3,
-        "No candidate operation was exercised by this test": 1,
-        "railroad.db.getRules().Symbol(Symbol.toStringTag); railroad.db.getRules().length; railroad.db.getRules().length.Symbol(Symbol.toPrimitive)": 27,
-        "railroad.db.getRules().N; railroad.db.getRules().N.definition; railroad.db.getRules().N.definition.type; railroad.db.getRules().N.definition.type.constructor; r": 6,
-        "railroad.db.getTitle().constructor; railroad.db.getTitle().Symbol(Symbol.toStringTag); railroad.db.getTitle().name; railroad.db.getTitle().Symbol(Symbol.toStrin": 2,
-        "venn.db.getSubsetData().Symbol(Symbol.toStringTag); venn.db.getSubsetData().name; venn.db.getSubsetData().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive)": 6,
-        "venn.db.getTextData().Symbol(Symbol.toStringTag); venn.db.getTextData().name; venn.db.getTextData().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive)": 2,
-        "venn.db.getStyleData().Symbol(Symbol.toStringTag); venn.db.getStyleData().name; venn.db.getStyleData().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive)": 5
+        "No candidate operation was exercised by this test": 1
       }
     },
     {
@@ -32371,10 +32682,10 @@
       "version": "1.6.1",
       "counts": {
         "passed": 715,
-        "failed": 946,
-        "unsupported": 1934,
-        "trident-blocked": 4,
-        "reference-unqualified": 2037,
+        "failed": 945,
+        "unsupported": 1959,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -32405,9 +32716,24 @@
           "reason": "Unsupported candidate operation: mermaid-ascii has no radar parser (it parses graph/flowchart, sequenceDiagram and erDiagram)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -32418,6 +32744,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -32433,6 +32764,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -32501,7 +32842,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -32738,7 +33079,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -32876,7 +33218,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -33036,7 +33379,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -33133,10 +33477,10 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 49,
+            "unsupported": 8,
             "passed": 58,
             "reference-unqualified": 31,
-            "unsupported": 7,
+            "failed": 48,
             "upstream-skipped": 12
           }
         },
@@ -34331,7 +34675,6 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "No candidate operation was exercised by this test": 1
       }
     },
@@ -34339,11 +34682,11 @@
       "project": "evangwt/xmermaid",
       "version": "0.4.2",
       "counts": {
-        "passed": 837,
-        "failed": 2115,
-        "unsupported": 594,
-        "trident-blocked": 53,
-        "reference-unqualified": 2037,
+        "passed": 887,
+        "failed": 2088,
+        "unsupported": 633,
+        "trident-blocked": 12,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -34374,9 +34717,24 @@
           "reason": "Unsupported candidate operation: radar database getConfig (the candidate exposes a parser, not Mermaid's database API)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -34387,6 +34745,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -34402,6 +34765,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -34470,7 +34843,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -34712,7 +35085,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -34775,8 +35149,8 @@
           "counts": {
             "failed": 16,
             "reference-unqualified": 1,
-            "unsupported": 11,
-            "trident-blocked": 3,
+            "unsupported": 12,
+            "trident-blocked": 2,
             "passed": 1
           }
         },
@@ -34850,15 +35224,16 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
-            "trident-blocked": 12,
-            "passed": 1,
+            "unsupported": 7,
+            "passed": 6,
             "failed": 2
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -34953,7 +35328,7 @@
           "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
           "counts": {
             "failed": 2,
-            "trident-blocked": 1
+            "passed": 1
           }
         },
         {
@@ -34979,8 +35354,7 @@
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 11
+            "unsupported": 12
           }
         },
         {
@@ -35028,7 +35402,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -35095,8 +35470,8 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/keywordActors.spec.ts",
           "counts": {
-            "passed": 8,
-            "failed": 6
+            "passed": 9,
+            "failed": 5
           }
         },
         {
@@ -35126,10 +35501,10 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 92,
+            "unsupported": 5,
+            "failed": 62,
+            "passed": 47,
             "reference-unqualified": 31,
-            "passed": 9,
-            "trident-blocked": 13,
             "upstream-skipped": 12
           }
         },
@@ -35319,8 +35694,8 @@
         {
           "path": "packages/mermaid/src/diagrams/wardley/wardleyParser.spec.ts",
           "counts": {
-            "trident-blocked": 9,
-            "failed": 11
+            "passed": 5,
+            "failed": 15
           }
         },
         {
@@ -35489,9 +35864,9 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "trident-blocked": 2,
-            "failed": 10,
-            "unsupported": 2
+            "unsupported": 3,
+            "trident-blocked": 1,
+            "failed": 10
           }
         },
         {
@@ -36360,55 +36735,25 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "architecture.db.getGroups().map": 1,
-        "architecture.db.getDataStructures().groupAlignments; architecture.db.getDataStructures().groupAlignments.get": 1,
         "architecture.db.getServices().map": 1,
-        "cynefin.db.getDomains().size; cynefin.db.getDomains().size.constructor; cynefin.db.getDomains().size.Symbol(Symbol.toStringTag); cynefin.db.getDomains().size.na": 4,
-        "cynefin.db.getDomains().has": 1,
-        "cynefin.db.getDomains().get": 1,
-        "cynefin.db.getTransitions().Symbol(Symbol.toStringTag); cynefin.db.getTransitions().length; cynefin.db.getTransitions().length.Symbol(Symbol.toPrimitive)": 3,
-        "cynefin.db.getAccTitle().constructor; cynefin.db.getAccTitle().Symbol(Symbol.toStringTag); cynefin.db.getAccTitle().name; cynefin.db.getAccTitle().Symbol(Symbol": 2,
-        "cynefin.db.getAccDescription().constructor; cynefin.db.getAccDescription().Symbol(Symbol.toStringTag); cynefin.db.getAccDescription().name; cynefin.db.getAccDes": 1,
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "ishikawa.db.getRoot().text; ishikawa.db.getRoot().text.Symbol(Symbol.toStringTag); ishikawa.db.getRoot().text.name; ishikawa.db.getRoot().text.Symbol(Symbol.toS": 1,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.name; mindmap.db.getData().nodes.Symbol(Symbol.toS": 1,
-        "railroad.db.getRule().Symbol(Symbol.toStringTag); railroad.db.getRule().name; railroad.db.getRule().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive); No ca": 1,
-        "sequence.db.getAccTitle().constructor; sequence.db.getAccTitle().Symbol(Symbol.toStringTag); sequence.db.getAccTitle().name; sequence.db.getAccTitle().Symbol(Sy": 1,
-        "sequence.db.LINETYPE.SOLID_CROSS; sequence.db.LINETYPE.SOLID_CROSS.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.SOLID_CROSS.name; sequence.db.LINETYPE.SOLID": 1,
-        "sequence.db.LINETYPE.DOTTED_CROSS; sequence.db.LINETYPE.DOTTED_CROSS.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.DOTTED_CROSS.name; sequence.db.LINETYPE.DO": 1,
-        "sequence.db.LINETYPE.SOLID_POINT; sequence.db.LINETYPE.SOLID_POINT.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.SOLID_POINT.name; sequence.db.LINETYPE.SOLID": 1,
-        "sequence.db.LINETYPE.DOTTED_POINT; sequence.db.LINETYPE.DOTTED_POINT.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.DOTTED_POINT.name; sequence.db.LINETYPE.DO": 1,
-        "sequence.db.LINETYPE.SOLID; sequence.db.LINETYPE.SOLID.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.SOLID.name; sequence.db.LINETYPE.SOLID.Symbol(Symbol.toS": 1,
-        "sequence.db.LINETYPE.DOTTED; sequence.db.LINETYPE.DOTTED.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.DOTTED.name; sequence.db.LINETYPE.DOTTED.Symbol(Symbol": 1,
-        "sequence.db.LINETYPE.BIDIRECTIONAL_SOLID; sequence.db.LINETYPE.BIDIRECTIONAL_SOLID.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.BIDIRECTIONAL_SOLID.name; se": 1,
-        "sequence.db.LINETYPE.BIDIRECTIONAL_DOTTED; sequence.db.LINETYPE.BIDIRECTIONAL_DOTTED.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.BIDIRECTIONAL_DOTTED.name;": 1,
-        "sequence.db.LINETYPE.RECT_START; sequence.db.LINETYPE.RECT_START.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.RECT_START.name; sequence.db.LINETYPE.RECT_STA": 2,
-        "sequence.db.getDestroyedActors().get": 1,
-        "sequence.db.getCreatedActors().get": 1,
-        "treeview.db.getRoot().level; treeview.db.getRoot().level.constructor; treeview.db.getRoot().level.Symbol(Symbol.toStringTag); treeview.db.getRoot().level.name; ": 1,
-        "treeview.db.getCount().constructor; treeview.db.getCount().Symbol(Symbol.toStringTag); treeview.db.getCount().name; treeview.db.getCount().Symbol(Symbol.toStrin": 1,
-        "usecase.db.getActor().Symbol(Symbol.toStringTag); usecase.db.getActor().name; usecase.db.getActor().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive); No ca": 1,
-        "usecase.db.getUseCase().Symbol(Symbol.toStringTag); usecase.db.getUseCase().name; usecase.db.getUseCase().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive);": 1,
-        "wardley.db.getWardleyData().nodes; wardley.db.getWardleyData().nodes.Symbol(Symbol.toStringTag); wardley.db.getWardleyData().nodes.length; wardley.db.getWardley": 1,
-        "wardley.db.getWardleyData().nodes; wardley.db.getWardleyData().nodes.filter": 1,
-        "wardley.db.getWardleyData().nodes; wardley.db.getWardleyData().nodes.find": 4,
-        "wardley.db.getWardleyData().links; wardley.db.getWardleyData().links.Symbol(Symbol.toStringTag); wardley.db.getWardleyData().links.length; wardley.db.getWardley": 3,
-        "agentflow.db.preserveCommentsWhenParsing.constructor; agentflow.db.preserveCommentsWhenParsing.Symbol(Symbol.toStringTag); agentflow.db.preserveCommentsWhenPars": 1,
+        "No candidate operation was exercised by this test": 4,
+        "treeview.db.getRoot().level; treeview.db.getRoot().level.constructor; treeview.db.getRoot().level.Symbol(Symbol.toStringTag); No candidate operation was exercis": 1,
+        "treeview.db.getCount().constructor; treeview.db.getCount().Symbol(Symbol.toStringTag); No candidate operation was exercised by this test": 1,
         "agentflow.db.getElementMappings().Symbol(Symbol.toStringTag); agentflow.db.getElementMappings().length; agentflow.db.getElementMappings().length.Symbol(Symbol.t": 1,
-        "No candidate operation was exercised by this test": 1,
-        "venn.db.getSubsetData().Symbol(Symbol.toStringTag); venn.db.getSubsetData().name; venn.db.getSubsetData().Symbol(Symbol.toStringTag).Symbol(Symbol.toPrimitive)": 2
+        "venn.db.getSubsetData().Symbol(Symbol.toStringTag)": 2
       }
     },
     {
       "project": "Latias94/merman",
       "version": "0.9.3",
       "counts": {
-        "passed": 2815,
-        "failed": 302,
-        "unsupported": 429,
-        "trident-blocked": 53,
-        "reference-unqualified": 2037,
+        "passed": 2851,
+        "failed": 298,
+        "unsupported": 464,
+        "trident-blocked": 7,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -36439,9 +36784,24 @@
           "reason": "Unsupported candidate operation: radar database getConfig (the candidate exposes a parser, not Mermaid's database API)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -36452,6 +36812,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -36467,6 +36832,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -36535,7 +36910,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -36629,8 +37004,7 @@
           "path": "packages/parser/tests/radar.test.ts",
           "counts": {
             "passed": 67,
-            "trident-blocked": 6,
-            "unsupported": 7,
+            "unsupported": 13,
             "reference-unqualified": 6
           }
         },
@@ -36652,8 +37026,8 @@
         {
           "path": "packages/parser/tests/treemap.test.ts",
           "counts": {
-            "passed": 10,
-            "trident-blocked": 5,
+            "passed": 12,
+            "unsupported": 3,
             "failed": 2
           }
         },
@@ -36781,7 +37155,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -36891,12 +37266,11 @@
         {
           "path": "packages/mermaid/src/diagrams/class/classDiagram.spec.ts",
           "counts": {
-            "passed": 274,
-            "trident-blocked": 20,
-            "failed": 65,
+            "passed": 296,
             "reference-unqualified": 9,
+            "unsupported": 16,
             "upstream-skipped": 1,
-            "unsupported": 15
+            "failed": 62
           }
         },
         {
@@ -36926,7 +37300,9 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "passed": 1,
+            "unsupported": 10,
+            "reference-unqualified": 16
           }
         },
         {
@@ -37006,8 +37382,8 @@
         {
           "path": "packages/mermaid/src/diagrams/git/gitGraph.spec.ts",
           "counts": {
-            "passed": 48,
-            "trident-blocked": 5,
+            "passed": 50,
+            "trident-blocked": 3,
             "upstream-skipped": 4,
             "failed": 9,
             "reference-unqualified": 4,
@@ -37049,8 +37425,7 @@
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 11
+            "unsupported": 12
           }
         },
         {
@@ -37096,7 +37471,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -37564,8 +37940,7 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 13
+            "unsupported": 14
           }
         },
         {
@@ -37646,8 +38021,7 @@
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Diagram.spec.ts",
           "counts": {
             "failed": 1,
-            "trident-blocked": 1,
-            "passed": 1
+            "passed": 2
           }
         },
         {
@@ -37843,8 +38217,7 @@
           "path": "packages/mermaid/src/diagrams/requirement/parser/requirementDiagram.spec.js",
           "counts": {
             "failed": 28,
-            "passed": 8,
-            "trident-blocked": 7
+            "passed": 15
           }
         },
         {
@@ -37887,8 +38260,7 @@
         {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
-            "passed": 6,
-            "failed": 1
+            "passed": 7
           }
         },
         {
@@ -38418,24 +38790,11 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
-        "Entry.axis": 6,
-        "Treemap.TreemapRows": 3,
-        "Section.classSelector": 1,
-        "Leaf.classSelector": 1,
-        "Original ClassMember.getDisplayDetails has no native schema binding; no renderer defect is established": 17,
-        "class.db.getData().nodes; class.db.getData().nodes.filter": 1,
-        "class.db.getNamespace().classes; class.db.getNamespace().classes.size; class.db.getNamespace().classes.size.constructor; class.db.getNamespace().classes.size.Sy": 2,
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
         "LatiasN/merman's branch list carries no head commit": 3,
-        "gitgraph.db.getAccTitle().constructor; gitgraph.db.getAccTitle().Symbol(Symbol.toStringTag); gitgraph.db.getAccTitle().name; gitgraph.db.getAccTitle().Symbol(Sy": 2,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.name; mindmap.db.getData().nodes.Symbol(Symbol.toS": 1,
-        "treeview.db.getCount().constructor; treeview.db.getCount().Symbol(Symbol.toStringTag); treeview.db.getCount().name; treeview.db.getCount().Symbol(Symbol.toStrin": 1,
-        "agentflow.db.preserveCommentsWhenParsing.constructor; agentflow.db.preserveCommentsWhenParsing.Symbol(Symbol.toStringTag); agentflow.db.preserveCommentsWhenPars": 1,
-        "cN.db.getCNShape().constructor; cN.db.getCNShape().Symbol(Symbol.toStringTag); cN.db.getCNShape().name; cN.db.getCNShape().Symbol(Symbol.toStringTag).Symbol(Sym": 1,
-        "cN.db.getTitle().constructor; cN.db.getTitle().Symbol(Symbol.toStringTag); cN.db.getTitle().name; cN.db.getTitle().Symbol(Symbol.toStringTag).Symbol(Symbol.toPr": 1,
-        "No candidate operation was exercised by this test": 1,
-        "requirement.db.getRelationships().N; requirement.db.getRelationships().N.type; requirement.db.getRelationships().N.type.constructor; requirement.db.getRelations": 7
+        "treeview.db.getCount().constructor; treeview.db.getCount().Symbol(Symbol.toStringTag); No candidate operation was exercised by this test": 1,
+        "cN.db.getCNShape().constructor; cN.db.getCNShape().Symbol(Symbol.toStringTag)": 1,
+        "No candidate operation was exercised by this test": 1
       }
     },
     {
@@ -38444,9 +38803,9 @@
       "counts": {
         "passed": 125,
         "failed": 640,
-        "unsupported": 2830,
-        "trident-blocked": 4,
-        "reference-unqualified": 2037,
+        "unsupported": 2854,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -38477,9 +38836,24 @@
           "reason": "Unsupported candidate operation: dsh-plugin-mermaid-gb-svg has no radar parser (it parses flowchart)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -38490,6 +38864,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -38505,6 +38884,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -38573,7 +38962,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -38810,7 +39199,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -38948,7 +39338,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -39108,7 +39499,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -40401,7 +40793,6 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "No candidate operation was exercised by this test": 1
       }
     },
@@ -40410,10 +40801,10 @@
       "version": "0.1.0",
       "counts": {
         "passed": 352,
-        "failed": 1549,
-        "unsupported": 1694,
-        "trident-blocked": 4,
-        "reference-unqualified": 2037,
+        "failed": 1548,
+        "unsupported": 1719,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -40444,9 +40835,24 @@
           "reason": "Unsupported candidate operation: ascii-mermaid has no radar parser (it parses flowchart, state, sequence, class, er, pie, timeline, gantt)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -40457,6 +40863,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -40472,6 +40883,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -40540,7 +40961,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -40778,7 +41199,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -40919,7 +41341,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -41080,7 +41503,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -41177,8 +41601,8 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 49,
-            "unsupported": 40,
+            "unsupported": 41,
+            "failed": 48,
             "passed": 25,
             "reference-unqualified": 31,
             "upstream-skipped": 12
@@ -42383,7 +42807,6 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "No candidate operation was exercised by this test": 1
       }
     },
@@ -42391,11 +42814,11 @@
       "project": "adewale/agentic-mermaid",
       "version": "0.5.6",
       "counts": {
-        "passed": 2196,
-        "failed": 110,
-        "unsupported": 1276,
-        "trident-blocked": 17,
-        "reference-unqualified": 2037,
+        "passed": 2200,
+        "failed": 109,
+        "unsupported": 1301,
+        "trident-blocked": 10,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -42426,9 +42849,24 @@
           "reason": "Unsupported candidate operation: radar database getConfig (the candidate exposes a parser, not Mermaid's database API)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -42439,6 +42877,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -42454,6 +42897,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -42522,7 +42975,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -42764,7 +43217,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -42906,7 +43360,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -43002,7 +43457,7 @@
         {
           "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
           "counts": {
-            "trident-blocked": 3
+            "passed": 3
           }
         },
         {
@@ -43028,8 +43483,7 @@
         {
           "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
           "counts": {
-            "trident-blocked": 1,
-            "unsupported": 11
+            "unsupported": 12
           }
         },
         {
@@ -43075,7 +43529,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -43172,10 +43627,10 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 4,
+            "unsupported": 44,
             "passed": 67,
-            "unsupported": 43,
             "reference-unqualified": 31,
+            "failed": 3,
             "upstream-skipped": 12
           }
         },
@@ -43587,8 +44042,8 @@
         {
           "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
           "counts": {
-            "unsupported": 4,
-            "passed": 3
+            "unsupported": 3,
+            "passed": 4
           }
         },
         {
@@ -44390,11 +44845,8 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "ishikawa.db.getRoot().text; ishikawa.db.getRoot().text.Symbol(Symbol.toStringTag); ishikawa.db.getRoot().text.name; ishikawa.db.getRoot().text.Symbol(Symbol.toS": 3,
-        "mindmap.db.getData().nodes; mindmap.db.getData().nodes.Symbol(Symbol.toStringTag); mindmap.db.getData().nodes.name; mindmap.db.getData().nodes.Symbol(Symbol.toS": 1,
-        "state.db.getAccDescription().constructor; state.db.getAccDescription().Symbol(Symbol.toStringTag); state.db.getAccDescription().name; state.db.getAccDescription": 2,
+        "state.db.getAccDescription().constructor; state.db.getAccDescription().Symbol(Symbol.toStringTag)": 2,
         "agentic-mermaid CN boundary macro Node": 5,
         "agentic-mermaid CN tag list of several tags": 1,
         "No candidate operation was exercised by this test": 1
@@ -44404,11 +44856,11 @@
       "project": "anomalyco/opencode",
       "version": "2.2.5",
       "counts": {
-        "passed": 74,
-        "failed": 1127,
-        "unsupported": 2366,
-        "trident-blocked": 32,
-        "reference-unqualified": 2037,
+        "passed": 88,
+        "failed": 1122,
+        "unsupported": 2402,
+        "trident-blocked": 8,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -44439,9 +44891,24 @@
           "reason": "Unsupported candidate operation: opencode merman has no radar parser (it parses flowchart, gantt, gitgraph, sequence, state, timeline)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -44452,6 +44919,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -44467,6 +44939,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -44535,7 +45017,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -44774,7 +45256,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -44912,7 +45395,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -44955,9 +45439,9 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts",
           "counts": {
-            "unsupported": 22,
+            "unsupported": 24,
             "reference-unqualified": 1,
-            "failed": 8,
+            "failed": 6,
             "trident-blocked": 1
           }
         },
@@ -45075,7 +45559,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -45657,7 +46142,7 @@
           "counts": {
             "failed": 11,
             "reference-unqualified": 1,
-            "trident-blocked": 2
+            "unsupported": 2
           }
         },
         {
@@ -45694,7 +46179,7 @@
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-lines.spec.js",
           "counts": {
             "failed": 8,
-            "trident-blocked": 4
+            "unsupported": 4
           }
         },
         {
@@ -45706,7 +46191,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
           "counts": {
-            "failed": 30,
+            "failed": 29,
+            "passed": 1,
             "upstream-skipped": 1
           }
         },
@@ -45721,21 +46207,25 @@
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
           "counts": {
             "failed": 17,
-            "trident-blocked": 7,
+            "passed": 4,
+            "trident-blocked": 1,
+            "unsupported": 2,
             "reference-unqualified": 1
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js",
           "counts": {
-            "failed": 341,
+            "failed": 340,
+            "unsupported": 1,
             "passed": 1
           }
         },
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js",
           "counts": {
-            "trident-blocked": 7
+            "passed": 6,
+            "unsupported": 1
           }
         },
         {
@@ -45748,10 +46238,9 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js",
           "counts": {
-            "failed": 20,
+            "failed": 19,
             "upstream-skipped": 1,
-            "trident-blocked": 2,
-            "passed": 1
+            "passed": 4
           }
         },
         {
@@ -46373,20 +46862,14 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "opencode merman flowchart parser fault: RangeError: Maximum call stack size exceeded.": 1,
-        "sequence.db.LINETYPE.SOLID_CROSS; sequence.db.LINETYPE.SOLID_CROSS.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.SOLID_CROSS.name; sequence.db.LINETYPE.SOLID": 1,
-        "sequence.db.LINETYPE.DOTTED_CROSS; sequence.db.LINETYPE.DOTTED_CROSS.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.DOTTED_CROSS.name; sequence.db.LINETYPE.DO": 1,
-        "sequence.db.LINETYPE.SOLID_POINT; sequence.db.LINETYPE.SOLID_POINT.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.SOLID_POINT.name; sequence.db.LINETYPE.SOLID": 1,
-        "sequence.db.LINETYPE.DOTTED_POINT; sequence.db.LINETYPE.DOTTED_POINT.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.DOTTED_POINT.name; sequence.db.LINETYPE.DO": 1,
-        "sequence.db.LINETYPE.SOLID; sequence.db.LINETYPE.SOLID.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.SOLID.name; sequence.db.LINETYPE.SOLID.Symbol(Symbol.toS": 1,
-        "sequence.db.LINETYPE.DOTTED; sequence.db.LINETYPE.DOTTED.Symbol(Symbol.toStringTag); sequence.db.LINETYPE.DOTTED.name; sequence.db.LINETYPE.DOTTED.Symbol(Symbol": 1,
-        "Unmapped native flowchart schema: type": 14,
-        "Unmapped native flowchart schema: interpolate": 4,
-        "No candidate operation was exercised by this test": 1,
-        "Unmapped native flowchart schema: style": 1,
-        "Unmapped native flowchart schema: classes": 1,
-        "flowchart.db.getClasses().get": 1
+        "sequence.db.LINETYPE.SOLID_CROSS; sequence.db.LINETYPE.SOLID_CROSS.Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.LINETYPE.DOTTED_CROSS; sequence.db.LINETYPE.DOTTED_CROSS.Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.LINETYPE.SOLID_POINT; sequence.db.LINETYPE.SOLID_POINT.Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.LINETYPE.DOTTED_POINT; sequence.db.LINETYPE.DOTTED_POINT.Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.LINETYPE.SOLID; sequence.db.LINETYPE.SOLID.Symbol(Symbol.toStringTag)": 1,
+        "sequence.db.LINETYPE.DOTTED; sequence.db.LINETYPE.DOTTED.Symbol(Symbol.toStringTag)": 1,
+        "No candidate operation was exercised by this test": 1
       }
     },
     {
@@ -46394,10 +46877,10 @@
       "version": "0.10.0",
       "counts": {
         "passed": 1069,
-        "failed": 1145,
-        "unsupported": 1381,
-        "trident-blocked": 4,
-        "reference-unqualified": 2037,
+        "failed": 1144,
+        "unsupported": 1406,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -46428,9 +46911,24 @@
           "reason": "Unsupported candidate operation: termaid has no radar parser"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -46441,6 +46939,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -46456,6 +46959,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -46524,7 +47037,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -46766,7 +47279,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -46909,7 +47423,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -47077,7 +47592,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -47174,8 +47690,8 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 52,
-            "unsupported": 16,
+            "unsupported": 17,
+            "failed": 51,
             "passed": 46,
             "reference-unqualified": 31,
             "upstream-skipped": 12
@@ -48386,7 +48902,6 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "No candidate operation was exercised by this test": 1
       }
     },
@@ -48395,10 +48910,10 @@
       "version": "1.1.3",
       "counts": {
         "passed": 234,
-        "failed": 1628,
-        "unsupported": 1733,
-        "trident-blocked": 4,
-        "reference-unqualified": 2037,
+        "failed": 1627,
+        "unsupported": 1758,
+        "trident-blocked": 1,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -48429,9 +48944,24 @@
           "reason": "Unsupported candidate operation: beautiful-mermaid has no radar parser (it parses flowchart, state, sequence, class, er, xychart)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -48442,6 +48972,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -48457,6 +48992,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -48525,7 +49070,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -48762,7 +49307,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -48903,7 +49449,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -49063,7 +49610,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -49160,8 +49708,8 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 50,
-            "unsupported": 40,
+            "unsupported": 41,
+            "failed": 49,
             "passed": 24,
             "reference-unqualified": 31,
             "upstream-skipped": 12
@@ -50363,7 +50911,6 @@
         }
       ],
       "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3,
         "No candidate operation was exercised by this test": 1
       }
     },
@@ -50373,9 +50920,9 @@
       "counts": {
         "passed": 0,
         "failed": 2,
-        "unsupported": 3594,
-        "trident-blocked": 3,
-        "reference-unqualified": 2037,
+        "unsupported": 3618,
+        "trident-blocked": 0,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -50406,9 +50953,24 @@
           "reason": "Unsupported candidate operation: mermaidtui has no radar parser (it parses flowchart)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -50419,6 +50981,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -50434,6 +51001,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -50502,7 +51079,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -50739,7 +51316,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -50877,7 +51455,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -51036,7 +51615,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -52313,19 +52893,17 @@
           }
         }
       ],
-      "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3
-      }
+      "gapReasons": {}
     },
     {
       "project": "spacedock-dev/mermaidtext",
       "version": "git-a6b0c7657b94",
       "counts": {
         "passed": 614,
-        "failed": 874,
-        "unsupported": 2108,
-        "trident-blocked": 3,
-        "reference-unqualified": 2037,
+        "failed": 873,
+        "unsupported": 2133,
+        "trident-blocked": 0,
+        "reference-unqualified": 2016,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
       },
@@ -52356,9 +52934,24 @@
           "reason": "Unsupported candidate operation: mermaidtext has no radar parser (it parses graph/flowchart, stateDiagram, classDiagram, erDiagram and sequenceDiagram)"
         },
         {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
           "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
@@ -52369,6 +52962,11 @@
           "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
           "declaredTests": 3,
           "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
         },
         {
           "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
@@ -52384,6 +52982,16 @@
           "path": "packages/mermaid/src/rendering-util/render.spec.ts",
           "declaredTests": 7,
           "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
         },
         {
           "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
@@ -52452,7 +53060,7 @@
           "path": "packages/mermaid/src/diagram.spec.ts",
           "counts": {
             "reference-unqualified": 3,
-            "trident-blocked": 3
+            "unsupported": 3
           }
         },
         {
@@ -52689,7 +53297,8 @@
         {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
           "counts": {
-            "reference-unqualified": 12
+            "unsupported": 1,
+            "reference-unqualified": 11
           }
         },
         {
@@ -52830,7 +53439,8 @@
         {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
-            "reference-unqualified": 27
+            "unsupported": 11,
+            "reference-unqualified": 16
           }
         },
         {
@@ -52989,7 +53599,8 @@
         {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
-            "reference-unqualified": 20
+            "unsupported": 9,
+            "reference-unqualified": 11
           }
         },
         {
@@ -53087,8 +53698,8 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "failed": 26,
-            "unsupported": 64,
+            "unsupported": 65,
+            "failed": 25,
             "passed": 24,
             "reference-unqualified": 31,
             "upstream-skipped": 12
@@ -54288,11 +54899,9 @@
           }
         }
       ],
-      "gapReasons": {
-        "Unavailable imported value used by original test: Diagram (Diagram.fromText without a diagram family); Diagram.fromText without a diagram family.fromText; No ca": 3
-      }
+      "gapReasons": {}
     }
   ],
-  "updatedAt": "2026-11-05T03:31:55.462Z",
-  "collectedThrough": "2026-11-05T03:31:55.462Z"
+  "updatedAt": "2026-11-05T17:00:49.161Z",
+  "collectedThrough": "2026-11-05T17:00:49.161Z"
 }
