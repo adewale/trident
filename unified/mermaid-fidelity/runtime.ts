@@ -4,7 +4,6 @@ import { spawnSync } from 'node:child_process'
 import { resolve, dirname, join } from 'node:path'
 import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
-import type TypeScript from 'typescript'
 import { projectPublicDatabase } from '../upstream-fidelity-projection.mjs'
 import { persistentBridge } from './bridge-client.mjs'
 import { nativeAstView, mermaidConstants } from './schema-views.mjs'
@@ -13,11 +12,7 @@ const job = JSON.parse(readFileSync(process.env.TRIDENT_FIDELITY_JOB!, 'utf8'))
 // Parallel test files run in separate worker processes; each appends to its own part.
 const auditFile = (job.workers ?? 1) > 1 ? `${job.audit}.${process.pid}` : job.audit
 const referenceRequire = createRequire(join(job.reference, 'package.json'))
-// The TypeScript compiler is large and every test file loads this module afresh, so it
-// is required only when a file actually imports a value Trident cannot bind.
-let typescript: typeof TypeScript | undefined
-const tsCompiler = () => (typescript ??= createRequire(join(job.runtime, 'package.json'))('typescript') as typeof TypeScript)
-let bridgeClient: ReturnType<typeof persistentBridge> | undefined
+let bridgeClient: ReturnType<typeof persistentBridge> | undefined, nativeClient: ReturnType<typeof persistentBridge> | undefined
 // Non-default host configuration a test has set for the candidate. Cleared at each test
 // start, as the control's Mermaid configuration is, so a setting made outside a test
 // never reaches a later test.
@@ -190,19 +185,11 @@ export async function initialize(file?: string) {
 export function probeNative(family: string, source: string) {
   return nativeParse(family, source)
 }
-/** Source text without comments: a commented-out call does not use an import. */
-function withoutComments(text: string) {
-  const ts = tsCompiler()
-  const scanner = ts.createScanner(ts.ScriptTarget.Latest, false, ts.LanguageVariant.Standard, text)
-  let out = ''
-  for (let token = scanner.scan(); token !== ts.SyntaxKind.EndOfFileToken; token = scanner.scan())
-    if (token !== ts.SyntaxKind.SingleLineCommentTrivia && token !== ts.SyntaxKind.MultiLineCommentTrivia) out += scanner.getTokenText()
-  return out
-}
 /** End of a test file: stop its persistent bridge process. */
 export function shutdown() {
   bridgeClient?.close()
-  bridgeClient = undefined
+  nativeClient?.close()
+  bridgeClient = nativeClient = undefined
 }
 export function begin(task: any) {
   const flatten = (node: any): any[] => (node.tasks ? node.tasks.flatMap(flatten) : node.type === 'test' ? [node] : [])
@@ -214,17 +201,13 @@ export function begin(task: any) {
   hostConfig = undefined
   const c = contexts.get(task.file.filepath)
   if (c?.unavailableImports?.size) {
-    const file = job.files.find((f: any) => f.absolute === task.file.filepath),
-      lines = readFileSync(task.file.filepath, 'utf8').split('\n')
+    // The identifiers this test's code and its file's helpers use, precomputed once per run
+    // by the census (upstream-fidelity-census.ts); no parsing per test.
+    const file = job.files.find((f: any) => f.absolute === task.file.filepath)
     const title = String(task.name)
     const selected = file.declarations.filter((d: any) => d.name === title || title.startsWith(d.name.split(/%[sdifjo#]|\$\w+/)[0]))
-    const text = selected.length ? selected.map((d: any) => lines.slice(d.line - 1, d.endLine).join('\n')).join('\n') : lines.join('\n')
-    const ts = tsCompiler()
-    const ast = ts.createSourceFile('test.ts', lines.join('\n'), ts.ScriptTarget.Latest, true)
-    const imports = ast.statements.filter(ts.isImportDeclaration).map(n => ({ start: ast.getLineAndCharacterOfPosition(n.getStart(ast)).line, end: ast.getLineAndCharacterOfPosition(n.end).line }))
-    const helpers = lines.filter((_line, i) => !imports.some(r => i >= r.start && i <= r.end) && !file.declarations.some((d: any) => i >= d.line - 1 && i < d.endLine)).join('\n')
-    const code = withoutComments(text + '\n' + helpers)
-    for (const [name, reason] of c.unavailableImports) if (new RegExp('\\b' + name + '\\b').test(code)) active.gaps.add('Unavailable imported value used by original test: ' + name + ' (' + reason + ')')
+    const used = new Set<string>(selected.length ? [...selected.flatMap((d: any) => d.identifiers ?? []), ...(file.helperIdentifiers ?? [])] : (file.fileIdentifiers ?? []))
+    for (const [name, reason] of c.unavailableImports) if (used.has(name)) active.gaps.add('Unavailable imported value used by original test: ' + name + ' (' + reason + ')')
   }
 }
 export function finish(task: any) {
@@ -333,9 +316,12 @@ function nativeParse(family: string, source: string) {
     }
     if (useBunParser || job.target.parserEntries?.[family] || typeof api.parseToIR === 'function') {
       const entry = job.target.parserEntries?.[family] ?? job.target.entry
-      const child = spawnSync(job.target.bun, [join(import.meta.dirname, 'native-call.mjs')], { input: JSON.stringify({ entry, source, methods: [...(selectors[family] ?? []), 'parse', 'parseToIR'] }), encoding: 'utf8', timeout: 5000, maxBuffer: 16 * 1024 * 1024 })
-      if (child.error || child.status !== 0) return gap('Native Bun parser bridge failed: ' + (child.error?.message ?? child.stderr.slice(0, 400)))
-      return bridgeReply(child.stdout, family, 'Native Bun parser bridge')
+      // One long-lived Bun process per test file answers every parse (a process per parse
+      // cost about 110 ms each).
+      nativeClient ??= persistentBridge(job.target.bun, [join(import.meta.dirname, 'native-call.mjs')], undefined, 5000)
+      const reply = nativeClient.call({ entry, source, methods: [...(selectors[family] ?? []), 'parse', 'parseToIR'] })
+      if (reply.failure) return gap('Native Bun parser bridge failed: ' + reply.failure)
+      return bridgeReply(reply.line, family, 'Native Bun parser bridge')
     }
     const selected = (selectors[family] ?? []).find(name => typeof api[name] === 'function')
     // Generic parse is used only for an API whose own returned kind distinguishes

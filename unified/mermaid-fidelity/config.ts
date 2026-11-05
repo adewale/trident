@@ -68,8 +68,16 @@ export default {
     include: job.files.map((file: any) => file.absolute),
     globals: true,
     environment: 'jsdom',
+    // A candidate's test files that never touch the DOM run without jsdom, whose setup was
+    // the largest per-file cost; the control keeps jsdom everywhere (Mermaid needs it).
+    environmentMatchGlobs: job.target.tool === 'mermaid' ? [] : job.files.filter((file: any) => file.environment === 'node').map((file: any) => [file.absolute, 'node']),
     setupFiles: [resolve(import.meta.dirname, 'setup.ts')],
-    // Files are isolated from each other; tests inside a file still run one at a time.
+    // Files are isolated from each other in fresh VM contexts inside long-lived worker
+    // processes (a new process per file cost about 0.7 s each); tests inside a file still
+    // run one at a time. setup.ts rebuilds structuredClone results in each file's realm
+    // (realm.ts). TRIDENT_FIDELITY_POOL=forks reruns with a process per file, to confirm
+    // that outcomes and audits match.
+    pool: process.env.TRIDENT_FIDELITY_POOL ?? 'vmForks',
     fileParallelism: (job.workers ?? 1) > 1,
     maxWorkers: job.workers ?? 1,
     maxConcurrency: 1,

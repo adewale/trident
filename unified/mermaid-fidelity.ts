@@ -71,6 +71,10 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
     }
   })
 }
+// Test files whose outcomes are identical without jsdom for every candidate (measured on
+// in-process and bridged candidates at the pinned Mermaid; see dom-free-files.json).
+// TRIDENT_FIDELITY_ENVIRONMENT=node runs every candidate file without jsdom, to measure.
+const domFree = new Set<string>(existsSync(join(import.meta.dirname, 'mermaid-fidelity/dom-free-files.json')) ? JSON.parse(readFileSync(join(import.meta.dirname, 'mermaid-fidelity/dom-free-files.json'), 'utf8')).files : [])
 export async function main(args = process.argv.slice(2)) {
   if (args.includes('--help')) {
     console.log('mermaid:fidelity --upstream DIR --reference DIR --runtime DIR --prepared FILE --out FRESH_DIR [--projects IDS] [--filter PATH_FRAGMENT] [--reuse-reference PRIOR_OUT] [--timeout-minutes N] [--workers N]\nExecute original pinned tests in Vitest, once per candidate and control. --reuse-reference reads an earlier complete control run for the same selection instead of repeating it. --workers runs that many test files at once (default 1); tests inside a file always run one at a time.')
@@ -103,7 +107,7 @@ export async function main(args = process.argv.slice(2)) {
             .split(',')
             .some(fragment => f.path.includes(fragment))),
     )
-    .map(f => ({ ...f, absolute: join(upstream, f.path) }))
+    .map(f => ({ ...f, absolute: join(upstream, f.path), ...(process.env.TRIDENT_FIDELITY_ENVIRONMENT === 'node' || domFree.has(f.path) ? { environment: 'node' } : {}) }))
   if (!files.length) throw Error('No original tests selected')
   mkdirSync(out, { recursive: true })
   const prepared = JSON.parse(readFileSync(opts.get('--prepared')!, 'utf8'))
