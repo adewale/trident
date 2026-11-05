@@ -21,8 +21,7 @@ test('a fact marker is filled from the result files and an unknown fact is an er
 test('results:snapshot --check fails when a published number drifts from the results', () => {
   const copy = mkdtempSync(join(tmpdir(), 'trident-facts-'))
   for (const path of [...currentBenchmarkResultFiles, 'RESULTS.md', 'README.md']) { mkdirSync(join(copy, path, '..'), { recursive: true }); cpSync(join(root, path), join(copy, path)) }
-  const snapshot = read('results/latest.json'), catalog = read('docs/evidence/benchmark-campaign-2026-11-02/catalog.json')
-  expect(() => writeSnapshot(snapshot, catalog, copy, true)).not.toThrow()
+  expect(() => writeSnapshot(copy, true)).not.toThrow()
   writeFileSync(join(copy, 'README.md'), readFileSync(join(copy, 'README.md'), 'utf8').replace(/<!-- fact:fidelity-population -->[^<]*<!-- \/fact -->/, '<!-- fact:fidelity-population -->3,602<!-- /fact -->'))
-  expect(() => writeSnapshot(snapshot, catalog, copy, true)).toThrow('README.md')
+  expect(() => writeSnapshot(copy, true)).toThrow('README.md')
 })

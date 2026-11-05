@@ -10,10 +10,10 @@ function run(args: string[], indicators = { CI: 'true', GITHUB_ACTIONS: 'true' }
   return spawnSync(process.execPath, [command, ...args], { encoding: 'utf8', timeout: 20_000, env: { ...process.env, ...indicators, MERMAID_REFERENCE_DIR: '/missing/ci-oracle', MERMAID_UPSTREAM_DIR: '/missing/ci-source' } })
 }
 
-test('CI runs help, support and a no-acquisition campaign plan without an oracle', () => {
+test('CI runs help, the results check and command help without an oracle', () => {
   // The Linux CI job already runs lint, typecheck and snapshot checks with missing oracles.
   // Keep this policy test to fast public reads instead of compiling the repository again.
-  for (const args of [['support'], ['community:update', '--help'], ['bench', '--projects', 'mermaid-js/mermaid', '--plan']]) {
+  for (const args of [['--help'], ['results:snapshot', '--check'], ['davebench', '--help'], ['prepare', '--help'], ['campaign:results', '--help']]) {
     const result = run(args)
     expect({ args, status: result.status, stderr: result.stderr }).toEqual({ args, status: 0, stderr: '' })
     expect(result.stderr).not.toContain('excluded from CI')
@@ -22,7 +22,7 @@ test('CI runs help, support and a no-acquisition campaign plan without an oracle
 
 test('CI still rejects measurement, artifact acquisition and the local full suite before creating output', () => {
   for (const indicators of [{ CI: 'true', GITHUB_ACTIONS: 'true' }, { CI: 'false', GITHUB_ACTIONS: 'true' }]) {
-    for (const args of [['bench', '--projects', 'mermaid-js/mermaid'], ['community:update', '--projects', 'mermaid-js/mermaid', '--plan'], ['mermaid:install', '--dir'], ['upstream:prepare'], ['portable'], ['timing:browser'], ['timing:terminal'], ['timing:png'], ['test']]) {
+    for (const args of [['davebench'], ['davebench:terminal'], ['davebench:native-png'], ['drawing:correctness'], ['mermaid:fidelity'], ['versions'], ['prepare', '--catalog', 'catalog/mermaid-community.json'], ['mermaid:install', '--dir'], ['upstream:prepare'], ['test']]) {
       const out = join(temp.dir(), 'must-not-exist')
       const result = run(args.includes('--dir') ? [...args, out] : [...args, '--out', out], indicators)
       expect(result.status).not.toBe(0)
@@ -32,13 +32,11 @@ test('CI still rejects measurement, artifact acquisition and the local full suit
   }
 })
 
-test('the retired PNG collector gives migration guidance without admitting benchmark work', () => {
-  for (const args of [['docs:png'], ['docs:png', '--help']]) {
+test('removed legacy commands are unknown rather than silently admitted', () => {
+  for (const args of [['bench', '--list'], ['support'], ['community:update', '--help'], ['portable'], ['build'], ['run', '--help'], ['results:publish'], ['measurements', '--list'], ['timing:browser', '--help'], ['docs:png']]) {
     const result = run(args)
-    expect(result.status).toBe(args.includes('--help') ? 0 : 2)
-    expect(result.stderr).toBe('')
-    expect(result.stdout).toContain('standalone PNG collector is retired')
-    expect(result.stdout).toContain('bench --suites docs --docs-formats png')
+    expect(result.status).not.toBe(0)
+    expect(result.stderr).toContain('Unknown Trident command')
   }
 })
 
