@@ -443,7 +443,9 @@ function nativeAst(family: string, source: string): any {
     if (kind !== undefined && String(kind).toLowerCase() !== 'pie') return gap('Returned native family differs from requested Pie AST')
     // Frankenmermaid keeps every written slice, title and showData in pie_meta.
     const meta = raw.pie_meta
-    const slices = raw.sections ?? raw.slices ?? raw.pie_slices ?? meta?.slices
+    // Frankenmermaid keeps every written slice in pie_meta, so pie_meta without slices
+    // (a title and accessibility text only) means none was written.
+    const slices = raw.sections ?? raw.slices ?? raw.pie_slices ?? meta?.slices ?? (job.target.project === 'Dicklesworthstone/frankenmermaid' && meta ? [] : undefined)
     const sections =
       slices instanceof Map
         ? [...slices].map(([label, value]) => ({ $type: 'PieSection', label, value }))
@@ -558,6 +560,11 @@ function context(family: string) {
       get(t, key: string) {
         if (key in t) return t[key]
         if (key === 'then') return undefined
+        // Re-selecting FlowDB's default generation is configuration, not an observation, for
+        // the control and candidates alike: counting it for the control alone qualified a
+        // test that observes nothing (flow-style's matcher-less expect) and left it a gap
+        // for every candidate.
+        if (key === 'setGen') return (version?: string) => ((version || 'gen-2') === 'gen-2' ? undefined : job.target.tool === 'mermaid' ? raw?.setGen?.(version) : gap('Native flowchart generation selector: ' + version))
         // Mermaid's enum constants a test reads before parsing (requirementDb.RiskLevel),
         // where this target receives them at all.
         const constants = job.target.tool === 'mermaid' ? undefined : mermaidConstants(job.target.project, family, false)
@@ -589,8 +596,6 @@ function context(family: string) {
           active && active.calls++
           return value
         }
-        // FlowDB's and AgentFlowDB's constructors already select gen-2; re-selecting it changes nothing.
-        if (key === 'setGen') return (version?: string) => ((version || 'gen-2') === 'gen-2' ? undefined : gap('Native flowchart generation selector: ' + version))
         // Reading Mermaid's database API (to call it, spy on it or check that it exists) is
         // an operation the candidate does not offer.
         if (mermaidDatabaseMember(key)) return unsupportedOperation(`${family} database ${key} (the candidate exposes a parser, not Mermaid's database API)`)

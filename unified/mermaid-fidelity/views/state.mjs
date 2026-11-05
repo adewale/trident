@@ -640,6 +640,9 @@ function agenticState(raw) {
     direction: raw.direction === undefined ? 'TB' : directionOf(raw.direction),
     compositeDirection: id => directionOf(states.find(state => state.id === id)?.direction ?? 'TB'),
     doc: "agentic-mermaid keeps a composite's states and transitions as separate lists, not Mermaid's statement document",
+    // Its model's own accessibility fields (probed); Mermaid reads '' when none was written.
+    accTitle: raw.accessibilityTitle ?? '',
+    accDescr: raw.accessibilityDescription ?? '',
   }
 }
 
