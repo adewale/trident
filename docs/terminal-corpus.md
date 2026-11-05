@@ -147,10 +147,9 @@ inventory. An unknown is a Trident measurement gap, not proof of a renderer defe
 The [separate source contract ledger](../corpus/terminal-project-reviews.json)
 now transcribes all 120 source inputs without using renderer output. The v2
 profile separates 116 positive drawings from four invalid-source controls.
-[Observer coverage](terminal-correctness.md) remains incomplete: complete source
-facts do not establish that every family can yet be checked in terminal output.
-The [dated qualification](terminal-results-2026-10-31.md) preserves its earlier v1
-scope rather than presenting new expectations as old measurement evidence.
+Observer coverage remains incomplete: complete source facts do not establish that
+every family can yet be checked in terminal output. Drawing Correctness uses this
+ledger's labels; see the [methods and coverage details](benchmark-results-details.md).
 
 The small Mermaid ASCII/Termaid cohort remains sufficient to improve observers.
 Mermaid is mandatory for source acquisition diagnostics and has no terminal score.

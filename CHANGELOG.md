@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Remove the machinery of earlier benchmark designs, keeping only DaveBench, Drawing Correctness, Mermaid Fidelity, their synthesis and league tables. Removed commands: `bench`, `support`, `support:verify`, `community:update`, `run`/`build`/`portable`, `export`, `fidelity:report`, `rankings`, `measurements`, `measurements:replay`, `verify:measurements*`, `verify:harness`, `timing:*`, `mermaid:behaviour`, `mermaid:public-tests*`, `results:publish`, `results:compare`, `results:campaign`, `corpus:freeze`, `release:check`. Removed with them: the B0 baseline and legacy results snapshot (`results/latest.json`, `results/tables/`), the portable kit, `qualification/`, `davebench-png/`, the standalone native Flutter campaign, superseded campaign pages and their evidence; all remain in the repository history. `results:snapshot` now only regenerates `RESULTS.md` and the generated numbers. A new `prepare` command installs the frozen versions with the shared community preparation that `bench --prepare` and `community:update` used. CI fails on any tracked file over 2 MB not listed in `tests/large-files.json`.
 - Mermaid Fidelity (5 November, second full re-run): Trident gaps across the 26 candidates fall from 9,108 to 843; every Fidelity rank is decided except exact ties. Reviewed views now cover every family each project parses (sequence, state, git graph, C4, kanban, gantt, architecture, mindmap, requirement, pie, packet, block, journey, the ports' agentflow, usecase, railroad, wardley, venn, cynefin, ishikawa and treeView, and the Langium ASTs), in per-area modules under `unified/mermaid-fidelity/views/`; `scripts/fidelity-probe.ts` prints the native model a view receives. Runtime: an unparsed database is the candidate's own parse of a header-only diagram (unsupported when the candidate does not parse the family); a getter read but never used is not an observation; requirement constants are supplied to every candidate; Mermaid's public `parse()` and `Diagram.fromText` use the candidate's own parser and the file's own database. Several false failures were Trident's: Agentic Mermaid's authored shape names, Pele and Bezel C4 records read untranslated, whole-record comparisons against a model that keeps no wrap flag. The control no longer counts `clear()` as an operation, so three tests that exercise nothing leave the scored population (3,602 → 3,599).
 - Drawing Correctness: labels are compared as visible text; the escape-sequence case, which only a renderer echoing raw control characters could pass, was re-rendered for every project (21 rows incorrect → correct).
 - DaveBench: failed calls are counted by their first error line (diagnostic, not ranked); every recorded failure in the audited runs is the renderer's own. A renderer process past 2 GB resident memory is stopped and the call fails with `memory limit` (Figurehead grew to 11 GB on 16 inputs), which also shortens the terminal run from 33 to about 12 minutes.
@@ -45,7 +46,7 @@ separate step.
 
 ### Benchmarks and measurement
 
-- Freeze [B0](results/baseline.json) with exact corpora, contract epochs, owned
+- Freeze B0 with exact corpora, contract epochs, owned
   outcomes and raw evidence. Generate current tables through the ordinary
   reducers, and verify B0 input/output hashes alongside the rolling results.
 - Extend SVG graph, sequence, grammar and chart observers with independent
@@ -72,7 +73,7 @@ separate step.
   tests and terminal results retain their separate populations, and timing stays
   in qualified scoped tables.
 
-- Publish the [minimum-cohort qualification results](docs/qualification-results-2026-10-31.md)
+- Publish the minimum-cohort qualification results
   and restorable source/output evidence. Tables rank named verified counts and
   retain unresolved facts. Re-review source-frozen PNG holds from actual pixels,
   with admitted decisions, required-fact gaps and native no-image outcomes kept
@@ -81,7 +82,7 @@ separate step.
 
 - Freeze all 548 DaveBench syntax-documentation occurrences, including 546
   whitespace-trimmed sources (547 exact bodies), with exact source hashes and structured expectations. The
-  [source census](docs/docs-source-expectations.md) records drawing contracts,
+  source census records drawing contracts,
   configuration-only inputs, unresolved interpretations and review scope. Source
   coverage supplies no output pass.
 - Require every declared drawing fact, actual output hash and observer identity
@@ -250,7 +251,7 @@ separate step.
 
 The original 0.1 invocation receipt exercised 37 of 42 selected entries. Later
 bindings and brand-specific verification are separate dated evidence in
-[SUPPORT-QUALITY.md](SUPPORT-QUALITY.md). Those checks establish invocation for
+SUPPORT-QUALITY.md. Those checks establish invocation for
 bounded inputs, not complete family support, full painted meaning or timing
 qualification. Public development inputs are not a validated holdout. Optional
 model observers and interface coverage vary; Trident claims no overall winner or

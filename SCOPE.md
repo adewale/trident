@@ -17,22 +17,17 @@ every change.
 
 ## Core work
 
-- Public SVG, PNG and terminal rendering; portable observable behaviours selected from Mermaid tests.
+- Public SVG, PNG and terminal rendering (DaveBench); visible labels on a shared
+  corpus (Drawing Correctness); original Mermaid test assertions (Mermaid Fidelity).
 - Independent inputs, output-meaning checks and invalid controls.
-- Explicit artifact, version, runtime, workload and measurement identities.
+- Explicit artifact, version, runtime and workload identities.
 - Bounded campaigns, named case selection and honest missing/blocked outcomes.
 - Per-benchmark ranked tables, reproducible reductions and retained failures.
-- Harness checks and packaging for the particular source revision being released.
 
 Each benchmark applies only where its interface and observation contract fit.
 Every catalog entry does not need every benchmark, format or optional model API.
-The first public release requires the claimed scopes and shipped bytes to pass
-[the release process](RELEASE.md), with immutable evidence in [B0](BASELINE.md).
-The six-project harness cohort covers execution mechanisms; it is not a demand
-to benchmark every catalog project. Later releases recheck affected evidence or
-collect changed/missing work. Neither a passing invocation matrix nor an entire
-ecosystem campaign can substitute for missing correctness proof. Performance
-claims require complete per-call correctness and calibration.
+Neither a passing invocation nor an entire ecosystem campaign can substitute for
+missing correctness proof.
 
 ## Outside core requirements
 
@@ -72,5 +67,4 @@ neither should grow a second reporting system or automatically change measured
 versions. CI may check or publish retained data, without acquiring benchmarked
 projects or collecting benchmark timings.
 
-[Benchmark methods](BENCHMARKS.md) · [Catalog policy](CATALOG.md) ·
-[Release checks](RELEASE.md)
+[Benchmark methods](docs/benchmark-results-details.md) · [Catalog policy](CATALOG.md)

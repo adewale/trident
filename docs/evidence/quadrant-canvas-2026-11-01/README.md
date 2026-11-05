@@ -1,9 +1,0 @@
-# Quadrant canvas and axis ownership
-
-Pinned Mermaid source `1fb7869866dd619168d840291c9c54b4f129758b` documents `chartWidth`/`chartHeight` as chart dimensions (`quadrantChart.md:88–89`; `config.schema.yaml:1332–1342`). The public renderer maps these values to the complete SVG viewBox (`quadrantRenderer.ts:51–58`). The builder subtracts axis gutters, title space and padding only when constructing the inner quadrant plot (`quadrantBuilder.ts:232–269`). Consequently a 400×400 chart can have a 364×364 plot; measuring the plot as the requested canvas width falsely rejects the source.
-
-The axis statements require left→right X labels and bottom→top Y labels (`quadrantChart.md:48–64`). Separate public properties permit top/bottom X and left/right Y placement (`quadrantChart.md:99–102`; schema:1402–1416). No unrequested default side is imposed. Explicit side settings remain obligations; the documented points-present X-bottom override is retained (`quadrantBuilder.ts:611`).
-
-The bounded observer requires four distinct contiguous equal rectangular regions, the full projected SVG canvas containing that grid, and uniquely owned ordered axis labels in a coherent outside-edge gutter within the canvas. It does not infer internal padding or claim that arbitrary viewBox metadata establishes a painted chart. Existing points, quadrant captions, source contracts and style obligations remain required.
-
-The exact retained docs 328 SVG is frozen in `tests/fixtures/quadrant-canvas/`, with original source/SVG hashes and provenance. Independent hand controls cover 400 canvas/364 plot, top/left and bottom/right axes, wrong 300 canvas, reversed endpoint labels, contrary explicit side settings, detached labels and duplicate/missing regions. No renderer calls or source-contract changes are involved.

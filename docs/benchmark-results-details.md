@@ -284,17 +284,14 @@ branch as a historical record.
 
 ## Detailed results and numeric inputs
 
-- [DaveBench method and detailed results](benchmark-campaign-results-2026-11-03.md)
-- [Drawing Correctness and Fidelity method and earlier detailed results](correctness-fidelity-results-2026-11-02.md)
-- [DaveBench numeric results](evidence/benchmark-campaign-2026-11-03/report.json)
-- [Drawing Correctness numeric results](../results/drawing-correctness-2026-11-03.json)
+- [Campaign evidence](../results/release/README.md)
+- [DaveBench numeric results](../results/release/report.json)
+- [Drawing Correctness numeric results](../results/release/drawing-correctness.json)
 - [Mermaid Fidelity numeric results](../results/release/mermaid-fidelity.json)
-- Superseded 2 November results: [DaveBench](evidence/benchmark-campaign-2026-11-02/report.json), [Drawing](../results/drawing-correctness-2026-11-02.json), [Fidelity](../results/mermaid-fidelity-2026-11-02.json)
 
-`RESULTS.md` previously remained attached to the 1 November legacy snapshot while
-new results were published elsewhere. `results:snapshot` now reads the three current
-numeric results for the landing page. Historical snapshots and their detailed pages
-retain their original measurements and are no longer the landing page's source.
+`results:snapshot` reads these numeric results for the landing page and the
+generated numbers in the docs. Superseded 2 and 3 November results and the legacy
+results snapshot remain in Git history.
 
 ## Current project participation
 
