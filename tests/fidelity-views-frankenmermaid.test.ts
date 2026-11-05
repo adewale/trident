@@ -534,6 +534,8 @@ test('gantt weekday from its day index; block composites answer getBlock with no
   const gantt = (meta: unknown) => nativeSchemaView(PROJECT, 'gantt', { diagram_type: 'Gantt', nodes: [], edges: [], labels: [], gantt_meta: meta }, hooks)
   expect(gantt({ weekday_start: 5 }).getWeekday()).toBe('friday')
   expect(gantt({}).getWeekday()).toBe('sunday')
+  // gantt / weekday monday (no tasks): the IR has no gantt_meta.
+  expect(() => gantt(undefined).getWeekday()).toThrow('unsupported')
   const block = nativeSchemaView(PROJECT, 'block', { diagram_type: 'BlockBeta', nodes: [{ id: 'a' }, { id: 'b' }], edges: [], labels: [], graph: { subgraphs: [{ key: 'first', members: [0, 1] }] } }, hooks)
   expect(block.getBlock('first').id).toBe('first')
   expect(block.getBlock('a').id).toBe('a')

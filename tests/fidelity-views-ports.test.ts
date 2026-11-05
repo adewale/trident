@@ -317,3 +317,11 @@ test('Latias94/merman requirement relationships are its relationships list', () 
   const view = nativeSchemaView('Latias94/merman', 'requirement', { classes: {}, relationships: [{ type: 'contains', src: 'e1', dst: 'r1' }] }, hooks)
   expect(view.getRelationships()).toEqual([{ type: 'contains', src: 'e1', dst: 'r1' }])
 })
+
+test("ports: an unwritten accessibility text or C4 title is Mermaid's ''", () => {
+  const { hooks } = verdicts()
+  expect(nativeSchemaView('crabtalk/bezel', 'journey', { type: 'journey', accTitle: 'AT' }, hooks).getAccDescription()).toBe('')
+  expect(nativeSchemaView('crabtalk/bezel', 'journey', { type: 'journey', accTitle: 'AT' }, hooks).getAccTitle()).toBe('AT')
+  expect(nativeSchemaView('Latias94/merman', 'gitgraph', { type: 'gitGraph', accTitle: null, branches: [] }, hooks).getAccTitle()).toBe('')
+  expect(nativeSchemaView('obsidianmd/pele', 'c4', { type: 'c4', shapes: [] }, hooks).getTitle()).toBe('')
+})

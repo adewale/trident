@@ -528,8 +528,12 @@ function gantt(ir, hooks) {
     getDiagramTitle: () => meta.title ?? ir.meta?.title ?? '',
     getDateFormat: () => meta.date_format ?? '',
     // gantt_meta.weekday_start is the weekday statement's day as an index from Sunday (0);
-    // Mermaid keeps the word, 'sunday' when none was written (ganttDb.setWeekday).
-    getWeekday: () => (meta.weekday_start == null ? 'sunday' : WEEKDAY[meta.weekday_start] ?? hooks.unavailable(`${NAME} gantt weekday_start ${meta.weekday_start}`)),
+    // Mermaid keeps the word, 'sunday' when none was written (ganttDb.setWeekday). A gantt
+    // without tasks has no gantt_meta at all, so its weekday statement is not kept.
+    getWeekday: () => {
+      if (ir.gantt_meta == null) return hooks.unsupported(`${NAME} keeps no gantt_meta for a gantt without tasks, so its weekday statement is not kept`)
+      return meta.weekday_start == null ? 'sunday' : WEEKDAY[meta.weekday_start] ?? hooks.unavailable(`${NAME} gantt weekday_start ${meta.weekday_start}`)
+    },
     // Mermaid keeps each excludes token lower-cased; a date keeps the IR's ISO spelling.
     getExcludes: () => (meta.excludes ?? []).flatMap(item => (typeof item === 'string' ? [item.toLowerCase()] : Array.isArray(item?.Dates) ? item.Dates : hooks.unavailable(`${NAME} gantt excludes entry ${JSON.stringify(item)}`))),
   }

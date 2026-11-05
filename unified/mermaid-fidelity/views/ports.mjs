@@ -519,7 +519,14 @@ function railroadAst(raw, hooks, project) {
 // branch taking 0.<declaration index>. Pele's and Bezel's `lanes` are that ordering
 // (Pele's git db computes it with the same expression), and Latias94/merman's branch
 // list is kept in it (checked with orders 3, 1 and none: main, d, c, b).
+// The ports keep an accessibility title or description (and C4's title) only when one
+// was written (Bezel and Pele leave the key out, Latias94/merman writes null); Mermaid's
+// commonDb getters (and c4Db.getTitle) return '' for an unwritten one.
+const portText = raw => ({ getAccTitle: () => raw.accTitle ?? '', getAccDescription: () => raw.accDescr ?? '' })
+const textOnly = raw => portText(raw)
+const c4Title = raw => ({ getTitle: () => raw.title ?? '' })
 const gitBranches = (raw, _hooks, project) => ({
+  ...portText(raw),
   getBranchesAsObjArray: () => (project === MERMAN ? (raw.branches ?? []).map(branch => ({ name: branch.name })) : (raw.lanes ?? []).map(name => ({ name }))),
 })
 // The Langium GitGraph AST lists statements (commit, branch, checkout, merge,
@@ -704,6 +711,8 @@ export default {
     ishikawa: each([PELE, BEZEL, MERMAN], ishikawaView),
     architecture: each([PELE, BEZEL, MERMAN], architectureView),
     gitgraph: each([BEZEL, MERMAN], gitBranches),
+    journey: each([PELE, BEZEL, MERMAN], textOnly),
+    c4: each([PELE, BEZEL, MERMAN], c4Title),
     wardley: each([PELE, BEZEL, MERMAN], wardleyView),
     venn: each([PELE, BEZEL, MERMAN], vennView),
     cynefin: each([PELE, BEZEL, MERMAN], cynefinView),
