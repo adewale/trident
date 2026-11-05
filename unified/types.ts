@@ -39,7 +39,6 @@ export interface UnifiedRunOptions {
   /** Explicit partial output lane; absent means every bound output. */
   communityOutputs?: string[]
   /** Fresh directory for a new qualification helper; old assets remain immutable. */
-  communityQualificationAssetDir?: string
   communityQualificationProtocol?: string
   communityArtifactPolicy?: 'frozen' | 'latest'
   communityPreparedFile?: string

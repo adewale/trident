@@ -25,6 +25,7 @@ export interface CommunityBrowserEngine {
   integrity?: string
   output?: 'svg' | 'png' | 'excalidraw'
   legacyMermaid?: boolean
+  /** Recorded by preparations before 5 November, whose browser suite loaded it; nothing loads it now. */
   qualificationHelper?: string
   apiBoundary?: string
   surface?: string
@@ -116,32 +117,6 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
     cache = join(harness, 'node_modules/.cache/unified-community-browser'),
     results: PreparedCommunityBrowser[] = []
   mkdirSync(cache, { recursive: true })
-  const helperDirectory = options.communityQualificationAssetDir ?? cache
-  mkdirSync(helperDirectory, { recursive: true })
-  const helperBuild = await build({
-    stdin: {
-      contents: `export{isRenderedSourceEcho}from ${JSON.stringify(join(tridentDirectory, 'unified/qualification-visible-source.ts'))};export{closeHtmlVoidElements,inspectSvgText}from ${JSON.stringify(join(tridentDirectory, 'unified/svg-text-inspection.ts'))};export{inspectBrowserPng}from ${JSON.stringify(join(tridentDirectory, 'unified/browser-png-inspection.ts'))};export{inspectExcalidraw}from ${JSON.stringify(join(tridentDirectory, 'unified/excalidraw-inspection.ts'))}`,
-      resolveDir: harness,
-      sourcefile: 'community-visible-output-qualification.mjs',
-    },
-    write: false,
-    bundle: true,
-    platform: 'browser',
-    format: 'iife',
-    globalName: 'unifiedCommunityQualification',
-    external: ['node:*'],
-    target: 'es2022',
-    minify: true,
-    logLevel: 'silent',
-  })
-  const helperBytes = helperBuild.outputFiles[0]?.contents
-  if (!helperBytes) throw Error('Browser qualification helper compilation produced no output')
-  const helperDigest = createHash('sha256').update(helperBytes).digest('hex'),
-    qualificationHelper = join(helperDirectory, `qualification-visible-content-v3-${helperDigest}.js`)
-  if (existsSync(qualificationHelper)) {
-    if (options.communityQualificationAssetDir) throw Error('Qualification repair helper already exists; use a fresh asset directory')
-    if (!Buffer.from(helperBytes).equals(readFileSync(qualificationHelper))) throw Error('Existing browser qualification helper does not match its compiled-byte identity')
-  } else writeFileSync(qualificationHelper, helperBytes, { flag: 'wx' })
   for (const peer of prepared) {
     let result: PreparedCommunityBrowser = { ...peer, browserStatus: 'blocked' }
     try {
@@ -169,7 +144,6 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
           version: artifact?.version ?? peer.node.packages?.find(pkg => pkg.registry === 'npm')?.version ?? peer.node.distribution?.version ?? peer.node.release?.tag ?? 'unavailable',
           ...(artifact?.revision ? { revision: artifact.revision } : {}),
           artifactSha256: digest(readFileSync(file)),
-          qualificationHelper,
           ...(artifact?.integrity ? { integrity: artifact.integrity } : {}),
         }
       }
