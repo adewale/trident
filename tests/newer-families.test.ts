@@ -6,8 +6,8 @@ import { join } from 'node:path'
 import { familySupportProbe, legacyScoredFamilies, newerFamilies, portableCases, scoredFamilies } from '../portable/cohorts.ts'
 import { assertMermaidOracle, assertOracleAgrees, MERMAID_ORACLE_PIN, mermaidUpstreamDirectory, mermaidVerdicts, mermaidZenumlAddon, mermaidOracleDirectory } from '../portable/mermaid-oracle.ts'
 import { communityCorpus } from '../unified/corpus.ts'
-import { mermaidDocsWorkloads } from '../unified/docs-corpus.ts'
 import { censusDisplayText, referenceLabels } from '../unified/oracle-labels.ts'
+import { pinnedOracle } from './pinned-oracle.ts'
 
 const tag = `mermaid@${MERMAID_ORACLE_PIN.version}`
 const upstreamTagged = (() => {
@@ -30,7 +30,7 @@ test('the historical family mark stays fixed while the current portable cohort e
   expect(portableCases().filter(testCase => newerFamilies().includes(testCase.family)).map(testCase => testCase.family)).toEqual(['eventmodeling'])
 })
 
-test('the pinned oracle accepts every newer probe and reads back exactly its labels', async () => {
+test.skipIf(!pinnedOracle)('the pinned oracle accepts every newer probe and reads back exactly its labels', async () => {
   const oracle = assertMermaidOracle()
   const probes = newerFamilies().map(family => familySupportProbe(family)!)
   await assertOracleAgrees(oracle, probes.map(probe => ({ id: probe.id, source: probe.source, accept: true })))
@@ -53,21 +53,15 @@ test('the committed corpus carries every documented example of the newer familie
   }
 })
 
-test.skipIf(!upstreamTagged)('a re-import from the tagged Mermaid checkout reproduces the committed examples', () => {
-  const docs = mermaidDocsWorkloads(mermaidUpstreamDirectory())
-  expect(docs.upstream).toEqual(communityCorpus().upstream!)
-  expect(docs.workloads).toEqual(communityCorpus().workloads.filter(workload => newerFamilies().includes(workload.family)))
-})
-
 // The independent parser supplies Event Modeling identities even when jsdom cannot
 // execute Mermaid's layout-dependent getState getter. Missing those labels must fail.
-test('Event Modeling label expectations survive the oracle layout getter failing', async () => {
+test.skipIf(!pinnedOracle)('Event Modeling label expectations survive the oracle layout getter failing', async () => {
   const [reply] = await mermaidVerdicts(assertMermaidOracle(), ['eventmodeling\ntf 01 ui Cart.Screen\ntf 02 cmd AddItem { description: string }\ntf 03 evt ItemAdded\ntf 04 evt Account.Cart.CheckedOut'], { snapshot: true })
   expect(reply!.accepted).toBe(true)
   expect(referenceLabels('eventmodeling', reply!)?.map(label => label.text)).toEqual(['Screen', 'Cart', 'AddItem', 'ItemAdded', 'Account.Cart.CheckedOut'])
 })
 
-test('the pinned Mermaid baseline accepts every imported documented example before benchmarking', async () => {
+test.skipIf(!pinnedOracle)('the pinned Mermaid baseline accepts every imported documented example before benchmarking', async () => {
   const imported = communityCorpus().workloads.filter(workload => newerFamilies().includes(workload.family))
   await assertOracleAgrees(assertMermaidOracle(), imported.map(workload => ({ id: workload.id, source: workload.source, accept: true })))
 })

@@ -35,7 +35,10 @@ export async function publicSvgBrowserAction(input: any): Promise<any> {
       }) : (source, id) => owner.render(id, source)
     } else if (kind === 'extra') { const publicRender = await api.createRenderer(); fontOptions = false; render = (source, id) => publicRender(source, id, 'svg') }
     else if (kind === 'ondine') { const compiler = await api(); render = (source, _id, options) => compiler.render(source, options).svg }
-    else if (kind === 'function') render = (source, _id, options) => api(source, options)
+    else if (kind === 'function') {
+      if (typeof api !== 'function') throw Error('Prepared public SVG global is not callable')
+      render = (source, _id, options) => api(source, options)
+    }
     else if (kind === 'pele') render = (source, _id, options) => api.render(source, options).svg
     else {
       const publicRender = api.renderMermaidSVG ?? api.renderMermaidSVGAsync ?? api.renderMermaidSync ?? api.renderMermaid
@@ -59,7 +62,12 @@ export async function publicSvgBrowserAction(input: any): Promise<any> {
       const value = await Promise.race([invocation, deadline])
       const durationMs = performance.now() - started
       const svg = typeof value === 'string' ? value : (value as any)?.svg
-      return typeof svg === 'string' && /<svg(?:\s|>)/i.test(svg) ? { status: 'passed', durationMs, bytes: new TextEncoder().encode(svg).byteLength, ...(input.retainSvg ? { svg } : {}) } : { status: 'failed', error: 'Public call did not return SVG' }
+      // Retain wrong-format strings too: successful return, format validity and
+      // drawing assessment are separate measurements of the same public call.
+      const returned = typeof svg === 'string', looksSvg = returned && /<(?:[A-Za-z_][\w.-]*:)?svg(?:\s|\/?>)/i.test(svg)
+      return { status: looksSvg ? 'passed' : 'failed', publicStringReturned: returned, ...(looksSvg ? { durationMs } : {}),
+        ...(returned ? { bytes: new TextEncoder().encode(svg).byteLength, ...(input.retainSvg ? { svg } : {}) } : {}),
+        ...(!looksSvg ? { error: 'Public call did not return SVG' } : {}) }
     } catch (error) {
       // Promise.race does not cancel a renderer. The host must discard this
       // page before another source can share its still-running native work.

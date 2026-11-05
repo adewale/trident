@@ -1,9 +1,0 @@
-{
-  "schema": "trident-lossless-normal-metadata-correction-proof-v1",
-  "currentResultSha256": "b5978fe1ca18c05b97bed3ef7b1fe5de1a975640d0d13a8aa9af44e427b7c2cc",
-  "reconstructedBeforeResultSha256": "c69715211e039ff4e545e2a2b6c942f0c122937fbf874897b5b2be38110a1e24",
-  "recordedBeforeResultSha256": "c69715211e039ff4e545e2a2b6c942f0c122937fbf874897b5b2be38110a1e24",
-  "byteEqual": true,
-  "transform": "Removeonlytop-levelmetadataCompletionSha256andnormalPngObserverSha256fromexact16affected drawing-check metrics;serializeunchangedinsertionorder with2-spaceindent+newline. Grade,clock,case,ownershipandallotherbytesretained.",
-  "originalInventorySha256": "07bd2be07cdbe1916c37fa6d61f80f8a93e9dd8e3dea9f3e01ecafb1b8621e26"
-}

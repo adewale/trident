@@ -1,0 +1,81 @@
+{
+  "repository": "mermaid-js/mermaid",
+  "requestedRef": "develop",
+  "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
+  "rule": "Count standalone Markdown fenced blocks labelled mermaid or mermaid-example recursively under docs; retain duplicate occurrences; exclude fences nested inside other code fences.",
+  "allDocs": {
+    "blocks": 1342,
+    "files": 49,
+    "byLanguage": {
+      "mermaid": 673,
+      "mermaid-example": 669
+    },
+    "distinctTrimmedSources": 658
+  },
+  "syntax": {
+    "blocks": 1239,
+    "files": 34,
+    "byLanguage": {
+      "mermaid": 619,
+      "mermaid-example": 620
+    }
+  },
+  "perFile": {
+    "docs/community/contributing.md": 6,
+    "docs/community/e2e-tests.md": 4,
+    "docs/community/intro.md": 1,
+    "docs/config/8.6.0_docs.md": 2,
+    "docs/config/accessibility.md": 22,
+    "docs/config/configuration.md": 4,
+    "docs/config/directives.md": 16,
+    "docs/config/layouts.md": 2,
+    "docs/config/math.md": 4,
+    "docs/config/setup/mermaid/interfaces/Mermaid.md": 4,
+    "docs/config/theming.md": 4,
+    "docs/config/tidy-tree.md": 4,
+    "docs/intro/getting-started.md": 2,
+    "docs/intro/index.md": 20,
+    "docs/intro/syntax-reference.md": 8,
+    "docs/syntax/agentflow.md": 24,
+    "docs/syntax/all-examples.md": 158,
+    "docs/syntax/architecture.md": 12,
+    "docs/syntax/block.md": 60,
+    "docs/syntax/c4.md": 12,
+    "docs/syntax/classDiagram.md": 76,
+    "docs/syntax/cynefin.md": 6,
+    "docs/syntax/entityRelationshipDiagram.md": 50,
+    "docs/syntax/eventmodeling.md": 26,
+    "docs/syntax/flowchart.md": 232,
+    "docs/syntax/gantt.md": 22,
+    "docs/syntax/gitgraph.md": 70,
+    "docs/syntax/ishikawa.md": 2,
+    "docs/syntax/kanban.md": 6,
+    "docs/syntax/mindmap.md": 30,
+    "docs/syntax/packet.md": 7,
+    "docs/syntax/pie.md": 4,
+    "docs/syntax/quadrantChart.md": 6,
+    "docs/syntax/radar.md": 6,
+    "docs/syntax/railroad.md": 28,
+    "docs/syntax/requirementDiagram.md": 18,
+    "docs/syntax/sankey.md": 16,
+    "docs/syntax/sequenceDiagram.md": 76,
+    "docs/syntax/stateDiagram.md": 44,
+    "docs/syntax/swimlanes.md": 26,
+    "docs/syntax/timeline.md": 28,
+    "docs/syntax/treeView.md": 26,
+    "docs/syntax/treemap.md": 16,
+    "docs/syntax/usecase.md": 48,
+    "docs/syntax/userJourney.md": 2,
+    "docs/syntax/venn.md": 16,
+    "docs/syntax/wardley.md": 38,
+    "docs/syntax/xyChart.md": 16,
+    "docs/syntax/zenuml.md": 32
+  },
+  "historicalSyntaxCount": {
+    "commit": "1fb7869866dd619168d840291c9c54b4f129758b",
+    "blocks": 1095,
+    "files": 34,
+    "mermaid": 547,
+    "mermaid-example": 548
+  }
+}

@@ -1,6 +1,6 @@
 # Project lineage
 
-Catalog checked: 2026-10-18. 89 entities. Regenerate with `bun commands.ts support --lineage`.
+Catalog checked: 2026-10-18. 89 entities. Rendered by `lineageMarkdown` in `unified/lineage.ts`.
 
 Renderer benchmarks require a declared SVG, raster, PDF or terminal output. Validator, parser, formatter and conversion-only tools, applications and explicit catalog-only entries remain discovery records. The descendant override cannot enable them. Descendants without established distinct branding are excluded from normal comparisons, even with code changes. Owner/package scopes and runtime suffixes alone do not establish branding. Bindings and zero-ahead versions are also excluded. An explicit inclusion override retains these for version/runtime investigations. Selection guidance uses the recorded catalog snapshot, not a fresh upstream audit. Ports and changed forks remain separate. Zero-ahead descendants can be omitted from a current-engine comparison, but historical/build studies retain them. Measurement aliases require verified artifact, build, runtime and invocation equivalence through catalog-eligibility; lineage alone never supplies a score.
 
@@ -121,4 +121,4 @@ Arrows in the tree mean source fork, derivative, port, native renderer or runtim
 
 Branded differentiated renderers remain eligible under the same selection rules. Review unverified lineages before counting independent engines. Never silently transfer results between projects.
 
-Use an explicit `bench --projects ... --plan` selection. `--include-excluded-descendants` is reserved for a named version/fork/runtime investigation. Community collection already measures verified physical-artifact aliases once and keeps per-entity evidence-reuse receipts; candidates without that proof run independently when explicitly selected.
+Select projects explicitly with `--projects`. `--include-excluded-descendants` is reserved for a named version/fork/runtime investigation. Community collection already measures verified physical-artifact aliases once and keeps per-entity evidence-reuse receipts; candidates without that proof run independently when explicitly selected.

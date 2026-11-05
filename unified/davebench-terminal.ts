@@ -1,0 +1,169 @@
+import { spawn } from 'node:child_process'
+import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { join, resolve } from 'node:path'
+import { performance } from 'node:perf_hooks'
+import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
+import { communityCliRequest } from './community-cli-request.ts'
+import { davebenchAdmission, davebenchInputs, davebenchRankings, type DavebenchRun } from './davebench.ts'
+import { watchMemory } from './process-memory.ts'
+import { davebenchTerminalValidity } from './davebench-validity.ts'
+import { tridentDirectory } from './trident-paths.ts'
+import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
+import { communityModuleOutputSupported } from './community.ts'
+import { assertCurrentBenchmarkArtifact, refreshBenchmarkVersions } from './benchmark-versions.ts'
+import { communityCatalogFile } from './trident-paths.ts'
+
+export class TerminalCallWorker {
+  child: Bun.Subprocess<'pipe', 'pipe', 'pipe'>
+  pending = new Map<string, (value: any) => void>()
+  ready: Promise<void>
+  identity: any
+  /** `admit` checks returned text after the clock stops; native counter workers
+   * that report their own outcome without returning output pass none. */
+  admit?: (output: unknown, source: string) => { valid: boolean; reason?: string }
+  constructor(peer: PreparedCommunity, file: string, invocation?: string[], admit?: (output: unknown, source: string) => { valid: boolean; reason?: string }) {
+    this.admit = admit
+    writeFileSync(file, JSON.stringify(peer))
+    const python = peer.artifact?.kind === 'python'
+    const bun = /bun/i.test(peer.artifact?.runtime ?? '') || /\.tsx?$/.test(peer.artifact?.module ?? '')
+    const command = python ? peer.artifact!.python ?? peer.artifact!.executable! : bun ? process.execPath : process.env.NODE_BIN ?? 'node'
+    const args = python ? [join(tridentDirectory, 'unified/davebench-terminal-worker.py')] : [join(tridentDirectory, 'unified/davebench-terminal-worker.mjs'), file]
+    this.child = Bun.spawn(invocation ?? [command, ...args], { stdin: 'pipe', stdout: 'pipe', stderr: 'pipe' })
+    void this.child.stderr.pipeTo(new WritableStream({ write() {} })).catch(() => {})
+    let buffer = '', ready = false
+    this.ready = new Promise((done, reject) => {
+      const timeout = setTimeout(() => { this.close(); reject(Error('Terminal worker initialization timed out')) }, 30_000)
+      void (async () => {
+        const decoder = new TextDecoder(), reader = this.child.stdout.getReader()
+        try {
+          for (;;) {
+            const chunk = await reader.read()
+            if (chunk.done) break
+            buffer += decoder.decode(chunk.value, { stream: true })
+            let end
+            while ((end = buffer.indexOf('\n')) >= 0) {
+              const line = buffer.slice(0, end); buffer = buffer.slice(end + 1)
+              try {
+                const row = JSON.parse(line)
+                if (row.type === 'ready') { this.identity = row; ready = true; clearTimeout(timeout); done() }
+                else if (row.type === 'blocked') { clearTimeout(timeout); reject(Error(row.detail)) }
+                else if (row.type === 'result') { this.pending.get(row.id)?.(row); this.pending.delete(row.id) }
+              } catch { /* Library logs supply no outcome. */ }
+            }
+          }
+        } catch (error) { if (!ready) reject(error) }
+      })()
+      void this.child.exited.then(() => { clearTimeout(timeout); if (!ready) reject(Error('Terminal worker stopped during initialization')); for (const done of this.pending.values()) done({ outcome: 'error', ms: 0 }); this.pending.clear() })
+    })
+  }
+  async call(source: string, id: string, timeoutMs: number): Promise<{ outcome: string; ms: number; invalid?: string; error?: string }> {
+    await this.ready
+    if (typeof this.child.exitCode === 'number' || typeof this.child.signalCode === 'string') throw Error('Terminal worker has stopped')
+    const started = performance.now()
+    return new Promise(done => {
+      const timer = setTimeout(() => { this.pending.delete(id); unwatch(); this.close(); done({ outcome: 'timeout', ms: performance.now() - started }) }, timeoutMs)
+      // A worker that runs out of bounds is stopped; its pending call reports the reason.
+      const unwatch = watchMemory(this.child.pid, () => { clearTimeout(timer); this.pending.delete(id); this.close(); done({ outcome: 'error', ms: performance.now() - started, error: 'memory limit' }) })
+      this.pending.set(id, value => {
+        clearTimeout(timer); unwatch()
+        const ms = value.outcome === 'error' && value.ms === 0 ? performance.now() - started : value.ms
+        if (value.outcome !== 'completed' || !this.admit) return done(typeof value.invalid === 'string' ? { outcome: value.outcome, ms, invalid: value.invalid } : typeof value.error === 'string' ? { outcome: value.outcome, ms, error: value.error } : { outcome: value.outcome, ms })
+        const validity = this.admit(value.output, source)
+        done(validity.valid ? { outcome: 'completed', ms } : { outcome: 'invalid', ms, invalid: validity.reason })
+      })
+      this.child.stdin.write(JSON.stringify({ source, id }) + '\n')
+      void this.child.stdin.flush()
+    })
+  }
+  close() { this.child.kill('SIGKILL'); return this.child.exited }
+}
+
+/** Fresh terminal CLI process. Text goes to a regular scratch file and is read
+ * for admission after the clock stops, then deleted. */
+export async function terminalCliCall(artifact: CommunityArtifact, source: string, directory: string, timeoutMs: number) {
+  const request = communityCliRequest(artifact, 'terminal', directory)
+  if (request.inputMode === 'file') writeFileSync(request.input, source)
+  const destination = join(directory, 'davebench-output.txt'), captured = join(directory, 'davebench-stdout.txt')
+  rmSync(destination, { force: true })
+  const args = request.args.map(arg => arg.replaceAll(request.destination, destination)), stdout = openSync(captured, 'w'), started = performance.now()
+  let stderr = ''
+  const result = await new Promise<{ outcome: string; ms: number; error?: string }>(done => {
+    let timeout = false, finished = false
+    const child = spawn(artifact.executable!, args, { stdio: ['pipe', stdout, 'pipe'] })
+    child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) })
+    const timer = setTimeout(() => { timeout = true; child.kill('SIGKILL') }, timeoutMs)
+    let memory = false
+    const unwatch = watchMemory(child.pid, () => { memory = true; child.kill('SIGKILL') })
+    const finish = (outcome: string, error?: string) => { if (finished) return; finished = true; clearTimeout(timer); unwatch(); done({ outcome: memory ? 'error' : outcome, ms: performance.now() - started, ...(memory ? { error: 'memory limit' } : error ? { error } : {}) }) }
+    child.once('error', thrown => finish('error', String(thrown.message).slice(0, 160))); child.once('close', code => finish(timeout ? 'timeout' : code === 0 ? 'completed' : 'error', code === 0 || timeout ? undefined : (stderr.trim().split('\n').at(-1) || 'exit code ' + code).slice(0, 160)))
+    child.stdin!.on('error', () => {}); child.stdin!.end(request.inputMode === 'stdin' ? source : undefined)
+  })
+  closeSync(stdout)
+  if (result.outcome !== 'completed') return result
+  const text = args.some(arg => arg.includes(destination)) && existsSync(destination) ? readFileSync(destination, 'utf8') : readFileSync(captured, 'utf8')
+  rmSync(destination, { force: true }); rmSync(captured, { force: true })
+  const validity = davebenchTerminalValidity(text, source)
+  return validity.valid ? result : { ...result, outcome: 'invalid', invalid: validity.reason }
+}
+
+export async function main(args = process.argv.slice(2)) {
+  if (args.length === 1 && args[0] === '--help') { console.log('davebench:terminal --prepared FILE --out FRESH_DIRECTORY [--upstream CHECKOUT] [--catalog FROZEN_CAMPAIGN_CATALOG] [--projects IDS]\nThree documentation runs; native text output discarded without assessment. --projects measures only the named projects; times are comparable only within one collection on one machine.'); return }
+  assertBenchmarkExecutionAllowed()
+  const options = new Map<string, string>()
+  for (let i = 0; i < args.length; i += 2) { if (!['--out', '--prepared', '--upstream', '--catalog', '--projects'].includes(args[i]!) || !args[i + 1] || options.has(args[i]!)) throw Error('Invalid terminal DaveBench arguments'); options.set(args[i]!, args[i + 1]!) }
+  if (!options.has('--out') || !options.has('--prepared')) throw Error('Choose --out and a current frozen --prepared artifact list')
+  const out = resolve(options.get('--out')!)
+  if (existsSync(out)) throw Error('Choose a fresh output directory')
+  mkdirSync(out, { recursive: true })
+  const wanted = options.get('--projects')?.split(',')
+  const all: PreparedCommunity[] = JSON.parse(readFileSync(options.get('--prepared')!, 'utf8'))
+  const prepared = wanted ? all.filter(peer => wanted.includes(peer.node.id)) : all
+  if (wanted) for (const id of wanted) if (!prepared.some(peer => peer.node.id === id)) throw Error('No prepared terminal artifact for ' + id)
+  const recorded = JSON.parse(readFileSync(options.get('--catalog') ?? communityCatalogFile, 'utf8'))
+  const selected = options.has('--catalog') ? recorded : (await refreshBenchmarkVersions(recorded, prepared.map(peer => peer.node.id))).catalog
+  for (const peer of prepared) {
+    const node = selected.nodes.find((node: any) => node.id === peer.node.id)
+    if (!node || node.benchmark?.preparationError) throw Error('Current terminal artifact selection is incomplete: ' + peer.node.id)
+    assertCurrentBenchmarkArtifact(peer, node); peer.node = node
+  }
+  const inventory = davebenchInputs(resolve(options.get('--upstream') ?? join(tridentDirectory, '../mermaid'))), runs: DavebenchRun[] = [], blocked: { project: string; reason: string }[] = []
+  const startedAt = new Date().toISOString(), timeoutMs = 15_000
+  const save = (state: string) => writeFileSync(join(out, 'results.json'), JSON.stringify({ schema: 'davebench-terminal-v1', state, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files }, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, elapsed: 'Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup.' }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked }, null, 2) + '\n')
+  save('running')
+  for (const peer of prepared) {
+    const a = peer.artifact, extra = a?.additionalCli?.find(cli => cli.outputs.includes('terminal'))?.artifact
+    const native = a?.kind === 'cli' ? a : !communityModuleOutputSupported(peer.node, 'terminal') ? extra : undefined
+    if (!a) { blocked.push({ project: peer.node.id, reason: peer.error ?? 'No prepared terminal artifact' }); save('running'); continue }
+    let boundary = native ? 'public CLI terminal; process startup included' : a.kind === 'python' ? 'persistent Python public terminal API' : /bun/i.test(a.runtime ?? '') || /\.tsx?$/.test(a.module ?? '') ? 'persistent Bun public terminal API' : 'persistent Node public terminal API'
+    const directory = join(out, encodeURIComponent(peer.node.id)); mkdirSync(directory, { recursive: true })
+    let worker: TerminalCallWorker | undefined
+    const open = async () => { worker = new TerminalCallWorker(peer, join(directory, 'operand.json'), undefined, davebenchTerminalValidity); await worker.ready; if (worker.identity?.boundary) boundary = worker.identity.boundary }
+    try {
+      for (let round = 1; round <= 3; round++) {
+        if (!native) await open()
+        const call = async (input: { source: string }, index: number): Promise<{ outcome: string; ms: number; invalid?: string; error?: string }> => {
+          const row = native ? await terminalCliCall(native, input.source, directory, timeoutMs) : await worker!.call(input.source, `${round}:${index}`, timeoutMs)
+          if (row.outcome === 'cleanup-error') throw Error('Terminal host cleanup failed; no further timing from accumulated drawings is admitted')
+          if (!native && (row.outcome === 'timeout' || typeof worker!.child.exitCode === 'number' || typeof worker!.child.signalCode === 'string')) { await worker!.child.exited; await open() }
+          return row
+        }
+        for (const [index, input] of inventory.cases.slice(0, 30).entries()) await call(input, -index - 1)
+        const row: DavebenchRun = { project: peer.node.id, version: native?.version ?? a.version, format: 'terminal', run: round, boundary, attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, errorReasons: {} }; runs.push(row)
+        console.log(`${peer.node.id} terminal ${round}/3`)
+        for (const [index, input] of inventory.cases.entries()) {
+          const result = await call(input, index); row.attempted++; row.totalMs += result.ms
+          if (result.outcome === 'completed') row.completed++; else row.failed++
+          if (result.outcome === 'error') { const reason = (result.error ?? 'no message').replace(/\d+/g, 'N'); row.errorReasons![reason] = (row.errorReasons![reason] ?? 0) + 1 }
+          if (result.outcome === 'invalid') { row.invalid!++; const reason = result.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1; (row.rejected ??= {})[input.id] = result.invalid! }
+          if (result.outcome === 'timeout') row.timeouts++
+          if ((index + 1) % 100 === 0) save('running')
+        }
+        await worker?.close(); worker = undefined; save('running')
+        console.log(`  ${row.completed}/${row.attempted}, ${(row.totalMs / 1000).toFixed(3)} s`)
+      }
+    } catch (error) { blocked.push({ project: peer.node.id, reason: String(error).slice(0, 500) }); save('running') }
+    finally { await worker?.close() }
+  }
+  save('complete')
+}
+if (import.meta.main) await main()

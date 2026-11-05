@@ -1,0 +1,7 @@
+name: trident_mermaid_core_bridge
+description: Trident Mermaid Fidelity parser bridge for mermaid_core (not published).
+publish_to: none
+environment:
+  sdk: '>=3.12.0 <4.0.0'
+dependencies:
+  mermaid_core: 0.3.2

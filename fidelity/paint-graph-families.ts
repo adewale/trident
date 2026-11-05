@@ -1171,19 +1171,46 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
       const known = new Set(qualifiedParts.get(expected.id) ?? []), coveredParts: unknown[] = []
       for (const shape of ink) {
         const css = getComputedStyle(shape), fill = rgba(css.fill), stroke = rgba(css.stroke), strokeWidth = Number.parseFloat(css.strokeWidth), matrix = shape.getScreenCTM(), points = samples(shape, Math.min(8192, Math.max(128, Math.ceil(shape.getTotalLength() * (matrix ? Math.max(Math.hypot(matrix.a, matrix.b), Math.hypot(matrix.c, matrix.d)) : 1) * 2))))
+        // In a shared flowchart group, a proved connector can be painted
+        // after its endpoint body. Permit only its tiny actual port contact,
+        // never another cover or an unbound/oversized arrow carrier.
+        const flowContact = (layer: typeof layers[number], touched: Point[]) => {
+          if (input.family !== 'flowchart' || !routesBound || !exactNodes || shape.localName !== 'rect' || shape.parentElement?.localName !== 'g' || !nodes.some(other => other.id !== expected.id && bodies(other.id).some(body => body.parentElement === shape.parentElement)) || !touched.length || !matrix || !layer.matrix || !(layer.element instanceof SVGGeometryElement) || getComputedStyle(layer.element).vectorEffect !== 'none') return false
+          const contact = Math.min(3, Math.max(2, (strokeWidth * minimumScreenScale(matrix) + layer.width * minimumScreenScale(layer.matrix)) / 2 + .25))
+          const eligible = routes.filter(route => (route.source === expected.id || route.target === expected.id) && route.start && route.end)
+          for (const route of eligible) {
+            const endpoint = route.source === expected.id ? route.start! : route.end!, color = rgba((route as any).stroke ?? route.style?.stroke ?? 'none')
+            if (['line','path','polyline'].includes(layer.element.localName) && (!layer.fill?.[3] || !layer.fillOpacity || zeroFillArea(layer.element))) {
+              if (!route.box || !nearBox(route.box, layer.box, .25) || !same(color, layer.stroke) || Math.abs((route.strokeWidth ?? route.style?.strokeWidth ?? NaN) - layer.width) >= .01 || layer.strokeOpacity < .999) continue
+              const ends = samples(layer.element, 1)
+              if (ends.length !== 2 || !(distance(ends[0]!, route.start!) < .25 && distance(ends[1]!, route.end!) < .25 || distance(ends[0]!, route.end!) < .25 && distance(ends[1]!, route.start!) < .25)) continue
+              if (shape.isPointInStroke(new DOMPoint(endpoint.x, endpoint.y).matrixTransform(matrix!.inverse())) && touched.every(point => distance(point, endpoint) <= contact)) return true
+            } else {
+              const kind = route.source === expected.id ? route.startMarker : route.endMarker, points = vertices(layer.element)
+              if (!['arrow','triangle'].includes(kind) || points?.length !== 3 || Math.max(layer.box.width,layer.box.height) > 16 || !same(color,layer.fill) || layer.fillOpacity < .999) continue
+              const attached = geometry.filter(candidate => { const vertices_ = vertices(candidate), css_ = getComputedStyle(candidate), matrix_ = candidate.getScreenCTM(); return vertices_?.length === 3 && same(rgba(css_.fill),color) && !!matrix_ && candidate.isPointInFill(new DOMPoint(endpoint.x,endpoint.y).matrixTransform(matrix_.inverse())) })
+              if (attached.length !== 1 || attached[0] !== layer.element) continue
+              const tips = points.filter((_,i) => {const a=points[(i+1)%3]!,b=points[(i+2)%3]!;return Math.abs(a.x-b.x)<1e-5||Math.abs(a.y-b.y)<1e-5})
+              if (tips.length !== 1) continue
+              const tip = tips[0]!
+              if (shape.isPointInStroke(new DOMPoint(tip.x,tip.y).matrixTransform(matrix!.inverse())) && touched.every(point=>distance(point,tip)<=contact)) return true
+            }
+          }
+          return false
+        }
         const later = layers.filter(layer => layer.element !== shape && !!(shape.compareDocumentPosition(layer.element) & Node.DOCUMENT_POSITION_FOLLOWING) && !known.has(layer.element as SVGGeometryElement) && Math.min(layer.box.x + layer.box.width, owner.box.x + owner.box.width) >= Math.max(layer.box.x, owner.box.x) && Math.min(layer.box.y + layer.box.height, owner.box.y + owner.box.height) >= Math.max(layer.box.y, owner.box.y) && (['image', 'use', 'foreignObject'].includes(layer.element.localName) || layer.fill?.[3] === 255 && layer.fillOpacity >= .999))
         const hits = later.map(layer => {
           const unknown = ['image', 'use', 'foreignObject'].includes(layer.element.localName) || !layer.matrix || !(layer.element instanceof SVGGeometryElement), equivalent = !unknown && sameGeometry(shape, layer.element) && same(fill, layer.fill) && same(stroke, layer.stroke) && Math.abs(strokeWidth - layer.width) < .1
           if (equivalent) return { layer, count: 0 }
-          const count = points.filter(point => {
+          const touched = points.filter(point => {
             if (point.x < layer.box.x - .25 || point.y < layer.box.y - .25 || point.x > layer.box.x + layer.box.width + .25 || point.y > layer.box.y + layer.box.height + .25) return false
             if (unknown) return true
             const local = new DOMPoint(point.x, point.y).matrixTransform(layer.matrix!.inverse()), item = layer.element as SVGGeometryElement
             if (!item.isPointInFill(local)) return false
             // A compartment cell may repaint exactly the same visible border.
             return !(stroke?.[3] && layer.stroke?.[3] && layer.strokeOpacity >= .999 && same(stroke, layer.stroke) && Math.abs(strokeWidth - layer.width) < .1 && item.isPointInStroke(local))
-          }).length
-          return { layer, count }
+          })
+          return { layer, count: flowContact(layer,touched) ? 0 : touched.length }
         }).filter(item => item.count > 0)
         // An opaque stroke can erase another outline even when its fill is
         // none. Inspect the actual later stroke region, including paint laid
@@ -1194,6 +1221,7 @@ export function inspectGraphFamilyPaint(input: { family: string; source: string;
             if (same(stroke, layer.stroke) && Math.abs(strokeWidth - layer.width) < .1 && !!matrix && (['a','b','c','d'] as const).every(key => Math.abs(matrix[key] - layer.matrix![key]) < 1e-8) && getComputedStyle(layer.element).vectorEffect === css.vectorEffect && Math.abs((layers.find(item => item.element === shape)?.strokeOpacity ?? 0) - layer.strokeOpacity) < 1 / 255 && sourceGraphicStroke(shape) && sourceGraphicStroke(layer.element)) return false
             const padding = layer.width / 2 * Math.hypot(layer.matrix!.a, layer.matrix!.b, layer.matrix!.c, layer.matrix!.d), b = layer.box
             if (!points.some(point => point.x >= b.x - padding && point.x <= b.x + b.width + padding && point.y >= b.y - padding && point.y <= b.y + b.height + padding && (getComputedStyle(layer.element).vectorEffect !== 'none' || (layer.element as SVGGeometryElement).isPointInStroke(new DOMPoint(point.x, point.y).matrixTransform(layer.matrix!.inverse()))))) return false
+            if (flowContact(layer, points.filter(point => (layer.element as SVGGeometryElement).isPointInStroke(new DOMPoint(point.x,point.y).matrixTransform(layer.matrix!.inverse()))))) return false
             // A C4 connector may be painted after its endpoint body. Admit
             // only the complete independently source-qualified measured stem,
             // and only its tiny contact with this particular owned contour.

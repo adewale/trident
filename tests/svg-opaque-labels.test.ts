@@ -5,14 +5,11 @@ import { inspectFidelityPaint, type PaintCheck } from '../fidelity/paint.ts'
 import { inspectQuantitativePaint } from '../fidelity/paint-values.ts'
 import { inspectSourceFacts, mergePaintChecks } from '../fidelity/paint-facts.ts'
 import { inspectChartFacts } from '../fidelity/paint-chart-facts.ts'
-import { assessSvgCases, makeSvgCaseContract, makeSvgObservationBinding } from '../fidelity/svg-assessment.ts'
+import { makeSvgObservationBinding } from '../fidelity/svg-assessment.ts'
 import { qualifyOutput } from '../unified/qualification.ts'
 import { assessDocsDrawing, reviewedDocsCase } from '../unified/docs-drawings.ts'
 import { reviewDocumentationSource } from '../unified/docs-source-review.ts'
-import { recheckFeatureAdmission } from '../unified/recheck-rendering.ts'
-import { observeBrowserTimingSvg } from '../unified/timing-browser.ts'
-import { constructEvidenceVerdict, evidenceBytesDigest } from '../portable/evidence-contract.ts'
-import type { BenchmarkObservation } from '../unified/types.ts'
+import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { chromiumExecutable } from './helpers/environment.ts'
 let browser: any
 beforeAll(async () => { browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable }) })
@@ -42,20 +39,12 @@ for (const [name, svg] of [['all outlined', fixture], ['mixed DOM and outlined',
   expect(checks.some(check => check.status === 'failed')).toBe(false)
   expect(checks.filter(check => check.criterion.startsWith('source-fact:')).length).toBeGreaterThan(0)
   expect(checks.filter(check => check.criterion.startsWith('source-fact:')).every(check => check.status === 'unavailable')).toBe(true)
-  const rows: BenchmarkObservation[] = [{ suite: 'fidelity', surface: 'browser-public-api', runtime: 'fixture', family: input.family, caseId: input.id, operation: 'public-svg-admission', format: 'svg', mode: 'fixture', status: 'passed', metrics: { implementation: 'fixture/renderer', authoredCase: input.id, ...binding } }, ...checks.map(check => ({ suite: 'fidelity', surface: 'browser-owned-ink', runtime: 'fixture', family: input.family, caseId: input.id + ':' + check.criterion, operation: check.criterion, format: 'svg', mode: 'fixture', status: check.status === 'unavailable' ? 'blocked' as const : check.status, metrics: { implementation: 'fixture/renderer', authoredCase: input.id, ...binding } }))]
-  rows.push({ ...rows[0]!, operation: 'standalone-svg-and-labels', status: 'passed' })
-  const rechecked = recheckFeatureAdmission(authored, 'fixture/renderer', rows, svg!, 'returned', binding, '2026-10-31T00:00:00Z')
-  expect(rechecked.find(row => row.operation === 'standalone-svg-and-labels')?.status).toBe('blocked')
-  expect(assessSvgCases([authored], rechecked)[0]).toMatchObject({ status: 'unknown', evidence: { status: 'unknown' } })
   expect(assessDocsDrawing(input, review, 'passed', 'unavailable', checks, binding).status).toBe('unknown')
   const page = await browser.newPage()
   try {
     await page.setContent(svg!)
     const hidden = await page.evaluate(inspectFidelityPaint, { family: input.family, expected: { ...authored.expected, forbiddenLabels: ['Secret'] } })
     expect(hidden.checks.find((check: PaintCheck) => check.criterion === 'hidden-authored-content')?.status).toBe('unavailable')
-    const contract = makeSvgCaseContract(authored), evidence = await observeBrowserTimingSvg(page, authored, contract, Buffer.from(svg!), binding.observerSha256)
-    expect(constructEvidenceVerdict(contract, evidence).status).toBe('unknown')
-    expect(evidence.checks.find(check => check.criterion === 'standalone-svg-and-labels')?.status).toBe('unknown')
   } finally { await page.close() }
 })
 test('image-only labels also stay unknown; recognized wrong and hidden DOM text still fail', async () => {

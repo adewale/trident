@@ -1,16 +1,10 @@
 node_modules
 dist/
-bench-report/
 __pycache__/
 *.py[cod]
 .cache/
 
-# Publish raw evidence separately; retain the small generated result views.
+# Only the numeric results the league tables read are committed; rendered outputs never are.
 results/*
 !results/README.md
-!results/latest.json
-!results/baseline.json
-!results/historical-examples.json
-!results/tables/
-results/tables/*
-!results/tables/*.md
+!results/release/

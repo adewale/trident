@@ -26,9 +26,8 @@ those are not additional measured entries.
 
 There are 85 declared transport adapters: 20 retain existing-adapter labels and
 64 retain candidate labels from the original catalog snapshot; Mermaid Flutter
-has a separately verified native PNG binding. Those historical labels
-are separate from the [0.1 verification](SUPPORT-QUALITY.md), which exercised
-37 release artifacts among 42 eligible entries and retained five blockers.
+has a separately verified native PNG binding. Those historical labels are not
+verification results.
 The current normal selection has **27 renderers**. The earlier 39-project freeze
 also included twelve projects now marked catalogue-only. Parser, validator,
 formatter and conversion-only tools cannot enter renderer campaigns; Rusty
@@ -43,57 +42,12 @@ engine. Conversely, identical Git pins do not alone permit measurement reuse:
 build recipes, shipped bytes, runtime and invocation evidence must match.
 See `unified/catalog-eligibility.ts`.
 
-## Inspect every project's support
-
-```sh
-bun commands.ts support
-bun commands.ts support --out /evidence/support.md
-bun commands.ts support --out /evidence/support.json
-```
-
-The matrix is generated from the catalog and the actual suite admission rules.
-It includes declared/bound outputs, adapter review status, lineage, parent and a
-reason for each suite cell. It is configuration evidence, not a fresh runtime
-validation of 89 projects.
-
-The reviewed native-model integrations currently belong to Agentic Mermaid,
-Pele and the pinned Mermaid reference. Fifteen catalog entries have configured
-portable Node SVG bindings: Agentic Mermaid, Pele, Ondine and six
-Beautiful-compatible entries (Beautiful Mermaid, Zombie Mermaid, ktrysmt,
-theletterf, thepanax and vercel-labs). Additional bindings cover mdv, the VitePress plugin, the DSH engine, Merman,
-Crafter and Merslim through declared exports, a public factory or the same
-reviewed package pipeline used by community collection.
-A new project can instead declare its
-public SVG export and returned field; it does not need a project-specific
-portable runner. Historical Mermaid forks do not inherit the pinned reference's
-model evidence merely by sharing its transport adapter.
-
-For browser SVG checks, configuration remains conditional on actual artifact,
-build and browser admission. Missing PNG/terminal/model bindings remain visible
-beside available SVG evidence. Family support always requires an actual probe.
-
-## Reading a gap
-
-- `configured`: Trident has a reviewed invocation contract; a run can still fail.
-- `conditional`: a declared browser SVG binding needs artifact/browser admission.
-- `adapter-missing`: Trident lacks the binding or observer. This is not proof
-  that the project lacks the capability.
-- `project-unsupported`: the catalog does not declare the requested output.
-- `reference-only`: the suite validates the pinned reference's own runner.
-- `out-of-scope`: the catalog entry is a whole application, outside core benchmarks.
-
-Campaign preflight also reports missing local prerequisites. Those are
-environment blockers, not renderer defects. Completed records retain their
-original statuses and dates; a new vocabulary never rewrites old results.
-
-## Lineage and support assessment
+## Lineage
 
 [The complete lineage tree](LINEAGE.md) labels forks, ports and bindings, with
-dependencies kept separate. Generate a fresh view with `bun commands.ts support
---lineage`. Non-renderers, catalogue-only entries, whole applications, unbranded descendants, zero-ahead forks and bindings are excluded from normal comparisons; scores still
-require artifact/protocol proof before reuse. [The dated support stack rank](SUPPORT-QUALITY.md)
-shows integration evidence and gaps for all 89 entries. [Report reading](REPORTING.md)
-explains how to interpret the resulting scorecards.
+dependencies kept separate (`lineageMarkdown` in `unified/lineage.ts` renders it). Non-renderers, catalogue-only entries, whole applications, unbranded descendants, zero-ahead forks and bindings are excluded from normal comparisons; scores still
+require artifact/protocol proof before reuse. [Report reading](REPORTING.md)
+explains how to interpret the resulting tables.
 
 Mermaid Dart (`orestesgaolin/mermaid`, `mermaid_core`) and Mermaid Flutter
 (`pub:mermaid_flutter`, `mermaid_flutter`) have distinct branding. The lineage

@@ -1,0 +1,7 @@
+module tridentbridge/mermaidtext
+
+go 1.23
+
+require github.com/spacedock-dev/mermaidtext v0.0.0
+
+replace github.com/spacedock-dev/mermaidtext => @SOURCE@

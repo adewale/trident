@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, expect, setDefaultTimeout, test } from 'bun:test'
+import { gunzipSync } from 'node:zlib'
 import { readFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { chromium } from 'playwright'
@@ -44,7 +45,7 @@ test('color-only generic node paint keeps default alpha separate from explicit a
   expect(await inspect('#123456',{fill:'#123456'},.3,'style="filter:drop-shadow(1px 1px black) hue-rotate(90deg)"')).toBe('unavailable')
 })
 for (const index of [466,467]) test('retained source '+index+' explicit RGB does not demand an opaque default skin', async () => {
-  const directory=new URL('./fixtures/theme-tokens/',import.meta.url), row=JSON.parse(readFileSync(new URL('provenance.json',directory),'utf8')).retained.find((row:any)=>row.index===index), svg=readFileSync(new URL(row.file,directory)), docs=JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json',import.meta.url),'utf8')), expected=structuredClone(docs.find((c:any)=>c.id===row.caseId).expected)
+  const directory=new URL('./fixtures/theme-tokens/',import.meta.url), row=JSON.parse(readFileSync(new URL('provenance.json',directory),'utf8')).retained.find((row:any)=>row.index===index), svg=readFileSync(new URL(row.file,directory)), docs=JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString()), expected=structuredClone(docs.find((c:any)=>c.id===row.caseId).expected)
   expect(createHash('sha256').update(svg).digest('hex')).toBe(row.svgSha256);expect(createHash('sha256').update(row.source).digest('hex')).toBe(row.sourceSha256)
   expected.facts['node-paint']=index===466?[{id:'Section 1/Section 1.2',properties:{fill:'red',stroke:'#FFD600'}},{id:'Section 2/Leaf 2.1',properties:{fill:'red',stroke:'#FFD600'}}]:[{id:'Main/B',properties:{fill:'#f96',stroke:'#333','stroke-width':'2px'}}]
   const page=await browser.newPage({viewport:{width:1600,height:1200}});try{await page.setContent(svg.toString());const observed=await inspectSvgDrawing(page,{family:'treemap',source:row.source,expected});expect(observed.checks.find(c=>c.criterion==='source-fact:node-paint')?.status).toBe('passed')}finally{await page.close()}

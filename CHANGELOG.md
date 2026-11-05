@@ -2,6 +2,67 @@
 
 ## Unreleased
 
+- **Release campaign (5 November).** All three benchmarks were collected on one machine against the frozen 2 November catalog, and the results live at fixed paths in `results/release/`. File names no longer carry a hand-chosen date (a file named 2026-11-04 had held data from 5 November); published dates come from each file's own timestamps. Every number quoted in the docs is generated from these files, and `results:snapshot --check` fails when the docs drift from them.
+- **DaveBench rejects fallback renders.** Output that shows the source's header line verbatim, or at least three and at least half of its syntax-bearing statements, was drawn from the source text, not from an understood diagram. It no longer counts as a completion. Calibration: Mermaid 0 rejections, Agentic Mermaid 0. Rejections by project:
+  - DSH GB SVG, 956 (it draws every diagram as a flowchart): 1,340 → 384 SVG/PNG completions.
+  - Frankenmermaid, 157 (block, swimlane, agentflow and railroad headers drawn as nodes): 1,342 → 1,185 SVG/PNG.
+  - Latias Merman, 68 (its terminal CLI prints a debug dump of git-graph models).
+  - Termaid, 26.
+  - Grok and MermaidText, 6 each.
+  - A few each for Mermaid RS Renderer, Crafter and XMermaid.
+
+  Each run records which inputs were rejected and why.
+- **Mermaid Fidelity: Trident gaps fall from 843 to 94**, and 16 of the 26 candidates have none.
+  - **New views:** Mermaid Dart's railroad, wardley, venn, cynefin and ishikawa; more Frankenmermaid families; the ports' class members, namespaces, Treemap and Radar ASTs; XMermaid sequence, cynefin, wardley and ishikawa.
+  - **Defects fixed where Trident, not the project, decided a result:**
+    - Values a failed assertion prints in its message no longer turn the failure into an unsupported verdict.
+    - The control no longer counts setup (`setGen('gen-2')`) as an operation.
+    - Reading `setGen` before a parse no longer marks a whole test unsupported for parsers that reject a header-only flowchart (Grok, MermaidText, Loom).
+    - A test file that fails on the candidate's own unsupported operation counts as unsupported, not as a gap.
+    - C4 records keep their identity across getters, as Mermaid's do.
+  - **Scored population:** 3,599 → 3,618 tests Mermaid passes.
+  - **Passes:** Pele 3,100 → 3,135, Bezel 2,980 → 3,033, Latias Merman 2,815 → 2,851, Agentic Mermaid 2,196 → 2,202, Mermaid Dart and Flutter 2,023 → 2,101, Frankenmermaid 1,251 → 1,313, Loom 711 → 747, Grok and MermaidText 614 → 638.
+- **Fidelity speed.**
+  - The census records each test's identifiers, so workers no longer load TypeScript.
+  - 291 candidate test files that never touch the DOM run without jsdom.
+  - Native Bun parsers are called through one persistent process (Merslim 120 → 77 s, Kitlangton Merman 158 → 103 s).
+  - Running test files in VM contexts (vmForks) was measured and rejected: it was no faster with two or more workers and changed outcomes.
+- **Drawing Correctness.**
+  - A dead worker pipe no longer records a case as unrun: the worker restarts and the case is called again.
+  - Case ids are `drawing:` instead of `terminal:`.
+  - Runs record when they started and finished, and a merge takes its date from the run.
+- **CI and tooling.**
+  - CI runs every test file except a reviewed skip list, each entry with a reason; it previously ran a hand-maintained list that left 61 files out.
+  - New `scripts/rescore-fidelity.ts` applies the current outcome rules to a recorded Fidelity run.
+- Remove the machinery of earlier benchmark designs, keeping only DaveBench, Drawing Correctness, Mermaid Fidelity, their synthesis and league tables. Removed commands: `bench`, `support`, `support:verify`, `community:update`, `run`/`build`/`portable`, `export`, `fidelity:report`, `rankings`, `measurements`, `measurements:replay`, `verify:measurements*`, `verify:harness`, `timing:*`, `mermaid:behaviour`, `mermaid:public-tests*`, `results:publish`, `results:compare`, `results:campaign`, `corpus:freeze`, `release:check`. Removed with them: the B0 baseline and legacy results snapshot (`results/latest.json`, `results/tables/`), the portable kit, `qualification/`, `davebench-png/`, the standalone native Flutter campaign and its prepared-artifact launcher, the old community suite runner (`runCommunitySuite`, its CLI, worker and external-worker rounds, its browser suite and the invocation journal and checkpoint modules only it used), superseded campaign pages and their evidence; all remain in the repository history. `results:snapshot` now only regenerates `RESULTS.md` and the generated numbers. A new `prepare` command installs the frozen versions with the shared community preparation that `bench --prepare` and `community:update` used. CI fails on any tracked file over 2 MB not listed in `tests/large-files.json`.
+- Mermaid Fidelity (5 November, second full re-run): Trident gaps across the 26 candidates fall from 9,108 to 843; every Fidelity rank is decided except exact ties. Reviewed views now cover every family each project parses (sequence, state, git graph, C4, kanban, gantt, architecture, mindmap, requirement, pie, packet, block, journey, the ports' agentflow, usecase, railroad, wardley, venn, cynefin, ishikawa and treeView, and the Langium ASTs), in per-area modules under `unified/mermaid-fidelity/views/`; `scripts/fidelity-probe.ts` prints the native model a view receives. Runtime: an unparsed database is the candidate's own parse of a header-only diagram (unsupported when the candidate does not parse the family); a getter read but never used is not an observation; requirement constants are supplied to every candidate; Mermaid's public `parse()` and `Diagram.fromText` use the candidate's own parser and the file's own database. Several false failures were Trident's: Agentic Mermaid's authored shape names, Pele and Bezel C4 records read untranslated, whole-record comparisons against a model that keeps no wrap flag. The control no longer counts `clear()` as an operation, so three tests that exercise nothing leave the scored population (3,602 → 3,599).
+- Drawing Correctness: labels are compared as visible text; the escape-sequence case, which only a renderer echoing raw control characters could pass, was re-rendered for every project (21 rows incorrect → correct).
+- DaveBench: failed calls are counted by their first error line (diagnostic, not ranked); every recorded failure in the audited runs is the renderer's own. A renderer process past 2 GB resident memory is stopped and the call fails with `memory limit` (Figurehead grew to 11 GB on 16 inputs), which also shortens the terminal run from 33 to about 12 minutes.
+
+- Mermaid Fidelity (5 November, all 26 candidates re-run on one code version): Trident gaps fall from 17,688 to 9,108 while the Mermaid control is unchanged (3,602). Three policies: Mermaid database calls, spies and `getConfig` are unsupported; Mermaid enum constants are supplied where a project's values are already in Mermaid's vocabulary; host configuration is reset per test as in the control. New reviewed views: flowcharts for XMermaid, Frankenmermaid, Zombie, Beautiful and ASCII Mermaid; class views for Agentic, VitePress and Merslim; Merslim ER; C4 for mermaid-rs-renderer, Zombie, Agentic, Merslim and mermaid_core; sequence message lists for Termaid and mermaid_core and participants for Grok, MermaidText, Loom, mermaid-rs-renderer and mermaid-ascii; kanban and treeView for the three Mermaid ports; flowchart layout data and Langium AST views. A getter imported by name from a database module (`getAccDescription` from commonDb) now reads the parsed diagram when called, and fields Mermaid leaves undefined read as undefined. Passes rise for every project with new views (Pele 2,378 → 2,685, Agentic 1,257 → 1,579, XMermaid 388 → 781); most newly assessed tests are failures or unsupported operations that had been hidden as gaps. `scripts/fidelity-gaps.ts` lists the remaining gaps per project and cause.
+- Drawing Correctness: a case with no labels is judged only on raw-syntax leakage; SVG and terminal were recollected and the 20 unknown rows are correct. DaveBench terminal takes `--projects`.
+- Drawing Correctness checks labels instead of measured geometry: every label named by the reviewed source facts must appear, with no raw Mermaid syntax. Unassessed results fall from 2,805 to 20; the check agrees with every result the geometry checkers had confirmed correct. PNG is dropped from Drawing Correctness because OCR cannot read diagram labels reliably; it stays in DaveBench. The synthesis treats Drawing as not applicable to PNG-only renderers.
+- Discard the 1 November raw-output archive instead of publishing it. Results are verified by re-running frozen versions against pinned inputs; references to a downloadable archive are removed and the evidence rule is documented.
+- DaveBench: a completion now needs an output that passes mechanical admission after the clock stops (sized SVG, valid PNG, terminal text that is not empty, an error message or the source printed back). Two terminal CLIs printed unsupported input back inside a box and exited 0, which had counted as 861 completed renders each. Time now separates equal completion counts only between rows with the same boundary kind (fresh process or persistent API).
+- Mermaid Fidelity: score the callbacks the pinned Mermaid control passes. Callbacks the control cannot pass were everyone's unknowns and capped Mermaid at 54.6% of its own tests. Every bindable candidate now attempts all selected files against one shared control run; ten had previously been run on 42 of 316 files. Add `--reuse-reference`, a configurable per-target timeout and a merge script.
+- Mermaid Fidelity: parser bridges for Zombie Mermaid, XMermaid (its WASM parse_dsl), VitePress Plugin Diagram, DSH Mermaid GB SVG, OpenCode Merman, MermaidTUI and Beautiful Mermaid, each calling the project's own per-family parsers; families outside a project's own detector are unsupported. Reviewed views for Zombie, Beautiful, XMermaid and Frankenmermaid ER and class models. Unassessed callbacks for the six JavaScript projects fall from 2,200–2,660 to 96–1,290.
+- Mermaid Fidelity speed: lazy TypeScript loading in per-file modules, `--workers N` parallel test files, persistent Node/Bun/Python bridges (`TRIDENT_BRIDGE_SERVE=1`, called synchronously from the runtime), indexed outcome matching, and `merge-fidelity-runs --base` for partial re-runs checked against a control-run digest. A project's full suite takes about 2 minutes instead of 9–19, with identical outcomes.
+- Re-collect all three benchmarks on 4 November: every DaveBench completion count and rank and every Drawing Correctness row reproduce 3 November.
+- Mermaid Fidelity reference adapter: bind the diagram families added to Mermaid since the adapter's example list (agentflow, railroad and its variants, usecase, treeView, cynefin, venn, wardley, swimlanes; eventmodeling's header), `addDiagrams`, `setLogLevel`, `Diagram.fromText`, diagram definition and Chevrotain parser modules, and test spies; stop a commented-out call from marking every test in its file; run from Mermaid's repository root on the `upstream:prepare` locked runtime. The scored population grows from 2,894 to 3,602 of 5,737 expanded callbacks and unloaded files fall from 23 to 15. The 2,034 callbacks still unqualified test Mermaid internals the public package does not expose and are accounted for outside the scored population.
+- Mermaid Fidelity candidates: a family the candidate does not parse, Mermaid's mutable database API, the jison `yy` callback protocol and concepts a native model does not carry are unsupported operations (known nonpasses) that outrank Trident gaps. Reviewed per-project schema views map the bridged models for flowchart, class, ER and git graph diagrams and the radar and info ASTs; Ondine exposes no model. Unassessed callbacks for bridged projects fall to 250–1,000 each, and a false-failure path in the generic class projection (unmapped member fields read as candidate errors) is closed for bridged projects.
+- CI: update the two legacy snapshot tests whose expected table rows predated the merged project/version column.
+- Mermaid Fidelity: add parser bridges for the 13 projects whose parsers are not importable JavaScript (Rust, Go, Dart, Python, native CLIs and module-private TypeScript). Each bridge calls the project's own parser and verifies the prepared revision, checksum or version; no project is left without a Fidelity binding. All 26 candidates attempted all 316 selected files against one shared control run. Native enum spellings of Mermaid shape names now match case-insensitively, raising Frankenmermaid from 308 to 367 passes; no other existing row changed.
+- Recollect DaveBench for all 27 projects with output admission (3 November). Grok renderer and MermaidText fall from 1,342 to 481 terminal completions; empty returns and zero-size SVGs cost 10–162 completions for eight more projects; every other count reproduces 2 November. Mermaid Flutter's native PNG counter is measured for the first time (1,114/1,342), built from the committed lockfile and run under host Xvfb (`davebench:native-png --host-display`).
+- Drawing Correctness records empty, error, echoed or zero-size outputs as invalid-format nonpasses instead of observer gaps; all terminal cases were recollected (unresolved 730 → 681).
+- Equal-weight synthesis: show each project's possible rank instead of ranking by verified minimum, which treated unmeasured work as zero. DaveBench contributes its absolute completion rate, not a participant-relative rank percentile. Drawing and Fidelity tables also show possible ranks beside verified ranks.
+
+- Replace the results overview with separate compact benchmark rankings, explicit paired timing tables, unassessed states and illustrated retained PNG examples. Keep detailed diagnostics linked and explain what archive verification establishes.
+
+- Publish the full 27-project campaign with separate SVG, PNG, terminal and behaviour tables, scoped timing and downloadable raw evidence; preserve B0.
+- Import standard timing bundles through normal reporting, retaining each pair’s controls and withholding unqualified speed ranks.
+- Fix terminal report serialization and SVG journal lookup; replay blocked stylesheet imports under the collection policy.
+- Regrade selected formats without changing the others, retain prior completion receipts and avoid hashing an immutable SVG context for every case.
+
 - Make DaveBench coverage one retained call per input and format, without warmups; reserve repetition for qualified timing.
 - Remove unused reverse PNG-to-SVG scoring machinery; keep historical evidence intact.
 - Consolidate benchmark descriptions and current PNG evidence links; distinguish core workloads from maintenance diagnostics.
@@ -17,7 +78,7 @@ separate step.
 
 ### Benchmarks and measurement
 
-- Freeze [B0](results/baseline.json) with exact corpora, contract epochs, owned
+- Freeze B0 with exact corpora, contract epochs, owned
   outcomes and raw evidence. Generate current tables through the ordinary
   reducers, and verify B0 input/output hashes alongside the rolling results.
 - Extend SVG graph, sequence, grammar and chart observers with independent
@@ -44,7 +105,7 @@ separate step.
   tests and terminal results retain their separate populations, and timing stays
   in qualified scoped tables.
 
-- Publish the [minimum-cohort qualification results](docs/qualification-results-2026-10-31.md)
+- Publish the minimum-cohort qualification results
   and restorable source/output evidence. Tables rank named verified counts and
   retain unresolved facts. Re-review source-frozen PNG holds from actual pixels,
   with admitted decisions, required-fact gaps and native no-image outcomes kept
@@ -53,7 +114,7 @@ separate step.
 
 - Freeze all 548 DaveBench syntax-documentation occurrences, including 546
   whitespace-trimmed sources (547 exact bodies), with exact source hashes and structured expectations. The
-  [source census](docs/docs-source-expectations.md) records drawing contracts,
+  source census records drawing contracts,
   configuration-only inputs, unresolved interpretations and review scope. Source
   coverage supplies no output pass.
 - Require every declared drawing fact, actual output hash and observer identity
@@ -222,7 +283,7 @@ separate step.
 
 The original 0.1 invocation receipt exercised 37 of 42 selected entries. Later
 bindings and brand-specific verification are separate dated evidence in
-[SUPPORT-QUALITY.md](SUPPORT-QUALITY.md). Those checks establish invocation for
+SUPPORT-QUALITY.md. Those checks establish invocation for
 bounded inputs, not complete family support, full painted meaning or timing
 qualification. Public development inputs are not a validated holdout. Optional
 model observers and interface coverage vary; Trident claims no overall winner or

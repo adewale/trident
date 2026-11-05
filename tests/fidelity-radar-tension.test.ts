@@ -14,7 +14,7 @@ beforeAll(async () => { browser = await chromium.launch({ headless: true, execut
 afterAll(async () => { await browser?.close() })
 const status = (result: any) => result.checks.find((c: any) => c.criterion === 'source-fact:authored-config')
 const source = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases[332]
-const review = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8')).find((r: any) => r.id === source.id)
+const review = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString()).find((r: any) => r.id === source.id)
 const original = readFileSync(new URL('./fixtures/radar-tension/mermaid-docs-332.svg', import.meta.url), 'utf8')
 async function inspect(svg: string, input: any, mutate?: (page: any) => Promise<void>) {
   const page = await browser.newPage()

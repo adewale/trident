@@ -14,7 +14,7 @@ beforeAll(async () => { browser = await chromium.launch({ executablePath: chromi
 afterAll(async () => { await browser?.close() })
 const directory = new URL('./fixtures/domain-completion/', import.meta.url)
 const provenance = JSON.parse(readFileSync(new URL('provenance.json', directory), 'utf8')) as any[]
-const docs = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8')) as any[]
+const docs = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString()) as any[]
 const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases as any[]
 const svgFor = (index: number) => gunzipSync(readFileSync(new URL(provenance.find(entry => entry.index === index).file, directory))).toString()
 async function inspect(index: number, change?: string) {

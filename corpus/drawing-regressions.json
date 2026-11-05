@@ -1,0 +1,381 @@
+{
+  "selection": "Recurring group, arrow, line-break, route and stroke defects from pinned project tests. Repeated subgraph issue appears independently in Mermaid and Pele. Reaction counts are unavailable and are not fabricated.",
+  "cases": [
+    {
+      "id": "regression:4e15c9b5403a9b04",
+      "source": "flowchart LR\nsubgraph S\n  x\nend\nsubgraph S\n  y\nend",
+      "family": "flowchart",
+      "review": "Repeated subgraph identifiers merge one group containing both x and y. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "mermaid-js/mermaid",
+          "url": "https://github.com/mermaid-js/mermaid/blob/1fb7869866dd619168d840291c9c54b4f129758b/packages/mermaid/src/diagrams/flowchart/flowDb-elk-duplicate-subgraph.spec.ts",
+          "issue": "https://github.com/mermaid-js/mermaid/issues/8326",
+          "line": 38
+        },
+        {
+          "repository": "obsidianmd/pele",
+          "url": "https://github.com/obsidianmd/pele/blob/44da152bbb79b91f03e68016f42499bb25bf6e82/tests/flowchart/parser.test.ts",
+          "line": 15
+        }
+      ],
+      "geometry": [
+        "distinct-node-bodies"
+      ],
+      "expected": {
+        "labels": [
+          "x",
+          "y",
+          "S"
+        ],
+        "nodes": [
+          {
+            "id": "x",
+            "label": "x"
+          },
+          {
+            "id": "y",
+            "label": "y"
+          }
+        ],
+        "edges": [],
+        "groups": [
+          {
+            "id": "S",
+            "label": "S",
+            "members": [
+              "x",
+              "y"
+            ]
+          }
+        ]
+      },
+      "terminalContract": {
+        "schema": "terminal-source-contract-v2",
+        "family": "flowchart",
+        "facts": [
+          {
+            "criterion": "nodes",
+            "expected": [
+              {
+                "id": "x",
+                "label": "x"
+              },
+              {
+                "id": "y",
+                "label": "y"
+              }
+            ],
+            "scope": "Literal independently reviewed node labels"
+          },
+          {
+            "criterion": "relationships",
+            "expected": [],
+            "scope": "Literal edge endpoints and markers"
+          },
+          {
+            "criterion": "groups",
+            "expected": [
+              {
+                "id": "S",
+                "label": "S",
+                "members": [
+                  "x",
+                  "y"
+                ]
+              }
+            ],
+            "scope": "One declared enclosure, merging repeated declarations of the same named group"
+          }
+        ],
+        "presentation": [],
+        "sourceUncertainties": []
+      }
+    },
+    {
+      "id": "regression:68230bdf498c2525",
+      "source": "flowchart TD\nsubgraph\n  a --> b\nend",
+      "family": "flowchart",
+      "review": "Unnamed subgraph retains a, b and their directed connection. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "obsidianmd/pele",
+          "url": "https://github.com/obsidianmd/pele/blob/44da152bbb79b91f03e68016f42499bb25bf6e82/tests/flowchart/parser.test.ts",
+          "line": 23
+        }
+      ],
+      "geometry": [
+        "edge-node-clearance"
+      ],
+      "expected": {
+        "labels": [
+          "a",
+          "b"
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "label": "a"
+          },
+          {
+            "id": "b",
+            "label": "b"
+          }
+        ],
+        "edges": [
+          {
+            "source": "a",
+            "target": "b",
+            "directed": true,
+            "startMarker": "none",
+            "endMarker": "arrow"
+          }
+        ],
+        "groups": [
+          {
+            "id": "$unnamed",
+            "label": "",
+            "members": [
+              "a",
+              "b"
+            ]
+          }
+        ]
+      },
+      "terminalContract": {
+        "schema": "terminal-source-contract-v2",
+        "family": "flowchart",
+        "facts": [
+          {
+            "criterion": "nodes",
+            "expected": [
+              {
+                "id": "a",
+                "label": "a"
+              },
+              {
+                "id": "b",
+                "label": "b"
+              }
+            ],
+            "scope": "Literal independently reviewed node labels"
+          },
+          {
+            "criterion": "relationships",
+            "expected": [
+              {
+                "source": "a",
+                "target": "b",
+                "directed": true,
+                "startMarker": "none",
+                "endMarker": "arrow"
+              }
+            ],
+            "scope": "Literal edge endpoints and markers"
+          },
+          {
+            "criterion": "groups",
+            "expected": [
+              {
+                "id": "$unnamed",
+                "label": "",
+                "members": [
+                  "a",
+                  "b"
+                ]
+              }
+            ],
+            "scope": "One declared enclosure, merging repeated declarations of the same named group"
+          }
+        ],
+        "presentation": [],
+        "sourceUncertainties": []
+      }
+    },
+    {
+      "id": "regression:c707395491823d1f",
+      "source": "classDiagram\n        Animal <|-- Dog\n        Animal <|-- Cat\n        Dog <|-- Puppy",
+      "family": "class",
+      "review": "multiple inheritance creates separate arrows. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "lukilabs/beautiful-mermaid",
+          "release": "1.1.3",
+          "url": "https://registry.npmjs.org/beautiful-mermaid/-/beautiful-mermaid-1.1.3.tgz",
+          "path": "src/__tests__/class-arrow-directions.test.ts",
+          "line": 37
+        }
+      ],
+      "geometry": []
+    },
+    {
+      "id": "regression:a1cbf1ae4b6a2b8a",
+      "source": "classDiagram\n        Person --> Address",
+      "family": "class",
+      "review": "source above target - arrow points DOWN. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "lukilabs/beautiful-mermaid",
+          "release": "1.1.3",
+          "url": "https://registry.npmjs.org/beautiful-mermaid/-/beautiful-mermaid-1.1.3.tgz",
+          "path": "src/__tests__/class-arrow-directions.test.ts",
+          "line": 109
+        }
+      ],
+      "geometry": []
+    },
+    {
+      "id": "regression:d2ca0121985b295d",
+      "source": "classDiagram\n        Car *-- Engine",
+      "family": "class",
+      "review": "composition - diamond is omnidirectional. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "lukilabs/beautiful-mermaid",
+          "release": "1.1.3",
+          "url": "https://registry.npmjs.org/beautiful-mermaid/-/beautiful-mermaid-1.1.3.tgz",
+          "path": "src/__tests__/class-arrow-directions.test.ts",
+          "line": 272
+        }
+      ],
+      "geometry": []
+    },
+    {
+      "id": "regression:e4a085e0bd0b6697",
+      "source": "graph TD\n  A[Line1<br>Line2]",
+      "family": "flowchart",
+      "review": "normalizes <br> to newline. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "lukilabs/beautiful-mermaid",
+          "release": "1.1.3",
+          "url": "https://registry.npmjs.org/beautiful-mermaid/-/beautiful-mermaid-1.1.3.tgz",
+          "path": "src/__tests__/multiline-labels.test.ts",
+          "line": 27
+        }
+      ],
+      "geometry": []
+    },
+    {
+      "id": "regression:767a3f8c3e47e0bd",
+      "source": "graph TD\n  A -->|First<br>Second| B",
+      "family": "flowchart",
+      "review": "normalizes <br> in edge labels. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "lukilabs/beautiful-mermaid",
+          "release": "1.1.3",
+          "url": "https://registry.npmjs.org/beautiful-mermaid/-/beautiful-mermaid-1.1.3.tgz",
+          "path": "src/__tests__/multiline-labels.test.ts",
+          "line": 72
+        }
+      ],
+      "geometry": []
+    },
+    {
+      "id": "regression:4e705c28aa5294b7",
+      "source": "graph TD\n  A[Single Line]",
+      "family": "flowchart",
+      "review": "renders single-line node label without tspan. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "lukilabs/beautiful-mermaid",
+          "release": "1.1.3",
+          "url": "https://registry.npmjs.org/beautiful-mermaid/-/beautiful-mermaid-1.1.3.tgz",
+          "path": "src/__tests__/multiline-labels.test.ts",
+          "line": 257
+        }
+      ],
+      "geometry": []
+    },
+    {
+      "id": "regression:0be4872941973688",
+      "source": "graph TD\n        A --> B",
+      "family": "flowchart",
+      "review": "simple two-node vertical: final segment should be vertical. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "lukilabs/beautiful-mermaid",
+          "release": "1.1.3",
+          "url": "https://registry.npmjs.org/beautiful-mermaid/-/beautiful-mermaid-1.1.3.tgz",
+          "path": "src/__tests__/edge-approach-direction.test.ts",
+          "line": 99
+        }
+      ],
+      "geometry": [
+        "edge-node-clearance",
+        "orthogonal-node-approach"
+      ]
+    },
+    {
+      "id": "regression:d5156efceddb697a",
+      "source": "graph TD\n        Input --> Processor\n        Config --> Processor",
+      "family": "flowchart",
+      "review": "fan-out pattern: multiple edges to one target should all be vertical. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "lukilabs/beautiful-mermaid",
+          "release": "1.1.3",
+          "url": "https://registry.npmjs.org/beautiful-mermaid/-/beautiful-mermaid-1.1.3.tgz",
+          "path": "src/__tests__/edge-approach-direction.test.ts",
+          "line": 117
+        }
+      ],
+      "geometry": [
+        "edge-node-clearance",
+        "orthogonal-node-approach"
+      ]
+    },
+    {
+      "id": "regression:baf6f401f414d53b",
+      "source": "graph TD\n        Input --> Processor\n        Config --> Processor\n        Processor --> Output\n        Processor --> Log",
+      "family": "flowchart",
+      "review": "fan-in and fan-out pattern: all vertical approaches. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "lukilabs/beautiful-mermaid",
+          "release": "1.1.3",
+          "url": "https://registry.npmjs.org/beautiful-mermaid/-/beautiful-mermaid-1.1.3.tgz",
+          "path": "src/__tests__/edge-approach-direction.test.ts",
+          "line": 140
+        }
+      ],
+      "geometry": [
+        "edge-node-clearance",
+        "orthogonal-node-approach"
+      ]
+    },
+    {
+      "id": "regression:b37bebe1a745f1d6",
+      "source": "\n        graph LR\n          A -.-> B\n      ",
+      "family": "flowchart",
+      "review": "renders dotted edges with \u2504 in unicode mode. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "lukilabs/beautiful-mermaid",
+          "release": "1.1.3",
+          "url": "https://registry.npmjs.org/beautiful-mermaid/-/beautiful-mermaid-1.1.3.tgz",
+          "path": "src/__tests__/ascii-edge-styles.test.ts",
+          "line": 31
+        }
+      ],
+      "geometry": []
+    },
+    {
+      "id": "regression:aea8f60cfe1ecdeb",
+      "source": "\n        graph LR\n          A ==> B\n      ",
+      "family": "flowchart",
+      "review": "renders thick edges with \u2501 in unicode mode. Literal nodes, arrow endpoints, labels and specified geometry are required; no candidate output supplies expectations.",
+      "origins": [
+        {
+          "repository": "lukilabs/beautiful-mermaid",
+          "release": "1.1.3",
+          "url": "https://registry.npmjs.org/beautiful-mermaid/-/beautiful-mermaid-1.1.3.tgz",
+          "path": "src/__tests__/ascii-edge-styles.test.ts",
+          "line": 78
+        }
+      ],
+      "geometry": []
+    }
+  ]
+}

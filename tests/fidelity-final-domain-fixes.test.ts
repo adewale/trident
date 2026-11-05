@@ -12,7 +12,7 @@ beforeAll(async () => { browser = await chromium.launch({ headless: true, execut
 afterAll(async () => { await browser?.close() })
 const directory = new URL('./fixtures/final-domain-fixes/', import.meta.url)
 const provenance = JSON.parse(readFileSync(new URL('provenance.json', directory), 'utf8')) as any[]
-const reviewed = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8')) as any[]
+const reviewed = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString()) as any[]
 const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases as any[]
 async function inspect(index: number, change?: string): Promise<PaintEvidence> {
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } })
@@ -51,6 +51,8 @@ for (const index of [48, 49, 52, 53]) test('C4 complete bracket rows are present
 test('a known C4 badge cannot exempt a separate undeclared body', async () => {
   const extra = `document.querySelector('svg').insertAdjacentHTML('beforeend','<g class="node"><rect x="14" y="12" width="160" height="30" fill="yellow" stroke="black"/><text x="20" y="34" fill="black">[ENTERPRISE]</text></g>')`
   expect(check(await inspect(48, extra), 'painted-node-ownership').status).toBe('failed')
+})
+test('a C4 badge cannot borrow an unrequested kind', async () => {
   const wrong = `const e=[...document.querySelectorAll('text')].find(e=>e.textContent==='[ENTERPRISE]');e.textContent='[UNREQUESTED KIND]'`
   expect(check(await inspect(48, wrong), 'painted-node-ownership').status).toBe('failed')
 })

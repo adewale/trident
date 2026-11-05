@@ -15,7 +15,7 @@ beforeAll(async () => { browser = await chromium.launch({ executablePath: chromi
 afterAll(async () => { await browser?.close() })
 const directory = new URL('./fixtures/domain-facts/', import.meta.url)
 const provenance = JSON.parse(readFileSync(new URL('provenance.json', directory), 'utf8')) as { file: string; family: string; caseId: string; sourceSha256: string; svgSha256: string }[]
-const documentation = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8')) as any[]
+const documentation = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString()) as any[]
 const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases as any[]
 const authored = expandedFidelityCases()
 const contract = (file: string) => { const entry = provenance.find(entry => entry.file === file)!; const reviewed = authored.find(item => item.id === entry.caseId) ?? documentation.find(item => item.id === entry.caseId); return { entry, source: reviewed.source ?? sources.find(item => item.id === entry.caseId).source, expected: structuredClone(reviewed.expected) as MeaningExpectation } }

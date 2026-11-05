@@ -1,0 +1,5 @@
+{
+  "about": "Tracked files larger than limitBytes fail tests/large-files.test.ts unless listed here with the reason the current results need them. Prefer gzip for inputs and keep rendered outputs and raw archives out of the repository.",
+  "limitBytes": 2000000,
+  "allow": {}
+}

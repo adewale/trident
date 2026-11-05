@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test'
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync, realpathSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -30,7 +30,8 @@ test('private transport dependency byte changes invalidate context without a pac
     const after = benchmarkContext(root, node, ['entry.ts'], ['@modelcontextprotocol/sdk/client/index.js'])
     expect(before.dependencies).toEqual(after.dependencies)
     expect(before.producers).toEqual(after.producers)
-    expect(before.optionalTools[0]!.entry).toBe(entry)
+    // macOS temporary folders are symlinks (/var -> /private/var); the context records the real path.
+    expect(before.optionalTools[0]!.entry).toBe(realpathSync(entry))
     expect(before.optionalTools).not.toEqual(after.optionalTools)
   } finally {
     rmSync(root, { recursive: true, force: true })

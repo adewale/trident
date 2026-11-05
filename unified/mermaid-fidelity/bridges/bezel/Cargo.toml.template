@@ -1,0 +1,17 @@
+# Filled in by build.ts: {{BEZEL_CRATE}} is the prepared, checksum-verified bezel-mermaid
+# crate (package bezel-mermaid, lib name `mermaid`).
+[package]
+name = "bezel-bridge"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[[bin]]
+name = "bezel-bridge"
+path = "src/main.rs"
+
+[dependencies]
+bezel-mermaid = { path = "{{BEZEL_CRATE}}" }
+serde_json = { version = "1", features = ["preserve_order"] }
+
+[workspace]

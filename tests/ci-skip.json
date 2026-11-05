@@ -1,0 +1,6 @@
+{
+  "about": "Test files excluded from test:ci, each with its reason. Every other tests/*.test.ts runs in CI. Remove an entry when its reason no longer holds.",
+  "skip": {
+    "compiled-artifact-version": "Imports community preparation modules, which refuse to load in CI by design (ci-policy-enforce.ts); it runs locally."
+  }
+}

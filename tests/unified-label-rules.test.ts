@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { qualifyOutput, withReferenceLabels } from '../unified/qualification.ts'
 import type { UnifiedWorkload } from '../unified/types.ts'
+import { pinnedOracle } from './pinned-oracle.ts'
 
 // Retained failing outputs from the published campaign: the tool drew the label, the check missed it.
 const fixtures = join(import.meta.dir, 'fixtures/label-rules')
@@ -111,7 +112,7 @@ test('literal punctuation is required in SVG and terminal labels, including pie 
   }
 })
 
-test('the pinned oracle distinguishes literal labels from actual Markdown before measurement', async () => {
+test.skipIf(!pinnedOracle)('the pinned oracle distinguishes literal labels from actual Markdown before measurement', async () => {
   const sources = [
     { ...workload([]), id: 'pie-literal', family: 'pie', source: 'pie\n"__proto__" : 1' },
     { ...workload([]), id: 'flow-label-types', source: 'flowchart LR\nA["`**Bold**`"] -->|"`*Edge*`"| B["__proto__"]' },

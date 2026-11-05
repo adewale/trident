@@ -66,16 +66,16 @@ function explicitSvgLength(value: string | undefined): number {
 }
 /** Independent XML syntax/namespace/canvas admission. The light parser loads
  * lazily here, after the caller has stopped its public API clock. */
-function svgXmlInspection(output: string): { findings: string[]; root?: SvgInspectionElement; xmlWellFormed?: boolean } {
-  const strict = svgXmlDocument(output)
+function svgXmlInspection(output: string, requireCanvas = true): { findings: string[]; root?: SvgInspectionElement; xmlWellFormed?: boolean } {
+  const strict = svgXmlDocument(output, requireCanvas)
   if (!strict.findings.length) return { ...strict, xmlWellFormed: true }
   // HTML serializes void elements unclosed (Mermaid's foreignObject <br>); that alone is admitted.
   const closed = closeHtmlVoidElements(output)
   if (closed === output) return strict
-  const relaxed = svgXmlDocument(closed)
+  const relaxed = svgXmlDocument(closed, requireCanvas)
   return relaxed.findings.length ? strict : { ...relaxed, xmlWellFormed: false }
 }
-function svgXmlDocument(output: string): { findings: string[]; root?: SvgInspectionElement } {
+function svgXmlDocument(output: string, requireCanvas = true): { findings: string[]; root?: SvgInspectionElement } {
   const parser = svgXmlParser(),
     errors: string[] = [],
     stack: SvgInspectionElement[] = []
@@ -110,8 +110,23 @@ function svgXmlDocument(output: string): { findings: string[]; root?: SvgInspect
     .map(Number)
   const width = explicitSvgLength(root.attributes.width),
     height = explicitSvgLength(root.attributes.height)
-  if (!(viewBox?.length === 4 && viewBox.every(Number.isFinite) && viewBox[2]! > 0 && viewBox[3]! > 0) && !(width > 0 && Number.isFinite(width) && height > 0 && Number.isFinite(height))) return { findings: ['SVG has no positive finite viewBox or explicit canvas'] }
+  if (requireCanvas && !(viewBox?.length === 4 && viewBox.every(Number.isFinite) && viewBox[2]! > 0 && viewBox[3]! > 0) && !(width > 0 && Number.isFinite(width) && height > 0 && Number.isFinite(height))) return { findings: ['SVG has no positive finite viewBox or explicit canvas'] }
   return { findings: [], root }
+}
+
+/** Mechanical format alone. Deliberately excludes finite-canvas admission,
+ * source-echo, label, nonblank and drawing checks. Browser HTML-void SVG
+ * serialization is admitted under the same explicit normalization as the host. */
+export function qualifyOutputFormat(output: unknown, format: string): Qualification {
+  if (format === 'png') {
+    const value = inspectPng(output, false)
+    return { ok: !value.findings.length, findings: value.findings, scope: 'format-only', ...(value.unavailable ? { unavailable: true } : {}) }
+  }
+  if (['terminal', 'ascii', 'unicode'].includes(format)) return { ok: typeof output === 'string', findings: typeof output === 'string' ? [] : ['Expected a returned terminal string'], scope: 'format-only' }
+  if (format !== 'svg') return { ok: false, unavailable: true, findings: ['No declared mechanical format checker'], scope: 'format-only' }
+  if (typeof output !== 'string') return { ok: false, findings: ['Expected a returned SVG string'], scope: 'format-only' }
+  const value = svgXmlInspection(output, false)
+  return { ok: !!value.root && !value.findings.length, findings: value.findings, scope: 'format-only' }
 }
 
 const wholeTerminalLabel = (label: string): RegExp => new RegExp(`(?<![\\p{L}\\p{N}\\p{M}_])${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}\\p{M}_])`, 'u')
