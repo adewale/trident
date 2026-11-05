@@ -49,6 +49,7 @@ export function terminalTextValidity(value: unknown, source: string): Validity {
 /** Marks of Mermaid statement syntax: links and arrows, a node id glued to its shape
  * bracket, class/style shorthands, shape data, key: value fields and macro calls. */
 const statementSyntax = /--|==|-\.|\.-|->|<-|~~~|\w[\[\(\{>]|:::|@\{|\w\s*:\s|\w\(/
+const fieldlessSyntax = /--|==|-\.|\.-|->|<-|~~~|\w[\[\(\{>]|:::|@\{|\w\(/
 
 /**
  * Source statements a drawing does not show verbatim: the diagram's header line and every
@@ -57,7 +58,8 @@ const statementSyntax = /--|==|-\.|\.-|->|<-|~~~|\w[\[\(\{>]|:::|@\{|\w\s*:\s|\w
  * the statements, or the source in a box) shows them; a renderer that understood it shows
  * their labels. Left out: prose inside accessibility blocks, class bodies (Mermaid draws
  * members such as `+quack()` verbatim), and any line that also occurs inside another line,
- * since that text is an authored label too (`mindmap` above `root((mindmap))`).
+ * since that text is an authored label too (`mindmap` above `root((mindmap))`), and
+ * `key: value` data fields inside { … } blocks.
  */
 export function rawStatements(source: string) {
   const lines = source.replace(/^\s*---\s*\n[\s\S]*?\n---\s*\n/, '').replace(/%%\{[\s\S]*?\}%%/g, '').split('\n').map(line => squash(line)).filter(line => line && !line.startsWith('%%'))
@@ -65,12 +67,16 @@ export function rawStatements(source: string) {
   const [header, ...rest] = lines
   const classes = /^classDiagram/.test(header!)
   const body: string[] = []
-  let block = 0
+  let block = 0, braces = 0
   for (const line of rest) {
     const opens = (classes && /^class\b.*\{\s*$/.test(line)) || /^accDescr\s*\{/.test(line)
     if (block) { if (line.startsWith('}')) block--; continue }
     if (opens) { if (!line.includes('}')) block++; continue }
-    body.push(line)
+    if (line.startsWith('}')) { braces = Math.max(0, braces - 1); continue }
+    // Inside any other { … } block a `key: value` line is a data field that drawings show
+    // as written (an event-modeling payload `price: 20.4`); other syntax still counts.
+    if (!(braces && !fieldlessSyntax.test(line))) body.push(line)
+    if (line.endsWith('{')) braces++
   }
   const label = (line: string) => lines.some(other => other !== line && other.includes(line))
   const statements = [...new Set(body.filter(line => line.length >= 8 && statementSyntax.test(line) && !label(line) && !(classes && /^[+\-#~]/.test(line))))]

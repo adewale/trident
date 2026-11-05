@@ -74,4 +74,7 @@ test('raw statements leave out authored labels, accessibility prose and class me
   expect(rawStatements('classDiagram\n  class Duck {\n    +quack()\n  }\n  Animal <|-- Duck').statements).toEqual(['Animal <|-- Duck'])
   expect(rawStatements('graph LR\n  accDescr {\n    A simple flow: one step\n  }\n  A[Start] --> B[End]').statements).toEqual(['A[Start] --> B[End]'])
   expect(rawStatements('---\ntitle: T\n---\n%%{init: {}}%%\nsequenceDiagram\n  Alice->>Bob: Hi').header).toBe('sequenceDiagram')
+  // Data fields inside { … } blocks are drawn as written; other syntax inside blocks still counts.
+  expect(rawStatements("eventmodeling\ntf 01 cmd AddItem [[AddItem01]]\ndata AddItem01 {\n  description: 'john'\n  price: 20.4\n}").statements).toEqual([])
+  expect(rawStatements('stateDiagram-v2\n  state Busy {\n    Working --> Waiting\n  }').statements).toEqual(['Working --> Waiting'])
 })
