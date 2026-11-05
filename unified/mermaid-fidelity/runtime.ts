@@ -296,7 +296,7 @@ function nativeParse(family: string, source: string) {
       active?.unsupported.push('Actual native parse returned ' + result.value.body.kind)
       throw Error('Native semantic support unavailable')
     }
-    return { ...result.value.body, ...(result.value.meta?.title !== undefined ? { title: result.value.meta.title } : {}), ...(result.value.meta?.accessibility?.title !== undefined ? { accessibilityTitle: result.value.meta.accessibility.title } : {}) }
+    return { ...result.value.body, ...(result.value.meta?.title !== undefined ? { title: result.value.meta.title } : {}), ...(result.value.meta?.accessibility?.title !== undefined ? { accessibilityTitle: result.value.meta.accessibility.title } : {}), ...(result.value.meta?.accessibility?.descr !== undefined ? { accessibilityDescription: result.value.meta.accessibility.descr } : {}) }
   }
   if (job.target.tool === 'beautiful') {
     const names: Record<string, string> = { flowchart: 'parseMermaid', state: 'parseMermaid', sequence: 'parseSequenceDiagram', class: 'parseClassDiagram', er: 'parseErDiagram' }
