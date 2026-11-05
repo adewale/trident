@@ -8,7 +8,7 @@ import {docsSourceAdmission,docsSourceSemanticHash} from '../unified/docs-source
 import {reviewDocumentationSource,requiredDocumentationObligations} from '../unified/docs-source-review.ts'
 import {makeSvgObservationBinding} from '../fidelity/svg-assessment.ts'
 import {planFidelityCriteria} from '../fidelity/ledger.ts'
-const reviews=JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json',import.meta.url),'utf8')) as DocsDrawingReview[]
+const reviews=JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString()) as DocsDrawingReview[]
 const inputs=JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz',import.meta.url))).toString()).cases
 const original=reviews.find(row=>row.id==='packages/mermaid/src/docs/syntax/agentflow.md:19')!,input=inputs.find((row:any)=>row.id===original.id)
 

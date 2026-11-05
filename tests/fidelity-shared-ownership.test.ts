@@ -13,7 +13,7 @@ beforeAll(async () => { browser = await chromium.launch({ executablePath: chromi
 afterAll(async () => { await browser?.close() })
 const directory = new URL('./fixtures/shared-ownership/', import.meta.url)
 const provenance = JSON.parse(readFileSync(new URL('provenance.json', directory), 'utf8')) as any[]
-const documentation = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8')) as any[]
+const documentation = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString()) as any[]
 const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases as any[]
 async function inspect(index: number, change?: string, generic = false): Promise<PaintEvidence> {
   const entry = provenance.find(entry => entry.index === index)!, current = documentation[index], page = await browser.newPage({ viewport: { width: 1600, height: 1200 } })

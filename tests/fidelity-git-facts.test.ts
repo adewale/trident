@@ -8,7 +8,7 @@ import { chromiumExecutable } from './helpers/environment.ts'
 setDefaultTimeout(30_000)
 const directory = new URL('./fixtures/git-observer/', import.meta.url)
 const provenance = JSON.parse(readFileSync(new URL('provenance.json', directory), 'utf8')) as any[]
-const reviews = JSON.parse(readFileSync(new URL('../corpus/docs-reviewed.json', import.meta.url), 'utf8')) as any[]
+const reviews = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-reviewed.json.gz', import.meta.url))).toString()) as any[]
 const sources = JSON.parse(gunzipSync(readFileSync(new URL('../corpus/docs-source-inventory.json.gz', import.meta.url))).toString()).cases as any[]
 let browser: any
 beforeAll(async () => { browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable }) })
