@@ -33,6 +33,11 @@ jobs:
       - run: sudo apt-get install -y tesseract-ocr
       # Chromium inspects checked-in fixtures; no project or benchmark runs.
       - run: bunx playwright install --with-deps chromium
+      # The first Chromium launch on a fresh runner is slow (font and profile caches), and it
+      # used to land inside whichever browser test ran first, timing that test out. Launch
+      # once here so no test pays for it.
+      - name: Warm up Chromium
+        run: bun -e "const { chromium } = await import('playwright'); const t = performance.now(); const b = await chromium.launch(); await (await b.newPage()).setContent('<p>warm</p>'); await b.close(); console.log('first Chromium launch', Math.round(performance.now() - t), 'ms')"
       - run: bun run lint
       - run: bun run typecheck
       - run: bun commands.ts results:snapshot --check
@@ -63,4 +68,9 @@ jobs:
       - run: command -v tesseract || brew install tesseract
       # Chromium inspects checked-in fixtures; no project or benchmark runs.
       - run: bunx playwright install --with-deps chromium
+      # The first Chromium launch on a fresh runner is slow (font and profile caches), and it
+      # used to land inside whichever browser test ran first, timing that test out. Launch
+      # once here so no test pays for it.
+      - name: Warm up Chromium
+        run: bun -e "const { chromium } = await import('playwright'); const t = performance.now(); const b = await chromium.launch(); await (await b.newPage()).setContent('<p>warm</p>'); await b.close(); console.log('first Chromium launch', Math.round(performance.now() - t), 'ms')"
       - run: bun run test:ci
