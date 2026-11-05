@@ -1,8 +1,4 @@
 {
   "about": "Test files excluded from test:ci, each with its reason. Every other tests/*.test.ts runs in CI. Remove an entry when its reason no longer holds.",
-  "skip": {
-    "fidelity-selection": "Needs a Mermaid source checkout at the release tag mermaid@12.2.0, which CI does not clone.",
-    "portable-kit": "Legacy portable kit: builds a copied Trident package (scheduled for removal with the legacy pipelines).",
-    "portable-measurement": "Legacy portable kit: needs a local pinned Mermaid oracle install (scheduled for removal with the legacy pipelines)."
-  }
+  "skip": {}
 }

@@ -1,9 +1,0 @@
-{
-  "schema": "trident-measurement-smoke-v1",
-  "purpose": "Integration acceptance of real public releases and immutable replay; no accuracy or speed ranking",
-  "projects": ["mermaid-js/mermaid", "obsidianmd/pele", "lukilabs/beautiful-mermaid"],
-  "docsCaseIds": ["packages/mermaid/src/docs/syntax/flowchart.md:686", "packages/mermaid/src/docs/syntax/classDiagram.md:362", "packages/mermaid/src/docs/syntax/pie.md:8"],
-  "terminalProject": "lukilabs/beautiful-mermaid",
-  "formats": ["svg", "png"],
-  "selection": "Three unchanged documentation examples selected before collecting any project output: an edge, a lollipop interface and a pie with unequal values. The full documentation denominator remains planned; this is a partial integration check. Terminal uses the unchanged active corpus."
-}

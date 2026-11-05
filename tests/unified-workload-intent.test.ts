@@ -1,6 +1,5 @@
 import { expect, test } from 'bun:test'
 import { declaredWorkloadIntent, positiveRenderInput, workloadAppliesToOutput } from '../unified/workload-intent.ts'
-import { positiveRenderAdmission } from '../unified/league.ts'
 import type { BenchmarkObservation, UnifiedWorkload } from '../unified/types.ts'
 
 const workload = (id: string, intent?: UnifiedWorkload['intent'], accepted?: boolean): UnifiedWorkload => ({ id, family: 'xychart', source: 'xychart\nx-axis X', features: [], provenance: 'Independently authored scope example', ...(intent ? { intent } : {}), ...(accepted === undefined ? {} : { referenceAdmission: { accepted } }) })
@@ -27,23 +26,3 @@ test('pinned rejection is an observed input boundary, not a positive renderer fa
   expect(workloadAppliesToOutput(rejected, 'parse')).toBe(true)
 })
 
-test('positive rendering scores preserve every excluded or unavailable population and do not rewrite historical rows', () => {
-  const inputs = [workload('positive', 'render', true), workload('fragment', 'parse-only', true), workload('negative', 'negative-admission', false), workload('rejected', 'render', false), workload('old'), workload('no-oracle', 'render')]
-  const observations = inputs.map(input => row(input.id, 'failed')).concat(row('omitted-input', 'passed'))
-  expect(positiveRenderAdmission(observations, { workloads: new Map(inputs.map(input => [input.id, input])) })).toEqual({ passed: 0, failed: 1, blocked: 0, unavailable: 0, excludedParserOnly: 1, excludedDiagnostic: 1, excludedReferenceRejected: 1, unknownIntent: 1, unknownReference: 1, unmapped: 1 })
-  expect(observations[1]!.status).toBe('failed')
-  expect(positiveRenderAdmission([row('old', 'passed')], { workloads: new Map([['old', workload('old')]]) })).toBeNull()
-  const missing = [...inputs, workload('missing-positive', 'render', true)]
-  expect(positiveRenderAdmission(observations, { workloads: new Map(missing.map(input => [input.id, input])) })?.unavailable).toBe(1)
-  expect(() => positiveRenderAdmission([row('positive', 'passed'), row('positive', 'failed')], { workloads: new Map(missing.map(input => [input.id, input])) })).toThrow('Duplicate positive-render observation')
-})
-
-
-test('unknown serialized intent values cannot shrink the positive denominator as diagnostics', () => {
-  for (const intent of ['render-v2', '', null, false, {}]) {
-    const input = { ...workload('unknown-intent', undefined, true), intent } as unknown as UnifiedWorkload
-    const result = positiveRenderAdmission([row(input.id, 'passed')], { workloads: new Map([[input.id, input]]) })!
-    expect(result.unknownIntent).toBe(1)
-    expect(result.excludedDiagnostic).toBe(0)
-  }
-})

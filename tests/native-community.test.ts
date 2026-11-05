@@ -5,7 +5,6 @@ import { spawnSync } from 'node:child_process'
 import { Resvg } from '@resvg/resvg-js'
 import { nativePngArtifact, admitNativeLaunch } from '../native-flutter/community-launch.mjs'
 import { prepareNativeCommunity } from '../native-flutter/prepare-community.ts'
-import { verifySupport } from '../unified/support-verification.ts'
 import { runExternalCommunity } from '../unified/community-external.ts'
 import { parseOptions } from '../unified/options.ts'
 import { verifyProvidedCommunityArtifact } from '../unified/community.ts'
@@ -57,25 +56,6 @@ test('an explicit native launch rejects changed bundle bytes and conflicting amb
   expect(() => admitNativeLaunch(manifest)).toThrow('digest mismatch')
   expect(() => verifyProvidedCommunityArtifact(artifact)).toThrow('digest mismatch')
 })
-
-test('native binding flows through the ordinary frozen support collector with raster scope and separate invalid controls', async () => {
-  const { root, bundle } = fixture(), prepared = prepareNativeCommunity(bundle, join(root, 'prepared'))
-  const reportDir = join(root, 'verification')
-  await verifySupport(prepared.prepared, reportDir, { projects: ['pub:mermaid_flutter'] })
-  const report = JSON.parse(readFileSync(join(reportDir, 'report.json'), 'utf8'))
-  expect(report.projects[0].project).toBe('pub:mermaid_flutter')
-  const output = report.projects[0].outputs[0]
-  expect(output).toMatchObject({ plannedInputs: 6, passed: 6, controlCounts: { planned: 2, passed: 2, failed: 0, blocked: 0, missing: 0 } })
-  expect(output.observations.every((row: any) => row.metrics.qualification === 'decoded-raster-content')).toBe(true)
-  expect(output.observations.every((row: any) => !row.samplesMs && !row.metrics.firstMs)).toBe(true)
-  expect(report.limits).toContain('no label or topology credit')
-  const argv = prepared.artifact.args!
-  expect(argv).toHaveLength(1)
-  const node = JSON.parse(readFileSync(prepared.prepared, 'utf8'))[0]
-  const rows = await runExternalCommunity(node, [{ id: 'after-restore', family: 'flowchart', source: 'flowchart LR; A-->B', expectedLabels: ['A', 'B'], features: [], provenance: 'Synthetic transport invocation' }], 'png', 1, parseOptions(['--out', join(root, 'another-job'), '--profile', 'smoke']))
-  expect(rows[0]).toMatchObject({ status: 'passed', runtime: 'Native Linux Flutter release' })
-  expect(rows[0]!.metrics?.qualification).toBe('decoded-raster-content')
-}, 60_000)
 
 
 test('repointing a saved native manifest cannot launch a bundle outside its artifact seal', () => {

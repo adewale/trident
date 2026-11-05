@@ -14,10 +14,7 @@
       "**/*.jsonc",
       "!node_modules/**",
       "!.cache/**",
-      "!portable/dist/**",
       "!corpus/**",
-      "!docs/evidence/b0/**",
-      "!bench-report/**",
       "!results/**"
     ]
   },

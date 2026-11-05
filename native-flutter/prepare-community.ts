@@ -17,7 +17,7 @@ export function prepareNativeCommunity(bundle: string, out: string) {
 }
 if (import.meta.main) {
   const args = process.argv.slice(2)
-  if (args.length === 1 && args[0] === '--help') console.log('bun native-flutter/prepare-community.ts --bundle RELEASE_BUNDLE --out FRESH_DIRECTORY\nSeals an existing community_worker.dart native release bundle for normal support:verify or bench --suites community with --projects pub:mermaid_flutter. No catalog override is needed. Builds and renders nothing.')
+  if (args.length === 1 && args[0] === '--help') console.log('bun native-flutter/prepare-community.ts --bundle RELEASE_BUNDLE --out FRESH_DIRECTORY\nSeals an existing community_worker.dart native release bundle as the prepared pub:mermaid_flutter artifact for the benchmark collectors. No catalog override is needed. Builds and renders nothing.')
   else {
     const values = new Map<string, string>()
     for (let i = 0; i < args.length; i += 2) {
