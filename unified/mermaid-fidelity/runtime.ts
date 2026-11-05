@@ -39,22 +39,48 @@ const contexts = new Map<string, any>(),
  * jison callback protocol are not part of it. Recorded as a known nonpass. */
 function unsupportedOperation(reason: string): never {
   // The verdict comes from the candidate's own interface, so it counts as exercised.
-  if (active) active.calls++
-  active?.unsupported.push(reason)
+  if (active && !failureReport()) {
+    active.calls++
+    active.unsupported.push(reason)
+  }
   throw Error('Unsupported candidate operation: ' + reason)
+}
+/**
+ * Whether a read happens while an assertion that has already failed formats its message
+ * or diff (chai's inspect, pretty-format, Vitest's diff and error serialisation). Those
+ * reads are not observations: a test that failed `toHaveLength(2)` stays failed, rather
+ * than becoming unsupported because the message printed a declared-absent field. Snapshot
+ * matchers serialise values to compare them, so reads under them still count.
+ */
+const REPORTING = /[\\/]@vitest[\\/](?:pretty-format|utils[\\/]dist[\\/](?:diff|error|chunk-_commonjsHelpers))[\\/.]|\bat (?:\S+\.)?(?:objDisplay|getMessage|inspect\w*|formatValue)\b.*[\\/]chai[\\/]index\.js/
+function failureReport() {
+  const limit = Error.stackTraceLimit
+  Error.stackTraceLimit = 80
+  const stack = new Error().stack ?? ''
+  Error.stackTraceLimit = limit
+  return REPORTING.test(stack) && !/[\\/]@vitest[\\/]snapshot[\\/]/.test(stack)
 }
 // Mermaid database members that change or compute state rather than observe a parse.
 const DATABASE_OPERATION = /^(?:add|set|update|define|make|insert|remove|push|pop|enter|exit|apply|toggle|commit|branch|merge|checkout|cherryPick|draw|lookUp|sanitize|edgeStrTo|emit[A-Z]|parse[A-Z])/
 // Mermaid database API that observes Mermaid's own state rather than a parse result.
-const DATABASE_API = new Set(['getConfig', 'getConfigField', 'exists', 'createModel', 'prettyPrint', 'bindFunctions'])
+// preserveCommentsWhenParsing is a DiagramDB flag that Mermaid's Diagram pipeline reads, not a parse result.
+const DATABASE_API = new Set(['getConfig', 'getConfigField', 'exists', 'createModel', 'prettyPrint', 'bindFunctions', 'preserveCommentsWhenParsing'])
+/** Database members that return Mermaid's renderer layout data. They are unsupported for
+ * every candidate (4 November policy) whether or not a diagram has been parsed. */
+const RENDERER_LAYOUT: Record<string, Record<string, string>> = {
+  mindmap: { getData: "Mermaid's mindmap getData() is its renderer's layout data" },
+  class: { getData: "Mermaid's class getData() is its renderer's layout data under the host configuration" },
+  architecture: { getDataStructures: "Mermaid's architecture getDataStructures() is its renderer's layout computation" },
+}
+const PUBLISHES_ON_SUCCESS = new Set(['usecase'])
 const mermaidDatabaseMember = (key: unknown) => typeof key === 'string' && (DATABASE_OPERATION.test(key) || DATABASE_API.has(key))
 export class AdapterGap extends Error {}
 function gap(reason: string): never {
-  active?.gaps.add(reason)
+  if (!failureReport()) active?.gaps.add(reason)
   throw new AdapterGap('TRIDENT_ADAPTER_GAP: ' + reason)
 }
 function deferred(reason: string): any {
-  active?.gaps.add(reason)
+  if (active && !failureReport()) active.gaps.add(reason)
   const value = new Proxy(function () {}, {
     get(_t, key) {
       if (key === 'then' || key === 'asymmetricMatch' || key === 'toJSON') return undefined
@@ -426,6 +452,14 @@ function nativeAst(family: string, source: string): any {
           : slices && typeof slices === 'object'
             ? Object.entries(slices).map(([label, value]) => ({ $type: 'PieSection', label, value }))
             : undefined
+    // Frankenmermaid drops pie_meta entirely when no slice is written (`pie showData` has
+    // none): there are no sections, and whether showData was written is not carried.
+    const metaless = job.target.project === 'Dicklesworthstone/frankenmermaid' && !meta
+    if (metaless) {
+      const value: any = { $type: 'Pie', title: raw.title, accTitle: raw.meta?.acc_title, accDescr: raw.meta?.acc_descr, sections: [] }
+      Object.defineProperty(value, 'showData', { enumerable: true, get: () => unsupportedOperation('Frankenmermaid drops pie_meta, and with it showData, when no slice is written') })
+      return { value, lexerErrors: [], parserErrors: [] }
+    }
     if (!sections) return gap('Native pie sections are unavailable')
     return { value: { $type: 'Pie', title: raw.title ?? meta?.title, accTitle: raw.accTitle ?? raw.accessibilityTitle ?? raw.meta?.acc_title, accDescr: raw.accDescr ?? raw.accessibilityDescription ?? raw.meta?.acc_descr, showData: raw.showData ?? (meta ? meta.show_data === true : undefined), sections }, lexerErrors: [], parserErrors: [] }
   } catch (error) {
@@ -507,9 +541,17 @@ function context(family: string) {
     const target: any = {
       clear,
       parse(source: string) {
+        const before = { raw, view, parsed }
         parsed = true
-        raw = nativeParse(family, source)
-        view = projectView(family, raw)
+        try {
+          raw = nativeParse(family, source)
+          view = projectView(family, raw)
+        } catch (error) {
+          // Mermaid's chevrotain usecase parser publishes its model only after a successful
+          // parse, so a read after a rejected parse sees the database as it was before.
+          if (PUBLISHES_ON_SUCCESS.has(family)) ({ raw, view, parsed } = before)
+          throw error
+        }
       },
     }
     const proxy: any = new Proxy(target, {
@@ -520,6 +562,8 @@ function context(family: string) {
         // where this target receives them at all.
         const constants = job.target.tool === 'mermaid' ? undefined : mermaidConstants(job.target.project, family, false)
         if (constants && key in constants && !(key in view)) return constants[key]
+        const layout = job.target.tool === 'mermaid' ? undefined : RENDERER_LAYOUT[family]?.[key]
+        if (layout) return unsupportedOperation(layout)
         if (!parsed && raw === undefined && !(key in view) && typeof key === 'string') {
           const model = emptyModel()
           if (model?.unsupported) return unsupportedOperation(model.unsupported)
@@ -660,7 +704,15 @@ export function moduleFor(family: string, source: string, file: string, locals: 
           },
         },
       }
-    if (family === '<shared>') return boundModule({ Diagram: deferred('Diagram.fromText without a diagram family') }, c, locals)
+    // A shared test's Diagram.fromText drives Mermaid's own detection and registry: its
+    // diagram type ids, external diagram registration and comment cleaning. A candidate
+    // offers a parser per family, not that API.
+    if (family === '<shared>')
+      return {
+        Diagram: {
+          fromText: () => unsupportedOperation("Diagram.fromText in a shared test (Mermaid's diagram detection, type ids and registry)"),
+        },
+      }
     return {
       Diagram: {
         // The candidate's own parser for this file's family, observed through the same database view.
