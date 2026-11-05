@@ -1134,15 +1134,20 @@ const DART_AST = {
       services: raw.services.filter(item => !item.isJunction).map(item => astNode('Service', { id: item.id, title: item.label || undefined, icon: item.icon ?? undefined, ...(item.group ? { in: item.group } : {}) }, hooks)),
       groups: raw.groups.map(item => astNode('Group', { id: item.id, title: item.label || undefined, icon: item.icon ?? undefined, ...(item.parent ? { in: item.parent } : {}) }, hooks)),
     }, 'Architecture', AST_FIELDS.Architecture, { title: "mermaid_core's architecture model keeps no title", accTitle: "mermaid_core's architecture model keeps no accessibility title", accDescr: "mermaid_core's architecture model keeps no accessibility description" }, hooks),
+  // classDef rows are kept apart from the tree, in a map by name: their position among the
+  // rows (and a repeated definition) is not kept, so with any classDef the row list is not
+  // the model's to give. A row's indentation width is not kept either; a :::class selector is.
   Treemap: (raw, hooks) => {
-    if (raw.classes instanceof Map ? raw.classes.size : raw.classes && Object.keys(raw.classes).length) return astNode('Treemap', {}, hooks)
+    const classDefs = raw.classes instanceof Map ? raw.classes.size : raw.classes && Object.keys(raw.classes).length
+    const absent = { accTitle: "mermaid_core's treemap parser accepts accTitle and ignores it", accDescr: "mermaid_core's treemap parser accepts accDescr and ignores it", ...(classDefs ? { TreemapRows: "mermaid_core keeps treemap classDefs in a map by name, apart from the rows, so their position among the rows is not kept" } : {}) }
     const rows = []
     const walk = node => {
-      rows.push(astNode('TreemapRow', { item: astNode(node.isLeafNode ? 'Leaf' : 'Section', { name: node.label, ...(node.isLeafNode ? { value: node.value } : {}) }, hooks) }, hooks))
+      const item = astNode(node.isLeafNode ? 'Leaf' : 'Section', { name: node.label, ...(node.isLeafNode ? { value: node.value } : {}), classSelector: node.cssClass ?? undefined }, hooks)
+      rows.push(astNode('TreemapRow', { item }, hooks, { indent: "mermaid_core keeps the treemap tree, not each row's indentation" }))
       for (const child of node.children ?? []) walk(child)
     }
-    for (const root of raw.roots ?? []) walk(root)
-    return astNode('Treemap', { TreemapRows: rows, title: raw.title ?? undefined }, hooks)
+    if (!classDefs) for (const root of raw.roots ?? []) walk(root)
+    return astNode('Treemap', { ...(classDefs ? {} : { TreemapRows: rows }), title: raw.title ?? undefined }, hooks, absent)
   },
 }
 const AST_VIEWS = { 'crabtalk/bezel': PORT_AST, 'Latias94/merman': PORT_AST, 'obsidianmd/pele': PORT_AST, 'orestesgaolin/mermaid': DART_AST, 'pub:mermaid_flutter': DART_AST }

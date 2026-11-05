@@ -377,15 +377,15 @@ test('Treemap AST: agentic-mermaid rows in source order, Leaf only where a value
   expect(xmermaid.TreemapRows[1].item.value).toBe(100)
 })
 
-test('Railroad AST: mermaid_core rules by name; definitions stay a gap the bridge must close', () => {
+test('Railroad AST: mermaid_core rules by name; a folded definition is not the written expression', () => {
   const { hooks, log } = verdicts()
   const raw = { rules: [{ name: 'rule', expr: { items: [{ text: 'terminal' }, { text: 'a' }] } }, { name: 'next', expr: { text: 'rule' } }], title: 'Example Grammar' }
   const railroad = nativeAstView('orestesgaolin/mermaid', 'Railroad', raw, hooks)
   expect(railroad.title).toBe('Example Grammar')
   expect(railroad.rules.map((rule: any) => rule.name)).toEqual(['rule', 'next'])
   expect(() => railroad.accTitle).toThrow('unsupported')
-  expect(() => railroad.rules[0].definition).toThrow('gap')
-  expect(log.at(-1)).toBe('gap: RailroadRule.definition')
+  expect(() => railroad.rules[0].definition).toThrow('unsupported')
+  expect(log.at(-1)).toContain('one-item sequence or choice')
 })
 
 test('Architecture AST: titles only where written; ambiguous bare nodes are not services', () => {

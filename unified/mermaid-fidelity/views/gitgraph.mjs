@@ -626,12 +626,12 @@ function termaidArchitecture(raw, hooks) {
 }
 
 // Railroad. mermaid_core 0.3.2 RailroadDiagram { rules: RailroadRule { name, expr }, title }
-// keeps no accessibility text. Its expression classes (RailroadTerminal, NonTerminal,
-// Special, Sequence, Choice, ...) reach the bridge without their class names, so a rule's
-// definition stays unmapped (a Trident gap) until the bridge reports them.
+// keeps no accessibility text. Its expression parser drops a group's parentheses and folds
+// a one-item sequence or choice into its item (railroad.dart _parseSequence, _parseChoice),
+// so no expression's written form can be told from it: a rule's definition is not kept.
 const dartRailroad = (raw, hooks) =>
   gitAst('Railroad', {
-    rules: raw.rules.map(rule => gitAst('RailroadRule', { name: rule.name }, hooks)),
+    rules: raw.rules.map(rule => gitAst('RailroadRule', { name: rule.name, definition: no("mermaid_core folds a group, and a one-item sequence or choice, into its item, so a rule's written expression is not kept") }, hooks)),
     title: raw.title ?? undefined,
     accTitle: no("mermaid_core's railroad model keeps no accessibility title"),
     accDescr: no("mermaid_core's railroad model keeps no accessibility description"),

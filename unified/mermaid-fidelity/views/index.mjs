@@ -8,8 +8,9 @@ import sequence from './sequence.mjs'
 import state from './state.mjs'
 import gitgraph from './gitgraph.mjs'
 import misc from './misc.mjs'
+import dart from './dart.mjs'
 
-const modules = () => [ports, frankenmermaid, sequence, state, gitgraph, misc]
+const modules = () => [ports, frankenmermaid, sequence, state, gitgraph, misc, dart]
 
 /** The getters every registered module offers for this project and family, merged. */
 export function extraSchemaView(project, family, raw, hooks) {
