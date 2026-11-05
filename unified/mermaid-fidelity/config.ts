@@ -72,12 +72,10 @@ export default {
     // the largest per-file cost; the control keeps jsdom everywhere (Mermaid needs it).
     environmentMatchGlobs: job.target.tool === 'mermaid' ? [] : job.files.filter((file: any) => file.environment === 'node').map((file: any) => [file.absolute, 'node']),
     setupFiles: [resolve(import.meta.dirname, 'setup.ts')],
-    // Files are isolated from each other in fresh VM contexts inside long-lived worker
-    // processes (a new process per file cost about 0.7 s each); tests inside a file still
-    // run one at a time. setup.ts rebuilds structuredClone results in each file's realm
-    // (realm.ts). TRIDENT_FIDELITY_POOL=forks reruns with a process per file, to confirm
-    // that outcomes and audits match.
-    pool: process.env.TRIDENT_FIDELITY_POOL ?? 'vmForks',
+    // One process per test file. The vmForks pool (VM contexts in long-lived workers) was
+    // measured on 5 November: no faster with two or more workers, and it changed outcomes,
+    // because values built by host APIs such as structuredClone come from another realm.
+    pool: 'forks',
     fileParallelism: (job.workers ?? 1) > 1,
     maxWorkers: job.workers ?? 1,
     maxConcurrency: 1,
