@@ -1050,10 +1050,12 @@ function reviewedSchemaView(project, family, raw, hooks) {
 // and a label equal to its name cannot be told apart from what was written. Only the
 // unambiguous parts are claimed; reading the rest is a Trident gap.
 const AST_FIELDS = { Radar: ['title', 'accTitle', 'accDescr', 'axes', 'curves', 'options'], Axis: ['name', 'label'], Curve: ['name', 'label', 'entries'], Entry: ['axis', 'value'] }
-function astNode(type, fields, hooks) {
-  return record({ $type: type, ...fields }, type, AST_FIELDS[type] ?? [], {}, hooks)
+function astNode(type, fields, hooks, absent = {}) {
+  return record({ $type: type, ...fields }, type, AST_FIELDS[type] ?? [], absent, hooks)
 }
-const named = (item, hooks, type, extra = {}) => astNode(type, { name: item.name, ...(item.label !== item.name ? { label: item.label } : {}), ...extra }, hooks)
+// A resolved label equal to its name was either written that way or defaulted: only that
+// ambiguous reading is unsupported (as for every view), not a Trident gap.
+const named = (item, hooks, type, extra = {}) => astNode(type, { name: item.name, ...(item.label !== item.name ? { label: item.label } : {}), ...extra }, hooks, item.label === item.name ? { label: `the resolved ${type.toLowerCase()} records a label equal to its name the same as no label` } : {})
 const DATABASE_AST = {
   Radar: (raw, hooks) =>
     astNode('Radar', {
@@ -1062,7 +1064,7 @@ const DATABASE_AST = {
       ...(raw.accDescr != null ? { accDescr: raw.accDescr } : { accDescr: undefined }),
       axes: raw.axes.map(axis => named(axis, hooks, 'Axis')),
       curves: raw.curves.map(curve => named(curve, hooks, 'Curve', { entries: curve.entries.map(value => astNode('Entry', { value }, hooks)) })),
-    }, hooks),
+    }, hooks, { options: 'the resolved radar database merges option defaults in, so written options cannot be told from defaults' }),
   Info: (_raw, hooks) => astNode('Info', {}, hooks),
 }
 // Pele, Bezel and Latias94/merman return Mermaid's database records for these families.
@@ -1093,7 +1095,8 @@ const PORT_AST = {
     if (raw.classes && Object.keys(raw.classes).length) return astNode('Treemap', { title: raw.title ?? undefined }, hooks)
     const rows = []
     const walk = node => {
-      rows.push(astNode('TreemapRow', { item: astNode(node.children?.length ? 'Section' : 'Leaf', { name: node.name, ...(node.value !== undefined ? { value: node.value } : {}) }, hooks) }, hooks))
+      // In Mermaid's AST a row is a Leaf exactly when a value was written.
+      rows.push(astNode('TreemapRow', { item: astNode(node.value != null ? 'Leaf' : 'Section', { name: node.name, ...(node.value != null ? { value: node.value } : {}) }, hooks) }, hooks))
       for (const child of node.children ?? []) walk(child)
     }
     for (const root of raw.roots ?? raw.root?.children ?? []) walk(root)

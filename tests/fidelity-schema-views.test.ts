@@ -91,9 +91,9 @@ test('Ondine has no model, and an AST view claims only what a resolved database 
   const radar = nativeAstView('crabtalk/bezel', 'Radar', { title: 'T', accTitle: null, accDescr: null, axes: [{ name: 'a', label: 'Axis A' }, { name: 'b', label: 'b' }], curves: [{ name: 'c', label: 'c', entries: [1, 2] }], options: { showLegend: true } }, hooks)
   expect(radar.$type).toBe('Radar')
   expect(radar.axes[0].label).toBe('Axis A')
-  expect(() => radar.axes[1].label).toThrow('gap')
+  expect(() => radar.axes[1].label).toThrow('unsupported')
   expect(radar.curves[0].entries.map((e: any) => [e.$type, e.value])).toEqual([['Entry', 1], ['Entry', 2]])
-  expect(() => radar.options).toThrow('gap')
+  expect(() => radar.options).toThrow('unsupported')
   // Without a reviewed view an accepted parse is an AST of the right type whose fields are gaps.
   const bare = nativeAstView('xai-org/grok-build', 'Radar', {}, hooks)
   expect(bare.$type).toBe('Radar')
