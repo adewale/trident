@@ -8,7 +8,7 @@ reuse the version freeze from 2 November 2026; changing presentation runs no ren
 
 | Benchmark | Population | Ordering | Missing results |
 |---|---|---|---|
-| DaveBench | 1,342 documentation occurrences, separately for SVG, PNG and terminal text (3 November collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
+| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->4 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
 | Drawing Correctness | The same 127 cases, separately for SVG and terminal text | More whole cases with every expected label shown and no raw syntax; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed: cases with no label to check, or unrun |
 | Mermaid Fidelity | The expanded upstream callbacks that pinned Mermaid itself passes | More passed callbacks; equal counts share a rank. **Possible rank** shows the positions still reachable | Candidate adapter gaps remain unassessed |
 
@@ -59,8 +59,8 @@ checks, and a correct renderer may be slow; both questions have useful answers.
 These gaps mostly describe unfinished Trident implementation, rather than demonstrated
 limitations of the projects being benchmarked.
 
-**Fidelity runs every candidate on the whole selected suite.** All 26 candidates
-plus Mermaid attempted all 316 selected core-package files on 4 November against one
+**Fidelity runs every candidate on the whole selected suite.** All <!-- fact:fidelity-candidates -->26<!-- /fact --> candidates
+plus Mermaid attempted all <!-- fact:fidelity-files -->316<!-- /fact --> selected core-package files (<!-- fact:fidelity-collected -->5 November 2026<!-- /fact -->) against one
 shared Mermaid 12.2.0 control run. With the reviewed schema views and unsupported
 operations described below, the bridged projects' unassessed callbacks fell from
 roughly 1,000–2,650 each to 250–1,000 (Grok renderer 2,146 → 336, Mermaid ASCII
@@ -204,9 +204,9 @@ Unknown schemas and import or transport errors remain explicit per-test gaps;
 `scripts/fidelity-gaps.ts` lists them per project and cause.
 
 **The reference path defines the scored population.** The control is the public
-Mermaid 12.2.0 package behind the same import substitution the candidates get. On
-4 November 5,737 callbacks expanded: Mermaid passes **3,602**, the scored population;
-2,034 are reference-unqualified and 101 upstream-skipped. 15 of the 316 selected files
+Mermaid 12.2.0 package behind the same import substitution the candidates get. In the
+current collection <!-- fact:fidelity-expanded -->5,737<!-- /fact --> callbacks expanded: Mermaid passes **<!-- fact:fidelity-population -->3,599<!-- /fact -->**, the scored population;
+<!-- fact:fidelity-unqualified -->2,037<!-- /fact --> are reference-unqualified and <!-- fact:fidelity-skipped -->101<!-- /fact --> upstream-skipped. 15 of the <!-- fact:fidelity-files -->316<!-- /fact --> selected files
 do not load and 52 files remain outside the core Vitest runner.
 
 Most of the earlier unqualified callbacks were reference-adapter defects, now fixed:
@@ -239,8 +239,8 @@ text is read from the document without a browser, and terminal text directly. Em
 error, echoed or zero-size outputs are nonpasses; the one case whose correct drawing
 is empty passes only without text. Edges, arrow direction, layout and styling are
 not checked. The earlier geometry checkers left 2,805 of 6,350 results unassessed;
-the label check leaves 20 of 4,318: the one corpus chart that names no labels,
-wherever a renderer draws it. On the same outputs it agrees with every result the geometry
+the label check leaves <!-- fact:drawing-unassessed -->0<!-- /fact --> of <!-- fact:drawing-rows -->4,318<!-- /fact --> (the one chart that names no labels is judged on raw-syntax
+leakage alone). On the same outputs it agrees with every result the geometry
 checkers had confirmed correct.
 
 PNG is not part of Drawing Correctness. OCR found every label in only 43 of 127

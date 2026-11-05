@@ -84,7 +84,7 @@ pixel identity with Mermaid.
 Earlier versions measured painted geometry: which shapes enclose which labels,
 which strokes connect which bodies, arrowheads and dash patterns. That was
 expensive to extend and left 2,805 of 6,350 results unassessed. The label check
-resolves all but 20 of 4,318 and agrees with every result the geometry checkers had
+leaves <!-- fact:drawing-unassessed -->0<!-- /fact --> of <!-- fact:drawing-rows -->4,318<!-- /fact --> unassessed and agrees with every result the geometry checkers had
 confirmed correct; results they had failed on edge or layout grounds can now pass.
 
 **Formats:** SVG text is read from the document and terminal text directly,
@@ -154,10 +154,10 @@ inventory systematically. Do not preserve the 49-case selection as the target.
 
 **Current implementation:** `mermaid:fidelity` inventories 368 files at Mermaid
 commit `1fb7869866dd619168d840291c9c54b4f129758b` (the `mermaid@12.2.0` tag),
-attempts the 316 core-package files in original Vitest, and lists the other 52 files
-outside that runner. The 4 November collection expanded 5,737 callbacks; Mermaid 12.2.0
-passes 3,602 of them through the reference adapter, and those are the scored
-population. Every candidate attempted all 316 files against one shared control run
+attempts the <!-- fact:fidelity-files -->316<!-- /fact --> core-package files in original Vitest, and lists the other 52 files
+outside that runner. The current collection (<!-- fact:fidelity-collected -->5 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->5,737<!-- /fact --> callbacks; Mermaid 12.2.0
+passes <!-- fact:fidelity-population -->3,599<!-- /fact --> of them through the reference adapter, and those are the scored
+population. Every candidate attempted all <!-- fact:fidelity-files -->316<!-- /fact --> files against one shared control run
 (`--reuse-reference`): 13 through their JavaScript parsers and 13 through parser
 bridges, small programs in each project's own language that call its own parser
 (`unified/mermaid-fidelity/bridges/`), read through reviewed per-project schema views.

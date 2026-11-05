@@ -1,4 +1,5 @@
-import { retainedBenchmarkLeagues } from './three-benchmark-report.ts'
+import { retainedBenchmarkLeagues, currentBenchmarkResultFiles } from './three-benchmark-report.ts'
+import { factOutputs, publishedFacts } from './published-facts.ts'
 import { drawingOutcomeColumns, drawingOutcomeStatistics, drawingStatisticsColumns, type DrawingOutcomeCounts } from './drawing-outcomes.ts'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
@@ -586,9 +587,12 @@ export function renderPublicResults(snapshot: ResultsSnapshot, catalog: LineageC
 export function writeSnapshot(snapshot: ResultsSnapshot, catalog: LineageCatalog, root: string, check = false, includeRecordedProjects = false) {
   const leagues = retainedBenchmarkLeagues(root, snapshot.projectNames)
   if (leagues !== undefined) {
-    const page = join(root, 'RESULTS.md')
-    if (check) { if (!existsSync(page) || readFileSync(page, 'utf8') !== leagues) throw Error('Results snapshot is stale: ' + page) }
-    else writeFileSync(page, leagues)
+    // RESULTS.md and every number quoted in the docs come from the same result files.
+    const [davebench, drawing, fidelity] = currentBenchmarkResultFiles.slice(0, 3).map(path => JSON.parse(readFileSync(join(root, path), 'utf8')))
+    const outputs: [string, string][] = [[join(root, 'RESULTS.md'), leagues], ...factOutputs(root, publishedFacts(davebench, drawing, fidelity))]
+    for (const [path, expected] of outputs)
+      if (check) { if (!existsSync(path) || readFileSync(path, 'utf8') !== expected) throw Error('Results snapshot is stale: ' + path + ' (run bun commands.ts results:snapshot)') }
+      else writeFileSync(path, expected)
     return
   }
   const frozen = join(root, 'results/baseline.json')

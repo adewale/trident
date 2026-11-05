@@ -41,3 +41,15 @@ test('the retired PNG collector gives migration guidance without admitting bench
     expect(result.stdout).toContain('bench --suites docs --docs-formats png')
   }
 })
+
+test('test:ci runs every test file except the reviewed exclusions, each with a reason', async () => {
+  const { ciTestFiles } = await import('../commands.ts')
+  const { readdirSync, readFileSync } = await import('node:fs')
+  const { resolve, basename } = await import('node:path')
+  const root = resolve(import.meta.dir, '..')
+  const skip = JSON.parse(readFileSync(resolve(root, 'tests/ci-skip.json'), 'utf8')).skip
+  const all = readdirSync(resolve(root, 'tests')).filter(name => name.endsWith('.test.ts'))
+  const run = ciTestFiles(root).map(file => basename(file))
+  expect(run.length + Object.keys(skip).length).toBe(all.length)
+  for (const [name, reason] of Object.entries(skip)) expect([name, String(reason).length > 20]).toEqual([name, true])
+})
