@@ -5,6 +5,7 @@ import { performance } from 'node:perf_hooks'
 import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
 import { communityCliRequest } from './community-cli-request.ts'
 import { davebenchAdmission, davebenchInputs, davebenchRankings, type DavebenchRun } from './davebench.ts'
+import { watchMemory } from './process-memory.ts'
 import { terminalTextValidity } from './davebench-validity.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
@@ -60,9 +61,11 @@ export class TerminalCallWorker {
     if (typeof this.child.exitCode === 'number' || typeof this.child.signalCode === 'string') throw Error('Terminal worker has stopped')
     const started = performance.now()
     return new Promise(done => {
-      const timer = setTimeout(() => { this.pending.delete(id); this.close(); done({ outcome: 'timeout', ms: performance.now() - started }) }, timeoutMs)
+      const timer = setTimeout(() => { this.pending.delete(id); unwatch(); this.close(); done({ outcome: 'timeout', ms: performance.now() - started }) }, timeoutMs)
+      // A worker that runs out of bounds is stopped; its pending call reports the reason.
+      const unwatch = watchMemory(this.child.pid, () => { clearTimeout(timer); this.pending.delete(id); this.close(); done({ outcome: 'error', ms: performance.now() - started, error: 'memory limit' }) })
       this.pending.set(id, value => {
-        clearTimeout(timer)
+        clearTimeout(timer); unwatch()
         const ms = value.outcome === 'error' && value.ms === 0 ? performance.now() - started : value.ms
         if (value.outcome !== 'completed' || !this.admit) return done(typeof value.invalid === 'string' ? { outcome: value.outcome, ms, invalid: value.invalid } : typeof value.error === 'string' ? { outcome: value.outcome, ms, error: value.error } : { outcome: value.outcome, ms })
         const validity = this.admit(value.output, source)
@@ -89,7 +92,9 @@ export async function terminalCliCall(artifact: CommunityArtifact, source: strin
     const child = spawn(artifact.executable!, args, { stdio: ['pipe', stdout, 'pipe'] })
     child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) })
     const timer = setTimeout(() => { timeout = true; child.kill('SIGKILL') }, timeoutMs)
-    const finish = (outcome: string, error?: string) => { if (finished) return; finished = true; clearTimeout(timer); done({ outcome, ms: performance.now() - started, ...(error ? { error } : {}) }) }
+    let memory = false
+    const unwatch = watchMemory(child.pid, () => { memory = true; child.kill('SIGKILL') })
+    const finish = (outcome: string, error?: string) => { if (finished) return; finished = true; clearTimeout(timer); unwatch(); done({ outcome: memory ? 'error' : outcome, ms: performance.now() - started, ...(memory ? { error: 'memory limit' } : error ? { error } : {}) }) }
     child.once('error', thrown => finish('error', String(thrown.message).slice(0, 160))); child.once('close', code => finish(timeout ? 'timeout' : code === 0 ? 'completed' : 'error', code === 0 || timeout ? undefined : (stderr.trim().split('\n').at(-1) || 'exit code ' + code).slice(0, 160)))
     child.stdin!.on('error', () => {}); child.stdin!.end(request.inputMode === 'stdin' ? source : undefined)
   })

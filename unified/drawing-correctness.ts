@@ -1,7 +1,8 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { resolve, join } from 'node:path'
-import { spawnSync } from 'node:child_process'
+import { spawn } from 'node:child_process'
+import { watchMemory } from './process-memory.ts'
 import { chromium } from 'playwright'
 import { drawingCases, type DrawingCase } from '../fidelity/drawing/corpus.ts'
 import { DrawingWorker } from '../fidelity/drawing/worker.ts'
@@ -16,15 +17,27 @@ import { svgTextValidity, terminalTextValidity } from './davebench-validity.ts'
 
 class InadmissibleOutput extends Error {}
 
-const nativeCall = (artifact: any, source: string, format: string) => {
+const nativeCall = async (artifact: any, source: string, format: string) => {
   const binding = artifact.outputBindings?.[format] ?? (format === 'terminal' ? { args: artifact.args ?? [], input: artifact.input ?? 'stdin' } : undefined)
   if (!binding) throw Error('No declared native ' + format + ' binding')
   const temporary = binding.args.some((arg: string) => arg.includes('{output}')) ? mkdtempSync(join(tmpdir(), 'trident-drawing-')) : undefined
   const destination = temporary ? join(temporary, 'output.' + format) : undefined
   try {
     const args = binding.args.map((arg: string) => (destination ? arg.replaceAll('{output}', destination) : arg))
-    const result = spawnSync(artifact.executable, args, { input: source, timeout: 15000, maxBuffer: 32 * 1024 * 1024 })
-    if (result.error || result.status !== 0) throw Error(result.error?.message ?? result.stderr?.toString().slice(0, 300))
+    const result = await new Promise<{ stdout: Buffer; stderr: string; status: number | null; error?: string }>(done => {
+      const child = spawn(artifact.executable, args, { stdio: ['pipe', 'pipe', 'pipe'] })
+      const out: Buffer[] = []
+      let stderr = '', size = 0, error: string | undefined
+      child.stdout!.on('data', (chunk: Buffer) => { size += chunk.length; if (size <= 32 * 1024 * 1024) out.push(chunk) })
+      child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) })
+      const timer = setTimeout(() => { error = 'spawn ' + artifact.executable + ' ETIMEDOUT'; child.kill('SIGKILL') }, 15000)
+      const unwatch = watchMemory(child.pid, () => { error = 'memory limit'; child.kill('SIGKILL') })
+      child.once('error', thrown => { error ??= thrown.message })
+      child.once('close', status => { clearTimeout(timer); unwatch(); done({ stdout: Buffer.concat(out), stderr, status, error }) })
+      child.stdin!.on('error', () => {})
+      child.stdin!.end(source)
+    })
+    if (result.error || result.status !== 0) throw Error(result.error ?? result.stderr.slice(0, 300))
     return destination ? readFileSync(destination) : result.stdout
   } finally {
     if (temporary) rmSync(temporary, { recursive: true, force: true })
@@ -120,7 +133,7 @@ export async function main(args = process.argv.slice(2)) {
             let svg: string, assessment: any
             try {
               svg = native
-                ? nativeCall(artifact, test.source, 'svg').toString('utf8')
+                ? (await nativeCall(artifact, test.source, 'svg')).toString('utf8')
                 : await bounded(
                     session.page.evaluate(async (c: any) => {
                       const v = await (globalThis as any).__fidelityCommunity.render(c.source, 'drawing_' + c.id.replace(/\W/g, '_'))
@@ -173,9 +186,9 @@ export async function main(args = process.argv.slice(2)) {
           for (const test of cases) {
             if (!native && (!worker || worker.child.exitCode !== null)) await openWorker()
             const result = native
-              ? (() => {
+              ? await (async () => {
                   try {
-                    return { ok: true, text: nativeCall(native, test.source, 'terminal').toString('utf8') }
+                    return { ok: true, text: (await nativeCall(native, test.source, 'terminal')).toString('utf8') }
                   } catch (e) {
                     return { ok: false, error: String(e) }
                   }

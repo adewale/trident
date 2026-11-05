@@ -14,6 +14,7 @@ import { communityCatalogFile, tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../portable/ci-policy.ts'
 import { defaultChromium } from './benchmark-context.ts'
 import { errorPatternSources, pngBytesValidity, svgTextValidity } from './davebench-validity.ts'
+import { watchMemory } from './process-memory.ts'
 
 const revision = '370c4af57f43cb0bda05f4a9fe2d99c912ba16dd'
 export function davebenchInputs(upstream: string, commit = revision) {
@@ -231,10 +232,11 @@ export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: s
     // Respect explicit stdout '-' bindings; Merman rejects /dev/null as a nonregular output file.
     const child = spawn(artifact.executable!, binding.args.map(arg => arg.replaceAll('{output}', output)), { stdio: ['pipe', stdout, 'pipe'] })
     child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) }); child.stdin!.on('error', () => {}); child.stdin!.end(source)
-    let timeout = false
+    let timeout = false, memory = false
     const timer = setTimeout(() => { timeout = true; child.kill('SIGKILL') }, timeoutMs)
-    child.once('error', () => { clearTimeout(timer); done({ outcome: 'error', ms: performance.now() - started }) })
-    child.once('close', code => { clearTimeout(timer); const ms = performance.now() - started; done(timeout ? { outcome: 'timeout', ms } : code === 0 ? { outcome: 'completed', ms } : { outcome: 'error', ms, error: (stderr.trim().split('\n').at(-1) || 'exit code ' + code).slice(0, 160) }) })
+    const unwatch = watchMemory(child.pid, () => { memory = true; child.kill('SIGKILL') })
+    child.once('error', () => { clearTimeout(timer); unwatch(); done({ outcome: 'error', ms: performance.now() - started }) })
+    child.once('close', code => { clearTimeout(timer); unwatch(); const ms = performance.now() - started; done(memory ? { outcome: 'error', ms, error: 'memory limit' } : timeout ? { outcome: 'timeout', ms } : code === 0 ? { outcome: 'completed', ms } : { outcome: 'error', ms, error: (stderr.trim().split('\n').at(-1) || 'exit code ' + code).slice(0, 160) }) })
   })
   closeSync(stdout)
   if (result.outcome !== 'completed') return result

@@ -1,10 +1,16 @@
+import { watchMemory } from '../../unified/process-memory.ts'
+
 /** One small JSON-lines transport for existing terminal bindings and the raster observer. */
 export class DrawingWorker {
+  /** Set when the worker passed the renderer memory limit and was stopped. */
+  memoryExceeded = false
   child: Bun.Subprocess<'pipe', 'pipe', 'ignore'>
   pending = new Map<number, { done: (r: any) => void; timer: ReturnType<typeof setTimeout> }>()
   next = 0
   constructor(args: string[]) {
     const child = (this.child = Bun.spawn(args, { stdin: 'pipe', stdout: 'pipe', stderr: 'ignore' }))
+    const unwatch = watchMemory(child.pid, () => { this.memoryExceeded = true; child.kill('SIGKILL') })
+    void child.exited.then(unwatch)
     void (async () => {
       const reader = child.stdout.getReader(),
         decoder = new TextDecoder()
@@ -30,7 +36,8 @@ export class DrawingWorker {
       }
       for (const r of this.pending.values()) {
         clearTimeout(r.timer)
-        r.done({ ok: false, error: 'Worker exited' })
+        // A call that ran the worker past the memory limit is the renderer's failure.
+        r.done({ ok: false, error: this.memoryExceeded ? 'memory limit' : 'Worker exited' })
       }
       this.pending.clear()
     })()
