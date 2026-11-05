@@ -1,6 +1,8 @@
 // Reviewed git graph views: Mermaid's gitGraph database getters and the Langium GitGraph
-// AST, read from each project's own parser model. See views/index.mjs for the module
-// contract and schema-views.mjs for the doctrine; helpers are used only inside functions.
+// AST, read from each project's own parser model; and, for the same non-port projects, the
+// Radar, Treemap, Architecture and Railroad Langium ASTs (bottom of this file). See
+// views/index.mjs for the module contract and schema-views.mjs for the doctrine; helpers
+// are used only inside functions.
 //
 // Mermaid's database (gitGraphAst.ts at the pinned tag) keeps commits in a Map keyed by
 // id, each { id, message, seq, type, tags, parents, branch } with customType and customId
@@ -391,7 +393,21 @@ const AST_FIELDS = {
   Merge: ['branch', 'id', 'tags', 'type'],
   Checkout: ['branch'],
   CherryPicking: ['id', 'tags', 'parent'],
+  // radar.langium, treemap.langium and architecture.langium at the pinned tag.
+  Radar: ['title', 'accTitle', 'accDescr', 'axes', 'curves', 'options'],
+  Axis: ['name', 'label'],
+  Curve: ['name', 'label', 'entries'],
+  Treemap: ['TreemapRows', 'title', 'accTitle', 'accDescr'],
+  TreemapRow: ['item', 'indent'],
+  Section: ['name', 'classSelector'],
+  Leaf: ['name', 'value', 'classSelector'],
+  Architecture: ['title', 'accTitle', 'accDescr', 'services', 'groups', 'junctions', 'edges'],
+  Service: ['id', 'icon', 'iconText', 'title', 'in'],
+  Group: ['id', 'icon', 'title', 'in'],
+  Railroad: ['rules', 'title', 'accTitle', 'accDescr'],
+  RailroadRule: ['name', 'definition'],
 }
+/** A Langium AST node whose Absent fields are unsupported. */
 function gitAst(type, fields, hooks) {
   const present = {}, absent = {}
   for (const [key, value] of Object.entries(fields)) {
@@ -445,6 +461,182 @@ function merslimAst(raw, hooks) {
 const noStatements = name => `${name} builds its commit graph directly and keeps no statement list (checkouts and statement order are not recorded)`
 const dartAst = graphOnlyAst(noStatements('mermaid_core'), raw => ({ title: raw.title ?? undefined, accTitle: no("mermaid_core's git graph model keeps no accessibility title"), accDescr: no("mermaid_core's git graph model keeps no accessibility description") }))
 
+// ---------------------------------------------------------------------------------------
+// Other Langium ASTs these models answer (packages/parser/tests). An AST lists what was
+// written: an axis or curve label, a service or group title only when given, a curve's
+// entries as written, only the options written, treemap rows (classDef statements among
+// them) in source order. Where a model fills a default (a label equal to its name, a
+// value of 0, merged option defaults) the written form cannot be told apart, and only that
+// reading is unsupported.
+const written = (label, name, reason) => (label !== name ? label : no(reason))
+
+// Radar. agentic-mermaid RadarBody: axes and curves { id, label (the id when no label was
+// written) }, a curve's values resolved to one per axis in axis order, option defaults
+// merged (min 0, ticks 5, graticule circle, showLegend true). mermaid_core RadarChart:
+// axes and curve labels as one display string each (the label, else the name), values one
+// per axis for keyed entries, defaults merged, title. mermaid-rs-renderer keeps each curve
+// as a node whose label folds name and entries into one display string, and skips title,
+// accessibility, axis and option lines.
+function agenticRadar(raw, hooks) {
+  const label = item => written(item.label, item.id, 'agentic-mermaid stores an unlabelled radar axis or curve with its name as label')
+  return gitAst('Radar', {
+    title: raw.title,
+    accTitle: raw.accessibilityTitle,
+    // RadarBody declares no accessibility fields; captured output keeps accTitle only.
+    accDescr: no("agentic-mermaid's radar model keeps no accessibility description"),
+    axes: raw.axes.map(axis => gitAst('Axis', { name: axis.id, label: label(axis) }, hooks)),
+    curves: raw.curves.map(curve => gitAst('Curve', { name: curve.id, label: label(curve), entries: no("agentic-mermaid resolves a curve's entries to one value per axis in axis order; the written entries are not kept") }, hooks)),
+    options: no('agentic-mermaid merges radar option defaults, so the written options are not kept'),
+  }, hooks)
+}
+function dartRadar(raw, hooks) {
+  const display = 'mermaid_core keeps one display string per radar axis or curve: its label, else its name'
+  return gitAst('Radar', {
+    title: raw.title ?? undefined,
+    accTitle: no("mermaid_core's radar model keeps no accessibility title"),
+    accDescr: no("mermaid_core's radar model keeps no accessibility description"),
+    axes: raw.axes.map(() => gitAst('Axis', { name: no(display), label: no(display) }, hooks)),
+    curves: raw.curves.map(() => gitAst('Curve', { name: no(display), label: no(display), entries: no("mermaid_core resolves keyed curve entries to one value per axis; the written entries are not kept") }, hooks)),
+    options: no('mermaid_core merges radar option defaults, so the written options are not kept'),
+  }, hooks)
+}
+function mmdrRadar(_raw, hooks) {
+  const folded = "mermaid-rs-renderer keeps a radar curve only as a node whose display label folds its name and entries"
+  return gitAst('Radar', {
+    title: no('mermaid-rs-renderer skips radar titles'),
+    accTitle: no('mermaid-rs-renderer skips radar accessibility titles'),
+    accDescr: no('mermaid-rs-renderer skips radar accessibility descriptions'),
+    axes: no('mermaid-rs-renderer keeps no radar axes (they only label curve entries)'),
+    curves: no(folded),
+    options: no('mermaid-rs-renderer skips radar options'),
+  }, hooks)
+}
+
+// Treemap. agentic-mermaid TreemapBody: nodes in source order { label, value (only when
+// written), className, parentId }, classDefs in a map (their row positions not kept).
+// termaid keeps only node lines (classDef, title and accessibility lines dropped) with
+// value 0 when none was written. mermaid-rs-renderer turns every line after the header,
+// title and accessibility lines included, into a node whose display label folds name,
+// value and class.
+function agenticTreemap(raw, hooks) {
+  const rows = Object.keys(raw.classDefs ?? {}).length
+    ? no('agentic-mermaid keeps classDef statements in a map, so their position among the treemap rows is not kept')
+    : raw.nodes.map(node =>
+        gitAst('TreemapRow', {
+          item: node.value !== undefined
+            ? gitAst('Leaf', { name: node.label, value: node.value, classSelector: node.className }, hooks)
+            : gitAst('Section', { name: node.label, classSelector: node.className }, hooks),
+          indent: no("agentic-mermaid keeps a treemap row's parent, not its indentation"),
+        }, hooks))
+  return gitAst('Treemap', { TreemapRows: rows, title: raw.title, accTitle: raw.accessibilityTitle, accDescr: raw.accessibilityDescription }, hooks)
+}
+// XMermaid 0.4.2 (captured output): nodes in source order { label, value (null when none
+// written), parent }; it rejects unquoted lines (classDef, title, accessibility) and
+// ::: classes, so its rows are node rows only.
+const xmermaidTreemap = (raw, hooks) =>
+  gitAst('Treemap', {
+    TreemapRows: raw.nodes.map(node =>
+      gitAst('TreemapRow', {
+        item: node.value !== null && node.value !== undefined
+          ? gitAst('Leaf', { name: node.label, value: node.value, classSelector: no("XMermaid's treemap model keeps no class") }, hooks)
+          : gitAst('Section', { name: node.label, classSelector: no("XMermaid's treemap model keeps no class") }, hooks),
+        indent: no("XMermaid keeps a treemap row's parent, not its indentation"),
+      }, hooks)),
+    title: no("XMermaid's treemap model keeps no title"),
+    accTitle: no("XMermaid's treemap model keeps no accessibility title"),
+    accDescr: no("XMermaid's treemap model keeps no accessibility description"),
+  }, hooks)
+const termaidTreemap = (_raw, hooks) =>
+  gitAst('Treemap', {
+    TreemapRows: no('termaid keeps only treemap node lines (classDef rows are dropped) and stores a value not written as 0'),
+    title: no("termaid's treemap model keeps no title"),
+    accTitle: no("termaid's treemap model keeps no accessibility title"),
+    accDescr: no("termaid's treemap model keeps no accessibility description"),
+  }, hooks)
+const mmdrTreemap = (_raw, hooks) =>
+  gitAst('Treemap', {
+    TreemapRows: no("mermaid-rs-renderer keeps every treemap line as a node whose display label folds name, value and class"),
+    title: no('mermaid-rs-renderer keeps a treemap title line only as a node label'),
+    accTitle: no('mermaid-rs-renderer keeps a treemap accessibility line only as a node label'),
+    accDescr: no('mermaid-rs-renderer keeps a treemap accessibility line only as a node label'),
+  }, hooks)
+
+// Architecture. agentic-mermaid ArchitectureBody, zombie-mermaid { groups, services }
+// and merslim { nodes: kind group|service } give each service and group its id, icon,
+// parent and a label that is the id when no title was written (merslim keeps the
+// bracket text as written, quotes included). mermaid-rs-renderer: services are nodes in
+// node_order (a junction is a node with icon "junction" and no label; an edge to an
+// undeclared id adds a bare node), groups are subgraphs with label (the id when none)
+// and icon; a service's group is kept only when the group was declared first, a group's
+// parent never; title and accessibility lines are skipped. termaid folds a service's
+// icon into its display label and drops untitled services; a group keeps its bracket
+// text, and nests under a parent declared before it.
+const untitled = name => `${name} stores an untitled service or group with its id as label`
+function agenticArchitecture(raw, hooks) {
+  const node = (type, item) => gitAst(type, { id: item.id, icon: item.icon, ...(type === 'Service' ? { iconText: item.iconText } : {}), title: written(item.label, item.id, untitled('agentic-mermaid')), in: item.parentId }, hooks)
+  return gitAst('Architecture', { title: raw.title, accTitle: raw.accessibilityTitle, accDescr: raw.accessibilityDescription, services: raw.services.map(item => node('Service', item)), groups: raw.groups.map(item => node('Group', item)) }, hooks)
+}
+function zombieArchitecture(raw, hooks) {
+  const node = (type, item) => gitAst(type, { id: item.id, icon: item.icon, title: written(item.title, item.id, untitled('zombie-mermaid')), in: item.parent }, hooks)
+  return gitAst('Architecture', {
+    title: no("zombie-mermaid's architecture model keeps no title"),
+    accTitle: no("zombie-mermaid's architecture model keeps no accessibility title"),
+    accDescr: no("zombie-mermaid's architecture model keeps no accessibility description"),
+    services: raw.services.map(item => node('Service', item)),
+    groups: raw.groups.map(item => node('Group', item)),
+  }, hooks)
+}
+function merslimArchitecture(raw, hooks) {
+  const node = (type, item) => gitAst(type, { id: item.id, icon: item.icon, title: written(item.label, item.id, untitled('merslim')), in: item.parent }, hooks)
+  return gitAst('Architecture', {
+    title: no("merslim's architecture parser skips titles"),
+    accTitle: no("merslim's architecture parser reads no accessibility title"),
+    accDescr: no("merslim's architecture parser reads no accessibility description"),
+    services: raw.nodes.filter(item => item.kind === 'service').map(item => node('Service', item)),
+    groups: raw.nodes.filter(item => item.kind === 'group').map(item => node('Group', item)),
+  }, hooks)
+}
+function mmdrArchitecture(raw, hooks) {
+  const nodes = Object.entries(raw.nodes ?? {}).sort((a, b) => (raw.node_order?.[a[0]] ?? 0) - (raw.node_order?.[b[0]] ?? 0)).map(([, node]) => node)
+  const junction = node => node.icon === 'junction' && node.label === ''
+  // A bare node on an edge may be a service written without icon or title, or one the edge added.
+  const bare = node => !node.icon && node.label === node.id && raw.edges.some(edge => edge.from === node.id || edge.to === node.id)
+  const services = nodes.some(bare)
+    ? no('mermaid-rs-renderer adds a bare node for an edge endpoint, which cannot be told from a service written without icon or title')
+    : nodes.filter(node => !junction(node)).map(node => gitAst('Service', { id: node.id, icon: node.icon ?? undefined, title: written(node.label, node.id, untitled('mermaid-rs-renderer')), in: no("mermaid-rs-renderer keeps a service's group only when the group was declared before it") }, hooks))
+  return gitAst('Architecture', {
+    title: no('mermaid-rs-renderer skips architecture titles'),
+    accTitle: no('mermaid-rs-renderer skips architecture accessibility titles'),
+    accDescr: no('mermaid-rs-renderer skips architecture accessibility descriptions'),
+    services,
+    groups: raw.subgraphs.map(group => gitAst('Group', { id: group.id, icon: group.icon ?? undefined, title: written(group.label, group.id, untitled('mermaid-rs-renderer')), in: no("mermaid-rs-renderer keeps no group's parent group") }, hooks)),
+  }, hooks)
+}
+function termaidArchitecture(raw, hooks) {
+  const groups = raw.subgraphs ?? []
+  return gitAst('Architecture', {
+    title: no("termaid's architecture model keeps no title"),
+    accTitle: no("termaid's architecture model keeps no accessibility title"),
+    accDescr: no("termaid's architecture model keeps no accessibility description"),
+    services: no("termaid folds a service's icon into its display label and drops untitled services"),
+    groups: groups.some(group => group.children?.length)
+      ? no('termaid nests groups under their parents, so the source order of a nested group is not kept')
+      : groups.map(group => gitAst('Group', { id: group.id, icon: no("termaid's group model keeps no icon"), title: group.label, in: no("termaid keeps a group's parent only when the parent was declared first") }, hooks)),
+  }, hooks)
+}
+
+// Railroad. mermaid_core 0.3.2 RailroadDiagram { rules: RailroadRule { name, expr }, title }
+// keeps no accessibility text. Its expression classes (RailroadTerminal, NonTerminal,
+// Special, Sequence, Choice, ...) reach the bridge without their class names, so a rule's
+// definition stays unmapped (a Trident gap) until the bridge reports them.
+const dartRailroad = (raw, hooks) =>
+  gitAst('Railroad', {
+    rules: raw.rules.map(rule => gitAst('RailroadRule', { name: rule.name }, hooks)),
+    title: raw.title ?? undefined,
+    accTitle: no("mermaid_core's railroad model keeps no accessibility title"),
+    accDescr: no("mermaid_core's railroad model keeps no accessibility description"),
+  }, hooks)
+
 export default {
   schema: {
     gitgraph: {
@@ -471,6 +663,29 @@ export default {
       'pub:mermaid_flutter': dartAst,
       'evangwt/xmermaid': graphOnlyAst(noStatements('XMermaid'), () => ({ accTitle: no("XMermaid's git graph model keeps no accessibility title"), accDescr: no("XMermaid's git graph model keeps no accessibility description") })),
       'Mootikins/figurehead-rs': graphOnlyAst("figurehead's git graph model is an unordered node and edge graph with no statement list", () => ({ accTitle: no("figurehead's git graph model keeps no accessibility title"), accDescr: no("figurehead's git graph model keeps no accessibility description") })),
+    },
+    Radar: {
+      'adewale/agentic-mermaid': agenticRadar,
+      'orestesgaolin/mermaid': dartRadar,
+      'pub:mermaid_flutter': dartRadar,
+      '1jehuang/mermaid-rs-renderer': mmdrRadar,
+    },
+    Treemap: {
+      'adewale/agentic-mermaid': agenticTreemap,
+      'evangwt/xmermaid': xmermaidTreemap,
+      'fasouto/termaid': termaidTreemap,
+      '1jehuang/mermaid-rs-renderer': mmdrTreemap,
+    },
+    Railroad: {
+      'orestesgaolin/mermaid': dartRailroad,
+      'pub:mermaid_flutter': dartRailroad,
+    },
+    Architecture: {
+      'adewale/agentic-mermaid': agenticArchitecture,
+      'dfadler/zombie-mermaid': zombieArchitecture,
+      'emtyty/merslim': merslimArchitecture,
+      '1jehuang/mermaid-rs-renderer': mmdrArchitecture,
+      'fasouto/termaid': termaidArchitecture,
     },
   },
 }

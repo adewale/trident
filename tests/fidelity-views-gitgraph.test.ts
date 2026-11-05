@@ -302,3 +302,131 @@ test('GitGraph AST: merslim ops are statements; a model without one declares sta
   expect(() => termaid.statements).toThrow('unsupported')
   expect(log.at(-1)).toContain('keeps no statement list')
 })
+
+// radar-beta / title My Title / accTitle: My Accessible Title / axis ax1["Axis One"], ax2 /
+// curve c1["Curve One"] { ax1 1, ax2 2 } / curve c2 { 4, 5 } / ticks 5 / max 10
+test('Radar AST: agentic-mermaid names are its ids; a label equal to its name, entries and options are not written forms', () => {
+  const { hooks, log } = verdicts()
+  const raw = {
+    kind: 'radar',
+    title: 'My Title',
+    axes: [{ id: 'ax1', label: 'Axis One' }, { id: 'ax2', label: 'ax2' }],
+    curves: [{ id: 'c1', label: 'Curve One', values: [1, 2] }, { id: 'c2', label: 'c2', values: [4, 5] }],
+    min: 0,
+    max: 10,
+    ticks: 5,
+    graticule: 'circle',
+    showLegend: true,
+    accessibilityTitle: 'My Accessible Title',
+  }
+  const radar = nativeAstView('adewale/agentic-mermaid', 'Radar', raw, hooks)
+  expect(radar.$type).toBe('Radar')
+  expect([radar.title, radar.accTitle]).toEqual(['My Title', 'My Accessible Title'])
+  expect(() => radar.accDescr).toThrow('unsupported')
+  expect(radar.axes.map((axis: any) => [axis.$type, axis.name])).toEqual([['Axis', 'ax1'], ['Axis', 'ax2']])
+  expect(radar.axes[0].label).toBe('Axis One')
+  expect(() => radar.axes[1].label).toThrow('unsupported')
+  expect(radar.curves[0].label).toBe('Curve One')
+  expect(() => radar.curves[0].entries).toThrow('unsupported')
+  expect(log.at(-1)).toContain('one value per axis')
+  expect(() => radar.options).toThrow('unsupported')
+})
+
+test('Radar AST: mermaid_core display strings and mermaid-rs-renderer folded nodes claim only counts and title', () => {
+  const { hooks } = verdicts()
+  const dart = { axes: ['Axis One', 'ax2'], curves: [{ label: 'Curve One', values: [0, 0] }], min: 0, max: 10, title: 'My Title', ticks: 5, showLegend: false, graticule: 'polygon' }
+  for (const project of ['orestesgaolin/mermaid', 'pub:mermaid_flutter']) {
+    const radar = nativeAstView(project, 'Radar', dart, hooks)
+    expect(radar.title).toBe('My Title')
+    expect(radar.axes).toHaveLength(2)
+    expect(radar.axes[0].$type).toBe('Axis')
+    expect(() => radar.axes[0].name).toThrow('unsupported')
+    expect(radar.curves).toHaveLength(1)
+    expect(() => radar.curves[0].entries).toThrow('unsupported')
+    expect(() => radar.accTitle).toThrow('unsupported')
+  }
+  const mmdr = nativeAstView('1jehuang/mermaid-rs-renderer', 'Radar', { kind: 'Radar', nodes: {} }, hooks)
+  expect(mmdr.$type).toBe('Radar')
+  for (const field of ['title', 'axes', 'curves', 'options']) expect(() => mmdr[field]).toThrow('unsupported')
+})
+
+test('Treemap AST: agentic-mermaid rows in source order, Leaf only where a value was written', () => {
+  const { hooks } = verdicts()
+  const raw = {
+    kind: 'treemap',
+    nodes: [
+      { id: 'treemap-0', label: 'Root' },
+      { id: 'treemap-1', label: 'Child1', parentId: 'treemap-0', value: 100 },
+      { id: 'treemap-2', label: 'Sub', parentId: 'treemap-0', className: 'secClass' },
+      { id: 'treemap-3', label: 'Deep', parentId: 'treemap-2', value: 123.45, className: 'leafClass' },
+    ],
+    classDefs: {},
+    title: 'My Treemap',
+  }
+  const treemap = nativeAstView('adewale/agentic-mermaid', 'Treemap', raw, hooks)
+  expect(treemap.TreemapRows.map((row: any) => [row.item.$type, row.item.name])).toEqual([['Section', 'Root'], ['Leaf', 'Child1'], ['Section', 'Sub'], ['Leaf', 'Deep']])
+  expect(treemap.TreemapRows[3].item.value).toBe(123.45)
+  expect(treemap.TreemapRows[2].item.classSelector).toBe('secClass')
+  expect(treemap.TreemapRows[0].item.classSelector).toBeUndefined()
+  expect(treemap.title).toBe('My Treemap')
+  const withClass = nativeAstView('adewale/agentic-mermaid', 'Treemap', { ...raw, classDefs: { c: { fill: 'red' } } }, hooks)
+  expect(() => withClass.TreemapRows).toThrow('unsupported')
+  expect(() => nativeAstView('fasouto/termaid', 'Treemap', { roots: [], warnings: [] }, hooks).TreemapRows).toThrow('unsupported')
+  const xmermaid = nativeAstView('evangwt/xmermaid', 'Treemap', { type: 'treemap', nodes: [{ label: 'Root', value: null, parent: null }, { label: 'Child1', value: 100, parent: 'Root' }] }, hooks)
+  expect(xmermaid.TreemapRows.map((row: any) => [row.item.$type, row.item.name])).toEqual([['Section', 'Root'], ['Leaf', 'Child1']])
+  expect(xmermaid.TreemapRows[1].item.value).toBe(100)
+})
+
+test('Railroad AST: mermaid_core rules by name; definitions stay a gap the bridge must close', () => {
+  const { hooks, log } = verdicts()
+  const raw = { rules: [{ name: 'rule', expr: { items: [{ text: 'terminal' }, { text: 'a' }] } }, { name: 'next', expr: { text: 'rule' } }], title: 'Example Grammar' }
+  const railroad = nativeAstView('orestesgaolin/mermaid', 'Railroad', raw, hooks)
+  expect(railroad.title).toBe('Example Grammar')
+  expect(railroad.rules.map((rule: any) => rule.name)).toEqual(['rule', 'next'])
+  expect(() => railroad.accTitle).toThrow('unsupported')
+  expect(() => railroad.rules[0].definition).toThrow('gap')
+  expect(log.at(-1)).toBe('gap: RailroadRule.definition')
+})
+
+test('Architecture AST: titles only where written; ambiguous bare nodes are not services', () => {
+  const { hooks } = verdicts()
+  const agentic = {
+    kind: 'architecture',
+    title: 'sample title',
+    accessibilityTitle: 'sample accTitle',
+    accessibilityDescription: 'sample accDescr',
+    groups: [{ id: 'api', label: 'API', icon: 'cloud' }],
+    services: [{ id: 'db', label: "John's Database", icon: 'database', parentId: 'api' }, { id: 'plain', label: 'plain', icon: 'disk' }],
+    junctions: [],
+    edges: [],
+  }
+  const a = nativeAstView('adewale/agentic-mermaid', 'Architecture', agentic, hooks)
+  expect([a.title, a.accTitle, a.accDescr]).toEqual(['sample title', 'sample accTitle', 'sample accDescr'])
+  expect([a.services[0].title, a.services[0].icon, a.services[0].in]).toEqual(["John's Database", 'database', 'api'])
+  expect(() => a.services[1].title).toThrow('unsupported')
+  expect(a.groups[0].title).toBe('API')
+  const merslim = nativeAstView('emtyty/merslim', 'Architecture', { type: 'architecture', nodes: [{ id: 'api', kind: 'group', label: '"API"', icon: 'cloud' }, { id: 'db', kind: 'service', label: 'Database', icon: 'database', parent: 'api' }], edges: [] }, hooks)
+  expect(merslim.groups[0].title).toBe('"API"')
+  expect(merslim.services[0].in).toBe('api')
+  expect(() => merslim.title).toThrow('unsupported')
+  const zombie = nativeAstView('dfadler/zombie-mermaid', 'Architecture', { groups: [{ id: 'g1', icon: 'server', title: '你好世界' }], services: [], junctions: [], edges: [] }, hooks)
+  expect(zombie.groups[0].title).toBe('你好世界')
+  expect(() => zombie.title).toThrow('unsupported')
+  const mmdrRaw = {
+    kind: 'Architecture',
+    nodes: { db: { id: 'db', label: 'Database', icon: 'database' }, j1: { id: 'j1', label: '', icon: 'junction' }, web: { id: 'web', label: 'web', icon: null } },
+    node_order: { db: 0, j1: 1, web: 2 },
+    edges: [],
+    subgraphs: [{ id: 'api', label: 'API', nodes: ['db', 'j1'], icon: 'cloud' }],
+  }
+  const mmdr = nativeAstView('1jehuang/mermaid-rs-renderer', 'Architecture', mmdrRaw, hooks)
+  expect(mmdr.services.map((s: any) => s.id)).toEqual(['db', 'web'])
+  expect(mmdr.services[0].title).toBe('Database')
+  expect(() => mmdr.services[1].title).toThrow('unsupported')
+  expect(mmdr.groups[0].title).toBe('API')
+  const withEdge = nativeAstView('1jehuang/mermaid-rs-renderer', 'Architecture', { ...mmdrRaw, edges: [{ from: 'db', to: 'web' }] }, hooks)
+  expect(() => withEdge.services).toThrow('unsupported')
+  const termaid = nativeAstView('fasouto/termaid', 'Architecture', { subgraphs: [{ id: 'api', label: '"API"', node_ids: [], children: [] }], nodes: {} }, hooks)
+  expect(termaid.groups[0].title).toBe('"API"')
+  expect(() => termaid.services).toThrow('unsupported')
+})
