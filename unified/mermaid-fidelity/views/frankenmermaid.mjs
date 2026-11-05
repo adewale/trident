@@ -14,6 +14,7 @@
 // mapping was checked against captured parse() output and against Mermaid's database at
 // the pinned tag (packages/mermaid/src/diagrams/<family>/).
 import { MERMAID_CONSTANTS, PLACEMENT, SEQ_ABSENT, c4View, record, sequenceView } from '../schema-views.mjs'
+import { stateView, absent as stateAbsent } from './state.mjs'
 
 const PROJECT = 'Dicklesworthstone/frankenmermaid'
 const NAME = 'Frankenmermaid'
@@ -235,6 +236,7 @@ function state(ir, hooks) {
   }
   return {
     ...commonText(ir),
+    getData: () => stateView(stateModel(ir, { refs, styleParts }), hooks).getData(),
     getStates: states,
     getState: id => states().get(id),
     getRelations: () => rootDocument().edges.map(edge => {
@@ -244,6 +246,54 @@ function state(ir, hooks) {
     getClasses: classes,
     getDirection: () => ir.direction,
     getLinks: () => hooks.unsupported(`${NAME}'s state model keeps no click links`),
+  }
+}
+
+// The neutral state model of views/state.mjs, whose getData() is dataFetcher's layout data.
+// A state's container is the innermost group listing it (a region inside a composite); a
+// composite's is the group its own group hangs from. A concurrency region has no Mermaid id
+// in the IR. A state's label is its one description, or its description lines joined with
+// newlines (which are not split back), or absent for a bare state; a composite's label is
+// its title, its id when none was written.
+function stateModel(ir, { refs, styleParts }) {
+  const groups = ir.graph?.subgraphs ?? []
+  const region = group => /^__state_region_\d+$/.test(group.key)
+  const innermost = index => groups.filter(group => (group.members ?? []).includes(index)).find(group => !(group.children ?? []).some(child => (groups[child]?.members ?? []).includes(index)))
+  const parentKey = group => (typeof group.parent === 'number' ? groups[group.parent]?.key ?? null : groups.find(other => (other.children ?? []).includes(group.id))?.key ?? null)
+  const composite = new Map(groups.filter(group => !region(group)).map(group => [group.key, group]))
+  const descriptionsOf = (node, label) => {
+    if (composite.has(node.id)) return label === undefined || label === node.id ? [] : [label]
+    if (label === undefined) return []
+    return label.includes('\n') ? stateAbsent(`${NAME} joins a state's description lines into one display label`) : [label]
+  }
+  const states = ir.nodes.map((node, index) => {
+    const label = labelOf(ir, node.label), pseudo = STATE_PSEUDO.exec(node.id)
+    const group = composite.get(node.id)
+    const descriptions = descriptionsOf(node, label)
+    return {
+      id: node.id,
+      kind: pseudo ? pseudo[1] : node.shape === 'HorizontalBar' ? stateAbsent(`${NAME} draws fork and join states as the same HorizontalBar shape`) : STATE_TYPE[node.shape] ?? node.shape,
+      container: group ? parentKey(group) : innermost(index)?.key ?? null,
+      composite: Boolean(group),
+      label: Array.isArray(descriptions) ? descriptions[0] ?? node.id : descriptions,
+      descriptions,
+      classes: [...(node.classes ?? [])],
+      styles: refs('Node').filter(ref => ref.target.Node === index).flatMap(ref => String(ref.style).split(',').map(part => part.replace(/;/g, '').trim())),
+      singleLabel: !Array.isArray(descriptions),
+    }
+  })
+  for (const group of groups.filter(region)) states.push({ id: group.key, kind: 'default', container: parentKey(group), region: true, classes: [], styles: [], idAbsent: `${NAME} keeps a concurrency region without Mermaid's id for it` })
+  const classDefs = new Map()
+  for (const ref of refs('Class')) classDefs.set(ref.target.Class, [...(classDefs.get(ref.target.Class) ?? []), ...styleParts(ref.style)])
+  return {
+    name: NAME,
+    states,
+    transitions: ir.edges.map(edge => ({ from: ir.nodes[edge.from?.Node]?.id, to: ir.nodes[edge.to?.Node]?.id, title: labelOf(ir, edge.label) ?? '' })),
+    notes: (ir.state_notes ?? []).map(note => ({ target: note.target, position: { left: 'left of', right: 'right of' }[note.position] ?? note.position, text: note.text })),
+    classDefs: [...classDefs],
+    direction: ir.direction,
+    compositeDirection: id => composite.get(id)?.direction ?? 'TB',
+    doc: `${NAME} keeps a composite state's members, not its statement document`,
   }
 }
 

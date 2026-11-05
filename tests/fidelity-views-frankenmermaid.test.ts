@@ -464,3 +464,56 @@ test("class: members, classes, styles and namespaces; links and a method's parts
   expect(view.getNamespace('Space').label).toBe('Space')
   expect(view.getAccTitle()).toBe('T')
 })
+
+// stateDiagram-v2 / [*] --> A / A : line one / A : line two / state "Long Name" as B /
+// state Comp { [*] --> D / -- / F } / state f1 <<fork>> / A --> Comp : go / note left of A : a note /
+// style B fill:#f00
+const stateIr = {
+  diagram_type: 'State',
+  direction: 'LR',
+  nodes: [
+    { id: '__state_start', shape: 'FilledCircle', classes: [] },
+    { id: 'A', label: 1, shape: 'Rounded', classes: [] },
+    { id: 'B', label: 2, shape: 'Rounded', classes: [] },
+    { id: 'Comp', label: 3, shape: 'Rounded', classes: [] },
+    { id: '__state_start__state_Comp', shape: 'FilledCircle', classes: [] },
+    { id: 'D', shape: 'Rect', classes: [] },
+    { id: 'F', shape: 'Rect', classes: [] },
+    { id: 'f1', shape: 'HorizontalBar', classes: [] },
+  ],
+  labels: labels('line one', 'line one\nline two', 'Long Name', 'Comp', 'go'),
+  graph: {
+    subgraphs: [
+      { id: 0, key: 'Comp', title: 3, children: [1, 2], members: [4, 5, 6] },
+      { id: 1, key: '__state_region_1', parent: 0, children: [], members: [4, 5], direction: 'TB' },
+      { id: 2, key: '__state_region_2', parent: 0, children: [], members: [6] },
+    ],
+  },
+  edges: [edge(0, 1, 'Arrow'), edge(4, 5, 'Arrow'), edge(1, 3, 'Arrow', 4)],
+  style_refs: [{ target: { Node: 2 }, style: 'fill:#f00' }],
+  state_notes: [{ target: 'A', position: 'left', text: 'a note' }],
+}
+test("state getData: dataFetcher's nodes and edges from the IR; what it does not keep is not claimed", () => {
+  const { hooks } = verdicts()
+  const data = nativeSchemaView(PROJECT, 'state', stateIr, hooks).getData()
+  // A concurrency region's node has no id to compare (reading it is unsupported).
+  const byId = (id: string) =>
+    data.nodes.find((node: any) => {
+      try {
+        return node.id === id
+      } catch {
+        return false
+      }
+    })
+  expect(byId('root_start').shape).toBe('stateStart')
+  expect(byId('B')).toMatchObject({ shape: 'rect', label: 'Long Name', cssStyles: ['fill:#f00'] })
+  expect(byId('D')).toMatchObject({ shape: 'rect', label: 'D' })
+  expect(() => byId('D').parentId).toThrow('unsupported')
+  expect(byId('Comp')).toMatchObject({ shape: 'roundedWithTitle', isGroup: true, dir: 'TB' })
+  expect(() => byId('A').label).toThrow('unsupported')
+  expect(() => byId('f1').shape).toThrow('unsupported')
+  expect(() => data.nodes.find((node: any) => node.shape === 'divider').id).toThrow('unsupported')
+  expect(data.nodes.slice(-2).map((node: any) => node.shape)).toEqual(['noteGroup', 'note'])
+  expect([data.edges[0].start, data.edges[0].end, data.edges[2].start, data.edges[2].end, data.edges[2].label]).toEqual(['root_start', 'A', 'A', 'Comp', 'go'])
+  expect(() => data.edges[1].start).toThrow('unsupported')
+})
