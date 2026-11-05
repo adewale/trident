@@ -47,8 +47,10 @@ export function terminalTextValidity(value: unknown, source: string): Validity {
 }
 
 /** Marks of Mermaid statement syntax: links and arrows, a node id glued to its shape
- * bracket, class/style shorthands, shape data, key: value fields and macro calls. */
-const statementSyntax = /--|==|-\.|\.-|->|<-|~~~|\w[\[\(\{>]|:::|@\{|\w\s*:\s|\w\(/
+ * bracket, class/style shorthands, shape data and macro calls. `key: value` is not one:
+ * data records (quadrant points, payload fields, legends) are legitimately drawn as
+ * written, so a renderer that lists them is not falling back. */
+const statementSyntax = /--|==|-\.|\.-|->|<-|~~~|\w[\[\(\{>]|:::|@\{|\w\(/
 
 /**
  * Source statements a drawing does not show verbatim: the diagram's header line and every

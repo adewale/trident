@@ -13,6 +13,14 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
   const tests = (report: any) => (report?.testResults ?? []).flatMap((f: any) => f.assertionResults.map((t: any, index: number) => ({ ...t, file: f.name, index })))
   const controls = tests(reference),
     attempted = tests(candidate)
+  // A candidate file that failed to load on the candidate's own unsupported operation (a
+  // radar spec whose module-level setup parses radar, for a candidate with no radar
+  // parser) collects no tests; each of them is that unsupported operation, not a gap.
+  const unsupportedFiles = new Map<string, string>(
+    (candidate?.testResults ?? [])
+      .filter((f: any) => !f.assertionResults.length && /^Unsupported candidate operation: /.test(f.message ?? ''))
+      .map((f: any) => [f.name, String(f.message).split('\n')[0]!.replace(/^Unsupported candidate operation: /, '')]),
+  )
   // Index every report and audit by (file, index, full name): the first entry wins, as find() did.
   const index = (rows: any[], name: (row: any) => string) => {
     const map = new Map<string, any>()
@@ -48,7 +56,7 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
           ? 'reference-unqualified'
           : // A refused parse, an operation the candidate does not offer or a concept its
             // model does not carry means the test cannot pass, whatever else Trident maps.
-            result && evidence?.unsupported?.length
+            (result && evidence?.unsupported?.length) || (!result && unsupportedFiles.has(control.file))
             ? 'unsupported'
             : !result || !evidence || evidence.gaps.length || !evidence.calls || unmappedMemberCall
               ? 'trident-blocked'
@@ -67,7 +75,7 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
           ? 'Reference native-operation/adapter guard did not qualify'
           : unmappedMemberCall
             ? 'Original ClassMember.getDisplayDetails has no native schema binding; no renderer defect is established'
-            : (status === 'unsupported' && evidence.unsupported.join('; ')) || evidence?.gaps?.join('; ') || evidence?.unsupported?.join('; ') || result?.failureMessages?.join('\n').slice(0, 1000) || (result ? undefined : 'Candidate test not collected'),
+            : (status === 'unsupported' && (evidence?.unsupported?.join('; ') || unsupportedFiles.get(control.file))) || evidence?.gaps?.join('; ') || evidence?.unsupported?.join('; ') || result?.failureMessages?.join('\n').slice(0, 1000) || (result ? undefined : unsupportedFiles.get(control.file) ?? 'Candidate test not collected'),
     }
   })
 }

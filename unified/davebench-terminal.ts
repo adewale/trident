@@ -154,7 +154,7 @@ export async function main(args = process.argv.slice(2)) {
           const result = await call(input, index); row.attempted++; row.totalMs += result.ms
           if (result.outcome === 'completed') row.completed++; else row.failed++
           if (result.outcome === 'error') { const reason = (result.error ?? 'no message').replace(/\d+/g, 'N'); row.errorReasons![reason] = (row.errorReasons![reason] ?? 0) + 1 }
-          if (result.outcome === 'invalid') { row.invalid!++; const reason = result.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1 }
+          if (result.outcome === 'invalid') { row.invalid!++; const reason = result.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1; (row.rejected ??= {})[input.id] = result.invalid! }
           if (result.outcome === 'timeout') row.timeouts++
           if ((index + 1) % 100 === 0) save('running')
         }

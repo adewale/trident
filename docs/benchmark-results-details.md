@@ -8,7 +8,7 @@ reuse the version freeze from 2 November 2026; changing presentation runs no ren
 
 | Benchmark | Population | Ordering | Missing results |
 |---|---|---|---|
-| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->4 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
+| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->5 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
 | Drawing Correctness | The same 127 cases, separately for SVG and terminal text | More whole cases with every expected label shown and no raw syntax; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed: cases with no label to check, or unrun |
 | Mermaid Fidelity | The expanded upstream callbacks that pinned Mermaid itself passes | More passed callbacks; equal counts share a rank. **Possible rank** shows the positions still reachable | Candidate adapter gaps remain unassessed |
 
@@ -118,7 +118,8 @@ list of messages, notes, activations and block markers in source order, rebuilt 
 index-addressed models where the indexes can order every statement), state, git graph,
 kanban, gantt, architecture, mindmap, requirement, pie, packet, block, journey, the
 Mermaid ports' agentflow, usecase, railroad, wardley, venn, cynefin, ishikawa and
-treeView records, and the Langium ASTs (radar, info, git graph, architecture, treemap,
+treeView records, Mermaid Dart's railroad, wardley, venn, cynefin and ishikawa models,
+XMermaid's sequence, cynefin, wardley and ishikawa models, and the Langium ASTs (radar, info, git graph, architecture, treemap,
 treeView, railroad) where a model can express them. Views live in
 `unified/mermaid-fidelity/schema-views.mjs` and per-area modules under
 `unified/mermaid-fidelity/views/`; `scripts/fidelity-probe.ts` prints the native model a
@@ -195,7 +196,28 @@ header (`usecase-beta`); a candidate that rejects a header-only diagram has no e
 model and such reads stay gaps. A getter read whose value no assertion uses is not an
 observation. A getter imported by name from a database module (`getAccDescription`
 from `commonDb`) reads the parsed diagram when called, and Mermaid's public
-`mermaidAPI.parse` is the candidate's own parser for the file's family.
+`mermaidAPI.parse` is the candidate's own parser for the file's family. That empty
+database has published no AST (`usecaseDb.getAST()` is undefined until a parse
+succeeds). Mermaid's chevrotain usecase parser publishes only on success, so a read after
+a rejected usecase parse sees the database as it was before the parse.
+
+Four further rules, decided on 5 November:
+
+- **Failure messages are not observations.** When an assertion has already failed and
+  formats its message or diff, the values it prints are read again. A declared-absent
+  field read then does not turn the failed test into an unsupported one. Snapshot
+  matchers serialise values in order to compare them, so reads under them still count.
+- **Records list the keys Mermaid always sets.** A class, ER, C4 or sequence record whose
+  Mermaid counterpart always carries a key (`wrap`, `cssClasses`, `alias`) lists it even
+  when the candidate's model has no value for it, so a whole-record comparison reads the
+  key and records the absence, rather than failing on a key count. Keys that Mermaid
+  itself can leave undefined are not listed.
+- **Mermaid's own pipeline.** `Diagram.fromText` in a shared test drives Mermaid's diagram
+  detection, type ids and registry, and `preserveCommentsWhenParsing` is a flag that
+  Mermaid's Diagram pipeline reads. Both are unsupported for every candidate, as are the
+  renderer layout getters, whether or not a diagram has been parsed.
+- **Record identity.** A view builds each record once per parse, so a test comparing
+  two getters' results with `toBe` sees the same object, as with Mermaid's database.
 
 Langium AST tests get reviewed AST views where a model can express the AST. An accepted
 parse with no reviewed view is still an AST of the right
@@ -205,8 +227,8 @@ Unknown schemas and import or transport errors remain explicit per-test gaps;
 
 **The reference path defines the scored population.** The control is the public
 Mermaid 12.2.0 package behind the same import substitution the candidates get. In the
-current collection <!-- fact:fidelity-expanded -->5,737<!-- /fact --> callbacks expanded: Mermaid passes **<!-- fact:fidelity-population -->3,599<!-- /fact -->**, the scored population;
-<!-- fact:fidelity-unqualified -->2,037<!-- /fact --> are reference-unqualified and <!-- fact:fidelity-skipped -->101<!-- /fact --> upstream-skipped. 15 of the <!-- fact:fidelity-files -->316<!-- /fact --> selected files
+current collection <!-- fact:fidelity-expanded -->5,737<!-- /fact --> callbacks expanded: Mermaid passes **<!-- fact:fidelity-population -->3,618<!-- /fact -->**, the scored population;
+<!-- fact:fidelity-unqualified -->2,018<!-- /fact --> are reference-unqualified and <!-- fact:fidelity-skipped -->101<!-- /fact --> upstream-skipped. 15 of the <!-- fact:fidelity-files -->316<!-- /fact --> selected files
 do not load and 52 files remain outside the core Vitest runner.
 
 Most of the earlier unqualified callbacks were reference-adapter defects, now fixed:

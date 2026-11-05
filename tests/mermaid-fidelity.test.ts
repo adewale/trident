@@ -109,3 +109,11 @@ test('schema cloning delegates a real native member prototype method rather than
   expect(Object.getPrototypeOf(projected)).toBe(Object.getPrototypeOf(member))
   expect(projected.getDisplayDetails()).toEqual(member.getDisplayDetails())
 })
+test("a candidate file that fails to load on the candidate's own unsupported operation makes its tests unsupported, not gaps", () => {
+  const reference = { testResults: [{ name: '/up/radar.spec.ts', assertionResults: [{ fullName: 'radar parses', title: 'radar parses', status: 'passed' }] }] }
+  const candidate = { testResults: [{ name: '/up/radar.spec.ts', assertionResults: [], message: 'Unsupported candidate operation: no radar parser\n    at module' }] }
+  const rows = fidelityOutcomes(reference, candidate, [], [{ file: '/up/radar.spec.ts', index: 0, name: 'radar parses', gaps: [], calls: 1, unsupported: [] }])
+  expect(rows.map((r: any) => [r.status, r.reason])).toEqual([['unsupported', 'no radar parser']])
+  const crashed = fidelityOutcomes(reference, { testResults: [{ name: '/up/radar.spec.ts', assertionResults: [], message: 'TypeError: x is undefined' }] }, [], [{ file: '/up/radar.spec.ts', index: 0, name: 'radar parses', gaps: [], calls: 1, unsupported: [] }])
+  expect(crashed.map((r: any) => r.status)).toEqual(['trident-blocked'])
+})

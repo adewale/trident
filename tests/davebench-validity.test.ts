@@ -62,9 +62,12 @@ test('a fallback render drawn from the source text is not a completion', () => {
   expect(davebenchSvgValidity('<svg viewBox="0 0 90 20"><title>block-beta diagram</title><text>block</text><text>a</text><text>b</text></svg>', block)).toEqual({ valid: false, reason: 'fallback render: source header shown: block' })
   // Accessibility title and description are not drawn, so they do not count.
   expect(davebenchSvgValidity('<svg viewBox="0 0 90 20"><desc>flowchart diagram</desc><text>Hello</text><text>World</text></svg>', 'flowchart\n  Hello --> World')).toEqual({ valid: true })
-  const timeline = 'timeline\n  title History\n  2002 : LinkedIn\n  2004 : Facebook : Google\n  2005 : YouTube\n'
-  expect(davebenchTerminalValidity('┌──────────────────┐\n│ 2002 : LinkedIn  │\n└──────────────────┘\n┌───────────────────────────┐\n│ 2004 : Facebook : Google  │\n└───────────────────────────┘\n┌─────────────────┐\n│ 2005 : YouTube  │\n└─────────────────┘', timeline)).toEqual({ valid: false, reason: 'fallback render: 3 of 3 source statements shown' })
-  expect(davebenchTerminalValidity('History\n 2002 ── 2004 ─────── 2005\nLinkedIn Facebook YouTube\n          Google', timeline)).toEqual({ valid: true })
+  const flow = 'flowchart LR\n  A[Start] --> B{Ready?}\n  B -->|yes| C(Go)\n  B -->|no| A'
+  expect(davebenchTerminalValidity('┌──────────────────────┐\n│ A[Start] --> B{Ready?} │\n│ B -->|yes| C(Go)      │\n│ B -->|no| A           │\n└──────────────────────┘', flow)).toEqual({ valid: false, reason: 'fallback render: 3 of 3 source statements shown' })
+  expect(davebenchTerminalValidity('┌───────┐   ┌────────┐ yes ┌────┐\n│ Start ├──►│ Ready? ├────►│ Go │\n└───────┘   └────────┘     └────┘', flow)).toEqual({ valid: true })
+  // Data records drawn as written are not a fallback: a legend repeating quadrant points.
+  const quadrant = 'quadrantChart\n  title Reach\n  Campaign A: [0.3, 0.6]\n  Campaign B: [0.45, 0.23]\n  Campaign C: [0.57, 0.69]'
+  expect(davebenchTerminalValidity('     Reach\n┌────┬────┐\n│  ● │ ●  │\n└────┴────┘\n● Campaign A: [0.3, 0.6]\n● Campaign B: [0.45, 0.23]\n● Campaign C: [0.57, 0.69]', quadrant)).toEqual({ valid: true })
   // One or two misread labels among an understood drawing are Drawing Correctness's business.
   expect(davebenchTerminalValidity('root((mindmap)) ──┬─ Origins\n                  ╰─ ::icon(fa fa-book)', 'mindmap\nroot((mindmap))\n  Origins\n  ::icon(fa fa-book)')).toEqual({ valid: true })
 })
@@ -74,4 +77,7 @@ test('raw statements leave out authored labels, accessibility prose and class me
   expect(rawStatements('classDiagram\n  class Duck {\n    +quack()\n  }\n  Animal <|-- Duck').statements).toEqual(['Animal <|-- Duck'])
   expect(rawStatements('graph LR\n  accDescr {\n    A simple flow: one step\n  }\n  A[Start] --> B[End]').statements).toEqual(['A[Start] --> B[End]'])
   expect(rawStatements('---\ntitle: T\n---\n%%{init: {}}%%\nsequenceDiagram\n  Alice->>Bob: Hi').header).toBe('sequenceDiagram')
+  // Data fields inside { … } blocks are drawn as written; other syntax inside blocks still counts.
+  expect(rawStatements("eventmodeling\ntf 01 cmd AddItem [[AddItem01]]\ndata AddItem01 {\n  description: 'john'\n  price: 20.4\n}").statements).toEqual([])
+  expect(rawStatements('stateDiagram-v2\n  state Busy {\n    Working --> Waiting\n  }').statements).toEqual(['Working --> Waiting'])
 })
