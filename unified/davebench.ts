@@ -130,6 +130,8 @@ export interface DavebenchRun {
   attempted: number; completed: number; failed: number; timeouts: number; totalMs: number
   /** Calls that returned without error but whose output failed mechanical admission; included in failed. */
   invalid?: number; invalidReasons?: Record<string, number>
+  /** Which inputs were rejected, by input id, with the full reason: the audit trail for admission. */
+  rejected?: Record<string, string>
   /** Calls that threw or exited nonzero, by their first error line (diagnostic only). */
   errorReasons?: Record<string, number>
 }
@@ -344,7 +346,7 @@ export async function main(args = process.argv.slice(2)) {
               row.attempted++; row.totalMs += value.ms
               if (value.outcome === 'completed') row.completed++; else row.failed++
               if (value.outcome === 'error') { const reason = (value.error ?? 'no message').replace(/\d+/g, 'N'); row.errorReasons![reason] = (row.errorReasons![reason] ?? 0) + 1 }
-              if (value.outcome === 'invalid') { row.invalid!++; const reason = value.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1 }
+              if (value.outcome === 'invalid') { row.invalid!++; const reason = value.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1; (row.rejected ??= {})[input.id] = value.invalid! }
               if (value.outcome === 'timeout') { row.timeouts++; if (!cli) await open() }
               if ((index + 1) % 100 === 0) { save('running'); console.log(`  ${index + 1}/${inventory.cases.length}: ${row.completed} completed, ${row.failed} failed, ${(row.totalMs / 1000).toFixed(2)} s`) }
             }

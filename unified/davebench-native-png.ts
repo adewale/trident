@@ -62,7 +62,7 @@ export async function main(args = process.argv.slice(2)) {
       for (const [index, input] of inventory.cases.entries()) {
         const value = await call(input.source, index); row.attempted++; row.totalMs += value.ms
         if (value.outcome === 'completed') row.completed++; else row.failed++
-        if (value.outcome === 'invalid') { row.invalid!++; const reason = value.invalid ?? 'invalid'; row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1 }
+        if (value.outcome === 'invalid') { row.invalid!++; const reason = value.invalid ?? 'invalid'; row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1; (row.rejected ??= {})[input.id] = reason }
         if (value.outcome === 'timeout') row.timeouts++
         if ((index + 1) % 100 === 0) save('running')
       }
