@@ -489,11 +489,12 @@ function context(family: string) {
           const value = target[key]
           // A test's own vi.spyOn mock must reach the test unchanged.
           if (typeof value === 'function' && (value as any)._isMockFunction) return value
-          // clear() is setup, as it is for candidates: a test that only clears the
-          // database exercises no operation and does not qualify.
+          // clear() and re-selecting the default generation (setGen) are setup, as they are
+          // for candidates: a test that only sets the database up exercises no operation
+          // and does not qualify.
           return typeof value === 'function'
             ? (...params: any[]) => {
-                if (active && key !== 'clear') active.calls++
+                if (active && key !== 'clear' && !(key === 'setGen' && (params[0] ?? 'gen-2') === 'gen-2')) active.calls++
                 return value.apply(target, params)
               }
             : value
