@@ -46,6 +46,72 @@ export function terminalTextValidity(value: unknown, source: string): Validity {
   return { valid: true }
 }
 
+/** Marks of Mermaid statement syntax: links and arrows, a node id glued to its shape
+ * bracket, class/style shorthands, shape data, key: value fields and macro calls. */
+const statementSyntax = /--|==|-\.|\.-|->|<-|~~~|\w[\[\(\{>]|:::|@\{|\w\s*:\s|\w\(/
+
+/**
+ * Source statements a drawing does not show verbatim: the diagram's header line and every
+ * statement carrying Mermaid syntax (at least 8 characters). A renderer that does not
+ * understand a diagram and falls back to drawing its text (most often as a flowchart of
+ * the statements, or the source in a box) shows them; a renderer that understood it shows
+ * their labels. Left out: prose inside accessibility blocks, class bodies (Mermaid draws
+ * members such as `+quack()` verbatim), and any line that also occurs inside another line,
+ * since that text is an authored label too (`mindmap` above `root((mindmap))`).
+ */
+export function rawStatements(source: string) {
+  const lines = source.replace(/^\s*---\s*\n[\s\S]*?\n---\s*\n/, '').replace(/%%\{[\s\S]*?\}%%/g, '').split('\n').map(line => squash(line)).filter(line => line && !line.startsWith('%%'))
+  if (!lines.length) return { header: undefined, statements: [] as string[] }
+  const [header, ...rest] = lines
+  const classes = /^classDiagram/.test(header!)
+  const body: string[] = []
+  let block = 0
+  for (const line of rest) {
+    const opens = (classes && /^class\b.*\{\s*$/.test(line)) || /^accDescr\s*\{/.test(line)
+    if (block) { if (line.startsWith('}')) block--; continue }
+    if (opens) { if (!line.includes('}')) block++; continue }
+    body.push(line)
+  }
+  const label = (line: string) => lines.some(other => other !== line && other.includes(line))
+  const statements = [...new Set(body.filter(line => line.length >= 8 && statementSyntax.test(line) && !label(line) && !(classes && /^[+\-#~]/.test(line))))]
+  return { header: header!.length >= 4 && !label(header!) ? header : undefined, statements }
+}
+
+/**
+ * Whether visible output is a fallback drawing of the source text: it shows the header
+ * line, or at least half of the syntax-bearing statements (and at least three). A few raw
+ * statements among real labels are misread labels, which Drawing Correctness judges.
+ */
+export function fallbackShown(visible: string, raw: ReturnType<typeof rawStatements>) {
+  const text = squash(visible.replace(frame, ' '))
+  if (raw.header && new RegExp('(?:^|\\s)' + raw.header.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?:\\s|$)').test(text)) return 'source header shown: ' + raw.header
+  const shown = raw.statements.filter(statement => text.includes(statement))
+  return shown.length >= 3 && shown.length * 2 >= raw.statements.length ? `${shown.length} of ${raw.statements.length} source statements shown` : undefined
+}
+
+/** Visible SVG text: element text joined by spaces, without styles, scripts and the
+ * accessibility title, description and metadata, which are not drawn. */
+export function svgVisibleText(svg: string) {
+  return svg.replace(/<(style|script|title|desc|metadata)\b[\s\S]*?<\/\1\s*>/gi, ' ').replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&')
+}
+
+/** DaveBench admission for terminal text: the mechanical checks plus the fallback check. */
+export function davebenchTerminalValidity(value: unknown, source: string): Validity {
+  const validity = terminalTextValidity(value, source)
+  if (!validity.valid) return validity
+  const text = typeof value === 'string' ? value : value instanceof Uint8Array ? new TextDecoder().decode(value) : String((value as any)?.output ?? (value as any)?.text)
+  const fallback = fallbackShown(text.replace(ansi, ''), rawStatements(source))
+  return fallback ? { valid: false, reason: 'fallback render: ' + fallback } : validity
+}
+
+/** DaveBench admission for serialized SVG: the mechanical checks plus the fallback check. */
+export function davebenchSvgValidity(svg: string, source: string): Validity {
+  const validity = svgTextValidity(svg, source)
+  if (!validity.valid) return validity
+  const fallback = fallbackShown(svgVisibleText(svg), rawStatements(source))
+  return fallback ? { valid: false, reason: 'fallback render: ' + fallback } : validity
+}
+
 /** Box-drawing and block characters used for frames around fallback text. */
 const frame = /[\u2500-\u259F]/g
 /**

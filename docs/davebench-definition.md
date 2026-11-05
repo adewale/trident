@@ -41,7 +41,7 @@ audit](benchmark-versions-2026-11-02.md).
 
 ### Output admission
 
-Returning without an error is not enough: some renderers return an empty string, an error message or an error placeholder instead of throwing, and MermaidTUI's convenience wrapper returned `Error: …` strings that earlier received completion credit. Admission applies the same format checks to every participant. It does not judge drawing meaning, which is Drawing Correctness's job.
+Returning without an error is not enough: some renderers return an empty string, an error message or an error placeholder instead of throwing, and MermaidTUI's convenience wrapper returned `Error: …` strings that earlier received completion credit. Admission applies the same format checks to every participant, plus one cheap check that the output was not drawn from the source text (below). Whether the drawing is correct is Drawing Correctness's job.
 
 | Format | Admitted output |
 |---|---|
@@ -50,6 +50,10 @@ Returning without an error is not enough: some renderers return an empty string,
 | Terminal text | Non-empty after removing ANSI/OSC control sequences, and not just the Mermaid source echoed back. |
 
 Every format also rejects error output: an SVG root with `aria-roledescription="error"`, or output whose leading text is a renderer error phrase (for example `Syntax error`, `Parse error`, `Error:`, `unsupported diagram`, `not supported`, `Traceback`, `Usage:`). A phrase that also occurs in the Mermaid source is an authored label, not an error. The patterns are in [`unified/davebench-validity.ts`](../unified/davebench-validity.ts). Each run records how many returned outputs were rejected and why (`invalid`, `invalidReasons`).
+
+**Fallback renders are rejected.** Some renderers do not understand a diagram family and draw its text instead: a flowchart whose nodes are the source lines, the header keyword drawn as a node (`block`, `agentflow-beta TB`), or the source in a box. Without a check, these count as completions, so DaveBench rewarded them. Admission therefore applies one cheap meaning check to drawn SVG text (without `<title>`, `<desc>` and `<metadata>`, which are not drawn) and to terminal text. The output is a **fallback render** when it shows the source's header line verbatim as a separate label, or at least three, and at least half, of the source's syntax-bearing statements (lines of at least 8 characters with an arrow, a shape bracket glued to an id, `:::`, `@{`, a `key: value` field or a call). Left out of the statements: accessibility description blocks, class bodies (Mermaid draws members such as `+quack()` verbatim) and any line that also occurs inside another line, because that text is an authored label. One or two raw statements among real labels are misread labels, which Drawing Correctness judges. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate's SVG.
+
+Calibration over all 1,342 inputs: Mermaid 11's own SVG renders trip the check 0 times; Frankenmermaid's 163 times (mostly block, swimlane, agentflow, railroad and packet headers drawn as nodes); Termaid's 58 times (timeline, requirement and event-modeling sources drawn as boxes of raw lines).
 
 A well-formed, positively sized SVG that draws nothing is admitted. Two documentation examples declare a Gantt chart with settings but no tasks, and several renderers deliberately draw nothing for them; whether an empty output is right for a given source is a drawing-correctness question. A zero-size SVG (`viewBox="0 0 0 0"`) is rejected.
 

@@ -4,7 +4,7 @@ import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright'
 import { davebenchBrowserCall, davebenchCliCall, davebenchInputs, davebenchRankings, type DavebenchRun } from '../unified/davebench.ts'
-import { errorPatternSources } from '../unified/davebench-validity.ts'
+import { errorPatternSources, rawStatements } from '../unified/davebench-validity.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 import { defaultChromium } from '../unified/benchmark-context.ts'
 
@@ -70,10 +70,10 @@ test('the browser runner awaits completion, includes failed-call time and admits
   try {
     const page = await browser.newPage()
     await page.evaluate(() => {
-      const outputs: Record<string, string> = { drawn: '<svg viewBox="0 0 40 20"><rect width="10" height="10"/><text>A</text></svg>', empty: '', placeholder: '<svg aria-roledescription="error" viewBox="0 0 9 9"><path d="M0 0"/></svg>', message: '<svg viewBox="0 0 90 20"><text>Syntax error in text</text></svg>' }
+      const outputs: Record<string, string> = { drawn: '<svg viewBox="0 0 40 20"><rect width="10" height="10"/><text>A</text></svg>', empty: '', placeholder: '<svg aria-roledescription="error" viewBox="0 0 9 9"><path d="M0 0"/></svg>', message: '<svg viewBox="0 0 90 20"><text>Syntax error in text</text></svg>', 'block\n  a b': '<svg viewBox="0 0 90 20"><title>block diagram</title><text>block</text><text>a</text><text>b</text></svg>', 'flowchart\n  a b': '<svg viewBox="0 0 90 20"><title>flowchart</title><text>a</text><text>b</text></svg>' }
       ;(globalThis as any).__fidelityCommunity = { render: async (source: string) => { await new Promise(done => setTimeout(done, 20)); if (source === 'reject') throw Error('Expected fixture failure'); return outputs[source] } }
     })
-    const call = (source: string, format = 'svg') => page.evaluate(davebenchBrowserCall, { source, id: 'fixture', format, errorPatterns: errorPatternSources })
+    const call = (source: string, format = 'svg') => page.evaluate(davebenchBrowserCall, { source, id: 'fixture', format, errorPatterns: errorPatternSources, raw: rawStatements(source) })
     const complete = await call('drawn')
     expect(complete.outcome).toBe('completed'); expect(complete.ms).toBeGreaterThanOrEqual(15)
     expect(Object.keys(complete).sort()).toEqual(['ms', 'outcome'])
@@ -84,6 +84,9 @@ test('the browser runner awaits completion, includes failed-call time and admits
     expect(await call('placeholder')).toMatchObject({ outcome: 'invalid', invalid: 'error placeholder' })
     expect(await call('message')).toMatchObject({ outcome: 'invalid', invalid: 'error message: Syntax error' })
     expect((await call('empty')).ms).toBeGreaterThanOrEqual(15)
+    // A fallback render (the header keyword drawn as a node) is not a completion; a drawn title is not checked.
+    expect(await call('block\n  a b')).toMatchObject({ outcome: 'invalid', invalid: 'fallback render: source header shown: block' })
+    expect((await call('flowchart\n  a b')).outcome).toBe('completed')
     await page.evaluate(() => {
       const bytes = new Uint8Array(33); bytes.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13, 0x49, 0x48, 0x44, 0x52, 0, 0, 0, 4, 0, 0, 0, 3])
       ;(globalThis as any).__davebenchNativePng = async (source: string) => { await new Promise(done => setTimeout(done, 20)); (globalThis as any).__pngCompleted = true; return source === 'bad' ? new Blob(['fixture bytes']) : new Blob([bytes]) }

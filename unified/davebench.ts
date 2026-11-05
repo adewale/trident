@@ -13,7 +13,7 @@ import { publicSvgBrowserAction } from './public-svg-browser.ts'
 import { communityCatalogFile, tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../portable/ci-policy.ts'
 import { defaultChromium } from './benchmark-context.ts'
-import { errorPatternSources, pngBytesValidity, svgTextValidity } from './davebench-validity.ts'
+import { davebenchSvgValidity, errorPatternSources, pngBytesValidity, rawStatements } from './davebench-validity.ts'
 import { watchMemory } from './process-memory.ts'
 
 const revision = '370c4af57f43cb0bda05f4a9fe2d99c912ba16dd'
@@ -41,7 +41,7 @@ export function davebenchInputs(upstream: string, commit = revision) {
 
 /** Runs in the renderer page. Returns counters and an admission reason only;
  * outputs never leave the page. The clock stops before admission checks. */
-export async function davebenchBrowserCall(input: { source: string; id: string; format: string; errorPatterns?: [string, string][] }) {
+export async function davebenchBrowserCall(input: { source: string; id: string; format: string; errorPatterns?: [string, string][]; raw?: { header?: string; statements: string[] } }) {
   const host = globalThis as any, state = host.__fidelityCommunity, started = performance.now()
   let outcome = 'completed', svgText: string | undefined, pngValue: unknown, pngBytes = 0, error: string | undefined
   try {
@@ -102,6 +102,17 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
           for (const node of svg.querySelectorAll('style,script')) node.remove()
           const found = phrase(svg.textContent ?? '')
           if (found) invalid = 'error message: ' + found
+          else if (input.raw) {
+            // The fallback check of davebench-validity.ts (fallbackShown), on drawn text only.
+            for (const node of svg.querySelectorAll('title,desc,metadata')) node.remove()
+            const parts: string[] = [], walker = document.createTreeWalker(svg, NodeFilter.SHOW_TEXT)
+            while (walker.nextNode()) parts.push(walker.currentNode.nodeValue ?? '')
+            const text = parts.join(' ').replace(/[─-▟]/g, ' ').replace(/\s+/g, ' ').trim()
+            const header = input.raw.header, padded = ' ' + text + ' '
+            const shown = input.raw.statements.filter(statement => text.includes(statement))
+            if (header && padded.includes(' ' + header + ' ')) invalid = 'fallback render: source header shown: ' + header
+            else if (shown.length >= 3 && shown.length * 2 >= input.raw.statements.length) invalid = `fallback render: ${shown.length} of ${input.raw.statements.length} source statements shown`
+          }
         }
       }
     } catch (error) { invalid = 'admission check failed: ' + String(error).slice(0, 120) }
@@ -112,7 +123,7 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
   return invalid ? { outcome, ms, invalid } : error ? { outcome, ms, error } : { outcome, ms }
 }
 
-export const davebenchAdmission = 'A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse to an svg root with positive size; PNG must have a PNG signature and positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription="error"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. No drawing meaning is judged and outputs are not retained.'
+export const davebenchAdmission = 'A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse to an svg root with positive size; PNG must have a PNG signature and positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription="error"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.'
 
 export interface DavebenchRun {
   project: string; version: string; format: string; run: number; boundary: string
@@ -242,7 +253,7 @@ export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: s
   if (result.outcome !== 'completed') return result
   const bytes = binding.args.some(arg => arg.includes('{output}')) && existsSync(output) ? readFileSync(output) : readFileSync(captured)
   rmSync(output, { force: true }); rmSync(captured, { force: true })
-  const validity = format === 'png' ? pngBytesValidity(bytes) : svgTextValidity(bytes.toString('utf8'), source)
+  const validity = format === 'png' ? pngBytesValidity(bytes) : davebenchSvgValidity(bytes.toString('utf8'), source)
   return validity.valid ? result : { ...result, outcome: 'invalid', invalid: validity.reason }
 }
 
@@ -320,7 +331,7 @@ export async function main(args = process.argv.slice(2)) {
               let timer: ReturnType<typeof setTimeout> | undefined
               const started = performance.now()
               try {
-                return await Promise.race<{ outcome: string; ms: number; invalid?: string; error?: string }>([session!.page.evaluate(davebenchBrowserCall, { ...input, id: 'dave_' + round + '_' + index, format, errorPatterns: errorPatternSources }), new Promise<{ outcome: string; ms: number }>(done => { timer = setTimeout(() => { void session!.context.close().catch(() => {}); done({ outcome: 'timeout', ms: performance.now() - started }) }, timeoutMs) })])
+                return await Promise.race<{ outcome: string; ms: number; invalid?: string; error?: string }>([session!.page.evaluate(davebenchBrowserCall, { ...input, id: 'dave_' + round + '_' + index, format, errorPatterns: errorPatternSources, raw: rawStatements(input.source) }), new Promise<{ outcome: string; ms: number }>(done => { timer = setTimeout(() => { void session!.context.close().catch(() => {}); done({ outcome: 'timeout', ms: performance.now() - started }) }, timeoutMs) })])
               } catch { return { outcome: 'error', ms: performance.now() - started } }
               finally { if (timer) clearTimeout(timer) }
             }

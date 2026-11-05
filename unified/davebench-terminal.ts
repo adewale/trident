@@ -6,7 +6,7 @@ import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
 import { communityCliRequest } from './community-cli-request.ts'
 import { davebenchAdmission, davebenchInputs, davebenchRankings, type DavebenchRun } from './davebench.ts'
 import { watchMemory } from './process-memory.ts'
-import { terminalTextValidity } from './davebench-validity.ts'
+import { davebenchTerminalValidity } from './davebench-validity.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { communityModuleOutputSupported } from './community.ts'
@@ -102,7 +102,7 @@ export async function terminalCliCall(artifact: CommunityArtifact, source: strin
   if (result.outcome !== 'completed') return result
   const text = args.some(arg => arg.includes(destination)) && existsSync(destination) ? readFileSync(destination, 'utf8') : readFileSync(captured, 'utf8')
   rmSync(destination, { force: true }); rmSync(captured, { force: true })
-  const validity = terminalTextValidity(text, source)
+  const validity = davebenchTerminalValidity(text, source)
   return validity.valid ? result : { ...result, outcome: 'invalid', invalid: validity.reason }
 }
 
@@ -137,7 +137,7 @@ export async function main(args = process.argv.slice(2)) {
     let boundary = native ? 'public CLI terminal; process startup included' : a.kind === 'python' ? 'persistent Python public terminal API' : /bun/i.test(a.runtime ?? '') || /\.tsx?$/.test(a.module ?? '') ? 'persistent Bun public terminal API' : 'persistent Node public terminal API'
     const directory = join(out, encodeURIComponent(peer.node.id)); mkdirSync(directory, { recursive: true })
     let worker: TerminalCallWorker | undefined
-    const open = async () => { worker = new TerminalCallWorker(peer, join(directory, 'operand.json'), undefined, terminalTextValidity); await worker.ready; if (worker.identity?.boundary) boundary = worker.identity.boundary }
+    const open = async () => { worker = new TerminalCallWorker(peer, join(directory, 'operand.json'), undefined, davebenchTerminalValidity); await worker.ready; if (worker.identity?.boundary) boundary = worker.identity.boundary }
     try {
       for (let round = 1; round <= 3; round++) {
         if (!native) await open()

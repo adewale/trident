@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { errorPhrase, pngBytesValidity, svgTextValidity, terminalTextValidity } from '../unified/davebench-validity.ts'
+import { davebenchSvgValidity, davebenchTerminalValidity, errorPhrase, pngBytesValidity, rawStatements, svgTextValidity, terminalTextValidity } from '../unified/davebench-validity.ts'
 
 const png = (width: number, height: number) => {
   const bytes = new Uint8Array(33)
@@ -54,4 +54,24 @@ test('PNG admission checks the signature and positive IHDR dimensions', () => {
   expect(pngBytesValidity(png(4, 3))).toEqual({ valid: true })
   expect(pngBytesValidity(png(0, 3))).toEqual({ valid: false, reason: 'zero-size PNG' })
   expect(pngBytesValidity(new TextEncoder().encode('not an image at all, but long enough'))).toEqual({ valid: false, reason: 'not a PNG' })
+})
+
+test('a fallback render drawn from the source text is not a completion', () => {
+  const block = 'block\n  a b c\n'
+  // The header keyword drawn as a node: the renderer did not understand the family.
+  expect(davebenchSvgValidity('<svg viewBox="0 0 90 20"><title>block-beta diagram</title><text>block</text><text>a</text><text>b</text></svg>', block)).toEqual({ valid: false, reason: 'fallback render: source header shown: block' })
+  // Accessibility title and description are not drawn, so they do not count.
+  expect(davebenchSvgValidity('<svg viewBox="0 0 90 20"><desc>flowchart diagram</desc><text>Hello</text><text>World</text></svg>', 'flowchart\n  Hello --> World')).toEqual({ valid: true })
+  const timeline = 'timeline\n  title History\n  2002 : LinkedIn\n  2004 : Facebook : Google\n  2005 : YouTube\n'
+  expect(davebenchTerminalValidity('┌──────────────────┐\n│ 2002 : LinkedIn  │\n└──────────────────┘\n┌───────────────────────────┐\n│ 2004 : Facebook : Google  │\n└───────────────────────────┘\n┌─────────────────┐\n│ 2005 : YouTube  │\n└─────────────────┘', timeline)).toEqual({ valid: false, reason: 'fallback render: 3 of 3 source statements shown' })
+  expect(davebenchTerminalValidity('History\n 2002 ── 2004 ─────── 2005\nLinkedIn Facebook YouTube\n          Google', timeline)).toEqual({ valid: true })
+  // One or two misread labels among an understood drawing are Drawing Correctness's business.
+  expect(davebenchTerminalValidity('root((mindmap)) ──┬─ Origins\n                  ╰─ ::icon(fa fa-book)', 'mindmap\nroot((mindmap))\n  Origins\n  ::icon(fa fa-book)')).toEqual({ valid: true })
+})
+
+test('raw statements leave out authored labels, accessibility prose and class members', () => {
+  expect(rawStatements('mindmap\nroot((mindmap))\n  A').header).toBeUndefined()
+  expect(rawStatements('classDiagram\n  class Duck {\n    +quack()\n  }\n  Animal <|-- Duck').statements).toEqual(['Animal <|-- Duck'])
+  expect(rawStatements('graph LR\n  accDescr {\n    A simple flow: one step\n  }\n  A[Start] --> B[End]').statements).toEqual(['A[Start] --> B[End]'])
+  expect(rawStatements('---\ntitle: T\n---\n%%{init: {}}%%\nsequenceDiagram\n  Alice->>Bob: Hi').header).toBe('sequenceDiagram')
 })

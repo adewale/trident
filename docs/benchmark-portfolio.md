@@ -38,10 +38,11 @@ Publish three tables: SVG, PNG and terminal text. Report completed, failed,
 timed-out and attempted counts alongside all three run times. A completion needs a
 returned output that passes [mechanical admission](davebench-definition.md#output-admission):
 a sized SVG, a valid PNG, or terminal text that is neither empty, an error message
-nor the source printed back. Time breaks equal completion counts only between rows
+nor the source printed back, and that is not a fallback render drawn from the source
+text (the header line, or most of its raw statements, shown verbatim). Time breaks equal completion counts only between rows
 with the same boundary kind (fresh process or persistent API). DaveBench retains
-numeric results and provenance only; it saves no rendered outputs and judges no
-drawing meaning.
+numeric results and provenance only; it saves no rendered outputs and judges
+drawing meaning only as far as the fallback check does.
 
 **Collectors:** `davebench` measures SVG/PNG; `davebench:terminal` measures native
 terminal text through persistent APIs or declared CLI boundaries. Both admit each
