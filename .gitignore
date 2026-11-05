@@ -11,6 +11,7 @@ results/*
 !results/latest.json
 !results/baseline.json
 !results/historical-examples.json
+!results/release/
 !results/tables/
 results/tables/*
 !results/tables/*.md
