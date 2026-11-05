@@ -300,8 +300,8 @@
       "version": "0.5.6",
       "format": "svg",
       "counts": {
-        "correct": 122,
-        "incorrect": 2,
+        "correct": 123,
+        "incorrect": 1,
         "renderer-failure": 3,
         "invalid-format": 0,
         "unknown": 0,
@@ -355,6 +355,7 @@
           "terminal:570e13053d228e29",
           "terminal:587429a5094fbb28",
           "terminal:5b249b03683c12ec",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:61cc5e1150412252",
@@ -433,7 +434,6 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "terminal:5c9a50898b1e6ffe",
           "terminal:89e9eb6aebb72128"
         ],
         "renderer-failure": [
@@ -452,8 +452,8 @@
       "version": "0.5.6",
       "format": "terminal",
       "counts": {
-        "correct": 123,
-        "incorrect": 1,
+        "correct": 124,
+        "incorrect": 0,
         "renderer-failure": 3,
         "invalid-format": 0,
         "unknown": 0,
@@ -507,6 +507,7 @@
           "terminal:570e13053d228e29",
           "terminal:587429a5094fbb28",
           "terminal:5b249b03683c12ec",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:61cc5e1150412252",
@@ -585,9 +586,7 @@
           "regression:b37bebe1a745f1d6",
           "regression:aea8f60cfe1ecdeb"
         ],
-        "incorrect": [
-          "terminal:5c9a50898b1e6ffe"
-        ],
+        "incorrect": [],
         "renderer-failure": [
           "terminal:9e4e5a5e072642e8",
           "terminal:ef20265c9ef84973",
@@ -604,8 +603,8 @@
       "version": "1.6.1",
       "format": "terminal",
       "counts": {
-        "correct": 80,
-        "incorrect": 4,
+        "correct": 81,
+        "incorrect": 3,
         "renderer-failure": 43,
         "invalid-format": 0,
         "unknown": 0,
@@ -639,6 +638,7 @@
           "terminal:529e14e4d09b944a",
           "terminal:53e2d239ed8df992",
           "terminal:54f7237ee5ab1a85",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:64788fe4b88b1f1f",
@@ -697,8 +697,7 @@
         "incorrect": [
           "terminal:25b4a684eb0b6e31",
           "terminal:32ad8ee06ab49562",
-          "terminal:478ab66bb4c7e4f5",
-          "terminal:5c9a50898b1e6ffe"
+          "terminal:478ab66bb4c7e4f5"
         ],
         "renderer-failure": [
           "terminal:049722f83e7a31e0",
@@ -756,8 +755,8 @@
       "version": "2.2.5",
       "format": "terminal",
       "counts": {
-        "correct": 80,
-        "incorrect": 1,
+        "correct": 81,
+        "incorrect": 0,
         "renderer-failure": 46,
         "invalid-format": 0,
         "unknown": 0,
@@ -796,6 +795,7 @@
           "terminal:529e14e4d09b944a",
           "terminal:53e2d239ed8df992",
           "terminal:54f7237ee5ab1a85",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:64788fe4b88b1f1f",
@@ -846,9 +846,7 @@
           "regression:b37bebe1a745f1d6",
           "regression:aea8f60cfe1ecdeb"
         ],
-        "incorrect": [
-          "terminal:5c9a50898b1e6ffe"
-        ],
+        "incorrect": [],
         "renderer-failure": [
           "terminal:049722f83e7a31e0",
           "terminal:0dbd28f2f1c494cc",
@@ -908,8 +906,8 @@
       "version": "0.2.24",
       "format": "svg",
       "counts": {
-        "correct": 125,
-        "incorrect": 1,
+        "correct": 126,
+        "incorrect": 0,
         "renderer-failure": 1,
         "invalid-format": 0,
         "unknown": 0,
@@ -963,6 +961,7 @@
           "terminal:570e13053d228e29",
           "terminal:587429a5094fbb28",
           "terminal:5b249b03683c12ec",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:61cc5e1150412252",
@@ -1043,9 +1042,7 @@
           "regression:b37bebe1a745f1d6",
           "regression:aea8f60cfe1ecdeb"
         ],
-        "incorrect": [
-          "terminal:5c9a50898b1e6ffe"
-        ],
+        "incorrect": [],
         "renderer-failure": [
           "terminal:d7362afef7c26051"
         ],
@@ -1212,8 +1209,8 @@
       "version": "0.0.3",
       "format": "terminal",
       "counts": {
-        "correct": 66,
-        "incorrect": 33,
+        "correct": 67,
+        "incorrect": 32,
         "renderer-failure": 25,
         "invalid-format": 3,
         "unknown": 0,
@@ -1245,6 +1242,7 @@
           "terminal:4e4550d086c4e288",
           "terminal:4f96b68984c54c5a",
           "terminal:54f7237ee5ab1a85",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:64788fe4b88b1f1f",
@@ -1300,7 +1298,6 @@
           "terminal:4ae5560b57ca0064",
           "terminal:529e14e4d09b944a",
           "terminal:53e2d239ed8df992",
-          "terminal:5c9a50898b1e6ffe",
           "terminal:61cc5e1150412252",
           "terminal:6f83e372d7057526",
           "terminal:75e652628bded0d8",
@@ -1518,8 +1515,8 @@
       "version": "5.14.1",
       "format": "terminal",
       "counts": {
-        "correct": 103,
-        "incorrect": 3,
+        "correct": 104,
+        "incorrect": 2,
         "renderer-failure": 20,
         "invalid-format": 1,
         "unknown": 0,
@@ -1564,6 +1561,7 @@
           "terminal:53e2d239ed8df992",
           "terminal:54f7237ee5ab1a85",
           "terminal:5b249b03683c12ec",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:61cc5e1150412252",
@@ -1632,7 +1630,6 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "terminal:5c9a50898b1e6ffe",
           "terminal:90e78c1ed707e7e4",
           "terminal:fbfb884b46380275"
         ],
@@ -2127,8 +2124,8 @@
       "version": "0.2.3",
       "format": "terminal",
       "counts": {
-        "correct": 76,
-        "incorrect": 30,
+        "correct": 77,
+        "incorrect": 29,
         "renderer-failure": 13,
         "invalid-format": 8,
         "unknown": 0,
@@ -2163,6 +2160,7 @@
           "terminal:4f96b68984c54c5a",
           "terminal:54f7237ee5ab1a85",
           "terminal:5b249b03683c12ec",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:64788fe4b88b1f1f",
@@ -2225,7 +2223,6 @@
           "terminal:4e4550d086c4e288",
           "terminal:529e14e4d09b944a",
           "terminal:53e2d239ed8df992",
-          "terminal:5c9a50898b1e6ffe",
           "terminal:61cc5e1150412252",
           "terminal:75e652628bded0d8",
           "terminal:867520b102964291",
@@ -2432,8 +2429,8 @@
       "version": "0.10.0",
       "format": "terminal",
       "counts": {
-        "correct": 111,
-        "incorrect": 16,
+        "correct": 112,
+        "incorrect": 15,
         "renderer-failure": 0,
         "invalid-format": 0,
         "unknown": 0,
@@ -2479,6 +2476,7 @@
           "terminal:54f7237ee5ab1a85",
           "terminal:570e13053d228e29",
           "terminal:5b249b03683c12ec",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:64788fe4b88b1f1f",
@@ -2562,7 +2560,6 @@
           "terminal:3c2f67b774f592f2",
           "terminal:478ab66bb4c7e4f5",
           "terminal:587429a5094fbb28",
-          "terminal:5c9a50898b1e6ffe",
           "terminal:61cc5e1150412252",
           "terminal:6c29eb05c097760d",
           "terminal:90e78c1ed707e7e4",
@@ -2583,8 +2580,8 @@
       "version": "0.1.0",
       "format": "terminal",
       "counts": {
-        "correct": 82,
-        "incorrect": 19,
+        "correct": 83,
+        "incorrect": 18,
         "renderer-failure": 24,
         "invalid-format": 2,
         "unknown": 0,
@@ -2621,6 +2618,7 @@
           "terminal:529e14e4d09b944a",
           "terminal:53e2d239ed8df992",
           "terminal:54f7237ee5ab1a85",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:64788fe4b88b1f1f",
@@ -2681,7 +2679,6 @@
           "terminal:3042977d4e6d813b",
           "terminal:3f4b6bd0b23e6927",
           "terminal:478ab66bb4c7e4f5",
-          "terminal:5c9a50898b1e6ffe",
           "terminal:61cc5e1150412252",
           "terminal:6f83e372d7057526",
           "terminal:75e652628bded0d8",
@@ -2736,8 +2733,8 @@
       "version": "0.2.1",
       "format": "terminal",
       "counts": {
-        "correct": 65,
-        "incorrect": 6,
+        "correct": 66,
+        "incorrect": 5,
         "renderer-failure": 56,
         "invalid-format": 0,
         "unknown": 0,
@@ -2772,6 +2769,7 @@
           "terminal:529e14e4d09b944a",
           "terminal:53e2d239ed8df992",
           "terminal:54f7237ee5ab1a85",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:663c83c9e855c6b5",
@@ -2814,7 +2812,6 @@
         "incorrect": [
           "terminal:25b4a684eb0b6e31",
           "terminal:478ab66bb4c7e4f5",
-          "terminal:5c9a50898b1e6ffe",
           "terminal:90e78c1ed707e7e4",
           "terminal:915784d6704949c2",
           "terminal:cd771fca2659a460"
@@ -3040,8 +3037,8 @@
       "version": "0.9.3",
       "format": "svg",
       "counts": {
-        "correct": 124,
-        "incorrect": 2,
+        "correct": 125,
+        "incorrect": 1,
         "renderer-failure": 1,
         "invalid-format": 0,
         "unknown": 0,
@@ -3095,6 +3092,7 @@
           "terminal:570e13053d228e29",
           "terminal:587429a5094fbb28",
           "terminal:5b249b03683c12ec",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:61cc5e1150412252",
@@ -3175,7 +3173,6 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "terminal:5c9a50898b1e6ffe",
           "terminal:b1428b5b59888938"
         ],
         "renderer-failure": [
@@ -3192,8 +3189,8 @@
       "version": "0.9.3",
       "format": "terminal",
       "counts": {
-        "correct": 99,
-        "incorrect": 5,
+        "correct": 100,
+        "incorrect": 4,
         "renderer-failure": 23,
         "invalid-format": 0,
         "unknown": 0,
@@ -3232,6 +3229,7 @@
           "terminal:4f96b68984c54c5a",
           "terminal:53e2d239ed8df992",
           "terminal:54f7237ee5ab1a85",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:64788fe4b88b1f1f",
@@ -3305,7 +3303,6 @@
           "terminal:2295dae5ca33addf",
           "terminal:2598092a6e404821",
           "terminal:478ab66bb4c7e4f5",
-          "terminal:5c9a50898b1e6ffe",
           "terminal:c64d9c102f509905"
         ],
         "renderer-failure": [
@@ -3497,8 +3494,8 @@
       "version": "1.1.3",
       "format": "terminal",
       "counts": {
-        "correct": 84,
-        "incorrect": 13,
+        "correct": 85,
+        "incorrect": 12,
         "renderer-failure": 29,
         "invalid-format": 1,
         "unknown": 0,
@@ -3537,6 +3534,7 @@
           "terminal:529e14e4d09b944a",
           "terminal:53e2d239ed8df992",
           "terminal:54f7237ee5ab1a85",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:64788fe4b88b1f1f",
@@ -3594,7 +3592,6 @@
         "incorrect": [
           "terminal:3042977d4e6d813b",
           "terminal:478ab66bb4c7e4f5",
-          "terminal:5c9a50898b1e6ffe",
           "terminal:75e652628bded0d8",
           "terminal:867520b102964291",
           "terminal:90e78c1ed707e7e4",
@@ -3954,8 +3951,8 @@
       "version": "1.13.0",
       "format": "svg",
       "counts": {
-        "correct": 125,
-        "incorrect": 1,
+        "correct": 126,
+        "incorrect": 0,
         "renderer-failure": 1,
         "invalid-format": 0,
         "unknown": 0,
@@ -4009,6 +4006,7 @@
           "terminal:570e13053d228e29",
           "terminal:587429a5094fbb28",
           "terminal:5b249b03683c12ec",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:61cc5e1150412252",
@@ -4089,9 +4087,7 @@
           "regression:b37bebe1a745f1d6",
           "regression:aea8f60cfe1ecdeb"
         ],
-        "incorrect": [
-          "terminal:5c9a50898b1e6ffe"
-        ],
+        "incorrect": [],
         "renderer-failure": [
           "terminal:d7362afef7c26051"
         ],
@@ -4410,8 +4406,8 @@
       "version": "git-a6b0c7657b94",
       "format": "terminal",
       "counts": {
-        "correct": 89,
-        "incorrect": 8,
+        "correct": 90,
+        "incorrect": 7,
         "renderer-failure": 0,
         "invalid-format": 30,
         "unknown": 0,
@@ -4450,6 +4446,7 @@
           "terminal:529e14e4d09b944a",
           "terminal:53e2d239ed8df992",
           "terminal:54f7237ee5ab1a85",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:64788fe4b88b1f1f",
@@ -4512,7 +4509,6 @@
         "incorrect": [
           "terminal:11426c4cad392dc7",
           "terminal:478ab66bb4c7e4f5",
-          "terminal:5c9a50898b1e6ffe",
           "terminal:75e652628bded0d8",
           "terminal:90e78c1ed707e7e4",
           "terminal:a5204531005bef25",
@@ -4562,8 +4558,8 @@
       "version": "0.0.6",
       "format": "terminal",
       "counts": {
-        "correct": 12,
-        "incorrect": 1,
+        "correct": 13,
+        "incorrect": 0,
         "renderer-failure": 114,
         "invalid-format": 0,
         "unknown": 0,
@@ -4575,6 +4571,7 @@
           "terminal:2431a54dd231055c",
           "terminal:3c2f67b774f592f2",
           "terminal:435d2e71f8557532",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:684ec260a97cf7b6",
           "terminal:898156db49cbe4e9",
@@ -4584,9 +4581,7 @@
           "terminal:e52b4b37f626102c",
           "terminal:e977db2dd4ba0536"
         ],
-        "incorrect": [
-          "terminal:5c9a50898b1e6ffe"
-        ],
+        "incorrect": [],
         "renderer-failure": [
           "terminal:03019928d457c65c",
           "terminal:049722f83e7a31e0",
@@ -4714,8 +4709,8 @@
       "version": "0.0.3",
       "format": "svg",
       "counts": {
-        "correct": 125,
-        "incorrect": 1,
+        "correct": 126,
+        "incorrect": 0,
         "renderer-failure": 1,
         "invalid-format": 0,
         "unknown": 0,
@@ -4769,6 +4764,7 @@
           "terminal:570e13053d228e29",
           "terminal:587429a5094fbb28",
           "terminal:5b249b03683c12ec",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:61cc5e1150412252",
@@ -4849,9 +4845,7 @@
           "regression:b37bebe1a745f1d6",
           "regression:aea8f60cfe1ecdeb"
         ],
-        "incorrect": [
-          "terminal:5c9a50898b1e6ffe"
-        ],
+        "incorrect": [],
         "renderer-failure": [
           "terminal:d7362afef7c26051"
         ],
@@ -4866,8 +4860,8 @@
       "version": "0.0.3",
       "format": "terminal",
       "counts": {
-        "correct": 121,
-        "incorrect": 5,
+        "correct": 122,
+        "incorrect": 4,
         "renderer-failure": 1,
         "invalid-format": 0,
         "unknown": 0,
@@ -4920,6 +4914,7 @@
           "terminal:570e13053d228e29",
           "terminal:587429a5094fbb28",
           "terminal:5b249b03683c12ec",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:61cc5e1150412252",
@@ -4999,7 +4994,6 @@
         ],
         "incorrect": [
           "terminal:2295dae5ca33addf",
-          "terminal:5c9a50898b1e6ffe",
           "terminal:90e78c1ed707e7e4",
           "terminal:c64d9c102f509905",
           "terminal:de6e8bf0fd559efc"
@@ -5018,8 +5012,8 @@
       "version": "git-2bdd1d6a6369",
       "format": "terminal",
       "counts": {
-        "correct": 89,
-        "incorrect": 8,
+        "correct": 90,
+        "incorrect": 7,
         "renderer-failure": 0,
         "invalid-format": 30,
         "unknown": 0,
@@ -5058,6 +5052,7 @@
           "terminal:529e14e4d09b944a",
           "terminal:53e2d239ed8df992",
           "terminal:54f7237ee5ab1a85",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:64788fe4b88b1f1f",
@@ -5120,7 +5115,6 @@
         "incorrect": [
           "terminal:11426c4cad392dc7",
           "terminal:478ab66bb4c7e4f5",
-          "terminal:5c9a50898b1e6ffe",
           "terminal:75e652628bded0d8",
           "terminal:90e78c1ed707e7e4",
           "terminal:a5204531005bef25",
@@ -5170,8 +5164,8 @@
       "version": "0.10.0",
       "format": "terminal",
       "counts": {
-        "correct": 104,
-        "incorrect": 6,
+        "correct": 105,
+        "incorrect": 5,
         "renderer-failure": 17,
         "invalid-format": 0,
         "unknown": 0,
@@ -5215,6 +5209,7 @@
           "terminal:54f7237ee5ab1a85",
           "terminal:587429a5094fbb28",
           "terminal:5b249b03683c12ec",
+          "terminal:5c9a50898b1e6ffe",
           "terminal:5d18804ad5e0e31f",
           "terminal:5eee7283ba095288",
           "terminal:61cc5e1150412252",
@@ -5286,7 +5281,6 @@
         ],
         "incorrect": [
           "terminal:478ab66bb4c7e4f5",
-          "terminal:5c9a50898b1e6ffe",
           "terminal:89e9eb6aebb72128",
           "terminal:90e78c1ed707e7e4",
           "terminal:b1428b5b59888938",
@@ -5319,8 +5313,8 @@
     }
   ],
   "totals": {
-    "correct": 3274,
-    "incorrect": 325,
+    "correct": 3295,
+    "incorrect": 304,
     "renderer-failure": 642,
     "invalid-format": 77,
     "unknown": 0,
@@ -5331,13 +5325,13 @@
     "terminal": {},
     "outputsRetained": false
   },
-  "updatedAt": "2026-11-04T23:40:21.771Z",
+  "updatedAt": "2026-11-05T01:10:10.595Z",
   "recollectedFormats": {
     "formats": [
       "svg",
       "terminal"
     ],
-    "at": "2026-11-04T23:40:21.771Z",
-    "reason": "Every case of the selected formats was recollected with the same frozen artifacts after the label check changed: a case with no labels is judged only on whether raw source syntax leaks into the output."
+    "at": "2026-11-05T01:10:10.595Z",
+    "reason": "Every case of the selected formats was recollected with the same frozen artifacts after the label check changed: a case with no labels is judged only on whether raw source syntax leaks into the output, and labels are compared as visible text (the escape-sequence case was re-rendered for every project)."
   }
 }
