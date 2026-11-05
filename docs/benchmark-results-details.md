@@ -118,7 +118,8 @@ list of messages, notes, activations and block markers in source order, rebuilt 
 index-addressed models where the indexes can order every statement), state, git graph,
 kanban, gantt, architecture, mindmap, requirement, pie, packet, block, journey, the
 Mermaid ports' agentflow, usecase, railroad, wardley, venn, cynefin, ishikawa and
-treeView records, and the Langium ASTs (radar, info, git graph, architecture, treemap,
+treeView records, Mermaid Dart's railroad, wardley, venn, cynefin and ishikawa models,
+XMermaid's sequence, cynefin, wardley and ishikawa models, and the Langium ASTs (radar, info, git graph, architecture, treemap,
 treeView, railroad) where a model can express them. Views live in
 `unified/mermaid-fidelity/schema-views.mjs` and per-area modules under
 `unified/mermaid-fidelity/views/`; `scripts/fidelity-probe.ts` prints the native model a
@@ -195,7 +196,28 @@ header (`usecase-beta`); a candidate that rejects a header-only diagram has no e
 model and such reads stay gaps. A getter read whose value no assertion uses is not an
 observation. A getter imported by name from a database module (`getAccDescription`
 from `commonDb`) reads the parsed diagram when called, and Mermaid's public
-`mermaidAPI.parse` is the candidate's own parser for the file's family.
+`mermaidAPI.parse` is the candidate's own parser for the file's family. That empty
+database has published no AST (`usecaseDb.getAST()` is undefined until a parse
+succeeds). Mermaid's chevrotain usecase parser publishes only on success, so a read after
+a rejected usecase parse sees the database as it was before the parse.
+
+Four further rules, decided on 5 November:
+
+- **Failure messages are not observations.** When an assertion has already failed and
+  formats its message or diff, the values it prints are read again. A declared-absent
+  field read then does not turn the failed test into an unsupported one. Snapshot
+  matchers serialise values in order to compare them, so reads under them still count.
+- **Records list the keys Mermaid always sets.** A class, ER, C4 or sequence record whose
+  Mermaid counterpart always carries a key (`wrap`, `cssClasses`, `alias`) lists it even
+  when the candidate's model has no value for it, so a whole-record comparison reads the
+  key and records the absence, rather than failing on a key count. Keys that Mermaid
+  itself can leave undefined are not listed.
+- **Mermaid's own pipeline.** `Diagram.fromText` in a shared test drives Mermaid's diagram
+  detection, type ids and registry, and `preserveCommentsWhenParsing` is a flag that
+  Mermaid's Diagram pipeline reads. Both are unsupported for every candidate, as are the
+  renderer layout getters, whether or not a diagram has been parsed.
+- **Record identity.** A view builds each record once per parse, so a test comparing
+  two getters' results with `toBe` sees the same object, as with Mermaid's database.
 
 Langium AST tests get reviewed AST views where a model can express the AST. An accepted
 parse with no reviewed view is still an AST of the right
