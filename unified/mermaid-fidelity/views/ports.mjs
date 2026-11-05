@@ -9,6 +9,7 @@
 // translated, and where it does not keep it the concept is declared absent.
 // Rust's None arrives as null where Mermaid leaves a field undefined (deepUnset).
 import { deepUnset, entriesOf, record } from '../schema-views.mjs'
+import { classMember } from './misc.mjs'
 
 const PELE = 'obsidianmd/pele', BEZEL = 'crabtalk/bezel', MERMAN = 'Latias94/merman'
 const NAME = { [PELE]: 'Pele', [BEZEL]: 'Bezel', [MERMAN]: 'Latias94/merman' }
@@ -416,6 +417,50 @@ function usecaseMerman(raw, hooks) {
   }, hooks)
 }
 
+// ── Class ────────────────────────────────────────────────────────────────────────
+// Bezel and Latias94/merman keep Mermaid's ClassNode records with each member's parsed
+// fields (id, memberType, visibility, classifier, parameters, returnType); a member's
+// getDisplayDetails() and text are Mermaid's computation from those fields (ClassMember in
+// classTypes.ts). Latias94/merman also stores that computation's result on the member as
+// displayText and cssStyle (Mermaid's member.cssStyle itself is never set), and keeps a
+// namespace's classes and notes as id lists with a parent; Bezel keeps them as objects.
+// Pele returns Mermaid's own ClassMember objects; for all three, class layout data is
+// computed for Mermaid's renderer (decided on 4 November) and is unsupported.
+const CLASS_LAYOUT = "Mermaid's class getData() is its renderer's layout data under the host configuration"
+function portClasses(raw, hooks, project) {
+  // Pele keeps Mermaid's namespace Map itself (classes, notes and children as Maps).
+  if (project === PELE) return { getData: () => hooks.unsupported(CLASS_LAYOUT), ...(raw.namespaces ? { getNamespace: id => new Map(entriesOf(raw.namespaces)).get(id) } : {}) }
+  const latias = project === MERMAN
+  const clean = item => (latias ? deepUnset(item) : item)
+  const member = item => {
+    const { displayText: _text, cssStyle: _style, ...own } = clean(item)
+    return classMember(own, {}, hooks)
+  }
+  const node = item => ({ ...clean(item), members: (item.members ?? []).map(member), methods: (item.methods ?? []).map(member) })
+  const classes = () => new Map(orderedEntries(raw.classes, hooks, `${NAME[project]} classes`).map(([id, item]) => [id, node(item)]))
+  const view = { getClasses: classes, getClass: id => classes().get(id), getData: () => hooks.unsupported(CLASS_LAYOUT) }
+  if (raw.namespaces) {
+    const spaces = () => {
+      const all = classes()
+      const list = orderedEntries(raw.namespaces, hooks, `${NAME[project]} namespaces`).map(([id, space]) => [id, clean(space)])
+      const notes = id => new Map((raw.notes instanceof Map ? [...raw.notes] : entriesOf(raw.notes)).filter(([key]) => key === id))
+      const out = new Map()
+      for (const [id, space] of list) {
+        const { classIds, noteIds, ...rest } = space
+        out.set(id, latias
+          ? { ...rest, classes: new Map((classIds ?? []).filter(key => all.has(key)).map(key => [key, all.get(key)])), notes: new Map((noteIds ?? []).flatMap(key => [...notes(key)])), children: new Map() }
+          : { ...rest, classes: new Map(entriesOf(space.classes).map(([key, item]) => [key, node(item)])), notes: new Map(entriesOf(space.notes)), children: new Map(entriesOf(space.children)) })
+      }
+      // Latias94/merman records each namespace's parent; Mermaid's children map is its inverse.
+      if (latias) for (const [id, space] of out) if (space.parent !== undefined && out.has(space.parent)) out.get(space.parent).children.set(id, space)
+      return out
+    }
+    view.getNamespaces = spaces
+    view.getNamespace = id => spaces().get(id)
+  }
+  return view
+}
+
 // ── Railroad (railroad, EBNF, ABNF, PEG) ─────────────────────────────────────────
 // Mermaid's railroadDb.ts keeps the rule list (later definitions of a name overwrite it
 // in the lookup) and a title. All three ports keep the same rule and node records; an
@@ -637,6 +682,8 @@ function mindmapView(raw, hooks, project) {
   return {
     nodeType: { ...MINDMAP_NODE_TYPE },
     ...(project === MERMAN ? {} : { getMindmap: () => (raw.nodes?.length ? node(raw.nodes[0]) : null) }),
+    // Mindmap layout data is computed for Mermaid's renderer (decided on 4 November).
+    getData: () => hooks.unsupported("Mermaid's mindmap getData() is its renderer's layout data"),
   }
 }
 
@@ -657,6 +704,7 @@ export default {
     venn: each([PELE, BEZEL, MERMAN], vennView),
     cynefin: each([PELE, BEZEL, MERMAN], cynefinView),
     railroad: each([PELE, BEZEL, MERMAN], railroadView),
+    class: each([PELE, BEZEL, MERMAN], portClasses),
     usecase: { ...each([PELE, BEZEL], usecaseState), [MERMAN]: usecaseMerman },
     agentflow: { ...each([PELE, BEZEL], agentflowState), [MERMAN]: agentflowSemantic },
   },

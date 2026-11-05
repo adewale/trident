@@ -820,6 +820,12 @@ const FLOW_MODELS = {
   // subgraph keeps no classes, and a markdown title is kept without its backticks.
   'orestesgaolin/mermaid': raw => dartFlow(raw),
   'pub:mermaid_flutter': raw => dartFlow(raw),
+  // merman (and OpenCode's copy) accepts classDef lines and keeps nothing of them; it
+  // rejects accessibility lines.
+  'kitlangton/merman': () => ({ absent: { getClasses: 'merman accepts classDef statements and keeps nothing of them', ...flowAcc('merman') } }),
+  'anomalyco/opencode': () => ({ absent: { getClasses: 'merman accepts classDef statements and keeps nothing of them', ...flowAcc('merman') } }),
+  // merslim keeps no classDef and no accessibility lines.
+  'emtyty/merslim': () => ({ absent: { getClasses: "merslim's flowchart parser keeps no classDef statements", ...flowAcc('merslim') } }),
   // Frankenmermaid 0.4.0 IR (diagram_type Flowchart): each classDef name is a style_ref
   // { Class: name } with its written style text (classDef a,b gives one per name); the
   // accessibility title and description are meta fields. A subgraph title written as
@@ -1486,3 +1492,6 @@ export default {
   },
   ast: {},
 }
+
+// Mermaid's ClassMember computation, for the port views in ./ports.mjs (used inside functions).
+export { classMember }

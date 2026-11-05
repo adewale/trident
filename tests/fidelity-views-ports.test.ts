@@ -270,3 +270,44 @@ test('Langium AST views claim only what the database record keeps', () => {
   expect(git.$type).toBe('GitGraph')
   expect(() => git.statements).toThrow('unsupported')
 })
+
+// classDiagram / namespace Space { class A { String plain; ~int pkg; bar( int x ) : String;
+// +baz(List~int~ a, Map~K,V~ b) List~int~$ } } (Bezel; Latias94/merman adds displayText/cssStyle)
+const bezelMember = (id: string, memberType: string, visibility = '', classifier = '', parameters = '', returnType = '') => ({ id, memberType, visibility, classifier, parameters, returnType })
+const bezelClass = {
+  id: 'A', type: '', label: 'A', cssClasses: 'default', annotations: [], styles: [], parent: 'Space',
+  members: [bezelMember('String plain', 'attribute'), bezelMember('int pkg', 'attribute', '~')],
+  methods: [bezelMember('bar', 'method', '', '', 'int x', 'String'), bezelMember('baz', 'method', '+', '$', 'List~int~ a, Map~K,V~ b', 'List~int~')],
+}
+test('ports class: member display details are Mermaid\'s computation; namespaces become Maps', () => {
+  const { hooks } = verdicts()
+  const bezel = nativeSchemaView('crabtalk/bezel', 'class', { classes: { A: bezelClass }, namespaces: { Space: { id: 'Space', label: 'Space', classes: { A: bezelClass }, notes: {}, children: {}, explicit: true } } }, hooks)
+  const a = bezel.getClass('A')
+  expect(a.members[1].getDisplayDetails()).toEqual({ displayText: '~int pkg', cssStyle: '' })
+  expect(a.methods[0].getDisplayDetails()).toEqual({ displayText: 'bar(int x) : String', cssStyle: '' })
+  expect(a.methods[1].getDisplayDetails()).toEqual({ displayText: '+baz(List<int> a, Map<K,V> b) : List<int>', cssStyle: 'text-decoration:underline;' })
+  expect(bezel.getNamespace('Space').classes.size).toBe(1)
+  expect(bezel.getNamespace('Space').classes.get('A').methods[0].getDisplayDetails().displayText).toBe('bar(int x) : String')
+  expect(() => bezel.getData()).toThrow('unsupported')
+  const latiasClass = { ...bezelClass, parent: null, members: bezelClass.members.map(m => ({ ...m, displayText: 'x', cssStyle: '' })), methods: [] }
+  const latias = nativeSchemaView('Latias94/merman', 'class', {
+    classes: { A: latiasClass },
+    namespaces: { Outer: { id: 'Outer', label: 'Outer', classIds: [], noteIds: [], parent: null, explicit: true }, 'Outer.Space': { id: 'Outer.Space', label: 'Space', classIds: ['A'], noteIds: [], parent: 'Outer', explicit: true } },
+  }, hooks)
+  expect(latias.getClass('A').parent).toBeUndefined()
+  expect(latias.getClass('A').members[0].cssStyle).toBeUndefined()
+  expect(latias.getClass('A').members[0].getDisplayDetails().displayText).toBe('String plain')
+  expect([...latias.getNamespace('Outer').children.keys()]).toEqual(['Outer.Space'])
+  expect(latias.getNamespace('Outer.Space').classes.get('A').id).toBe('A')
+})
+
+test('ports Treemap AST: class selectors kept; classDefs leave the row list unknown; radar entries keep no axis', () => {
+  const { hooks } = verdicts()
+  const raw = { roots: [{ name: 'S', classSelector: 'sec', children: [{ name: 'L', value: 100, classSelector: 'leafClass' }] }] }
+  const ast = nativeAstView('crabtalk/bezel', 'Treemap', raw, hooks)
+  expect(ast.TreemapRows.map((row: any) => [row.item.$type, row.item.classSelector])).toEqual([['Section', 'sec'], ['Leaf', 'leafClass']])
+  expect(() => nativeAstView('obsidianmd/pele', 'Treemap', { ...raw, classes: new Map([['sec', ['fill:red']]]) }, hooks).TreemapRows).toThrow('unsupported')
+  const radar = nativeAstView('crabtalk/bezel', 'Radar', { axes: [{ name: 'A', label: 'A' }], curves: [{ name: 'c', label: 'c', entries: [4] }] }, hooks)
+  expect(radar.curves[0].entries[0].value).toBe(4)
+  expect(() => radar.curves[0].entries[0].axis).toThrow('unsupported')
+})

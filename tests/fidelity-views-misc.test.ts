@@ -256,3 +256,77 @@ test('agentic-mermaid: a shape written as @{ shape: X } is the vertex type X', a
   expect([...db.getVertices()].map(([id, v]: any) => [id, v.type])).toEqual([['A', 'round'], ['C', 'rounded'], ['D', 'rect']])
   expect(db.getData().nodes.map((n: any) => n.shape)).toEqual(['roundedRect', 'rounded', 'rect'])
 })
+
+// merslim: flowchart LR / A[Square] --> B(Round) / B -.-> C{Diamond} / E -- text --> F[(Cyl)] /
+// I ~~~ J / subgraph sub1 [Sub title] K end
+test('merslim flowchart: shapes only where its kind names one; no arrowheads, subgraph members or classDefs', () => {
+  const { hooks } = verdicts()
+  const raw = {
+    type: 'flowchart', direction: 'LR',
+    nodes: [{ id: 'A', label: 'Square', kind: 'process' }, { id: 'C', label: 'Diamond', kind: 'decision' }, { id: 'F', label: 'Cyl', kind: 'database' }, { id: 'I', label: 'I', kind: 'plain' }],
+    edges: [{ source: 'A', target: 'C', kind: 'dashed' }, { source: 'C', target: 'F', kind: 'solid', label: 'text' }, { source: 'I', target: 'F', kind: 'invisible' }],
+    subgraphs: [{ id: 'sub1', label: 'Sub title' }],
+  }
+  const view = nativeSchemaView('emtyty/merslim', 'flowchart', raw, hooks)
+  const vertices = view.getVertices()
+  expect([vertices.get('C').type, vertices.get('F').type, vertices.get('A').text]).toEqual(['diamond', 'cylinder', 'Square'])
+  expect(() => vertices.get('A').type).toThrow('unsupported')
+  expect(() => vertices.get('I').type).toThrow('unsupported')
+  expect(view.getEdges().map((edge: any) => [edge.start, edge.end, edge.stroke, edge.text])).toEqual([['A', 'C', 'dotted', ''], ['C', 'F', 'normal', 'text'], ['I', 'F', 'invisible', '']])
+  expect(() => view.getEdges()[0].type).toThrow('unsupported')
+  expect(view.getSubGraphs()[0].title).toBe('Sub title')
+  expect(() => view.getSubGraphs()[0].nodes).toThrow('unsupported')
+  expect(() => view.getClasses()).toThrow('unsupported')
+  expect(view.getDirection()).toBe('LR')
+})
+
+// OpenCode merman: flowchart LR / A[Square] --> B(Round) / B -.-> C{Diamond} / A <--> D / D ~~~ C /
+// subgraph sub1 [Sub title] direction TB C subgraph inner D end end
+test('merman flowchart (OpenCode, kitlangton): edges from its flags, subgraphs inner first', () => {
+  const { hooks } = verdicts()
+  const raw = {
+    direction: 'LR',
+    nodes: [{ id: 'A', label: 'Square', shape: 'box' }, { id: 'B', label: 'Round', shape: 'rounded' }, { id: 'C', label: 'Diamond', shape: 'decision' }, { id: 'D', label: 'D', shape: 'box' }],
+    edges: [{ from: 'A', to: 'B', label: '' }, { from: 'B', to: 'C', label: '', style: 'dashed' }, { from: 'A', to: 'D', label: '', sourceArrowhead: true }, { from: 'D', to: 'C', label: '', orderOnly: true }],
+    subgraphs: [{ id: 'sub1', label: 'Sub title', nodeIds: ['C'], direction: 'TB' }, { id: 'inner', label: 'inner', nodeIds: ['D'], parentId: 'sub1' }],
+  }
+  for (const project of ['anomalyco/opencode', 'kitlangton/merman']) {
+    const view = nativeSchemaView(project, 'flowchart', raw, hooks)
+    const vertices = view.getVertices()
+    expect([vertices.get('A').type, vertices.get('C').type]).toEqual(['square', 'diamond'])
+    expect(() => vertices.get('B').type).toThrow('unsupported')
+    expect(() => vertices.get('D').type).toThrow('unsupported')
+    expect(view.getEdges().map((edge: any) => [edge.type, edge.stroke])).toEqual([['arrow_point', 'normal'], ['arrow_point', 'dotted'], ['double_arrow_point', 'normal'], ['arrow_open', 'invisible']])
+    expect(view.getSubGraphs().map((group: any) => [group.id, group.nodes])).toEqual([['inner', ['D']], ['sub1', ['C', 'inner']]])
+    expect(view.getSubGraphs()[1].dir).toBe('TB')
+    expect(() => view.getSubGraphs()[0].dir).toThrow('unsupported')
+    expect(() => view.getClasses()).toThrow('unsupported')
+    expect(() => view.getEdges()[0].style).toThrow('unsupported')
+  }
+})
+
+test('XMermaid cynefin and wardley', () => {
+  const { hooks } = verdicts()
+  const cynefin = nativeSchemaView('evangwt/xmermaid', 'cynefin', {
+    type: 'cynefin', title: 'My Cyn',
+    domains: [{ id: 'complex', items: ['Probe', 'Sense'] }, { id: 'complicated', items: [] }, { id: 'clear', items: ['Best'] }, { id: 'chaotic', items: [] }, { id: 'confusion', items: [] }],
+    transitions: [{ from: 'complex', to: 'clear', label: 'simplify' }, { from: 'chaotic', to: 'complex', label: '' }],
+  }, hooks)
+  const domains = cynefin.getDomains()
+  expect(domains.get('complex')).toEqual({ name: 'complex', items: [{ label: 'Probe' }, { label: 'Sense' }] })
+  expect(domains.has('clear')).toBe(true)
+  expect(() => domains.get('chaotic')).toThrow('unsupported')
+  expect(() => domains.size).toThrow('unsupported')
+  expect(() => [...domains]).toThrow('unsupported')
+  expect(cynefin.getTransitions()).toEqual([{ from: 'complex', to: 'clear', label: 'simplify' }, { from: 'chaotic', to: 'complex', label: undefined }])
+  expect(cynefin.getDiagramTitle()).toBe('My Cyn')
+  expect(() => cynefin.getAccTitle()).toThrow('unsupported')
+  const wardley = nativeSchemaView('evangwt/xmermaid', 'wardley', { type: 'wardley', title: 'Example', components: [{ id: 'Alpha', label: 'Alpha', x: 0.2, y: 0.1, anchor: false }, { id: 'U', label: 'U', x: 0.9, y: 0.95, anchor: true }], dependencies: [{ from: 'U', to: 'Alpha' }] }, hooks)
+  const data = wardley.getWardleyData()
+  expect(data.nodes.map((node: any) => [node.id, node.className, node.x, node.y])).toEqual([['U', 'anchor', 90, 95], ['Alpha', 'component', 20, 10]])
+  expect(data.links.map((link: any) => [link.source, link.target])).toEqual([['U', 'Alpha']])
+  expect(() => data.links[0].dashed).toThrow('unsupported')
+  expect(() => data.trends).toThrow('unsupported')
+  expect(() => data.nodes[0].inertia).toThrow('unsupported')
+  expect(wardley.getDiagramTitle()).toBe('Example')
+})

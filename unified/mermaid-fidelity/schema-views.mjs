@@ -339,7 +339,74 @@ function mermaidGraphView(name) {
   }
 }
 
+// merslim 0.2.3 parseToIR flowchart (captured parser output): nodes keep a label and one
+// semantic kind ('process' for [..] and the slanted [/..] and [\..] shapes, 'service' for
+// (..) and ([..]), 'decision' for {..}, 'user' for ((..)), 'database' for [(..)], 'queue'
+// for [[..]], 'plain' for a bare node and for >..]); edges keep one line kind (solid,
+// dashed, thick, invisible) and a label but no arrowheads (A --> B and A --- B are the
+// same solid edge, and edges with circle, cross or two-way ends are not kept); subgraphs
+// keep an id and a title, not their members. classDef, class, style, linkStyle, click,
+// direction-in-subgraph and accessibility lines are not kept.
+const MERSLIM_KIND = { decision: 'diamond', user: 'circle', database: 'cylinder', queue: 'subroutine' }
+const MERSLIM_STROKE = { solid: 'normal', dashed: 'dotted', thick: 'thick', invisible: 'invisible' }
+function merslimGraph(graph) {
+  const skipped = what => `merslim's flowchart parser keeps no ${what}`
+  return {
+    nodes: () => graph.nodes.map(node => [node.id, { text: node.label, ...(MERSLIM_KIND[node.kind] ? { type: MERSLIM_KIND[node.kind] } : { [VERTEX_ABSENT]: { type: `merslim records several Mermaid shapes as the same '${node.kind}' kind` } }) }]),
+    edges: () => graph.edges.map(edge => ({ start: edge.source, end: edge.target, text: edge.label ?? '', stroke: MERSLIM_STROKE[edge.kind] ?? edge.kind })),
+    subgraphs: () => (graph.subgraphs ?? []).map(group => ({ id: group.id, title: group.label ?? group.id })),
+    direction: directionOf(graph.direction),
+    absent: {
+      vertex: { styles: skipped('style statements'), classes: skipped('class assignments'), link: skipped('click statements'), tooltip: skipped('click statements') },
+      edge: { type: "merslim keeps an edge's line, not its arrowheads: A --> B and A --- B are the same solid edge", length: skipped('link lengths'), style: skipped('linkStyle statements'), interpolate: skipped('linkStyle statements'), id: skipped('edge ids'), animate: skipped('edge animation'), classes: skipped('edge classes') },
+      subgraph: { nodes: "merslim keeps a subgraph's id and title, not its members", dir: skipped('subgraph directions'), classes: skipped('subgraph classes'), labelType: "merslim keeps a subgraph title's text without recording whether it was written as markdown" },
+    },
+  }
+}
+
+// merman's flowchart model (kitlangton/merman 0.x, and the copy OpenCode bundles; captured
+// parser output): nodes keep a label and a shape word ('box' for a bare node and for [..],
+// whose label is then the id or the bracket text; 'rounded' for both (..) and ([..]);
+// 'decision', 'database', 'subroutine'); edges keep from, to, a label and an optional
+// style ('dashed', 'thick'), OpenCode also a two-way flag (sourceArrowhead) and ~~~
+// (orderOnly). Its parser accepts no other edge forms (---, --o, --x are rejected), so an
+// edge without those flags is A --> B. Subgraphs keep id, label, member ids, a direction
+// and a parent id, in declaration order (Mermaid lists a subgraph when it closes, inner
+// ones first). classDef, class, :::, style and linkStyle lines are accepted and dropped;
+// click and accessibility lines are rejected.
+const MERMAN_SHAPE = { decision: 'diamond', database: 'cylinder', subroutine: 'subroutine' }
+function mermanGraph(graph) {
+  const name = 'merman'
+  const groups = graph.subgraphs ?? []
+  const ordered = []
+  const walk = group => {
+    for (const child of groups.filter(other => other.parentId === group.id)) walk(child)
+    ordered.push(group)
+  }
+  for (const group of groups) if (!group.parentId || !groups.some(other => other.id === group.parentId)) walk(group)
+  const type = node => {
+    if (node.shape === 'box') return node.label === node.id ? { [VERTEX_ABSENT]: { type: `${name} records a bare node and a rectangle labelled with its own id as the same 'box'` } } : { type: 'square' }
+    if (node.shape === 'rounded') return { [VERTEX_ABSENT]: { type: `${name} records (..) and ([..]) as the same 'rounded' shape` } }
+    return MERMAN_SHAPE[node.shape] ? { type: MERMAN_SHAPE[node.shape] } : { type: `merman:${node.shape}` }
+  }
+  const dropped = what => `${name} accepts ${what} and keeps nothing of them`
+  return {
+    nodes: () => graph.nodes.map(node => [node.id, { text: node.label, ...type(node) }]),
+    edges: () => graph.edges.map(edge => ({ start: edge.from, end: edge.to, text: edge.label ?? '', type: edge.orderOnly ? 'arrow_open' : edge.sourceArrowhead ? 'double_arrow_point' : 'arrow_point', stroke: edge.orderOnly ? 'invisible' : edge.style === 'dashed' ? 'dotted' : edge.style === 'thick' ? 'thick' : edge.style == null ? 'normal' : edge.style })),
+    subgraphs: () => ordered.map(group => ({ id: group.id, title: group.label ?? group.id, nodes: [...(group.nodeIds ?? []), ...groups.filter(other => other.parentId === group.id).map(other => other.id)], ...(group.direction ? { dir: group.direction } : {}) })),
+    direction: directionOf(graph.direction),
+    absent: {
+      vertex: { styles: dropped('style statements'), classes: dropped('class statements and ::: shorthands'), link: `${name}'s flowchart parser rejects click statements`, tooltip: `${name}'s flowchart parser rejects click statements` },
+      edge: { length: `${name}'s edge model keeps no link length`, style: dropped('linkStyle statements'), interpolate: dropped('linkStyle statements'), id: `${name}'s edge model keeps no edge ids`, animate: `${name}'s edge model keeps no animation`, classes: `${name}'s edge model keeps no classes` },
+      subgraph: { dir: `${name} records no direction for this subgraph`, classes: dropped('class statements'), labelType: `${name} keeps a subgraph title's text without recording whether it was written as markdown` },
+    },
+  }
+}
+
 const FLOWCHART = {
+  'kitlangton/merman': mermanGraph,
+  'anomalyco/opencode': mermanGraph,
+  'emtyty/merslim': merslimGraph,
   'AlexanderGrooff/mermaid-ascii': asciiGraph,
   'xai-org/grok-build': indexGraph,
   'spacedock-dev/mermaidtext': indexGraph,
@@ -1090,7 +1157,9 @@ const DATABASE_AST = {
       ...(raw.accTitle != null ? { accTitle: raw.accTitle } : { accTitle: undefined }),
       ...(raw.accDescr != null ? { accDescr: raw.accDescr } : { accDescr: undefined }),
       axes: raw.axes.map(axis => named(axis, hooks, 'Axis')),
-      curves: raw.curves.map(curve => named(curve, hooks, 'Curve', { entries: curve.entries.map(value => astNode('Entry', { value }, hooks)) })),
+      // The database lists a curve's values in axis order: whether an entry named its axis
+      // ({ axis: value } rather than a bare value) is not kept.
+      curves: raw.curves.map(curve => named(curve, hooks, 'Curve', { entries: curve.entries.map(value => astNode('Entry', { value }, hooks, { axis: "the resolved radar database lists a curve's values in axis order, not whether an entry named its axis" })) })),
     }, hooks, { options: 'the resolved radar database merges option defaults in, so written options cannot be told from defaults' }),
   Info: (_raw, hooks) => astNode('Info', {}, hooks),
 }
@@ -1117,17 +1186,21 @@ const PORT_AST = {
     return astNode('TreeView', { nodes, title: raw.title ?? undefined, accTitle: raw.accTitle ?? undefined, accDescr: raw.accDescr ?? undefined }, hooks)
   },
   // Rows in source order are the pre-order walk of the tree, unless classDef rows are
-  // interleaved: their position is not kept, so rows are then not claimed.
+  // interleaved: those are kept by name apart from the tree (Pele's as a Map), so their
+  // position is not, and the row list is then not the database's to give. A :::class
+  // selector is kept on its node; a row's indentation is kept only as tree depth.
   Treemap: (raw, hooks) => {
-    if (raw.classes && Object.keys(raw.classes).length) return astNode('Treemap', { title: raw.title ?? undefined }, hooks)
+    const classDefs = raw.classes instanceof Map ? raw.classes.size : raw.classes && Object.keys(raw.classes).length
     const rows = []
     const walk = node => {
       // In Mermaid's AST a row is a Leaf exactly when a value was written.
-      rows.push(astNode('TreemapRow', { item: astNode(node.value != null ? 'Leaf' : 'Section', { name: node.name, ...(node.value != null ? { value: node.value } : {}) }, hooks) }, hooks))
+      const item = astNode(node.value != null ? 'Leaf' : 'Section', { name: node.name, ...(node.value != null ? { value: node.value } : {}), classSelector: node.classSelector ?? undefined }, hooks)
+      rows.push(astNode('TreemapRow', { item }, hooks, { indent: "Mermaid's treemap database keeps the tree, not each row's indentation" }))
       for (const child of node.children ?? []) walk(child)
     }
-    for (const root of raw.roots ?? raw.root?.children ?? []) walk(root)
-    return astNode('Treemap', { TreemapRows: rows, title: raw.title ?? undefined, accTitle: raw.accTitle ?? undefined, accDescr: raw.accDescr ?? undefined }, hooks)
+    if (!classDefs) for (const root of raw.roots ?? raw.root?.children ?? []) walk(root)
+    const absent = classDefs ? { TreemapRows: "Mermaid's treemap database keeps classDefs by name, apart from the rows, so their position among the rows is not kept" } : {}
+    return astNode('Treemap', { ...(classDefs ? {} : { TreemapRows: rows }), title: raw.title ?? undefined, accTitle: raw.accTitle ?? undefined, accDescr: raw.accDescr ?? undefined }, hooks, absent)
   },
 }
 Object.assign(AST_FIELDS, { Architecture: ['title', 'accTitle', 'accDescr', 'services', 'groups', 'junctions', 'edges'], Service: ['id', 'title', 'icon', 'iconText', 'in'], Group: ['id', 'title', 'icon', 'in'], TreeView: ['nodes', 'title', 'accTitle', 'accDescr'], TreeNode: ['name', 'indent', 'classAnnotation', 'iconAnnotation'], Treemap: ['TreemapRows', 'title', 'accTitle', 'accDescr'], TreemapRow: ['item', 'indent'], Section: ['name', 'classSelector'], Leaf: ['name', 'value', 'classSelector'] })
