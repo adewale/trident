@@ -75,6 +75,23 @@ function deferred(reason: string): any {
   deferredValues.set(value, reason)
   return value
 }
+/** A deferred value that records its gap only when used: read, compared or inspected. */
+function untilUsed(reason: string): any {
+  const use = (key: unknown) => deferred(reason + (key === undefined ? '' : '.' + String(key)))
+  const value: any = new Proxy(function () {}, {
+    get(_t, key) {
+      if (key === 'then' || key === 'asymmetricMatch' || key === 'toJSON') return undefined
+      return use(key)
+    },
+    apply: () => untilUsed(reason + '()'),
+    construct: () => gap('new ' + reason),
+    has: (_t, key) => use(key),
+    ownKeys: () => use(undefined),
+    getOwnPropertyDescriptor: (_t, key) => use(key),
+  })
+  deferredValues.set(value, reason)
+  return value
+}
 const examples: Record<string, string> = {
   flowchart: 'flowchart TD\nA-->B',
   sequence: 'sequenceDiagram\nA->>B: hello',
@@ -328,8 +345,9 @@ function nativeParse(family: string, source: string) {
       }
       if (result?.ir?.diagram_type) {
         const ir = result.ir
-        // ER, class and flowchart IR are read by Frankenmermaid's reviewed schema views (schema-views.mjs).
-        if (job.target.project === 'Dicklesworthstone/frankenmermaid' && String(ir.diagram_type).toLowerCase() === family && ['er', 'class', 'flowchart'].includes(family)) return ir
+        // Frankenmermaid's IR is read by its reviewed schema views (schema-views.mjs and
+        // views/frankenmermaid.mjs); a family with no view stays a gap at projection.
+        if (job.target.project === 'Dicklesworthstone/frankenmermaid') return ir
         if (family !== 'flowchart' || ir.diagram_type !== 'Flowchart') return gap('Native IR schema for ' + ir.diagram_type + ' is not mapped to the original ' + family + ' database')
         const shapes: Record<string, string> = { Rect: 'square', Rounded: 'round', Circle: 'circle', Diamond: 'diamond', Stadium: 'stadium', Hexagon: 'hexagon', Cylinder: 'cylinder', Subroutine: 'subroutine', DoubleCircle: 'doublecircle' }
         const nodes = ir.nodes.map((node: any) => {
@@ -494,7 +512,9 @@ function context(family: string) {
         // Reading Mermaid's database API (to call it, spy on it or check that it exists) is
         // an operation the candidate does not offer.
         if (mermaidDatabaseMember(key)) return unsupportedOperation(`${family} database ${key} (the candidate exposes a parser, not Mermaid's database API)`)
-        return deferred(family + '.db.' + key)
+        // A getter read but whose value no assertion uses (getVertices() before parsing)
+        // is not an observation; it becomes a gap only when its value is used.
+        return untilUsed(family + '.db.' + key)
       },
       // vi.spyOn looks a member up by descriptor (or `in`) before spying on it. A spy on a
       // Mermaid database member checks the parser -> database call protocol, which a

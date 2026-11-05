@@ -10,6 +10,8 @@
 //     and reading it is that project's unsupported operation (a known nonpass);
 //   - anything else the tests read stays a Trident gap.
 
+import { extraSchemaView, extraAstView } from './views/index.mjs'
+
 const entriesOf = value => value instanceof Map ? [...value] : value && typeof value === 'object' ? Object.entries(value) : []
 
 /** A Mermaid-shaped record. Reading a declared-absent field is unsupported; reading a
@@ -999,13 +1001,26 @@ export const MERMAID_CONSTANTS = {
 // also ships these constants in its model).
 const MERMAID_VOCABULARY_PORTS = new Set(['obsidianmd/pele', 'crabtalk/bezel', 'Latias94/merman'])
 /** Mermaid's constants for a family, where the target's values are in that vocabulary. */
+// Requirement constants are the words a test writes into its source text (risk: High);
+// a candidate's own values are still compared only through a view.
+const SOURCE_VOCABULARY = new Set(['requirement'])
 export function mermaidConstants(project, family, reviewed) {
-  return reviewed || MERMAID_VOCABULARY_PORTS.has(project) ? MERMAID_CONSTANTS[family] : undefined
+  return reviewed || MERMAID_VOCABULARY_PORTS.has(project) || SOURCE_VOCABULARY.has(family) ? MERMAID_CONSTANTS[family] : undefined
 }
 
 /** Mermaid database getters from one bridged project's native model, or undefined
- * when this project and family have no reviewed view. */
+ * when this project and family have no reviewed view. Views in views/*.mjs add to (and
+ * for the same getter, take precedence over) the views in this file. */
 export function nativeSchemaView(project, family, raw, hooks) {
+  // Frankenmermaid's IR names its own diagram type; this file's ER, class and flowchart
+  // views read only the IR of that same type (views/frankenmermaid.mjs checks its own).
+  const franken = project === 'Dicklesworthstone/frankenmermaid' && raw && typeof raw === 'object'
+  const base = franken && String(raw.diagram_type).toLowerCase() !== family ? undefined : reviewedSchemaView(project, family, raw, hooks)
+  if (base?.whole || raw == null || typeof raw !== 'object') return base
+  const more = extraSchemaView(project, family, raw, hooks)
+  return more ? { ...(base ?? {}), ...more } : base
+}
+function reviewedSchemaView(project, family, raw, hooks) {
   // Ondine has no parser model: render() reports acceptance or rejection only, so every
   // model observation is an operation it does not offer.
   if (project === 'wevm/ondine')
@@ -1114,6 +1129,8 @@ const AST_VIEWS = { 'crabtalk/bezel': PORT_AST, 'Latias94/merman': PORT_AST, 'ob
 export function nativeAstView(project, astFamily, raw, hooks) {
   const view = AST_VIEWS[project]?.[astFamily]
   if (view && raw && typeof raw === 'object') return view(raw, hooks)
+  const extra = raw && typeof raw === 'object' ? extraAstView(project, astFamily, raw, hooks) : undefined
+  if (extra) return extra
   const benign = key => typeof key !== 'string' || ['then', 'toJSON', 'asymmetricMatch', 'nodeType', 'constructor', '$$typeof', '@@__IMMUTABLE_ITERABLE__@@', '@@__IMMUTABLE_RECORD__@@'].includes(key)
   const missing = key => hooks.unavailable(`Native ${astFamily} AST field ${String(key)} has no reviewed view for this project`)
   return new Proxy({ $type: astFamily }, {
@@ -1189,4 +1206,12 @@ export function flowchartLayoutData(view, hooks, project) {
       }), 'layout edge', LAYOUT_EDGE_FIELDS, LAYOUT_RENDERER_ONLY, hooks))
     return record({ nodes, edges: layoutEdges, other: {} }, 'layout data', ['nodes', 'edges', 'other', 'config'], { config: "Mermaid's host configuration is not part of a parse result" }, hooks)
   }
+}
+
+// Helpers and view builders for views/*.mjs. A view module uses them only inside its
+// functions, never at its own top level, because this file imports the views.
+export {
+  entriesOf, record, VERTEX_FIELDS, EDGE_FIELDS, SUBGRAPH_FIELDS, shapeOf, headOf, strokeOf, directionOf, edgeType, styleStrings, VERTEX_ABSENT, flowchartView,
+  unset, deepUnset, text, optional, snake, card, endOf, RELATION_TYPE, LINE_TYPE, LINE_ABSENT, classView, relation, erView, cardWord, CARD_SYMBOL, identifying,
+  c4View, C4_MACRO, C4_REL_MACRO, C4_BOUNDARY_MACRO, usesTechn, WRAP, SEQ, PLACEMENT, SEQ_BLOCK, SEQ_ABSENT, sequenceView, actorsView, kanbanView, astNode,
 }

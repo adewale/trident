@@ -36,6 +36,9 @@ export function projectPublicDatabase(tool, family, raw, unavailable, unsupporte
   // A reviewed per-project view takes precedence over the generic field-name guesses.
   const native = project && unavailable && unsupported ? nativeSchemaView(project, family, raw, { unavailable, unsupported }) : undefined
   if (native?.whole) return native.whole
+  // Frankenmermaid's IR is read only through reviewed views; the field-name guesses below
+  // would misread its index-addressed graph.
+  if (project === 'Dicklesworthstone/frankenmermaid' && !native && unavailable) return unavailable('Native IR schema for ' + raw?.diagram_type + ' is not mapped to the original ' + family + ' database')
   const constants = project ? mermaidConstants(project, family, Boolean(native)) : undefined
   // Flowchart layout data from whichever reviewed or generic flowchart getters exist.
   const withLayout = view => (family === 'flowchart' && unsupported && typeof view.getVertices === 'function' && typeof view.getData !== 'function' ? { ...view, getData: flowchartLayoutData(view, { unavailable, unsupported }, project) } : view)
