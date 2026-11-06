@@ -21,7 +21,7 @@
     "mermaid-js/mermaid": {
       "registry": "npm",
       "package": "mermaid",
-      "version": "12.2.0"
+      "version": "12.3.0"
     },
     "@mermaid-js/mermaid-zenuml": {
       "registry": "npm",

@@ -7,8 +7,10 @@ import { inventoryOriginalDeclarations } from './upstream-fidelity-census.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { parserBridge } from './mermaid-fidelity/bridges.ts'
 import './mermaid-fidelity/bridge-registry.ts'
+import { currentReferencePin } from '../reference/source.ts'
 
-const PIN = '1fb7869866dd619168d840291c9c54b4f129758b'
+// The pinned Mermaid suite: one reviewed version and commit, shared with upstream:prepare.
+const PIN = currentReferencePin.commit
 export function fidelityOutcomes(reference: any, candidate: any, audit: any[], referenceAudit?: any[]) {
   const tests = (report: any) => (report?.testResults ?? []).flatMap((f: any) => f.assertionResults.map((t: any, index: number) => ({ ...t, file: f.name, index })))
   const controls = tests(reference),
@@ -82,7 +84,10 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
 // Test files whose outcomes are identical without jsdom for every candidate (measured on
 // in-process and bridged candidates at the pinned Mermaid; see dom-free-files.json).
 // TRIDENT_FIDELITY_ENVIRONMENT=node runs every candidate file without jsdom, to measure.
-const domFree = new Set<string>(existsSync(join(import.meta.dirname, 'mermaid-fidelity/dom-free-files.json')) ? JSON.parse(readFileSync(join(import.meta.dirname, 'mermaid-fidelity/dom-free-files.json'), 'utf8')).files : [])
+const domFreeFile = join(import.meta.dirname, 'mermaid-fidelity/dom-free-files.json')
+const domFreeRecord = existsSync(domFreeFile) ? JSON.parse(readFileSync(domFreeFile, 'utf8')) : undefined
+// A list measured at another pin says nothing about this suite's files: they run with jsdom.
+const domFree = new Set<string>(domFreeRecord?.commit === currentReferencePin.commit ? domFreeRecord.files : [])
 export async function main(args = process.argv.slice(2)) {
   if (args.includes('--help')) {
     console.log('mermaid:fidelity --upstream DIR --reference DIR --runtime DIR --prepared FILE --out FRESH_DIR [--projects IDS] [--filter PATH_FRAGMENT] [--reuse-reference PRIOR_OUT] [--timeout-minutes N] [--workers N]\nExecute original pinned tests in Vitest, once per candidate and control. --reuse-reference reads an earlier complete control run for the same selection instead of repeating it. --workers runs that many test files at once (default 1); tests inside a file always run one at a time.')
@@ -103,7 +108,7 @@ export async function main(args = process.argv.slice(2)) {
   if (execFileSync('git', ['rev-parse', 'HEAD'], { cwd: upstream, encoding: 'utf8' }).trim() !== PIN) throw Error('Wrong Mermaid suite pin')
   execFileSync('git', ['diff', '--quiet', 'HEAD', '--', 'packages'], { cwd: upstream })
   const referenceRequire = createRequire(join(reference, 'package.json'))
-  if (JSON.parse(readFileSync(referenceRequire.resolve('mermaid/package.json'), 'utf8')).version !== '12.2.0') throw Error('Reference Mermaid must match the pinned suite version')
+  if (JSON.parse(readFileSync(referenceRequire.resolve('mermaid/package.json'), 'utf8')).version !== currentReferencePin.version) throw Error('Reference Mermaid must match the pinned suite version')
   const inventory = inventoryOriginalDeclarations(upstream)
   const files = inventory.files
     .filter(
@@ -127,7 +132,7 @@ export async function main(args = process.argv.slice(2)) {
         if (selected) assertCurrentBenchmarkArtifact(peer, selected)
       }
   }
-  const targets: any[] = [{ project: 'mermaid-js/mermaid', version: '12.2.0', tool: 'mermaid' }]
+  const targets: any[] = [{ project: 'mermaid-js/mermaid', version: currentReferencePin.version, tool: 'mermaid' }]
   const blocked: any[] = []
   for (const peer of prepared) {
     const project = peer.node.id

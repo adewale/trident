@@ -1,5 +1,6 @@
 {
- "about": "Mermaid test files (at mermaid@12.2.0) whose outcomes were identical without jsdom for Pele, Agentic Mermaid and Frankenmermaid (in-process parsers) and Termaid (a bridge) on 5 November 2026. Candidates run these files in the node environment; the control always uses jsdom. Re-measure with TRIDENT_FIDELITY_ENVIRONMENT=node when the Mermaid pin changes.",
+ "about": "Mermaid test files (at mermaid@12.2.0) whose outcomes were identical without jsdom for Pele, Agentic Mermaid and Frankenmermaid (in-process parsers) and Termaid (a bridge) on 5 November 2026. Candidates run these files in the node environment; the control always uses jsdom. The list applies only at the commit it records; at any other pin every file runs with jsdom until it is re-measured with TRIDENT_FIDELITY_ENVIRONMENT=node.",
+ "commit": "1fb7869866dd619168d840291c9c54b4f129758b",
  "files": [
   "packages/mermaid-layout-elk/src/plugin.spec.ts",
   "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
