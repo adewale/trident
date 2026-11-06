@@ -34,16 +34,29 @@ export function renderThreeBenchmarkReport(report: ReturnType<typeof threeBenchm
   return lines.join('\n')
 }
 
+/** The image results with a native PNG collection's runs added: both must count the same
+ * pinned documentation corpus, and a project measured natively is no longer blocked. */
+export function mergeNativePng(images: any, native: any) {
+  for (const key of ['commit', 'occurrences'] as const) if (images.corpus?.[key] !== native.corpus?.[key]) throw Error(`Native PNG results count a different corpus (${key}: ${native.corpus?.[key]} vs ${images.corpus?.[key]})`)
+  if (native.state !== 'complete') throw Error('Native PNG results are incomplete')
+  const measured = new Set(native.runs.map((run: any) => run.project))
+  for (const project of measured) if (images.runs.some((run: any) => run.project === project)) throw Error(project + ' already has image runs')
+  return { ...images, runs: [...images.runs, ...native.runs], blocked: (images.blocked ?? []).filter((block: any) => !measured.has(block.project)) }
+}
+
 export async function main(args = process.argv.slice(2)) {
-  if (args.length === 1 && args[0] === '--help') { console.log('campaign:results --images FILE --terminal FILE --out FRESH_DIRECTORY [--versions DIRECTORY]\nReport measured DaveBench results. Use results:snapshot for the three current benchmark leagues.'); return }
+  const usage = 'campaign:results --images FILE --terminal FILE [--native-png FILE] --out FRESH_DIRECTORY [--versions DIRECTORY]'
+  if (args.length === 1 && args[0] === '--help') { console.log(usage + '\nReport measured DaveBench results. --native-png adds a davebench:native-png collection to the image results and writes the merged images.json beside the report. Use results:snapshot for the three current benchmark leagues.'); return }
   const options = new Map<string, string>()
-  for (let i = 0; i < args.length; i += 2) { if (!['--images', '--terminal', '--versions', '--out'].includes(args[i]!) || !args[i + 1] || options.has(args[i]!)) throw Error('campaign:results --images FILE --terminal FILE --out FRESH_DIRECTORY [--versions DIRECTORY]'); options.set(args[i]!, args[i + 1]!) }
+  for (let i = 0; i < args.length; i += 2) { if (!['--images', '--terminal', '--native-png', '--versions', '--out'].includes(args[i]!) || !args[i + 1] || options.has(args[i]!)) throw Error(usage); options.set(args[i]!, args[i + 1]!) }
   if (['--images', '--terminal', '--out'].some(key => !options.has(key))) throw Error('Supply images, terminal and output paths')
   const read = (file: string) => JSON.parse(readFileSync(file, 'utf8'))
-  const report = threeBenchmarkReport(read(options.get('--images')!), read(options.get('--terminal')!), options.has('--versions') ? read(join(options.get('--versions')!, 'versions.json')) : undefined)
+  const images = options.has('--native-png') ? mergeNativePng(read(options.get('--images')!), read(options.get('--native-png')!)) : read(options.get('--images')!)
+  const report = threeBenchmarkReport(images, read(options.get('--terminal')!), options.has('--versions') ? read(join(options.get('--versions')!, 'versions.json')) : undefined)
   const out = resolve(options.get('--out')!)
   if (existsSync(out)) throw Error('Choose a fresh output directory')
   mkdirSync(out, { recursive: true })
+  if (options.has('--native-png')) writeFileSync(join(out, 'images.json'), JSON.stringify(images, null, 2) + '\n')
   writeFileSync(join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n')
   writeFileSync(join(out, 'report.md'), renderThreeBenchmarkReport(report))
 }
@@ -109,7 +122,7 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
 /** The release campaign lives at fixed paths: a file name never claims a collection date.
  * Published dates come from the timestamps each result file records (published-facts.ts).
  * The catalog is the version cutoff the campaign ran against, named for the day it was frozen. */
-export const currentBenchmarkResultFiles = ['results/release/report.json', 'results/release/drawing-correctness.json', 'results/release/mermaid-fidelity.json', 'docs/evidence/benchmark-campaign-2026-11-02/catalog.json']
+export const currentBenchmarkResultFiles = ['results/release/report.json', 'results/release/drawing-correctness.json', 'results/release/mermaid-fidelity.json', 'docs/evidence/benchmark-campaign-2026-11-06/catalog.json']
 
 /** Current campaign inputs already tracked in the repository; older snapshots
  * continue to support explicit historical exports to other directories. */

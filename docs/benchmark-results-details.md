@@ -2,13 +2,13 @@
 
 [League tables](../RESULTS.md) contain the three current benchmarks. Every project
 is displayed as one name-and-version label, such as **Pele 1.13.0**. The measurements
-reuse the version freeze from 2 November 2026; changing presentation runs no renderers.
+use the version freeze of 6 November 2026; changing presentation runs no renderers.
 
 ## Reading the tables
 
 | Benchmark | Population | Ordering | Missing results |
 |---|---|---|---|
-| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->5 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
+| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->6 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
 | Drawing Correctness | The same 127 cases, separately for SVG and terminal text | More whole cases with every expected label shown and no raw syntax; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed: cases with no label to check, or unrun |
 | Mermaid Fidelity | The expanded upstream callbacks that pinned Mermaid itself passes | More passed callbacks; equal counts share a rank. **Possible rank** shows the positions still reachable | Candidate adapter gaps remain unassessed |
 
@@ -60,17 +60,19 @@ These gaps mostly describe unfinished Trident implementation, rather than demons
 limitations of the projects being benchmarked.
 
 **Fidelity runs every candidate on the whole selected suite.** All <!-- fact:fidelity-candidates -->26<!-- /fact --> candidates
-plus Mermaid attempted all <!-- fact:fidelity-files -->316<!-- /fact --> selected core-package files (<!-- fact:fidelity-collected -->5 November 2026<!-- /fact -->) against one
-shared Mermaid 12.2.0 control run. With the reviewed schema views and unsupported
-operations described below, the bridged projects' unassessed callbacks fell from
+plus Mermaid attempted all <!-- fact:fidelity-files -->316<!-- /fact --> selected core-package files (<!-- fact:fidelity-collected -->6 November 2026<!-- /fact -->) against one
+shared Mermaid 12.2.0 control run. During development (3–5 November), the reviewed
+schema views and unsupported operations described below cut the bridged projects'
+unassessed callbacks from
 roughly 1,000–2,650 each to 250–1,000 (Grok renderer 2,146 → 336, Mermaid ASCII
 1,490 → 296, Crafter Mermaid 828 → 250), and passes rose where native fields were
 already present but unmapped (Bezel 1,804 → 2,304, Latias Merman 1,345 → 2,237,
-Mermaid Dart 815 → 1,703, Mermaid RS Renderer 212 → 1,226). Several JavaScript
-candidates (Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH
-Mermaid GB SVG, MermaidTUI) still leave 2,000–2,700 callbacks unassessed: their
-modules expose no synchronous parser Trident can call for ER, class, C4, state or
-agentflow diagrams, so those tests stay binding gaps. Thirteen are reached through their JavaScript
+Mermaid Dart 815 → 1,703, Mermaid RS Renderer 212 → 1,226). Where a JavaScript
+candidate's module exposes no parser for a family (ER, class, C4, state or agentflow
+for Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH Mermaid
+GB SVG and MermaidTUI), those tests count as operations it does not offer, not as
+Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->83<!-- /fact --> tests
+remain unassessed by Trident. Thirteen are reached through their JavaScript
 parsers (generic native bindings, a guarded Bun/async parser bridge, native model
 schema views and the Frankenmermaid WASM binding) and thirteen through parser bridges.
 Ten of the JavaScript candidates had previously been run on only 42 files, so most of
@@ -284,7 +286,7 @@ Results are verified by re-running them, not by archiving rendered outputs. Each
 published result is backed by four small, committed things:
 
 1. **The frozen version list:** the exact release or source revision of every
-   project, resolved once per campaign (`docs/evidence/benchmark-campaign-2026-11-02/versions.json`
+   project, resolved once per campaign (`docs/evidence/benchmark-campaign-2026-11-06/versions.json`
    and `catalog.json`).
 2. **The pinned inputs:** the Mermaid documentation commit for DaveBench, the 127-case
    Drawing corpus in the repository, and the Mermaid test-suite commit for Fidelity.

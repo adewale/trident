@@ -4,6 +4,7 @@ import { join, resolve } from 'node:path'
 import type { CommunityArtifact, CommunityNode, PreparedCommunity } from './community-types.ts'
 import { comparisonProjects } from './lineage.ts'
 import { communityCatalogFile } from './trident-paths.ts'
+import { MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
 
 interface VersionIO {
   json(url: string): Promise<any>
@@ -37,10 +38,14 @@ function latestTag(text: string) {
 export interface BenchmarkVersionRow {
   project: string; component: string; registry: string; package?: string; version?: string; revision?: string
   previousVersion?: string; previousRevision?: string; source?: string; integrity?: string; publishedAt?: string; error?: string
+  /** Mermaid's row only: its newest npm release, reported while the row stays at the oracle pin. */
+  latestPublished?: string
 }
 
 /** Resolve once before a campaign; never refresh versions inside timed work.
- * The syntax/test oracle is a separate pin, not a reason to keep a stale peer. */
+ * The syntax/test oracle is a separate pin, not a reason to keep a stale peer. Mermaid's own
+ * row is that oracle install (prepare refuses any other version), so it stays at the pin and
+ * its newest release is only reported: moving the reference is a separate decision. */
 export async function refreshBenchmarkVersions<T extends { nodes: CommunityNode[] }>(catalog: T, projects: string[], io: VersionIO = live) {
   const frozen = structuredClone(catalog), rows: BenchmarkVersionRow[] = [], checkedAt = new Date().toISOString()
   const jsonCache = new Map<string, Promise<any>>(), refsCache = new Map<string, Promise<string>>()
@@ -63,7 +68,13 @@ export async function refreshBenchmarkVersions<T extends { nodes: CommunityNode[
     if (!b) { rows.push({ project: node.id, component: 'primary', registry: 'none', error: 'No artifact binding' }); return }
     delete b.preparationError
     try {
-      if (b.package) {
+      if (node.id === 'mermaid-js/mermaid') {
+        const source = 'https://registry.npmjs.org/mermaid', data = await json(source), pin = MERMAID_ORACLE_PIN.version
+        if (!data.versions?.[pin]) throw Error('The oracle pin is not a published Mermaid release: ' + pin)
+        rows.push({ project: node.id, component: 'primary', registry: 'oracle-pin', package: 'mermaid', version: pin, previousVersion: b.version, source, integrity: data.versions[pin].dist?.integrity, publishedAt: data.time?.[pin], latestPublished: data['dist-tags']?.latest })
+        b.version = pin; b.versionPolicy = 'recorded'
+        for (const pkg of node.packages ?? []) if (pkg.name === 'mermaid') pkg.version = pin
+      } else if (b.package) {
         b.version = await npm(node, b.package, b.version ?? node.packages?.find(pkg => pkg.name === b.package)?.version, 'primary'); b.versionPolicy = 'recorded'
         if (b.adapter === 'merman') {
           const web = node.packages?.find(pkg => pkg.name === '@mermanjs/web')
@@ -86,12 +97,22 @@ export async function refreshBenchmarkVersions<T extends { nodes: CommunityNode[
         rows.push({ project: node.id, component: 'primary', registry: 'source-head', revision, previousRevision: b.sourcePin, source: node.repo })
         b.sourcePin = revision
       } else if (b.adapter === 'franken') {
-        const revision = (await refs(node.id, 'HEAD')).trim().split(/\s+/)[0]!
+        let revision = (await refs(node.id, 'HEAD')).trim().split(/\s+/)[0]!
         if (!/^[a-f0-9]{40}$/.test(revision)) throw Error('No immutable current distribution HEAD')
         const path = (node.distribution?.path ?? 'pkg/').replace(/\/$/, '')
         if (!/^[\w.-]+(?:\/[\w.-]+)*$/.test(path) || path.split('/').includes('..')) throw Error('Unsafe distribution path')
-        const source = `https://raw.githubusercontent.com/${node.id}/${revision}/${path}/package.json`, pkg = await json(source)
+        let source = `https://raw.githubusercontent.com/${node.id}/${revision}/${path}/package.json`, pkg = await json(source)
         if (!stable(pkg.version)) throw Error('Current distribution has no stable package version')
+        // One project, one release: when it also ships a CLI release, an untagged version on
+        // the default branch is not yet a release, so the distribution comes from the CLI's tag.
+        if (b.cliRelease) {
+          const release = latestTag(await refs(b.cliRelease.repository, 'refs/tags/*'))
+          if (pkg.version !== release.version) {
+            revision = release.revision
+            source = `https://raw.githubusercontent.com/${node.id}/${revision}/${path}/package.json`; pkg = await json(source)
+            if (pkg.version !== release.version) throw Error(`Distribution at ${release.tag} is ${pkg.version}, not ${release.version}`)
+          }
+        }
         rows.push({ project: node.id, component: 'primary', registry: 'source-distribution', version: pkg.version, revision, previousVersion: node.distribution?.version, previousRevision: node.distribution?.revision, source })
         if (node.distribution?.revision !== revision) delete node.distribution?.wasmSha256
         node.distribution = { ...node.distribution, version: pkg.version, revision }
@@ -145,11 +166,22 @@ export function latestBenchmarkRenderingArtifact(peer: PreparedCommunity): Commu
   return native
 }
 
+/** The selected projects whose frozen artifact differs between two catalogs: a published
+ * campaign's and a fresh selection. Answers whether a new collection is worth running. */
+export function versionChanges(previous: { nodes: CommunityNode[] }, current: { nodes: CommunityNode[] }, projects: string[]) {
+  const identity = (node: CommunityNode | undefined) => node && ((node.benchmark as any)?.version ?? (node as any).distribution?.version ?? (node.benchmark as any)?.sourcePin)
+  return projects.flatMap(project => {
+    const before = identity(previous.nodes.find(node => node.id === project)), after = identity(current.nodes.find(node => node.id === project))
+    return before === after ? [] : [{ project, previous: before ?? null, current: after ?? null }]
+  })
+}
+
 export async function main(args = process.argv.slice(2)) {
-  if (args.length === 1 && args[0] === '--help') { console.log('versions --out FRESH_DIRECTORY [--projects IDS]\nResolve and freeze current benchmark artifacts; does not run renderers.'); return }
+  const usage = 'versions --out FRESH_DIRECTORY [--projects IDS] [--since FROZEN_CATALOG]'
+  if (args.length === 1 && args[0] === '--help') { console.log(usage + '\nResolve and freeze current benchmark artifacts; does not install or run anything. --since lists the projects whose release changed since that frozen catalog (a published campaign\'s), to show whether a new collection is worth running.'); return }
   const options = new Map<string, string>()
   for (let i = 0; i < args.length; i += 2) {
-    if (!['--out', '--projects'].includes(args[i]!) || !args[i + 1] || options.has(args[i]!)) throw Error('versions --out FRESH_DIRECTORY [--projects IDS]')
+    if (!['--out', '--projects', '--since'].includes(args[i]!) || !args[i + 1] || options.has(args[i]!)) throw Error(usage)
     options.set(args[i]!, args[i + 1]!)
   }
   if (!options.has('--out')) throw Error('Choose --out FRESH_DIRECTORY')
@@ -158,10 +190,16 @@ export async function main(args = process.argv.slice(2)) {
   const catalog = JSON.parse(readFileSync(communityCatalogFile, 'utf8'))
   const projects = comparisonProjects(catalog, options.get('--projects')?.split(',') ?? catalog.nodes.map((node: CommunityNode) => node.id)).included
   const result = await refreshBenchmarkVersions(catalog, projects)
+  const changes = options.has('--since') ? versionChanges(JSON.parse(readFileSync(options.get('--since')!, 'utf8')), result.catalog, projects) : undefined
   mkdirSync(out, { recursive: true })
   writeFileSync(join(out, 'catalog.json'), JSON.stringify({ ...result.catalog, benchmarkVersionsCheckedAt: result.report.checkedAt, benchmarkVersionPolicy: result.report.policy }, null, 2) + '\n')
-  writeFileSync(join(out, 'versions.json'), JSON.stringify(result.report, null, 2) + '\n')
-  console.log(JSON.stringify(result.report, null, 2))
+  writeFileSync(join(out, 'versions.json'), JSON.stringify({ ...result.report, ...(changes ? { changedSince: { catalog: options.get('--since'), changes } } : {}) }, null, 2) + '\n')
+  if (changes) {
+    console.log(`${changes.length} of ${projects.length} projects changed since ${options.get('--since')}:`)
+    for (const change of changes) console.log(`  ${change.project}: ${change.previous} -> ${change.current}`)
+    const reference = result.report.rows.find(row => row.registry === 'oracle-pin')
+    if (reference?.latestPublished && reference.latestPublished !== reference.version) console.log(`Mermaid ${reference.latestPublished} is published; its row stays at the oracle pin ${reference.version}.`)
+  } else console.log(JSON.stringify(result.report, null, 2))
   if (!result.report.complete) process.exitCode = 1
 }
 if (import.meta.main) await main()

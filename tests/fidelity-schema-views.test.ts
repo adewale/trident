@@ -269,3 +269,39 @@ test('ports: kanban sections and getData nodes; treeView root', () => {
   const tree = nativeSchemaView('obsidianmd/pele', 'treeview', { root: { id: 0, level: -1, name: '/', nodeType: 'directory', children: [{ id: 1, level: 0, name: 'src', nodeType: 'file', icon: null, children: [] }] }, count: 2 }, hooks)
   expect([tree.getRoot().children[0].name, tree.getRoot().children[0].icon, tree.getCount()]).toEqual(['src', undefined, 2])
 })
+
+// Native records below were captured from Pele 1.13.0 and Bezel 0.2.24 during targeted runs.
+test("Pele and Bezel event modeling relations expose only each endpoint's frame id", () => {
+  const { hooks, log } = verdicts()
+  const box = (id: string) => ({ id, kind: 'ui', entity: 'E', name: 'E', reset: false, lane: { index: 0, label: 'UI/Automation', group: 'trigger' } })
+  const raw = { type: 'eventmodeling', boxes: [box('03'), box('04')], lanes: [], relations: [{ source: box('03'), target: box('04') }], notes: [], specifications: [], entities: [] }
+  for (const project of ['obsidianmd/pele', 'crabtalk/bezel']) {
+    const state = nativeSchemaView(project, 'eventmodeling', raw, hooks).getState()
+    expect(state.relations.map(({ sourceBox, targetBox }: any) => [sourceBox.frame.name, targetBox.frame.name])).toEqual([['03', '04']])
+    expect(() => state.boxes).toThrow('gap')
+    expect(() => state.relations[0].sourceBox.x).toThrow('gap')
+  }
+  // A project that keeps frames without derived relations is not given any.
+  expect(nativeSchemaView('Latias94/merman', 'eventmodeling', { type: 'eventmodeling', frames: [] }, hooks)?.getState).toBeUndefined()
+  expect(log.filter(entry => entry.startsWith('gap')).length).toBe(4)
+})
+
+test("Pele's XY chart keeps axes and plots; a plot's colour is Mermaid's theme", () => {
+  const { hooks, log } = verdicts()
+  const raw = { type: 'xychart', xAxis: { type: 'band', title: '', categories: ['A', 'B'] }, yAxis: { type: 'linear', title: '', min: 1, max: 2 }, hasSetXAxis: true, hasSetYAxis: false, plots: [{ type: 'bar', title: 'short', data: [['A', 1], ['B', 2]] }] }
+  const data = nativeSchemaView('obsidianmd/pele', 'xychart', raw, hooks).getXYChartData()
+  expect(data.plots[0].data).toEqual([['A', 1], ['B', 2]])
+  expect(data.xAxis.categories).toEqual(['A', 'B'])
+  expect(data.title).toBe('')
+  expect(() => data.plots[0].fill).toThrow('unsupported')
+  expect(log).toEqual(["unsupported: Mermaid assigns a plot's colour from its theme palette"])
+})
+
+test("Pele's requirement edges follow Mermaid's id translation; their styling is the renderer's", () => {
+  const { hooks } = verdicts()
+  const req = (name: string) => ({ name, type: 'Requirement', requirementId: '', text: '', risk: '', verifyMethod: '', cssStyles: [], classes: ['default'] })
+  const raw = { type: 'requirement', direction: 'TB', requirements: { src: req('src'), dst: req('dst') }, elements: {}, relations: [{ type: 'traces', src: 'src', dst: 'dst' }, { type: 'contains', src: 'src', dst: 'dst' }], classes: {} }
+  const { edges } = nativeSchemaView('obsidianmd/pele', 'requirement', raw, hooks).getData()
+  expect(edges.map((edge: any) => [edge.id, edge.start, edge.end, edge.label])).toEqual([['src-dst-0', 'src', 'dst', '&lt;&lt;traces&gt;&gt;'], ['src-dst-1', 'src', 'dst', '&lt;&lt;contains&gt;&gt;']])
+  expect(() => edges[0].arrowTypeEnd).toThrow('unsupported')
+})

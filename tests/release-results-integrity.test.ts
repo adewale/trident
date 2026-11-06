@@ -6,6 +6,7 @@ import { expect, test } from 'bun:test'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { threeBenchmarkReport } from '../unified/three-benchmark-report.ts'
+import { MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
 
 const root = join(import.meta.dir, '../results/release')
 const read = (name: string) => JSON.parse(readFileSync(join(root, name), 'utf8'))
@@ -95,4 +96,6 @@ test('all three benchmarks measured the same version of each project', () => {
   for (const row of drawing.results) note(row.project, row.version)
   for (const row of fidelity.results) note(row.project, row.version)
   for (const [project, seen] of versions) expect([...seen], project).toHaveLength(1)
+  // Mermaid's row in every benchmark is the pinned oracle install itself.
+  expect([...versions.get('mermaid-js/mermaid')!]).toEqual([MERMAID_ORACLE_PIN.version])
 })

@@ -1,16 +1,17 @@
 import { expect, test } from 'bun:test'
-import { assertCurrentBenchmarkArtifact, latestBenchmarkRenderingArtifact, refreshBenchmarkVersions } from '../unified/benchmark-versions.ts'
+import { assertCurrentBenchmarkArtifact, latestBenchmarkRenderingArtifact, refreshBenchmarkVersions, versionChanges } from '../unified/benchmark-versions.ts'
 import { extraPackagePreparation } from '../unified/community-extra-adapters.mjs'
 import type { CommunityNode } from '../unified/community-types.ts'
 
 const node = <T extends object = object>(id: string, benchmark: any, extra: T = {} as T): CommunityNode & { benchmark: any } & T => ({ id, outputs: ['svg'], roles: ['observed'], benchmark, ...extra })
 const npm = (version: string) => ({ 'dist-tags': { latest: version }, versions: { [version]: { dist: { integrity: 'sha512-fixture' } } }, time: { [version]: '2026-11-01' } })
 
-test('fresh selection replaces old pins, includes Mermaid, freezes companions and leaves historical catalog untouched', async () => {
+test('fresh selection replaces old pins, keeps Mermaid at the oracle pin, freezes companions and leaves historical catalog untouched', async () => {
+  const { MERMAID_ORACLE_PIN } = await import('../portable/mermaid-oracle.ts')
   const original = { nodes: [node('fixture/peer', { adapter: 'published-extra', package: 'peer', version: '1.0.0', operationPackages: [{ package: 'helper', version: '1.0.0', operation: 'layout' }] }), node('mermaid-js/mermaid', { adapter: 'mermaid', package: 'mermaid', version: '1.0.0' })] }
-  const result = await refreshBenchmarkVersions(original, original.nodes.map(n => n.id), { json: async url => npm(url.endsWith('/helper') ? '3.0.0' : '2.0.0'), refs: async () => { throw Error('Unexpected source call') } })
+  const result = await refreshBenchmarkVersions(original, original.nodes.map(n => n.id), { json: async url => (url.endsWith('/mermaid') ? npm(MERMAID_ORACLE_PIN.version) : npm(url.endsWith('/helper') ? '3.0.0' : '2.0.0')), refs: async () => { throw Error('Unexpected source call') } })
   expect(result.report.complete).toBe(true)
-  expect(result.catalog.nodes.map(n => n.benchmark.version)).toEqual(['2.0.0', '2.0.0'])
+  expect(result.catalog.nodes.map(n => n.benchmark.version)).toEqual(['2.0.0', MERMAID_ORACLE_PIN.version])
   expect(result.catalog.nodes[0]!.benchmark.operationPackages[0].version).toBe('3.0.0')
   expect(original.nodes[0]!.benchmark.version).toBe('1.0.0')
   expect(original.nodes[0]!.benchmark.operationPackages[0].version).toBe('1.0.0')
@@ -79,4 +80,34 @@ test('a newer native rendering release replaces an older SDK and an unavailable 
   expect(() => assertCurrentBenchmarkArtifact({ node: peer.node, artifact: native }, peer.node)).not.toThrow()
   peer.artifact.additionalCli = []
   expect(() => latestBenchmarkRenderingArtifact(peer)).toThrow('refusing older SDK')
+})
+
+test('versions --since lists only the selected projects whose frozen artifact changed', () => {
+  const node = (id: string, benchmark: any, extra: any = {}) => ({ id, benchmark, ...extra }) as any
+  const before = { nodes: [node('a', { version: '1.0.0' }), node('b', { version: '2.0.0' }), node('c', { sourcePin: 'x'.repeat(40) }), node('d', { adapter: 'franken' }, { distribution: { version: '0.4.0' } }), node('e', { version: '1.0.0' })] }
+  const after = { nodes: [node('a', { version: '1.0.0' }), node('b', { version: '2.1.0' }), node('c', { sourcePin: 'y'.repeat(40) }), node('d', { adapter: 'franken' }, { distribution: { version: '0.5.0' } }), node('e', { version: '9.9.9' })] }
+  expect(versionChanges(before, after, ['a', 'b', 'c', 'd'])).toEqual([{ project: 'b', previous: '2.0.0', current: '2.1.0' }, { project: 'c', previous: 'x'.repeat(40), current: 'y'.repeat(40) }, { project: 'd', previous: '0.4.0', current: '0.5.0' }])
+})
+
+test("Mermaid's row stays at the oracle pin and its newest release is only reported", async () => {
+  const { MERMAID_ORACLE_PIN } = await import('../portable/mermaid-oracle.ts')
+  const pin = MERMAID_ORACLE_PIN.version
+  const catalog = { nodes: [{ id: 'mermaid-js/mermaid', benchmark: { adapter: 'mermaid', package: 'mermaid', outputs: ['svg'], version: '12.1.0' }, packages: [{ name: 'mermaid', version: '12.1.0' }] }] } as any
+  const registry = { 'dist-tags': { latest: '99.0.0' }, versions: { [pin]: { dist: { integrity: 'sha512-pin' } }, '99.0.0': { dist: { integrity: 'sha512-new' } } }, time: { [pin]: '2026-10-01T00:00:00Z' } }
+  const result = await refreshBenchmarkVersions(catalog, ['mermaid-js/mermaid'], { json: async () => registry, refs: async () => { throw Error('Unexpected source call') } })
+  expect(result.catalog.nodes[0].benchmark.version).toBe(pin)
+  expect(result.catalog.nodes[0].packages[0].version).toBe(pin)
+  expect(result.report.rows[0]).toMatchObject({ registry: 'oracle-pin', version: pin, previousVersion: '12.1.0', latestPublished: '99.0.0', integrity: 'sha512-pin' })
+})
+
+test('a distribution whose default branch carries an untagged version follows the CLI release instead', async () => {
+  const head = 'b'.repeat(40), tagged = 'c'.repeat(40)
+  const cliRelease = { repository: 'fixture/franken', tag: 'v0.4.0', version: '0.4.0', revision: tagged, outputs: { terminal: {} } }
+  const original = { nodes: [node('fixture/franken', { adapter: 'franken', cliRelease }, { distribution: { version: '0.4.0', revision: tagged } })] }
+  const result = await refreshBenchmarkVersions(original, ['fixture/franken'], {
+    json: async url => ({ version: url.includes(head) ? '0.5.0' : '0.4.0' }),
+    refs: async (_repo, pattern) => (pattern === 'HEAD' ? `${head}\tHEAD\n` : `${tagged}\trefs/tags/v0.4.0\n`),
+  })
+  expect(result.report.complete).toBe(true)
+  expect(result.catalog.nodes[0]!.distribution).toMatchObject({ version: '0.4.0', revision: tagged })
 })

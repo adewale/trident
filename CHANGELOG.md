@@ -1,5 +1,29 @@
 # Changelog
 
+## Unreleased
+
+- **A fresh collection of all three benchmarks (6 November).** Zombie Mermaid 5.14.4,
+  Termaid 0.12.0 and a new OpenCode commit are measured at their new releases. Latias
+  Merman's SVG and PNG are now measured through its browser SDK, which has caught up with
+  its CLI, so it leads both formats with 1,338. Frankenmermaid is measured at its v0.4.0
+  tag. Pele leads Mermaid Fidelity with 3,143. `results/release/README.md` explains each
+  change from 0.2.0.
+- `versions` takes a distribution from its CLI release tag when the default branch
+  carries an untagged version, so all of a project's outputs measure one release.
+- `campaign:results --native-png` adds the Mermaid Flutter native PNG runs to the image
+  results, so a campaign has no manual step. `versions --since FROZEN_CATALOG` lists the
+  projects that have released since a published campaign, installing nothing.
+- Mermaid Fidelity: 11 tests that Trident could not assess for Pele and Bezel are now
+  assessed through reviewed views of their own models (event modeling relations, XY
+  charts, requirement edges, Bezel's empty sequence accessibility description).
+- CI runs browser tests on Playwright's Chromium instead of the runner image's unrelated
+  Chromium snapshot, the likely cause of the intermittent browser-test timeouts.
+  `AM_CHROMIUM_EXECUTABLE` is renamed `TRIDENT_CHROMIUM_EXECUTABLE`; the unused
+  `AM_BROWSER_TESTS` is gone.
+- `versions` keeps Mermaid's row at the oracle pin (12.2.0), which `prepare` requires,
+  and reports Mermaid's newest release beside it. It used to select Mermaid's latest
+  release, which `prepare` then refused.
+
 ## 0.2.1 — 6 November 2026
 
 A documentation and usability release for people building or choosing Mermaid

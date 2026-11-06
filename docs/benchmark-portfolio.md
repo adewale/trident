@@ -156,7 +156,7 @@ inventory systematically. Do not preserve the 49-case selection as the target.
 **Current implementation:** `mermaid:fidelity` inventories 368 files at Mermaid
 commit `1fb7869866dd619168d840291c9c54b4f129758b` (the `mermaid@12.2.0` tag),
 attempts the <!-- fact:fidelity-files -->316<!-- /fact --> core-package files in original Vitest, and lists the other 52 files
-outside that runner. The current collection (<!-- fact:fidelity-collected -->5 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->5,737<!-- /fact --> callbacks; Mermaid 12.2.0
+outside that runner. The current collection (<!-- fact:fidelity-collected -->6 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->5,737<!-- /fact --> callbacks; Mermaid 12.2.0
 passes <!-- fact:fidelity-population -->3,618<!-- /fact --> of them through the reference adapter, and those are the scored
 population. Every candidate attempted all <!-- fact:fidelity-files -->316<!-- /fact --> files against one shared control run
 (`--reuse-reference`): 13 through their JavaScript parsers and 13 through parser

@@ -13,7 +13,9 @@ jobs:
     name: Static checks and fixture tests
     # Playwright 1.58's dependency installer supports Ubuntu 24.04.
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    # Package mirrors have taken 13 minutes to install Tesseract and Chromium's
+    # dependencies; the limit that guards against a hung test is on the test step.
+    timeout-minutes: 35
     env:
       MERMAID_REFERENCE_DIR: /nonexistent/trident-oracle
       MERMAID_UPSTREAM_DIR: /nonexistent/trident-source
@@ -33,23 +35,32 @@ jobs:
       - run: sudo apt-get install -y tesseract-ocr
       # Chromium inspects checked-in fixtures; no project or benchmark runs.
       - run: bunx playwright install --with-deps chromium
-      # The first browser test in a run has intermittently timed out on the Linux runner
-      # (cause not yet established). This launches Chromium once and logs how long it took,
-      # so a slow cold launch can be told apart from a hang inside the test. On 5 November the
-      # first launch took about 1 s on Linux and 3 s on macOS.
-      - name: Warm up Chromium
-        run: bun -e "const { chromium } = await import('playwright'); const t = performance.now(); const b = await chromium.launch(); await (await b.newPage()).setContent('<p>warm</p>'); await b.close(); console.log('first Chromium launch', Math.round(performance.now() - t), 'ms')"
+      # GitHub's Ubuntu image links /usr/bin/chromium to a Chromium snapshot unrelated to
+      # Trident's Playwright version, and Trident prefers /usr/bin/chromium when it exists.
+      # Browser tests therefore ran an unsupported, never-warmed browser while this step warmed
+      # Playwright's own, and they intermittently timed out. Point every browser test at
+      # Playwright's Chromium, warm that same binary, and log both versions.
+      - name: Use and warm Playwright's Chromium
+        run: |
+          path=$(bun -e "const { chromium } = await import('playwright'); console.log(chromium.executablePath())")
+          echo "TRIDENT_CHROMIUM_EXECUTABLE=$path" >> "$GITHUB_ENV"
+          echo "Playwright Chromium: $("$path" --version)"
+          if [ -e /usr/bin/chromium ]; then echo "Runner /usr/bin/chromium (not used): $(/usr/bin/chromium --version)"; fi
+          TRIDENT_CHROMIUM_EXECUTABLE="$path" bun -e "const { chromium } = await import('playwright'); const t = performance.now(); const b = await chromium.launch({ executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE }); await (await b.newPage()).setContent('<p>warm</p>'); await b.close(); console.log('first Chromium launch', Math.round(performance.now() - t), 'ms')"
       - run: bun run lint
       - run: bun run typecheck
       - run: bun commands.ts results:snapshot --check
       - run: bun run test:ci
+        timeout-minutes: 15
   macos-tests:
     # macOS temporary folders are symlinks (/var -> /private/var), which Linux paths never
     # exercise. This job only runs Trident's CI-safe fixture tests: no oracle, project
     # artifacts or benchmarks, which Trident refuses to run in CI.
     name: Fixture tests on macOS
     runs-on: macos-latest
-    timeout-minutes: 15
+    # Package mirrors have taken 13 minutes to install Tesseract and Chromium's
+    # dependencies; the limit that guards against a hung test is on the test step.
+    timeout-minutes: 35
     env:
       MERMAID_REFERENCE_DIR: /nonexistent/trident-oracle
       MERMAID_UPSTREAM_DIR: /nonexistent/trident-source
@@ -69,10 +80,17 @@ jobs:
       - run: command -v tesseract || brew install tesseract
       # Chromium inspects checked-in fixtures; no project or benchmark runs.
       - run: bunx playwright install --with-deps chromium
-      # The first browser test in a run has intermittently timed out on the Linux runner
-      # (cause not yet established). This launches Chromium once and logs how long it took,
-      # so a slow cold launch can be told apart from a hang inside the test. On 5 November the
-      # first launch took about 1 s on Linux and 3 s on macOS.
-      - name: Warm up Chromium
-        run: bun -e "const { chromium } = await import('playwright'); const t = performance.now(); const b = await chromium.launch(); await (await b.newPage()).setContent('<p>warm</p>'); await b.close(); console.log('first Chromium launch', Math.round(performance.now() - t), 'ms')"
+      # GitHub's Ubuntu image links /usr/bin/chromium to a Chromium snapshot unrelated to
+      # Trident's Playwright version, and Trident prefers /usr/bin/chromium when it exists.
+      # Browser tests therefore ran an unsupported, never-warmed browser while this step warmed
+      # Playwright's own, and they intermittently timed out. Point every browser test at
+      # Playwright's Chromium, warm that same binary, and log both versions.
+      - name: Use and warm Playwright's Chromium
+        run: |
+          path=$(bun -e "const { chromium } = await import('playwright'); console.log(chromium.executablePath())")
+          echo "TRIDENT_CHROMIUM_EXECUTABLE=$path" >> "$GITHUB_ENV"
+          echo "Playwright Chromium: $("$path" --version)"
+          if [ -e /usr/bin/chromium ]; then echo "Runner /usr/bin/chromium (not used): $(/usr/bin/chromium --version)"; fi
+          TRIDENT_CHROMIUM_EXECUTABLE="$path" bun -e "const { chromium } = await import('playwright'); const t = performance.now(); const b = await chromium.launch({ executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE }); await (await b.newPage()).setContent('<p>warm</p>'); await b.close(); console.log('first Chromium launch', Math.round(performance.now() - t), 'ms')"
       - run: bun run test:ci
+        timeout-minutes: 15

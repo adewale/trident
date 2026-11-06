@@ -49,25 +49,25 @@ Only the <!-- fact:fidelity-population -->3,618<!-- /fact --> tests that Mermaid
 12.2.0 itself passes count. If a test needs an operation the implementation
 doesn't offer, it counts as a failure. If it reads a field Trident can't
 translate yet, it stays unassessed
-(<!-- fact:fidelity-gaps -->94<!-- /fact --> tests across all implementations).
+(<!-- fact:fidelity-gaps -->83<!-- /fact --> tests across all implementations).
 
 Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
 and the range of ranks still possible once its unassessed cases are resolved.
 
 ## Current results
 
-Collected <!-- fact:campaign-collected -->5 November 2026<!-- /fact -->. The
+Collected <!-- fact:campaign-collected -->6 November 2026<!-- /fact -->. The
 leaders are:
 
 - **DaveBench**, examples completed. SVG:
   <!-- fact:davebench-svg-leader -->Latias Merman with 1,338<!-- /fact -->. PNG:
-  <!-- fact:davebench-png-leader -->Mermaid with 1,336<!-- /fact -->. Terminal text:
+  <!-- fact:davebench-png-leader -->Latias Merman with 1,338<!-- /fact -->. Terminal text:
   <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,342<!-- /fact -->.
 - **Drawing Correctness**, cases correct. SVG:
   <!-- fact:drawing-svg-leader -->Bezel, Ondine and Pele with 126 each<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
-  <!-- fact:fidelity-leader -->Pele with 3,135<!-- /fact -->.
+  <!-- fact:fidelity-leader -->Pele with 3,143<!-- /fact -->.
 
 Mermaid is ranked alongside the other implementations in DaveBench and Drawing
 Correctness. In Mermaid Fidelity it is the reference, so it passes every counted
@@ -117,8 +117,8 @@ on your machine and compare only with rows collected on the same machine.
 A full campaign needs more than the quick start:
 
 - Bun 1.4+, Node 24+, npm, git and Python 3.12.
-- Chromium for browser renderers. Trident uses `/usr/bin/chromium` when it exists,
-  otherwise Playwright's Chromium.
+- Chromium for browser renderers. Trident uses `TRIDENT_CHROMIUM_EXECUTABLE` when it
+  is set, then `/usr/bin/chromium`, then Playwright's Chromium.
 - Tesseract and the Python packages in `fidelity/drawing/requirements.txt`, for
   Drawing Correctness.
 - The toolchains that compiled projects declare in the catalog.
@@ -152,7 +152,7 @@ bun commands.ts davebench:terminal --catalog FRESH_VERSIONS/catalog.json --prepa
 bun commands.ts davebench:native-png --host-display --bundle native-flutter/app/build/linux/x64/release/bundle --out FRESH_FLUTTER
 bun commands.ts drawing:correctness --prepared FRESH_ARTIFACTS/community-browser-prepared.json --terminal-prepared FRESH_ARTIFACTS/community-prepared.json --catalog FRESH_VERSIONS/catalog.json --out FRESH_DRAWINGS
 bun commands.ts mermaid:fidelity --upstream PINNED_MERMAID --reference MERMAID_REFERENCE --runtime VITEST_RUNTIME --prepared FRESH_ARTIFACTS/community-prepared.json --catalog FRESH_VERSIONS/catalog.json --out FRESH_FIDELITY
-bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal FRESH_TERMINAL/results.json --out FRESH_REPORT
+bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal FRESH_TERMINAL/results.json --native-png FRESH_FLUTTER/results.json --out FRESH_REPORT
 ```
 
 | Placeholder | Meaning |
@@ -163,14 +163,16 @@ bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal F
 | `VITEST_RUNTIME` | The `--runtime` directory built by `upstream:prepare` |
 
 `versions` freezes the latest public release of every project and `prepare`
-installs them, so nothing is installed while a benchmark is being timed.
+installs them, so nothing is installed while a benchmark is being timed. With
+`--since` and a published campaign's catalog, `versions` lists the projects that
+have released since, which shows whether a new collection is worth running.
 `prepare` writes two lists, one of browser-ready image artifacts and one of every
 artifact. Pass them unchanged, because each collector takes only the projects
 that declare its output format. Mermaid Flutter has no prepared artifact, so
-`davebench:native-png` measures its release bundle instead. No command merges
-its runs yet: copy the `runs` from `FRESH_FLUTTER/results.json` into
-`FRESH_IMAGES/results.json` before `campaign:results`, which builds the DaveBench
-rankings from those numbers without launching a renderer. Every command takes
+`davebench:native-png` measures its release bundle instead, and
+`campaign:results --native-png` adds those runs to the image results. It writes
+the merged `images.json` beside the DaveBench rankings, which it builds from
+existing numbers without launching a renderer. Every command takes
 `--help`.
 
 The [equal-weight overall synthesis](docs/overall-scoring.md) shows each
@@ -270,8 +272,8 @@ CI runs `lint`, `typecheck`, `results:snapshot --check` and `test:ci` (every
 `tests/*.test.ts` except the reviewed exclusions in `tests/ci-skip.json`) without
 project artifacts or a reference, and runs `test:ci` again on macOS. CI also
 rejects tracked files over 2 MB unless `tests/large-files.json` lists them with a
-reason. Optional browser tests use `AM_BROWSER_TESTS=1` and
-`AM_CHROMIUM_EXECUTABLE=/path/to/chromium`.
+reason. Browser tests and benchmarks use `TRIDENT_CHROMIUM_EXECUTABLE` when it is
+set, then `/usr/bin/chromium`, then Playwright's Chromium; CI sets it to Playwright's.
 
 Numbers quoted in the docs are generated: `bun commands.ts results:snapshot`
 fills each `<!-- fact:NAME -->` marker from the result files, and CI fails when

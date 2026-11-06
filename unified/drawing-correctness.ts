@@ -100,7 +100,7 @@ export async function main(args = process.argv.slice(2)) {
         2,
       ),
     )
-  const browser = await chromium.launch({ headless: true, executablePath: process.env.AM_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium) })
+  const browser = await chromium.launch({ headless: true, executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium) })
   const bounded = async <T>(work: Promise<T>, label: string, ms = 8000): Promise<T> => {
     let timer: ReturnType<typeof setTimeout>
     try {
