@@ -9,22 +9,58 @@ Trident measures each of those on the same frozen versions of
 <!-- fact:projects -->27<!-- /fact --> implementations and records which cases
 each one passes and fails.
 
+## The three benchmarks
+
+Each benchmark answers a question the previous one leaves open.
+
+**[DaveBench](docs/davebench-definition.md): does it render?** DaveBench is
+derived from Dave Kiss's posts
+([first](https://x.com/davekiss/status/2111512440106078554),
+[second](https://x.com/davekiss/status/2111513199119941999)). Trident takes every
+Mermaid example in Mermaid's documentation
+(<!-- fact:davebench-inputs -->1,342<!-- /fact --> blocks at a pinned commit) and
+renders each one three times per format. It counts the renders that produce a
+usable output: an SVG with a size, a valid PNG, or terminal text that is not
+empty, an error or the source printed back. It ranks by that count, then by
+median time. DaveBench never looks at the drawing, so an implementation can
+complete an example and still draw it wrong.
+
+**[Drawing Correctness](docs/benchmark-portfolio.md#drawing-correctness-real-rendering-failures-across-formats):
+is the drawing right?** There are <!-- fact:drawing-cases -->127<!-- /fact -->
+cases, taken from shared examples and from bugs reported against real
+implementations. Each case lists the labels its diagram must show. Trident checks
+that every label appears in the SVG or terminal output, with no error message or
+raw Mermaid syntax. Edges, arrows and layout are not checked.
+
+**[Mermaid Fidelity](docs/benchmark-portfolio.md#mermaid-fidelity-execute-pinned-upstream-tests):
+does it behave like Mermaid?** Mermaid's
+<!-- fact:fidelity-files -->316<!-- /fact --> core test files call Mermaid's parser
+and inspect the model it builds. Trident runs those tests unchanged against each
+implementation's parser, translating its model into the shape the tests read; 13
+implementations are reached through
+[parser bridges](docs/benchmark-results-details.md#why-coverage-is-incomplete).
+Only the <!-- fact:fidelity-population -->3,618<!-- /fact --> tests that Mermaid
+12.2.0 itself passes count. If a test needs an operation the implementation
+doesn't offer, it counts as a failure. If it reads a field Trident can't
+translate yet, it stays unassessed
+(<!-- fact:fidelity-gaps -->94<!-- /fact --> tests across all implementations).
+
+Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
+and the range of ranks still possible once its unassessed cases are resolved.
+
 ## Current results
 
 Collected <!-- fact:campaign-collected -->5 November 2026<!-- /fact -->. The
 leaders are:
 
-- **DaveBench**, rendering Mermaid's
-  <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation examples to a
-  usable output. SVG: <!-- fact:davebench-svg-leader -->Latias Merman with 1,338<!-- /fact -->.
-  PNG: <!-- fact:davebench-png-leader -->Mermaid with 1,336<!-- /fact -->.
-  Terminal text: <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,342<!-- /fact -->.
-- **Drawing Correctness**, showing every expected label on
-  <!-- fact:drawing-cases -->127<!-- /fact --> cases. SVG:
+- **DaveBench**, examples completed. SVG:
+  <!-- fact:davebench-svg-leader -->Latias Merman with 1,338<!-- /fact -->. PNG:
+  <!-- fact:davebench-png-leader -->Mermaid with 1,336<!-- /fact -->. Terminal text:
+  <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,342<!-- /fact -->.
+- **Drawing Correctness**, cases correct. SVG:
   <!-- fact:drawing-svg-leader -->Bezel, Ondine and Pele with 126 each<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
-- **Mermaid Fidelity**, passing Mermaid's own unit tests, out of the
-  <!-- fact:fidelity-population -->3,618<!-- /fact --> that Mermaid itself passes:
+- **Mermaid Fidelity**, tests passed:
   <!-- fact:fidelity-leader -->Pele with 3,135<!-- /fact -->.
 
 Mermaid is ranked alongside the other implementations in DaveBench and Drawing
@@ -34,23 +70,6 @@ test by definition and is left out of the leader above.
 [Full league tables, with timings](RESULTS.md) ·
 [How each count is made](docs/benchmark-results-details.md) ·
 [How the collection was run](results/release/README.md)
-
-## The three benchmarks
-
-| Benchmark | Question | Inputs | Outputs checked |
-|---|---|---|---|
-| [DaveBench](docs/davebench-definition.md) | How many documentation examples does it render to a usable output, and how fast? | Every Mermaid block in Mermaid's docs at a pinned commit | SVG, PNG, terminal text |
-| Drawing Correctness | Does the output show every expected label, without an error message or raw Mermaid syntax? | Shared examples plus real regressions reported against implementations | SVG, terminal text |
-| Mermaid Fidelity | Do Mermaid's unit tests pass when they run against the implementation? | All <!-- fact:fidelity-files -->316<!-- /fact --> test files of Mermaid 12.2.0's core package | Parsed diagram model |
-
-A usable DaveBench output is an SVG with a size, a valid PNG, or terminal text
-that is not empty, not an error message and not the source printed back. Mermaid
-Fidelity reaches 13
-implementations through parser bridges and reviewed schema views that map their
-models onto what Mermaid's tests read; a test that reads a field no view maps
-stays unassessed (<!-- fact:fidelity-gaps -->94<!-- /fact --> tests across all
-candidates). The [benchmark definitions](docs/benchmark-portfolio.md) give each
-corpus and scoring rule.
 
 ## Quick start
 
