@@ -316,7 +316,7 @@ export async function main(args = process.argv.slice(2)) {
     writeFileSync(join(out, 'results.json'), JSON.stringify(report, null, 2) + '\n')
     if (state === 'complete') writeFileSync(join(out, 'rankings.md'), rankingMarkdown(report.rankings, inventory.cases.length, blocked))
   }
-  const browser = await chromium.launch({ executablePath: process.env.AM_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium), headless: true })
+  const browser = await chromium.launch({ executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium), headless: true })
   try {
     save('running')
     for (const peer of prepared) {

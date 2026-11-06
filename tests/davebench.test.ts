@@ -71,7 +71,7 @@ test('documentation extraction names the missing Mermaid checkout or commit', ()
   expect(() => davebenchInputs(root, '0000000000000000000000000000000000000000')).toThrow(/commit 0{40}, which .* does not contain/)
 })
 test('the browser runner awaits completion, includes failed-call time and admits only usable outputs', async () => {
-  const browser = await chromium.launch({ executablePath: process.env.AM_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium), headless: true })
+  const browser = await chromium.launch({ executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium), headless: true })
   try {
     const page = await browser.newPage()
     await page.evaluate(() => {

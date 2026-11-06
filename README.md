@@ -117,8 +117,8 @@ on your machine and compare only with rows collected on the same machine.
 A full campaign needs more than the quick start:
 
 - Bun 1.4+, Node 24+, npm, git and Python 3.12.
-- Chromium for browser renderers. Trident uses `/usr/bin/chromium` when it exists,
-  otherwise Playwright's Chromium.
+- Chromium for browser renderers. Trident uses `TRIDENT_CHROMIUM_EXECUTABLE` when it
+  is set, then `/usr/bin/chromium`, then Playwright's Chromium.
 - Tesseract and the Python packages in `fidelity/drawing/requirements.txt`, for
   Drawing Correctness.
 - The toolchains that compiled projects declare in the catalog.
@@ -270,8 +270,8 @@ CI runs `lint`, `typecheck`, `results:snapshot --check` and `test:ci` (every
 `tests/*.test.ts` except the reviewed exclusions in `tests/ci-skip.json`) without
 project artifacts or a reference, and runs `test:ci` again on macOS. CI also
 rejects tracked files over 2 MB unless `tests/large-files.json` lists them with a
-reason. Optional browser tests use `AM_BROWSER_TESTS=1` and
-`AM_CHROMIUM_EXECUTABLE=/path/to/chromium`.
+reason. Browser tests and benchmarks use `TRIDENT_CHROMIUM_EXECUTABLE` when it is
+set, then `/usr/bin/chromium`, then Playwright's Chromium; CI sets it to Playwright's.
 
 Numbers quoted in the docs are generated: `bun commands.ts results:snapshot`
 fills each `<!-- fact:NAME -->` marker from the result files, and CI fails when
