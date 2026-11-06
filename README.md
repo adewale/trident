@@ -1,13 +1,16 @@
 # Trident
 
 Trident is a tool for benchmarking Mermaid implementations. It is for people
-building a Mermaid renderer or parser and for people choosing one. Mermaid has
-been reimplemented in Rust, Go, Dart, Python and TypeScript, and the
-implementations differ in how many diagrams they can draw, whether the drawing
-shows what the source says, and how closely they follow Mermaid's own behaviour.
-Trident measures each of those on the same frozen versions of
-<!-- fact:projects -->27<!-- /fact --> implementations and records which cases
-each one passes and fails.
+building a Mermaid renderer or parser and for people choosing one.
+
+Mermaid has been reimplemented in Rust, Go, Dart, Python and TypeScript, and the
+implementations are far apart: given Mermaid's own documentation examples, the
+<!-- fact:davebench-svg-renderers -->16<!-- /fact --> SVG renderers complete
+anywhere from <!-- fact:davebench-svg-range -->384 to 1,338<!-- /fact --> of them.
+Trident runs <!-- fact:projects -->27<!-- /fact --> implementations, at frozen
+versions, through three benchmarks and records every case each one passes or
+fails, so a builder can see what to fix and a chooser can see which diagrams will
+fail.
 
 ## The three benchmarks
 
@@ -30,15 +33,18 @@ is the drawing right?** There are <!-- fact:drawing-cases -->127<!-- /fact -->
 cases, taken from shared examples and from bugs reported against real
 implementations. Each case lists the labels its diagram must show. Trident checks
 that every label appears in the SVG or terminal output, with no error message or
-raw Mermaid syntax. Edges, arrows and layout are not checked.
+raw Mermaid syntax. Edges, arrows and layout are not checked, so a drawing can
+show every label and still connect them wrongly.
 
 **[Mermaid Fidelity](docs/benchmark-portfolio.md#mermaid-fidelity-execute-pinned-upstream-tests):
 does it behave like Mermaid?** Mermaid's
 <!-- fact:fidelity-files -->316<!-- /fact --> core test files call Mermaid's parser
-and inspect the model it builds. Trident runs those tests unchanged against each
-implementation's parser, translating its model into the shape the tests read; 13
-implementations are reached through
-[parser bridges](docs/benchmark-results-details.md#why-coverage-is-incomplete).
+and inspect the model it builds, including its edges (`flow-edges.spec.js`, for
+example, tests flowchart arrow types). Trident runs those tests unchanged against each
+implementation's parser, translating its model into the shape the tests read.
+When Trident cannot call an implementation's parser from JavaScript, it reaches
+it through a [parser bridge](docs/benchmark-results-details.md#why-coverage-is-incomplete);
+13 implementations are reached this way.
 Only the <!-- fact:fidelity-population -->3,618<!-- /fact --> tests that Mermaid
 12.2.0 itself passes count. If a test needs an operation the implementation
 doesn't offer, it counts as a failure. If it reads a field Trident can't
@@ -73,8 +79,9 @@ test by definition and is left out of the leader above.
 
 ## Quick start
 
-This reproduces one row of the DaveBench tables: Ondine's SVG and PNG counts. It
-needs Bun 1.4+, Node 24+, git and Chromium (`bunx playwright install chromium`
+This reproduces one row of the DaveBench tables: Ondine's SVG and PNG counts.
+Ondine installs from npm and renders the whole corpus in under a minute, which
+makes it a quick row to check. It needs Bun 1.4+, Node 24+, git and Chromium (`bunx playwright install chromium`
 if you have none). On a Linux container it took about two minutes, downloads
 included.
 
@@ -155,14 +162,16 @@ bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal F
 | `MERMAID_REFERENCE` | The reference installed by `mermaid:install` (`../mermaid-reference`) |
 | `VITEST_RUNTIME` | The `--runtime` directory built by `upstream:prepare` |
 
-`versions` freezes the latest public release of every project, and `prepare`
-installs them before any timing starts. It writes two lists: browser-ready image
-artifacts and every artifact. Pass them unchanged; each collector takes only the
-projects that declare its output format. Mermaid Flutter has no prepared
-artifact: `davebench:native-png` measures its release bundle, and its runs are
-appended to the image results before `campaign:results`. `campaign:results` and
-`results:snapshot` read existing numbers and launch no renderers. Every command
-takes `--help`.
+`versions` freezes the latest public release of every project and `prepare`
+installs them, so nothing is installed while a benchmark is being timed.
+`prepare` writes two lists, one of browser-ready image artifacts and one of every
+artifact. Pass them unchanged, because each collector takes only the projects
+that declare its output format. Mermaid Flutter has no prepared artifact, so
+`davebench:native-png` measures its release bundle instead. No command merges
+its runs yet: copy the `runs` from `FRESH_FLUTTER/results.json` into
+`FRESH_IMAGES/results.json` before `campaign:results`, which builds the DaveBench
+rankings from those numbers without launching a renderer. Every command takes
+`--help`.
 
 The [equal-weight overall synthesis](docs/overall-scoring.md) shows each
 project's score range and possible rank. Exact overall scores wait for complete
@@ -206,8 +215,8 @@ and [Termaid](https://github.com/fasouto/termaid).
 PNG interface built on Mermaid Dart's parser and layout core.
 
 The [catalog](CATALOG.md) lists all 89 projects considered, with their ancestry
-and the reason each of the other 62 is excluded. Validator-only tools do not
-enter renderer comparisons.
+and the reason each of the other 62 is excluded; parser-only and validator-only
+tools, for example, are not renderers.
 
 [![Lineage of all 27 scheduled renderers with a legend: blue for SVG, green for terminal-only, purple for native PNG, solid arrows for project lineage and a dashed arrow for the ASCII component port.](docs/images/lineage.png)](docs/images/lineage.png)
 
@@ -241,14 +250,16 @@ Bindings accept dotted public export paths, an optional JSON `options` argument 
 ## Limitations
 
 - The maintainer of Trident also maintains Agentic Mermaid, one of the
-  implementations ranked here, and Trident began inside that project. The
-  [frozen corpus](corpus/community-corpus.json) is public development material,
-  not an independent holdout.
-- DaveBench counts usable outputs and times them; it does not judge the drawing.
-  Times compare only with rows from the same collection on the same machine.
-- Drawing Correctness checks labels. Edges, arrows and layout are not checked.
-- Mermaid Fidelity counts an operation an implementation does not offer as a
-  failure, and leaves a test unassessed when no view maps the field it reads.
+  implementations ranked here, and Trident began inside that project. Agentic
+  Mermaid's own product tests live in
+  [its repository](https://github.com/adewale/agentic-mermaid/tree/main/eval/benchmark),
+  not here. The [frozen corpus](corpus/community-corpus.json) is public
+  development material, not an independent holdout.
+- No benchmark checks layout. DaveBench does not look at the drawing, Drawing
+  Correctness checks only labels, and Mermaid Fidelity reaches only what an
+  implementation's parser exposes.
+- DaveBench times compare only with rows from the same collection on the same
+  machine.
 - Benchmarks run locally. CI tests Trident's code and refuses to run any
   benchmark.
 
@@ -264,10 +275,7 @@ reason. Optional browser tests use `AM_BROWSER_TESTS=1` and
 
 Numbers quoted in the docs are generated: `bun commands.ts results:snapshot`
 fills each `<!-- fact:NAME -->` marker from the result files, and CI fails when
-one drifts. Product source tests, editor experiments and release budgets for
-Agentic Mermaid live in
-[its repository](https://github.com/adewale/agentic-mermaid/tree/main/eval/benchmark).
-[CONTRIBUTING.md](CONTRIBUTING.md) describes how benchmark work is run and
+one drifts. [CONTRIBUTING.md](CONTRIBUTING.md) describes how benchmark work is run and
 recorded; [SCOPE.md](SCOPE.md) sets the development scope, and the
 [release notes](CHANGELOG.md) list changes by version.
 

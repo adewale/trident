@@ -47,6 +47,8 @@ export function publishedFacts(davebench: any, drawing: any, fidelity: any, name
     // One date, or the span from the first benchmark collected to the last.
     'campaign-collected': [...new Set([davebench.collection?.terminal?.finishedAt ?? davebench.collection?.images?.finishedAt, drawing.updatedAt, fidelity.collectedThrough ?? fidelity.updatedAt].filter(Boolean).sort().map(day))].filter((value, index, all) => index === 0 || index === all.length - 1).join(' to ') || 'unknown',
     projects: count(projects.size),
+    'davebench-svg-renderers': count(davebench.rankings.svg.length),
+    'davebench-svg-range': count(Math.min(...davebench.rankings.svg.map((row: any) => row.completed))) + ' to ' + count(Math.max(...davebench.rankings.svg.map((row: any) => row.completed))),
     // Leaders exactly as RESULTS.md ranks them: DaveBench rank 1, the most correct
     // Drawing cases, and the candidate passing the most Fidelity tests.
     ...Object.fromEntries(['svg', 'png', 'terminal'].map(format => ['davebench-' + format + '-leader', leader(davebench.rankings[format].filter((row: any) => row.rank === 1).map((row: any) => ({ project: row.project, score: row.completed })), names)])),
