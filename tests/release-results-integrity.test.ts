@@ -94,9 +94,8 @@ test('all three benchmarks measured the same version of each project', () => {
   const note = (project: string, version: string) => versions.set(project, (versions.get(project) ?? new Set()).add(version))
   for (const collection of [images, terminal, flutter]) for (const run of collection.runs) note(run.project, run.version)
   for (const row of drawing.results) note(row.project, row.version)
-  // Mermaid's Fidelity row is the reference, at the oracle pin, not a candidate: a campaign
-  // measures Mermaid's latest release as a candidate in DaveBench and Drawing Correctness.
-  for (const row of fidelity.results) if (row.project !== 'mermaid-js/mermaid') note(row.project, row.version)
+  for (const row of fidelity.results) note(row.project, row.version)
   for (const [project, seen] of versions) expect([...seen], project).toHaveLength(1)
-  expect(fidelity.results.find((row: any) => row.project === 'mermaid-js/mermaid').version).toBe(MERMAID_ORACLE_PIN.version)
+  // Mermaid's row in every benchmark is the pinned oracle install itself.
+  expect([...versions.get('mermaid-js/mermaid')!]).toEqual([MERMAID_ORACLE_PIN.version])
 })

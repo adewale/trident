@@ -4,6 +4,7 @@ import { join, resolve } from 'node:path'
 import type { CommunityArtifact, CommunityNode, PreparedCommunity } from './community-types.ts'
 import { comparisonProjects } from './lineage.ts'
 import { communityCatalogFile } from './trident-paths.ts'
+import { MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
 
 interface VersionIO {
   json(url: string): Promise<any>
@@ -37,10 +38,14 @@ function latestTag(text: string) {
 export interface BenchmarkVersionRow {
   project: string; component: string; registry: string; package?: string; version?: string; revision?: string
   previousVersion?: string; previousRevision?: string; source?: string; integrity?: string; publishedAt?: string; error?: string
+  /** Mermaid's row only: its newest npm release, reported while the row stays at the oracle pin. */
+  latestPublished?: string
 }
 
 /** Resolve once before a campaign; never refresh versions inside timed work.
- * The syntax/test oracle is a separate pin, not a reason to keep a stale peer. */
+ * The syntax/test oracle is a separate pin, not a reason to keep a stale peer. Mermaid's own
+ * row is that oracle install (prepare refuses any other version), so it stays at the pin and
+ * its newest release is only reported: moving the reference is a separate decision. */
 export async function refreshBenchmarkVersions<T extends { nodes: CommunityNode[] }>(catalog: T, projects: string[], io: VersionIO = live) {
   const frozen = structuredClone(catalog), rows: BenchmarkVersionRow[] = [], checkedAt = new Date().toISOString()
   const jsonCache = new Map<string, Promise<any>>(), refsCache = new Map<string, Promise<string>>()
@@ -63,7 +68,13 @@ export async function refreshBenchmarkVersions<T extends { nodes: CommunityNode[
     if (!b) { rows.push({ project: node.id, component: 'primary', registry: 'none', error: 'No artifact binding' }); return }
     delete b.preparationError
     try {
-      if (b.package) {
+      if (node.id === 'mermaid-js/mermaid') {
+        const source = 'https://registry.npmjs.org/mermaid', data = await json(source), pin = MERMAID_ORACLE_PIN.version
+        if (!data.versions?.[pin]) throw Error('The oracle pin is not a published Mermaid release: ' + pin)
+        rows.push({ project: node.id, component: 'primary', registry: 'oracle-pin', package: 'mermaid', version: pin, previousVersion: b.version, source, integrity: data.versions[pin].dist?.integrity, publishedAt: data.time?.[pin], latestPublished: data['dist-tags']?.latest })
+        b.version = pin; b.versionPolicy = 'recorded'
+        for (const pkg of node.packages ?? []) if (pkg.name === 'mermaid') pkg.version = pin
+      } else if (b.package) {
         b.version = await npm(node, b.package, b.version ?? node.packages?.find(pkg => pkg.name === b.package)?.version, 'primary'); b.versionPolicy = 'recorded'
         if (b.adapter === 'merman') {
           const web = node.packages?.find(pkg => pkg.name === '@mermanjs/web')
@@ -176,6 +187,8 @@ export async function main(args = process.argv.slice(2)) {
   if (changes) {
     console.log(`${changes.length} of ${projects.length} projects changed since ${options.get('--since')}:`)
     for (const change of changes) console.log(`  ${change.project}: ${change.previous} -> ${change.current}`)
+    const reference = result.report.rows.find(row => row.registry === 'oracle-pin')
+    if (reference?.latestPublished && reference.latestPublished !== reference.version) console.log(`Mermaid ${reference.latestPublished} is published; its row stays at the oracle pin ${reference.version}.`)
   } else console.log(JSON.stringify(result.report, null, 2))
   if (!result.report.complete) process.exitCode = 1
 }

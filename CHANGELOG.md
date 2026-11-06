@@ -12,8 +12,9 @@
   Chromium snapshot, the likely cause of the intermittent browser-test timeouts.
   `AM_CHROMIUM_EXECUTABLE` is renamed `TRIDENT_CHROMIUM_EXECUTABLE`; the unused
   `AM_BROWSER_TESTS` is gone.
-- Mermaid's Fidelity row is the reference at the oracle pin (12.2.0); campaigns measure
-  Mermaid's latest release as a candidate in DaveBench and Drawing Correctness.
+- `versions` keeps Mermaid's row at the oracle pin (12.2.0), which `prepare` requires,
+  and reports Mermaid's newest release beside it. It used to select Mermaid's latest
+  release, which `prepare` then refused.
 
 ## 0.2.1 — 6 November 2026
 
