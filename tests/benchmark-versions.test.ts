@@ -99,3 +99,15 @@ test("Mermaid's row stays at the oracle pin and its newest release is only repor
   expect(result.catalog.nodes[0].packages[0].version).toBe(pin)
   expect(result.report.rows[0]).toMatchObject({ registry: 'oracle-pin', version: pin, previousVersion: '12.1.0', latestPublished: '99.0.0', integrity: 'sha512-pin' })
 })
+
+test('a distribution whose default branch carries an untagged version follows the CLI release instead', async () => {
+  const head = 'b'.repeat(40), tagged = 'c'.repeat(40)
+  const cliRelease = { repository: 'fixture/franken', tag: 'v0.4.0', version: '0.4.0', revision: tagged, outputs: { terminal: {} } }
+  const original = { nodes: [node('fixture/franken', { adapter: 'franken', cliRelease }, { distribution: { version: '0.4.0', revision: tagged } })] }
+  const result = await refreshBenchmarkVersions(original, ['fixture/franken'], {
+    json: async url => ({ version: url.includes(head) ? '0.5.0' : '0.4.0' }),
+    refs: async (_repo, pattern) => (pattern === 'HEAD' ? `${head}\tHEAD\n` : `${tagged}\trefs/tags/v0.4.0\n`),
+  })
+  expect(result.report.complete).toBe(true)
+  expect(result.catalog.nodes[0]!.distribution).toMatchObject({ version: '0.4.0', revision: tagged })
+})

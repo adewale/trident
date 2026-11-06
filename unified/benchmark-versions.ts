@@ -97,12 +97,22 @@ export async function refreshBenchmarkVersions<T extends { nodes: CommunityNode[
         rows.push({ project: node.id, component: 'primary', registry: 'source-head', revision, previousRevision: b.sourcePin, source: node.repo })
         b.sourcePin = revision
       } else if (b.adapter === 'franken') {
-        const revision = (await refs(node.id, 'HEAD')).trim().split(/\s+/)[0]!
+        let revision = (await refs(node.id, 'HEAD')).trim().split(/\s+/)[0]!
         if (!/^[a-f0-9]{40}$/.test(revision)) throw Error('No immutable current distribution HEAD')
         const path = (node.distribution?.path ?? 'pkg/').replace(/\/$/, '')
         if (!/^[\w.-]+(?:\/[\w.-]+)*$/.test(path) || path.split('/').includes('..')) throw Error('Unsafe distribution path')
-        const source = `https://raw.githubusercontent.com/${node.id}/${revision}/${path}/package.json`, pkg = await json(source)
+        let source = `https://raw.githubusercontent.com/${node.id}/${revision}/${path}/package.json`, pkg = await json(source)
         if (!stable(pkg.version)) throw Error('Current distribution has no stable package version')
+        // One project, one release: when it also ships a CLI release, an untagged version on
+        // the default branch is not yet a release, so the distribution comes from the CLI's tag.
+        if (b.cliRelease) {
+          const release = latestTag(await refs(b.cliRelease.repository, 'refs/tags/*'))
+          if (pkg.version !== release.version) {
+            revision = release.revision
+            source = `https://raw.githubusercontent.com/${node.id}/${revision}/${path}/package.json`; pkg = await json(source)
+            if (pkg.version !== release.version) throw Error(`Distribution at ${release.tag} is ${pkg.version}, not ${release.version}`)
+          }
+        }
         rows.push({ project: node.id, component: 'primary', registry: 'source-distribution', version: pkg.version, revision, previousVersion: node.distribution?.version, previousRevision: node.distribution?.revision, source })
         if (node.distribution?.revision !== revision) delete node.distribution?.wasmSha256
         node.distribution = { ...node.distribution, version: pkg.version, revision }
