@@ -145,11 +145,22 @@ export function latestBenchmarkRenderingArtifact(peer: PreparedCommunity): Commu
   return native
 }
 
+/** The selected projects whose frozen artifact differs between two catalogs: a published
+ * campaign's and a fresh selection. Answers whether a new collection is worth running. */
+export function versionChanges(previous: { nodes: CommunityNode[] }, current: { nodes: CommunityNode[] }, projects: string[]) {
+  const identity = (node: CommunityNode | undefined) => node && ((node.benchmark as any)?.version ?? (node as any).distribution?.version ?? (node.benchmark as any)?.sourcePin)
+  return projects.flatMap(project => {
+    const before = identity(previous.nodes.find(node => node.id === project)), after = identity(current.nodes.find(node => node.id === project))
+    return before === after ? [] : [{ project, previous: before ?? null, current: after ?? null }]
+  })
+}
+
 export async function main(args = process.argv.slice(2)) {
-  if (args.length === 1 && args[0] === '--help') { console.log('versions --out FRESH_DIRECTORY [--projects IDS]\nResolve and freeze current benchmark artifacts; does not run renderers.'); return }
+  const usage = 'versions --out FRESH_DIRECTORY [--projects IDS] [--since FROZEN_CATALOG]'
+  if (args.length === 1 && args[0] === '--help') { console.log(usage + '\nResolve and freeze current benchmark artifacts; does not install or run anything. --since lists the projects whose release changed since that frozen catalog (a published campaign\'s), to show whether a new collection is worth running.'); return }
   const options = new Map<string, string>()
   for (let i = 0; i < args.length; i += 2) {
-    if (!['--out', '--projects'].includes(args[i]!) || !args[i + 1] || options.has(args[i]!)) throw Error('versions --out FRESH_DIRECTORY [--projects IDS]')
+    if (!['--out', '--projects', '--since'].includes(args[i]!) || !args[i + 1] || options.has(args[i]!)) throw Error(usage)
     options.set(args[i]!, args[i + 1]!)
   }
   if (!options.has('--out')) throw Error('Choose --out FRESH_DIRECTORY')
@@ -158,10 +169,14 @@ export async function main(args = process.argv.slice(2)) {
   const catalog = JSON.parse(readFileSync(communityCatalogFile, 'utf8'))
   const projects = comparisonProjects(catalog, options.get('--projects')?.split(',') ?? catalog.nodes.map((node: CommunityNode) => node.id)).included
   const result = await refreshBenchmarkVersions(catalog, projects)
+  const changes = options.has('--since') ? versionChanges(JSON.parse(readFileSync(options.get('--since')!, 'utf8')), result.catalog, projects) : undefined
   mkdirSync(out, { recursive: true })
   writeFileSync(join(out, 'catalog.json'), JSON.stringify({ ...result.catalog, benchmarkVersionsCheckedAt: result.report.checkedAt, benchmarkVersionPolicy: result.report.policy }, null, 2) + '\n')
-  writeFileSync(join(out, 'versions.json'), JSON.stringify(result.report, null, 2) + '\n')
-  console.log(JSON.stringify(result.report, null, 2))
+  writeFileSync(join(out, 'versions.json'), JSON.stringify({ ...result.report, ...(changes ? { changedSince: { catalog: options.get('--since'), changes } } : {}) }, null, 2) + '\n')
+  if (changes) {
+    console.log(`${changes.length} of ${projects.length} projects changed since ${options.get('--since')}:`)
+    for (const change of changes) console.log(`  ${change.project}: ${change.previous} -> ${change.current}`)
+  } else console.log(JSON.stringify(result.report, null, 2))
   if (!result.report.complete) process.exitCode = 1
 }
 if (import.meta.main) await main()

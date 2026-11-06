@@ -152,7 +152,7 @@ bun commands.ts davebench:terminal --catalog FRESH_VERSIONS/catalog.json --prepa
 bun commands.ts davebench:native-png --host-display --bundle native-flutter/app/build/linux/x64/release/bundle --out FRESH_FLUTTER
 bun commands.ts drawing:correctness --prepared FRESH_ARTIFACTS/community-browser-prepared.json --terminal-prepared FRESH_ARTIFACTS/community-prepared.json --catalog FRESH_VERSIONS/catalog.json --out FRESH_DRAWINGS
 bun commands.ts mermaid:fidelity --upstream PINNED_MERMAID --reference MERMAID_REFERENCE --runtime VITEST_RUNTIME --prepared FRESH_ARTIFACTS/community-prepared.json --catalog FRESH_VERSIONS/catalog.json --out FRESH_FIDELITY
-bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal FRESH_TERMINAL/results.json --out FRESH_REPORT
+bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal FRESH_TERMINAL/results.json --native-png FRESH_FLUTTER/results.json --out FRESH_REPORT
 ```
 
 | Placeholder | Meaning |
@@ -163,14 +163,16 @@ bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal F
 | `VITEST_RUNTIME` | The `--runtime` directory built by `upstream:prepare` |
 
 `versions` freezes the latest public release of every project and `prepare`
-installs them, so nothing is installed while a benchmark is being timed.
+installs them, so nothing is installed while a benchmark is being timed. With
+`--since` and a published campaign's catalog, `versions` lists the projects that
+have released since, which shows whether a new collection is worth running.
 `prepare` writes two lists, one of browser-ready image artifacts and one of every
 artifact. Pass them unchanged, because each collector takes only the projects
 that declare its output format. Mermaid Flutter has no prepared artifact, so
-`davebench:native-png` measures its release bundle instead. No command merges
-its runs yet: copy the `runs` from `FRESH_FLUTTER/results.json` into
-`FRESH_IMAGES/results.json` before `campaign:results`, which builds the DaveBench
-rankings from those numbers without launching a renderer. Every command takes
+`davebench:native-png` measures its release bundle instead, and
+`campaign:results --native-png` adds those runs to the image results. It writes
+the merged `images.json` beside the DaveBench rankings, which it builds from
+existing numbers without launching a renderer. Every command takes
 `--help`.
 
 The [equal-weight overall synthesis](docs/overall-scoring.md) shows each

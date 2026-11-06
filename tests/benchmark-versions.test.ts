@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { assertCurrentBenchmarkArtifact, latestBenchmarkRenderingArtifact, refreshBenchmarkVersions } from '../unified/benchmark-versions.ts'
+import { assertCurrentBenchmarkArtifact, latestBenchmarkRenderingArtifact, refreshBenchmarkVersions, versionChanges } from '../unified/benchmark-versions.ts'
 import { extraPackagePreparation } from '../unified/community-extra-adapters.mjs'
 import type { CommunityNode } from '../unified/community-types.ts'
 
@@ -79,4 +79,11 @@ test('a newer native rendering release replaces an older SDK and an unavailable 
   expect(() => assertCurrentBenchmarkArtifact({ node: peer.node, artifact: native }, peer.node)).not.toThrow()
   peer.artifact.additionalCli = []
   expect(() => latestBenchmarkRenderingArtifact(peer)).toThrow('refusing older SDK')
+})
+
+test('versions --since lists only the selected projects whose frozen artifact changed', () => {
+  const node = (id: string, benchmark: any, extra: any = {}) => ({ id, benchmark, ...extra }) as any
+  const before = { nodes: [node('a', { version: '1.0.0' }), node('b', { version: '2.0.0' }), node('c', { sourcePin: 'x'.repeat(40) }), node('d', { adapter: 'franken' }, { distribution: { version: '0.4.0' } }), node('e', { version: '1.0.0' })] }
+  const after = { nodes: [node('a', { version: '1.0.0' }), node('b', { version: '2.1.0' }), node('c', { sourcePin: 'y'.repeat(40) }), node('d', { adapter: 'franken' }, { distribution: { version: '0.5.0' } }), node('e', { version: '9.9.9' })] }
+  expect(versionChanges(before, after, ['a', 'b', 'c', 'd'])).toEqual([{ project: 'b', previous: '2.0.0', current: '2.1.0' }, { project: 'c', previous: 'x'.repeat(40), current: 'y'.repeat(40) }, { project: 'd', previous: '0.4.0', current: '0.5.0' }])
 })
