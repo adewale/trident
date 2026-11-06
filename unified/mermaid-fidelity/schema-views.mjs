@@ -1050,6 +1050,42 @@ function kanbanView(project, raw, hooks) {
   }
 }
 
+// Event modeling. Mermaid's getState().relations holds each drawn relation as a source and
+// target box, and a box's frame.name is the frame id written after tf/rf. Pele and Bezel
+// keep those relations themselves, each naming its source and target box by that id, so
+// only the endpoints are claimed; every other field of the state, a box or a frame stays
+// unmapped. Projects that keep frames but not the relations Mermaid derives from them are
+// not given relations: deriving them would be Trident applying Mermaid's own rules.
+const EVENT_RELATION_PORTS = ['obsidianmd/pele', 'crabtalk/bezel']
+function eventModelState(raw, hooks) {
+  const box = item => record({ frame: record({ name: item.id }, 'event modeling frame', ['name', 'kind', 'entity'], {}, hooks) }, 'event modeling box', ['frame', 'x', 'y', 'width', 'height'], {}, hooks)
+  const relations = raw.relations.map(relation => record({ sourceBox: box(relation.source), targetBox: box(relation.target) }, 'event modeling relation', ['sourceBox', 'targetBox'], {}, hooks))
+  return record({ relations }, 'event modeling state', ['relations', 'boxes', 'swimlanes', 'notes', 'specifications', 'entities'], {}, hooks)
+}
+
+// Requirement layout data (RequirementDB.getData at the pinned tag). As for flowcharts,
+// only Mermaid's translation of the parse state is reproduced: one edge per relation in
+// order, with id `${src}-${dst}-${index}`, the endpoint names and the <<type>> label.
+// Edge styling and arrowheads are its renderer's; nodes are not mapped.
+const REQUIREMENT_DATA_PORTS = ['obsidianmd/pele']
+const REQUIREMENT_EDGE_RENDERER = Object.fromEntries(['labelpos', 'thickness', 'classes', 'arrowTypeStart', 'arrowTypeEnd', 'style', 'pattern', 'look', 'labelType', 'type'].map(field => [field, "Mermaid's renderer decides this requirement edge field; it is not part of a parse result"]))
+function requirementLayoutData(raw, hooks) {
+  const named = id => raw.requirements?.[id]?.name ?? raw.elements?.[id]?.name
+  const edges = raw.relations.map((relation, index) => record({ id: `${relation.src}-${relation.dst}-${index}`, start: named(relation.src), end: named(relation.dst), label: `&lt;&lt;${relation.type}&gt;&gt;` }, 'requirement layout edge', ['id', 'start', 'end', 'label'], REQUIREMENT_EDGE_RENDERER, hooks))
+  return record({ edges, direction: raw.direction }, 'requirement layout data', ['nodes', 'edges', 'other', 'config', 'direction'], { config: "Mermaid's requirement getData config is its renderer's configuration" }, hooks)
+}
+
+// XY charts. Pele keeps Mermaid's own chart record: band or linear axes and plots of
+// [category, value] pairs with their titles. A plot's stroke and fill come from Mermaid's
+// theme palette at parse time, which is its renderer's colour scheme, not a parse result.
+const XYCHART_PORTS = ['obsidianmd/pele']
+const XYCHART_COLOUR = { strokeFill: "Mermaid assigns a plot's colour from its theme palette", strokeWidth: "Mermaid's line width is a theme setting", fill: "Mermaid assigns a plot's colour from its theme palette" }
+function xyChartData(raw, hooks) {
+  const axis = value => record({ ...value }, 'xychart axis', ['type', 'title', 'categories', 'min', 'max'], {}, hooks)
+  const plot = value => record({ type: value.type, title: value.title ?? '', data: value.data.map(point => [...point]), ...(value.pointLabels ? { pointLabels: [...value.pointLabels] } : {}) }, 'xychart plot', ['type', 'title', 'data', 'pointLabels'], XYCHART_COLOUR, hooks)
+  return record({ title: raw.title ?? '', xAxis: axis(raw.xAxis), yAxis: axis(raw.yAxis), plots: raw.plots.map(plot) }, 'xychart data', ['title', 'xAxis', 'yAxis', 'plots'], {}, hooks)
+}
+
 // Git graphs. Mermaid's getCommits() and getBranches() are Maps (commit id -> commit,
 // branch name -> head commit id). Bezel mirrors both; Latias94/merman lists commits and
 // branch names, without each branch's head.
@@ -1146,6 +1182,9 @@ function reviewedSchemaView(project, family, raw, hooks) {
   if (family === 'c4' && C4[project]) return c4View(C4[project](raw, hooks), hooks)
   if (family === 'treeview' && PORTS.includes(project) && raw.root) return { getRoot: () => deepUnset(raw.root), ...(typeof raw.count === 'number' ? { getCount: () => raw.count } : {}) }
   if (family === 'kanban' && PORTS.includes(project) && Array.isArray(raw.sections)) return kanbanView(project, raw, hooks)
+  if (family === 'eventmodeling' && EVENT_RELATION_PORTS.includes(project) && Array.isArray(raw.relations)) return { getState: () => eventModelState(raw, hooks) }
+  if (family === 'requirement' && REQUIREMENT_DATA_PORTS.includes(project) && Array.isArray(raw.relations) && typeof raw.getData !== 'function') return { getData: () => requirementLayoutData(raw, hooks) }
+  if (family === 'xychart' && XYCHART_PORTS.includes(project) && Array.isArray(raw.plots) && raw.xAxis && raw.yAxis) return { getXYChartData: () => xyChartData(raw, hooks) }
   if (family === 'sequence' && (SEQUENCE[project] || ACTORS[project])) {
     const model = SEQUENCE[project]?.(raw, hooks), actors = ACTORS[project]?.(raw)
     return { ...(actors ? actorsView(actors.list, actorAbsent(actors.name), hooks) : {}), ...(model ? sequenceView(model.entries, model.absent, hooks) : {}) }

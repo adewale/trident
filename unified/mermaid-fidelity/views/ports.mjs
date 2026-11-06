@@ -676,6 +676,9 @@ function sequenceView(raw, hooks, project) {
     getActorKeys: () => [...actors().keys()],
     getCreatedActors: () => orderedMap(raw.createdActors, hooks, NAME[project] + ' created actors'),
     getDestroyedActors: () => orderedMap(raw.destroyedActors, hooks, NAME[project] + ' destroyed actors'),
+    // Bezel writes accDescr only when the source has one (checked with and without), so its
+    // absence means none was written: Mermaid's empty accessibility description.
+    ...(project === BEZEL && raw.type === 'sequence' && !('accDescr' in raw) ? { getAccDescription: () => '' } : {}),
   }
 }
 
