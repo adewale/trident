@@ -1233,7 +1233,10 @@ const PORT_AST = {
     const nodes = []
     const walk = node => {
       for (const child of node.children ?? []) {
-        nodes.push(astNode('TreeNode', { name: child.name, indent: child.level ? child.level : undefined, ...(child.cssClass ? { classAnnotation: child.cssClass } : {}), ...(child.icon ? { iconAnnotation: child.icon } : {}) }, hooks))
+        // The database drops a directory's trailing slash into nodeType; the AST keeps it.
+        nodes.push(astNode('TreeNode', { name: child.nodeType === 'directory' ? child.name + '/' : child.name, indent: child.level ? child.level : undefined, ...(child.cssClass ? { classAnnotation: child.cssClass } : {}), ...(child.icon === 'none' ? {} : { iconAnnotation: child.icon || undefined }), descAnnotation: child.description || undefined }, hooks))
+        // icon 'none' is both an empty icon() and icon(none) in the database, so which was
+        // written is not recoverable and the annotation stays unmapped.
         walk(child)
       }
     }
@@ -1258,7 +1261,7 @@ const PORT_AST = {
     return astNode('Treemap', { ...(classDefs ? {} : { TreemapRows: rows }), title: raw.title ?? undefined, accTitle: raw.accTitle ?? undefined, accDescr: raw.accDescr ?? undefined }, hooks, absent)
   },
 }
-Object.assign(AST_FIELDS, { Architecture: ['title', 'accTitle', 'accDescr', 'services', 'groups', 'junctions', 'edges'], Service: ['id', 'title', 'icon', 'iconText', 'in'], Group: ['id', 'title', 'icon', 'in'], TreeView: ['nodes', 'title', 'accTitle', 'accDescr'], TreeNode: ['name', 'indent', 'classAnnotation', 'iconAnnotation'], Treemap: ['TreemapRows', 'title', 'accTitle', 'accDescr'], TreemapRow: ['item', 'indent'], Section: ['name', 'classSelector'], Leaf: ['name', 'value', 'classSelector'] })
+Object.assign(AST_FIELDS, { Architecture: ['title', 'accTitle', 'accDescr', 'services', 'groups', 'junctions', 'edges'], Service: ['id', 'title', 'icon', 'iconText', 'in'], Group: ['id', 'title', 'icon', 'in'], TreeView: ['nodes', 'title', 'accTitle', 'accDescr'], TreeNode: ['name', 'indent', 'classAnnotation', 'iconAnnotation', 'descAnnotation'], Treemap: ['TreemapRows', 'title', 'accTitle', 'accDescr'], TreemapRow: ['item', 'indent'], Section: ['name', 'classSelector'], Leaf: ['name', 'value', 'classSelector'] })
 // mermaid_core 0.3.2 (Mermaid Dart and Flutter): services list junctions with isJunction,
 // groups carry label/parent, and treemap nodes carry label, value, children, isLeafNode.
 // Its architecture model keeps no title or accessibility text.
