@@ -1,6 +1,6 @@
 # DaveBench definition
 
-DaveBench measures how many Mermaid documentation examples each renderer completes and how long the render calls take, separately for SVG, PNG and terminal text. A completion needs a usable output in the requested format; DaveBench does not assess drawing correctness or retain rendered outputs. Use `davebench` for SVG/PNG and `davebench:terminal` for native terminal text. See the [three-benchmark portfolio](benchmark-portfolio.md).
+DaveBench is derived from Dave Kiss's posts ([first](https://x.com/davekiss/status/2111512440106078554), [second](https://x.com/davekiss/status/2111513199119941999)). It measures how many Mermaid documentation examples each renderer completes and how long the render calls take, separately for SVG, PNG and terminal text. A completion needs a usable output in the requested format; DaveBench does not assess drawing correctness or retain rendered outputs. Use `davebench` for SVG/PNG and `davebench:terminal` for native terminal text. See the [three-benchmark portfolio](benchmark-portfolio.md).
 
 ## Inputs
 
@@ -19,7 +19,7 @@ The full `docs/` population contains 673 `mermaid` blocks and 669 `mermaid-examp
 
 The [numeric count and per-file breakdown](evidence/davebench-docs-count-2026-11-02.json) record the extraction result. No renderer was invoked for this count.
 
-Dave's reported 1,095 is reproduced by counting the generated `docs/syntax/` directory at our older pin, `1fb7869866dd619168d840291c9c54b4f129758b`: 547 `mermaid` blocks and 548 `mermaid-example` blocks across 34 files. Our former 548-occurrence corpus used `packages/mermaid/src/docs/syntax/`, before documentation generation duplicated many examples.
+Dave Kiss's reported 1,095 is reproduced by counting the generated `docs/syntax/` directory at our older pin, `1fb7869866dd619168d840291c9c54b4f129758b`: 547 `mermaid` blocks and 548 `mermaid-example` blocks across 34 files. Our former 548-occurrence corpus used `packages/mermaid/src/docs/syntax/`, before documentation generation duplicated many examples.
 
 The new DaveBench uses the full `docs/` population specified above: **1,342 attempts per renderer, format and run** at this revision.
 

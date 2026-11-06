@@ -11,8 +11,19 @@ export const factDocuments = ['README.md', 'docs/benchmark-portfolio.md', 'docs/
 const count = (n: number) => n.toLocaleString('en-US')
 const day = (iso: string | undefined) => (iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) : 'unknown')
 
-/** Every generated fact, from the three current result files [DaveBench report, Drawing, Fidelity]. */
-export function publishedFacts(davebench: any, drawing: any, fidelity: any): Record<string, string> {
+const series = (items: string[]) => (items.length < 2 ? items.join('') : items.slice(0, -1).join(', ') + ' and ' + items.at(-1))
+
+/** "Name with N", or "A, B and C with N each" for a tie. A leader that an
+ * unassessed case could still overtake is marked, never stated as settled. */
+function leader(rows: { project: string; score: number; gaps?: number }[], names: Record<string, string>) {
+  const best = Math.max(...rows.map(row => row.score)), top = rows.filter(row => row.score === best)
+  const open = rows.some(row => row.score < best && row.score + (row.gaps ?? 0) >= best)
+  return series(top.map(row => names[row.project] ?? row.project).sort()) + ' with ' + count(best) + (top.length > 1 ? ' each' : '') + (open ? ' (not yet settled)' : '')
+}
+
+/** Every generated fact, from the three current result files [DaveBench report, Drawing, Fidelity].
+ * names maps project ids to display names for the leader facts. */
+export function publishedFacts(davebench: any, drawing: any, fidelity: any, names: Record<string, string> = {}): Record<string, string> {
   const control = fidelity.results.find((row: any) => row.project === 'mermaid-js/mermaid')
   const candidates = fidelity.results.filter((row: any) => row.project !== 'mermaid-js/mermaid')
   const assessed = drawing.results.reduce((sum: number, row: any) => sum + Object.values(row.counts as Record<string, number>).reduce((a, n) => a + n, 0), 0)
@@ -33,7 +44,16 @@ export function publishedFacts(davebench: any, drawing: any, fidelity: any): Rec
     'fidelity-candidates': count(candidates.length),
     'fidelity-gaps': count(candidates.reduce((sum: number, row: any) => sum + row.counts['trident-blocked'], 0)),
     'fidelity-collected': day(fidelity.collectedThrough ?? fidelity.updatedAt),
+    // One date, or the span from the first benchmark collected to the last.
+    'campaign-collected': [...new Set([davebench.collection?.terminal?.finishedAt ?? davebench.collection?.images?.finishedAt, drawing.updatedAt, fidelity.collectedThrough ?? fidelity.updatedAt].filter(Boolean).sort().map(day))].filter((value, index, all) => index === 0 || index === all.length - 1).join(' to ') || 'unknown',
     projects: count(projects.size),
+    'davebench-svg-renderers': count(davebench.rankings.svg.length),
+    'davebench-svg-range': count(Math.min(...davebench.rankings.svg.map((row: any) => row.completed))) + ' to ' + count(Math.max(...davebench.rankings.svg.map((row: any) => row.completed))),
+    // Leaders exactly as RESULTS.md ranks them: DaveBench rank 1, the most correct
+    // Drawing cases, and the candidate passing the most Fidelity tests.
+    ...Object.fromEntries(['svg', 'png', 'terminal'].map(format => ['davebench-' + format + '-leader', leader(davebench.rankings[format].filter((row: any) => row.rank === 1).map((row: any) => ({ project: row.project, score: row.completed })), names)])),
+    ...Object.fromEntries(['svg', 'terminal'].map(format => ['drawing-' + format + '-leader', leader(drawing.results.filter((row: any) => row.format === format).map((row: any) => ({ project: row.project, score: row.counts.correct, gaps: (row.counts.unknown ?? 0) + (row.counts.unrun ?? 0) })), names)])),
+    'fidelity-leader': leader(candidates.map((row: any) => ({ project: row.project, score: row.counts.passed, gaps: row.counts['trident-blocked'] })), names),
   }
 }
 

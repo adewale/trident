@@ -1,29 +1,148 @@
 # Trident
 
-Trident benchmarks Mermaid implementations on three questions:
+Trident is a tool for benchmarking Mermaid implementations. It is for people
+building a Mermaid renderer or parser and for people choosing one.
 
-| Benchmark | Measures | Status |
-|---|---|---|
-| **DaveBench** | Completed documentation renders and elapsed time, separately for SVG, PNG and terminal text. A completion needs a usable output: a sized SVG, a valid PNG, or terminal text that is not empty, an error message or the source printed back. | Implemented. [Results](RESULTS.md#davebench); [campaign evidence](results/release/README.md). |
-| **Drawing Correctness** | Every expected label shown, without errors or raw syntax, on a shared corpus of examples and real project regressions; SVG and terminal text. | Implemented: <!-- fact:drawing-cases -->127<!-- /fact --> shared cases; <!-- fact:drawing-unassessed -->0<!-- /fact --> of <!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed (collected <!-- fact:drawing-collected -->5 November 2026<!-- /fact -->). Edges and layout are not checked. |
-| **Mermaid Fidelity** | Original assertions from the full pinned Mermaid test inventory, through candidate adapters, scored over the tests pinned Mermaid itself passes. | Implemented: all <!-- fact:fidelity-candidates -->26<!-- /fact --> candidates attempted all <!-- fact:fidelity-files -->316<!-- /fact --> core-package test files against <!-- fact:fidelity-population -->3,618<!-- /fact --> tests Mermaid passes (collected <!-- fact:fidelity-collected -->5 November 2026<!-- /fact -->); <!-- fact:fidelity-gaps -->94<!-- /fact --> candidate tests remain unassessed by Trident. 13 candidates are reached through [parser bridges](docs/benchmark-results-details.md#why-coverage-is-incomplete) and reviewed schema views. Operations a candidate does not offer are known nonpasses; fields no view maps remain unassessed. |
+Mermaid has been reimplemented in Rust, Go, Dart, Python and TypeScript, and the
+implementations are far apart: given Mermaid's own documentation examples, the
+<!-- fact:davebench-svg-renderers -->16<!-- /fact --> SVG renderers complete
+anywhere from <!-- fact:davebench-svg-range -->384 to 1,338<!-- /fact --> of them.
+Trident runs <!-- fact:projects -->27<!-- /fact --> implementations, at frozen
+versions, through three benchmarks and records every case each one passes or
+fails, so a builder can see what to fix and a chooser can see which diagrams will
+fail.
 
-[League tables](RESULTS.md) · [Methods and coverage](docs/benchmark-results-details.md) · [Definitions and corpus requirements](docs/benchmark-portfolio.md) · [DaveBench method](docs/davebench-definition.md)
+## The three benchmarks
 
-## Work on the benchmarks
+Each benchmark answers a question the previous one leaves open.
 
-The collectors reuse existing readers, drivers and checks. The remaining work
-is reducing observed assessment and adapter gaps. Freeze versions once per campaign,
-check the changed invocation on a few known cases, then run the affected workload.
-Record a blocked project and continue with the others.
+**[DaveBench](docs/davebench-definition.md): does it render?** DaveBench is
+derived from Dave Kiss's posts
+([first](https://x.com/davekiss/status/2111512440106078554),
+[second](https://x.com/davekiss/status/2111513199119941999)). Trident takes every
+Mermaid example in Mermaid's documentation
+(<!-- fact:davebench-inputs -->1,342<!-- /fact --> blocks at a pinned commit) and
+renders each one three times per format. It counts the renders that produce a
+usable output: an SVG with a size, a valid PNG, or terminal text that is not
+empty, an error or the source printed back. It ranks by that count, then by
+median time. DaveBench never looks at the drawing, so an implementation can
+complete an example and still draw it wrong.
 
-During development, run affected tests. Full timing repeats belong after the
-invocation works. A report needs the actual results and a readable table; extra
-manifests, duplicate archives and publication checks are optional release work.
-DaveBench keeps counts and times, discarding rendered outputs. No benchmark keeps a
-raw-output archive: a result is verified by re-running its frozen versions and pinned
-inputs ([evidence rule](docs/benchmark-results-details.md#evidence-and-verification)).
-Missing results stay explicit.
+**[Drawing Correctness](docs/benchmark-portfolio.md#drawing-correctness-real-rendering-failures-across-formats):
+is the drawing right?** There are <!-- fact:drawing-cases -->127<!-- /fact -->
+cases, taken from shared examples and from bugs reported against real
+implementations. Each case lists the labels its diagram must show. Trident checks
+that every label appears in the SVG or terminal output, with no error message or
+raw Mermaid syntax. Edges, arrows and layout are not checked, so a drawing can
+show every label and still connect them wrongly.
+
+**[Mermaid Fidelity](docs/benchmark-portfolio.md#mermaid-fidelity-execute-pinned-upstream-tests):
+does it behave like Mermaid?** Mermaid's
+<!-- fact:fidelity-files -->316<!-- /fact --> core test files call Mermaid's parser
+and inspect the model it builds, including its edges (`flow-edges.spec.js`, for
+example, tests flowchart arrow types). Trident runs those tests unchanged against each
+implementation's parser, translating its model into the shape the tests read.
+When Trident cannot call an implementation's parser from JavaScript, it reaches
+it through a [parser bridge](docs/benchmark-results-details.md#why-coverage-is-incomplete);
+13 implementations are reached this way.
+Only the <!-- fact:fidelity-population -->3,618<!-- /fact --> tests that Mermaid
+12.2.0 itself passes count. If a test needs an operation the implementation
+doesn't offer, it counts as a failure. If it reads a field Trident can't
+translate yet, it stays unassessed
+(<!-- fact:fidelity-gaps -->94<!-- /fact --> tests across all implementations).
+
+Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
+and the range of ranks still possible once its unassessed cases are resolved.
+
+## Current results
+
+Collected <!-- fact:campaign-collected -->5 November 2026<!-- /fact -->. The
+leaders are:
+
+- **DaveBench**, examples completed. SVG:
+  <!-- fact:davebench-svg-leader -->Latias Merman with 1,338<!-- /fact -->. PNG:
+  <!-- fact:davebench-png-leader -->Mermaid with 1,336<!-- /fact -->. Terminal text:
+  <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,342<!-- /fact -->.
+- **Drawing Correctness**, cases correct. SVG:
+  <!-- fact:drawing-svg-leader -->Bezel, Ondine and Pele with 126 each<!-- /fact -->.
+  Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
+- **Mermaid Fidelity**, tests passed:
+  <!-- fact:fidelity-leader -->Pele with 3,135<!-- /fact -->.
+
+Mermaid is ranked alongside the other implementations in DaveBench and Drawing
+Correctness. In Mermaid Fidelity it is the reference, so it passes every counted
+test by definition and is left out of the leader above.
+
+[Full league tables, with timings](RESULTS.md) ·
+[How each count is made](docs/benchmark-results-details.md) ·
+[How the collection was run](results/release/README.md)
+
+## Quick start
+
+This reproduces one row of the DaveBench tables: Ondine's SVG and PNG counts.
+Ondine installs from npm and renders the whole corpus in under a minute, which
+makes it a quick row to check. It needs Bun 1.4+, Node 24+, git and Chromium (`bunx playwright install chromium`
+if you have none). On a Linux container it took about two minutes, downloads
+included.
+
+```sh
+git clone https://github.com/adewale/trident
+git clone https://github.com/mermaid-js/mermaid   # DaveBench reads Mermaid's docs from here
+cd trident
+bun install --frozen-lockfile
+node commands.ts mermaid:install                  # pinned Mermaid reference, in ../mermaid-reference
+bun commands.ts versions --projects wevm/ondine --out ../quickstart/versions
+bun commands.ts prepare --catalog ../quickstart/versions/catalog.json --projects wevm/ondine --out ../quickstart/artifacts
+bun commands.ts davebench --catalog ../quickstart/versions/catalog.json --prepared ../quickstart/artifacts/community-browser-prepared.json --projects wevm/ondine --out ../quickstart/davebench
+```
+
+DaveBench renders every example three times per format and prints progress:
+
+```text
+wevm/ondine svg run 1/3
+  100/1342: 96 completed, 4 failed, 0.05 s
+  ...
+  done: 1306/1342, 0.352 s
+...
+wevm/ondine png run 3/3
+  done: 1306/1342, 7.803 s
+```
+
+It writes `../quickstart/davebench/rankings.md` and `results.json`. The completed
+counts should match Ondine's rows in [RESULTS.md](RESULTS.md); the times depend
+on your machine and compare only with rows collected on the same machine.
+
+## Install
+
+A full campaign needs more than the quick start:
+
+- Bun 1.4+, Node 24+, npm, git and Python 3.12.
+- Chromium for browser renderers. Trident uses `/usr/bin/chromium` when it exists,
+  otherwise Playwright's Chromium.
+- Tesseract and the Python packages in `fidelity/drawing/requirements.txt`, for
+  Drawing Correctness.
+- The toolchains that compiled projects declare in the catalog.
+- A Mermaid checkout at `../mermaid`, checked out at the `mermaid@12.2.0` tag.
+  DaveBench reads its pinned docs commit from the history, and Mermaid Fidelity
+  runs the tag's tests.
+
+```sh
+bun install --frozen-lockfile
+node commands.ts mermaid:install
+bunx playwright install chromium
+python -m pip install -r fidelity/drawing/requirements.txt
+git -C ../mermaid checkout mermaid@12.2.0
+bun commands.ts upstream:prepare --runtime ../fidelity-runtime
+node commands.ts --version
+```
+
+`upstream:prepare` builds the test runtime for Mermaid Fidelity from the clean
+tag checkout ([runtime notes](docs/upstream-original-runtime.md)). The native
+Mermaid Flutter PNG counter is built separately ([build guide](native-flutter/README.md)).
+Campaigns have been collected on Linux x64; CI tests Trident itself on Linux and
+macOS.
+
+## Run a full campaign
 
 ```sh
 bun commands.ts versions --out FRESH_VERSIONS
@@ -32,29 +151,39 @@ bun commands.ts davebench --catalog FRESH_VERSIONS/catalog.json --prepared FRESH
 bun commands.ts davebench:terminal --catalog FRESH_VERSIONS/catalog.json --prepared FRESH_ARTIFACTS/community-prepared.json --out FRESH_TERMINAL
 bun commands.ts davebench:native-png --host-display --bundle native-flutter/app/build/linux/x64/release/bundle --out FRESH_FLUTTER
 bun commands.ts drawing:correctness --prepared FRESH_ARTIFACTS/community-browser-prepared.json --terminal-prepared FRESH_ARTIFACTS/community-prepared.json --catalog FRESH_VERSIONS/catalog.json --out FRESH_DRAWINGS
-bun commands.ts mermaid:fidelity --upstream PINNED_MERMAID --reference MERMAID_RUNTIME --runtime VITEST_RUNTIME --prepared FRESH_ARTIFACTS/community-prepared.json --catalog FRESH_VERSIONS/catalog.json --out FRESH_FIDELITY
+bun commands.ts mermaid:fidelity --upstream PINNED_MERMAID --reference MERMAID_REFERENCE --runtime VITEST_RUNTIME --prepared FRESH_ARTIFACTS/community-prepared.json --catalog FRESH_VERSIONS/catalog.json --out FRESH_FIDELITY
 bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal FRESH_TERMINAL/results.json --out FRESH_REPORT
 ```
 
-Prepared artifact lists identify installed public releases. `prepare` installs the
-frozen versions and writes `community-browser-prepared.json` (browser-ready image
-artifacts) and `community-prepared.json` (every artifact). Pass them unchanged: each
-collector takes only the projects whose catalog binding declares its format. `davebench`
-without `--prepared` prepares its image artifacts itself. Native Mermaid Flutter has no
-prepared artifact; `davebench:native-png` measures its release bundle
-([build guide](native-flutter/README.md)), and its runs are appended to the image results
-before `campaign:results`. Setup happens before timing. The report reads existing numbers and launches no renderers. Equal-weight
-[overall synthesis](docs/overall-scoring.md) shows score ranges and each project's
-possible rank; exact overall scores await complete coverage, and missing work is
-never counted as zero.
+| Placeholder | Meaning |
+|---|---|
+| `FRESH_*` | A directory that does not exist yet |
+| `PINNED_MERMAID` | The Mermaid checkout at `mermaid@12.2.0` (`../mermaid`) |
+| `MERMAID_REFERENCE` | The reference installed by `mermaid:install` (`../mermaid-reference`) |
+| `VITEST_RUNTIME` | The `--runtime` directory built by `upstream:prepare` |
 
-[Reading the results](REPORTING.md) · [Catalog](CATALOG.md) · [Development scope](SCOPE.md) · [Release notes](CHANGELOG.md)
+`versions` freezes the latest public release of every project and `prepare`
+installs them, so nothing is installed while a benchmark is being timed.
+`prepare` writes two lists, one of browser-ready image artifacts and one of every
+artifact. Pass them unchanged, because each collector takes only the projects
+that declare its output format. Mermaid Flutter has no prepared artifact, so
+`davebench:native-png` measures its release bundle instead. No command merges
+its runs yet: copy the `runs` from `FRESH_FLUTTER/results.json` into
+`FRESH_IMAGES/results.json` before `campaign:results`, which builds the DaveBench
+rankings from those numbers without launching a renderer. Every command takes
+`--help`.
+
+The [equal-weight overall synthesis](docs/overall-scoring.md) shows each
+project's score range and possible rank. Exact overall scores wait for complete
+coverage, because missing work is never counted as zero.
+[Reading the results](REPORTING.md) explains the tables.
 
 ## Supported projects
 
-Normal campaigns select **27 renderers**: 16 with SVG output, ten terminal-only
+Campaigns select 27 renderers: 16 with SVG output, ten terminal-only
 implementations and the native Mermaid Flutter PNG renderer. The table names the
-outputs a project's public interface has produced; it does not certify every family.
+outputs a project's public interface has produced; it does not certify every
+diagram family.
 
 | SVG-rendering project | Outputs exercised successfully |
 |---|---|
@@ -62,7 +191,7 @@ outputs a project's public interface has produced; it does not certify every fam
 | [Beautiful Mermaid](https://github.com/lukilabs/beautiful-mermaid) | SVG, terminal |
 | [Bezel](https://github.com/crabtalk/bezel) | SVG |
 | [Crafter Mermaid](https://github.com/crafter-station/mermaid) | Browser DOM SVG, parser; raw Node SVG has a retained XML failure |
-| [DSH Mermaid GB SVG](https://github.com/sandyyst/dsh-plugin-mermaid-gb-svg) | SVG |
+| [DSH Mermaid GB SVG](https://github.com/sandyyst/dsh-plugin-mermaid-gb-svg) | SVG (flowcharts only) |
 | [Frankenmermaid](https://github.com/Dicklesworthstone/frankenmermaid) | SVG, parser, diagnostics |
 | [Latias Merman](https://github.com/Latias94/merman) | SVG |
 | [Mermaid Dart](https://github.com/orestesgaolin/mermaid) | SVG |
@@ -82,65 +211,22 @@ Terminal-only interfaces are exercised for [ASCII Mermaid](https://github.com/ka
 [MermaidText](https://github.com/spacedock-dev/mermaidtext), [MermaidTUI](https://github.com/tariqshams/mermaidtui),
 [OpenCode's Merman component](https://github.com/anomalyco/opencode)
 and [Termaid](https://github.com/fasouto/termaid).
-
 [Mermaid Flutter](https://pub.dev/packages/mermaid_flutter) has a separate native
-PNG interface using Mermaid Dart's parser/layout core. DSH Mermaid GB SVG is a
-flowchart specialist. Parser, model and invalid-input checks of enrolled renderers
-remain in scope; validator-only tools do not enter renderer comparisons.
+PNG interface built on Mermaid Dart's parser and layout core.
 
-The [catalogue](CATALOG.md) retains all 89 identities and their ancestry.
-**62 are excluded** by renderer scope, explicit project selection, branding,
-application or binding policy. MDV, OpenCode Merman, TUI Mermaid, Lovely Mermaid
-and Mermansi are catalogue-only. So are the seven parser/validator/formatter/converter
-entries removed from the earlier 39-project selection. Rusty Mermaid declares
-only diagnostics and is also outside renderer scope; its broken-release receipt
-remains recorded. These exclusions apply before acquisition and cannot be enabled
-with the descendant-investigation override. Historical receipts retain their
-original project selections and dates.
-
-## Project lineage
+The [catalog](CATALOG.md) lists all 89 projects considered, with their ancestry
+and the reason each of the other 62 is excluded; parser-only and validator-only
+tools, for example, are not renderers.
 
 [![Lineage of all 27 scheduled renderers with a legend: blue for SVG, green for terminal-only, purple for native PNG, solid arrows for project lineage and a dashed arrow for the ASCII component port.](docs/images/lineage.png)](docs/images/lineage.png)
 
-Every scheduled renderer appears once. Node labels show configured rendering
-output checks, including interfaces that may fail or remain blocked. They do not
-assert successful output or qualified performance. The image's legend explains
-the output colours, grey groups and arrow styles. Solid arrows label recorded
-forks, derivatives, ports or native-renderer relationships; the dashed arrow marks
-only Beautiful Mermaid's ASCII component port. Unconnected renderers are grouped
-without inventing ancestry. Mermaid Dart and Mermaid Flutter remain distinct brands.
+Solid arrows are recorded forks, derivatives, ports and native-renderer
+relationships; the dashed arrow is Beautiful Mermaid's ASCII component port.
+Position in the figure is not a rank. The [full tree](LINEAGE.md) includes every
+exclusion, and [the rendering notes](docs/lineage-rendering.md) explain how the
+figure was made.
 
-The [Mermaid source](docs/lineage-overview.mmd) was generated from the catalog
-selection and rendered by Agentic Mermaid with Publication Figure and Nord Light,
-with the legend added below the graph and bundled Inter fonts.
-[The font and style comparison](docs/lineage-rendering.md) explains the rendering choices;
-the [SVG download](docs/images/lineage.svg) retains live text.
-[The receipt](docs/images/lineage.json) records the renderer version, selected projects and hashes;
-[the full catalogue tree](LINEAGE.md) includes every exclusion. Appearance implies
-no benchmark rank.
-
-## Install
-
-Install Bun 1.4+, Node 24+, npm, Python 3.12 and the package dependencies. The
-Mermaid reference is pinned Mermaid 12.2.0 with its parser and first-party ZenUML
-addon. Browser renderers need Chromium; compiled projects need their declared
-toolchains. Drawing Correctness also needs Tesseract and the Python packages in
-`fidelity/drawing/requirements.txt`.
-
-```sh
-bun install --frozen-lockfile
-node commands.ts mermaid:install
-bunx playwright install chromium
-python -m pip install -r fidelity/drawing/requirements.txt
-node commands.ts --version
-```
-
-Mermaid Fidelity also needs a checkout of the pinned Mermaid source and its test
-runtime, built with `bun commands.ts upstream:prepare` ([runtime notes](docs/upstream-original-runtime.md)).
-The native Mermaid Flutter PNG counter is built separately ([native Flutter](native-flutter/README.md)).
-The current release is 0.2.0; see the [release notes](CHANGELOG.md).
-
-## Add a tool
+## Add an implementation
 
 Declare the project and its public bindings in `catalog/mermaid-community.json`. An npm SVG renderer can use the generic adapter:
 
@@ -161,22 +247,39 @@ Declare the project and its public bindings in `catalog/mermaid-community.json`.
 
 Bindings accept dotted public export paths, an optional JSON `options` argument and an optional returned field. Promises are awaited. Other outputs, source builds, WASM and native tools use their declared adapters. An installed Node CLI can additionally declare `benchmark.cli`: its npm `bin` name, arguments with `{format}`, and outputs. No project gets an implicit local native executable.
 
-## Development and ownership
+## Limitations
 
-`bun commands.ts test` runs the full local suite and needs the pinned oracle.
+- The maintainer of Trident also maintains Agentic Mermaid, one of the
+  implementations ranked here, and Trident began inside that project. Agentic
+  Mermaid's own product tests live in
+  [its repository](https://github.com/adewale/agentic-mermaid/tree/main/eval/benchmark),
+  not here. The [frozen corpus](corpus/community-corpus.json) is public
+  development material, not an independent holdout.
+- No benchmark checks layout. DaveBench does not look at the drawing, Drawing
+  Correctness checks only labels, and Mermaid Fidelity reaches only what an
+  implementation's parser exposes.
+- DaveBench times compare only with rows from the same collection on the same
+  machine.
+- Benchmarks run locally. CI tests Trident's code and refuses to run any
+  benchmark.
+
+## Development
+
+`bun commands.ts test` runs the full local suite and needs the pinned reference.
 CI runs `lint`, `typecheck`, `results:snapshot --check` and `test:ci` (every
 `tests/*.test.ts` except the reviewed exclusions in `tests/ci-skip.json`) without
-project artifacts or an oracle, and runs `test:ci` again on macOS, whose temporary
-folders are symlinks. CI also rejects tracked files over 2 MB unless
-`tests/large-files.json` lists them with a reason. Artifact preparation and every
-benchmark are local operations; Trident refuses to run them in CI.
-Optional browser tests use `AM_BROWSER_TESTS=1` and
-`AM_CHROMIUM_EXECUTABLE=/path/to/chromium` (legacy environment variable names).
+project artifacts or a reference, and runs `test:ci` again on macOS. CI also
+rejects tracked files over 2 MB unless `tests/large-files.json` lists them with a
+reason. Optional browser tests use `AM_BROWSER_TESTS=1` and
+`AM_CHROMIUM_EXECUTABLE=/path/to/chromium`.
 
-Product source tests, editor experiments and release budgets live in
-[Agentic Mermaid](https://github.com/adewale/agentic-mermaid/tree/main/eval/benchmark).
-Trident has no product source launcher, workspace assembler or implicit local candidate.
+Numbers quoted in the docs are generated: `bun commands.ts results:snapshot`
+fills each `<!-- fact:NAME -->` marker from the result files, and CI fails when
+one drifts. [CONTRIBUTING.md](CONTRIBUTING.md) describes how benchmark work is run and
+recorded; [SCOPE.md](SCOPE.md) sets the development scope, and the
+[release notes](CHANGELOG.md) list changes by version.
 
-Trident originated in Agentic Mermaid; its maintainer maintains both. The
-[frozen corpus](corpus/community-corpus.json) records that origin and imported
-Mermaid inputs. This public development material is not an independent holdout.
+## License and support
+
+MIT; see [LICENSE](LICENSE). Report problems and ask questions in
+[GitHub issues](https://github.com/adewale/trident/issues).

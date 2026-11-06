@@ -65,6 +65,11 @@ test('documentation extraction retains duplicate blocks and excludes a Mermaid f
   expect(inputs.cases).toHaveLength(2)
   expect(inputs.cases[0]!.source).toBe(inputs.cases[1]!.source)
 })
+test('documentation extraction names the missing Mermaid checkout or commit', () => {
+  expect(() => davebenchInputs(join(temp.dir(), 'absent'))).toThrow(/does not contain\. Clone https:\/\/github\.com\/mermaid-js\/mermaid there; davebench and davebench:terminal also accept --upstream/)
+  const root = temp.dir(); execFileSync('git', ['init', '--quiet'], { cwd: root })
+  expect(() => davebenchInputs(root, '0000000000000000000000000000000000000000')).toThrow(/commit 0{40}, which .* does not contain/)
+})
 test('the browser runner awaits completion, includes failed-call time and admits only usable outputs', async () => {
   const browser = await chromium.launch({ executablePath: process.env.AM_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium), headless: true })
   try {

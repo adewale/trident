@@ -18,7 +18,9 @@ import { watchMemory } from './process-memory.ts'
 
 const revision = '370c4af57f43cb0bda05f4a9fe2d99c912ba16dd'
 export function davebenchInputs(upstream: string, commit = revision) {
-  const git = (...args: string[]) => execFileSync('git', args, { cwd: upstream, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 })
+  const git = (...args: string[]) => execFileSync('git', args, { cwd: upstream, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] })
+  try { git('cat-file', '-e', commit + '^{commit}') }
+  catch { throw Error(`DaveBench reads Mermaid's documentation at commit ${commit}, which ${upstream} does not contain. Clone https://github.com/mermaid-js/mermaid there; davebench and davebench:terminal also accept --upstream CHECKOUT.`) }
   const files = git('ls-tree', '-r', '--name-only', commit, '--', 'docs/').trim().split('\n').filter(file => /\.mdx?$/.test(file))
   const cases: { id: string; source: string }[] = []
   for (const file of files) {

@@ -19,8 +19,9 @@ export const projectNames: Record<string, string> = {
 export function writeSnapshot(root: string, check = false, names = projectNames) {
   const leagues = retainedBenchmarkLeagues(root, names)
   if (leagues === undefined) throw Error('Current league tables require all three benchmark result files and the frozen catalog')
-  const [davebench, drawing, fidelity] = currentBenchmarkResultFiles.slice(0, 3).map(path => JSON.parse(readFileSync(join(root, path), 'utf8')))
-  const outputs: [string, string][] = [[join(root, 'RESULTS.md'), leagues], ...factOutputs(root, () => publishedFacts(davebench, drawing, fidelity))]
+  const [davebench, drawing, fidelity, catalog] = currentBenchmarkResultFiles.map(path => JSON.parse(readFileSync(join(root, path), 'utf8')))
+  const display = { ...Object.fromEntries(catalog.nodes.filter((node: any) => node.comparisonBranding?.name).map((node: any) => [node.id, node.comparisonBranding.name])), ...names }
+  const outputs: [string, string][] = [[join(root, 'RESULTS.md'), leagues], ...factOutputs(root, () => publishedFacts(davebench, drawing, fidelity, display))]
   for (const [path, expected] of outputs)
     if (check) { if (!existsSync(path) || readFileSync(path, 'utf8') !== expected) throw Error('Results snapshot is stale: ' + path + ' (run bun commands.ts results:snapshot)') }
     else writeFileSync(path, expected)
