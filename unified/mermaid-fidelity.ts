@@ -11,6 +11,8 @@ import { currentReferencePin } from '../reference/source.ts'
 
 // The pinned Mermaid suite: one reviewed version and commit, shared with upstream:prepare.
 const PIN = currentReferencePin.commit
+// Trident's own source tree, to tell its exceptions from a candidate's.
+const TRIDENT_SOURCE = resolve(import.meta.dirname, '..') + '/'
 export function fidelityOutcomes(reference: any, candidate: any, audit: any[], referenceAudit?: any[]) {
   const tests = (report: any) => (report?.testResults ?? []).flatMap((f: any) => f.assertionResults.map((t: any, index: number) => ({ ...t, file: f.name, index })))
   const controls = tests(reference),
@@ -49,6 +51,15 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
           .find(line => line.trim().startsWith('at '))
           ?.includes(control.file),
     )
+    // A programming error (TypeError, ReferenceError, RangeError) raised inside Trident's
+    // own code, such as a view or an assertion helper, is Trident's defect, never a candidate
+    // failure: the test is unassessed. A candidate's refusal re-thrown by the runtime is a
+    // plain Error and stays the candidate's.
+    const tridentError = result?.status !== 'passed' && result?.failureMessages?.find((message: string) => {
+      if (!/^(?:TypeError|ReferenceError|RangeError):/.test(message)) return false
+      const frame = message.split('\n').find(line => line.trim().startsWith('at '))
+      return !!frame && frame.includes(TRIDENT_SOURCE) && !frame.includes('/node_modules/')
+    })
     const skipped = ['pending', 'todo', 'skipped'].includes(control.status)
     const status = skipped
       ? 'upstream-skipped'
@@ -60,7 +71,7 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
             // model does not carry means the test cannot pass, whatever else Trident maps.
             (result && evidence?.unsupported?.length) || (!result && unsupportedFiles.has(control.file))
             ? 'unsupported'
-            : !result || !evidence || evidence.gaps.length || !evidence.calls || unmappedMemberCall
+            : !result || !evidence || evidence.gaps.length || !evidence.calls || unmappedMemberCall || tridentError
               ? 'trident-blocked'
               : result.status === 'passed'
                 ? 'passed'
@@ -77,6 +88,8 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
           ? 'Reference native-operation/adapter guard did not qualify'
           : unmappedMemberCall
             ? 'Original ClassMember.getDisplayDetails has no native schema binding; no renderer defect is established'
+            : tridentError && status === 'trident-blocked' && !evidence?.gaps?.length
+              ? 'Trident error: ' + tridentError.split('\n')[0]!.slice(0, 300)
             : (status === 'unsupported' && (evidence?.unsupported?.join('; ') || unsupportedFiles.get(control.file))) || evidence?.gaps?.join('; ') || evidence?.unsupported?.join('; ') || result?.failureMessages?.join('\n').slice(0, 1000) || (result ? undefined : unsupportedFiles.get(control.file) ?? 'Candidate test not collected'),
     }
   })

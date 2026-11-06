@@ -645,7 +645,11 @@ function stateView(raw, hooks, project) {
 
 // requirementDb getClasses(): the classDef Map.
 // Latias94/merman names Mermaid's relation list (requirementDb { type, src, dst }) relationships.
+// requirementDb: requirements and elements are Maps keyed by name, in declaration order;
+// a bridged port's JSON object is read back into one.
 const requirementView = (raw, hooks, project) => ({
+  ...(raw.requirements !== undefined ? { getRequirements: () => keyedMap(raw.requirements, hooks, NAME[project] + ' requirements') } : {}),
+  ...(raw.elements !== undefined ? { getElements: () => keyedMap(raw.elements, hooks, NAME[project] + ' requirement elements') } : {}),
   getClasses: () => orderedMap(raw.classes, hooks, NAME[project] + ' requirement classes'),
   ...(project === MERMAN && Array.isArray(raw.relationships) ? { getRelationships: () => raw.relationships.map(item => deepUnset(item)) } : {}),
 })

@@ -1033,11 +1033,12 @@ const KANBAN_FIELDS = ['id', 'label', 'labelType', 'isGroup', 'shape', 'level', 
 const KANBAN_RENDERER = { look: "Mermaid's kanban look is its renderer's configuration", rx: "a kanban item's corner radius is Mermaid's renderer setting", ry: "a kanban item's corner radius is Mermaid's renderer setting", cssStyles: "a kanban item's text alignment style is Mermaid's renderer setting", width: "a kanban section's width is Mermaid's renderer setting", padding: "a kanban section's padding is Mermaid's renderer setting" }
 function kanbanView(project, raw, hooks) {
   // Bezel and Pele nest each section's items; Latias94/merman lists getData's nodes.
-  const sections = raw.sections.map(section => ({ id: section.id, label: section.label, level: section.level, isGroup: false, ...(section.ticket !== undefined ? { ticket: section.ticket ?? undefined } : {}) }))
+  // A section's icon and CSS classes are kept on Mermaid's section record when written.
+  const sections = raw.sections.map(section => ({ id: section.id, label: section.label, level: section.level, isGroup: false, ...(section.ticket !== undefined ? { ticket: section.ticket ?? undefined } : {}), ...(section.icon != null ? { icon: section.icon } : {}), ...(section.cssClasses != null ? { cssClasses: section.cssClasses } : {}) }))
   const items = section => (raw.nodes ? raw.nodes.filter(node => node.parentId === section.id) : raw.sections.find(item => item.id === section.id)?.items ?? [])
   const node = fields => record(deepUnset(fields), 'kanban node', KANBAN_FIELDS, KANBAN_RENDERER, hooks)
   return {
-    getSections: () => sections.map(section => record(section, 'kanban section', ['id', 'label', 'level', 'width', 'padding', 'isGroup'], KANBAN_RENDERER, hooks)),
+    getSections: () => sections.map(section => record(section, 'kanban section', ['id', 'label', 'level', 'width', 'padding', 'isGroup', 'icon', 'cssClasses'], KANBAN_RENDERER, hooks)),
     getData: () => ({
       nodes: sections.flatMap(section => [
         node({ id: section.id, label: section.label, labelType: 'markdown', isGroup: true, ticket: section.ticket, shape: 'kanbanSection', level: section.level }),
