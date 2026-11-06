@@ -1,16 +1,26 @@
 # Changelog
 
-## Unreleased
+## 0.2.1 — 6 November 2026
 
-- The README leads with what Trident is, who it is for and the current leaders in each
-  benchmark. It adds a tested quick start that reproduces one DaveBench row, says which
-  Mermaid checkout each benchmark needs, and collects the limitations in one place.
-  Maintainer working notes moved to `CONTRIBUTING.md`.
-- The leaders and the campaign's collection dates are generated facts, so
-  `results:snapshot --check` fails when they drift from the result files. A lead that
-  unassessed cases could still overturn is marked "not yet settled".
-- DaveBench, its terminal collector and the native PNG counter now say which Mermaid
-  checkout or commit is missing, instead of failing with `posix_spawn 'git'`.
+A documentation and usability release for people building or choosing Mermaid
+implementations. No benchmark result changes: the published results are still the 0.2.0
+collection.
+
+- The README opens with what Trident is and who it is for, explains each benchmark by the
+  question it answers and what it leaves open, and lists the current leader in each
+  benchmark. DaveBench is credited to Dave Kiss's posts, with links.
+- A quick start reproduces Ondine's DaveBench row from a fresh clone in about two minutes.
+  The install and campaign instructions name the Mermaid checkout each benchmark needs,
+  define every placeholder, and state that merging the Mermaid Flutter runs into the
+  image results is a manual step.
+- The limitations are collected in one section, including the maintainer's Agentic
+  Mermaid conflict of interest. Maintainer working notes moved to `CONTRIBUTING.md`, and
+  the README states the MIT license and where to report problems.
+- The leaders, the SVG completion range and the campaign's collection dates are
+  generated facts, so `results:snapshot --check` fails when they drift from the result
+  files. A lead that unassessed cases could still overturn is marked "not yet settled".
+- DaveBench, its terminal collector and the native PNG counter now name the missing
+  Mermaid checkout or commit, instead of failing with `posix_spawn 'git'`.
 
 ## 0.2.0 — 5 November 2026
 
