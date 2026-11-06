@@ -10,7 +10,6 @@
   change from 0.2.0.
 - `versions` takes a distribution from its CLI release tag when the default branch
   carries an untagged version, so all of a project's outputs measure one release.
-
 - `campaign:results --native-png` adds the Mermaid Flutter native PNG runs to the image
   results, so a campaign has no manual step. `versions --since FROZEN_CATALOG` lists the
   projects that have released since a published campaign, installing nothing.
