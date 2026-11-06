@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- `campaign:results --native-png` adds the Mermaid Flutter native PNG runs to the image
+  results, so a campaign has no manual step. `versions --since FROZEN_CATALOG` lists the
+  projects that have released since a published campaign, installing nothing.
+- Mermaid Fidelity: 11 tests that Trident could not assess for Pele and Bezel are now
+  assessed through reviewed views of their own models (event modeling relations, XY
+  charts, requirement edges, Bezel's empty sequence accessibility description).
+- CI runs browser tests on Playwright's Chromium instead of the runner image's unrelated
+  Chromium snapshot, the likely cause of the intermittent browser-test timeouts.
+  `AM_CHROMIUM_EXECUTABLE` is renamed `TRIDENT_CHROMIUM_EXECUTABLE`; the unused
+  `AM_BROWSER_TESTS` is gone.
+- Mermaid's Fidelity row is the reference at the oracle pin (12.2.0); campaigns measure
+  Mermaid's latest release as a candidate in DaveBench and Drawing Correctness.
+
 ## 0.2.1 — 6 November 2026
 
 A documentation and usability release for people building or choosing Mermaid
