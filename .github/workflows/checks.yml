@@ -13,7 +13,9 @@ jobs:
     name: Static checks and fixture tests
     # Playwright 1.58's dependency installer supports Ubuntu 24.04.
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    # Package mirrors have taken 13 minutes to install Tesseract and Chromium's
+    # dependencies; the limit that guards against a hung test is on the test step.
+    timeout-minutes: 35
     env:
       MERMAID_REFERENCE_DIR: /nonexistent/trident-oracle
       MERMAID_UPSTREAM_DIR: /nonexistent/trident-source
@@ -49,13 +51,16 @@ jobs:
       - run: bun run typecheck
       - run: bun commands.ts results:snapshot --check
       - run: bun run test:ci
+        timeout-minutes: 15
   macos-tests:
     # macOS temporary folders are symlinks (/var -> /private/var), which Linux paths never
     # exercise. This job only runs Trident's CI-safe fixture tests: no oracle, project
     # artifacts or benchmarks, which Trident refuses to run in CI.
     name: Fixture tests on macOS
     runs-on: macos-latest
-    timeout-minutes: 15
+    # Package mirrors have taken 13 minutes to install Tesseract and Chromium's
+    # dependencies; the limit that guards against a hung test is on the test step.
+    timeout-minutes: 35
     env:
       MERMAID_REFERENCE_DIR: /nonexistent/trident-oracle
       MERMAID_UPSTREAM_DIR: /nonexistent/trident-source
@@ -88,3 +93,4 @@ jobs:
           if [ -e /usr/bin/chromium ]; then echo "Runner /usr/bin/chromium (not used): $(/usr/bin/chromium --version)"; fi
           TRIDENT_CHROMIUM_EXECUTABLE="$path" bun -e "const { chromium } = await import('playwright'); const t = performance.now(); const b = await chromium.launch({ executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE }); await (await b.newPage()).setContent('<p>warm</p>'); await b.close(); console.log('first Chromium launch', Math.round(performance.now() - t), 'ms')"
       - run: bun run test:ci
+        timeout-minutes: 15
