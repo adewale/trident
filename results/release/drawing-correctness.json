@@ -135,7 +135,7 @@
     "seed": "reviewed Terminal Drawing Facts, invalid controls excluded",
     "regressions": "corpus/drawing-regressions.json"
   },
-  "versionsFrozenAt": "2026-11-02T15:09:38.022Z",
+  "versionsFrozenAt": "2026-11-06T21:06:04.888Z",
   "method": "Label assessment: a case passes when every label named by its reviewed source facts appears in the output and no raw Mermaid syntax (diagram header, node definition or piped edge label) is shown. SVG text is read from the document and terminal text directly. Edges, arrow direction, layout and styling are not checked. PNG is not assessed.",
   "assessmentLimits": {
     "invocationMs": 15000,
@@ -151,7 +151,8 @@
     "svg": {},
     "terminal": {},
     "outputsRetained": false,
-    "finishedAt": "2026-11-05T17:02:59.000Z"
+    "startedAt": "2026-11-06T21:46:39.895Z",
+    "finishedAt": "2026-11-06T21:48:34.207Z"
   },
   "results": [
     {
@@ -1369,12 +1370,12 @@
     },
     {
       "project": "dfadler/zombie-mermaid",
-      "version": "5.14.1",
+      "version": "5.14.4",
       "format": "svg",
       "counts": {
-        "correct": 105,
+        "correct": 109,
         "incorrect": 1,
-        "renderer-failure": 20,
+        "renderer-failure": 16,
         "invalid-format": 1,
         "unknown": 0,
         "unrun": 0
@@ -1395,6 +1396,7 @@
           "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
           "drawing:25b4a684eb0b6e31",
+          "drawing:25e166249d24378d",
           "drawing:278dccc21dd27020",
           "drawing:27a0bf1eef1bdb6f",
           "drawing:29fc1dab07164509",
@@ -1417,6 +1419,7 @@
           "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
           "drawing:54f7237ee5ab1a85",
+          "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
           "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
@@ -1436,7 +1439,9 @@
           "drawing:837336a6e0f8f27c",
           "drawing:867520b102964291",
           "drawing:87325fd383c3b1af",
+          "drawing:898156db49cbe4e9",
           "drawing:89be4f2885fb74a9",
+          "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
           "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
@@ -1493,15 +1498,11 @@
         "renderer-failure": [
           "drawing:2295dae5ca33addf",
           "drawing:2598092a6e404821",
-          "drawing:25e166249d24378d",
           "drawing:263ec71ab0c651b3",
           "drawing:276c8474274911fa",
           "drawing:39d5de95eb42396b",
           "drawing:43382cbc1379cf4c",
           "drawing:570e13053d228e29",
-          "drawing:587429a5094fbb28",
-          "drawing:898156db49cbe4e9",
-          "drawing:89e9eb6aebb72128",
           "drawing:a181524246065697",
           "drawing:a5204531005bef25",
           "drawing:a60c7e7b3b930353",
@@ -1522,12 +1523,12 @@
     },
     {
       "project": "dfadler/zombie-mermaid",
-      "version": "5.14.1",
+      "version": "5.14.4",
       "format": "terminal",
       "counts": {
-        "correct": 104,
+        "correct": 108,
         "incorrect": 2,
-        "renderer-failure": 20,
+        "renderer-failure": 16,
         "invalid-format": 1,
         "unknown": 0,
         "unrun": 0
@@ -1548,6 +1549,7 @@
           "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
           "drawing:25b4a684eb0b6e31",
+          "drawing:25e166249d24378d",
           "drawing:278dccc21dd27020",
           "drawing:27a0bf1eef1bdb6f",
           "drawing:29fc1dab07164509",
@@ -1570,6 +1572,7 @@
           "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
           "drawing:54f7237ee5ab1a85",
+          "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
           "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
@@ -1589,7 +1592,9 @@
           "drawing:837336a6e0f8f27c",
           "drawing:867520b102964291",
           "drawing:87325fd383c3b1af",
+          "drawing:898156db49cbe4e9",
           "drawing:89be4f2885fb74a9",
+          "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
@@ -1646,15 +1651,11 @@
         "renderer-failure": [
           "drawing:2295dae5ca33addf",
           "drawing:2598092a6e404821",
-          "drawing:25e166249d24378d",
           "drawing:263ec71ab0c651b3",
           "drawing:276c8474274911fa",
           "drawing:39d5de95eb42396b",
           "drawing:43382cbc1379cf4c",
           "drawing:570e13053d228e29",
-          "drawing:587429a5094fbb28",
-          "drawing:898156db49cbe4e9",
-          "drawing:89e9eb6aebb72128",
           "drawing:a181524246065697",
           "drawing:a5204531005bef25",
           "drawing:a60c7e7b3b930353",
@@ -2436,11 +2437,11 @@
     },
     {
       "project": "fasouto/termaid",
-      "version": "0.10.0",
+      "version": "0.12.0",
       "format": "terminal",
       "counts": {
-        "correct": 112,
-        "incorrect": 15,
+        "correct": 116,
+        "incorrect": 11,
         "renderer-failure": 0,
         "invalid-format": 0,
         "unknown": 0,
@@ -2464,6 +2465,7 @@
           "drawing:2598092a6e404821",
           "drawing:25b4a684eb0b6e31",
           "drawing:25e166249d24378d",
+          "drawing:263ec71ab0c651b3",
           "drawing:276c8474274911fa",
           "drawing:278dccc21dd27020",
           "drawing:3042977d4e6d813b",
@@ -2485,10 +2487,12 @@
           "drawing:53e2d239ed8df992",
           "drawing:54f7237ee5ab1a85",
           "drawing:570e13053d228e29",
+          "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
           "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
+          "drawing:61cc5e1150412252",
           "drawing:64788fe4b88b1f1f",
           "drawing:663c83c9e855c6b5",
           "drawing:684ec260a97cf7b6",
@@ -2508,6 +2512,7 @@
           "drawing:908bfa4128c34006",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
+          "drawing:94e514f9f375364c",
           "drawing:9516272260e4c69d",
           "drawing:9972eaa8ca8692d8",
           "drawing:9cdc849ecf29b4d2",
@@ -2563,17 +2568,13 @@
         ],
         "incorrect": [
           "drawing:0dbd28f2f1c494cc",
-          "drawing:263ec71ab0c651b3",
           "drawing:27a0bf1eef1bdb6f",
           "drawing:29fc1dab07164509",
           "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
           "drawing:478ab66bb4c7e4f5",
-          "drawing:587429a5094fbb28",
-          "drawing:61cc5e1150412252",
           "drawing:6c29eb05c097760d",
           "drawing:90e78c1ed707e7e4",
-          "drawing:94e514f9f375364c",
           "drawing:b1428b5b59888938",
           "drawing:c5455d2e2f5f8672",
           "regression:e4a085e0bd0b6697"
@@ -5323,12 +5324,12 @@
     }
   ],
   "totals": {
-    "correct": 3295,
-    "incorrect": 304,
-    "renderer-failure": 642,
+    "correct": 3307,
+    "incorrect": 300,
+    "renderer-failure": 634,
     "invalid-format": 77,
     "unknown": 0,
     "unrun": 0
   },
-  "updatedAt": "2026-11-05T17:02:59.000Z"
+  "updatedAt": "2026-11-06T21:48:34.207Z"
 }

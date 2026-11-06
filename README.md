@@ -49,25 +49,25 @@ Only the <!-- fact:fidelity-population -->3,618<!-- /fact --> tests that Mermaid
 12.2.0 itself passes count. If a test needs an operation the implementation
 doesn't offer, it counts as a failure. If it reads a field Trident can't
 translate yet, it stays unassessed
-(<!-- fact:fidelity-gaps -->94<!-- /fact --> tests across all implementations).
+(<!-- fact:fidelity-gaps -->83<!-- /fact --> tests across all implementations).
 
 Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
 and the range of ranks still possible once its unassessed cases are resolved.
 
 ## Current results
 
-Collected <!-- fact:campaign-collected -->5 November 2026<!-- /fact -->. The
+Collected <!-- fact:campaign-collected -->6 November 2026<!-- /fact -->. The
 leaders are:
 
 - **DaveBench**, examples completed. SVG:
   <!-- fact:davebench-svg-leader -->Latias Merman with 1,338<!-- /fact -->. PNG:
-  <!-- fact:davebench-png-leader -->Mermaid with 1,336<!-- /fact -->. Terminal text:
+  <!-- fact:davebench-png-leader -->Latias Merman with 1,338<!-- /fact -->. Terminal text:
   <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,342<!-- /fact -->.
 - **Drawing Correctness**, cases correct. SVG:
   <!-- fact:drawing-svg-leader -->Bezel, Ondine and Pele with 126 each<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
-  <!-- fact:fidelity-leader -->Pele with 3,135<!-- /fact -->.
+  <!-- fact:fidelity-leader -->Pele with 3,143<!-- /fact -->.
 
 Mermaid is ranked alongside the other implementations in DaveBench and Drawing
 Correctness. In Mermaid Fidelity it is the reference, so it passes every counted

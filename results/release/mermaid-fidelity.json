@@ -271,7 +271,7 @@
     }
   ],
   "blocked": [],
-  "versionsFrozenAt": "2026-11-02T15:09:38.022Z",
+  "versionsFrozenAt": "2026-11-06T21:06:04.888Z",
   "scope": "Every candidate attempted all 316 selected core-package files against one shared Mermaid 12.2.0 control run. Scores use the 3618 expanded callbacks the control passes.",
   "referenceVersion": "12.2.0",
   "expandedCallbacks": 5737,
@@ -873,15 +873,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "passed": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "passed": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "passed": 3
           }
         },
         {
@@ -2227,8 +2227,8 @@
       "project": "Dicklesworthstone/frankenmermaid",
       "version": "0.4.0",
       "counts": {
-        "passed": 1313,
-        "failed": 1222,
+        "passed": 1299,
+        "failed": 1236,
         "unsupported": 1061,
         "trident-blocked": 22,
         "reference-unqualified": 2018,
@@ -2877,17 +2877,17 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "passed": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "passed": 10,
             "failed": 9,
             "unsupported": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "passed": 3
           }
         },
         {
@@ -3626,8 +3626,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
           "counts": {
-            "failed": 5,
-            "passed": 18,
+            "failed": 18,
+            "passed": 5,
             "reference-unqualified": 2
           }
         },
@@ -3641,7 +3641,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js",
           "counts": {
-            "passed": 7
+            "passed": 6,
+            "failed": 1
           }
         },
         {
@@ -4299,11 +4300,2063 @@
       }
     },
     {
-      "project": "dfadler/zombie-mermaid",
-      "version": "5.14.1",
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
       "counts": {
-        "passed": 960,
-        "failed": 1216,
+        "passed": 2101,
+        "failed": 488,
+        "unsupported": 1028,
+        "trident-blocked": 1,
+        "reference-unqualified": 2018,
+        "upstream-skipped": 101,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": [
+        {
+          "path": "packages/examples/src/example.spec.ts",
+          "declaredTests": 3,
+          "reason": "TRIDENT_ADAPTER_GAP: ./index.js.diagramData.find"
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "declaredTests": 1,
+          "reason": "TRIDENT_ADAPTER_GAP: ./mermaidUtils.js.injectUtils"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "declaredTests": 0,
+          "reason": "TRIDENT_ADAPTER_GAP: ../../diagram-api/detectType.js.addDetector"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "declaredTests": 23,
+          "reason": "TRIDENT_ADAPTER_GAP: ./colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
+          "declaredTests": 20,
+          "reason": "Unsupported candidate operation: radar database getConfig (the candidate exposes a parser, not Mermaid's database API)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
+          "declaredTests": 7,
+          "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "declaredTests": 6,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
+          "declaredTests": 8,
+          "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
+          "declaredTests": 3,
+          "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "declaredTests": 59,
+          "reason": "document is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
+          "declaredTests": 0,
+          "reason": "Failed to parse source for import analysis because the content contains invalid JS syntax. You may need to install appropriate plugins to handle the .yaml?only-defaults=true file format, or if it's an asset, add \"**/*.yaml?only-defaults=true\" to `assetsInclude` in your configuration."
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/hostConfigSync.spec.ts",
+          "declaredTests": 2,
+          "reason": "Failed to parse source for import analysis because the content contains invalid JS syntax. You may need to install appropriate plugins to handle the .yaml?only-defaults=true file format, or if it's an asset, add \"**/*.yaml?only-defaults=true\" to `assetsInclude` in your configuration."
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/render.spec.ts",
+          "declaredTests": 7,
+          "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "declaredTests": 3,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "declaredTests": 13,
+          "reason": "SVGElement is not defined"
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
+          "declaredTests": 2,
+          "reason": "No test found in suite packages/mermaid/src/themes/theme-agentflow-vars.spec.ts"
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-redux-color-superset.spec.ts",
+          "declaredTests": 7,
+          "reason": "TRIDENT_ADAPTER_GAP: ./index.js.default.redux.getThemeVariables"
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-xychart.spec.js",
+          "declaredTests": 1,
+          "reason": "No test found in suite packages/mermaid/src/themes/theme-xychart.spec.js"
+        },
+        {
+          "path": "packages/parser/tests/eventmodeling.test.ts",
+          "declaredTests": 31,
+          "reason": "TRIDENT_ADAPTER_GAP: new ../src/language/eventmodeling/event-modeling-validator.js.EventModelingValidator"
+        },
+        {
+          "path": "packages/parser/tests/treeViewValueConverter.test.ts",
+          "declaredTests": 19,
+          "reason": "TRIDENT_ADAPTER_GAP: new ../src/language/treeView/valueConverter.js.TreeViewValueConverter"
+        }
+      ],
+      "perFile": [
+        {
+          "path": "packages/mermaid/src/accessibility.spec.ts",
+          "counts": {
+            "reference-unqualified": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/config.appearance.spec.ts",
+          "counts": {
+            "reference-unqualified": 43
+          }
+        },
+        {
+          "path": "packages/mermaid/src/config.spec.ts",
+          "counts": {
+            "reference-unqualified": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/config.usecase.spec.ts",
+          "counts": {
+            "reference-unqualified": 13
+          }
+        },
+        {
+          "path": "packages/mermaid/src/defaultAppearanceDocs.spec.ts",
+          "counts": {
+            "reference-unqualified": 10
+          }
+        },
+        {
+          "path": "packages/mermaid/src/defaultTheme.spec.ts",
+          "counts": {
+            "reference-unqualified": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagram.spec.ts",
+          "counts": {
+            "reference-unqualified": 3,
+            "unsupported": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/mermaid.spec.ts",
+          "counts": {
+            "reference-unqualified": 13
+          }
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "counts": {
+            "reference-unqualified": 100
+          }
+        },
+        {
+          "path": "packages/mermaid/src/profiler.spec.ts",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/setupGraphViewbox.spec.js",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/styles.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/utils.spec.ts",
+          "counts": {
+            "reference-unqualified": 57
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "reference-unqualified": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-zenuml/src/zenumlRenderer.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/parser/tests/architecture.test.ts",
+          "counts": {
+            "passed": 18,
+            "unsupported": 8,
+            "failed": 1
+          }
+        },
+        {
+          "path": "packages/parser/tests/gitGraph.test.ts",
+          "counts": {
+            "unsupported": 19,
+            "failed": 8
+          }
+        },
+        {
+          "path": "packages/parser/tests/info.test.ts",
+          "counts": {
+            "unsupported": 12
+          }
+        },
+        {
+          "path": "packages/parser/tests/packet.test.ts",
+          "counts": {
+            "failed": 8
+          }
+        },
+        {
+          "path": "packages/parser/tests/pie.test.ts",
+          "counts": {
+            "passed": 29,
+            "failed": 3
+          }
+        },
+        {
+          "path": "packages/parser/tests/radar.test.ts",
+          "counts": {
+            "passed": 20,
+            "unsupported": 44,
+            "failed": 16,
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/parser/tests/railroad.test.ts",
+          "counts": {
+            "unsupported": 5,
+            "passed": 1,
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/parser/tests/treeView.test.ts",
+          "counts": {
+            "unsupported": 28
+          }
+        },
+        {
+          "path": "packages/parser/tests/treemap.test.ts",
+          "counts": {
+            "passed": 14,
+            "unsupported": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/comments.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/diagram-beta-policy.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+          "counts": {
+            "reference-unqualified": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/diagramAPI.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/frontmatter.spec.ts",
+          "counts": {
+            "reference-unqualified": 16
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/regexes.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/paletteCssGeneration.spec.ts",
+          "counts": {
+            "reference-unqualified": 44
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/createText.spec.ts",
+          "counts": {
+            "reference-unqualified": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/handle-markdown-text.spec.ts",
+          "counts": {
+            "reference-unqualified": 19,
+            "upstream-skipped": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layoutFallback.spec.ts",
+          "counts": {
+            "reference-unqualified": 8
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/multi-diagram-id-uniqueness.spec.ts",
+          "counts": {
+            "upstream-skipped": 38
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/splitText.spec.ts",
+          "counts": {
+            "reference-unqualified": 35
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts",
+          "counts": {
+            "reference-unqualified": 15
+          }
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-base-overrides.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-dark.spec.js",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-nested-overrides.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/utils/imperativeState.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/utils/sanitizeDirective.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/utils/subGraphTitleMargins.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
+          "counts": {
+            "unsupported": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
+          "counts": {
+            "unsupported": 1,
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts",
+          "counts": {
+            "unsupported": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-max-text-size.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-render-positions.spec.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-semantic-model.spec.ts",
+          "counts": {
+            "unsupported": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-shape-catalogue.spec.ts",
+          "counts": {
+            "unsupported": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/colorSlots.spec.ts",
+          "counts": {
+            "reference-unqualified": 14
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/containerOrder.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/diagnostics.spec.ts",
+          "counts": {
+            "reference-unqualified": 2,
+            "unsupported": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 8,
+            "unsupported": 17,
+            "reference-unqualified": 1,
+            "failed": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "reference-unqualified": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/block/blockColorIndex.spec.ts",
+          "counts": {
+            "unsupported": 4,
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/block/blockDB.spec.ts",
+          "counts": {
+            "unsupported": 3,
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/block/layout.spec.ts",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/classDiagram-colorIndex.spec.ts",
+          "counts": {
+            "unsupported": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/classDiagram-styles.spec.js",
+          "counts": {
+            "passed": 7,
+            "failed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/classDiagram.spec.ts",
+          "counts": {
+            "passed": 277,
+            "unsupported": 28,
+            "failed": 69,
+            "reference-unqualified": 9,
+            "upstream-skipped": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/classTypes.spec.ts",
+          "counts": {
+            "reference-unqualified": 93
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/svgDraw.spec.js",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "reference-unqualified": 32
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
+          "counts": {
+            "passed": 15
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
+          "counts": {
+            "passed": 1,
+            "unsupported": 10,
+            "reference-unqualified": 16
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/er/erDb.spec.js",
+          "counts": {
+            "unsupported": 8
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/er/erRenderer.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/error/errorRenderer.spec.ts",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts",
+          "counts": {
+            "passed": 7,
+            "failed": 1,
+            "reference-unqualified": 1,
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowChartShapes.spec.js",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowDb-elk-duplicate-subgraph.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts",
+          "counts": {
+            "unsupported": 24,
+            "reference-unqualified": 1,
+            "failed": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowRenderer-elk-default.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowRenderer-v3-unified.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts",
+          "counts": {
+            "unsupported": 48,
+            "upstream-skipped": 1,
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/git/gitGraph.spec.ts",
+          "counts": {
+            "unsupported": 47,
+            "upstream-skipped": 4,
+            "passed": 1,
+            "failed": 18,
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/info/info.spec.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
+          "counts": {
+            "passed": 1,
+            "unsupported": 20,
+            "failed": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "passed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/mindmap/mindmap.spec.ts",
+          "counts": {
+            "passed": 8,
+            "failed": 2,
+            "unsupported": 16
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/mindmap/mindmapColors.spec.ts",
+          "counts": {
+            "reference-unqualified": 8
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
+          "counts": {
+            "unsupported": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/packet/packet.spec.ts",
+          "counts": {
+            "failed": 9,
+            "unsupported": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/packet/renderer.spec.ts",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/pie/pie.spec.ts",
+          "counts": {
+            "passed": 9,
+            "unsupported": 2,
+            "failed": 2,
+            "upstream-skipped": 2,
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 4,
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
+          "counts": {
+            "unsupported": 9,
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/abnfDetector.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/ebnfDetector.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/pegDetector.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts",
+          "counts": {
+            "unsupported": 11,
+            "passed": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts",
+          "counts": {
+            "reference-unqualified": 14
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/railroadRenderer.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/styles.spec.ts",
+          "counts": {
+            "reference-unqualified": 18
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts",
+          "counts": {
+            "unsupported": 10
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/actorBandModel.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "counts": {
+            "reference-unqualified": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/keywordActors.spec.ts",
+          "counts": {
+            "passed": 9,
+            "unsupported": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/noteFontWeight.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/palettePicking.spec.ts",
+          "counts": {
+            "reference-unqualified": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/rectSectionFill.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
+          "counts": {
+            "failed": 55,
+            "unsupported": 10,
+            "passed": 49,
+            "reference-unqualified": 31,
+            "upstream-skipped": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/sequenceRenderer.spec.js",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/svgDraw.spec.js",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateDb.spec.js",
+          "counts": {
+            "unsupported": 5,
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateDiagram-colorIndex.spec.ts",
+          "counts": {
+            "unsupported": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateDiagram-v2.spec.js",
+          "counts": {
+            "passed": 21,
+            "unsupported": 4,
+            "failed": 5,
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateDiagram.spec.js",
+          "counts": {
+            "passed": 21,
+            "unsupported": 4,
+            "failed": 4,
+            "upstream-skipped": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateNoteEdge.spec.ts",
+          "counts": {
+            "passed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateNoteNode.spec.js",
+          "counts": {
+            "passed": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateRenderer-v3-unified.spec.js",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateRenderer.spec.js",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/swimlanes/swimlanesDiagram.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/timeline/timeline.spec.js",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/treeView/boxDrawingPreprocessor.spec.ts",
+          "counts": {
+            "reference-unqualified": 42
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/treeView/db.spec.ts",
+          "counts": {
+            "unsupported": 18
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/treeView/icons.spec.ts",
+          "counts": {
+            "reference-unqualified": 23
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/treeView/parser.spec.ts",
+          "counts": {
+            "unsupported": 33
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/treemap/utils.test.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecase-colorIndex.spec.ts",
+          "counts": {
+            "unsupported": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecase.parser.spec.ts",
+          "counts": {
+            "unsupported": 65,
+            "reference-unqualified": 1,
+            "upstream-skipped": 13
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecase.spec.ts",
+          "counts": {
+            "unsupported": 33,
+            "reference-unqualified": 1,
+            "upstream-skipped": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts",
+          "counts": {
+            "reference-unqualified": 1,
+            "unsupported": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRoleColors.spec.ts",
+          "counts": {
+            "reference-unqualified": 15
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
+          "counts": {
+            "reference-unqualified": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/wardley/wardleyBuilder.spec.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/wardley/wardleyParser.spec.ts",
+          "counts": {
+            "passed": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts",
+          "counts": {
+            "unsupported": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/headerDomainRules.spec.ts",
+          "counts": {
+            "reference-unqualified": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/homepageHeroCopy.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/landingPopUp.spec.ts",
+          "counts": {
+            "reference-unqualified": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/ossHeroClass.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/clusters.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/edgeMarker.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/edges.spec.js",
+          "counts": {
+            "reference-unqualified": 14
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/edges.terminalLabels.spec.js",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/lineJump.integration.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/lineJump.spec.ts",
+          "counts": {
+            "reference-unqualified": 28
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/markers.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/nodes.spec.ts",
+          "counts": {
+            "reference-unqualified": 42
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/conformance/conformance.spec.ts",
+          "counts": {
+            "reference-unqualified": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/conformance/runner.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-attachment-mapping.spec.ts",
+          "counts": {
+            "unsupported": 8
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-blank-line-fold.spec.ts",
+          "counts": {
+            "unsupported": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-comments.spec.ts",
+          "counts": {
+            "unsupported": 13
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-containment-cycle.spec.ts",
+          "counts": {
+            "unsupported": 8
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-edge-instruction.spec.ts",
+          "counts": {
+            "unsupported": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-edge-semantic.spec.ts",
+          "counts": {
+            "unsupported": 8
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-empty-metadata.spec.ts",
+          "counts": {
+            "unsupported": 8
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flow-metadata.spec.ts",
+          "counts": {
+            "unsupported": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flow-self-reference.spec.ts",
+          "counts": {
+            "unsupported": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flowchart-parity.spec.ts",
+          "counts": {
+            "reference-unqualified": 6,
+            "unsupported": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-global.spec.ts",
+          "counts": {
+            "unsupported": 10
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-inline-metadata-mapping.spec.ts",
+          "counts": {
+            "unsupported": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
+          "counts": {
+            "reference-unqualified": 1,
+            "unsupported": 13
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts",
+          "counts": {
+            "unsupported": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-prototype-keys.spec.ts",
+          "counts": {
+            "unsupported": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-trailing-comma.spec.ts",
+          "counts": {
+            "unsupported": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-subgraph-span.spec.ts",
+          "counts": {
+            "unsupported": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-tool-validators.spec.ts",
+          "counts": {
+            "unsupported": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts",
+          "counts": {
+            "unsupported": 8
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts",
+          "counts": {
+            "unsupported": 31
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/block/parser/block.spec.ts",
+          "counts": {
+            "reference-unqualified": 24,
+            "passed": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
+          "counts": {
+            "unsupported": 3,
+            "passed": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/c4/parser/c4Component.spec.ts",
+          "counts": {
+            "passed": 6,
+            "failed": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/c4/parser/c4Container.spec.ts",
+          "counts": {
+            "unsupported": 24,
+            "passed": 24
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/c4/parser/c4Diagram.spec.ts",
+          "counts": {
+            "failed": 1,
+            "passed": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/c4/parser/c4NamedAttributes.spec.ts",
+          "counts": {
+            "unsupported": 23,
+            "failed": 19
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/c4/parser/c4Person.spec.ts",
+          "counts": {
+            "unsupported": 5,
+            "passed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/c4/parser/c4PersonExt.spec.ts",
+          "counts": {
+            "unsupported": 4,
+            "passed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/c4/parser/c4System.spec.ts",
+          "counts": {
+            "unsupported": 24,
+            "passed": 18
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/parser/class.spec.js",
+          "counts": {
+            "passed": 2,
+            "failed": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js",
+          "counts": {
+            "passed": 591,
+            "failed": 38,
+            "upstream-skipped": 1,
+            "unsupported": 2,
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/er/parser/subgraph.spec.js",
+          "counts": {
+            "failed": 17,
+            "unsupported": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-arrows.spec.js",
+          "counts": {
+            "passed": 13,
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-comments.spec.js",
+          "counts": {
+            "passed": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-direction.spec.js",
+          "counts": {
+            "failed": 3,
+            "passed": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-edges.spec.js",
+          "counts": {
+            "passed": 247,
+            "failed": 46
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-huge.spec.js",
+          "counts": {
+            "upstream-skipped": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-interactions.spec.js",
+          "counts": {
+            "unsupported": 13
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-lines.spec.js",
+          "counts": {
+            "failed": 5,
+            "passed": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-md-string.spec.js",
+          "counts": {
+            "failed": 1,
+            "unsupported": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
+          "counts": {
+            "failed": 26,
+            "passed": 4,
+            "upstream-skipped": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-singlenode.spec.js",
+          "counts": {
+            "passed": 128,
+            "failed": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
+          "counts": {
+            "passed": 21,
+            "failed": 2,
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js",
+          "counts": {
+            "passed": 315,
+            "failed": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js",
+          "counts": {
+            "passed": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow.spec.js",
+          "counts": {
+            "passed": 22,
+            "failed": 2,
+            "unsupported": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js",
+          "counts": {
+            "failed": 6,
+            "upstream-skipped": 1,
+            "passed": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js",
+          "counts": {
+            "passed": 13,
+            "unsupported": 12,
+            "failed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/parser/quadrant.jison.spec.ts",
+          "counts": {
+            "unsupported": 24
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/parser/abnfDiagram.spec.ts",
+          "counts": {
+            "reference-unqualified": 11,
+            "passed": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/parser/ebnfDiagram.spec.ts",
+          "counts": {
+            "passed": 13,
+            "failed": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/parser/pegDiagram.spec.ts",
+          "counts": {
+            "reference-unqualified": 13,
+            "passed": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/parser/railroadDiagram.spec.ts",
+          "counts": {
+            "failed": 15,
+            "passed": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/requirement/parser/requirementDiagram.spec.js",
+          "counts": {
+            "passed": 34,
+            "unsupported": 5,
+            "failed": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/parser/state-parser.spec.js",
+          "counts": {
+            "failed": 3,
+            "passed": 11,
+            "unsupported": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/parser/state-style.spec.js",
+          "counts": {
+            "failed": 12,
+            "passed": 8,
+            "unsupported": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/parser/usecase.lexer.spec.ts",
+          "counts": {
+            "reference-unqualified": 13
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/parser/usecase.parser.spec.ts",
+          "counts": {
+            "reference-unqualified": 76
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/parser/usecaseJson.spec.ts",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "passed": 4,
+            "unsupported": 2,
+            "failed": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
+          "counts": {
+            "passed": 14,
+            "failed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/textDimensionCalculator.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/xychart/parser/xychart.jison.spec.ts",
+          "counts": {
+            "unsupported": 58
+          }
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/theme/colorScheme.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/theme/exampleConfig.spec.ts",
+          "counts": {
+            "reference-unqualified": 13
+          }
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/theme/redirect.spec.ts",
+          "counts": {
+            "reference-unqualified": 28
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/common/index.spec.ts",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/cose-bilkent/cytoscape-setup.test.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/cose-bilkent/layout.test.ts",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/dagre/index.spec.js",
+          "counts": {
+            "upstream-skipped": 16,
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/dagre/mermaid-graphlib.spec.js",
+          "counts": {
+            "reference-unqualified": 15
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/aggregateValidate.spec.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureFreshness.spec.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureMetadata.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureSizes.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/layout-fixtures.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/helpers.spec.ts",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/scoreLayout.spec.ts",
+          "counts": {
+            "reference-unqualified": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/validateLayout.spec.ts",
+          "counts": {
+            "reference-unqualified": 39
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/10-node-placement.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/14-messy-layout.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/15-border-hugging-compare.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/15-border-hugging-lr.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/16-intake-cycle-lr.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/4-car-fun-sales-tb.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/5-car-fun-sales-wide-tb.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/6-legal-constr-sales.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/7-car-sales-constr.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/8-query-process-2.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/mermaid-work.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/pebr-3-process-too-wide-in-lane.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/phase2.layering.spec.ts",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/query-process.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 10
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/simple-2.ddlt.spec.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/intersect/intersect-line.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/blockArrow.spec.ts",
+          "counts": {
+            "reference-unqualified": 18
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/c4LabelHelper.spec.ts",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/defaultMindmapNode.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/handDrawnShapeStyles.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/labelContainment.spec.ts",
+          "counts": {
+            "reference-unqualified": 24
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/labelImageUtils.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/stadium.spec.ts",
+          "counts": {
+            "reference-unqualified": 10
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "counts": {
+            "reference-unqualified": 15
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/util.spec.ts",
+          "counts": {
+            "reference-unqualified": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/arrowTypes.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/defaultPreset.spec.ts",
+          "counts": {
+            "reference-unqualified": 11
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/elkOptionCatalogue.spec.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/geometry.spec.ts",
+          "counts": {
+            "reference-unqualified": 19
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/render.spec.ts",
+          "counts": {
+            "reference-unqualified": 103
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/subgraphFeedbackEdges.spec.ts",
+          "counts": {
+            "reference-unqualified": 8
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/terminalLabels.spec.ts",
+          "counts": {
+            "reference-unqualified": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.endpointClip.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.geometry.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.lr.transform.spec.ts",
+          "counts": {
+            "reference-unqualified": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.materializedGeometry.spec.ts",
+          "counts": {
+            "reference-unqualified": 10
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.portSwap.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.sharedTrackNudging.spec.ts",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.terminalStub.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/edgeLabelNodes.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/helpers.laneHeights.spec.ts",
+          "counts": {
+            "reference-unqualified": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/helpers.prepareLayout.spec.ts",
+          "counts": {
+            "reference-unqualified": 5
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/laneOrdering.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/laneTitleBands.spec.ts",
+          "counts": {
+            "reference-unqualified": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase0.helpers.spec.ts",
+          "counts": {
+            "reference-unqualified": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase1.cycles.spec.ts",
+          "counts": {
+            "reference-unqualified": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.compact.lanes.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.compact.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.layering.spec.ts",
+          "counts": {
+            "reference-unqualified": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase3.ordering.spec.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.coordinates.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.lanes.columns.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.lanes.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase5.pipeline.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.hoe.lr.spec.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.knsv3.lr.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.lr.e2e.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/postProcessing.spec.ts",
+          "counts": {
+            "upstream-skipped": 1,
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/sameRankDetour.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/sourceOrder.spec.ts",
+          "counts": {
+            "reference-unqualified": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/direction/geometry.spec.ts",
+          "counts": {
+            "reference-unqualified": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.crossing.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.detour.spec.ts",
+          "counts": {
+            "reference-unqualified": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.issues.spec.ts",
+          "counts": {
+            "reference-unqualified": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.repro_crossing.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.router.spec.ts",
+          "counts": {
+            "reference-unqualified": 11,
+            "upstream-skipped": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.wide_node.spec.ts",
+          "counts": {
+            "reference-unqualified": 3
+          }
+        }
+      ],
+      "gapReasons": {
+        "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.4",
+      "counts": {
+        "passed": 961,
+        "failed": 1215,
         "unsupported": 1442,
         "trident-blocked": 0,
         "reference-unqualified": 2018,
@@ -4936,15 +6989,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -5106,8 +7159,8 @@
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
             "unsupported": 25,
-            "failed": 24,
-            "passed": 65,
+            "failed": 23,
+            "passed": 66,
             "reference-unqualified": 31,
             "upstream-skipped": 12
           }
@@ -6955,15 +9008,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -8980,15 +11033,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -10988,15 +13041,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -12997,15 +15050,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -14378,2058 +16431,6 @@
       "gapReasons": {}
     },
     {
-      "project": "orestesgaolin/mermaid",
-      "version": "0.3.2",
-      "counts": {
-        "passed": 2101,
-        "failed": 488,
-        "unsupported": 1028,
-        "trident-blocked": 1,
-        "reference-unqualified": 2018,
-        "upstream-skipped": 101,
-        "upstream-expected-failure": 0
-      },
-      "missingFiles": [
-        {
-          "path": "packages/examples/src/example.spec.ts",
-          "declaredTests": 3,
-          "reason": "TRIDENT_ADAPTER_GAP: ./index.js.diagramData.find"
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "declaredTests": 1,
-          "reason": "TRIDENT_ADAPTER_GAP: ./mermaidUtils.js.injectUtils"
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
-          "declaredTests": 0,
-          "reason": "TRIDENT_ADAPTER_GAP: ../../diagram-api/detectType.js.addDetector"
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "declaredTests": 23,
-          "reason": "TRIDENT_ADAPTER_GAP: ./colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
-          "declaredTests": 20,
-          "reason": "Unsupported candidate operation: radar database getConfig (the candidate exposes a parser, not Mermaid's database API)"
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
-          "declaredTests": 6,
-          "reason": "SVGElement is not defined"
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
-          "declaredTests": 6,
-          "reason": "SVGElement is not defined"
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
-          "declaredTests": 7,
-          "reason": "TRIDENT_ADAPTER_GAP: ../common/colorThemeGate.js.COLOR_THEMES.Symbol(Symbol.iterator)"
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
-          "declaredTests": 6,
-          "reason": "SVGElement is not defined"
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
-          "declaredTests": 8,
-          "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
-          "declaredTests": 3,
-          "reason": "TRIDENT_ADAPTER_GAP: ../../../../themes/index.js.default.default.getThemeVariables"
-        },
-        {
-          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
-          "declaredTests": 59,
-          "reason": "document is not defined"
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
-          "declaredTests": 0,
-          "reason": "Failed to parse source for import analysis because the content contains invalid JS syntax. You may need to install appropriate plugins to handle the .yaml?only-defaults=true file format, or if it's an asset, add \"**/*.yaml?only-defaults=true\" to `assetsInclude` in your configuration."
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/hostConfigSync.spec.ts",
-          "declaredTests": 2,
-          "reason": "Failed to parse source for import analysis because the content contains invalid JS syntax. You may need to install appropriate plugins to handle the .yaml?only-defaults=true file format, or if it's an asset, add \"**/*.yaml?only-defaults=true\" to `assetsInclude` in your configuration."
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/render.spec.ts",
-          "declaredTests": 7,
-          "reason": "TRIDENT_ADAPTER_GAP: ./layout-algorithms/elk/algorithms.js.ELK_ALGORITHMS.every"
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
-          "declaredTests": 3,
-          "reason": "SVGElement is not defined"
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
-          "declaredTests": 13,
-          "reason": "SVGElement is not defined"
-        },
-        {
-          "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
-          "declaredTests": 2,
-          "reason": "No test found in suite packages/mermaid/src/themes/theme-agentflow-vars.spec.ts"
-        },
-        {
-          "path": "packages/mermaid/src/themes/theme-redux-color-superset.spec.ts",
-          "declaredTests": 7,
-          "reason": "TRIDENT_ADAPTER_GAP: ./index.js.default.redux.getThemeVariables"
-        },
-        {
-          "path": "packages/mermaid/src/themes/theme-xychart.spec.js",
-          "declaredTests": 1,
-          "reason": "No test found in suite packages/mermaid/src/themes/theme-xychart.spec.js"
-        },
-        {
-          "path": "packages/parser/tests/eventmodeling.test.ts",
-          "declaredTests": 31,
-          "reason": "TRIDENT_ADAPTER_GAP: new ../src/language/eventmodeling/event-modeling-validator.js.EventModelingValidator"
-        },
-        {
-          "path": "packages/parser/tests/treeViewValueConverter.test.ts",
-          "declaredTests": 19,
-          "reason": "TRIDENT_ADAPTER_GAP: new ../src/language/treeView/valueConverter.js.TreeViewValueConverter"
-        }
-      ],
-      "perFile": [
-        {
-          "path": "packages/mermaid/src/accessibility.spec.ts",
-          "counts": {
-            "reference-unqualified": 20
-          }
-        },
-        {
-          "path": "packages/mermaid/src/config.appearance.spec.ts",
-          "counts": {
-            "reference-unqualified": 43
-          }
-        },
-        {
-          "path": "packages/mermaid/src/config.spec.ts",
-          "counts": {
-            "reference-unqualified": 27
-          }
-        },
-        {
-          "path": "packages/mermaid/src/config.usecase.spec.ts",
-          "counts": {
-            "reference-unqualified": 13
-          }
-        },
-        {
-          "path": "packages/mermaid/src/defaultAppearanceDocs.spec.ts",
-          "counts": {
-            "reference-unqualified": 10
-          }
-        },
-        {
-          "path": "packages/mermaid/src/defaultTheme.spec.ts",
-          "counts": {
-            "reference-unqualified": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagram.spec.ts",
-          "counts": {
-            "reference-unqualified": 3,
-            "unsupported": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/mermaid.spec.ts",
-          "counts": {
-            "reference-unqualified": 13
-          }
-        },
-        {
-          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
-          "counts": {
-            "reference-unqualified": 100
-          }
-        },
-        {
-          "path": "packages/mermaid/src/profiler.spec.ts",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/setupGraphViewbox.spec.js",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/styles.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/utils.spec.ts",
-          "counts": {
-            "reference-unqualified": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "reference-unqualified": 14
-          }
-        },
-        {
-          "path": "packages/mermaid-zenuml/src/zenumlRenderer.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/parser/tests/architecture.test.ts",
-          "counts": {
-            "passed": 18,
-            "unsupported": 8,
-            "failed": 1
-          }
-        },
-        {
-          "path": "packages/parser/tests/gitGraph.test.ts",
-          "counts": {
-            "unsupported": 19,
-            "failed": 8
-          }
-        },
-        {
-          "path": "packages/parser/tests/info.test.ts",
-          "counts": {
-            "unsupported": 12
-          }
-        },
-        {
-          "path": "packages/parser/tests/packet.test.ts",
-          "counts": {
-            "failed": 8
-          }
-        },
-        {
-          "path": "packages/parser/tests/pie.test.ts",
-          "counts": {
-            "passed": 29,
-            "failed": 3
-          }
-        },
-        {
-          "path": "packages/parser/tests/radar.test.ts",
-          "counts": {
-            "passed": 20,
-            "unsupported": 44,
-            "failed": 16,
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/parser/tests/railroad.test.ts",
-          "counts": {
-            "unsupported": 5,
-            "passed": 1,
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/parser/tests/treeView.test.ts",
-          "counts": {
-            "unsupported": 28
-          }
-        },
-        {
-          "path": "packages/parser/tests/treemap.test.ts",
-          "counts": {
-            "passed": 14,
-            "unsupported": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagram-api/comments.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagram-api/diagram-beta-policy.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
-          "counts": {
-            "reference-unqualified": 27
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagram-api/diagramAPI.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagram-api/frontmatter.spec.ts",
-          "counts": {
-            "reference-unqualified": 16
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagram-api/regexes.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/paletteCssGeneration.spec.ts",
-          "counts": {
-            "reference-unqualified": 44
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/createText.spec.ts",
-          "counts": {
-            "reference-unqualified": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/handle-markdown-text.spec.ts",
-          "counts": {
-            "reference-unqualified": 19,
-            "upstream-skipped": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layoutFallback.spec.ts",
-          "counts": {
-            "reference-unqualified": 8
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/multi-diagram-id-uniqueness.spec.ts",
-          "counts": {
-            "upstream-skipped": 38
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/splitText.spec.ts",
-          "counts": {
-            "reference-unqualified": 35
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts",
-          "counts": {
-            "reference-unqualified": 15
-          }
-        },
-        {
-          "path": "packages/mermaid/src/themes/theme-base-overrides.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/themes/theme-dark.spec.js",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/themes/theme-nested-overrides.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/utils/imperativeState.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/utils/sanitizeDirective.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/utils/subGraphTitleMargins.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
-          "counts": {
-            "unsupported": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
-          "counts": {
-            "unsupported": 1,
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts",
-          "counts": {
-            "unsupported": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-max-text-size.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-render-positions.spec.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-semantic-model.spec.ts",
-          "counts": {
-            "unsupported": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-shape-catalogue.spec.ts",
-          "counts": {
-            "unsupported": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/colorSlots.spec.ts",
-          "counts": {
-            "reference-unqualified": 14
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/containerOrder.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/diagnostics.spec.ts",
-          "counts": {
-            "reference-unqualified": 2,
-            "unsupported": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 8,
-            "unsupported": 17,
-            "reference-unqualified": 1,
-            "failed": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "reference-unqualified": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/block/blockColorIndex.spec.ts",
-          "counts": {
-            "unsupported": 4,
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/block/blockDB.spec.ts",
-          "counts": {
-            "unsupported": 3,
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/block/layout.spec.ts",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/class/classDiagram-colorIndex.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/class/classDiagram-styles.spec.js",
-          "counts": {
-            "passed": 7,
-            "failed": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/class/classDiagram.spec.ts",
-          "counts": {
-            "passed": 277,
-            "unsupported": 28,
-            "failed": 69,
-            "reference-unqualified": 9,
-            "upstream-skipped": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/class/classTypes.spec.ts",
-          "counts": {
-            "reference-unqualified": 93
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/class/svgDraw.spec.js",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "reference-unqualified": 32
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
-          "counts": {
-            "passed": 15
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
-          "counts": {
-            "passed": 1,
-            "unsupported": 10,
-            "reference-unqualified": 16
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/er/erDb.spec.js",
-          "counts": {
-            "unsupported": 8
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/er/erRenderer.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/error/errorRenderer.spec.ts",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts",
-          "counts": {
-            "passed": 7,
-            "failed": 1,
-            "reference-unqualified": 1,
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/flowChartShapes.spec.js",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/flowDb-elk-duplicate-subgraph.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts",
-          "counts": {
-            "unsupported": 24,
-            "reference-unqualified": 1,
-            "failed": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/flowRenderer-elk-default.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/flowRenderer-v3-unified.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts",
-          "counts": {
-            "unsupported": 48,
-            "upstream-skipped": 1,
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/git/gitGraph.spec.ts",
-          "counts": {
-            "unsupported": 47,
-            "upstream-skipped": 4,
-            "passed": 1,
-            "failed": 18,
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/info/info.spec.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "passed": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
-          "counts": {
-            "passed": 1,
-            "unsupported": 20,
-            "failed": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/mindmap/mindmap.spec.ts",
-          "counts": {
-            "passed": 8,
-            "failed": 2,
-            "unsupported": 16
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/mindmap/mindmapColors.spec.ts",
-          "counts": {
-            "reference-unqualified": 8
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts",
-          "counts": {
-            "unsupported": 12
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/packet/packet.spec.ts",
-          "counts": {
-            "failed": 9,
-            "unsupported": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/packet/renderer.spec.ts",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/pie/pie.spec.ts",
-          "counts": {
-            "passed": 9,
-            "unsupported": 2,
-            "failed": 2,
-            "upstream-skipped": 2,
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 4,
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
-          "counts": {
-            "unsupported": 9,
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/railroad/abnfDetector.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/railroad/ebnfDetector.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/railroad/pegDetector.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts",
-          "counts": {
-            "unsupported": 11,
-            "passed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts",
-          "counts": {
-            "reference-unqualified": 14
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/railroad/railroadRenderer.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/railroad/styles.spec.ts",
-          "counts": {
-            "reference-unqualified": 18
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts",
-          "counts": {
-            "unsupported": 10
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/actorBandModel.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
-          "counts": {
-            "reference-unqualified": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/keywordActors.spec.ts",
-          "counts": {
-            "passed": 9,
-            "unsupported": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/noteFontWeight.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/palettePicking.spec.ts",
-          "counts": {
-            "reference-unqualified": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/rectSectionFill.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
-          "counts": {
-            "failed": 55,
-            "unsupported": 10,
-            "passed": 49,
-            "reference-unqualified": 31,
-            "upstream-skipped": 12
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/sequenceRenderer.spec.js",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sequence/svgDraw.spec.js",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/state/stateDb.spec.js",
-          "counts": {
-            "unsupported": 5,
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/state/stateDiagram-colorIndex.spec.ts",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/state/stateDiagram-v2.spec.js",
-          "counts": {
-            "passed": 21,
-            "unsupported": 4,
-            "failed": 5,
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/state/stateDiagram.spec.js",
-          "counts": {
-            "passed": 21,
-            "unsupported": 4,
-            "failed": 4,
-            "upstream-skipped": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/state/stateNoteEdge.spec.ts",
-          "counts": {
-            "passed": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/state/stateNoteNode.spec.js",
-          "counts": {
-            "passed": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/state/stateRenderer-v3-unified.spec.js",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/state/stateRenderer.spec.js",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/swimlanes/swimlanesDiagram.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/timeline/timeline.spec.js",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/treeView/boxDrawingPreprocessor.spec.ts",
-          "counts": {
-            "reference-unqualified": 42
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/treeView/db.spec.ts",
-          "counts": {
-            "unsupported": 18
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/treeView/icons.spec.ts",
-          "counts": {
-            "reference-unqualified": 23
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/treeView/parser.spec.ts",
-          "counts": {
-            "unsupported": 33
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/treemap/utils.test.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/usecase/usecase-colorIndex.spec.ts",
-          "counts": {
-            "unsupported": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/usecase/usecase.parser.spec.ts",
-          "counts": {
-            "unsupported": 65,
-            "reference-unqualified": 1,
-            "upstream-skipped": 13
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/usecase/usecase.spec.ts",
-          "counts": {
-            "unsupported": 33,
-            "reference-unqualified": 1,
-            "upstream-skipped": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts",
-          "counts": {
-            "reference-unqualified": 1,
-            "unsupported": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/usecase/usecaseRoleColors.spec.ts",
-          "counts": {
-            "reference-unqualified": 15
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
-          "counts": {
-            "reference-unqualified": 12
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/wardley/wardleyBuilder.spec.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/wardley/wardleyParser.spec.ts",
-          "counts": {
-            "passed": 20
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts",
-          "counts": {
-            "unsupported": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/docs/.vitepress/headerDomainRules.spec.ts",
-          "counts": {
-            "reference-unqualified": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/docs/.vitepress/homepageHeroCopy.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/docs/.vitepress/landingPopUp.spec.ts",
-          "counts": {
-            "reference-unqualified": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/docs/.vitepress/ossHeroClass.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/clusters.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/edgeMarker.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/edges.spec.js",
-          "counts": {
-            "reference-unqualified": 14
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/edges.terminalLabels.spec.js",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/lineJump.integration.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/lineJump.spec.ts",
-          "counts": {
-            "reference-unqualified": 28
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/markers.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/nodes.spec.ts",
-          "counts": {
-            "reference-unqualified": 42
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/conformance/conformance.spec.ts",
-          "counts": {
-            "reference-unqualified": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/conformance/runner.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-attachment-mapping.spec.ts",
-          "counts": {
-            "unsupported": 8
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-blank-line-fold.spec.ts",
-          "counts": {
-            "unsupported": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-comments.spec.ts",
-          "counts": {
-            "unsupported": 13
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-containment-cycle.spec.ts",
-          "counts": {
-            "unsupported": 8
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-edge-instruction.spec.ts",
-          "counts": {
-            "unsupported": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-edge-semantic.spec.ts",
-          "counts": {
-            "unsupported": 8
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-empty-metadata.spec.ts",
-          "counts": {
-            "unsupported": 8
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flow-metadata.spec.ts",
-          "counts": {
-            "unsupported": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flow-self-reference.spec.ts",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flowchart-parity.spec.ts",
-          "counts": {
-            "reference-unqualified": 6,
-            "unsupported": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-global.spec.ts",
-          "counts": {
-            "unsupported": 10
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-inline-metadata-mapping.spec.ts",
-          "counts": {
-            "unsupported": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts",
-          "counts": {
-            "reference-unqualified": 1,
-            "unsupported": 13
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts",
-          "counts": {
-            "unsupported": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-prototype-keys.spec.ts",
-          "counts": {
-            "unsupported": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-trailing-comma.spec.ts",
-          "counts": {
-            "unsupported": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-subgraph-span.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-tool-validators.spec.ts",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts",
-          "counts": {
-            "unsupported": 8
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts",
-          "counts": {
-            "unsupported": 31
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/block/parser/block.spec.ts",
-          "counts": {
-            "reference-unqualified": 24,
-            "passed": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts",
-          "counts": {
-            "unsupported": 3,
-            "passed": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/c4/parser/c4Component.spec.ts",
-          "counts": {
-            "passed": 6,
-            "failed": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/c4/parser/c4Container.spec.ts",
-          "counts": {
-            "unsupported": 24,
-            "passed": 24
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/c4/parser/c4Diagram.spec.ts",
-          "counts": {
-            "failed": 1,
-            "passed": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/c4/parser/c4NamedAttributes.spec.ts",
-          "counts": {
-            "unsupported": 23,
-            "failed": 19
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/c4/parser/c4Person.spec.ts",
-          "counts": {
-            "unsupported": 5,
-            "passed": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/c4/parser/c4PersonExt.spec.ts",
-          "counts": {
-            "unsupported": 4,
-            "passed": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/c4/parser/c4System.spec.ts",
-          "counts": {
-            "unsupported": 24,
-            "passed": 18
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/class/parser/class.spec.js",
-          "counts": {
-            "passed": 2,
-            "failed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js",
-          "counts": {
-            "passed": 591,
-            "failed": 38,
-            "upstream-skipped": 1,
-            "unsupported": 2,
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/er/parser/subgraph.spec.js",
-          "counts": {
-            "failed": 17,
-            "unsupported": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-arrows.spec.js",
-          "counts": {
-            "passed": 13,
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-comments.spec.js",
-          "counts": {
-            "passed": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-direction.spec.js",
-          "counts": {
-            "failed": 3,
-            "passed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-edges.spec.js",
-          "counts": {
-            "passed": 247,
-            "failed": 46
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-huge.spec.js",
-          "counts": {
-            "upstream-skipped": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-interactions.spec.js",
-          "counts": {
-            "unsupported": 13
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-lines.spec.js",
-          "counts": {
-            "failed": 5,
-            "passed": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-md-string.spec.js",
-          "counts": {
-            "failed": 1,
-            "unsupported": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
-          "counts": {
-            "failed": 26,
-            "passed": 4,
-            "upstream-skipped": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-singlenode.spec.js",
-          "counts": {
-            "passed": 128,
-            "failed": 20
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
-          "counts": {
-            "passed": 21,
-            "failed": 2,
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js",
-          "counts": {
-            "passed": 315,
-            "failed": 27
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js",
-          "counts": {
-            "passed": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow.spec.js",
-          "counts": {
-            "passed": 22,
-            "failed": 2,
-            "unsupported": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js",
-          "counts": {
-            "failed": 6,
-            "upstream-skipped": 1,
-            "passed": 17
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js",
-          "counts": {
-            "passed": 13,
-            "unsupported": 12,
-            "failed": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/parser/quadrant.jison.spec.ts",
-          "counts": {
-            "unsupported": 24
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/railroad/parser/abnfDiagram.spec.ts",
-          "counts": {
-            "reference-unqualified": 11,
-            "passed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/railroad/parser/ebnfDiagram.spec.ts",
-          "counts": {
-            "passed": 13,
-            "failed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/railroad/parser/pegDiagram.spec.ts",
-          "counts": {
-            "reference-unqualified": 13,
-            "passed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/railroad/parser/railroadDiagram.spec.ts",
-          "counts": {
-            "failed": 15,
-            "passed": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/requirement/parser/requirementDiagram.spec.js",
-          "counts": {
-            "passed": 34,
-            "unsupported": 5,
-            "failed": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/state/parser/state-parser.spec.js",
-          "counts": {
-            "failed": 3,
-            "passed": 11,
-            "unsupported": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/state/parser/state-style.spec.js",
-          "counts": {
-            "failed": 12,
-            "passed": 8,
-            "unsupported": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/usecase/parser/usecase.lexer.spec.ts",
-          "counts": {
-            "reference-unqualified": 13
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/usecase/parser/usecase.parser.spec.ts",
-          "counts": {
-            "reference-unqualified": 76
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/usecase/parser/usecaseJson.spec.ts",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "passed": 4,
-            "unsupported": 2,
-            "failed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
-          "counts": {
-            "passed": 14,
-            "failed": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/textDimensionCalculator.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/xychart/parser/xychart.jison.spec.ts",
-          "counts": {
-            "unsupported": 58
-          }
-        },
-        {
-          "path": "packages/mermaid/src/docs/.vitepress/theme/colorScheme.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/docs/.vitepress/theme/exampleConfig.spec.ts",
-          "counts": {
-            "reference-unqualified": 13
-          }
-        },
-        {
-          "path": "packages/mermaid/src/docs/.vitepress/theme/redirect.spec.ts",
-          "counts": {
-            "reference-unqualified": 28
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/common/index.spec.ts",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/cose-bilkent/cytoscape-setup.test.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/cose-bilkent/layout.test.ts",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/dagre/index.spec.js",
-          "counts": {
-            "upstream-skipped": 16,
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/dagre/mermaid-graphlib.spec.js",
-          "counts": {
-            "reference-unqualified": 15
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/aggregateValidate.spec.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureFreshness.spec.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureMetadata.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureSizes.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/layout-fixtures.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/helpers.spec.ts",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/scoreLayout.spec.ts",
-          "counts": {
-            "reference-unqualified": 17
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/validateLayout.spec.ts",
-          "counts": {
-            "reference-unqualified": 39
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/10-node-placement.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/14-messy-layout.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/15-border-hugging-compare.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/15-border-hugging-lr.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/16-intake-cycle-lr.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/4-car-fun-sales-tb.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/5-car-fun-sales-wide-tb.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/6-legal-constr-sales.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/7-car-sales-constr.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/8-query-process-2.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/mermaid-work.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/pebr-3-process-too-wide-in-lane.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/phase2.layering.spec.ts",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/query-process.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 10
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/simple-2.ddlt.spec.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/intersect/intersect-line.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/blockArrow.spec.ts",
-          "counts": {
-            "reference-unqualified": 18
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/c4LabelHelper.spec.ts",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/defaultMindmapNode.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/handDrawnShapeStyles.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/labelContainment.spec.ts",
-          "counts": {
-            "reference-unqualified": 24
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/labelImageUtils.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/stadium.spec.ts",
-          "counts": {
-            "reference-unqualified": 10
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
-          "counts": {
-            "reference-unqualified": 15
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/util.spec.ts",
-          "counts": {
-            "reference-unqualified": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/arrowTypes.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/defaultPreset.spec.ts",
-          "counts": {
-            "reference-unqualified": 11
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/elkOptionCatalogue.spec.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/geometry.spec.ts",
-          "counts": {
-            "reference-unqualified": 19
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/render.spec.ts",
-          "counts": {
-            "reference-unqualified": 103
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/subgraphFeedbackEdges.spec.ts",
-          "counts": {
-            "reference-unqualified": 8
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/terminalLabels.spec.ts",
-          "counts": {
-            "reference-unqualified": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.endpointClip.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.geometry.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.lr.transform.spec.ts",
-          "counts": {
-            "reference-unqualified": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.materializedGeometry.spec.ts",
-          "counts": {
-            "reference-unqualified": 10
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.portSwap.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.sharedTrackNudging.spec.ts",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.terminalStub.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/edgeLabelNodes.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/helpers.laneHeights.spec.ts",
-          "counts": {
-            "reference-unqualified": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/helpers.prepareLayout.spec.ts",
-          "counts": {
-            "reference-unqualified": 5
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/laneOrdering.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/laneTitleBands.spec.ts",
-          "counts": {
-            "reference-unqualified": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase0.helpers.spec.ts",
-          "counts": {
-            "reference-unqualified": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase1.cycles.spec.ts",
-          "counts": {
-            "reference-unqualified": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.compact.lanes.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.compact.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.layering.spec.ts",
-          "counts": {
-            "reference-unqualified": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase3.ordering.spec.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.coordinates.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.lanes.columns.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.lanes.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase5.pipeline.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.hoe.lr.spec.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.knsv3.lr.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.lr.e2e.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/postProcessing.spec.ts",
-          "counts": {
-            "upstream-skipped": 1,
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/sameRankDetour.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/sourceOrder.spec.ts",
-          "counts": {
-            "reference-unqualified": 4
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/direction/geometry.spec.ts",
-          "counts": {
-            "reference-unqualified": 12
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.crossing.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.detour.spec.ts",
-          "counts": {
-            "reference-unqualified": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.issues.spec.ts",
-          "counts": {
-            "reference-unqualified": 9
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.repro_crossing.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.router.spec.ts",
-          "counts": {
-            "reference-unqualified": 11,
-            "upstream-skipped": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.wide_node.spec.ts",
-          "counts": {
-            "reference-unqualified": 3
-          }
-        }
-      ],
-      "gapReasons": {
-        "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1
-      }
-    },
-    {
       "project": "wevm/ondine",
       "version": "0.0.3",
       "counts": {
@@ -17064,16 +17065,16 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 29,
             "passed": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -19089,17 +19090,17 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "passed": 15,
             "failed": 11,
             "unsupported": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -21130,15 +21131,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -23155,15 +23156,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -24520,10 +24521,10 @@
       "project": "obsidianmd/pele",
       "version": "1.13.0",
       "counts": {
-        "passed": 3135,
+        "passed": 3143,
         "failed": 142,
         "unsupported": 331,
-        "trident-blocked": 10,
+        "trident-blocked": 2,
         "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
@@ -25094,10 +25095,9 @@
         {
           "path": "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts",
           "counts": {
-            "passed": 7,
+            "passed": 8,
             "failed": 1,
-            "reference-unqualified": 1,
-            "trident-blocked": 1
+            "reference-unqualified": 1
           }
         },
         {
@@ -25165,16 +25165,16 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "passed": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "passed": 20,
             "failed": 10
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "passed": 3
           }
         },
         {
@@ -25289,8 +25289,7 @@
         {
           "path": "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts",
           "counts": {
-            "passed": 9,
-            "trident-blocked": 1
+            "passed": 10
           }
         },
         {
@@ -25537,7 +25536,7 @@
         {
           "path": "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts",
           "counts": {
-            "trident-blocked": 6
+            "passed": 6
           }
         },
         {
@@ -26552,13 +26551,7 @@
       ],
       "gapReasons": {
         "er.db.getData().nodes; er.db.getData().nodes.find": 1,
-        "er.db.getData().edges; er.db.getData().edges.Symbol(Symbol.toStringTag); er.db.getData().edges.length; er.db.getData().edges.length.Symbol(Symbol.toPrimitive)": 1,
-        "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "requirement.db.getData().edges; requirement.db.getData().edges.map": 1,
-        "xychart.db.getXYChartData().plots; xychart.db.getXYChartData().plots.Symbol(Symbol.toStringTag)": 1,
-        "xychart.db.getXYChartData().plots; xychart.db.getXYChartData().plots.Symbol(Symbol.toStringTag); xychart.db.getXYChartData().plots.length; xychart.db.getXYChart": 2,
-        "xychart.db.getXYChartData().plots; xychart.db.getXYChartData().plots.N; xychart.db.getXYChartData().plots.N.data; xychart.db.getXYChartData().plots.N.data.Symbo": 2,
-        "xychart.db.getXYChartData().yAxis; xychart.db.getXYChartData().yAxis.type": 1
+        "er.db.getData().edges; er.db.getData().edges.Symbol(Symbol.toStringTag); er.db.getData().edges.length; er.db.getData().edges.length.Symbol(Symbol.toPrimitive)": 1
       }
     },
     {
@@ -27202,15 +27195,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -28585,10 +28578,10 @@
       "project": "crabtalk/bezel",
       "version": "0.2.24",
       "counts": {
-        "passed": 3033,
+        "passed": 3036,
         "failed": 139,
         "unsupported": 442,
-        "trident-blocked": 4,
+        "trident-blocked": 1,
         "reference-unqualified": 2018,
         "upstream-skipped": 101,
         "upstream-expected-failure": 0
@@ -29160,10 +29153,9 @@
         {
           "path": "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts",
           "counts": {
-            "passed": 7,
+            "passed": 8,
             "failed": 1,
-            "reference-unqualified": 1,
-            "trident-blocked": 1
+            "reference-unqualified": 1
           }
         },
         {
@@ -29229,16 +29221,16 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "passed": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "passed": 20,
             "failed": 10
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "passed": 3
           }
         },
         {
@@ -29400,9 +29392,8 @@
         {
           "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
           "counts": {
-            "passed": 112,
+            "passed": 114,
             "reference-unqualified": 31,
-            "trident-blocked": 2,
             "upstream-skipped": 12
           }
         },
@@ -30614,9 +30605,7 @@
         }
       ],
       "gapReasons": {
-        "Bezel architecture nodes: a JSON object from the bridge loses the declaration order of integer-like ids": 1,
-        "eventmodeling.db.getState().relations; eventmodeling.db.getState().relations.map": 1,
-        "sequence.db.getAccDescription().constructor; sequence.db.getAccDescription().Symbol(Symbol.toStringTag)": 2
+        "Bezel architecture nodes: a JSON object from the bridge loses the declaration order of integer-like ids": 1
       }
     },
     {
@@ -31268,17 +31257,17 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "passed": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "passed": 1,
             "unsupported": 20,
             "failed": 9
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "passed": 3
           }
         },
         {
@@ -33302,15 +33291,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -35317,18 +35306,18 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "failed": 2,
-            "passed": 1
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "passed": 4,
             "failed": 22,
             "unsupported": 4
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "failed": 2,
+            "passed": 1
           }
         },
         {
@@ -37389,16 +37378,16 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "passed": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "passed": 20,
             "failed": 10
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "passed": 3
           }
         },
         {
@@ -39419,15 +39408,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -41420,15 +41409,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -43442,16 +43431,16 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "passed": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "passed": 29,
             "unsupported": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "passed": 3
           }
         },
         {
@@ -45471,15 +45460,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -46856,11 +46845,11 @@
     },
     {
       "project": "fasouto/termaid",
-      "version": "0.10.0",
+      "version": "0.12.0",
       "counts": {
         "passed": 1069,
-        "failed": 1144,
-        "unsupported": 1405,
+        "failed": 1141,
+        "unsupported": 1408,
         "trident-blocked": 0,
         "reference-unqualified": 2018,
         "upstream-skipped": 101,
@@ -47106,8 +47095,8 @@
         {
           "path": "packages/parser/tests/pie.test.ts",
           "counts": {
-            "passed": 14,
-            "failed": 18
+            "passed": 18,
+            "failed": 14
           }
         },
         {
@@ -47497,17 +47486,17 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "passed": 1,
             "unsupported": 26,
             "failed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -47552,8 +47541,9 @@
         {
           "path": "packages/mermaid/src/diagrams/pie/pie.spec.ts",
           "counts": {
-            "passed": 6,
-            "failed": 7,
+            "passed": 7,
+            "unsupported": 3,
+            "failed": 3,
             "upstream-skipped": 2,
             "reference-unqualified": 1
           }
@@ -48221,8 +48211,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-singlenode.spec.js",
           "counts": {
-            "passed": 134,
-            "failed": 14
+            "passed": 130,
+            "failed": 18
           }
         },
         {
@@ -48237,8 +48227,8 @@
         {
           "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js",
           "counts": {
-            "failed": 70,
-            "passed": 272
+            "failed": 71,
+            "passed": 271
           }
         },
         {
@@ -49519,15 +49509,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -51523,15 +51513,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -53511,15 +53501,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
-          "counts": {
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/kanban/kanban.spec.ts",
           "counts": {
             "unsupported": 30
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts",
+          "counts": {
+            "unsupported": 3
           }
         },
         {
@@ -54892,6 +54882,6 @@
       "gapReasons": {}
     }
   ],
-  "updatedAt": "2026-11-05T18:02:00.423Z",
-  "collectedThrough": "2026-11-05T18:02:00.423Z"
+  "updatedAt": "2026-11-06T22:14:07.821Z",
+  "collectedThrough": "2026-11-06T22:14:07.821Z"
 }

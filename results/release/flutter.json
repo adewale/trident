@@ -1,8 +1,8 @@
 {
   "schema": "davebench-native-png-v1",
   "state": "complete",
-  "startedAt": "2026-11-05T16:27:04.165Z",
-  "updatedAt": "2026-11-05T16:28:59.782Z",
+  "startedAt": "2026-11-06T21:45:11.840Z",
+  "updatedAt": "2026-11-06T21:46:39.001Z",
   "corpus": {
     "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
     "occurrences": 1342,
@@ -37,7 +37,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 35048.19100000005,
+      "totalMs": 24687.677000000047,
       "invalid": 0,
       "invalidReasons": {}
     },
@@ -51,7 +51,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 35187.24299999998,
+      "totalMs": 25567.213999999996,
       "invalid": 0,
       "invalidReasons": {}
     },
@@ -65,7 +65,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 34327.40499999995,
+      "totalMs": 26912.33600000005,
       "invalid": 0,
       "invalidReasons": {}
     }
@@ -80,7 +80,7 @@
         "boundary": "native Flutter renderToPng API; app startup excluded",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 35048.19100000005,
+        "medianTotalMs": 25567.213999999996,
         "rank": 1
       }
     ],

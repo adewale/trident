@@ -11,7 +11,7 @@ The page and every generated number in the docs read these numeric results
 - [DaveBench](release/report.json), built from [images](release/images.json), [terminal](release/terminal.json) and [native Flutter PNG](release/flutter.json)
 - [Drawing Correctness](release/drawing-correctness.json)
 - [Mermaid Fidelity](release/mermaid-fidelity.json)
-- [Frozen catalog](../docs/evidence/benchmark-campaign-2026-11-02/catalog.json)
+- [Frozen catalog](../docs/evidence/benchmark-campaign-2026-11-06/catalog.json)
 
 `release/` holds one campaign under fixed names; [its README](release/README.md) describes it. File names carry no dates: published dates come from the timestamps each file records.
 
