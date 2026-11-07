@@ -535,6 +535,20 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     }
   }
   check('unclipped-authored-labels', [], clipped, clipped.length ? false : uninspectableLabels || unknownClipping ? null : true, 'Actual glyph-ink clipping, overflow and later opaque covers; unqualified overflowing font boxes, masks, partial occlusion and complex clip paths remain unavailable')
+  const labelEvidence = (): PaintEvidence => {
+    check('paint-opacity-and-color', 'resolved visible paint colors/alpha', [...unknownPaint], unknownPaint.size ? null : true, 'Unresolved paint servers/context colors cannot silently earn a visible-ink or complete-style claim')
+    const required = ['visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels', 'paint-opacity-and-color']
+    const selected = checks.filter(check => required.includes(check.criterion))
+    return { checks: selected, complete: selected.every(check => check.status !== 'unavailable'), passed: selected.every(check => check.status === 'passed'), nodes: [], connections: [], viewBox: svg.getAttribute('viewBox') }
+  }
+  // A static primitive-only label profile needs the same global paint checks,
+  // but not quadratic camouflage scans used solely to inventory visible ink.
+  // Labels and their clipping/occlusion were already assessed above. Special
+  // representations retain the full observer path below.
+  if (input.profile === 'labels' && !svg.querySelector('use,foreignObject,image') && [...svg.querySelectorAll('*')].every(staticPaint)) {
+    for (const element of svg.querySelectorAll('path,line,rect,circle,ellipse,polygon,polyline')) visible(element)
+    return labelEvidence()
+  }
   if (input.paint?.fontSize !== undefined) {
     const sizes = requiredLabels.filter(Boolean).map(label => ({ label, values: visibleMatches(label).flatMap(element => {
       const descendants = [...element.querySelectorAll('tspan,span,p')].filter(child => normalize(labelText(child)) && visible(child))
@@ -563,10 +577,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const paintedText = labelElements.filter(element => visible(element) && !camouflage(element) && labelBox(element).width > 0 && labelBox(element).height > 0)
   check('visible-ink', 'nonempty visible diagram geometry or text', { geometry: geometry.length, text: paintedText.length }, geometry.length + paintedText.length > 0 ? true : svg.querySelector('use,foreignObject,image') ? null : false, 'Actual non-camouflaged geometry/text, including browser-painted HTML labels; image/use-only ink needs a qualified image projection')
   if (input.profile === 'labels') {
-    check('paint-opacity-and-color', 'resolved visible paint colors/alpha', [...unknownPaint], unknownPaint.size ? null : true, 'Unresolved paint servers/context colors cannot silently earn a visible-ink or complete-style claim')
-    const required = ['visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels', 'paint-opacity-and-color']
-    const selected = checks.filter(check => required.includes(check.criterion))
-    return { checks: selected, complete: selected.every(check => check.status !== 'unavailable'), passed: selected.every(check => check.status === 'passed'), nodes: [], connections: [], viewBox: svg.getAttribute('viewBox') }
+    return labelEvidence()
   }
   const ownedBox = (element: Element, identity?: string, group = false): { owner: Element; shape: Element; box: Box; outlines?: Element[] } | undefined => {
     const point = center(rect(element))

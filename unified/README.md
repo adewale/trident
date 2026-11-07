@@ -38,6 +38,9 @@ from every stop's channel range. It retains canvas, clipping and occlusion check
 Possible colour matches, wider colour spaces, transparent or animated gradients, inherited gradients,
 patterns, arbitrary filters and unmapped path/image glyphs require separate
 evidence; a positive text bounding box does not qualify them.
+For static SVGs made only from text and primitive geometry, label assessment
+retains global paint checks and skips the unrelated visible-ink inventory.
+Images, references, HTML labels and animated content keep the full observer path.
 
 Workers own one outstanding request, bounded JSON frames and private process
 groups. API durations come from the worker/browser. A missing API duration leaves
