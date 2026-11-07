@@ -9,8 +9,8 @@
   "status": "davebench-only",
   "collection": {
     "images": {
-      "startedAt": "2026-11-06T21:06:50.667Z",
-      "finishedAt": "2026-11-06T21:28:33.093Z",
+      "startedAt": "2026-11-07T00:20:59.859Z",
+      "finishedAt": "2026-11-07T00:38:07.748Z",
       "environment": {
         "node": "26.3.0",
         "bun": "1.4.4",
@@ -30,8 +30,8 @@
       }
     },
     "terminal": {
-      "startedAt": "2026-11-06T21:28:34.055Z",
-      "finishedAt": "2026-11-06T21:45:10.954Z",
+      "startedAt": "2026-11-07T00:38:08.449Z",
+      "finishedAt": "2026-11-07T00:50:15.349Z",
       "method": {
         "runs": 3,
         "warmupsPerRun": 30,
@@ -67,7 +67,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 704.3999999761581,
+      "totalMs": 573.0000000088476,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -243,7 +243,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 711.9999999776483,
+      "totalMs": 542.5000000023283,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -419,7 +419,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 735.4000000227243,
+      "totalMs": 541.4999999906868,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -595,7 +595,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 13285.699999975972,
+      "totalMs": 10923.099999981467,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -771,7 +771,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 12762.40000001248,
+      "totalMs": 10854.600000006147,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -947,7 +947,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 13187.499999984168,
+      "totalMs": 11194.49999999348,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -1123,7 +1123,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 307.399999987334,
+      "totalMs": 274.2000000020489,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1141,7 +1141,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 323.6000000052154,
+      "totalMs": 255.09999998705462,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1159,7 +1159,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 311.89999998919666,
+      "totalMs": 263.59999999171123,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1177,7 +1177,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7539.099999993108,
+      "totalMs": 6364.800000004005,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1195,7 +1195,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7406.099999984726,
+      "totalMs": 6529.6000000010245,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1213,7 +1213,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7329.099999990314,
+      "totalMs": 6384.79999999702,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1231,7 +1231,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 1186.0999999875203,
+      "totalMs": 942.4000000078231,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1267,7 +1267,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 1101.0999999884516,
+      "totalMs": 910.5000000051223,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1303,7 +1303,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 1048.7000000011176,
+      "totalMs": 815.7999999877065,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1339,7 +1339,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 7724.199999984354,
+      "totalMs": 6453.599999994971,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1375,7 +1375,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 7534.999999988824,
+      "totalMs": 6479.200000000186,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1411,7 +1411,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 7567.899999995716,
+      "totalMs": 6288.299999997485,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1447,7 +1447,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 6458.000000002794,
+      "totalMs": 5054.000000004657,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1478,7 +1478,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 6374.100000010803,
+      "totalMs": 4830.200000001118,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1509,7 +1509,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 6300.600000035018,
+      "totalMs": 4848.999999996275,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1540,7 +1540,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 13804.899999997579,
+      "totalMs": 11066.800000012852,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1571,7 +1571,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 14189.799999988638,
+      "totalMs": 11074.100000007078,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1602,7 +1602,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 14046.800000009127,
+      "totalMs": 11027.600000031292,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1633,7 +1633,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 1770.8999999687076,
+      "totalMs": 1333.6000000108033,
       "invalid": 16,
       "invalidReasons": {
         "zero-size SVG": 16
@@ -1716,7 +1716,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 1695.4999999701977,
+      "totalMs": 1436.9999999906868,
       "invalid": 16,
       "invalidReasons": {
         "zero-size SVG": 16
@@ -1799,7 +1799,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 1743.5999999931082,
+      "totalMs": 1333.6999999741092,
       "invalid": 16,
       "invalidReasons": {
         "zero-size SVG": 16
@@ -1882,7 +1882,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 5270.000000025146,
+      "totalMs": 4057.4000000348315,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1946,7 +1946,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 5426.800000007264,
+      "totalMs": 4395.899999976158,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2010,7 +2010,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 5589.4000000003725,
+      "totalMs": 4120.2999999877065,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2074,7 +2074,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 14747.565505999723,
+      "totalMs": 10672.559459999728,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2099,7 +2099,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 14976.802551999688,
+      "totalMs": 10925.311598000466,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2124,7 +2124,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 14939.121153998829,
+      "totalMs": 10657.336718000239,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2149,7 +2149,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 33492.108512001985,
+      "totalMs": 24477.727412000182,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2168,7 +2168,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 33749.31897099933,
+      "totalMs": 24043.953779001313,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2187,7 +2187,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 33221.65220599901,
+      "totalMs": 24044.23061300034,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2206,7 +2206,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 358.89999999664724,
+      "totalMs": 273.89999999292195,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2242,7 +2242,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 347.50000001117587,
+      "totalMs": 279.3999999985099,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2278,7 +2278,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 346.2000000178814,
+      "totalMs": 260.59999999403954,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2314,7 +2314,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 4034.9999999962747,
+      "totalMs": 3269.6999999899417,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2350,7 +2350,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 4106.999999991618,
+      "totalMs": 3164.1999999955297,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2386,7 +2386,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 4156.600000008009,
+      "totalMs": 3157.8000000100583,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2422,7 +2422,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 21081.90000002086,
+      "totalMs": 21785.500000010245,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2439,7 +2439,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 21102.900000019,
+      "totalMs": 21844.400000010617,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2456,7 +2456,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 20939.59999997914,
+      "totalMs": 21812.09999999311,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2473,7 +2473,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 27366.700000007637,
+      "totalMs": 25628,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2490,7 +2490,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 27640.000000001863,
+      "totalMs": 25685.30000000354,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2507,7 +2507,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 27677.30000001844,
+      "totalMs": 25876.500000004657,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2524,7 +2524,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 621.400000013411,
+      "totalMs": 425.9000000152737,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2703,7 +2703,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 559.4000000180677,
+      "totalMs": 429.40000000596046,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2882,7 +2882,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 587.7000000048429,
+      "totalMs": 492.9999999990687,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3061,7 +3061,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 3849.900000005029,
+      "totalMs": 3339.999999973923,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3240,7 +3240,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 3833.1000000033528,
+      "totalMs": 3447.4000000096858,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3419,7 +3419,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 3805.6999999918044,
+      "totalMs": 3291.3999999966472,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3598,7 +3598,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 107.50000000093132,
+      "totalMs": 86.89999996777624,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3615,7 +3615,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 104.19999999180436,
+      "totalMs": 94.8999999994412,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3632,7 +3632,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 107.69999998994172,
+      "totalMs": 97.30000000353903,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3649,7 +3649,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 1895.9999999878928,
+      "totalMs": 1551.3000000072643,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3666,7 +3666,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 1979.3000000175089,
+      "totalMs": 1580.2999999923632,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3683,7 +3683,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 1892.2000000048429,
+      "totalMs": 1673.8999999882653,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3700,7 +3700,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 4860.699999989942,
+      "totalMs": 3804.7999999905005,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3718,7 +3718,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 4726.79999999702,
+      "totalMs": 3982.7000000039116,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3736,7 +3736,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 4807.800000013784,
+      "totalMs": 3904.899999992922,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3754,7 +3754,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 15612.299999984913,
+      "totalMs": 12344.399999974295,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3772,7 +3772,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 15819.099999998696,
+      "totalMs": 12421.600000010803,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3790,7 +3790,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 15437.500000009313,
+      "totalMs": 12850.899999994785,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3808,7 +3808,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1263.999999994412,
+      "totalMs": 1030.2999999923632,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -3902,7 +3902,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1334.5999999940395,
+      "totalMs": 1020.4999999981374,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -3996,7 +3996,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1262.599999983795,
+      "totalMs": 1080.6999999983236,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -4090,7 +4090,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3236.0999999884516,
+      "totalMs": 2792.299999997951,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4157,7 +4157,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3254.2999999960884,
+      "totalMs": 2635.7000000011176,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4224,7 +4224,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3430.2000000122935,
+      "totalMs": 2757.8999999854714,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4291,7 +4291,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 608.5000000037253,
+      "totalMs": 490.00000001769513,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4309,7 +4309,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 622.7999999895692,
+      "totalMs": 503.8999999789521,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4327,7 +4327,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 637.399999992922,
+      "totalMs": 526.4999999962747,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4345,7 +4345,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7379.299999983981,
+      "totalMs": 6430.999999987893,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4363,7 +4363,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7680.499999991618,
+      "totalMs": 6181.799999999814,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4381,7 +4381,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7203.2000000067055,
+      "totalMs": 6358.999999998137,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4399,7 +4399,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 218.90000001434237,
+      "totalMs": 173.89999999199063,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -5376,7 +5376,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 230.5000000167638,
+      "totalMs": 164.50000001024455,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -6353,7 +6353,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 220.40000000596046,
+      "totalMs": 168.00000003166497,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -7330,7 +7330,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 5159.199999993667,
+      "totalMs": 4484.80000001099,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -8307,7 +8307,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 5389.799999984913,
+      "totalMs": 4415.899999989197,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -9284,7 +9284,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 5597.100000016391,
+      "totalMs": 4322.699999991804,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -10253,7 +10253,7 @@
     },
     {
       "project": "mermaid-js/mermaid",
-      "version": "12.2.0",
+      "version": "12.3.0",
       "format": "svg",
       "run": 1,
       "boundary": "Chromium public SVG API",
@@ -10261,7 +10261,7 @@
       "completed": 1336,
       "failed": 6,
       "timeouts": 0,
-      "totalMs": 37161.70000001229,
+      "totalMs": 26412.5,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10272,7 +10272,7 @@
     },
     {
       "project": "mermaid-js/mermaid",
-      "version": "12.2.0",
+      "version": "12.3.0",
       "format": "svg",
       "run": 2,
       "boundary": "Chromium public SVG API",
@@ -10280,7 +10280,7 @@
       "completed": 1336,
       "failed": 6,
       "timeouts": 0,
-      "totalMs": 36388.20000001509,
+      "totalMs": 26924.100000021048,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10291,7 +10291,7 @@
     },
     {
       "project": "mermaid-js/mermaid",
-      "version": "12.2.0",
+      "version": "12.3.0",
       "format": "svg",
       "run": 3,
       "boundary": "Chromium public SVG API",
@@ -10299,7 +10299,7 @@
       "completed": 1336,
       "failed": 6,
       "timeouts": 0,
-      "totalMs": 36952.60000004247,
+      "totalMs": 26853.899999995716,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10310,7 +10310,7 @@
     },
     {
       "project": "mermaid-js/mermaid",
-      "version": "12.2.0",
+      "version": "12.3.0",
       "format": "png",
       "run": 1,
       "boundary": "Chromium SVG API + canvas PNG conversion",
@@ -10318,7 +10318,7 @@
       "completed": 1336,
       "failed": 6,
       "timeouts": 0,
-      "totalMs": 59170.899999995716,
+      "totalMs": 42354.8000000054,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10329,7 +10329,7 @@
     },
     {
       "project": "mermaid-js/mermaid",
-      "version": "12.2.0",
+      "version": "12.3.0",
       "format": "png",
       "run": 2,
       "boundary": "Chromium SVG API + canvas PNG conversion",
@@ -10337,7 +10337,7 @@
       "completed": 1336,
       "failed": 6,
       "timeouts": 0,
-      "totalMs": 61347.799999979325,
+      "totalMs": 40988.70000001229,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10348,7 +10348,7 @@
     },
     {
       "project": "mermaid-js/mermaid",
-      "version": "12.2.0",
+      "version": "12.3.0",
       "format": "png",
       "run": 3,
       "boundary": "Chromium SVG API + canvas PNG conversion",
@@ -10356,7 +10356,7 @@
       "completed": 1336,
       "failed": 6,
       "timeouts": 0,
-      "totalMs": 57897.20000002533,
+      "totalMs": 41526.99999997672,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10375,7 +10375,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 405.5000000121072,
+      "totalMs": 323.5000000009313,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10393,7 +10393,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 408.19999998807907,
+      "totalMs": 321.4999999990687,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10411,7 +10411,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 412.10000000242144,
+      "totalMs": 315.49999997392297,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10429,7 +10429,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7445.599999985658,
+      "totalMs": 6001.099999981932,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10447,7 +10447,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7355.199999984354,
+      "totalMs": 5732.39999999851,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10465,7 +10465,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7412.80000001099,
+      "totalMs": 5928.300000008196,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10483,7 +10483,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 24687.677000000047,
+      "totalMs": 19332.515999999952,
       "invalid": 0,
       "invalidReasons": {}
     },
@@ -10497,7 +10497,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 25567.213999999996,
+      "totalMs": 19363.601999999995,
       "invalid": 0,
       "invalidReasons": {}
     },
@@ -10511,7 +10511,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 26912.33600000005,
+      "totalMs": 19558.72799999997,
       "invalid": 0,
       "invalidReasons": {}
     },
@@ -10525,7 +10525,7 @@
       "completed": 1342,
       "failed": 0,
       "timeouts": 0,
-      "totalMs": 3387.3282589999963,
+      "totalMs": 2984.424348000004,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {}
@@ -10540,7 +10540,7 @@
       "completed": 1342,
       "failed": 0,
       "timeouts": 0,
-      "totalMs": 3263.8208110000023,
+      "totalMs": 2692.5694509999976,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {}
@@ -10555,7 +10555,7 @@
       "completed": 1342,
       "failed": 0,
       "timeouts": 0,
-      "totalMs": 3233.4253949999948,
+      "totalMs": 2768.9216050000105,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {}
@@ -10570,7 +10570,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 236634.03566099962,
+      "totalMs": 170231.38891399954,
       "invalid": 2,
       "invalidReasons": {
         "empty output": 2
@@ -10594,7 +10594,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 244641.16337299978,
+      "totalMs": 173451.3469439997,
       "invalid": 2,
       "invalidReasons": {
         "empty output": 2
@@ -10618,7 +10618,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 237501.5683459986,
+      "totalMs": 173300.25847199932,
       "invalid": 2,
       "invalidReasons": {
         "empty output": 2
@@ -10642,7 +10642,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 8324.474698999988,
+      "totalMs": 6083.180874999989,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10672,7 +10672,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 8495.11665599998,
+      "totalMs": 5834.636890000004,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10702,7 +10702,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 7647.709542999953,
+      "totalMs": 5964.918788999994,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10732,7 +10732,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 3257.030813999997,
+      "totalMs": 2192.876399999996,
       "invalid": 16,
       "invalidReasons": {
         "empty output": 16
@@ -10815,7 +10815,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 3281.8728560000045,
+      "totalMs": 2295.2022920000018,
       "invalid": 16,
       "invalidReasons": {
         "empty output": 16
@@ -10898,7 +10898,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 3320.7901910000096,
+      "totalMs": 2258.3062239999986,
       "invalid": 16,
       "invalidReasons": {
         "empty output": 16
@@ -10981,7 +10981,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 15233.127002000925,
+      "totalMs": 11426.125501995906,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11064,7 +11064,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 14241.005233000382,
+      "totalMs": 11424.827465001028,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11147,7 +11147,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 14452.833164999494,
+      "totalMs": 11377.088508996647,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11230,7 +11230,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 820.6282620000025,
+      "totalMs": 664.1345939999969,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11247,7 +11247,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 834.6978350000006,
+      "totalMs": 651.3797460000035,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11264,7 +11264,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 832.2826049999983,
+      "totalMs": 682.0499289999988,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11281,7 +11281,7 @@
       "completed": 534,
       "failed": 808,
       "timeouts": 0,
-      "totalMs": 337.1699759999994,
+      "totalMs": 249.18321499999948,
       "invalid": 46,
       "invalidReasons": {
         "empty output": 44,
@@ -11349,7 +11349,7 @@
       "completed": 534,
       "failed": 808,
       "timeouts": 0,
-      "totalMs": 334.0732439999998,
+      "totalMs": 235.8729759999991,
       "invalid": 46,
       "invalidReasons": {
         "empty output": 44,
@@ -11417,7 +11417,7 @@
       "completed": 534,
       "failed": 808,
       "timeouts": 0,
-      "totalMs": 342.1219679999997,
+      "totalMs": 228.28753100000006,
       "invalid": 46,
       "invalidReasons": {
         "empty output": 44,
@@ -11485,7 +11485,7 @@
       "completed": 538,
       "failed": 804,
       "timeouts": 0,
-      "totalMs": 749.5944020000024,
+      "totalMs": 557.4927290000021,
       "invalid": 162,
       "invalidReasons": {
         "empty output": 162
@@ -11668,7 +11668,7 @@
       "completed": 538,
       "failed": 804,
       "timeouts": 0,
-      "totalMs": 763.8031140000003,
+      "totalMs": 528.4666509999993,
       "invalid": 162,
       "invalidReasons": {
         "empty output": 162
@@ -11851,7 +11851,7 @@
       "completed": 538,
       "failed": 804,
       "timeouts": 0,
-      "totalMs": 824.2670219999986,
+      "totalMs": 602.9490090000021,
       "invalid": 162,
       "invalidReasons": {
         "empty output": 162
@@ -12034,7 +12034,7 @@
       "completed": 1286,
       "failed": 56,
       "timeouts": 0,
-      "totalMs": 2379.481423033212,
+      "totalMs": 1565.4866839804527,
       "invalid": 56,
       "invalidReasons": {
         "empty output": 30,
@@ -12110,7 +12110,7 @@
       "completed": 1286,
       "failed": 56,
       "timeouts": 0,
-      "totalMs": 2279.7345189483167,
+      "totalMs": 1565.7205260004048,
       "invalid": 56,
       "invalidReasons": {
         "empty output": 30,
@@ -12186,7 +12186,7 @@
       "completed": 1286,
       "failed": 56,
       "timeouts": 0,
-      "totalMs": 2391.647966027449,
+      "totalMs": 1536.8431470087671,
       "invalid": 56,
       "invalidReasons": {
         "empty output": 30,
@@ -12262,7 +12262,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 170.37973400000146,
+      "totalMs": 109.76349499999861,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12430,7 +12430,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 156.1072190000006,
+      "totalMs": 116.94799100000009,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12598,7 +12598,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 174.3627990000004,
+      "totalMs": 117.02102400000076,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12766,7 +12766,7 @@
       "completed": 726,
       "failed": 616,
       "timeouts": 0,
-      "totalMs": 10634.18168100284,
+      "totalMs": 8265.30135299929,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -12886,7 +12886,7 @@
       "completed": 726,
       "failed": 616,
       "timeouts": 0,
-      "totalMs": 10434.395009001018,
+      "totalMs": 8322.059540999588,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -13006,7 +13006,7 @@
       "completed": 726,
       "failed": 616,
       "timeouts": 0,
-      "totalMs": 10756.15683999937,
+      "totalMs": 8396.541668998543,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -13126,7 +13126,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 305.5225309999998,
+      "totalMs": 209.7470900000005,
       "invalid": 24,
       "invalidReasons": {
         "empty output": 24
@@ -13221,7 +13221,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 275.71491699999734,
+      "totalMs": 215.61677900000024,
       "invalid": 24,
       "invalidReasons": {
         "empty output": 24
@@ -13316,7 +13316,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 264.1866210000011,
+      "totalMs": 204.91135300000084,
       "invalid": 24,
       "invalidReasons": {
         "empty output": 24
@@ -13411,7 +13411,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 29003.317260998767,
+      "totalMs": 20121.840990001685,
       "invalid": 10,
       "invalidReasons": {
         "empty output": 10
@@ -13545,7 +13545,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 25663.575085001066,
+      "totalMs": 20074.799850002397,
       "invalid": 10,
       "invalidReasons": {
         "empty output": 10
@@ -13679,7 +13679,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 26056.659760997165,
+      "totalMs": 20479.83881699678,
       "invalid": 10,
       "invalidReasons": {
         "empty output": 10
@@ -13813,7 +13813,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 24.033273000000108,
+      "totalMs": 17.52303000000005,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -13873,7 +13873,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 23.798527000000384,
+      "totalMs": 20.187073000000467,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -13933,7 +13933,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 23.355754999999817,
+      "totalMs": 15.853676999999905,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -13993,7 +13993,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2838.8244300010847,
+      "totalMs": 2231.019890999305,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -14880,7 +14880,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2820.5617240015417,
+      "totalMs": 2172.595633998397,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -15767,7 +15767,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2754.723427998717,
+      "totalMs": 2139.2162129987264,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -16654,7 +16654,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 503.45760299999796,
+      "totalMs": 318.16811600000085,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -16671,7 +16671,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 487.6462639999983,
+      "totalMs": 321.98182500000087,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -16688,7 +16688,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 487.8534790000008,
+      "totalMs": 332.8213530000012,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -16705,7 +16705,7 @@
       "completed": 555,
       "failed": 787,
       "timeouts": 0,
-      "totalMs": 243.04842099999834,
+      "totalMs": 173.80024000000003,
       "invalid": 26,
       "invalidReasons": {
         "empty output": 26
@@ -16795,7 +16795,7 @@
       "completed": 555,
       "failed": 787,
       "timeouts": 0,
-      "totalMs": 250.53851299999963,
+      "totalMs": 161.1783729999995,
       "invalid": 26,
       "invalidReasons": {
         "empty output": 26
@@ -16885,7 +16885,7 @@
       "completed": 555,
       "failed": 787,
       "timeouts": 0,
-      "totalMs": 233.71066700000102,
+      "totalMs": 168.26663999999883,
       "invalid": 26,
       "invalidReasons": {
         "empty output": 26
@@ -16975,7 +16975,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2433.160128999618,
+      "totalMs": 2096.394089002628,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -17862,7 +17862,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2553.1554340004222,
+      "totalMs": 1887.8566360013792,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -18749,7 +18749,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2482.142923998763,
+      "totalMs": 1901.7432850018376,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -19636,17 +19636,17 @@
         "boundary": "Chromium public SVG API",
         "completed": 1338,
         "failed": 4,
-        "medianTotalMs": 4807.800000013784,
+        "medianTotalMs": 3904.899999992922,
         "rank": 1
       },
       {
         "project": "mermaid-js/mermaid",
-        "version": "12.2.0",
+        "version": "12.3.0",
         "format": "svg",
         "boundary": "Chromium public SVG API",
         "completed": 1336,
         "failed": 6,
-        "medianTotalMs": 36952.60000004247,
+        "medianTotalMs": 26853.899999995716,
         "rank": 2
       },
       {
@@ -19656,7 +19656,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 311.89999998919666,
+        "medianTotalMs": 263.59999999171123,
         "rank": 3
       },
       {
@@ -19666,7 +19666,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 408.19999998807907,
+        "medianTotalMs": 321.4999999990687,
         "rank": 4
       },
       {
@@ -19676,7 +19676,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 622.7999999895692,
+        "medianTotalMs": 503.8999999789521,
         "rank": 5
       },
       {
@@ -19686,7 +19686,7 @@
         "boundary": "native CLI svg; process startup included",
         "completed": 1304,
         "failed": 38,
-        "medianTotalMs": 14939.121153998829,
+        "medianTotalMs": 10672.559459999728,
         "rank": 6
       },
       {
@@ -19696,7 +19696,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1185,
         "failed": 157,
-        "medianTotalMs": 711.9999999776483,
+        "medianTotalMs": 542.5000000023283,
         "rank": 7
       },
       {
@@ -19706,7 +19706,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 1101.0999999884516,
+        "medianTotalMs": 910.5000000051223,
         "rank": 8
       },
       {
@@ -19716,7 +19716,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1066,
         "failed": 276,
-        "medianTotalMs": 6374.100000010803,
+        "medianTotalMs": 4848.999999996275,
         "rank": 9
       },
       {
@@ -19726,7 +19726,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 700,
         "failed": 642,
-        "medianTotalMs": 21081.90000002086,
+        "medianTotalMs": 21812.09999999311,
         "rank": 10
       },
       {
@@ -19736,7 +19736,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 680,
         "failed": 662,
-        "medianTotalMs": 587.7000000048429,
+        "medianTotalMs": 429.40000000596046,
         "rank": 11
       },
       {
@@ -19746,7 +19746,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 637,
         "failed": 705,
-        "medianTotalMs": 1743.5999999931082,
+        "medianTotalMs": 1333.6999999741092,
         "rank": 12
       },
       {
@@ -19756,7 +19756,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 513,
         "failed": 829,
-        "medianTotalMs": 1263.999999994412,
+        "medianTotalMs": 1030.2999999923632,
         "rank": 13
       },
       {
@@ -19766,7 +19766,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 510,
         "failed": 832,
-        "medianTotalMs": 347.50000001117587,
+        "medianTotalMs": 273.89999999292195,
         "rank": 14
       },
       {
@@ -19776,7 +19776,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 398,
         "failed": 944,
-        "medianTotalMs": 107.50000000093132,
+        "medianTotalMs": 94.8999999994412,
         "rank": 15
       },
       {
@@ -19786,7 +19786,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 384,
         "failed": 958,
-        "medianTotalMs": 220.40000000596046,
+        "medianTotalMs": 168.00000003166497,
         "rank": 16
       }
     ],
@@ -19798,17 +19798,17 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1338,
         "failed": 4,
-        "medianTotalMs": 15612.299999984913,
+        "medianTotalMs": 12421.600000010803,
         "rank": 1
       },
       {
         "project": "mermaid-js/mermaid",
-        "version": "12.2.0",
+        "version": "12.3.0",
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1336,
         "failed": 6,
-        "medianTotalMs": 59170.899999995716,
+        "medianTotalMs": 41526.99999997672,
         "rank": 2
       },
       {
@@ -19818,27 +19818,7 @@
         "boundary": "native CLI png; process startup included",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 33492.108512001985,
-        "rank": 3
-      },
-      {
-        "project": "obsidianmd/pele",
-        "version": "1.13.0",
-        "format": "png",
-        "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 7379.299999983981,
-        "rank": 3
-      },
-      {
-        "project": "wevm/ondine",
-        "version": "0.0.3",
-        "format": "png",
-        "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 7406.099999984726,
+        "medianTotalMs": 24044.23061300034,
         "rank": 3
       },
       {
@@ -19848,7 +19828,27 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 7412.80000001099,
+        "medianTotalMs": 5928.300000008196,
+        "rank": 3
+      },
+      {
+        "project": "obsidianmd/pele",
+        "version": "1.13.0",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 6358.999999998137,
+        "rank": 3
+      },
+      {
+        "project": "wevm/ondine",
+        "version": "0.0.3",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 6384.79999999702,
         "rank": 3
       },
       {
@@ -19858,7 +19858,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1185,
         "failed": 157,
-        "medianTotalMs": 13187.499999984168,
+        "medianTotalMs": 10923.099999981467,
         "rank": 7
       },
       {
@@ -19868,7 +19868,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 7567.899999995716,
+        "medianTotalMs": 6453.599999994971,
         "rank": 8
       },
       {
@@ -19878,7 +19878,7 @@
         "boundary": "native Flutter renderToPng API; app startup excluded",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 25567.213999999996,
+        "medianTotalMs": 19363.601999999995,
         "rank": 9
       },
       {
@@ -19888,7 +19888,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1066,
         "failed": 276,
-        "medianTotalMs": 14046.800000009127,
+        "medianTotalMs": 11066.800000012852,
         "rank": 10
       },
       {
@@ -19898,7 +19898,7 @@
         "boundary": "Chromium public PNG API",
         "completed": 700,
         "failed": 642,
-        "medianTotalMs": 27640.000000001863,
+        "medianTotalMs": 25685.30000000354,
         "rank": 11
       },
       {
@@ -19908,7 +19908,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 680,
         "failed": 662,
-        "medianTotalMs": 3833.1000000033528,
+        "medianTotalMs": 3339.999999973923,
         "rank": 12
       },
       {
@@ -19918,7 +19918,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 637,
         "failed": 705,
-        "medianTotalMs": 5426.800000007264,
+        "medianTotalMs": 4120.2999999877065,
         "rank": 13
       },
       {
@@ -19928,7 +19928,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 513,
         "failed": 829,
-        "medianTotalMs": 3254.2999999960884,
+        "medianTotalMs": 2757.8999999854714,
         "rank": 14
       },
       {
@@ -19938,7 +19938,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 510,
         "failed": 832,
-        "medianTotalMs": 4106.999999991618,
+        "medianTotalMs": 3164.1999999955297,
         "rank": 15
       },
       {
@@ -19948,7 +19948,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 398,
         "failed": 944,
-        "medianTotalMs": 1895.9999999878928,
+        "medianTotalMs": 1580.2999999923632,
         "rank": 16
       },
       {
@@ -19958,7 +19958,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 384,
         "failed": 958,
-        "medianTotalMs": 5389.799999984913,
+        "medianTotalMs": 4415.899999989197,
         "rank": 17
       }
     ],
@@ -19970,7 +19970,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 1342,
         "failed": 0,
-        "medianTotalMs": 3263.8208110000023,
+        "medianTotalMs": 2768.9216050000105,
         "rank": 1
       },
       {
@@ -19980,7 +19980,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 1304,
         "failed": 38,
-        "medianTotalMs": 237501.5683459986,
+        "medianTotalMs": 173300.25847199932,
         "rank": 2
       },
       {
@@ -19990,7 +19990,7 @@
         "boundary": "persistent Python public terminal API",
         "completed": 1286,
         "failed": 56,
-        "medianTotalMs": 2379.481423033212,
+        "medianTotalMs": 1565.4866839804527,
         "rank": 3
       },
       {
@@ -20000,7 +20000,7 @@
         "boundary": "persistent Node public terminal API",
         "completed": 1068,
         "failed": 274,
-        "medianTotalMs": 8324.474698999988,
+        "medianTotalMs": 5964.918788999994,
         "rank": 4
       },
       {
@@ -20010,7 +20010,7 @@
         "boundary": "persistent Bun public terminal API",
         "completed": 745,
         "failed": 597,
-        "medianTotalMs": 487.8534790000008,
+        "medianTotalMs": 321.98182500000087,
         "rank": 5
       },
       {
@@ -20020,7 +20020,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 726,
         "failed": 616,
-        "medianTotalMs": 10634.18168100284,
+        "medianTotalMs": 8322.059540999588,
         "rank": 6
       },
       {
@@ -20030,7 +20030,7 @@
         "boundary": "persistent Node public terminal API",
         "completed": 637,
         "failed": 705,
-        "medianTotalMs": 3281.8728560000045,
+        "medianTotalMs": 2258.3062239999986,
         "rank": 7
       },
       {
@@ -20040,7 +20040,7 @@
         "boundary": "persistent Node public terminal API",
         "completed": 555,
         "failed": 787,
-        "medianTotalMs": 243.04842099999834,
+        "medianTotalMs": 168.26663999999883,
         "rank": 8
       },
       {
@@ -20050,7 +20050,7 @@
         "boundary": "persistent Node public terminal API",
         "completed": 538,
         "failed": 804,
-        "medianTotalMs": 763.8031140000003,
+        "medianTotalMs": 557.4927290000021,
         "rank": 9
       },
       {
@@ -20060,7 +20060,7 @@
         "boundary": "persistent Node public terminal API",
         "completed": 534,
         "failed": 808,
-        "medianTotalMs": 337.1699759999994,
+        "medianTotalMs": 235.8729759999991,
         "rank": 10
       },
       {
@@ -20070,7 +20070,7 @@
         "boundary": "persistent Node public terminal API",
         "completed": 509,
         "failed": 833,
-        "medianTotalMs": 275.71491699999734,
+        "medianTotalMs": 209.7470900000005,
         "rank": 11
       },
       {
@@ -20080,7 +20080,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 475,
         "failed": 867,
-        "medianTotalMs": 2482.142923998763,
+        "medianTotalMs": 1901.7432850018376,
         "rank": 12
       },
       {
@@ -20090,7 +20090,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 475,
         "failed": 867,
-        "medianTotalMs": 2820.5617240015417,
+        "medianTotalMs": 2172.595633998397,
         "rank": 13
       },
       {
@@ -20100,7 +20100,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 408,
         "failed": 934,
-        "medianTotalMs": 26056.659760997165,
+        "medianTotalMs": 20121.840990001685,
         "rank": 14
       },
       {
@@ -20110,7 +20110,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 401,
         "failed": 941,
-        "medianTotalMs": 14452.833164999494,
+        "medianTotalMs": 11424.827465001028,
         "rank": 15
       },
       {
@@ -20120,7 +20120,7 @@
         "boundary": "persistent Bun public terminal API",
         "completed": 254,
         "failed": 1088,
-        "medianTotalMs": 832.2826049999983,
+        "medianTotalMs": 664.1345939999969,
         "rank": 16
       },
       {
@@ -20130,7 +20130,7 @@
         "boundary": "persistent Bun public terminal API",
         "completed": 181,
         "failed": 1161,
-        "medianTotalMs": 170.37973400000146,
+        "medianTotalMs": 116.94799100000009,
         "rank": 17
       },
       {
@@ -20140,7 +20140,7 @@
         "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
         "completed": 23,
         "failed": 1319,
-        "medianTotalMs": 23.798527000000384,
+        "medianTotalMs": 17.52303000000005,
         "rank": 18
       }
     ],

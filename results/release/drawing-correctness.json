@@ -135,7 +135,7 @@
     "seed": "reviewed Terminal Drawing Facts, invalid controls excluded",
     "regressions": "corpus/drawing-regressions.json"
   },
-  "versionsFrozenAt": "2026-11-06T21:06:04.888Z",
+  "versionsFrozenAt": "2026-11-07T00:20:11.169Z",
   "method": "Label assessment: a case passes when every label named by its reviewed source facts appears in the output and no raw Mermaid syntax (diagram header, node definition or piped edge label) is shown. SVG text is read from the document and terminal text directly. Edges, arrow direction, layout and styling are not checked. PNG is not assessed.",
   "assessmentLimits": {
     "invocationMs": 15000,
@@ -151,8 +151,8 @@
     "svg": {},
     "terminal": {},
     "outputsRetained": false,
-    "startedAt": "2026-11-06T21:46:39.895Z",
-    "finishedAt": "2026-11-06T21:48:34.207Z"
+    "startedAt": "2026-11-07T00:51:26.058Z",
+    "finishedAt": "2026-11-07T00:52:53.554Z"
   },
   "results": [
     {
@@ -3655,7 +3655,7 @@
     },
     {
       "project": "mermaid-js/mermaid",
-      "version": "12.2.0",
+      "version": "12.3.0",
       "format": "svg",
       "counts": {
         "correct": 125,
@@ -5331,5 +5331,5 @@
     "unknown": 0,
     "unrun": 0
   },
-  "updatedAt": "2026-11-06T21:48:34.207Z"
+  "updatedAt": "2026-11-07T00:52:53.554Z"
 }

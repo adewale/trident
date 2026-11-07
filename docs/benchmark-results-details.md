@@ -8,7 +8,7 @@ use the version freeze of 6 November 2026; changing presentation runs no rendere
 
 | Benchmark | Population | Ordering | Missing results |
 |---|---|---|---|
-| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->6 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
+| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->7 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
 | Drawing Correctness | The same 127 cases, separately for SVG and terminal text | More whole cases with every expected label shown and no raw syntax; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed: cases with no label to check, or unrun |
 | Mermaid Fidelity | The expanded upstream callbacks that pinned Mermaid itself passes | More passed callbacks; equal counts share a rank. **Possible rank** shows the positions still reachable | Candidate adapter gaps remain unassessed |
 
@@ -60,8 +60,8 @@ These gaps mostly describe unfinished Trident implementation, rather than demons
 limitations of the projects being benchmarked.
 
 **Fidelity runs every candidate on the whole selected suite.** All <!-- fact:fidelity-candidates -->26<!-- /fact --> candidates
-plus Mermaid attempted all <!-- fact:fidelity-files -->316<!-- /fact --> selected core-package files (<!-- fact:fidelity-collected -->6 November 2026<!-- /fact -->) against one
-shared Mermaid <!-- fact:mermaid-reference -->12.2.0<!-- /fact --> control run. During development (3–5 November), the reviewed
+plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected core-package files (<!-- fact:fidelity-collected -->7 November 2026<!-- /fact -->) against one
+shared Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> control run. During development (3–5 November), the reviewed
 schema views and unsupported operations described below cut the bridged projects'
 unassessed callbacks from
 roughly 1,000–2,650 each to 250–1,000 (Grok renderer 2,146 → 336, Mermaid ASCII
@@ -71,7 +71,7 @@ Mermaid Dart 815 → 1,703, Mermaid RS Renderer 212 → 1,226). Where a JavaScri
 candidate's module exposes no parser for a family (ER, class, C4, state or agentflow
 for Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH Mermaid
 GB SVG and MermaidTUI), those tests count as operations it does not offer, not as
-Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->83<!-- /fact --> tests
+Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->274<!-- /fact --> tests
 remain unassessed by Trident. Thirteen are reached through their JavaScript
 parsers (generic native bindings, a guarded Bun/async parser bridge, native model
 schema views and the Frankenmermaid WASM binding) and thirteen through parser bridges.
@@ -249,8 +249,8 @@ Unknown schemas and import or transport errors remain explicit per-test gaps;
 
 **The reference path defines the scored population.** The control is the public
 Mermaid 12.2.0 package behind the same import substitution the candidates get. In the
-current collection <!-- fact:fidelity-expanded -->5,737<!-- /fact --> callbacks expanded: Mermaid passes **<!-- fact:fidelity-population -->3,618<!-- /fact -->**, the scored population;
-<!-- fact:fidelity-unqualified -->2,018<!-- /fact --> are reference-unqualified and <!-- fact:fidelity-skipped -->101<!-- /fact --> upstream-skipped. 15 of the <!-- fact:fidelity-files -->316<!-- /fact --> selected files
+current collection <!-- fact:fidelity-expanded -->6,439<!-- /fact --> callbacks expanded: Mermaid passes **<!-- fact:fidelity-population -->3,676<!-- /fact -->**, the scored population;
+<!-- fact:fidelity-unqualified -->2,679<!-- /fact --> are reference-unqualified and <!-- fact:fidelity-skipped -->84<!-- /fact --> upstream-skipped. 15 of the <!-- fact:fidelity-files -->352<!-- /fact --> selected files
 do not load and 52 files remain outside the core Vitest runner.
 
 Most of the earlier unqualified callbacks were reference-adapter defects, now fixed:

@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- **Mermaid 12.3.0 is the reference.** The oracle, Mermaid's row in every benchmark and
+  the Mermaid Fidelity suite move from 12.2.0 to 12.3.0: 352 test files, of whose tests
+  Mermaid passes 3,676. The Fidelity collector reads its pin from
+  `data/upstream-mermaid-policy.json`, and the no-jsdom file list applies only at the
+  commit it was measured at. Building the 12.3.0 runtime needs npm 11.
+- **Trident's own errors no longer count as candidate failures.** An audit of failures
+  with an `undefined` received value fixed views that misread bridged requirement Maps,
+  flowchart `linkStyle default`, Kanban section icons and tree-view directory names, and
+  returns `true` from accepted jison parses. A `TypeError`, `ReferenceError` or
+  `RangeError` raised in Trident's code now marks a test unassessed. Pele, Bezel and
+  Latias94/merman each lose 26–30 failures; unassessed tests rise to 274.
+- Fresh results collected on 7 November against Mermaid 12.3.0.
+
 - **A fresh collection of all three benchmarks (6 November).** Zombie Mermaid 5.14.4,
   Termaid 0.12.0 and a new OpenCode commit are measured at their new releases. Latias
   Merman's SVG and PNG are now measured through its browser SDK, which has caught up with
