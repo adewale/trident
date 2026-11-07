@@ -56,6 +56,41 @@ credit. General masks, complex clip paths and other representations outside the
 observer's profile remain unsupported even when absent from this particular
 cohort. PNG is outside Drawing Correctness's scope.
 
+## Fidelity reference population
+
+The fresh control qualifies 3,661 of 6,439 expanded callbacks, leaving 2,694
+reference-unqualified and 84 upstream-skipped. Previously, 15 use-case callbacks
+earned credit when negative assertions caught missing parser/lexer operations.
+The guarded control now withholds those credits: `usecase.parser.spec.ts` changes
+from 78 to 65 passes and `usecase.spec.ts` from 35 to 33. Candidate scores use the
+newly qualified population; the earlier observations remain at their original
+commit.
+
+## Full DOM-free comparison
+
+Both explicit profiles completed all 352 selected files for all 26 frozen
+candidates, with one shared JSDOM control and zero blocked projects. The
+[collection receipt](fidelity-collection.json) records their source/control,
+runner and actual candidate bindings. The
+[qualification](../../../unified/mermaid-fidelity/dom-free-files.json) admits
+325 files to automatic Node execution. Its per-file fingerprints compare every
+callback's identity, outcome and normalized failures, plus calls, rejections,
+adapter gaps, unsupported operations, faults and expected-failure dispositions.
+
+The other 27 files lack complete callback or audit evidence for at least one
+candidate and retain JSDOM. No fully observed file had differing fingerprints.
+Equal totals or two empty observations cannot qualify a file. The automatic
+selection check reran Merslim's complete 352-file suite: 325 Node files and 27
+JSDOM files reproduced the baseline's entire callback and audit evidence, with
+zero mismatches.
+
+Reuse requires the recorded control and actual executable/artifact bindings,
+including their paths; other installations fall back to JSDOM until qualified.
+The control always uses JSDOM. This removes 8,450 candidate JSDOM initializations
+per full collection with the qualified bindings. No numeric memory or runtime
+gain is claimed from the concurrent qualification runs. Browser/application
+suites outside the selected core-package runner remain outside this assessment.
+
 ## Pinned native Flutter bundle
 
 The successful [native verification run](https://github.com/adewale/trident/actions/runs/42393795835)

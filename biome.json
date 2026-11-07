@@ -15,7 +15,8 @@
       "!node_modules/**",
       "!.cache/**",
       "!corpus/**",
-      "!results/**"
+      "!results/**",
+      "!unified/mermaid-fidelity/dom-free-files.json"
     ]
   },
   "linter": {
