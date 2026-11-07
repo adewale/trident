@@ -1,0 +1,2093 @@
+{
+  "protocol": "svg-label-qualification-review-v1",
+  "collectionStartedAt": "2026-11-07T19:42:47.641Z",
+  "collectionFinishedAt": "2026-11-07T20:00:45.482Z",
+  "catalogSha256": "de3e212c10f4cb858c3a616f980bca0150cdc0a87c30c3acdf9802f3acd053b8",
+  "assessmentPolicy": "drawing-reviewed-labels-v2",
+  "assessmentProfile": "32f2aeb420af15aeb385cc2600d8d045ea7bcd506a2608d02a3f7154054e8364",
+  "unknownSvgOutputs": 149,
+  "criteriaCounts": {
+    "labels-within-canvas": 69,
+    "paint-opacity-and-color": 8,
+    "partial-or-complex-occlusion": 56,
+    "svg-unique-ids": 1,
+    "unclipped-authored-labels": 145,
+    "visible-authored-labels": 67
+  },
+  "gapCounts": {
+    "complex-or-partial-occlusion": 56,
+    "css-drop-shadow": 2,
+    "duplicate-svg-identities": 1,
+    "labels-within-canvas": 69,
+    "path-image-use-labels": 67,
+    "pattern-paint": 6,
+    "unclipped-authored-labels": 145
+  },
+  "countsOverlap": true,
+  "observerOptimization": {
+    "beforeCommit": "908ca0d8f76c13cecdb614ccb7c0014544fa2776",
+    "afterPaintSha256": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c",
+    "compared": 1882,
+    "mismatches": 0,
+    "budgetExceptions": 0,
+    "observationsSha256": "9f589eaf32dedaf58278a49fca520a10ca4c93d184e48119386f0700680adcaa"
+  },
+  "changesFromMergedCampaign": [
+    {
+      "before": "correct",
+      "after": "incorrect",
+      "outputs": 41
+    },
+    {
+      "before": "correct",
+      "after": "unknown",
+      "outputs": 11
+    },
+    {
+      "before": "unknown",
+      "after": "correct",
+      "outputs": 44
+    },
+    {
+      "before": "unknown",
+      "after": "incorrect",
+      "outputs": 3
+    }
+  ],
+  "cases": [
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:0dbd28f2f1c494cc",
+      "family": "c4",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:25b4a684eb0b6e31",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:43382cbc1379cf4c",
+      "family": "kanban",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:478ab66bb4c7e4f5",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:4e4550d086c4e288",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:75e652628bded0d8",
+      "family": "er",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:b1428b5b59888938",
+      "family": "architecture",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:c2e297448b5388ba",
+      "family": "er",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:cd771fca2659a460",
+      "family": "state",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:d04b45557e7b8f2e",
+      "family": "class",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:d7362afef7c26051",
+      "family": "zenuml",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:fbfb884b46380275",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:25b4a684eb0b6e31",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:25e166249d24378d",
+      "family": "quadrant",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:48d7ff23dee1b343",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:867520b102964291",
+      "family": "er",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:aaf86b713c100b5a",
+      "family": "gantt",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:b1428b5b59888938",
+      "family": "architecture",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:cd771fca2659a460",
+      "family": "state",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:d7362afef7c26051",
+      "family": "zenuml",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:da9198e1adbc1c14",
+      "family": "timeline",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:11426c4cad392dc7",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:128500dada38a009",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:1c0f33b5035768f2",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:29fc1dab07164509",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:404189958f761756",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:46c4d04542ff7c8e",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:478ab66bb4c7e4f5",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:4e4550d086c4e288",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:529e14e4d09b944a",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "labels-within-canvas",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:64788fe4b88b1f1f",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:6f83e372d7057526",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:75a4be6507dd75fe",
+      "family": "sequence",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:767a3f8c3e47e0bd",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:7801c75b869778fe",
+      "family": "class",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:87325fd383c3b1af",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:908bfa4128c34006",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:9516272260e4c69d",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:a2118d0582abef57",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:b4c60f465d6bcb5b",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:bf9642a4ab479973",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:c5455d2e2f5f8672",
+      "family": "class",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:e920356ba6c73b52",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:fbfb884b46380275",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:1468e1cf1186af65",
+      "family": "class",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:206a9307ba8592b1",
+      "family": "er",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:2598092a6e404821",
+      "family": "mindmap",
+      "unavailableCriteria": [
+        "svg-unique-ids",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "duplicate-svg-identities",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:278dccc21dd27020",
+      "family": "er",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:3042977d4e6d813b",
+      "family": "state",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:43382cbc1379cf4c",
+      "family": "kanban",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:4ae5560b57ca0064",
+      "family": "state",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:4f96b68984c54c5a",
+      "family": "state",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:570e13053d228e29",
+      "family": "block",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:5c9a50898b1e6ffe",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:75e652628bded0d8",
+      "family": "er",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:7801c75b869778fe",
+      "family": "class",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:867520b102964291",
+      "family": "er",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:89be4f2885fb74a9",
+      "family": "er",
+      "unavailableCriteria": [
+        "paint-opacity-and-color",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "css-drop-shadow",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:94e514f9f375364c",
+      "family": "er",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:9972eaa8ca8692d8",
+      "family": "state",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:a181524246065697",
+      "family": "block",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:b1428b5b59888938",
+      "family": "architecture",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:b23c0856e157b1f2",
+      "family": "er",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:c2e297448b5388ba",
+      "family": "er",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:c5455d2e2f5f8672",
+      "family": "class",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:cd771fca2659a460",
+      "family": "state",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:d04b45557e7b8f2e",
+      "family": "class",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "drawing:f78157ede4e2d1ab",
+      "family": "er",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "regression:a1cbf1ae4b6a2b8a",
+      "family": "class",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "regression:c707395491823d1f",
+      "family": "class",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "Latias94/merman",
+      "caseId": "regression:d2ca0121985b295d",
+      "family": "class",
+      "unavailableCriteria": [
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "caseId": "drawing:25e166249d24378d",
+      "family": "quadrant",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crabtalk/bezel",
+      "caseId": "drawing:5c9a50898b1e6ffe",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crabtalk/bezel",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:1b492a74df0fc4b6",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "paint-opacity-and-color",
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "pattern-paint",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:22e97a0fc1fff023",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "paint-opacity-and-color"
+      ],
+      "gaps": [
+        "pattern-paint"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:29fc1dab07164509",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:3042977d4e6d813b",
+      "family": "state",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:404189958f761756",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:4ae5560b57ca0064",
+      "family": "state",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:4e4550d086c4e288",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "paint-opacity-and-color",
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "pattern-paint",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:64788fe4b88b1f1f",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "paint-opacity-and-color"
+      ],
+      "gaps": [
+        "pattern-paint"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:75a4be6507dd75fe",
+      "family": "sequence",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:75e652628bded0d8",
+      "family": "er",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:867520b102964291",
+      "family": "er",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:9972eaa8ca8692d8",
+      "family": "state",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "paint-opacity-and-color",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "pattern-paint",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:c2e297448b5388ba",
+      "family": "er",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:cd771fca2659a460",
+      "family": "state",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:d04b45557e7b8f2e",
+      "family": "class",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:d3cc8b77d097ec56",
+      "family": "sequence",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:de6e8bf0fd559efc",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "paint-opacity-and-color"
+      ],
+      "gaps": [
+        "pattern-paint"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:df5eb5c9968bbb86",
+      "family": "sequence",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:ea02b4528ba4eb10",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:fbfb884b46380275",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "drawing:0dbd28f2f1c494cc",
+      "family": "c4",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "drawing:4ae5560b57ca0064",
+      "family": "state",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "drawing:61cc5e1150412252",
+      "family": "pie",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "drawing:fbfb884b46380275",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:1b492a74df0fc4b6",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:22e97a0fc1fff023",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:29fc1dab07164509",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:478ab66bb4c7e4f5",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:4e4550d086c4e288",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:529e14e4d09b944a",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:53e2d239ed8df992",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:61cc5e1150412252",
+      "family": "pie",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:767a3f8c3e47e0bd",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:d04b45557e7b8f2e",
+      "family": "class",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:ea02b4528ba4eb10",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:fbfb884b46380275",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "caseId": "drawing:0dbd28f2f1c494cc",
+      "family": "c4",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "caseId": "drawing:22e97a0fc1fff023",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "caseId": "drawing:29fc1dab07164509",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "caseId": "drawing:4e4550d086c4e288",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "caseId": "drawing:89be4f2885fb74a9",
+      "family": "er",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "caseId": "drawing:a60c7e7b3b930353",
+      "family": "journey",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "caseId": "drawing:c64d9c102f509905",
+      "family": "gitgraph",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "caseId": "drawing:da9198e1adbc1c14",
+      "family": "timeline",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "caseId": "drawing:89be4f2885fb74a9",
+      "family": "er",
+      "unavailableCriteria": [
+        "paint-opacity-and-color"
+      ],
+      "gaps": [
+        "css-drop-shadow"
+      ]
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "caseId": "drawing:89e9eb6aebb72128",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "caseId": "drawing:b1428b5b59888938",
+      "family": "architecture",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "caseId": "drawing:5c9a50898b1e6ffe",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "caseId": "drawing:22e97a0fc1fff023",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "caseId": "drawing:89e9eb6aebb72128",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "caseId": "drawing:b1428b5b59888938",
+      "family": "architecture",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "caseId": "drawing:fbfb884b46380275",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:1b492a74df0fc4b6",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:22e97a0fc1fff023",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:29fc1dab07164509",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:3042977d4e6d813b",
+      "family": "state",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:4ae5560b57ca0064",
+      "family": "state",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:4e4550d086c4e288",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:4f96b68984c54c5a",
+      "family": "state",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:529e14e4d09b944a",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:570e13053d228e29",
+      "family": "block",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:6f83e372d7057526",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:767a3f8c3e47e0bd",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:89e9eb6aebb72128",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:9972eaa8ca8692d8",
+      "family": "state",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:cd771fca2659a460",
+      "family": "state",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:fbfb884b46380275",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "wevm/ondine",
+      "caseId": "drawing:2295dae5ca33addf",
+      "family": "gitgraph",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "wevm/ondine",
+      "caseId": "drawing:5c9a50898b1e6ffe",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "labels-within-canvas",
+        "unclipped-authored-labels",
+        "visible-authored-labels"
+      ],
+      "gaps": [
+        "labels-within-canvas",
+        "path-image-use-labels",
+        "unclipped-authored-labels"
+      ]
+    },
+    {
+      "project": "wevm/ondine",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "family": "flowchart",
+      "unavailableCriteria": [
+        "partial-or-complex-occlusion",
+        "unclipped-authored-labels"
+      ],
+      "gaps": [
+        "complex-or-partial-occlusion",
+        "unclipped-authored-labels"
+      ]
+    }
+  ],
+  "diagnosticMethod": "Re-rendered the same frozen project/case inputs to expose unavailable observer checks; retained numeric case IDs and gap categories only. Gap counts overlap. The final collection is authoritative for output status."
+}

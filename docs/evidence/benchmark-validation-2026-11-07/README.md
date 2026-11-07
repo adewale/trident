@@ -1,5 +1,9 @@
 # Benchmark validation, 7 November 2026
 
+This is the earlier campaign's verification record. The
+[completion record](../benchmark-completion-2026-11-07/README.md) supersedes its
+native SDK limitation and records the later SVG qualification work.
+
 The harness corrections replace format-header checks, serialized SVG text scans
 and supplied summary counts with validated output and per-case evidence.
 The frozen product selections remain those in
@@ -57,8 +61,8 @@ truncated prefix and fails that control.
 This build used an untracked copy of the application. Its dependency resolver
 required three transitive versions to differ from the committed lockfile; those
 versions are recorded in the JSON. The repository lockfile remains unchanged.
-The documented Flutter 3.47.8 build and the complete GTK release bundle have not
-been verified: the environment blocks `storage.googleapis.com`, which serves the
+At this collection's date, the documented Flutter 3.47.8 build and the complete GTK
+release bundle had not been verified: the environment blocked `storage.googleapis.com`, which serves the
 SDK and Linux desktop artifacts. These checks establish compilation and decoder
 behavior with the available engine. They do not establish native DaveBench
 completion counts or timings.
