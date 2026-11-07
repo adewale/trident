@@ -1,0 +1,37 @@
+import { expect, test } from 'bun:test'
+import { cpSync, mkdirSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { fidelityControlIdentity, assertReusableControl } from '../unified/fidelity-control.ts'
+import { byteDigest } from '../portable/artifacts.ts'
+import { useTempDirs } from './helpers/temp-dir.ts'
+
+const temporary = useTempDirs('fidelity-control-')
+test('control reuse binds selected source and installed bytes while allowing relocation', () => {
+  const first = temporary.dir(), second = temporary.dir()
+  for (const name of ['upstream', 'reference', 'runtime']) mkdirSync(join(first, name))
+  writeFileSync(join(first, 'upstream/pnpm-lock.yaml'), 'pinned lock')
+  writeFileSync(join(first, 'upstream/test.spec.ts'), 'original selected assertions')
+  for (const name of ['reference', 'runtime']) {
+    writeFileSync(join(first, name, 'package.json'), '{"name":"fixture","version":"1","dependencies":{"helper":"1"}}')
+    mkdirSync(join(first, name, 'node_modules/helper'), { recursive: true })
+    writeFileSync(join(first, name, 'node_modules/helper/package.json'), '{"name":"helper","version":"1"}')
+    writeFileSync(join(first, name, 'node_modules/helper/index.js'), 'original installed runner bytes')
+  }
+  cpSync(first, second, { recursive: true })
+  const identity = (root: string) => fidelityControlIdentity(join(root, 'upstream'), join(root, 'reference'), join(root, 'runtime'), [{ path: 'test.spec.ts', absolute: join(root, 'upstream/test.spec.ts'), declarations: [] }], 'pinned')
+  const initial = identity(first)
+  expect(identity(second)).toBe(initial)
+  writeFileSync(join(second, 'upstream/test.spec.ts'), 'different assertions at the same path')
+  expect(identity(second)).not.toBe(initial)
+  writeFileSync(join(first, 'runtime/node_modules/helper/index.js'), 'different installed runner bytes')
+  expect(identity(first)).not.toBe(initial)
+})
+test('a reuse receipt cannot bless altered or missing native/audit evidence', () => {
+  const root = temporary.dir()
+  expect(() => assertReusableControl(root, 'identity')).toThrow('recollect')
+  writeFileSync(join(root, 'vitest.json'), '{}'); writeFileSync(join(root, 'audit.jsonl'), '{}\n')
+  writeFileSync(join(root, 'control.json'), JSON.stringify({ protocol: 'fidelity-control-v1', identity: 'identity', resultsSha256: byteDigest(join(root, 'vitest.json')), auditSha256: byteDigest(join(root, 'audit.jsonl')) }))
+  expect(() => assertReusableControl(root, 'identity')).not.toThrow()
+  writeFileSync(join(root, 'audit.jsonl'), '{"changed":true}\n')
+  expect(() => assertReusableControl(root, 'identity')).toThrow('recollect')
+})

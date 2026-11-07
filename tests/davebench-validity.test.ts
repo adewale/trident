@@ -2,10 +2,26 @@ import { expect, test } from 'bun:test'
 import { Resvg } from '@resvg/resvg-js'
 import { crc32, deflateSync } from 'node:zlib'
 import { davebenchSvgValidity, davebenchTerminalValidity, errorPhrase, pngBytesValidity, rawStatements, svgTextValidity, terminalTextValidity } from '../unified/davebench-validity.ts'
-import { inspectPng } from '../unified/png-inspection.ts'
+import { inspectPng, pngChunkBudget } from '../unified/png-inspection.ts'
 import { qualifyOutputFormat } from '../unified/qualification.ts'
 
 const png = () => new Resvg('<svg xmlns="http://www.w3.org/2000/svg" width="4" height="3"><rect width="4" height="3"/></svg>').render().asPng()
+
+test('PNG evidence purposes retain full mechanical validation without unused content or identity', () => {
+  const bytes = png()
+  const format = inspectPng(bytes, 'format'), content = inspectPng(bytes, 'content'), identity = inspectPng(bytes, 'identity')
+  expect(format.findings).toEqual([])
+  expect(format.visiblePixels).toBeUndefined(); expect(format.pixelIdentity).toBeUndefined()
+  expect(content.findings).toContain('PNG has no nonuniform visible diagram content despite declared authored labels')
+  expect(content.pixelIdentity).toBeUndefined()
+  expect(identity.findings).toEqual([]); expect(identity.pixelIdentity?.sha256).toMatch(/^[a-f0-9]{64}$/)
+  for (const purpose of ['format', 'content', 'identity'] as const) expect(inspectPng(bytes.subarray(0, -1), purpose).findings.length).toBeGreaterThan(0)
+})
+test('PNG ancillary chunk work is bounded independently of encoded bytes', () => {
+  const bytes = png(), chunk = Buffer.alloc(12); chunk.write('vpAg', 4); chunk.writeUInt32BE(crc32(chunk.subarray(4, 8)), 8)
+  const extended = Buffer.concat([bytes.subarray(0, -12), ...Array(pngChunkBudget).fill(chunk), bytes.subarray(-12)])
+  for (const purpose of ['format', 'identity'] as const) expect(inspectPng(extended, purpose)).toMatchObject({ unavailable: true, findings: ['PNG exceeds the declared chunk qualification budget'] })
+})
 
 test('terminal admission rejects empty, error and echoed output but keeps real drawings', () => {
   const source = 'graph LR\n  A --> B'
@@ -75,8 +91,8 @@ test('APNG format admission decodes its default image without certifying animati
   const bytes = image()
   expect(pngBytesValidity(bytes)).toEqual({ valid: true })
   expect(qualifyOutputFormat(bytes, 'png')).toEqual({ ok: true, findings: [], scope: 'format-only' })
-  expect(inspectPng(bytes, true)).toMatchObject({ unavailable: true, scope: 'binary-envelope', findings: ['Animated PNG needs a frame-specific content observer'] })
-  expect(inspectPng(bytes, false).pixelIdentity).toBeUndefined()
+  expect(inspectPng(bytes, 'content')).toMatchObject({ unavailable: true, scope: 'binary-envelope', findings: ['Animated PNG needs a frame-specific content observer'] })
+  expect(inspectPng(bytes, 'format').pixelIdentity).toBeUndefined()
   expect(pngBytesValidity(image(new Uint8Array([0]))).valid).toBe(false)
   const corrupt = Buffer.from(bytes); corrupt[corrupt.length - 13]! ^= 1
   expect(pngBytesValidity(corrupt).valid).toBe(false)

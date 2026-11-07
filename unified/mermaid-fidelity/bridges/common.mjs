@@ -33,7 +33,8 @@ export async function serve(handle) {
   const { createInterface } = await import('node:readline')
   for await (const line of createInterface({ input: process.stdin, crlfDelay: Infinity })) {
     if (!line.trim()) continue
-    process.stdout.write(REPLY_MARK + encode(await answer(JSON.parse(line))) + '\n')
+    const job = JSON.parse(line)
+    process.stdout.write(REPLY_MARK + encode({ ...await answer(job), requestId: job.requestId }) + '\n')
   }
 }
 

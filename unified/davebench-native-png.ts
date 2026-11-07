@@ -1,9 +1,13 @@
+import { atomicWrite, reserveResultDirectory, timingSession } from './result-storage.ts'
+import { campaignPlan, assertTimingCollection } from './campaign-plan.ts'
+import { executionEnvironment } from './execution-environment.ts'
+import { davebenchInputs } from './davebench-inputs.ts'
 import { execFileSync } from 'node:child_process'
 import { createHash, randomUUID } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { davebenchAdmission, davebenchInputs, davebenchRankings, type DavebenchRun } from './davebench.ts'
-import { TerminalCallWorker } from './davebench-terminal.ts'
+import { davebenchAdmissionProfile, davebenchAdmission, davebenchRankings, type DavebenchRun } from './davebench-model.ts'
+import { TerminalCallWorker } from './terminal-call-worker.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { parse as parseYaml } from 'yaml'
@@ -23,12 +27,18 @@ export async function main(args = process.argv.slice(2)) {
   for (const file of ['native_bench', 'lib/libapp.so']) if (!existsSync(join(bundle, file))) throw Error('Missing native release bundle file: ' + file)
   const app = resolve(bundle, '../../../../..'), lock = join(app, 'pubspec.lock')
   if (!existsSync(lock) || parseYaml(readFileSync(lock, 'utf8'))?.packages?.mermaid_flutter?.version !== '0.3.2') throw Error('The native counter requires the locked mermaid_flutter 0.3.2 package')
-  mkdirSync(out, { recursive: true })
+  reserveResultDirectory(out)
   const inventory = davebenchInputs(join(tridentDirectory, '../mermaid')), runs: DavebenchRun[] = [], startedAt = new Date().toISOString(), timeoutMs = 15_000
   const digest = (file: string) => createHash('sha256').update(readFileSync(file)).digest('hex')
   const artifact = { image, executableSha256: digest(join(bundle, 'native_bench')), applicationSha256: digest(join(bundle, 'lib/libapp.so')), counterSourceSha256: digest(join(tridentDirectory, 'native-flutter/app/lib/davebench_worker.dart')), packageLockSha256: digest(lock), nativePackage: 'mermaid_flutter', version: '0.3.2' }
   if (digest(join(app, 'lib/davebench_worker.dart')) !== artifact.counterSourceSha256) throw Error('Prepared native counter source differs from the current counter')
-  const save = (state: string) => writeFileSync(join(out, 'results.json'), JSON.stringify({ schema: 'davebench-native-png-v1', state, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files }, artifact, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, boundary: host ? 'Native Linux Flutter renderToPng(source,pixelRatio:1); Stopwatch inside release app on the host under a private Xvfb display. App startup, warm-ups, IPC, admission and reporting excluded.' : 'Native Linux Flutter renderToPng(source,pixelRatio:1); Stopwatch inside release app. Container/app startup, warm-ups, IPC, admission and reporting excluded. Runtime network disabled.', admission: davebenchAdmission }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked: [] }, null, 2) + '\n')
+  const plan = campaignPlan([{ project: 'pub:mermaid_flutter', version: artifact.version, format: 'png' }], inventory.cases.map(input => input.id), 3, { artifact, sources: inventory.cases, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile }, 'subset')
+  const workerIdentities: any[] = []
+  const save = (state: string) => {
+    const report = { schema: 'davebench-native-png-v2', state, plan, environment: executionEnvironment(), workerIdentities, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files }, artifact, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, boundary: host ? 'Native Linux Flutter renderToPng(source,pixelRatio:1); Stopwatch inside release app on the host under a private Xvfb display. App startup, warm-ups, IPC, admission and reporting excluded.' : 'Native Linux Flutter renderToPng(source,pixelRatio:1); Stopwatch inside release app. Container/app startup, warm-ups, IPC, admission and reporting excluded. Runtime network disabled.', admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked: [] }
+    if (state === 'complete') assertTimingCollection(report)
+    atomicWrite(join(out, 'results.json'), JSON.stringify(report, null, 2) + '\n')
+  }
   const dockerEnv = { ...process.env }
   for (const name of ['DOCKER_HOST', 'DOCKER_CONTEXT', 'DOCKER_TLS', 'DOCKER_TLS_VERIFY', 'DOCKER_CERT_PATH']) delete dockerEnv[name]
   const prefix = ['env', '-u', 'DOCKER_HOST', '-u', 'DOCKER_CONTEXT', '-u', 'DOCKER_TLS', '-u', 'DOCKER_TLS_VERIFY', '-u', 'DOCKER_CERT_PATH', 'docker', '--host=unix:///var/run/docker.sock']
@@ -45,22 +55,25 @@ export async function main(args = process.argv.slice(2)) {
     const peer: any = { node: { id: 'pub:mermaid_flutter', benchmark: { adapter: 'native-flutter' } }, artifact: { kind: 'jsonl-worker', version: artifact.version, root: bundle, executable: join(bundle, 'native_bench'), runtime: host ? 'native Linux Flutter release on host Xvfb' : 'native Linux Flutter release in pinned SDK image' } }
     worker = new TerminalCallWorker(peer, join(out, 'operand.json'), invocation)
     await worker.ready
+    workerIdentities.push(worker.identity)
     if (worker.identity?.package !== artifact.nativePackage || worker.identity?.version !== artifact.version) throw Error('Native worker identity differs from the locked package')
   }
+  using measurement = timingSession()
   save('running')
   try {
     for (let round = 1; round <= 3; round++) {
       await open()
       const call = async (source: string, index: number) => {
         const value = await worker!.call(source, `${round}:${index}`, timeoutMs)
-        if (value.outcome === 'timeout' || typeof worker!.child.exitCode === 'number' || typeof worker!.child.signalCode === 'string') { await close(); await open() }
+        if (value.failureKind && ['protocol', 'transport', 'closed'].includes(value.failureKind)) throw Error('Unqualified native worker transport: ' + value.error)
+        if (value.failureKind || value.outcome === 'timeout' || typeof worker!.child.exitCode === 'number' || typeof worker!.child.signalCode === 'string') { await close(); await open() }
         return value
       }
       for (const [index, input] of inventory.cases.slice(0, 30).entries()) await call(input.source, -index - 1)
-      const row: DavebenchRun = { project: 'pub:mermaid_flutter', version: artifact.version, format: 'png', run: round, boundary: 'native Flutter renderToPng API; ' + (host ? 'app' : 'container/app') + ' startup excluded', attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {} }; runs.push(row)
+      const row: DavebenchRun = { project: 'pub:mermaid_flutter', version: artifact.version, format: 'png', run: round, boundaryKind: 'persistent-api', boundary: 'native Flutter renderToPng API; ' + (host ? 'app' : 'container/app') + ' startup excluded', attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {} }; runs.push(row)
       console.log(`pub:mermaid_flutter png ${round}/3`)
       for (const [index, input] of inventory.cases.entries()) {
-        const value = await call(input.source, index); row.attempted++; row.totalMs += value.ms
+        const value = await call(input.source, index); row.attempted++; if (value.ms === null) row.untimedCalls = (row.untimedCalls ?? 0) + 1; else row.totalMs += value.ms
         if (value.outcome === 'completed') row.completed++; else row.failed++
         if (value.outcome === 'invalid') { row.invalid!++; const reason = value.invalid ?? 'invalid'; row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1; (row.rejected ??= {})[input.id] = reason }
         if (value.outcome === 'timeout') row.timeouts++

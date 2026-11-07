@@ -3,7 +3,7 @@
 // wardley, venn, cynefin and ishikawa families. See views/index.mjs for the module
 // contract and schema-views.mjs for the doctrine. Each mapping cites mermaid_core's own
 // model (lib/src/diagrams/<family>/<family>.dart) and Mermaid's database at the pinned tag.
-import { entriesOf, record } from '../schema-views.mjs'
+import { entriesOf, record } from '../view-core.mjs'
 
 const NAME = 'mermaid_core'
 const PROJECTS = ['orestesgaolin/mermaid', 'pub:mermaid_flutter']

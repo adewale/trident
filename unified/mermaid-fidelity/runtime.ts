@@ -228,9 +228,14 @@ export function shutdown() {
   nativeClient?.close()
   bridgeClient = nativeClient = undefined
 }
+const callbackIndices = new WeakMap<object, Map<string, number>>()
 export function begin(task: any) {
+  if (active) throw new AdapterGap('TRIDENT_ADAPTER_GAP: Overlapping test audit ownership')
   const flatten = (node: any): any[] => (node.tasks ? node.tasks.flatMap(flatten) : node.type === 'test' ? [node] : [])
-  const index = flatten(task.file).findIndex(t => t.id === task.id)
+  let indices = callbackIndices.get(task.file)
+  if (!indices) { indices = new Map(flatten(task.file).map((test, index) => [test.id, index])); callbackIndices.set(task.file, indices) }
+  const index = indices.get(task.id)
+  if (index === undefined) throw new AdapterGap('TRIDENT_ADAPTER_GAP: Callback is absent from the collected file')
   const names = [task.name]
   for (let suite = task.suite; suite; suite = suite.suite) if (suite.name) names.unshift(suite.name)
   active = { protocol: 'native-operations-v2', expectedFailure: !!task.fails, id: task.id, file: task.file.filepath, index, name: names.join(' > '), gaps: new Set(), calls: 0, rejections: 0, unsupported: [], faults: [] }
@@ -248,7 +253,7 @@ export function begin(task: any) {
   }
 }
 export function finish(task: any) {
-  if (!active) return
+  if (!active || active.id !== task.id) throw new AdapterGap('TRIDENT_ADAPTER_GAP: Unbalanced test audit ownership')
   if (!active.calls && !active.unsupported.length) active.gaps.add('No candidate operation was exercised by this test')
   appendFileSync(auditFile, JSON.stringify({ ...active, gaps: [...active.gaps] }) + '\n')
   const reason = [...active.gaps].join('; ')

@@ -1,6 +1,8 @@
 import { expect, test } from 'bun:test'
 import { spawnSync } from 'node:child_process'
 import { resolve } from 'node:path'
+import { mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
 
 const command = resolve(import.meta.dir, '../commands.ts')
@@ -45,4 +47,12 @@ test('release version needs no renderer, oracle or compiled kit', () => {
   const result = help(['--version'])
   expect(result.status).toBe(0)
   expect(result.stdout.trim()).toBe('Trident 0.2.1')
+})
+
+test('reading a campaign in CI needs neither an oracle nor execution configuration', () => {
+  const root = mkdtempSync(resolve(tmpdir(), 'trident-report-command-'))
+  try {
+    const result = spawnSync(process.execPath, [command, 'campaign:results', '--images', resolve(import.meta.dir, '../results/release/images.json'), '--terminal', resolve(import.meta.dir, '../results/release/terminal.json'), '--out', resolve(root, 'report')], { encoding: 'utf8', timeout: 20_000, env: { ...process.env, CI: 'true', MERMAID_REFERENCE_DIR: '/missing/oracle', TRIDENT_RENDERER_MEMORY_MB: 'NaN' } })
+    expect({ status: result.status, stderr: result.stderr }).toEqual({ status: 0, stderr: '' })
+  } finally { rmSync(root, { recursive: true, force: true }) }
 })

@@ -1,3 +1,5 @@
+import { atomicWrite, exclusiveFile } from './result-storage.ts'
+import { byteDigest } from '../portable/artifacts.ts'
 
 import { evidenceDigest, } from '../portable/evidence-contract.ts'
 import { releaseBenchmarkSkip } from './benchmark-skip.ts'
@@ -5,7 +7,7 @@ import { verifyReleaseCli } from './release-cli.ts'
 import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash, } from 'node:crypto'
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, readlinkSync, realpathSync, statSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, readlinkSync, realpathSync, statSync, writeFileSync } from 'node:fs'
 import { basename, dirname, join, resolve, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { assertCommunityNotInterrupted, } from './community-process.ts'
@@ -19,17 +21,8 @@ export { candidatePackage } from './candidate-packages.ts'
 
 export const normalizeCommunityOutput = (output: string): string => (({ 'ascii-unicode': 'terminal', ascii: 'terminal', unicode: 'terminal', ast: 'parse', 'mermaid-text': 'source' }) as Record<string, string>)[output] ?? output
 const safe = (id: string) => id.replace(/[^a-z0-9._-]+/gi, '_')
-function writePreparationCheckpoint(path: string, value: unknown) {
-  const temporary = path + `.pending-${process.pid}`
-  try {
-    writeFileSync(temporary, JSON.stringify(value, null, 2))
-    renameSync(temporary, path)
-  } catch (error) {
-    if (existsSync(temporary)) unlinkSync(temporary)
-    throw error
-  }
-}
-const artifactDigest = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
+function writePreparationCheckpoint(path: string, value: unknown) { atomicWrite(path, JSON.stringify(value, null, 2)) }
+const artifactDigest = byteDigest
 /** The fixed core, frozen with the corpus: six independently labelled repeat inputs. */
 export function communityCoreWorkloads(): UnifiedWorkload[] {
   return communityCorpus().core.map(workload => ({ ...workload }))
@@ -135,10 +128,11 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
   const oracle = node.id === 'mermaid-js/mermaid' ? assertMermaidOracle() : undefined
   if (oracle && version !== oracle.version) throw new Error(`Mermaid's row must be the pinned oracle ${oracle.version}; the catalog records ${version}`)
   // A candidate installs into its own prefix, keyed by its bytes, from Trident's verified copy.
-  const prefix = oracle?.directory ?? (candidate ? join(cache, 'candidates', safe(name), candidateKey(candidate)) : join(cache, `${safe(name)}@${version}${plan.overrides ? '-recipe-' + createHash('sha256').update(JSON.stringify(plan)).digest('hex').slice(0, 16) : ''}`)),
+  const prefix = oracle?.directory ?? (candidate ? join(cache, 'candidates', safe(name), candidateKey(candidate)) : join(cache, `${safe(name)}@${version}-recipe-${createHash('sha256').update(JSON.stringify(plan)).digest('hex').slice(0, 16)}`)),
     root = join(prefix, 'node_modules', name),
     copy = join(prefix, 'candidate.tgz')
   mkdirSync(prefix, { recursive: true })
+  using preparation = oracle ? undefined : exclusiveFile(join(prefix, '.preparation.lock'))
   if (candidate && !existsSync(copy)) copyFileSync(candidate.tarball, copy)
   if (candidate && artifactDigest(copy) !== candidate.sha256) throw new Error(`Retained candidate copy differs from its SHA-256: ${copy}`)
   const retainedDependencies = dependencyArchives.map(archive => {

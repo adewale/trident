@@ -1,83 +1,25 @@
-import { spawn } from 'node:child_process'
+import { executionEnvironment } from './execution-environment.ts'
+import { comparisonProjects } from './lineage.ts'
+import { campaignPlan, assertTimingCollection } from './campaign-plan.ts'
+import { atomicWrite, reserveResultDirectory, timingSession } from './result-storage.ts'
+import { davebenchInputs } from './davebench-inputs.ts'
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
 import { communityCliRequest } from './community-cli-request.ts'
-import { davebenchAdmission, davebenchInputs, davebenchRankings, type DavebenchRun } from './davebench.ts'
+import { davebenchAdmissionProfile, davebenchAdmission, davebenchRankings, type DavebenchRun } from './davebench-model.ts'
 import { watchMemory } from './process-memory.ts'
-import { killCommunityProcess, trackCommunityProcess } from './community-process.ts'
+import { killCommunityProcess, spawnCommunityProcess } from './community-process.ts'
 import { davebenchTerminalValidity } from './davebench-validity.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { communityDeclaresOutput, communityModuleOutputSupported } from './community.ts'
-import { verifyBenchmarkArtifact, refreshBenchmarkVersions } from './benchmark-versions.ts'
+import { plannedBenchmarkVersion, verifiedBenchmarkBinding, refreshBenchmarkVersions } from './benchmark-versions.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 
-export class TerminalCallWorker {
-  child: Bun.Subprocess<'pipe', 'pipe', 'pipe'>
-  pending = new Map<string, (value: any) => void>()
-  ready: Promise<void>
-  identity: any
-  /** `admit` checks returned text after the clock stops; native counter workers
-   * that report their own outcome without returning output pass none. */
-  admit?: (output: unknown, source: string) => { valid: boolean; reason?: string }
-  constructor(peer: PreparedCommunity, file: string, invocation?: string[], admit?: (output: unknown, source: string) => { valid: boolean; reason?: string }) {
-    this.admit = admit
-    writeFileSync(file, JSON.stringify(peer))
-    const python = peer.artifact?.kind === 'python'
-    const bun = /bun/i.test(peer.artifact?.runtime ?? '') || /\.tsx?$/.test(peer.artifact?.module ?? '')
-    const command = python ? peer.artifact!.python ?? peer.artifact!.executable! : bun ? process.execPath : process.env.NODE_BIN ?? 'node'
-    const args = python ? [join(tridentDirectory, 'unified/davebench-terminal-worker.py')] : [join(tridentDirectory, 'unified/davebench-terminal-worker.mjs'), file]
-    this.child = Bun.spawn(invocation ?? [command, ...args], { stdin: 'pipe', stdout: 'pipe', stderr: 'pipe' })
-    void this.child.stderr.pipeTo(new WritableStream({ write() {} })).catch(() => {})
-    let buffer = '', ready = false
-    this.ready = new Promise((done, reject) => {
-      const timeout = setTimeout(() => { this.close(); reject(Error('Terminal worker initialization timed out')) }, 30_000)
-      void (async () => {
-        const decoder = new TextDecoder(), reader = this.child.stdout.getReader()
-        try {
-          for (;;) {
-            const chunk = await reader.read()
-            if (chunk.done) break
-            buffer += decoder.decode(chunk.value, { stream: true })
-            let end
-            while ((end = buffer.indexOf('\n')) >= 0) {
-              const line = buffer.slice(0, end); buffer = buffer.slice(end + 1)
-              try {
-                const row = JSON.parse(line)
-                if (row.type === 'ready') { this.identity = row; ready = true; clearTimeout(timeout); done() }
-                else if (row.type === 'blocked') { clearTimeout(timeout); reject(Error(row.detail)) }
-                else if (row.type === 'result') { this.pending.get(row.id)?.(row); this.pending.delete(row.id) }
-              } catch { /* Library logs supply no outcome. */ }
-            }
-          }
-        } catch (error) { if (!ready) reject(error) }
-      })()
-      void this.child.exited.then(() => { clearTimeout(timeout); if (!ready) reject(Error('Terminal worker stopped during initialization')); for (const done of this.pending.values()) done({ outcome: 'error', ms: 0 }); this.pending.clear() })
-    })
-  }
-  async call(source: string, id: string, timeoutMs: number): Promise<{ outcome: string; ms: number; invalid?: string; error?: string }> {
-    await this.ready
-    if (typeof this.child.exitCode === 'number' || typeof this.child.signalCode === 'string') throw Error('Terminal worker has stopped')
-    const started = performance.now()
-    return new Promise(done => {
-      const timer = setTimeout(() => { this.pending.delete(id); unwatch(); this.close(); done({ outcome: 'timeout', ms: performance.now() - started }) }, timeoutMs)
-      // A worker that runs out of bounds is stopped; its pending call reports the reason.
-      const unwatch = watchMemory(this.child.pid, () => { clearTimeout(timer); this.pending.delete(id); this.close(); done({ outcome: 'error', ms: performance.now() - started, error: 'memory limit' }) })
-      this.pending.set(id, value => {
-        clearTimeout(timer); unwatch()
-        const ms = value.outcome === 'error' && value.ms === 0 ? performance.now() - started : value.ms
-        if (value.outcome !== 'completed' || !this.admit) return done(typeof value.invalid === 'string' ? { outcome: value.outcome, ms, invalid: value.invalid } : typeof value.error === 'string' ? { outcome: value.outcome, ms, error: value.error } : { outcome: value.outcome, ms })
-        const validity = this.admit(value.output, source)
-        done(validity.valid ? { outcome: 'completed', ms } : { outcome: 'invalid', ms, invalid: validity.reason })
-      })
-      this.child.stdin.write(JSON.stringify({ source, id }) + '\n')
-      void this.child.stdin.flush()
-    })
-  }
-  close() { this.child.kill('SIGKILL'); return this.child.exited }
-}
+import { TerminalCallWorker } from './terminal-call-worker.ts'
+export { TerminalCallWorker } from './terminal-call-worker.ts'
 
 /** Fresh terminal CLI process. Text goes to a regular scratch file and is read
  * for admission after the clock stops, then deleted. */
@@ -90,8 +32,7 @@ export async function terminalCliCall(artifact: CommunityArtifact, source: strin
   let stderr = ''
   const result = await new Promise<{ outcome: string; ms: number; error?: string }>(done => {
     let timeout = false, finished = false
-    const child = spawn(artifact.executable!, args, { detached: process.platform !== 'win32', stdio: ['pipe', stdout, 'pipe'] })
-    trackCommunityProcess(child)
+    const child = spawnCommunityProcess(artifact.executable!, args, { detached: process.platform !== 'win32', stdio: ['pipe', stdout, 'pipe'] })
     child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) })
     const timer = setTimeout(() => { timeout = true; killCommunityProcess(child, 'SIGKILL') }, timeoutMs)
     let memory = false
@@ -117,24 +58,36 @@ export async function main(args = process.argv.slice(2)) {
   if (!options.has('--out') || !options.has('--prepared')) throw Error('Choose --out and a current frozen --prepared artifact list')
   const out = resolve(options.get('--out')!)
   if (existsSync(out)) throw Error('Choose a fresh output directory')
-  mkdirSync(out, { recursive: true })
+  reserveResultDirectory(out)
   const wanted = options.get('--projects')?.split(',')
   const all: PreparedCommunity[] = JSON.parse(readFileSync(options.get('--prepared')!, 'utf8'))
   const recorded = JSON.parse(readFileSync(options.get('--catalog') ?? communityCatalogFile, 'utf8'))
   // Only projects whose catalog binding declares terminal output take part, so the full list
   // that prepare writes can be passed unchanged.
-  const terminalProject = (peer: PreparedCommunity) => { const node = recorded.nodes.find((node: any) => node.id === peer.node.id); return Boolean(node && communityDeclaresOutput(node, 'terminal')) }
-  const prepared = (wanted ? all.filter(peer => wanted.includes(peer.node.id)) : all).filter(terminalProject)
-  if (wanted) for (const id of wanted) if (!prepared.some(peer => peer.node.id === id)) throw Error(all.some(peer => peer.node.id === id) ? id + ' declares no terminal output' : 'No prepared terminal artifact for ' + id)
-  const selected = options.has('--catalog') ? recorded : (await refreshBenchmarkVersions(recorded, prepared.map(peer => peer.node.id))).catalog
-  for (const peer of prepared) {
-    const node = selected.nodes.find((node: any) => node.id === peer.node.id)
-    if (!node || node.benchmark?.preparationError) throw Error('Current terminal artifact selection is incomplete: ' + peer.node.id)
-    verifyBenchmarkArtifact(peer, node); peer.node = node
-  }
+  const ids = comparisonProjects(recorded, wanted ?? recorded.nodes.map((node: any) => node.id)).included.filter(id => communityDeclaresOutput(recorded.nodes.find((node: any) => node.id === id), 'terminal'))
+  if (wanted) for (const id of wanted) if (!ids.includes(id)) throw Error(id + ' declares no terminal output')
+  if (!ids.length) throw Error('No applicable terminal projects selected')
+  const selected = options.has('--catalog') ? recorded : (await refreshBenchmarkVersions(recorded, ids)).catalog
+  const prepared: PreparedCommunity[] = ids.map(id => {
+    const node = selected.nodes.find((node: any) => node.id === id)
+    if (!node || node.benchmark?.preparationError) throw Error('Current terminal artifact selection is incomplete: ' + id)
+    const supplied = all.filter(peer => peer.node.id === id)
+    if (supplied.length > 1) throw Error('Duplicate prepared terminal artifact: ' + id)
+    if (!supplied.length) return { node, error: 'No prepared terminal artifact supplied' }
+    const peer = supplied[0]!
+    if (peer.artifact) peer.artifact = verifiedBenchmarkBinding(peer, node)
+    return { ...peer, node }
+  })
   const inventory = davebenchInputs(resolve(options.get('--upstream') ?? join(tridentDirectory, '../mermaid'))), runs: DavebenchRun[] = [], blocked: { project: string; reason: string }[] = []
+  const plan = campaignPlan(prepared.map(peer => ({ project: peer.node.id, version: plannedBenchmarkVersion(peer.node, peer.artifact?.kind === 'cli' ? peer.artifact : !communityModuleOutputSupported(peer.node, 'terminal') ? peer.artifact?.additionalCli?.find(cli => cli.outputs.includes('terminal'))?.artifact ?? peer.artifact : peer.artifact), format: 'terminal' })), inventory.cases.map(input => input.id), 3, { commit: inventory.commit, sources: inventory.cases, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile }, wanted ? 'subset' : 'full')
+  const workerIdentities: any[] = []
   const startedAt = new Date().toISOString(), timeoutMs = 15_000
-  const save = (state: string) => writeFileSync(join(out, 'results.json'), JSON.stringify({ schema: 'davebench-terminal-v1', state, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files }, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, elapsed: 'Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup.' }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked }, null, 2) + '\n')
+  const save = (state: string) => {
+    const report = { schema: 'davebench-terminal-v2', state, plan, environment: executionEnvironment(), workerIdentities, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files }, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup.' }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
+    if (state === 'complete') assertTimingCollection(report)
+    atomicWrite(join(out, 'results.json'), JSON.stringify(report, null, 2) + '\n')
+  }
+  using measurement = timingSession()
   save('running')
   for (const peer of prepared) {
     const a = peer.artifact, extra = a?.additionalCli?.find(cli => cli.outputs.includes('terminal'))?.artifact
@@ -143,21 +96,22 @@ export async function main(args = process.argv.slice(2)) {
     let boundary = native ? 'public CLI terminal; process startup included' : a.kind === 'python' ? 'persistent Python public terminal API' : /bun/i.test(a.runtime ?? '') || /\.tsx?$/.test(a.module ?? '') ? 'persistent Bun public terminal API' : 'persistent Node public terminal API'
     const directory = join(out, encodeURIComponent(peer.node.id)); mkdirSync(directory, { recursive: true })
     let worker: TerminalCallWorker | undefined
-    const open = async () => { worker = new TerminalCallWorker(peer, join(directory, 'operand.json'), undefined, davebenchTerminalValidity); await worker.ready; if (worker.identity?.boundary) boundary = worker.identity.boundary }
+    const open = async () => { worker = new TerminalCallWorker(peer, join(directory, 'operand.json'), undefined, davebenchTerminalValidity); await worker.ready; workerIdentities.push(worker.identity); if (worker.identity?.boundary) boundary = worker.identity.boundary }
     try {
       for (let round = 1; round <= 3; round++) {
         if (!native) await open()
-        const call = async (input: { source: string }, index: number): Promise<{ outcome: string; ms: number; invalid?: string; error?: string }> => {
+        const call = async (input: { source: string }, index: number): Promise<import('./terminal-call-worker.ts').TimedCall> => {
           const row = native ? await terminalCliCall(native, input.source, directory, timeoutMs) : await worker!.call(input.source, `${round}:${index}`, timeoutMs)
+          if ('failureKind' in row && ['protocol', 'transport', 'closed'].includes(String(row.failureKind))) throw Error('Unqualified worker transport: ' + row.error)
           if (row.outcome === 'cleanup-error') throw Error('Terminal host cleanup failed; no further timing from accumulated drawings is admitted')
-          if (!native && (row.outcome === 'timeout' || typeof worker!.child.exitCode === 'number' || typeof worker!.child.signalCode === 'string')) { await worker!.child.exited; await open() }
+          if (!native && ('failureKind' in row || row.outcome === 'timeout' || typeof worker!.child.exitCode === 'number' || typeof worker!.child.signalCode === 'string')) { await worker!.close(); await open() }
           return row
         }
         for (const [index, input] of inventory.cases.slice(0, 30).entries()) await call(input, -index - 1)
-        const row: DavebenchRun = { project: peer.node.id, version: native?.version ?? a.version, format: 'terminal', run: round, boundary, attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, errorReasons: {} }; runs.push(row)
+        const row: DavebenchRun = { project: peer.node.id, version: native?.version ?? a.version, format: 'terminal', run: round, boundary, boundaryKind: native ? 'fresh-process' : 'persistent-api', attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, errorReasons: {} }; runs.push(row)
         console.log(`${peer.node.id} terminal ${round}/3`)
         for (const [index, input] of inventory.cases.entries()) {
-          const result = await call(input, index); row.attempted++; row.totalMs += result.ms
+          const result = await call(input, index); row.attempted++; if (result.ms === null) row.untimedCalls = (row.untimedCalls ?? 0) + 1; else row.totalMs += result.ms
           if (result.outcome === 'completed') row.completed++; else row.failed++
           if (result.outcome === 'error') { const reason = (result.error ?? 'no message').replace(/\d+/g, 'N'); row.errorReasons![reason] = (row.errorReasons![reason] ?? 0) + 1 }
           if (result.outcome === 'invalid') { row.invalid!++; const reason = result.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1; (row.rejected ??= {})[input.id] = result.invalid! }

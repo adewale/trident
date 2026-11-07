@@ -52,6 +52,7 @@ if (process.env.TRIDENT_BRIDGE_SERVE === '1') {
   const { createInterface } = await import('node:readline')
   for await (const text of createInterface({ input: process.stdin, crlfDelay: Infinity })) {
     if (!text.trim()) continue
-    process.stdout.write(REPLY_MARK + line(await answer(JSON.parse(text))) + '\n')
+    const job = JSON.parse(text)
+    process.stdout.write(REPLY_MARK + line({ ...await answer(job), requestId: job.requestId }) + '\n')
   }
 } else console.log(line(await answer(JSON.parse(readFileSync(0, 'utf8')))))

@@ -24,7 +24,7 @@
 //     say which of two statements came first the whole list is unsupported.
 // Statements a parser drops without trace cannot be seen by a view; a list that lacks
 // them is that candidate's own result.
-import * as views from '../schema-views.mjs'
+import * as views from '../view-core.mjs'
 
 const MESSAGE_FIELDS = ['id', 'from', 'to', 'message', 'wrap', 'type']
 const NOTE_FIELDS = ['actor', 'placement', 'message', 'wrap']

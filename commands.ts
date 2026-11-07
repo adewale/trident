@@ -45,7 +45,18 @@ async function main() {
   const [command, ...args] = process.argv.slice(2)
   if (['--version', 'version'].includes(command ?? '') && args.length === 0) { console.log('Trident ' + TRIDENT_VERSION); return }
   if (!command || command === '--help' || command === 'help') { console.log(help); return }
-  const own: Record<string, string> = { davebench: 'unified/davebench.ts', 'davebench:terminal': 'unified/davebench-terminal.ts', 'davebench:native-png': 'unified/davebench-native-png.ts', 'drawing:correctness': 'unified/drawing-correctness.ts', 'mermaid:fidelity': 'unified/mermaid-fidelity.ts', 'campaign:results': 'unified/three-benchmark-report.ts', versions: 'unified/benchmark-versions.ts', prepare: 'unified/prepare-artifacts.ts', 'upstream:prepare': 'unified/prepare-upstream.ts', 'results:snapshot': 'unified/results-snapshot.ts' }
+  const own: Record<string, { file: string; capability: 'read' | 'prepare' | 'collect'; oracle: boolean }> = {
+    davebench: { file: 'unified/davebench.ts', capability: 'collect', oracle: false },
+    'davebench:terminal': { file: 'unified/davebench-terminal.ts', capability: 'collect', oracle: true },
+    'davebench:native-png': { file: 'unified/davebench-native-png.ts', capability: 'collect', oracle: true },
+    'drawing:correctness': { file: 'unified/drawing-correctness.ts', capability: 'collect', oracle: true },
+    'mermaid:fidelity': { file: 'unified/mermaid-fidelity.ts', capability: 'collect', oracle: true },
+    'campaign:results': { file: 'unified/three-benchmark-report.ts', capability: 'read', oracle: false },
+    versions: { file: 'unified/benchmark-versions.ts', capability: 'prepare', oracle: true },
+    prepare: { file: 'unified/prepare-artifacts.ts', capability: 'prepare', oracle: false },
+    'upstream:prepare': { file: 'unified/prepare-upstream.ts', capability: 'prepare', oracle: false },
+    'results:snapshot': { file: 'unified/results-snapshot.ts', capability: 'read', oracle: false },
+  }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', resolve(directory, 'tests')],
     // Every test file runs in CI except the reviewed exclusions in tests/ci-skip.json.
@@ -65,9 +76,9 @@ async function main() {
   }
   if (!Object.hasOwn(own, command) && !Object.hasOwn(checks, command)) throw Error(`Unknown Trident command ${command}; use --help`)
   if (!process.versions.bun) throw Error(`${command} requires Bun 1.4 or later`)
-  const argv = own[command] ? ['run', resolve(directory, own[command]!)] : checks[command]!
-  const offline = ['test:ci', 'typecheck', 'lint', 'results:snapshot']
-  if (!offline.includes(command) && !args.includes('--help')) assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: !['davebench', 'prepare', 'upstream:prepare'].includes(command) })
+  const entry = own[command]
+  const argv = entry ? ['run', resolve(directory, entry.file)] : checks[command]!
+  if (!args.includes('--help') && (entry ? entry.capability !== 'read' : command === 'test')) assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: entry?.oracle ?? true })
   const result = spawnSync(process.execPath, [...argv, ...args], { cwd: directory, stdio: 'inherit' })
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1

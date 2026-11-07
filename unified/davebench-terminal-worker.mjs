@@ -4,7 +4,7 @@ import { terminalRenderer } from './terminal-renderer.mjs'
 
 const send = value => process.stdout.write(JSON.stringify(value) + '\n')
 let renderer
-try { renderer = await terminalRenderer(JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))); send({ type: 'ready', boundary: renderer.boundary }) }
+try { renderer = await terminalRenderer(JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))); send({ type: 'ready', boundary: renderer.boundary, runtime: { engine: process.versions.bun ? 'bun' : 'node', version: process.versions.bun ?? process.versions.node, executable: process.execPath, platform: process.platform, architecture: process.arch } }) }
 catch (error) { send({ type: 'blocked', detail: String(error).slice(0, 500) }); process.exit(1) }
 for await (const line of readline.createInterface({ input: process.stdin })) {
   const job = JSON.parse(line), started = performance.now()

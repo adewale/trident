@@ -16,3 +16,52 @@ Each `commands.ts` command runs one module here:
 The `community*` modules hold the public-artifact adapters shared by all three
 benchmarks: declared npm exports, release CLIs, source builds, WASM, Python and
 native workers. Product source controllers live in the product repositories.
+
+## Collection contracts
+
+New DaveBench and Drawing collections record their planned projects, formats and
+case identities. A complete collection accounts for every lane or records why it
+was blocked. An all-blocked collection has no measured score. Functional subsets
+remain labelled as subsets. Older published files remain readable.
+
+Drawing label policy `drawing-reviewed-labels-v2` includes reviewed group labels and the full reviewed label inventory.
+Its source/expectation digest is separate from the per-format observer digests.
+Changed common expectations require a new campaign; changed SVG observation does
+not invalidate terminal observation. A changed observer cannot be merged into
+only some projects of an existing format. Existing published scores predate this
+policy and have not been recollected by a code change.
+
+Workers own one outstanding request, bounded JSON frames and private process
+groups. API durations come from the worker/browser. A missing API duration leaves
+the median time unavailable; controller elapsed time cannot break a ranking tie.
+One local timing collector may run per user at a time. A lock left by SIGKILL must
+be inspected before removal; its file records the owner.
+
+Drawing checkpoints are atomically replaced at project/completion boundaries and
+after 25 case checkpoint opportunities or five seconds, checked after each case.
+A crash may lose progress since the preceding checkpoint. Reports load each
+current numeric input once and share the pure DaveBench model without importing
+collectors.
+
+## Qualifying a cheaper Fidelity environment
+
+Fidelity reduces each candidate before loading the next. Reference reuse requires
+a matching control receipt binding source, selection, harness, installed bytes,
+Node runtime and the native/audit evidence. Older controls without that receipt
+must be recollected. Test files still use separate processes.
+
+To qualify DOM-free files, collect the same frozen selection and artifacts once
+with `TRIDENT_FIDELITY_ENVIRONMENT=jsdom` and once with
+`TRIDENT_FIDELITY_ENVIRONMENT=node`. These are semantic qualification runs, not
+timing benchmarks. Compare them with:
+
+```sh
+bun scripts/qualify-dom-free.ts JSDOM_RUN NODE_RUN PINNED_COMMIT FRESH_OUTPUT.json
+```
+
+The comparison requires identical expanded callback identities, outcomes, gaps,
+faults and native-operation counts. It reads one candidate pair at a time. Only
+files equal for the supplied cohort are listed. A reviewed receipt can replace
+`mermaid-fidelity/dom-free-files.json`; automatic use additionally requires its
+control identity and exact candidate binding to match. An older or mismatched
+receipt keeps jsdom. The old profile has not been promoted to the current pin.

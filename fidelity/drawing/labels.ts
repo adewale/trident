@@ -6,15 +6,28 @@
  * misread too many diagram labels to measure renderers rather than the OCR.
  */
 import type { DrawingCase } from './corpus.ts'
-import { inspectFidelityPaint } from '../paint.ts'
+import { labelPaintCriteria, observeSvgLabels } from './svg-label-observer.ts'
 import { inspectEmptySvgDrawing } from './empty.ts'
 import { interpretTerminal } from '../terminal-display.ts'
 import { terminalRectangles, TerminalRectangleBudgetExceeded } from '../terminal-rectangles.ts'
 
 export type LabelVerdict = { status: 'correct' | 'incorrect' | 'unknown'; reason?: string; missing?: string[]; leaked?: string[]; labels: number }
+export const labelPolicy = 'drawing-reviewed-labels-v2'
+export interface LabelPlan {
+  readonly caseId: string
+  readonly source: string
+  readonly policy: typeof labelPolicy
+  readonly required: readonly { readonly role: 'node' | 'edge' | 'group' | 'fact' | 'authored'; readonly text: string }[]
+  readonly labels: readonly string[]
+  readonly forbidden: Readonly<Record<'svg' | 'terminal', readonly Readonly<{ match: string; label: string }>[]>>
+  readonly unlabeledStatements: readonly string[]
+  readonly empty: boolean
+  readonly unavailable?: string
+}
 
 /** Keys whose string values name something every renderer must show verbatim. */
 const labelKeys = new Set(['label', 'title', 'section', 'sections', 'period', 'events', 'authoredId', 'x-categories', 'categories'])
+const labelFamilies = new Set(['architecture', 'block', 'c4', 'class', 'er', 'flowchart', 'gantt', 'gitgraph', 'journey', 'kanban', 'mindmap', 'packet', 'pie', 'quadrant', 'sequence', 'state', 'timeline', 'treemap', 'xychart', 'zenuml'])
 
 const breaks = /<br\s*\/?>/gi
 const entities: Record<string, string> = { '&lt;': '<', '&gt;': '>', '&amp;': '&', '&quot;': '"', '&#39;': "'", '&apos;': "'", '&nbsp;': ' ' }
@@ -23,19 +36,25 @@ const decode = (text: string) => text.replace(/&(?:lt|gt|amp|quot|apos|nbsp|#39)
 const plain = (label: string) => decode(label.replace(breaks, ' ')).replace(/\*\*|__|`/g, '').replace(/(^|\s)[*_](\S)/g, '$1$2').replace(/(\S)[*_](?=\s|$)/g, '$1')
 
 /** Every distinct non-empty label named by the case's reviewed facts. */
-export function expectedLabels(test: DrawingCase) {
-  const found = new Set<string>()
-  const add = (value: unknown) => { if (typeof value === 'string' && plain(value).trim()) found.add(plain(value).trim()) }
-  for (const node of test.expected.nodes ?? []) add(node.label)
-  for (const edge of test.expected.edges ?? []) add((edge as any).label)
+export function compileLabelPlan(test: DrawingCase): LabelPlan {
+  const required: { role: 'node' | 'edge' | 'group' | 'fact' | 'authored'; text: string }[] = []
+  const add = (value: unknown, role: typeof required[number]['role']) => { if (typeof value === 'string' && plain(value).trim()) required.push(Object.freeze({ role, text: plain(value).trim() })) }
+  for (const node of test.expected.nodes ?? []) add(node.label, 'node')
+  for (const edge of test.expected.edges ?? []) add((edge as any).label, 'edge')
+  for (const group of test.expected.groups ?? []) add(group.label, 'group')
   const walk = (value: unknown, key?: string) => {
     if (Array.isArray(value)) { for (const item of value) walk(item, key); return }
     if (value && typeof value === 'object') { for (const [k, v] of Object.entries(value)) if (k !== 'authored-config') walk(v, k); return }
-    if (key && labelKeys.has(key)) add(value)
+    if (key && labelKeys.has(key)) add(value, 'fact')
   }
   walk(test.expected.facts ?? {})
-  return [...found]
+  // The reviewed label inventory is authoritative even when a fact uses a new
+  // field name. Field-name reflection must not silently shrink the obligations.
+  for (const label of test.expected.labels ?? []) if (!required.some(item => item.text === plain(label).trim())) add(label, 'authored')
+  const unavailable = !labelFamilies.has(test.family) ? 'No reviewed label plan for family ' + test.family : test.sourceGaps?.length ? test.sourceGaps.join('; ') : undefined
+  return Object.freeze({ caseId: test.id, source: test.source, policy: labelPolicy, required: Object.freeze(required), labels: Object.freeze([...new Set(required.map(label => label.text))]), forbidden: compileForbiddenSyntax(test), unlabeledStatements: Object.freeze(test.source.split('\n').slice(1).map(line => line.trim()).filter(line => line.length >= 4)), empty: expectsEmptyDrawing(test), ...(unavailable ? { unavailable } : {}) })
 }
+export function expectedLabels(test: DrawingCase) { return [...compileLabelPlan(test).labels] }
 
 const boxDrawing = /[─-▟⠀-⣿]/g
 const ansi = /\u001b\[[0-?]*[ -/]*[@-~]|\u001b\][^\u0007\u001b]*(?:\u0007|\u001b\\)/g
@@ -75,44 +94,50 @@ export function labelFound(label: string, text: string) {
 /** Raw source syntax that a drawing would never show: the diagram header line,
  * a node definition such as `A[Label]`, or (outside terminal art) a piped
  * edge label `|label|`. */
-export function leakedSyntax(test: DrawingCase, text: string, format: 'svg' | 'terminal' = 'svg') {
-  const haystack = squash(text), leaks: string[] = []
+function compileForbiddenSyntax(test: DrawingCase): LabelPlan['forbidden'] {
+  const common: { match: string; label: string }[] = [], svg: { match: string; label: string }[] = []
   const body = test.source.replace(/^---[\s\S]*?\n---\s*\n/, '').split('\n').map(line => line.trim()).filter(line => line && !line.startsWith('%%'))
   const header = body[0]
-  if (header && squash(header).length >= 6 && haystack.includes(squash(header))) leaks.push(header)
+  if (header && squash(header).length >= 6) common.push({ match: squash(header), label: header })
   for (const node of test.expected.nodes ?? []) {
     if (!node.label || node.id === node.label || /[\/\[\]]/.test(node.id)) continue
     for (const open of ['[', '(', '{', '>']) {
       const raw = squash(node.id + open + plain(node.label))
-      if (raw.length >= 5 && haystack.includes(raw)) leaks.push(node.id + open + node.label)
+      if (raw.length >= 5) common.push({ match: raw, label: node.id + open + node.label })
     }
   }
   // Terminal drawings legitimately place edge labels between '|' line characters.
-  if (format !== 'terminal') for (const edge of test.expected.edges ?? []) { const label = (edge as any).label; if (label && haystack.includes(squash('|' + plain(label) + '|'))) leaks.push('|' + label + '|') }
-  return [...new Set(leaks)]
+  for (const edge of test.expected.edges ?? []) { const label = (edge as any).label; if (label) svg.push({ match: squash('|' + plain(label) + '|'), label: '|' + label + '|' }) }
+  return Object.freeze({ terminal: Object.freeze(common.map(pattern => Object.freeze(pattern))), svg: Object.freeze([...common, ...svg].map(pattern => Object.freeze(pattern))) })
+}
+export function leakedSyntax(test: DrawingCase, text: string, format: 'svg' | 'terminal' = 'svg', plan = compileLabelPlan(test)) {
+  if (plan.caseId !== test.id || plan.source !== test.source) throw Error('Label plan belongs to another case/source')
+  const haystack = squash(text)
+  return [...new Set(plan.forbidden[format].filter(pattern => haystack.includes(pattern.match)).map(pattern => pattern.label))]
 }
 
 /** The one corpus shape whose correct drawing is empty: no nodes, edges, groups or facts. */
 export const expectsEmptyDrawing = (test: DrawingCase) => test.terminal.expected.graph?.nodes.length === 0 && test.terminal.expected.graph.edges.length === 0 && !test.terminal.expected.graph.groups?.length && !test.expected.groups?.length && !Object.keys(test.expected.facts ?? {}).length
 
-export function assessLabels(test: DrawingCase, format: 'svg' | 'terminal', text: string): LabelVerdict {
-  const labels = expectedLabels(test)
-  if (expectsEmptyDrawing(test)) return squash(text) ? { status: 'incorrect', reason: 'An empty diagram shows text', labels: 0 } : { status: 'correct', labels: 0 }
+export function assessLabels(test: DrawingCase, format: 'svg' | 'terminal', text: string, plan = compileLabelPlan(test)): LabelVerdict {
+  if (plan.caseId !== test.id || plan.source !== test.source) throw Error('Label plan belongs to another case/source')
+  const labels = plan.labels
+  if (plan.unavailable) return { status: 'unknown', reason: plan.unavailable, labels: labels.length }
+  if (plan.empty) return squash(text) ? { status: 'incorrect', reason: 'An empty diagram shows text', labels: 0 } : { status: 'correct', labels: 0 }
   // A chart that names nothing has no label to find, so only the other half of the check
   // applies: no raw Mermaid syntax, including any source statement printed verbatim.
   if (!labels.length) {
-    const statements = test.source.split('\n').slice(1).map(line => line.trim()).filter(line => line.length >= 4)
-    const leaked = [...leakedSyntax(test, text, format), ...statements.filter(line => squash(text).includes(squash(line)))]
+    const leaked = [...leakedSyntax(test, text, format, plan), ...plan.unlabeledStatements.filter(line => squash(text).includes(squash(line)))]
     return leaked.length ? { status: 'incorrect', reason: 'Raw source syntax shown: ' + leaked.join(', '), leaked, labels: 0 } : { status: 'correct', reason: 'No label to find; no raw source syntax shown', labels: 0 }
   }
   const missing = labels.filter(label => !labelFound(label, text))
-  const leaked = leakedSyntax(test, text, format)
+  const leaked = leakedSyntax(test, text, format, plan)
   if (missing.length || leaked.length) return { status: 'incorrect', reason: [missing.length ? 'Missing labels: ' + missing.join(', ') : '', leaked.length ? 'Raw source syntax shown: ' + leaked.join(', ') : ''].filter(Boolean).join('; '), missing, leaked, labels: labels.length }
   return { status: 'correct', labels: labels.length }
 }
 
-export function assessTerminalLabels(test: DrawingCase, output: string): LabelVerdict {
-  try { return assessLabels(test, 'terminal', terminalText(output)) }
+export function assessTerminalLabels(test: DrawingCase, output: string, plan = compileLabelPlan(test)): LabelVerdict {
+  try { return assessLabels(test, 'terminal', terminalText(output), plan) }
   catch (error) {
     if (!(error instanceof TerminalRectangleBudgetExceeded)) throw error
     return { status: 'unknown', labels: expectedLabels(test).length, reason: error.message }
@@ -120,16 +145,16 @@ export function assessTerminalLabels(test: DrawingCase, output: string): LabelVe
 }
 
 /** SVG passes require the existing browser observer to establish actual visible labels. */
-export async function assessSvgLabels(test: DrawingCase, page: any, svg: string): Promise<LabelVerdict> {
-  const text = assessLabels(test, 'svg', svgText(svg)), labels = expectedLabels(test)
-  if (expectsEmptyDrawing(test)) {
+export async function assessSvgLabels(test: DrawingCase, page: any, svg: string, plan = compileLabelPlan(test)): Promise<LabelVerdict> {
+  const text = assessLabels(test, 'svg', svgText(svg), plan), labels = [...plan.labels]
+  if (plan.unavailable) return text
+  if (plan.empty) {
     const empty = await inspectEmptySvgDrawing(page, test)
     return { status: empty.status, labels: 0, reason: [...empty.failed, ...empty.unknown].join('; ') || undefined }
   }
-  const required = ['visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels', 'paint-opacity-and-color']
   const observe = async (labels: string[]) => {
-    const paint = await page.evaluate(inspectFidelityPaint, { family: test.family, expected: { labels } })
-    return required.map(key => paint.checks.find((check: any) => check.criterion === key))
+    const paint = await observeSvgLabels(page, test.family, labels)
+    return labelPaintCriteria.map(criterion => ({ criterion, status: paint[criterion] ?? 'unavailable' }))
   }
   if (labels.length) {
     const checks = await observe(labels), failed = checks.filter(check => check?.status === 'failed')

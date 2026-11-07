@@ -16,7 +16,7 @@
 // sequence, the head is the newest commit on the branch, and before its first commit, the
 // commit it was cut from. Only a model that carries that fork point (or has no commits at
 // all) answers for a branch without commits.
-import { astNode, directionOf, record } from '../schema-views.mjs'
+import { astNode, directionOf, record } from '../view-core.mjs'
 
 /** A field this model does not carry for this record; reading it is unsupported. */
 class Absent {

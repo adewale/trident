@@ -4,7 +4,12 @@
 // call then fails with reason "memory limit". Polls /proc; elsewhere it does nothing.
 import { readFileSync } from 'node:fs'
 
-export const rendererMemoryLimitMb = Number(process.env.TRIDENT_RENDERER_MEMORY_MB ?? 2048)
+export function memoryLimit(value = process.env.TRIDENT_RENDERER_MEMORY_MB ?? '2048') {
+  const limit = Number(value)
+  if (!Number.isFinite(limit) || limit <= 0) throw Error('TRIDENT_RENDERER_MEMORY_MB must be finite and positive')
+  return limit
+}
+export const rendererMemoryLimitMb = memoryLimit()
 
 function residentMb(pid: number) {
   try {

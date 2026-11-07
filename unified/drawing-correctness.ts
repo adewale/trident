@@ -1,16 +1,19 @@
-import { readFileSync, writeFileSync, mkdirSync, existsSync, mkdtempSync, rmSync } from 'node:fs'
+import { campaignPlan, assertCampaignCoverage, planDigest } from './campaign-plan.ts'
+import { byteDigest } from '../portable/artifacts.ts'
+import { svgLabelProfile } from '../fidelity/drawing/svg-label-observer.ts'
+import { atomicWrite, checkpointDue, reserveResultDirectory } from './result-storage.ts'
+import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { resolve, join } from 'node:path'
-import { spawn } from 'node:child_process'
 import { watchMemory } from './process-memory.ts'
-import { killCommunityProcess, trackCommunityProcess } from './community-process.ts'
+import { killCommunityProcess, spawnCommunityProcess } from './community-process.ts'
 import { chromium } from 'playwright'
-import { drawingCases, type DrawingCase } from '../fidelity/drawing/corpus.ts'
+import { drawingCases } from '../fidelity/drawing/corpus.ts'
 import { DrawingWorker } from '../fidelity/drawing/worker.ts'
-import { assessTerminalLabels, assessSvgLabels, expectsEmptyDrawing, terminalLabelWorkBudget } from '../fidelity/drawing/labels.ts'
+import { assessTerminalLabels, assessSvgLabels, expectsEmptyDrawing, terminalLabelWorkBudget, compileLabelPlan, labelPolicy } from '../fidelity/drawing/labels.ts'
 import { browserHost } from './davebench.ts'
 import { defaultChromium } from './benchmark-context.ts'
-import { latestBenchmarkRenderingArtifact, verifyBenchmarkArtifact } from './benchmark-versions.ts'
+import { latestBenchmarkRenderingArtifact, plannedBenchmarkVersion, verifiedBenchmarkBinding } from './benchmark-versions.ts'
 import { qualifyOutputFormat } from './qualification.ts'
 import { communityDeclaresOutput, communityModuleOutputSupported } from './community.ts'
 import { comparisonProjects } from './lineage.ts'
@@ -28,9 +31,8 @@ const nativeCall = async (artifact: any, source: string, format: string) => {
   try {
     const args = binding.args.map((arg: string) => (destination ? arg.replaceAll('{output}', destination) : arg))
     const result = await new Promise<{ stdout: Buffer; stderr: string; status: number | null; error?: string }>(done => {
-      const child = spawn(artifact.executable, args, { detached: process.platform !== 'win32', stdio: ['pipe', 'pipe', 'pipe'] })
-      trackCommunityProcess(child)
-      const out: Buffer[] = []
+      const child = spawnCommunityProcess(artifact.executable, args, { detached: process.platform !== 'win32', stdio: ['pipe', 'pipe', 'pipe'] })
+        const out: Buffer[] = []
       let stderr = '', size = 0, error: string | undefined
       child.stdout!.on('data', (chunk: Buffer) => { size += chunk.length; if (size <= 32 * 1024 * 1024) out.push(chunk) })
       child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) })
@@ -78,25 +80,51 @@ export async function main(args = process.argv.slice(2)) {
         .some(id => c.id.includes(id)),
   )
   if (!cases.length) throw Error('No drawing cases selected')
-  mkdirSync(out, { recursive: true })
+  reserveResultDirectory(out)
+  const labelPlans = new Map(cases.map(test => [test.id, compileLabelPlan(test)]))
+  const contractSha256 = planDigest(cases.map(test => ({ id: test.id, source: test.source, expected: test.expected, sourceGaps: test.sourceGaps })))
+  const common = { policy: labelPolicy, labels: byteDigest(join(import.meta.dirname, '../fidelity/drawing/labels.ts')) }
+  const assessmentProfiles = Object.fromEntries(formats.map(format => [format, planDigest({ common, ...(format === 'svg' ? { profile: svgLabelProfile, paint: byteDigest(join(import.meta.dirname, '../fidelity/paint.ts')), observer: byteDigest(join(import.meta.dirname, '../fidelity/drawing/svg-label-observer.ts')), empty: byteDigest(join(import.meta.dirname, '../fidelity/drawing/empty.ts')) } : { display: byteDigest(join(import.meta.dirname, '../fidelity/terminal-display.ts')), rectangles: byteDigest(join(import.meta.dirname, '../fidelity/terminal-rectangles.ts')), budget: terminalLabelWorkBudget }) })]))
+  const lanes = projects.flatMap(project => {
+    const node = catalog.nodes.find((node: any) => node.id === project)!
+    return formats.filter(format => communityDeclaresOutput(node, format)).map(format => {
+      const peer = (format === 'svg' ? images : terminals).find((peer: any) => peer.node.id === project)
+      let artifact = peer?.artifact
+      if (format === 'svg' && peer) { try { artifact = latestBenchmarkRenderingArtifact(peer) } catch { artifact = undefined } }
+      if (format === 'terminal' && artifact && !communityModuleOutputSupported(node, 'terminal')) artifact = artifact.kind === 'cli' ? artifact : artifact.additionalCli?.find((cli: any) => cli.outputs.includes('terminal'))?.artifact ?? artifact
+      return { project, version: plannedBenchmarkVersion(node, artifact), format }
+    })
+  })
+  const plan = campaignPlan(lanes, cases.map(test => test.id), 1, { contractSha256, assessmentProfiles }, opts.has('--projects') || opts.has('--case') || opts.has('--formats') ? 'subset' : 'full')
+  const due = checkpointDue()
   const rows: any[] = [],
     blocked: any[] = []
   // The collection's own times: published dates come from these, never from a later merge.
   const startedAt = new Date().toISOString()
-  const save = (state = 'running') =>
-    writeFileSync(
+  const save = (state = 'running', force = false) => {
+    if (state === 'complete') {
+      for (const lane of plan.lanes) if (blocked.some(block => block.project === lane.project && block.format === lane.format)) {
+        const own = rows.filter(row => row.project === lane.project && row.format === lane.format)
+        // A lane blocked before invoking any case remains a block, rather than 127
+        // invented observations. A stopped partial lane explicitly accounts for the rest.
+        if (own.length) for (const test of cases) if (!own.some(row => row.caseId === test.id)) rows.push({ ...lane, caseId: test.id, status: 'unrun', reason: 'Public worker unavailable' })
+      }
+      assertCampaignCoverage(plan, rows, blocked, 'drawing')
+    }
+    if (!due(force || state === 'complete')) return
+    atomicWrite(
       join(out, 'results.json'),
       JSON.stringify(
         {
           benchmark: 'Drawing Correctness',
-          state,
+          state, plan, assessmentPolicy: labelPolicy, assessmentProfiles,
           startedAt,
           updatedAt: new Date().toISOString(),
           selection: opts.get('--case') ? 'functional subset' : 'full shared corpus',
-          corpus: { cases: cases.length, ids: cases.map(c => c.id), seed: 'reviewed Terminal Drawing Facts, invalid controls excluded', regressions: 'corpus/drawing-regressions.json' },
+          corpus: { cases: cases.length, ids: cases.map(c => c.id), contractSha256, seed: 'reviewed Terminal Drawing Facts, invalid controls excluded', regressions: 'corpus/drawing-regressions.json' },
           versionsFrozenAt: catalog.benchmarkVersionsCheckedAt,
           method: 'Label assessment: SVG labels must pass the existing browser visibility, canvas and clipping checks; unsupported visibility observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.',
-          assessmentLimits: { invocationMs: 15000, svgObserverMs: 8000, terminalWorkerMs: 20000, terminalRectangleWork: terminalLabelWorkBudget },
+          assessmentLimits: { invocationMs: 15000, svgObserverMs: 8000, terminalWorkerMs: 20000, terminalRectangleWork: terminalLabelWorkBudget, compileLabelPlan, labelPolicy },
           rows,
           blocked,
         },
@@ -104,6 +132,8 @@ export async function main(args = process.argv.slice(2)) {
         2,
       ),
     )
+  }
+  save('running', true)
   const browser = await chromium.launch({ headless: true, executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium) })
   const assessmentContext = await browser.newContext({ javaScriptEnabled: false })
   await assessmentContext.route('**/*', route => route.abort())
@@ -130,7 +160,7 @@ export async function main(args = process.argv.slice(2)) {
       if (formats.includes('svg') && communityDeclaresOutput(node, 'svg') && imagePeer?.artifact) {
         let host: any, session: any
         try {
-          verifyBenchmarkArtifact(imagePeer, node)
+          imagePeer.artifact = verifiedBenchmarkBinding(imagePeer, node)
           imagePeer.node = node
           const artifact = latestBenchmarkRenderingArtifact(imagePeer)
           if (!artifact) throw Error('No prepared rendering artifact')
@@ -163,7 +193,7 @@ export async function main(args = process.argv.slice(2)) {
               const page = await assessmentContext.newPage()
               try {
                 await page.setContent('<!doctype html><style>body{margin:0}</style>' + svg)
-                assessment = await bounded(assessSvgLabels(test, page, svg), 'SVG label assessment')
+                assessment = await bounded(assessSvgLabels(test, page, svg, labelPlans.get(test.id)), 'SVG label assessment')
               } catch (error) {
                 assessment = { status: 'unknown', reason: 'SVG label observer could not assess this output: ' + String(error).slice(0, 300) }
               } finally { await page.close() }
@@ -191,7 +221,7 @@ export async function main(args = process.argv.slice(2)) {
       if (formats.includes('terminal') && communityDeclaresOutput(node, 'terminal') && terminalPeer?.artifact) {
         let worker: DrawingWorker | undefined
         try {
-          verifyBenchmarkArtifact(terminalPeer, node)
+          terminalPeer.artifact = verifiedBenchmarkBinding(terminalPeer, node)
           terminalPeer.node = node
           const a = terminalPeer.artifact,
             extra = a.additionalCli?.find((c: any) => c.outputs.includes('terminal'))?.artifact
@@ -227,11 +257,12 @@ export async function main(args = process.argv.slice(2)) {
                 })()
               : await callWorker(test.source)
             if (!result.ok) {
+              if (['protocol', 'closed'].includes(result.failureKind)) throw Error('Unqualified worker transport: ' + result.error)
               const stopped = /Worker has stopped|Worker exited|Worker transport/.test(result.error ?? '')
               // The worker stopped on this input twice, the second time freshly started: the
               // renderer's process cannot survive it, which is the renderer's failure.
               rows.push({ project, version: native?.version ?? a.version, format: 'terminal', caseId: test.id, status: 'renderer-failure', reason: stopped ? 'Renderer process stopped on this input, also in a fresh worker: ' + result.error : result.error })
-              if (stopped || /Worker timed out/.test(result.error ?? '')) {
+              if (result.failureKind || stopped || /Worker timed out/.test(result.error ?? '')) {
                 await worker?.close()
                 worker = undefined
               }
@@ -246,7 +277,7 @@ export async function main(args = process.argv.slice(2)) {
               save()
               continue
             }
-            const assessed = assessTerminalLabels(test, result.text)
+            const assessed = assessTerminalLabels(test, result.text, labelPlans.get(test.id))
             rows.push({ project, version: native?.version ?? a.version, format: 'terminal', caseId: test.id, status: assessed.status, reason: assessed.reason, failed: assessed.missing, leaked: assessed.leaked })
             save()
           }
@@ -256,8 +287,8 @@ export async function main(args = process.argv.slice(2)) {
         } finally {
           await worker?.close()
         }
-      }
-      save()
+      } else if (formats.includes('terminal') && communityDeclaresOutput(node, 'terminal')) blocked.push({ project, format: 'terminal', reason: terminalPeer?.error ?? 'No prepared terminal artifact supplied' })
+      save('running', true)
     }
     save('complete')
   } finally {

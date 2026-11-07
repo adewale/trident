@@ -3,11 +3,8 @@ import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { join } from 'node:path'
 
-/** One JSON request line to a reference worker. JSON leaves U+2028/U+2029
- * raw, and Node 24's readline (unlike Node 22's) ends a line at either, so a
- * source holding one would reach the worker split in two. */
-export const wireLine = (value: unknown): string =>
-  JSON.stringify(value).replace(/[\u2028\u2029]/g, c => `\\u${c.charCodeAt(0).toString(16)}`) + '\n'
+import { wireLine } from '../portable/json-lines.ts'
+export { wireLine } from '../portable/json-lines.ts'
 
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json }
 export type ReferenceReply = { ok: false; error: string } | { ok: true; type: string; snapshot: { data: Record<string, Json>; errors: Record<string, string> } }

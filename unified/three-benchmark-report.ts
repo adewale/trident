@@ -1,11 +1,14 @@
+import { reserveResultDirectory } from './result-storage.ts'
 import { fidelityPopulation, synthesiseBenchmarks, type ScoreBounds } from './overall-score.ts'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { davebenchRankings, type DavebenchRun } from './davebench.ts'
+import { davebenchRankings, type DavebenchRun } from './davebench-model.ts'
+import { assertTimingCollection, campaignPlan } from './campaign-plan.ts'
 
 function requireSameAdmission(left: any, right: any) {
   const policy = left.method?.admission
   if (typeof policy !== 'string' || !policy || policy !== right.method?.admission) throw Error('DaveBench collections must use one recorded admission policy')
+  if (left.method?.admissionProfile !== right.method?.admissionProfile) throw Error('DaveBench collections must use one admission profile; recollect changed methods together')
 }
 
 /** Report only measured campaigns. Undefined new benchmarks cannot inherit old subset scores. */
@@ -13,11 +16,13 @@ export function threeBenchmarkReport(images: any, terminal: any, versions?: any)
   if (images.state !== 'complete' || terminal.state !== 'complete') throw Error('Wait for both rendering campaigns to complete')
   if (images.corpus.commit !== terminal.corpus.commit || images.corpus.occurrences !== terminal.corpus.occurrences) throw Error('DaveBench formats must use one documentation corpus')
   requireSameAdmission(images, terminal)
+  assertTimingCollection(images); assertTimingCollection(terminal)
   const runs: DavebenchRun[] = [...images.runs, ...terminal.runs]
   const rankings = davebenchRankings(runs, images.corpus.occurrences)
   return { schema: 'trident-davebench-report-v2', corpus: images.corpus, versionsCheckedAt: versions?.checkedAt, status: 'davebench-only',
+    ...(images.plan || terminal.plan ? { scope: images.plan?.scope === 'subset' || terminal.plan?.scope === 'subset' ? 'subset' : 'full', plans: { images: images.plan, terminal: terminal.plan } } : {}),
     collection: { images: { startedAt: images.startedAt, finishedAt: images.updatedAt, environment: images.environment, method: images.method, consolidation: images.consolidation }, terminal: { startedAt: terminal.startedAt, finishedAt: terminal.updatedAt, environment: terminal.environment, method: terminal.method, consolidation: terminal.consolidation } },
-    measurements: { davebench: { status: 'measured', runs: runs.length, attemptedCalls: runs.reduce((sum, row) => sum + row.attempted, 0) }, drawing: { status: 'not-supplied' }, fidelity: { status: 'not-supplied' } },
+    measurements: { davebench: { status: runs.some(row => row.attempted > 0) ? 'measured' : 'unmeasured', runs: runs.length, attemptedCalls: runs.reduce((sum, row) => sum + row.attempted, 0) }, drawing: { status: 'not-supplied' }, fidelity: { status: 'not-supplied' } },
     runs, rankings, blocked: [...images.blocked, ...terminal.blocked] }
 }
 
@@ -25,11 +30,13 @@ export function renderThreeBenchmarkReport(report: ReturnType<typeof threeBenchm
   const lines = ['# DaveBench results', '', '**This report contains DaveBench only.** Drawing Correctness and Mermaid Fidelity are collected separately; the current league tables are in `RESULTS.md`.', '',
     `${report.corpus.occurrences} documentation occurrences per format; three runs after the same 30 warm-ups. Completed counts show the minimum across the three full runs; times show their median total. The numeric run table retains every repeat. Outputs were discarded without drawing assessment. Versions were frozen at campaign preparation${report.versionsCheckedAt ? ' (' + report.versionsCheckedAt + ')' : ''}.`, '',
     '| Benchmark | Result |', '|---|---|', `| DaveBench | ${report.measurements.davebench.runs} measured runs; ${report.measurements.davebench.attemptedCalls.toLocaleString('en-GB')} timed calls. |`, '| Drawing Correctness | Not supplied to this DaveBench report. |', '| Mermaid Fidelity | Not supplied to this DaveBench report. |', '']
+  if (report.scope === 'subset') lines.push('**Functional subset:** this report does not establish the full campaign league.', '')
+  if (report.measurements.davebench.status === 'unmeasured') lines.push('**Unmeasured:** every planned lane was blocked; no completion or timing score is available.', '')
   for (const format of ['svg', 'png', 'terminal'] as const) {
     lines.push('## DaveBench — ' + format.toUpperCase(), '', '**More admissible completions wins; lower median total time breaks ties between rows with the same boundary kind.** Times include failed calls. The timeout is 15 seconds per call; timeouts are included in failures. Rejected outputs returned without an error but failed mechanical admission (empty, error message, error placeholder, zero size or echoed source); they are included in failures. CLI process startup is included in CLI rows; persistent API initialization is excluded.', '', '| Rank | Project | Completed | Failed | Rejected outputs in runs 1/2/3 | Timeouts in runs 1/2/3 | Median total seconds | Boundary |', '|---:|---|---:|---:|---|---|---:|---|')
     for (const row of report.rankings[format]) {
       const own = report.runs.filter(run => run.project === row.project && run.format === format).sort((a, b) => a.run - b.run)
-      lines.push(`| ${row.rank} | ${projectVersion(row.project, row.version)} | ${row.completed} | ${row.failed} | ${own.map(run => run.invalid ?? '—').join(' / ')} | ${own.map(run => run.timeouts).join(' / ')} | ${(row.medianTotalMs / 1000).toFixed(3)} | ${row.boundary} |`)
+      lines.push(`| ${row.rank} | ${projectVersion(row.project, row.version)} | ${row.completed} | ${row.failed} | ${own.map(run => run.invalid ?? '—').join(' / ')} | ${own.map(run => run.timeouts).join(' / ')} | ${(row.medianTotalMs === null ? '—' : (row.medianTotalMs / 1000).toFixed(3))} | ${row.boundary} |`)
     }
     lines.push('')
   }
@@ -45,10 +52,24 @@ export function renderThreeBenchmarkReport(report: ReturnType<typeof threeBenchm
 export function mergeNativePng(images: any, native: any) {
   for (const key of ['commit', 'occurrences'] as const) if (images.corpus?.[key] !== native.corpus?.[key]) throw Error(`Native PNG results count a different corpus (${key}: ${native.corpus?.[key]} vs ${images.corpus?.[key]})`)
   if (native.state !== 'complete') throw Error('Native PNG results are incomplete')
+  assertTimingCollection(native)
   requireSameAdmission(images, native)
   const measured = new Set(native.runs.map((run: any) => run.project))
   for (const project of measured) if (images.runs.some((run: any) => run.project === project)) throw Error(project + ' already has image runs')
-  return { ...images, runs: [...images.runs, ...native.runs], blocked: (images.blocked ?? []).filter((block: any) => !measured.has(block.project)) }
+  let plan = images.plan
+  if (plan || native.plan) {
+    if (!plan || !native.plan || JSON.stringify(plan.cases) !== JSON.stringify(native.plan.cases)) throw Error('Native PNG requires the same planned case identities')
+    const lanes = new Map(plan.lanes.map((lane: any) => [JSON.stringify([lane.project, lane.format]), lane]))
+    for (const lane of native.plan.lanes) {
+      const key = JSON.stringify([lane.project, lane.format]), prior: any = lanes.get(key)
+      if (prior && prior.version !== lane.version) throw Error('Native PNG differs from planned frozen version')
+      lanes.set(key, lane)
+    }
+    plan = campaignPlan([...lanes.values()] as any[], plan.cases, plan.rounds, { collections: [plan.identity, native.plan.identity] }, plan.scope)
+  }
+  const merged = { ...images, ...(plan ? { plan } : {}), runs: [...images.runs, ...native.runs], blocked: (images.blocked ?? []).filter((block: any) => !measured.has(block.project)) }
+  assertTimingCollection(merged)
+  return merged
 }
 
 export async function main(args = process.argv.slice(2)) {
@@ -62,7 +83,7 @@ export async function main(args = process.argv.slice(2)) {
   const report = threeBenchmarkReport(images, read(options.get('--terminal')!), options.has('--versions') ? read(join(options.get('--versions')!, 'versions.json')) : undefined)
   const out = resolve(options.get('--out')!)
   if (existsSync(out)) throw Error('Choose a fresh output directory')
-  mkdirSync(out, { recursive: true })
+  reserveResultDirectory(out)
   if (options.has('--native-png')) writeFileSync(join(out, 'images.json'), JSON.stringify(images, null, 2) + '\n')
   writeFileSync(join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n')
   writeFileSync(join(out, 'report.md'), renderThreeBenchmarkReport(report))
@@ -79,6 +100,7 @@ export function projectVersion(project: string, version: string, names: Record<s
 /** Tables only, from the three existing numeric results. No renderer execution. */
 export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: any, catalog: any, displayNames: Record<string, string> = {}) {
   if (drawing.state !== 'complete') throw Error('Drawing collection must be complete')
+  if (davebench.scope === 'subset' || drawing.plan?.scope === 'subset') throw Error('Current league tables require full campaigns; merge qualified partial recollections into the full campaign first')
   const names = { ...Object.fromEntries(catalog.nodes.filter((n: any) => n.comparisonBranding?.name).map((n: any) => [n.id, n.comparisonBranding.name])), ...displayNames }
   const versions = new Map<string, string>(catalog.nodes.map((n: any) => [n.id, n.benchmark?.version]))
   for (const row of [...(davebench.runs ?? []), ...drawing.results, ...fidelity.results]) versions.set(row.project, row.version)
@@ -89,7 +111,7 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   for (const format of ['svg', 'png', 'terminal']) {
     lines.push('### ' + (format === 'terminal' ? 'Terminal rendering' : format.toUpperCase() + ' rendering'), '')
     const ranked = [...davebench.rankings[format]].sort((a: any, b: any) => a.rank - b.rank || label(a).localeCompare(label(b)))
-    const rows: unknown[][] = ranked.map((r: any) => [r.rank, label(r), r.completed, (r.medianTotalMs / 1000).toFixed(3)])
+    const rows: unknown[][] = ranked.map((r: any) => [r.rank, label(r), r.completed, (r.medianTotalMs === null ? '—' : (r.medianTotalMs / 1000).toFixed(3))])
     for (const block of davebench.blocked ?? []) if (!ranked.some((r: any) => r.project === block.project) && catalog.nodes.find((n: any) => n.id === block.project)?.benchmark?.outputs.includes(format)) rows.push(['—', label(block), 'Blocked', '—'])
     table(['Rank', 'Project', `Completed / ${davebench.corpus.occurrences} ↑`, 'Median seconds ↓'], rows)
   }
@@ -133,10 +155,15 @@ export const currentBenchmarkResultFiles = ['results/release/report.json', 'resu
 
 /** Current campaign inputs already tracked in the repository; older snapshots
  * continue to support explicit historical exports to other directories. */
-export function retainedBenchmarkLeagues(root: string, names: Record<string, string> = {}) {
+export function readCurrentBenchmarkResults(root: string) {
   const paths = currentBenchmarkResultFiles.map(p => join(root, p))
   if (!paths.slice(0, 3).some(p => existsSync(p))) return undefined
   if (!paths.every(p => existsSync(p))) throw Error('Current league tables require all three benchmark result files and the frozen catalog')
   const [davebench, drawing, fidelity, catalog] = paths.map(p => JSON.parse(readFileSync(p, 'utf8')))
-  return renderBenchmarkLeagues(davebench, drawing, fidelity, catalog, names)
+  return { davebench, drawing, fidelity, catalog }
+}
+
+export function retainedBenchmarkLeagues(root: string, names: Record<string, string> = {}) {
+  const model = readCurrentBenchmarkResults(root)
+  return model && renderBenchmarkLeagues(model.davebench, model.drawing, model.fidelity, model.catalog, names)
 }

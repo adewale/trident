@@ -76,6 +76,7 @@ export interface CommunityArtifact {
   dependencyOverrides?: Record<string, unknown>
   reviewed?: boolean
   buildRecipeId?: string
+  preparationIdentity?: string
   runtimeCommandId?: string
   runtimeVersion?: string
   sourceRevision?: string

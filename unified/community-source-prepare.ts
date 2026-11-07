@@ -1,6 +1,7 @@
-import '../ci-policy-enforce.ts'
+import { atomicWrite, exclusiveFile } from './result-storage.ts'
+import { byteDigest } from '../portable/artifacts.ts'
+import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { spawn } from 'node:child_process'
-import { createHash } from 'node:crypto'
 import { createWriteStream, existsSync, mkdirSync, readFileSync, statfsSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
@@ -68,6 +69,7 @@ export interface CommunityAcquisitionResources {
   storageRoots?: readonly string[]
 }
 function run(command: readonly string[], cwd: string, env: NodeJS.ProcessEnv, log: string, timeoutMs = 20 * 60_000, resources: CommunityAcquisitionResources = {}): Promise<void> {
+  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: false })
   return new Promise((resolveRun, reject) => {
     const available = (): { path: string; bytes: number } => {
       const roots = [...new Set([cwd, ...(resources.storageRoots ?? [])])]
@@ -157,14 +159,16 @@ export async function prepareCommunitySource(node: CommunitySourceNode, cacheRoo
     log = resolve(directory, 'acquisition.log')
   if (existsSync(manifest)) {
     const previous = JSON.parse(readFileSync(manifest, 'utf8')) as CommunitySourceArtifact
-    if (previous.revision === revision && existsSync(previous.executable) && createHash('sha256').update(readFileSync(previous.executable)).digest('hex') === previous.sha256) {
+    if (previous.revision === revision && existsSync(previous.executable) && byteDigest(previous.executable) === previous.sha256) {
       // Tags only label the request: this recipe builds the same commit with
       // the same flags. Keep shared physical metadata independent of call order.
       const current = { ...previous, ...reviewedCommunitySourcePresentation(node), version: sourceVersion }
-      writeFileSync(manifest, JSON.stringify(current, null, 2) + '\n')
+      atomicWrite(manifest, JSON.stringify(current, null, 2) + '\n')
       return { ...current, version: requestedVersion }
     }
   }
+  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: false })
+  using build = exclusiveFile(resolve(directory, '.preparation.lock'))
   const env: NodeJS.ProcessEnv = { ...process.env, NO_COLOR: '1', TERM: 'dumb' }
   env.CARGO_BUILD_JOBS ??= '2'
   env.CARGO_TARGET_DIR = resolve(cache, '.cargo-target')
@@ -197,12 +201,12 @@ export async function prepareCommunitySource(node: CommunitySourceNode, cacheRoo
     ...reviewedCommunitySourcePresentation(node),
     version: sourceVersion,
     revision,
-    sha256: createHash('sha256').update(readFileSync(executable)).digest('hex'),
+    sha256: byteDigest(executable),
     sourceRoot,
     buildCommand,
     boundary: 'cold-public-cli',
   }
-  writeFileSync(manifest, JSON.stringify(artifact, null, 2) + '\n')
+  atomicWrite(manifest, JSON.stringify(artifact, null, 2) + '\n')
   return { ...artifact, version: requestedVersion }
 }
 
