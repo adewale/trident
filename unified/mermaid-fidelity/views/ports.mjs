@@ -367,15 +367,15 @@ const plainOrder = order => Object.fromEntries(entriesOf(order).map(([key, item]
  * accDescription the AST's verbatim block (checked against an accDescr {...} block). */
 function usecaseState(raw, hooks, project) {
   const name = NAME[project]
-  const astAbsent = reason => Object.fromEntries(['version', 'diagramType', 'nodes', 'edges', 'groups', 'classDefs'].map(key => [key, reason]))
+  const astAbsent = Object.fromEntries(['version', 'diagramType', 'nodes', 'edges', 'groups', 'classDefs'].map(key => [key, `${name} keeps the usecase AST's source and statement occurrences, not its node, edge, group and class tables`]))
   const getAST = () =>
     record({
       source: raw.source,
-      header: record({ span: raw.headerSpan }, 'usecase AST header', ['span', 'keyword', 'direction'], { keyword: `${name} keeps the header's span, not its keyword`, direction: `${name} keeps the header's span, not its own direction` }, hooks),
+      header: record({ span: raw.headerSpan }, 'usecase AST header', ['span', 'keyword', 'direction'], { keyword: `${name} keeps the header's span, not its keyword`, direction: `${name} keeps the header's span, not its own direction` }, hooks, ['keyword', 'direction']),
       accTitle: raw.accTitle || undefined,
       accDescr: raw.accDescription || undefined,
       statements: deepUnset(raw.statements),
-    }, 'usecase AST', ['source', 'header', 'statements'], astAbsent(`${name} keeps the usecase AST's source and statement occurrences, not its node, edge, group and class tables`), hooks)
+    }, 'usecase AST', ['source', 'header', 'statements'], astAbsent, hooks, Object.keys(astAbsent))
   const ordered = (value, label) => keyedMap(value, hooks, `${name} usecase ${label}`)
   return lookups({
     getActors: () => ordered(raw.actors, 'actors'),

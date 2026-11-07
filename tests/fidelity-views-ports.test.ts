@@ -196,6 +196,23 @@ test('use case views map Pele state directly and translate Latias94/merman node 
   expect(() => merman.getAST()).toThrow('unsupported')
 })
 
+test('partial UseCase ASTs expose retained spans while whole comparisons encounter absent native tables', () => {
+  for (const project of ['obsidianmd/pele', 'crabtalk/bezel', 'adewale/agentic-mermaid']) {
+    const { hooks } = verdicts()
+    const ast = nativeSchemaView(project, 'usecase', {
+      nativeGrammar: 'usecase', actors: new Map(), useCases: new Map(), systemBoundaries: new Map(), relationships: [],
+      notes: new Map(), jsonNodes: new Map(), classDefs: new Map(), direction: 'LR',
+      source: 'usecase-beta', headerSpan: [0, 12], statements: [],
+    }, hooks).getAST()
+    expect(ast.source).toBe('usecase-beta')
+    expect(ast.header.span).toEqual([0, 12])
+    expect(ast.statements).toEqual([])
+    expect(() => expect(ast).toEqual({ version: 1, diagramType: 'usecase', source: 'usecase-beta', header: { keyword: 'usecase', direction: 'LR', span: [0, 12] }, nodes: {}, edges: [], groups: {}, classDefs: {}, statements: [] })).toThrow('unsupported')
+    expect(() => ({ ...ast })).toThrow('unsupported')
+    expect(() => expect(ast.header).toEqual({ keyword: 'usecase', direction: 'LR', span: [0, 12] })).toThrow('unsupported')
+  }
+})
+
 test('railroad, wardley, venn, cynefin and packet records map field for field', () => {
   const { hooks } = verdicts()
   const rules = [{ name: 'r', definition: { type: 'repetition', element: { type: 'terminal', value: 'd' }, min: 0, max: null } }, { name: 'r', definition: { type: 'special', text: 'x' } }]
