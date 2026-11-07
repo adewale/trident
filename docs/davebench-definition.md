@@ -45,9 +45,19 @@ Returning without an error is not enough: some renderers return an empty string,
 
 | Format | Admitted output |
 |---|---|
-| SVG | Parses to an `svg` root with positive `viewBox` or `width`/`height`. |
-| PNG | PNG signature and an `IHDR` with positive width and height. Shared conversion also requires the SVG to be admissible and the canvas encoding to be non-empty. |
+| SVG | Parses as XML to an SVG namespace root with finite positive `viewBox` or `width`/`height`. HTML-serialized void elements such as `<br>` are normalized by the existing validator. |
+| PNG | A complete, decodable PNG with positive dimensions. The existing bounded decoder checks CLI output; browser and native Flutter exports use their image decoders after the clock stops. Shared conversion also requires the SVG to be admissible. |
 | Terminal text | Non-empty after removing ANSI/OSC control sequences, and not just the Mermaid source echoed back. |
+
+XML namespace prefixes must be declared, and text must use XML-compatible
+entities. For example, `&#160;` is valid; an undeclared `&nbsp;` is rejected.
+A serialized `xlink:href` needs its `xmlns:xlink` declaration. These rules also
+apply to SVG used as input to the shared PNG conversion.
+
+Well-formed XML is parsed before attempting HTML void-element normalization, so
+paired XHTML tags such as `<br></br>` remain valid. APNG receives mechanical
+admission when its default PNG image decodes; animation content still needs a
+frame-specific observer and receives no static content witness.
 
 Every format also rejects error output: an SVG root with `aria-roledescription="error"`, or output whose leading text is a renderer error phrase (for example `Syntax error`, `Parse error`, `Error:`, `unsupported diagram`, `not supported`, `Traceback`, `Usage:`). A phrase that also occurs in the Mermaid source is an authored label, not an error. The patterns are in [`unified/davebench-validity.ts`](../unified/davebench-validity.ts). Each run records how many returned outputs were rejected and why (`invalid`, `invalidReasons`).
 

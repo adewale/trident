@@ -5,7 +5,7 @@ import type { ChildProcess } from 'node:child_process'
 const active = new Set<ChildProcess>()
 let interrupted: NodeJS.Signals | undefined
 let listening = false
-function kill(child: ChildProcess, signal: NodeJS.Signals): void {
+export function killCommunityProcess(child: ChildProcess, signal: NodeJS.Signals): void {
   try {
     if (process.platform !== 'win32' && child.pid) process.kill(-child.pid, signal)
     else child.kill(signal)
@@ -14,11 +14,11 @@ function kill(child: ChildProcess, signal: NodeJS.Signals): void {
 function cancel(signal: NodeJS.Signals): void {
   if (interrupted) return
   interrupted = signal
-  for (const child of active) kill(child, signal)
+  for (const child of active) killCommunityProcess(child, signal)
   // Keep this timer referenced: cleanup must finish even if all parents exit
   // before grandchildren that ignored the first signal.
   setTimeout(() => {
-    for (const child of active) kill(child, 'SIGKILL')
+    for (const child of active) killCommunityProcess(child, 'SIGKILL')
     process.exit(signal === 'SIGINT' ? 130 : 143)
   }, 1000)
 }
@@ -29,7 +29,7 @@ export function assertCommunityNotInterrupted(): void {
 }
 export function trackCommunityProcess(child: ChildProcess): void {
   if (interrupted) {
-    kill(child, 'SIGKILL')
+    killCommunityProcess(child, 'SIGKILL')
     assertCommunityNotInterrupted()
   }
   active.add(child)

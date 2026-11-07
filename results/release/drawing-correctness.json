@@ -136,10 +136,12 @@
     "regressions": "corpus/drawing-regressions.json"
   },
   "versionsFrozenAt": "2026-11-07T00:20:11.169Z",
-  "method": "Label assessment: a case passes when every label named by its reviewed source facts appears in the output and no raw Mermaid syntax (diagram header, node definition or piped edge label) is shown. SVG text is read from the document and terminal text directly. Edges, arrow direction, layout and styling are not checked. PNG is not assessed.",
+  "method": "Label assessment: SVG labels must pass the existing browser visibility, canvas and clipping checks; unsupported visibility observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.",
   "assessmentLimits": {
     "invocationMs": 15000,
-    "terminalWorkerMs": 20000
+    "svgObserverMs": 8000,
+    "terminalWorkerMs": 20000,
+    "terminalRectangleWork": 1000000
   },
   "blocked": [],
   "state": "complete",
@@ -151,8 +153,8 @@
     "svg": {},
     "terminal": {},
     "outputsRetained": false,
-    "startedAt": "2026-11-07T00:51:26.058Z",
-    "finishedAt": "2026-11-07T00:52:53.554Z"
+    "startedAt": "2026-11-07T10:39:25.263Z",
+    "finishedAt": "2026-11-07T10:51:36.383Z"
   },
   "results": [
     {
@@ -160,11 +162,11 @@
       "version": "0.3.1",
       "format": "svg",
       "counts": {
-        "correct": 118,
-        "incorrect": 9,
+        "correct": 108,
+        "incorrect": 6,
         "renderer-failure": 0,
-        "invalid-format": 0,
-        "unknown": 0,
+        "invalid-format": 1,
+        "unknown": 12,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -182,7 +184,6 @@
           "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
           "drawing:2598092a6e404821",
-          "drawing:25b4a684eb0b6e31",
           "drawing:25e166249d24378d",
           "drawing:263ec71ab0c651b3",
           "drawing:276c8474274911fa",
@@ -194,9 +195,7 @@
           "drawing:383e68bb60ac3633",
           "drawing:39d5de95eb42396b",
           "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
-          "drawing:43382cbc1379cf4c",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
           "drawing:46c4d04542ff7c8e",
@@ -204,15 +203,12 @@
           "drawing:4ab51e1e2963ef1c",
           "drawing:4ab6c5415bc7a24c",
           "drawing:4ae5560b57ca0064",
-          "drawing:4e4550d086c4e288",
           "drawing:4f96b68984c54c5a",
           "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
           "drawing:54f7237ee5ab1a85",
-          "drawing:570e13053d228e29",
           "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
           "drawing:61cc5e1150412252",
@@ -224,7 +220,6 @@
           "drawing:6f83e372d7057526",
           "drawing:704f69aae7273edd",
           "drawing:75a4be6507dd75fe",
-          "drawing:75e652628bded0d8",
           "drawing:767a3f8c3e47e0bd",
           "drawing:7801c75b869778fe",
           "drawing:837336a6e0f8f27c",
@@ -253,16 +248,13 @@
           "drawing:bf9642a4ab479973",
           "drawing:bfad6c5a05be093a",
           "drawing:c18237e0a535bdb7",
-          "drawing:c2e297448b5388ba",
           "drawing:c5455d2e2f5f8672",
           "drawing:c64d9c102f509905",
           "drawing:cd2dd60c268497d1",
-          "drawing:cd771fca2659a460",
           "drawing:d04b45557e7b8f2e",
           "drawing:d2896678981aedb8",
           "drawing:d3cc8b77d097ec56",
           "drawing:d98a600399ba3ce5",
-          "drawing:dbc553f665d05c10",
           "drawing:ddef9c7af192e428",
           "drawing:de6e8bf0fd559efc",
           "drawing:df5eb5c9968bbb86",
@@ -289,33 +281,48 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "drawing:0dbd28f2f1c494cc",
           "drawing:22775b7f44c796b6",
-          "drawing:478ab66bb4c7e4f5",
+          "drawing:3f4b6bd0b23e6927",
+          "drawing:570e13053d228e29",
           "drawing:a181524246065697",
           "drawing:a5204531005bef25",
-          "drawing:b1428b5b59888938",
-          "drawing:d7362afef7c26051",
-          "drawing:da9198e1adbc1c14",
-          "drawing:fbfb884b46380275"
+          "drawing:da9198e1adbc1c14"
         ],
         "renderer-failure": [],
-        "invalid-format": [],
-        "unknown": [],
+        "invalid-format": [
+          "drawing:5c9a50898b1e6ffe"
+        ],
+        "unknown": [
+          "drawing:0dbd28f2f1c494cc",
+          "drawing:25b4a684eb0b6e31",
+          "drawing:43382cbc1379cf4c",
+          "drawing:478ab66bb4c7e4f5",
+          "drawing:4e4550d086c4e288",
+          "drawing:75e652628bded0d8",
+          "drawing:b1428b5b59888938",
+          "drawing:c2e297448b5388ba",
+          "drawing:cd771fca2659a460",
+          "drawing:d7362afef7c26051",
+          "drawing:dbc553f665d05c10",
+          "drawing:fbfb884b46380275"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 11,
+        "SVG label observer could not assess this output: Error: SVG label assessment deadline exceeded": 1
+      }
     },
     {
       "project": "adewale/agentic-mermaid",
       "version": "0.5.6",
       "format": "svg",
       "counts": {
-        "correct": 123,
-        "incorrect": 1,
+        "correct": 121,
+        "incorrect": 2,
         "renderer-failure": 3,
         "invalid-format": 0,
-        "unknown": 0,
+        "unknown": 1,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -336,7 +343,6 @@
           "drawing:2431a54dd231055c",
           "drawing:2598092a6e404821",
           "drawing:25b4a684eb0b6e31",
-          "drawing:25e166249d24378d",
           "drawing:263ec71ab0c651b3",
           "drawing:276c8474274911fa",
           "drawing:278dccc21dd27020",
@@ -366,7 +372,6 @@
           "drawing:570e13053d228e29",
           "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
           "drawing:61cc5e1150412252",
@@ -445,6 +450,7 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
+          "drawing:5c9a50898b1e6ffe",
           "drawing:89e9eb6aebb72128"
         ],
         "renderer-failure": [
@@ -453,21 +459,25 @@
           "regression:68230bdf498c2525"
         ],
         "invalid-format": [],
-        "unknown": [],
+        "unknown": [
+          "drawing:25e166249d24378d"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 1
+      }
     },
     {
       "project": "adewale/agentic-mermaid",
       "version": "0.5.6",
       "format": "terminal",
       "counts": {
-        "correct": 124,
+        "correct": 123,
         "incorrect": 0,
         "renderer-failure": 3,
         "invalid-format": 0,
-        "unknown": 0,
+        "unknown": 1,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -572,7 +582,6 @@
           "drawing:d7362afef7c26051",
           "drawing:d98a600399ba3ce5",
           "drawing:da9198e1adbc1c14",
-          "drawing:dbc553f665d05c10",
           "drawing:ddef9c7af192e428",
           "drawing:de6e8bf0fd559efc",
           "drawing:df5eb5c9968bbb86",
@@ -604,18 +613,22 @@
           "regression:68230bdf498c2525"
         ],
         "invalid-format": [],
-        "unknown": [],
+        "unknown": [
+          "drawing:dbc553f665d05c10"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Terminal rectangle observation budget exceeded": 1
+      }
     },
     {
       "project": "AlexanderGrooff/mermaid-ascii",
       "version": "1.6.1",
       "format": "terminal",
       "counts": {
-        "correct": 81,
-        "incorrect": 3,
+        "correct": 77,
+        "incorrect": 7,
         "renderer-failure": 43,
         "invalid-format": 0,
         "unknown": 0,
@@ -628,7 +641,6 @@
           "drawing:128500dada38a009",
           "drawing:1b492a74df0fc4b6",
           "drawing:1c0f33b5035768f2",
-          "drawing:206a9307ba8592b1",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
           "drawing:22e97a0fc1fff023",
@@ -637,7 +649,6 @@
           "drawing:29fc1dab07164509",
           "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
@@ -659,7 +670,6 @@
           "drawing:6f83e372d7057526",
           "drawing:75a4be6507dd75fe",
           "drawing:75e652628bded0d8",
-          "drawing:767a3f8c3e47e0bd",
           "drawing:837336a6e0f8f27c",
           "drawing:867520b102964291",
           "drawing:87325fd383c3b1af",
@@ -694,7 +704,6 @@
           "drawing:ea7675b95cb763b3",
           "drawing:ef20265c9ef84973",
           "drawing:f78157ede4e2d1ab",
-          "drawing:fbfb884b46380275",
           "regression:4e15c9b5403a9b04",
           "regression:68230bdf498c2525",
           "regression:e4a085e0bd0b6697",
@@ -706,9 +715,13 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
+          "drawing:206a9307ba8592b1",
           "drawing:25b4a684eb0b6e31",
           "drawing:32ad8ee06ab49562",
-          "drawing:478ab66bb4c7e4f5"
+          "drawing:3f4b6bd0b23e6927",
+          "drawing:478ab66bb4c7e4f5",
+          "drawing:767a3f8c3e47e0bd",
+          "drawing:fbfb884b46380275"
         ],
         "renderer-failure": [
           "drawing:049722f83e7a31e0",
@@ -917,11 +930,11 @@
       "version": "0.2.24",
       "format": "svg",
       "counts": {
-        "correct": 126,
+        "correct": 124,
         "incorrect": 0,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 0,
+        "unknown": 2,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -972,7 +985,6 @@
           "drawing:570e13053d228e29",
           "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
           "drawing:61cc5e1150412252",
@@ -994,7 +1006,6 @@
           "drawing:89be4f2885fb74a9",
           "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
-          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
@@ -1058,74 +1069,64 @@
           "drawing:d7362afef7c26051"
         ],
         "invalid-format": [],
-        "unknown": [],
+        "unknown": [
+          "drawing:5c9a50898b1e6ffe",
+          "drawing:90e78c1ed707e7e4"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 2
+      }
     },
     {
       "project": "crafter-station/mermaid",
       "version": "0.0.3",
       "format": "svg",
       "counts": {
-        "correct": 83,
-        "incorrect": 14,
+        "correct": 65,
+        "incorrect": 13,
         "renderer-failure": 30,
-        "invalid-format": 0,
-        "unknown": 0,
+        "invalid-format": 1,
+        "unknown": 18,
         "unrun": 0
       },
       "caseOutcomes": {
         "correct": [
           "drawing:03019928d457c65c",
-          "drawing:11426c4cad392dc7",
           "drawing:128500dada38a009",
           "drawing:1468e1cf1186af65",
-          "drawing:1b492a74df0fc4b6",
           "drawing:1c0f33b5035768f2",
           "drawing:206a9307ba8592b1",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
-          "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
           "drawing:2598092a6e404821",
           "drawing:25b4a684eb0b6e31",
           "drawing:276c8474274911fa",
-          "drawing:3042977d4e6d813b",
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
-          "drawing:404189958f761756",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
           "drawing:46c4d04542ff7c8e",
           "drawing:48d7ff23dee1b343",
           "drawing:4ab51e1e2963ef1c",
           "drawing:4ab6c5415bc7a24c",
-          "drawing:4ae5560b57ca0064",
-          "drawing:4e4550d086c4e288",
           "drawing:4f96b68984c54c5a",
-          "drawing:529e14e4d09b944a",
-          "drawing:53e2d239ed8df992",
           "drawing:54f7237ee5ab1a85",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
-          "drawing:64788fe4b88b1f1f",
           "drawing:663c83c9e855c6b5",
           "drawing:684ec260a97cf7b6",
           "drawing:6c29eb05c097760d",
           "drawing:6f83e372d7057526",
           "drawing:75a4be6507dd75fe",
-          "drawing:75e652628bded0d8",
           "drawing:767a3f8c3e47e0bd",
-          "drawing:7801c75b869778fe",
           "drawing:837336a6e0f8f27c",
-          "drawing:867520b102964291",
           "drawing:87325fd383c3b1af",
           "drawing:89be4f2885fb74a9",
           "drawing:908bfa4128c34006",
-          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:9516272260e4c69d",
@@ -1139,11 +1140,8 @@
           "drawing:bd36b029775eba8c",
           "drawing:bf9642a4ab479973",
           "drawing:bfad6c5a05be093a",
-          "drawing:c2e297448b5388ba",
-          "drawing:cd771fca2659a460",
           "drawing:d04b45557e7b8f2e",
           "drawing:dbc553f665d05c10",
-          "drawing:de6e8bf0fd559efc",
           "drawing:e52b4b37f626102c",
           "drawing:e54c4b6195e240be",
           "drawing:e920356ba6c73b52",
@@ -1162,19 +1160,18 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "drawing:29fc1dab07164509",
+          "drawing:11426c4cad392dc7",
           "drawing:3f4b6bd0b23e6927",
           "drawing:478ab66bb4c7e4f5",
+          "drawing:529e14e4d09b944a",
+          "drawing:53e2d239ed8df992",
           "drawing:61cc5e1150412252",
-          "drawing:9972eaa8ca8692d8",
+          "drawing:7801c75b869778fe",
+          "drawing:90e78c1ed707e7e4",
           "drawing:9e4e5a5e072642e8",
           "drawing:c18237e0a535bdb7",
           "drawing:d2896678981aedb8",
-          "drawing:d3cc8b77d097ec56",
-          "drawing:df5eb5c9968bbb86",
           "drawing:e84af4bd39ddf3eb",
-          "drawing:ea02b4528ba4eb10",
-          "drawing:fbfb884b46380275",
           "regression:4e15c9b5403a9b04"
         ],
         "renderer-failure": [
@@ -1209,19 +1206,42 @@
           "drawing:ef20265c9ef84973",
           "drawing:f78157ede4e2d1ab"
         ],
-        "invalid-format": [],
-        "unknown": [],
+        "invalid-format": [
+          "drawing:5c9a50898b1e6ffe"
+        ],
+        "unknown": [
+          "drawing:1b492a74df0fc4b6",
+          "drawing:22e97a0fc1fff023",
+          "drawing:29fc1dab07164509",
+          "drawing:3042977d4e6d813b",
+          "drawing:404189958f761756",
+          "drawing:4ae5560b57ca0064",
+          "drawing:4e4550d086c4e288",
+          "drawing:64788fe4b88b1f1f",
+          "drawing:75e652628bded0d8",
+          "drawing:867520b102964291",
+          "drawing:9972eaa8ca8692d8",
+          "drawing:c2e297448b5388ba",
+          "drawing:cd771fca2659a460",
+          "drawing:d3cc8b77d097ec56",
+          "drawing:de6e8bf0fd559efc",
+          "drawing:df5eb5c9968bbb86",
+          "drawing:ea02b4528ba4eb10",
+          "drawing:fbfb884b46380275"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 18
+      }
     },
     {
       "project": "crafter-station/mermaid",
       "version": "0.0.3",
       "format": "terminal",
       "counts": {
-        "correct": 67,
-        "incorrect": 32,
+        "correct": 62,
+        "incorrect": 37,
         "renderer-failure": 25,
         "invalid-format": 3,
         "unknown": 0,
@@ -1232,8 +1252,6 @@
           "drawing:03019928d457c65c",
           "drawing:128500dada38a009",
           "drawing:1468e1cf1186af65",
-          "drawing:1c0f33b5035768f2",
-          "drawing:206a9307ba8592b1",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
           "drawing:22e97a0fc1fff023",
@@ -1242,7 +1260,6 @@
           "drawing:25b4a684eb0b6e31",
           "drawing:276c8474274911fa",
           "drawing:32ad8ee06ab49562",
-          "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
@@ -1259,7 +1276,6 @@
           "drawing:64788fe4b88b1f1f",
           "drawing:663c83c9e855c6b5",
           "drawing:684ec260a97cf7b6",
-          "drawing:6c29eb05c097760d",
           "drawing:75a4be6507dd75fe",
           "drawing:837336a6e0f8f27c",
           "drawing:87325fd383c3b1af",
@@ -1289,7 +1305,6 @@
           "regression:c707395491823d1f",
           "regression:a1cbf1ae4b6a2b8a",
           "regression:d2ca0121985b295d",
-          "regression:e4a085e0bd0b6697",
           "regression:4e705c28aa5294b7",
           "regression:0be4872941973688",
           "regression:d5156efceddb697a",
@@ -1300,9 +1315,12 @@
         "incorrect": [
           "drawing:11426c4cad392dc7",
           "drawing:1b492a74df0fc4b6",
+          "drawing:1c0f33b5035768f2",
+          "drawing:206a9307ba8592b1",
           "drawing:278dccc21dd27020",
           "drawing:29fc1dab07164509",
           "drawing:3042977d4e6d813b",
+          "drawing:383e68bb60ac3633",
           "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
           "drawing:478ab66bb4c7e4f5",
@@ -1310,6 +1328,7 @@
           "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
           "drawing:61cc5e1150412252",
+          "drawing:6c29eb05c097760d",
           "drawing:6f83e372d7057526",
           "drawing:75e652628bded0d8",
           "drawing:767a3f8c3e47e0bd",
@@ -1329,7 +1348,8 @@
           "drawing:df5eb5c9968bbb86",
           "drawing:ea02b4528ba4eb10",
           "drawing:fbfb884b46380275",
-          "regression:4e15c9b5403a9b04"
+          "regression:4e15c9b5403a9b04",
+          "regression:e4a085e0bd0b6697"
         ],
         "renderer-failure": [
           "drawing:049722f83e7a31e0",
@@ -1373,18 +1393,17 @@
       "version": "5.14.4",
       "format": "svg",
       "counts": {
-        "correct": 109,
-        "incorrect": 1,
+        "correct": 103,
+        "incorrect": 0,
         "renderer-failure": 16,
-        "invalid-format": 1,
-        "unknown": 0,
+        "invalid-format": 2,
+        "unknown": 6,
         "unrun": 0
       },
       "caseOutcomes": {
         "correct": [
           "drawing:03019928d457c65c",
           "drawing:049722f83e7a31e0",
-          "drawing:0dbd28f2f1c494cc",
           "drawing:11426c4cad392dc7",
           "drawing:128500dada38a009",
           "drawing:1468e1cf1186af65",
@@ -1413,7 +1432,6 @@
           "drawing:48d7ff23dee1b343",
           "drawing:4ab51e1e2963ef1c",
           "drawing:4ab6c5415bc7a24c",
-          "drawing:4ae5560b57ca0064",
           "drawing:4e4550d086c4e288",
           "drawing:4f96b68984c54c5a",
           "drawing:529e14e4d09b944a",
@@ -1421,10 +1439,8 @@
           "drawing:54f7237ee5ab1a85",
           "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
-          "drawing:61cc5e1150412252",
           "drawing:64788fe4b88b1f1f",
           "drawing:663c83c9e855c6b5",
           "drawing:684ec260a97cf7b6",
@@ -1443,7 +1459,6 @@
           "drawing:89be4f2885fb74a9",
           "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
-          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
@@ -1467,7 +1482,6 @@
           "drawing:d2896678981aedb8",
           "drawing:d3cc8b77d097ec56",
           "drawing:d98a600399ba3ce5",
-          "drawing:dbc553f665d05c10",
           "drawing:de6e8bf0fd559efc",
           "drawing:df5eb5c9968bbb86",
           "drawing:e52b4b37f626102c",
@@ -1492,9 +1506,7 @@
           "regression:b37bebe1a745f1d6",
           "regression:aea8f60cfe1ecdeb"
         ],
-        "incorrect": [
-          "drawing:fbfb884b46380275"
-        ],
+        "incorrect": [],
         "renderer-failure": [
           "drawing:2295dae5ca33addf",
           "drawing:2598092a6e404821",
@@ -1514,20 +1526,31 @@
           "drawing:ddef9c7af192e428"
         ],
         "invalid-format": [
+          "drawing:5c9a50898b1e6ffe",
           "drawing:9e4e5a5e072642e8"
         ],
-        "unknown": [],
+        "unknown": [
+          "drawing:0dbd28f2f1c494cc",
+          "drawing:4ae5560b57ca0064",
+          "drawing:61cc5e1150412252",
+          "drawing:90e78c1ed707e7e4",
+          "drawing:dbc553f665d05c10",
+          "drawing:fbfb884b46380275"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 5,
+        "SVG label observer could not assess this output: Error: SVG label assessment deadline exceeded": 1
+      }
     },
     {
       "project": "dfadler/zombie-mermaid",
       "version": "5.14.4",
       "format": "terminal",
       "counts": {
-        "correct": 108,
-        "incorrect": 2,
+        "correct": 106,
+        "incorrect": 4,
         "renderer-failure": 16,
         "invalid-format": 1,
         "unknown": 0,
@@ -1537,7 +1560,6 @@
         "correct": [
           "drawing:03019928d457c65c",
           "drawing:049722f83e7a31e0",
-          "drawing:0dbd28f2f1c494cc",
           "drawing:11426c4cad392dc7",
           "drawing:128500dada38a009",
           "drawing:1468e1cf1186af65",
@@ -1594,7 +1616,6 @@
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
           "drawing:89be4f2885fb74a9",
-          "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
@@ -1645,6 +1666,8 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
+          "drawing:0dbd28f2f1c494cc",
+          "drawing:89e9eb6aebb72128",
           "drawing:90e78c1ed707e7e4",
           "drawing:fbfb884b46380275"
         ],
@@ -1679,16 +1702,15 @@
       "version": "0.4.0",
       "format": "svg",
       "counts": {
-        "correct": 120,
-        "incorrect": 6,
+        "correct": 112,
+        "incorrect": 4,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 0,
+        "unknown": 10,
         "unrun": 0
       },
       "caseOutcomes": {
         "correct": [
-          "drawing:03019928d457c65c",
           "drawing:049722f83e7a31e0",
           "drawing:0dbd28f2f1c494cc",
           "drawing:11426c4cad392dc7",
@@ -1703,7 +1725,6 @@
           "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
           "drawing:2598092a6e404821",
-          "drawing:25e166249d24378d",
           "drawing:263ec71ab0c651b3",
           "drawing:276c8474274911fa",
           "drawing:278dccc21dd27020",
@@ -1721,7 +1742,6 @@
           "drawing:46492176fc22b23d",
           "drawing:46c4d04542ff7c8e",
           "drawing:478ab66bb4c7e4f5",
-          "drawing:48d7ff23dee1b343",
           "drawing:4ab51e1e2963ef1c",
           "drawing:4ab6c5415bc7a24c",
           "drawing:4ae5560b57ca0064",
@@ -1748,13 +1768,11 @@
           "drawing:767a3f8c3e47e0bd",
           "drawing:7801c75b869778fe",
           "drawing:837336a6e0f8f27c",
-          "drawing:867520b102964291",
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
           "drawing:89be4f2885fb74a9",
           "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
-          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
@@ -1765,7 +1783,6 @@
           "drawing:a181524246065697",
           "drawing:a2118d0582abef57",
           "drawing:a5204531005bef25",
-          "drawing:aaf86b713c100b5a",
           "drawing:b1c4dd60b314e8a1",
           "drawing:b23c0856e157b1f2",
           "drawing:b29260d2c1b434d5",
@@ -1778,12 +1795,10 @@
           "drawing:c5455d2e2f5f8672",
           "drawing:c64d9c102f509905",
           "drawing:cd2dd60c268497d1",
-          "drawing:cd771fca2659a460",
           "drawing:d04b45557e7b8f2e",
           "drawing:d2896678981aedb8",
           "drawing:d3cc8b77d097ec56",
           "drawing:d98a600399ba3ce5",
-          "drawing:da9198e1adbc1c14",
           "drawing:dbc553f665d05c10",
           "drawing:de6e8bf0fd559efc",
           "drawing:df5eb5c9968bbb86",
@@ -1810,29 +1825,40 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "drawing:25b4a684eb0b6e31",
+          "drawing:03019928d457c65c",
           "drawing:5c9a50898b1e6ffe",
           "drawing:a60c7e7b3b930353",
-          "drawing:b1428b5b59888938",
-          "drawing:d7362afef7c26051",
           "drawing:ddef9c7af192e428"
         ],
         "renderer-failure": [
           "drawing:ef20265c9ef84973"
         ],
         "invalid-format": [],
-        "unknown": [],
+        "unknown": [
+          "drawing:25b4a684eb0b6e31",
+          "drawing:25e166249d24378d",
+          "drawing:48d7ff23dee1b343",
+          "drawing:867520b102964291",
+          "drawing:90e78c1ed707e7e4",
+          "drawing:aaf86b713c100b5a",
+          "drawing:b1428b5b59888938",
+          "drawing:cd771fca2659a460",
+          "drawing:d7362afef7c26051",
+          "drawing:da9198e1adbc1c14"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 10
+      }
     },
     {
       "project": "Dicklesworthstone/frankenmermaid",
       "version": "0.4.0",
       "format": "terminal",
       "counts": {
-        "correct": 111,
-        "incorrect": 15,
+        "correct": 109,
+        "incorrect": 17,
         "renderer-failure": 1,
         "invalid-format": 0,
         "unknown": 0,
@@ -1845,7 +1871,6 @@
           "drawing:128500dada38a009",
           "drawing:1468e1cf1186af65",
           "drawing:1b492a74df0fc4b6",
-          "drawing:1c0f33b5035768f2",
           "drawing:206a9307ba8592b1",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
@@ -1897,7 +1922,6 @@
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
           "drawing:89be4f2885fb74a9",
-          "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
           "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
@@ -1955,6 +1979,7 @@
         "incorrect": [
           "drawing:03019928d457c65c",
           "drawing:0dbd28f2f1c494cc",
+          "drawing:1c0f33b5035768f2",
           "drawing:25b4a684eb0b6e31",
           "drawing:27a0bf1eef1bdb6f",
           "drawing:29fc1dab07164509",
@@ -1962,6 +1987,7 @@
           "drawing:48d7ff23dee1b343",
           "drawing:587429a5094fbb28",
           "drawing:5c9a50898b1e6ffe",
+          "drawing:89e9eb6aebb72128",
           "drawing:94e514f9f375364c",
           "drawing:a60c7e7b3b930353",
           "drawing:b1428b5b59888938",
@@ -1983,11 +2009,11 @@
       "version": "0.2.3",
       "format": "svg",
       "counts": {
-        "correct": 93,
-        "incorrect": 20,
+        "correct": 85,
+        "incorrect": 18,
         "renderer-failure": 14,
         "invalid-format": 0,
-        "unknown": 0,
+        "unknown": 10,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -2009,12 +2035,9 @@
           "drawing:276c8474274911fa",
           "drawing:278dccc21dd27020",
           "drawing:27a0bf1eef1bdb6f",
-          "drawing:29fc1dab07164509",
-          "drawing:3042977d4e6d813b",
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
@@ -2022,9 +2045,7 @@
           "drawing:48d7ff23dee1b343",
           "drawing:4ab51e1e2963ef1c",
           "drawing:4ab6c5415bc7a24c",
-          "drawing:4ae5560b57ca0064",
           "drawing:4f96b68984c54c5a",
-          "drawing:529e14e4d09b944a",
           "drawing:54f7237ee5ab1a85",
           "drawing:5b249b03683c12ec",
           "drawing:5d18804ad5e0e31f",
@@ -2038,14 +2059,12 @@
           "drawing:704f69aae7273edd",
           "drawing:75a4be6507dd75fe",
           "drawing:75e652628bded0d8",
-          "drawing:767a3f8c3e47e0bd",
           "drawing:7801c75b869778fe",
           "drawing:837336a6e0f8f27c",
           "drawing:867520b102964291",
           "drawing:87325fd383c3b1af",
           "drawing:89be4f2885fb74a9",
           "drawing:908bfa4128c34006",
-          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
@@ -2064,7 +2083,6 @@
           "drawing:bfad6c5a05be093a",
           "drawing:c2e297448b5388ba",
           "drawing:c64d9c102f509905",
-          "drawing:cd771fca2659a460",
           "drawing:d3cc8b77d097ec56",
           "drawing:dbc553f665d05c10",
           "drawing:de6e8bf0fd559efc",
@@ -2089,23 +2107,21 @@
         "incorrect": [
           "drawing:22775b7f44c796b6",
           "drawing:25b4a684eb0b6e31",
-          "drawing:478ab66bb4c7e4f5",
-          "drawing:4e4550d086c4e288",
-          "drawing:53e2d239ed8df992",
-          "drawing:61cc5e1150412252",
+          "drawing:3042977d4e6d813b",
+          "drawing:3f4b6bd0b23e6927",
+          "drawing:4ae5560b57ca0064",
+          "drawing:90e78c1ed707e7e4",
           "drawing:9e4e5a5e072642e8",
           "drawing:a5204531005bef25",
           "drawing:b1428b5b59888938",
           "drawing:c18237e0a535bdb7",
           "drawing:c5455d2e2f5f8672",
-          "drawing:d04b45557e7b8f2e",
+          "drawing:cd771fca2659a460",
           "drawing:d2896678981aedb8",
           "drawing:da9198e1adbc1c14",
           "drawing:e54c4b6195e240be",
           "drawing:e84af4bd39ddf3eb",
-          "drawing:ea02b4528ba4eb10",
           "drawing:ef20265c9ef84973",
-          "drawing:fbfb884b46380275",
           "regression:a1cbf1ae4b6a2b8a"
         ],
         "renderer-failure": [
@@ -2125,18 +2141,31 @@
           "drawing:ddef9c7af192e428"
         ],
         "invalid-format": [],
-        "unknown": [],
+        "unknown": [
+          "drawing:29fc1dab07164509",
+          "drawing:478ab66bb4c7e4f5",
+          "drawing:4e4550d086c4e288",
+          "drawing:529e14e4d09b944a",
+          "drawing:53e2d239ed8df992",
+          "drawing:61cc5e1150412252",
+          "drawing:767a3f8c3e47e0bd",
+          "drawing:d04b45557e7b8f2e",
+          "drawing:ea02b4528ba4eb10",
+          "drawing:fbfb884b46380275"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 10
+      }
     },
     {
       "project": "emtyty/merslim",
       "version": "0.2.3",
       "format": "terminal",
       "counts": {
-        "correct": 77,
-        "incorrect": 29,
+        "correct": 71,
+        "incorrect": 35,
         "renderer-failure": 13,
         "invalid-format": 8,
         "unknown": 0,
@@ -2150,7 +2179,6 @@
           "drawing:128500dada38a009",
           "drawing:1468e1cf1186af65",
           "drawing:1b492a74df0fc4b6",
-          "drawing:1c0f33b5035768f2",
           "drawing:2091f6913743bcab",
           "drawing:2295dae5ca33addf",
           "drawing:2431a54dd231055c",
@@ -2158,9 +2186,7 @@
           "drawing:276c8474274911fa",
           "drawing:29fc1dab07164509",
           "drawing:32ad8ee06ab49562",
-          "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
@@ -2177,12 +2203,10 @@
           "drawing:64788fe4b88b1f1f",
           "drawing:663c83c9e855c6b5",
           "drawing:684ec260a97cf7b6",
-          "drawing:6c29eb05c097760d",
           "drawing:6f0f134c3b965095",
           "drawing:6f83e372d7057526",
           "drawing:704f69aae7273edd",
           "drawing:75a4be6507dd75fe",
-          "drawing:767a3f8c3e47e0bd",
           "drawing:7801c75b869778fe",
           "drawing:837336a6e0f8f27c",
           "drawing:87325fd383c3b1af",
@@ -2215,7 +2239,6 @@
           "regression:68230bdf498c2525",
           "regression:c707395491823d1f",
           "regression:d2ca0121985b295d",
-          "regression:e4a085e0bd0b6697",
           "regression:4e705c28aa5294b7",
           "regression:0be4872941973688",
           "regression:d5156efceddb697a",
@@ -2224,18 +2247,23 @@
         ],
         "incorrect": [
           "drawing:11426c4cad392dc7",
+          "drawing:1c0f33b5035768f2",
           "drawing:206a9307ba8592b1",
           "drawing:22e97a0fc1fff023",
           "drawing:278dccc21dd27020",
           "drawing:27a0bf1eef1bdb6f",
           "drawing:3042977d4e6d813b",
+          "drawing:383e68bb60ac3633",
+          "drawing:3f4b6bd0b23e6927",
           "drawing:46c4d04542ff7c8e",
           "drawing:478ab66bb4c7e4f5",
           "drawing:4e4550d086c4e288",
           "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
           "drawing:61cc5e1150412252",
+          "drawing:6c29eb05c097760d",
           "drawing:75e652628bded0d8",
+          "drawing:767a3f8c3e47e0bd",
           "drawing:867520b102964291",
           "drawing:908bfa4128c34006",
           "drawing:90e78c1ed707e7e4",
@@ -2251,6 +2279,7 @@
           "drawing:da9198e1adbc1c14",
           "drawing:ea02b4528ba4eb10",
           "drawing:fbfb884b46380275",
+          "regression:e4a085e0bd0b6697",
           "regression:baf6f401f414d53b"
         ],
         "renderer-failure": [
@@ -2288,11 +2317,11 @@
       "version": "0.4.2",
       "format": "svg",
       "counts": {
-        "correct": 107,
+        "correct": 100,
         "incorrect": 7,
         "renderer-failure": 13,
-        "invalid-format": 0,
-        "unknown": 0,
+        "invalid-format": 1,
+        "unknown": 6,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -2313,7 +2342,6 @@
           "drawing:25b4a684eb0b6e31",
           "drawing:263ec71ab0c651b3",
           "drawing:278dccc21dd27020",
-          "drawing:29fc1dab07164509",
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
           "drawing:39d5de95eb42396b",
@@ -2328,15 +2356,12 @@
           "drawing:48d7ff23dee1b343",
           "drawing:4ab51e1e2963ef1c",
           "drawing:4ab6c5415bc7a24c",
-          "drawing:4ae5560b57ca0064",
-          "drawing:4e4550d086c4e288",
           "drawing:4f96b68984c54c5a",
           "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
           "drawing:54f7237ee5ab1a85",
           "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
           "drawing:61cc5e1150412252",
@@ -2353,9 +2378,7 @@
           "drawing:837336a6e0f8f27c",
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
-          "drawing:89be4f2885fb74a9",
           "drawing:908bfa4128c34006",
-          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
@@ -2374,7 +2397,6 @@
           "drawing:c5455d2e2f5f8672",
           "drawing:c64d9c102f509905",
           "drawing:cd2dd60c268497d1",
-          "drawing:cd771fca2659a460",
           "drawing:d2896678981aedb8",
           "drawing:d3cc8b77d097ec56",
           "drawing:d98a600399ba3ce5",
@@ -2406,13 +2428,13 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "drawing:0dbd28f2f1c494cc",
           "drawing:276c8474274911fa",
+          "drawing:4ae5560b57ca0064",
           "drawing:7801c75b869778fe",
-          "drawing:a60c7e7b3b930353",
+          "drawing:90e78c1ed707e7e4",
           "drawing:aaf86b713c100b5a",
-          "drawing:d04b45557e7b8f2e",
-          "drawing:da9198e1adbc1c14"
+          "drawing:cd771fca2659a460",
+          "drawing:d04b45557e7b8f2e"
         ],
         "renderer-failure": [
           "drawing:2598092a6e404821",
@@ -2429,19 +2451,30 @@
           "drawing:c2e297448b5388ba",
           "drawing:d7362afef7c26051"
         ],
-        "invalid-format": [],
-        "unknown": [],
+        "invalid-format": [
+          "drawing:5c9a50898b1e6ffe"
+        ],
+        "unknown": [
+          "drawing:0dbd28f2f1c494cc",
+          "drawing:29fc1dab07164509",
+          "drawing:4e4550d086c4e288",
+          "drawing:89be4f2885fb74a9",
+          "drawing:a60c7e7b3b930353",
+          "drawing:da9198e1adbc1c14"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 6
+      }
     },
     {
       "project": "fasouto/termaid",
       "version": "0.12.0",
       "format": "terminal",
       "counts": {
-        "correct": 116,
-        "incorrect": 11,
+        "correct": 110,
+        "incorrect": 17,
         "renderer-failure": 0,
         "invalid-format": 0,
         "unknown": 0,
@@ -2456,14 +2489,12 @@
           "drawing:1468e1cf1186af65",
           "drawing:1b492a74df0fc4b6",
           "drawing:1c0f33b5035768f2",
-          "drawing:206a9307ba8592b1",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
           "drawing:2295dae5ca33addf",
           "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
           "drawing:2598092a6e404821",
-          "drawing:25b4a684eb0b6e31",
           "drawing:25e166249d24378d",
           "drawing:263ec71ab0c651b3",
           "drawing:276c8474274911fa",
@@ -2471,7 +2502,6 @@
           "drawing:3042977d4e6d813b",
           "drawing:32ad8ee06ab49562",
           "drawing:39d5de95eb42396b",
-          "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
           "drawing:43382cbc1379cf4c",
           "drawing:435d2e71f8557532",
@@ -2501,14 +2531,12 @@
           "drawing:704f69aae7273edd",
           "drawing:75a4be6507dd75fe",
           "drawing:75e652628bded0d8",
-          "drawing:767a3f8c3e47e0bd",
           "drawing:7801c75b869778fe",
           "drawing:837336a6e0f8f27c",
           "drawing:867520b102964291",
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
           "drawing:89be4f2885fb74a9",
-          "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
@@ -2553,7 +2581,6 @@
           "drawing:ea7675b95cb763b3",
           "drawing:ef20265c9ef84973",
           "drawing:f78157ede4e2d1ab",
-          "drawing:fbfb884b46380275",
           "regression:4e15c9b5403a9b04",
           "regression:68230bdf498c2525",
           "regression:c707395491823d1f",
@@ -2568,15 +2595,21 @@
         ],
         "incorrect": [
           "drawing:0dbd28f2f1c494cc",
+          "drawing:206a9307ba8592b1",
+          "drawing:25b4a684eb0b6e31",
           "drawing:27a0bf1eef1bdb6f",
           "drawing:29fc1dab07164509",
           "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
+          "drawing:3f4b6bd0b23e6927",
           "drawing:478ab66bb4c7e4f5",
           "drawing:6c29eb05c097760d",
+          "drawing:767a3f8c3e47e0bd",
+          "drawing:89e9eb6aebb72128",
           "drawing:90e78c1ed707e7e4",
           "drawing:b1428b5b59888938",
           "drawing:c5455d2e2f5f8672",
+          "drawing:fbfb884b46380275",
           "regression:e4a085e0bd0b6697"
         ],
         "renderer-failure": [],
@@ -2591,8 +2624,8 @@
       "version": "0.1.0",
       "format": "terminal",
       "counts": {
-        "correct": 83,
-        "incorrect": 18,
+        "correct": 78,
+        "incorrect": 23,
         "renderer-failure": 24,
         "invalid-format": 2,
         "unknown": 0,
@@ -2605,7 +2638,6 @@
           "drawing:128500dada38a009",
           "drawing:1468e1cf1186af65",
           "drawing:1b492a74df0fc4b6",
-          "drawing:1c0f33b5035768f2",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
           "drawing:22e97a0fc1fff023",
@@ -2614,7 +2646,6 @@
           "drawing:276c8474274911fa",
           "drawing:278dccc21dd27020",
           "drawing:32ad8ee06ab49562",
-          "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
           "drawing:404189958f761756",
           "drawing:435d2e71f8557532",
@@ -2635,11 +2666,9 @@
           "drawing:64788fe4b88b1f1f",
           "drawing:663c83c9e855c6b5",
           "drawing:684ec260a97cf7b6",
-          "drawing:6c29eb05c097760d",
           "drawing:6f0f134c3b965095",
           "drawing:704f69aae7273edd",
           "drawing:75a4be6507dd75fe",
-          "drawing:767a3f8c3e47e0bd",
           "drawing:7801c75b869778fe",
           "drawing:837336a6e0f8f27c",
           "drawing:87325fd383c3b1af",
@@ -2676,7 +2705,6 @@
           "regression:c707395491823d1f",
           "regression:a1cbf1ae4b6a2b8a",
           "regression:d2ca0121985b295d",
-          "regression:e4a085e0bd0b6697",
           "regression:4e705c28aa5294b7",
           "regression:0be4872941973688",
           "regression:d5156efceddb697a",
@@ -2685,14 +2713,18 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
+          "drawing:1c0f33b5035768f2",
           "drawing:206a9307ba8592b1",
           "drawing:29fc1dab07164509",
           "drawing:3042977d4e6d813b",
+          "drawing:383e68bb60ac3633",
           "drawing:3f4b6bd0b23e6927",
           "drawing:478ab66bb4c7e4f5",
           "drawing:61cc5e1150412252",
+          "drawing:6c29eb05c097760d",
           "drawing:6f83e372d7057526",
           "drawing:75e652628bded0d8",
+          "drawing:767a3f8c3e47e0bd",
           "drawing:867520b102964291",
           "drawing:90e78c1ed707e7e4",
           "drawing:94e514f9f375364c",
@@ -2702,7 +2734,8 @@
           "drawing:cd771fca2659a460",
           "drawing:d2896678981aedb8",
           "drawing:ea02b4528ba4eb10",
-          "drawing:fbfb884b46380275"
+          "drawing:fbfb884b46380275",
+          "regression:e4a085e0bd0b6697"
         ],
         "renderer-failure": [
           "drawing:049722f83e7a31e0",
@@ -2744,8 +2777,8 @@
       "version": "0.2.1",
       "format": "terminal",
       "counts": {
-        "correct": 66,
-        "incorrect": 5,
+        "correct": 64,
+        "incorrect": 7,
         "renderer-failure": 56,
         "invalid-format": 0,
         "unknown": 0,
@@ -2766,7 +2799,6 @@
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
@@ -2787,7 +2819,6 @@
           "drawing:684ec260a97cf7b6",
           "drawing:6c29eb05c097760d",
           "drawing:6f83e372d7057526",
-          "drawing:767a3f8c3e47e0bd",
           "drawing:837336a6e0f8f27c",
           "drawing:87325fd383c3b1af",
           "drawing:908bfa4128c34006",
@@ -2822,7 +2853,9 @@
         ],
         "incorrect": [
           "drawing:25b4a684eb0b6e31",
+          "drawing:3f4b6bd0b23e6927",
           "drawing:478ab66bb4c7e4f5",
+          "drawing:767a3f8c3e47e0bd",
           "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:cd771fca2659a460"
@@ -2896,94 +2929,24 @@
       "version": "0.3.2",
       "format": "svg",
       "counts": {
-        "correct": 67,
-        "incorrect": 10,
+        "correct": 0,
+        "incorrect": 8,
         "renderer-failure": 50,
-        "invalid-format": 0,
-        "unknown": 0,
+        "invalid-format": 1,
+        "unknown": 68,
         "unrun": 0
       },
       "caseOutcomes": {
-        "correct": [
-          "drawing:03019928d457c65c",
-          "drawing:11426c4cad392dc7",
-          "drawing:128500dada38a009",
-          "drawing:1468e1cf1186af65",
-          "drawing:1b492a74df0fc4b6",
-          "drawing:1c0f33b5035768f2",
-          "drawing:2091f6913743bcab",
-          "drawing:22e97a0fc1fff023",
-          "drawing:2431a54dd231055c",
-          "drawing:32ad8ee06ab49562",
-          "drawing:383e68bb60ac3633",
-          "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
-          "drawing:404189958f761756",
-          "drawing:435d2e71f8557532",
-          "drawing:46492176fc22b23d",
-          "drawing:46c4d04542ff7c8e",
-          "drawing:48d7ff23dee1b343",
-          "drawing:4ab51e1e2963ef1c",
-          "drawing:4ab6c5415bc7a24c",
-          "drawing:4e4550d086c4e288",
-          "drawing:529e14e4d09b944a",
-          "drawing:53e2d239ed8df992",
-          "drawing:54f7237ee5ab1a85",
-          "drawing:5c9a50898b1e6ffe",
-          "drawing:5d18804ad5e0e31f",
-          "drawing:5eee7283ba095288",
-          "drawing:64788fe4b88b1f1f",
-          "drawing:663c83c9e855c6b5",
-          "drawing:684ec260a97cf7b6",
-          "drawing:6c29eb05c097760d",
-          "drawing:6f83e372d7057526",
-          "drawing:75a4be6507dd75fe",
-          "drawing:767a3f8c3e47e0bd",
-          "drawing:7801c75b869778fe",
-          "drawing:837336a6e0f8f27c",
-          "drawing:87325fd383c3b1af",
-          "drawing:915784d6704949c2",
-          "drawing:94ac61fd1311d5bc",
-          "drawing:9516272260e4c69d",
-          "drawing:9cdc849ecf29b4d2",
-          "drawing:a2118d0582abef57",
-          "drawing:b1c4dd60b314e8a1",
-          "drawing:b29260d2c1b434d5",
-          "drawing:b4c60f465d6bcb5b",
-          "drawing:bfad6c5a05be093a",
-          "drawing:c5455d2e2f5f8672",
-          "drawing:d04b45557e7b8f2e",
-          "drawing:d2896678981aedb8",
-          "drawing:d3cc8b77d097ec56",
-          "drawing:dbc553f665d05c10",
-          "drawing:de6e8bf0fd559efc",
-          "drawing:df5eb5c9968bbb86",
-          "drawing:e52b4b37f626102c",
-          "drawing:e920356ba6c73b52",
-          "drawing:e977db2dd4ba0536",
-          "drawing:ea02b4528ba4eb10",
-          "regression:4e15c9b5403a9b04",
-          "regression:68230bdf498c2525",
-          "regression:c707395491823d1f",
-          "regression:a1cbf1ae4b6a2b8a",
-          "regression:d2ca0121985b295d",
-          "regression:e4a085e0bd0b6697",
-          "regression:4e705c28aa5294b7",
-          "regression:0be4872941973688",
-          "regression:d5156efceddb697a",
-          "regression:baf6f401f414d53b"
-        ],
+        "correct": [],
         "incorrect": [
           "drawing:22775b7f44c796b6",
           "drawing:25b4a684eb0b6e31",
-          "drawing:29fc1dab07164509",
-          "drawing:478ab66bb4c7e4f5",
-          "drawing:908bfa4128c34006",
-          "drawing:90e78c1ed707e7e4",
-          "drawing:bf9642a4ab479973",
+          "drawing:383e68bb60ac3633",
+          "drawing:3f4b6bd0b23e6927",
+          "drawing:6c29eb05c097760d",
           "drawing:c18237e0a535bdb7",
           "drawing:e54c4b6195e240be",
-          "drawing:fbfb884b46380275"
+          "regression:e4a085e0bd0b6697"
         ],
         "renderer-failure": [
           "drawing:049722f83e7a31e0",
@@ -3037,22 +3000,95 @@
           "regression:b37bebe1a745f1d6",
           "regression:aea8f60cfe1ecdeb"
         ],
-        "invalid-format": [],
-        "unknown": [],
+        "invalid-format": [
+          "drawing:5c9a50898b1e6ffe"
+        ],
+        "unknown": [
+          "drawing:03019928d457c65c",
+          "drawing:11426c4cad392dc7",
+          "drawing:128500dada38a009",
+          "drawing:1468e1cf1186af65",
+          "drawing:1b492a74df0fc4b6",
+          "drawing:1c0f33b5035768f2",
+          "drawing:2091f6913743bcab",
+          "drawing:22e97a0fc1fff023",
+          "drawing:2431a54dd231055c",
+          "drawing:29fc1dab07164509",
+          "drawing:32ad8ee06ab49562",
+          "drawing:3c2f67b774f592f2",
+          "drawing:404189958f761756",
+          "drawing:435d2e71f8557532",
+          "drawing:46492176fc22b23d",
+          "drawing:46c4d04542ff7c8e",
+          "drawing:478ab66bb4c7e4f5",
+          "drawing:48d7ff23dee1b343",
+          "drawing:4ab51e1e2963ef1c",
+          "drawing:4ab6c5415bc7a24c",
+          "drawing:4e4550d086c4e288",
+          "drawing:529e14e4d09b944a",
+          "drawing:53e2d239ed8df992",
+          "drawing:54f7237ee5ab1a85",
+          "drawing:5d18804ad5e0e31f",
+          "drawing:5eee7283ba095288",
+          "drawing:64788fe4b88b1f1f",
+          "drawing:663c83c9e855c6b5",
+          "drawing:684ec260a97cf7b6",
+          "drawing:6f83e372d7057526",
+          "drawing:75a4be6507dd75fe",
+          "drawing:767a3f8c3e47e0bd",
+          "drawing:7801c75b869778fe",
+          "drawing:837336a6e0f8f27c",
+          "drawing:87325fd383c3b1af",
+          "drawing:908bfa4128c34006",
+          "drawing:90e78c1ed707e7e4",
+          "drawing:915784d6704949c2",
+          "drawing:94ac61fd1311d5bc",
+          "drawing:9516272260e4c69d",
+          "drawing:9cdc849ecf29b4d2",
+          "drawing:a2118d0582abef57",
+          "drawing:b1c4dd60b314e8a1",
+          "drawing:b29260d2c1b434d5",
+          "drawing:b4c60f465d6bcb5b",
+          "drawing:bf9642a4ab479973",
+          "drawing:bfad6c5a05be093a",
+          "drawing:c5455d2e2f5f8672",
+          "drawing:d04b45557e7b8f2e",
+          "drawing:d2896678981aedb8",
+          "drawing:d3cc8b77d097ec56",
+          "drawing:dbc553f665d05c10",
+          "drawing:de6e8bf0fd559efc",
+          "drawing:df5eb5c9968bbb86",
+          "drawing:e52b4b37f626102c",
+          "drawing:e920356ba6c73b52",
+          "drawing:e977db2dd4ba0536",
+          "drawing:ea02b4528ba4eb10",
+          "drawing:fbfb884b46380275",
+          "regression:4e15c9b5403a9b04",
+          "regression:68230bdf498c2525",
+          "regression:c707395491823d1f",
+          "regression:a1cbf1ae4b6a2b8a",
+          "regression:d2ca0121985b295d",
+          "regression:4e705c28aa5294b7",
+          "regression:0be4872941973688",
+          "regression:d5156efceddb697a",
+          "regression:baf6f401f414d53b"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 68
+      }
     },
     {
       "project": "Latias94/merman",
       "version": "0.9.3",
       "format": "svg",
       "counts": {
-        "correct": 125,
+        "correct": 98,
         "incorrect": 1,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 0,
+        "unknown": 27,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -3062,31 +3098,25 @@
           "drawing:0dbd28f2f1c494cc",
           "drawing:11426c4cad392dc7",
           "drawing:128500dada38a009",
-          "drawing:1468e1cf1186af65",
           "drawing:1b492a74df0fc4b6",
           "drawing:1c0f33b5035768f2",
-          "drawing:206a9307ba8592b1",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
           "drawing:2295dae5ca33addf",
           "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
-          "drawing:2598092a6e404821",
           "drawing:25b4a684eb0b6e31",
           "drawing:25e166249d24378d",
           "drawing:263ec71ab0c651b3",
           "drawing:276c8474274911fa",
-          "drawing:278dccc21dd27020",
           "drawing:27a0bf1eef1bdb6f",
           "drawing:29fc1dab07164509",
-          "drawing:3042977d4e6d813b",
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
           "drawing:39d5de95eb42396b",
           "drawing:3c2f67b774f592f2",
           "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
-          "drawing:43382cbc1379cf4c",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
           "drawing:46c4d04542ff7c8e",
@@ -3094,16 +3124,12 @@
           "drawing:48d7ff23dee1b343",
           "drawing:4ab51e1e2963ef1c",
           "drawing:4ab6c5415bc7a24c",
-          "drawing:4ae5560b57ca0064",
           "drawing:4e4550d086c4e288",
-          "drawing:4f96b68984c54c5a",
           "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
           "drawing:54f7237ee5ab1a85",
-          "drawing:570e13053d228e29",
           "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
           "drawing:61cc5e1150412252",
@@ -3115,43 +3141,30 @@
           "drawing:6f83e372d7057526",
           "drawing:704f69aae7273edd",
           "drawing:75a4be6507dd75fe",
-          "drawing:75e652628bded0d8",
           "drawing:767a3f8c3e47e0bd",
-          "drawing:7801c75b869778fe",
           "drawing:837336a6e0f8f27c",
-          "drawing:867520b102964291",
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
-          "drawing:89be4f2885fb74a9",
-          "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
           "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
-          "drawing:94e514f9f375364c",
           "drawing:9516272260e4c69d",
-          "drawing:9972eaa8ca8692d8",
           "drawing:9cdc849ecf29b4d2",
           "drawing:9e4e5a5e072642e8",
-          "drawing:a181524246065697",
           "drawing:a2118d0582abef57",
           "drawing:a5204531005bef25",
           "drawing:a60c7e7b3b930353",
           "drawing:aaf86b713c100b5a",
           "drawing:b1c4dd60b314e8a1",
-          "drawing:b23c0856e157b1f2",
           "drawing:b29260d2c1b434d5",
           "drawing:b4c60f465d6bcb5b",
           "drawing:bd36b029775eba8c",
           "drawing:bf9642a4ab479973",
           "drawing:bfad6c5a05be093a",
           "drawing:c18237e0a535bdb7",
-          "drawing:c2e297448b5388ba",
-          "drawing:c5455d2e2f5f8672",
           "drawing:c64d9c102f509905",
           "drawing:cd2dd60c268497d1",
-          "drawing:cd771fca2659a460",
-          "drawing:d04b45557e7b8f2e",
           "drawing:d2896678981aedb8",
           "drawing:d3cc8b77d097ec56",
           "drawing:d7362afef7c26051",
@@ -3168,13 +3181,9 @@
           "drawing:ea02b4528ba4eb10",
           "drawing:ea7675b95cb763b3",
           "drawing:ef20265c9ef84973",
-          "drawing:f78157ede4e2d1ab",
           "drawing:fbfb884b46380275",
           "regression:4e15c9b5403a9b04",
           "regression:68230bdf498c2525",
-          "regression:c707395491823d1f",
-          "regression:a1cbf1ae4b6a2b8a",
-          "regression:d2ca0121985b295d",
           "regression:e4a085e0bd0b6697",
           "regression:4e705c28aa5294b7",
           "regression:0be4872941973688",
@@ -3184,24 +3193,54 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "drawing:b1428b5b59888938"
+          "drawing:89e9eb6aebb72128"
         ],
         "renderer-failure": [
           "drawing:dbc553f665d05c10"
         ],
         "invalid-format": [],
-        "unknown": [],
+        "unknown": [
+          "drawing:1468e1cf1186af65",
+          "drawing:206a9307ba8592b1",
+          "drawing:2598092a6e404821",
+          "drawing:278dccc21dd27020",
+          "drawing:3042977d4e6d813b",
+          "drawing:43382cbc1379cf4c",
+          "drawing:4ae5560b57ca0064",
+          "drawing:4f96b68984c54c5a",
+          "drawing:570e13053d228e29",
+          "drawing:5c9a50898b1e6ffe",
+          "drawing:75e652628bded0d8",
+          "drawing:7801c75b869778fe",
+          "drawing:867520b102964291",
+          "drawing:89be4f2885fb74a9",
+          "drawing:94e514f9f375364c",
+          "drawing:9972eaa8ca8692d8",
+          "drawing:a181524246065697",
+          "drawing:b1428b5b59888938",
+          "drawing:b23c0856e157b1f2",
+          "drawing:c2e297448b5388ba",
+          "drawing:c5455d2e2f5f8672",
+          "drawing:cd771fca2659a460",
+          "drawing:d04b45557e7b8f2e",
+          "drawing:f78157ede4e2d1ab",
+          "regression:c707395491823d1f",
+          "regression:a1cbf1ae4b6a2b8a",
+          "regression:d2ca0121985b295d"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 27
+      }
     },
     {
       "project": "Latias94/merman",
       "version": "0.9.3",
       "format": "terminal",
       "counts": {
-        "correct": 100,
-        "incorrect": 4,
+        "correct": 99,
+        "incorrect": 5,
         "renderer-failure": 23,
         "invalid-format": 0,
         "unknown": 0,
@@ -3296,7 +3335,6 @@
           "drawing:ea7675b95cb763b3",
           "drawing:ef20265c9ef84973",
           "drawing:f78157ede4e2d1ab",
-          "drawing:fbfb884b46380275",
           "regression:4e15c9b5403a9b04",
           "regression:68230bdf498c2525",
           "regression:c707395491823d1f",
@@ -3314,7 +3352,8 @@
           "drawing:2295dae5ca33addf",
           "drawing:2598092a6e404821",
           "drawing:478ab66bb4c7e4f5",
-          "drawing:c64d9c102f509905"
+          "drawing:c64d9c102f509905",
+          "drawing:fbfb884b46380275"
         ],
         "renderer-failure": [
           "drawing:049722f83e7a31e0",
@@ -3352,10 +3391,10 @@
       "version": "1.1.3",
       "format": "svg",
       "counts": {
-        "correct": 93,
+        "correct": 92,
         "incorrect": 4,
         "renderer-failure": 29,
-        "invalid-format": 1,
+        "invalid-format": 2,
         "unknown": 0,
         "unrun": 0
       },
@@ -3394,7 +3433,6 @@
           "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
           "drawing:54f7237ee5ab1a85",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
           "drawing:64788fe4b88b1f1f",
@@ -3493,6 +3531,7 @@
           "drawing:ddef9c7af192e428"
         ],
         "invalid-format": [
+          "drawing:5c9a50898b1e6ffe",
           "drawing:9e4e5a5e072642e8"
         ],
         "unknown": [],
@@ -3505,8 +3544,8 @@
       "version": "1.1.3",
       "format": "terminal",
       "counts": {
-        "correct": 85,
-        "incorrect": 12,
+        "correct": 84,
+        "incorrect": 13,
         "renderer-failure": 29,
         "invalid-format": 1,
         "unknown": 0,
@@ -3531,7 +3570,6 @@
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
@@ -3602,6 +3640,7 @@
         ],
         "incorrect": [
           "drawing:3042977d4e6d813b",
+          "drawing:3f4b6bd0b23e6927",
           "drawing:478ab66bb4c7e4f5",
           "drawing:75e652628bded0d8",
           "drawing:867520b102964291",
@@ -3658,11 +3697,11 @@
       "version": "12.3.0",
       "format": "svg",
       "counts": {
-        "correct": 125,
-        "incorrect": 1,
+        "correct": 121,
+        "incorrect": 0,
         "renderer-failure": 1,
-        "invalid-format": 0,
-        "unknown": 0,
+        "invalid-format": 1,
+        "unknown": 4,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -3713,7 +3752,6 @@
           "drawing:570e13053d228e29",
           "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
           "drawing:61cc5e1150412252",
@@ -3732,8 +3770,6 @@
           "drawing:867520b102964291",
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
-          "drawing:89be4f2885fb74a9",
-          "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
           "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
@@ -3767,7 +3803,6 @@
           "drawing:d7362afef7c26051",
           "drawing:d98a600399ba3ce5",
           "drawing:da9198e1adbc1c14",
-          "drawing:dbc553f665d05c10",
           "drawing:ddef9c7af192e428",
           "drawing:de6e8bf0fd559efc",
           "drawing:df5eb5c9968bbb86",
@@ -3793,25 +3828,33 @@
           "regression:b37bebe1a745f1d6",
           "regression:aea8f60cfe1ecdeb"
         ],
-        "incorrect": [
-          "drawing:b1428b5b59888938"
-        ],
+        "incorrect": [],
         "renderer-failure": [
           "regression:68230bdf498c2525"
         ],
-        "invalid-format": [],
-        "unknown": [],
+        "invalid-format": [
+          "drawing:5c9a50898b1e6ffe"
+        ],
+        "unknown": [
+          "drawing:89be4f2885fb74a9",
+          "drawing:89e9eb6aebb72128",
+          "drawing:b1428b5b59888938",
+          "drawing:dbc553f665d05c10"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 3,
+        "SVG label observer could not assess this output: Error: SVG label assessment deadline exceeded": 1
+      }
     },
     {
       "project": "Mootikins/figurehead-rs",
       "version": "v0.4.3",
       "format": "terminal",
       "counts": {
-        "correct": 56,
-        "incorrect": 13,
+        "correct": 52,
+        "incorrect": 17,
         "renderer-failure": 58,
         "invalid-format": 0,
         "unknown": 0,
@@ -3825,7 +3868,6 @@
           "drawing:2091f6913743bcab",
           "drawing:2295dae5ca33addf",
           "drawing:2431a54dd231055c",
-          "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
@@ -3838,9 +3880,7 @@
           "drawing:5eee7283ba095288",
           "drawing:663c83c9e855c6b5",
           "drawing:684ec260a97cf7b6",
-          "drawing:6c29eb05c097760d",
           "drawing:75a4be6507dd75fe",
-          "drawing:767a3f8c3e47e0bd",
           "drawing:837336a6e0f8f27c",
           "drawing:87325fd383c3b1af",
           "drawing:915784d6704949c2",
@@ -3868,7 +3908,6 @@
           "regression:c707395491823d1f",
           "regression:a1cbf1ae4b6a2b8a",
           "regression:d2ca0121985b295d",
-          "regression:e4a085e0bd0b6697",
           "regression:4e705c28aa5294b7",
           "regression:0be4872941973688",
           "regression:d5156efceddb697a",
@@ -3878,18 +3917,22 @@
         ],
         "incorrect": [
           "drawing:11426c4cad392dc7",
+          "drawing:383e68bb60ac3633",
           "drawing:404189958f761756",
           "drawing:46c4d04542ff7c8e",
           "drawing:4e4550d086c4e288",
           "drawing:529e14e4d09b944a",
           "drawing:64788fe4b88b1f1f",
+          "drawing:6c29eb05c097760d",
           "drawing:6f83e372d7057526",
+          "drawing:767a3f8c3e47e0bd",
           "drawing:7801c75b869778fe",
           "drawing:908bfa4128c34006",
           "drawing:90e78c1ed707e7e4",
           "drawing:9516272260e4c69d",
           "drawing:9cdc849ecf29b4d2",
-          "drawing:de6e8bf0fd559efc"
+          "drawing:de6e8bf0fd559efc",
+          "regression:e4a085e0bd0b6697"
         ],
         "renderer-failure": [
           "drawing:03019928d457c65c",
@@ -3962,11 +4005,11 @@
       "version": "1.13.0",
       "format": "svg",
       "counts": {
-        "correct": 126,
+        "correct": 124,
         "incorrect": 0,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 0,
+        "unknown": 2,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -4017,7 +4060,6 @@
           "drawing:570e13053d228e29",
           "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
           "drawing:61cc5e1150412252",
@@ -4039,7 +4081,6 @@
           "drawing:89be4f2885fb74a9",
           "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
-          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
@@ -4103,21 +4144,26 @@
           "drawing:d7362afef7c26051"
         ],
         "invalid-format": [],
-        "unknown": [],
+        "unknown": [
+          "drawing:5c9a50898b1e6ffe",
+          "drawing:90e78c1ed707e7e4"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 2
+      }
     },
     {
       "project": "orestesgaolin/mermaid",
       "version": "0.3.2",
       "format": "svg",
       "counts": {
-        "correct": 123,
-        "incorrect": 1,
+        "correct": 117,
+        "incorrect": 2,
         "renderer-failure": 3,
-        "invalid-format": 0,
-        "unknown": 0,
+        "invalid-format": 1,
+        "unknown": 4,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -4139,7 +4185,6 @@
           "drawing:2598092a6e404821",
           "drawing:25b4a684eb0b6e31",
           "drawing:25e166249d24378d",
-          "drawing:263ec71ab0c651b3",
           "drawing:276c8474274911fa",
           "drawing:278dccc21dd27020",
           "drawing:27a0bf1eef1bdb6f",
@@ -4149,7 +4194,6 @@
           "drawing:383e68bb60ac3633",
           "drawing:39d5de95eb42396b",
           "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
           "drawing:43382cbc1379cf4c",
           "drawing:435d2e71f8557532",
@@ -4167,7 +4211,6 @@
           "drawing:570e13053d228e29",
           "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
           "drawing:61cc5e1150412252",
@@ -4187,9 +4230,7 @@
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
           "drawing:89be4f2885fb74a9",
-          "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
-          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
@@ -4232,7 +4273,6 @@
           "drawing:ea7675b95cb763b3",
           "drawing:ef20265c9ef84973",
           "drawing:f78157ede4e2d1ab",
-          "drawing:fbfb884b46380275",
           "regression:4e15c9b5403a9b04",
           "regression:68230bdf498c2525",
           "regression:c707395491823d1f",
@@ -4247,29 +4287,39 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "drawing:b1428b5b59888938"
+          "drawing:263ec71ab0c651b3",
+          "drawing:3f4b6bd0b23e6927"
         ],
         "renderer-failure": [
           "drawing:478ab66bb4c7e4f5",
           "drawing:d7362afef7c26051",
           "drawing:e54c4b6195e240be"
         ],
-        "invalid-format": [],
-        "unknown": [],
+        "invalid-format": [
+          "drawing:5c9a50898b1e6ffe"
+        ],
+        "unknown": [
+          "drawing:89e9eb6aebb72128",
+          "drawing:90e78c1ed707e7e4",
+          "drawing:b1428b5b59888938",
+          "drawing:fbfb884b46380275"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 4
+      }
     },
     {
       "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
       "version": "0.1.5",
       "format": "svg",
       "counts": {
-        "correct": 68,
-        "incorrect": 58,
+        "correct": 61,
+        "incorrect": 52,
         "renderer-failure": 1,
-        "invalid-format": 0,
-        "unknown": 0,
+        "invalid-format": 1,
+        "unknown": 12,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -4284,7 +4334,6 @@
           "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
           "drawing:25b4a684eb0b6e31",
-          "drawing:29fc1dab07164509",
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
@@ -4296,23 +4345,17 @@
           "drawing:4ab51e1e2963ef1c",
           "drawing:4ab6c5415bc7a24c",
           "drawing:4e4550d086c4e288",
-          "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
           "drawing:64788fe4b88b1f1f",
           "drawing:663c83c9e855c6b5",
           "drawing:684ec260a97cf7b6",
           "drawing:6c29eb05c097760d",
-          "drawing:6f83e372d7057526",
-          "drawing:767a3f8c3e47e0bd",
           "drawing:837336a6e0f8f27c",
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
-          "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
-          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:9516272260e4c69d",
@@ -4355,15 +4398,11 @@
           "drawing:276c8474274911fa",
           "drawing:278dccc21dd27020",
           "drawing:27a0bf1eef1bdb6f",
-          "drawing:3042977d4e6d813b",
           "drawing:39d5de95eb42396b",
           "drawing:3f4b6bd0b23e6927",
           "drawing:43382cbc1379cf4c",
           "drawing:478ab66bb4c7e4f5",
-          "drawing:4ae5560b57ca0064",
-          "drawing:4f96b68984c54c5a",
           "drawing:54f7237ee5ab1a85",
-          "drawing:570e13053d228e29",
           "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
           "drawing:61cc5e1150412252",
@@ -4374,8 +4413,8 @@
           "drawing:7801c75b869778fe",
           "drawing:867520b102964291",
           "drawing:89be4f2885fb74a9",
+          "drawing:90e78c1ed707e7e4",
           "drawing:94e514f9f375364c",
-          "drawing:9972eaa8ca8692d8",
           "drawing:9e4e5a5e072642e8",
           "drawing:a181524246065697",
           "drawing:a60c7e7b3b930353",
@@ -4387,7 +4426,6 @@
           "drawing:c2e297448b5388ba",
           "drawing:c5455d2e2f5f8672",
           "drawing:c64d9c102f509905",
-          "drawing:cd771fca2659a460",
           "drawing:d04b45557e7b8f2e",
           "drawing:d3cc8b77d097ec56",
           "drawing:d7362afef7c26051",
@@ -4398,7 +4436,6 @@
           "drawing:e84af4bd39ddf3eb",
           "drawing:ef20265c9ef84973",
           "drawing:f78157ede4e2d1ab",
-          "drawing:fbfb884b46380275",
           "regression:c707395491823d1f",
           "regression:a1cbf1ae4b6a2b8a",
           "regression:d2ca0121985b295d"
@@ -4406,19 +4443,36 @@
         "renderer-failure": [
           "drawing:a5204531005bef25"
         ],
-        "invalid-format": [],
-        "unknown": [],
+        "invalid-format": [
+          "drawing:5c9a50898b1e6ffe"
+        ],
+        "unknown": [
+          "drawing:29fc1dab07164509",
+          "drawing:3042977d4e6d813b",
+          "drawing:4ae5560b57ca0064",
+          "drawing:4f96b68984c54c5a",
+          "drawing:529e14e4d09b944a",
+          "drawing:570e13053d228e29",
+          "drawing:6f83e372d7057526",
+          "drawing:767a3f8c3e47e0bd",
+          "drawing:89e9eb6aebb72128",
+          "drawing:9972eaa8ca8692d8",
+          "drawing:cd771fca2659a460",
+          "drawing:fbfb884b46380275"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 12
+      }
     },
     {
       "project": "spacedock-dev/mermaidtext",
       "version": "git-a6b0c7657b94",
       "format": "terminal",
       "counts": {
-        "correct": 90,
-        "incorrect": 7,
+        "correct": 89,
+        "incorrect": 8,
         "renderer-failure": 0,
         "invalid-format": 30,
         "unknown": 0,
@@ -4443,7 +4497,6 @@
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
@@ -4519,6 +4572,7 @@
         ],
         "incorrect": [
           "drawing:11426c4cad392dc7",
+          "drawing:3f4b6bd0b23e6927",
           "drawing:478ab66bb4c7e4f5",
           "drawing:75e652628bded0d8",
           "drawing:90e78c1ed707e7e4",
@@ -4720,11 +4774,11 @@
       "version": "0.0.3",
       "format": "svg",
       "counts": {
-        "correct": 126,
+        "correct": 123,
         "incorrect": 0,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 0,
+        "unknown": 3,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -4740,7 +4794,6 @@
           "drawing:206a9307ba8592b1",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
-          "drawing:2295dae5ca33addf",
           "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
           "drawing:2598092a6e404821",
@@ -4775,7 +4828,6 @@
           "drawing:570e13053d228e29",
           "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
           "drawing:61cc5e1150412252",
@@ -4797,7 +4849,6 @@
           "drawing:89be4f2885fb74a9",
           "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
-          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
@@ -4861,18 +4912,24 @@
           "drawing:d7362afef7c26051"
         ],
         "invalid-format": [],
-        "unknown": [],
+        "unknown": [
+          "drawing:2295dae5ca33addf",
+          "drawing:5c9a50898b1e6ffe",
+          "drawing:90e78c1ed707e7e4"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {
+        "Visible label evidence is unavailable for this SVG representation": 3
+      }
     },
     {
       "project": "wevm/ondine",
       "version": "0.0.3",
       "format": "terminal",
       "counts": {
-        "correct": 122,
-        "incorrect": 4,
+        "correct": 117,
+        "incorrect": 9,
         "renderer-failure": 1,
         "invalid-format": 0,
         "unknown": 0,
@@ -4882,7 +4939,6 @@
         "correct": [
           "drawing:03019928d457c65c",
           "drawing:049722f83e7a31e0",
-          "drawing:0dbd28f2f1c494cc",
           "drawing:11426c4cad392dc7",
           "drawing:128500dada38a009",
           "drawing:1468e1cf1186af65",
@@ -4900,7 +4956,6 @@
           "drawing:276c8474274911fa",
           "drawing:278dccc21dd27020",
           "drawing:27a0bf1eef1bdb6f",
-          "drawing:29fc1dab07164509",
           "drawing:3042977d4e6d813b",
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
@@ -4945,14 +5000,12 @@
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
           "drawing:89be4f2885fb74a9",
-          "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
           "drawing:9516272260e4c69d",
           "drawing:9972eaa8ca8692d8",
-          "drawing:9cdc849ecf29b4d2",
           "drawing:9e4e5a5e072642e8",
           "drawing:a181524246065697",
           "drawing:a2118d0582abef57",
@@ -4971,7 +5024,6 @@
           "drawing:c2e297448b5388ba",
           "drawing:c5455d2e2f5f8672",
           "drawing:cd2dd60c268497d1",
-          "drawing:cd771fca2659a460",
           "drawing:d04b45557e7b8f2e",
           "drawing:d2896678981aedb8",
           "drawing:d3cc8b77d097ec56",
@@ -5004,9 +5056,14 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
+          "drawing:0dbd28f2f1c494cc",
           "drawing:2295dae5ca33addf",
+          "drawing:29fc1dab07164509",
+          "drawing:89e9eb6aebb72128",
           "drawing:90e78c1ed707e7e4",
+          "drawing:9cdc849ecf29b4d2",
           "drawing:c64d9c102f509905",
+          "drawing:cd771fca2659a460",
           "drawing:de6e8bf0fd559efc"
         ],
         "renderer-failure": [
@@ -5023,8 +5080,8 @@
       "version": "git-2bdd1d6a6369",
       "format": "terminal",
       "counts": {
-        "correct": 90,
-        "incorrect": 7,
+        "correct": 89,
+        "incorrect": 8,
         "renderer-failure": 0,
         "invalid-format": 30,
         "unknown": 0,
@@ -5049,7 +5106,6 @@
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
@@ -5125,6 +5181,7 @@
         ],
         "incorrect": [
           "drawing:11426c4cad392dc7",
+          "drawing:3f4b6bd0b23e6927",
           "drawing:478ab66bb4c7e4f5",
           "drawing:75e652628bded0d8",
           "drawing:90e78c1ed707e7e4",
@@ -5175,8 +5232,8 @@
       "version": "0.10.0",
       "format": "terminal",
       "counts": {
-        "correct": 105,
-        "incorrect": 5,
+        "correct": 104,
+        "incorrect": 6,
         "renderer-failure": 17,
         "invalid-format": 0,
         "unknown": 0,
@@ -5204,7 +5261,6 @@
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
           "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
@@ -5291,6 +5347,7 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
+          "drawing:3f4b6bd0b23e6927",
           "drawing:478ab66bb4c7e4f5",
           "drawing:89e9eb6aebb72128",
           "drawing:90e78c1ed707e7e4",
@@ -5324,12 +5381,12 @@
     }
   ],
   "totals": {
-    "correct": 3307,
-    "incorrect": 300,
+    "correct": 3082,
+    "incorrect": 330,
     "renderer-failure": 634,
-    "invalid-format": 77,
-    "unknown": 0,
+    "invalid-format": 86,
+    "unknown": 186,
     "unrun": 0
   },
-  "updatedAt": "2026-11-07T00:52:53.554Z"
+  "updatedAt": "2026-11-07T10:51:36.383Z"
 }

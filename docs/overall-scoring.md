@@ -63,7 +63,7 @@ project's mean and shown as `n/a`. That differs from unmeasured work, which stay
 renderer has no Drawing component at all, whereas a missing Fidelity binding could
 still be written.
 
-While Fidelity coverage and a few Drawing cases remain incomplete, **most projects
+While Fidelity and SVG observation coverage remain incomplete, **most projects
 do not have an exact overall score**. A position is decided only where a project's
 possible rank is a single number. The
 scores cover the reported populations: unexpanded and outside-runner upstream

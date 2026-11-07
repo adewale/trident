@@ -1,4 +1,5 @@
 export interface TerminalRectangle { x: number; y: number; right: number; bottom: number; lines: string[]; shape?: string }
+export class TerminalRectangleBudgetExceeded extends Error {}
 /** Negative-only observation of a single caption row whose wall cells drift
  * away from otherwise aligned rectangular rails. Never repairs cells or
  * supplies a closed node, route, or positive shape observation. */
@@ -24,24 +25,33 @@ export function terminalRaggedSingleLineFrames(grid: string[][]) {
 interface ContainerProfile { horizontal: RegExp; vertical: RegExp; primitives?: boolean; ports?: boolean; cornerPorts?: boolean }
 /** Structural observation only: node/participant/card roles and ownership are
  * assigned by the family observer, never by an expected edge or label. */
-export function terminalRectangles(grid: string[][], profile: ContainerProfile = { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/ }): TerminalRectangle[] {
+export function terminalRectangles(grid: string[][], profile: ContainerProfile = { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/ }, workBudget = Infinity): TerminalRectangle[] {
+  // Charge candidate searches and materialized cells before retaining a box.
+  const charge = (work: number) => { if ((workBudget -= work) < 0) throw new TerminalRectangleBudgetExceeded('Terminal rectangle observation budget exceeded') }
   const cell = (x: number, y: number) => grid[y]?.[x] ?? ' ', boxes: TerminalRectangle[] = [], ported = new Set<TerminalRectangle>()
   const forms = [['┌', '┐', '└', '┘', 'rectangle'], ['╭', '╮', '╰', '╯', 'rounded'], ['+', '+', '+', '+', 'rectangle']]
   if (profile.primitives) forms.push(['◇', '◇', '◇', '◇', 'diamond'], ['◯', '◯', '◯', '◯', 'circle'], ['◎', '◎', '◎', '◎', 'double-circle'], ['(', ')', '(', ')', 'stadium'], ['/', '/', '/', '/', 'parallelogram'], ['▷', '┐', '▷', '┘', 'asymmetric'], ['\\', '┐', '/', '┘', 'asymmetric'], ['⌜', '⌝', '⌞', '⌟', 'unqualified-primitive'], ['╟', '╢', '╟', '╢', 'unqualified-double-wall'])
   const topPorts = profile.primitives ? /^[─┬┴┼+\-◇◯◎△▼v↓]+$/ : /^[─┬┴┼+\-▼v↓]+$/, bottomPorts = profile.primitives ? /^[─┬┴┼+\-◇◯◎△▲^↑]+$/ : /^[─┬┴┼+\-▲^↑]+$/
   const horizontal = (text: string, side: 'top' | 'bottom') => !!profile.ports && (side === 'top' ? topPorts : bottomPorts).test(text) || profile.horizontal.test(text) || !!profile.primitives && /^[─┬┴┼+\-◇◯◎]+$/.test(text)
+  const edge = (row: string[], from: number, to: number, side: 'top' | 'bottom') => { charge(to - from); const text = row.slice(from, to).join(''); charge(text.length); return horizontal(text, side) }
   const corner = (glyph: string, form: string[], at: number) => glyph === form[at] || !!profile.cornerPorts && form[0] === '┌' && ['┌┬├┼', '┐┬┤┼', '└┴├┼', '┘┴┤┼'][at]!.includes(glyph)
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
+    charge(1)
     const form = forms.find(form => form[0] === cell(x, y))
     if (!form) continue
     for (let right = x + 2; right < grid[y]!.length; right++) {
-      if (!corner(cell(right, y), form, 1) || !horizontal(grid[y]!.slice(x + 1, right).join(''), 'top')) continue
+      charge(1)
+      if (!corner(cell(right, y), form, 1)) continue
+      if (!edge(grid[y]!, x + 1, right, 'top')) continue
       for (let bottom = y + 2; bottom < grid.length; bottom++) {
-        if (!corner(cell(x, bottom), form, 2) || !corner(cell(right, bottom), form, 3) || !horizontal(grid[bottom]!.slice(x + 1, right).join(''), 'bottom') || !Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).every(row => (profile.vertical.test(cell(x, row)) || profile.ports && /^[▶►>→]$/.test(cell(x, row)) || profile.primitives && cell(x, row) === '(' || form[0] === '\\' && /^[\\>/]$/.test(cell(x, row))) && (profile.vertical.test(cell(right, row)) || profile.ports && /^[◀◄<←]$/.test(cell(right, row)) || profile.primitives && cell(right, row) === ')'))) continue
+        charge(right - x + bottom - y)
+        if (!corner(cell(x, bottom), form, 2) || !corner(cell(right, bottom), form, 3) || !edge(grid[bottom]!, x + 1, right, 'bottom') || !Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).every(row => (profile.vertical.test(cell(x, row)) || profile.ports && /^[▶►>→]$/.test(cell(x, row)) || profile.primitives && cell(x, row) === '(' || form[0] === '\\' && /^[\\>/]$/.test(cell(x, row))) && (profile.vertical.test(cell(right, row)) || profile.ports && /^[◀◄<←]$/.test(cell(right, row)) || profile.primitives && cell(right, row) === ')'))) continue
         // A complete left-point primitive has ordered upper/lower slopes and
         // exactly one central point. A lone slash is not a source port or box.
         if (form[0] === '\\' && !/^\\*>\/*$/.test(Array.from({ length: bottom - y - 1 }, (_, n) => cell(x, y + n + 1)).join(''))) continue
+        charge(64 + (bottom - y - 1) * (right - x - 1))
         const rawLines = grid.slice(y + 1, bottom).map(row => row.slice(x + 1, right).join(''))
+        charge(rawLines.reduce((sum, line) => sum + line.length, 0))
         let lines = rawLines.map(line => line.trim()), shape = form[4]!
         if (profile.primitives) {
           const upper = grid[y]!.slice(x + 1, right), lower = grid[bottom]!.slice(x + 1, right), markers = ['◇', '◯', '◎'].filter(glyph => upper.includes(glyph) || lower.includes(glyph))
@@ -70,17 +80,25 @@ export function terminalRectangles(grid: string[][], profile: ContainerProfile =
       }
     }
   }
-  if (profile.primitives) for (let y = 0; y < grid.length; y++) for (let x = 1; x < grid[y]!.length; x++) if (cell(x, y) === '/') {
-    for (let right = x + 2; right + 1 < grid[y]!.length; right++) if (cell(right, y) === '\\' && horizontal(grid[y]!.slice(x + 1, right).join(''), 'top')) {
+  if (profile.primitives) for (let y = 0; y < grid.length; y++) for (let x = 1; x < grid[y]!.length; x++) {
+    charge(1)
+    if (cell(x, y) !== '/') continue
+    for (let right = x + 2; right + 1 < grid[y]!.length; right++) {
+      charge(right - x)
+      if (cell(right, y) !== '\\' || !edge(grid[y]!, x + 1, right, 'top')) continue
       for (let bottom = y + 2; bottom < grid.length; bottom++) {
-        if (cell(x, bottom) !== '\\' || cell(right, bottom) !== '/' || !horizontal(grid[bottom]!.slice(x + 1, right).join(''), 'bottom')) continue
+        charge(right - x + bottom - y)
+        if (cell(x, bottom) !== '\\' || cell(right, bottom) !== '/' || !edge(grid[bottom]!, x + 1, right, 'bottom')) continue
         if (!Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).every(row => (profile.vertical.test(cell(x - 1, row)) || profile.ports && /^[▶►>→]$/.test(cell(x - 1, row))) && (profile.vertical.test(cell(right + 1, row)) || profile.ports && /^[◀◄<←]$/.test(cell(right + 1, row))))) continue
-        const lines = grid.slice(y + 1, bottom).map(row => row.slice(x, right + 1).join('').trim()); while (lines.length && !lines[0]) lines.shift(); while (lines.length && !lines.at(-1)) lines.pop()
+        charge(64 + (bottom - y - 1) * (right - x + 1))
+        const lines = grid.slice(y + 1, bottom).map(row => row.slice(x, right + 1).join('').trim())
+        charge(lines.reduce((sum, line) => sum + line.length, 0))
+        while (lines.length && !lines[0]) lines.shift(); while (lines.length && !lines.at(-1)) lines.pop()
         boxes.push({ x: x - 1, y, right: right + 1, bottom, lines, shape: 'hexagon' }); break
       }
     }
   }
   // A regular closed boundary at the same origin owns the container. An
   // interior divider/port cannot also create a shorter corner-port container.
-  return boxes.filter(box => !ported.has(box) || box.lines.some(line => line.trim()) && !boxes.some(other => !ported.has(other) && other.x === box.x && other.y === box.y))
+  return boxes.filter(box => !ported.has(box) || box.lines.some(line => line.trim()) && !boxes.some(other => { charge(1); return !ported.has(other) && other.x === box.x && other.y === box.y }))
 }

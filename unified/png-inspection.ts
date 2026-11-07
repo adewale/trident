@@ -19,7 +19,7 @@ export function inspectPng(output: unknown, requireContent: boolean): PngInspect
     if (!(output instanceof Uint8Array) || output.length < 45 || [137, 80, 78, 71, 13, 10, 26, 10].some((byte, index) => output[index] !== byte)) throw Error('Invalid PNG signature or truncated PNG')
     if (output.length > 64 * 1024 * 1024) throw Error('PNG exceeds the declared 64 MiB encoded qualification budget')
     const bytes = output, view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength), chunks: Uint8Array[] = []
-    let cursor = 8, width = 0, height = 0, depth = 0, color = 0, interlace = 0, ended = false, idatEnded = false, palette: Uint8Array | undefined, transparency: Uint8Array | undefined
+    let cursor = 8, width = 0, height = 0, depth = 0, color = 0, interlace = 0, ended = false, idatEnded = false, animated = false, palette: Uint8Array | undefined, transparency: Uint8Array | undefined
     const displayMetadata: { type: string; sha256: string; phase: string; unknown: boolean }[] = []
     while (cursor < bytes.length) {
       if (cursor + 12 > bytes.length) throw Error('Truncated PNG chunk')
@@ -45,11 +45,13 @@ export function inspectPng(output: unknown, requireContent: boolean): PngInspect
         else if (type === 'tRNS') { if (chunks.length || transparency || color === 3 && !palette) throw Error('PNG has invalid transparency order'); transparency = data }
         else if (type[0] === type[0]!.toUpperCase()) throw Error('Unknown critical PNG chunk: ' + type)
         else {
-          // A static-image baseline cannot certify animation frames. Color
-          // profiles, EXIF orientation, physical aspect ratios and unknown
+          // Animation is ancillary to the default PNG image. Validate that
+          // image for format admission, but never certify animation content
+          // with a static-image observer. Color profiles, EXIF orientation,
+          // physical aspect ratios and unknown
           // ancillary extensions remain part of the identity. Only standard
           // text/time annotations are known to leave the image unchanged.
-          if (['acTL', 'fcTL', 'fdAT'].includes(type)) { result.unavailable = true; throw Error('Animated PNG needs a frame-specific content observer') }
+          if (['acTL', 'fcTL', 'fdAT'].includes(type)) animated = true
           if (!['tEXt', 'zTXt', 'iTXt', 'tIME'].includes(type)) displayMetadata.push({ type, sha256: createHash('sha256').update(data).digest('hex'), phase: chunks.length ? 'after-image-data' : palette ? 'after-palette' : 'before-palette', unknown: !['cHRM', 'gAMA', 'iCCP', 'sBIT', 'sRGB', 'bKGD', 'pHYs', 'eXIf', 'hIST', 'cICP', 'mDCV', 'cLLI'].includes(type) })
         }
       }
@@ -115,6 +117,10 @@ export function inspectPng(output: unknown, requireContent: boolean): PngInspect
         }
         previous.set(decoded)
       }
+    }
+    if (animated) {
+      if (requireContent) { result.unavailable = true; result.findings.push('Animated PNG needs a frame-specific content observer') }
+      return result
     }
     result.scope = 'decoded-raster-content'; result.visiblePixels = visiblePixels; result.distinctCompositedColors = colors.size
     const dimensions = Buffer.alloc(8); dimensions.writeUInt32BE(width); dimensions.writeUInt32BE(height, 4)

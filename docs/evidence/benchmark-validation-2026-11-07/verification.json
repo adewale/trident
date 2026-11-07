@@ -1,0 +1,264 @@
+{
+  "sourceBefore": "49947d539cb9d04deed24608d2e9bd220810b17f",
+  "files": {
+    "native-flutter/app/lib/davebench_worker.dart": "c6b9a160366b77d4436f09f69ea4fc61b38426d222df49336a60781571456e1a",
+    "native-flutter/app/pubspec.lock": "388d85f3334be0b47755c92e9f6911bfb2cca253c9514d232e55e781e677f35e",
+    "fidelity/paint.ts": "fec2e0026670180fe2232a4388bbec14b9ef01b8afddaeda54926b82d197d742",
+    "tests/svg-text-ink-clipping.test.ts": "d2e42259f74a03a06204fc2a7f25cd94f521270703c2fe801c47fc979d1a5dae",
+    "fidelity/drawing/labels.ts": "f934cd34ca006968c1da20eb2197b58ab2a21461789b2e7a3a625905962ebc14",
+    "tests/drawing-labels.test.ts": "49d67948006dc70f2d9d1840bee6d984816e23a1469b0e4b0ceb05b5ba44bd1a",
+    "tests/davebench-validity.test.ts": "4b79a8767722ffa9584e3b2819be4dac1ac14a20ef5161d5088e5b842d589bf9",
+    "fidelity/terminal-rectangles.ts": "caa6240c7153d3fd4c38c318a50b9cd1fa65c991b839a4a59ddee2377988d4b3",
+    "unified/community-browser.ts": "6542e4fd8ae9ac84dc78039de892646bebc80f17528c966a3c0d275a34774813",
+    "unified/davebench.ts": "07bc406ac8aeb06070bb277a9df3491e4ab0e9d540e4e9045b7e3930e054a92a",
+    "unified/png-inspection.ts": "e08f3964b014d0ab7a43d8adbc613175f2e64fe79bf7ce9a74d3fc3991fbd636",
+    "scripts/merge-fidelity-runs.ts": "d33f9f9e947971d4fa1aac50326193435f09d3b92cb912263b03ef837c093024",
+    "unified/mermaid-fidelity/bridges/javascript.mjs": "a17bdc3f1e662172a054b5377007c91fbcb4e96e5879e91569b49a70d48ece68"
+  },
+  "native": {
+    "flutter": "3.44.0",
+    "dart": "3.12.0",
+    "engine": "4c525dac5ebe5971c5708ef73558ed8edcf4a362",
+    "sdkDistribution": "ghcr.io/cirruslabs/flutter@sha256:46691e311715845de03a3ba4753a475476936805b29431b1f00f1816981033f8",
+    "applicationLockChangedOnlyInUntrackedBuildCopy": {
+      "katex_dart": [
+        "0.1.1",
+        "0.1.0"
+      ],
+      "meta": [
+        "1.18.3",
+        "1.18.0"
+      ],
+      "vector_math": [
+        "2.4.0",
+        "2.2.0"
+      ]
+    },
+    "releaseAotCompile": {
+      "completed": true,
+      "sha256": "07ac94ac0686eb12c27f1b5ae6ab31057bce07ea6e74d8a1c65620848173ebb3"
+    },
+    "admissionProbe": {
+      "after": [
+        "Native PNG probe started",
+        "PASS overflow-safe pixel budget",
+        "PASS null",
+        "PASS empty",
+        "PASS not PNG",
+        "PASS valid decoded image",
+        "PASS truncated after IHDR dimensions",
+        "PASS pixel budget",
+        "PASS zero dimensions",
+        "Native PNG admission: 8 controls passed"
+      ],
+      "before": [
+        "Native PNG probe started",
+        "PASS null",
+        "PASS empty",
+        "PASS not PNG",
+        "PASS valid decoded image",
+        "FAIL truncated after IHDR dimensions: null"
+      ],
+      "scope": "The current/baseline private admission function was compiled with a separate post-frame entry point and executed by the native Flutter test engine. This does not verify the GTK application bundle or native performance."
+    },
+    "gtkBuild": {
+      "completed": false,
+      "reason": "storage.googleapis.com blocked by environment network policy; documented Flutter 3.47.8 and Linux desktop engine downloads unavailable"
+    }
+  },
+  "checks": {
+    "fullSuite": {
+      "command": "MERMAID_REFERENCE_DIR=PINNED_ORACLE bun run test:ci",
+      "passed": 1014,
+      "failed": 0,
+      "files": 113,
+      "assertions": 44500,
+      "elapsed": "529.71s",
+      "source": "10c34d09bca0c277f62f81bfd392d005a719f8f8"
+    },
+    "targetedRegressions": {
+      "passed": 61,
+      "failed": 0,
+      "files": 8
+    },
+    "finalPaintControls": {
+      "passed": 41,
+      "failed": 0,
+      "files": 3,
+      "timeoutMs": 30000
+    },
+    "finalFormatControls": {
+      "passed": 7,
+      "failed": 0,
+      "assertions": 42
+    },
+    "artifactClosurePreflight": {
+      "checkedAt": "2026-11-07T04:15:12.515Z",
+      "verified": [
+        "Dicklesworthstone/frankenmermaid",
+        "wevm/ondine",
+        "orestesgaolin/mermaid",
+        "adewale/agentic-mermaid",
+        "dfadler/zombie-mermaid",
+        "1jehuang/mermaid-rs-renderer",
+        "AlexanderGrooff/mermaid-ascii",
+        "anomalyco/opencode",
+        "crafter-station/mermaid",
+        "emtyty/merslim",
+        "evangwt/xmermaid",
+        "fasouto/termaid",
+        "kitlangton/merman",
+        "KlangHaus/vitepress-plugin-diagram",
+        "Latias94/merman",
+        "lukilabs/beautiful-mermaid",
+        "Mootikins/figurehead-rs",
+        "obsidianmd/pele",
+        "sandyyst/dsh-plugin-mermaid-gb-svg",
+        "tariqshams/mermaidtui",
+        "xai-org/grok-build",
+        "Yassimba/loom",
+        "kais-radwan/ascii-mermaid",
+        "spacedock-dev/mermaidtext",
+        "mermaid-js/mermaid",
+        "crabtalk/bezel"
+      ]
+    },
+    "lint": "passed",
+    "typecheck": "passed",
+    "dependencyAudit": "no vulnerabilities in 64 packages",
+    "reportMergeControls": {
+      "passed": 19,
+      "failed": 0,
+      "files": 4,
+      "beforeFixFailures": 2
+    },
+    "github": {
+      "head": "fc0ec625b3a1168dfe7e9174bc2256210e4ff0d7",
+      "workflows": {
+        "Checks": "success",
+        "Action pinning": "success"
+      }
+    },
+    "currentSourceCi": {
+      "head": "10c34d09bca0c277f62f81bfd392d005a719f8f8",
+      "linux": "success",
+      "macos": "success",
+      "actionPinning": "success"
+    },
+    "preservedSankeyControls": {
+      "passed": 3,
+      "failed": 0,
+      "files": 2
+    },
+    "freshPublishedResults": {
+      "passed": 21,
+      "failed": 0,
+      "files": 5,
+      "assertions": 37534
+    },
+    "compiledReleaseCutoffs": {
+      "passed": 3,
+      "failed": 0,
+      "files": 1,
+      "assertions": 3
+    },
+    "preAuditFullSuite": {
+      "command": "MERMAID_REFERENCE_DIR=PINNED_ORACLE bun run test:ci",
+      "passed": 1007,
+      "failed": 0,
+      "files": 113,
+      "assertions": 44480,
+      "seconds": 1550.94
+    },
+    "postAuditFullSuite": {
+      "command": "MERMAID_REFERENCE_DIR=PINNED_ORACLE bun run test:ci",
+      "passed": 1014,
+      "failed": 0,
+      "files": 113,
+      "assertions": 44500,
+      "elapsed": "529.71s",
+      "source": "10c34d09bca0c277f62f81bfd392d005a719f8f8"
+    },
+    "ordinalControlIdentity": {
+      "passed": 7,
+      "failed": 0,
+      "assertions": 25,
+      "scope": "Persisted ordinal-aware identity also guards partial published merges"
+    }
+  },
+  "svgGradientProbe": {
+    "before": {
+      "status": "correct",
+      "differentRasterChannelsAfterRemovingLabels": 0
+    },
+    "after": {
+      "status": "unknown",
+      "differentRasterChannelsAfterRemovingLabels": 0
+    },
+    "scope": "The authored label and its backdrop use the same user-space gradient. Removing both labels leaves every raster channel unchanged."
+  },
+  "freshCollection": {
+    "frozenCatalog": "docs/evidence/benchmark-campaign-2026-11-07/catalog.json",
+    "images": {
+      "runs": 96,
+      "attempted": 128832,
+      "finishedAt": "2026-11-07T11:25:57.245Z"
+    },
+    "terminal": {
+      "runs": 54,
+      "attempted": 72468
+    },
+    "drawing": {
+      "cases": 127,
+      "projectFormats": 34,
+      "totals": {
+        "correct": 3082,
+        "incorrect": 330,
+        "renderer-failure": 634,
+        "invalid-format": 86,
+        "unknown": 186,
+        "unrun": 0
+      },
+      "finishedAt": "2026-11-07T10:51:36.383Z"
+    },
+    "fidelity": {
+      "projects": 27,
+      "referenceQualifiedCallbacks": 3676,
+      "expandedCallbacks": 6439,
+      "candidateAdapterGaps": 272
+    },
+    "nativePng": "not measured; pinned SDK/GTK build blocked",
+    "historicalCommit": "49947d539cb9d04deed24608d2e9bd220810b17f"
+  },
+  "mermaidXmlRejections": {
+    "cases": 34,
+    "reasons": {
+      "undeclared nbsp entity": 18,
+      "undeclared xlink prefix": 16
+    },
+    "exampleCases": [
+      "docs/config/math.md:19",
+      "docs/syntax/classDiagram.md:1027"
+    ],
+    "reproducedAllCases": true
+  },
+  "adversarialAudit": {
+    "reviewedHead": "1247131c5aaf6f825119b17a5ac52690c1af4ad0",
+    "fixCommit": "10c34d09bca0c277f62f81bfd392d005a719f8f8",
+    "regressions": {
+      "passed": 70,
+      "failed": 0,
+      "files": 7,
+      "assertions": 332
+    },
+    "terminalRectangleWorkBudget": 1000000,
+    "svgLeakPolicy": "Unresolved serialized source-leak nominations remain unknown, including hidden duplicates, fragments and referenced text",
+    "browserDelivery": "Only verified manifest bytes are served; all 15 prepared browser engines and Mermaid ZenUML passed the host smoke check",
+    "fidelityCounts": "All 27 project counts reproduce using own-control validation and per-file callback ordinal matching",
+    "reclassification": {
+      "candidateFailure": "anomalyco/opencode flowDb.spec.ts",
+      "unsupported": "kitlangton/merman wardleyParser.spec.ts"
+    },
+    "publicationControlIdentity": "Partial merges require the persisted ordinal-aware digest; legacy publications need a full merge from raw runs."
+  }
+}

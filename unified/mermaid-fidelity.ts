@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync
 import { resolve, join, dirname, relative, basename } from 'node:path'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
-import { assertCurrentBenchmarkArtifact, latestBenchmarkRenderingArtifact } from './benchmark-versions.ts'
+import { verifyBenchmarkArtifact, latestBenchmarkRenderingArtifact } from './benchmark-versions.ts'
 import { inventoryOriginalDeclarations } from './upstream-fidelity-census.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { parserBridge } from './mermaid-fidelity/bridges.ts'
@@ -67,6 +67,8 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
         ? 'upstream-expected-failure'
         : control.status !== 'passed' || controlGap
           ? 'reference-unqualified'
+          : evidence?.faults?.length
+            ? 'failed'
           : // A refused parse, an operation the candidate does not offer or a concept its
             // model does not carry means the test cannot pass, whatever else Trident maps.
             (result && evidence?.unsupported?.length) || (!result && unsupportedFiles.has(control.file))
@@ -90,6 +92,8 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
             ? 'Original ClassMember.getDisplayDetails has no native schema binding; no renderer defect is established'
             : tridentError && status === 'trident-blocked' && !evidence?.gaps?.length
               ? 'Trident error: ' + tridentError.split('\n')[0]!.slice(0, 300)
+            : evidence?.faults?.length
+              ? evidence.faults.join('; ')
             : (status === 'unsupported' && (evidence?.unsupported?.join('; ') || unsupportedFiles.get(control.file))) || evidence?.gaps?.join('; ') || evidence?.unsupported?.join('; ') || result?.failureMessages?.join('\n').slice(0, 1000) || (result ? undefined : unsupportedFiles.get(control.file) ?? 'Candidate test not collected'),
     }
   })
@@ -142,7 +146,8 @@ export async function main(args = process.argv.slice(2)) {
     for (const peer of prepared)
       if (peer.artifact) {
         const selected = catalog.nodes.find((n: any) => n.id === peer.node.id)
-        if (selected) assertCurrentBenchmarkArtifact(peer, selected)
+        if (!selected) throw Error('Prepared project is absent from the selected catalog: ' + peer.node.id)
+        verifyBenchmarkArtifact(peer, selected)
       }
   }
   const targets: any[] = [{ project: 'mermaid-js/mermaid', version: currentReferencePin.version, tool: 'mermaid' }]
@@ -150,6 +155,7 @@ export async function main(args = process.argv.slice(2)) {
   for (const peer of prepared) {
     const project = peer.node.id
     if (project === 'mermaid-js/mermaid' || (opts.has('--projects') && !opts.get('--projects')!.split(',').includes(project))) continue
+    if (!opts.has('--catalog')) verifyBenchmarkArtifact(peer, peer.node)
     // A registered out-of-process bridge calls the project's own parser in its own language.
     const bridge = await parserBridge(peer, join(dirname(import.meta.dirname), 'node_modules/.cache/fidelity-bridges'))
     if (bridge) {

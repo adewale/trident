@@ -3,10 +3,16 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { davebenchRankings, type DavebenchRun } from './davebench.ts'
 
+function requireSameAdmission(left: any, right: any) {
+  const policy = left.method?.admission
+  if (typeof policy !== 'string' || !policy || policy !== right.method?.admission) throw Error('DaveBench collections must use one recorded admission policy')
+}
+
 /** Report only measured campaigns. Undefined new benchmarks cannot inherit old subset scores. */
 export function threeBenchmarkReport(images: any, terminal: any, versions?: any) {
   if (images.state !== 'complete' || terminal.state !== 'complete') throw Error('Wait for both rendering campaigns to complete')
   if (images.corpus.commit !== terminal.corpus.commit || images.corpus.occurrences !== terminal.corpus.occurrences) throw Error('DaveBench formats must use one documentation corpus')
+  requireSameAdmission(images, terminal)
   const runs: DavebenchRun[] = [...images.runs, ...terminal.runs]
   const rankings = davebenchRankings(runs, images.corpus.occurrences)
   return { schema: 'trident-davebench-report-v2', corpus: images.corpus, versionsCheckedAt: versions?.checkedAt, status: 'davebench-only',
@@ -39,6 +45,7 @@ export function renderThreeBenchmarkReport(report: ReturnType<typeof threeBenchm
 export function mergeNativePng(images: any, native: any) {
   for (const key of ['commit', 'occurrences'] as const) if (images.corpus?.[key] !== native.corpus?.[key]) throw Error(`Native PNG results count a different corpus (${key}: ${native.corpus?.[key]} vs ${images.corpus?.[key]})`)
   if (native.state !== 'complete') throw Error('Native PNG results are incomplete')
+  requireSameAdmission(images, native)
   const measured = new Set(native.runs.map((run: any) => run.project))
   for (const project of measured) if (images.runs.some((run: any) => run.project === project)) throw Error(project + ' already has image runs')
   return { ...images, runs: [...images.runs, ...native.runs], blocked: (images.blocked ?? []).filter((block: any) => !measured.has(block.project)) }

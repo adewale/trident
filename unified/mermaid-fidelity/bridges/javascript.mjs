@@ -11,6 +11,9 @@ import { pathToFileURL } from 'node:url'
 import { serve } from './common.mjs'
 
 const load = path => import(pathToFileURL(path).href)
+// Keep an absent parser absent when adapting its input, so binding failures are
+// checked before invocation rather than becoming faults inside a wrapper.
+const withInput = (parse, input, receiver) => typeof parse === 'function' && typeof input === 'function' ? source => parse.call(receiver, input(source)) : undefined
 
 const PROJECTS = {
   // dfadler/zombie-mermaid 5.14.1: @zombie-mermaid/core DIAGRAM_TYPES lists flowchart,
@@ -20,7 +23,7 @@ const PROJECTS = {
   zombie: async root => {
     const scope = join(dirname(root), '@zombie-mermaid')
     const core = await load(join(scope, 'core/dist/index.js')), p = await load(join(scope, 'mermaid-parser/dist/index.js'))
-    const split = parse => source => parse(core.splitStatements(source))
+    const split = parse => withInput(parse, core.splitStatements?.bind(core))
     return {
       name: 'zombie-mermaid',
       families: {
@@ -39,7 +42,7 @@ const PROJECTS = {
     const flow = await load(join(src, 'parser.ts')), seq = await load(join(src, 'sequence/parser.ts')), cls = await load(join(src, 'class/parser.ts')), er = await load(join(src, 'er/parser.ts')), xy = await load(join(src, 'xychart/parser.ts'))
     return {
       name: 'beautiful-mermaid',
-      families: { flowchart: flow.parseMermaid, state: flow.parseMermaid, sequence: text => seq.parseSequenceDiagram(lines(text)), class: text => cls.parseClassDiagram(lines(text)), er: text => er.parseErDiagram(lines(text)), xychart: text => xy.parseXYChart(lines(text)) },
+      families: { flowchart: flow.parseMermaid, state: flow.parseMermaid, sequence: withInput(seq.parseSequenceDiagram, lines, seq), class: withInput(cls.parseClassDiagram, lines, cls), er: withInput(er.parseErDiagram, lines, er), xychart: withInput(xy.parseXYChart, lines, xy) },
     }
   },
   // kais-radwan/ascii-mermaid 0.1.0 (ts/): its renderer's detectDiagramType recognizes
@@ -48,7 +51,7 @@ const PROJECTS = {
   // renderer builds (trimmed, without blank or %% lines). Run by Bun: TypeScript sources.
   asciimermaid: async root => {
     const src = join(root, 'src'), lines = text => text.split('\n').map(line => line.trim()).filter(line => line.length > 0 && !line.startsWith('%%'))
-    const of = async (dir, fn) => { const m = await load(join(src, dir, 'parser.ts')); return text => m[fn](lines(text)) }
+    const of = async (dir, fn) => { const m = await load(join(src, dir, 'parser.ts')); return withInput(m[fn], lines, m) }
     const flow = await load(join(src, 'parser.ts'))
     return {
       name: 'ascii-mermaid',
@@ -91,17 +94,18 @@ await serve(async (family, _source) => {
       return { adapterGap: `${key} parser import failed: ` + String(error) }
     }
   const parse = project.families[family]
-  if (!parse) return { unsupported: `${project.name} has no ${family} parser (it parses ${Object.keys(project.families).join(', ')})` }
+  if (!Object.hasOwn(project.families, family)) return { unsupported: `${project.name} has no ${family} parser (it parses ${Object.keys(project.families).join(', ')})` }
   if (typeof parse !== 'function') return { adapterGap: `${project.name} no longer exports its ${family} parser` }
+  try { if (lazy[family] && !loaded[family]) await lazy[family]() }
+  catch (error) { return { adapterGap: `${project.name} ${family} parser import failed: ${String(error)}` } }
+  if (lazy[family] && typeof loaded[family] !== 'function') return { adapterGap: `${project.name} no longer exports its ${family} parser` }
   try {
-    if (lazy[family] && !loaded[family]) await lazy[family]()
     const value = parse(_source)
     if (value && typeof value.then === 'function') return { adapterGap: `${project.name}'s ${family} parser is asynchronous` }
     return { value }
   } catch (error) {
-    // A deliberate throw from the project's own parser is its syntax rejection; a
-    // runtime fault inside it (TypeError and the like) is not a classified refusal.
-    if (error instanceof TypeError || error instanceof ReferenceError || error instanceof RangeError) return { adapterGap: `${project.name} ${family} parser fault: ${String(error).slice(0, 300)}` }
+    // A candidate fault is neither a syntax refusal nor missing Trident coverage.
+    if (error instanceof TypeError || error instanceof ReferenceError || error instanceof RangeError) return { candidateFault: `${project.name} ${family} parser fault: ${String(error).slice(0, 300)}` }
     return { error: { name: !error?.name || error.name === 'Error' ? 'ParseError' : String(error.name), message: String(error?.message ?? error) } }
   }
 })

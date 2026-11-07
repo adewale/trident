@@ -9,14 +9,14 @@
   "status": "davebench-only",
   "collection": {
     "images": {
-      "startedAt": "2026-11-07T00:20:59.859Z",
-      "finishedAt": "2026-11-07T00:38:07.748Z",
+      "startedAt": "2026-11-07T11:00:32.145Z",
+      "finishedAt": "2026-11-07T11:25:57.245Z",
       "environment": {
         "node": "26.3.0",
-        "bun": "1.4.4",
+        "bun": "1.4.2",
         "platform": "linux",
         "architecture": "x64",
-        "chromium": "153.0.8010.12"
+        "chromium": "154.0.8037.57"
       },
       "method": {
         "runs": 3,
@@ -24,21 +24,21 @@
         "timeoutMs": 15000,
         "outputsRetained": false,
         "outputsAssessed": false,
-        "admission": "A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse to an svg root with positive size; PNG must have a PNG signature and positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription=\"error\"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.",
+        "admission": "A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse as XML to an SVG namespace root with finite positive size; PNG must contain complete decodable image data with positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription=\"error\"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.",
         "elapsed": "Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.",
         "png": "Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available. No image inspection."
       }
     },
     "terminal": {
-      "startedAt": "2026-11-07T00:38:08.449Z",
-      "finishedAt": "2026-11-07T00:50:15.349Z",
+      "startedAt": "2026-11-07T05:25:22.063Z",
+      "finishedAt": "2026-11-07T05:40:35.529Z",
       "method": {
         "runs": 3,
         "warmupsPerRun": 30,
         "timeoutMs": 15000,
         "outputsRetained": false,
         "outputsAssessed": false,
-        "admission": "A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse to an svg root with positive size; PNG must have a PNG signature and positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription=\"error\"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.",
+        "admission": "A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse as XML to an SVG namespace root with finite positive size; PNG must contain complete decodable image data with positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription=\"error\"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.",
         "elapsed": "Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup."
       }
     }
@@ -46,8 +46,8 @@
   "measurements": {
     "davebench": {
       "status": "measured",
-      "runs": 153,
-      "attemptedCalls": 205326
+      "runs": 150,
+      "attemptedCalls": 201300
     },
     "drawing": {
       "status": "not-supplied"
@@ -67,7 +67,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 573.0000000088476,
+      "totalMs": 579.5000000447035,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -243,7 +243,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 542.5000000023283,
+      "totalMs": 561.8000000342727,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -419,7 +419,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 541.4999999906868,
+      "totalMs": 551.0000000558794,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -595,7 +595,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 10923.099999981467,
+      "totalMs": 12134.99999999255,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -771,7 +771,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 10854.600000006147,
+      "totalMs": 12654.50000000745,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -947,7 +947,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 11194.49999999348,
+      "totalMs": 12954.90000012517,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -1123,7 +1123,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 274.2000000020489,
+      "totalMs": 291.8999999836087,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1141,7 +1141,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 255.09999998705462,
+      "totalMs": 278.0999999754131,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1159,7 +1159,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 263.59999999171123,
+      "totalMs": 257.8000000230968,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1177,7 +1177,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 6364.800000004005,
+      "totalMs": 8707.50000005588,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1195,7 +1195,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 6529.6000000010245,
+      "totalMs": 8039.1999999806285,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1213,7 +1213,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 6384.79999999702,
+      "totalMs": 7553.500000022352,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1231,7 +1231,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 942.4000000078231,
+      "totalMs": 882.0999999195337,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1267,7 +1267,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 910.5000000051223,
+      "totalMs": 891.2000000067055,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1303,7 +1303,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 815.7999999877065,
+      "totalMs": 816.9999999850988,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1339,7 +1339,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 6453.599999994971,
+      "totalMs": 7417.5999999418855,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1375,7 +1375,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 6479.200000000186,
+      "totalMs": 8203.799999956042,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1411,7 +1411,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 6288.299999997485,
+      "totalMs": 7073.59999993816,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1447,7 +1447,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 5054.000000004657,
+      "totalMs": 6252.300000026822,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1478,7 +1478,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 4830.200000001118,
+      "totalMs": 5993.499999944121,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1509,7 +1509,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 4848.999999996275,
+      "totalMs": 5812.0999999679625,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1540,7 +1540,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 11066.800000012852,
+      "totalMs": 15709.200000062585,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1571,7 +1571,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 11074.100000007078,
+      "totalMs": 14778.799999974668,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1602,7 +1602,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 11027.600000031292,
+      "totalMs": 15094.500000052154,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1633,7 +1633,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 1333.6000000108033,
+      "totalMs": 1493.599999949336,
       "invalid": 16,
       "invalidReasons": {
         "zero-size SVG": 16
@@ -1716,7 +1716,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 1436.9999999906868,
+      "totalMs": 1700.9999999403954,
       "invalid": 16,
       "invalidReasons": {
         "zero-size SVG": 16
@@ -1799,7 +1799,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 1333.6999999741092,
+      "totalMs": 1395.1000000238419,
       "invalid": 16,
       "invalidReasons": {
         "zero-size SVG": 16
@@ -1882,7 +1882,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 4057.4000000348315,
+      "totalMs": 6143.500000022352,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1918,7 +1918,7 @@
         "Line N: Invalid mermaid header: \"railroad-abnf-beta\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequence": 8,
         "Line N: Invalid mermaid header: \"railroad-peg-beta\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceD": 8,
         "Line N: Invalid mermaid header: \"block\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagram\", \"cl": 60,
-        "PNG conversion: PNG encoding failed": 16,
+        "PNG conversion: zero-size SVG": 16,
         "Line N: Invalid mermaid header: \"gitGraph\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagram\",": 14,
         "Line N: Invalid mermaid header: \"gitGraph BT:\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagra": 2,
         "Line N: Invalid mermaid header: \"gitGraph:\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagram\",": 4,
@@ -1946,7 +1946,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 4395.899999976158,
+      "totalMs": 5922.500000052154,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -1982,7 +1982,7 @@
         "Line N: Invalid mermaid header: \"railroad-abnf-beta\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequence": 8,
         "Line N: Invalid mermaid header: \"railroad-peg-beta\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceD": 8,
         "Line N: Invalid mermaid header: \"block\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagram\", \"cl": 60,
-        "PNG conversion: PNG encoding failed": 16,
+        "PNG conversion: zero-size SVG": 16,
         "Line N: Invalid mermaid header: \"gitGraph\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagram\",": 14,
         "Line N: Invalid mermaid header: \"gitGraph BT:\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagra": 2,
         "Line N: Invalid mermaid header: \"gitGraph:\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagram\",": 4,
@@ -2010,7 +2010,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 4120.2999999877065,
+      "totalMs": 5856.500000014901,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2046,7 +2046,7 @@
         "Line N: Invalid mermaid header: \"railroad-abnf-beta\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequence": 8,
         "Line N: Invalid mermaid header: \"railroad-peg-beta\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceD": 8,
         "Line N: Invalid mermaid header: \"block\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagram\", \"cl": 60,
-        "PNG conversion: PNG encoding failed": 16,
+        "PNG conversion: zero-size SVG": 16,
         "Line N: Invalid mermaid header: \"gitGraph\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagram\",": 14,
         "Line N: Invalid mermaid header: \"gitGraph BT:\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagra": 2,
         "Line N: Invalid mermaid header: \"gitGraph:\". Supported headers: \"graph <dir>\"/\"flowchart <dir>\" (dir: TD, TB, LR, BT, RL), \"stateDiagram-vN\", \"sequenceDiagram\",": 4,
@@ -2074,7 +2074,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 10672.559459999728,
+      "totalMs": 24482.483643000363,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2099,7 +2099,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 10925.311598000466,
+      "totalMs": 23108.39307300083,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2124,7 +2124,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 10657.336718000239,
+      "totalMs": 23693.682473000605,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2149,7 +2149,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 24477.727412000182,
+      "totalMs": 49645.68490299879,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2168,7 +2168,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 24043.953779001313,
+      "totalMs": 48824.565334999585,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2187,7 +2187,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 24044.23061300034,
+      "totalMs": 50377.13872900058,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2206,7 +2206,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 273.89999999292195,
+      "totalMs": 386.09999998286366,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2242,7 +2242,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 279.3999999985099,
+      "totalMs": 368.30000003799796,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2278,7 +2278,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 260.59999999403954,
+      "totalMs": 311.49999998509884,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2314,7 +2314,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 3269.6999999899417,
+      "totalMs": 4962.30000000447,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2350,7 +2350,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 3164.1999999955297,
+      "totalMs": 4687.899999946356,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2386,7 +2386,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 3157.8000000100583,
+      "totalMs": 4808.700000047684,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2422,7 +2422,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 21785.500000010245,
+      "totalMs": 21324.20000001043,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2439,7 +2439,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 21844.400000010617,
+      "totalMs": 21134.10000004247,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2456,7 +2456,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 21812.09999999311,
+      "totalMs": 20937.8999998942,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2473,7 +2473,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 25628,
+      "totalMs": 27665.89999998361,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2490,7 +2490,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 25685.30000000354,
+      "totalMs": 27178.800000090152,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2507,7 +2507,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 25876.500000004657,
+      "totalMs": 27580.9999999851,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2524,7 +2524,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 425.9000000152737,
+      "totalMs": 541.7999999597669,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2703,7 +2703,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 429.40000000596046,
+      "totalMs": 526.5000000670552,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -2882,7 +2882,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 492.9999999990687,
+      "totalMs": 486.29999996349216,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3061,7 +3061,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 3339.999999973923,
+      "totalMs": 3833.199999950826,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3240,7 +3240,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 3447.4000000096858,
+      "totalMs": 4349.700000014156,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3419,7 +3419,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 3291.3999999966472,
+      "totalMs": 4157.100000046194,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3598,7 +3598,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 86.89999996777624,
+      "totalMs": 99.29999997094274,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3615,7 +3615,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 94.8999999994412,
+      "totalMs": 105.49999991059303,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3632,7 +3632,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 97.30000000353903,
+      "totalMs": 90.79999997839332,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3649,7 +3649,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 1551.3000000072643,
+      "totalMs": 1994.4000000022352,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3666,7 +3666,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 1580.2999999923632,
+      "totalMs": 2366.7000000961125,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3683,7 +3683,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 1673.8999999882653,
+      "totalMs": 2010.4999999776483,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3700,7 +3700,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3804.7999999905005,
+      "totalMs": 4410.199999921024,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3718,7 +3718,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3982.7000000039116,
+      "totalMs": 4325.999999973923,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3736,7 +3736,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3904.899999992922,
+      "totalMs": 4369.20000000298,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3754,7 +3754,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 12344.399999974295,
+      "totalMs": 15212.199999991804,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3772,7 +3772,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 12421.600000010803,
+      "totalMs": 15554.000000152737,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3790,7 +3790,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 12850.899999994785,
+      "totalMs": 16018.100000005215,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3808,7 +3808,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1030.2999999923632,
+      "totalMs": 1221.200000051409,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -3902,7 +3902,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1020.4999999981374,
+      "totalMs": 1344.1000000536442,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -3996,7 +3996,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1080.6999999983236,
+      "totalMs": 1100.5999999828637,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -4090,7 +4090,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 2792.299999997951,
+      "totalMs": 3851.10000000149,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4136,7 +4136,7 @@
         "Invalid mermaid header: \"CNComponent\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"CNDynamic\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"CNDeployment\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
-        "PNG conversion: PNG encoding failed": 24,
+        "PNG conversion: zero-size SVG": 24,
         "Invalid mermaid header: \"gitGraph LR:\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"gitGraph BT:\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"sankey\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 8,
@@ -4157,7 +4157,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 2635.7000000011176,
+      "totalMs": 3536.1000000163913,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4203,7 +4203,7 @@
         "Invalid mermaid header: \"CNComponent\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"CNDynamic\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"CNDeployment\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
-        "PNG conversion: PNG encoding failed": 24,
+        "PNG conversion: zero-size SVG": 24,
         "Invalid mermaid header: \"gitGraph LR:\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"gitGraph BT:\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"sankey\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 8,
@@ -4224,7 +4224,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 2757.8999999854714,
+      "totalMs": 3268.9000000581145,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4270,7 +4270,7 @@
         "Invalid mermaid header: \"CNComponent\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"CNDynamic\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"CNDeployment\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
-        "PNG conversion: PNG encoding failed": 24,
+        "PNG conversion: zero-size SVG": 24,
         "Invalid mermaid header: \"gitGraph LR:\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"gitGraph BT:\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 2,
         "Invalid mermaid header: \"sankey\". Expected \"graph TD\", \"flowchart LR\", \"stateDiagram-vN\", etc.": 8,
@@ -4291,7 +4291,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 490.00000001769513,
+      "totalMs": 581.8999999538064,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4309,7 +4309,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 503.8999999789521,
+      "totalMs": 548.0000000037253,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4327,7 +4327,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 526.4999999962747,
+      "totalMs": 519.0999999567866,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4345,7 +4345,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 6430.999999987893,
+      "totalMs": 7831.299999989569,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4363,7 +4363,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 6181.799999999814,
+      "totalMs": 7736.100000053644,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4381,7 +4381,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 6358.999999998137,
+      "totalMs": 7721.900000024587,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4399,7 +4399,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 173.89999999199063,
+      "totalMs": 177.50000002235174,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -5376,7 +5376,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 164.50000001024455,
+      "totalMs": 193.0999997407198,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -6353,7 +6353,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 168.00000003166497,
+      "totalMs": 183.40000002086163,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -7330,7 +7330,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 4484.80000001099,
+      "totalMs": 5341.300000235438,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -8307,7 +8307,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 4415.899999989197,
+      "totalMs": 5341.60000012815,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -9284,7 +9284,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 4322.699999991804,
+      "totalMs": 5195.499999962747,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -10258,16 +10258,54 @@
       "run": 1,
       "boundary": "Chromium public SVG API",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1302,
+      "failed": 40,
       "timeouts": 0,
-      "totalMs": 26412.5,
-      "invalid": 0,
-      "invalidReasons": {},
+      "totalMs": 40732.89999991655,
+      "invalid": 34,
+      "invalidReasons": {
+        "admission check failed": 34
+      },
       "errorReasons": {
         "Parse error on line N:": 2,
         "No diagram type detected matching given configuration for text: ": 2,
         "The source image cannot be decoded.": 2
+      },
+      "rejected": {
+        "docs/config/math.md:19": "admission check failed: Error: Malformed SVG document",
+        "docs/config/math.md:27": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:429": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:452": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2457": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2477": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2758": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2785": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:11": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:28": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:508": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:525": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1027": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1035": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1069": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1081": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:91": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:99": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:109": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:117": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:133": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:161": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:191": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:219": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1934": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1945": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1962": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1974": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/kanban.md:105": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/kanban.md:131": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1099": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1112": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1137": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1148": "admission check failed: Error: Malformed SVG document"
       }
     },
     {
@@ -10277,16 +10315,54 @@
       "run": 2,
       "boundary": "Chromium public SVG API",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1302,
+      "failed": 40,
       "timeouts": 0,
-      "totalMs": 26924.100000021048,
-      "invalid": 0,
-      "invalidReasons": {},
+      "totalMs": 39425.69999991357,
+      "invalid": 34,
+      "invalidReasons": {
+        "admission check failed": 34
+      },
       "errorReasons": {
         "Parse error on line N:": 2,
         "No diagram type detected matching given configuration for text: ": 2,
         "The source image cannot be decoded.": 2
+      },
+      "rejected": {
+        "docs/config/math.md:19": "admission check failed: Error: Malformed SVG document",
+        "docs/config/math.md:27": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:429": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:452": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2457": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2477": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2758": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2785": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:11": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:28": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:508": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:525": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1027": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1035": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1069": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1081": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:91": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:99": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:109": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:117": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:133": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:161": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:191": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:219": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1934": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1945": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1962": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1974": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/kanban.md:105": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/kanban.md:131": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1099": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1112": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1137": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1148": "admission check failed: Error: Malformed SVG document"
       }
     },
     {
@@ -10296,16 +10372,54 @@
       "run": 3,
       "boundary": "Chromium public SVG API",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1302,
+      "failed": 40,
       "timeouts": 0,
-      "totalMs": 26853.899999995716,
-      "invalid": 0,
-      "invalidReasons": {},
+      "totalMs": 38907.200000047684,
+      "invalid": 34,
+      "invalidReasons": {
+        "admission check failed": 34
+      },
       "errorReasons": {
         "Parse error on line N:": 2,
         "No diagram type detected matching given configuration for text: ": 2,
         "The source image cannot be decoded.": 2
+      },
+      "rejected": {
+        "docs/config/math.md:19": "admission check failed: Error: Malformed SVG document",
+        "docs/config/math.md:27": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:429": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:452": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2457": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2477": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2758": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/all-examples.md:2785": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:11": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:28": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:508": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/block.md:525": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1027": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1035": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1069": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/classDiagram.md:1081": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:91": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:99": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:109": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:117": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:133": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:161": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:191": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/eventmodeling.md:219": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1934": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1945": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1962": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/flowchart.md:1974": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/kanban.md:105": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/kanban.md:131": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1099": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1112": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1137": "admission check failed: Error: Malformed SVG document",
+        "docs/syntax/sequenceDiagram.md:1148": "admission check failed: Error: Malformed SVG document"
       }
     },
     {
@@ -10315,15 +10429,16 @@
       "run": 1,
       "boundary": "Chromium SVG API + canvas PNG conversion",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1302,
+      "failed": 40,
       "timeouts": 0,
-      "totalMs": 42354.8000000054,
+      "totalMs": 59527.79999985546,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
         "No diagram type detected matching given configuration for text: ": 2,
+        "PNG conversion: Malformed SVG document": 34,
         "The source image cannot be decoded.": 2
       }
     },
@@ -10334,15 +10449,16 @@
       "run": 2,
       "boundary": "Chromium SVG API + canvas PNG conversion",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1302,
+      "failed": 40,
       "timeouts": 0,
-      "totalMs": 40988.70000001229,
+      "totalMs": 58828.40000014007,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
         "No diagram type detected matching given configuration for text: ": 2,
+        "PNG conversion: Malformed SVG document": 34,
         "The source image cannot be decoded.": 2
       }
     },
@@ -10353,15 +10469,16 @@
       "run": 3,
       "boundary": "Chromium SVG API + canvas PNG conversion",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1302,
+      "failed": 40,
       "timeouts": 0,
-      "totalMs": 41526.99999997672,
+      "totalMs": 59207.99999996275,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
         "No diagram type detected matching given configuration for text: ": 2,
+        "PNG conversion: Malformed SVG document": 34,
         "The source image cannot be decoded.": 2
       }
     },
@@ -10375,7 +10492,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 323.5000000009313,
+      "totalMs": 324.0999999344349,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10393,7 +10510,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 321.4999999990687,
+      "totalMs": 388.90000020712614,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10411,7 +10528,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 315.49999997392297,
+      "totalMs": 321.6999998688698,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10429,7 +10546,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 6001.099999981932,
+      "totalMs": 8543.700000114739,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10447,7 +10564,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 5732.39999999851,
+      "totalMs": 8352.900000147521,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10465,55 +10582,13 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 5928.300000008196,
+      "totalMs": 8115.500000029802,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
         "No diagram type detected for the given text.": 34
       }
-    },
-    {
-      "project": "pub:mermaid_flutter",
-      "version": "0.3.2",
-      "format": "png",
-      "run": 1,
-      "boundary": "native Flutter renderToPng API; app startup excluded",
-      "attempted": 1342,
-      "completed": 1114,
-      "failed": 228,
-      "timeouts": 0,
-      "totalMs": 19332.515999999952,
-      "invalid": 0,
-      "invalidReasons": {}
-    },
-    {
-      "project": "pub:mermaid_flutter",
-      "version": "0.3.2",
-      "format": "png",
-      "run": 2,
-      "boundary": "native Flutter renderToPng API; app startup excluded",
-      "attempted": 1342,
-      "completed": 1114,
-      "failed": 228,
-      "timeouts": 0,
-      "totalMs": 19363.601999999995,
-      "invalid": 0,
-      "invalidReasons": {}
-    },
-    {
-      "project": "pub:mermaid_flutter",
-      "version": "0.3.2",
-      "format": "png",
-      "run": 3,
-      "boundary": "native Flutter renderToPng API; app startup excluded",
-      "attempted": 1342,
-      "completed": 1114,
-      "failed": 228,
-      "timeouts": 0,
-      "totalMs": 19558.72799999997,
-      "invalid": 0,
-      "invalidReasons": {}
     },
     {
       "project": "Dicklesworthstone/frankenmermaid",
@@ -10525,7 +10600,7 @@
       "completed": 1342,
       "failed": 0,
       "timeouts": 0,
-      "totalMs": 2984.424348000004,
+      "totalMs": 3501.515877000006,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {}
@@ -10540,7 +10615,7 @@
       "completed": 1342,
       "failed": 0,
       "timeouts": 0,
-      "totalMs": 2692.5694509999976,
+      "totalMs": 3445.9183630000225,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {}
@@ -10555,7 +10630,7 @@
       "completed": 1342,
       "failed": 0,
       "timeouts": 0,
-      "totalMs": 2768.9216050000105,
+      "totalMs": 3183.4678440000116,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {}
@@ -10570,7 +10645,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 170231.38891399954,
+      "totalMs": 217116.68326500015,
       "invalid": 2,
       "invalidReasons": {
         "empty output": 2
@@ -10594,7 +10669,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 173451.3469439997,
+      "totalMs": 220217.61844400057,
       "invalid": 2,
       "invalidReasons": {
         "empty output": 2
@@ -10618,7 +10693,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 173300.25847199932,
+      "totalMs": 219535.52309200022,
       "invalid": 2,
       "invalidReasons": {
         "empty output": 2
@@ -10642,7 +10717,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 6083.180874999989,
+      "totalMs": 5912.306386000003,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10672,7 +10747,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 5834.636890000004,
+      "totalMs": 6276.529130999995,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10702,7 +10777,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 5964.918788999994,
+      "totalMs": 5971.116999000009,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10732,7 +10807,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 2192.876399999996,
+      "totalMs": 3157.029785999996,
       "invalid": 16,
       "invalidReasons": {
         "empty output": 16
@@ -10815,7 +10890,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 2295.2022920000018,
+      "totalMs": 2606.057344999999,
       "invalid": 16,
       "invalidReasons": {
         "empty output": 16
@@ -10898,7 +10973,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 2258.3062239999986,
+      "totalMs": 2594.339700000006,
       "invalid": 16,
       "invalidReasons": {
         "empty output": 16
@@ -10981,7 +11056,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 11426.125501995906,
+      "totalMs": 12980.925231000176,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11064,7 +11139,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 11424.827465001028,
+      "totalMs": 11395.066648998647,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11147,7 +11222,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 11377.088508996647,
+      "totalMs": 11909.218746998464,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11230,7 +11305,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 664.1345939999969,
+      "totalMs": 637.6278290000021,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11247,7 +11322,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 651.3797460000035,
+      "totalMs": 820.2447809999998,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11264,7 +11339,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 682.0499289999988,
+      "totalMs": 627.0353749999997,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11281,7 +11356,7 @@
       "completed": 534,
       "failed": 808,
       "timeouts": 0,
-      "totalMs": 249.18321499999948,
+      "totalMs": 262.19007799999827,
       "invalid": 46,
       "invalidReasons": {
         "empty output": 44,
@@ -11349,7 +11424,7 @@
       "completed": 534,
       "failed": 808,
       "timeouts": 0,
-      "totalMs": 235.8729759999991,
+      "totalMs": 172.36412999999914,
       "invalid": 46,
       "invalidReasons": {
         "empty output": 44,
@@ -11417,7 +11492,7 @@
       "completed": 534,
       "failed": 808,
       "timeouts": 0,
-      "totalMs": 228.28753100000006,
+      "totalMs": 171.28082200000034,
       "invalid": 46,
       "invalidReasons": {
         "empty output": 44,
@@ -11485,7 +11560,7 @@
       "completed": 538,
       "failed": 804,
       "timeouts": 0,
-      "totalMs": 557.4927290000021,
+      "totalMs": 808.4811129999956,
       "invalid": 162,
       "invalidReasons": {
         "empty output": 162
@@ -11668,7 +11743,7 @@
       "completed": 538,
       "failed": 804,
       "timeouts": 0,
-      "totalMs": 528.4666509999993,
+      "totalMs": 650.0463179999983,
       "invalid": 162,
       "invalidReasons": {
         "empty output": 162
@@ -11851,7 +11926,7 @@
       "completed": 538,
       "failed": 804,
       "timeouts": 0,
-      "totalMs": 602.9490090000021,
+      "totalMs": 770.9287790000031,
       "invalid": 162,
       "invalidReasons": {
         "empty output": 162
@@ -12034,7 +12109,7 @@
       "completed": 1286,
       "failed": 56,
       "timeouts": 0,
-      "totalMs": 1565.4866839804527,
+      "totalMs": 1824.5111859596364,
       "invalid": 56,
       "invalidReasons": {
         "empty output": 30,
@@ -12110,7 +12185,7 @@
       "completed": 1286,
       "failed": 56,
       "timeouts": 0,
-      "totalMs": 1565.7205260004048,
+      "totalMs": 2002.834711005562,
       "invalid": 56,
       "invalidReasons": {
         "empty output": 30,
@@ -12186,7 +12261,7 @@
       "completed": 1286,
       "failed": 56,
       "timeouts": 0,
-      "totalMs": 1536.8431470087671,
+      "totalMs": 1773.093579982742,
       "invalid": 56,
       "invalidReasons": {
         "empty output": 30,
@@ -12262,7 +12337,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 109.76349499999861,
+      "totalMs": 153.24996900000087,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12430,7 +12505,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 116.94799100000009,
+      "totalMs": 120.22603500000125,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12598,7 +12673,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 117.02102400000076,
+      "totalMs": 109.39618599999967,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12766,7 +12841,7 @@
       "completed": 726,
       "failed": 616,
       "timeouts": 0,
-      "totalMs": 8265.30135299929,
+      "totalMs": 8271.701489997911,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -12886,7 +12961,7 @@
       "completed": 726,
       "failed": 616,
       "timeouts": 0,
-      "totalMs": 8322.059540999588,
+      "totalMs": 8472.31296400039,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -13006,7 +13081,7 @@
       "completed": 726,
       "failed": 616,
       "timeouts": 0,
-      "totalMs": 8396.541668998543,
+      "totalMs": 8790.492592001217,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -13126,7 +13201,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 209.7470900000005,
+      "totalMs": 182.80155199999962,
       "invalid": 24,
       "invalidReasons": {
         "empty output": 24
@@ -13221,7 +13296,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 215.61677900000024,
+      "totalMs": 198.06085500000123,
       "invalid": 24,
       "invalidReasons": {
         "empty output": 24
@@ -13316,7 +13391,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 204.91135300000084,
+      "totalMs": 231.02115200000367,
       "invalid": 24,
       "invalidReasons": {
         "empty output": 24
@@ -13411,7 +13486,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 20121.840990001685,
+      "totalMs": 29679.184431996895,
       "invalid": 10,
       "invalidReasons": {
         "empty output": 10
@@ -13422,7 +13497,7 @@
         "Error: No suitable detector found for input": 606,
         "Error: Parse errors: [EmptyErr(())]": 90,
         "Error: Parse error: no valid statements found. Invalid syntax: A[\"$$x^N$$\"]-->|\"$$\\sqrt{x+N}$$\"| B(\"$$\\frac{N}{N}$$\"), A-->|\"$$\\overbrace{a+b+c}^{\\text{note}}$$": 2,
-        "note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.": 6,
+        "note: run with `RUST_BACKTRACE=N` environment variable to display a backtrace": 6,
         "Error: Parse error: no valid statements found. Invalid syntax: erDiagram, CUSTOMER }|..|{ DELIVERY-ADDRESS : has, CUSTOMER--o||{ ORDER : places, CUSTOMER--o||{ ": 2,
         "Error: Parse error: no valid statements found. Invalid syntax: ---, config:, agentflow:, nodeSpacing: N, rankSpacing: N, ---, agentflow-beta TB, a[\"A\"]-->b[\"B": 2,
         "Error: Parse error: no valid statements found. Invalid syntax: ---, title: \"Grades\", ---, radar-beta, axis m[\"Math\"], s[\"Science\"], e[\"English\"], axis h[\"Histor": 4,
@@ -13545,7 +13620,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 20074.799850002397,
+      "totalMs": 27795.267357000732,
       "invalid": 10,
       "invalidReasons": {
         "empty output": 10
@@ -13556,7 +13631,7 @@
         "Error: No suitable detector found for input": 606,
         "Error: Parse errors: [EmptyErr(())]": 90,
         "Error: Parse error: no valid statements found. Invalid syntax: A[\"$$x^N$$\"]-->|\"$$\\sqrt{x+N}$$\"| B(\"$$\\frac{N}{N}$$\"), A-->|\"$$\\overbrace{a+b+c}^{\\text{note}}$$": 2,
-        "note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.": 6,
+        "note: run with `RUST_BACKTRACE=N` environment variable to display a backtrace": 6,
         "Error: Parse error: no valid statements found. Invalid syntax: erDiagram, CUSTOMER }|..|{ DELIVERY-ADDRESS : has, CUSTOMER--o||{ ORDER : places, CUSTOMER--o||{ ": 2,
         "Error: Parse error: no valid statements found. Invalid syntax: ---, config:, agentflow:, nodeSpacing: N, rankSpacing: N, ---, agentflow-beta TB, a[\"A\"]-->b[\"B": 2,
         "Error: Parse error: no valid statements found. Invalid syntax: ---, title: \"Grades\", ---, radar-beta, axis m[\"Math\"], s[\"Science\"], e[\"English\"], axis h[\"Histor": 4,
@@ -13679,7 +13754,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 20479.83881699678,
+      "totalMs": 25113.661754994188,
       "invalid": 10,
       "invalidReasons": {
         "empty output": 10
@@ -13690,7 +13765,7 @@
         "Error: No suitable detector found for input": 606,
         "Error: Parse errors: [EmptyErr(())]": 90,
         "Error: Parse error: no valid statements found. Invalid syntax: A[\"$$x^N$$\"]-->|\"$$\\sqrt{x+N}$$\"| B(\"$$\\frac{N}{N}$$\"), A-->|\"$$\\overbrace{a+b+c}^{\\text{note}}$$": 2,
-        "note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.": 6,
+        "note: run with `RUST_BACKTRACE=N` environment variable to display a backtrace": 6,
         "Error: Parse error: no valid statements found. Invalid syntax: erDiagram, CUSTOMER }|..|{ DELIVERY-ADDRESS : has, CUSTOMER--o||{ ORDER : places, CUSTOMER--o||{ ": 2,
         "Error: Parse error: no valid statements found. Invalid syntax: ---, config:, agentflow:, nodeSpacing: N, rankSpacing: N, ---, agentflow-beta TB, a[\"A\"]-->b[\"B": 2,
         "Error: Parse error: no valid statements found. Invalid syntax: ---, title: \"Grades\", ---, radar-beta, axis m[\"Math\"], s[\"Science\"], e[\"English\"], axis h[\"Histor": 4,
@@ -13813,7 +13888,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 17.52303000000005,
+      "totalMs": 45.49758099999997,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -13873,7 +13948,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 20.187073000000467,
+      "totalMs": 33.695818999999915,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -13933,7 +14008,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 15.853676999999905,
+      "totalMs": 17.975597000000597,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -13993,7 +14068,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2231.019890999305,
+      "totalMs": 2299.6521039998624,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -14880,7 +14955,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2172.595633998397,
+      "totalMs": 2321.872527999687,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -15767,7 +15842,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2139.2162129987264,
+      "totalMs": 2191.5623159987153,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -16654,7 +16729,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 318.16811600000085,
+      "totalMs": 382.70618899999977,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -16671,7 +16746,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 321.98182500000087,
+      "totalMs": 396.5374889999997,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -16688,7 +16763,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 332.8213530000012,
+      "totalMs": 779.6623929999985,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -16705,7 +16780,7 @@
       "completed": 555,
       "failed": 787,
       "timeouts": 0,
-      "totalMs": 173.80024000000003,
+      "totalMs": 137.65144600000042,
       "invalid": 26,
       "invalidReasons": {
         "empty output": 26
@@ -16795,7 +16870,7 @@
       "completed": 555,
       "failed": 787,
       "timeouts": 0,
-      "totalMs": 161.1783729999995,
+      "totalMs": 145.593078,
       "invalid": 26,
       "invalidReasons": {
         "empty output": 26
@@ -16885,7 +16960,7 @@
       "completed": 555,
       "failed": 787,
       "timeouts": 0,
-      "totalMs": 168.26663999999883,
+      "totalMs": 133.31084200000032,
       "invalid": 26,
       "invalidReasons": {
         "empty output": 26
@@ -16975,7 +17050,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2096.394089002628,
+      "totalMs": 2569.7053229990415,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -17862,7 +17937,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 1887.8566360013792,
+      "totalMs": 2252.5590179999126,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -18749,7 +18824,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 1901.7432850018376,
+      "totalMs": 3332.04090999614,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -19636,18 +19711,8 @@
         "boundary": "Chromium public SVG API",
         "completed": 1338,
         "failed": 4,
-        "medianTotalMs": 3904.899999992922,
+        "medianTotalMs": 4369.20000000298,
         "rank": 1
-      },
-      {
-        "project": "mermaid-js/mermaid",
-        "version": "12.3.0",
-        "format": "svg",
-        "boundary": "Chromium public SVG API",
-        "completed": 1336,
-        "failed": 6,
-        "medianTotalMs": 26853.899999995716,
-        "rank": 2
       },
       {
         "project": "wevm/ondine",
@@ -19656,8 +19721,8 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 263.59999999171123,
-        "rank": 3
+        "medianTotalMs": 278.0999999754131,
+        "rank": 2
       },
       {
         "project": "crabtalk/bezel",
@@ -19666,8 +19731,8 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 321.4999999990687,
-        "rank": 4
+        "medianTotalMs": 324.0999999344349,
+        "rank": 3
       },
       {
         "project": "obsidianmd/pele",
@@ -19676,8 +19741,8 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 503.8999999789521,
-        "rank": 5
+        "medianTotalMs": 548.0000000037253,
+        "rank": 4
       },
       {
         "project": "1jehuang/mermaid-rs-renderer",
@@ -19686,7 +19751,17 @@
         "boundary": "native CLI svg; process startup included",
         "completed": 1304,
         "failed": 38,
-        "medianTotalMs": 10672.559459999728,
+        "medianTotalMs": 23693.682473000605,
+        "rank": 5
+      },
+      {
+        "project": "mermaid-js/mermaid",
+        "version": "12.3.0",
+        "format": "svg",
+        "boundary": "Chromium public SVG API",
+        "completed": 1302,
+        "failed": 40,
+        "medianTotalMs": 39425.69999991357,
         "rank": 6
       },
       {
@@ -19696,7 +19771,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1185,
         "failed": 157,
-        "medianTotalMs": 542.5000000023283,
+        "medianTotalMs": 561.8000000342727,
         "rank": 7
       },
       {
@@ -19706,7 +19781,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 910.5000000051223,
+        "medianTotalMs": 882.0999999195337,
         "rank": 8
       },
       {
@@ -19716,7 +19791,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1066,
         "failed": 276,
-        "medianTotalMs": 4848.999999996275,
+        "medianTotalMs": 5993.499999944121,
         "rank": 9
       },
       {
@@ -19726,7 +19801,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 700,
         "failed": 642,
-        "medianTotalMs": 21812.09999999311,
+        "medianTotalMs": 21134.10000004247,
         "rank": 10
       },
       {
@@ -19736,7 +19811,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 680,
         "failed": 662,
-        "medianTotalMs": 429.40000000596046,
+        "medianTotalMs": 526.5000000670552,
         "rank": 11
       },
       {
@@ -19746,7 +19821,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 637,
         "failed": 705,
-        "medianTotalMs": 1333.6999999741092,
+        "medianTotalMs": 1493.599999949336,
         "rank": 12
       },
       {
@@ -19756,7 +19831,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 513,
         "failed": 829,
-        "medianTotalMs": 1030.2999999923632,
+        "medianTotalMs": 1221.200000051409,
         "rank": 13
       },
       {
@@ -19766,7 +19841,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 510,
         "failed": 832,
-        "medianTotalMs": 273.89999999292195,
+        "medianTotalMs": 368.30000003799796,
         "rank": 14
       },
       {
@@ -19776,7 +19851,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 398,
         "failed": 944,
-        "medianTotalMs": 94.8999999994412,
+        "medianTotalMs": 99.29999997094274,
         "rank": 15
       },
       {
@@ -19786,7 +19861,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 384,
         "failed": 958,
-        "medianTotalMs": 168.00000003166497,
+        "medianTotalMs": 183.40000002086163,
         "rank": 16
       }
     ],
@@ -19798,18 +19873,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1338,
         "failed": 4,
-        "medianTotalMs": 12421.600000010803,
+        "medianTotalMs": 15554.000000152737,
         "rank": 1
-      },
-      {
-        "project": "mermaid-js/mermaid",
-        "version": "12.3.0",
-        "format": "png",
-        "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 1336,
-        "failed": 6,
-        "medianTotalMs": 41526.99999997672,
-        "rank": 2
       },
       {
         "project": "1jehuang/mermaid-rs-renderer",
@@ -19818,18 +19883,8 @@
         "boundary": "native CLI png; process startup included",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 24044.23061300034,
-        "rank": 3
-      },
-      {
-        "project": "crabtalk/bezel",
-        "version": "0.2.24",
-        "format": "png",
-        "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 5928.300000008196,
-        "rank": 3
+        "medianTotalMs": 49645.68490299879,
+        "rank": 2
       },
       {
         "project": "obsidianmd/pele",
@@ -19838,8 +19893,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 6358.999999998137,
-        "rank": 3
+        "medianTotalMs": 7736.100000053644,
+        "rank": 2
       },
       {
         "project": "wevm/ondine",
@@ -19848,8 +19903,28 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 6384.79999999702,
-        "rank": 3
+        "medianTotalMs": 8039.1999999806285,
+        "rank": 2
+      },
+      {
+        "project": "crabtalk/bezel",
+        "version": "0.2.24",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 8352.900000147521,
+        "rank": 2
+      },
+      {
+        "project": "mermaid-js/mermaid",
+        "version": "12.3.0",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1302,
+        "failed": 40,
+        "medianTotalMs": 59207.99999996275,
+        "rank": 6
       },
       {
         "project": "Dicklesworthstone/frankenmermaid",
@@ -19858,7 +19933,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1185,
         "failed": 157,
-        "medianTotalMs": 10923.099999981467,
+        "medianTotalMs": 12654.50000000745,
         "rank": 7
       },
       {
@@ -19868,18 +19943,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 6453.599999994971,
+        "medianTotalMs": 7417.5999999418855,
         "rank": 8
-      },
-      {
-        "project": "pub:mermaid_flutter",
-        "version": "0.3.2",
-        "format": "png",
-        "boundary": "native Flutter renderToPng API; app startup excluded",
-        "completed": 1114,
-        "failed": 228,
-        "medianTotalMs": 19363.601999999995,
-        "rank": 9
       },
       {
         "project": "adewale/agentic-mermaid",
@@ -19888,8 +19953,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1066,
         "failed": 276,
-        "medianTotalMs": 11066.800000012852,
-        "rank": 10
+        "medianTotalMs": 15094.500000052154,
+        "rank": 9
       },
       {
         "project": "emtyty/merslim",
@@ -19898,8 +19963,8 @@
         "boundary": "Chromium public PNG API",
         "completed": 700,
         "failed": 642,
-        "medianTotalMs": 25685.30000000354,
-        "rank": 11
+        "medianTotalMs": 27580.9999999851,
+        "rank": 10
       },
       {
         "project": "evangwt/xmermaid",
@@ -19908,8 +19973,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 680,
         "failed": 662,
-        "medianTotalMs": 3339.999999973923,
-        "rank": 12
+        "medianTotalMs": 4157.100000046194,
+        "rank": 11
       },
       {
         "project": "dfadler/zombie-mermaid",
@@ -19918,8 +19983,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 637,
         "failed": 705,
-        "medianTotalMs": 4120.2999999877065,
-        "rank": 13
+        "medianTotalMs": 5922.500000052154,
+        "rank": 12
       },
       {
         "project": "lukilabs/beautiful-mermaid",
@@ -19928,8 +19993,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 513,
         "failed": 829,
-        "medianTotalMs": 2757.8999999854714,
-        "rank": 14
+        "medianTotalMs": 3536.1000000163913,
+        "rank": 13
       },
       {
         "project": "crafter-station/mermaid",
@@ -19938,8 +20003,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 510,
         "failed": 832,
-        "medianTotalMs": 3164.1999999955297,
-        "rank": 15
+        "medianTotalMs": 4808.700000047684,
+        "rank": 14
       },
       {
         "project": "KlangHaus/vitepress-plugin-diagram",
@@ -19948,8 +20013,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 398,
         "failed": 944,
-        "medianTotalMs": 1580.2999999923632,
-        "rank": 16
+        "medianTotalMs": 2010.4999999776483,
+        "rank": 15
       },
       {
         "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
@@ -19958,8 +20023,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 384,
         "failed": 958,
-        "medianTotalMs": 4415.899999989197,
-        "rank": 17
+        "medianTotalMs": 5341.300000235438,
+        "rank": 16
       }
     ],
     "terminal": [
@@ -19970,7 +20035,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 1342,
         "failed": 0,
-        "medianTotalMs": 2768.9216050000105,
+        "medianTotalMs": 3445.9183630000225,
         "rank": 1
       },
       {
@@ -19980,7 +20045,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 1304,
         "failed": 38,
-        "medianTotalMs": 173300.25847199932,
+        "medianTotalMs": 219535.52309200022,
         "rank": 2
       },
       {
@@ -19990,7 +20055,7 @@
         "boundary": "persistent Python public terminal API",
         "completed": 1286,
         "failed": 56,
-        "medianTotalMs": 1565.4866839804527,
+        "medianTotalMs": 1824.5111859596364,
         "rank": 3
       },
       {
@@ -20000,7 +20065,7 @@
         "boundary": "persistent Node public terminal API",
         "completed": 1068,
         "failed": 274,
-        "medianTotalMs": 5964.918788999994,
+        "medianTotalMs": 5971.116999000009,
         "rank": 4
       },
       {
@@ -20010,7 +20075,7 @@
         "boundary": "persistent Bun public terminal API",
         "completed": 745,
         "failed": 597,
-        "medianTotalMs": 321.98182500000087,
+        "medianTotalMs": 396.5374889999997,
         "rank": 5
       },
       {
@@ -20020,7 +20085,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 726,
         "failed": 616,
-        "medianTotalMs": 8322.059540999588,
+        "medianTotalMs": 8472.31296400039,
         "rank": 6
       },
       {
@@ -20030,7 +20095,7 @@
         "boundary": "persistent Node public terminal API",
         "completed": 637,
         "failed": 705,
-        "medianTotalMs": 2258.3062239999986,
+        "medianTotalMs": 2606.057344999999,
         "rank": 7
       },
       {
@@ -20040,7 +20105,7 @@
         "boundary": "persistent Node public terminal API",
         "completed": 555,
         "failed": 787,
-        "medianTotalMs": 168.26663999999883,
+        "medianTotalMs": 137.65144600000042,
         "rank": 8
       },
       {
@@ -20050,7 +20115,7 @@
         "boundary": "persistent Node public terminal API",
         "completed": 538,
         "failed": 804,
-        "medianTotalMs": 557.4927290000021,
+        "medianTotalMs": 770.9287790000031,
         "rank": 9
       },
       {
@@ -20060,7 +20125,7 @@
         "boundary": "persistent Node public terminal API",
         "completed": 534,
         "failed": 808,
-        "medianTotalMs": 235.8729759999991,
+        "medianTotalMs": 172.36412999999914,
         "rank": 10
       },
       {
@@ -20070,18 +20135,8 @@
         "boundary": "persistent Node public terminal API",
         "completed": 509,
         "failed": 833,
-        "medianTotalMs": 209.7470900000005,
+        "medianTotalMs": 198.06085500000123,
         "rank": 11
-      },
-      {
-        "project": "spacedock-dev/mermaidtext",
-        "version": "git-a6b0c7657b94",
-        "format": "terminal",
-        "boundary": "public CLI terminal; process startup included",
-        "completed": 475,
-        "failed": 867,
-        "medianTotalMs": 1901.7432850018376,
-        "rank": 12
       },
       {
         "project": "xai-org/grok-build",
@@ -20090,7 +20145,17 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 475,
         "failed": 867,
-        "medianTotalMs": 2172.595633998397,
+        "medianTotalMs": 2299.6521039998624,
+        "rank": 12
+      },
+      {
+        "project": "spacedock-dev/mermaidtext",
+        "version": "git-a6b0c7657b94",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 475,
+        "failed": 867,
+        "medianTotalMs": 2569.7053229990415,
         "rank": 13
       },
       {
@@ -20100,7 +20165,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 408,
         "failed": 934,
-        "medianTotalMs": 20121.840990001685,
+        "medianTotalMs": 27795.267357000732,
         "rank": 14
       },
       {
@@ -20110,7 +20175,7 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 401,
         "failed": 941,
-        "medianTotalMs": 11424.827465001028,
+        "medianTotalMs": 11909.218746998464,
         "rank": 15
       },
       {
@@ -20120,7 +20185,7 @@
         "boundary": "persistent Bun public terminal API",
         "completed": 254,
         "failed": 1088,
-        "medianTotalMs": 664.1345939999969,
+        "medianTotalMs": 637.6278290000021,
         "rank": 16
       },
       {
@@ -20130,7 +20195,7 @@
         "boundary": "persistent Bun public terminal API",
         "completed": 181,
         "failed": 1161,
-        "medianTotalMs": 116.94799100000009,
+        "medianTotalMs": 120.22603500000125,
         "rank": 17
       },
       {
@@ -20140,11 +20205,16 @@
         "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
         "completed": 23,
         "failed": 1319,
-        "medianTotalMs": 17.52303000000005,
+        "medianTotalMs": 33.695818999999915,
         "rank": 18
       }
     ],
     "unranked": []
   },
-  "blocked": []
+  "blocked": [
+    {
+      "project": "pub:mermaid_flutter",
+      "reason": "Error: Native Flutter has no prepared artifact: DaveBench measures it with davebench:native-png from a release bundle (see native-flutter/README.md)."
+    }
+  ]
 }

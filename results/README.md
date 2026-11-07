@@ -8,10 +8,10 @@ and versions always form one display label.
 The page and every generated number in the docs read these numeric results
 (`currentBenchmarkResultFiles` in `unified/three-benchmark-report.ts`):
 
-- [DaveBench](release/report.json), built from [images](release/images.json), [terminal](release/terminal.json) and [native Flutter PNG](release/flutter.json)
+- [DaveBench](release/report.json), built from [images](release/images.json) and [terminal](release/terminal.json). Native Flutter PNG remains blocked in this collection; see the [campaign notes](release/README.md).
 - [Drawing Correctness](release/drawing-correctness.json)
 - [Mermaid Fidelity](release/mermaid-fidelity.json)
-- [Frozen catalog](../docs/evidence/benchmark-campaign-2026-11-06/catalog.json)
+- [Frozen catalog](../docs/evidence/benchmark-campaign-2026-11-07/catalog.json)
 
 `release/` holds one campaign under fixed names; [its README](release/README.md) describes it. File names carry no dates: published dates come from the timestamps each file records.
 

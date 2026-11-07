@@ -3,19 +3,22 @@ import { tmpdir } from 'node:os'
 import { resolve, join } from 'node:path'
 import { spawn } from 'node:child_process'
 import { watchMemory } from './process-memory.ts'
+import { killCommunityProcess, trackCommunityProcess } from './community-process.ts'
 import { chromium } from 'playwright'
 import { drawingCases, type DrawingCase } from '../fidelity/drawing/corpus.ts'
 import { DrawingWorker } from '../fidelity/drawing/worker.ts'
-import { assessLabels, expectsEmptyDrawing, svgText, terminalText } from '../fidelity/drawing/labels.ts'
+import { assessTerminalLabels, assessSvgLabels, expectsEmptyDrawing, terminalLabelWorkBudget } from '../fidelity/drawing/labels.ts'
 import { browserHost } from './davebench.ts'
 import { defaultChromium } from './benchmark-context.ts'
-import { latestBenchmarkRenderingArtifact, assertCurrentBenchmarkArtifact } from './benchmark-versions.ts'
+import { latestBenchmarkRenderingArtifact, verifyBenchmarkArtifact } from './benchmark-versions.ts'
+import { qualifyOutputFormat } from './qualification.ts'
 import { communityDeclaresOutput, communityModuleOutputSupported } from './community.ts'
 import { comparisonProjects } from './lineage.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { svgTextValidity, terminalTextValidity } from './davebench-validity.ts'
 
 class InadmissibleOutput extends Error {}
+class InvocationTimeout extends Error {}
 
 const nativeCall = async (artifact: any, source: string, format: string) => {
   const binding = artifact.outputBindings?.[format] ?? (format === 'terminal' ? { args: artifact.args ?? [], input: artifact.input ?? 'stdin' } : undefined)
@@ -25,13 +28,14 @@ const nativeCall = async (artifact: any, source: string, format: string) => {
   try {
     const args = binding.args.map((arg: string) => (destination ? arg.replaceAll('{output}', destination) : arg))
     const result = await new Promise<{ stdout: Buffer; stderr: string; status: number | null; error?: string }>(done => {
-      const child = spawn(artifact.executable, args, { stdio: ['pipe', 'pipe', 'pipe'] })
+      const child = spawn(artifact.executable, args, { detached: process.platform !== 'win32', stdio: ['pipe', 'pipe', 'pipe'] })
+      trackCommunityProcess(child)
       const out: Buffer[] = []
       let stderr = '', size = 0, error: string | undefined
       child.stdout!.on('data', (chunk: Buffer) => { size += chunk.length; if (size <= 32 * 1024 * 1024) out.push(chunk) })
       child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) })
-      const timer = setTimeout(() => { error = 'spawn ' + artifact.executable + ' ETIMEDOUT'; child.kill('SIGKILL') }, 15000)
-      const unwatch = watchMemory(child.pid, () => { error = 'memory limit'; child.kill('SIGKILL') })
+      const timer = setTimeout(() => { error = 'spawn ' + artifact.executable + ' ETIMEDOUT'; killCommunityProcess(child, 'SIGKILL') }, 15000)
+      const unwatch = watchMemory(child.pid, () => { error = 'memory limit'; killCommunityProcess(child, 'SIGKILL') })
       child.once('error', thrown => { error ??= thrown.message })
       child.once('close', status => { clearTimeout(timer); unwatch(); done({ stdout: Buffer.concat(out), stderr, status, error }) })
       child.stdin!.on('error', () => {})
@@ -91,8 +95,8 @@ export async function main(args = process.argv.slice(2)) {
           selection: opts.get('--case') ? 'functional subset' : 'full shared corpus',
           corpus: { cases: cases.length, ids: cases.map(c => c.id), seed: 'reviewed Terminal Drawing Facts, invalid controls excluded', regressions: 'corpus/drawing-regressions.json' },
           versionsFrozenAt: catalog.benchmarkVersionsCheckedAt,
-          method: 'Label assessment: a case passes when every label named by its reviewed source facts appears in the output and no raw Mermaid syntax (diagram header, node definition or piped edge label) is shown. SVG text is read from the document and terminal text directly. Edges, arrow direction, layout and styling are not checked. PNG is not assessed.',
-          assessmentLimits: { invocationMs: 15000, terminalWorkerMs: 20000 },
+          method: 'Label assessment: SVG labels must pass the existing browser visibility, canvas and clipping checks; unsupported visibility observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.',
+          assessmentLimits: { invocationMs: 15000, svgObserverMs: 8000, terminalWorkerMs: 20000, terminalRectangleWork: terminalLabelWorkBudget },
           rows,
           blocked,
         },
@@ -101,13 +105,15 @@ export async function main(args = process.argv.slice(2)) {
       ),
     )
   const browser = await chromium.launch({ headless: true, executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium) })
+  const assessmentContext = await browser.newContext({ javaScriptEnabled: false })
+  await assessmentContext.route('**/*', route => route.abort())
   const bounded = async <T>(work: Promise<T>, label: string, ms = 8000): Promise<T> => {
     let timer: ReturnType<typeof setTimeout>
     try {
       return await Promise.race([
         work,
         new Promise<never>((_, reject) => {
-          timer = setTimeout(() => reject(Error(label + ' deadline exceeded')), ms)
+          timer = setTimeout(() => reject(new InvocationTimeout(label + ' deadline exceeded')), ms)
         }),
       ])
     } finally {
@@ -124,7 +130,7 @@ export async function main(args = process.argv.slice(2)) {
       if (formats.includes('svg') && communityDeclaresOutput(node, 'svg') && imagePeer?.artifact) {
         let host: any, session: any
         try {
-          assertCurrentBenchmarkArtifact(imagePeer, node)
+          verifyBenchmarkArtifact(imagePeer, node)
           imagePeer.node = node
           const artifact = latestBenchmarkRenderingArtifact(imagePeer)
           if (!artifact) throw Error('No prepared rendering artifact')
@@ -138,6 +144,7 @@ export async function main(args = process.argv.slice(2)) {
             console.log(project, test.id, 'SVG')
             let svg: string, assessment: any
             try {
+              if (!native && !session) session = await host.open()
               svg = native
                 ? (await nativeCall(artifact, test.source, 'svg')).toString('utf8')
                 : await bounded(
@@ -150,11 +157,19 @@ export async function main(args = process.argv.slice(2)) {
                   )
               // Debugging only: TRIDENT_DRAWING_DUMP keeps outputs, which published runs never retain.
               if (process.env.TRIDENT_DRAWING_DUMP) writeFileSync(join(process.env.TRIDENT_DRAWING_DUMP, encodeURIComponent(project) + '.' + test.id.replace(/\W/g, '_') + '.svg'), svg)
-              const admission = expectsEmptyDrawing(test) ? { valid: true as const } : svgTextValidity(svg, test.source)
+              const format = expectsEmptyDrawing(test) ? qualifyOutputFormat(svg, 'svg') : undefined
+              const admission = format ? { valid: format.ok, reason: format.findings.join('; ') } : svgTextValidity(svg, test.source)
               if (!admission.valid) throw new InadmissibleOutput(admission.reason)
-              assessment = assessLabels(test, 'svg', svgText(svg))
+              const page = await assessmentContext.newPage()
+              try {
+                await page.setContent('<!doctype html><style>body{margin:0}</style>' + svg)
+                assessment = await bounded(assessSvgLabels(test, page, svg), 'SVG label assessment')
+              } catch (error) {
+                assessment = { status: 'unknown', reason: 'SVG label observer could not assess this output: ' + String(error).slice(0, 300) }
+              } finally { await page.close() }
               rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: assessment.status, reason: assessment.reason, failed: assessment.missing, leaked: assessment.leaked })
             } catch (error) {
+              if (error instanceof InvocationTimeout && session) { await session.context.close(); session = undefined }
               // A zero-size or error-placeholder SVG is a known nonpass, not an observer gap.
               if (error instanceof InadmissibleOutput) rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: 'invalid-format', reason: 'Inadmissible SVG output: ' + error.message })
               else rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: 'renderer-failure', reason: String(error).slice(0, 400) })
@@ -176,7 +191,7 @@ export async function main(args = process.argv.slice(2)) {
       if (formats.includes('terminal') && communityDeclaresOutput(node, 'terminal') && terminalPeer?.artifact) {
         let worker: DrawingWorker | undefined
         try {
-          assertCurrentBenchmarkArtifact(terminalPeer, node)
+          verifyBenchmarkArtifact(terminalPeer, node)
           terminalPeer.node = node
           const a = terminalPeer.artifact,
             extra = a.additionalCli?.find((c: any) => c.outputs.includes('terminal'))?.artifact
@@ -231,7 +246,7 @@ export async function main(args = process.argv.slice(2)) {
               save()
               continue
             }
-            const assessed = assessLabels(test, 'terminal', terminalText(result.text))
+            const assessed = assessTerminalLabels(test, result.text)
             rows.push({ project, version: native?.version ?? a.version, format: 'terminal', caseId: test.id, status: assessed.status, reason: assessed.reason, failed: assessed.missing, leaked: assessed.leaked })
             save()
           }
@@ -246,6 +261,7 @@ export async function main(args = process.argv.slice(2)) {
     }
     save('complete')
   } finally {
+    await assessmentContext.close()
     await browser.close()
   }
   console.log(JSON.stringify({ cases: cases.length, assessedRows: rows.length, blocked }))

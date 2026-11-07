@@ -42,6 +42,21 @@ export interface PreparedCommunityBrowser extends PreparedCommunity {
 }
 const digest = (bytes: Uint8Array): string => createHash('sha256').update(bytes).digest('hex')
 const safe = (id: string): string => encodeURIComponent(id)
+/** Read and verify the browser closure once; hosts serve these exact bytes. */
+export function verifyCommunityBrowser(engine: CommunityBrowserEngine) {
+  const entry = resolve(engine.root, engine.entry)
+  const files = engine.files ?? []
+  if (!files.some(file => resolve(file.path) === entry && file.sha256 === engine.artifactSha256)) throw Error('Prepared browser manifest does not bind its entry')
+  if (engine.wasm && !files.some(file => resolve(file.path) === resolve(engine.root, engine.wasm!))) throw Error('Prepared browser manifest does not bind its WASM')
+  if (engine.zenuml && !files.some(file => resolve(file.path) === resolve(engine.zenuml!.root, engine.zenuml!.entry))) throw Error('Prepared browser manifest does not bind its ZenUML entry')
+  const verified = new Map<string, Buffer>()
+  for (const file of files) {
+    const bytes = readFileSync(file.path)
+    if (!/^[a-f0-9]{64}$/.test(file.sha256) || digest(bytes) !== file.sha256) throw Error('Prepared browser asset changed: ' + file.path)
+    verified.set(resolve(file.path), bytes)
+  }
+  return verified
+}
 /** Seal executable/browser assets, not source-tree inputs or node_modules.
  * Delivery totals still use only observed requests, never this overapproximation. */
 function browserFiles(engine: CommunityBrowserEngine): { path: string; sha256: string }[] {
@@ -61,7 +76,7 @@ function browserFiles(engine: CommunityBrowserEngine): { path: string; sha256: s
     }
   }
   visit(scope)
-  if (engine.zenuml) visit(join(engine.zenuml.root, 'dist'))
+  if (engine.zenuml) { paths.add(resolve(engine.zenuml.root, engine.zenuml.entry)); visit(join(engine.zenuml.root, 'dist')) }
   return [...paths].sort().map(path => ({ path, sha256: digest(readFileSync(path)) }))
 }
 // A candidate's bundle never shares a directory with the release of the same version.

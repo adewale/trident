@@ -10,38 +10,47 @@ import { join } from 'node:path'
 const statuses = ['correct', 'incorrect', 'renderer-failure', 'invalid-format', 'unknown', 'unrun'] as const
 
 /** Per project/format counts, case lists and unknown reasons from raw rows. */
-export function aggregateDrawingRows(rows: any[]) {
+export function aggregateDrawingRows(rows: any[], caseIds: readonly string[]) {
+  const expected = new Set(caseIds)
+  if (!expected.size || expected.size !== caseIds.length) throw Error('Drawing corpus needs unique case IDs')
   const groups = new Map<string, any[]>()
   for (const row of rows) {
     const key = JSON.stringify([row.project, row.format])
     groups.set(key, [...(groups.get(key) ?? []), row])
   }
   return [...groups.values()].map(group => {
+    const seen = new Set<string>()
     const versions = new Set(group.map(row => row.version))
     if (versions.size !== 1) throw Error('Mixed versions for ' + group[0].project + ' ' + group[0].format)
     const counts = Object.fromEntries(statuses.map(status => [status, 0])) as Record<string, number>
     const caseOutcomes = Object.fromEntries(statuses.map(status => [status, [] as string[]])) as Record<string, string[]>
     const assessmentGapReasons: Record<string, number> = {}
     for (const row of group) {
+      if (!expected.has(row.caseId) || seen.has(row.caseId)) throw Error('Unknown or duplicate drawing case: ' + row.caseId)
+      seen.add(row.caseId)
       if (!statuses.includes(row.status)) throw Error('Unknown drawing status ' + row.status)
       counts[row.status]!++
       caseOutcomes[row.status]!.push(row.caseId)
       if (row.status === 'unknown') for (const reason of row.format === 'svg' && row.unknown?.length ? row.unknown : [row.reason ?? 'Unassessed']) assessmentGapReasons[reason] = (assessmentGapReasons[reason] ?? 0) + 1
     }
+    if (seen.size !== expected.size) throw Error(`${group[0].project} ${group[0].format} does not account for every case`)
     return { project: group[0].project, version: group[0].version, format: group[0].format, counts, caseOutcomes, assessmentGapReasons }
   })
 }
 
 export function mergeDrawingResults(base: any, run: any, formats: string[]) {
   if (run.state !== 'complete') throw Error('Drawing run is not complete')
+  if (base.corpus.ids.length !== base.corpus.cases) throw Error('Drawing population differs from its case IDs')
   if (JSON.stringify(run.corpus.ids) !== JSON.stringify(base.corpus.ids)) throw Error('Drawing run must use the published corpus')
   if (run.versionsFrozenAt !== base.versionsFrozenAt) throw Error('Drawing run must use the published version freeze')
-  const fresh = aggregateDrawingRows(run.rows.filter((row: any) => formats.includes(row.format)))
-  for (const row of fresh) if (Object.values(row.counts as Record<string, number>).reduce((sum, value) => sum + value, 0) !== base.corpus.cases) throw Error(`${row.project} ${row.format} does not account for every case`)
-  const results = [...base.results.filter((row: any) => !formats.includes(row.format)), ...fresh]
+  const fresh = aggregateDrawingRows(run.rows.filter((row: any) => formats.includes(row.format)), base.corpus.ids)
+  const blocks = run.blocked.flatMap((row: any) => { const selected = String(row.format).split('/').filter(format => formats.includes(format)); return selected.length ? [{ ...row, format: selected.join('/') }] : [] })
+  const key = (project: string, format: string) => JSON.stringify([project, format])
+  const replaced = new Set([...fresh.map(row => key(row.project, row.format)), ...blocks.flatMap((row: any) => row.format.split('/').map((format: string) => key(row.project, format)))])
+  const results = [...base.results.filter((row: any) => !replaced.has(key(row.project, row.format))), ...fresh]
   const totals = Object.fromEntries(statuses.map(status => [status, results.reduce((sum: number, row: any) => sum + row.counts[status], 0)]))
-  const blocked = [...base.blocked.filter((row: any) => !formats.some(format => String(row.format).includes(format))), ...run.blocked]
-  return { ...base, results, totals, blocked, updatedAt: run.rows.length ? collectedAt(run) : base.updatedAt, recollectedFormats: { formats, at: collectedAt(run), reason: 'Inadmissible outputs (empty text, error messages, source printed back, zero-size or error-placeholder SVG) are recorded as invalid-format nonpasses instead of observer gaps; every case of the selected formats was recollected with the same frozen artifacts.' } }
+  const blocked = [...base.blocked.flatMap((row: any) => { const kept = String(row.format).split('/').filter(format => !replaced.has(key(row.project, format))); return kept.length ? [{ ...row, format: kept.join('/') }] : [] }), ...blocks]
+  return { ...base, results, totals, blocked, updatedAt: collectedAt(run), recollectedFormats: { formats, at: collectedAt(run), reason: 'Replaced only the supplied project/format results from the same corpus and frozen versions; all other observations are preserved.' } }
 }
 
 /** When a run finished collecting. A run from before runs recorded their times has none,
@@ -54,8 +63,8 @@ function collectedAt(run: any): string {
 /** The published result of one complete run over every format: no earlier result is kept. */
 export function publishDrawingRun(run: any) {
   if (run.state !== 'complete') throw Error('Drawing run is not complete')
-  const results = aggregateDrawingRows(run.rows)
-  for (const row of results) if (Object.values(row.counts as Record<string, number>).reduce((sum, value) => sum + value, 0) !== run.corpus.cases) throw Error(`${row.project} ${row.format} does not account for every case`)
+  if (run.corpus.ids.length !== run.corpus.cases) throw Error('Drawing population differs from its case IDs')
+  const results = aggregateDrawingRows(run.rows, run.corpus.ids)
   const formats = [...new Set(results.map(row => row.format))]
   const totals = Object.fromEntries(statuses.map(status => [status, results.reduce((sum: number, row: any) => sum + row.counts[status], 0)]))
   const { rows: _rows, state, startedAt, updatedAt: _updated, ...metadata } = run

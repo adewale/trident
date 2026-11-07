@@ -29,12 +29,12 @@ test('results:snapshot --check fails when a published number drifts from the res
 test('a leader fact names ties and is marked while an unassessed case could still overtake it', () => {
   const [davebench, drawing, fidelity] = currentBenchmarkResultFiles.slice(0, 3).map(read)
   const svg = drawing.results.filter((row: any) => row.format === 'svg')
-  const best = Math.max(...svg.map((row: any) => row.counts.correct))
-  const tied = svg.filter((row: any) => row.counts.correct === best)
-  expect(publishedFacts(davebench, drawing, fidelity)['drawing-svg-leader']).toBe(tied.map((row: any) => row.project).sort().join(', ').replace(/, ([^,]*)$/, ' and $1') + ` with ${best} each`)
+  for (const [index, row] of svg.entries()) Object.assign(row.counts, { correct: index < 2 ? 100 : 80, unknown: 0, unrun: 0 })
+  const tied = svg.slice(0, 2)
+  expect(publishedFacts(davebench, drawing, fidelity)['drawing-svg-leader']).toBe(tied.map((row: any) => row.project).sort().join(' and ') + ' with 100 each')
   // A trailing row whose unassessed cases could reach the leader makes the lead unsettled.
-  const trailing = svg.find((row: any) => row.counts.correct < best)
-  trailing.counts.unknown = best - trailing.counts.correct
+  const trailing = svg[2]
+  trailing.counts.unknown = 20
   expect(publishedFacts(davebench, drawing, fidelity)['drawing-svg-leader']).toEndWith('(not yet settled)')
 })
 

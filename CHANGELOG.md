@@ -2,6 +2,28 @@
 
 ## Unreleased
 
+- Close adversarial audit findings: bound terminal frame searches and derived
+  text; keep unresolved SVG source leaks unassessed; serve only verified browser
+  bytes; preserve valid paired XML and APNG admission; distinguish missing parser
+  exports from candidate faults; and merge equivalent Fidelity controls by file
+  and callback ordinal.
+- Extend measured SVG glyph bounds to Latin-1 text. Independent raster controls
+  distinguish fitting accented labels from clipped ink; combining marks and
+  other unsupported glyph profiles still withhold a verdict. Drawing verdicts
+  also require resolved paint; an unsupported filter cannot earn label credit.
+- Collectors verify prepared artifact bytes before execution. Publication derives
+  counts from complete case lists, requires identical Fidelity controls, and
+  preserves untouched projects during partial Drawing merges.
+- SVG Drawing labels use the existing visibility and clipping observer; terminal
+  labels preserve word order and join wrapped text only within observed frames.
+  Unsupported SVG visibility stays unassessed. Timed-out browser contexts are
+  replaced, and CLI deadlines terminate their process groups.
+- Output admission validates SVG XML and decodes PNG data after the clock stops. Native PNG dimension budgets use division to avoid
+  integer overflow. Candidate parser faults count as nonpasses, and version-change detection includes
+  source revisions, CLI releases and companion versions. Update js-yaml to 4.3.2.
+  Recollect the three benchmarks against the frozen 7 November versions. Previous
+  results remain at their original Git commit; native Flutter PNG remains blocked
+  pending the pinned SDK and GTK build.
 - **Mermaid 12.3.0 is the reference.** The oracle, Mermaid's row in every benchmark and
   the Mermaid Fidelity suite move from 12.2.0 to 12.3.0: 352 test files, of whose tests
   Mermaid passes 3,676. The Fidelity collector reads its pin from

@@ -20,7 +20,10 @@ The regression qualifies only generic authored-title clipping. It does not grant
 full Venn correctness from pixels, reference agreement or this fixture label.
 Other source facts and representation checks remain independently required.
 Hand-authored plain-SVG controls separately remove actual top/bottom glyph ink;
-those still fail. A zero-area clip remains a proved failure even without font
+those still fail. ASCII and Latin-1 runs use the same computed-font, advance and
+font-box qualification. Separate raster controls cover fitting accented text and
+top/bottom accent clipping; combining marks stay outside that bounded profile.
+A zero-area clip remains a proved failure even without font
 metrics. Unsupported HTML, complex glyphs or stretched text remain unknown when
 only their font boxes overflow. No project renderer was called again to freeze these retained
 fixtures or run this qualification.
