@@ -58,6 +58,12 @@ a matching control receipt binding source, selection, harness, installed bytes,
 Node runtime and the native/audit evidence. Older controls without that receipt
 must be recollected. Test files still use separate processes.
 
+The harness digest includes every bridge language, build template and lockfile.
+Candidate bindings also hash the actual bridge executables, scripts and generated
+WASM/glue. Python bindings include installed package sources and extensions;
+Fidelity's Python worker bypasses mutable bytecode caches. Collection checks those
+bindings again after execution and refuses changed inputs or harness files.
+
 To qualify DOM-free files, collect the same frozen selection and artifacts once
 with `TRIDENT_FIDELITY_ENVIRONMENT=jsdom` and once with
 `TRIDENT_FIDELITY_ENVIRONMENT=node`. These are semantic qualification runs, not

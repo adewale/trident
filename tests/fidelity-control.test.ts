@@ -1,11 +1,26 @@
 import { expect, test } from 'bun:test'
 import { cpSync, mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { fidelityControlIdentity, assertReusableControl } from '../unified/fidelity-control.ts'
+import { fidelityControlIdentity, assertReusableControl, fidelityHarnessSources } from '../unified/fidelity-control.ts'
 import { byteDigest } from '../portable/artifacts.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 
 const temporary = useTempDirs('fidelity-control-')
+test('native harness languages and build inputs participate in control identity', () => {
+  const root = temporary.dir()
+  for (const name of ['parser.rs', 'parser.go', 'parser.dart', 'parser.py', 'Cargo.toml.template', 'Cargo.lock']) writeFileSync(join(root, name), 'original')
+  writeFileSync(join(root, 'README.md'), 'documentation')
+  writeFileSync(join(root, 'dom-free-files.json'), '{}')
+  const before = fidelityHarnessSources(root)
+  expect(before).toHaveLength(6)
+  for (const name of ['parser.rs', 'parser.go', 'parser.dart', 'parser.py', 'Cargo.toml.template', 'Cargo.lock']) {
+    writeFileSync(join(root, name), 'changed')
+    expect(fidelityHarnessSources(root)).not.toEqual(before)
+    writeFileSync(join(root, name), 'original')
+  }
+  writeFileSync(join(root, 'dom-free-files.json'), '{"proof":"new"}')
+  expect(fidelityHarnessSources(root)).toEqual(before)
+})
 test('control reuse binds selected source and installed bytes while allowing relocation', () => {
   const first = temporary.dir(), second = temporary.dir()
   for (const name of ['upstream', 'reference', 'runtime']) mkdirSync(join(first, name))

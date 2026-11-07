@@ -12,6 +12,9 @@ test('opaque gradient backdrops qualify only with a separating label colour chan
   const cases: [string, string, 'passed' | 'unavailable'][] = [
     ['light', gradient(stop(0, '#eee') + stop(1, 'white')), 'passed'],
     ['linear RGB', gradient(stop(0, '#ddd') + stop(1, 'white'), 'color-interpolation="linearRGB"'), 'passed'],
+    ['source-preserving shadow', gradient(stop(0, '#eee') + stop(1, 'white')) + '<defs><filter id="shadow" x="-6%" y="-6%" width="116%" height="128%"><feDropShadow dx="0" dy="2" stdDeviation="3"/></filter></defs><style>rect{filter:url(#shadow)}</style>', 'passed'],
+    ['clipped shadow region', gradient(stop(0, '#eee') + stop(1, 'white')) + '<defs><filter id="shadow" x="0" width="50%"><feDropShadow/></filter></defs><style>rect{filter:url(#shadow)}</style>', 'unavailable'],
+    ['source-removing filter', gradient(stop(0, '#eee') + stop(1, 'white')) + '<defs><filter id="shadow"><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"/></filter></defs><style>rect{filter:url(#shadow)}</style>', 'unavailable'],
     ['wide-gamut stops', gradient(stop(0, 'color(display-p3 0.8 0.8 0.8)') + stop(1, 'color(display-p3 1 1 1)')), 'unavailable'],
     ['wide-gamut label', gradient(stop(0, '#eee') + stop(1, 'white')) + '<style>text{fill:color(display-p3 0 0 0)}</style>', 'unavailable'],
     ['same channel interval', gradient(stop(0, 'black') + stop(1, 'white')), 'unavailable'],

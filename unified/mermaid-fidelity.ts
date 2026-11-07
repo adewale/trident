@@ -10,7 +10,7 @@ import { createRequire } from 'node:module'
 import { verifyBenchmarkArtifact, latestBenchmarkRenderingArtifact } from './benchmark-versions.ts'
 import { inventoryOriginalDeclarations } from './upstream-fidelity-census.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
-import { parserBridge } from './mermaid-fidelity/bridges.ts'
+import { parserBridge, parserBridgeDirectory, bindParserBridge } from './mermaid-fidelity/bridges.ts'
 import './mermaid-fidelity/bridge-registry.ts'
 import { currentReferencePin } from '../reference/source.ts'
 
@@ -160,13 +160,15 @@ export async function main(args = process.argv.slice(2)) {
       }
   }
   const targets: any[] = [{ project: 'mermaid-js/mermaid', version: currentReferencePin.version, tool: 'mermaid' }]
+  const bunSha256 = byteDigest(process.execPath)
+  const bridgeCache = join(dirname(import.meta.dirname), 'node_modules/.cache/fidelity-bridges')
   const blocked: any[] = []
   for (const peer of prepared) {
     const project = peer.node.id
     if (project === 'mermaid-js/mermaid' || (opts.has('--projects') && !opts.get('--projects')!.split(',').includes(project))) continue
     if (!opts.has('--catalog')) verifyBenchmarkArtifact(peer, peer.node)
     // A registered out-of-process bridge calls the project's own parser in its own language.
-    const bridge = await parserBridge(peer, join(dirname(import.meta.dirname), 'node_modules/.cache/fidelity-bridges'))
+    const bridge = await parserBridge(peer, bridgeCache)
     if (bridge) {
       targets.push({ project, version: bridge.version, tool: 'bridge', bridge, peer })
       continue
@@ -185,7 +187,7 @@ export async function main(args = process.argv.slice(2)) {
         const entry = candidates.find(p => existsSync(p))
         if (entry) parserEntries[family] = entry
       }
-    targets.push({ project, version: artifact.version, tool, root, peer: { ...peer, artifact }, bun: process.execPath, parserEntries, entry: tool === 'agentic' ? join(root, 'dist/agent-core.js') : tool === 'pele' ? join(root, 'dist/pele.js') : artifact.module })
+    targets.push({ project, version: artifact.version, tool, root, peer: { ...peer, artifact }, bun: process.execPath, bunSha256, parserEntries, entry: tool === 'agentic' ? join(root, 'dist/agent-core.js') : tool === 'pele' ? join(root, 'dist/pele.js') : artifact.module })
   }
   const require = createRequire(join(runtime, 'package.json')),
     cli = join(dirname(require.resolve('vitest/package.json')), 'vitest.mjs')
@@ -251,6 +253,9 @@ export async function main(args = process.argv.slice(2)) {
     writeFileSync(join(directory, 'runner.log'), child.stdout + '\n' + child.stderr)
     if (child.error) writeFileSync(join(directory, 'runner-error.txt'), String(child.error))
     combineAudit(job.audit)
+    if (target.tool === 'bridge' && planDigest(bindParserBridge(target.bridge, parserBridgeDirectory(target.project, bridgeCache), target.peer)) !== planDigest(target.bridge)) throw Error('Parser bridge runtime changed during collection: ' + target.project)
+    if (target.bun && byteDigest(target.bun) !== target.bunSha256) throw Error('Candidate Bun runtime changed during collection: ' + target.project)
+    if (target.peer?.artifact) verifyBenchmarkArtifact(target.peer, target.peer.node)
     const native = read(job.results)
     retainOutcome({ target, native, audit: audit(job.audit), exit: child.status })
     if (target.tool === 'mermaid' && !child.error && native?.numTotalTests > 0 && files.every(file => native.testResults?.some((suite: any) => suite.name === file.absolute))) atomicWrite(join(directory, 'control.json'), JSON.stringify({ protocol: 'fidelity-control-v1', identity: controlIdentity, resultsSha256: byteDigest(job.results), auditSha256: byteDigest(job.audit) }) + '\n')
@@ -259,6 +264,7 @@ export async function main(args = process.argv.slice(2)) {
       break
     }
   }
+  if (fidelityControlIdentity(upstream, reference, runtime, files, PIN, runnerEnvironment) !== controlIdentity) throw Error('Fidelity inputs or harness changed during collection; recollect')
   atomicWrite(
     join(out, 'results.json'),
     JSON.stringify(

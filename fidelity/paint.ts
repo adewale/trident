@@ -128,14 +128,14 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const alpha = colorCanvas.getImageData(0, 0, 1, 1).data[3]! / 255; colors.set(color, alpha); return alpha
   }
   const brightnessAmount = (filter: string) => { const found = /^brightness\(([-+]?\d*\.?\d+)(%?)\)$/.exec(filter); const amount = found ? Number(found[1]) / (found[2] ? 100 : 1) : NaN; return Number.isFinite(amount) && amount > 0 ? amount : null }
-  const filteredColorKey = (element: Element | null, paint: string): string | null => {
+  const filteredColorKey = (element: Element | null, paint: string, opaqueSourceGraphic = false): string | null => {
     if (!CSS.supports('color', paint)) return null
     colorCanvas.clearRect(0, 0, 1, 1); colorCanvas.fillStyle = paint; colorCanvas.fillRect(0, 0, 1, 1)
     const values = [...colorCanvas.getImageData(0, 0, 1, 1).data]
     for (let owner = element; owner; owner = owner.parentElement) {
       const style = getComputedStyle(owner)
       if (style.mixBlendMode !== 'normal') return null
-      if (style.filter !== 'none') { const factor = brightnessAmount(style.filter); if (factor !== null) for (let index = 0; index < 3; index++) values[index] = Math.min(255, values[index]! * factor); else return null }
+      if (style.filter !== 'none' && !(opaqueSourceGraphic && preservesSourceGraphic(style.filter))) { const factor = brightnessAmount(style.filter); if (factor !== null) for (let index = 0; index < 3; index++) values[index] = Math.min(255, values[index]! * factor); else return null }
       if (owner === svg) break
     }
     return values.every(Number.isFinite) ? JSON.stringify(values.map(Math.round)) : null
@@ -150,6 +150,8 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     let gradient: Element | null
     try { gradient = match ? document.getElementById(decodeURIComponent(match[1]!)) : null } catch { return false }
     if (!gradient || !svg.contains(gradient) || !['linearGradient', 'radialGradient'].includes(gradient.localName) || gradient.hasAttribute('href') || gradient.hasAttributeNS('http://www.w3.org/1999/xlink', 'href') || !['auto', 'srgb', 'linearrgb'].includes(getComputedStyle(gradient).colorInterpolation.toLowerCase()) || svg.querySelector('animate,animateTransform,animateMotion,set')) return false
+    const plainDefinition = (element: Element) => { const css = getComputedStyle(element); return Number(css.opacity) === 1 && css.filter === 'none' && css.mixBlendMode === 'normal' && css.maskImage === 'none' && css.clipPath === 'none' }
+    if (!plainDefinition(gradient)) return false
     const stops = [...gradient.children]
     if (stops.length < 2 || stops.length > 64 || stops.some(stop => stop.localName !== 'stop' || stop.children.length)) return false
     for (let owner: Element | null = label; owner; owner = owner.parentElement) { const css = getComputedStyle(owner); if (Number(css.opacity) !== 1 || css.animationName !== 'none' || css.transitionDuration.split(',').some(value => Number.parseFloat(value) !== 0)) return false; if (owner === svg) break }
@@ -158,8 +160,11 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (!srgb(foreground) || Number(labelStyle.fillOpacity) !== 1 || Number(labelStyle.strokeOpacity) !== 1 || Number.parseFloat(labelStyle.strokeWidth) > 0 && labelStyle.stroke !== 'none' && !srgb(labelStyle.stroke)) return false
     const palette: number[][] = []
     for (const stop of stops) {
-      const css = getComputedStyle(stop), key = filteredColorKey(backdrop, css.stopColor)
-      if (!srgb(css.stopColor) || css.display === 'none' || css.animationName !== 'none' || css.transitionDuration.split(',').some(value => Number.parseFloat(value) !== 0) || Number(css.stopOpacity) !== 1 || !key) return false
+      // SourceGraphic is unchanged over its shadow where the source body is
+      // opaque. This permission applies only to this already-enclosing opaque
+      // backdrop, never to arbitrary foreground ink or other filter graphs.
+      const css = getComputedStyle(stop), key = filteredColorKey(backdrop, css.stopColor, true)
+      if (!plainDefinition(stop) || !srgb(css.stopColor) || css.display === 'none' || css.animationName !== 'none' || css.transitionDuration.split(',').some(value => Number.parseFloat(value) !== 0) || Number(css.stopOpacity) !== 1 || !key) return false
       const color = JSON.parse(key)
       if (color[3] !== 255) return false
       palette.push(color)

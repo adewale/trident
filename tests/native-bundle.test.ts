@@ -28,6 +28,8 @@ write(root/SMOKE,{'protocol':'native-flutter-smoke-v1','bundleSha256':identity(e
     expect(() => verifiedNativeBundle(root)).toThrow()
     writeFileSync(asset, original)
     const build = join(root, 'trident-build.json'), buildBytes = readFileSync(build)
+    writeFileSync(build, JSON.stringify({ ...manifest, sdk: { ...manifest.sdk, dartSdkVersion: '0.0.0' } }))
+    expect(() => verifiedNativeBundle(root)).toThrow()
     writeFileSync(build, JSON.stringify({ ...manifest, sources: {} }))
     expect(() => verifiedNativeBundle(root)).toThrow()
     writeFileSync(build, buildBytes)
