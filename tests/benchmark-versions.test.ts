@@ -1,10 +1,38 @@
 import { expect, test } from 'bun:test'
-import { assertCurrentBenchmarkArtifact, latestBenchmarkRenderingArtifact, refreshBenchmarkVersions, versionChanges } from '../unified/benchmark-versions.ts'
+import { assertCurrentBenchmarkArtifact, verifyBenchmarkArtifact, latestBenchmarkRenderingArtifact, refreshBenchmarkVersions, versionChanges } from '../unified/benchmark-versions.ts'
+import { verifyCommunityBrowser } from '../unified/community-browser.ts'
+import { createHash } from 'node:crypto'
+import { writeFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { useTempDirs } from './helpers/temp-dir.ts'
 import { extraPackagePreparation } from '../unified/community-extra-adapters.mjs'
 import type { CommunityNode } from '../unified/community-types.ts'
 
 const node = <T extends object = object>(id: string, benchmark: any, extra: T = {} as T): CommunityNode & { benchmark: any } & T => ({ id, outputs: ['svg'], roles: ['observed'], benchmark, ...extra })
 const npm = (version: string) => ({ 'dist-tags': { latest: version }, versions: { [version]: { dist: { integrity: 'sha512-fixture' } } }, time: { [version]: '2026-11-01' } })
+const temp = useTempDirs('prepared-benchmark-')
+
+test('collector admission verifies the actual module and browser bytes even when versions still match', () => {
+  const root = temp.dir(), module = join(root, 'entry.js'), original = 'export const ready = true'
+  writeFileSync(module, original)
+  const sha256 = createHash('sha256').update(original).digest('hex')
+  const selected = node('fixture/peer', { adapter: 'declared', version: '1.0.0' })
+  const peer: any = { node: selected, artifact: { kind: 'node', module, version: '1.0.0', sha256 } }
+  const browser: any = { root, entry: 'entry.js', artifactSha256: sha256, files: [{ path: module, sha256 }] }
+  verifyBenchmarkArtifact(peer, selected); verifyCommunityBrowser(browser)
+  writeFileSync(module, 'export const ready = false')
+  expect(() => verifyBenchmarkArtifact(peer, selected)).toThrow('digest mismatch')
+  expect(() => verifyCommunityBrowser(browser)).toThrow('asset changed')
+})
+
+test('version changes include native releases, unchanged-version distribution revisions and companions', () => {
+  const before = { nodes: [node('cli', { adapter: 'source-cli' }, { release: { tag: 'v1.0.0', commit: 'a'.repeat(40) } }), node('dist', { adapter: 'franken' }, { distribution: { version: '1.0.0', revision: 'a'.repeat(40) } }), node('npm', { version: '1.0.0', operationPackages: [{ package: 'helper', version: '1.0.0' }] })] }
+  const after: any = structuredClone(before)
+  after.nodes[0]!.release = { tag: 'v2.0.0', commit: 'b'.repeat(40) }
+  after.nodes[1]!.distribution.revision = 'b'.repeat(40)
+  after.nodes[2]!.benchmark.operationPackages[0].version = '2.0.0'
+  expect(versionChanges(before, after, ['cli', 'dist', 'npm']).map(row => row.project)).toEqual(['cli', 'dist', 'npm'])
+})
 
 test('fresh selection replaces old pins, keeps Mermaid at the oracle pin, freezes companions and leaves historical catalog untouched', async () => {
   const { MERMAID_ORACLE_PIN } = await import('../portable/mermaid-oracle.ts')

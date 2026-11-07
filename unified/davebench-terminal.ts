@@ -6,11 +6,12 @@ import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
 import { communityCliRequest } from './community-cli-request.ts'
 import { davebenchAdmission, davebenchInputs, davebenchRankings, type DavebenchRun } from './davebench.ts'
 import { watchMemory } from './process-memory.ts'
+import { killCommunityProcess, trackCommunityProcess } from './community-process.ts'
 import { davebenchTerminalValidity } from './davebench-validity.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { communityDeclaresOutput, communityModuleOutputSupported } from './community.ts'
-import { assertCurrentBenchmarkArtifact, refreshBenchmarkVersions } from './benchmark-versions.ts'
+import { verifyBenchmarkArtifact, refreshBenchmarkVersions } from './benchmark-versions.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 
 export class TerminalCallWorker {
@@ -89,21 +90,23 @@ export async function terminalCliCall(artifact: CommunityArtifact, source: strin
   let stderr = ''
   const result = await new Promise<{ outcome: string; ms: number; error?: string }>(done => {
     let timeout = false, finished = false
-    const child = spawn(artifact.executable!, args, { stdio: ['pipe', stdout, 'pipe'] })
+    const child = spawn(artifact.executable!, args, { detached: process.platform !== 'win32', stdio: ['pipe', stdout, 'pipe'] })
+    trackCommunityProcess(child)
     child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) })
-    const timer = setTimeout(() => { timeout = true; child.kill('SIGKILL') }, timeoutMs)
+    const timer = setTimeout(() => { timeout = true; killCommunityProcess(child, 'SIGKILL') }, timeoutMs)
     let memory = false
-    const unwatch = watchMemory(child.pid, () => { memory = true; child.kill('SIGKILL') })
+    const unwatch = watchMemory(child.pid, () => { memory = true; killCommunityProcess(child, 'SIGKILL') })
     const finish = (outcome: string, error?: string) => { if (finished) return; finished = true; clearTimeout(timer); unwatch(); done({ outcome: memory ? 'error' : outcome, ms: performance.now() - started, ...(memory ? { error: 'memory limit' } : error ? { error } : {}) }) }
     child.once('error', thrown => finish('error', String(thrown.message).slice(0, 160))); child.once('close', code => finish(timeout ? 'timeout' : code === 0 ? 'completed' : 'error', code === 0 || timeout ? undefined : (stderr.trim().split('\n').at(-1) || 'exit code ' + code).slice(0, 160)))
     child.stdin!.on('error', () => {}); child.stdin!.end(request.inputMode === 'stdin' ? source : undefined)
   })
   closeSync(stdout)
-  if (result.outcome !== 'completed') return result
-  const text = args.some(arg => arg.includes(destination)) && existsSync(destination) ? readFileSync(destination, 'utf8') : readFileSync(captured, 'utf8')
-  rmSync(destination, { force: true }); rmSync(captured, { force: true })
-  const validity = davebenchTerminalValidity(text, source)
-  return validity.valid ? result : { ...result, outcome: 'invalid', invalid: validity.reason }
+  try {
+    if (result.outcome !== 'completed') return result
+    const text = args.some(arg => arg.includes(destination)) && existsSync(destination) ? readFileSync(destination, 'utf8') : readFileSync(captured, 'utf8')
+    const validity = davebenchTerminalValidity(text, source)
+    return validity.valid ? result : { ...result, outcome: 'invalid', invalid: validity.reason }
+  } finally { rmSync(destination, { force: true }); rmSync(captured, { force: true }); if (request.inputMode === 'file') rmSync(request.input, { force: true }) }
 }
 
 export async function main(args = process.argv.slice(2)) {
@@ -127,7 +130,7 @@ export async function main(args = process.argv.slice(2)) {
   for (const peer of prepared) {
     const node = selected.nodes.find((node: any) => node.id === peer.node.id)
     if (!node || node.benchmark?.preparationError) throw Error('Current terminal artifact selection is incomplete: ' + peer.node.id)
-    assertCurrentBenchmarkArtifact(peer, node); peer.node = node
+    verifyBenchmarkArtifact(peer, node); peer.node = node
   }
   const inventory = davebenchInputs(resolve(options.get('--upstream') ?? join(tridentDirectory, '../mermaid'))), runs: DavebenchRun[] = [], blocked: { project: string; reason: string }[] = []
   const startedAt = new Date().toISOString(), timeoutMs = 15_000

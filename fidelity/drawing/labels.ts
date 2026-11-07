@@ -6,6 +6,10 @@
  * misread too many diagram labels to measure renderers rather than the OCR.
  */
 import type { DrawingCase } from './corpus.ts'
+import { inspectFidelityPaint } from '../paint.ts'
+import { inspectEmptySvgDrawing } from './empty.ts'
+import { interpretTerminal } from '../terminal-display.ts'
+import { terminalRectangles } from '../terminal-rectangles.ts'
 
 export type LabelVerdict = { status: 'correct' | 'incorrect' | 'unknown'; reason?: string; missing?: string[]; leaked?: string[]; labels: number }
 
@@ -47,7 +51,11 @@ export function svgText(svg: string) {
     .replace(/<[^>]+>/g, ' '))
 }
 
-export function terminalText(text: string) { return text.replace(ansi, '').replace(boxDrawing, ' ') }
+export function terminalText(text: string) {
+  const display = interpretTerminal(text)
+  const wrapped = display.status === 'available' ? terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true, cornerPorts: true }).map(box => box.lines.join(' ')) : []
+  return [text.replace(ansi, '').replace(boxDrawing, ' '), ...wrapped].join('\n')
+}
 
 /** Control characters are never visible text. A label written with an escape
  * sequence ("\u001b[31mX") is shown either without the escape character ("[31mX") or
@@ -56,11 +64,10 @@ export function terminalText(text: string) { return text.replace(ansi, '').repla
 const controls = /[\u0000-\u0008\u000b-\u001f\u007f]/g
 const visibleForms = (label: string) => [...new Set([label, label.replace(controls, ''), label.replace(ansi, '').replace(controls, '')])].filter(form => form.trim())
 
-/** A label is found when its text appears with whitespace ignored, or, for text
- * wrapped inside a box, when each of its words appears. */
+/** Preserve label order. Terminal wrapping is joined within actual frames above. */
 export function labelFound(label: string, text: string) {
   const haystack = squash(text.replace(controls, ''))
-  return visibleForms(label).some(form => haystack.includes(squash(form)) || form.split(/\s+/).filter(Boolean).every(token => haystack.includes(squash(token))))
+  return visibleForms(label).some(form => haystack.includes(squash(form)))
 }
 
 /** Raw source syntax that a drawing would never show: the diagram header line,
@@ -99,5 +106,32 @@ export function assessLabels(test: DrawingCase, format: 'svg' | 'terminal', text
   const missing = labels.filter(label => !labelFound(label, text))
   const leaked = leakedSyntax(test, text, format)
   if (missing.length || leaked.length) return { status: 'incorrect', reason: [missing.length ? 'Missing labels: ' + missing.join(', ') : '', leaked.length ? 'Raw source syntax shown: ' + leaked.join(', ') : ''].filter(Boolean).join('; '), missing, leaked, labels: labels.length }
+  return { status: 'correct', labels: labels.length }
+}
+
+/** SVG passes require the existing browser observer to establish actual visible labels. */
+export async function assessSvgLabels(test: DrawingCase, page: any, svg: string): Promise<LabelVerdict> {
+  const text = assessLabels(test, 'svg', svgText(svg)), labels = expectedLabels(test)
+  if (expectsEmptyDrawing(test)) {
+    const empty = await inspectEmptySvgDrawing(page, test)
+    return { status: empty.status, labels: 0, reason: [...empty.failed, ...empty.unknown].join('; ') || undefined }
+  }
+  const required = ['visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels']
+  const observe = async (labels: string[]) => {
+    const paint = await page.evaluate(inspectFidelityPaint, { family: test.family, expected: { labels } })
+    return required.map(key => paint.checks.find((check: any) => check.criterion === key))
+  }
+  if (labels.length) {
+    const checks = await observe(labels), failed = checks.filter(check => check?.status === 'failed')
+    if (failed.length) return { status: 'incorrect', labels: labels.length, reason: failed.map(check => check!.criterion).join('; ') }
+    if (checks.some(check => check?.status !== 'passed')) return { status: 'unknown', labels: labels.length, reason: 'Visible label evidence is unavailable for this SVG representation' }
+  }
+  // Serialized text only nominates a possible leak; hidden source text is not a drawing.
+  for (const leak of text.leaked ?? []) {
+    const checks = await observe([leak])
+    if (!(checks[0]?.actual as { count: number; camouflaged: boolean }[] | undefined)?.some(item => item.count > 0 && !item.camouflaged)) continue
+    if (checks.every(check => check?.status === 'passed')) return { status: 'incorrect', labels: labels.length, leaked: [leak], reason: 'Raw source syntax shown: ' + leak }
+    return { status: 'unknown', labels: labels.length, reason: 'Visibility of possible raw source syntax is unassessed' }
+  }
   return { status: 'correct', labels: labels.length }
 }

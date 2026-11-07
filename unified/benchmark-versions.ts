@@ -5,6 +5,8 @@ import type { CommunityArtifact, CommunityNode, PreparedCommunity } from './comm
 import { comparisonProjects } from './lineage.ts'
 import { communityCatalogFile } from './trident-paths.ts'
 import { MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
+import { verifyProvidedCommunityArtifact } from './community.ts'
+import { verifyReleaseCli } from './release-cli.ts'
 
 interface VersionIO {
   json(url: string): Promise<any>
@@ -156,6 +158,15 @@ export function assertCurrentBenchmarkArtifact(peer: PreparedCommunity & { brows
   if (b.preparationError) throw Error(`${selected.id}: ${b.preparationError}`)
 }
 
+/** Admit the actual prepared bytes before any calls or clocks, including cached preparations. */
+export function verifyBenchmarkArtifact(peer: PreparedCommunity, selected: CommunityNode) {
+  assertCurrentBenchmarkArtifact(peer, selected)
+  if (peer.artifact) {
+    verifyProvidedCommunityArtifact(peer.artifact)
+    verifyReleaseCli(selected, peer.artifact)
+  }
+}
+
 /** A newer native rendering release takes precedence over an older SDK. */
 export function latestBenchmarkRenderingArtifact(peer: PreparedCommunity): CommunityArtifact | undefined {
   const artifact = peer.artifact, spec = peer.node.benchmark?.cliRelease
@@ -169,7 +180,15 @@ export function latestBenchmarkRenderingArtifact(peer: PreparedCommunity): Commu
 /** The selected projects whose frozen artifact differs between two catalogs: a published
  * campaign's and a fresh selection. Answers whether a new collection is worth running. */
 export function versionChanges(previous: { nodes: CommunityNode[] }, current: { nodes: CommunityNode[] }, projects: string[]) {
-  const identity = (node: CommunityNode | undefined) => node && ((node.benchmark as any)?.version ?? (node as any).distribution?.version ?? (node.benchmark as any)?.sourcePin)
+  const identity = (node: CommunityNode | undefined) => {
+    if (!node) return undefined
+    const b = node.benchmark
+    const version = b?.version ?? node.distribution?.version ?? node.release?.tag.replace(/^v/, '')
+    const revision = b?.sourcePin ?? node.distribution?.revision ?? node.release?.commit
+    const parts = [version, revision].filter(Boolean).join('@')
+    const companions = ((b?.operationPackages ?? []) as { package: string; version: string }[]).map(pkg => `${pkg.package}@${pkg.version}`).sort()
+    return [parts, ...(b?.cliRelease ? [`CLI ${b.cliRelease.version}@${b.cliRelease.revision}`] : []), ...companions].filter(Boolean).join(' + ') || undefined
+  }
   return projects.flatMap(project => {
     const before = identity(previous.nodes.find(node => node.id === project)), after = identity(current.nodes.find(node => node.id === project))
     return before === after ? [] : [{ project, previous: before ?? null, current: after ?? null }]

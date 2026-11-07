@@ -1,12 +1,8 @@
 import { expect, test } from 'bun:test'
+import { Resvg } from '@resvg/resvg-js'
 import { davebenchSvgValidity, davebenchTerminalValidity, errorPhrase, pngBytesValidity, rawStatements, svgTextValidity, terminalTextValidity } from '../unified/davebench-validity.ts'
 
-const png = (width: number, height: number) => {
-  const bytes = new Uint8Array(33)
-  bytes.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13, 0x49, 0x48, 0x44, 0x52])
-  new DataView(bytes.buffer).setUint32(16, width); new DataView(bytes.buffer).setUint32(20, height)
-  return bytes
-}
+const png = () => new Resvg('<svg xmlns="http://www.w3.org/2000/svg" width="4" height="3"><rect width="4" height="3"/></svg>').render().asPng()
 
 test('terminal admission rejects empty, error and echoed output but keeps real drawings', () => {
   const source = 'graph LR\n  A --> B'
@@ -41,27 +37,29 @@ test('an error phrase that the source itself contains is an authored label, not 
 
 test('serialized SVG admission needs a sized svg root and no error placeholder; an empty drawing is not an error', () => {
   const source = 'graph LR\n  A --> B'
-  expect(svgTextValidity('<svg viewBox="0 0 100 50"><rect width="10" height="10"/><text>A</text></svg>', source)).toEqual({ valid: true })
-  expect(svgTextValidity('<?xml version="1.0"?>\n<svg width="20" height="20"><path d="M0 0L1 1"/></svg>\n', source)).toEqual({ valid: true })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><rect width="10" height="10"/><text>A</text></svg>', source)).toEqual({ valid: true })
+  expect(svgTextValidity('<?xml version="1.0"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M0 0L1 1"/></svg>\n', source)).toEqual({ valid: true })
   expect(svgTextValidity('', source)).toEqual({ valid: false, reason: 'no SVG document' })
-  expect(svgTextValidity('<svg viewBox="0 0 0 0"><rect/></svg>', source)).toEqual({ valid: false, reason: 'zero-size SVG' })
-  expect(svgTextValidity('<svg viewBox="0 0 17 17"><g/></svg>', 'gantt\n  weekday monday')).toEqual({ valid: true })
-  expect(svgTextValidity('<svg aria-roledescription="error" viewBox="0 0 9 9"><path/></svg>', source)).toEqual({ valid: false, reason: 'error placeholder' })
-  expect(svgTextValidity('<svg viewBox="0 0 90 20"><style>.error{}</style><text>Parse error on line 1</text></svg>', source).valid).toBe(false)
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0"><rect/></svg>', source)).toEqual({ valid: false, reason: 'zero-size SVG' })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17"><g/></svg>', 'gantt\n  weekday monday')).toEqual({ valid: true })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" aria-roledescription="error" viewBox="0 0 9 9"><path/></svg>', source)).toEqual({ valid: false, reason: 'error placeholder' })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 20"><style>.error{}</style><text>Parse error on line 1</text></svg>', source).valid).toBe(false)
 })
 
-test('PNG admission checks the signature and positive IHDR dimensions', () => {
-  expect(pngBytesValidity(png(4, 3))).toEqual({ valid: true })
-  expect(pngBytesValidity(png(0, 3))).toEqual({ valid: false, reason: 'zero-size PNG' })
-  expect(pngBytesValidity(new TextEncoder().encode('not an image at all, but long enough'))).toEqual({ valid: false, reason: 'not a PNG' })
+test('PNG admission decodes complete image data instead of trusting a plausible header', () => {
+  const bytes = png()
+  expect(pngBytesValidity(bytes)).toEqual({ valid: true })
+  expect(pngBytesValidity(bytes.subarray(0, 33)).valid).toBe(false)
+  expect(pngBytesValidity(new TextEncoder().encode('not an image at all, but long enough')).valid).toBe(false)
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><g></svg>', 'flowchart TD').valid).toBe(false)
 })
 
 test('a fallback render drawn from the source text is not a completion', () => {
   const block = 'block\n  a b c\n'
   // The header keyword drawn as a node: the renderer did not understand the family.
-  expect(davebenchSvgValidity('<svg viewBox="0 0 90 20"><title>block-beta diagram</title><text>block</text><text>a</text><text>b</text></svg>', block)).toEqual({ valid: false, reason: 'fallback render: source header shown: block' })
+  expect(davebenchSvgValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 20"><title>block-beta diagram</title><text>block</text><text>a</text><text>b</text></svg>', block)).toEqual({ valid: false, reason: 'fallback render: source header shown: block' })
   // Accessibility title and description are not drawn, so they do not count.
-  expect(davebenchSvgValidity('<svg viewBox="0 0 90 20"><desc>flowchart diagram</desc><text>Hello</text><text>World</text></svg>', 'flowchart\n  Hello --> World')).toEqual({ valid: true })
+  expect(davebenchSvgValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 20"><desc>flowchart diagram</desc><text>Hello</text><text>World</text></svg>', 'flowchart\n  Hello --> World')).toEqual({ valid: true })
   const flow = 'flowchart LR\n  A[Start] --> B{Ready?}\n  B -->|yes| C(Go)\n  B -->|no| A'
   expect(davebenchTerminalValidity('┌──────────────────────┐\n│ A[Start] --> B{Ready?} │\n│ B -->|yes| C(Go)      │\n│ B -->|no| A           │\n└──────────────────────┘', flow)).toEqual({ valid: false, reason: 'fallback render: 3 of 3 source statements shown' })
   expect(davebenchTerminalValidity('┌───────┐   ┌────────┐ yes ┌────┐\n│ Start ├──►│ Ready? ├────►│ Go │\n└───────┘   └────────┘     └────┘', flow)).toEqual({ valid: true })

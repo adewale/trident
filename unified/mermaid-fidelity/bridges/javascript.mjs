@@ -93,15 +93,15 @@ await serve(async (family, _source) => {
   const parse = project.families[family]
   if (!parse) return { unsupported: `${project.name} has no ${family} parser (it parses ${Object.keys(project.families).join(', ')})` }
   if (typeof parse !== 'function') return { adapterGap: `${project.name} no longer exports its ${family} parser` }
+  try { if (lazy[family] && !loaded[family]) await lazy[family]() }
+  catch (error) { return { adapterGap: `${project.name} ${family} parser import failed: ${String(error)}` } }
   try {
-    if (lazy[family] && !loaded[family]) await lazy[family]()
     const value = parse(_source)
     if (value && typeof value.then === 'function') return { adapterGap: `${project.name}'s ${family} parser is asynchronous` }
     return { value }
   } catch (error) {
-    // A deliberate throw from the project's own parser is its syntax rejection; a
-    // runtime fault inside it (TypeError and the like) is not a classified refusal.
-    if (error instanceof TypeError || error instanceof ReferenceError || error instanceof RangeError) return { adapterGap: `${project.name} ${family} parser fault: ${String(error).slice(0, 300)}` }
+    // A candidate fault is neither a syntax refusal nor missing Trident coverage.
+    if (error instanceof TypeError || error instanceof ReferenceError || error instanceof RangeError) return { candidateFault: `${project.name} ${family} parser fault: ${String(error).slice(0, 300)}` }
     return { error: { name: !error?.name || error.name === 'Error' ? 'ParseError' : String(error.name), message: String(error?.message ?? error) } }
   }
 })

@@ -16,6 +16,26 @@ test('a caught missing-adapter exception, unsupported result, or absent target i
   const rows = fidelityOutcomes(native(['passed', 'passed', 'passed']), native(['passed', 'passed', 'passed']), [audit(0, { gaps: ['missing native getter'] }), audit(1, { unsupported: ['actual opaque model'] }), audit(2, { calls: 0 })])
   expect(rows.map((r: any) => r.status)).toEqual(['trident-blocked', 'unsupported', 'trident-blocked'])
 })
+test('a candidate fault remains a nonpass even if a negative assertion catches the exception', () => {
+  const rows = fidelityOutcomes(native(['passed']), native(['passed']), [audit(0, { faults: ['RangeError: candidate stack overflow'], gaps: ['subsequent observation unavailable'] })])
+  expect(rows[0].status).toBe('failed')
+  expect(rows[0].reason).toBe('RangeError: candidate stack overflow')
+})
+test('the JavaScript bridge distinguishes a parser crash from a module binding failure', () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-js-parser-fault-')), entry = join(root, 'parser.mjs')
+  const bridge = resolve(import.meta.dirname, '../unified/mermaid-fidelity/bridges/javascript.mjs')
+  const run = (code: string) => {
+    writeFileSync(entry, code)
+    const child = spawnSync('node', [bridge, 'dsh', entry], { input: JSON.stringify({ family: 'flowchart', source: 'flowchart TD\nA-->B' }), encoding: 'utf8', timeout: 5000 })
+    expect(child.status).toBe(0)
+    return JSON.parse(child.stdout)
+  }
+  try {
+    expect(run('export function parseMermaid(){throw new TypeError("candidate bug")}').candidateFault).toContain('TypeError: candidate bug')
+    expect(run('throw new TypeError("module unavailable"); export function parseMermaid(){}').adapterGap).toContain('import failed')
+    expect(run('export function parseMermaid(){throw new SyntaxError("grammar refusal")}').error.name).toBe('SyntaxError')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
 test('an operation the candidate does not offer outranks a Trident gap in the same test', () => {
   const rows = fidelityOutcomes(native(['passed', 'passed']), native(['passed', 'passed']), [audit(0, { gaps: ['unmapped getter'], unsupported: ['no parser for this family'] }), audit(1, { gaps: ['unmapped getter'] })])
   expect(rows.map((r: any) => r.status)).toEqual(['unsupported', 'trident-blocked'])

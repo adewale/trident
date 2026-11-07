@@ -6,15 +6,16 @@ import { dirname, extname, join, resolve, sep } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { chromium, type Browser, type BrowserContext, type Page } from 'playwright'
 import { comparisonProjects } from './lineage.ts'
-import { refreshBenchmarkVersions, assertCurrentBenchmarkArtifact, latestBenchmarkRenderingArtifact } from './benchmark-versions.ts'
+import { refreshBenchmarkVersions, verifyBenchmarkArtifact, latestBenchmarkRenderingArtifact } from './benchmark-versions.ts'
 import { prepareCommunity } from './community.ts'
-import { prepareCommunityBrowsers, type PreparedCommunityBrowser } from './community-browser.ts'
+import { prepareCommunityBrowsers, verifyCommunityBrowser, type PreparedCommunityBrowser } from './community-browser.ts'
 import { publicSvgBrowserAction } from './public-svg-browser.ts'
 import { communityCatalogFile, tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../portable/ci-policy.ts'
 import { defaultChromium } from './benchmark-context.ts'
 import { davebenchSvgValidity, errorPatternSources, pngBytesValidity, rawStatements } from './davebench-validity.ts'
 import { watchMemory } from './process-memory.ts'
+import { killCommunityProcess, trackCommunityProcess } from './community-process.ts'
 
 const revision = '370c4af57f43cb0bda05f4a9fe2d99c912ba16dd'
 export function davebenchInputs(upstream: string, commit = revision) {
@@ -46,6 +47,17 @@ export function davebenchInputs(upstream: string, commit = revision) {
 export async function davebenchBrowserCall(input: { source: string; id: string; format: string; errorPatterns?: [string, string][]; raw?: { header?: string; statements: string[] } }) {
   const host = globalThis as any, state = host.__fidelityCommunity, started = performance.now()
   let outcome = 'completed', svgText: string | undefined, pngValue: unknown, pngBytes = 0, error: string | undefined
+  const parseSvg = (text: string) => {
+    // Match the shared XML validator's admission of HTML-serialized void elements.
+    const document = new DOMParser().parseFromString(text.replace(/<(area|base|br|col|embed|hr|img|input|link|meta|source|track|wbr)\b([^<>]*?)\/?>/gi, '<$1$2/>'), 'image/svg+xml'), svg = document.documentElement
+    if (document.querySelector('parsererror') || svg.localName !== 'svg' || svg.namespaceURI !== 'http://www.w3.org/2000/svg') throw Error('Malformed SVG document')
+    return svg
+  }
+  const canvasSize = (svg: Element) => {
+    const box = svg.getAttribute('viewBox')?.trim().split(/[\s,]+/).map(Number)
+    const size = (name: string) => { const value = svg.getAttribute(name)?.trim() ?? ''; return /^\+?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?(?:px|pt|pc|cm|mm|in|q)?$/i.test(value) ? Number.parseFloat(value) : NaN }
+    return box?.length === 4 && box.every(Number.isFinite) && box[2]! > 0 && box[3]! > 0 ? { width: box[2]!, height: box[3]! } : { width: size('width'), height: size('height') }
+  }
   try {
     if (input.format === 'png' && host.__davebenchNativePng) {
       pngValue = await host.__davebenchNativePng(input.source, input.id, 'png')
@@ -54,12 +66,9 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
       svgText = typeof value === 'string' ? value : typeof value?.svg === 'string' ? value.svg : undefined
       if (input.format === 'png') {
         // This parsing is part of conversion, not a drawing assessment.
-        const container = document.createElement('div')
-        container.innerHTML = svgText ?? ''
-        const svg = container.querySelector('svg')!
-        const box = svg.getAttribute('viewBox')?.trim().split(/[\s,]+/).map(Number)
-        const width = Math.ceil(box?.length === 4 ? box[2]! : Number.parseFloat(svg.getAttribute('width') ?? ''))
-        const height = Math.ceil(box?.length === 4 ? box[3]! : Number.parseFloat(svg.getAttribute('height') ?? ''))
+        const svg = parseSvg(svgText ?? '')
+        const size = canvasSize(svg), width = Math.ceil(size.width), height = Math.ceil(size.height)
+        if (!(Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0)) throw Error('zero-size SVG')
         svg.setAttribute('width', String(width)); svg.setAttribute('height', String(height)); svg.style.maxWidth = 'none'
         const image = new Image()
         image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg))
@@ -83,22 +92,25 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
     try {
       if (pngValue !== undefined || (input.format === 'png' && host.__davebenchNativePng)) {
         const value: any = pngValue
-        const bytes = value instanceof Blob ? new Uint8Array(await value.slice(0, 33).arrayBuffer()) : value instanceof ArrayBuffer ? new Uint8Array(value) : ArrayBuffer.isView(value) ? new Uint8Array(value.buffer, value.byteOffset, value.byteLength) : typeof value === 'string' && value.startsWith('data:image/png;base64,') ? Uint8Array.from(atob(value.slice(22, 22 + 44)), c => c.charCodeAt(0)) : undefined
+        const bytes = value instanceof Blob ? new Uint8Array(await value.arrayBuffer()) : value instanceof ArrayBuffer ? new Uint8Array(value) : ArrayBuffer.isView(value) ? new Uint8Array(value.buffer, value.byteOffset, value.byteLength) : typeof value === 'string' && value.startsWith('data:image/png;base64,') ? Uint8Array.from(atob(value.slice(22)), c => c.charCodeAt(0)) : undefined
         const signature = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]
         if (!bytes) invalid = 'unrecognised PNG return'
-        else if (bytes.length < 24 || signature.some((byte, index) => bytes[index] !== byte)) invalid = 'not a PNG'
-        else { const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength); if (!(view.getUint32(16) > 0 && view.getUint32(20) > 0)) invalid = 'zero-size PNG' }
+        else if (bytes.length < 33 || signature.some((byte, index) => bytes[index] !== byte) || String.fromCharCode(...bytes.subarray(12, 16)) !== 'IHDR') invalid = 'not a PNG'
+        else if (bytes.length > 64 * 1024 * 1024) invalid = 'PNG exceeds the 64 MiB validation budget'
+        else {
+          const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+          if (!(view.getUint32(16) > 0 && view.getUint32(20) > 0)) invalid = 'zero-size PNG'
+          else if (view.getUint32(16) * view.getUint32(20) > 16 * 1024 * 1024) invalid = 'PNG exceeds the 16 megapixel validation budget'
+          else { const image = await createImageBitmap(new Blob([new Uint8Array(bytes)])); image.close() }
+        }
       } else if (typeof svgText !== 'string') invalid = 'non-SVG return'
+      else if (!svgText.trim()) invalid = 'no SVG document'
       else {
-        const container = document.createElement('div')
-        container.innerHTML = svgText
-        const svg = container.querySelector('svg')
-        const box = svg?.getAttribute('viewBox')?.trim().split(/[\s,]+/).map(Number)
-        const width = box?.length === 4 ? box[2]! : Number.parseFloat(svg?.getAttribute('width') ?? '')
-        const height = box?.length === 4 ? box[3]! : Number.parseFloat(svg?.getAttribute('height') ?? '')
+        const svg = parseSvg(svgText)
+        const { width, height } = canvasSize(svg)
         if (!svg) invalid = 'no SVG document'
         else if (svg.getAttribute('aria-roledescription') === 'error') invalid = 'error placeholder'
-        else if (!(width > 0 && height > 0)) invalid = 'zero-size SVG'
+        else if (!(Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0)) invalid = 'zero-size SVG'
         else if (input.format === 'png' && !(pngBytes > 0)) invalid = 'empty PNG encoding'
         else {
           for (const node of svg.querySelectorAll('style,script')) node.remove()
@@ -125,7 +137,7 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
   return invalid ? { outcome, ms, invalid } : error ? { outcome, ms, error } : { outcome, ms }
 }
 
-export const davebenchAdmission = 'A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse to an svg root with positive size; PNG must have a PNG signature and positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription="error"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.'
+export const davebenchAdmission = 'A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse as XML to an SVG namespace root with finite positive size; PNG must contain complete decodable image data with positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription="error"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.'
 
 export interface DavebenchRun {
   project: string; version: string; format: string; run: number; boundary: string
@@ -203,6 +215,7 @@ function rankingMarkdown(rankings: ReturnType<typeof davebenchRankings>, planned
 
 export async function browserHost(browser: Browser, peer: PreparedCommunityBrowser, format: string) {
   const engine = peer.browser!, root = resolve(engine.root)
+  verifyCommunityBrowser(engine)
   const server = createServer((request, response) => {
     const url = new URL(request.url ?? '/', 'http://localhost')
     if (url.pathname === '/blank') { response.setHeader('content-type', 'text/html'); response.end('<!doctype html><body>'); return }
@@ -245,20 +258,22 @@ export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: s
   let stderr = ''
   const result = await new Promise<{ outcome: string; ms: number; error?: string }>(done => {
     // Respect explicit stdout '-' bindings; Merman rejects /dev/null as a nonregular output file.
-    const child = spawn(artifact.executable!, binding.args.map(arg => arg.replaceAll('{output}', output)), { stdio: ['pipe', stdout, 'pipe'] })
+    const child = spawn(artifact.executable!, binding.args.map(arg => arg.replaceAll('{output}', output)), { detached: process.platform !== 'win32', stdio: ['pipe', stdout, 'pipe'] })
+    trackCommunityProcess(child)
     child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) }); child.stdin!.on('error', () => {}); child.stdin!.end(source)
     let timeout = false, memory = false
-    const timer = setTimeout(() => { timeout = true; child.kill('SIGKILL') }, timeoutMs)
-    const unwatch = watchMemory(child.pid, () => { memory = true; child.kill('SIGKILL') })
+    const timer = setTimeout(() => { timeout = true; killCommunityProcess(child, 'SIGKILL') }, timeoutMs)
+    const unwatch = watchMemory(child.pid, () => { memory = true; killCommunityProcess(child, 'SIGKILL') })
     child.once('error', () => { clearTimeout(timer); unwatch(); done({ outcome: 'error', ms: performance.now() - started }) })
     child.once('close', code => { clearTimeout(timer); unwatch(); const ms = performance.now() - started; done(memory ? { outcome: 'error', ms, error: 'memory limit' } : timeout ? { outcome: 'timeout', ms } : code === 0 ? { outcome: 'completed', ms } : { outcome: 'error', ms, error: (stderr.trim().split('\n').at(-1) || 'exit code ' + code).slice(0, 160) }) })
   })
   closeSync(stdout)
-  if (result.outcome !== 'completed') return result
-  const bytes = binding.args.some(arg => arg.includes('{output}')) && existsSync(output) ? readFileSync(output) : readFileSync(captured)
-  rmSync(output, { force: true }); rmSync(captured, { force: true })
-  const validity = format === 'png' ? pngBytesValidity(bytes) : davebenchSvgValidity(bytes.toString('utf8'), source)
-  return validity.valid ? result : { ...result, outcome: 'invalid', invalid: validity.reason }
+  try {
+    if (result.outcome !== 'completed') return result
+    const bytes = binding.args.some(arg => arg.includes('{output}')) && existsSync(output) ? readFileSync(output) : readFileSync(captured)
+    const validity = format === 'png' ? pngBytesValidity(bytes) : davebenchSvgValidity(bytes.toString('utf8'), source)
+    return validity.valid ? result : { ...result, outcome: 'invalid', invalid: validity.reason }
+  } finally { rmSync(output, { force: true }); rmSync(captured, { force: true }) }
 }
 
 export async function main(args = process.argv.slice(2)) {
@@ -289,7 +304,7 @@ export async function main(args = process.argv.slice(2)) {
     prepared = JSON.parse(readFileSync(options.get('--prepared')!, 'utf8')).filter((peer: PreparedCommunityBrowser) => nodes.some((node: any) => node.id === peer.node.id))
     for (const peer of prepared) {
       const selected = nodes.find((node: any) => node.id === peer.node.id)!
-      assertCurrentBenchmarkArtifact(peer, selected)
+      verifyBenchmarkArtifact(peer, selected)
       peer.node = selected
     }
   }

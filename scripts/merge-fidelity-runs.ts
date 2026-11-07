@@ -44,6 +44,13 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
   if (!runs.length) throw Error('Supply at least one Fidelity run')
   const base = runs[0]
   for (const run of runs) if (run.pin !== base.pin || run.selectedFiles !== base.selectedFiles || run.selection !== base.selection) throw Error('Fidelity runs must share one pin and file selection')
+  const reference = base.results.find((row: any) => row.project === 'mermaid-js/mermaid')
+  if (!reference) throw Error('Merged Fidelity runs have no Mermaid control')
+  const digest = referenceDigest(reference)
+  for (const run of runs) {
+    const control = run.results.find((row: any) => row.project === 'mermaid-js/mermaid')
+    if (!control || control.version !== reference.version || referenceDigest(control) !== digest) throw Error('Fidelity runs must share one referenceDigest and reference version')
+  }
   const byProject = new Map<string, any>()
   for (const run of runs) for (const row of run.results) {
     if (byProject.has(row.project)) {
@@ -52,32 +59,34 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
     }
     byProject.set(row.project, row)
   }
-  const reference = byProject.get('mermaid-js/mermaid')
-  if (!reference) throw Error('Merged Fidelity runs have no Mermaid control')
-  const qualified = reference.counts.passed
+  const qualified = reference.cases.filter((c: any) => c.status === 'passed').length
+  const statuses = ['passed', 'failed', 'unsupported', 'trident-blocked', 'reference-unqualified', 'upstream-skipped', 'upstream-expected-failure']
   const results = [...byProject.values()].map(row => {
+    if (row.cases?.length !== reference.cases.length) throw Error(row.project + ' must account for every reference callback')
+    const counts: Record<string, number> = Object.fromEntries(statuses.map(status => [status, 0]))
     const perFile = new Map<string, Record<string, number>>(), gapReasons: Record<string, number> = {}
-    for (const c of row.cases ?? []) {
-      const counts = perFile.get(c.file) ?? {}
-      counts[c.status] = (counts[c.status] ?? 0) + 1
-      perFile.set(c.file, counts)
+    for (const [index, c] of row.cases.entries()) {
+      const control = reference.cases[index]
+      if (c.file !== control.file || c.name !== control.name || !statuses.includes(c.status) || (control.status === 'passed' ? !statuses.slice(0, 4).includes(c.status) : c.status !== control.status)) throw Error(row.project + ' differs from its reference callback population')
+      counts[c.status]!++
+      const fileCounts = perFile.get(c.file) ?? {}
+      fileCounts[c.status] = (fileCounts[c.status] ?? 0) + 1
+      perFile.set(c.file, fileCounts)
       if (c.status === 'trident-blocked' && c.reason) {
         const reason = String(c.reason).split('\n')[0]!.replace(/\d+/g, 'N').slice(0, 160)
         gapReasons[reason] = (gapReasons[reason] ?? 0) + 1
       }
     }
-    const accounted = row.counts.passed + row.counts.failed + row.counts.unsupported + row.counts['trident-blocked']
-    if (accounted !== qualified) throw Error(`${row.project} accounts for ${accounted} callbacks, not the ${qualified} the control qualifies`)
-    return { project: row.project, version: row.version, counts: row.counts, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts })), gapReasons }
+    return { project: row.project, version: row.version, counts, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts })), gapReasons }
   })
   // A candidate with no assessable callback has no working operation binding:
   // report it as unassessed with its dominant gap, not as a measured zero.
-  const unbound = results.filter(r => r.project !== 'mermaid-js/mermaid' && r.counts.passed + r.counts.failed + r.counts.unsupported === 0)
+  const unbound = results.filter(r => r.project !== 'mermaid-js/mermaid' && r.counts.passed! + r.counts.failed! + r.counts.unsupported! === 0)
   const scored = results.filter(r => !unbound.includes(r))
   const measured = new Set(scored.map(r => r.project))
   const dominant = (r: any) => Object.entries(r.gapReasons as Record<string, number>).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'no callback reached a candidate operation'
   const blocked = [...unbound.map(r => ({ project: r.project, reason: 'No original test reached a candidate operation: ' + dominant(r) })), ...runs.flatMap(run => run.blocked ?? []), ...(extras.blocked ?? [])].filter((row, index, all) => !measured.has(row.project) && all.findIndex(other => other.project === row.project) === index)
-  const expanded = Object.values(reference.counts as Record<string, number>).reduce((sum, value) => sum + value, 0)
+  const expanded = reference.cases.length
   return {
     benchmark: 'Mermaid Fidelity',
     pin: base.pin,
@@ -91,7 +100,7 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
     referenceVersion: reference.version,
     expandedCallbacks: expanded,
     referenceQualifiedCallbacks: qualified,
-    referenceDigest: referenceDigest(reference.cases ? reference : runs.flatMap(run => run.results).find(row => row.project === 'mermaid-js/mermaid' && row.cases)),
+    referenceDigest: digest,
     results: scored,
     updatedAt: runs.map(run => run.updatedAt).sort().at(-1),
     collectedThrough: runs.map(run => run.collectedThrough).sort().at(-1),

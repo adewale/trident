@@ -42,6 +42,14 @@ export interface PreparedCommunityBrowser extends PreparedCommunity {
 }
 const digest = (bytes: Uint8Array): string => createHash('sha256').update(bytes).digest('hex')
 const safe = (id: string): string => encodeURIComponent(id)
+/** Verify the bundle and every shipped browser asset before opening its host. */
+export function verifyCommunityBrowser(engine: CommunityBrowserEngine) {
+  const entry = resolve(engine.root, engine.entry)
+  const files = engine.files ?? []
+  if (!files.some(file => resolve(file.path) === entry && file.sha256 === engine.artifactSha256)) throw Error('Prepared browser manifest does not bind its entry')
+  for (const file of files) if (!/^[a-f0-9]{64}$/.test(file.sha256) || digest(readFileSync(file.path)) !== file.sha256) throw Error('Prepared browser asset changed: ' + file.path)
+  if (engine.wasm && !files.some(file => resolve(file.path) === resolve(engine.root, engine.wasm!))) throw Error('Prepared browser manifest does not bind its WASM')
+}
 /** Seal executable/browser assets, not source-tree inputs or node_modules.
  * Delivery totals still use only observed requests, never this overapproximation. */
 function browserFiles(engine: CommunityBrowserEngine): { path: string; sha256: string }[] {

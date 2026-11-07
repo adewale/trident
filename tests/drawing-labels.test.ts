@@ -1,5 +1,7 @@
 import { expect, test } from 'bun:test'
-import { assessLabels, expectedLabels, labelFound, leakedSyntax, svgText, terminalText } from '../fidelity/drawing/labels.ts'
+import { assessLabels, assessSvgLabels, expectedLabels, labelFound, leakedSyntax, svgText, terminalText } from '../fidelity/drawing/labels.ts'
+import { chromium } from 'playwright'
+import { defaultChromium } from '../unified/benchmark-context.ts'
 
 const flow: any = {
   id: 'fixture', family: 'flowchart', source: 'flowchart TD\nMermaid[Mermaid.js] -->|derivative| Beautiful[Beautiful Mermaid]\n', sourceGaps: [], geometry: [],
@@ -22,9 +24,9 @@ test('SVG text includes HTML labels and excludes styles and accessibility metada
 })
 
 test('terminal labels wrapped inside boxes are still found', () => {
-  const drawing = '┌────────────┐      ┌───────────┐\n│ Mermaid.js ├─────►│ Beautiful │\n└────────────┘ deri │ Mermaid   │\n               vative└───────────┘'
+  const drawing = '┌────────────┐      ┌───────────┐\n│ Mermaid.js ├─────►│ Beautiful │\n└────────────┘ deri │ Mermaid   │\n              vative└───────────┘'
   expect(labelFound('Beautiful Mermaid', terminalText(drawing))).toBe(true)
-  expect(assessLabels(flow, 'terminal', terminalText(drawing.replace('deri', 'deri ').replace('vative', 'derivative')))).toMatchObject({ status: 'correct' })
+  expect(assessLabels(flow, 'terminal', terminalText(drawing + '\nderivative'))).toMatchObject({ status: 'correct' })
 })
 
 test('raw source syntax in the output is a failure even when labels are present', () => {
@@ -41,6 +43,21 @@ test('label matching is exact apart from whitespace and wrapping', () => {
   expect(labelFound('Prototype', 'Proto type')).toBe(true)
   expect(labelFound('Prototype', 'prototype')).toBe(false)
   expect(labelFound('Prototype', 'Prototvpe')).toBe(false)
+  expect(labelFound('Do not approve', 'approve unrelated Do unrelated not')).toBe(false)
+})
+
+test('SVG label verdicts require visible, unclipped text rather than hidden DOM contents', async () => {
+  const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
+  const context = await browser.newContext({ javaScriptEnabled: false }), page = await context.newPage()
+  try {
+    const example: any = { ...flow, source: 'flowchart LR\nA[Alpha] --> B[Beta]', expected: { nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }] } }
+    const text = '<text x="10" y="30">Alpha</text><text x="100" y="30">Beta</text>'
+    for (const [body, expected] of [[text, 'correct'], [text + '<text display="none">flowchart LR</text>', 'correct'], [text + '<text x="10" y="60">flowchart LR</text>', 'incorrect'], ['<g display="none">' + text + '</g>', 'incorrect'], ['<g opacity="0">' + text + '</g>', 'incorrect'], [text + '<rect width="300" height="100" fill="white"/>', 'incorrect']] as const) {
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">' + body + '</svg>'
+      await page.setContent(svg)
+      expect((await assessSvgLabels(example, page, svg)).status).toBe(expected)
+    }
+  } finally { await browser.close() }
 })
 
 test('an empty diagram passes only without text; a case without labels is judged on raw syntax alone', () => {

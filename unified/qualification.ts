@@ -66,7 +66,7 @@ function explicitSvgLength(value: string | undefined): number {
 }
 /** Independent XML syntax/namespace/canvas admission. The light parser loads
  * lazily here, after the caller has stopped its public API clock. */
-function svgXmlInspection(output: string, requireCanvas = true): { findings: string[]; root?: SvgInspectionElement; xmlWellFormed?: boolean } {
+export function svgXmlInspection(output: string, requireCanvas = true): { findings: string[]; root?: SvgInspectionElement; xmlWellFormed?: boolean } {
   const strict = svgXmlDocument(output, requireCanvas)
   if (!strict.findings.length) return { ...strict, xmlWellFormed: true }
   // HTML serializes void elements unclosed (Mermaid's foreignObject <br>); that alone is admitted.

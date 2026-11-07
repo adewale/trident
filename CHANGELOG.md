@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- Collectors verify prepared artifact bytes before execution. Publication derives
+  counts from complete case lists, requires identical Fidelity controls, and
+  preserves untouched projects during partial Drawing merges.
+- SVG Drawing labels use the existing visibility and clipping observer; terminal
+  labels preserve word order and join wrapped text only within observed frames.
+  Unsupported SVG visibility stays unassessed. Timed-out browser contexts are
+  replaced, and CLI deadlines terminate their process groups.
+- Output admission validates SVG XML and decodes PNG data after the clock stops.
+  Candidate parser faults count as nonpasses, and version-change detection includes
+  source revisions, CLI releases and companion versions. Update js-yaml to 4.3.2.
+  Existing benchmark results remain historical; these checks require fresh collection.
 - **Mermaid 12.3.0 is the reference.** The oracle, Mermaid's row in every benchmark and
   the Mermaid Fidelity suite move from 12.2.0 to 12.3.0: 352 test files, of whose tests
   Mermaid passes 3,676. The Fidelity collector reads its pin from

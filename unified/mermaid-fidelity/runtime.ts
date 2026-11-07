@@ -30,7 +30,7 @@ let api: any,
   definitions = new Map<string, any>(),
   configurations: any,
   language: any
-let active: { protocol: string; expectedFailure: boolean; id: string; file: string; name: string; index: number; gaps: Set<string>; calls: number; rejections: number; unsupported: string[] } | undefined
+let active: { protocol: string; expectedFailure: boolean; id: string; file: string; name: string; index: number; gaps: Set<string>; calls: number; rejections: number; unsupported: string[]; faults: string[] } | undefined
 const contexts = new Map<string, any>(),
   deferredValues = new WeakMap<object, string>(),
   ownDatabases = new WeakSet<object>()
@@ -78,6 +78,17 @@ export class AdapterGap extends Error {}
 function gap(reason: string): never {
   if (!failureReport()) active?.gaps.add(reason)
   throw new AdapterGap('TRIDENT_ADAPTER_GAP: ' + reason)
+}
+function candidateFault(reason: string): never {
+  active?.faults.push(reason)
+  throw Error('Candidate parser fault: ' + reason)
+}
+function invokeParser(call: () => any) {
+  try { return call() }
+  catch (error) {
+    if (error instanceof TypeError || error instanceof ReferenceError || error instanceof RangeError) return candidateFault(String(error))
+    throw error
+  }
 }
 function deferred(reason: string): any {
   if (active && !failureReport()) active.gaps.add(reason)
@@ -222,7 +233,7 @@ export function begin(task: any) {
   const index = flatten(task.file).findIndex(t => t.id === task.id)
   const names = [task.name]
   for (let suite = task.suite; suite; suite = suite.suite) if (suite.name) names.unshift(suite.name)
-  active = { protocol: 'native-operations-v2', expectedFailure: !!task.fails, id: task.id, file: task.file.filepath, index, name: names.join(' > '), gaps: new Set(), calls: 0, rejections: 0, unsupported: [] }
+  active = { protocol: 'native-operations-v2', expectedFailure: !!task.fails, id: task.id, file: task.file.filepath, index, name: names.join(' > '), gaps: new Set(), calls: 0, rejections: 0, unsupported: [], faults: [] }
   if (job.target.tool === 'mermaid') configurations?.reset?.()
   hostConfig = undefined
   const c = contexts.get(task.file.filepath)
@@ -257,12 +268,14 @@ function bridgeReply(stdout: string, family: string, label: string) {
     return gap(label + ' returned no structured observation')
   }
   if (reply.adapterGap) return gap(reply.adapterGap)
+  if (reply.candidateFault) return candidateFault(reply.candidateFault)
   if (reply.unsupported) {
     active?.unsupported.push(reply.unsupported)
     throw Error(reply.unsupported)
   }
   if (reply.error) {
     const e = reply.error
+    if (/^(?:TypeError|ReferenceError|RangeError)$/.test(e.name)) return candidateFault(e.name + ': ' + e.message)
     if (/Unsupported|UnknownDiagram/.test(e.name) || /unsupported diagram|unknown diagram|unrecognized diagram type|unsupported .*diagram type/i.test(e.message)) {
       active?.unsupported.push(e.message)
       throw Error(e.message)
@@ -293,7 +306,7 @@ function nativeParse(family: string, source: string) {
     return bridgeReply(child.stdout, family, 'Parser bridge')
   }
   if (job.target.tool === 'agentic') {
-    const result = api.parseRegisteredMermaid(source)
+    const result = invokeParser(() => api.parseRegisteredMermaid(source))
     if (result?.then) return gap('Asynchronous parser cannot supply the original synchronous parse interface')
     if (!result.ok) {
       const errors = Array.isArray(result.error) ? result.error : [result.error]
@@ -312,14 +325,14 @@ function nativeParse(family: string, source: string) {
     const parse = api[names[family]!]
     if (typeof parse !== 'function') return gap('Native parser/schema adapter is unavailable for ' + family)
     try {
-      const value = parse(
+      const value = invokeParser(() => parse(
         family === 'flowchart' || family === 'state'
           ? source
           : source
               .split(/\r?\n/)
               .map(line => line.trim())
               .filter(Boolean),
-      )
+      ))
       if (value?.then) return gap('Native parse is asynchronous; synchronous database view unavailable')
       return value
     } catch (error: any) {
@@ -355,7 +368,7 @@ function nativeParse(family: string, source: string) {
     const parser = selected ? api[selected] : typeof api.parse === 'function' ? api.parse : undefined
     if (!parser) return gap('Installed public module has no synchronous ' + family + ' parser binding')
     try {
-      const result = parser(source)
+      const result = invokeParser(() => parser(source))
       if (result?.then) {
         void result.catch(() => {})
         return gap('Native parser requires an asynchronous schema binding')
@@ -399,7 +412,7 @@ function nativeParse(family: string, source: string) {
     }
   }
   try {
-    const value = api.parse(source)
+    const value = invokeParser(() => api.parse(source))
     if (value?.then) return gap('Asynchronous native parser')
     return value
   } catch (error: any) {
@@ -524,7 +537,7 @@ function context(family: string) {
       if (empty !== undefined) return empty
       const header = (examples[family] ?? '').split('\n')[0]
       const caseAudit = active
-      const probe: any = { gaps: new Set(), unsupported: [], calls: 0, rejections: 0 }
+      const probe: any = { gaps: new Set(), unsupported: [], faults: [], calls: 0, rejections: 0 }
       active = probe
       try {
         empty = header ? { raw: nativeParse(family, header) } : null

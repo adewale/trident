@@ -6,6 +6,9 @@
  * from counting as a completed render. Validation runs after the clock stops.
  */
 
+import { svgXmlInspection } from './qualification.ts'
+import { inspectPng } from './png-inspection.ts'
+
 export type Validity = { valid: true } | { valid: false; reason: string }
 
 /** Phrases a renderer uses to report failure in place of a drawing. A phrase
@@ -146,26 +149,18 @@ export function echoesSource(visible: string, source: string) {
  * that draws nothing is admitted: some examples (a Gantt chart with no tasks)
  * may legitimately be empty, and judging that is Drawing Correctness's job. */
 export function svgTextValidity(svg: string, source: string): Validity {
-  const start = svg.search(/<svg\b/i)
-  if (start < 0 || !/<\/svg\s*>\s*$|\/>\s*$/i.test(svg.trim())) return { valid: false, reason: 'no SVG document' }
-  const root = /<svg\b[^>]*>/i.exec(svg.slice(start))![0]
-  if (/aria-roledescription\s*=\s*["']error["']/i.test(root)) return { valid: false, reason: 'error placeholder' }
-  const box = /viewBox\s*=\s*["']\s*[-\d.e]+[\s,]+[-\d.e]+[\s,]+([-\d.e]+)[\s,]+([-\d.e]+)/i.exec(root)
-  const size = (name: string) => Number.parseFloat(new RegExp(name + '\\s*=\\s*["\']\\s*([\\d.]+)', 'i').exec(root)?.[1] ?? '')
-  const width = box ? Number(box[1]) : size('width'), height = box ? Number(box[2]) : size('height')
-  if (!(width > 0 && height > 0)) return { valid: false, reason: 'zero-size SVG' }
+  if (typeof svg !== 'string' || !svg.trim()) return { valid: false, reason: 'no SVG document' }
+  const parsed = svgXmlInspection(svg)
+  if (parsed.findings.length) return { valid: false, reason: parsed.findings.some(reason => reason.includes('positive finite')) ? 'zero-size SVG' : parsed.findings.join('; ') }
+  if (parsed.root?.attributes['aria-roledescription'] === 'error') return { valid: false, reason: 'error placeholder' }
   const text = svg.replace(/<(style|script)\b[\s\S]*?<\/\1\s*>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
   const phrase = errorPhrase(squash(text), source)
   if (phrase) return { valid: false, reason: 'error message: ' + phrase }
   return { valid: true }
 }
 
-/** PNG bytes: signature, IHDR and positive dimensions. */
+/** Decode the PNG after the clock stops, using the existing bounded validator. */
 export function pngBytesValidity(bytes: Uint8Array): Validity {
-  const signature = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]
-  if (bytes.length < 33 || signature.some((byte, index) => bytes[index] !== byte)) return { valid: false, reason: 'not a PNG' }
-  if (String.fromCharCode(...bytes.subarray(12, 16)) !== 'IHDR') return { valid: false, reason: 'PNG has no IHDR' }
-  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
-  if (!(view.getUint32(16) > 0 && view.getUint32(20) > 0)) return { valid: false, reason: 'zero-size PNG' }
-  return { valid: true }
+  const result = inspectPng(bytes, false)
+  return result.findings.length ? { valid: false, reason: result.findings.join('; ') } : { valid: true }
 }

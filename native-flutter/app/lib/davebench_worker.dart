@@ -1,8 +1,9 @@
 // Completion and API timing only. PNG bytes are never written; after the clock
 // stops they receive the same mechanical admission as every DaveBench PNG:
-// a PNG signature and an IHDR chunk with positive width and height.
+// a PNG signature, positive IHDR dimensions and a successfully decoded image.
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mermaid_flutter/mermaid_flutter.dart';
@@ -22,7 +23,7 @@ void main() {
       catch (_) { outcome = 'error'; }
       final ms = clock.elapsedMicroseconds / 1000;
       String? invalid;
-      if (outcome == 'completed') invalid = _pngAdmission(bytes);
+      if (outcome == 'completed') invalid = await _pngAdmission(bytes);
       if (invalid != null) outcome = 'invalid';
       stdout.writeln(jsonEncode({'type': 'result', 'id': job['id'], 'outcome': outcome, 'ms': ms, if (invalid != null) 'invalid': invalid}));
     }
@@ -31,11 +32,23 @@ void main() {
 }
 
 const _signature = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
-String? _pngAdmission(Uint8List? bytes) {
+Future<String?> _pngAdmission(Uint8List? bytes) async {
   if (bytes == null || bytes.length < 24) return 'not a PNG';
   for (var i = 0; i < _signature.length; i++) { if (bytes[i] != _signature[i]) return 'not a PNG'; }
   if (String.fromCharCodes(bytes.sublist(12, 16)) != 'IHDR') return 'PNG has no IHDR';
   final view = ByteData.sublistView(bytes);
   if (view.getUint32(16) == 0 || view.getUint32(20) == 0) return 'zero-size PNG';
+  if (bytes.length > 64 * 1024 * 1024 || view.getUint32(16) * view.getUint32(20) > 16 * 1024 * 1024) return 'PNG exceeds validation budget';
+  ui.Codec? codec;
+  ui.Image? image;
+  try {
+    codec = await ui.instantiateImageCodec(bytes);
+    image = (await codec.getNextFrame()).image;
+  } catch (_) {
+    return 'PNG could not be decoded';
+  } finally {
+    image?.dispose();
+    codec?.dispose();
+  }
   return null;
 }

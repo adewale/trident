@@ -1,5 +1,10 @@
 # Release campaign
 
+This retained campaign predates the collector validation fixes described in the
+unreleased changelog. Its numbers have not been re-scored: stricter SVG visibility,
+PNG decoding and candidate-fault handling require fresh collection. Regenerating
+the tables only reprints these historical observations.
+
 One fresh collection of all three benchmarks, on one machine, against the releases
 frozen by `versions` on 7 November
 ([`catalog.json`](../../docs/evidence/benchmark-campaign-2026-11-07/catalog.json),
