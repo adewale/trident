@@ -1539,3 +1539,5 @@ export default {
 
 // Mermaid's ClassMember computation, for the port views in ./ports.mjs (used inside functions).
 export { classMember }
+
+export { beautifulGraph }

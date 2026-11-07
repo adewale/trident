@@ -12,7 +12,7 @@ import { deepUnset, entriesOf, record } from '../schema-views.mjs'
 import { classMember } from './misc.mjs'
 
 const PELE = 'obsidianmd/pele', BEZEL = 'crabtalk/bezel', MERMAN = 'Latias94/merman'
-const NAME = { [PELE]: 'Pele', [BEZEL]: 'Bezel', [MERMAN]: 'Latias94/merman' }
+const NAME = { [PELE]: 'Pele', [BEZEL]: 'Bezel', [MERMAN]: 'Latias94/merman', 'adewale/agentic-mermaid': 'Agentic Mermaid' }
 const mapOf = value => new Map(entriesOf(value).map(([key, item]) => [key, deepUnset(item)]))
 const setOf = value => new Set(value instanceof Set ? value : Array.isArray(value) ? value : [])
 /** One view per project for a family, keyed the way views/index.mjs reads them. */
@@ -726,3 +726,6 @@ export default {
     GitGraph: each([PELE, BEZEL, MERMAN], gitGraphAst),
   },
 }
+
+// Shared field translations for independently reviewed native model projections.
+export { railroadView, railroadAst, wardleyView, vennView, cynefinView, usecaseState, agentflowState, afResolve, AF_RENDERER }

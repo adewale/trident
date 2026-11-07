@@ -3,6 +3,7 @@
 // { [project]: (raw, hooks) => astValue } } }. A module only defines functions at its top
 // level: it imports helpers from ../schema-views.mjs, which imports this registry.
 import ports from './ports.mjs'
+import agentic from './agentic.mjs'
 import frankenmermaid from './frankenmermaid.mjs'
 import sequence from './sequence.mjs'
 import state from './state.mjs'
@@ -11,7 +12,7 @@ import misc from './misc.mjs'
 import dart from './dart.mjs'
 import xmermaid from './xmermaid.mjs'
 
-const modules = () => [ports, frankenmermaid, sequence, state, gitgraph, misc, dart, xmermaid]
+const modules = () => [ports, agentic, frankenmermaid, sequence, state, gitgraph, misc, dart, xmermaid]
 
 /** The getters every registered module offers for this project and family, merged. */
 export function extraSchemaView(project, family, raw, hooks) {

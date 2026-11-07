@@ -351,3 +351,68 @@ test('ishikawa trees: agentic-mermaid parent ids, XMermaid depth and parent labe
   expect(xmermaid.getRoot()).toEqual(tree)
   expect(() => nativeSchemaView('evangwt/xmermaid', 'ishikawa', { type: 'ishikawa', effect: 'E', causes: [{ label: 'A', parent: null, depth: 0 }, { label: 'B', parent: 'Z', depth: 1 }] }, hooks).getRoot()).toThrow('gap')
 })
+
+test('agentic native family views preserve owned fields and declare discarded parser state unsupported', () => {
+  const { hooks, log } = verdicts()
+  const project = 'adewale/agentic-mermaid'
+  const tree = nativeSchemaView(project, 'treeview', { nodes: [
+    { id: 'treeview-0', label: 'src', nodeType: 'directory', icon: 'folder' },
+    { id: 'treeview-1', label: 'main.ts', parentId: 'treeview-0', nodeType: 'file', className: 'entry', description: 'start' },
+  ] }, hooks)!
+  expect(tree.getCount()).toBe(3)
+  const root = tree.getRoot()
+  expect(root.children[0].name).toBe('src')
+  expect(root.children[0].children[0]).toMatchObject({ id: 2, name: 'main.ts', cssClass: 'entry', description: 'start' })
+  expect(() => root.children[0].level).toThrow('unsupported')
+  const venn = nativeSchemaView(project, 'venn', { subsets: [{ sets: ['A'], size: 3 }], textNodes: [{ sets: ['A'], id: 't', label: 'owned' }], styles: [{ targets: ['A'], styles: { fill: 'red' } }] }, hooks)!
+  expect(venn.getSubsetData()).toEqual([{ sets: ['A'], size: 3, label: undefined }])
+  expect(venn.getTextData()).toEqual([{ sets: ['A'], id: 't', label: 'owned' }])
+  expect(venn.getStyleData()).toEqual([{ targets: ['A'], styles: { fill: 'red' } }])
+  expect(() => venn.getCurrentSets()).toThrow('unsupported')
+  expect(log.every(item => item.startsWith('unsupported: '))).toBe(true)
+})
+
+test('agentic UseCase view translates real node kinds, JSON order and all boundary lookups', () => {
+  const { hooks } = verdicts()
+  const view = nativeSchemaView('adewale/agentic-mermaid', 'usecase', {
+    direction: 'LR', nodes: [
+      { kind: 'actor', id: 'A', label: 'Author', labelType: 'text', type: 'normal', business: false, parentId: 'B', classes: [], styles: [] },
+      { kind: 'usecase', id: 'U', label: 'Publish', labelType: 'text', shape: 'ellipse', business: false, classes: [], styles: [] },
+    ], boundaries: [{ id: 'B', label: 'System', labelType: 'text', type: 'rect', members: ['A'], classes: [], styles: [] }],
+    relationships: [], notes: [], jsonNodes: [{ id: 'J', value: { '2': 2, '1': 1 }, propertyOrder: [['', ['2', '1']]], classes: [], styles: [] }], classDefs: [],
+  }, hooks)!
+  expect(view.getActors().get('A').label).toBe('Author')
+  expect(view.getUseCase('U').shape).toBe('ellipse')
+  expect(view.getSystemBoundary('B').members).toEqual(['A'])
+  expect(view.getJsonNode('J').propertyOrder).toEqual({ '': ['2', '1'] })
+  expect(view.getData().nodes.find((node: any) => node.id === 'A')).toMatchObject({ shape: 'usecaseActor', parentId: 'B' })
+  expect(() => view.getAST()).toThrow('unsupported')
+})
+
+test('agentic AgentFlow metadata, connectors, source mappings and collapsed ownership come from the native body', () => {
+  const { hooks } = verdicts()
+  const graph = {
+    direction: 'TB', nodes: new Map([
+      ['A', { id: 'A', label: 'Call', shape: 'subroutine' }],
+      ['C', { id: 'C', label: 'Next', shape: 'rounded' }],
+    ]), edges: [{ id: 'e', source: 'A', target: 'C', style: 'solid', hasArrowStart: false, hasArrowEnd: true }, { source: 'C', target: 'A', style: 'dotted', hasArrowStart: false, hasArrowEnd: false }, { source: 'C', target: 'A', style: 'solid', hasArrowStart: false, hasArrowEnd: true, endMarker: 'cross' }],
+    subgraphs: [{ id: 'G', label: 'Scope', nodeIds: ['A'], children: [] }], classAssignments: new Map(), nodeStyles: new Map(), classDefs: new Map(), linkStyles: new Map(),
+  }
+  const view = nativeSchemaView('adewale/agentic-mermaid', 'agentflow', {
+    graph, metadata: new Map([['A', { owner: 'team', shape: 'tool' }], ['G', { view: 'collapsed' }], ['e', { curve: 'basis', animate: true, animation: 'fast' }]]), roles: new Map([['A', 'tool'], ['C', 'connector']]), connectors: new Set(['C']),
+    mappings: [{ id: 'G', type: 'flow', line: 2, col: 1, endLine: 2, endCol: 7 }, { id: 'A', type: 'vertex', line: 3, col: 3, endLine: 3, endCol: 10 }],
+  }, hooks)!
+  expect(view.getVertices().get('A').metadata).toEqual({ owner: 'team', shape: 'tool' })
+  expect(view.getVertices().get('A').type).toBe('subroutine')
+  expect(view.getEdges().map((edge: any) => edge.edgeSemantic)).toEqual(['sequence', 'reference', 'failure'])
+  expect(view.getEdges()[0]).toMatchObject({ interpolate: 'basis', animate: true, animation: 'fast' })
+  expect(view.getConnectors().map((node: any) => node.id)).toEqual(['C'])
+  expect(view.getTools().map((node: any) => node.id)).toEqual(['A'])
+  expect(view.getElementById('G')).toEqual({ id: 'G', type: 'subgraph', position: { startLine: 2, startColumn: 1, endLine: 2, endColumn: 7 } })
+  expect(view.getMappingStats()).toEqual({ vertices: 1, edges: 0, subgraphs: 1, connectors: 0, attachments: 0, totalElements: 2 })
+  const data = view.getData()
+  expect(data.nodes.map((node: any) => node.id)).toEqual(['G', 'C'])
+  expect(data.edges[0]).toMatchObject({ start: 'G', end: 'C' })
+  expect(() => view.getDiagnostics()).toThrow('unsupported')
+  expect(() => data.nodes.find((node: any) => node.id === 'C').tooltip).toThrow('unsupported')
+})
