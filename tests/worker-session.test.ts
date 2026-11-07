@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { JsonLineSession } from '../unified/json-line-session.ts'
 import { TerminalCallWorker } from '../unified/terminal-call-worker.ts'
@@ -21,6 +21,19 @@ test('concurrent calls are refused, while the owned request still settles and cl
     await session.close(); expect(await outcome).toBe('Worker closed')
     await session.close()
   } finally { await session.close() }
+})
+test('idle shutdown permits EOF cleanup and still kills an unresponsive worker', async () => {
+  const marker = join(temporary.dir(), 'cleanup')
+  const script = `const fs=require('node:fs'),rl=require('node:readline');(async()=>{for await(const line of rl.createInterface({input:process.stdin})){const job=JSON.parse(line);console.log(JSON.stringify({id:job.id,ok:true}))}fs.writeFileSync(process.argv[1],'cleaned')})()`
+  const session = new JsonLineSession(['node', '-e', script, marker], { reply })
+  await session.call({}, 1, 2000)
+  await session.close()
+  expect(readFileSync(marker, 'utf8')).toBe('cleaned')
+  expect(session.child.exitCode).toBe(0)
+  const stuck = new JsonLineSession(['node', '-e', script + ';setInterval(()=>{},1000)', marker], { reply })
+  await stuck.call({}, 1, 2000)
+  await stuck.close()
+  expect(stuck.child.signalCode).toBe('SIGKILL')
 })
 test('unexpected identities and oversized frames retire the session and drain pending calls', async () => {
   for (const [body, reason] of [[`console.log(JSON.stringify({id:job.id+1,ok:true}))`, 'identity'], [`console.log('x'.repeat(2000))`, 'byte budget']] as const) {

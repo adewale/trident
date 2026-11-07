@@ -57,7 +57,7 @@ from pathlib import Path
 p=Path(sys.argv[1])/'example.py'
 p.write_text('value = 2')
 os.utime(p,(1000000000,1000000000))
-py_compile.compile(str(p),doraise=True)
+py_compile.compile(str(p),doraise=True,invalidation_mode=py_compile.PycInvalidationMode.TIMESTAMP)
 p.write_text('value = 1')
 os.utime(p,(1000000000,1000000000))
 `, root])

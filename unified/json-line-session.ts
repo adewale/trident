@@ -98,20 +98,22 @@ export class JsonLineSession {
       } catch (error) { this.fail(new SessionFailure('transport', 'Worker transport: ' + error)) }
     })
   }
-  private fail(error: SessionFailure) {
+  private fail(error: SessionFailure, graceful = false) {
     if (this.phase === 'retiring' || this.phase === 'closed') return
     this.failure = error; this.phase = 'retiring'
     clearTimeout(this.startTimer); this.stopWatching(); this.readyReject(error)
     const pending = this.pending; this.pending = undefined
     if (pending) { clearTimeout(pending.timer); pending.reject(error) }
-    try {
-      if (process.platform !== 'win32') process.kill(-this.child.pid, 'SIGKILL')
-      else this.child.kill('SIGKILL')
-    } catch {}
+    if (!graceful) killCommunityProcess(this.child, 'SIGKILL')
     try { this.child.stdin.end() } catch {}
   }
   async close() {
-    this.fail(new SessionFailure('closed', 'Worker closed'))
-    await this.child.exited
+    // EOF lets an idle worker and wrappers such as xvfb-run clean up their
+    // private resources. Busy, failed and unresponsive workers still retire by
+    // killing the owned process group; shutdown is outside every API clock.
+    const graceful = this.phase === 'idle'
+    this.fail(new SessionFailure('closed', 'Worker closed'), graceful)
+    const timer = graceful ? setTimeout(() => killCommunityProcess(this.child, 'SIGKILL'), 1000) : undefined
+    try { await this.child.exited } finally { clearTimeout(timer) }
   }
 }
