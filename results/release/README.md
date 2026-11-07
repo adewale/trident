@@ -81,9 +81,10 @@ boundaries. Published values are generated from these files.
 | Mermaid SVG completions | 1,336 | 1,302 |
 | Mermaid SVG-to-PNG completions | 1,336 | 1,302 |
 
-Fidelity pass counts reproduce the previous campaign. Two callbacks previously
-classified as adapter gaps now record candidate invocation failures. The control
-population is unchanged.
+Fidelity pass counts reproduce the previous campaign. Of two callbacks previously
+classified as adapter gaps, OpenCode's flowchart callback now records a candidate
+invocation failure; Kitlangton's Wardley callback records an unsupported operation.
+The control population is unchanged.
 
 Mermaid has 34 XML admission failures: 18 outputs contain undeclared `&nbsp;`
 entities and 16 omit the namespace declaration for `xlink:href`. Every rejected

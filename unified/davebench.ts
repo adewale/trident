@@ -49,7 +49,10 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
   let outcome = 'completed', svgText: string | undefined, pngValue: unknown, pngBytes = 0, error: string | undefined
   const parseSvg = (text: string) => {
     // Match the shared XML validator's admission of HTML-serialized void elements.
-    const document = new DOMParser().parseFromString(text.replace(/<(area|base|br|col|embed|hr|img|input|link|meta|source|track|wbr)\b([^<>]*?)\/?>/gi, '<$1$2/>'), 'image/svg+xml'), svg = document.documentElement
+    const parser = new DOMParser()
+    let document = parser.parseFromString(text, 'image/svg+xml')
+    if (document.querySelector('parsererror')) document = parser.parseFromString(text.replace(/<(area|base|br|col|embed|hr|img|input|link|meta|source|track|wbr)\b([^<>]*?)\/?>/gi, '<$1$2/>'), 'image/svg+xml')
+    const svg = document.documentElement
     if (document.querySelector('parsererror') || svg.localName !== 'svg' || svg.namespaceURI !== 'http://www.w3.org/2000/svg') throw Error('Malformed SVG document')
     return svg
   }
@@ -215,16 +218,18 @@ function rankingMarkdown(rankings: ReturnType<typeof davebenchRankings>, planned
 
 export async function browserHost(browser: Browser, peer: PreparedCommunityBrowser, format: string) {
   const engine = peer.browser!, root = resolve(engine.root)
-  verifyCommunityBrowser(engine)
+  const files = verifyCommunityBrowser(engine)
   const server = createServer((request, response) => {
     const url = new URL(request.url ?? '/', 'http://localhost')
     if (url.pathname === '/blank') { response.setHeader('content-type', 'text/html'); response.end('<!doctype html><body>'); return }
     const addon = url.pathname.startsWith('/zenuml/') && engine.zenuml
     const base = addon ? resolve(engine.zenuml!.root) : root
-    const file = resolve(base, decodeURIComponent(url.pathname.slice(addon ? 8 : 1)))
-    if (!file.startsWith(base + sep) || !existsSync(file)) { response.writeHead(404).end(); return }
+    let file: string
+    try { file = resolve(base, decodeURIComponent(url.pathname.slice(addon ? 8 : 1))) } catch { response.writeHead(404).end(); return }
+    const bytes = file.startsWith(base + sep) ? files.get(file) : undefined
+    if (!bytes) { response.writeHead(404).end(); return }
     response.setHeader('content-type', ({ '.wasm': 'application/wasm', '.css': 'text/css' } as Record<string, string>)[extname(file)] ?? 'text/javascript')
-    response.end(readFileSync(file))
+    response.end(bytes)
   })
   await new Promise<void>(done => server.listen(0, '127.0.0.1', done))
   const origin = 'http://127.0.0.1:' + (server.address() as { port: number }).port
@@ -235,7 +240,7 @@ export async function browserHost(browser: Browser, peer: PreparedCommunityBrows
     if (engine.kind === 'franken' || engine.kind === 'merman') await page.evaluate(publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
     else {
       if (engine.scriptType === 'module') await page.addScriptTag({ url: origin + '/' + engine.entry, type: 'module' })
-      else await page.addScriptTag({ content: readFileSync(resolve(engine.root, engine.entry), 'utf8') })
+      else await page.addScriptTag({ content: files.get(resolve(engine.root, engine.entry))!.toString('utf8') })
       await page.evaluate(publicSvgBrowserAction, { type: 'initialize-global', engine, ...(engine.zenuml ? { addonUrl: origin + '/zenuml/' + engine.zenuml.entry } : {}) })
       if (format === 'png' && engine.additionalOutputs?.includes('png')) await page.evaluate(async () => { const host = globalThis as any; host.__davebenchNativePng = await host.__fidelityCommunity.api.createRenderer() })
     }

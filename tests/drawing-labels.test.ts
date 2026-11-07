@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { assessLabels, assessSvgLabels, expectedLabels, labelFound, leakedSyntax, svgText, terminalText } from '../fidelity/drawing/labels.ts'
+import { assessLabels, assessTerminalLabels, assessSvgLabels, expectedLabels, labelFound, leakedSyntax, svgText, terminalText } from '../fidelity/drawing/labels.ts'
 import { chromium } from 'playwright'
 import { defaultChromium } from '../unified/benchmark-context.ts'
 
@@ -27,6 +27,14 @@ test('terminal labels wrapped inside boxes are still found', () => {
   const drawing = '┌────────────┐      ┌───────────┐\n│ Mermaid.js ├─────►│ Beautiful │\n└────────────┘ deri │ Mermaid   │\n              vative└───────────┘'
   expect(labelFound('Beautiful Mermaid', terminalText(drawing))).toBe(true)
   expect(assessLabels(flow, 'terminal', terminalText(drawing + '\nderivative'))).toMatchObject({ status: 'correct' })
+})
+
+test('overlapping terminal frames exhaust an observation budget instead of expanding in the controller', () => {
+  for (const size of [80, 160]) {
+    const drawing = Array(size).fill('+'.repeat(size)).join('\n')
+    expect(assessTerminalLabels(flow, drawing)).toMatchObject({ status: 'unknown', reason: 'Terminal rectangle observation budget exceeded' })
+  }
+  expect(assessTerminalLabels(flow, 'Mermaid.js Beautiful Mermaid derivative').status).toBe('correct')
 })
 
 test('raw source syntax in the output is a failure even when labels are present', () => {
@@ -57,10 +65,33 @@ test('SVG label verdicts require visible, unclipped text rather than hidden DOM 
     const backdrop = '<rect width="300" height="100" fill="url(#g)"/>'
     const gradientLabels = gradient + backdrop + '<g fill="url(#g)">' + text + '</g>'
     const gradientBackdrop = gradient.replace('<stop offset="1"', '<stop offset="0.8" stop-color="black"/><stop offset="1"') + backdrop + text
-    for (const [body, expected] of [[text, 'correct'], [text + '<text display="none">flowchart LR</text>', 'correct'], [text + '<text x="10" y="60">flowchart LR</text>', 'incorrect'], ['<g display="none">' + text + '</g>', 'incorrect'], ['<g opacity="0">' + text + '</g>', 'incorrect'], [text + '<rect width="300" height="100" fill="white"/>', 'incorrect'], [unsupportedFilter, 'unknown'], [gradientLabels, 'unknown'], [gradientBackdrop, 'unknown']] as const) {
+    for (const [body, expected] of [[text, 'correct'], [text + '<text display="none">flowchart LR</text>', 'unknown'], [text + '<text x="10" y="60">flowchart LR</text>', 'incorrect'], ['<g display="none">' + text + '</g>', 'incorrect'], ['<g opacity="0">' + text + '</g>', 'incorrect'], [text + '<rect width="300" height="100" fill="white"/>', 'incorrect'], [unsupportedFilter, 'unknown'], [gradientLabels, 'unknown'], [gradientBackdrop, 'unknown']] as const) {
       const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">' + body + '</svg>'
       await page.setContent(svg)
       expect((await assessSvgLabels(example, page, svg)).status).toBe(expected)
+    }
+  } finally { await browser.close() }
+})
+
+test('unresolved raw SVG syntax cannot earn credit through fragments or hidden exact matches', async () => {
+  const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
+  const context = await browser.newContext({ javaScriptEnabled: false }), page = await context.newPage()
+  try {
+    const example: any = { ...flow, source: 'flowchart LR\nA[Alpha] --> B[Beta]', expected: { nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }] } }
+    const labels = '<text x="10" y="25">Alpha</text><text x="150" y="25">Beta</text>'
+    for (const leak of [
+      '<text x="10" y="65">flowchart</text><text x="80" y="65">LR</text>',
+      '<text x="10" y="65">prefix flowchart LR suffix</text><text display="none">flowchart LR</text>',
+      '<text x="10" y="65">prefix flowchart LR suffix</text><defs><text>flowchart LR</text></defs>',
+      '<text x="10" y="65">flowchart</text><text x="300" y="90">elsewhere</text><text x="80" y="65">LR</text><text display="none">flowchart LR</text>',
+      '<marker id="m" markerUnits="userSpaceOnUse" markerWidth="200" markerHeight="30"><text x="0" y="20">flowchart LR</text></marker><line x1="10" y1="45" x2="11" y2="45" stroke="black" marker-start="url(#m)"/>',
+      '<defs><text id="src" x="10" y="65">flowchart LR</text></defs><use href="#src"/><text display="none">flowchart LR</text>',
+      '<clipPath id="c"><text x="10" y="65">flowchart LR</text></clipPath><rect y="40" width="300" height="60" clip-path="url(#c)"/>',
+      '<mask id="m" maskUnits="userSpaceOnUse"><text x="10" y="65" fill="white">flowchart LR</text></mask><rect y="40" width="300" height="60" mask="url(#m)"/>',
+    ]) {
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="100">' + labels + leak + '</svg>'
+      await page.setContent(svg)
+      expect((await assessSvgLabels(example, page, svg)).status).toBe('unknown')
     }
   } finally { await browser.close() }
 })

@@ -9,7 +9,7 @@ import type { DrawingCase } from './corpus.ts'
 import { inspectFidelityPaint } from '../paint.ts'
 import { inspectEmptySvgDrawing } from './empty.ts'
 import { interpretTerminal } from '../terminal-display.ts'
-import { terminalRectangles } from '../terminal-rectangles.ts'
+import { terminalRectangles, TerminalRectangleBudgetExceeded } from '../terminal-rectangles.ts'
 
 export type LabelVerdict = { status: 'correct' | 'incorrect' | 'unknown'; reason?: string; missing?: string[]; leaked?: string[]; labels: number }
 
@@ -53,9 +53,11 @@ export function svgText(svg: string) {
 
 export function terminalText(text: string) {
   const display = interpretTerminal(text)
-  const wrapped = display.status === 'available' ? terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true, cornerPorts: true }).map(box => box.lines.join(' ')) : []
+  const wrapped = display.status === 'available' ? terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true, cornerPorts: true }, terminalLabelWorkBudget).map(box => box.lines.join(' ')) : []
   return [text.replace(ansi, '').replace(boxDrawing, ' '), ...wrapped].join('\n')
 }
+
+export const terminalLabelWorkBudget = 1_000_000
 
 /** Control characters are never visible text. A label written with an escape
  * sequence ("\u001b[31mX") is shown either without the escape character ("[31mX") or
@@ -109,6 +111,14 @@ export function assessLabels(test: DrawingCase, format: 'svg' | 'terminal', text
   return { status: 'correct', labels: labels.length }
 }
 
+export function assessTerminalLabels(test: DrawingCase, output: string): LabelVerdict {
+  try { return assessLabels(test, 'terminal', terminalText(output)) }
+  catch (error) {
+    if (!(error instanceof TerminalRectangleBudgetExceeded)) throw error
+    return { status: 'unknown', labels: expectedLabels(test).length, reason: error.message }
+  }
+}
+
 /** SVG passes require the existing browser observer to establish actual visible labels. */
 export async function assessSvgLabels(test: DrawingCase, page: any, svg: string): Promise<LabelVerdict> {
   const text = assessLabels(test, 'svg', svgText(svg)), labels = expectedLabels(test)
@@ -126,10 +136,10 @@ export async function assessSvgLabels(test: DrawingCase, page: any, svg: string)
     if (failed.length) return { status: 'incorrect', labels: labels.length, reason: failed.map(check => check!.criterion).join('; ') }
     if (checks.some(check => check?.status !== 'passed')) return { status: 'unknown', labels: labels.length, reason: 'Visible label evidence is unavailable for this SVG representation' }
   }
-  // Serialized text only nominates a possible leak; hidden source text is not a drawing.
+  // A serialized leak is a nomination, not proof of paint. Failure to match
+  // it cannot prove absence across fragments, references or hidden duplicates.
   for (const leak of text.leaked ?? []) {
     const checks = await observe([leak])
-    if (!(checks[0]?.actual as { count: number; camouflaged: boolean }[] | undefined)?.some(item => item.count > 0 && !item.camouflaged)) continue
     if (checks.every(check => check?.status === 'passed')) return { status: 'incorrect', labels: labels.length, leaked: [leak], reason: 'Raw source syntax shown: ' + leak }
     return { status: 'unknown', labels: labels.length, reason: 'Visibility of possible raw source syntax is unassessed' }
   }

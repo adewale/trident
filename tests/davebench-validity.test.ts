@@ -1,6 +1,9 @@
 import { expect, test } from 'bun:test'
 import { Resvg } from '@resvg/resvg-js'
+import { crc32, deflateSync } from 'node:zlib'
 import { davebenchSvgValidity, davebenchTerminalValidity, errorPhrase, pngBytesValidity, rawStatements, svgTextValidity, terminalTextValidity } from '../unified/davebench-validity.ts'
+import { inspectPng } from '../unified/png-inspection.ts'
+import { qualifyOutputFormat } from '../unified/qualification.ts'
 
 const png = () => new Resvg('<svg xmlns="http://www.w3.org/2000/svg" width="4" height="3"><rect width="4" height="3"/></svg>').render().asPng()
 
@@ -56,6 +59,27 @@ test('PNG admission decodes complete image data instead of trusting a plausible 
   expect(pngBytesValidity(bytes)).toEqual({ valid: true })
   expect(pngBytesValidity(bytes.subarray(0, 33)).valid).toBe(false)
   expect(pngBytesValidity(new TextEncoder().encode('not an image at all, but long enough')).valid).toBe(false)
+})
+
+test('APNG format admission decodes its default image without certifying animation content', () => {
+  const chunk = (type: string, data: Uint8Array) => {
+    const bytes = Buffer.alloc(data.length + 12); bytes.writeUInt32BE(data.length); bytes.write(type, 4); bytes.set(data, 8); bytes.writeUInt32BE(crc32(bytes.subarray(4, -4)), bytes.length - 4); return bytes
+  }
+  const image = (scanline = new Uint8Array([0, 0, 0, 0, 255, 255, 255, 255, 255])) => {
+    const header = Buffer.alloc(13); header.writeUInt32BE(2); header.writeUInt32BE(1, 4); header[8] = 8; header[9] = 6
+    const animation = Buffer.alloc(8); animation.writeUInt32BE(2)
+    const frame = (sequence: number) => { const data = Buffer.alloc(26); data.writeUInt32BE(sequence); data.writeUInt32BE(2, 4); data.writeUInt32BE(1, 8); data.writeUInt16BE(1, 20); data.writeUInt16BE(10, 22); return chunk('fcTL', data) }
+    const next = Buffer.concat([Buffer.from([0, 0, 0, 2]), deflateSync(new Uint8Array([0, 255, 255, 255, 255, 0, 0, 0, 255]))])
+    return Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk('IHDR', header), chunk('acTL', animation), frame(0), chunk('IDAT', deflateSync(scanline)), frame(1), chunk('fdAT', next), chunk('IEND', new Uint8Array())])
+  }
+  const bytes = image()
+  expect(pngBytesValidity(bytes)).toEqual({ valid: true })
+  expect(qualifyOutputFormat(bytes, 'png')).toEqual({ ok: true, findings: [], scope: 'format-only' })
+  expect(inspectPng(bytes, true)).toMatchObject({ unavailable: true, scope: 'binary-envelope', findings: ['Animated PNG needs a frame-specific content observer'] })
+  expect(inspectPng(bytes, false).pixelIdentity).toBeUndefined()
+  expect(pngBytesValidity(image(new Uint8Array([0]))).valid).toBe(false)
+  const corrupt = Buffer.from(bytes); corrupt[corrupt.length - 13]! ^= 1
+  expect(pngBytesValidity(corrupt).valid).toBe(false)
 })
 
 test('a fallback render drawn from the source text is not a completion', () => {

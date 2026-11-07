@@ -20,6 +20,18 @@ export function referenceDigest(reference: any) {
   return createHash('sha256').update(lines.join('\n')).digest('hex')
 }
 
+/** File completion order can vary; callback ordinals within a file identify
+ * repeated titles and must retain the same reference qualification. */
+function referenceFiles(reference: any) {
+  const files = new Map<string, any[]>()
+  for (const c of reference.cases) {
+    const callbacks = files.get(c.file) ?? []
+    callbacks.push([c.name, c.status])
+    files.set(c.file, callbacks)
+  }
+  return JSON.stringify([...files].sort(([a], [b]) => a.localeCompare(b)))
+}
+
 /** Replace the re-run projects of a published result; every other row is kept unchanged. */
 export function mergeIntoPublished(published: any, runs: any[], extras: { catalog?: any } = {}) {
   if (!published.referenceDigest) throw Error('The published result records no control digest; merge a full campaign first')
@@ -47,26 +59,28 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
   const reference = base.results.find((row: any) => row.project === 'mermaid-js/mermaid')
   if (!reference) throw Error('Merged Fidelity runs have no Mermaid control')
   const digest = referenceDigest(reference)
+  const files = referenceFiles(reference)
+  const byProject = new Map<string, any>()
   for (const run of runs) {
     const control = run.results.find((row: any) => row.project === 'mermaid-js/mermaid')
     if (!control || control.version !== reference.version || referenceDigest(control) !== digest) throw Error('Fidelity runs must share one referenceDigest and reference version')
-  }
-  const byProject = new Map<string, any>()
-  for (const run of runs) for (const row of run.results) {
-    if (byProject.has(row.project)) {
-      if (row.project !== 'mermaid-js/mermaid') throw Error('Duplicate Fidelity candidate ' + row.project)
-      continue
+    if (referenceFiles(control) !== files) throw Error('Fidelity runs must preserve reference callback order within each file')
+    for (const row of run.results) {
+      if (byProject.has(row.project)) {
+        if (row.project !== 'mermaid-js/mermaid') throw Error('Duplicate Fidelity candidate ' + row.project)
+        continue
+      }
+      byProject.set(row.project, { row, control })
     }
-    byProject.set(row.project, row)
   }
   const qualified = reference.cases.filter((c: any) => c.status === 'passed').length
   const statuses = ['passed', 'failed', 'unsupported', 'trident-blocked', 'reference-unqualified', 'upstream-skipped', 'upstream-expected-failure']
-  const results = [...byProject.values()].map(row => {
-    if (row.cases?.length !== reference.cases.length) throw Error(row.project + ' must account for every reference callback')
+  const results = [...byProject.values()].map(({ row, control: ownReference }) => {
+    if (row.cases?.length !== ownReference.cases.length) throw Error(row.project + ' must account for every reference callback')
     const counts: Record<string, number> = Object.fromEntries(statuses.map(status => [status, 0]))
     const perFile = new Map<string, Record<string, number>>(), gapReasons: Record<string, number> = {}
     for (const [index, c] of row.cases.entries()) {
-      const control = reference.cases[index]
+      const control = ownReference.cases[index]
       if (c.file !== control.file || c.name !== control.name || !statuses.includes(c.status) || (control.status === 'passed' ? !statuses.slice(0, 4).includes(c.status) : c.status !== control.status)) throw Error(row.project + ' differs from its reference callback population')
       counts[c.status]!++
       const fileCounts = perFile.get(c.file) ?? {}

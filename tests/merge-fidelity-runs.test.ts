@@ -33,6 +33,34 @@ test('different controls, selections and incomplete or substituted callbacks can
   expect(() => mergeFidelityRuns([run([reference, substituted])])).toThrow('callback population')
 })
 
+test('independent file completion order preserves callback ordinals and duplicate titles', () => {
+  const control = { ...reference, cases: [
+    { file: 'x.spec.ts', name: 'repeated title', status: 'reference-unqualified' },
+    { file: 'x.spec.ts', name: 'repeated title', status: 'passed' },
+    { file: 'y.spec.ts', name: 'another file', status: 'passed' },
+  ] }
+  const b = { ...candidate('b', 0, 0), cases: control.cases.map(c => ({ ...c, status: c.status === 'passed' ? 'failed' : c.status })) }
+  const reorderFiles = (row: any) => ({ ...row, cases: [...row.cases.filter((c: any) => c.file === 'y.spec.ts'), ...row.cases.filter((c: any) => c.file === 'x.spec.ts')] })
+  const merged = mergeFidelityRuns([run([control]), run([reorderFiles(control), reorderFiles(b)])])
+  expect(merged.referenceQualifiedCallbacks).toBe(2)
+  expect(merged.results.find(row => row.project === 'b')!.counts).toMatchObject({ passed: 0, failed: 2, 'reference-unqualified': 1 })
+
+  const substituted = reorderFiles(b)
+  substituted.cases[1].status = 'passed'
+  substituted.cases[2].status = 'reference-unqualified'
+  expect(() => mergeFidelityRuns([run([control]), run([reorderFiles(control), substituted])])).toThrow('callback population')
+})
+
+test('matching duplicate titles cannot hide a changed reference qualification', () => {
+  const control = { ...reference, cases: [
+    { file: 'x.spec.ts', name: 'repeated title', status: 'reference-unqualified' },
+    { file: 'x.spec.ts', name: 'repeated title', status: 'passed' },
+  ] }
+  const swapped = { ...control, cases: [...control.cases].reverse() }
+  const b = { ...candidate('b', 0, 0), cases: swapped.cases }
+  expect(() => mergeFidelityRuns([run([control]), run([swapped, b])])).toThrow('reference callback order')
+})
+
 test('a partial re-run replaces only its projects, and only against the published control', () => {
   const published = mergeFidelityRuns([run([reference, candidate('a', 1, 3), candidate('b', 1, 0)])])
   expect(published.referenceDigest).toMatch(/^[0-9a-f]{64}$/)

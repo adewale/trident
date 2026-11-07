@@ -1,10 +1,12 @@
 import { expect, test } from 'bun:test'
 import { Resvg } from '@resvg/resvg-js'
 import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright'
-import { davebenchBrowserCall, davebenchCliCall, davebenchInputs, davebenchRankings, type DavebenchRun } from '../unified/davebench.ts'
+import { browserHost, davebenchBrowserCall, davebenchCliCall, davebenchInputs, davebenchRankings, type DavebenchRun } from '../unified/davebench.ts'
+import { verifyCommunityBrowser, type CommunityBrowserEngine } from '../unified/community-browser.ts'
 import { terminalCliCall } from '../unified/davebench-terminal.ts'
 import { errorPatternSources, rawStatements } from '../unified/davebench-validity.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
@@ -82,6 +84,33 @@ test('documentation extraction names the missing Mermaid checkout or commit', ()
   const root = temp.dir(); execFileSync('git', ['init', '--quiet'], { cwd: root })
   expect(() => davebenchInputs(root, '0000000000000000000000000000000000000000')).toThrow(/commit 0{40}, which .* does not contain/)
 })
+test('browser delivery is limited to the verified main and ZenUML asset bytes', async () => {
+  const root = temp.dir(), addon = temp.dir()
+  const entry = join(root, 'bundle.js'), asset = join(root, 'allowed.mjs'), addonEntry = join(addon, 'addon.mjs'), addonChunk = join(addon, 'chunk.mjs')
+  const contents = new Map([
+    [entry, `globalThis.fixtureApi={initialize(){},registerExternalDiagrams(plugins){globalThis.addonName=plugins[0].name},render(){return '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><text>'+globalThis.addonName+'</text></svg>'}}`],
+    [asset, 'export const value="verified asset"'], [addonEntry, 'import {name} from "./chunk.mjs";export default {name}'], [addonChunk, 'export const name="verified addon"'],
+  ])
+  for (const [path, content] of contents) writeFileSync(path, content)
+  writeFileSync(join(root, 'unsealed.mjs'), 'unverified main asset')
+  writeFileSync(join(addon, 'unsealed.mjs'), 'unverified addon asset')
+  const files = [...contents].map(([path, content]) => ({ path, sha256: createHash('sha256').update(content).digest('hex') }))
+  const engine: CommunityBrowserEngine = { root, entry: 'bundle.js', kind: 'mermaid', global: 'fixtureApi', version: 'fixture', artifactSha256: files[0]!.sha256, files, zenuml: { root: addon, entry: 'addon.mjs', version: 'fixture' } }
+  const browser = await chromium.launch({ executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium), headless: true })
+  const host = await browserHost(browser, { browser: engine } as any, 'svg')
+  try {
+    const initial = await host.open()
+    for (const path of ['/unsealed.mjs', '/zenuml/unsealed.mjs', '/%FF']) expect(await initial.page.evaluate(async path => (await fetch(path)).status, path)).toBe(404)
+    await initial.context.close()
+    expect(() => verifyCommunityBrowser({ ...engine, files: files.filter(file => file.path !== addonEntry) })).toThrow('does not bind its ZenUML entry')
+    // Verification and execution must consume the same bytes, including lazy imports.
+    for (const path of contents.keys()) writeFileSync(path, 'throw Error("changed after verification")')
+    const session = await host.open()
+    expect(await session.page.evaluate(() => (globalThis as any).__fidelityCommunity.render())).toContain('verified addon')
+    expect(await session.page.evaluate(async () => (await fetch('/allowed.mjs')).text())).toBe('export const value="verified asset"')
+    await session.context.close()
+  } finally { await browser.close(); await host.close() }
+})
 test('the browser runner awaits completion, includes failed-call time and admits only usable outputs', async () => {
   const browser = await chromium.launch({ executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium), headless: true })
   try {
@@ -104,6 +133,9 @@ test('the browser runner awaits completion, includes failed-call time and admits
     // A fallback render (the header keyword drawn as a node) is not a completion; a drawn title is not checked.
     expect(await call('block\n  a b')).toMatchObject({ outcome: 'invalid', invalid: 'fallback render: source header shown: block' })
     expect((await call('flowchart\n  a b')).outcome).toBe('completed')
+    await page.evaluate(() => { (globalThis as any).__fidelityCommunity.render = () => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><foreignObject width="20" height="20"><div xmlns="http://www.w3.org/1999/xhtml">A<br></br>B</div></foreignObject></svg>' })
+    expect((await call('paired void')).outcome).toBe('completed')
+    expect((await call('paired void', 'png')).outcome).toBe('completed')
     await page.evaluate(() => {
       ;(globalThis as any).__davebenchNativePng = async (source: string) => {
         await new Promise(done => setTimeout(done, 20)); (globalThis as any).__pngCompleted = true

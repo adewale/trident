@@ -7,7 +7,7 @@ import { killCommunityProcess, trackCommunityProcess } from './community-process
 import { chromium } from 'playwright'
 import { drawingCases, type DrawingCase } from '../fidelity/drawing/corpus.ts'
 import { DrawingWorker } from '../fidelity/drawing/worker.ts'
-import { assessLabels, assessSvgLabels, expectsEmptyDrawing, terminalText } from '../fidelity/drawing/labels.ts'
+import { assessTerminalLabels, assessSvgLabels, expectsEmptyDrawing, terminalLabelWorkBudget } from '../fidelity/drawing/labels.ts'
 import { browserHost } from './davebench.ts'
 import { defaultChromium } from './benchmark-context.ts'
 import { latestBenchmarkRenderingArtifact, verifyBenchmarkArtifact } from './benchmark-versions.ts'
@@ -96,7 +96,7 @@ export async function main(args = process.argv.slice(2)) {
           corpus: { cases: cases.length, ids: cases.map(c => c.id), seed: 'reviewed Terminal Drawing Facts, invalid controls excluded', regressions: 'corpus/drawing-regressions.json' },
           versionsFrozenAt: catalog.benchmarkVersionsCheckedAt,
           method: 'Label assessment: SVG labels must pass the existing browser visibility, canvas and clipping checks; unsupported visibility observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.',
-          assessmentLimits: { invocationMs: 15000, svgObserverMs: 8000, terminalWorkerMs: 20000 },
+          assessmentLimits: { invocationMs: 15000, svgObserverMs: 8000, terminalWorkerMs: 20000, terminalRectangleWork: terminalLabelWorkBudget },
           rows,
           blocked,
         },
@@ -246,7 +246,7 @@ export async function main(args = process.argv.slice(2)) {
               save()
               continue
             }
-            const assessed = assessLabels(test, 'terminal', terminalText(result.text))
+            const assessed = assessTerminalLabels(test, result.text)
             rows.push({ project, version: native?.version ?? a.version, format: 'terminal', caseId: test.id, status: assessed.status, reason: assessed.reason, failed: assessed.missing, leaked: assessed.leaked })
             save()
           }

@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
@@ -33,7 +33,33 @@ test('the JavaScript bridge distinguishes a parser crash from a module binding f
   try {
     expect(run('export function parseMermaid(){throw new TypeError("candidate bug")}').candidateFault).toContain('TypeError: candidate bug')
     expect(run('throw new TypeError("module unavailable"); export function parseMermaid(){}').adapterGap).toContain('import failed')
+    expect(run('export function renamedParser(){}').adapterGap).toContain('no longer exports')
     expect(run('export function parseMermaid(){throw new SyntaxError("grammar refusal")}').error.name).toBe('SyntaxError')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
+test('lazy and input-wrapped parser bindings are checked before invoking the candidate', () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-js-parser-binding-'))
+  const bridge = resolve(import.meta.dirname, '../unified/mermaid-fidelity/bridges/javascript.mjs')
+  const write = (path: string, code: string) => {
+    const entry = join(root, 'src', path, 'parser.ts')
+    mkdirSync(join(root, 'src', path), { recursive: true })
+    writeFileSync(entry, code)
+  }
+  const run = (key: string, family: string) => {
+    const child = spawnSync(process.execPath, [bridge, key, root], { input: JSON.stringify({ family, source: 'flowchart TD\nA-->B' }), encoding: 'utf8', timeout: 5000 })
+    expect(child.status).toBe(0)
+    return JSON.parse(child.stdout)
+  }
+  try {
+    for (const family of ['flowchart', 'gantt', 'gitgraph', 'sequence', 'state', 'timeline', 'class', 'er', 'xychart']) write(family, 'export function renamedParser(){throw new Error("must not run")}')
+    write('', 'export function parseMermaid(){}')
+    expect(run('opencode', 'flowchart')).toEqual({ adapterGap: 'opencode merman no longer exports its flowchart parser' })
+    expect(run('beautiful', 'sequence')).toEqual({ adapterGap: 'beautiful-mermaid no longer exports its sequence parser' })
+    expect(run('opencode', 'pie').unsupported).toContain('has no pie parser')
+    write('flowchart', 'export function parseMermaidFlowchartDiagram(){throw new RangeError("candidate crash")}')
+    write('sequence', 'export function parseSequenceDiagram(){throw new TypeError("candidate crash")}')
+    expect(run('opencode', 'flowchart').candidateFault).toContain('RangeError: candidate crash')
+    expect(run('beautiful', 'sequence').candidateFault).toContain('TypeError: candidate crash')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })
 test('an operation the candidate does not offer outranks a Trident gap in the same test', () => {
