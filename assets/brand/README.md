@@ -4,13 +4,15 @@ The mark combines three arrow-tipped spears with a detached horizontal survey
 datum. The wordmark uses **Inter Black**, the actual static weight-900 font.
 
 - `trident.svg`: full lockup, transparent background; lettering is vector outlines.
-- `trident-dark.svg`: the same lockup with paper-coloured lettering, for dark
-  backgrounds. The README picks it with `prefers-color-scheme: dark`.
+- `trident-dark.svg`: the same lockup with paper-coloured lettering and the
+  dark-background green, for dark backgrounds. The README picks it with `prefers-color-scheme: dark`.
 - `trident.png`: 1000 × 1000 lockup on warm paper.
 - `trident-mark.svg`: standalone mark, transparent background.
 - `trident-mark.png`: 512 × 512 standalone mark, transparent background.
 
-The colours are green `#205653`, ink `#161919`, and paper `#F7F5EF`.
+The colours are green `#205653`, ink `#161919`, and paper `#F7F5EF`. The dark
+lockup's mark uses `#338A85`, the same green lightened to 4.6:1 against GitHub's
+dark background `#0D1117`.
 
 ## Regenerate
 

@@ -9,6 +9,8 @@ const output = resolve(dirname(fileURLToPath(import.meta.url)), '../assets/brand
 const green = '#205653'
 const ink = '#161919'
 const paper = '#F7F5EF'
+// The brand green lightened to 4.6:1 against GitHub's dark background (#0D1117).
+const darkGreen = '#338A85'
 const font = { loadSystemFonts: false, fontFiles: [resolve(output, 'fonts/Inter-Black.ttf')], defaultFontFamily: 'Inter' }
 
 // One continuous fan, three shouldered arrowheads, and a separate datum bar.
@@ -41,10 +43,12 @@ ${body}
 
 const logo = svg('Three green arrow-tipped spears above a detached datum line, with an Inter Black wordmark.', symbol + '\n' + wordmark)
 // For dark backgrounds (the README's prefers-color-scheme: dark source), the wordmark
-// takes the paper colour instead of ink; the mark keeps the brand green.
+// takes the paper colour instead of ink, and the mark takes the lighter green.
 const darkWordmark = wordmark.replaceAll(`fill="${ink}"`, `fill="${paper}"`)
 if (darkWordmark === wordmark) throw Error('Wordmark ink colour not found for the dark variant')
-const darkLogo = svg('Three green arrow-tipped spears above a detached datum line, with an Inter Black wordmark in light lettering for dark backgrounds.', symbol + '\n' + darkWordmark)
+const darkSymbol = symbol.replaceAll(`fill="${green}"`, `fill="${darkGreen}"`)
+if (darkSymbol === symbol) throw Error('Mark green not found for the dark variant')
+const darkLogo = svg('Three green arrow-tipped spears above a detached datum line, with an Inter Black wordmark in light lettering for dark backgrounds.', darkSymbol + '\n' + darkWordmark)
 const mark = svg('Three green arrow-tipped spears above a detached datum line.', `<g transform="translate(0 88.5)">${symbol}</g>`)
 mkdirSync(output, { recursive: true })
 writeFileSync(resolve(output, 'trident.svg'), logo)
