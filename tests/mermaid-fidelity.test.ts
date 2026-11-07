@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test'
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs'
+import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
@@ -95,6 +95,10 @@ test('native grammar refusal is observed before editable preservation, and Resul
       if (source === 'reject') throw Object.assign(new Error('Strict grammar refusal'), { name: 'MermaidSyntaxError', line: 7, column: 3 })
       if (source === 'internal') throw new Error('Internal invariant failed')
       return { classes: [], relationships: [], namespaces: [], classDefs: new Map() }
+    }
+    export function parseUsecaseModel(source) {
+      if (source === 'reject') throw Object.assign(new Error('Actual usecase refusal'), {name:'MermaidSyntaxError'})
+      return { actors:new Map([[source,{id:source,label:source}]]),useCases:new Map(),systemBoundaries:new Map(),relationships:[],notes:new Map(),jsonNodes:new Map(),classDefs:new Map(),source,headerSpan:[0,12],statements:[],direction:'LR' }
     }`)
     const entry = join(scratch, 'agent.mjs')
     writeFileSync(entry, `export function parseRegisteredMermaid(source) {
@@ -102,13 +106,29 @@ test('native grammar refusal is observed before editable preservation, and Resul
         : { ok: true, value: { body: { kind: 'opaque' }, meta: {} } }
     }`)
     const job = join(scratch, 'job.json')
-    writeFileSync(job, JSON.stringify({ reference: scratch, audit: join(scratch, 'audit.jsonl'), target: { tool: 'agentic', root: scratch, entry } }))
+    writeFileSync(job, JSON.stringify({ reference: scratch, audit: join(scratch, 'audit.jsonl'), target: { tool: 'agentic', project: 'adewale/agentic-mermaid', root: scratch, entry } }))
     const runtime = resolve('unified/mermaid-fidelity/runtime.ts')
     const driver = `const r = await import(${JSON.stringify(runtime)}); await r.initialize(); const out=[];
       for(const [family,source] of [['class','reject'],['state','result'],['class','preserve'],['class','internal']]) {
         try { r.probeNative(family,source); out.push({unexpected:true}) }
         catch(e) { out.push({message:e.message,...Object.fromEntries(['line','column','col'].filter(k=>Object.hasOwn(e,k)).map(k=>[k,e[k]]))}) }
-      } r.shutdown(); console.log(JSON.stringify(out))`
+      }
+      const p=r.moduleFor('usecase','./parser/usecase.chevrotain.js','/original.spec.ts').parser;
+      const db=r.moduleFor('usecase','./usecaseDb.js','/original.spec.ts').db;
+      const file={filepath:'/original.spec.ts',tasks:[]};
+      const task={id:'actual',type:'test',name:'publication',file}; file.tasks=[task];
+      r.begin(task);
+      await p.parse('first'); out.push([...db.getActors().keys()]);
+      let rejected=p.parse('reject'); out.push(typeof rejected.then);
+      try{await rejected}catch(e){out.push(e.message)}
+      r.finish(task);
+      r.begin(task);
+      try{db.getActors()}catch(e){out.push(e.message)}
+      try{db.getAST()}catch(e){out.push(e.message)}
+      await p.parse('second'); out.push([...db.getActors().keys()]);
+      db.clear();
+      r.finish(task);
+      r.shutdown(); console.log(JSON.stringify(out))`
     const result = spawnSync(process.execPath, ['--eval', driver], { env: { ...process.env, TRIDENT_FIDELITY_JOB: job }, encoding: 'utf8' })
     expect({ status: result.status, stderr: result.stderr }).toEqual({ status: 0, stderr: '' })
     const observed = JSON.parse(result.stdout)
@@ -116,6 +136,13 @@ test('native grammar refusal is observed before editable preservation, and Resul
     expect(observed[1]).toMatchObject({ message: 'First line\nsecond line\nOther refusal', line: 5, col: 2 })
     expect(observed[2].message).toBe('Native semantic support unavailable')
     expect(observed[3].message).toContain('Unclassified native grammar exception: Error: Internal invariant failed')
+    expect(observed.slice(4, 7)).toEqual([['first'], 'function', 'Actual usecase refusal'])
+    expect(observed[7]).toContain('persistent database publication after a rejected pure parser call')
+    expect(observed[8]).toContain('persistent database publication after a rejected pure parser call')
+    expect(observed[9]).toEqual(['second'])
+    const auditRows = readFileSync(join(scratch, 'audit.jsonl'), 'utf8').trim().split('\n').map(row => JSON.parse(row))
+    expect(auditRows[0]).toMatchObject({ rejections: 1, unsupported: [], gaps: [] })
+    expect(auditRows[1].unsupported).toHaveLength(2)
   } finally { rmSync(scratch, { recursive: true, force: true }) }
 })
 

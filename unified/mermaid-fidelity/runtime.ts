@@ -73,7 +73,6 @@ const RENDERER_LAYOUT: Record<string, Record<string, string>> = {
   class: { getData: "Mermaid's class getData() is its renderer's layout data under the host configuration" },
   architecture: { getDataStructures: "Mermaid's architecture getDataStructures() is its renderer's layout computation" },
 }
-const PUBLISHES_ON_SUCCESS = new Set(['usecase'])
 const mermaidDatabaseMember = (key: unknown) => typeof key === 'string' && (DATABASE_OPERATION.test(key) || DATABASE_API.has(key))
 export class AdapterGap extends Error {}
 function gap(reason: string): never {
@@ -546,7 +545,7 @@ function context(family: string) {
     // header-only diagram has no empty model, and such reads stay gaps.
     // A candidate that does not parse the family at all says so for the header-only
     // diagram too; reading that database is then its unsupported operation.
-    let empty: { raw?: any; unsupported?: string } | null | undefined, parsed = false
+    let empty: { raw?: any; unsupported?: string } | null | undefined, parsed = false, refusedPublication = false
     const emptyModel = () => {
       if (empty !== undefined) return empty
       const header = (examples[family] ?? '').split('\n')[0]
@@ -563,6 +562,7 @@ function context(family: string) {
       return empty
     }
     const clear = () => {
+      refusedPublication = false
       raw = Constructor ? new Constructor() : undefined
       view = raw ? projectView(family, raw) : {}
       parsed = Boolean(Constructor)
@@ -571,15 +571,16 @@ function context(family: string) {
     const target: any = {
       clear,
       parse(source: string) {
-        const before = { raw, view, parsed }
+        const rejectedBefore = active?.rejections ?? 0
         parsed = true
         try {
           raw = nativeParse(family, source)
           view = projectView(family, raw)
+          refusedPublication = false
         } catch (error) {
-          // Mermaid's chevrotain usecase parser publishes its model only after a successful
-          // parse, so a read after a rejected parse sees the database as it was before.
-          if (PUBLISHES_ON_SUCCESS.has(family)) ({ raw, view, parsed } = before)
+          // A pure parser does not expose a mutable database's state after rejection.
+          // Keep the actual refusal observable; only a later state read is unsupported.
+          if (!Constructor && (active?.rejections ?? 0) > rejectedBefore) refusedPublication = true
           throw error
         }
       },
@@ -588,6 +589,7 @@ function context(family: string) {
       get(t, key: string) {
         if (key in t) return t[key]
         if (key === 'then') return undefined
+        if (refusedPublication && /^get[A-Z]/.test(key)) return unsupportedOperation(`${family} persistent database publication after a rejected pure parser call`)
         // Re-selecting FlowDB's default generation is configuration, not an observation, for
         // the control and candidates alike: counting it for the control alone qualified a
         // test that observes nothing (flow-style's matcher-less expect) and left it a gap
