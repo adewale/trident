@@ -15,10 +15,21 @@ ninja-build, pkg-config and the GTK 3 development libraries. `env.sh` adds an
 optional non-system SDK (`FLUTTER_ROOT`) or sysroot (`BENCH_SYSROOT`).
 
 ```sh
-cd native-flutter/app
-flutter pub get --enforce-lockfile
-flutter build linux --release --target lib/davebench_worker.dart
+bash native-flutter/build.sh
 ```
+
+The build checks the framework and engine revisions and Dart version in
+`toolchain.json`, enforces the committed package lock, and builds the release
+worker target. It then runs the production PNG admission controls and one fixed
+Mermaid request under Xvfb with software rendering. These are deterministic
+fixtures, with no performance thresholds or benchmark collection.
+
+`trident-build.json` binds the source, lockfile, SDK and every bundle file.
+`trident-smoke.json` binds the successful native checks to that bundle.
+The Native Flutter verification workflow runs the same script on Ubuntu 24.04
+and retains a tar archive preserving the complete bundle and executable modes.
+A passing CI run verifies this build and smoke path; it supplies no benchmark
+score. Fresh timings must still be collected separately outside CI.
 
 Keep the complete release bundle (`build/linux/x64/release/bundle`), including its
 data and shared libraries.
