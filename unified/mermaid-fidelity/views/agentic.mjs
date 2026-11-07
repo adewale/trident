@@ -77,7 +77,16 @@ function agentflow(raw, hooks) {
   const getConnectors = () => [...getVertices().values()].filter(node => node.isConnector)
   // Native physical columns are one-based UTF-16 boundaries; Jison's public
   // position record uses zero-based columns. Lines and span meanings are unchanged.
-  const mappings = () => raw.mappings.map(item => ({ id: item.id, type: item.type === 'flow' ? 'subgraph' : item.type, position: { startLine: item.line, startColumn: item.col - 1, endLine: item.endLine, endColumn: item.endCol - 1 } }))
+  const mappings = () => raw.mappings.map(item => {
+    const start = { startLine: item.line, startColumn: item.col - 1 }
+    const position = item.type === 'flow'
+      ? record(start, 'agentflow container position', ['startLine', 'startColumn', 'endLine', 'endColumn'], {
+        endLine: 'Agentic Mermaid retains the flow header range, not the complete container extent',
+        endColumn: 'Agentic Mermaid retains the flow header range, not the complete container extent',
+      }, hooks, ['endLine', 'endColumn'])
+      : { ...start, endLine: item.endLine, endColumn: item.endCol - 1 }
+    return { id: item.id, type: item.type === 'flow' ? 'subgraph' : item.type, position }
+  })
   // Reuse the reviewed AgentFlow structural/layout translation. The normalized
   // record is built only from the actual graph, metadata and source mappings.
   const state = () => agentflowState({ mappings: mappings() }, hooks, PROJECT)
@@ -121,7 +130,10 @@ function agentflow(raw, hooks) {
     getElementMappings: mappings, getElementById: id => mappings().find(item => item.id === id),
     getElementsOnLine: line => mappings().filter(({ position: p }) => line >= p.startLine && line <= p.endLine),
     getElementAtPosition: (line, column) => state().getElementAtPosition(line, column),
-    getMappingStats: () => state().getMappingStats(),
+    getMappingStats: () => {
+      const count = type => raw.mappings.filter(item => item.type === type).length
+      return { vertices: count('vertex'), edges: count('edge'), subgraphs: count('flow'), connectors: count('connector'), attachments: count('attachment'), totalElements: raw.mappings.length }
+    },
     getData, getSemanticModel: semantic,
   }
 }
