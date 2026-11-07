@@ -226,6 +226,18 @@ test('C4 views: Mermaid shape types, the global boundary, and what each model ke
   expect(zombie.getBoundaries().map((b: any) => [b.alias, b.type.text, b.parentBoundary])).toEqual([['global', 'global', ''], ['sb', 'SYSTEM', 'global'], ['in', 'system', 'sb']])
   expect(zombie.getRels().map((r: any) => [r.type, r.techn.text])).toEqual([['rel_u', ''], ['rel_b', 'SQL']])
   expect(() => zombie.getC4ShapeArray()[0].wrap).toThrow('unsupported')
+  const agentic = nativeSchemaView('adewale/agentic-mermaid', 'c4', {
+    variant: 'C4Context', elements: [], relationships: [],
+    boundaries: [
+      { macro: 'System_Boundary', id: 'system', label: 'S', type: 'Custom system' },
+      { macro: 'Container_Boundary', id: 'container', label: 'C', type: 'Custom container', parentId: 'system' },
+      { macro: 'Enterprise_Boundary', id: 'enterprise', label: 'E' },
+      { macro: 'Boundary', id: 'generic', label: 'G' },
+    ],
+  }, hooks)
+  expect(agentic.getBoundaries().map((boundary: any) => [boundary.alias, boundary.type.text, boundary.parentBoundary])).toEqual([
+    ['global', 'global', ''], ['system', 'Custom system', 'global'], ['container', 'Custom container', 'system'], ['enterprise', 'ENTERPRISE', 'global'], ['generic', 'system', 'global'],
+  ])
   const dart = nativeSchemaView('orestesgaolin/mermaid', 'c4', { nodes: new Map([['q', { id: 'q', kind: 'queue', label: 'Q', description: 'Async', technology: '', styleKey: 'system_queue', boundary: 'b1' }]]), boundaries: [{ id: 'b1', label: 'Custom', type: 'Enterprise', parent: null, isNode: false }], rels: [{ from: 'q', to: 'q', label: 'Self', technology: '', bidirectional: false, backwards: false }], subtype: 'context' }, hooks)
   expect([dart.getC4Shape('q').typeC4Shape.text, dart.getC4Shape('q').descr.text, dart.getBoundary('b1').type.text]).toEqual(['system_queue', 'Async', 'ENTERPRISE'])
   expect(() => dart.getRels()[0].type).toThrow('unsupported')
