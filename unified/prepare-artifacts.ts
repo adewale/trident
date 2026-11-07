@@ -1,5 +1,6 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { join, resolve } from 'node:path'
+import { reserveResultDirectory } from './result-storage.ts'
+import { existsSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { prepareCommunity } from './community.ts'
 import { prepareCommunityBrowsers } from './community-browser.ts'
@@ -29,11 +30,11 @@ export async function main(args = process.argv.slice(2)) {
   const catalog = JSON.parse(readFileSync(catalogFile, 'utf8'))
   const projects = comparisonProjects(catalog, options.get('--projects')?.split(',') ?? catalog.nodes.map((node: { id: string }) => node.id)).included
   if (!projects.length) throw Error('No comparison projects selected')
+  reserveResultDirectory(out)
   const config = { root: tridentDirectory, harnessRoot: tridentDirectory, out, profile: 'full', rounds: 3, communityCatalogFile: catalogFile, communityProjects: projects } as UnifiedRunOptions
   // prepareCommunity writes community-prepared.json into out.
   const prepared = await prepareCommunity(config)
   const browsers = await prepareCommunityBrowsers(prepared, config)
-  writeFileSync(join(out, 'community-browser-prepared.json'), JSON.stringify(browsers, null, 2) + '\n')
   for (const peer of browsers) console.log(peer.node.id + ': ' + (peer.artifact ? 'prepared' : 'not prepared — ' + (peer.error ?? 'no artifact')))
 }
 if (import.meta.main) await main()

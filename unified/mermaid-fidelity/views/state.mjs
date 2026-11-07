@@ -27,7 +27,7 @@
 // different documents has no recorded document, so the readings that need it are
 // unsupported. Node order in getData follows the model's own order with a composite before
 // its members and notes last; Mermaid's own order is its statement walk.
-import { record, entriesOf, styleStrings, directionOf, deepUnset } from '../schema-views.mjs'
+import { record, entriesOf, styleStrings, directionOf, deepUnset } from '../view-core.mjs'
 
 /** A field this project's model does not carry, with the reason. */
 class Absent {

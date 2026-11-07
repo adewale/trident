@@ -50,7 +50,8 @@ def handle(request):
 if os.environ.get('TRIDENT_BRIDGE_SERVE') == '1':
     for line in iter(sys.stdin.readline, ""):
         if line.strip():
-            sys.stdout.write('\x01TRIDENT\x01' + json.dumps(handle(json.loads(line))) + '\n')
+            job = json.loads(line)
+            sys.stdout.write('\x01TRIDENT\x01' + json.dumps(dict(handle(job), requestId=job.get('requestId'))) + '\n')
             sys.stdout.flush()
 else:
     print(json.dumps(handle(json.loads(sys.stdin.read()))))

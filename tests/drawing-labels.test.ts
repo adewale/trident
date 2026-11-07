@@ -1,3 +1,5 @@
+import { inspectFidelityPaint } from '../fidelity/paint.ts'
+import { labelPaintCriteria, observeSvgLabels } from '../fidelity/drawing/svg-label-observer.ts'
 import { expect, test } from 'bun:test'
 import { assessLabels, assessTerminalLabels, assessSvgLabels, expectedLabels, labelFound, leakedSyntax, svgText, terminalText } from '../fidelity/drawing/labels.ts'
 import { chromium } from 'playwright'
@@ -15,6 +17,15 @@ test('expected labels come from reviewed nodes, edges and named facts, not confi
   expect(expectedLabels(pie)).toEqual(['Pets', 'Dogs', 'Cats'])
   const markdown: any = { ...flow, expected: { nodes: [{ id: 'a', label: '**Bold** and `code`<br>next' }] } }
   expect(expectedLabels(markdown)).toEqual(['Bold and code next'])
+})
+
+test('reviewed group labels are obligations and unreviewed families or source gaps stay unknown', () => {
+  const grouped = { ...flow, expected: { ...flow.expected, groups: [{ id: 'backend', label: 'Backend' }] } }
+  expect(assessLabels(grouped, 'terminal', 'Mermaid.js Beautiful Mermaid derivative')).toMatchObject({ status: 'incorrect', missing: ['Backend'] })
+  expect(assessLabels(grouped, 'terminal', 'Mermaid.js Beautiful Mermaid derivative Backend').status).toBe('correct')
+  expect(assessLabels({ ...flow, family: 'future-family' }, 'terminal', '').status).toBe('unknown')
+  expect(assessLabels({ ...flow, sourceGaps: ['Unreviewed source'] }, 'terminal', 'Mermaid.js Beautiful Mermaid derivative').status).toBe('unknown')
+  expect(assessLabels({ ...flow, expected: { ...flow.expected, labels: ['Reviewed description'] } }, 'terminal', 'Mermaid.js Beautiful Mermaid derivative')).toMatchObject({ status: 'incorrect', missing: ['Reviewed description'] })
 })
 
 test('SVG text includes HTML labels and excludes styles and accessibility metadata', () => {
@@ -68,6 +79,9 @@ test('SVG label verdicts require visible, unclipped text rather than hidden DOM 
     for (const [body, expected] of [[text, 'correct'], [text + '<text display="none">flowchart LR</text>', 'unknown'], [text + '<text x="10" y="60">flowchart LR</text>', 'incorrect'], ['<g display="none">' + text + '</g>', 'incorrect'], ['<g opacity="0">' + text + '</g>', 'incorrect'], [text + '<rect width="300" height="100" fill="white"/>', 'incorrect'], [unsupportedFilter, 'unknown'], [gradientLabels, 'unknown'], [gradientBackdrop, 'unknown']] as const) {
       const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">' + body + '</svg>'
       await page.setContent(svg)
+      const full = await page.evaluate(inspectFidelityPaint, { family: example.family, expected: { labels: expectedLabels(example) } })
+      const narrow = await observeSvgLabels(page, example.family, expectedLabels(example))
+      expect(narrow).toEqual(Object.fromEntries(labelPaintCriteria.map(criterion => [criterion, full.checks.find(check => check.criterion === criterion)?.status ?? 'unavailable'])))
       expect((await assessSvgLabels(example, page, svg)).status).toBe(expected)
     }
   } finally { await browser.close() }

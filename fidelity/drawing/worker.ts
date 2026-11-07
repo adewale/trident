@@ -1,63 +1,22 @@
-import { watchMemory } from '../../unified/process-memory.ts'
+import { JsonLineSession, SessionFailure } from '../../unified/json-line-session.ts'
 
-/** One small JSON-lines transport for existing terminal bindings and the raster observer. */
+/** Drawing bindings use the same owned single-flight transport as timed workers. */
 export class DrawingWorker {
-  /** Set when the worker passed the renderer memory limit and was stopped. */
+  readonly child: JsonLineSession['child']
   memoryExceeded = false
-  child: Bun.Subprocess<'pipe', 'pipe', 'ignore'>
-  pending = new Map<number, { done: (r: any) => void; timer: ReturnType<typeof setTimeout> }>()
-  next = 0
-  constructor(args: string[]) {
-    const child = (this.child = Bun.spawn(args, { stdin: 'pipe', stdout: 'pipe', stderr: 'ignore' }))
-    const unwatch = watchMemory(child.pid, () => { this.memoryExceeded = true; child.kill('SIGKILL') })
-    void child.exited.then(unwatch)
-    void (async () => {
-      const reader = child.stdout.getReader(),
-        decoder = new TextDecoder()
-      let buffer = ''
-      for (;;) {
-        const item = await reader.read()
-        if (item.done) break
-        buffer += decoder.decode(item.value, { stream: true })
-        let end
-        while ((end = buffer.indexOf('\n')) >= 0) {
-          const line = buffer.slice(0, end)
-          buffer = buffer.slice(end + 1)
-          try {
-            const row = JSON.parse(line),
-              request = this.pending.get(row.id)
-            if (request) {
-              clearTimeout(request.timer)
-              request.done(row)
-              this.pending.delete(row.id)
-            }
-          } catch {}
-        }
-      }
-      for (const r of this.pending.values()) {
-        clearTimeout(r.timer)
-        // A call that ran the worker past the memory limit is the renderer's failure.
-        r.done({ ok: false, error: this.memoryExceeded ? 'memory limit' : 'Worker exited' })
-      }
-      this.pending.clear()
-    })()
+  private session: JsonLineSession
+  private next = 0
+  constructor(args: string[], protocol: 'terminal' | 'raster' = 'terminal') {
+    this.session = new JsonLineSession(args, { reply: row => Number.isSafeInteger(row.id) && (protocol === 'terminal' ? typeof row.ok === 'boolean' && (row.ok || typeof row.error === 'string') : ['correct', 'incorrect', 'unknown'].includes(row.status) && typeof row.reason === 'string') })
+    this.child = this.session.child
   }
-  call(input: any, timeoutMs = 20000): Promise<any> {
-    if (this.child.exitCode !== null) return Promise.resolve({ ok: false, error: 'Worker has stopped' })
-    const id = this.next++
-    return new Promise(done => {
-      const timer = setTimeout(() => {
-        this.pending.delete(id)
-        this.close()
-        done({ ok: false, error: 'Worker timed out' })
-      }, timeoutMs)
-      this.pending.set(id, { done, timer })
-      this.child.stdin.write(JSON.stringify({ ...input, id }) + '\n')
-      void this.child.stdin.flush()
-    })
+  async call(input: any, timeoutMs = 20_000): Promise<any> {
+    try { return await this.session.call(input, this.next++, timeoutMs) }
+    catch (error) {
+      if (!(error instanceof SessionFailure)) throw error
+      this.memoryExceeded ||= error.kind === 'memory'
+      return { ok: false, error: error.message, failureKind: error.kind }
+    }
   }
-  async close() {
-    this.child.kill('SIGKILL')
-    await this.child.exited
-  }
+  close() { return this.session.close() }
 }

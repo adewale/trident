@@ -1,5 +1,6 @@
+import { reserveResultDirectory } from './result-storage.ts'
 import { execFileSync } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import type { CommunityArtifact, CommunityNode, PreparedCommunity } from './community-types.ts'
 import { comparisonProjects } from './lineage.ts'
@@ -167,6 +168,27 @@ export function verifyBenchmarkArtifact(peer: PreparedCommunity, selected: Commu
   }
 }
 
+/** The output's actual frozen version, including native releases and source-only
+ * artifacts whose package version is learned from the verified preparation. */
+export function plannedBenchmarkVersion(node: CommunityNode, artifact?: CommunityArtifact) {
+  const version = artifact?.version ?? node.benchmark?.version ?? node.distribution?.version ?? node.release?.tag.replace(/^v/, '') ?? (node.benchmark?.sourcePin ? 'git-' + node.benchmark.sourcePin.slice(0, 12) : undefined)
+  if (!version) throw Error('No frozen version for planned project ' + node.id)
+  return version
+}
+
+export type VerifiedArtifact = CommunityArtifact & ({ kind: 'node' | 'global' | 'franken'; module: string } | { kind: 'cli' | 'jsonl-worker'; executable: string } | { kind: 'python'; executable: string })
+/** Validate external optional-field records once; consumers receive an executable
+ * binding. Browser delivery separately seals the bytes it serves. */
+export function verifiedBenchmarkBinding(peer: PreparedCommunity, selected: CommunityNode) {
+  verifyBenchmarkArtifact(peer, selected)
+  const artifact = peer.artifact
+  if (!artifact) throw Error('No prepared artifact for ' + selected.id)
+  if (!['node', 'global', 'franken', 'cli', 'jsonl-worker', 'python'].includes(artifact.kind)) throw Error('Unknown prepared artifact kind for ' + selected.id)
+  const entry = ['node', 'global', 'franken'].includes(artifact.kind) ? artifact.module : artifact.kind === 'python' ? artifact.python ?? artifact.executable : artifact.executable
+  if (typeof entry !== 'string' || !entry) throw Error('Missing ' + artifact.kind + ' execution binding for ' + selected.id)
+  return Object.freeze({ ...artifact, ...(artifact.kind === 'python' ? { executable: entry } : {}) }) as Readonly<VerifiedArtifact>
+}
+
 /** A newer native rendering release takes precedence over an older SDK. */
 export function latestBenchmarkRenderingArtifact(peer: PreparedCommunity): CommunityArtifact | undefined {
   const artifact = peer.artifact, spec = peer.node.benchmark?.cliRelease
@@ -210,7 +232,7 @@ export async function main(args = process.argv.slice(2)) {
   const projects = comparisonProjects(catalog, options.get('--projects')?.split(',') ?? catalog.nodes.map((node: CommunityNode) => node.id)).included
   const result = await refreshBenchmarkVersions(catalog, projects)
   const changes = options.has('--since') ? versionChanges(JSON.parse(readFileSync(options.get('--since')!, 'utf8')), result.catalog, projects) : undefined
-  mkdirSync(out, { recursive: true })
+  reserveResultDirectory(out)
   writeFileSync(join(out, 'catalog.json'), JSON.stringify({ ...result.catalog, benchmarkVersionsCheckedAt: result.report.checkedAt, benchmarkVersionPolicy: result.report.policy }, null, 2) + '\n')
   writeFileSync(join(out, 'versions.json'), JSON.stringify({ ...result.report, ...(changes ? { changedSince: { catalog: options.get('--since'), changes } } : {}) }, null, 2) + '\n')
   if (changes) {

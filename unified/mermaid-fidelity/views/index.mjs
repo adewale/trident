@@ -1,7 +1,7 @@
 // Registry of reviewed schema views kept in their own modules. Each module's default
 // export is { schema: { [family]: { [project]: (raw, hooks) => view } }, ast: { [astType]:
-// { [project]: (raw, hooks) => astValue } } }. A module only defines functions at its top
-// level: it imports helpers from ../schema-views.mjs, which imports this registry.
+// { [project]: (raw, hooks) => astValue } } }. Helpers come from the independent
+// view-core module, so initialization order imposes no restrictions on the views.
 import ports from './ports.mjs'
 import frankenmermaid from './frankenmermaid.mjs'
 import sequence from './sequence.mjs'

@@ -13,7 +13,7 @@
 // See views/index.mjs for the module contract and schema-views.mjs for the doctrine. Every
 // mapping was checked against captured parse() output and against Mermaid's database at
 // the pinned tag (packages/mermaid/src/diagrams/<family>/).
-import { MERMAID_CONSTANTS, PLACEMENT, SEQ_ABSENT, c4View, record, sequenceView } from '../schema-views.mjs'
+import { MERMAID_CONSTANTS, PLACEMENT, SEQ_ABSENT, c4View, record, sequenceView } from '../view-core.mjs'
 import { stateView, absent as stateAbsent } from './state.mjs'
 
 const PROJECT = 'Dicklesworthstone/frankenmermaid'

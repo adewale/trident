@@ -1,3 +1,4 @@
+import { TerminalRectangleBudgetExceeded } from './terminal-rectangles.ts'
 import { inspectTerminalEncodedJourney } from './terminal-encoded-journey.ts'
 import { admittedTerminalEncoding, type TerminalEncodingContext } from './terminal-encoding.ts'
 import { inspectTerminalGraphFacts, terminalGraphSourceObservable } from './terminal-graph-facts.ts'
@@ -20,6 +21,13 @@ export interface TerminalFactCheck { criterion: string; status: 'passed' | 'fail
 /** Each source obligation receives a disposition. A missing family/representation
  * checker is an unknown, never an omitted obligation or a text-only pass. */
 export function inspectTerminalFacts(output: string, contract: TerminalSourceContract, graph?: TerminalMeaning, context?: TerminalEncodingContext): TerminalFactCheck[] {
+  try { return inspectTerminalFactsUnchecked(output, contract, graph, context) }
+  catch (error) {
+    if (!(error instanceof TerminalRectangleBudgetExceeded)) throw error
+    return contract.facts.filter(fact => fact.required !== false).map(fact => ({ criterion: fact.criterion, expected: fact.expected, status: 'unknown', detail: error.message }))
+  }
+}
+function inspectTerminalFactsUnchecked(output: string, contract: TerminalSourceContract, graph?: TerminalMeaning, context?: TerminalEncodingContext): TerminalFactCheck[] {
   const encoding = admittedTerminalEncoding(context, output)
   if (contract.family === 'journey' && encoding) return inspectTerminalEncodedJourney(output, contract)
   if (contract.family === 'flowchart' && graph?.nodes.length) return inspectTerminalGraphFacts(output, contract, graph)

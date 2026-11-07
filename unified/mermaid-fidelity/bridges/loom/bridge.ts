@@ -31,6 +31,6 @@ if (process.env.TRIDENT_BRIDGE_SERVE !== '1') {
 } else
   for await (const line of createInterface({ input: process.stdin, crlfDelay: Infinity })) {
     if (!line.trim()) continue
-    const { family, source } = JSON.parse(line)
-    process.stdout.write('\u0001TRIDENT\u0001' + encode(await handle(family, source)) + '\n')
+    const { family, source, requestId } = JSON.parse(line)
+    process.stdout.write('\u0001TRIDENT\u0001' + encode({ ...await handle(family, source), requestId }) + '\n')
   }

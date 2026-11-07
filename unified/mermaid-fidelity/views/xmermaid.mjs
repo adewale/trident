@@ -2,7 +2,7 @@
 // wardley families. Its WASM ships no source; every mapping below was checked against
 // captured parser output (scripts/fidelity-probe.ts). See views/index.mjs for the module
 // contract and schema-views.mjs for the doctrine.
-import { record } from '../schema-views.mjs'
+import { record } from '../view-core.mjs'
 
 const PROJECT = 'evangwt/xmermaid'
 const unsupportedGetters = (reasons, hooks) => Object.fromEntries(Object.entries(reasons).map(([key, reason]) => [key, () => hooks.unsupported(reason)]))

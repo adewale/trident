@@ -97,3 +97,8 @@ test('current result files carry no hand-chosen collection date in their names',
   // published from the timestamps inside each file; only the frozen catalog is named for its cutoff.
   for (const path of currentBenchmarkResultFiles.slice(0, 3)) expect(path).not.toMatch(/\d{4}-\d{2}-\d{2}/)
 })
+
+test('a labelled functional subset cannot silently become the current league', () => {
+  const { davebench, drawing, fidelity, catalog } = leaguesFixture()
+  expect(() => renderBenchmarkLeagues({ ...davebench, scope: 'subset' }, drawing, fidelity, catalog)).toThrow('full campaigns')
+})

@@ -1,5 +1,7 @@
 import { harnessFile } from './harness-paths.ts'
-import '../ci-policy-enforce.ts'
+import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
+import { byteDigest } from '../portable/artifacts.ts'
+import { atomicWrite, exclusiveFile } from './result-storage.ts'
 import { createHash } from 'node:crypto'
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
@@ -31,14 +33,20 @@ async function download(url: string, destination: string, sha256?: string): Prom
 function verified(artifact: CommunityArtifact): boolean {
   const entry = artifact.module ?? artifact.executable ?? artifact.python
   if (!entry || !existsSync(entry)) return false
-  if (artifact.sha256 && digest(readFileSync(entry)) !== artifact.sha256) return false
-  return (artifact.files ?? []).every(file => existsSync(file.path) && digest(readFileSync(file.path)) === file.sha256)
+  if (!artifact.sha256 || byteDigest(entry) !== artifact.sha256) return false
+  return (artifact.files ?? []).every(file => existsSync(file.path) && byteDigest(file.path) === file.sha256)
 }
 function environment(cache: string): NodeJS.ProcessEnv {
   const env: NodeJS.ProcessEnv = { ...process.env, XDG_CONFIG_HOME: join(cache, '.config'), XDG_CACHE_HOME: join(cache, '.cache'), PUB_CACHE: join(cache, 'pub-cache') }
   env.CARGO_BUILD_JOBS ??= '2'
   env.PATH = [process.env.AM_BENCH_TOOL_BIN, process.env.PATH].filter(Boolean).join(':')
   return env
+}
+
+/** Recipe inputs are independent of cache location. A changed wrapper, target or
+ * explicitly selected compiler cannot silently reuse an older build. */
+export function compiledPreparationIdentity(node: CommunityNode, version: string) {
+  return digest(Buffer.from(JSON.stringify({ node: { id: node.id, benchmark: node.benchmark, distribution: node.distribution }, version, platform: process.platform, arch: process.arch, recipe: byteDigest(fileURLToPath(import.meta.url)), wrapper: byteDigest(join(here, 'dart-wrapper.dart')), tools: [process.env.AM_BENCH_DART, process.env.AM_BENCH_PYTHON, process.env.AM_BENCH_TOOL_BIN, process.env.AM_BENCH_WASM_BINDGEN, process.env.AM_BENCH_BUN] })))
 }
 
 /** Portable artifact acquisition. An explicitly supplied immutable compiled
@@ -53,20 +61,21 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
   let version: string | undefined, metadata: Record<string, unknown> | undefined
   if (adapter === 'dart') {
     const declared = node.benchmark?.version ?? node.packages?.find(pkg => pkg.registry === 'pub.dev' && pkg.name === 'mermaid_core')?.version
-    metadata = await json('https://pub.dev/api/packages/mermaid_core')
-    version = recorded ? declared : (metadata.latest as { version?: string } | undefined)?.version
+    if (!recorded) metadata = await json('https://pub.dev/api/packages/mermaid_core')
+    version = recorded ? declared : (metadata!.latest as { version?: string } | undefined)?.version
   } else if (adapter === 'bezel') {
     const declared = node.benchmark?.version ?? node.packages?.find(pkg => pkg.registry === 'crates.io' && pkg.name === 'bezel-mermaid')?.version
-    metadata = await json('https://crates.io/api/v1/crates/bezel-mermaid')
-    version = recorded ? declared : (metadata.crate as { newest_version?: string } | undefined)?.newest_version
+    if (!recorded) metadata = await json('https://crates.io/api/v1/crates/bezel-mermaid')
+    version = recorded ? declared : (metadata!.crate as { newest_version?: string } | undefined)?.newest_version
   } else if (adapter === 'termaid') {
     const declared = node.benchmark?.version ?? node.packages?.find(pkg => pkg.registry === 'pypi' && pkg.name === 'termaid')?.version
-    metadata = await json('https://pypi.org/pypi/termaid/json')
-    version = recorded ? declared : (metadata.info as { version?: string } | undefined)?.version
+    if (!recorded) metadata = await json('https://pypi.org/pypi/termaid/json')
+    version = recorded ? declared : (metadata!.info as { version?: string } | undefined)?.version
   } else if (adapter === 'franken') version = node.distribution?.version
   else throw new Error(`No reviewed compiled artifact adapter for ${node.id}`)
   if (!version) throw new Error(`${node.id}: missing exact artifact version`)
-  const directory = join(cache, `${safe(node.id)}@${version}${adapter === 'franken' ? '-' + node.distribution?.revision : ''}`),
+  const preparationIdentity = compiledPreparationIdentity(node, version)
+  const directory = join(cache, `${safe(node.id)}@${version}-${preparationIdentity.slice(0, 16)}`),
     manifest = join(directory, 'artifact.json'),
     log = join(directory, 'acquisition.log')
   mkdirSync(directory, { recursive: true })
@@ -75,14 +84,16 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
   if (provided) {
     const artifact = (JSON.parse(readFileSync(provided, 'utf8')) as Record<string, CommunityArtifact>)[node.id]
     if (artifact?.version === version && (adapter !== 'franken' || artifact.revision === node.distribution?.revision) && verified(artifact)) {
-      writeFileSync(manifest, JSON.stringify(artifact, null, 2) + '\n')
+      atomicWrite(manifest, JSON.stringify(artifact, null, 2) + '\n')
       return artifact
     }
   }
   if (existsSync(manifest)) {
     const artifact = JSON.parse(readFileSync(manifest, 'utf8')) as CommunityArtifact
-    if (artifact.version === version && (adapter !== 'franken' || artifact.revision === node.distribution?.revision) && verified(artifact)) return artifact
+    if (artifact.preparationIdentity === preparationIdentity && artifact.version === version && (adapter !== 'franken' || artifact.revision === node.distribution?.revision) && verified(artifact)) return artifact
   }
+  assertBenchmarkExecutionAllowed(process.env, { mermaidOracle: false })
+  using build = exclusiveFile(join(directory, '.preparation.lock'))
   const env = environment(cache)
   let artifact: CommunityArtifact
   if (adapter === 'franken') {
@@ -201,6 +212,7 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
       detail: 'Exact PyPI version in an isolated venv; every resolved dependency wheel is retained and hashed. No Python model/provider integration is implied.',
     }
   }
-  writeFileSync(manifest, JSON.stringify(artifact, null, 2) + '\n')
+  artifact.preparationIdentity = preparationIdentity
+  atomicWrite(manifest, JSON.stringify(artifact, null, 2) + '\n')
   return artifact
 }

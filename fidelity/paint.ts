@@ -5,7 +5,7 @@ export interface PaintCheck { criterion: string; status: 'passed' | 'failed' | '
 export interface PaintedTextLines { owner: Record<string, string | number>; label: string | null; lines: string[] | null; scope: string }
 export interface PaintEvidence { textInkBoxes?: { text: string; layoutBox: { x: number; y: number; width: number; height: number }; inkBox: { x: number; y: number; width: number; height: number } }[]; labelRepresentation?: 'uninspectable'; textLineBlocks?: PaintedTextLines[]; captions?: { label: string; box: { x: number; y: number; width: number; height: number } }[]; checks: PaintCheck[]; complete: boolean; passed: boolean; nodes: unknown[]; connections: unknown[]; viewBox: string | null; groups?: { id: string; label: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedText?: { text: string; box: { x: number; y: number; width: number; height: number } }[]; camouflagedGeometry?: { tag: string; layer?: number; box: { x: number; y: number; width: number; height: number } }[] }
 export interface QualifiedNodeAnchor { id: string; label: string; box: { x: number; y: number; width: number; height: number }; anchorParts?: { tag: string; layer?: number; box: { x: number; y: number; width: number; height: number } }[]; outline?: { tag: string } }
-export interface PaintInput { family: string; expected: MeaningExpectation; paint?: PaintExpectation; qualifiedNodeAnchors?: QualifiedNodeAnchor[] }
+export interface PaintInput { family: string; expected: MeaningExpectation; paint?: PaintExpectation; qualifiedNodeAnchors?: QualifiedNodeAnchor[]; profile?: 'labels' }
 
 /** The authored request fixes the denominator before any renderer runs. */
 export function plannedPaintCriteria(input: PaintInput): string[] {
@@ -513,6 +513,12 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const camouflagedGeometry = [...svg.querySelectorAll('path,line,rect,circle,ellipse,polygon,polyline')].flatMap((element, layer) => visible(element) && camouflage(element) ? [{ tag: element.localName, layer, box: rect(element) }] : [])
   const paintedText = labelElements.filter(element => visible(element) && !camouflage(element) && labelBox(element).width > 0 && labelBox(element).height > 0)
   check('visible-ink', 'nonempty visible diagram geometry or text', { geometry: geometry.length, text: paintedText.length }, geometry.length + paintedText.length > 0 ? true : svg.querySelector('use,foreignObject,image') ? null : false, 'Actual non-camouflaged geometry/text, including browser-painted HTML labels; image/use-only ink needs a qualified image projection')
+  if (input.profile === 'labels') {
+    check('paint-opacity-and-color', 'resolved visible paint colors/alpha', [...unknownPaint], unknownPaint.size ? null : true, 'Unresolved paint servers/context colors cannot silently earn a visible-ink or complete-style claim')
+    const required = ['visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels', 'paint-opacity-and-color']
+    const selected = checks.filter(check => required.includes(check.criterion))
+    return { checks: selected, complete: selected.every(check => check.status !== 'unavailable'), passed: selected.every(check => check.status === 'passed'), nodes: [], connections: [], viewBox: svg.getAttribute('viewBox') }
+  }
   const ownedBox = (element: Element, identity?: string, group = false): { owner: Element; shape: Element; box: Box; outlines?: Element[] } | undefined => {
     const point = center(rect(element))
     for (let current: Element | null = element.parentElement; current && current !== svg; current = current.parentElement) {

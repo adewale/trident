@@ -161,6 +161,6 @@ export function svgTextValidity(svg: string, source: string): Validity {
 
 /** Decode the PNG after the clock stops, using the existing bounded validator. */
 export function pngBytesValidity(bytes: Uint8Array): Validity {
-  const result = inspectPng(bytes, false)
+  const result = inspectPng(bytes, 'format')
   return result.findings.length ? { valid: false, reason: result.findings.join('; ') } : { valid: true }
 }

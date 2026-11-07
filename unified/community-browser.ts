@@ -57,6 +57,15 @@ export function verifyCommunityBrowser(engine: CommunityBrowserEngine) {
   }
   return verified
 }
+/** Share already verified bytes between format hosts, never mutable file paths.
+ * The closure owns its buffers; a changed binding cannot borrow another seal. */
+export function sealCommunityBrowser(engine: CommunityBrowserEngine) {
+  const identity = JSON.stringify(engine), files = verifyCommunityBrowser(engine)
+  return (binding: CommunityBrowserEngine): ReadonlyMap<string, Buffer> => {
+    if (JSON.stringify(binding) !== identity) throw Error('Browser binding differs from sealed assets')
+    return files
+  }
+}
 /** Seal executable/browser assets, not source-tree inputs or node_modules.
  * Delivery totals still use only observed requests, never this overapproximation. */
 function browserFiles(engine: CommunityBrowserEngine): { path: string; sha256: string }[] {
@@ -80,7 +89,8 @@ function browserFiles(engine: CommunityBrowserEngine): { path: string; sha256: s
   return [...paths].sort().map(path => ({ path, sha256: digest(readFileSync(path)) }))
 }
 // A candidate's bundle never shares a directory with the release of the same version.
-const bundleDirectory = (cache: string, id: string, artifact: CommunityArtifact) => join(cache, safe(id), artifact.candidate ? `${artifact.version}-candidate-${candidateKey(artifact.candidate)}` : artifact.version)
+const browserRecipe = digest(Buffer.concat([readFileSync(new URL('./community-browser.ts', import.meta.url)), readFileSync(new URL('./community-extra-adapters.mjs', import.meta.url)), readFileSync(new URL('../package.json', import.meta.url))]))
+const bundleDirectory = (cache: string, id: string, artifact: CommunityArtifact) => join(cache, safe(id), artifact.candidate ? `${artifact.version}-candidate-${candidateKey(artifact.candidate)}` : artifact.version + '-recipe-' + digest(Buffer.from(JSON.stringify({ recipe: browserRecipe, module: artifact.sha256, closure: artifact.installedClosureSha256, files: artifact.files?.map(file => file.sha256), revision: artifact.sourceRevision ?? artifact.revision, source: artifact.sourceFiles?.map(file => file.blob) }))).slice(0, 16))
 function packageRoot(artifact: CommunityArtifact): string | undefined {
   if (artifact.root && existsSync(join(artifact.root, 'package.json'))) return artifact.root
   if (!artifact.module) return undefined

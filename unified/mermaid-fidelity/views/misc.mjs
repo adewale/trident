@@ -7,7 +7,7 @@
 // not carry is declared absent with its reason, and nothing is parsed from source text or
 // re-split from a display string. Every mapping was checked against the project's parser
 // source where it is cited, and against probe output (scripts/fidelity-probe.ts).
-import { entriesOf, record, styleList, CLASS_ALWAYS, styleStrings, classView, card, headOf, shapeOf, edgeType, strokeOf, c4View, C4_MACRO, C4_BOUNDARY_MACRO, text, WRAP, flowchartView, VERTEX_ABSENT, nativeSchemaView, erView, identifying } from '../schema-views.mjs'
+import { entriesOf, record, styleList, CLASS_ALWAYS, styleStrings, classView, card, headOf, shapeOf, edgeType, strokeOf, c4View, C4_MACRO, C4_BOUNDARY_MACRO, text, WRAP, flowchartView, VERTEX_ABSENT, erView, identifying } from '../view-core.mjs'
 
 // ---------------------------------------------------------------------------------------
 // Class diagrams.
@@ -719,7 +719,7 @@ const erSchema = Object.fromEntries(Object.entries(ER_MODELS).map(([project, mod
 // left to it, and only an unanswered field this module declares is added.
 const BASE_ONLY = Symbol('the reviewed view without this module')
 /** The view ../schema-views.mjs builds for this project, without this module's getters. */
-const baseView = (project, family, raw, hooks) => nativeSchemaView(project, family, raw, { ...hooks, [BASE_ONLY]: true })
+const baseView = (project, family, raw, hooks) => hooks.schemaView(project, family, raw, { ...hooks, [BASE_ONLY]: true })
 /** A record that also answers `fields` (values or thunks) and declares `absent`, for keys
  * the record itself does not carry; any other key is the record's own to answer. The
  * record's fields are copied first: a proxy's invariant checks would otherwise consult

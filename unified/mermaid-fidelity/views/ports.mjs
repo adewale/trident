@@ -8,7 +8,7 @@
 // smaller model per family; where it keeps a concept under another name it is
 // translated, and where it does not keep it the concept is declared absent.
 // Rust's None arrives as null where Mermaid leaves a field undefined (deepUnset).
-import { deepUnset, entriesOf, record } from '../schema-views.mjs'
+import { deepUnset, entriesOf, record } from '../view-core.mjs'
 import { classMember } from './misc.mjs'
 
 const PELE = 'obsidianmd/pele', BEZEL = 'crabtalk/bezel', MERMAN = 'Latias94/merman'

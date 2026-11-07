@@ -1,16 +1,18 @@
-import { interpretTerminal } from './terminal-display.ts'
-import { terminalRectangles, type TerminalRectangle } from './terminal-rectangles.ts'
+import { TerminalRectangleBudgetExceeded } from './terminal-rectangles.ts'
+import { terminalObservation } from './terminal-observation.ts'
+import type { TerminalRectangle } from './terminal-rectangles.ts'
 export interface TerminalGroup { id: string; label: string; members: string[]; parent?: string }
 export interface ObservedTerminalGroup extends TerminalRectangle { id: string; label: string }
 /** Enclosure and direct membership come from actual geometry. Expected edges
  * never decide whether a leaf or nested group belongs to a container. */
-export function inspectTerminalGrouping(output: string, nodes: readonly { id: string; label: string }[], expected: readonly TerminalGroup[]) {
-  const display = interpretTerminal(output), groups: ObservedTerminalGroup[] = [], decor = new Set<string>(), headers = new Set<string>(), actual: TerminalGroup[] = []
+function inspectTerminalGroupingUnchecked(output: string, nodes: readonly { id: string; label: string }[], expected: readonly TerminalGroup[], observation = terminalObservation(output)) {
+  observation.assertOutput(output)
+  const display = observation.display(), groups: ObservedTerminalGroup[] = [], decor = new Set<string>(), headers = new Set<string>(), actual: TerminalGroup[] = []
   const result = (status: 'passed' | 'failed' | 'unknown', reason: string) => ({ status, reason, groups, decor, headers, actual })
   if (display.status !== 'available') return result('unknown', display.reason!)
   const grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' ', normalize = (text: string) => text.replace(/\s+/g, ' ').trim().normalize('NFC'), key = (x: number, y: number) => x + ',' + y
   if (grid.length > 256 || grid.some(row => row.length > 512) || [...display.text].filter(glyph => /[┌╭+◇◯◎(/▷⌜╟]/.test(glyph)).length > 256 || !expected.length || new Set(expected.map(group => group.label)).size !== expected.length || new Set(expected.map(group => group.id)).size !== expected.length || new Set(nodes.map(node => normalize(node.label))).size !== nodes.length) return result('unknown', 'Group profile exceeds bounds or source labels are ambiguous')
-  const boxes = terminalRectangles(grid, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true }), contains = (outer: TerminalRectangle, inner: TerminalRectangle) => outer !== inner && outer.x < inner.x && outer.right > inner.right && outer.y < inner.y && outer.bottom > inner.bottom
+  const boxes = observation.rectangles(display, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true }), contains = (outer: TerminalRectangle, inner: TerminalRectangle) => outer !== inner && outer.x < inner.x && outer.right > inner.right && outer.y < inner.y && outer.bottom > inner.bottom
   const candidates = boxes.filter(box => boxes.some(child => contains(box, child))).map(box => {
     const firstChild = Math.min(...boxes.filter(child => contains(box, child)).map(child => child.y)), titleRows: number[] = [], labels: string[] = []
     for (let y = box.y + 1; y < firstChild; y++) {
@@ -45,4 +47,12 @@ export function inspectTerminalGrouping(output: string, nodes: readonly { id: st
   const canonical = (items: readonly TerminalGroup[]) => items.map(group => JSON.stringify([group.id, normalize(group.label), [...group.members].sort(), group.parent ?? null])).sort()
   const matches = JSON.stringify(canonical(actual)) === JSON.stringify(canonical(expected))
   return result(matches ? 'passed' : 'failed', matches ? 'Exact group labels, enclosure, direct leaf membership and nested-group parentage are independently observed' : 'Observed direct group membership or nested parentage differs from the source contract')
+}
+
+export function inspectTerminalGrouping(...args: Parameters<typeof inspectTerminalGroupingUnchecked>) {
+  try { return inspectTerminalGroupingUnchecked(...args) }
+  catch (error) {
+    if (!(error instanceof TerminalRectangleBudgetExceeded)) throw error
+    return { status: 'unknown' as const, reason: error.message, groups: [], decor: new Set<string>(), headers: new Set<string>(), actual: [] }
+  }
 }

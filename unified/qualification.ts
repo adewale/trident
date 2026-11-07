@@ -119,7 +119,7 @@ function svgXmlDocument(output: string, requireCanvas = true): { findings: strin
  * serialization is admitted under the same explicit normalization as the host. */
 export function qualifyOutputFormat(output: unknown, format: string): Qualification {
   if (format === 'png') {
-    const value = inspectPng(output, false)
+    const value = inspectPng(output, 'format')
     return { ok: !value.findings.length, findings: value.findings, scope: 'format-only', ...(value.unavailable ? { unavailable: true } : {}) }
   }
   if (['terminal', 'ascii', 'unicode'].includes(format)) return { ok: typeof output === 'string', findings: typeof output === 'string' ? [] : ['Expected a returned terminal string'], scope: 'format-only' }
@@ -165,7 +165,7 @@ export function qualifyOutput(workload: UnifiedWorkload, output: unknown, format
     return { ok: !findings.length, findings, scope: 'structured-envelope' }
   }
   if (format === 'png') {
-    const inspected = inspectPng(output, !!workload.expectedLabels?.some(label => label.trim()))
+    const inspected = inspectPng(output, workload.expectedLabels?.some(label => label.trim()) ? 'content' : 'format')
     return { ok: !inspected.findings.length, findings: inspected.findings, scope: inspected.scope, ...(inspected.unavailable ? { unavailable: true } : {}) }
   }
   if (['ascii', 'unicode', 'terminal'].includes(format) && workload.features?.includes('expected-empty-drawing')) {

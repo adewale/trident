@@ -79,6 +79,13 @@ test('documentation extraction retains duplicate blocks and excludes a Mermaid f
   expect(inputs.cases).toHaveLength(2)
   expect(inputs.cases[0]!.source).toBe(inputs.cases[1]!.source)
 })
+test('missing API durations cannot win a time tie, and typed boundaries govern new measurements', () => {
+  const runs = [1, 2, 3].flatMap(run => ['known', 'unknown'].map(project => ({ project, version: '1', format: 'svg', run, boundary: 'same display text', boundaryKind: 'persistent-api' as const, attempted: 1, completed: 0, failed: 1, timeouts: 0, totalMs: project === 'known' ? 10 : 0, ...(project === 'unknown' ? { untimedCalls: 1 } : {}) })))
+  const ranked = davebenchRankings(runs, 1).svg
+  expect(ranked.map(row => row.rank)).toEqual([1, 1])
+  expect(ranked.find(row => row.project === 'unknown')?.medianTotalMs).toBeNull()
+})
+
 test('documentation extraction names the missing Mermaid checkout or commit', () => {
   expect(() => davebenchInputs(join(temp.dir(), 'absent'))).toThrow(/does not contain\. Clone https:\/\/github\.com\/mermaid-js\/mermaid there; davebench and davebench:terminal also accept --upstream/)
   const root = temp.dir(); execFileSync('git', ['init', '--quiet'], { cwd: root })

@@ -132,7 +132,7 @@ test('PNG evidence accepts an exact checked witness and withholds judgment for c
 })
 test('independent PNG observer reads actual pixels and cannot pass blank or dot-headed substitutes', async () => {
   const page = await browser.newPage({ viewport: { width: 360, height: 110 } }),
-    worker = new DrawingWorker(['python3', resolve(import.meta.dirname, '../fidelity/drawing/png_graph.py')])
+    worker = new DrawingWorker(['python3', resolve(import.meta.dirname, '../fidelity/drawing/png_graph.py')], 'raster')
   try {
     const svg = (marker: string) =>
       `<style>body{margin:0}</style><svg width="360" height="110" xmlns="http://www.w3.org/2000/svg"><rect width="360" height="110" fill="white"/><g stroke="black" fill="white" stroke-width="2"><rect x="20" y="25" width="100" height="50"/><rect x="240" y="25" width="100" height="50"/></g><g font-family="DejaVu Sans" font-size="18" fill="black"><text x="40" y="57">Alpha</text><text x="266" y="57">Beta</text></g><path d="M120 50 H229" stroke="black" stroke-width="2"/>${marker}</svg>`
@@ -265,7 +265,7 @@ test('normalized percentage SVG witnesses are freshly assessed before PNG gets c
 
 test('a narrow raster pass cannot erase an exactly witnessed missing relationship', async () => {
   const page = await browser.newPage({ viewport: { width: 360, height: 110 } }),
-    worker = new DrawingWorker(['python3', resolve(import.meta.dirname, '../fidelity/drawing/png_graph.py')])
+    worker = new DrawingWorker(['python3', resolve(import.meta.dirname, '../fidelity/drawing/png_graph.py')], 'raster')
   try {
     const svg =
       '<svg xmlns="http://www.w3.org/2000/svg" width="360" height="110"><rect x="20" y="25" width="100" height="50" fill="white" stroke="black"/><text x="40" y="57" font-family="DejaVu Sans" font-size="18">Alpha</text><rect x="240" y="25" width="100" height="50" fill="white" stroke="black"/><text x="266" y="57" font-family="DejaVu Sans" font-size="18">Beta</text></svg>'

@@ -6,7 +6,7 @@ function fixture() {
   const runs = (project: string, format: string) => [1, 2, 3].map(run => ({ project, version: '0.3.2', format, run, attempted: 2, completed: 2, failed: 0, timeouts: 0, totalMs: 1 }))
   return {
     images: { state: 'complete', corpus, method, runs: runs('other', 'svg'), blocked: [{ project: 'pub:mermaid_flutter' }] },
-    flutter: { state: 'complete', corpus, method, runs: runs('pub:mermaid_flutter', 'png') },
+    flutter: { state: 'complete', corpus, method, runs: runs('pub:mermaid_flutter', 'png'), blocked: [] },
   }
 }
 

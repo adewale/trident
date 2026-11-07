@@ -1,6 +1,7 @@
+import { TerminalRectangleBudgetExceeded } from './terminal-rectangles.ts'
+import { terminalObservation } from './terminal-observation.ts'
 import { inspectTerminalGrouping, type TerminalGroup } from './terminal-groups.ts'
-import { terminalRectangles } from './terminal-rectangles.ts'
-import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
+import { terminalTextWidth } from './terminal-display.ts'
 import { normalizedTerminalText, terminalAuthoredLinesObserved } from './terminal-text.ts'
 /** A bounded terminal observer: grapheme-aware labels in rectangular boxes joined
  * by orthogonal directed routes. Unsupported display/layout features are
@@ -14,17 +15,18 @@ export interface TerminalMeaning {
 type Box = { x: number; y: number; right: number; bottom: number; label: string; id?: string; shape?: string; lines?: string[] }
 const scope = 'Closed graph containers in at most 128 nodes, 4096 columns, 2048 rows and 2 MB of terminal input; NFC grapheme labels, qualified terminal-state controls, exact solid/dotted/thick strokes and owned arrow/circle/cross/class markers on orthogonal routes. Plain undirected links use a straight horizontal projection; multiline captions retain contiguous owned rows. Labelled enclosing groups use independently observed direct membership and source/end ports; remaining family facts and ambiguous junctions require their own qualified projections.'
 
-export function inspectTerminalMeaning(output: string, expected: TerminalMeaning, options: { primitiveShapes: boolean; pointMarkers?: readonly string[] } = { primitiveShapes: false }) {
+function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeaning, options: { primitiveShapes: boolean; pointMarkers?: readonly string[] } = { primitiveShapes: false }, observation = terminalObservation(output)) {
+  observation.assertOutput(output)
   const verdict = (status: 'correct' | 'incorrect' | 'unknown', reason: string, edges: { source: string; target: string; label?: string; route?: { x: number; y: number }[] }[] = []) => ({ status, reason, scope, edges })
   if (!expected.nodes.length && !expected.groups?.length || new Set(expected.nodes.map(node => node.id)).size !== expected.nodes.length || new Set(expected.nodes.map(node => normalizedTerminalText(node.label))).size !== expected.nodes.length || expected.nodes.some(node => !normalizedTerminalText(node.label) || /[\r\x00-\x09\x0b-\x1f]/.test(node.label)) || expected.edges.some(edge => ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.source) || ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.target))) return verdict('unknown', 'Expected identities/labels are ambiguous or outside the declared display scope')
-  const display = interpretTerminal(output, { columns: 4096, rows: 2048, inputBytes: 2_000_000 })
+  const display = observation.display({ columns: 4096, rows: 2048, inputBytes: 2_000_000 })
   if (display.status !== 'available') return verdict('unknown', display.reason ?? 'No qualified terminal-state interpretation')
   const text = display.text, grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' '
   if (grid.length > 2048 || grid.some(line => line.length > 4096) || [...text].filter(character => (options.primitiveShapes ? ['┌', '╭', '+', '◇', '◯', '◎', '(', '/', '▷', '⌜', '╟'] : ['┌', '╭', '+']).includes(character)).length > (options.primitiveShapes ? 1024 : 512) || expected.nodes.length > 128) return verdict('unknown', 'Output exceeds the bounded grid profile')
-  const grouping = expected.groups?.length ? inspectTerminalGrouping(output, expected.nodes, expected.groups) : undefined
+  const grouping = expected.groups?.length ? inspectTerminalGrouping(output, expected.nodes, expected.groups, observation) : undefined
   if (grouping && grouping.status !== 'passed') return verdict('unknown', grouping.reason)
   const groupBoxes = grouping?.groups ?? []
-  const boxes: Box[] = terminalRectangles(grid, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true, cornerPorts: true }).filter(box => !groupBoxes.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)).map(box => ({ ...box, label: normalizedTerminalText(box.lines.join(' ')) }))
+  const boxes: Box[] = observation.rectangles(display, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true, cornerPorts: true }).filter(box => !groupBoxes.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)).map(box => ({ ...box, label: normalizedTerminalText(box.lines.join(' ')) }))
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if ((options.pointMarkers ?? ['●', '◉']).includes(cell(x, y)) && expected.nodes.some(node => node.label === cell(x, y)) && !boxes.some(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)) boxes.push({ x, y, right: x, bottom: y, label: cell(x, y) })
   if (!boxes.length) return verdict('unknown', 'No qualified closed node containers or explicit state markers are inspectable in this output representation')
   const disjoint = boxes.every((box, index) => boxes.every((other, at) => at === index || box.right < other.x || other.right < box.x || box.bottom < other.y || other.bottom < box.y))
@@ -216,4 +218,12 @@ export function inspectTerminalMeaning(output: string, expected: TerminalMeaning
   }
   if (uncertainCaption) return verdict('unknown', 'Caption whitespace overlaps route ink; exact text projection is unqualified', actual)
   return verdict('correct', 'Every declared node and directed route is present with its owned label', actual)
+}
+
+export function inspectTerminalMeaning(...args: Parameters<typeof inspectTerminalMeaningUnchecked>) {
+  try { return inspectTerminalMeaningUnchecked(...args) }
+  catch (error) {
+    if (!(error instanceof TerminalRectangleBudgetExceeded)) throw error
+    return { status: 'unknown' as const, reason: error.message, scope, edges: [] }
+  }
 }

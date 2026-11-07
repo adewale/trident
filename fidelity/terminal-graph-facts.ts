@@ -1,5 +1,6 @@
-import { interpretTerminal, terminalTextWidth } from './terminal-display.ts'
-import { terminalRectangles, terminalRaggedSingleLineFrames } from './terminal-rectangles.ts'
+import { terminalObservation } from './terminal-observation.ts'
+import { terminalTextWidth } from './terminal-display.ts'
+import { terminalRaggedSingleLineFrames } from './terminal-rectangles.ts'
 import { terminalAuthoredLinesObserved, terminalMissingLiteralGlyphs } from './terminal-text.ts'
 import { inspectTerminalMeaning, type TerminalMeaning } from './terminal.ts'
 import { inspectTerminalGrouping } from './terminal-groups.ts'
@@ -8,12 +9,13 @@ import type { TerminalSourceContract } from './terminal-source.ts'
 const normalize = (value: string) => value.replace(/\s+/g, ' ').trim().normalize('NFC')
 /** Full flowchart facts remain separate even when one relationship is ambiguous.
  * Primitive boundaries and authored lines use actual owned display containers. */
-export function inspectTerminalGraphFacts(output: string, contract: TerminalSourceContract, graph: TerminalMeaning): TerminalFactCheck[] {
+export function inspectTerminalGraphFacts(output: string, contract: TerminalSourceContract, graph: TerminalMeaning, observation = terminalObservation(output)): TerminalFactCheck[] {
+  observation.assertOutput(output)
   const checks = contract.facts.filter(fact => fact.required !== false).map(fact => ({ criterion: fact.criterion, expected: fact.expected, status: 'unknown' as TerminalFactCheck['status'], detail: 'Graph representation has no qualified display ownership' }))
   const set = (criterion: string, status: TerminalFactCheck['status'], detail: string, actual?: unknown) => { const row = checks.find(row => row.criterion === criterion); if (row) Object.assign(row, { status, detail, actual }) }
-  const display = interpretTerminal(output, { columns: 4096, rows: 2048, inputBytes: 2_000_000 })
+  const display = observation.display( { columns: 4096, rows: 2048, inputBytes: 2_000_000 })
   if (display.status !== 'available') { for (const check of checks) check.detail = display.reason!; return checks }
-  const containers = terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true, cornerPorts: true })
+  const containers = observation.rectangles(display, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true, cornerPorts: true })
   const controlled = graph.nodes.filter(node => /[\x00-\x1f]/.test(node.label))
   if (controlled.length) {
     const escape = (text: string, style: string) => text.replace(/[\x00-\x1f]/g, glyph => glyph === '\x1b' ? style : '\\x' + glyph.charCodeAt(0).toString(16).padStart(2, '0'))
@@ -23,11 +25,11 @@ export function inspectTerminalGraphFacts(output: string, contract: TerminalSour
     if (candidates.length !== 1) return checks
     graph = candidates[0]!
   }
-  const grouping = graph.groups?.length ? inspectTerminalGrouping(output, graph.nodes, graph.groups) : undefined
+  const grouping = graph.groups?.length ? inspectTerminalGrouping(output, graph.nodes, graph.groups, observation) : undefined
   if (grouping) set('groups', grouping.status, grouping.reason, grouping.actual)
   const boxes = containers.filter(box => !grouping?.groups.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)), owned = (id: string) => { const node = graph.nodes.find(node => node.id === id); return node ? boxes.filter(box => normalize(box.lines.join(' ')) === normalize(node.label)) : [] }
   if (graph.nodes.length && boxes.length === graph.nodes.length && graph.nodes.every(node => owned(node.id).length === 1)) set('nodes', 'passed', 'The exact node multiset has one independently observed closed container per authored identity', boxes.map(box => box.lines))
-  const verdict = inspectTerminalMeaning(output, graph, { primitiveShapes: contract.facts.some(fact => fact.criterion === 'node-shapes') })
+  const verdict = inspectTerminalMeaning(output, graph, { primitiveShapes: contract.facts.some(fact => fact.criterion === 'node-shapes') }, observation)
   if (verdict.status === 'correct') for (const criterion of ['nodes', 'relationships', 'layout-order']) set(criterion, 'passed', verdict.reason, criterion === 'relationships' ? verdict.edges : undefined)
   else if (verdict.status === 'incorrect') set(/node labelled|node inventory|node line breaks/.test(verdict.reason) ? 'nodes' : /node order/.test(verdict.reason) ? 'layout-order' : 'relationships', 'failed', verdict.reason, verdict.edges)
   else for (const criterion of ['relationships', 'layout-order']) set(criterion, 'unknown', verdict.reason)

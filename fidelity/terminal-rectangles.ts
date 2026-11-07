@@ -22,12 +22,13 @@ export function terminalRaggedSingleLineFrames(grid: string[][]) {
   }
   return frames
 }
-interface ContainerProfile { horizontal: RegExp; vertical: RegExp; primitives?: boolean; ports?: boolean; cornerPorts?: boolean }
+export interface ContainerProfile { horizontal: RegExp; vertical: RegExp; primitives?: boolean; ports?: boolean; cornerPorts?: boolean }
 /** Structural observation only: node/participant/card roles and ownership are
  * assigned by the family observer, never by an expected edge or label. */
-export function terminalRectangles(grid: string[][], profile: ContainerProfile = { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/ }, workBudget = Infinity): TerminalRectangle[] {
+export function terminalRectangles(grid: string[][], profile: ContainerProfile = { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/ }, workBudget: number | ((work: number) => void) = 10_000_000): TerminalRectangle[] {
   // Charge candidate searches and materialized cells before retaining a box.
-  const charge = (work: number) => { if ((workBudget -= work) < 0) throw new TerminalRectangleBudgetExceeded('Terminal rectangle observation budget exceeded') }
+  let remaining = typeof workBudget === 'number' ? workBudget : Infinity
+  const charge = (work: number) => { if (typeof workBudget === 'function') workBudget(work); else if ((remaining -= work) < 0) throw new TerminalRectangleBudgetExceeded('Terminal rectangle observation budget exceeded') }
   const cell = (x: number, y: number) => grid[y]?.[x] ?? ' ', boxes: TerminalRectangle[] = [], ported = new Set<TerminalRectangle>()
   const forms = [['┌', '┐', '└', '┘', 'rectangle'], ['╭', '╮', '╰', '╯', 'rounded'], ['+', '+', '+', '+', 'rectangle']]
   if (profile.primitives) forms.push(['◇', '◇', '◇', '◇', 'diamond'], ['◯', '◯', '◯', '◯', 'circle'], ['◎', '◎', '◎', '◎', 'double-circle'], ['(', ')', '(', ')', 'stadium'], ['/', '/', '/', '/', 'parallelogram'], ['▷', '┐', '▷', '┘', 'asymmetric'], ['\\', '┐', '/', '┘', 'asymmetric'], ['⌜', '⌝', '⌞', '⌟', 'unqualified-primitive'], ['╟', '╢', '╟', '╢', 'unqualified-double-wall'])

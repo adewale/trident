@@ -1,4 +1,6 @@
-import { spawn, execFileSync } from 'node:child_process'
+import { executionEnvironment } from './execution-environment.ts'
+import { campaignPlan, assertTimingCollection } from './campaign-plan.ts'
+import { atomicWrite, reserveResultDirectory, timingSession } from './result-storage.ts'
 import { closeSync, existsSync, mkdirSync, mkdtempSync, openSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { createServer } from 'node:http'
@@ -6,41 +8,19 @@ import { dirname, extname, join, resolve, sep } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { chromium, type Browser, type BrowserContext, type Page } from 'playwright'
 import { comparisonProjects } from './lineage.ts'
-import { refreshBenchmarkVersions, verifyBenchmarkArtifact, latestBenchmarkRenderingArtifact } from './benchmark-versions.ts'
-import { prepareCommunity } from './community.ts'
-import { prepareCommunityBrowsers, verifyCommunityBrowser, type PreparedCommunityBrowser } from './community-browser.ts'
+import { refreshBenchmarkVersions, plannedBenchmarkVersion, verifiedBenchmarkBinding, verifyBenchmarkArtifact, latestBenchmarkRenderingArtifact } from './benchmark-versions.ts'
+import { prepareCommunity, communityDeclaresOutput } from './community.ts'
+import { prepareCommunityBrowsers, sealCommunityBrowser, type PreparedCommunityBrowser } from './community-browser.ts'
 import { publicSvgBrowserAction } from './public-svg-browser.ts'
 import { communityCatalogFile, tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../portable/ci-policy.ts'
 import { defaultChromium } from './benchmark-context.ts'
 import { davebenchSvgValidity, errorPatternSources, pngBytesValidity, rawStatements } from './davebench-validity.ts'
 import { watchMemory } from './process-memory.ts'
-import { killCommunityProcess, trackCommunityProcess } from './community-process.ts'
+import { killCommunityProcess, spawnCommunityProcess } from './community-process.ts'
 
-const revision = '370c4af57f43cb0bda05f4a9fe2d99c912ba16dd'
-export function davebenchInputs(upstream: string, commit = revision) {
-  const git = (...args: string[]) => execFileSync('git', args, { cwd: upstream, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] })
-  try { git('cat-file', '-e', commit + '^{commit}') }
-  catch { throw Error(`DaveBench reads Mermaid's documentation at commit ${commit}, which ${upstream} does not contain. Clone https://github.com/mermaid-js/mermaid there; davebench and davebench:terminal also accept --upstream CHECKOUT.`) }
-  const files = git('ls-tree', '-r', '--name-only', commit, '--', 'docs/').trim().split('\n').filter(file => /\.mdx?$/.test(file))
-  const cases: { id: string; source: string }[] = []
-  for (const file of files) {
-    let fence: { char: string; length: number; language: string; line: number } | undefined, body: string[] = []
-    for (const [index, line] of git('show', `${commit}:${file}`).split(/(?<=\n)/).entries()) {
-      if (fence) {
-        if (new RegExp('^ {0,3}' + fence.char + '{' + fence.length + ',}[ \\t]*\\r?\\n?$').test(line)) {
-          if (['mermaid', 'mermaid-example'].includes(fence.language)) cases.push({ id: file + ':' + fence.line, source: body.join('') })
-          fence = undefined; body = []
-        } else body.push(line)
-      } else {
-        const match = /^ {0,3}(`{3,}|~{3,})([^\r\n]*)/.exec(line)
-        if (match) fence = { char: match[1]![0]!, length: match[1]!.length, language: match[2]!.trim().split(/\s+/)[0]!, line: index + 1 }
-      }
-    }
-  }
-  if (!cases.length) throw Error('No documentation examples found')
-  return { commit, files: new Set(cases.map(input => input.id.slice(0, input.id.lastIndexOf(':')))).size, cases }
-}
+import { davebenchInputs } from './davebench-inputs.ts'
+export { davebenchInputs } from './davebench-inputs.ts'
 
 /** Runs in the renderer page. Returns counters and an admission reason only;
  * outputs never leave the page. The clock stops before admission checks. */
@@ -140,72 +120,15 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
   return invalid ? { outcome, ms, invalid } : error ? { outcome, ms, error } : { outcome, ms }
 }
 
-export const davebenchAdmission = 'A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse as XML to an SVG namespace root with finite positive size; PNG must contain complete decodable image data with positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription="error"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.'
-
-export interface DavebenchRun {
-  project: string; version: string; format: string; run: number; boundary: string
-  attempted: number; completed: number; failed: number; timeouts: number; totalMs: number
-  /** Calls that returned without error but whose output failed mechanical admission; included in failed. */
-  invalid?: number; invalidReasons?: Record<string, number>
-  /** Which inputs were rejected, by input id, with the full reason: the audit trail for admission. */
-  rejected?: Record<string, string>
-  /** Calls that threw or exited nonzero, by their first error line (diagnostic only). */
-  errorReasons?: Record<string, number>
-}
+import { davebenchAdmissionProfile, davebenchAdmission, davebenchSummary, davebenchRankings, davebenchRankingRule, type DavebenchRun } from './davebench-model.ts'
+export { davebenchAdmission, davebenchSummary, davebenchRankings, davebenchRankingRule, boundaryKind, type DavebenchRun } from './davebench-model.ts'
 type Run = DavebenchRun
-export const davebenchRankingRule = {
-  primary: 'More completed examples is better; use the minimum completion count across three complete runs.',
-  secondary: 'For equal completion counts, lower median total render/export time is better when every tied row uses the same boundary kind (fresh process or persistent API).',
-  ties: 'Identical completion counts share a rank when their boundary kinds differ, or when their median times are identical.',
-  scope: 'Rank SVG, PNG and terminal text separately through the declared public execution paths. Native CLI time includes per-example process startup.',
-  incomplete: 'Fewer than three complete runs, or mixed versions/boundaries, remain unranked.',
-} as const
-/** Fresh CLI processes include startup on every call; persistent APIs do not. */
-export function boundaryKind(boundary: string) { return /process startup included|\bCLI\b/i.test(boundary) ? 'fresh-process' : 'persistent-api' }
-function median(values: number[]) { const sorted = [...values].sort((a, b) => a - b); return sorted[Math.floor(sorted.length / 2)]! }
-export function davebenchSummary(runs: Run[]) {
-  const keys = [...new Set(runs.map(run => JSON.stringify([run.project, run.format])))]
-  return keys.map(key => {
-    const rows = runs.filter(run => JSON.stringify([run.project, run.format]) === key)
-    return { project: rows[0]!.project, version: rows[0]!.version, format: rows[0]!.format, boundary: rows[0]!.boundary,
-      completed: rows.map(row => row.completed), failed: rows.map(row => row.failed), totalMs: rows.map(row => row.totalMs), medianTotalMs: median(rows.map(row => row.totalMs)), runs: rows.length }
-  })
-}
-
-export function davebenchRankings(runs: Run[], planned: number) {
-  const ranked: { project: string; version: string; format: string; boundary: string; completed: number; failed: number; medianTotalMs: number; rank: number }[] = []
-  const unranked: { project: string; format: string; reason: string }[] = []
-  for (const summary of davebenchSummary(runs)) {
-    const rows = runs.filter(row => row.project === summary.project && row.format === summary.format)
-    if (rows.length !== 3 || JSON.stringify(rows.map(row => row.run).sort()) !== '[1,2,3]' || rows.some(row => row.attempted !== planned || row.completed + row.failed !== planned || row.version !== summary.version || row.boundary !== summary.boundary)) {
-      unranked.push({ project: summary.project, format: summary.format, reason: 'Three complete runs with one version and boundary are required.' }); continue
-    }
-    if (rows.some(row => !Number.isSafeInteger(row.completed) || row.completed < 0 || row.completed > planned || !Number.isFinite(row.totalMs) || row.totalMs < 0)) throw Error('Invalid DaveBench ranking measurements')
-    const completed = Math.min(...rows.map(row => row.completed))
-    ranked.push({ project: summary.project, version: summary.version, format: summary.format, boundary: summary.boundary, completed, failed: planned - completed, medianTotalMs: summary.medianTotalMs, rank: 0 })
-  }
-  const format = (name: string) => {
-    const rows = ranked.filter(row => row.format === name).sort((a, b) => b.completed - a.completed || boundaryKind(a.boundary).localeCompare(boundaryKind(b.boundary)) || a.medianTotalMs - b.medianTotalMs || a.project.localeCompare(b.project))
-    for (let start = 0; start < rows.length;) {
-      let end = start
-      while (end < rows.length && rows[end]!.completed === rows[start]!.completed) end++
-      const group = rows.slice(start, end)
-      // Fresh-process and persistent-API clocks measure different work, so time
-      // separates equal completion counts only when every tied row shares one kind.
-      if (new Set(group.map(row => boundaryKind(row.boundary))).size > 1) for (const row of group) row.rank = start + 1
-      else for (const [offset, row] of group.entries()) { const previous = group[offset - 1]; row.rank = previous && row.medianTotalMs === previous.medianTotalMs ? previous.rank : start + offset + 1 }
-      start = end
-    }
-    return rows
-  }
-  return { svg: format('svg'), png: format('png'), terminal: format('terminal'), unranked }
-}
 
 function rankingMarkdown(rankings: ReturnType<typeof davebenchRankings>, planned: number, blocked: { project: string; reason: string }[]) {
   const lines = ['# DaveBench rankings', '', `${planned} examples per format; three runs after 30 warm-ups. Outputs are discarded without assessment.`, '', ...Object.values(davebenchRankingRule).map(rule => '- ' + rule), '']
   for (const format of ['svg', 'png'] as const) {
     lines.push('## ' + format.toUpperCase(), '', '| Rank | Project | Version | Completed | Failed | Median total seconds | Path |', '|---:|---|---|---:|---:|---:|---|')
-    for (const row of rankings[format]) lines.push(`| ${row.rank} | ${row.project} | ${row.version} | ${row.completed} | ${row.failed} | ${(row.medianTotalMs / 1000).toFixed(3)} | ${row.boundary.includes('CLI') ? 'Native CLI' : 'Browser API'} |`)
+    for (const row of rankings[format]) lines.push(`| ${row.rank} | ${row.project} | ${row.version} | ${row.completed} | ${row.failed} | ${(row.medianTotalMs === null ? '—' : (row.medianTotalMs / 1000).toFixed(3))} | ${row.boundary.includes('CLI') ? 'Native CLI' : 'Browser API'} |`)
     lines.push('')
   }
   if (blocked.length || rankings.unranked.length) {
@@ -216,9 +139,9 @@ function rankingMarkdown(rankings: ReturnType<typeof davebenchRankings>, planned
   return lines.join('\n') + '\n'
 }
 
-export async function browserHost(browser: Browser, peer: PreparedCommunityBrowser, format: string) {
+export async function browserHost(browser: Browser, peer: PreparedCommunityBrowser, format: string, assets?: ReturnType<typeof sealCommunityBrowser>) {
   const engine = peer.browser!, root = resolve(engine.root)
-  const files = verifyCommunityBrowser(engine)
+  const files = (assets ?? sealCommunityBrowser(engine))(engine)
   const server = createServer((request, response) => {
     const url = new URL(request.url ?? '/', 'http://localhost')
     if (url.pathname === '/blank') { response.setHeader('content-type', 'text/html'); response.end('<!doctype html><body>'); return }
@@ -263,8 +186,7 @@ export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: s
   let stderr = ''
   const result = await new Promise<{ outcome: string; ms: number; error?: string }>(done => {
     // Respect explicit stdout '-' bindings; Merman rejects /dev/null as a nonregular output file.
-    const child = spawn(artifact.executable!, binding.args.map(arg => arg.replaceAll('{output}', output)), { detached: process.platform !== 'win32', stdio: ['pipe', stdout, 'pipe'] })
-    trackCommunityProcess(child)
+    const child = spawnCommunityProcess(artifact.executable!, binding.args.map(arg => arg.replaceAll('{output}', output)), { detached: process.platform !== 'win32', stdio: ['pipe', stdout, 'pipe'] })
     child.stderr!.on('data', chunk => { if (stderr.length < 4096) stderr += String(chunk) }); child.stdin!.on('error', () => {}); child.stdin!.end(source)
     let timeout = false, memory = false
     const timer = setTimeout(() => { timeout = true; killCommunityProcess(child, 'SIGKILL') }, timeoutMs)
@@ -293,7 +215,7 @@ export async function main(args = process.argv.slice(2)) {
   if (!options.has('--out')) throw Error('Choose --out FRESH_DIRECTORY')
   const out = resolve(options.get('--out')!), upstream = resolve(options.get('--upstream') ?? join(tridentDirectory, '../mermaid'))
   if (existsSync(out)) throw Error('Choose a fresh output directory')
-  mkdirSync(out, { recursive: true })
+  reserveResultDirectory(out)
   const inventory = davebenchInputs(upstream), recorded = JSON.parse(readFileSync(options.get('--catalog') ?? communityCatalogFile, 'utf8'))
   const enrolled = comparisonProjects(recorded, options.get('--projects')?.split(',') ?? recorded.nodes.map((node: any) => node.id))
   const applicable = recorded.nodes.filter((node: any) => enrolled.included.includes(node.id) && node.benchmark?.outputs.some((format: string) => ['svg', 'png'].includes(format))).map((node: any) => node.id)
@@ -327,45 +249,51 @@ export async function main(args = process.argv.slice(2)) {
     } catch (error) { delete peer.artifact; delete peer.browser; peer.error = String(error); peer.browserStatus = 'blocked' }
   }
   for (const node of nodes) if (!prepared.some(peer => peer.node.id === node.id)) prepared.push({ node, browserStatus: 'blocked', error: 'No prepared artifact supplied' })
-  const startedAt = new Date().toISOString(), runs: Run[] = [], blocked: { project: string; reason: string }[] = [], timeoutMs = 15_000
+  const plan = campaignPlan(nodes.flatMap((node: any) => (communityDeclaresOutput(node, 'svg') ? ['svg', 'png'] : ['png']).map(format => ({ project: node.id, version: plannedBenchmarkVersion(node, prepared.find(peer => peer.node.id === node.id)?.artifact), format }))), inventory.cases.map(input => input.id), 3, { commit: inventory.commit, sources: inventory.cases, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile }, options.has('--projects') ? 'subset' : 'full')
+  const startedAt = new Date().toISOString(), runs: Run[] = [], blocked: { project: string; format?: string; reason: string }[] = [], timeoutMs = 15_000
   const save = (state: string) => {
-    const report = { schema: 'davebench-simple-v1', state, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, directory: 'docs/', occurrences: inventory.cases.length, files: inventory.files },
-      method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, elapsed: 'Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.', png: 'Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available. No image inspection.' },
-      environment: { node: process.versions.node, bun: process.versions.bun, platform: process.platform, architecture: process.arch, chromium: browser.version() },
+    const report = { schema: 'davebench-simple-v2', state, plan, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, directory: 'docs/', occurrences: inventory.cases.length, files: inventory.files },
+      method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.', png: 'Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available. No image inspection.' },
+      environment: { ...executionEnvironment(), chromium: browser.version() },
       runs, summary: davebenchSummary(runs), rankingRule: davebenchRankingRule, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
-    writeFileSync(join(out, 'results.json'), JSON.stringify(report, null, 2) + '\n')
+    if (state === 'complete') assertTimingCollection(report)
+    atomicWrite(join(out, 'results.json'), JSON.stringify(report, null, 2) + '\n')
     if (state === 'complete') writeFileSync(join(out, 'rankings.md'), rankingMarkdown(report.rankings, inventory.cases.length, blocked))
   }
+  using measurement = timingSession()
   const browser = await chromium.launch({ executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium), headless: true })
   try {
     save('running')
     for (const peer of prepared) {
       const cli = peer.artifact?.kind === 'cli' && peer.artifact.outputBindings?.svg
       if (!peer.browser && !cli) { blocked.push({ project: peer.node.id, reason: peer.error ?? peer.browserDetail ?? 'Public artifact unavailable' }); save('running'); continue }
-      for (const format of ['svg', 'png']) {
+      let assets: ReturnType<typeof sealCommunityBrowser> | undefined
+      try { if (peer.browser && !cli) assets = sealCommunityBrowser(peer.browser) }
+      catch (error) { blocked.push({ project: peer.node.id, reason: String(error) }); save('running'); continue }
+      for (const format of plan.lanes.filter(lane => lane.project === peer.node.id).map(lane => lane.format)) {
         const boundary = cli ? 'native CLI ' + format + '; process startup included' : format === 'svg' ? 'Chromium public SVG API' : peer.browser!.additionalOutputs?.includes('png') ? 'Chromium public PNG API' : 'Chromium SVG API + canvas PNG conversion'
         let host: Awaited<ReturnType<typeof browserHost>> | undefined, session: Awaited<ReturnType<Awaited<ReturnType<typeof browserHost>>['open']>> | undefined
         const open = async () => { session = await host!.open() }
         try {
-          if (!cli) host = await browserHost(browser, peer, format)
+          if (!cli) host = await browserHost(browser, peer, format, assets)
           for (let round = 1; round <= 3; round++) {
             if (!cli) await open()
-            const call = async (input: { id: string; source: string }, index: number): Promise<{ outcome: string; ms: number; invalid?: string; error?: string }> => {
+            const call = async (input: { id: string; source: string }, index: number): Promise<import('./terminal-call-worker.ts').TimedCall> => {
               if (cli) return davebenchCliCall(peer, input.source, format, timeoutMs)
               let timer: ReturnType<typeof setTimeout> | undefined
               const started = performance.now()
               try {
-                return await Promise.race<{ outcome: string; ms: number; invalid?: string; error?: string }>([session!.page.evaluate(davebenchBrowserCall, { ...input, id: 'dave_' + round + '_' + index, format, errorPatterns: errorPatternSources, raw: rawStatements(input.source) }), new Promise<{ outcome: string; ms: number }>(done => { timer = setTimeout(() => { void session!.context.close().catch(() => {}); done({ outcome: 'timeout', ms: performance.now() - started }) }, timeoutMs) })])
-              } catch { return { outcome: 'error', ms: performance.now() - started } }
+                return await Promise.race<import('./terminal-call-worker.ts').TimedCall>([session!.page.evaluate(davebenchBrowserCall, { ...input, id: 'dave_' + round + '_' + index, format, errorPatterns: errorPatternSources, raw: rawStatements(input.source) }), new Promise<import('./terminal-call-worker.ts').TimedCall>(done => { timer = setTimeout(() => { void session!.context.close().catch(() => {}); done({ outcome: 'timeout', ms: null, controllerMs: performance.now() - started }) }, timeoutMs) })])
+              } catch { return { outcome: 'error', ms: null, controllerMs: performance.now() - started } }
               finally { if (timer) clearTimeout(timer) }
             }
             for (const [index, input] of inventory.cases.slice(0, 30).entries()) { const value = await call(input, -index - 1); if (value.outcome === 'timeout' && !cli) await open() }
-            const row: Run = { project: peer.node.id, version: peer.artifact!.version, format, run: round, boundary, attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, errorReasons: {} }
+            const row: Run = { project: peer.node.id, version: peer.artifact!.version, format, run: round, boundary, boundaryKind: cli ? 'fresh-process' : 'persistent-api', attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, errorReasons: {} }
             runs.push(row)
             console.log(`${peer.node.id} ${format} run ${round}/3`)
             for (const [index, input] of inventory.cases.entries()) {
               const value = await call(input, index)
-              row.attempted++; row.totalMs += value.ms
+              row.attempted++; if (value.ms === null) row.untimedCalls = (row.untimedCalls ?? 0) + 1; else row.totalMs += value.ms
               if (value.outcome === 'completed') row.completed++; else row.failed++
               if (value.outcome === 'error') { const reason = (value.error ?? 'no message').replace(/\d+/g, 'N'); row.errorReasons![reason] = (row.errorReasons![reason] ?? 0) + 1 }
               if (value.outcome === 'invalid') { row.invalid!++; const reason = value.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1; (row.rejected ??= {})[input.id] = value.invalid! }
@@ -376,7 +304,7 @@ export async function main(args = process.argv.slice(2)) {
             if (session) { await session.context.close(); session = undefined }
             save('running')
           }
-        } catch (error) { blocked.push({ project: peer.node.id, reason: format + ': ' + String(error).slice(0, 500) }); save('running') }
+        } catch (error) { blocked.push({ project: peer.node.id, format, reason: format + ': ' + String(error).slice(0, 500) }); save('running') }
         finally { if (session) await session.context.close().catch(() => {}); if (host) await host.close() }
       }
     }

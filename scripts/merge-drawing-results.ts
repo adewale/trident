@@ -6,6 +6,7 @@
 //   bun scripts/merge-drawing-results.ts --run RUN_DIR --out FILE   (one complete run publishes every format)
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { assertCampaignCoverage } from '../unified/campaign-plan.ts'
 
 const statuses = ['correct', 'incorrect', 'renderer-failure', 'invalid-format', 'unknown', 'unrun'] as const
 
@@ -16,7 +17,8 @@ export function aggregateDrawingRows(rows: any[], caseIds: readonly string[]) {
   const groups = new Map<string, any[]>()
   for (const row of rows) {
     const key = JSON.stringify([row.project, row.format])
-    groups.set(key, [...(groups.get(key) ?? []), row])
+    const group = groups.get(key) ?? []
+    group.push(row); groups.set(key, group)
   }
   return [...groups.values()].map(group => {
     const seen = new Set<string>()
@@ -43,14 +45,19 @@ export function mergeDrawingResults(base: any, run: any, formats: string[]) {
   if (base.corpus.ids.length !== base.corpus.cases) throw Error('Drawing population differs from its case IDs')
   if (JSON.stringify(run.corpus.ids) !== JSON.stringify(base.corpus.ids)) throw Error('Drawing run must use the published corpus')
   if (run.versionsFrozenAt !== base.versionsFrozenAt) throw Error('Drawing run must use the published version freeze')
-  const fresh = aggregateDrawingRows(run.rows.filter((row: any) => formats.includes(row.format)), base.corpus.ids)
+  validateDrawingCoverage(run)
+  if (base.corpus.contractSha256 && run.corpus.contractSha256 !== base.corpus.contractSha256) throw Error('Drawing run must use the published reviewed expectations')
+  const fresh = aggregateDrawingRows(run.rows.filter((row: any) => formats.includes(row.format)), base.corpus.ids).map(row => ({ ...row, ...(run.assessmentPolicy ? { assessmentPolicy: run.assessmentPolicy } : {}) }))
   const blocks = run.blocked.flatMap((row: any) => { const selected = String(row.format).split('/').filter(format => formats.includes(format)); return selected.length ? [{ ...row, format: selected.join('/') }] : [] })
   const key = (project: string, format: string) => JSON.stringify([project, format])
   const replaced = new Set([...fresh.map(row => key(row.project, row.format)), ...blocks.flatMap((row: any) => row.format.split('/').map((format: string) => key(row.project, format)))])
+  const priorLanes = [...base.results, ...base.blocked.flatMap((row: any) => row.format.split('/').map((format: string) => ({ ...row, format })))]
+  if (run.corpus.contractSha256 && !base.corpus.contractSha256 && priorLanes.some((row: any) => !replaced.has(key(row.project, row.format)))) throw Error('Prior results lack reviewed expectation identity; publish a fresh complete campaign')
+  for (const format of formats) if (run.assessmentProfiles?.[format] && base.assessmentProfiles?.[format] !== run.assessmentProfiles[format] && priorLanes.some((row: any) => row.format === format && !replaced.has(key(row.project, format)))) throw Error('Changed observer profile requires recollecting every published lane in ' + format)
   const results = [...base.results.filter((row: any) => !replaced.has(key(row.project, row.format))), ...fresh]
   const totals = Object.fromEntries(statuses.map(status => [status, results.reduce((sum: number, row: any) => sum + row.counts[status], 0)]))
   const blocked = [...base.blocked.flatMap((row: any) => { const kept = String(row.format).split('/').filter(format => !replaced.has(key(row.project, format))); return kept.length ? [{ ...row, format: kept.join('/') }] : [] }), ...blocks]
-  return { ...base, results, totals, blocked, updatedAt: collectedAt(run), recollectedFormats: { formats, at: collectedAt(run), reason: 'Replaced only the supplied project/format results from the same corpus and frozen versions; all other observations are preserved.' } }
+  return { ...base, ...(run.assessmentProfiles ? { assessmentProfiles: { ...base.assessmentProfiles, ...Object.fromEntries(formats.map(format => [format, run.assessmentProfiles[format]])) } } : {}), results, totals, blocked, updatedAt: collectedAt(run), recollectedFormats: { formats, at: collectedAt(run), reason: 'Replaced only the supplied project/format results from the same corpus and frozen versions; all other observations are preserved.' } }
 }
 
 /** When a run finished collecting. A run from before runs recorded their times has none,
@@ -64,11 +71,20 @@ function collectedAt(run: any): string {
 export function publishDrawingRun(run: any) {
   if (run.state !== 'complete') throw Error('Drawing run is not complete')
   if (run.corpus.ids.length !== run.corpus.cases) throw Error('Drawing population differs from its case IDs')
+  validateDrawingCoverage(run)
   const results = aggregateDrawingRows(run.rows, run.corpus.ids)
-  const formats = [...new Set(results.map(row => row.format))]
+  const formats = [...new Set(run.plan ? run.plan.lanes.map((lane: any) => lane.format) : [...results.map(row => row.format), ...run.blocked.flatMap((row: any) => row.format.split('/'))])]
   const totals = Object.fromEntries(statuses.map(status => [status, results.reduce((sum: number, row: any) => sum + row.counts[status], 0)]))
   const { rows: _rows, state, startedAt, updatedAt: _updated, ...metadata } = run
   return { ...metadata, state, formats, collection: { ...Object.fromEntries(formats.map(format => [format, {}])), outputsRetained: false, startedAt, finishedAt: collectedAt(run) }, results, totals, updatedAt: collectedAt(run) }
+}
+
+function validateDrawingCoverage(run: any) {
+  if (run.assessmentPolicy && !run.plan) throw Error('New Drawing assessment requires its campaign plan')
+  if (run.plan) {
+    if (JSON.stringify(run.plan.cases) !== JSON.stringify(run.corpus.ids)) throw Error('Drawing plan differs from corpus IDs')
+    assertCampaignCoverage(run.plan, run.rows, run.blocked, 'drawing')
+  } else if (!run.rows.length && !run.blocked.length) throw Error('Empty Drawing run has no accounted-for campaign')
 }
 
 if (import.meta.main) {
