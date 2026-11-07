@@ -325,7 +325,7 @@ function nativeParse(family: string, source: string) {
       const errors = Array.isArray(result.error) ? result.error : [result.error]
       if (!errors.every((e: any) => /PARSE_ERROR|PARSE_FAILED|SYNTAX_ERROR|INVALID_FRONTMATTER/.test(e.code ?? ''))) return gap('Unclassified native parser refusal: ' + JSON.stringify(result.error))
       active && active.rejections++
-      const failure = Object.assign(new Error(errors.map((error: any) => error.message).join('\n')), errors[0])
+      const failure = Object.assign(new Error(), errors[0], { message: errors.map((error: any) => error.message).join('\n') })
       throw failure
     }
     if (['opaque', 'preserved'].includes(result.value.body.kind)) {

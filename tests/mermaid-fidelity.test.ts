@@ -98,7 +98,7 @@ test('native grammar refusal is observed before editable preservation, and Resul
     }`)
     const entry = join(scratch, 'agent.mjs')
     writeFileSync(entry, `export function parseRegisteredMermaid(source) {
-      return source === 'result' ? { ok: false, error: [{ code: 'PARSE_ERROR', message: 'First line\\nsecond line', line: 5, col: 2 }] }
+      return source === 'result' ? { ok: false, error: [{ code: 'PARSE_ERROR', message: 'First line\\nsecond line', line: 5, col: 2 }, { code: 'PARSE_ERROR', message: 'Other refusal' }] }
         : { ok: true, value: { body: { kind: 'opaque' }, meta: {} } }
     }`)
     const job = join(scratch, 'job.json')
@@ -113,7 +113,7 @@ test('native grammar refusal is observed before editable preservation, and Resul
     expect({ status: result.status, stderr: result.stderr }).toEqual({ status: 0, stderr: '' })
     const observed = JSON.parse(result.stdout)
     expect(observed[0]).toMatchObject({ message: 'Strict grammar refusal', line: 7, column: 3 })
-    expect(observed[1]).toMatchObject({ message: 'First line\nsecond line', line: 5, col: 2 })
+    expect(observed[1]).toMatchObject({ message: 'First line\nsecond line\nOther refusal', line: 5, col: 2 })
     expect(observed[2].message).toBe('Native semantic support unavailable')
     expect(observed[3].message).toContain('Unclassified native grammar exception: Error: Internal invariant failed')
   } finally { rmSync(scratch, { recursive: true, force: true }) }
