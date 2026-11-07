@@ -36,12 +36,12 @@ def check_sdk(sdk):
 
 def check_ready(ready):
     expected = pin()
-    if ready.get("package") != expected["package"] or ready.get("version") != expected["packageVersion"] or ready.get("mode") != "release" or str(ready.get("runtime", {}).get("dart", "")).split()[:1] != [expected["dart"]]:
+    if ready.get("package") != expected["package"] or ready.get("version") != expected["packageVersion"] or ready.get("mode") != "release" or ready.get("runtime", {}).get("platform") != "linux" or str(ready.get("runtime", {}).get("dart", "")).split()[:1] != [expected["dart"]]:
         raise ValueError("Worker identity differs from the pinned release")
 
 def sources():
     paths = [
-        ROOT / name for name in ["toolchain.json", "build.sh", "bundle.py", "smoke.py", "app/pubspec.yaml", "app/pubspec.lock", "app/linux/CMakeLists.txt", "app/linux/flutter/CMakeLists.txt"]
+        ROOT / name for name in ["toolchain.json", "env.sh", "build.sh", "bundle.py", "smoke.py", "app/pubspec.yaml", "app/pubspec.lock", "app/linux/CMakeLists.txt", "app/linux/flutter/CMakeLists.txt"]
     ]
     paths += list((ROOT / "app/lib").rglob("*.dart"))
     paths += [p for p in (ROOT / "app/linux/runner").iterdir() if p.is_file()]
