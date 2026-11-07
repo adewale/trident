@@ -1136,8 +1136,8 @@ function ganttGetters(name, keeps, raw, hooks, project) {
     ...(tasks ? { getTasks: tasks } : {}),
     getWeekday: none('weekday setting'),
     getExcludes: keeps.excludes ? () => [...(raw.excludes ?? [])] : none('excludes tokens as written'),
-    getAccTitle: keeps.accTitle ? () => raw.accessibilityTitle ?? '' : none('accessibility title'),
-    getAccDescription: none('accessibility description'),
+    getAccTitle: keeps.accessibility ? () => raw.accessibilityTitle ?? '' : none('accessibility title'),
+    getAccDescription: keeps.accessibility ? () => raw.accessibilityDescription ?? '' : none('accessibility description'),
   }
 }
 const GANTT_NAMES = {
@@ -1145,7 +1145,7 @@ const GANTT_NAMES = {
   'fasouto/termaid': 'termaid', 'kais-radwan/ascii-mermaid': 'ascii-mermaid', 'orestesgaolin/mermaid': 'mermaid_core', 'pub:mermaid_flutter': 'mermaid_core',
   'evangwt/xmermaid': 'XMermaid', 'anomalyco/opencode': 'opencode merman',
 }
-const ganttSchema = Object.fromEntries(Object.entries(GANTT_NAMES).map(([project, name]) => [project, (raw, hooks) => ganttGetters(name, { excludes: project === 'kais-radwan/ascii-mermaid', accTitle: project === 'adewale/agentic-mermaid' }, raw, hooks, project)]))
+const ganttSchema = Object.fromEntries(Object.entries(GANTT_NAMES).map(([project, name]) => [project, (raw, hooks) => ganttGetters(name, { excludes: project === 'kais-radwan/ascii-mermaid', accessibility: project === 'adewale/agentic-mermaid' }, raw, hooks, project)]))
 
 // ---------------------------------------------------------------------------------------
 // Requirement diagrams. Mermaid's requirementDb keeps requirements and elements as Maps

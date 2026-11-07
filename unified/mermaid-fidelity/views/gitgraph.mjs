@@ -482,8 +482,8 @@ function agenticRadar(raw, hooks) {
   return gitAst('Radar', {
     title: raw.title,
     accTitle: raw.accessibilityTitle,
-    // RadarBody declares no accessibility fields; captured output keeps accTitle only.
-    accDescr: no("agentic-mermaid's radar model keeps no accessibility description"),
+    // Accessibility belongs to the public source envelope, alongside the body.
+    accDescr: raw.accessibilityDescription,
     axes: raw.axes.map(axis => gitAst('Axis', { name: axis.id, label: label(axis) }, hooks)),
     curves: raw.curves.map(curve => gitAst('Curve', { name: curve.id, label: label(curve), entries: no("agentic-mermaid resolves a curve's entries to one value per axis in axis order; the written entries are not kept") }, hooks)),
     options: no('agentic-mermaid merges radar option defaults, so the written options are not kept'),

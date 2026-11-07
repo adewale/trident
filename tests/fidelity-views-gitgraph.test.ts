@@ -318,11 +318,13 @@ test('Radar AST: agentic-mermaid names are its ids; a label equal to its name, e
     graticule: 'circle',
     showLegend: true,
     accessibilityTitle: 'My Accessible Title',
+    accessibilityDescription: 'First line\n  Retained description',
   }
   const radar = nativeAstView('adewale/agentic-mermaid', 'Radar', raw, hooks)
   expect(radar.$type).toBe('Radar')
   expect([radar.title, radar.accTitle]).toEqual(['My Title', 'My Accessible Title'])
-  expect(() => radar.accDescr).toThrow('unsupported')
+  expect(radar.accDescr).toBe('First line\n  Retained description')
+  expect(nativeAstView('adewale/agentic-mermaid', 'Radar', { ...raw, accessibilityDescription: undefined }, hooks).accDescr).toBeUndefined()
   expect(radar.axes.map((axis: any) => [axis.$type, axis.name])).toEqual([['Axis', 'ax1'], ['Axis', 'ax2']])
   expect(radar.axes[0].label).toBe('Axis One')
   expect(() => radar.axes[1].label).toThrow('unsupported')

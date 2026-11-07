@@ -271,6 +271,12 @@ test('kanban, gantt, mindmap and architecture translate what each model keeps', 
   expect([task.startTime, task.endTime, task.crit, task.done]).toEqual([new Date(2014, 0, 1), new Date(2014, 0, 4), true, false])
   expect(() => gantt.getWeekday()).toThrow('unsupported')
 
+  const agenticGantt = nativeSchemaView('adewale/agentic-mermaid', 'gantt', { kind: 'gantt', sections: [], accessibilityDescription: 'First line\n  Retained description' }, hooks)
+  expect(agenticGantt.getAccDescription()).toBe('First line\n  Retained description')
+  expect(nativeSchemaView('adewale/agentic-mermaid', 'gantt', { kind: 'gantt', sections: [] }, hooks).getAccDescription()).toBe('')
+  expect(() => agenticGantt.getWeekday()).toThrow('unsupported')
+  expect(() => gantt.getAccDescription()).toThrow('unsupported')
+
   const mindmap = nativeSchemaView('adewale/agentic-mermaid', 'mindmap', { root: { id: 'root', label: 'The root', shape: 'rect', children: [{ id: 'h', label: 'hex', shape: 'hexagon', children: [] }] } }, hooks)
   const root = mindmap.getMindmap()
   expect([root.nodeId, root.descr, root.type, root.children[0].type]).toEqual(['root', 'The root', mindmap.nodeType.RECT, mindmap.nodeType.HEXAGON])
