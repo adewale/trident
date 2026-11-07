@@ -82,26 +82,26 @@ zero-size SVG is a nonpass. Each whole case earns one pass. This measures whethe
 the specified content is shown, not edges, arrow direction, layout, styling or
 pixel identity with Mermaid.
 
-Earlier versions measured painted geometry: which shapes enclose which labels,
-which strokes connect which bodies, arrowheads and dash patterns. That was
-expensive to extend and left 2,805 of 6,350 results unassessed. The label check
-leaves <!-- fact:drawing-unassessed -->0<!-- /fact --> of <!-- fact:drawing-rows -->4,318<!-- /fact --> unassessed and agrees with every result the geometry checkers had
-confirmed correct; results they had failed on edge or layout grounds can now pass.
+The collection leaves <!-- fact:drawing-unassessed -->0<!-- /fact --> of
+<!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. Unsupported
+observations receive no correctness credit.
 
-**Formats:** SVG text is read from the document and terminal text directly,
-including labels wrapped inside boxes. **PNG is not part of Drawing Correctness.**
-OCR cannot read diagram labels reliably enough: on Mermaid PNGs rasterized from
-SVGs that pass 124 of 127 cases, Tesseract found every label in only 43. PNG
-production and speed remain in DaveBench. A project with no SVG or terminal output
-(Mermaid Flutter) has no Drawing result; the synthesis treats Drawing as not
-applicable to it rather than unknown.
+**Formats:** SVG labels must pass the existing browser observer's visibility,
+canvas, clipping and resolved-paint checks. Hidden DOM text earns no credit;
+unsupported filters, masks and glyph representations stay unassessed. Terminal
+matching preserves reading order and joins wrapping inside observed boxes.
+**PNG is not part of Drawing Correctness.** OCR cannot read diagram labels
+reliably enough: on Mermaid PNGs rasterized from SVGs that pass 124 of 127 cases,
+Tesseract found every label in only 43. PNG production and speed remain in
+DaveBench. Mermaid Flutter has no SVG or terminal output, so Drawing is not
+applicable to it in the synthesis.
 
 **Current implementation:** `drawing:correctness` uses 127 unique inputs across
 20 families and 19 source projects. The 116 valid seed entries contain 115 unique
 inputs; pinned project regressions add 12 more after deduplication. Expected labels
-come from the reviewed source facts (`fidelity/drawing/labels.ts`); one unlabelled
-chart stays unassessed. Reaction counts were unavailable; repeated independent
-regressions guide this initial expansion. The corpus does not claim a popularity
+come from the reviewed source facts (`fidelity/drawing/labels.ts`); a chart naming
+no labels is checked for raw-syntax leakage. Reaction counts were unavailable;
+repeated independent regressions guide this initial expansion. The corpus does not claim a popularity
 ranking.
 
 ## Mermaid Fidelity: execute pinned upstream tests

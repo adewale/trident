@@ -47,7 +47,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const textCanvas = document.createElement('canvas').getContext('2d')!
   const glyphInk = new Map<Element, Box | null>()
   // SVG text BCR/getBBox includes font ascent/descent, not only painted glyphs.
-  // Qualify a finite horizontal ASCII run using the identical computed font,
+  // Qualify a finite horizontal ASCII/Latin-1 run using the identical computed font,
   // Canvas glyph metrics, matching SVG advances and matching font-box height.
   // The measured SVG font box locates the alphabetic baseline even when SVG
   // dominant-baseline moves it relative to the authored y coordinate.
@@ -63,7 +63,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const box = { x, y, width: Math.max(...known.map(box => box.x + box.width)) - x, height: Math.max(...known.map(box => box.y + box.height)) - y }
       glyphInk.set(element, box); return box
     }
-    if (element.namespaceURI !== 'http://www.w3.org/2000/svg' || !['text', 'tspan'].includes(element.localName) || !/^[\x20-\x7e]+$/.test(element.textContent ?? '')) return null
+    if (element.namespaceURI !== 'http://www.w3.org/2000/svg' || !['text', 'tspan'].includes(element.localName) || !/^[\x20-\x7e\u00a0-\u00ff]+$/.test(element.textContent ?? '')) return null
     const text = element as SVGTextPositioningElement, value = text.textContent!, style = getComputedStyle(text), matrix = text.getScreenCTM()
     if (!style.font || style.direction !== 'ltr' || style.writingMode !== 'horizontal-tb' || style.textTransform !== 'none' || !['normal', '0px'].includes(style.letterSpacing) || !['normal', '0px'].includes(style.wordSpacing) || style.fontFeatureSettings !== 'normal' || style.fontVariationSettings !== 'normal' || style.fontVariant !== 'normal' || !['normal', '100%'].includes(style.fontStretch) || style.textDecorationLine !== 'none' || style.textShadow !== 'none' || style.stroke !== 'none' && Number(style.strokeOpacity) !== 0 && Number.parseFloat(style.strokeWidth) !== 0 || text.hasAttribute('textLength') || !matrix || ![matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f].every(Number.isFinite) || Math.abs(matrix.b) > 1e-6 || Math.abs(matrix.c) > 1e-6 || matrix.a <= 0 || matrix.d <= 0 || [text.x, text.y, text.dx, text.dy, text.rotate].some(list => list.baseVal.numberOfItems > 1)) return null
     for (let parent: Element | null = element; parent; parent = parent.parentElement) { const css = getComputedStyle(parent); if (css.filter !== 'none' || parent.hasAttribute('textLength')) return null; if (parent === svg) break }

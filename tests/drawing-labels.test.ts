@@ -52,7 +52,8 @@ test('SVG label verdicts require visible, unclipped text rather than hidden DOM 
   try {
     const example: any = { ...flow, source: 'flowchart LR\nA[Alpha] --> B[Beta]', expected: { nodes: [{ id: 'A', label: 'Alpha' }, { id: 'B', label: 'Beta' }] } }
     const text = '<text x="10" y="30">Alpha</text><text x="100" y="30">Beta</text>'
-    for (const [body, expected] of [[text, 'correct'], [text + '<text display="none">flowchart LR</text>', 'correct'], [text + '<text x="10" y="60">flowchart LR</text>', 'incorrect'], ['<g display="none">' + text + '</g>', 'incorrect'], ['<g opacity="0">' + text + '</g>', 'incorrect'], [text + '<rect width="300" height="100" fill="white"/>', 'incorrect']] as const) {
+    const unsupportedFilter = '<defs><filter id="erase"><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"/></filter></defs><g filter="url(#erase)">' + text + '</g>'
+    for (const [body, expected] of [[text, 'correct'], [text + '<text display="none">flowchart LR</text>', 'correct'], [text + '<text x="10" y="60">flowchart LR</text>', 'incorrect'], ['<g display="none">' + text + '</g>', 'incorrect'], ['<g opacity="0">' + text + '</g>', 'incorrect'], [text + '<rect width="300" height="100" fill="white"/>', 'incorrect'], [unsupportedFilter, 'unknown']] as const) {
       const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">' + body + '</svg>'
       await page.setContent(svg)
       expect((await assessSvgLabels(example, page, svg)).status).toBe(expected)

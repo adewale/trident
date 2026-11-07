@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Extend measured SVG glyph bounds to Latin-1 text. Independent raster controls
+  distinguish fitting accented labels from clipped ink; combining marks and
+  other unsupported glyph profiles still withhold a verdict. Drawing verdicts
+  also require resolved paint; an unsupported filter cannot earn label credit.
 - Collectors verify prepared artifact bytes before execution. Publication derives
   counts from complete case lists, requires identical Fidelity controls, and
   preserves untouched projects during partial Drawing merges.
@@ -9,8 +13,8 @@
   labels preserve word order and join wrapped text only within observed frames.
   Unsupported SVG visibility stays unassessed. Timed-out browser contexts are
   replaced, and CLI deadlines terminate their process groups.
-- Output admission validates SVG XML and decodes PNG data after the clock stops.
-  Candidate parser faults count as nonpasses, and version-change detection includes
+- Output admission validates SVG XML and decodes PNG data after the clock stops. Native PNG dimension budgets use division to avoid
+  integer overflow. Candidate parser faults count as nonpasses, and version-change detection includes
   source revisions, CLI releases and companion versions. Update js-yaml to 4.3.2.
   Existing benchmark results remain historical; these checks require fresh collection.
 - **Mermaid 12.3.0 is the reference.** The oracle, Mermaid's row in every benchmark and

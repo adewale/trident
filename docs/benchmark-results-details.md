@@ -2,14 +2,14 @@
 
 [League tables](../RESULTS.md) contain the three current benchmarks. Every project
 is displayed as one name-and-version label, such as **Pele 1.13.0**. The measurements
-use the version freeze of 6 November 2026; changing presentation runs no renderers.
+use the version freeze of 7 November 2026; changing presentation runs no renderers.
 
 ## Reading the tables
 
 | Benchmark | Population | Ordering | Missing results |
 |---|---|---|---|
 | DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->7 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
-| Drawing Correctness | The same 127 cases, separately for SVG and terminal text | More whole cases with every expected label shown and no raw syntax; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed: cases with no label to check, or unrun |
+| Drawing Correctness | The same 127 cases, separately for SVG and terminal text | More whole cases with every expected label shown and no raw syntax; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed: unsupported visibility evidence or unrun cases |
 | Mermaid Fidelity | The expanded upstream callbacks that pinned Mermaid itself passes | More passed callbacks; equal counts share a rank. **Possible rank** shows the positions still reachable | Candidate adapter gaps remain unassessed |
 
 For DaveBench, completions are the minimum across three runs and seconds are the
@@ -278,14 +278,15 @@ package included, can pass them. They are accounted for outside the scored
 population, as the portfolio definition allows, and reported beside the table.
 
 **Drawing Correctness checks labels.** A case passes when every label named by its
-reviewed source facts appears in the output and no raw Mermaid syntax is shown. SVG
-text is read from the document without a browser, and terminal text directly. Empty,
-error, echoed or zero-size outputs are nonpasses; the one case whose correct drawing
-is empty passes only without text. Edges, arrow direction, layout and styling are
-not checked. The earlier geometry checkers left 2,805 of 6,350 results unassessed;
-the label check leaves <!-- fact:drawing-unassessed -->0<!-- /fact --> of <!-- fact:drawing-rows -->4,318<!-- /fact --> (the one chart that names no labels is judged on raw-syntax
-leakage alone). On the same outputs it agrees with every result the geometry
-checkers had confirmed correct.
+reviewed source facts is visibly shown and no raw Mermaid syntax is shown. SVG
+labels require browser visibility, canvas, clipping and resolved-paint evidence.
+Unsupported paint profiles stay unassessed. Terminal matching preserves text
+order and joins wrapping inside observed boxes. Empty, error, echoed or zero-size
+outputs are nonpasses; the empty-diagram SVG case requires no painted ink.
+Edges, arrow direction, layout quality and authored style matching are not
+scored. The collection leaves <!-- fact:drawing-unassessed -->0<!-- /fact --> of
+<!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. A chart naming no
+labels is checked for raw-syntax leakage alone.
 
 PNG is not part of Drawing Correctness. OCR found every label in only 43 of 127
 Mermaid PNGs whose source SVGs pass 124, so a PNG score would mostly measure the
@@ -339,14 +340,9 @@ results snapshot remain in Git history.
 
 ## Current project participation
 
-| Benchmark | Projects with scored results | Projects with no Trident gaps in the reported population |
-|---|---:|---:|
-| DaveBench | 27: 16 SVG, 17 PNG, 18 terminal | 27 |
-| Drawing Correctness | 26: 16 SVG, 18 terminal (Mermaid Flutter outputs only PNG, which Drawing does not assess) | 0 |
-| Mermaid Fidelity | 14, including Mermaid 12.2.0 | 1 (Mermaid) |
-
-A scored result can include failures. It does not mean every input passed, every
-output was assessable, or that the project has complete benchmark coverage.
-Drawing's 20 unassessed results and Fidelity's missing operations/reference
-bindings remain unfinished Trident work. The synthetic table combines the measured
-components now; no project has enough coverage for an exact overall score.
+The [league tables](../RESULTS.md) list measured projects and setup gaps for each
+format. A scored result can include failures. It does not mean every input passed,
+every output was assessable, or the project has complete benchmark coverage.
+Drawing has <!-- fact:drawing-unassessed -->0<!-- /fact --> unassessed cases.
+Fidelity's unmapped operations and unqualified reference callbacks remain
+coverage work. The synthesis keeps missing measurements as score ranges.

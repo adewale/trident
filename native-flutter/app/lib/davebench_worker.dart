@@ -37,8 +37,9 @@ Future<String?> _pngAdmission(Uint8List? bytes) async {
   for (var i = 0; i < _signature.length; i++) { if (bytes[i] != _signature[i]) return 'not a PNG'; }
   if (String.fromCharCodes(bytes.sublist(12, 16)) != 'IHDR') return 'PNG has no IHDR';
   final view = ByteData.sublistView(bytes);
-  if (view.getUint32(16) == 0 || view.getUint32(20) == 0) return 'zero-size PNG';
-  if (bytes.length > 64 * 1024 * 1024 || view.getUint32(16) * view.getUint32(20) > 16 * 1024 * 1024) return 'PNG exceeds validation budget';
+  final width = view.getUint32(16), height = view.getUint32(20);
+  if (width == 0 || height == 0) return 'zero-size PNG';
+  if (bytes.length > 64 * 1024 * 1024 || width > (16 * 1024 * 1024) ~/ height) return 'PNG exceeds validation budget';
   ui.Codec? codec;
   ui.Image? image;
   try {

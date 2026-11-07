@@ -58,10 +58,22 @@ test('top and bottom clipping of actual glyph ink still fail, independently conf
   expect(statuses(await inspect(drawing(16, 80, '', 'scale(2)')))).toEqual(['passed', 'passed'])
 })
 
+test('Latin-1 glyph bounds distinguish fitting accents from actual raster clipping', async () => {
+  const label = 'Über die Grenze: naïve café, ÅÄÖ éèêàçô'
+  const full = drawing(24).replace(title, label), pixels = await rows('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(full)), fullInk = pixels.reduce((a, b) => a + b, 0)
+  expect(fullInk).toBeGreaterThan(0)
+  expect(statuses(await inspect(full, label))).toEqual(['passed', 'passed'])
+  for (const clipped of [drawing(8), drawing(24, 30)].map(svg => svg.replace(title, label))) {
+    const pixels = await rows('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(clipped))
+    expect(pixels.reduce((a, b) => a + b, 0)).toBeLessThan(fullInk)
+    expect(statuses(await inspect(clipped, label))).toEqual(['failed', 'failed'])
+  }
+})
+
 test('unqualified font-box overflow cannot turn HTML, complex glyphs or stretched text into renderer faults', async () => {
   const html = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="80"><foreignObject x="0" y="-6" width="800" height="80"><div xmlns="http://www.w3.org/1999/xhtml" style="font:32px Arial;line-height:36px">${title}</div></foreignObject></svg>`
   expect(statuses(await inspect(html))).toEqual(['unavailable', 'unavailable'])
-  expect(statuses(await inspect(drawing().replace(title, 'Über die Grenze'), 'Über die Grenze'))).toEqual(['unavailable', 'unavailable'])
+  expect(statuses(await inspect(drawing().replace(title, 'Cafe\u0301'), 'Cafe\u0301'))).toEqual(['unavailable', 'unavailable'])
   expect(statuses(await inspect(drawing(16, 80, 'textLength="300" lengthAdjust="spacingAndGlyphs"')))).toEqual(['unavailable', 'unavailable'])
   const clipped = drawing().replace('<g>', '<defs><clipPath id="cut"><rect width="1" height="1"/></clipPath></defs><g clip-path="url(#cut)">')
   expect(statuses(await inspect(clipped))).toEqual(['passed', 'failed'])

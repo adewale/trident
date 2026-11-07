@@ -1,0 +1,63 @@
+{
+  "sourceBefore": "49947d539cb9d04deed24608d2e9bd220810b17f",
+  "files": {
+    "native-flutter/app/lib/davebench_worker.dart": "c6b9a160366b77d4436f09f69ea4fc61b38426d222df49336a60781571456e1a",
+    "native-flutter/app/pubspec.lock": "388d85f3334be0b47755c92e9f6911bfb2cca253c9514d232e55e781e677f35e",
+    "fidelity/paint.ts": "8338645b8f7e9e32a94a56e85e0d8a154dc3af4bd0131233bf2e3c83e483c739",
+    "tests/svg-text-ink-clipping.test.ts": "d2e42259f74a03a06204fc2a7f25cd94f521270703c2fe801c47fc979d1a5dae",
+    "fidelity/drawing/labels.ts": "0bdb7ae4a7a54e30ac803a7d21b45ea59b4a2605149acf868da765ba3e5ea3cc",
+    "tests/drawing-labels.test.ts": "3226c19756a1411afe052133c7fe2a5e0a8648266ef21bced5aec842e7838aaa",
+    "tests/davebench-validity.test.ts": "aca034f1c31d0a319bf1b0a8536a8a3996d2bdab687e550ba1b89e830d5501e0"
+  },
+  "native": {
+    "flutter": "3.44.0",
+    "dart": "3.12.0",
+    "engine": "4c525dac5ebe5971c5708ef73558ed8edcf4a362",
+    "sdkDistribution": "ghcr.io/cirruslabs/flutter@sha256:46691e311715845de03a3ba4753a475476936805b29431b1f00f1816981033f8",
+    "applicationLockChangedOnlyInUntrackedBuildCopy": {
+      "katex_dart": [
+        "0.1.1",
+        "0.1.0"
+      ],
+      "meta": [
+        "1.18.3",
+        "1.18.0"
+      ],
+      "vector_math": [
+        "2.4.0",
+        "2.2.0"
+      ]
+    },
+    "releaseAotCompile": {
+      "completed": true,
+      "sha256": "07ac94ac0686eb12c27f1b5ae6ab31057bce07ea6e74d8a1c65620848173ebb3"
+    },
+    "admissionProbe": {
+      "after": [
+        "Native PNG probe started",
+        "PASS overflow-safe pixel budget",
+        "PASS null",
+        "PASS empty",
+        "PASS not PNG",
+        "PASS valid decoded image",
+        "PASS truncated after IHDR dimensions",
+        "PASS pixel budget",
+        "PASS zero dimensions",
+        "Native PNG admission: 8 controls passed"
+      ],
+      "before": [
+        "Native PNG probe started",
+        "PASS null",
+        "PASS empty",
+        "PASS not PNG",
+        "PASS valid decoded image",
+        "FAIL truncated after IHDR dimensions: null"
+      ],
+      "scope": "The current/baseline private admission function was compiled with a separate post-frame entry point and executed by the native Flutter test engine. This does not verify the GTK application bundle or native performance."
+    },
+    "gtkBuild": {
+      "completed": false,
+      "reason": "storage.googleapis.com blocked by environment network policy; documented Flutter 3.47.8 and Linux desktop engine downloads unavailable"
+    }
+  }
+}

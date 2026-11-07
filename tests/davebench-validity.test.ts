@@ -44,6 +44,7 @@ test('serialized SVG admission needs a sized svg root and no error placeholder; 
   expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17"><g/></svg>', 'gantt\n  weekday monday')).toEqual({ valid: true })
   expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" aria-roledescription="error" viewBox="0 0 9 9"><path/></svg>', source)).toEqual({ valid: false, reason: 'error placeholder' })
   expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 20"><style>.error{}</style><text>Parse error on line 1</text></svg>', source).valid).toBe(false)
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><g></svg>', source).valid).toBe(false)
 })
 
 test('PNG admission decodes complete image data instead of trusting a plausible header', () => {
@@ -51,7 +52,6 @@ test('PNG admission decodes complete image data instead of trusting a plausible 
   expect(pngBytesValidity(bytes)).toEqual({ valid: true })
   expect(pngBytesValidity(bytes.subarray(0, 33)).valid).toBe(false)
   expect(pngBytesValidity(new TextEncoder().encode('not an image at all, but long enough')).valid).toBe(false)
-  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><g></svg>', 'flowchart TD').valid).toBe(false)
 })
 
 test('a fallback render drawn from the source text is not a completion', () => {

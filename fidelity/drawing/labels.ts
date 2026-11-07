@@ -116,7 +116,7 @@ export async function assessSvgLabels(test: DrawingCase, page: any, svg: string)
     const empty = await inspectEmptySvgDrawing(page, test)
     return { status: empty.status, labels: 0, reason: [...empty.failed, ...empty.unknown].join('; ') || undefined }
   }
-  const required = ['visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels']
+  const required = ['visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels', 'paint-opacity-and-color']
   const observe = async (labels: string[]) => {
     const paint = await page.evaluate(inspectFidelityPaint, { family: test.family, expected: { labels } })
     return required.map(key => paint.checks.find((check: any) => check.criterion === key))
