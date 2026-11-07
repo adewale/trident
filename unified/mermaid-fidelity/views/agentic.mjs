@@ -75,7 +75,9 @@ function agentflow(raw, hooks) {
     return record({ ...group, type: 'flow', classes: assigned ? [assigned] : [], metadata: meta(raw, group.id) }, 'agentflow subgraph', ['id', 'title', 'nodes', 'dir', 'classes', 'type', 'metadata'], { labelType: 'Agentic Mermaid retains a group title, not whether it was written as markdown' }, hooks)
   })
   const getConnectors = () => [...getVertices().values()].filter(node => node.isConnector)
-  const mappings = () => raw.mappings.map(item => ({ id: item.id, type: item.type === 'flow' ? 'subgraph' : item.type, position: { startLine: item.line, startColumn: item.col, endLine: item.endLine, endColumn: item.endCol } }))
+  // Native physical columns are one-based UTF-16 boundaries; Jison's public
+  // position record uses zero-based columns. Lines and span meanings are unchanged.
+  const mappings = () => raw.mappings.map(item => ({ id: item.id, type: item.type === 'flow' ? 'subgraph' : item.type, position: { startLine: item.line, startColumn: item.col - 1, endLine: item.endLine, endColumn: item.endCol - 1 } }))
   // Reuse the reviewed AgentFlow structural/layout translation. The normalized
   // record is built only from the actual graph, metadata and source mappings.
   const state = () => agentflowState({ mappings: mappings() }, hooks, PROJECT)

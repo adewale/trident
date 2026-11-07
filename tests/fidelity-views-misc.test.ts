@@ -408,7 +408,7 @@ test('agentic AgentFlow metadata, connectors, source mappings and collapsed owne
   expect(view.getEdges()[0]).toMatchObject({ interpolate: 'basis', animate: true, animation: 'fast' })
   expect(view.getConnectors().map((node: any) => node.id)).toEqual(['C'])
   expect(view.getTools().map((node: any) => node.id)).toEqual(['A'])
-  expect(view.getElementById('G')).toEqual({ id: 'G', type: 'subgraph', position: { startLine: 2, startColumn: 1, endLine: 2, endColumn: 7 } })
+  expect(view.getElementById('G')).toEqual({ id: 'G', type: 'subgraph', position: { startLine: 2, startColumn: 0, endLine: 2, endColumn: 6 } })
   expect(view.getMappingStats()).toEqual({ vertices: 1, edges: 0, subgraphs: 1, connectors: 0, attachments: 0, totalElements: 2 })
   const data = view.getData()
   expect(data.nodes.map((node: any) => node.id)).toEqual(['G', 'C'])
