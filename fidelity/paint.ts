@@ -322,7 +322,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const uniform = (paint: string) => { const id = /#([^\s)"']+)/.exec(paint)?.[1], gradient = id ? document.getElementById(decodeURIComponent(id)) : null, stops = gradient && ['linearGradient', 'radialGradient'].includes(gradient.localName) ? [...gradient.querySelectorAll('stop')] : []; return stops.length && stops.every(stop => getComputedStyle(stop).stopColor === getComputedStyle(stops[0]!).stopColor) ? getComputedStyle(stops[0]!).stopColor : paint }
     const paints = [...(foregroundAlpha && Number(css.fillOpacity) > 0 ? [filteredColorKey(element, uniform(foreground))] : []), ...(strokeVisible ? [filteredColorKey(element, uniform(css.stroke))] : [])]
     if (!paints.length || paints.some(paint => paint === null)) {
-      if (/url\(/.test(foreground + (strokeVisible ? css.stroke : ''))) unknownPaint.add('label-paint:' + foreground)
+      if (labelElements.includes(element) && /url\(/.test(foreground + (strokeVisible ? css.stroke : ''))) unknownPaint.add('label-paint:' + foreground)
       return false
     }
     // A zero-length line can paint a marker behind a number despite having
@@ -351,7 +351,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     }).at(-1)
     if (backdrop) {
       const fill = getComputedStyle(backdrop).fill, background = filteredColorKey(backdrop, uniform(fill))
-      if (!background && /url\(/.test(fill)) unknownPaint.add('label-backdrop:' + fill)
+      if (!background && labelElements.includes(element) && /url\(/.test(fill)) unknownPaint.add('label-backdrop:' + fill)
       return !!background && paints.every(color => color === background)
     }
     // The observer's browser canvas is white unless an opaque CSS background
