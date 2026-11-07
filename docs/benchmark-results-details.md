@@ -65,7 +65,11 @@ limitations of the projects being benchmarked.
 
 **Fidelity runs every candidate on the whole selected suite.** All <!-- fact:fidelity-candidates -->26<!-- /fact --> candidates
 plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected core-package files (<!-- fact:fidelity-collected -->7 November 2026<!-- /fact -->) against one
-shared Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> control run. During development (3–5 November), the reviewed
+shared Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> control run. The current control withholds credits from
+negative use-case assertions that caught missing parser/lexer operations; this
+changes both the score population and gap totals. The
+[completion record](evidence/benchmark-completion-2026-11-07/README.md) explains
+the change and the complete DOM-free comparison. During development (3–5 November), the reviewed
 schema views and unsupported operations described below cut the bridged projects'
 unassessed callbacks from
 roughly 1,000–2,650 each to 250–1,000 (Grok renderer 2,146 → 336, Mermaid ASCII
