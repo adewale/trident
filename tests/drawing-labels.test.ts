@@ -55,6 +55,7 @@ test('SVG discretionary hyphenation is recognized only at explicit line transiti
   for (const svg of [
     '<text><tspan>rectangl-</tspan><tspan>e</tspan></text>',
     '<text><tspan>rectangl-</tspan><tspan x="10" dy="0">e</tspan></text>',
+    '<text><tspan>rectangl-</tspan><tspan data-x="10" data-dy="16">e</tspan></text>',
     '<text><tspan>rectangl-</tspan></text><text><tspan x="10" dy="16">e</tspan></text>',
   ]) expect(labelFound('rectangle', svgText(svg))).toBe(false)
 })

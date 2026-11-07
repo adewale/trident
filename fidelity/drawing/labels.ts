@@ -47,8 +47,8 @@ export function svgText(svg: string) {
     // authored word or be inserted by wrapping. Only explicit SVG line moves
     // within one text element qualify; adjacent styled spans/text nodes do not.
     .replace(/<text\b[^>]*>[\s\S]*?<\/text\s*>/gi, text => text.replace(/-\s*<\/tspan>\s*<tspan\b([^>]*)>/gi, (boundary, attributes: string) => {
-      const x = /\bx\s*=\s*["'][^"']+["']/i.test(attributes)
-      const dy = attributes.match(/\bdy\s*=\s*["']([+-]?(?:\d+(?:\.\d*)?|\.\d+))(?:px|em)?["']/i)?.[1]
+      const x = /(?:^|\s)x\s*=\s*["'][^"']+["']/i.test(attributes)
+      const dy = attributes.match(/(?:^|\s)dy\s*=\s*["']([+-]?(?:\d+(?:\.\d*)?|\.\d+))(?:px|em)?["']/i)?.[1]
       return x && dy !== undefined && Number(dy) !== 0 ? '\u00ad' : boundary
     }))
     .replace(breaks, ' ')
