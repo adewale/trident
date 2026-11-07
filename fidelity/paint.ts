@@ -104,14 +104,23 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const x = fraction('x', -.1), y = fraction('y', -.1), width = fraction('width', 1.2), height = fraction('height', 1.2)
     return x < 0 && y < 0 && x + width > 1 && y + height > 1 && getComputedStyle(shadow).display !== 'none'
   }
+  const staticPaintCache = new Map<Element, boolean>(), animatedSvg = !!svg.querySelector('animate,animateTransform,animateMotion,set')
+  const staticPaint = (element: Element) => {
+    if (staticPaintCache.has(element)) return staticPaintCache.get(element)!
+    let stable = !animatedSvg
+    for (let owner: Element | null = element; stable && owner; owner = owner.parentElement) { const css = getComputedStyle(owner); if (css.animationName !== 'none' || css.transitionDuration.split(',').some(value => Number.parseFloat(value) !== 0)) stable = false; if (owner === svg) break }
+    staticPaintCache.set(element, stable)
+    return stable
+  }
   const colorAlpha = (color: string): number | null => {
     if (['none', 'transparent'].includes(color)) return 0
     if (/url\(/.test(color)) {
+      if (colors.has(color)) return colors.get(color)!
       const id = /#([^\s)"']+)/.exec(color)?.[1], gradient = id ? document.getElementById(decodeURIComponent(id)) : null
-      const stops = gradient && svg.contains(gradient) && ['linearGradient', 'radialGradient'].includes(gradient.localName) && !gradient.hasAttribute('href') && !gradient.hasAttributeNS('http://www.w3.org/1999/xlink', 'href') ? [...gradient.children].filter(child => child.localName === 'stop') : []
-      const alphas = stops.map(stop => { const style = getComputedStyle(stop), value = colorAlpha(style.stopColor); return value === null || style.display === 'none' ? null : value * Number(style.stopOpacity) })
-      if (alphas.length && alphas.every((alpha): alpha is number => alpha !== null && alpha > 0)) return Math.min(...alphas)
-      unknownPaint.add(color); return null
+      const stops = gradient && svg.contains(gradient) && ['linearGradient', 'radialGradient'].includes(gradient.localName) && !gradient.hasAttribute('href') && !gradient.hasAttributeNS('http://www.w3.org/1999/xlink', 'href') && staticPaint(gradient) ? [...gradient.children].filter(child => child.localName === 'stop') : []
+      const alphas = stops.map(stop => { const style = getComputedStyle(stop), value = colorAlpha(style.stopColor); return value === null || style.display === 'none' || !staticPaint(stop) ? null : value * Number(style.stopOpacity) })
+      if (alphas.length && alphas.every((alpha): alpha is number => alpha !== null && alpha > 0)) { const alpha = Math.min(...alphas); colors.set(color, alpha); return alpha }
+      unknownPaint.add(color); colors.set(color, null); return null
     }
     if (/context-|var\(/.test(color)) { unknownPaint.add(color); return null }
     if (colors.has(color)) return colors.get(color)!
@@ -130,6 +139,35 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       if (owner === svg) break
     }
     return values.every(Number.isFinite) ? JSON.stringify(values.map(Math.round)) : null
+  }
+  // Opaque sRGB/linearRGB gradient interpolation stays within the channel
+  // ranges of its stops. A separating channel proves that a flat opaque label
+  // cannot match any point of that backdrop, without fitting its coordinates.
+  // A possible match, inherited gradient, transparency or animated paint is
+  // deliberately not a proof. Existing clipping and occlusion checks still run.
+  const gradientExcludesLabel = (backdrop: Element, paint: string, label: Element, foregrounds: readonly (string | null)[]) => {
+    const match = /^url\(["']?#([^\s"')]+)["']?\)$/.exec(paint)
+    let gradient: Element | null
+    try { gradient = match ? document.getElementById(decodeURIComponent(match[1]!)) : null } catch { return false }
+    if (!gradient || !svg.contains(gradient) || !['linearGradient', 'radialGradient'].includes(gradient.localName) || gradient.hasAttribute('href') || gradient.hasAttributeNS('http://www.w3.org/1999/xlink', 'href') || !['auto', 'srgb', 'linearrgb'].includes(getComputedStyle(gradient).colorInterpolation.toLowerCase()) || svg.querySelector('animate,animateTransform,animateMotion,set')) return false
+    const stops = [...gradient.children]
+    if (stops.length < 2 || stops.length > 64 || stops.some(stop => stop.localName !== 'stop' || stop.children.length)) return false
+    for (let owner: Element | null = label; owner; owner = owner.parentElement) { const css = getComputedStyle(owner); if (Number(css.opacity) !== 1 || css.animationName !== 'none' || css.transitionDuration.split(',').some(value => Number.parseFloat(value) !== 0)) return false; if (owner === svg) break }
+    const labelStyle = getComputedStyle(label)
+    if (Number(labelStyle.fillOpacity) !== 1 || Number(labelStyle.strokeOpacity) !== 1) return false
+    const palette: number[][] = []
+    for (const stop of stops) {
+      const css = getComputedStyle(stop), key = filteredColorKey(backdrop, css.stopColor)
+      if (css.display === 'none' || css.animationName !== 'none' || css.transitionDuration.split(',').some(value => Number.parseFloat(value) !== 0) || Number(css.stopOpacity) !== 1 || !key) return false
+      const color = JSON.parse(key)
+      if (color[3] !== 255) return false
+      palette.push(color)
+    }
+    return foregrounds.length > 0 && foregrounds.every(key => {
+      if (!key) return false
+      const color = JSON.parse(key)
+      return color[3] === 255 && [0, 1, 2].some(channel => color[channel] < Math.min(...palette.map(stop => stop[channel]!)) - 2 || color[channel] > Math.max(...palette.map(stop => stop[channel]!)) + 2)
+    })
   }
   const neutralBrightnessPaint = (element: Element, filter: string, definitions: boolean) => {
     const amount = brightnessAmount(filter)
@@ -345,13 +383,18 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const backdrop = [...svg.querySelectorAll('rect,circle,ellipse,polygon,path')].filter(shape => {
       if (shape.contains(element) || !(shape.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) || !visible(shape)) return false
       const style = getComputedStyle(shape), matrix = (shape as SVGGraphicsElement).getScreenCTM?.()
-      if (!matrix || colorAlpha(style.fill) !== 1 || Number(style.fillOpacity) !== 1) return false
+      if (!matrix) return false
       for (let parent: Element | null = shape; parent; parent = parent.parentElement) { const style = getComputedStyle(parent); if (Number(style.opacity) !== 1 || style.maskImage !== 'none' || style.clipPath !== 'none' || style.mixBlendMode !== 'normal' || style.filter !== 'none' && !preservesSourceGraphic(style.filter) && brightnessAmount(style.filter) === null) return false; if (parent === svg) break }
-      return [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]].every(([x, y]) => (shape as SVGGeometryElement).isPointInFill?.(new DOMPoint(x, y).matrixTransform(matrix.inverse())))
+      if (![[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]].every(([x, y]) => (shape as SVGGeometryElement).isPointInFill?.(new DOMPoint(x, y).matrixTransform(matrix.inverse())))) return false
+      if (colorAlpha(style.fill) !== 1 || Number(style.fillOpacity) !== 1) {
+        if (/url\(/.test(style.fill) && labelElements.includes(element)) unknownPaint.add('label-backdrop:' + style.fill)
+        return false
+      }
+      return true
     }).at(-1)
     if (backdrop) {
       const fill = getComputedStyle(backdrop).fill, background = filteredColorKey(backdrop, uniform(fill))
-      if (!background && labelElements.includes(element) && /url\(/.test(fill)) unknownPaint.add('label-backdrop:' + fill)
+      if (!background && labelElements.includes(element) && /url\(/.test(fill) && !gradientExcludesLabel(backdrop, fill, element, paints)) unknownPaint.add('label-backdrop:' + fill)
       return !!background && paints.every(color => color === background)
     }
     // The observer's browser canvas is white unless an opaque CSS background

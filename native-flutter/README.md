@@ -42,9 +42,13 @@ bun commands.ts davebench:native-png --host-display \
 ```
 
 `--host-display` runs under a private Xvfb display on this machine; `--image
-sha256:IMAGE_ID` runs it in the managed Docker daemon instead. The counter checks
-that the bundle was built from the current `davebench_worker.dart` and the locked
-`mermaid_flutter` 0.3.2. Append its runs to the DaveBench image results before
+sha256:IMAGE_ID` runs it in the managed Docker daemon instead. The counter verifies
+the complete bundle's build and smoke receipts against the current native sources,
+SDK pin and package lock before collection. A relocated CI bundle is supported;
+its original source-tree directory is not required. The running worker must report
+the pinned Dart version, Linux and release mode. Results record the build receipt,
+requested software rendering and host shared-library resolution when applicable.
+Append its runs to the DaveBench image results before
 `campaign:results` builds the report.
 
 Mermaid Dart (`orestesgaolin/mermaid`) remains
