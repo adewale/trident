@@ -32,9 +32,10 @@ only some projects of an existing format. Existing published scores predate this
 policy and have not been recollected by a code change.
 
 SVG label profile `svg-label-paint-v2` can qualify a flat opaque label against an
-opaque static sRGB/linearRGB gradient when a colour channel separates that label
+opaque static gradient with ordinary sRGB stops and sRGB/linearRGB interpolation
+when a colour channel separates that label
 from every stop's channel range. It retains canvas, clipping and occlusion checks.
-Possible colour matches, transparent or animated gradients, inherited gradients,
+Possible colour matches, wider colour spaces, transparent or animated gradients, inherited gradients,
 patterns, arbitrary filters and unmapped path/image glyphs require separate
 evidence; a positive text bounding box does not qualify them.
 

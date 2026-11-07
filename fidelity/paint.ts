@@ -153,12 +153,13 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     const stops = [...gradient.children]
     if (stops.length < 2 || stops.length > 64 || stops.some(stop => stop.localName !== 'stop' || stop.children.length)) return false
     for (let owner: Element | null = label; owner; owner = owner.parentElement) { const css = getComputedStyle(owner); if (Number(css.opacity) !== 1 || css.animationName !== 'none' || css.transitionDuration.split(',').some(value => Number.parseFloat(value) !== 0)) return false; if (owner === svg) break }
-    const labelStyle = getComputedStyle(label)
-    if (Number(labelStyle.fillOpacity) !== 1 || Number(labelStyle.strokeOpacity) !== 1) return false
+    const labelStyle = getComputedStyle(label), srgb = (color: string) => /^rgba?\([\d\s.,%/+-]+\)$/.test(color)
+    const foreground = label.namespaceURI === 'http://www.w3.org/2000/svg' ? labelStyle.fill : labelStyle.color
+    if (!srgb(foreground) || Number(labelStyle.fillOpacity) !== 1 || Number(labelStyle.strokeOpacity) !== 1 || Number.parseFloat(labelStyle.strokeWidth) > 0 && labelStyle.stroke !== 'none' && !srgb(labelStyle.stroke)) return false
     const palette: number[][] = []
     for (const stop of stops) {
       const css = getComputedStyle(stop), key = filteredColorKey(backdrop, css.stopColor)
-      if (css.display === 'none' || css.animationName !== 'none' || css.transitionDuration.split(',').some(value => Number.parseFloat(value) !== 0) || Number(css.stopOpacity) !== 1 || !key) return false
+      if (!srgb(css.stopColor) || css.display === 'none' || css.animationName !== 'none' || css.transitionDuration.split(',').some(value => Number.parseFloat(value) !== 0) || Number(css.stopOpacity) !== 1 || !key) return false
       const color = JSON.parse(key)
       if (color[3] !== 255) return false
       palette.push(color)

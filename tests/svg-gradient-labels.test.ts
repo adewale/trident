@@ -12,6 +12,8 @@ test('opaque gradient backdrops qualify only with a separating label colour chan
   const cases: [string, string, 'passed' | 'unavailable'][] = [
     ['light', gradient(stop(0, '#eee') + stop(1, 'white')), 'passed'],
     ['linear RGB', gradient(stop(0, '#ddd') + stop(1, 'white'), 'color-interpolation="linearRGB"'), 'passed'],
+    ['wide-gamut stops', gradient(stop(0, 'color(display-p3 0.8 0.8 0.8)') + stop(1, 'color(display-p3 1 1 1)')), 'unavailable'],
+    ['wide-gamut label', gradient(stop(0, '#eee') + stop(1, 'white')) + '<style>text{fill:color(display-p3 0 0 0)}</style>', 'unavailable'],
     ['same channel interval', gradient(stop(0, 'black') + stop(1, 'white')), 'unavailable'],
     ['intermediate dark plateau', gradient(stop(0, 'white') + stop(.2, 'black') + stop(.8, 'black') + stop(1, 'white')), 'unavailable'],
     ['transparency', gradient(stop(0, 'white', 'stop-opacity="0.5"') + stop(1, 'white')), 'unavailable'],
