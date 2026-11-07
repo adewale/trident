@@ -40,10 +40,16 @@ ${body}
 }
 
 const logo = svg('Three green arrow-tipped spears above a detached datum line, with an Inter Black wordmark.', symbol + '\n' + wordmark)
+// For dark backgrounds (the README's prefers-color-scheme: dark source), the wordmark
+// takes the paper colour instead of ink; the mark keeps the brand green.
+const darkWordmark = wordmark.replaceAll(`fill="${ink}"`, `fill="${paper}"`)
+if (darkWordmark === wordmark) throw Error('Wordmark ink colour not found for the dark variant')
+const darkLogo = svg('Three green arrow-tipped spears above a detached datum line, with an Inter Black wordmark in light lettering for dark backgrounds.', symbol + '\n' + darkWordmark)
 const mark = svg('Three green arrow-tipped spears above a detached datum line.', `<g transform="translate(0 88.5)">${symbol}</g>`)
 mkdirSync(output, { recursive: true })
 writeFileSync(resolve(output, 'trident.svg'), logo)
+writeFileSync(resolve(output, 'trident-dark.svg'), darkLogo)
 writeFileSync(resolve(output, 'trident-mark.svg'), mark)
 writeFileSync(resolve(output, 'trident.png'), new Resvg(logo, { font: { loadSystemFonts: false }, background: paper }).render().asPng())
 writeFileSync(resolve(output, 'trident-mark.png'), new Resvg(mark, { font: { loadSystemFonts: false }, fitTo: { mode: 'width', value: 512 } }).render().asPng())
-console.log('Generated Trident SVG/PNG lockup and mark in ' + output)
+console.log('Generated Trident SVG/PNG lockup, dark-background lockup and mark in ' + output)
