@@ -144,6 +144,17 @@ per message unless it records a wrap flag itself. A field the tests read
 that no view maps stays a Trident gap. Projects without a reviewed view use the
 generic field-name projection.
 
+Agentic Mermaid's registered Class and ER bodies retain some members as raw rows.
+When the installed public package root exports typed Class/ER parsers, the adapter
+also calls those parsers and projects their actual member and attribute fields.
+This means two public parser invocations per Class/ER parse request; the audit's
+`calls` counts requests, not internal parser invocations. These are correctness
+adapter operations, not a performance benchmark. Older packages retain explicit
+unsupported fields. Inline Class styles come directly from the registered model;
+classDef-derived `.styles` stays unsupported because Mermaid accumulates it in
+statement order, which the native model does not retain. No discarded assignments
+or member fields are recovered from raw source or display strings.
+
 MermaidText is a declared Go port of the Grok renderer's `mermaid.rs`. Its Go bridge
 and Grok's Rust bridge were built independently and produced the same outcome for
 every expanded callback; only the wording of their unsupported

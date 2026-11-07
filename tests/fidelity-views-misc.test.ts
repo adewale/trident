@@ -20,6 +20,53 @@ const verdicts = () => {
   }
 }
 
+test('agentic public typed Class model exposes members and styles without parsing raw body rows', () => {
+  const { hooks, log } = verdicts()
+  const raw = {
+    classes: [{ id: 'A', label: 'A', members: ['+int age', '+getAge(List~int~ x) int*'], style: { fill: 'red' } }], relations: [], namespaces: [],
+    typedDiagram: { classes: [{ id: 'A', annotation: 'interface', inlineStyle: { fill: 'red' },
+      attributes: [{ visibility: '+', name: 'age', type: 'int', sourceText: '+int age', isStatic: false, isAbstract: false }],
+      methods: [{ visibility: '+', name: 'getAge', params: 'List~int~ x', type: 'int', isStatic: false, isAbstract: true }],
+    }] },
+  }
+  const c = nativeSchemaView('adewale/agentic-mermaid', 'class', raw, hooks).getClass('A')
+  expect(c.members[0].id).toBe('int age')
+  expect(c.members[0].getDisplayDetails()).toEqual({ displayText: '+int age', cssStyle: '' })
+  expect(c.methods[0].getDisplayDetails()).toEqual({ displayText: '+getAge(List<int> x) : int', cssStyle: 'font-style:italic;' })
+  expect(c.annotations).toEqual(['interface'])
+  expect(c.styles).toEqual(['fill:red'])
+  expect(() => c.haveCallback).toThrow('unsupported')
+  expect(log.at(-1)).toContain('click callbacks')
+  const legacy = nativeSchemaView('adewale/agentic-mermaid', 'class', { ...raw, typedDiagram: undefined }, hooks).getClass('A')
+  expect(() => legacy.members).toThrow('unsupported')
+  expect(legacy.styles).toEqual(['fill:red'])
+  const styled = nativeSchemaView('adewale/agentic-mermaid', 'class', { ...raw, classes: [{ ...raw.classes[0], className: 'pink' }], classDefs: { pink: { fill: 'pink' } } }, hooks).getClass('A')
+  expect(() => styled.styles).toThrow('unsupported')
+  expect(log.at(-1)).toContain('statement-order style accumulation')
+})
+
+test('agentic typed attribute spelling is retained; missing spelling stays unsupported', () => {
+  const { hooks, log } = verdicts()
+  const raw = { classes: [{ id: 'A' }], relations: [], namespaces: [], typedDiagram: { classes: [{ id: 'A',
+    attributes: [{ visibility: '-', name: ': int', type: 'age', sourceText: '-age : int', isStatic: true }, { visibility: '+', name: 'age', type: 'int' }], methods: [],
+  }] } }
+  const c = nativeSchemaView('adewale/agentic-mermaid', 'class', raw, hooks).getClass('A')
+  expect(c.members[0].getDisplayDetails()).toEqual({ displayText: '-age : int', cssStyle: 'text-decoration:underline;' })
+  expect(() => c.members[1].id).toThrow('unsupported')
+  expect(log.at(-1)).toContain('authored attribute spelling')
+})
+
+test('agentic public typed ER model exposes native keys/comments with raw-row fallback unsupported', () => {
+  const { hooks } = verdicts()
+  const raw = { entities: [{ id: 'A', attributes: ['int id PK,FK "identifier"'] }], relations: [], groups: [],
+    typedDiagram: { entities: [{ id: 'A', attributes: [{ type: 'int', name: 'id', keys: ['PK', 'FK'], comment: 'identifier' }] }] },
+  }
+  const view = nativeSchemaView('adewale/agentic-mermaid', 'er', raw, hooks)
+  expect(view.getEntity('A').attributes[0]).toEqual({ type: 'int', name: 'id', keys: ['PK', 'FK'], comment: 'identifier' })
+  const legacy = nativeSchemaView('adewale/agentic-mermaid', 'er', { ...raw, typedDiagram: undefined }, hooks)
+  expect(() => legacy.getEntity('A').attributes[0].name).toThrow('unsupported')
+})
+
 test('class members: Mermaid display details from structured fields, or from a member\'s own display text', () => {
   const { hooks, log } = verdicts()
   const vitepress = {

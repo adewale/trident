@@ -368,23 +368,44 @@ function graphClassModel(raw, name) {
   )
 }
 
-// agentic-mermaid 0.5.6 class body: a class keeps its body as raw rows (annotation rows
-// such as <<interface>> included), one className from cssClass or :::, href and tooltip,
-// a generic and a qualified namespace; namespaces keep name and label.
+// Registered Class bodies keep raw rows. Newer published root parsers additionally
+// expose the renderer's typed members, original attribute spelling and inline styles.
+// Never recover these fields by parsing the raw body/display rows.
 function agenticClassModel(raw, hooks) {
   const rows = 'agentic-mermaid keeps a class body as raw rows, not split into annotations, attributes and methods'
+  const typedClasses = new Map((raw.typedDiagram?.classes ?? []).map(item => [item.id, item]))
+  const classDefs = new Map(entriesOf(raw.classDefs))
+  const members = item => ({
+    visibility: item.visibility,
+    ...(item.isMethod ? { id: item.name, parameters: item.params ?? '', returnType: item.type ?? '' }
+      : item.sourceText !== undefined ? { id: item.sourceText.slice(item.visibility.length) } : {}),
+    ...flags(item),
+  })
   return {
-    classes: () => raw.classes.map(item => [item.id, {
+    classes: () => raw.classes.map(item => {
+      const detail = typedClasses.get(item.id)
+      return [item.id, {
       label: item.label ?? item.id,
       ...(item.generic ? { type: item.generic } : { type: '' }),
       cssClasses: () => cssClasses(item.className ? [item.className] : [], Boolean(item.href), 'agentic-mermaid', hooks),
       link: item.href ?? undefined,
       tooltip: item.tooltip ?? undefined,
       parent: item.namespace ?? undefined,
-    }]),
+      styles: () => {
+        // Mermaid mutates .styles when classDef is encountered. The final native
+        // definitions/assignment do not retain that statement-order history.
+        if (['default', item.className].some(name => classDefs.has(name))) return hooks.unsupported("agentic-mermaid keeps final Class classDefs and assignments, not Mermaid's statement-order style accumulation")
+        return styleStrings(item.style)
+      },
+      ...(detail ? {
+        members: detail.attributes.map(members), methods: detail.methods.map(member => members({ ...member, isMethod: true })),
+        annotations: detail.annotation ? [detail.annotation] : [],
+      } : {}),
+    }]}),
     namespaces: () => (raw.namespaces ?? []).map(space => ({ id: space.name, label: space.label ?? space.name, classIds: raw.classes.filter(item => item.namespace === space.name).map(item => item.id) })),
     absent: {
-      class: { members: rows, methods: rows, annotations: rows, styles: "agentic-mermaid's class model keeps no per-class styles", haveCallback: "agentic-mermaid's class model keeps no click callbacks", linkTarget: "agentic-mermaid's class model keeps no link targets" },
+      class: { members: rows, methods: rows, annotations: rows, haveCallback: "agentic-mermaid's class model keeps no click callbacks", linkTarget: "agentic-mermaid's class model keeps no link targets" },
+      member: { id: "agentic-mermaid's class member keeps no authored attribute spelling", text: "agentic-mermaid's class member keeps no authored attribute spelling" },
       namespace: { children: "agentic-mermaid's namespace keeps no nesting", parent: "agentic-mermaid's namespace keeps no nesting", explicit: "agentic-mermaid's namespace keeps no nesting", notes: "agentic-mermaid's namespaces keep no notes" },
       getDirection: "agentic-mermaid's class model keeps no direction",
       ...accAbsent('agentic-mermaid'),
@@ -614,7 +635,10 @@ const ER_MODELS = {
   // cardinality words, dashed and the label; groups are subgraphs (id, label, direction);
   // classDefs and the accessibility title are kept, accDescr is not.
   'adewale/agentic-mermaid': raw => ({
-    entities: () => raw.entities.map(entity => [entity.id, { label: entity.id, alias: entity.label ?? '', attributes: entity.attributes.map(() => ({})), ...erCss(entity.className ? [entity.className] : [], styleStrings(entity.style)) }]),
+    entities: () => raw.entities.map(entity => {
+      const detail = raw.typedDiagram?.entities.find(node => node.id === entity.id)
+      return [entity.id, { label: entity.id, alias: entity.label ?? '', attributes: detail ? detail.attributes.map(erAttribute) : entity.attributes.map(() => ({})), ...erCss(entity.className ? [entity.className] : [], styleStrings(entity.style)) }]
+    }),
     relationships: () => raw.relations.map(rel => ({ entityA: rel.from, entityB: rel.to, roleA: rel.label ?? '', relSpec: { cardA: AGENTIC_CARD[rel.rightCard], cardB: AGENTIC_CARD[rel.leftCard], relType: identifying(typeof rel.dashed === 'boolean' ? !rel.dashed : undefined) } })),
     getClasses: () => erClasses(entriesOf(raw.classDefs).map(([id, style]) => [id, styleStrings(style)])),
     getSubGraphs: () => agenticErGroups(raw),

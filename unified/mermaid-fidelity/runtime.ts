@@ -27,6 +27,7 @@ function configuredCall() {
 let nativeLoadGap: string | undefined,
   useBunParser = false
 let api: any,
+  agenticTyped: any,
   definitions = new Map<string, any>(),
   configurations: any,
   language: any
@@ -198,6 +199,12 @@ export async function initialize(file?: string) {
   } else {
     try {
       api = await import(/* @vite-ignore */ pathToFileURL(job.target.entry).href)
+      if (job.target.tool === 'agentic') {
+        // The published root exposes the renderer's typed Class/ER parsers. Older
+        // packages still use their registered model and declare the missing fields.
+        const require = createRequire(join(job.target.root, 'package.json'))
+        try { agenticTyped = await import(/* @vite-ignore */ pathToFileURL(require.resolve('agentic-mermaid')).href) } catch {}
+      }
       if (job.target.peer?.artifact?.kind === 'franken') api.initSync({ module: readFileSync(job.target.peer.artifact.wasm) })
     } catch (error) {
       api = {}
@@ -305,7 +312,9 @@ function nativeParse(family: string, source: string) {
       active?.unsupported.push('Actual native parse returned ' + result.value.body.kind)
       throw Error('Native semantic support unavailable')
     }
-    return { ...result.value.body, ...(result.value.meta?.title !== undefined ? { title: result.value.meta.title } : {}), ...(result.value.meta?.accessibility?.title !== undefined ? { accessibilityTitle: result.value.meta.accessibility.title } : {}), ...(result.value.meta?.accessibility?.descr !== undefined ? { accessibilityDescription: result.value.meta.accessibility.descr } : {}) }
+    const typedParser = agenticTyped?.[{ class: 'parseClassDiagram', er: 'parseErDiagram' }[family] ?? '']
+    const typedDiagram = typeof typedParser === 'function' ? typedParser(source) : undefined
+    return { ...result.value.body, ...(typedDiagram ? { typedDiagram } : {}), ...(result.value.meta?.title !== undefined ? { title: result.value.meta.title } : {}), ...(result.value.meta?.accessibility?.title !== undefined ? { accessibilityTitle: result.value.meta.accessibility.title } : {}), ...(result.value.meta?.accessibility?.descr !== undefined ? { accessibilityDescription: result.value.meta.accessibility.descr } : {}) }
   }
   if (job.target.tool === 'beautiful') {
     const names: Record<string, string> = { flowchart: 'parseMermaid', state: 'parseMermaid', sequence: 'parseSequenceDiagram', class: 'parseClassDiagram', er: 'parseErDiagram' }
