@@ -361,3 +361,153 @@ test('XMermaid sequence: one event list in Mermaid line types; what it reformats
   expect(() => view.getDiagramTitle()).toThrow('unsupported')
   expect(view.LINETYPE.SOLID).toBe(0)
 })
+
+const observedSequence = (typedDiagram: any, parserObservations: any[]) => ({
+  kind: 'sequence',
+  participants: [],
+  messages: [],
+  statements: [],
+  typedDiagram,
+  parserObservations: parserObservations.map(event => ({ family: 'sequence', ...event })),
+})
+const mutation = (kind: string, value: any) => ({ unit: 'mutation', kind, value })
+const statement = (kind: string, value?: any) => ({ unit: 'statement', kind, text: 'deliberately not parsed', ...(value === undefined ? {} : { value }) })
+const nativeMessage = (extra = {}) => ({ from: 'A', to: 'B', label: 'hello', lineStyle: 'solid', startHead: 'none', endHead: 'filled', centralStart: false, centralEnd: false, ...extra })
+
+test('agentic native Sequence: ordered observations retain empty nested blocks, notes and both activation forms', () => {
+  const { hooks } = verdicts()
+  const raw = observedSequence(
+    {
+      actors: [
+        { id: 'A', label: 'Alice', type: 'participant' },
+        { id: 'B', label: 'B', type: 'actor' },
+      ],
+      boxes: [],
+      accessibilityTitle: 'Accessible',
+    },
+    [
+      mutation('open-block', { id: 1, block: { type: 'alt', label: 'yes', wrap: true } }),
+      mutation('add-note', { note: { actorIds: ['B', 'A'], text: 'before', position: 'over', wrap: false } }),
+      mutation('open-block', { id: 2, block: { type: 'loop', label: 'empty' } }),
+      mutation('close-block', { id: 2, block: { type: 'loop' } }),
+      mutation('divide-block', { parent: 1, divider: { label: 'no', wrap: false }, type: 'else' }),
+      mutation('add-message', nativeMessage({ activate: true, centralStart: true, centralEnd: true, wrap: false })),
+      mutation('activation', { actorId: 'B', kind: 'deactivate', messageIndex: 1 }),
+      mutation('close-block', { id: 1, block: { type: 'alt' } }),
+    ],
+  )
+  const view = nativeSchemaView('adewale/agentic-mermaid', 'sequence', raw, hooks)
+  const messages = view.getMessages()
+  expect(messages.map((m: any) => [m.type, m.message])).toEqual([
+    [12, 'yes'],
+    [2, 'before'],
+    [10, 'empty'],
+    [11, ''],
+    [13, 'no'],
+    [0, 'hello'],
+    [17, ''],
+    [59, ''],
+    [60, ''],
+    [18, ''],
+    [14, ''],
+  ])
+  expect(messages.map((m: any) => m.id)).toEqual(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
+  expect(pick(messages[5], ['activate', 'centralConnection', 'wrap'])).toEqual({ activate: true, centralConnection: 61, wrap: false })
+  expect(messages[0].wrap).toBe(true)
+  expect(messages[4].wrap).toBe(false)
+  expect(() => messages[2].wrap).toThrow('unsupported')
+  expect(view.getNotes()[0].actor).toEqual(['B', 'A'])
+  expect(view.getNotes()[0].wrap).toBe(false)
+  expect(view.getAccTitle()).toBe('Accessible')
+})
+
+test('agentic native Sequence: declaration-time lifecycle indexes and final native actor/box state', () => {
+  const { hooks } = verdicts()
+  const raw = observedSequence(
+    {
+      title: 'Native title',
+      actors: [
+        { id: 'A', label: 'Alice', type: 'database', box: 0, links: { Help: 'https://example.com' }, wrap: true },
+        { id: 'C', label: 'Carol', type: 'actor' },
+      ],
+      boxes: [{ label: 'Group', color: 'Aqua', actorIds: ['A'], wrap: false }],
+    },
+    [
+      mutation('participant.apply', { kind: 'declare', id: 'C', type: 'actor', create: true }),
+      mutation('add-note', { note: { actorIds: ['A'], text: 'intervening', position: 'left' } }),
+      mutation('bind-create', { id: 'C', messageIndex: 0 }),
+      mutation('add-message', nativeMessage({ to: 'C' })),
+      mutation('pending-destroy', 'C'),
+      mutation('open-block', { id: 1, block: { type: 'rect', label: '', color: 'rgb(1,2,3)' } }),
+      mutation('bind-destroy', { id: 'C', messageIndex: 1 }),
+      mutation('add-message', nativeMessage({ from: 'C' })),
+      mutation('close-block', { id: 1, block: { type: 'rect' } }),
+    ],
+  )
+  const view = nativeSchemaView('adewale/agentic-mermaid', 'sequence', raw, hooks)
+  expect(view.getCreatedActors()).toEqual(new Map([['C', 0]]))
+  expect(view.getDestroyedActors()).toEqual(new Map([['C', 2]]))
+  expect(view.getMessages()[2].message).toBe('rgb(1,2,3)')
+  expect(pick(view.getActor('A'), ['description', 'type', 'links', 'wrap'])).toEqual({ description: 'Alice', type: 'database', links: { Help: 'https://example.com' }, wrap: true })
+  expect(view.getActor('A').box.actorKeys).toEqual(['A'])
+  expect(pick(view.getBoxes()[0], ['name', 'fill', 'wrap'])).toEqual({ name: 'Group', fill: 'Aqua', wrap: false })
+  expect(view.getActor('C').box).toBeUndefined()
+  expect(() => view.getActor('C').wrap).toThrow('unsupported')
+  expect(() => view.getActor('A').properties).toThrow('unsupported')
+  expect(view.getDiagramTitle()).toBe('Native title')
+})
+
+test('agentic native Sequence: structured autonumber syntax distinguishes authored parameters from effective counters', () => {
+  const { hooks } = verdicts()
+  const raw = observedSequence({ actors: [], boxes: [] }, [
+    statement('autonumber', { kind: 'autonumber', numbering: { next: 4, step: 2 } }),
+    mutation('set-autonumber', { visible: true, next: 4, step: 2 }),
+    mutation('add-message', nativeMessage({ number: 4 })),
+    statement('autonumber', { kind: 'autonumber', numbering: null }),
+    mutation('set-autonumber', { visible: false, next: 6, step: 2 }),
+    statement('autonumber', { kind: 'autonumber', numbering: {} }),
+    mutation('set-autonumber', { visible: true, next: 6, step: 2 }),
+    statement('autonumber', { kind: 'autonumber', numbering: { next: 9 } }),
+    mutation('set-autonumber', { visible: true, next: 9, step: 1 }),
+  ])
+  const messages = nativeSchemaView('adewale/agentic-mermaid', 'sequence', raw, hooks).getMessages()
+  expect(messages.map((m: any) => [m.type, m.message])).toEqual([
+    [26, { start: 4, step: 2, visible: true }],
+    [0, 'hello'],
+    [26, { start: undefined, step: undefined, visible: false }],
+    [26, { start: undefined, step: undefined, visible: true }],
+    [26, { start: 9, step: 1, visible: true }],
+  ])
+  expect(messages[0].wrap).toBe(false)
+  const old = observedSequence({ actors: [], boxes: [] }, [statement('autonumber'), mutation('set-autonumber', { visible: true, next: 1, step: 1 })])
+  const incomplete = nativeSchemaView('adewale/agentic-mermaid', 'sequence', old, hooks).getMessages()[0]
+  expect(incomplete.type).toBe(26)
+  expect(incomplete.message.visible).toBe(true)
+  expect(() => incomplete.message.start).toThrow('unsupported')
+  expect(() => incomplete.message.step).toThrow('unsupported')
+  expect(() => ({ ...incomplete.message })).toThrow('unsupported')
+})
+
+test('agentic native Sequence: exact native endpoint heads map without parsing statement text', () => {
+  const { hooks } = verdicts()
+  const heads = [
+    ['none', 'half-top'],
+    ['none', 'half-bottom'],
+    ['none', 'stick-top'],
+    ['none', 'stick-bottom'],
+    ['half-bottom', 'none'],
+    ['half-top', 'none'],
+    ['stick-bottom', 'none'],
+    ['stick-top', 'none'],
+    ['filled', 'filled'],
+  ]
+  const raw = observedSequence(
+    { actors: [], boxes: [] },
+    heads.flatMap(([startHead, endHead]) => ['solid', 'dashed'].map(lineStyle => mutation('add-message', nativeMessage({ startHead, endHead, lineStyle })))),
+  )
+  const messages = nativeSchemaView('adewale/agentic-mermaid', 'sequence', raw, hooks).getMessages()
+  expect(messages.map((m: any) => m.type)).toEqual([41, 51, 42, 52, 43, 53, 44, 54, 45, 55, 46, 56, 47, 57, 48, 58, 33, 34])
+  expect(() => messages[0].wrap).toThrow('unsupported')
+  const incomplete = observedSequence({ actors: [], boxes: [] }, [mutation('add-message', { from: 'A', to: 'B', label: 'x', lineStyle: 'solid' })])
+  expect(() => nativeSchemaView('adewale/agentic-mermaid', 'sequence', incomplete, hooks).getMessages()[0].type).toThrow('unsupported')
+})

@@ -474,6 +474,7 @@ const AGENTIC_ARROW = {
   '--|\\': 'SOLID_TOP_DOTTED', '--|/': 'SOLID_BOTTOM_DOTTED', '--\\\\': 'STICK_TOP_DOTTED', '--//': 'STICK_BOTTOM_DOTTED', '/|--': 'SOLID_ARROW_TOP_REVERSE_DOTTED', '\\|--': 'SOLID_ARROW_BOTTOM_REVERSE_DOTTED', '//--': 'STICK_ARROW_TOP_REVERSE_DOTTED', '\\\\--': 'STICK_ARROW_BOTTOM_REVERSE_DOTTED',
 }
 function agentic(raw, hooks) {
+  if (raw.typedDiagram && Array.isArray(raw.parserObservations)) return agenticNative(raw, hooks)
   const name = 'agentic-mermaid', LINETYPE = views.MERMAID_CONSTANTS.sequence.LINETYPE
   const noWrap = { wrap: `${name} keeps a wrap flag only on messages; Mermaid reads its configuration here` }
   const message = m => {
@@ -515,6 +516,105 @@ function agentic(raw, hooks) {
     getAccTitle: () => raw.accessibilityTitle ?? '',
     getAccDescription: () => raw.accessibilityDescription ?? '',
     ...unsupported(hooks, { getDiagramTitle: opaque('a title line'), getBoxes: opaque('box blocks'), getCreatedActors: opaque('create statements'), getDestroyedActors: opaque('destroy statements') }),
+  }
+}
+
+// The public strict SequenceDiagram retains exact endpoint semantics and actor/box
+// state. Its real parser mutations retain statement order, including adjacent empty
+// blocks and notes that cannot be ordered from message indexes alone. Observations
+// are read as native data; their text and the editable body's opaque lines are not
+// a second parser. Older statement events omit syntax, so their effective numbering
+// counters cannot stand in for the authored autonumber arguments.
+const AGENTIC_HEADS = {
+  'none/filled': ['SOLID', 'DOTTED'], 'none/none': ['SOLID_OPEN', 'DOTTED_OPEN'],
+  'none/cross': ['SOLID_CROSS', 'DOTTED_CROSS'], 'none/open': ['SOLID_POINT', 'DOTTED_POINT'],
+  'filled/filled': ['BIDIRECTIONAL_SOLID', 'BIDIRECTIONAL_DOTTED'],
+  'none/half-top': ['SOLID_TOP', 'SOLID_TOP_DOTTED'], 'none/half-bottom': ['SOLID_BOTTOM', 'SOLID_BOTTOM_DOTTED'],
+  'none/stick-top': ['STICK_TOP', 'STICK_TOP_DOTTED'], 'none/stick-bottom': ['STICK_BOTTOM', 'STICK_BOTTOM_DOTTED'],
+  'half-bottom/none': ['SOLID_ARROW_TOP_REVERSE', 'SOLID_ARROW_TOP_REVERSE_DOTTED'],
+  'half-top/none': ['SOLID_ARROW_BOTTOM_REVERSE', 'SOLID_ARROW_BOTTOM_REVERSE_DOTTED'],
+  'stick-bottom/none': ['STICK_ARROW_TOP_REVERSE', 'STICK_ARROW_TOP_REVERSE_DOTTED'],
+  'stick-top/none': ['STICK_ARROW_BOTTOM_REVERSE', 'STICK_ARROW_BOTTOM_REVERSE_DOTTED'],
+}
+function agenticNative(raw, hooks) {
+  const diagram = raw.typedDiagram, LINETYPE = views.MERMAID_CONSTANTS.sequence.LINETYPE
+  const noWrap = { wrap: 'agentic-mermaid retains no effective wrap flag here; Mermaid reads its host configuration' }
+  const wrapped = (entry, native) => typeof native?.wrap === 'boolean' ? { ...entry, wrap: native.wrap } : withAbsent(entry, noWrap)
+  const message = m => {
+    const type = LINETYPE[AGENTIC_HEADS[`${m.startHead}/${m.endHead}`]?.[m.lineStyle === 'solid' ? 0 : m.lineStyle === 'dashed' ? 1 : -1]]
+    const central = m.centralStart && m.centralEnd ? CENTRAL.both : m.centralEnd ? CENTRAL.to : m.centralStart ? CENTRAL.from : 0
+    const entry = wrapped({ from: m.from, to: m.to, message: m.label, activate: Boolean(m.activate || m.centralEnd), centralConnection: central, ...(type === undefined ? {} : { type }) }, m)
+    return [
+      ...(type === undefined ? [withAbsent(entry, { type: 'agentic-mermaid native message lacks a recognized exact endpoint/line-style tuple' })] : [entry]),
+      ...(m.activate ? [wrapped(marker(views.SEQ.ACTIVE_START, '', m.to))] : []),
+      ...(m.deactivate ? [wrapped(marker(views.SEQ.ACTIVE_END, '', m.from))] : []),
+      ...(m.centralEnd ? [wrapped(marker(CENTRAL.to, '', m.to))] : []),
+      ...(m.centralStart ? [wrapped(marker(CENTRAL.from, '', m.from))] : []),
+    ]
+  }
+  const timeline = () => {
+    const list = [], created = new Map(), destroyed = new Map(), blocks = new Map()
+    let syntax
+    for (const event of raw.parserObservations) {
+      if (event.family !== 'sequence') continue
+      if (event.unit === 'statement') { syntax = event.value; continue }
+      if (event.unit !== 'mutation') continue
+      const value = event.value
+      switch (event.kind) {
+        case 'participant.apply':
+          if (value.kind === 'declare' && value.create) created.set(value.id, list.length)
+          break
+        case 'pending-destroy': destroyed.set(value, list.length); break
+        case 'add-message': list.push(...message(value)); break
+        case 'add-note': {
+          const note = value.note, [from, to] = noteEnds(note.actorIds)
+          list.push(wrapped({ from, to, message: note.text, type: views.SEQ.NOTE, placement: placementOf(note.position) }, note))
+          break
+        }
+        case 'open-block': {
+          const block = value.block, types = blockTypes(block.type, false, hooks, 'agentic-mermaid')
+          blocks.set(value.id, types)
+          list.push(wrapped(marker(types[0], block.type === 'rect' ? block.color ?? '' : block.label), block))
+          break
+        }
+        case 'divide-block': {
+          const types = blocks.get(value.parent)
+          if (types?.[1] === undefined) return hooks.unavailable('agentic-mermaid sequence divider has no observed owning block')
+          list.push(wrapped(marker(types[1], value.divider.label), value.divider))
+          break
+        }
+        case 'close-block': {
+          const types = blocks.get(value.id)
+          if (!types) return hooks.unavailable('agentic-mermaid sequence end has no observed owning block')
+          list.push(wrapped(marker(types[2])))
+          blocks.delete(value.id)
+          break
+        }
+        case 'activation': list.push(wrapped(marker(value.kind === 'activate' ? views.SEQ.ACTIVE_START : views.SEQ.ACTIVE_END, '', value.actorId))); break
+        case 'set-autonumber': {
+          const known = syntax?.kind === 'autonumber' && Object.hasOwn(syntax, 'numbering')
+          const numbering = syntax?.numbering
+          const payload = known ? { start: numbering?.next, step: numbering?.next === undefined ? undefined : numbering.step ?? 1, visible: numbering !== null }
+            : views.record({ visible: value.visible }, 'autonumber', ['start', 'step', 'visible'], { start: 'agentic-mermaid observation omits authored autonumber start', step: 'agentic-mermaid observation omits authored autonumber step' }, hooks, ['start', 'step'])
+          list.push({ from: undefined, to: undefined, message: payload, wrap: false, type: views.SEQ.AUTONUMBER })
+          break
+        }
+      }
+    }
+    return { list, created, destroyed }
+  }
+  const boxes = () => (diagram.boxes ?? []).map(box => boxRecord({ name: boxName(box.label), fill: box.color ?? 'transparent', actorKeys: box.actorIds, ...(typeof box.wrap === 'boolean' ? { wrap: box.wrap } : {}) }, noWrap, hooks))
+  return {
+    ...messageView(() => timeline().list, {}, hooks),
+    ...actorView(() => diagram.actors.map(actor => ({ id: actor.id, description: actor.label, type: actor.type, links: actor.links ?? {}, box: actor.box === undefined ? undefined : boxes()[actor.box], ...(typeof actor.wrap === 'boolean' ? { wrap: actor.wrap } : {}) })), {
+      ...noWrap, properties: 'agentic-mermaid recognizes actor data statements but retains no properties payload',
+    }, hooks),
+    getBoxes: boxes,
+    getCreatedActors: () => timeline().created,
+    getDestroyedActors: () => timeline().destroyed,
+    getDiagramTitle: () => diagram.title ?? raw.title ?? '',
+    getAccTitle: () => diagram.accessibilityTitle ?? raw.accessibilityTitle ?? '',
+    getAccDescription: () => diagram.accessibilityDescription ?? raw.accessibilityDescription ?? '',
   }
 }
 
