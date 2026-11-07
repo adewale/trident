@@ -1366,6 +1366,9 @@ const MINDMAP_MODELS = {
   'emtyty/merslim': raw => ({ name: 'Merslim', root: raw.root, node: item => ({ descr: item.label, shape: item.shape, icon: item.icon ?? undefined }), absent: { nodeId: 'Merslim replaces written mindmap node ids with generated ones', class: "Merslim's mindmap node keeps no classes" } }),
   // termaid keeps each node's written text unparsed (id, shape and decorations included).
   'fasouto/termaid': raw => ({ name: 'termaid', root: raw.root, node: item => ({ descr: item.label }), absent: Object.fromEntries(['nodeId', 'type', 'icon', 'class'].map(key => [key, "termaid keeps a mindmap node's written text unparsed"])) }),
+  // Loom: a list of root trees, each node its text and children. Only the text and the
+  // nesting are mapped; a node's written id, shape, icon and classes are not.
+  'Yassimba/loom': raw => ({ name: 'Loom', root: Array.isArray(raw.roots) ? raw.roots[0] : undefined, node: item => ({ descr: item.text }), absent: {} }),
 }
 function dartMindmap(raw) {
   return { name: 'mermaid_core', root: raw.root, node: item => ({ descr: item.label, shape: item.shape, icon: item.icon ?? undefined, class: (item.cssClasses ?? []).length ? item.cssClasses.join(' ') : undefined }), absent: { nodeId: "mermaid_core's mindmap node keeps no written id" } }

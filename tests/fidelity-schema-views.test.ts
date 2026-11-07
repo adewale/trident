@@ -305,3 +305,33 @@ test("Pele's requirement edges follow Mermaid's id translation; their styling is
   expect(edges.map((edge: any) => [edge.id, edge.start, edge.end, edge.label])).toEqual([['src-dst-0', 'src', 'dst', '&lt;&lt;traces&gt;&gt;'], ['src-dst-1', 'src', 'dst', '&lt;&lt;contains&gt;&gt;']])
   expect(() => edges[0].arrowTypeEnd).toThrow('unsupported')
 })
+
+test("a bridged port's requirements are a Map, and its Kanban section keeps its icon", () => {
+  const { hooks } = verdicts()
+  const req = { name: 'test_req', type: 'Requirement', requirementId: 'test_id', text: '', risk: 'High', verifyMethod: 'Analysis', cssStyles: [], classes: ['default'] }
+  const view = nativeSchemaView('crabtalk/bezel', 'requirement', { type: 'requirement', requirements: { test_req: req }, elements: {}, relations: [], classes: {} }, hooks)
+  expect(view.getRequirements().size).toBe(1)
+  expect(view.getRequirements().get('test_req').requirementId).toBe('test_id')
+  const kanban = nativeSchemaView('obsidianmd/pele', 'kanban', { type: 'kanban', sections: [{ id: 'root', level: 4, label: 'The root', items: [], icon: 'bomb', cssClasses: 'm-4 p-8' }] }, hooks)
+  expect(kanban.getSections()[0].icon).toBe('bomb')
+  expect(kanban.getSections()[0].cssClasses).toBe('m-4 p-8')
+})
+
+test("a tree view AST gets a directory's trailing slash back; an ambiguous icon is not guessed", () => {
+  const { hooks, log } = verdicts()
+  const raw = { root: { name: '/', children: [{ name: 'src', nodeType: 'directory', level: 0, children: [{ name: 'index.js', nodeType: 'file', level: 4, description: 'entry point', children: [] }] }, { name: 'quiet', nodeType: 'file', level: 0, icon: 'none', children: [] }] } }
+  const ast = nativeAstView('obsidianmd/pele', 'TreeView', raw, hooks)
+  expect(ast.nodes.map((node: any) => node.name)).toEqual(['src/', 'index.js', 'quiet'])
+  expect(ast.nodes[1].descAnnotation).toBe('entry point')
+  expect(ast.nodes[0].iconAnnotation).toBeUndefined()
+  expect(() => ast.nodes[2].iconAnnotation).toThrow('gap')
+  expect(log).toEqual(['gap: TreeNode.iconAnnotation'])
+})
+
+test("Loom's mindmap maps each node's text and nesting; its ids and shapes stay unmapped", () => {
+  const { hooks } = verdicts()
+  const root = nativeSchemaView('Yassimba/loom', 'mindmap', { roots: [{ text: 'Root', children: [{ text: 'Child', children: [] }] }], warnings: [] }, hooks).getMindmap()
+  expect(root.descr).toBe('Root')
+  expect(root.children[0].descr).toBe('Child')
+  expect(() => root.nodeId).toThrow('gap')
+})
