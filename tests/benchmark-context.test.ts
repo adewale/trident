@@ -4,7 +4,17 @@ import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync, realpathSyn
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
-import { benchmarkContext } from '../unified/benchmark-context.ts'
+import { benchmarkContext, defaultChromium } from '../unified/benchmark-context.ts'
+
+test('the shared browser selector honors the configured Chromium executable', () => {
+  const previous = process.env.TRIDENT_CHROMIUM_EXECUTABLE
+  try {
+    process.env.TRIDENT_CHROMIUM_EXECUTABLE = '/fixture/configured-chromium'
+    expect(defaultChromium({ executablePath: () => '/fixture/playwright-default' })).toBe('/fixture/configured-chromium')
+  } finally {
+    if (previous === undefined) delete process.env.TRIDENT_CHROMIUM_EXECUTABLE; else process.env.TRIDENT_CHROMIUM_EXECUTABLE = previous
+  }
+})
 
 test('private transport dependency byte changes invalidate context without a package-version change', () => {
   const root = mkdtempSync(join(tmpdir(), 'benchmark-sdk-context-'))

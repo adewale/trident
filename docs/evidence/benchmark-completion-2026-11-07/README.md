@@ -26,6 +26,10 @@ Drawing case outcome reproduces the preceding collection. The terminal result
 records this consolidation, and Drawing retains the runtime binding when merging
 the affected lane. Every other fresh observation is preserved.
 
+The shared Chromium selector honors the configured executable, so CI fixtures
+use the same pinned browser that the workflow warms. This corrects a setup-time
+failure where the drawing fixture launched the unwarmed system browser instead.
+
 ## SVG label qualification
 
 The `svg-label-paint-v2` profile can prove separation between a flat opaque

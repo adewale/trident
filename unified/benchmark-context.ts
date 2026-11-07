@@ -9,10 +9,9 @@ import { captureInstalledDependencyClosure } from '../portable/artifact-dependen
 import { tridentDirectory } from './trident-paths.ts'
 import { protocolIdentity } from './protocol-identity.ts'
 
-/** The Chromium a browser lane runs when none is configured: the system browser
- * (/usr/bin/chromium on Linux) when present, otherwise Playwright's own. */
+/** Honor the configured browser before choosing the system or Playwright default. */
 export function defaultChromium(chromium: { executablePath(): string }): string {
-  return existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : chromium.executablePath()
+  return process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : chromium.executablePath())
 }
 
 export function executableIdentity(path: string | undefined) {
