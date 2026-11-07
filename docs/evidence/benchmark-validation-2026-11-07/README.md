@@ -40,7 +40,10 @@ completion counts or timings.
 
 Drawing verdicts also require the observer's paint-opacity/color check. A filter
 that erases every label produces an unassessed result. The regression fails
-against the earlier three-check implementation, which gave it credit.
+against the earlier three-check implementation, which gave it credit. A second
+control paints labels with the same user-space gradient as their background:
+removing the labels leaves every raster channel unchanged. Unqualified gradient
+label/backdrop paint now stays unassessed.
 
 ASCII and Latin-1 text now share the existing measured-font, advance and
 font-box qualification. Independent positive and clipping controls cover

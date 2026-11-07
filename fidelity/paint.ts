@@ -321,7 +321,10 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     if (foregroundAlpha === null || strokeVisible && strokeAlpha === null) return false
     const uniform = (paint: string) => { const id = /#([^\s)"']+)/.exec(paint)?.[1], gradient = id ? document.getElementById(decodeURIComponent(id)) : null, stops = gradient && ['linearGradient', 'radialGradient'].includes(gradient.localName) ? [...gradient.querySelectorAll('stop')] : []; return stops.length && stops.every(stop => getComputedStyle(stop).stopColor === getComputedStyle(stops[0]!).stopColor) ? getComputedStyle(stops[0]!).stopColor : paint }
     const paints = [...(foregroundAlpha && Number(css.fillOpacity) > 0 ? [filteredColorKey(element, uniform(foreground))] : []), ...(strokeVisible ? [filteredColorKey(element, uniform(css.stroke))] : [])]
-    if (!paints.length || paints.some(paint => paint === null)) return false
+    if (!paints.length || paints.some(paint => paint === null)) {
+      if (/url\(/.test(foreground + (strokeVisible ? css.stroke : ''))) unknownPaint.add('label-paint:' + foreground)
+      return false
+    }
     // A zero-length line can paint a marker behind a number despite having
     // no own bounding rectangle. Qualify only an unclipped opaque circular
     // marker with a finite uniform transform and complete actual glyph-ink fit.
@@ -346,7 +349,11 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       for (let parent: Element | null = shape; parent; parent = parent.parentElement) { const style = getComputedStyle(parent); if (Number(style.opacity) !== 1 || style.maskImage !== 'none' || style.clipPath !== 'none' || style.mixBlendMode !== 'normal' || style.filter !== 'none' && !preservesSourceGraphic(style.filter) && brightnessAmount(style.filter) === null) return false; if (parent === svg) break }
       return [[box.x, box.y], [box.x + box.width, box.y], [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]].every(([x, y]) => (shape as SVGGeometryElement).isPointInFill?.(new DOMPoint(x, y).matrixTransform(matrix.inverse())))
     }).at(-1)
-    if (backdrop) { const background = filteredColorKey(backdrop, getComputedStyle(backdrop).fill); return !!background && paints.every(color => color === background) }
+    if (backdrop) {
+      const fill = getComputedStyle(backdrop).fill, background = filteredColorKey(backdrop, uniform(fill))
+      if (!background && /url\(/.test(fill)) unknownPaint.add('label-backdrop:' + fill)
+      return !!background && paints.every(color => color === background)
+    }
     // The observer's browser canvas is white unless an opaque CSS background
     // says otherwise. Use that only when no intervening ink can alter it.
     const intervening = [...svg.querySelectorAll('rect,circle,ellipse,polygon,path,line,image,use,foreignObject')].some(shape => {

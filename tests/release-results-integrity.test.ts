@@ -3,21 +3,24 @@
 // measured the same project versions, and the DaveBench report is exactly what its raw runs
 // produce. A hand edit, a partial merge or a mixed collection fails here.
 import { expect, test } from 'bun:test'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { threeBenchmarkReport } from '../unified/three-benchmark-report.ts'
 import { MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
 
 const root = join(import.meta.dir, '../results/release')
 const read = (name: string) => JSON.parse(readFileSync(join(root, name), 'utf8'))
-const images = read('images.json'), terminal = read('terminal.json'), flutter = read('flutter.json')
+const images = read('images.json'), terminal = read('terminal.json')
+const flutter = existsSync(join(root, 'flutter.json')) ? read('flutter.json') : undefined
+const collections = [images, terminal, ...(flutter ? [flutter] : [])]
 const drawing = read('drawing-correctness.json'), fidelity = read('mermaid-fidelity.json')
 const SCORED = ['passed', 'failed', 'unsupported', 'trident-blocked']
 const UNSCORED = ['reference-unqualified', 'upstream-skipped', 'upstream-expected-failure']
 const sum = (counts: Record<string, number>, keys = Object.keys(counts)) => keys.reduce((total, key) => total + (counts[key] ?? 0), 0)
 
 test('every DaveBench row has three complete runs whose accounting reconciles', () => {
-  for (const collection of [images, terminal, flutter]) {
+  expect(images.runs.filter((run: any) => run.project === 'pub:mermaid_flutter')).toEqual(flutter?.runs ?? [])
+  for (const collection of collections) {
     expect(collection.state).toBe('complete')
     const rows = new Map<string, any[]>()
     for (const run of collection.runs) rows.set(run.project + ' ' + run.format, [...(rows.get(run.project + ' ' + run.format) ?? []), run])
@@ -92,7 +95,7 @@ test('declared ports and shared parsers score identically', () => {
 test('all three benchmarks measured the same version of each project', () => {
   const versions = new Map<string, Set<string>>()
   const note = (project: string, version: string) => versions.set(project, (versions.get(project) ?? new Set()).add(version))
-  for (const collection of [images, terminal, flutter]) for (const run of collection.runs) note(run.project, run.version)
+  for (const collection of collections) for (const run of collection.runs) note(run.project, run.version)
   for (const row of drawing.results) note(row.project, row.version)
   for (const row of fidelity.results) note(row.project, row.version)
   for (const [project, seen] of versions) expect([...seen], project).toHaveLength(1)
