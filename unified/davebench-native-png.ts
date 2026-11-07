@@ -8,6 +8,7 @@ import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { davebenchAdmissionProfile, davebenchAdmission, davebenchRankings, type DavebenchRun } from './davebench-model.ts'
 import { TerminalCallWorker } from './terminal-call-worker.ts'
+import { rendererMemoryLimitMb } from './process-memory.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 
@@ -54,7 +55,7 @@ export async function main(args = process.argv.slice(2)) {
   const open = async () => {
     container = 'trident-davebench-' + randomUUID()
     if (host) container = ''
-    const invocation = host ? ['env', 'LIBGL_ALWAYS_SOFTWARE=1', 'GDK_BACKEND=x11', 'xvfb-run', '-a', '-s', '-screen 0 1280x720x24', join(bundle, 'native_bench')] : [...prefix, 'run', '--rm', '-i', '--name', container, '--network', 'none', '--mount', `type=bind,src=${bundle},dst=/app,readonly`, '-e', 'LIBGL_ALWAYS_SOFTWARE=1', '-e', 'GDK_BACKEND=x11', '-w', '/app', image, 'xvfb-run', '-a', '-s', '-screen 0 1280x720x24', './native_bench']
+    const invocation = host ? ['env', 'LIBGL_ALWAYS_SOFTWARE=1', 'GDK_BACKEND=x11', 'xvfb-run', '-a', '-s', '-screen 0 1280x720x24', join(bundle, 'native_bench')] : [...prefix, 'run', '--rm', '-i', '--name', container, '--network', 'none', '--memory', rendererMemoryLimitMb + 'm', '--mount', `type=bind,src=${bundle},dst=/app,readonly`, '-e', 'LIBGL_ALWAYS_SOFTWARE=1', '-e', 'GDK_BACKEND=x11', '-w', '/app', image, 'xvfb-run', '-a', '-s', '-screen 0 1280x720x24', './native_bench']
     const peer: any = { node: { id: 'pub:mermaid_flutter', benchmark: { adapter: 'native-flutter' } }, artifact: { kind: 'jsonl-worker', version: artifact.version, root: bundle, executable: join(bundle, 'native_bench'), runtime: host ? 'native Linux Flutter release on host Xvfb' : 'native Linux Flutter release in pinned SDK image' } }
     worker = new TerminalCallWorker(peer, join(out, 'operand.json'), invocation)
     await worker.ready

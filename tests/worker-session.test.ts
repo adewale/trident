@@ -3,7 +3,8 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { JsonLineSession } from '../unified/json-line-session.ts'
 import { TerminalCallWorker } from '../unified/terminal-call-worker.ts'
-import { memoryLimit } from '../unified/process-memory.ts'
+import { memoryLimit, watchMemory } from '../unified/process-memory.ts'
+import { killCommunityProcess, spawnCommunitySubprocess } from '../unified/community-process.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 
 const temporary = useTempDirs('worker-session-')
@@ -58,6 +59,24 @@ test('invalid or absent API durations cannot become zero or controller API timin
 test('invalid resource limits fail before collection', () => {
   for (const value of ['NaN', 'Infinity', '-1', '0', '']) expect(() => memoryLimit(value)).toThrow('finite and positive')
   expect(memoryLimit('512')).toBe(512)
+})
+
+test.skipIf(process.platform !== 'linux')('memory guard includes the renderer behind a small wrapper', async () => {
+  const renderer = `const allocation=Buffer.alloc(128*1024*1024,1);console.log('allocated');setInterval(()=>{if(allocation[0]!==1)process.exit(1)},1000)`
+  const wrapper = `require('node:child_process').spawn(process.execPath,['-e',${JSON.stringify(renderer)}],{stdio:'inherit'});setInterval(()=>{},1000)`
+  const child = spawnCommunitySubprocess(['node', '-e', wrapper])
+  let stop = () => {}
+  try {
+    const reader = child.stdout.getReader()
+    const chunk = await reader.read(); reader.releaseLock()
+    expect(new TextDecoder().decode(chunk.value)).toContain('allocated')
+    const rss = /VmRSS:\s+(\d+)/.exec(readFileSync(`/proc/${child.pid}/status`, 'utf8'))!
+    expect(Number(rss[1]) / 1024).toBeLessThan(96)
+    await new Promise<void>((resolve, reject) => {
+      const timeout = setTimeout(() => reject(Error('Renderer child escaped the memory guard')), 3000)
+      stop = watchMemory(child.pid, () => { clearTimeout(timeout); resolve() }, 96)
+    })
+  } finally { stop(); killCommunityProcess(child, 'SIGKILL'); await child.exited }
 })
 
 test('a final protocol reply is drained before worker exit and Unicode remains one request', async () => {
