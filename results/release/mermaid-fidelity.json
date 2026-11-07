@@ -297,6 +297,7 @@
   "expandedCallbacks": 6439,
   "referenceQualifiedCallbacks": 3676,
   "referenceDigest": "53a58a1b913c96684420633491306cea42084794b2f540ac94b552cb57a3f7d6",
+  "referenceOrdinalDigest": "0c43807d435666d2e265a4e10d4ef6d03e8770f436358700775eb7ac5d1046e9",
   "results": [
     {
       "project": "mermaid-js/mermaid",

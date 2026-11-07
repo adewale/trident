@@ -5,9 +5,15 @@
     "native-flutter/app/pubspec.lock": "388d85f3334be0b47755c92e9f6911bfb2cca253c9514d232e55e781e677f35e",
     "fidelity/paint.ts": "fec2e0026670180fe2232a4388bbec14b9ef01b8afddaeda54926b82d197d742",
     "tests/svg-text-ink-clipping.test.ts": "d2e42259f74a03a06204fc2a7f25cd94f521270703c2fe801c47fc979d1a5dae",
-    "fidelity/drawing/labels.ts": "0bdb7ae4a7a54e30ac803a7d21b45ea59b4a2605149acf868da765ba3e5ea3cc",
-    "tests/drawing-labels.test.ts": "e966791731b80f3a10ffa2940abb53a4cc99dc7a7266c80c5c43dfc63fab09ee",
-    "tests/davebench-validity.test.ts": "db97d1f960705fba0a8185d8ceee2c468622baae1703ca5b91f81bb53ca559c8"
+    "fidelity/drawing/labels.ts": "f934cd34ca006968c1da20eb2197b58ab2a21461789b2e7a3a625905962ebc14",
+    "tests/drawing-labels.test.ts": "49d67948006dc70f2d9d1840bee6d984816e23a1469b0e4b0ceb05b5ba44bd1a",
+    "tests/davebench-validity.test.ts": "4b79a8767722ffa9584e3b2819be4dac1ac14a20ef5161d5088e5b842d589bf9",
+    "fidelity/terminal-rectangles.ts": "caa6240c7153d3fd4c38c318a50b9cd1fa65c991b839a4a59ddee2377988d4b3",
+    "unified/community-browser.ts": "6542e4fd8ae9ac84dc78039de892646bebc80f17528c966a3c0d275a34774813",
+    "unified/davebench.ts": "07bc406ac8aeb06070bb277a9df3491e4ab0e9d540e4e9045b7e3930e054a92a",
+    "unified/png-inspection.ts": "e08f3964b014d0ab7a43d8adbc613175f2e64fe79bf7ce9a74d3fc3991fbd636",
+    "scripts/merge-fidelity-runs.ts": "d33f9f9e947971d4fa1aac50326193435f09d3b92cb912263b03ef837c093024",
+    "unified/mermaid-fidelity/bridges/javascript.mjs": "a17bdc3f1e662172a054b5377007c91fbcb4e96e5879e91569b49a70d48ece68"
   },
   "native": {
     "flutter": "3.44.0",
@@ -63,11 +69,12 @@
   "checks": {
     "fullSuite": {
       "command": "MERMAID_REFERENCE_DIR=PINNED_ORACLE bun run test:ci",
-      "passed": 1007,
+      "passed": 1014,
       "failed": 0,
       "files": 113,
-      "assertions": 44480,
-      "seconds": 1550.94
+      "assertions": 44500,
+      "elapsed": "529.71s",
+      "source": "10c34d09bca0c277f62f81bfd392d005a719f8f8"
     },
     "targetedRegressions": {
       "passed": 61,
@@ -133,7 +140,7 @@
       }
     },
     "currentSourceCi": {
-      "head": "5be2c137d717177574103c3ca01c07eca89ea6b7",
+      "head": "10c34d09bca0c277f62f81bfd392d005a719f8f8",
       "linux": "success",
       "macos": "success",
       "actionPinning": "success"
@@ -144,10 +151,39 @@
       "files": 2
     },
     "freshPublishedResults": {
-      "passed": 26,
+      "passed": 21,
       "failed": 0,
       "files": 5,
-      "assertions": 37574
+      "assertions": 37534
+    },
+    "compiledReleaseCutoffs": {
+      "passed": 3,
+      "failed": 0,
+      "files": 1,
+      "assertions": 3
+    },
+    "preAuditFullSuite": {
+      "command": "MERMAID_REFERENCE_DIR=PINNED_ORACLE bun run test:ci",
+      "passed": 1007,
+      "failed": 0,
+      "files": 113,
+      "assertions": 44480,
+      "seconds": 1550.94
+    },
+    "postAuditFullSuite": {
+      "command": "MERMAID_REFERENCE_DIR=PINNED_ORACLE bun run test:ci",
+      "passed": 1014,
+      "failed": 0,
+      "files": 113,
+      "assertions": 44500,
+      "elapsed": "529.71s",
+      "source": "10c34d09bca0c277f62f81bfd392d005a719f8f8"
+    },
+    "ordinalControlIdentity": {
+      "passed": 7,
+      "failed": 0,
+      "assertions": 25,
+      "scope": "Persisted ordinal-aware identity also guards partial published merges"
     }
   },
   "svgGradientProbe": {
@@ -165,7 +201,8 @@
     "frozenCatalog": "docs/evidence/benchmark-campaign-2026-11-07/catalog.json",
     "images": {
       "runs": 96,
-      "attempted": 128832
+      "attempted": 128832,
+      "finishedAt": "2026-11-07T11:25:57.245Z"
     },
     "terminal": {
       "runs": 54,
@@ -175,13 +212,14 @@
       "cases": 127,
       "projectFormats": 34,
       "totals": {
-        "correct": 3084,
+        "correct": 3082,
         "incorrect": 330,
         "renderer-failure": 634,
         "invalid-format": 86,
-        "unknown": 184,
+        "unknown": 186,
         "unrun": 0
-      }
+      },
+      "finishedAt": "2026-11-07T10:51:36.383Z"
     },
     "fidelity": {
       "projects": 27,
@@ -203,5 +241,24 @@
       "docs/syntax/classDiagram.md:1027"
     ],
     "reproducedAllCases": true
+  },
+  "adversarialAudit": {
+    "reviewedHead": "1247131c5aaf6f825119b17a5ac52690c1af4ad0",
+    "fixCommit": "10c34d09bca0c277f62f81bfd392d005a719f8f8",
+    "regressions": {
+      "passed": 70,
+      "failed": 0,
+      "files": 7,
+      "assertions": 332
+    },
+    "terminalRectangleWorkBudget": 1000000,
+    "svgLeakPolicy": "Unresolved serialized source-leak nominations remain unknown, including hidden duplicates, fragments and referenced text",
+    "browserDelivery": "Only verified manifest bytes are served; all 15 prepared browser engines and Mermaid ZenUML passed the host smoke check",
+    "fidelityCounts": "All 27 project counts reproduce using own-control validation and per-file callback ordinal matching",
+    "reclassification": {
+      "candidateFailure": "anomalyco/opencode flowDb.spec.ts",
+      "unsupported": "kitlangton/merman wardleyParser.spec.ts"
+    },
+    "publicationControlIdentity": "Partial merges require the persisted ordinal-aware digest; legacy publications need a full merge from raw runs."
   }
 }

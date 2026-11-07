@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Close adversarial audit findings: bound terminal frame searches and derived
+  text; keep unresolved SVG source leaks unassessed; serve only verified browser
+  bytes; preserve valid paired XML and APNG admission; distinguish missing parser
+  exports from candidate faults; and merge equivalent Fidelity controls by file
+  and callback ordinal.
 - Extend measured SVG glyph bounds to Latin-1 text. Independent raster controls
   distinguish fitting accented labels from clipped ink; combining marks and
   other unsupported glyph profiles still withhold a verdict. Drawing verdicts

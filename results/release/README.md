@@ -13,7 +13,7 @@ remains at its original Git commit; its outputs and scores were not rescored.
 
 The [verification record](../../docs/evidence/benchmark-validation-2026-11-07/README.md)
 contains the regressions, native-engine controls and toolchain limits. The
-[harness changes](https://github.com/adewale/trident/commit/5be2c137d717177574103c3ca01c07eca89ea6b7)
+[harness changes](https://github.com/adewale/trident/pull/86)
 reuse existing observers and derive published totals from complete case results.
 
 ## Native PNG and remaining coverage
@@ -26,12 +26,13 @@ and complete GTK release bundle remain unverified because the environment blocks
 transitive dependency changes, recorded in the verification JSON. Historical
 native PNG measurements remain in the previous campaign.
 
-Drawing leaves <!-- fact:drawing-unassessed -->184<!-- /fact --> of
+Drawing leaves <!-- fact:drawing-unassessed -->186<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> outputs unassessed. SVG labels require
 visibility, canvas, clipping and resolved-paint evidence. Latin-1 text has measured
 glyph bounds; unsupported gradient paint, outlines, embedded images, masks and
 complex clipping/occlusion withhold credit. Terminal matching preserves reading
-order and joins wrapping inside observed boxes. PNG is outside Drawing's scope.
+order and joins wrapping inside observed boxes. A terminal case that exceeds the
+frame-observation work budget stays unassessed. PNG is outside Drawing's scope.
 
 Fidelity scores the <!-- fact:fidelity-population -->3,676<!-- /fact --> callbacks
 that the fresh Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> control
@@ -64,9 +65,11 @@ bun commands.ts campaign:results --images images/results.json --terminal termina
 bun commands.ts results:snapshot
 ```
 
-The recorded campaign replaced its initial SVG rows with a complete SVG rerun
-after the paint checks were tightened. Terminal rows were preserved by the
-project/format merger. Timing collection ran separately from local correctness checks.
+After the adversarial audit, Drawing was recollected in both formats with the
+bounded terminal observer and conservative SVG leak checks. Image timings were
+recollected through the verified browser host. Terminal timings and Fidelity
+observations retain their earlier collection; the corrected Fidelity merger
+reproduces every project count. Timing ran separately from local correctness checks.
 Outputs were discarded; the numeric files retain populations, counts, rejection
 reasons and collection times. Timings apply to the recorded machine and call
 boundaries. Published values are generated from these files.
@@ -75,8 +78,8 @@ boundaries. Published values are generated from these files.
 
 | Observation | Previous | Fresh collection |
 |---|---:|---:|
-| Drawing known passes | 3,307 | 3,084 |
-| Drawing unassessed | 0 | 184 |
+| Drawing known passes | 3,307 | 3,082 |
+| Drawing unassessed | 0 | 186 |
 | Fidelity candidate adapter-gap callbacks | 274 | 272 |
 | Mermaid SVG completions | 1,336 | 1,302 |
 | Mermaid SVG-to-PNG completions | 1,336 | 1,302 |

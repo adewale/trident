@@ -72,7 +72,7 @@ leaders are:
   <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,342<!-- /fact -->.
 - **Drawing Correctness**, cases correct. SVG:
   <!-- fact:drawing-svg-leader -->Bezel and Pele with 124 each (not yet settled)<!-- /fact -->.
-  Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
+  Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 123<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
   <!-- fact:fidelity-leader -->Pele with 3,191<!-- /fact -->.
 

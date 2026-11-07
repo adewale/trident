@@ -16,22 +16,22 @@
 
 | Rank | Project | Completed | Failed | Rejected outputs in runs 1/2/3 | Timeouts in runs 1/2/3 | Median total seconds | Boundary |
 |---:|---|---:|---:|---|---|---:|---|
-| 1 | Latias94/merman 0.9.3 | 1338 | 4 | 0 / 0 / 0 | 0 / 0 / 0 | 4.340 | Chromium public SVG API |
-| 2 | wevm/ondine 0.0.3 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 0.248 | Chromium public SVG API |
-| 3 | crabtalk/bezel 0.2.24 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 0.342 | Chromium public SVG API |
-| 4 | obsidianmd/pele 1.13.0 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 0.517 | Chromium public SVG API |
-| 5 | 1jehuang/mermaid-rs-renderer 0.3.1 | 1304 | 38 | 2 / 2 / 2 | 0 / 0 / 0 | 23.230 | native CLI svg; process startup included |
-| 6 | mermaid-js/mermaid 12.3.0 | 1302 | 40 | 34 / 34 / 34 | 0 / 0 / 0 | 37.783 | Chromium public SVG API |
-| 7 | Dicklesworthstone/frankenmermaid 0.4.0 | 1185 | 157 | 157 / 157 / 157 | 0 / 0 / 0 | 0.526 | Chromium public SVG API |
-| 8 | orestesgaolin/mermaid 0.3.2 | 1114 | 228 | 0 / 0 / 0 | 0 / 0 / 0 | 0.872 | Chromium public SVG API |
-| 9 | adewale/agentic-mermaid 0.5.6 | 1066 | 276 | 0 / 0 / 0 | 0 / 0 / 0 | 5.936 | Chromium public SVG API |
-| 10 | emtyty/merslim 0.2.3 | 700 | 642 | 0 / 0 / 0 | 0 / 0 / 0 | 21.345 | Chromium public SVG API |
-| 11 | evangwt/xmermaid 0.4.2 | 680 | 662 | 2 / 2 / 2 | 0 / 0 / 0 | 0.470 | Chromium public SVG API |
-| 12 | dfadler/zombie-mermaid 5.14.4 | 637 | 705 | 16 / 16 / 16 | 0 / 0 / 0 | 1.420 | Chromium public SVG API |
-| 13 | lukilabs/beautiful-mermaid 1.1.3 | 513 | 829 | 24 / 24 / 24 | 0 / 0 / 0 | 1.157 | Chromium public SVG API |
-| 14 | crafter-station/mermaid 0.0.3 | 510 | 832 | 2 / 2 / 2 | 0 / 0 / 0 | 0.373 | Chromium public SVG API |
-| 15 | KlangHaus/vitepress-plugin-diagram 0.3.2 | 398 | 944 | 0 / 0 / 0 | 0 / 0 / 0 | 0.098 | Chromium public SVG API |
-| 16 | sandyyst/dsh-plugin-mermaid-gb-svg 0.1.5 | 384 | 958 | 956 / 956 / 956 | 0 / 0 / 0 | 0.161 | Chromium public SVG API |
+| 1 | Latias94/merman 0.9.3 | 1338 | 4 | 0 / 0 / 0 | 0 / 0 / 0 | 4.369 | Chromium public SVG API |
+| 2 | wevm/ondine 0.0.3 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 0.278 | Chromium public SVG API |
+| 3 | crabtalk/bezel 0.2.24 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 0.324 | Chromium public SVG API |
+| 4 | obsidianmd/pele 1.13.0 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 0.548 | Chromium public SVG API |
+| 5 | 1jehuang/mermaid-rs-renderer 0.3.1 | 1304 | 38 | 2 / 2 / 2 | 0 / 0 / 0 | 23.694 | native CLI svg; process startup included |
+| 6 | mermaid-js/mermaid 12.3.0 | 1302 | 40 | 34 / 34 / 34 | 0 / 0 / 0 | 39.426 | Chromium public SVG API |
+| 7 | Dicklesworthstone/frankenmermaid 0.4.0 | 1185 | 157 | 157 / 157 / 157 | 0 / 0 / 0 | 0.562 | Chromium public SVG API |
+| 8 | orestesgaolin/mermaid 0.3.2 | 1114 | 228 | 0 / 0 / 0 | 0 / 0 / 0 | 0.882 | Chromium public SVG API |
+| 9 | adewale/agentic-mermaid 0.5.6 | 1066 | 276 | 0 / 0 / 0 | 0 / 0 / 0 | 5.993 | Chromium public SVG API |
+| 10 | emtyty/merslim 0.2.3 | 700 | 642 | 0 / 0 / 0 | 0 / 0 / 0 | 21.134 | Chromium public SVG API |
+| 11 | evangwt/xmermaid 0.4.2 | 680 | 662 | 2 / 2 / 2 | 0 / 0 / 0 | 0.527 | Chromium public SVG API |
+| 12 | dfadler/zombie-mermaid 5.14.4 | 637 | 705 | 16 / 16 / 16 | 0 / 0 / 0 | 1.494 | Chromium public SVG API |
+| 13 | lukilabs/beautiful-mermaid 1.1.3 | 513 | 829 | 24 / 24 / 24 | 0 / 0 / 0 | 1.221 | Chromium public SVG API |
+| 14 | crafter-station/mermaid 0.0.3 | 510 | 832 | 2 / 2 / 2 | 0 / 0 / 0 | 0.368 | Chromium public SVG API |
+| 15 | KlangHaus/vitepress-plugin-diagram 0.3.2 | 398 | 944 | 0 / 0 / 0 | 0 / 0 / 0 | 0.099 | Chromium public SVG API |
+| 16 | sandyyst/dsh-plugin-mermaid-gb-svg 0.1.5 | 384 | 958 | 956 / 956 / 956 | 0 / 0 / 0 | 0.183 | Chromium public SVG API |
 
 ## DaveBench — PNG
 
@@ -39,22 +39,22 @@
 
 | Rank | Project | Completed | Failed | Rejected outputs in runs 1/2/3 | Timeouts in runs 1/2/3 | Median total seconds | Boundary |
 |---:|---|---:|---:|---|---|---:|---|
-| 1 | Latias94/merman 0.9.3 | 1338 | 4 | 0 / 0 / 0 | 0 / 0 / 0 | 14.741 | Chromium SVG API + canvas PNG conversion |
-| 2 | 1jehuang/mermaid-rs-renderer 0.3.1 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 47.460 | native CLI png; process startup included |
-| 2 | wevm/ondine 0.0.3 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 6.853 | Chromium SVG API + canvas PNG conversion |
-| 2 | obsidianmd/pele 1.13.0 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 7.829 | Chromium SVG API + canvas PNG conversion |
-| 2 | crabtalk/bezel 0.2.24 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 7.954 | Chromium SVG API + canvas PNG conversion |
-| 6 | mermaid-js/mermaid 12.3.0 | 1302 | 40 | 0 / 0 / 0 | 0 / 0 / 0 | 57.802 | Chromium SVG API + canvas PNG conversion |
-| 7 | Dicklesworthstone/frankenmermaid 0.4.0 | 1185 | 157 | 157 / 157 / 157 | 0 / 0 / 0 | 11.251 | Chromium SVG API + canvas PNG conversion |
-| 8 | orestesgaolin/mermaid 0.3.2 | 1114 | 228 | 0 / 0 / 0 | 0 / 0 / 0 | 7.494 | Chromium SVG API + canvas PNG conversion |
-| 9 | adewale/agentic-mermaid 0.5.6 | 1066 | 276 | 0 / 0 / 0 | 0 / 0 / 0 | 14.557 | Chromium SVG API + canvas PNG conversion |
-| 10 | emtyty/merslim 0.2.3 | 700 | 642 | 0 / 0 / 0 | 0 / 0 / 0 | 26.430 | Chromium public PNG API |
-| 11 | evangwt/xmermaid 0.4.2 | 680 | 662 | 2 / 2 / 2 | 0 / 0 / 0 | 3.574 | Chromium SVG API + canvas PNG conversion |
-| 12 | dfadler/zombie-mermaid 5.14.4 | 637 | 705 | 0 / 0 / 0 | 0 / 0 / 0 | 5.444 | Chromium SVG API + canvas PNG conversion |
-| 13 | lukilabs/beautiful-mermaid 1.1.3 | 513 | 829 | 0 / 0 / 0 | 0 / 0 / 0 | 3.338 | Chromium SVG API + canvas PNG conversion |
-| 14 | crafter-station/mermaid 0.0.3 | 510 | 832 | 2 / 2 / 2 | 0 / 0 / 0 | 4.609 | Chromium SVG API + canvas PNG conversion |
-| 15 | KlangHaus/vitepress-plugin-diagram 0.3.2 | 398 | 944 | 0 / 0 / 0 | 0 / 0 / 0 | 1.735 | Chromium SVG API + canvas PNG conversion |
-| 16 | sandyyst/dsh-plugin-mermaid-gb-svg 0.1.5 | 384 | 958 | 956 / 956 / 956 | 0 / 0 / 0 | 5.477 | Chromium SVG API + canvas PNG conversion |
+| 1 | Latias94/merman 0.9.3 | 1338 | 4 | 0 / 0 / 0 | 0 / 0 / 0 | 15.554 | Chromium SVG API + canvas PNG conversion |
+| 2 | 1jehuang/mermaid-rs-renderer 0.3.1 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 49.646 | native CLI png; process startup included |
+| 2 | obsidianmd/pele 1.13.0 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 7.736 | Chromium SVG API + canvas PNG conversion |
+| 2 | wevm/ondine 0.0.3 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 8.039 | Chromium SVG API + canvas PNG conversion |
+| 2 | crabtalk/bezel 0.2.24 | 1306 | 36 | 0 / 0 / 0 | 0 / 0 / 0 | 8.353 | Chromium SVG API + canvas PNG conversion |
+| 6 | mermaid-js/mermaid 12.3.0 | 1302 | 40 | 0 / 0 / 0 | 0 / 0 / 0 | 59.208 | Chromium SVG API + canvas PNG conversion |
+| 7 | Dicklesworthstone/frankenmermaid 0.4.0 | 1185 | 157 | 157 / 157 / 157 | 0 / 0 / 0 | 12.655 | Chromium SVG API + canvas PNG conversion |
+| 8 | orestesgaolin/mermaid 0.3.2 | 1114 | 228 | 0 / 0 / 0 | 0 / 0 / 0 | 7.418 | Chromium SVG API + canvas PNG conversion |
+| 9 | adewale/agentic-mermaid 0.5.6 | 1066 | 276 | 0 / 0 / 0 | 0 / 0 / 0 | 15.095 | Chromium SVG API + canvas PNG conversion |
+| 10 | emtyty/merslim 0.2.3 | 700 | 642 | 0 / 0 / 0 | 0 / 0 / 0 | 27.581 | Chromium public PNG API |
+| 11 | evangwt/xmermaid 0.4.2 | 680 | 662 | 2 / 2 / 2 | 0 / 0 / 0 | 4.157 | Chromium SVG API + canvas PNG conversion |
+| 12 | dfadler/zombie-mermaid 5.14.4 | 637 | 705 | 0 / 0 / 0 | 0 / 0 / 0 | 5.923 | Chromium SVG API + canvas PNG conversion |
+| 13 | lukilabs/beautiful-mermaid 1.1.3 | 513 | 829 | 0 / 0 / 0 | 0 / 0 / 0 | 3.536 | Chromium SVG API + canvas PNG conversion |
+| 14 | crafter-station/mermaid 0.0.3 | 510 | 832 | 2 / 2 / 2 | 0 / 0 / 0 | 4.809 | Chromium SVG API + canvas PNG conversion |
+| 15 | KlangHaus/vitepress-plugin-diagram 0.3.2 | 398 | 944 | 0 / 0 / 0 | 0 / 0 / 0 | 2.010 | Chromium SVG API + canvas PNG conversion |
+| 16 | sandyyst/dsh-plugin-mermaid-gb-svg 0.1.5 | 384 | 958 | 956 / 956 / 956 | 0 / 0 / 0 | 5.341 | Chromium SVG API + canvas PNG conversion |
 
 ## DaveBench — TERMINAL
 

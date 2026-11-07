@@ -8,7 +8,7 @@
 // have been collected with --reuse-reference pointing at it (or contain it).
 // With --base, only the projects in RUN_DIRs are replaced in a published result,
 // and only when their control run is the one the published result was scored
-// against (same pin, selection and reference outcome digest).
+// against (same pin, selection and reference outcomes, including callback ordinals).
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
@@ -29,14 +29,15 @@ function referenceFiles(reference: any) {
     callbacks.push([c.name, c.status])
     files.set(c.file, callbacks)
   }
-  return JSON.stringify([...files].sort(([a], [b]) => a.localeCompare(b)))
+  return JSON.stringify([...files].sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))
 }
 
 /** Replace the re-run projects of a published result; every other row is kept unchanged. */
 export function mergeIntoPublished(published: any, runs: any[], extras: { catalog?: any } = {}) {
   if (!published.referenceDigest) throw Error('The published result records no control digest; merge a full campaign first')
+  if (!published.referenceOrdinalDigest) throw Error('The published result records no ordinal control digest; merge a full campaign first')
   const fresh: any = mergeFidelityRuns(runs, extras)
-  for (const key of ['pin', 'selection', 'selectedFiles', 'referenceVersion', 'expandedCallbacks', 'referenceQualifiedCallbacks', 'referenceDigest'])
+  for (const key of ['pin', 'selection', 'selectedFiles', 'referenceVersion', 'expandedCallbacks', 'referenceQualifiedCallbacks', 'referenceDigest', 'referenceOrdinalDigest'])
     if (JSON.stringify(fresh[key]) !== JSON.stringify(published[key])) throw Error(`Re-run differs from the published result in ${key}; re-run against the published control`)
   const replaced = new Set(fresh.results.map((r: any) => r.project).concat(fresh.blocked.map((r: any) => r.project)).filter((p: string) => p !== "mermaid-js/mermaid"))
   const keep = (row: any) => !replaced.has(row.project)
@@ -115,6 +116,7 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
     expandedCallbacks: expanded,
     referenceQualifiedCallbacks: qualified,
     referenceDigest: digest,
+    referenceOrdinalDigest: createHash('sha256').update(files).digest('hex'),
     results: scored,
     updatedAt: runs.map(run => run.updatedAt).sort().at(-1),
     collectedThrough: runs.map(run => run.collectedThrough).sort().at(-1),

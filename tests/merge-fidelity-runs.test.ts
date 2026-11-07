@@ -61,9 +61,21 @@ test('matching duplicate titles cannot hide a changed reference qualification', 
   expect(() => mergeFidelityRuns([run([control]), run([swapped, b])])).toThrow('reference callback order')
 })
 
+test('a partial re-run cannot swap qualification between repeated callback titles', () => {
+  const control = { ...reference, cases: [
+    { file: 'x.spec.ts', name: 'repeated title', status: 'reference-unqualified' },
+    { file: 'x.spec.ts', name: 'repeated title', status: 'passed' },
+  ] }
+  const a = { ...candidate('a', 0, 0), cases: control.cases.map(c => ({ ...c, status: c.status === 'passed' ? 'failed' : c.status })) }
+  const published = mergeFidelityRuns([run([control, a])])
+  const swapped = { ...control, cases: [...control.cases].reverse() }
+  expect(() => mergeIntoPublished(published, [run([swapped, { ...a, cases: swapped.cases }])])).toThrow('referenceOrdinalDigest')
+})
+
 test('a partial re-run replaces only its projects, and only against the published control', () => {
   const published = mergeFidelityRuns([run([reference, candidate('a', 1, 3), candidate('b', 1, 0)])])
   expect(published.referenceDigest).toMatch(/^[0-9a-f]{64}$/)
+  expect(published.referenceOrdinalDigest).toMatch(/^[0-9a-f]{64}$/)
   const updated = mergeIntoPublished(published, [run([reference, candidate('a', 3, 1)], { collectedThrough: '2026-11-05T00:00:00Z' })])
   expect(updated.results.map((r: any) => [r.project, r.counts.passed])).toEqual([['mermaid-js/mermaid', 4], ['a', 3], ['b', 1]])
   expect(updated.partialReruns).toEqual([{ projects: ['a'], collectedThrough: '2026-11-05T00:00:00Z' }])
@@ -71,4 +83,6 @@ test('a partial re-run replaces only its projects, and only against the publishe
   expect(() => mergeIntoPublished(published, [run([otherControl])])).toThrow('referenceDigest')
   const { referenceDigest: _, ...undigested } = published
   expect(() => mergeIntoPublished(undigested, [run([reference, candidate('a', 3, 1)])])).toThrow('records no control digest')
+  const { referenceOrdinalDigest: _ordinal, ...unordered } = published
+  expect(() => mergeIntoPublished(unordered, [run([reference, candidate('a', 3, 1)])])).toThrow('records no ordinal control digest')
 })
