@@ -87,6 +87,38 @@ test('native parser transport preserves Maps and separates module errors from pa
   }
 })
 
+test('native grammar refusal is observed before editable preservation, and Result errors keep their fields', () => {
+  const scratch = mkdtempSync(join(tmpdir(), 'native-grammar-'))
+  try {
+    writeFileSync(join(scratch, 'package.json'), JSON.stringify({ name: 'agentic-mermaid', type: 'module', exports: { '.': './index.mjs' } }))
+    writeFileSync(join(scratch, 'index.mjs'), `export function parseClassDiagram(source) {
+      if (source === 'reject') throw Object.assign(new Error('Strict grammar refusal'), { name: 'MermaidSyntaxError', line: 7, column: 3 })
+      if (source === 'internal') throw new Error('Internal invariant failed')
+      return { classes: [], relationships: [], namespaces: [], classDefs: new Map() }
+    }`)
+    const entry = join(scratch, 'agent.mjs')
+    writeFileSync(entry, `export function parseRegisteredMermaid(source) {
+      return source === 'result' ? { ok: false, error: [{ code: 'PARSE_ERROR', message: 'First line\\nsecond line', line: 5, col: 2 }] }
+        : { ok: true, value: { body: { kind: 'opaque' }, meta: {} } }
+    }`)
+    const job = join(scratch, 'job.json')
+    writeFileSync(job, JSON.stringify({ reference: scratch, audit: join(scratch, 'audit.jsonl'), target: { tool: 'agentic', root: scratch, entry } }))
+    const runtime = resolve('unified/mermaid-fidelity/runtime.ts')
+    const driver = `const r = await import(${JSON.stringify(runtime)}); await r.initialize(); const out=[];
+      for(const [family,source] of [['class','reject'],['state','result'],['class','preserve'],['class','internal']]) {
+        try { r.probeNative(family,source); out.push({unexpected:true}) }
+        catch(e) { out.push({message:e.message,...Object.fromEntries(['line','column','col'].filter(k=>Object.hasOwn(e,k)).map(k=>[k,e[k]]))}) }
+      } r.shutdown(); console.log(JSON.stringify(out))`
+    const result = spawnSync(process.execPath, ['--eval', driver], { env: { ...process.env, TRIDENT_FIDELITY_JOB: job }, encoding: 'utf8' })
+    expect({ status: result.status, stderr: result.stderr }).toEqual({ status: 0, stderr: '' })
+    const observed = JSON.parse(result.stdout)
+    expect(observed[0]).toMatchObject({ message: 'Strict grammar refusal', line: 7, column: 3 })
+    expect(observed[1]).toMatchObject({ message: 'First line\nsecond line', line: 5, col: 2 })
+    expect(observed[2].message).toBe('Native semantic support unavailable')
+    expect(observed[3].message).toContain('Unclassified native grammar exception: Error: Internal invariant failed')
+  } finally { rmSync(scratch, { recursive: true, force: true }) }
+})
+
 test('a proven unbound private formatter is a schema gap, while a native implementation error stays a nonpass', () => {
   const report = native(['failed', 'failed'])
   Object.assign(report.testResults[0]!.assertionResults[0]!, { failureMessages: ['TypeError: member.getDisplayDetails is not a function\n    at /original.spec.ts:12:3'] })

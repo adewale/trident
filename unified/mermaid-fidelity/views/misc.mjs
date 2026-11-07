@@ -126,10 +126,14 @@ function classesView(model, hooks) {
   if (model.namespaces) {
     const namespaces = () => {
       const all = classes()
-      return new Map(model.namespaces().map(space => {
-        const { classIds, ...rest } = space
-        return [space.id, record({ ...rest, classes: new Map(classIds.filter(id => all.has(id)).map(id => [id, all.get(id)])) }, 'namespace', NAMESPACE_FIELDS, { ...NAMESPACE_RENDERER, ...(model.absent.namespace ?? {}) }, hooks)]
+      const spaces = model.namespaces()
+      const mapped = new Map(spaces.map(space => {
+        const { classIds, childIds, ...rest } = space
+        const value = { ...rest, classes: new Map(classIds.filter(id => all.has(id)).map(id => [id, all.get(id)])) }
+        if (childIds) Object.defineProperty(value, 'children', { enumerable: true, get: () => new Map(childIds.map(id => [id, mapped.get(id)])) })
+        return [space.id, record(value, 'namespace', NAMESPACE_FIELDS, { ...NAMESPACE_RENDERER, ...(model.absent.namespace ?? {}) }, hooks)]
       }))
+      return mapped
     }
     view.getNamespaces = namespaces
     view.getNamespace = id => namespaces().get(id)
@@ -373,7 +377,19 @@ function graphClassModel(raw, name) {
 // Never recover these fields by parsing the raw body/display rows.
 function agenticClassModel(raw, hooks) {
   const rows = 'agentic-mermaid keeps a class body as raw rows, not split into annotations, attributes and methods'
-  const typedClasses = new Map((raw.typedDiagram?.classes ?? []).map(item => [item.id, item]))
+  const typed = raw.typedDiagram
+  const typedClasses = new Map((typed?.classes ?? []).map(item => [item.id, item]))
+  const spaces = []
+  if (typed?.namespaces) {
+    const visit = (items, parent) => {
+      for (const item of items) {
+        const id = parent ? `${parent}.${item.name}` : item.name
+        spaces.push({ id, label: item.label ?? item.name, parent, classIds: item.classIds, childIds: item.children.map(child => `${id}.${child.name}`) })
+        visit(item.children, id)
+      }
+    }
+    visit(typed.namespaces)
+  }
   const classDefs = new Map(entriesOf(raw.classDefs))
   const members = item => ({
     visibility: item.visibility,
@@ -394,7 +410,7 @@ function agenticClassModel(raw, hooks) {
       styles: () => {
         // Mermaid mutates .styles when classDef is encountered. The final native
         // definitions/assignment do not retain that statement-order history.
-        if (['default', item.className].some(name => classDefs.has(name))) return hooks.unsupported("agentic-mermaid keeps final Class classDefs and assignments, not Mermaid's statement-order style accumulation")
+        if (['default', ...(item.className?.split(/\s+/) ?? [])].some(name => classDefs.has(name))) return hooks.unsupported("agentic-mermaid keeps final Class classDefs and assignments, not Mermaid's statement-order style accumulation")
         return styleStrings(item.style)
       },
       ...(detail ? {
@@ -402,7 +418,8 @@ function agenticClassModel(raw, hooks) {
         annotations: detail.annotation ? [detail.annotation] : [],
       } : {}),
     }]}),
-    namespaces: () => (raw.namespaces ?? []).map(space => ({ id: space.name, label: space.label ?? space.name, classIds: raw.classes.filter(item => item.namespace === space.name).map(item => item.id) })),
+    namespaces: () => typed?.namespaces ? spaces : (raw.namespaces ?? []).map(space => ({ id: space.name, label: space.label ?? space.name, classIds: raw.classes.filter(item => item.namespace === space.name).map(item => item.id) })),
+    ...(typed ? { getDirection: typed.direction ?? 'TB', getAccTitle: typed.accessibilityTitle ?? '', getAccDescription: typed.accessibilityDescription ?? '' } : {}),
     absent: {
       class: { members: rows, methods: rows, annotations: rows, haveCallback: "agentic-mermaid's class model keeps no click callbacks", linkTarget: "agentic-mermaid's class model keeps no link targets" },
       member: { id: "agentic-mermaid's class member keeps no authored attribute spelling", text: "agentic-mermaid's class member keeps no authored attribute spelling" },
@@ -643,6 +660,7 @@ const ER_MODELS = {
     getClasses: () => erClasses(entriesOf(raw.classDefs).map(([id, style]) => [id, styleStrings(style)])),
     getSubGraphs: () => agenticErGroups(raw),
     getAccTitle: () => raw.accessibilityTitle ?? '',
+    ...(raw.typedDiagram ? { getAccDescription: () => raw.typedDiagram.accessibilityDescription ?? '' } : {}),
     absent: {
       attribute: Object.fromEntries(['type', 'name', 'keys', 'comment'].map(field => [field, 'agentic-mermaid keeps ER attributes as raw text rows, not typed fields'])),
       getAccDescription: "agentic-mermaid's ER model keeps no accessibility description",

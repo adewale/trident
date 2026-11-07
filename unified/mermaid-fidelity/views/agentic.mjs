@@ -44,6 +44,12 @@ function venn(raw, hooks) {
   return { ...text(raw), ...vennView(raw, hooks, PROJECT), getCurrentSets: missing(hooks, 'keeps Venn subsets, not the parser cursor'), getIndentMode: missing(hooks, 'keeps Venn ownership, not parser indentation mode') }
 }
 function usecase(raw, hooks) {
+  if (raw.nativeGrammar === 'usecase') return {
+    ...usecaseState(raw, hooks, PROJECT),
+    getDiagramTitle: () => raw.title ?? '',
+    getAccTitle: () => raw.accTitle ?? '',
+    getAccDescription: () => raw.accDescr ?? '',
+  }
   const view = usecaseState({
     actors: byId(raw.nodes.filter(node => node.kind === 'actor').map(({ kind, ...node }) => node)),
     useCases: byId(raw.nodes.filter(node => node.kind === 'usecase').map(({ kind, ...node }) => node)),
@@ -79,7 +85,7 @@ function agentflow(raw, hooks) {
   // position record uses zero-based columns. Lines and span meanings are unchanged.
   const mappings = () => raw.mappings.map(item => {
     const start = { startLine: item.line, startColumn: item.col - 1 }
-    const position = item.type === 'flow'
+    const position = item.type === 'flow' && raw.nativeGrammar !== 'agentflow'
       ? record(start, 'agentflow container position', ['startLine', 'startColumn', 'endLine', 'endColumn'], {
         endLine: 'Agentic Mermaid retains the flow header range, not the complete container extent',
         endColumn: 'Agentic Mermaid retains the flow header range, not the complete container extent',

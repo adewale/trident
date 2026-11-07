@@ -45,6 +45,31 @@ test('agentic public typed Class model exposes members and styles without parsin
   expect(log.at(-1)).toContain('statement-order style accumulation')
 })
 
+test('agentic typed namespace nesting and accessibility use retained native fields', () => {
+  const { hooks } = verdicts()
+  const raw = { classes: [{ id: 'A', namespace: 'Outer.Inner' }], relations: [], namespaces: [], typedDiagram: {
+    direction: 'RL', accessibilityTitle: 'Types', accessibilityDescription: 'Nested types',
+    classes: [{ id: 'A', attributes: [], methods: [] }], namespaces: [
+      { name: 'Outer', classIds: [], children: [{ name: 'Inner', classIds: ['A'], children: [] }] },
+    ],
+  } }
+  const view = nativeSchemaView('adewale/agentic-mermaid', 'class', raw, hooks)
+  expect(view.getDirection()).toBe('RL')
+  expect(view.getAccTitle()).toBe('Types')
+  expect(view.getAccDescription()).toBe('Nested types')
+  const spaces = view.getNamespaces()
+  expect([...spaces.keys()]).toEqual(['Outer', 'Outer.Inner'])
+  expect(spaces.get('Outer.Inner').parent).toBe('Outer')
+  expect(spaces.get('Outer.Inner').label).toBe('Inner')
+  expect([...spaces.get('Outer.Inner').classes.keys()]).toEqual(['A'])
+  expect(spaces.get('Outer').children.get('Outer.Inner')).toBe(spaces.get('Outer.Inner'))
+  expect(() => spaces.get('Outer.Inner').explicit).toThrow('unsupported')
+  const er = nativeSchemaView('adewale/agentic-mermaid', 'er', { entities: [], relations: [], typedDiagram: { entities: [], accessibilityDescription: 'Records' } }, hooks)
+  expect(er.getAccDescription()).toBe('Records')
+  const legacy = nativeSchemaView('adewale/agentic-mermaid', 'class', { ...raw, typedDiagram: undefined }, hooks)
+  expect(() => legacy.getAccTitle()).toThrow('unsupported')
+})
+
 test('agentic typed attribute spelling is retained; missing spelling stays unsupported', () => {
   const { hooks, log } = verdicts()
   const raw = { classes: [{ id: 'A' }], relations: [], namespaces: [], typedDiagram: { classes: [{ id: 'A',

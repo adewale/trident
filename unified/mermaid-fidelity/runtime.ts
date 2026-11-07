@@ -300,21 +300,39 @@ function nativeParse(family: string, source: string) {
     return bridgeReply(child.stdout, family, 'Parser bridge')
   }
   if (job.target.tool === 'agentic') {
+    // Grammar tests observe the actual public grammar parser when one exists.
+    // The editable parser deliberately preserves source it cannot model, even
+    // when the renderer's grammar rejects it. That is a separate contract.
+    const typedParser = agenticTyped?.[{ class: 'parseClassDiagram', er: 'parseErDiagram', sequence: 'parseSequenceDiagram', usecase: 'parseUsecaseModel', agentflow: 'parseAgentflowModel' }[family] ?? '']
+    let typedDiagram: any
+    const parserObservations: any[] = []
+    if (typeof typedParser === 'function') {
+      try {
+        typedDiagram = family === 'sequence' && typeof agenticTyped.withParserObservation === 'function'
+          ? agenticTyped.withParserObservation(family, (event: any) => parserObservations.push(event), () => typedParser(source))
+          : typedParser(source)
+      }
+      catch (error: any) {
+        if (error?.name !== 'MermaidSyntaxError') return gap('Unclassified native grammar exception: ' + String(error))
+        active && active.rejections++
+        throw error
+      }
+    }
+    if (typedDiagram && (family === 'usecase' || family === 'agentflow')) return { ...typedDiagram, nativeGrammar: family }
     const result = api.parseRegisteredMermaid(source)
     if (result?.then) return gap('Asynchronous parser cannot supply the original synchronous parse interface')
     if (!result.ok) {
       const errors = Array.isArray(result.error) ? result.error : [result.error]
       if (!errors.every((e: any) => /PARSE_ERROR|PARSE_FAILED|SYNTAX_ERROR|INVALID_FRONTMATTER/.test(e.code ?? ''))) return gap('Unclassified native parser refusal: ' + JSON.stringify(result.error))
       active && active.rejections++
-      throw Error(JSON.stringify(result.error))
+      const failure = Object.assign(new Error(errors.map((error: any) => error.message).join('\n')), errors[0])
+      throw failure
     }
     if (['opaque', 'preserved'].includes(result.value.body.kind)) {
       active?.unsupported.push('Actual native parse returned ' + result.value.body.kind)
       throw Error('Native semantic support unavailable')
     }
-    const typedParser = agenticTyped?.[{ class: 'parseClassDiagram', er: 'parseErDiagram' }[family] ?? '']
-    const typedDiagram = typeof typedParser === 'function' ? typedParser(source) : undefined
-    return { ...result.value.body, ...(typedDiagram ? { typedDiagram } : {}), ...(result.value.meta?.title !== undefined ? { title: result.value.meta.title } : {}), ...(result.value.meta?.accessibility?.title !== undefined ? { accessibilityTitle: result.value.meta.accessibility.title } : {}), ...(result.value.meta?.accessibility?.descr !== undefined ? { accessibilityDescription: result.value.meta.accessibility.descr } : {}) }
+    return { ...result.value.body, ...(typedDiagram ? { typedDiagram, ...(family === 'sequence' ? { parserObservations } : {}) } : {}), ...(result.value.meta?.title !== undefined ? { title: result.value.meta.title } : {}), ...(result.value.meta?.accessibility?.title !== undefined ? { accessibilityTitle: result.value.meta.accessibility.title } : {}), ...(result.value.meta?.accessibility?.descr !== undefined ? { accessibilityDescription: result.value.meta.accessibility.descr } : {}) }
   }
   if (job.target.tool === 'beautiful') {
     const names: Record<string, string> = { flowchart: 'parseMermaid', state: 'parseMermaid', sequence: 'parseSequenceDiagram', class: 'parseClassDiagram', er: 'parseErDiagram' }
@@ -797,7 +815,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
   }
   if (/\.jison$|[Pp]arser\.[jt]s$|\/parser\.[jt]s$|\.chevrotain\.[jt]s$/.test(source)) {
     let parser = c.parser
-    if (job.target.tool !== 'mermaid' && !source.endsWith('.jison') && ['architecture', 'packet', 'pie', 'radar', 'gitgraph', 'treemap', 'eventmodeling', 'info'].includes(family))
+    if (job.target.tool !== 'mermaid' && !source.endsWith('.jison') && ['architecture', 'packet', 'pie', 'radar', 'gitgraph', 'treemap', 'eventmodeling', 'info', 'usecase'].includes(family))
       parser = new Proxy(c.parser, {
         get(target, key) {
           return key === 'parse' ? async (text: string) => target.parse(text) : target[key]
