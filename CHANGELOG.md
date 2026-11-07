@@ -16,7 +16,9 @@
 - Output admission validates SVG XML and decodes PNG data after the clock stops. Native PNG dimension budgets use division to avoid
   integer overflow. Candidate parser faults count as nonpasses, and version-change detection includes
   source revisions, CLI releases and companion versions. Update js-yaml to 4.3.2.
-  Existing benchmark results remain historical; these checks require fresh collection.
+  Recollect the three benchmarks against the frozen 7 November versions. Previous
+  results remain at their original Git commit; native Flutter PNG remains blocked
+  pending the pinned SDK and GTK build.
 - **Mermaid 12.3.0 is the reference.** The oracle, Mermaid's row in every benchmark and
   the Mermaid Fidelity suite move from 12.2.0 to 12.3.0: 352 test files, of whose tests
   Mermaid passes 3,676. The Fidelity collector reads its pin from

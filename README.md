@@ -56,7 +56,7 @@ Only the <!-- fact:fidelity-population -->3,676<!-- /fact --> tests that Mermaid
 <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> itself passes count. If a test needs an operation the implementation
 doesn't offer, it counts as a failure. If it reads a field Trident can't
 translate yet, it stays unassessed
-(<!-- fact:fidelity-gaps -->274<!-- /fact --> tests across all implementations).
+(<!-- fact:fidelity-gaps -->272<!-- /fact --> tests across all implementations).
 
 Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
 and the range of ranks still possible once its unassessed cases are resolved.
@@ -71,7 +71,7 @@ leaders are:
   <!-- fact:davebench-png-leader -->Latias Merman with 1,338<!-- /fact -->. Terminal text:
   <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,342<!-- /fact -->.
 - **Drawing Correctness**, cases correct. SVG:
-  <!-- fact:drawing-svg-leader -->Bezel, Ondine and Pele with 126 each<!-- /fact -->.
+  <!-- fact:drawing-svg-leader -->Bezel and Pele with 124 each (not yet settled)<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
   <!-- fact:fidelity-leader -->Pele with 3,191<!-- /fact -->.

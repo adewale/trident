@@ -3,11 +3,11 @@
   "files": {
     "native-flutter/app/lib/davebench_worker.dart": "c6b9a160366b77d4436f09f69ea4fc61b38426d222df49336a60781571456e1a",
     "native-flutter/app/pubspec.lock": "388d85f3334be0b47755c92e9f6911bfb2cca253c9514d232e55e781e677f35e",
-    "fidelity/paint.ts": "02c09336735d5480aea01966b26df384a8457a7479f2f893d89759ff0970647b",
+    "fidelity/paint.ts": "fec2e0026670180fe2232a4388bbec14b9ef01b8afddaeda54926b82d197d742",
     "tests/svg-text-ink-clipping.test.ts": "d2e42259f74a03a06204fc2a7f25cd94f521270703c2fe801c47fc979d1a5dae",
     "fidelity/drawing/labels.ts": "0bdb7ae4a7a54e30ac803a7d21b45ea59b4a2605149acf868da765ba3e5ea3cc",
     "tests/drawing-labels.test.ts": "e966791731b80f3a10ffa2940abb53a4cc99dc7a7266c80c5c43dfc63fab09ee",
-    "tests/davebench-validity.test.ts": "aca034f1c31d0a319bf1b0a8536a8a3996d2bdab687e550ba1b89e830d5501e0"
+    "tests/davebench-validity.test.ts": "db97d1f960705fba0a8185d8ceee2c468622baae1703ca5b91f81bb53ca559c8"
   },
   "native": {
     "flutter": "3.44.0",
@@ -82,7 +82,8 @@
     },
     "finalFormatControls": {
       "passed": 7,
-      "failed": 0
+      "failed": 0,
+      "assertions": 42
     },
     "artifactClosurePreflight": {
       "checkedAt": "2026-11-07T04:15:12.515Z",
@@ -130,6 +131,23 @@
         "Checks": "success",
         "Action pinning": "success"
       }
+    },
+    "currentSourceCi": {
+      "head": "5be2c137d717177574103c3ca01c07eca89ea6b7",
+      "linux": "success",
+      "macos": "success",
+      "actionPinning": "success"
+    },
+    "preservedSankeyControls": {
+      "passed": 3,
+      "failed": 0,
+      "files": 2
+    },
+    "freshPublishedResults": {
+      "passed": 26,
+      "failed": 0,
+      "files": 5,
+      "assertions": 37574
     }
   },
   "svgGradientProbe": {
@@ -142,5 +160,48 @@
       "differentRasterChannelsAfterRemovingLabels": 0
     },
     "scope": "The authored label and its backdrop use the same user-space gradient. Removing both labels leaves every raster channel unchanged."
+  },
+  "freshCollection": {
+    "frozenCatalog": "docs/evidence/benchmark-campaign-2026-11-07/catalog.json",
+    "images": {
+      "runs": 96,
+      "attempted": 128832
+    },
+    "terminal": {
+      "runs": 54,
+      "attempted": 72468
+    },
+    "drawing": {
+      "cases": 127,
+      "projectFormats": 34,
+      "totals": {
+        "correct": 3084,
+        "incorrect": 330,
+        "renderer-failure": 634,
+        "invalid-format": 86,
+        "unknown": 184,
+        "unrun": 0
+      }
+    },
+    "fidelity": {
+      "projects": 27,
+      "referenceQualifiedCallbacks": 3676,
+      "expandedCallbacks": 6439,
+      "candidateAdapterGaps": 272
+    },
+    "nativePng": "not measured; pinned SDK/GTK build blocked",
+    "historicalCommit": "49947d539cb9d04deed24608d2e9bd220810b17f"
+  },
+  "mermaidXmlRejections": {
+    "cases": 34,
+    "reasons": {
+      "undeclared nbsp entity": 18,
+      "undeclared xlink prefix": 16
+    },
+    "exampleCases": [
+      "docs/config/math.md:19",
+      "docs/syntax/classDiagram.md:1027"
+    ],
+    "reproducedAllCases": true
   }
 }
