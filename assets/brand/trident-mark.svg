@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000" role="img" aria-labelledby="title description">
+  <title id="title">Trident</title>
+  <desc id="description">Three green arrow-tipped spears above a detached datum line.</desc>
+<g transform="translate(0 88.5)"><g fill="#205653">
+  <path d="M500 64 575 218H538V482L666 301 645 283 786 201 752 368 728 350 540 627V692H460V627L272 350 248 368 214 201 356 283 334 301 462 482V218H425Z"/>
+  <path d="M270 709H730V759H270Z"/>
+</g></g>
+</svg>
