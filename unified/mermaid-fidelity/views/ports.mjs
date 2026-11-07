@@ -645,7 +645,11 @@ function stateView(raw, hooks, project) {
 
 // requirementDb getClasses(): the classDef Map.
 // Latias94/merman names Mermaid's relation list (requirementDb { type, src, dst }) relationships.
+// requirementDb: requirements and elements are Maps keyed by name, in declaration order;
+// a bridged port's JSON object is read back into one.
 const requirementView = (raw, hooks, project) => ({
+  ...(raw.requirements !== undefined ? { getRequirements: () => keyedMap(raw.requirements, hooks, NAME[project] + ' requirements') } : {}),
+  ...(raw.elements !== undefined ? { getElements: () => keyedMap(raw.elements, hooks, NAME[project] + ' requirement elements') } : {}),
   getClasses: () => orderedMap(raw.classes, hooks, NAME[project] + ' requirement classes'),
   ...(project === MERMAN && Array.isArray(raw.relationships) ? { getRelationships: () => raw.relationships.map(item => deepUnset(item)) } : {}),
 })
@@ -655,7 +659,22 @@ const erView = (raw, hooks, project) => ({
   getClasses: () => orderedMap(raw.classes, hooks, NAME[project] + ' ER classes'),
 })
 // ganttDb's settings getters; all three keep the settings under Mermaid's names.
-const ganttView = raw => ({
+// getTasks(): Mermaid computes each task's start and end times when the database is read.
+// A port whose model keeps its tasks unprocessed records no computed times, and computing
+// them here would be applying Mermaid's scheduling rules, so a missing time is unassessed.
+const GANTT_TASK_FIELDS = ['id', 'task', 'section', 'type', 'startTime', 'endTime', 'renderEndTime', 'active', 'done', 'crit', 'milestone', 'vert', 'order', 'classes', 'manualEndTime', 'raw', 'prevTaskId', 'processed']
+const ganttView = (raw, hooks) => ({
+  ...(Array.isArray(raw.tasks)
+    ? {
+        getTasks: () =>
+          raw.tasks.map(task => {
+            const fields = deepUnset(task)
+            // An unprocessed task's empty times were never computed, not computed as empty.
+            if (task.processed === false) for (const key of ['startTime', 'endTime', 'renderEndTime']) if (fields[key] == null) delete fields[key]
+            return record(fields, 'gantt task', GANTT_TASK_FIELDS, {}, hooks)
+          }),
+      }
+    : {}),
   getWeekday: () => raw.weekday,
   getExcludes: () => deepUnset(raw.excludes),
   getIncludes: () => deepUnset(raw.includes),
@@ -695,7 +714,9 @@ function mindmapView(raw, hooks, project) {
   const node = item => record({ ...deepUnset(item), children: (item.children ?? []).map(node) }, 'mindmap node', ['id', 'nodeId', 'level', 'descr', 'type', 'children'], MINDMAP_RENDERER, hooks)
   return {
     nodeType: { ...MINDMAP_NODE_TYPE },
-    ...(project === MERMAN ? {} : { getMindmap: () => (raw.nodes?.length ? node(raw.nodes[0]) : null) }),
+    // Latias94/merman returns getData()'s flat layout nodes; the tree getMindmap() returns is
+    // not mapped from them, so reading it is unassessed rather than an absent root.
+    ...(project === MERMAN ? { getMindmap: () => hooks.unavailable("Latias94/merman keeps getData()'s flat layout nodes; its mindmap tree is not mapped") } : { getMindmap: () => (raw.nodes?.length ? node(raw.nodes[0]) : null) }),
     // Mindmap layout data is computed for Mermaid's renderer (decided on 4 November).
     getData: () => hooks.unsupported("Mermaid's mindmap getData() is its renderer's layout data"),
   }

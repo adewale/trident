@@ -117,3 +117,16 @@ test("a candidate file that fails to load on the candidate's own unsupported ope
   const crashed = fidelityOutcomes(reference, { testResults: [{ name: '/up/radar.spec.ts', assertionResults: [], message: 'TypeError: x is undefined' }] }, [], [{ file: '/up/radar.spec.ts', index: 0, name: 'radar parses', gaps: [], calls: 1, unsupported: [] }])
   expect(crashed.map((r: any) => r.status)).toEqual(['trident-blocked'])
 })
+
+test("a programming error raised in Trident's own code is unassessed; a candidate's refusal stays a failure", () => {
+  const trident = join(import.meta.dir, '..', 'unified/upstream-test-assertions.mjs')
+  const failing = (message: string) => ({ testResults: [{ name: '/original.spec.ts', assertionResults: [{ fullName: 'parameter table repeated title', status: 'failed', failureMessages: [message] }] }] })
+  const control = native(['passed'])
+  const [helper] = fidelityOutcomes(control, failing(`TypeError: model.nodes?.find is not a function\n    at Object.getMindmap (${trident}:25:85)\n    at /original.spec.ts:3:1`), [audit(0)])
+  expect(helper!.status).toBe('trident-blocked')
+  expect(helper!.reason).toStartWith('Trident error: TypeError')
+  const [refusal] = fidelityOutcomes(control, failing(`Error: Unsupported syntax in flowchart diagram at line 1\n    at nativeParse (${join(import.meta.dir, '..', 'unified/mermaid-fidelity/runtime.ts')}:302:13)`), [audit(0)])
+  expect(refusal!.status).toBe('failed')
+  const [candidate] = fidelityOutcomes(control, failing('TypeError: x is not a function\n    at render (/cache/candidate/dist/index.js:1:1)'), [audit(0)])
+  expect(candidate!.status).toBe('failed')
+})

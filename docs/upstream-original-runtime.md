@@ -10,7 +10,11 @@ The generated source `node_modules` symlink is excluded through local Git metada
 without editing upstream source or its `.gitignore`. The selected runtime and
 installed bytes are verified separately; other source changes remain visible.
 
-The prepared runtime uses npm with those exact direct selections. Its npm lock,
+The prepared runtime uses npm with those exact direct selections. The Mermaid
+12.3.0 suite (Vitest 4) needs npm 11 or later: npm 10.9's dependency resolver
+crashes on its peer set (`Cannot read properties of null (reading 'edgesOut')`),
+while npm 11 resolves the same manifest. Put npm 11 first on `PATH` when running
+`upstream:prepare`. Its npm lock,
 direct tarball integrities, applied upstream patches and generated prerequisites
 are recorded. npm still resolves the remaining transitive and peer graph;
 this runtime is an explicit npm variant, not a reproduction of the complete

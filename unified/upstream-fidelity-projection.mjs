@@ -72,13 +72,18 @@ export function projectPublicDatabase(tool, family, raw, unavailable, unsupporte
     }
     if (graph?.edges) view.getEdges = () => {
       if (!Array.isArray(graph.edges) || graph.edges.some(edge => typeof (edge.source ?? edge.from ?? edge.start) !== 'string' || typeof (edge.target ?? edge.to ?? edge.end) !== 'string' || edge.label != null && typeof edge.label !== 'string')) return missing('edge endpoints and labels')
-      return graph.edges.map(edge => {
+      const list = graph.edges.map(edge => {
         if (!edge.type && edge.hasArrowStart === true && edge.hasArrowEnd === false) return missing('start-only marker direction has no qualified original edge view')
         const heads = { arrow: 'arrow_point', open: 'arrow_open', none: 'arrow_open', circle: 'arrow_circle', cross: 'arrow_cross' }
         const type = edge.type ?? heads[edge.arrowType] ?? (typeof edge.hasArrowEnd === 'boolean' ? (edge.hasArrowStart ? 'double_' : '') + (edge.hasArrowEnd ? 'arrow_point' : 'arrow_open') : edge.style === 'arrow' ? 'arrow_point' : undefined)
         const stroke = edge.stroke ?? ({ solid: 'normal', dotted: 'dotted', dashed: 'dotted', thick: 'thick', invisible: 'invisible' }[edge.lineStyle ?? edge.style]) ?? (typeof edge.dashed === 'boolean' ? edge.dashed ? 'dotted' : edge.thick ? 'thick' : 'normal' : undefined)
         return observe({ ...clone(edge), start: edge.source ?? edge.from ?? edge.start, end: edge.target ?? edge.to ?? edge.end, text: edge.label ?? edge.text ?? '', ...(type ? { type } : {}), ...(stroke ? { stroke } : {}), ...(edge.minLength !== undefined || edge.min_length !== undefined ? { length: edge.minLength ?? edge.min_length } : {}) }, ['type', 'stroke', 'length', 'interpolate', 'style', 'classes'])
       })
+      // FlowDB keeps `linkStyle default` on the edge list itself (edges.defaultInterpolate,
+      // edges.defaultStyle); a model that records it is read back the same way.
+      if (graph.defaultInterpolate != null) list.defaultInterpolate = graph.defaultInterpolate
+      if (graph.defaultEdgeStyle != null) list.defaultStyle = clone(graph.defaultEdgeStyle)
+      return list
     }
     if (typeof graph?.direction === 'string') view.getDirection = () => graph.direction.toUpperCase(); field('getSubGraphs', 'subgraphs', graph); field('getClasses', graph && 'classes' in graph ? 'classes' : 'classDefs', graph)
   } else if (family === 'class') {

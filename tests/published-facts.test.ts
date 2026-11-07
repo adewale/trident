@@ -37,3 +37,11 @@ test('a leader fact names ties and is marked while an unassessed case could stil
   trailing.counts.unknown = best - trailing.counts.correct
   expect(publishedFacts(davebench, drawing, fidelity)['drawing-svg-leader']).toEndWith('(not yet settled)')
 })
+
+test("the README's install commands check out the pinned Mermaid reference's tag", async () => {
+  const { MERMAID_ORACLE_PIN } = await import('../portable/mermaid-oracle.ts')
+  const readme = readFileSync(join(root, 'README.md'), 'utf8')
+  const tags = [...readme.matchAll(/checkout (mermaid@[0-9.]+)/g)].map(match => match[1])
+  expect(tags.length).toBeGreaterThan(0)
+  expect(new Set(tags)).toEqual(new Set([`mermaid@${MERMAID_ORACLE_PIN.version}`]))
+})

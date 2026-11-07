@@ -794,6 +794,22 @@ export function moduleFor(family: string, source: string, file: string, locals: 
           return key === 'parse' ? async (text: string) => target.parse(text) : target[key]
         },
       })
+    // A jison parser's parse() returns true when it accepts the source: protocol, like the
+    // generated constants, so an accepted candidate parse returns true as well.
+    else if (job.target.tool !== 'mermaid' && source.endsWith('.jison')) {
+      const jison: any = new Proxy(c.parser, {
+        get(target, key) {
+          if (key === 'parser') return jison
+          return key === 'parse'
+            ? (text: string) => {
+                target.parse(text)
+                return true
+              }
+            : target[key]
+        },
+      })
+      parser = jison
+    }
     return { default: parser, parser }
   }
   if (/(?:[dD][bB]|[aA]st)\.js$|\/db\.js$/.test(source))
