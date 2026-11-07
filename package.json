@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Trident: local Mermaid artifact benchmarks and retained evidence",
   "scripts": {
+    "brand:generate": "bun scripts/generate-brand.ts",
     "test": "bun run commands.ts test",
     "test:ci": "bun run commands.ts test:ci",
     "typecheck": "bun run commands.ts typecheck",

@@ -1,5 +1,9 @@
 # Trident
 
+<p align="center">
+  <img src="assets/brand/trident.svg" alt="Trident" width="280">
+</p>
+
 Trident is a tool for benchmarking Mermaid implementations. It is for people
 building a Mermaid renderer or parser and for people choosing one.
 
