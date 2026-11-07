@@ -43,6 +43,14 @@ export function svgText(svg: string) {
   return decode(svg
     .replace(/<!--[\s\S]*?-->/g, ' ')
     .replace(/<(style|script|title|desc|metadata|defs)\b[\s\S]*?<\/\1\s*>/gi, ' ')
+    // Keep the ambiguity of a visible line-end hyphen: it can belong to the
+    // authored word or be inserted by wrapping. Only explicit SVG line moves
+    // within one text element qualify; adjacent styled spans/text nodes do not.
+    .replace(/<text\b[^>]*>[\s\S]*?<\/text\s*>/gi, text => text.replace(/-\s*<\/tspan>\s*<tspan\b([^>]*)>/gi, (boundary, attributes: string) => {
+      const x = /\bx\s*=\s*["'][^"']+["']/i.test(attributes)
+      const dy = attributes.match(/\bdy\s*=\s*["']([+-]?(?:\d+(?:\.\d*)?|\.\d+))(?:px|em)?["']/i)?.[1]
+      return x && dy !== undefined && Number(dy) !== 0 ? '\u00ad' : boundary
+    }))
     .replace(breaks, ' ')
     .replace(/<[^>]+>/g, ' '))
 }
@@ -59,8 +67,14 @@ const visibleForms = (label: string) => [...new Set([label, label.replace(contro
 /** A label is found when its text appears with whitespace ignored, or, for text
  * wrapped inside a box, when each of its words appears. */
 export function labelFound(label: string, text: string) {
-  const haystack = squash(text.replace(controls, ''))
-  return visibleForms(label).some(form => haystack.includes(squash(form)) || form.split(/\s+/).filter(Boolean).every(token => haystack.includes(squash(token))))
+  const observed = squash(text.replace(controls, ''))
+  const found = (value: string) => {
+    const needle = squash(value)
+    if (!observed.includes('\u00ad')) return observed.includes(needle)
+    const pattern = [...needle].map(char => char === '-' ? '[-\u00ad]' : char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('\u00ad?')
+    return new RegExp(pattern, 'u').test(observed)
+  }
+  return visibleForms(label).some(form => found(form) || form.split(/\s+/).filter(Boolean).every(found))
 }
 
 /** Raw source syntax that a drawing would never show: the diagram header line,

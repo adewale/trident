@@ -276,6 +276,13 @@ the label check leaves <!-- fact:drawing-unassessed -->0<!-- /fact --> of <!-- f
 leakage alone). On the same outputs it agrees with every result the geometry
 checkers had confirmed correct.
 
+SVG label matching accepts a hyphen at an explicit line transition between tspans
+inside one text element either as an authored hyphen or a wrapping hyphen. This
+requires an `x` coordinate and nonzero `dy` on the following span. Ordinary hyphens,
+same-line styled spans and separate text elements receive no such normalization.
+This label-only observer cannot distinguish the two valid readings of that line
+break; it does not change the renderer output or assess typography.
+
 PNG is not part of Drawing Correctness. OCR found every label in only 43 of 127
 Mermaid PNGs whose source SVGs pass 124, so a PNG score would mostly measure the
 OCR. Mermaid Flutter, which only outputs PNG, has no Drawing result.

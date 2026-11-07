@@ -43,6 +43,22 @@ test('label matching is exact apart from whitespace and wrapping', () => {
   expect(labelFound('Prototype', 'Prototvpe')).toBe(false)
 })
 
+test('SVG discretionary hyphenation is recognized only at explicit line transitions within one text', () => {
+  const wrapped = svgText('<svg><text><tspan x="10" dy="0">Small</tspan><tspan x="10" dy="16">rectangl-</tspan><tspan x="10" dy="16">e</tspan></text></svg>')
+  expect(labelFound('Small rectangle', wrapped)).toBe(true)
+  expect(labelFound('Small rectanglx', wrapped)).toBe(false)
+  const authored = svgText('<svg><text><tspan x="10">co-</tspan><tspan x="10" dy="16">operate</tspan></text></svg>')
+  expect(labelFound('co-operate', authored)).toBe(true)
+  const mixed = svgText('<svg><text><tspan x="10">co-</tspan><tspan x="10" dy="16">operat-</tspan><tspan x="10" dy="16">e</tspan></text></svg>')
+  expect(labelFound('co-operate', mixed)).toBe(true)
+  expect(labelFound('cooperate', 'co-operate')).toBe(false)
+  for (const svg of [
+    '<text><tspan>rectangl-</tspan><tspan>e</tspan></text>',
+    '<text><tspan>rectangl-</tspan><tspan x="10" dy="0">e</tspan></text>',
+    '<text><tspan>rectangl-</tspan></text><text><tspan x="10" dy="16">e</tspan></text>',
+  ]) expect(labelFound('rectangle', svgText(svg))).toBe(false)
+})
+
 test('an empty diagram passes only without text; a case without labels is judged on raw syntax alone', () => {
   const empty: any = { ...flow, source: 'flowchart\n', expected: { nodes: [], edges: [], facts: {} }, terminal: { expected: { graph: { nodes: [], edges: [] } } } }
   expect(assessLabels(empty, 'svg', '   ').status).toBe('correct')
