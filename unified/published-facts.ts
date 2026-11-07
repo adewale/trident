@@ -36,6 +36,7 @@ export function publishedFacts(davebench: any, drawing: any, fidelity: any, name
     'drawing-unassessed': count((drawing.totals.unknown ?? 0) + (drawing.totals.unrun ?? 0)),
     'drawing-correct': count(drawing.totals.correct),
     'drawing-collected': day(drawing.updatedAt),
+    'mermaid-reference': control.version,
     'fidelity-expanded': count(fidelity.expandedCallbacks),
     'fidelity-population': count(control.counts.passed),
     'fidelity-unqualified': count(control.counts['reference-unqualified']),

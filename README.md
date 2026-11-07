@@ -46,7 +46,7 @@ When Trident cannot call an implementation's parser from JavaScript, it reaches
 it through a [parser bridge](docs/benchmark-results-details.md#why-coverage-is-incomplete);
 13 implementations are reached this way.
 Only the <!-- fact:fidelity-population -->3,618<!-- /fact --> tests that Mermaid
-12.2.0 itself passes count. If a test needs an operation the implementation
+<!-- fact:mermaid-reference -->12.2.0<!-- /fact --> itself passes count. If a test needs an operation the implementation
 doesn't offer, it counts as a failure. If it reads a field Trident can't
 translate yet, it stays unassessed
 (<!-- fact:fidelity-gaps -->83<!-- /fact --> tests across all implementations).
@@ -122,7 +122,8 @@ A full campaign needs more than the quick start:
 - Tesseract and the Python packages in `fidelity/drawing/requirements.txt`, for
   Drawing Correctness.
 - The toolchains that compiled projects declare in the catalog.
-- A Mermaid checkout at `../mermaid`, checked out at the `mermaid@12.2.0` tag.
+- A Mermaid checkout at `../mermaid`, checked out at the tag of the pinned Mermaid
+  reference (Mermaid <!-- fact:mermaid-reference -->12.2.0<!-- /fact -->).
   DaveBench reads its pinned docs commit from the history, and Mermaid Fidelity
   runs the tag's tests.
 
@@ -131,7 +132,7 @@ bun install --frozen-lockfile
 node commands.ts mermaid:install
 bunx playwright install chromium
 python -m pip install -r fidelity/drawing/requirements.txt
-git -C ../mermaid checkout mermaid@12.2.0
+git -C ../mermaid checkout mermaid@12.3.0
 bun commands.ts upstream:prepare --runtime ../fidelity-runtime
 node commands.ts --version
 ```
@@ -158,7 +159,7 @@ bun commands.ts campaign:results --images FRESH_IMAGES/results.json --terminal F
 | Placeholder | Meaning |
 |---|---|
 | `FRESH_*` | A directory that does not exist yet |
-| `PINNED_MERMAID` | The Mermaid checkout at `mermaid@12.2.0` (`../mermaid`) |
+| `PINNED_MERMAID` | The Mermaid checkout at the pinned reference's tag (`../mermaid`) |
 | `MERMAID_REFERENCE` | The reference installed by `mermaid:install` (`../mermaid-reference`) |
 | `VITEST_RUNTIME` | The `--runtime` directory built by `upstream:prepare` |
 

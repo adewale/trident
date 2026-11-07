@@ -61,7 +61,7 @@ limitations of the projects being benchmarked.
 
 **Fidelity runs every candidate on the whole selected suite.** All <!-- fact:fidelity-candidates -->26<!-- /fact --> candidates
 plus Mermaid attempted all <!-- fact:fidelity-files -->316<!-- /fact --> selected core-package files (<!-- fact:fidelity-collected -->6 November 2026<!-- /fact -->) against one
-shared Mermaid 12.2.0 control run. During development (3–5 November), the reviewed
+shared Mermaid <!-- fact:mermaid-reference -->12.2.0<!-- /fact --> control run. During development (3–5 November), the reviewed
 schema views and unsupported operations described below cut the bridged projects'
 unassessed callbacks from
 roughly 1,000–2,650 each to 250–1,000 (Grok renderer 2,146 → 336, Mermaid ASCII
@@ -220,6 +220,26 @@ Four further rules, decided on 5 November:
   renderer layout getters, whether or not a diagram has been parsed.
 - **Record identity.** A view builds each record once per parse, so a test comparing
   two getters' results with `toBe` sees the same object, as with Mermaid's database.
+
+Two rules added on 7 November, after an audit of scored failures whose received value
+was `undefined`:
+
+- **Trident's own errors are not candidate failures.** A `TypeError`, `ReferenceError`
+  or `RangeError` raised inside Trident's code (a view, an assertion helper) marks the test
+  unassessed, with the error as its reason. A candidate's refusal that the runtime
+  re-throws is a plain `Error` and stays a failure, as does an error raised in the
+  candidate's own code.
+- **A jison parser's `parse()` returns `true`.** It is protocol, like the generated
+  constants, so an accepted candidate parse returns `true` through `parse()` and
+  `parser.parse()`.
+
+The same audit found views that misread what a project records: bridged requirement
+models returned as plain objects instead of Maps, `linkStyle default` dropped from
+flowchart edge lists, Kanban section icons dropped, tree-view directory slashes not
+restored, and generic fallbacks that returned nothing for Loom's and Latias94/merman's
+mindmaps. Those are fixed or now unassessed. Most remaining failures of that shape are
+genuine: a parser that does not accept `;` between statements returns no edges, and the
+test fails reading the first one.
 
 Langium AST tests get reviewed AST views where a model can express the AST. An accepted
 parse with no reviewed view is still an AST of the right
