@@ -56,3 +56,10 @@ test('a partial project rerun preserves other projects in the same format, inclu
   expect(merged.results.find((row: any) => row.project === 'q')).toEqual(published.results[2])
   expect(merged.blocked).toEqual(published.blocked)
 })
+
+test('a partial recollection replaces its runtime binding and removes stale bindings when blocked', () => {
+  const published = { ...base(), runtimeBindings: [{ project: 'p', format: 'svg', binding: 'kept' }, { project: 'p', format: 'terminal', binding: 'old' }] }
+  const run = { state: 'complete', updatedAt: '2026-11-05T17:02:59.000Z', corpus: published.corpus, versionsFrozenAt: 'freeze', blocked: [], rows: ['c1', 'c2'].map(caseId => ({ project: 'p', version: '1', format: 'terminal', caseId, status: 'correct' })), runtimeBindings: [{ project: 'p', format: 'terminal', binding: 'new' }] }
+  expect(mergeDrawingResults(published, run, ['terminal']).runtimeBindings).toEqual([published.runtimeBindings[0], run.runtimeBindings[0]])
+  expect(mergeDrawingResults(published, { ...run, rows: [], blocked: [{ project: 'p', format: 'terminal', reason: 'unavailable' }], runtimeBindings: [] }, ['terminal']).runtimeBindings).toEqual([published.runtimeBindings[0]])
+})

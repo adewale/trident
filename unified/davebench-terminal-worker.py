@@ -1,7 +1,7 @@
 """Persistent native Python call timing; no drawing output is retained."""
-import json,sys,time,platform
+import json,sys,time,platform,importlib.metadata
 import termaid
-print(json.dumps(dict(type='ready',runtime=dict(engine='python',version=platform.python_version(),executable=sys.executable,platform=sys.platform,architecture=platform.machine()))),flush=True)
+print(json.dumps(dict(type='ready',package='termaid',version=importlib.metadata.version('termaid'),runtime=dict(engine='python',version=platform.python_version(),executable=sys.executable,platform=sys.platform,architecture=platform.machine(),isolated=bool(sys.flags.isolated),bytecodePrefix=sys.pycache_prefix))),flush=True)
 for line in sys.stdin:
  job=json.loads(line);start=time.perf_counter();outcome='completed';value=None;error=None
  try:value=termaid.render(job['source'])

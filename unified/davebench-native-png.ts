@@ -1,5 +1,5 @@
 import { atomicWrite, reserveResultDirectory, timingSession } from './result-storage.ts'
-import { campaignPlan, assertTimingCollection } from './campaign-plan.ts'
+import { campaignPlan, assertTimingCollection, planDigest } from './campaign-plan.ts'
 import { executionEnvironment } from './execution-environment.ts'
 import { davebenchInputs } from './davebench-inputs.ts'
 import { execFileSync } from 'node:child_process'
@@ -85,6 +85,7 @@ export async function main(args = process.argv.slice(2)) {
       }
       await close(); save('running'); console.log(`  ${row.completed}/${row.attempted}, ${(row.totalMs / 1000).toFixed(3)} s`)
     }
+    if (planDigest(verifiedNativeBundle(bundle)) !== planDigest(nativeBuild)) throw Error('Native release bundle changed during collection')
     save('complete')
   } finally { await close() }
 }

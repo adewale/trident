@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import type { PreparedCommunity } from './community-types.ts'
 import { JsonLineSession, SessionFailure } from './json-line-session.ts'
 import { tridentDirectory } from './trident-paths.ts'
+import { pythonRenderer } from './python-renderer.ts'
 
 export interface TimedCall { outcome: string; ms: number | null; controllerMs?: number; invalid?: string; error?: string; failureKind?: SessionFailure['kind'] }
 
@@ -16,15 +17,19 @@ export class TerminalCallWorker {
   private readonly epoch = randomUUID()
   private sequence = 0
   private admit?: (output: unknown, source: string) => { valid: boolean; reason?: string }
+  private verifyRuntime = () => {}
   constructor(peer: PreparedCommunity, file: string, invocation?: string[], admit?: TerminalCallWorker['admit']) {
     this.admit = admit
     writeFileSync(file, JSON.stringify(peer))
     const python = peer.artifact?.kind === 'python'
+    if (python && invocation) throw Error('Python renderers use their bound command')
     const bun = /bun/i.test(peer.artifact?.runtime ?? '') || /\.tsx?$/.test(peer.artifact?.module ?? '')
     const command = python ? peer.artifact!.python ?? peer.artifact!.executable! : bun ? process.execPath : process.env.NODE_BIN ?? 'node'
     const args = python ? [join(tridentDirectory, 'unified/davebench-terminal-worker.py')] : [join(tridentDirectory, 'unified/davebench-terminal-worker.mjs'), file]
-    this.session = new JsonLineSession(invocation ?? [command, ...args], {
-      ready: row => { if (row.type !== 'ready') return false; this.identity = row; return true },
+    const bound = python ? pythonRenderer(peer, args[0]!) : undefined
+    if (bound) this.verifyRuntime = bound.assertUnchanged
+    this.session = new JsonLineSession(invocation ?? bound?.command ?? [command, ...args], {
+      ready: row => { if (row.type !== 'ready') return false; if (python && (row.package !== 'termaid' || row.version !== peer.artifact!.version)) throw Error('Python worker package/version differs from the prepared artifact'); this.identity = { ...row, ...(bound ? { project: peer.node.id, binding: bound.identity } : {}) }; return true },
       reply: row => row.type === 'result' && typeof row.id === 'string' && ['completed', 'error', 'invalid', 'cleanup-error'].includes(row.outcome) && typeof row.ms === 'number' && Number.isFinite(row.ms) && row.ms >= 0,
     })
     this.child = this.session.child; this.ready = this.session.ready
@@ -43,5 +48,5 @@ export class TerminalCallWorker {
     const validity = this.admit(value.output, source)
     return validity.valid ? { outcome: 'completed', ms } : { outcome: 'invalid', ms, invalid: validity.reason }
   }
-  close() { return this.session.close() }
+  async close() { await this.session.close(); this.verifyRuntime() }
 }

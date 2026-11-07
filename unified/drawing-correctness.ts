@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from 'no
 import { tmpdir } from 'node:os'
 import { resolve, join } from 'node:path'
 import { watchMemory } from './process-memory.ts'
+import { pythonRenderer } from './python-renderer.ts'
 import { killCommunityProcess, spawnCommunityProcess } from './community-process.ts'
 import { chromium } from 'playwright'
 import { drawingCases } from '../fidelity/drawing/corpus.ts'
@@ -99,6 +100,7 @@ export async function main(args = process.argv.slice(2)) {
   const due = checkpointDue()
   const rows: any[] = [],
     blocked: any[] = []
+  const pythonRuntimes = new Map<string, ReturnType<typeof pythonRenderer>>()
   // The collection's own times: published dates come from these, never from a later merge.
   const startedAt = new Date().toISOString()
   const save = (state = 'running', force = false) => {
@@ -118,6 +120,7 @@ export async function main(args = process.argv.slice(2)) {
         {
           benchmark: 'Drawing Correctness',
           state, plan, assessmentPolicy: labelPolicy, assessmentProfiles,
+          runtimeBindings: [...pythonRuntimes].map(([project, runtime]) => ({ project, format: 'terminal', binding: runtime.identity })),
           startedAt,
           updatedAt: new Date().toISOString(),
           selection: opts.get('--case') ? 'functional subset' : 'full shared corpus',
@@ -229,7 +232,11 @@ export async function main(args = process.argv.slice(2)) {
           const openWorker = async () => {
             const python = a.kind === 'python',
               executable = python ? a.executable : /bun/i.test(a.runtime ?? '') || /\.tsx?$/.test(a.module ?? '') ? process.execPath : 'node'
-            worker = new DrawingWorker([executable, join(import.meta.dirname, '../fidelity/drawing/terminal-worker.' + (python ? 'py' : 'mjs'))])
+            const script = join(import.meta.dirname, '../fidelity/drawing/terminal-worker.' + (python ? 'py' : 'mjs'))
+            if (python && !pythonRuntimes.has(project)) pythonRuntimes.set(project, pythonRenderer(terminalPeer, script))
+            const bound = pythonRuntimes.get(project)
+            bound?.assertUnchanged()
+            worker = new DrawingWorker(bound?.command ?? [executable, script])
             const ready = await worker.call({ type: 'init', peer: terminalPeer })
             if (!ready.ok) throw Error(ready.error)
           }
@@ -290,6 +297,7 @@ export async function main(args = process.argv.slice(2)) {
       } else if (formats.includes('terminal') && communityDeclaresOutput(node, 'terminal')) blocked.push({ project, format: 'terminal', reason: terminalPeer?.error ?? 'No prepared terminal artifact supplied' })
       save('running', true)
     }
+    for (const runtime of pythonRuntimes.values()) runtime.assertUnchanged()
     save('complete')
   } finally {
     await assessmentContext.close()

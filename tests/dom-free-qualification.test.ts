@@ -1,4 +1,5 @@
 import { expect, test } from 'bun:test'
+import { readFileSync } from 'node:fs'
 import { qualifyDomFree } from '../scripts/qualify-dom-free.ts'
 
 function runs() {
@@ -22,4 +23,19 @@ test('DOM-free qualification cannot cross an artifact, runner, or cohort change'
   node[0]!.job.target.sha256 = 'different bytes'
   expect(() => qualifyDomFree(baseline, node, 'pin')).toThrow('frozen inputs')
   expect(() => qualifyDomFree(baseline, [], 'pin')).toThrow('cohort')
+})
+
+test('published DOM-free selections require complete equal observations for the recorded cohort', () => {
+  const proof = JSON.parse(readFileSync(new URL('../unified/mermaid-fidelity/dom-free-files.json', import.meta.url), 'utf8'))
+  const targets = Object.keys(proof.targets)
+  expect(proof.protocol).toBe('dom-free-qualification-v1')
+  expect(targets.length).toBeGreaterThan(0)
+  expect(Object.keys(proof.fingerprints).sort()).toEqual([...targets].sort())
+  const files = Object.keys(proof.fingerprints[targets[0]!])
+  for (const project of targets) expect(Object.keys(proof.fingerprints[project]).sort()).toEqual([...files].sort())
+  const eligible = files.filter(file => targets.every(project => {
+    const pair = proof.fingerprints[project][file]
+    return typeof pair?.jsdom === 'string' && /^[a-f0-9]{64}$/.test(pair.jsdom) && pair.jsdom === pair.node
+  }))
+  expect([...proof.files].sort()).toEqual(eligible.sort())
 })

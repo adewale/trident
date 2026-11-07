@@ -57,7 +57,8 @@ export function mergeDrawingResults(base: any, run: any, formats: string[]) {
   const results = [...base.results.filter((row: any) => !replaced.has(key(row.project, row.format))), ...fresh]
   const totals = Object.fromEntries(statuses.map(status => [status, results.reduce((sum: number, row: any) => sum + row.counts[status], 0)]))
   const blocked = [...base.blocked.flatMap((row: any) => { const kept = String(row.format).split('/').filter(format => !replaced.has(key(row.project, format))); return kept.length ? [{ ...row, format: kept.join('/') }] : [] }), ...blocks]
-  return { ...base, ...(run.assessmentProfiles ? { assessmentProfiles: { ...base.assessmentProfiles, ...Object.fromEntries(formats.map(format => [format, run.assessmentProfiles[format]])) } } : {}), results, totals, blocked, updatedAt: collectedAt(run), recollectedFormats: { formats, at: collectedAt(run), reason: 'Replaced only the supplied project/format results from the same corpus and frozen versions; all other observations are preserved.' } }
+  const runtimeBindings = [...(base.runtimeBindings ?? []).filter((row: any) => !replaced.has(key(row.project, row.format))), ...(run.runtimeBindings ?? []).filter((row: any) => formats.includes(row.format))]
+  return { ...base, ...(base.runtimeBindings || run.runtimeBindings ? { runtimeBindings } : {}), ...(run.assessmentProfiles ? { assessmentProfiles: { ...base.assessmentProfiles, ...Object.fromEntries(formats.map(format => [format, run.assessmentProfiles[format]])) } } : {}), results, totals, blocked, updatedAt: collectedAt(run), recollectedFormats: { formats, at: collectedAt(run), reason: 'Replaced only the supplied project/format results from the same corpus and frozen versions; all other observations are preserved.' } }
 }
 
 /** When a run finished collecting. A run from before runs recorded their times has none,
