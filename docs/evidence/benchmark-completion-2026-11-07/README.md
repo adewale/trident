@@ -5,6 +5,27 @@ PR [#88](https://github.com/adewale/trident/pull/88) merged as
 available at that commit. This collection uses the same
 [frozen product catalog](../benchmark-campaign-2026-11-07/catalog.json).
 
+## Fresh measurement collection
+
+The [published numeric files](../../../results/release/README.md) account for
+153 complete DaveBench runs and 205,326 calls: 16 SVG, 17 PNG and 18 terminal
+lanes, each with three full 1,342-input repeats. There are no blocked lanes or
+missing durations. Native PNG, image and terminal collections ran serially,
+after semantic jobs and fixture tests. No historical measurements were mixed in.
+
+Termaid's public Python launchers now share Fidelity's isolated, source-only
+command. The command, interpreter, worker and installed package tree are bound
+before use and checked again afterward. Ready metadata reports the installed
+package version. A regression poisons a valid timestamp bytecode cache and
+injects a shadow module through `PYTHONPATH`: the public worker still loads the
+sealed source, and rejects a later installed-source change.
+
+After this correction, Termaid's three terminal timing runs and all 127 Drawing
+cases were recollected separately. Each timing run admits 1,286 inputs; every
+Drawing case outcome reproduces the preceding collection. The terminal result
+records this consolidation, and Drawing retains the runtime binding when merging
+the affected lane. Every other fresh observation is preserved.
+
 ## SVG label qualification
 
 The `svg-label-paint-v2` profile can prove separation between a flat opaque
@@ -107,6 +128,20 @@ smoke request under Xvfb. A separate production JSON-line worker call completed
 and exited normally after EOF. This supersedes the earlier compatibility-SDK
 probe; no dependency substitutions were needed. CI supplies build and smoke
 evidence. Corpus timings are collected separately outside CI.
+
+All three native PNG corpus runs admitted 1,114 of 1,342 outputs, with 228 API
+errors per run, no timeouts and no invalid returned PNGs. Every call supplied an
+API duration. The total API times were 24.806, 23.902 and 25.093 seconds; the
+median is 24.806 seconds. The
+[raw native collection](../../../results/release/native-png.json) retains the
+complete build and smoke receipts, resolved host libraries, worker identities,
+rendering request and numeric runs. These are mechanical admission and timing
+results; PNG drawing meaning is not assessed.
+
+The complete native bundle, source, SDK and smoke receipts were verified again
+after collection and matched the recorded identity. The collector also performs
+this end check before marking future collections complete. The final production
+worker integration smoke completed and exited normally with the current transport.
 
 The process memory guard counts the owned worker tree, including renderer and
 Xvfb children behind shell wrappers. Docker collection also sets a container

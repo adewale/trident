@@ -52,11 +52,11 @@ implementation's parser, translating its model into the shape the tests read.
 When Trident cannot call an implementation's parser from JavaScript, it reaches
 it through a [parser bridge](docs/benchmark-results-details.md#why-coverage-is-incomplete);
 13 implementations are reached this way.
-Only the <!-- fact:fidelity-population -->3,676<!-- /fact --> tests that Mermaid
+Only the <!-- fact:fidelity-population -->3,661<!-- /fact --> tests that Mermaid
 <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> itself passes count. If a test needs an operation the implementation
 doesn't offer, it counts as a failure. If it reads a field Trident can't
 translate yet, it stays unassessed
-(<!-- fact:fidelity-gaps -->272<!-- /fact --> tests across all implementations).
+(<!-- fact:fidelity-gaps -->245<!-- /fact --> tests across all implementations).
 
 Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
 and the range of ranks still possible once its unassessed cases are resolved.
@@ -74,7 +74,7 @@ leaders are:
   <!-- fact:drawing-svg-leader -->Bezel and Pele with 124 each (not yet settled)<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 123<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
-  <!-- fact:fidelity-leader -->Pele with 3,191<!-- /fact -->.
+  <!-- fact:fidelity-leader -->Pele with 3,179<!-- /fact -->.
 
 Mermaid is ranked alongside the other implementations in DaveBench and Drawing
 Correctness. In Mermaid Fidelity it is the reference, so it passes every counted

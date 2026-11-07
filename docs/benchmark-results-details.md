@@ -79,7 +79,7 @@ Mermaid Dart 815 → 1,703, Mermaid RS Renderer 212 → 1,226). Where a JavaScri
 candidate's module exposes no parser for a family (ER, class, C4, state or agentflow
 for Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH Mermaid
 GB SVG and MermaidTUI), those tests count as operations it does not offer, not as
-Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->272<!-- /fact --> tests
+Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->245<!-- /fact --> tests
 remain unassessed by Trident. Thirteen are reached through their JavaScript
 parsers (generic native bindings, a guarded Bun/async parser bridge, native model
 schema views and the Frankenmermaid WASM binding) and thirteen through parser bridges.
@@ -257,8 +257,8 @@ Unknown schemas and import or transport errors remain explicit per-test gaps;
 
 **The reference path defines the scored population.** The control is the public
 Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> package behind the same import substitution the candidates get. In the
-current collection <!-- fact:fidelity-expanded -->6,439<!-- /fact --> callbacks expanded: Mermaid passes **<!-- fact:fidelity-population -->3,676<!-- /fact -->**, the scored population;
-<!-- fact:fidelity-unqualified -->2,679<!-- /fact --> are reference-unqualified and <!-- fact:fidelity-skipped -->84<!-- /fact --> upstream-skipped. 15 of the <!-- fact:fidelity-files -->352<!-- /fact --> selected files
+current collection <!-- fact:fidelity-expanded -->6,439<!-- /fact --> callbacks expanded: Mermaid passes **<!-- fact:fidelity-population -->3,661<!-- /fact -->**, the scored population;
+<!-- fact:fidelity-unqualified -->2,694<!-- /fact --> are reference-unqualified and <!-- fact:fidelity-skipped -->84<!-- /fact --> upstream-skipped. 15 of the <!-- fact:fidelity-files -->352<!-- /fact --> selected files
 do not load and 52 files remain outside the core Vitest runner.
 
 Most of the earlier unqualified callbacks were reference-adapter defects, now fixed:
@@ -292,7 +292,7 @@ Unsupported paint profiles stay unassessed. Terminal matching preserves text
 order and joins wrapping inside observed boxes. Empty, error, echoed or zero-size
 outputs are nonpasses; the empty-diagram SVG case requires no painted ink.
 Edges, arrow direction, layout quality and authored style matching are not
-scored. The collection leaves <!-- fact:drawing-unassessed -->186<!-- /fact --> of
+scored. The collection leaves <!-- fact:drawing-unassessed -->150<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. A chart naming no
 labels is checked for raw-syntax leakage alone.
 
@@ -351,6 +351,6 @@ results snapshot remain in Git history.
 The [league tables](../RESULTS.md) list measured projects and setup gaps for each
 format. A scored result can include failures. It does not mean every input passed,
 every output was assessable, or the project has complete benchmark coverage.
-Drawing has <!-- fact:drawing-unassessed -->186<!-- /fact --> unassessed cases.
+Drawing has <!-- fact:drawing-unassessed -->150<!-- /fact --> unassessed cases.
 Fidelity's unmapped operations and unqualified reference callbacks remain
 coverage work. The synthesis keeps missing measurements as score ranges.
