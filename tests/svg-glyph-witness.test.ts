@@ -21,7 +21,9 @@ async function explainUnavailable(page: any, labels: string[]) {
 }
 
 test('glyph pixels prove text survives complex backdrops and clips, without trusting font boxes', async () => {
-  const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
+  // This witness requires a grayscale glyph mask. Linux LCD/subpixel text is
+  // deliberately outside that profile, so construct matching positive fixtures.
+  const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium), args: ['--disable-lcd-text'] })
   const context = await browser.newContext({ javaScriptEnabled: false }), page = await context.newPage()
   try {
     const text = '<text x="30" y="45" font-family="sans-serif" font-size="20">Alpha</text>'
@@ -74,9 +76,11 @@ test('glyph pixels prove text survives complex backdrops and clips, without trus
       const canvas = document.createElement('canvas'); canvas.width = canvas.height = 9
       const context = canvas.getContext('2d')!; context.fillStyle = 'white'; context.fillRect(0, 0, 9, 9)
       const blank = canvas.toDataURL(); context.fillStyle = 'black'; context.fillRect(3, 2, 3, 5)
-      return { blank, glyph: canvas.toDataURL(), clip: { x: 0, y: 0, width: 9, height: 9 }, root: { x: 0, y: 0, width: 9, height: 9 }, boxes: [{ x: 3, y: 2, width: 3, height: 5 }] }
+      const glyph = canvas.toDataURL(); context.fillStyle = '#001e00'; context.fillRect(3, 2, 3, 5)
+      return { blank, glyph, coloured: canvas.toDataURL(), clip: { x: 0, y: 0, width: 9, height: 9 }, root: { x: 0, y: 0, width: 9, height: 9 }, boxes: [{ x: 3, y: 2, width: 3, height: 5 }] }
     })
     expect(await page.evaluate(compareGlyphWitness, { ...rasters, images: [rasters.glyph, rasters.blank, rasters.glyph, rasters.glyph, rasters.glyph] })).toBe(true)
     expect(await page.evaluate(compareGlyphWitness, { ...rasters, images: [rasters.blank, rasters.glyph, rasters.blank, rasters.glyph, rasters.blank] })).toBe(false)
+    expect(await page.evaluate(compareGlyphWitness, { ...rasters, images: [rasters.glyph, rasters.blank, rasters.glyph, rasters.coloured, rasters.glyph] })).toBe(false)
   } finally { await browser.close() }
 }, 30000)

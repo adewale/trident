@@ -2268,7 +2268,7 @@
     "fidelity/drawing/labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
     "fidelity/drawing/svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
     "fidelity/drawing/svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
-    "tests/svg-glyph-witness.test.ts": "2dcd47ba4bbf85d12aec8ddfa699e0e67fbc6013c3345b2d9c5b035af5416fa6",
+    "tests/svg-glyph-witness.test.ts": "7bd0120b23830bfc20a43fe1d870016fa41965c4b8112e85cac565f5e5233f17",
     "fidelity/terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624",
     "tests/drawing-labels.test.ts": "615e98d8d4d84478ee3533f26577e11bfe771c109799d974bbb38a8cbdb63e41"
   },
@@ -4468,5 +4468,12 @@
         "unclipped-authored-labels"
       ]
     }
-  ]
+  ],
+  "fixtureRendering": {
+    "chromiumArguments": [
+      "--disable-lcd-text"
+    ],
+    "maskRequirement": "Opaque grayscale glyph masks; coloured subpixel masks remain unassessed",
+    "independentAssertions": 50
+  }
 }

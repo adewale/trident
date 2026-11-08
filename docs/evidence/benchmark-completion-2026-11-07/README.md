@@ -60,7 +60,9 @@ glyphs, a complete black glyph mask and the restored drawing. Font properties,
 every character position and the surrounding scene must remain stable. The
 actual image must preserve the complete glyph ink, canvas containment and
 measured contrast, including contrast along its contour. A blank image formed
-by erasing a glyph-shaped backdrop cannot pass.
+by erasing a glyph-shaped backdrop cannot pass. The mask must be opaque and
+grayscale; coloured subpixel masks remain unassessed. Positive fixture tests
+request grayscale text rendering and separately reject a coloured mask.
 
 The witness retains transforms and wrapping, checks off-page characters and
 rejects changed typography, generated content, concealed spans and unsupported
