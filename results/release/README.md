@@ -8,13 +8,13 @@ remains at its original commit. Historical outputs and scores were not rescored.
 | Measurement | Numeric evidence | Collection date |
 |---|---|---|
 | DaveBench, <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences per format | [Images](images.json), [terminal](terminal.json), [native PNG provenance](native-png.json), [report](report.json), [tables](report.md) | <!-- fact:davebench-collected -->7 November 2026<!-- /fact --> |
-| Drawing Correctness, <!-- fact:drawing-cases -->127<!-- /fact --> cases per project/format | [Results](drawing-correctness.json) | <!-- fact:drawing-collected -->7 November 2026<!-- /fact --> |
-| Mermaid Fidelity, <!-- fact:fidelity-files -->352<!-- /fact --> original test files | [Results](mermaid-fidelity.json) | <!-- fact:fidelity-collected -->7 November 2026<!-- /fact --> |
+| Drawing Correctness, <!-- fact:drawing-cases -->127<!-- /fact --> cases per project/format | [Results](drawing-correctness.json) | <!-- fact:drawing-collected -->8 November 2026<!-- /fact --> |
+| Mermaid Fidelity, <!-- fact:fidelity-files -->352<!-- /fact --> original test files | [Results](mermaid-fidelity.json) | <!-- fact:fidelity-collected -->8 November 2026<!-- /fact --> |
 
 The [completion record](../../docs/evidence/benchmark-completion-2026-11-07/README.md)
 explains the proofs, source identities, full DOM-free comparison and remaining
-observer gaps. Timing collections ran serially after semantic jobs and fixture
-tests finished. Rendered outputs were discarded. Timings apply to the recorded
+observer gaps. Timing collections ran serially without competing semantic jobs or fixture
+tests. Rendered outputs were discarded. Timings apply to the recorded
 machine, resource limits and API/CLI boundaries.
 
 Termaid's affected timing and Drawing rows were recollected after its Python
@@ -40,30 +40,36 @@ Flutter 3.44 compatibility probe supplied no values to this collection.
 
 ## Qualification and remaining coverage
 
-Fidelity scores the <!-- fact:fidelity-population -->3,661<!-- /fact --> callbacks
+Fidelity scores the <!-- fact:fidelity-population -->7,346<!-- /fact --> callbacks
 that the fresh Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> control
-qualifies. It leaves <!-- fact:fidelity-unqualified -->2,694<!-- /fact --> callbacks
-reference-unqualified and <!-- fact:fidelity-skipped -->84<!-- /fact --> skipped.
-Fifteen old use-case credits were withdrawn because missing lexer/parser
-operations had been caught by negative assertions. Candidate adapter gaps remain
-visible in the results and score ranges.
+qualifies. It leaves <!-- fact:fidelity-unqualified -->0<!-- /fact --> callbacks
+reference-unqualified and <!-- fact:fidelity-skipped -->18<!-- /fact --> skipped.
+The control executes the pinned production source with its original compiler
+plugins and dependencies. Earlier proxy-control scores remain at their original
+commit. Candidate adapter gaps remain visible in the results and score ranges.
 
-All 352 selected files were compared under explicit JSDOM and Node profiles for
-all 26 frozen candidates. **325 files** qualify for automatic Node
-execution with those exact bindings. The receipt compares callback identities,
-outcomes, normalized failures and semantic audit dispositions, including faults.
-The control and every unqualified candidate file retain JSDOM. Changed source,
-runner, executable or artifact identities invalidate reuse. This is qualification
-of the recorded cohort, not a claim that every test is independent of the DOM.
+The complete JSDOM/Node comparison uses per-file receipts to verify the actual
+environment before imports. It replaces an invalid earlier qualification made
+with a runner option Vitest 4 ignored. The source-bound qualification compares
+callback identities, outcomes, normalized failures and semantic audit dispositions.
+All 26 candidate pairs have complete evidence; 349 files qualify for Node and
+three retain JSDOM. The full automatic-selection check reproduces the baseline
+with 349 actual Node environments and three actual JSDOM environments.
+Original JSDOM directives and observed differences retain JSDOM. Changed source,
+runner, executable or artifact identities invalidate reuse. The
+[collection receipt](../../docs/evidence/benchmark-completion-2026-11-07/fidelity-collection.json)
+records the full cohort, environment counts and automatic-selection verification.
 
-Drawing leaves <!-- fact:drawing-unassessed -->150<!-- /fact --> of
-<!-- fact:drawing-rows -->4,318<!-- /fact --> outputs unassessed: 149 SVG outputs and
-one terminal rectangle-work-budget limit. The SVG profile proves separation for
-flat opaque labels on qualified opaque gradients. Glyph/image labels, complex
-occlusion, unresolved pattern/CSS-shadow paint and other unsupported profiles
-still receive no correctness credit. The [case inventory](../../docs/evidence/benchmark-completion-2026-11-07/svg-label-review.json)
-identifies every remaining SVG output and its unavailable checks. PNG remains
-outside Drawing Correctness's scope.
+Drawing leaves <!-- fact:drawing-unassessed -->145<!-- /fact --> of
+<!-- fact:drawing-rows -->4,318<!-- /fact --> outputs unassessed. The SVG profile can
+prove separation for flat opaque labels on qualified gradients, or verify the
+complete actual glyph raster against its unchanged backdrop and canvas. The
+terminal rectangle search now resolves the previous budget case without raising
+the work limit. Path/image glyphs, unsupported effects and other observations
+outside the qualified profiles receive no correctness credit. The
+[case inventory](../../docs/evidence/benchmark-completion-2026-11-07/svg-label-review.json)
+identifies every remaining SVG output. PNG remains outside Drawing Correctness's
+scope.
 
 ## Reproduction
 
@@ -98,12 +104,14 @@ bun commands.ts results:snapshot
 
 | Observation | Previous collection | Fresh collection |
 |---|---:|---:|
-| Drawing known passes | 3,082 | 3,074 |
-| Drawing unassessed | 186 | 150 |
-| Fidelity reference-qualified callbacks | 3,676 | 3,661 |
+| Drawing known passes | 3,082 | 3,079 |
+| Drawing unassessed | 186 | 145 |
+| Fidelity reference-qualified callbacks | 3,676 | 7,346 |
 | Native PNG admissible completions | Unmeasured | 1,114 |
 
-Stronger label obligations revoke 41 old passes and leave 11 others unassessed;
-44 previously unassessed outputs now pass and three now fail. The SVG observer's
-static fast path agreed with its previous implementation on 1,882 captured label
-probes; no timing or memory reduction is inferred from that finite comparison.
+The fresh collections apply the reviewed label obligations, bounded glyph-pixel
+proof and direct source control. Earlier observations remain available at the
+previous commit. The earlier 1,882-probe comparison established equivalence only
+for the static observer optimization; the new glyph profile has its own positive
+and adversarial fixture evidence. No timing or memory gain is inferred from
+semantic comparisons.

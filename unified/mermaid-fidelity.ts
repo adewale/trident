@@ -13,6 +13,7 @@ import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { parserBridge, parserBridgeDirectory, bindParserBridge } from './mermaid-fidelity/bridges.ts'
 import './mermaid-fidelity/bridge-registry.ts'
 import { currentReferencePin } from '../reference/source.ts'
+import { environmentSummary } from './mermaid-fidelity/environments.ts'
 
 // The pinned Mermaid suite: one reviewed version and commit, shared with upstream:prepare.
 const PIN = currentReferencePin.commit
@@ -29,7 +30,7 @@ const outcomeIndex = (rows: any[], name: (row: any) => string) => {
 }
 /** One reference population and qualification index for all candidate reductions. */
 export function compileFidelityReference(reference: any, audit?: any[]) {
-  return { protocol: 'indexed-fidelity-reference-v1' as const, controls: expandedTests(reference), guarded: audit !== undefined, referenceBy: audit && outcomeIndex(audit, row => row.name.replaceAll(' > ', ' ')) }
+  return { protocol: 'indexed-fidelity-reference-v1' as const, native: reference, controls: expandedTests(reference), guarded: audit !== undefined, referenceBy: audit && outcomeIndex(audit, row => row.fullName ?? row.name.replaceAll(' > ', ' ')) }
 }
 export function fidelityOutcomes(reference: any, candidate: any, audit: any[], referenceAudit?: any[]) {
   const compiled = reference?.protocol === 'indexed-fidelity-reference-v1' ? reference : compileFidelityReference(reference, referenceAudit)
@@ -43,14 +44,17 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
       .map((f: any) => [f.name, String(f.message).split('\n')[0]!.replace(/^Unsupported candidate operation: /, '')]),
   )
   const attemptedBy = outcomeIndex(attempted, t => t.fullName),
-    auditBy = outcomeIndex(audit, t => t.name.replaceAll(' > ', ' ')),
+    auditBy = outcomeIndex(audit, t => t.fullName ?? t.name.replaceAll(' > ', ' ')),
     referenceBy = compiled.referenceBy
   return controls.map((control: any) => {
     const key = `${control.file}\u0000${control.index}\u0000${control.fullName}`
     const result = attemptedBy.get(key)
     const evidence = auditBy.get(key)
     const referenceEvidence = referenceBy?.get(key)
-    const controlGap = compiled.guarded && (!referenceEvidence || referenceEvidence.gaps.length || !referenceEvidence.calls)
+    // Source controls run the sealed original imports directly. They need no
+    // proxy-operation counter: original assertions can inspect values produced
+    // during suite setup or test.each collection. Candidate guards still apply.
+    const controlGap = compiled.guarded && (!referenceEvidence || referenceEvidence.gaps.length || referenceEvidence.protocol !== 'pinned-source-control-v1' && !referenceEvidence.calls)
     const unmappedMemberCall = result?.failureMessages?.some(
       (message: string) =>
         /^TypeError:.*getDisplayDetails.*not a function/.test(message) &&
@@ -81,7 +85,7 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
             // model does not carry means the test cannot pass, whatever else Trident maps.
             (result && evidence?.unsupported?.length) || (!result && unsupportedFiles.has(control.file))
             ? 'unsupported'
-            : !result || !evidence || evidence.gaps.length || !evidence.calls || unmappedMemberCall || tridentError
+            : !result || !evidence || evidence.gaps.length || !evidence.calls && !(candidate === compiled.native && evidence.protocol === 'pinned-source-control-v1') || unmappedMemberCall || tridentError
               ? 'trident-blocked'
               : result.status === 'passed'
                 ? 'passed'
@@ -112,7 +116,7 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
 const domFreeFile = join(import.meta.dirname, 'mermaid-fidelity/dom-free-files.json')
 const domFreeRecord = existsSync(domFreeFile) ? JSON.parse(readFileSync(domFreeFile, 'utf8')) : undefined
 // Automatic reuse also checks the control and each actual candidate binding below.
-const domFree = new Set<string>(domFreeRecord?.protocol === 'dom-free-qualification-v1' && domFreeRecord?.commit === currentReferencePin.commit ? domFreeRecord.files : [])
+const domFree = new Set<string>(domFreeRecord?.protocol === 'dom-free-qualification-v2' && domFreeRecord?.commit === currentReferencePin.commit ? domFreeRecord.files : [])
 export async function main(args = process.argv.slice(2)) {
   if (args.includes('--help')) {
     console.log('mermaid:fidelity --upstream DIR --reference DIR --runtime DIR --prepared FILE --out FRESH_DIR [--projects IDS] [--filter PATH_FRAGMENT] [--reuse-reference PRIOR_OUT] [--timeout-minutes N] [--workers N]\nExecute original pinned tests in Vitest, once per candidate and control. --reuse-reference reads an earlier complete control run for the same selection instead of repeating it. --workers runs that many test files at once (default 1); tests inside a file always run one at a time.')
@@ -132,7 +136,7 @@ export async function main(args = process.argv.slice(2)) {
     out = resolve(opts.get('--out')!)
   if (existsSync(out)) throw Error('Use a fresh output directory')
   if (execFileSync('git', ['rev-parse', 'HEAD'], { cwd: upstream, encoding: 'utf8' }).trim() !== PIN) throw Error('Wrong Mermaid suite pin')
-  execFileSync('git', ['diff', '--quiet', 'HEAD', '--', 'packages'], { cwd: upstream })
+  execFileSync('git', ['diff', '--quiet', 'HEAD'], { cwd: upstream })
   const referenceRequire = createRequire(join(reference, 'package.json'))
   if (JSON.parse(readFileSync(referenceRequire.resolve('mermaid/package.json'), 'utf8')).version !== currentReferencePin.version) throw Error('Reference Mermaid must match the pinned suite version')
   const inventory = inventoryOriginalDeclarations(upstream)
@@ -215,13 +219,18 @@ export async function main(args = process.argv.slice(2)) {
   let referenceRun: any, indexedReference: ReturnType<typeof compileFidelityReference> | undefined
   const results: any[] = []
   const retainOutcome = (candidate: any) => {
+    const suites = candidate.native?.testResults ?? [], seenFiles = new Set<string>()
+    for (const suite of suites) {
+      if (seenFiles.has(suite.name) || !files.some(file => file.absolute === suite.name)) throw Error('Fidelity runner collected an unexpected or duplicate file: ' + suite.name)
+      seenFiles.add(suite.name)
+    }
     referenceRun ??= candidate
     indexedReference ??= compileFidelityReference(referenceRun.native, referenceRun.audit)
     const rows = fidelityOutcomes(indexedReference, candidate.native, candidate.audit)
     const counts = Object.fromEntries(['passed', 'failed', 'unsupported', 'trident-blocked', 'reference-unqualified', 'upstream-skipped', 'upstream-expected-failure'].map(status => [status, rows.filter((row: any) => row.status === status).length]))
     const byFile = new Map<string, any>((candidate.native?.testResults ?? []).map((row: any) => [row.name, row]))
     const missingFiles = files.filter(file => !byFile.get(file.absolute)?.assertionResults.length).map(file => ({ path: file.path, declaredTests: file.declarations.length, reason: byFile.get(file.absolute)?.message ?? 'No expanded test callbacks collected' }))
-    results.push({ project: candidate.target.project, version: candidate.target.version, counts, missingFiles, cases: rows.map((row: any) => ({ ...row, file: relative(upstream, row.file) })) })
+    results.push({ project: candidate.target.project, version: candidate.target.version, counts, environments: candidate.environments, missingFiles, cases: rows.map((row: any) => ({ ...row, file: relative(upstream, row.file) })) })
   }
   const timeout = 60_000 * Number(opts.get('--timeout-minutes') ?? 60)
   if (!(timeout > 0)) throw Error('--timeout-minutes must be positive')
@@ -235,7 +244,9 @@ export async function main(args = process.argv.slice(2)) {
     if (!native?.numTotalTests) throw Error('Reused reference run has no collected Vitest results')
     for (const suite of native.testResults ?? []) suite.name = join(upstream, relative(priorJob.upstream, suite.name))
     const priorAudit = audit(join(prior, 'audit.jsonl')).map(row => ({ ...row, file: join(upstream, relative(priorJob.upstream, row.file)) }))
-    retainOutcome({ target: targets[0], native, audit: priorAudit, exit: 0, reused: prior })
+    const environments = environmentSummary(priorJob.files, audit(join(prior, 'environments.jsonl')), true)
+    if (environments.unobserved) throw Error('Reused reference lacks complete environment receipts; recollect')
+    retainOutcome({ target: targets[0], native, audit: priorAudit, environments, exit: 0, reused: prior })
     targets.shift()
   }
   for (const target of targets) {
@@ -243,7 +254,7 @@ export async function main(args = process.argv.slice(2)) {
     mkdirSync(directory)
     const qualified = domFreeRecord?.qualifierSha256 === byteDigest(join(import.meta.dirname, '../scripts/qualify-dom-free.ts')) && domFreeRecord?.controlIdentity === controlIdentity && domFreeRecord?.targets?.[target.project] === planDigest(target)
     const candidateFiles = files.map(file => ({ ...file, ...(!process.env.TRIDENT_FIDELITY_ENVIRONMENT && qualified && domFree.has(file.path) ? { environment: 'node' } : {}) }))
-    const job = { upstream, reference, runtime, files: candidateFiles, target, workers, controlIdentity, pin: PIN, results: join(directory, 'vitest.json'), audit: join(directory, 'audit.jsonl') }
+    const job = { upstream, reference, runtime, files: candidateFiles, target, workers, controlIdentity, pin: PIN, results: join(directory, 'vitest.json'), audit: join(directory, 'audit.jsonl'), environmentAudit: join(directory, 'environments.jsonl') }
     const jobPath = join(directory, 'job.json')
     writeFileSync(jobPath, JSON.stringify(job))
     console.log('Original Vitest tests:', target.project, files.length, 'files')
@@ -253,12 +264,14 @@ export async function main(args = process.argv.slice(2)) {
     writeFileSync(join(directory, 'runner.log'), child.stdout + '\n' + child.stderr)
     if (child.error) writeFileSync(join(directory, 'runner-error.txt'), String(child.error))
     combineAudit(job.audit)
+    combineAudit(job.environmentAudit)
     if (target.tool === 'bridge' && planDigest(bindParserBridge(target.bridge, parserBridgeDirectory(target.project, bridgeCache), target.peer)) !== planDigest(target.bridge)) throw Error('Parser bridge runtime changed during collection: ' + target.project)
     if (target.bun && byteDigest(target.bun) !== target.bunSha256) throw Error('Candidate Bun runtime changed during collection: ' + target.project)
     if (target.peer?.artifact) verifyBenchmarkArtifact(target.peer, target.peer.node)
     const native = read(job.results)
-    retainOutcome({ target, native, audit: audit(job.audit), exit: child.status })
-    if (target.tool === 'mermaid' && !child.error && native?.numTotalTests > 0 && files.every(file => native.testResults?.some((suite: any) => suite.name === file.absolute))) atomicWrite(join(directory, 'control.json'), JSON.stringify({ protocol: 'fidelity-control-v1', identity: controlIdentity, resultsSha256: byteDigest(job.results), auditSha256: byteDigest(job.audit) }) + '\n')
+    const environments = environmentSummary(candidateFiles, audit(job.environmentAudit), target.tool === 'mermaid')
+    retainOutcome({ target, native, audit: audit(job.audit), environments, exit: child.status })
+    if (target.tool === 'mermaid' && !child.error && native?.numTotalTests > 0 && files.every(file => native.testResults?.some((suite: any) => suite.name === file.absolute)) && !environments.unobserved) atomicWrite(join(directory, 'control.json'), JSON.stringify({ protocol: 'fidelity-control-v1', identity: controlIdentity, resultsSha256: byteDigest(job.results), auditSha256: byteDigest(job.audit), environmentSha256: byteDigest(job.environmentAudit) }) + '\n')
     if (target.tool === 'mermaid' && !referenceRun.native?.numTotalTests) {
       blocked.push(...targets.slice(1).map(t => ({ project: t.project, reason: 'Reference Vitest control did not collect; candidate collection withheld' })))
       break
@@ -270,6 +283,8 @@ export async function main(args = process.argv.slice(2)) {
     JSON.stringify(
       {
         benchmark: 'Mermaid Fidelity',
+        referenceMode: 'pinned-production-source-v1',
+        controlIdentity,
         environment: { controller: executionEnvironment(), runner: runnerEnvironment },
         updatedAt: new Date().toISOString(),
         collectedThrough: new Date().toISOString(),

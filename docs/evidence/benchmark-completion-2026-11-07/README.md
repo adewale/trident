@@ -11,7 +11,7 @@ The [published numeric files](../../../results/release/README.md) account for
 153 complete DaveBench runs and 205,326 calls: 16 SVG, 17 PNG and 18 terminal
 lanes, each with three full 1,342-input repeats. There are no blocked lanes or
 missing durations. Native PNG, image and terminal collections ran serially,
-after semantic jobs and fixture tests. No historical measurements were mixed in.
+without competing semantic jobs or fixture tests. No historical measurements were mixed in.
 
 Termaid's public Python launchers now share Fidelity's isolated, source-only
 command. The command, interpreter, worker and installed package tree are bound
@@ -32,7 +32,7 @@ failure where the drawing fixture launched the unwarmed system browser instead.
 
 ## SVG label qualification
 
-The `svg-label-paint-v2` profile can prove separation between a flat opaque
+The `svg-label-paint-v3` profile can prove separation between a flat opaque
 label and an enclosing static opaque sRGB gradient. At least one colour channel
 must lie outside every stop's channel interval, allowing a two-unit rounding
 margin. This suffices for both sRGB and linearRGB interpolation. Transparent,
@@ -53,68 +53,106 @@ observer budget exceptions. This is finite decision-equivalence evidence, not a
 performance measurement. The [review receipt](svg-label-review.json) records the
 source hash and comparison digest; rendered outputs were discarded.
 
-The complete Drawing collection has 4,318 outputs across 34 project/format lanes,
-with zero preparation blocks: 3,074 correct, 374 incorrect, 86 invalid-format,
-634 renderer failures and 150 unassessed. Compared with the merged campaign,
-44 previously unassessed outputs now pass and three now fail. Stronger reviewed
-label obligations revoke 41 old passes and leave another 11 unassessed. Earlier
-scores were not reinterpreted.
+The profile also admits a bounded positive raster witness for plain SVG text
+and transparent HTML labels. It captures the actual drawing, the unchanged
+backdrop with that text hidden, an independently unclipped copy of the original
+glyphs, a complete black glyph mask and the restored drawing. Font properties,
+every character position and the surrounding scene must remain stable. The
+actual image must preserve the complete glyph ink, canvas containment and
+measured contrast, including contrast along its contour. A blank image formed
+by erasing a glyph-shaped backdrop cannot pass.
 
-Of the 150 unassessed outputs, 149 are SVG and one exceeds the terminal rectangle
-work budget. The SVG receipt identifies every project/case and its unavailable
-checks. The following counts overlap:
+The witness retains transforms and wrapping, checks off-page characters and
+rejects changed typography, generated content, concealed spans and unsupported
+paint effects. Work is bounded by element, text and pixel limits. Independent
+fixtures cover these obligations and their counterexamples. Failure to obtain
+this positive proof remains unassessed; it does not establish a renderer error.
+It does not recognize letters baked into paths or images.
 
-| Missing evidence | Outputs |
-|---|---:|
-| Missing inspectable DOM labels alongside path/image/use content | 67 |
-| Qualified canvas containment | 69 |
-| Qualified clipping/overflow/occlusion | 145 |
-| Explicit partial or complex later-paint occlusion | 56 |
-| Pattern paint | 6 |
-| CSS `drop-shadow(...)` | 2 |
-| Unique SVG identities | 1 |
+The remaining terminal budget case used a cubic search through rows that could
+not close a frame. Indexing actual lower corners and checking cheap exclusions
+before frame contents removes that work and the temporary vertical-edge arrays.
+The one-million-unit limit remains unchanged. The previously unassessed case now
+passes, while dense adversarial frame searches still exhaust the limit.
+Independent wide-frame controls check both a visible label and a misspelling.
 
-Resolving these requires a qualified glyph/image observer, actual glyph-ink
-clipping and occlusion evidence, or paint-specific proofs. Missing text,
-unresolved paint and box overlap cannot safely be turned into correctness
-credit. General masks, complex clip paths and other representations outside the
-observer's profile remain unsupported even when absent from this particular
-cohort. PNG is outside Drawing Correctness's scope.
+The complete fresh Drawing collection contains 4,318 outputs: 3,079 correct,
+374 incorrect, 86 invalid-format, 634 renderer failures and 145 unassessed SVGs.
+All 2,286 terminal outputs are assessed. Relative to the preceding PR head,
+exactly five outputs change from unassessed to correct. The counts and case
+changes are recorded in the
+[published results](../../../results/release/drawing-correctness.json) and
+[review receipt](svg-label-review.json). All project/format lanes are recollected
+under the current source and observer digests. The receipt identifies every
+remaining SVG output and the conservative observer's unavailable obligations.
+General masks, path/image glyphs, unsupported effects and other representations
+outside the qualified profiles remain unassessed. Neither missing DOM text nor
+an overlapping bounding box proves that a label is absent. PNG remains outside
+Drawing Correctness's scope.
 
 ## Fidelity reference population
 
-The fresh control qualifies 3,661 of 6,439 expanded callbacks, leaving 2,694
-reference-unqualified and 84 upstream-skipped. Previously, 15 use-case callbacks
-earned credit when negative assertions caught missing parser/lexer operations.
-The guarded control now withholds those credits: `usecase.parser.spec.ts` changes
-from 78 to 65 passes and `usecase.spec.ts` from 35 to 33. Candidate scores use the
-newly qualified population; the earlier observations remain at their original
-commit.
+The control now executes the pinned production source without candidate import
+rewriting, using the original Jison and JSON-schema build plugins and the pinned
+runtime dependencies. Its working directory matches upstream's runner. All
+7,346 active callbacks pass; 18 original skip/todo callbacks remain excluded.
+There are no reference-unqualified callbacks. This replaces the earlier
+3,661-of-6,439 population, whose proxy control did not execute the full source
+suite. Earlier observations remain at their original commit.
+
+Source identity covers the tracked and generated source, compiler plugins,
+documentation fixtures, runtime dependency bytes, runner and harness. Trident's
+TypeScript import rewriter is included in the sealed runtime dependencies. Reused
+controls also verify their raw result, callback audit and environment receipts.
+The source control needs no synthetic native-operation count. Candidate
+callbacks still require a real operation and complete audit evidence.
+
+Literal and computed dynamic production imports cannot silently execute the
+reference implementation on a candidate's behalf. Unbound imports and unknown
+namespace reflection produce persistent adapter gaps. Callback audits finalize
+after failed setup and cleanup hooks, and preserve literal ` > ` in test names.
+These changes alter the assessed candidate population; missing adapters remain
+unassessed rather than receiving passes or candidate failures.
 
 ## Full DOM-free comparison
 
-Both explicit profiles completed all 352 selected files for all 26 frozen
-candidates, with one shared JSDOM control and zero blocked projects. The
-[collection receipt](fidelity-collection.json) records their source/control,
-runner and actual candidate bindings. The
-[qualification](../../../unified/mermaid-fidelity/dom-free-files.json) admits
-325 files to automatic Node execution. Its per-file fingerprints compare every
-callback's identity, outcome and normalized failures, plus calls, rejections,
-adapter gaps, unsupported operations, faults and expected-failure dispositions.
+The previous Node qualification is withdrawn: Vitest 4 ignored the removed
+`environmentMatchGlobs` option and actually executed those files in JSDOM.
+The replacement uses supported project configuration, with a startup check of
+`typeof window` and `typeof document` before production imports. Successful
+per-file receipts attest the actual environment, independently of the plan.
 
-The other 27 files lack complete callback or audit evidence for at least one
-candidate and retain JSDOM. No fully observed file had differing fingerprints.
-Equal totals or two empty observations cannot qualify a file. The automatic
-selection check reran Merslim's complete 352-file suite: 325 Node files and 27
-JSDOM files reproduced the baseline's entire callback and audit evidence, with
-zero mismatches.
+Both profiles cover all 352 selected files and all 26 frozen candidates against
+one shared JSDOM source control. One original file explicitly requests JSDOM:
+`packages/mermaid/src/docs/.vitepress/theme/colorScheme.spec.ts`. Vitest gives
+that directive precedence over the project setting. Its attempted Node run is
+rejected before imports and recorded as a source-bound JSDOM requirement;
+it is never counted as successful Node execution.
 
-Reuse requires the recorded control and actual executable/artifact bindings,
-including their paths; other installations fall back to JSDOM until qualified.
-The control always uses JSDOM. This removes 8,450 candidate JSDOM initializations
-per full collection with the qualified bindings. No numeric memory or runtime
-gain is claimed from the concurrent qualification runs. Browser/application
-suites outside the selected core-package runner remain outside this assessment.
+The complete comparison qualifies 349 files for automatic Node execution and
+retains three in JSDOM. Every file has a complete paired observation or the
+explicit source-bound environment requirement; no callback or audit evidence is
+missing. The retained files are the ER parser suite (different outcomes), the
+event-modeling suite (DOM-dependent setup), and the explicit JSDOM directive.
+
+The [collection receipt](fidelity-collection.json) and
+[qualification](../../../unified/mermaid-fidelity/dom-free-files.json) record the
+complete comparison. Fingerprints compare each callback's identity, outcome,
+normalized failures and semantic audit dispositions, including caught faults.
+Equal completed collection failures qualify only cheaper scheduling of the same
+failure and grant no semantic credit. Two empty observations cannot qualify.
+
+The full automatic-selection check reran Merslim's 352 files with 349 actual
+Node environments and three actual JSDOM environments. Every callback, file
+collection disposition and semantic audit fingerprint matches the JSDOM
+baseline, with zero mismatches.
+
+Automatic selection requires the recorded source/control, qualifier and actual
+executable/artifact bindings, including paths. Other installations retain JSDOM
+until qualified. Files with observed differences retain JSDOM. The control
+always uses JSDOM. Qualification runs are concurrent semantic work; they support
+no numeric memory or speed claim. Browser/application suites outside the selected
+core-package runner remain outside this assessment.
 
 ## Pinned native Flutter bundle
 

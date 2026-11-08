@@ -37,7 +37,7 @@ export function mergeIntoPublished(published: any, runs: any[], extras: { catalo
   if (!published.referenceDigest) throw Error('The published result records no control digest; merge a full campaign first')
   if (!published.referenceOrdinalDigest) throw Error('The published result records no ordinal control digest; merge a full campaign first')
   const fresh: any = mergeFidelityRuns(runs, extras)
-  for (const key of ['pin', 'selection', 'selectedFiles', 'referenceVersion', 'expandedCallbacks', 'referenceQualifiedCallbacks', 'referenceDigest', 'referenceOrdinalDigest'])
+  for (const key of ['pin', 'selection', 'selectedFiles', 'referenceMode', 'controlIdentity', 'referenceVersion', 'expandedCallbacks', 'referenceQualifiedCallbacks', 'referenceDigest', 'referenceOrdinalDigest'])
     if (JSON.stringify(fresh[key]) !== JSON.stringify(published[key])) throw Error(`Re-run differs from the published result in ${key}; re-run against the published control`)
   const replaced = new Set(fresh.results.map((r: any) => r.project).concat(fresh.blocked.map((r: any) => r.project)).filter((p: string) => p !== "mermaid-js/mermaid"))
   const keep = (row: any) => !replaced.has(row.project)
@@ -56,7 +56,7 @@ export function mergeIntoPublished(published: any, runs: any[], extras: { catalo
 export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?: any[] } = {}) {
   if (!runs.length) throw Error('Supply at least one Fidelity run')
   const base = runs[0]
-  for (const run of runs) if (run.pin !== base.pin || run.selectedFiles !== base.selectedFiles || run.selection !== base.selection) throw Error('Fidelity runs must share one pin and file selection')
+  for (const run of runs) if (run.pin !== base.pin || run.selectedFiles !== base.selectedFiles || run.selection !== base.selection || run.referenceMode !== base.referenceMode || run.controlIdentity !== base.controlIdentity) throw Error('Fidelity runs must share one pin and file selection, with the same executing control identity')
   const reference = base.results.find((row: any) => row.project === 'mermaid-js/mermaid')
   if (!reference) throw Error('Merged Fidelity runs have no Mermaid control')
   const digest = referenceDigest(reference)
@@ -92,7 +92,7 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
         gapReasons[reason] = (gapReasons[reason] ?? 0) + 1
       }
     }
-    return { project: row.project, version: row.version, counts, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts })), gapReasons }
+    return { project: row.project, version: row.version, counts, environments: row.environments, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts })), gapReasons }
   })
   // A candidate with no assessable callback has no working operation binding:
   // report it as unassessed with its dominant gap, not as a measured zero.
@@ -104,6 +104,8 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
   const expanded = reference.cases.length
   return {
     benchmark: 'Mermaid Fidelity',
+    referenceMode: base.referenceMode,
+    controlIdentity: base.controlIdentity,
     pin: base.pin,
     selection: base.selection,
     inventory: base.inventory,

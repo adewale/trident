@@ -76,6 +76,21 @@ test('a passing reference assertion with an adapter gap cannot qualify a candida
   expect(rows[0].status).toBe('reference-unqualified')
 })
 
+test('a sealed source control qualifies setup-derived assertions without weakening candidate operation guards', () => {
+  const reference = [audit(0, { protocol: 'pinned-source-control-v1', calls: 0 })]
+  expect(fidelityOutcomes(native(['passed']), native(['passed']), [audit(0)], reference)[0].status).toBe('passed')
+  expect(fidelityOutcomes(native(['passed']), native(['passed']), [audit(0, { calls: 0 })], reference)[0].status).toBe('trident-blocked')
+  expect(fidelityOutcomes(native(['passed']), native(['passed']), [audit(0)], [audit(0, { calls: 0 })])[0].status).toBe('reference-unqualified')
+  const control = native(['passed'])
+  expect(fidelityOutcomes(control, control, reference, reference)[0].status).toBe('passed')
+})
+
+test('literal greater-than separators in original titles retain their audit identity', () => {
+  const report = { testResults: [{ name: '/original.spec.ts', assertionResults: [{ fullName: 'suite note with > in it', status: 'passed' }] }] }
+  const evidence = [{ ...audit(0), name: 'suite > note with > in it', fullName: 'suite note with > in it' }]
+  expect(fidelityOutcomes(report, report, evidence, evidence)[0].status).toBe('passed')
+})
+
 test('native schema views expose observed identities and endpoints, withholding unmapped data', () => {
   const gap = (reason: string): never => {
     throw Error('ADAPTER: ' + reason)

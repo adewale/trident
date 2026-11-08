@@ -93,7 +93,7 @@ export function upstreamRuntimePlan(source: string) {
   for (const [name, version] of Object.entries(core.dependencies as Record<string, string>)) if (!version.startsWith('workspace:')) select('packages/mermaid', 'dependencies', name, core)
   for (const name of ['vitest', 'vite', '@rollup/plugin-typescript', 'typescript', 'tslib', 'jison', 'js-yaml', 'ajv', 'esbuild', 'jsdom', 'langium-cli', 'sharp']) select('.', 'devDependencies', name, root)
   for (const name of ['langium', 'chevrotain']) select('packages/parser', 'devDependencies', name, parser)
-  for (const name of ['fastdom', 'csstree-validator', 'js-base64', 'micromatch', 'path-browserify', 'remark', 'remark-frontmatter', 'remark-gfm', 'unist-util-flatmap', 'unist-util-visit', 'globby', 'prettier', '@adobe/jsonschema2md']) select('packages/mermaid', 'devDependencies', name, core)
+  for (const name of ['fastdom', 'csstree-validator', 'js-base64', 'micromatch', 'path-browserify', 'remark', 'remark-frontmatter', 'remark-gfm', 'unist-util-flatmap', 'unist-util-visit', 'globby', 'prettier', '@adobe/jsonschema2md', 'vitepress']) select('packages/mermaid', 'devDependencies', name, core)
   select('packages/mermaid-zenuml', 'dependencies', '@zenuml/core', read(join(source, 'packages/mermaid-zenuml/package.json')))
   select('packages/mermaid-layout-tidy-tree', 'devDependencies', 'non-layered-tidy-tree-layout', read(join(source, 'packages/mermaid-layout-tidy-tree/package.json')))
   add(lockedJsdomCanvas(lock))

@@ -1,74 +1,423 @@
 {
-  "protocol": "fidelity-collection-review-v1",
+  "protocol": "fidelity-collection-review-v2",
+  "referenceMode": "pinned-production-source-v1",
   "pin": "2086904e76c692331e34a45d7cc3bc30860d040e",
   "catalogSha256": "de3e212c10f4cb858c3a616f980bca0150cdc0a87c30c3acdf9802f3acd053b8",
   "control": {
     "protocol": "fidelity-control-v1",
-    "identity": "7a4d1a95a15f7992ef45feb6f7698f75ba1a9868b8ca411a6b560b0be3a535bf",
-    "resultsSha256": "e0993a2fe520b48c7d716b714f19289463f29930e3ec90224911beb399f5b76e",
-    "auditSha256": "ab6da17fc2683ec23c919b2c72d064591247d681a06dc72d18b7bd9169804ecd"
+    "identity": "1cf1f6a40661f36455931ff2efc51719d0f1ffa42ca50896bf4244dc6cc1cbe5",
+    "resultsSha256": "0bd689fbe81d8a3a84a9e80c9d7458628329e1d69ba2108fe3699f4daf3f3008",
+    "auditSha256": "13bc00ccb01681e5d299dd55916b1682988dc596552174ad014125ae65d923d7",
+    "environmentSha256": "d7c902996659a365ee288fdb92a1057281eedb15cfd984f02858d728c65e7264"
   },
-  "qualifierSha256": "418be56521c632527e65b30c50fcb1d100b8d0bd52a84777f51fed965e37b567",
-  "qualificationSha256": "483000549e6ac7790657cd903969be46ad9704d4bfee49516c9b2fea5c788ec3",
+  "qualifierSha256": "dca72bf324413104764461ff3f9c45bb2444649216594bfbefd5f6722c54f58d",
+  "qualificationSha256": "973f25265d859fc610312555d095b9020dfbb56d17d8471f4c8cd1feff6c722f",
   "referenceReview": {
     "counts": {
-      "reference-unqualified": 2694,
-      "passed": 3661,
-      "upstream-skipped": 84
+      "passed": 7346,
+      "failed": 0,
+      "unsupported": 0,
+      "trident-blocked": 0,
+      "reference-unqualified": 0,
+      "upstream-skipped": 18,
+      "upstream-expected-failure": 0
     },
-    "changes": [
-      {
-        "file": "packages/mermaid/src/diagrams/usecase/usecase.parser.spec.ts",
-        "before": 78,
-        "after": 65
-      },
-      {
-        "file": "packages/mermaid/src/diagrams/usecase/usecase.spec.ts",
-        "before": 35,
-        "after": 33
-      }
-    ]
+    "actualEnvironments": {
+      "node": 0,
+      "jsdom": 352,
+      "unobserved": 0
+    }
   },
   "candidateCount": 26,
   "selectedFiles": 352,
-  "nodeQualifiedFiles": 325,
+  "nodeQualifiedFiles": 349,
   "jsdomRetainedFiles": [
-    "packages/examples/src/example.spec.ts",
-    "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-    "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
-    "packages/mermaid/src/diagrams/block/parser/block.spec.ts",
-    "packages/mermaid/src/diagrams/class/classDiagram.spec.ts",
-    "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-    "packages/mermaid/src/diagrams/flowchart/parser/flow-arrows.spec.js",
-    "packages/mermaid/src/diagrams/radar/radar.spec.ts",
-    "packages/mermaid/src/diagrams/sequence/sequenceRenderer.spec.js",
-    "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
-    "packages/mermaid/src/diagrams/swimlanes/swimlanesDiagram.spec.ts",
-    "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
-    "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
-    "packages/mermaid/src/mermaidAPI.spec.ts",
-    "packages/mermaid/src/rendering-util/createGraph.spec.ts",
-    "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/hostConfigSync.spec.ts",
-    "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/lanes.spec.ts",
-    "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/nestedGroupInLane.spec.ts",
-    "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/nestedGroupSizing.spec.ts",
-    "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/routeTouches.spec.ts",
-    "packages/mermaid/src/rendering-util/render.spec.ts",
-    "packages/mermaid/src/rendering-util/rendering-elements/edgeStepAnimation.spec.ts",
-    "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
-    "packages/mermaid/src/themes/theme-redux-color-superset.spec.ts",
-    "packages/mermaid/src/themes/theme-xychart.spec.js",
-    "packages/parser/tests/eventmodeling.test.ts",
-    "packages/parser/tests/treeViewValueConverter.test.ts"
+    "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js",
+    "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts",
+    "packages/mermaid/src/docs/.vitepress/theme/colorScheme.spec.ts"
   ],
+  "environmentRequirements": {
+    "packages/mermaid/src/docs/.vitepress/theme/colorScheme.spec.ts": {
+      "environment": "jsdom",
+      "sourceSha256": "3bcc3b02f6cd4c417427d1ed076d7b92ca44b2d03bfd5b0aa8a8c8dacb9c6188",
+      "reason": "Original file explicitly requires JSDOM; the attempted Node configuration was rejected before imports"
+    }
+  },
+  "actualEnvironments": {
+    "1jehuang/mermaid-rs-renderer": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "adewale/agentic-mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "anomalyco/opencode": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "crabtalk/bezel": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "crafter-station/mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "dfadler/zombie-mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "Dicklesworthstone/frankenmermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "emtyty/merslim": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "evangwt/xmermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "fasouto/termaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "kais-radwan/ascii-mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "kitlangton/merman": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "Latias94/merman": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "lukilabs/beautiful-mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "Mootikins/figurehead-rs": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "obsidianmd/pele": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "orestesgaolin/mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "pub:mermaid_flutter": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "sandyyst/dsh-plugin-mermaid-gb-svg": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "spacedock-dev/mermaidtext": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "tariqshams/mermaidtui": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "wevm/ondine": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "xai-org/grok-build": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "Yassimba/loom": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    }
+  },
   "retentionSummary": {
-    "incompleteCallbackOrAuditEvidence": 27,
-    "nonmatchingFullyObservedFiles": 0
+    "incompleteCallbackOrAuditEvidence": 0,
+    "explicitEnvironmentRequirements": 1,
+    "nonmatchingFullyObservedFiles": 2
   },
   "collections": [
     {
       "profile": "jsdom",
-      "collectedThrough": "2026-11-07T20:50:17.553Z",
+      "collectedThrough": "2026-11-08T03:58:55.546Z",
       "selectedFiles": 352,
       "projects": 27,
       "blocked": [],
@@ -89,7 +438,13 @@
           },
           "locale": "en-US",
           "timezone": "UTC",
-          "memoryGuard": "proc-parent-rss"
+          "rendererMemoryGuard": {
+            "limitMb": 2048,
+            "scope": "owned process tree RSS",
+            "pollMs": 1000,
+            "availability": "available",
+            "discovery": "proc process table"
+          }
         },
         "runner": {
           "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
@@ -99,11 +454,11 @@
           "arch": "x64"
         }
       },
-      "rawResultsSha256": "1efbf175451337a4be249c19392ca10176df199e3e5bb4169b32c97bcf5035ed"
+      "rawResultsSha256": "095a1d6cb7911bf4e069d319241ce30bb3d99d28e4724bbd3c7ce5334837e823"
     },
     {
       "profile": "node",
-      "collectedThrough": "2026-11-07T20:50:31.316Z",
+      "collectedThrough": "2026-11-08T03:45:12.359Z",
       "selectedFiles": 352,
       "projects": 27,
       "blocked": [],
@@ -124,7 +479,13 @@
           },
           "locale": "en-US",
           "timezone": "UTC",
-          "memoryGuard": "proc-parent-rss"
+          "rendererMemoryGuard": {
+            "limitMb": 2048,
+            "scope": "owned process tree RSS",
+            "pollMs": 1000,
+            "availability": "available",
+            "discovery": "proc process table"
+          }
         },
         "runner": {
           "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
@@ -134,18 +495,23 @@
           "arch": "x64"
         }
       },
-      "rawResultsSha256": "b64a47f7fff0969743c4c767d7d63a3b48ab6d36c9a1cb94faa6885cba320235"
+      "rawResultsSha256": "4cf2c72941e55af9f1e08a893a30ac6f319bacebcdc82568ebd887ff6927ddf6"
     }
   ],
   "automaticSelection": {
-    "protocol": "dom-free-auto-selection-smoke-v1",
+    "protocol": "dom-free-auto-selection-smoke-v2",
     "project": "emtyty/merslim",
     "files": 352,
-    "nodeFiles": 325,
-    "jsdomFiles": 27,
+    "plannedNodeFiles": 349,
+    "actualEnvironments": {
+      "node": 349,
+      "jsdom": 3,
+      "unobserved": 0
+    },
     "callbackAndAuditMismatches": 0,
-    "controlIdentity": "7a4d1a95a15f7992ef45feb6f7698f75ba1a9868b8ca411a6b560b0be3a535bf",
-    "qualificationSha256": "483000549e6ac7790657cd903969be46ad9704d4bfee49516c9b2fea5c788ec3"
+    "controlIdentity": "1cf1f6a40661f36455931ff2efc51719d0f1ffa42ca50896bf4244dc6cc1cbe5",
+    "qualificationSha256": "973f25265d859fc610312555d095b9020dfbb56d17d8471f4c8cd1feff6c722f",
+    "rawResultsSha256": "3e6a1d752262353fa8ce69615462ee5feb72bbb4752a2f5dd6181bd7179e386e"
   },
   "bindings": [
     {

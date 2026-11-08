@@ -45,25 +45,25 @@ show every label and still connect them wrongly.
 
 **[Mermaid Fidelity](docs/benchmark-portfolio.md#mermaid-fidelity-execute-pinned-upstream-tests):
 does it behave like Mermaid?** Mermaid's
-<!-- fact:fidelity-files -->352<!-- /fact --> core test files call Mermaid's parser
-and inspect the model it builds, including its edges (`flow-edges.spec.js`, for
+<!-- fact:fidelity-files -->352<!-- /fact --> core test files exercise Mermaid's parsers, models and internal helpers, including
+edges (`flow-edges.spec.js`, for
 example, tests flowchart arrow types). Trident runs those tests unchanged against each
 implementation's parser, translating its model into the shape the tests read.
 When Trident cannot call an implementation's parser from JavaScript, it reaches
 it through a [parser bridge](docs/benchmark-results-details.md#why-coverage-is-incomplete);
 13 implementations are reached this way.
-Only the <!-- fact:fidelity-population -->3,661<!-- /fact --> tests that Mermaid
-<!-- fact:mermaid-reference -->12.3.0<!-- /fact --> itself passes count. If a test needs an operation the implementation
-doesn't offer, it counts as a failure. If it reads a field Trident can't
-translate yet, it stays unassessed
-(<!-- fact:fidelity-gaps -->245<!-- /fact --> tests across all implementations).
+Only the <!-- fact:fidelity-population -->7,346<!-- /fact --> tests that the pinned Mermaid
+<!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control passes count. A native operation that reports
+it is unsupported counts as a failure. Missing Trident operation bindings or
+model translations stay unassessed
+(<!-- fact:fidelity-gaps -->99,799<!-- /fact --> tests across all implementations).
 
 Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
 and the range of ranks still possible once its unassessed cases are resolved.
 
 ## Current results
 
-Collected <!-- fact:campaign-collected -->7 November 2026<!-- /fact -->. The
+Collected <!-- fact:campaign-collected -->7 November 2026 to 8 November 2026<!-- /fact -->. The
 leaders are:
 
 - **DaveBench**, examples completed. SVG:
@@ -72,9 +72,9 @@ leaders are:
   <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,342<!-- /fact -->.
 - **Drawing Correctness**, cases correct. SVG:
   <!-- fact:drawing-svg-leader -->Bezel and Pele with 124 each (not yet settled)<!-- /fact -->.
-  Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 123<!-- /fact -->.
+  Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
-  <!-- fact:fidelity-leader -->Pele with 3,179<!-- /fact -->.
+  <!-- fact:fidelity-leader -->Pele with 3,055 (not yet settled)<!-- /fact -->.
 
 Mermaid is ranked alongside the other implementations in DaveBench and Drawing
 Correctness. In Mermaid Fidelity it is the reference, so it passes every counted

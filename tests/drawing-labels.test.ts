@@ -48,6 +48,13 @@ test('overlapping terminal frames exhaust an observation budget instead of expan
   expect(assessTerminalLabels(flow, 'Mermaid.js Beautiful Mermaid derivative').status).toBe('correct')
 })
 
+test('sparse wide terminal frames are observed within the unchanged work budget', () => {
+  const width = 240, height = 160
+  const drawing = ['┌' + '─'.repeat(width) + '┐', '│Mermaid.js Beautiful Mermaid derivative'.padEnd(width + 1) + '│', ...Array(height - 3).fill('│' + ' '.repeat(width) + '│'), '└' + '─'.repeat(width) + '┘'].join('\n')
+  expect(assessTerminalLabels(flow, drawing).status).toBe('correct')
+  expect(assessTerminalLabels(flow, drawing.replace('Beautiful Mermaid', 'Beautiful Mermaix'))).toMatchObject({ status: 'incorrect', missing: ['Beautiful Mermaid'] })
+})
+
 test('raw source syntax in the output is a failure even when labels are present', () => {
   const echoed = 'flowchart TD Mermaid[Mermaid.js] -->|derivative| Beautiful[Beautiful Mermaid]'
   expect(leakedSyntax(flow, echoed)).toEqual(['flowchart TD', 'Mermaid[Mermaid.js', 'Beautiful[Beautiful Mermaid', '|derivative|'])

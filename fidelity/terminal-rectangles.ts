@@ -36,6 +36,19 @@ export function terminalRectangles(grid: string[][], profile: ContainerProfile =
   const horizontal = (text: string, side: 'top' | 'bottom') => !!profile.ports && (side === 'top' ? topPorts : bottomPorts).test(text) || profile.horizontal.test(text) || !!profile.primitives && /^[─┬┴┼+\-◇◯◎]+$/.test(text)
   const edge = (row: string[], from: number, to: number, side: 'top' | 'bottom') => { charge(to - from); const text = row.slice(from, to).join(''); charge(text.length); return horizontal(text, side) }
   const corner = (glyph: string, form: string[], at: number) => glyph === form[at] || !!profile.cornerPorts && form[0] === '┌' && ['┌┬├┼', '┐┬┤┼', '└┴├┼', '┘┴┤┼'][at]!.includes(glyph)
+  // Index actual lower corners once. Most rows cannot close a given frame;
+  // searching them again for every top/right pair was cubic even for sparse art.
+  const lowerCorners = new Map<string, number[]>()
+  const bottoms = (x: number, form: string[]) => {
+    const key = x + ':' + form.join('')
+    let rows = lowerCorners.get(key)
+    if (!rows) {
+      charge(64); rows = []
+      for (let row = 0; row < grid.length; row++) { charge(1); if (corner(cell(x, row), form, 2)) { charge(1); rows.push(row) } }
+      lowerCorners.set(key, rows)
+    }
+    return rows
+  }
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) {
     charge(1)
     const form = forms.find(form => form[0] === cell(x, y))
@@ -44,9 +57,17 @@ export function terminalRectangles(grid: string[][], profile: ContainerProfile =
       charge(1)
       if (!corner(cell(right, y), form, 1)) continue
       if (!edge(grid[y]!, x + 1, right, 'top')) continue
-      for (let bottom = y + 2; bottom < grid.length; bottom++) {
-        charge(right - x + bottom - y)
-        if (!corner(cell(x, bottom), form, 2) || !corner(cell(right, bottom), form, 3) || !edge(grid[bottom]!, x + 1, right, 'bottom') || !Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).every(row => (profile.vertical.test(cell(x, row)) || profile.ports && /^[▶►>→]$/.test(cell(x, row)) || profile.primitives && cell(x, row) === '(' || form[0] === '\\' && /^[\\>/]$/.test(cell(x, row))) && (profile.vertical.test(cell(right, row)) || profile.ports && /^[◀◄<←]$/.test(cell(right, row)) || profile.primitives && cell(right, row) === ')'))) continue
+      for (const bottom of bottoms(x, form)) {
+        charge(1)
+        if (bottom < y + 2) continue
+        charge(2)
+        if (!corner(cell(x, bottom), form, 2) || !corner(cell(right, bottom), form, 3) || !edge(grid[bottom]!, x + 1, right, 'bottom')) continue
+        let connected = true
+        for (let row = y + 1; row < bottom; row++) {
+          charge(2)
+          if (!(profile.vertical.test(cell(x, row)) || profile.ports && /^[▶►>→]$/.test(cell(x, row)) || profile.primitives && cell(x, row) === '(' || form[0] === '\\' && /^[\\>/]$/.test(cell(x, row))) || !(profile.vertical.test(cell(right, row)) || profile.ports && /^[◀◄<←]$/.test(cell(right, row)) || profile.primitives && cell(right, row) === ')')) { connected = false; break }
+        }
+        if (!connected) continue
         // A complete left-point primitive has ordered upper/lower slopes and
         // exactly one central point. A lone slash is not a source port or box.
         if (form[0] === '\\' && !/^\\*>\/*$/.test(Array.from({ length: bottom - y - 1 }, (_, n) => cell(x, y + n + 1)).join(''))) continue
@@ -85,12 +106,16 @@ export function terminalRectangles(grid: string[][], profile: ContainerProfile =
     charge(1)
     if (cell(x, y) !== '/') continue
     for (let right = x + 2; right + 1 < grid[y]!.length; right++) {
-      charge(right - x)
+      charge(1)
       if (cell(right, y) !== '\\' || !edge(grid[y]!, x + 1, right, 'top')) continue
-      for (let bottom = y + 2; bottom < grid.length; bottom++) {
-        charge(right - x + bottom - y)
+      for (const bottom of bottoms(x, ['/', '\\', '\\', '/', 'hexagon'])) {
+        charge(1)
+        if (bottom < y + 2) continue
+        charge(2)
         if (cell(x, bottom) !== '\\' || cell(right, bottom) !== '/' || !edge(grid[bottom]!, x + 1, right, 'bottom')) continue
-        if (!Array.from({ length: bottom - y - 1 }, (_, n) => y + n + 1).every(row => (profile.vertical.test(cell(x - 1, row)) || profile.ports && /^[▶►>→]$/.test(cell(x - 1, row))) && (profile.vertical.test(cell(right + 1, row)) || profile.ports && /^[◀◄<←]$/.test(cell(right + 1, row))))) continue
+        let connected = true
+        for (let row = y + 1; row < bottom; row++) { charge(2); if (!(profile.vertical.test(cell(x - 1, row)) || profile.ports && /^[▶►>→]$/.test(cell(x - 1, row))) || !(profile.vertical.test(cell(right + 1, row)) || profile.ports && /^[◀◄<←]$/.test(cell(right + 1, row)))) { connected = false; break } }
+        if (!connected) continue
         charge(64 + (bottom - y - 1) * (right - x + 1))
         const lines = grid.slice(y + 1, bottom).map(row => row.slice(x, right + 1).join('').trim())
         charge(lines.reduce((sum, line) => sum + line.length, 0))

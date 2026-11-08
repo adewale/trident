@@ -10,6 +10,7 @@ import { labelPaintCriteria, observeSvgLabels } from './svg-label-observer.ts'
 import { inspectEmptySvgDrawing } from './empty.ts'
 import { interpretTerminal } from '../terminal-display.ts'
 import { terminalRectangles, TerminalRectangleBudgetExceeded } from '../terminal-rectangles.ts'
+import { observeGlyphWitness } from './svg-glyph-witness.ts'
 
 export type LabelVerdict = { status: 'correct' | 'incorrect' | 'unknown'; reason?: string; missing?: string[]; leaked?: string[]; labels: number }
 export const labelPolicy = 'drawing-reviewed-labels-v2'
@@ -144,7 +145,7 @@ export function assessTerminalLabels(test: DrawingCase, output: string, plan = c
   }
 }
 
-/** SVG passes require the existing browser observer to establish actual visible labels. */
+/** SVG passes require measured paint or a complete actual-glyph raster witness. */
 export async function assessSvgLabels(test: DrawingCase, page: any, svg: string, plan = compileLabelPlan(test)): Promise<LabelVerdict> {
   const text = assessLabels(test, 'svg', svgText(svg), plan), labels = [...plan.labels]
   if (plan.unavailable) return text
@@ -156,10 +157,14 @@ export async function assessSvgLabels(test: DrawingCase, page: any, svg: string,
     const paint = await observeSvgLabels(page, test.family, labels)
     return labelPaintCriteria.map(criterion => ({ criterion, status: paint[criterion] ?? 'unavailable' }))
   }
+  let rasterWitness = false
   if (labels.length) {
     const checks = await observe(labels), failed = checks.filter(check => check?.status === 'failed')
     if (failed.length) return { status: 'incorrect', labels: labels.length, reason: failed.map(check => check!.criterion).join('; ') }
-    if (checks.some(check => check?.status !== 'passed')) return { status: 'unknown', labels: labels.length, reason: 'Visible label evidence is unavailable for this SVG representation' }
+    if (checks.some(check => check?.status !== 'passed')) {
+      rasterWitness = await observeGlyphWitness(page, labels)
+      if (!rasterWitness) return { status: 'unknown', labels: labels.length, reason: 'Visible label evidence is unavailable for this SVG representation' }
+    }
   }
   // A serialized leak is a nomination, not proof of paint. Failure to match
   // it cannot prove absence across fragments, references or hidden duplicates.
@@ -168,5 +173,5 @@ export async function assessSvgLabels(test: DrawingCase, page: any, svg: string,
     if (checks.every(check => check?.status === 'passed')) return { status: 'incorrect', labels: labels.length, leaked: [leak], reason: 'Raw source syntax shown: ' + leak }
     return { status: 'unknown', labels: labels.length, reason: 'Visibility of possible raw source syntax is unassessed' }
   }
-  return { status: 'correct', labels: labels.length }
+  return { status: 'correct', labels: labels.length, ...(rasterWitness ? { reason: 'Authored glyphs preserve their independently isolated raster ink, contrast and canvas containment' } : {}) }
 }

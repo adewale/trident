@@ -85,7 +85,7 @@ export async function main(args = process.argv.slice(2)) {
   const labelPlans = new Map(cases.map(test => [test.id, compileLabelPlan(test)]))
   const contractSha256 = planDigest(cases.map(test => ({ id: test.id, source: test.source, expected: test.expected, sourceGaps: test.sourceGaps })))
   const common = { policy: labelPolicy, labels: byteDigest(join(import.meta.dirname, '../fidelity/drawing/labels.ts')) }
-  const assessmentProfiles = Object.fromEntries(formats.map(format => [format, planDigest({ common, ...(format === 'svg' ? { profile: svgLabelProfile, paint: byteDigest(join(import.meta.dirname, '../fidelity/paint.ts')), observer: byteDigest(join(import.meta.dirname, '../fidelity/drawing/svg-label-observer.ts')), empty: byteDigest(join(import.meta.dirname, '../fidelity/drawing/empty.ts')) } : { display: byteDigest(join(import.meta.dirname, '../fidelity/terminal-display.ts')), rectangles: byteDigest(join(import.meta.dirname, '../fidelity/terminal-rectangles.ts')), budget: terminalLabelWorkBudget }) })]))
+  const assessmentProfiles = Object.fromEntries(formats.map(format => [format, planDigest({ common, ...(format === 'svg' ? { profile: svgLabelProfile, paint: byteDigest(join(import.meta.dirname, '../fidelity/paint.ts')), observer: byteDigest(join(import.meta.dirname, '../fidelity/drawing/svg-label-observer.ts')), glyphWitness: byteDigest(join(import.meta.dirname, '../fidelity/drawing/svg-glyph-witness.ts')), empty: byteDigest(join(import.meta.dirname, '../fidelity/drawing/empty.ts')) } : { display: byteDigest(join(import.meta.dirname, '../fidelity/terminal-display.ts')), rectangles: byteDigest(join(import.meta.dirname, '../fidelity/terminal-rectangles.ts')), budget: terminalLabelWorkBudget }) })]))
   const lanes = projects.flatMap(project => {
     const node = catalog.nodes.find((node: any) => node.id === project)!
     return formats.filter(format => communityDeclaresOutput(node, format)).map(format => {
@@ -126,7 +126,7 @@ export async function main(args = process.argv.slice(2)) {
           selection: opts.get('--case') ? 'functional subset' : 'full shared corpus',
           corpus: { cases: cases.length, ids: cases.map(c => c.id), contractSha256, seed: 'reviewed Terminal Drawing Facts, invalid controls excluded', regressions: 'corpus/drawing-regressions.json' },
           versionsFrozenAt: catalog.benchmarkVersionsCheckedAt,
-          method: 'Label assessment: SVG labels must pass the existing browser visibility, canvas and clipping checks; unsupported visibility observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.',
+          method: 'Label assessment: SVG labels must pass browser visibility, canvas and clipping checks, or a bounded pixel comparison proving the complete original glyphs remain visible against their actual backdrop. Unsupported observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.',
           assessmentLimits: { invocationMs: 15000, svgObserverMs: 8000, terminalWorkerMs: 20000, terminalRectangleWork: terminalLabelWorkBudget, compileLabelPlan, labelPolicy },
           rows,
           blocked,

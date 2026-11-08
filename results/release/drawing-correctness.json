@@ -305,14 +305,43 @@
       }
     ],
     "rounds": 1,
-    "inputsSha256": "d83174734200e1be4cfb0c13574136246f47632594780495811a31dc3049546b",
-    "identity": "42c11488626799ab1d15dd6ec229aa505c23486975ebd40d152a870abbe73e8d"
+    "inputsSha256": "2c70ee41345f6a0133ce9d8d65ad0752329887c510be1563a31050abd401ee58",
+    "identity": "9979e340cebe9e7da2395de2fcb339b96ab214391edc3c3fdded6b50e37cd69d"
   },
   "assessmentPolicy": "drawing-reviewed-labels-v2",
   "assessmentProfiles": {
-    "svg": "32f2aeb420af15aeb385cc2600d8d045ea7bcd506a2608d02a3f7154054e8364",
-    "terminal": "32787e964c9d0be03572b48375533066163000f08146a45cd06e7bbf9a8ea404"
+    "svg": "8e588f1b68472d0923458fb6a6107626d67629b3c21f391f9384209dda2e1c27",
+    "terminal": "55dc7ee0b3fdbb9c9a7bf4d5ba714d82804f9d4678d67493e8ceaf91f10e8374"
   },
+  "runtimeBindings": [
+    {
+      "project": "fasouto/termaid",
+      "format": "terminal",
+      "binding": {
+        "command": [
+          "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0/venv/bin/python",
+          "-I",
+          "-B",
+          "-X",
+          "pycache_prefix=/dev/null",
+          "/workspace/trident/fidelity/drawing/terminal-worker.py"
+        ],
+        "version": "0.12.0",
+        "description": "public Python render API",
+        "runtimeFiles": [
+          {
+            "path": "/workspace/trident/fidelity/drawing/terminal-worker.py",
+            "sha256": "2c5c3e7cf6e2ca6a70e561ab585b2740519758ca146b086a698122c5c1cca666"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0/venv/bin/python",
+            "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+          }
+        ],
+        "installedRuntimeSha256": "18d27f8e6a138f86e0e4239dc468ca8f576c71760f7f0345d5e108cd76b7c63e"
+      }
+    }
+  ],
   "selection": "full shared corpus",
   "corpus": {
     "cases": 127,
@@ -450,7 +479,7 @@
     "regressions": "corpus/drawing-regressions.json"
   },
   "versionsFrozenAt": "2026-11-07T00:20:11.169Z",
-  "method": "Label assessment: SVG labels must pass the existing browser visibility, canvas and clipping checks; unsupported visibility observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.",
+  "method": "Label assessment: SVG labels must pass browser visibility, canvas and clipping checks, or a bounded pixel comparison proving the complete original glyphs remain visible against their actual backdrop. Unsupported observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.",
   "assessmentLimits": {
     "invocationMs": 15000,
     "svgObserverMs": 8000,
@@ -468,8 +497,8 @@
     "svg": {},
     "terminal": {},
     "outputsRetained": false,
-    "startedAt": "2026-11-07T19:42:47.641Z",
-    "finishedAt": "2026-11-07T20:00:45.482Z"
+    "startedAt": "2026-11-08T02:24:31.463Z",
+    "finishedAt": "2026-11-08T02:54:34.337Z"
   },
   "results": [
     {
@@ -477,11 +506,11 @@
       "version": "0.3.1",
       "format": "svg",
       "counts": {
-        "correct": 107,
+        "correct": 108,
         "incorrect": 7,
         "renderer-failure": 0,
         "invalid-format": 1,
-        "unknown": 12,
+        "unknown": 11,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -562,6 +591,7 @@
           "drawing:bf9642a4ab479973",
           "drawing:bfad6c5a05be093a",
           "drawing:c18237e0a535bdb7",
+          "drawing:c2e297448b5388ba",
           "drawing:c5455d2e2f5f8672",
           "drawing:c64d9c102f509905",
           "drawing:cd2dd60c268497d1",
@@ -615,7 +645,6 @@
           "drawing:4e4550d086c4e288",
           "drawing:75e652628bded0d8",
           "drawing:b1428b5b59888938",
-          "drawing:c2e297448b5388ba",
           "drawing:cd771fca2659a460",
           "drawing:d04b45557e7b8f2e",
           "drawing:d7362afef7c26051",
@@ -624,7 +653,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 12
+        "Visible label evidence is unavailable for this SVG representation": 11
       }
     },
     {
@@ -787,11 +816,11 @@
       "version": "0.5.6",
       "format": "terminal",
       "counts": {
-        "correct": 123,
+        "correct": 124,
         "incorrect": 0,
         "renderer-failure": 3,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 0,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -896,6 +925,7 @@
           "drawing:d7362afef7c26051",
           "drawing:d98a600399ba3ce5",
           "drawing:da9198e1adbc1c14",
+          "drawing:dbc553f665d05c10",
           "drawing:ddef9c7af192e428",
           "drawing:de6e8bf0fd559efc",
           "drawing:df5eb5c9968bbb86",
@@ -927,14 +957,10 @@
           "regression:68230bdf498c2525"
         ],
         "invalid-format": [],
-        "unknown": [
-          "drawing:dbc553f665d05c10"
-        ],
+        "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {
-        "Terminal rectangle observation budget exceeded": 1
-      }
+      "assessmentGapReasons": {}
     },
     {
       "project": "AlexanderGrooff/mermaid-ascii",
@@ -1398,11 +1424,11 @@
       "version": "0.0.3",
       "format": "svg",
       "counts": {
-        "correct": 63,
+        "correct": 66,
         "incorrect": 13,
         "renderer-failure": 30,
         "invalid-format": 1,
-        "unknown": 20,
+        "unknown": 17,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -1414,6 +1440,7 @@
           "drawing:206a9307ba8592b1",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
+          "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
           "drawing:2598092a6e404821",
           "drawing:25b4a684eb0b6e31",
@@ -1431,6 +1458,7 @@
           "drawing:54f7237ee5ab1a85",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
+          "drawing:64788fe4b88b1f1f",
           "drawing:663c83c9e855c6b5",
           "drawing:684ec260a97cf7b6",
           "drawing:6c29eb05c097760d",
@@ -1454,6 +1482,7 @@
           "drawing:bf9642a4ab479973",
           "drawing:bfad6c5a05be093a",
           "drawing:dbc553f665d05c10",
+          "drawing:de6e8bf0fd559efc",
           "drawing:e52b4b37f626102c",
           "drawing:e54c4b6195e240be",
           "drawing:e920356ba6c73b52",
@@ -1523,13 +1552,11 @@
         ],
         "unknown": [
           "drawing:1b492a74df0fc4b6",
-          "drawing:22e97a0fc1fff023",
           "drawing:29fc1dab07164509",
           "drawing:3042977d4e6d813b",
           "drawing:404189958f761756",
           "drawing:4ae5560b57ca0064",
           "drawing:4e4550d086c4e288",
-          "drawing:64788fe4b88b1f1f",
           "drawing:75a4be6507dd75fe",
           "drawing:75e652628bded0d8",
           "drawing:867520b102964291",
@@ -1538,7 +1565,6 @@
           "drawing:cd771fca2659a460",
           "drawing:d04b45557e7b8f2e",
           "drawing:d3cc8b77d097ec56",
-          "drawing:de6e8bf0fd559efc",
           "drawing:df5eb5c9968bbb86",
           "drawing:ea02b4528ba4eb10",
           "drawing:fbfb884b46380275"
@@ -1546,7 +1572,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 20
+        "Visible label evidence is unavailable for this SVG representation": 17
       }
     },
     {
@@ -2780,6 +2806,157 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 8
       }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.12.0",
+      "format": "terminal",
+      "counts": {
+        "correct": 108,
+        "incorrect": 19,
+        "renderer-failure": 0,
+        "invalid-format": 0,
+        "unknown": 0,
+        "unrun": 0
+      },
+      "caseOutcomes": {
+        "correct": [
+          "drawing:03019928d457c65c",
+          "drawing:049722f83e7a31e0",
+          "drawing:11426c4cad392dc7",
+          "drawing:128500dada38a009",
+          "drawing:1468e1cf1186af65",
+          "drawing:1b492a74df0fc4b6",
+          "drawing:1c0f33b5035768f2",
+          "drawing:2091f6913743bcab",
+          "drawing:22775b7f44c796b6",
+          "drawing:2295dae5ca33addf",
+          "drawing:22e97a0fc1fff023",
+          "drawing:2431a54dd231055c",
+          "drawing:2598092a6e404821",
+          "drawing:263ec71ab0c651b3",
+          "drawing:276c8474274911fa",
+          "drawing:278dccc21dd27020",
+          "drawing:3042977d4e6d813b",
+          "drawing:32ad8ee06ab49562",
+          "drawing:39d5de95eb42396b",
+          "drawing:404189958f761756",
+          "drawing:43382cbc1379cf4c",
+          "drawing:435d2e71f8557532",
+          "drawing:46492176fc22b23d",
+          "drawing:46c4d04542ff7c8e",
+          "drawing:48d7ff23dee1b343",
+          "drawing:4ab51e1e2963ef1c",
+          "drawing:4ab6c5415bc7a24c",
+          "drawing:4ae5560b57ca0064",
+          "drawing:4e4550d086c4e288",
+          "drawing:4f96b68984c54c5a",
+          "drawing:529e14e4d09b944a",
+          "drawing:53e2d239ed8df992",
+          "drawing:54f7237ee5ab1a85",
+          "drawing:570e13053d228e29",
+          "drawing:587429a5094fbb28",
+          "drawing:5b249b03683c12ec",
+          "drawing:5c9a50898b1e6ffe",
+          "drawing:5d18804ad5e0e31f",
+          "drawing:5eee7283ba095288",
+          "drawing:61cc5e1150412252",
+          "drawing:64788fe4b88b1f1f",
+          "drawing:663c83c9e855c6b5",
+          "drawing:684ec260a97cf7b6",
+          "drawing:6f0f134c3b965095",
+          "drawing:6f83e372d7057526",
+          "drawing:704f69aae7273edd",
+          "drawing:75a4be6507dd75fe",
+          "drawing:75e652628bded0d8",
+          "drawing:7801c75b869778fe",
+          "drawing:837336a6e0f8f27c",
+          "drawing:867520b102964291",
+          "drawing:87325fd383c3b1af",
+          "drawing:898156db49cbe4e9",
+          "drawing:89be4f2885fb74a9",
+          "drawing:908bfa4128c34006",
+          "drawing:915784d6704949c2",
+          "drawing:94ac61fd1311d5bc",
+          "drawing:94e514f9f375364c",
+          "drawing:9516272260e4c69d",
+          "drawing:9972eaa8ca8692d8",
+          "drawing:9cdc849ecf29b4d2",
+          "drawing:9e4e5a5e072642e8",
+          "drawing:a181524246065697",
+          "drawing:a2118d0582abef57",
+          "drawing:a5204531005bef25",
+          "drawing:a60c7e7b3b930353",
+          "drawing:aaf86b713c100b5a",
+          "drawing:b1c4dd60b314e8a1",
+          "drawing:b23c0856e157b1f2",
+          "drawing:b29260d2c1b434d5",
+          "drawing:b4c60f465d6bcb5b",
+          "drawing:bd36b029775eba8c",
+          "drawing:bf9642a4ab479973",
+          "drawing:bfad6c5a05be093a",
+          "drawing:c18237e0a535bdb7",
+          "drawing:c2e297448b5388ba",
+          "drawing:c64d9c102f509905",
+          "drawing:cd2dd60c268497d1",
+          "drawing:cd771fca2659a460",
+          "drawing:d04b45557e7b8f2e",
+          "drawing:d2896678981aedb8",
+          "drawing:d3cc8b77d097ec56",
+          "drawing:d98a600399ba3ce5",
+          "drawing:da9198e1adbc1c14",
+          "drawing:dbc553f665d05c10",
+          "drawing:ddef9c7af192e428",
+          "drawing:de6e8bf0fd559efc",
+          "drawing:df5eb5c9968bbb86",
+          "drawing:e52b4b37f626102c",
+          "drawing:e54c4b6195e240be",
+          "drawing:e84af4bd39ddf3eb",
+          "drawing:e920356ba6c73b52",
+          "drawing:e977db2dd4ba0536",
+          "drawing:ea02b4528ba4eb10",
+          "drawing:ea7675b95cb763b3",
+          "drawing:ef20265c9ef84973",
+          "drawing:f78157ede4e2d1ab",
+          "regression:4e15c9b5403a9b04",
+          "regression:68230bdf498c2525",
+          "regression:c707395491823d1f",
+          "regression:a1cbf1ae4b6a2b8a",
+          "regression:d2ca0121985b295d",
+          "regression:4e705c28aa5294b7",
+          "regression:0be4872941973688",
+          "regression:d5156efceddb697a",
+          "regression:baf6f401f414d53b",
+          "regression:b37bebe1a745f1d6",
+          "regression:aea8f60cfe1ecdeb"
+        ],
+        "incorrect": [
+          "drawing:0dbd28f2f1c494cc",
+          "drawing:206a9307ba8592b1",
+          "drawing:25b4a684eb0b6e31",
+          "drawing:25e166249d24378d",
+          "drawing:27a0bf1eef1bdb6f",
+          "drawing:29fc1dab07164509",
+          "drawing:383e68bb60ac3633",
+          "drawing:3c2f67b774f592f2",
+          "drawing:3f4b6bd0b23e6927",
+          "drawing:478ab66bb4c7e4f5",
+          "drawing:6c29eb05c097760d",
+          "drawing:767a3f8c3e47e0bd",
+          "drawing:89e9eb6aebb72128",
+          "drawing:90e78c1ed707e7e4",
+          "drawing:b1428b5b59888938",
+          "drawing:c5455d2e2f5f8672",
+          "drawing:d7362afef7c26051",
+          "drawing:fbfb884b46380275",
+          "regression:e4a085e0bd0b6697"
+        ],
+        "renderer-failure": [],
+        "invalid-format": [],
+        "unknown": [],
+        "unrun": []
+      },
+      "assessmentGapReasons": {}
     },
     {
       "project": "kais-radwan/ascii-mermaid",
@@ -5540,203 +5717,15 @@
         "unrun": []
       },
       "assessmentGapReasons": {}
-    },
-    {
-      "project": "fasouto/termaid",
-      "version": "0.12.0",
-      "format": "terminal",
-      "counts": {
-        "correct": 108,
-        "incorrect": 19,
-        "renderer-failure": 0,
-        "invalid-format": 0,
-        "unknown": 0,
-        "unrun": 0
-      },
-      "caseOutcomes": {
-        "correct": [
-          "drawing:03019928d457c65c",
-          "drawing:049722f83e7a31e0",
-          "drawing:11426c4cad392dc7",
-          "drawing:128500dada38a009",
-          "drawing:1468e1cf1186af65",
-          "drawing:1b492a74df0fc4b6",
-          "drawing:1c0f33b5035768f2",
-          "drawing:2091f6913743bcab",
-          "drawing:22775b7f44c796b6",
-          "drawing:2295dae5ca33addf",
-          "drawing:22e97a0fc1fff023",
-          "drawing:2431a54dd231055c",
-          "drawing:2598092a6e404821",
-          "drawing:263ec71ab0c651b3",
-          "drawing:276c8474274911fa",
-          "drawing:278dccc21dd27020",
-          "drawing:3042977d4e6d813b",
-          "drawing:32ad8ee06ab49562",
-          "drawing:39d5de95eb42396b",
-          "drawing:404189958f761756",
-          "drawing:43382cbc1379cf4c",
-          "drawing:435d2e71f8557532",
-          "drawing:46492176fc22b23d",
-          "drawing:46c4d04542ff7c8e",
-          "drawing:48d7ff23dee1b343",
-          "drawing:4ab51e1e2963ef1c",
-          "drawing:4ab6c5415bc7a24c",
-          "drawing:4ae5560b57ca0064",
-          "drawing:4e4550d086c4e288",
-          "drawing:4f96b68984c54c5a",
-          "drawing:529e14e4d09b944a",
-          "drawing:53e2d239ed8df992",
-          "drawing:54f7237ee5ab1a85",
-          "drawing:570e13053d228e29",
-          "drawing:587429a5094fbb28",
-          "drawing:5b249b03683c12ec",
-          "drawing:5c9a50898b1e6ffe",
-          "drawing:5d18804ad5e0e31f",
-          "drawing:5eee7283ba095288",
-          "drawing:61cc5e1150412252",
-          "drawing:64788fe4b88b1f1f",
-          "drawing:663c83c9e855c6b5",
-          "drawing:684ec260a97cf7b6",
-          "drawing:6f0f134c3b965095",
-          "drawing:6f83e372d7057526",
-          "drawing:704f69aae7273edd",
-          "drawing:75a4be6507dd75fe",
-          "drawing:75e652628bded0d8",
-          "drawing:7801c75b869778fe",
-          "drawing:837336a6e0f8f27c",
-          "drawing:867520b102964291",
-          "drawing:87325fd383c3b1af",
-          "drawing:898156db49cbe4e9",
-          "drawing:89be4f2885fb74a9",
-          "drawing:908bfa4128c34006",
-          "drawing:915784d6704949c2",
-          "drawing:94ac61fd1311d5bc",
-          "drawing:94e514f9f375364c",
-          "drawing:9516272260e4c69d",
-          "drawing:9972eaa8ca8692d8",
-          "drawing:9cdc849ecf29b4d2",
-          "drawing:9e4e5a5e072642e8",
-          "drawing:a181524246065697",
-          "drawing:a2118d0582abef57",
-          "drawing:a5204531005bef25",
-          "drawing:a60c7e7b3b930353",
-          "drawing:aaf86b713c100b5a",
-          "drawing:b1c4dd60b314e8a1",
-          "drawing:b23c0856e157b1f2",
-          "drawing:b29260d2c1b434d5",
-          "drawing:b4c60f465d6bcb5b",
-          "drawing:bd36b029775eba8c",
-          "drawing:bf9642a4ab479973",
-          "drawing:bfad6c5a05be093a",
-          "drawing:c18237e0a535bdb7",
-          "drawing:c2e297448b5388ba",
-          "drawing:c64d9c102f509905",
-          "drawing:cd2dd60c268497d1",
-          "drawing:cd771fca2659a460",
-          "drawing:d04b45557e7b8f2e",
-          "drawing:d2896678981aedb8",
-          "drawing:d3cc8b77d097ec56",
-          "drawing:d98a600399ba3ce5",
-          "drawing:da9198e1adbc1c14",
-          "drawing:dbc553f665d05c10",
-          "drawing:ddef9c7af192e428",
-          "drawing:de6e8bf0fd559efc",
-          "drawing:df5eb5c9968bbb86",
-          "drawing:e52b4b37f626102c",
-          "drawing:e54c4b6195e240be",
-          "drawing:e84af4bd39ddf3eb",
-          "drawing:e920356ba6c73b52",
-          "drawing:e977db2dd4ba0536",
-          "drawing:ea02b4528ba4eb10",
-          "drawing:ea7675b95cb763b3",
-          "drawing:ef20265c9ef84973",
-          "drawing:f78157ede4e2d1ab",
-          "regression:4e15c9b5403a9b04",
-          "regression:68230bdf498c2525",
-          "regression:c707395491823d1f",
-          "regression:a1cbf1ae4b6a2b8a",
-          "regression:d2ca0121985b295d",
-          "regression:4e705c28aa5294b7",
-          "regression:0be4872941973688",
-          "regression:d5156efceddb697a",
-          "regression:baf6f401f414d53b",
-          "regression:b37bebe1a745f1d6",
-          "regression:aea8f60cfe1ecdeb"
-        ],
-        "incorrect": [
-          "drawing:0dbd28f2f1c494cc",
-          "drawing:206a9307ba8592b1",
-          "drawing:25b4a684eb0b6e31",
-          "drawing:25e166249d24378d",
-          "drawing:27a0bf1eef1bdb6f",
-          "drawing:29fc1dab07164509",
-          "drawing:383e68bb60ac3633",
-          "drawing:3c2f67b774f592f2",
-          "drawing:3f4b6bd0b23e6927",
-          "drawing:478ab66bb4c7e4f5",
-          "drawing:6c29eb05c097760d",
-          "drawing:767a3f8c3e47e0bd",
-          "drawing:89e9eb6aebb72128",
-          "drawing:90e78c1ed707e7e4",
-          "drawing:b1428b5b59888938",
-          "drawing:c5455d2e2f5f8672",
-          "drawing:d7362afef7c26051",
-          "drawing:fbfb884b46380275",
-          "regression:e4a085e0bd0b6697"
-        ],
-        "renderer-failure": [],
-        "invalid-format": [],
-        "unknown": [],
-        "unrun": []
-      },
-      "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2"
     }
   ],
   "totals": {
-    "correct": 3074,
+    "correct": 3079,
     "incorrect": 374,
     "renderer-failure": 634,
     "invalid-format": 86,
-    "unknown": 150,
+    "unknown": 145,
     "unrun": 0
   },
-  "updatedAt": "2026-11-07T21:54:17.033Z",
-  "runtimeBindings": [
-    {
-      "project": "fasouto/termaid",
-      "format": "terminal",
-      "binding": {
-        "command": [
-          "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0/venv/bin/python",
-          "-I",
-          "-B",
-          "-X",
-          "pycache_prefix=/dev/null",
-          "/workspace/trident/fidelity/drawing/terminal-worker.py"
-        ],
-        "version": "0.12.0",
-        "description": "public Python render API",
-        "runtimeFiles": [
-          {
-            "path": "/workspace/trident/fidelity/drawing/terminal-worker.py",
-            "sha256": "2c5c3e7cf6e2ca6a70e561ab585b2740519758ca146b086a698122c5c1cca666"
-          },
-          {
-            "path": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0/venv/bin/python",
-            "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
-          }
-        ],
-        "installedRuntimeSha256": "18d27f8e6a138f86e0e4239dc468ca8f576c71760f7f0345d5e108cd76b7c63e"
-      }
-    }
-  ],
-  "recollectedFormats": {
-    "formats": [
-      "terminal"
-    ],
-    "at": "2026-11-07T21:54:17.033Z",
-    "reason": "Replaced only the supplied project/format results from the same corpus and frozen versions; all other observations are preserved."
-  }
+  "updatedAt": "2026-11-08T02:54:34.337Z"
 }

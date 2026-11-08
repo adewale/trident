@@ -24,6 +24,7 @@ test('a candidate with no assessable callback is unassessed, not a measured zero
 })
 
 test('different controls, selections and incomplete or substituted callbacks cannot merge', () => {
+  expect(() => mergeFidelityRuns([run([reference], { controlIdentity: 'first' }), run([reference], { controlIdentity: 'second' })])).toThrow('executing control identity')
   expect(() => mergeFidelityRuns([run([reference]), run([reference], { selectedFiles: 2 })])).toThrow('one pin and file selection')
   expect(() => mergeFidelityRuns([run([candidate('a', 1, 0)])])).toThrow('no Mermaid control')
   expect(() => mergeFidelityRuns([run([reference, { ...candidate('a', 1, 0), cases: referenceCases.slice(0, 1) }])])).toThrow('every reference callback')

@@ -3,14 +3,15 @@ import { join } from 'node:path'
 import { planDigest } from '../unified/campaign-plan.ts'
 import { atomicWrite } from '../unified/result-storage.ts'
 import { byteDigest } from '../portable/artifacts.ts'
+import { environmentSummary, type EnvironmentReceipt } from '../unified/mermaid-fidelity/environments.ts'
 
-type Run = { job: any; native: any; audit: any[] }
+type Run = { job: any; native: any; audit: any[]; environments: EnvironmentReceipt[] }
 /** Compare callback identity, outcomes and all semantic audit dispositions.
  * Equal pass counts alone cannot qualify a cheaper execution environment. */
 export function qualifyDomFree(baseline: Iterable<Run>, alternate: Iterable<Run>, commit: string) {
   const alternatives = alternate[Symbol.iterator]()
   let controlIdentity = '', files: string[] = []
-  const targets: Record<string, string> = {}, fingerprints: Record<string, unknown> = {}
+  const targets: Record<string, string> = {}, fingerprints: Record<string, unknown> = {}, environments: Record<string, unknown> = {}, environmentRequirements: Record<string, unknown> = {}
   let equal = new Set<string>()
   for (const base of baseline) {
     const other = alternatives.next().value as Run | undefined
@@ -25,14 +26,38 @@ export function qualifyDomFree(baseline: Iterable<Run>, alternate: Iterable<Run>
     if (base.job.files.some((file: any) => file.environment === 'node') || other.job.files.some((file: any) => file.environment !== 'node')) throw Error('Compare an explicit jsdom baseline with an explicit node run')
     const project = base.job.target.project
     targets[project] = planDigest(base.job.target)
+    const normalizeEnvironments = (run: Run) => [...run.environments].map(receipt => ({ ...receipt, file: receipt.file.replaceAll(run.job.upstream, '<upstream>') })).sort((a, b) => a.file.localeCompare(b.file))
+    environments[project] = { jsdom: { ...environmentSummary(base.job.files, base.environments), sha256: planDigest(normalizeEnvironments(base)) }, node: { ...environmentSummary(other.job.files, other.environments), sha256: planDigest(normalizeEnvironments(other)) } }
     const observe = (run: Run, file: string) => {
-      const absolute = join(run.job.upstream, file), suite = run.native?.testResults?.find((suite: any) => suite.name === absolute)
-      if (!suite?.assertionResults?.length) return undefined
-      const audit = run.audit.filter(row => row.file === absolute).map(({ index, name, calls, rejections, gaps, unsupported, faults, expectedFailure, protocol }) => ({ index, name, calls, rejections, gaps, unsupported, faults, expectedFailure, protocol })).sort((a, b) => a.index - b.index)
+      const absolute = join(run.job.upstream, file), suites = run.native?.testResults?.filter((suite: any) => suite.name === absolute), suite = suites?.length === 1 ? suites[0] : undefined
+      if (run.environments.filter(receipt => receipt.file === absolute).length !== 1) {
+        // Vitest deliberately gives an upstream file directive precedence over
+        // a project environment. The startup guard rejects that as a Node run.
+        // This is a reviewed requirement, never evidence of Node execution.
+        const mismatch = `TRIDENT_RUNNER_ENVIRONMENT: ${absolute}: expected node; window=object, document=object`
+        if (suite?.status === 'failed' && suite.assertionResults?.length === 0 && suite.message === mismatch && existsSync(absolute) && /^\s*\/\/\s*@vitest-environment\s+jsdom\s*$/m.test(readFileSync(absolute, 'utf8'))) {
+          const requirement = { environment: 'jsdom', sourceSha256: byteDigest(absolute), reason: 'Original file explicitly requires JSDOM; the attempted Node configuration was rejected before imports' }
+          environmentRequirements[file] = requirement
+          return planDigest({ disposition: 'environment-required', file, ...requirement })
+        }
+        return undefined
+      }
+      if (!suite || !Array.isArray(suite.assertionResults)) return undefined
+      const audit = run.audit.filter(row => row.file === absolute).map(({ index, name, fullName, calls, rejections, gaps, unsupported, faults, expectedFailure, protocol }) => ({ index, name, fullName, calls, rejections, gaps, unsupported, faults, expectedFailure, protocol })).sort((a, b) => a.index - b.index)
+      if (!suite.assertionResults.length) {
+        // An empty observation is no proof. Vitest must report the selected
+        // file's completed collection failure, with a recognized disposition.
+        // Equal failures qualify only the cheaper scheduling of that failure;
+        // they confer no semantic credit or invented callback observations.
+        const message = String(suite.message ?? '').replaceAll(run.job.upstream, '<upstream>').replaceAll(run.job.runtime, '<runtime>')
+        if (suite.status !== 'failed' || !message || audit.length) return undefined
+        return planDigest({ disposition: 'collection-failed', file, message })
+      }
       if (new Set(audit.map(row => JSON.stringify([row.index, row.name]))).size !== audit.length) return undefined
       const callbacks = suite.assertionResults.map((test: any, index: number) => ({ index, name: test.fullName, status: test.status, failures: (test.failureMessages ?? []).map((message: string) => message.replaceAll(run.job.upstream, '<upstream>').replaceAll(run.job.runtime, '<runtime>')) }))
-      if (callbacks.some((test: any) => !['pending', 'todo', 'skipped'].includes(test.status) && !audit.some(row => row.index === test.index && row.name.replaceAll(' > ', ' ') === test.name))) return undefined
-      return planDigest({ callbacks, audit })
+      if (callbacks.some((test: any) => !['pending', 'todo', 'skipped'].includes(test.status) && !audit.some(row => row.index === test.index && (row.fullName ?? row.name.replaceAll(' > ', ' ')) === test.name))) return undefined
+      const collection = { status: suite.status, message: String(suite.message ?? '').replaceAll(run.job.upstream, '<upstream>').replaceAll(run.job.runtime, '<runtime>') }
+      return planDigest({ collection, callbacks, audit })
     }
     fingerprints[project] = Object.fromEntries(files.map(file => {
       const left = observe(base, file), right = observe(other, file)
@@ -41,7 +66,7 @@ export function qualifyDomFree(baseline: Iterable<Run>, alternate: Iterable<Run>
     }))
   }
   if (!controlIdentity || !alternatives.next().done) throw Error('Both profiles require the same candidate cohort')
-  return { protocol: 'dom-free-qualification-v1', qualifierSha256: byteDigest(import.meta.filename), commit, controlIdentity, targets, files: files.filter(file => equal.has(file)), fingerprints }
+  return { protocol: 'dom-free-qualification-v2', qualifierSha256: byteDigest(import.meta.filename), commit, controlIdentity, targets, environments, environmentRequirements, files: files.filter(file => equal.has(file)), fingerprints }
 }
 
 function* readRuns(root: string): Generator<Run> {
@@ -50,7 +75,8 @@ function* readRuns(root: string): Generator<Run> {
     if (!entry.isDirectory() || !existsSync(join(root, entry.name, 'job.json'))) continue
     const directory = join(root, entry.name), job = read(join(directory, 'job.json'))
     if (job.target.tool === 'mermaid') continue
-    yield { job, native: read(join(directory, 'vitest.json')), audit: readFileSync(join(directory, 'audit.jsonl'), 'utf8').split('\n').filter(Boolean).map(line => JSON.parse(line)) }
+    const lines = (name: string) => existsSync(join(directory, name)) ? readFileSync(join(directory, name), 'utf8').split('\n').filter(Boolean).map(line => JSON.parse(line)) : []
+    yield { job, native: read(join(directory, 'vitest.json')), audit: lines('audit.jsonl'), environments: lines('environments.jsonl') }
   }
 }
 if (import.meta.main) {
