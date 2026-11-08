@@ -1,7 +1,24 @@
 import { expect, test } from 'bun:test'
 import { chromium } from 'playwright'
 import { defaultChromium } from '../unified/benchmark-context.ts'
-import { observeGlyphWitness, compareGlyphWitness } from '../fidelity/drawing/svg-glyph-witness.ts'
+import { observeGlyphWitness, compareGlyphWitness, glyphWitnessOperation } from '../fidelity/drawing/svg-glyph-witness.ts'
+
+async function explainUnavailable(page: any, labels: string[]) {
+  let step = 'prepare'
+  try {
+    const plan = await page.evaluate(glyphWitnessOperation, { step, labels })
+    if (!plan) return { step, prepared: false, browser: await page.evaluate(() => navigator.userAgent) }
+    const images: string[] = [], capture = async (clip = plan.visibleClip) => images.push('data:image/png;base64,' + (await page.screenshot({ fullPage: true, clip, animations: 'disabled' })).toString('base64'))
+    await capture()
+    for (step of ['hide', 'ideal']) { await page.evaluate(glyphWitnessOperation, { step }); await capture() }
+    step = 'mask'; const geometry = await page.evaluate(glyphWitnessOperation, { step }); await capture(plan.maskClip)
+    step = 'restore'; await page.evaluate(glyphWitnessOperation, { step }); await capture()
+    step = 'compare'; let checkpoint = 0
+    const diagnostic = compareGlyphWitness.toString().replace(/return (?:false|!1);/g, () => `throw Error('Raster obligation ${++checkpoint}')`)
+    return { step, result: await page.evaluate(({ fn, input }: any) => Function('return (' + fn + ')')()(input), { fn: diagnostic, input: { images, ...geometry } }) }
+  } catch (error) { return { step, error: String(error) } }
+  finally { await page.evaluate(glyphWitnessOperation, { step: 'cleanup' }).catch(() => {}) }
+}
 
 test('glyph pixels prove text survives complex backdrops and clips, without trusting font boxes', async () => {
   const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
@@ -28,7 +45,9 @@ test('glyph pixels prove text survives complex backdrops and clips, without trus
     ]
     for (const [body, expected] of fixtures) {
       await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">' + body + '</svg>')
-      expect({ body, observed: await observeGlyphWitness(page, ['Alpha']) }).toEqual({ body, observed: expected })
+      const observed = await observeGlyphWitness(page, ['Alpha'])
+      if (expected && !observed) console.error('Unavailable positive glyph fixture', await explainUnavailable(page, ['Alpha']))
+      expect({ body, observed }).toEqual({ body, observed: expected })
       expect(await page.evaluate(() => !!(globalThis as any).__tridentGlyphWitness)).toBe(false)
     }
     await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><text x="20" y="45" font-size="20">東京</text></svg>')
