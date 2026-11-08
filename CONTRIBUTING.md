@@ -18,9 +18,11 @@ manifests, duplicate archives and publication checks are optional release work.
 
 ## Evidence
 
-DaveBench keeps counts and times and discards rendered outputs. No benchmark
-keeps a raw-output archive: a result is verified by re-running its frozen
-versions and pinned inputs
+DaveBench keeps counts and times and discards rendered outputs. Drawing
+Correctness retains compressed SVG and terminal outputs with source and ownership
+bindings, so a changed observer can reassess them without invoking renderers.
+Re-running frozen versions and pinned inputs reproduces the collection; retained
+Drawing outputs also support assessment replay
 ([evidence rule](docs/benchmark-results-details.md#evidence-and-verification)).
 
 ## Before a pull request

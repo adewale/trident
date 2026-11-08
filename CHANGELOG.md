@@ -1,79 +1,41 @@
 # Changelog
 
-## Unreleased
+## 0.3.0
 
-- Recollect the full Drawing baseline with retained outputs and verify complete
-  reassessment without producer renderers; all 4,318 verdicts reproduce. Upgrade
-  unchanged legacy runtime receipts after native qualification, use relative
-  generated links and verify the relocated source/runtime pair against all
-  7,346 source-control callbacks.
+The reference moves to Mermaid 12.3.0. This release updates all three benchmarks,
+adds native Flutter PNG measurements and retains Drawing outputs for reassessment.
+The results distinguish demonstrated failures from observations Trident cannot assess.
 
-- Scope execution identity to worker inputs and candidate bindings. Release labels,
-  descriptions and stack positions no longer revoke Node qualification. Refresh
-  the qualification from verified retained paired runs, keeping per-candidate
-  additions separate from the common file set.
-- Retain compressed Drawing outputs for observer reassessment without rerendering.
-  Check independent observer controls, preserve producer provenance and compare
-  actual frozen operands instead of freeze dates. Native verification script edits
-  no longer force compilation; terminal glyph dictionaries require rendered
-  controls instead of a historical implementation allowlist.
-
-- Close adversarial audit findings: bound terminal frame searches and derived
-  text; keep unresolved SVG source leaks unassessed; serve only verified browser
-  bytes; preserve valid paired XML and APNG admission; distinguish missing parser
-  exports from candidate faults; and merge equivalent Fidelity controls by file
-  and callback ordinal.
-- Extend measured SVG glyph bounds to Latin-1 text. Independent raster controls
-  distinguish fitting accented labels from clipped ink; combining marks and
-  other unsupported glyph profiles still withhold a verdict. Drawing verdicts
-  also require resolved paint; an unsupported filter cannot earn label credit.
-- Collectors verify prepared artifact bytes before execution. Publication derives
-  counts from complete case lists, requires identical Fidelity controls, and
-  preserves untouched projects during partial Drawing merges.
-- SVG Drawing labels use the existing visibility and clipping observer; terminal
-  labels preserve word order and join wrapped text only within observed frames.
-  Unsupported SVG visibility stays unassessed. Timed-out browser contexts are
-  replaced, and CLI deadlines terminate their process groups.
-- Output admission validates SVG XML and decodes PNG data after the clock stops. Native PNG dimension budgets use division to avoid
-  integer overflow. Candidate parser faults count as nonpasses, and version-change detection includes
-  source revisions, CLI releases and companion versions. Update js-yaml to 4.3.2.
-  Recollect the three benchmarks against the frozen 7 November versions. Previous
-  results remain at their original Git commit; native Flutter PNG now uses the
-  verified pinned SDK and GTK release bundle.
-- **Mermaid 12.3.0 is the reference.** The oracle, Mermaid's row in every benchmark and
-  the Mermaid Fidelity suite move from 12.2.0 to 12.3.0: 352 test files, of whose tests
-  Mermaid qualifies 7,346 active callbacks. The Fidelity collector reads its pin from
-  `data/upstream-mermaid-policy.json`, and the no-jsdom file list applies only at the
-  commit it was measured at. Building the 12.3.0 runtime needs npm 11.
-- **Trident's own errors no longer count as candidate failures.** An audit of failures
-  with an `undefined` received value fixed views that misread bridged requirement Maps,
-  flowchart `linkStyle default`, Kanban section icons and tree-view directory names, and
-  returns `true` from accepted jison parses. A `TypeError`, `ReferenceError` or
-  `RangeError` raised in Trident's code now marks a test unassessed. Previously misclassified
-  Trident errors remain unassessed.
-- Fresh results collected on 7 November against Mermaid 12.3.0.
-
-- **A fresh collection of all three benchmarks (6 November).** Zombie Mermaid 5.14.4,
-  Termaid 0.12.0 and a new OpenCode commit are measured at their new releases. Latias
-  Merman's SVG and PNG are now measured through its browser SDK, which has caught up with
-  its CLI, so it leads both formats with 1,338. Frankenmermaid is measured at its v0.4.0
-  tag. Pele leads Mermaid Fidelity with 3,143. `results/release/README.md` explains each
-  change from 0.2.0.
-- `versions` takes a distribution from its CLI release tag when the default branch
-  carries an untagged version, so all of a project's outputs measure one release.
-- `campaign:results --native-png` adds the Mermaid Flutter native PNG runs to the image
-  results, so a campaign has no manual step. `versions --since FROZEN_CATALOG` lists the
-  projects that have released since a published campaign, installing nothing.
-- Mermaid Fidelity: 11 tests that Trident could not assess for Pele and Bezel are now
-  assessed through reviewed views of their own models (event modeling relations, XY
-  charts, requirement edges, Bezel's empty sequence accessibility description).
-- CI runs browser tests on Playwright's Chromium instead of the runner image's unrelated
-  Chromium snapshot, the likely cause of the intermittent browser-test timeouts.
-  `AM_CHROMIUM_EXECUTABLE` is renamed `TRIDENT_CHROMIUM_EXECUTABLE`; the unused
-  `AM_BROWSER_TESTS` is gone.
-- `versions` keeps Mermaid's row at the oracle pin (12.2.0), which `prepare` requires,
-  and reports Mermaid's newest release beside it. It used to select Mermaid's latest
-  release, which `prepare` then refused.
+- Run the complete DaveBench, Drawing Correctness and Mermaid Fidelity workloads
+  against the frozen 7 November project versions. DaveBench records three full
+  repeats of every documentation input for each supported format, including the
+  pinned Flutter/GTK native PNG API. Earlier collections remain in Git history.
+- Execute Mermaid's pinned production source with its original compiler plugins
+  and locked dependencies. The source control qualifies 7,346 active callbacks
+  across 352 files; its 18 original skips stay outside the scored population.
+  Candidate faults, unsupported operations and Trident adapter gaps remain distinct.
+- Retain compressed SVG and terminal Drawing outputs with source and ownership
+  checks. Reassessment runs without producer renderers, preserves collection time
+  and records the assessment policy per lane. Storage errors block collection
+  instead of counting as renderer failures. Unsupported SVG profiles remain unknown.
+- Keep Node qualification across release-label and description edits while binding
+  actual dependency bytes, worker imports, census metadata and candidate runtimes.
+  All 26 candidates have verified paired evidence; 349 files qualify for Node in
+  common, with candidate-specific additions kept separate. Assertion values and
+  unfamiliar error context survive diagnostic stack normalization.
+- Verify the native Flutter SDK, compiled inputs, bundle bytes and all nine PNG
+  admission controls. Verification-script comments no longer reject unchanged
+  bundles. Terminal glyph dictionaries require public-render controls and matching
+  installed runtime bytes. Legacy source-runtime receipts can be upgraded without
+  reinstalling, and generated relative links survive moving the prepared pair.
+- Strengthen SVG/XML and PNG admission, visibility and source-leak checks, terminal
+  search bounds, process deadlines and artifact-byte verification. Latin-1 glyph
+  controls extend assessed SVG coverage; unsupported paint and glyph evidence
+  receive no correctness credit. Update js-yaml to 4.3.2.
+- Generate quoted results and collection dates from the numeric files. Campaign
+  reports include native PNG automatically, preserve complete case accounting and
+  compare frozen versions and artifact bytes when merging partial runs. Version
+  selection follows public release tags; the Mermaid control stays at its pin.
 
 ## 0.2.1 — 6 November 2026
 

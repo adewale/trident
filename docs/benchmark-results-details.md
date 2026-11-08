@@ -297,25 +297,28 @@ missing.
 
 ## Evidence and verification
 
-Results are verified by re-running them, not by archiving rendered outputs. Each
-published result is backed by four small, committed things:
+Results retain the information needed to reproduce the collection and audit its
+assessment. Each published result is backed by committed inputs and evidence:
 
 1. **The frozen version list:** the exact release or source revision of every
-   project, resolved once per campaign (`docs/evidence/benchmark-campaign-2026-11-06/versions.json`
+   project, resolved once per campaign (`docs/evidence/benchmark-campaign-2026-11-07/versions.json`
    and `catalog.json`).
 2. **The pinned inputs:** the Mermaid documentation commit for DaveBench, the 127-case
    Drawing corpus in the repository, and the Mermaid test-suite commit for Fidelity.
 3. **The code commit** that collected and scored the result.
 4. **The numeric results:** per-run counts and times for DaveBench, and per-case or
    per-file outcomes for Drawing Correctness and Mermaid Fidelity.
+5. **The Drawing capture:** compressed SVG and terminal outputs bound to their
+   project, case and source, with separate collection and reassessment times.
 
 Anyone can check a result by preparing the same frozen versions and running the same
 commands. On 3 November that reproduced every count the changes did not touch: every
-DaveBench completion count and Fidelity's 2,894 qualified tests. Re-running is also
-how a scoring change is applied; the full label-based Drawing collection takes a few
-minutes.
+DaveBench completion count and Fidelity's 2,894 qualified tests. A changed Drawing observer can reassess the retained outputs without invoking
+producer renderers. Older runs without outputs need recollection only if their
+specific observations must be reassessed.
 
-Rendered SVGs, PNGs and terminal text are not kept. The 605 MB raw archive of the
+DaveBench discards rendered outputs after counting and timing. Drawing retains
+SVG and terminal outputs in its [capture archive](../results/release/README.md#retained-drawing-capture); PNG is outside Drawing Correctness. The 605 MB raw archive of the
 1 November campaign was discarded rather than published. That campaign measured the
 superseded benchmark set; its tables and report receipts remain on the
 [`evidence/full-campaign-2026-11-01`](https://github.com/adewale/trident/tree/evidence/full-campaign-2026-11-01)
