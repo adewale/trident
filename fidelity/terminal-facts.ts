@@ -29,7 +29,7 @@ export function inspectTerminalFacts(output: string, contract: TerminalSourceCon
 }
 function inspectTerminalFactsUnchecked(output: string, contract: TerminalSourceContract, graph?: TerminalMeaning, context?: TerminalEncodingContext): TerminalFactCheck[] {
   const encoding = admittedTerminalEncoding(context, output)
-  if (contract.family === 'journey' && encoding) return inspectTerminalEncodedJourney(output, contract)
+  if (contract.family === 'journey' && encoding?.capabilities.includes('journey')) return inspectTerminalEncodedJourney(output, contract)
   if (contract.family === 'flowchart' && graph?.nodes.length) return inspectTerminalGraphFacts(output, contract, graph)
   if (contract.family === 'class') return inspectTerminalClass(output, contract)
   if (contract.family === 'state') return inspectTerminalState(output, contract)

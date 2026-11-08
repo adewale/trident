@@ -4,7 +4,7 @@ __pycache__/
 *.py[cod]
 .cache/
 
-# Only the numeric results the league tables read are committed; rendered outputs never are.
+# Published numeric results and explicitly retained capture archives are committed.
 results/*
 !results/README.md
 !results/release/

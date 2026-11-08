@@ -1,6 +1,6 @@
 import { campaignPlan, assertCampaignCoverage, planDigest } from './campaign-plan.ts'
-import { byteDigest } from '../portable/artifacts.ts'
-import { svgLabelProfile } from '../fidelity/drawing/svg-label-observer.ts'
+import { drawingAssessmentProfiles, drawingObserverSources, verifyDrawingObserver } from '../fidelity/drawing/observer-contract.ts'
+import { retainDrawingOutput, type RetainedDrawingOutput } from '../fidelity/drawing/retained-output.ts'
 import { atomicWrite, checkpointDue, reserveResultDirectory } from './result-storage.ts'
 import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -84,8 +84,8 @@ export async function main(args = process.argv.slice(2)) {
   reserveResultDirectory(out)
   const labelPlans = new Map(cases.map(test => [test.id, compileLabelPlan(test)]))
   const contractSha256 = planDigest(cases.map(test => ({ id: test.id, source: test.source, expected: test.expected, sourceGaps: test.sourceGaps })))
-  const common = { policy: labelPolicy, labels: byteDigest(join(import.meta.dirname, '../fidelity/drawing/labels.ts')) }
-  const assessmentProfiles = Object.fromEntries(formats.map(format => [format, planDigest({ common, ...(format === 'svg' ? { profile: svgLabelProfile, paint: byteDigest(join(import.meta.dirname, '../fidelity/paint.ts')), observer: byteDigest(join(import.meta.dirname, '../fidelity/drawing/svg-label-observer.ts')), glyphWitness: byteDigest(join(import.meta.dirname, '../fidelity/drawing/svg-glyph-witness.ts')), empty: byteDigest(join(import.meta.dirname, '../fidelity/drawing/empty.ts')) } : { display: byteDigest(join(import.meta.dirname, '../fidelity/terminal-display.ts')), rectangles: byteDigest(join(import.meta.dirname, '../fidelity/terminal-rectangles.ts')), budget: terminalLabelWorkBudget }) })]))
+  const assessmentProfiles = drawingAssessmentProfiles(formats), observerSources = drawingObserverSources(formats)
+  const outputs: RetainedDrawingOutput[] = [], observerChecks: Record<string, unknown> = {}
   const lanes = projects.flatMap(project => {
     const node = catalog.nodes.find((node: any) => node.id === project)!
     return formats.filter(format => communityDeclaresOutput(node, format)).map(format => {
@@ -93,7 +93,9 @@ export async function main(args = process.argv.slice(2)) {
       let artifact = peer?.artifact
       if (format === 'svg' && peer) { try { artifact = latestBenchmarkRenderingArtifact(peer) } catch { artifact = undefined } }
       if (format === 'terminal' && artifact && !communityModuleOutputSupported(node, 'terminal')) artifact = artifact.kind === 'cli' ? artifact : artifact.additionalCli?.find((cli: any) => cli.outputs.includes('terminal'))?.artifact ?? artifact
-      return { project, version: plannedBenchmarkVersion(node, artifact), format }
+      const operand = artifact ? Object.fromEntries(['sha256', 'integrity', 'revision', 'installedClosureSha256'].filter(key => artifact[key] !== undefined).map(key => [key, artifact[key]])) : undefined
+      if (operand && artifact.files?.length) operand.filesSha256 = planDigest(artifact.files.map((file: any) => file.sha256).sort())
+      return { project, version: plannedBenchmarkVersion(node, artifact), format, ...(operand ? { operand } : {}) }
     })
   })
   const plan = campaignPlan(lanes, cases.map(test => test.id), 1, { contractSha256, assessmentProfiles }, opts.has('--projects') || opts.has('--case') || opts.has('--formats') ? 'subset' : 'full')
@@ -119,7 +121,7 @@ export async function main(args = process.argv.slice(2)) {
       JSON.stringify(
         {
           benchmark: 'Drawing Correctness',
-          state, plan, assessmentPolicy: labelPolicy, assessmentProfiles,
+          state, plan, assessmentPolicy: labelPolicy, assessmentProfiles, observerSources, observerChecks, outputs,
           runtimeBindings: [...pythonRuntimes].map(([project, runtime]) => ({ project, format: 'terminal', binding: runtime.identity })),
           startedAt,
           updatedAt: new Date().toISOString(),
@@ -140,6 +142,7 @@ export async function main(args = process.argv.slice(2)) {
   const browser = await chromium.launch({ headless: true, executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium) })
   const assessmentContext = await browser.newContext({ javaScriptEnabled: false })
   await assessmentContext.route('**/*', route => route.abort())
+  for (const format of formats) observerChecks[format] = await verifyDrawingObserver(format, assessmentContext)
   const bounded = async <T>(work: Promise<T>, label: string, ms = 8000): Promise<T> => {
     let timer: ReturnType<typeof setTimeout>
     try {
@@ -188,7 +191,7 @@ export async function main(args = process.argv.slice(2)) {
                     'Public SVG invocation',
                     15000,
                   )
-              // Debugging only: TRIDENT_DRAWING_DUMP keeps outputs, which published runs never retain.
+              outputs.push(retainDrawingOutput(out, project, test, 'svg', svg))
               if (process.env.TRIDENT_DRAWING_DUMP) writeFileSync(join(process.env.TRIDENT_DRAWING_DUMP, encodeURIComponent(project) + '.' + test.id.replace(/\W/g, '_') + '.svg'), svg)
               const format = expectsEmptyDrawing(test) ? qualifyOutputFormat(svg, 'svg') : undefined
               const admission = format ? { valid: format.ok, reason: format.findings.join('; ') } : svgTextValidity(svg, test.source)
@@ -278,6 +281,7 @@ export async function main(args = process.argv.slice(2)) {
             }
             // An empty return, an error message or the source printed back is not a
             // drawing to assess: it is a known nonpass, not an observer gap.
+            outputs.push(retainDrawingOutput(out, project, test, 'terminal', result.text))
             const admission = expectsEmptyDrawing(test) ? { valid: true as const } : terminalTextValidity(result.text, test.source)
             if (!admission.valid) {
               rows.push({ project, version: native?.version ?? a.version, format: 'terminal', caseId: test.id, status: 'invalid-format', reason: 'Inadmissible terminal output: ' + admission.reason })

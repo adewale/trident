@@ -1,7 +1,6 @@
 import {FamilyCanvas,familyChecks,familyTitle,same,setFamilyCheck} from './terminal-family-canvas.ts'
 import type {TerminalSourceContract} from './terminal-source.ts'
-/** Only called after exact artifact/wheel/member admission. These glyph codes
- * are public Termaid0.10.0 output syntax, not a universal emotion/score scale. */
+/** Only called after independent controls qualify the artifact's score codes. */
 export function inspectTerminalEncodedJourney(output:string,contract:TerminalSourceContract){
  const checks=familyChecks(contract),canvas=new FamilyCanvas(output);if(canvas.error)return checks
  familyTitle(canvas,checks)

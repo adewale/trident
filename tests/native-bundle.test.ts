@@ -36,7 +36,38 @@ write(root/SMOKE,{'protocol':'native-flutter-smoke-v1','bundleSha256':identity(e
     const smoke = join(root, 'trident-smoke.json'), receipt = JSON.parse(readFileSync(smoke, 'utf8'))
     writeFileSync(smoke, JSON.stringify({ ...receipt, ready: { ...receipt.ready, runtime: { ...receipt.ready.runtime, platform: 'web' } } }))
     expect(() => verifiedNativeBundle(root)).toThrow()
+    writeFileSync(smoke, JSON.stringify({ ...receipt, admissionChecks: [...receipt.admissionChecks].reverse() }))
+    expect(() => verifiedNativeBundle(root)).not.toThrow()
+    writeFileSync(smoke, JSON.stringify({ ...receipt, admissionChecks: receipt.admissionChecks.map(() => 'valid') }))
+    expect(() => verifiedNativeBundle(root)).toThrow()
     writeFileSync(smoke, JSON.stringify({ ...receipt, admissionChecks: ['valid'] }))
     expect(() => verifiedNativeBundle(root)).toThrow()
   } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+test('verification comments preserve a compiled bundle; compiled input edits still reject it', () => {
+  const result = execFileSync('python3', ['-B', '-c', `
+import sys, tempfile, shutil
+from pathlib import Path
+sys.path.insert(0,sys.argv[1]); import bundle as m
+with tempfile.TemporaryDirectory() as directory:
+ root=Path(directory); original=m.ROOT; source=root/'source'; source.mkdir()
+ for name in list(m.sources())+list(m.verification_sources()):
+  target=source/name; target.parent.mkdir(parents=True,exist_ok=True); shutil.copyfile(original/name,target)
+ m.ROOT=source; output=root/'bundle'; output.mkdir(); expected=m.pin()
+ for name in ['native_bench','lib/libapp.so','lib/libflutter_linux_gtk.so','data/icudtl.dat','data/flutter_assets/AssetManifest.bin']:
+  target=output/name; target.parent.mkdir(parents=True,exist_ok=True); target.write_bytes(name.encode())
+ entries=m.files(output); sdk={'frameworkVersion':expected['flutter'],'frameworkRevision':expected['frameworkRevision'],'engineRevision':expected['engineRevision'],'dartSdkVersion':expected['dart']}
+ # Exercise an older receipt which mixed build and verification inputs.
+ m.write(output/m.MANIFEST,{'protocol':'native-flutter-release-v1','sdk':sdk,'sources':{**m.sources(),**m.verification_sources()},'files':entries,'bundleSha256':m.identity(entries),'target':expected['target'],'packageVersion':expected['packageVersion']})
+ m.verify(output,require_smoke=False)
+ with (source/'smoke.py').open('a') as stream: stream.write('\\n# Editorial comment\\n')
+ m.verify(output,require_smoke=False)
+ dart=next((source/'app/lib').rglob('*.dart'))
+ with dart.open('a') as stream: stream.write('\\n// Compiled source changes\\n')
+ try: m.verify(output,require_smoke=False)
+ except ValueError: print('compiled changes rejected')
+ else: raise AssertionError('compiled source mutation was accepted')
+`, join(import.meta.dirname, '../native-flutter')], { encoding: 'utf8' })
+  expect(result.trim()).toBe('compiled changes rejected')
 })

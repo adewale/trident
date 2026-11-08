@@ -138,7 +138,7 @@ missing. The retained files are the ER parser suite (different outcomes), the
 event-modeling suite (DOM-dependent setup), and the explicit JSDOM directive.
 
 The [collection receipt](fidelity-collection.json) and
-[qualification](../../../unified/mermaid-fidelity/dom-free-files.json) record the
+[qualification at collection](https://github.com/adewale/trident/blob/011f62eec57d6af39c554ee42869caeb48afb469/unified/mermaid-fidelity/dom-free-files.json) record the
 complete comparison. Fingerprints compare each callback's identity, outcome,
 normalized failures and semantic audit dispositions, including caught faults.
 Equal completed collection failures qualify only cheaper scheduling of the same

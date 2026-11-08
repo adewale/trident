@@ -5,7 +5,7 @@ from pathlib import Path
 import signal
 import subprocess
 import sys
-from bundle import ADMISSION_CHECKS, SMOKE, check_ready, verify, write
+from bundle import ADMISSION_CHECKS, SMOKE, check_admission, check_ready, verification_sources, verify, write
 
 def main():
     if len(sys.argv) != 2:
@@ -35,11 +35,12 @@ def main():
             raise RuntimeError("Worker did not emit exactly one ready message")
         check_ready(ready[0])
         required = ADMISSION_CHECKS
-        if len(controls) != 1 or controls[0].get("checks") != required:
+        if len(controls) != 1:
             raise RuntimeError("Production PNG admission controls did not all pass")
+        check_admission(controls[0].get("checks"))
         if len(results) != 1 or results[0].get("id") != "native-ci-smoke" or results[0].get("outcome") != "completed":
             raise RuntimeError("Fixed public renderToPng call did not complete")
-        record = {"protocol": "native-flutter-smoke-v1", "bundleSha256": manifest["bundleSha256"], "ready": ready[0], "admissionChecks": required, "result": "completed"}
+        record = {"protocol": "native-flutter-smoke-v1", "bundleSha256": manifest["bundleSha256"], "verificationSources": verification_sources(), "ready": ready[0], "admissionChecks": required, "result": "completed"}
         write(bundle / SMOKE, record)
         verify(bundle)
         print(json.dumps(record, sort_keys=True))

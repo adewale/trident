@@ -18,7 +18,7 @@ export function inspectTerminalGit(output: string, contract: TerminalSourceContr
   const checks = familyChecks(contract), canvas = new FamilyCanvas(output); if (canvas.error) return checks
   const expected = expectedFact<any>(contract, 'git-operations'), required = expectedHistory(expected), events: Event[] = [], actualBranches = new Set<string>(), rows = canvas.grid.map((row, y) => ({ text: row.join('').trimEnd(), y })).filter(row => row.text.trim())
   if (!rows.length) return checks
-  if (encoding && inspectTerminalGitLanes(canvas, checks, expected, required)) return checks
+  if (encoding?.capabilities.includes('gitgraph') && inspectTerminalGitLanes(canvas, checks, expected, required)) return checks
   const horizontal = rows.filter(row => /^\s*\S+\s+─/.test(row.text) && /[＊*◎◆]─\[/.test(row.text))
   if (horizontal.length) {
     const tracks = horizontal.map(row => { const m = /^\s*(\S+)\s+─/.exec(row.text)!; return { ...row, name: m[1]!, start: m[0].length - 1 } }), markers: { x: number; track: typeof tracks[number]; symbol: string; text: string; end: number }[] = [], heads = new Map<string, number>()

@@ -64,7 +64,7 @@ test('identical completed collection failures can use Node without claiming call
 test('published DOM-free selections require complete equal observations for the recorded cohort', () => {
   const proof = JSON.parse(readFileSync(new URL('../unified/mermaid-fidelity/dom-free-files.json', import.meta.url), 'utf8'))
   const targets = Object.keys(proof.targets)
-  expect(proof.protocol).toBe('dom-free-qualification-v2')
+  expect(proof.protocol).toBe('dom-free-qualification-v3')
   expect(targets.length).toBeGreaterThan(0)
   expect(Object.keys(proof.fingerprints).sort()).toEqual([...targets].sort())
   const files = Object.keys(proof.fingerprints[targets[0]!])
@@ -74,4 +74,31 @@ test('published DOM-free selections require complete equal observations for the 
     return typeof pair?.jsdom === 'string' && /^[a-f0-9]{64}$/.test(pair.jsdom) && pair.jsdom === pair.node
   }))
   expect([...proof.files].sort()).toEqual(eligible.sort())
+})
+
+
+test('stack locations and editorial target metadata do not alter behavioural equality', () => {
+  const { baseline, node } = runs()
+  for (const run of [baseline[0]!, node[0]!]) Object.assign(run.native.testResults[0]!.assertionResults[0]!, { status: 'failed', failureMessages: ['AssertionError: expected 1, got 2\n    at /runner/helper.js:10:2'] })
+  Object.assign(node[0]!.native.testResults[0]!.assertionResults[0]!, { failureMessages: ['AssertionError: expected 1, got 2\n    at /runner/helper.js:11:9'] })
+  Object.assign(node[0]!.job.target, { detail: 'new release wording' })
+  expect(qualifyDomFree(baseline, node, 'pin').files).toEqual(['a.spec.ts', 'b.spec.ts'])
+  Object.assign(node[0]!.native.testResults[0]!.assertionResults[0]!, { failureMessages: ['AssertionError: expected 1, got 3\n    at /runner/helper.js:11:9'] })
+  expect(qualifyDomFree(baseline, node, 'pin').files).toEqual(['b.spec.ts'])
+})
+
+test('programming-error origins remain distinct after stack position normalization', () => {
+  const { baseline, node } = runs()
+  for (const run of [baseline[0]!, node[0]!]) Object.assign(run.native.testResults[0]!.assertionResults[0]!, { status: 'failed', failureMessages: ['TypeError: broken\n    at invoke (/workspace/trident/unified/helper.ts:10:2)'] })
+  Object.assign(node[0]!.native.testResults[0]!.assertionResults[0]!, { failureMessages: ['TypeError: broken\n    at invoke (/candidate/implementation.js:10:2)'] })
+  expect(qualifyDomFree(baseline, node, 'pin').files).toEqual(['b.spec.ts'])
+  Object.assign(node[0]!.native.testResults[0]!.assertionResults[0]!, { failureMessages: ['TypeError: broken\n    at invoke (/workspace/trident/unified/helper.ts:999:4)'] })
+  expect(qualifyDomFree(baseline, node, 'pin').files).toEqual(['a.spec.ts', 'b.spec.ts'])
+})
+
+test('unclassified failures retain their operation context instead of matching by headline alone', () => {
+  const { baseline, node } = runs()
+  for (const run of [baseline[0]!, node[0]!]) Object.assign(run.native.testResults[0]!.assertionResults[0]!, { status: 'failed', failureMessages: ['Error: unknown failure\n    at first (/candidate/first.js:1:2)'] })
+  Object.assign(node[0]!.native.testResults[0]!.assertionResults[0]!, { failureMessages: ['Error: unknown failure\n    at other (/candidate/other.js:1:2)'] })
+  expect(qualifyDomFree(baseline, node, 'pin').files).toEqual(['b.spec.ts'])
 })

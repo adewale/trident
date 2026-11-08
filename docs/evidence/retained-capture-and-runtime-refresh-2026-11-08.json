@@ -1,0 +1,105 @@
+{
+  "protocol": "trident-retained-capture-and-runtime-refresh-v1",
+  "at": "2026-11-08T13:11:24.431Z",
+  "drawing": {
+    "cases": 127,
+    "lanes": 34,
+    "attempts": 4318,
+    "returnedOutputs": 3684,
+    "uniqueOutputObjects": 3437,
+    "returnedBytes": 22459469,
+    "rendererFailures": 634,
+    "missingOutputs": 0,
+    "changedVerdicts": 0,
+    "reassessment": {
+      "rows": 4318,
+      "changedVerdicts": 0,
+      "producerRenderersInvoked": false,
+      "collectedAt": "2026-11-08T12:56:21.652Z",
+      "reassessedAt": "2026-11-08T13:06:18.130Z"
+    },
+    "archive": {
+      "file": "drawing-capture-2026-11-08.tar.gz",
+      "sha256": "b20e3004fe884a7426179a72dbac51e71fe4ab92e010e2b3fae4d7250683b7fd",
+      "bytes": 3963733,
+      "root": "drawing-retained",
+      "repositoryPath": "results/release/captures/drawing-capture-2026-11-08.tar.gz"
+    },
+    "rawSha256": "5e583674f0eac4aaa3faa2c2ac1a6ff3c81d1eb85b005a7fcd95be2c7206cb35",
+    "previousPublishedSha256": "3c1dd98cc72ef077be4ac5fa39343c636f2afc35576ad426b45f981473e23992",
+    "currentPublishedSha256": "c6b81d2e47968ba07523a865732e8e984913f733419c63038aa32e8b3fed1a8f",
+    "totals": {
+      "correct": 3079,
+      "incorrect": 374,
+      "renderer-failure": 634,
+      "invalid-format": 86,
+      "unknown": 145,
+      "unrun": 0
+    },
+    "archiveRelocation": {
+      "extractedElsewhere": true,
+      "terminalOutputsReassessed": 2286,
+      "changedVerdicts": 0,
+      "producerRenderersInvoked": false
+    }
+  },
+  "runtime": {
+    "sourcePin": "2086904e76c692331e34a45d7cc3bc30860d040e",
+    "legacyReceiptSha256": "a2b4046ac3caaff9121aa0d2bf4e8af2b7ea0c253c1ffdfc4cc532b6ee8e03cf",
+    "upgradedReceiptSha256": "01c6b24275cfadbf281020a143a20bbedeff5bfbb635035fbfea64790827681e",
+    "executionSha256": "bbebaf5583648b540cebc3f277022a445e231edf948b8818f6f3fc83ea72c3c3",
+    "unchangedPackageBytes": true,
+    "unchangedExecutionGraph": true,
+    "reinstalledDuringUpgrade": false,
+    "relocated": true,
+    "sourceLink": "../runtime/node_modules",
+    "layoutLink": "../../../mermaid-source/packages/mermaid-layout-elk",
+    "selfContainedGitObjects": true,
+    "nativePixels": [
+      17,
+      34,
+      51,
+      255,
+      0,
+      0,
+      0,
+      0
+    ],
+    "jsdomPixels": [
+      17,
+      34,
+      51,
+      255,
+      0,
+      0,
+      0,
+      0
+    ],
+    "sourceControl": {
+      "passed": 7346,
+      "failed": 0,
+      "unsupported": 0,
+      "trident-blocked": 0,
+      "reference-unqualified": 0,
+      "upstream-skipped": 18,
+      "upstream-expected-failure": 0
+    },
+    "missingSourceFiles": 0,
+    "sourceExecutionIdentity": "7d933d864729515f7f018ce78f5af98b5b211bdaf63b141acd9bcbc4d225f8b6",
+    "reuseRequiresExternalOracle": false
+  },
+  "validation": {
+    "testCi": {
+      "passed": 1077,
+      "skipped": 1,
+      "failed": 0
+    },
+    "affectedTests": {
+      "passed": 28,
+      "failed": 0
+    },
+    "typecheck": "passed",
+    "lint": "passed",
+    "snapshot": "current"
+  }
+}

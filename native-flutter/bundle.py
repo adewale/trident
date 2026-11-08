@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parent
 MANIFEST = "trident-build.json"
 SMOKE = "trident-smoke.json"
 ADMISSION_CHECKS = ["valid", "null", "empty", "non-png", "truncated-ihdr", "zero-size", "excessive-pixels", "overflow-dimensions", "excessive-encoded-bytes"]
+VERIFICATION_SOURCES = ["env.sh", "build.sh", "bundle.py", "smoke.py"]
 
 def digest(path):
     value = hashlib.sha256()
@@ -39,13 +40,20 @@ def check_ready(ready):
     if ready.get("package") != expected["package"] or ready.get("version") != expected["packageVersion"] or ready.get("mode") != "release" or ready.get("runtime", {}).get("platform") != "linux" or str(ready.get("runtime", {}).get("dart", "")).split()[:1] != [expected["dart"]]:
         raise ValueError("Worker identity differs from the pinned release")
 
+def check_admission(checks):
+    if not isinstance(checks, list) or not all(isinstance(check, str) for check in checks) or len(checks) != len(ADMISSION_CHECKS) or set(checks) != set(ADMISSION_CHECKS):
+        raise ValueError("Production PNG admission controls did not all pass exactly once")
+
 def sources():
     paths = [
-        ROOT / name for name in ["toolchain.json", "env.sh", "build.sh", "bundle.py", "smoke.py", "app/pubspec.yaml", "app/pubspec.lock", "app/linux/CMakeLists.txt", "app/linux/flutter/CMakeLists.txt"]
+        ROOT / name for name in ["toolchain.json", "app/pubspec.yaml", "app/pubspec.lock", "app/linux/CMakeLists.txt", "app/linux/flutter/CMakeLists.txt"]
     ]
     paths += list((ROOT / "app/lib").rglob("*.dart"))
     paths += [p for p in (ROOT / "app/linux/runner").iterdir() if p.is_file()]
     return {str(path.relative_to(ROOT)): digest(path) for path in sorted(paths)}
+
+def verification_sources():
+    return {name: digest(ROOT / name) for name in VERIFICATION_SOURCES}
 
 def files(bundle):
     entries = {}
@@ -80,7 +88,10 @@ def verify(bundle, require_smoke=True):
     if manifest.get("protocol") != "native-flutter-release-v1":
         raise ValueError("Missing native build receipt")
     check_sdk(manifest["sdk"])
-    if manifest["sources"] != sources():
+    # Older receipts also recorded verification scripts in this map. Their
+    # provenance is retained, but they are not compiled application inputs.
+    compiled = {name: sha for name, sha in manifest["sources"].items() if name not in VERIFICATION_SOURCES}
+    if compiled != sources():
         raise ValueError("Native build sources or lockfile changed")
     entries = files(bundle)
     if manifest["files"] != entries or manifest["bundleSha256"] != identity(entries):
@@ -90,8 +101,9 @@ def verify(bundle, require_smoke=True):
         raise ValueError("Native package lock differs from the pinned operand")
     if require_smoke:
         smoke = read(bundle / SMOKE)
-        if smoke.get("protocol") != "native-flutter-smoke-v1" or smoke.get("bundleSha256") != manifest["bundleSha256"] or smoke.get("result") != "completed" or smoke.get("admissionChecks") != ADMISSION_CHECKS:
+        if smoke.get("protocol") != "native-flutter-smoke-v1" or smoke.get("bundleSha256") != manifest["bundleSha256"] or smoke.get("result") != "completed":
             raise ValueError("Bundle has no matching successful native smoke receipt")
+        check_admission(smoke.get("admissionChecks"))
         check_ready(smoke.get("ready", {}))
     return manifest
 
@@ -113,7 +125,7 @@ def main():
         record = {
             "protocol": "native-flutter-release-v1", "sdk": sdk,
             "target": expected["target"], "packageVersion": expected["packageVersion"],
-            "sources": sources(), "files": entries, "bundleSha256": identity(entries),
+            "sources": sources(), "verificationSources": verification_sources(), "files": entries, "bundleSha256": identity(entries),
             "host": {"platform": platform.platform(), "gtk": subprocess.check_output(["pkg-config", "--modversion", "gtk+-3.0"], text=True).strip()},
         }
         write(bundle / MANIFEST, record)

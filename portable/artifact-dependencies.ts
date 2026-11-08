@@ -170,3 +170,37 @@ export function captureInstalledDependencyClosure(packageRoot: string): Installe
   }
   return { schemaVersion: 1, root: { logicalRoot, realRoot, name: text(rootManifest.name), version: text(rootManifest.version) }, nodes: ordered([...nodes.values()], node => node.realRoot), edges: ordered(edges, edge => `${edge.from}\0${edge.name}\0${edge.kind}`) }
 }
+
+/** Execution graph independent of installation prefixes and the owning tool's
+ * release label. Package files (including manifests) and resolution edges stay
+ * byte-bound. The full closure remains the provenance record. */
+export function dependencyExecutionInputs(closure: InstalledDependencyClosure) {
+  const manifest = readManifest(closure.root.realRoot)
+  const names = new Map([[closure.root.realRoot, '<root>']])
+  const outgoing = new Map<string, DependencyEdge[]>()
+  for (const edge of closure.edges) {
+    const group = outgoing.get(edge.from) ?? []
+    group.push(edge); outgoing.set(edge.from, group)
+  }
+  const pending = [closure.root.realRoot]
+  for (let index = 0; index < pending.length; index++) {
+    const from = pending[index]!
+    for (const edge of (outgoing.get(from) ?? []).sort((a, b) => a.name.localeCompare(b.name))) {
+      const root = edge.resolution?.realRoot
+      if (root && !names.has(root)) { names.set(root, names.get(from)! + '/node_modules/' + edge.name); pending.push(root) }
+    }
+  }
+  const roots = [...names].sort((a, b) => b[0].length - a[0].length)
+  const normalize = (path: string) => {
+    for (const [root, name] of roots) if (within(root, path)) return name + (relative(root, path) ? '/' + relative(root, path).split(sep).join('/') : '')
+    throw Error('Execution dependency path leaves observed packages: ' + path)
+  }
+  return {
+    // Node's package scope and import maps affect execution. Editorial fields
+    // and the tool's release label do not. A self-reference name matters only
+    // when the package declares exports.
+    root: Object.fromEntries(['type', 'main', 'module', 'exports', 'imports', 'browser', 'bin', ...(manifest.exports ? ['name'] : [])].filter(key => manifest[key] !== undefined).map(key => [key, manifest[key]])),
+    nodes: closure.nodes.map(node => ({ root: names.get(node.realRoot), files: node.files.map(({ target: _target, resolvedTarget, ...file }) => ({ ...file, ...(resolvedTarget ? { resolvedTarget: normalize(resolvedTarget) } : {}) })) })).sort((a, b) => a.root!.localeCompare(b.root!)),
+    edges: closure.edges.map(({ from, resolution, ...edge }) => ({ ...edge, from: names.get(from), resolution: resolution ? { root: names.get(resolution.realRoot), search: resolution.search } : null })).sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b))),
+  }
+}
