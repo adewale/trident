@@ -184,7 +184,7 @@ test('generated runtime links preserve their operand and survive moving the sour
     expect(readlinkSync(sourceLink).startsWith('/')).toBe(false)
     expect(upstreamInstalledClosureDigest(runtime).executionSha256).toBe(before.executionSha256)
     const moved = join(root, 'moved'); renameSync(pair, moved)
-    expect(realpathSync(join(moved, 'source/node_modules'))).toBe(join(moved, 'runtime/node_modules'))
+    expect(realpathSync(join(moved, 'source/node_modules'))).toBe(realpathSync(join(moved, 'runtime/node_modules')))
     expect(() => verifyUpstreamInstalledClosure(join(moved, 'runtime'), before)).not.toThrow()
     const unrelated = join(root, 'unrelated'); mkdirSync(unrelated)
     expect(() => relativeRuntimeLink(join(moved, 'source/node_modules'), unrelated)).toThrow('different target')
