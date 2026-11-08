@@ -87,6 +87,15 @@ test('stack locations and editorial target metadata do not alter behavioural equ
   expect(qualifyDomFree(baseline, node, 'pin').files).toEqual(['b.spec.ts'])
 })
 
+test('an indented at line in an assertion payload retains its actual and expected values', () => {
+  const { baseline, node } = runs()
+  for (const run of [baseline[0]!, node[0]!]) Object.assign(run.native.testResults[0]!.assertionResults[0]!, { status: 'failed', failureMessages: ["AssertionError: candidate output mismatch\n    at rendered label: expected 'Beta' to equal 'Alpha'\n    at check (/runner/assert.js:10:2)"] })
+  Object.assign(node[0]!.native.testResults[0]!.assertionResults[0]!, { failureMessages: ["AssertionError: candidate output mismatch\n    at rendered label: expected 'Gamma' to equal 'Alpha'\n    at check (/runner/assert.js:11:9)"] })
+  expect(qualifyDomFree(baseline, node, 'pin').files).toEqual(['b.spec.ts'])
+  for (const [run, value] of [[baseline[0]!, 'Beta'], [node[0]!, 'Gamma']] as const) Object.assign(run.native.testResults[0]!.assertionResults[0]!, { failureMessages: ['AssertionError: candidate output mismatch\n    at rendered label /' + value + ':10:2'] })
+  expect(qualifyDomFree(baseline, node, 'pin').files).toEqual(['b.spec.ts'])
+})
+
 test('programming-error origins remain distinct after stack position normalization', () => {
   const { baseline, node } = runs()
   for (const run of [baseline[0]!, node[0]!]) Object.assign(run.native.testResults[0]!.assertionResults[0]!, { status: 'failed', failureMessages: ['TypeError: broken\n    at invoke (/workspace/trident/unified/helper.ts:10:2)'] })
@@ -98,7 +107,9 @@ test('programming-error origins remain distinct after stack position normalizati
 
 test('unclassified failures retain their operation context instead of matching by headline alone', () => {
   const { baseline, node } = runs()
-  for (const run of [baseline[0]!, node[0]!]) Object.assign(run.native.testResults[0]!.assertionResults[0]!, { status: 'failed', failureMessages: ['Error: unknown failure\n    at first (/candidate/first.js:1:2)'] })
-  Object.assign(node[0]!.native.testResults[0]!.assertionResults[0]!, { failureMessages: ['Error: unknown failure\n    at other (/candidate/other.js:1:2)'] })
-  expect(qualifyDomFree(baseline, node, 'pin').files).toEqual(['b.spec.ts'])
+  for (const message of ['Error: unknown failure', 'Error: wrapped AssertionError: mismatch', 'Error: wrapped TRIDENT_ADAPTER_GAP: missing', 'Error: wrapped Unsupported candidate operation: missing']) {
+    for (const run of [baseline[0]!, node[0]!]) Object.assign(run.native.testResults[0]!.assertionResults[0]!, { status: 'failed', failureMessages: [message + '\n    at first (/candidate/first.js:1:2)'] })
+    Object.assign(node[0]!.native.testResults[0]!.assertionResults[0]!, { failureMessages: [message + '\n    at other (/candidate/other.js:1:2)'] })
+    expect(qualifyDomFree(baseline, node, 'pin').files).toEqual(['b.spec.ts'])
+  }
 })

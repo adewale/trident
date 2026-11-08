@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs'
-import { join, relative } from 'node:path'
+import { dirname, join, relative, resolve } from 'node:path'
+import ts from 'typescript'
 import { planDigest } from './campaign-plan.ts'
 import { byteDigest, runtimeIdentity } from '../portable/artifacts.ts'
 import { captureInstalledDependencyClosure, dependencyExecutionInputs } from '../portable/artifact-dependencies.ts'
@@ -24,6 +25,23 @@ export function fidelityReferenceSources(root: string): { path: string; sha256: 
   return [...new Set(paths)].sort().map(path => ({ path, sha256: byteDigest(join(root, path)) }))
 }
 
+/** Follow local imports from the worker entry points, including schema views.
+ * Candidate executables and dynamically loaded artifacts are bound separately. */
+export function fidelityHarnessSources(root: string, entries = ['config.ts', 'setup.ts', 'runtime.ts']) {
+  const sources = new Map<string, string>()
+  const visit = (path: string) => {
+    const name = relative(root, path)
+    if (sources.has(name)) return
+    const code = readFileSync(path, 'utf8')
+    sources.set(name, byteDigest(path))
+    for (const imported of ts.preProcessFile(code, true, true).importedFiles) {
+      if (imported.fileName.startsWith('.')) visit(resolve(dirname(path), imported.fileName))
+    }
+  }
+  for (const entry of entries) visit(resolve(root, entry))
+  return Object.fromEntries([...sources].sort(([a], [b]) => a.localeCompare(b)))
+}
+
 /** Bind reusable controls to their executing inputs, not their directory names.
  * Byte observation runs once before collection; timing results are never cached. */
 export function fidelityExecutionInputs(upstream: string, reference: string, runtime: string, files: readonly any[], pin: string, engine = runtimeIdentity(process.env.NODE_BIN ?? 'node'), tooling = join(import.meta.dirname, '..')) {
@@ -32,10 +50,10 @@ export function fidelityExecutionInputs(upstream: string, reference: string, run
   return normalize({
     protocol: 'fidelity-execution-v2', referenceMode: 'pinned-production-source-v1', pin,
     source: fidelityReferenceSources(upstream),
-    files: files.map(file => ({ path: file.path, sha256: byteDigest(file.absolute), declarations: file.declarations })),
+    files: files.map(file => ({ path: file.path, sha256: byteDigest(file.absolute), family: file.family, declarations: file.declarations, helperIdentifiers: file.helperIdentifiers, fileIdentifiers: file.fileIdentifiers })),
     // Only modules actually loaded by the worker belong to execution identity.
     // Bridge recipes bind their generated executable/scripts on each target.
-    harness: Object.fromEntries(['config.ts', 'setup.ts', 'runtime.ts', 'source-plugins.ts', 'environments.ts', 'bridge-client.mjs', 'schema-views.mjs', '../upstream-fidelity-projection.mjs', '../upstream-test-assertions.mjs'].map(file => [file, byteDigest(join(harness, file))])),
+    harness: fidelityHarnessSources(harness),
     runtime: { ...engine, executable: undefined, executableSha256: byteDigest(engine.executable) },
     environment: { locale: process.env.LANG, timezone: process.env.TZ, nodeOptions: process.env.NODE_OPTIONS, bunOptions: process.env.BUN_OPTIONS },
     sourceLock: byteDigest(join(upstream, 'pnpm-lock.yaml')),
@@ -51,7 +69,7 @@ export function fidelityTargetIdentity(target: any) {
   const owned = target.peer?.artifact ?? {}
   const artifact = Object.fromEntries(['kind', 'sha256', 'integrity', 'files', 'installedClosureSha256', 'root', 'module', 'executable', 'python', 'wasm', 'adapterCompanions', 'candidate', 'sourceFiles', 'dependencyPatches'].filter(key => owned[key] !== undefined).map(key => [key, owned[key]]))
   const helpers = target.tool === 'mermaid' ? [] : target.tool !== 'bridge' ? ['native-call.mjs', 'bridges/common.mjs'] : target.bridge.command.some((argument: string) => /\.[cm]?[jt]s$/.test(argument)) ? ['bridges/common.mjs'] : []
-  return planDigest({ project: target.project, version: target.version, sha256: target.sha256, tool: target.tool, root: target.root, entry: target.entry, parserEntries: target.parserEntries, configInterface: target.configInterface, usesBun: /Bun/.test(owned.runtime ?? ''), bunSha256: target.bunSha256, bridge, artifact, helpers: Object.fromEntries(helpers.map(file => [file, byteDigest(join(import.meta.dirname, 'mermaid-fidelity', file))])) })
+  return planDigest({ project: target.project, version: target.version, sha256: target.sha256, tool: target.tool, root: target.root, entry: target.entry, parserEntries: target.parserEntries, configInterface: target.configInterface, usesBun: /Bun/.test(owned.runtime ?? ''), bunSha256: target.bunSha256, bridge, artifact, helpers: fidelityHarnessSources(join(import.meta.dirname, 'mermaid-fidelity'), helpers) })
 }
 
 export function assertReusableControl(directory: string, identity: string) {

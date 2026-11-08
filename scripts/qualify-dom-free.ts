@@ -10,12 +10,17 @@ import { fidelityTargetIdentity } from '../unified/fidelity-control.ts'
  * Preserve unfamiliar errors and assertion diffs; never equate failures by count. */
 export function failureObservation(message: string, upstream: string, runtime: string) {
   const lines = message.replaceAll(upstream, '<upstream>').replaceAll(runtime, '<runtime>').replace(/\u001b\[[0-9;]*m/g, '').split('\n')
-  const normalized = lines.filter(line => !/^\s+at\s/.test(line)).join('\n').trim()
-  const kind = /Unsupported candidate operation:/.test(normalized) ? 'unsupported' : /TRIDENT_ADAPTER_GAP/.test(normalized) ? 'adapter-gap' : /AssertionError:/.test(normalized) ? 'assertion' : 'unclassified'
+  // Message payloads can themselves start with "at". Only a frame with a
+  // recognizable source location may be discarded as reporter formatting.
+  const location = String.raw`(?:file:///|node:|/|[A-Za-z]:[\\/]|<(?:upstream|runtime)>/)[^\n]+:\d+:\d+`
+  const frame = new RegExp(String.raw`^\s+at (?:(?:async )?${location}|[^\n()]+ \((?:${location}|native)\))\s*$`)
+  const isFrame = (line: string) => frame.test(line)
+  const normalized = lines.filter(line => !isFrame(line)).join('\n').trim()
+  const kind = /^(?:Error: )?Unsupported candidate operation:/.test(normalized) ? 'unsupported' : /^(?:Error: )?TRIDENT_ADAPTER_GAP\b/.test(normalized) ? 'adapter-gap' : /^AssertionError:/.test(normalized) ? 'assertion' : 'unclassified'
   // The reducer distinguishes Trident programming errors from candidate faults
   // using the first frame. Keep that origin while ignoring its line/column.
-  const origin = /^(?:TypeError|ReferenceError|RangeError):/.test(normalized) ? lines.find(line => /^\s+at\s/.test(line))?.replace(/:\d+:\d+(?=\)?\s*$)/, '') : undefined
-  const stack = kind === 'unclassified' ? lines.filter(line => /^\s+at\s/.test(line)).map(line => line.trim().replace(/:\d+:\d+(?=\)?\s*$)/, '')) : undefined
+  const origin = /^(?:TypeError|ReferenceError|RangeError):/.test(normalized) ? lines.find(isFrame)?.replace(/:\d+:\d+(?=\)?\s*$)/, '') : undefined
+  const stack = kind === 'unclassified' ? lines.filter(isFrame).map(line => line.trim().replace(/:\d+:\d+(?=\)?\s*$)/, '')) : undefined
   return { kind, message: normalized, ...(origin ? { origin: origin.trim() } : {}), ...(stack ? { stack } : {}) }
 }
 

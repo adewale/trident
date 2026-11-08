@@ -113,6 +113,9 @@ collection times and records a separate assessment time. Historical runs without
 outputs need recollection. Observer source bytes remain provenance on each lane;
 assessment compatibility uses the label policy and supported representation
 contract. Independent positive and negative controls run before assessment.
+Partial reassessment records the current policy on the selected formats and
+preserves the original policy on untouched formats. Publication retains those
+policies per lane rather than assigning one policy to mixed assessments.
 Those controls are regression checks, not proof of equivalence for every drawing;
 reassess retained outputs when an observer change could alter their verdicts.
 A freeze date alone cannot reject a merge; changed measured project/format
@@ -125,8 +128,9 @@ capability. A package/version/hash allowlist no longer selects a dictionary:
 bun scripts/qualify-terminal-encoding.ts OWNER.json FRESH_QUALIFICATION.json
 ```
 
-Pass that qualification to `terminalKnownEncodingContext`. It must match the
-owning artifact and archives; it enables only families whose controls passed.
+Pass that qualification to `terminalKnownEncodingContext`. Admission observes
+the current installed Python runtime and requires it to match the qualification,
+along with the owning artifact and archives. It enables only families whose controls passed.
 Unfamiliar or unqualified representations remain unknown. Installation logs and
 preparation paths are provenance; original-runtime admission still checks locked
 operands, installed bytes and actual native Canvas/JSDOM pixel readback.
@@ -143,7 +147,11 @@ receipt format uses installation-log text as a readiness check.
 The [8 November qualification receipt](../docs/evidence/behaviour-qualification-2026-11-08.json)
 records the verified reuse of 26 unchanged paired executions, the fresh automatic
 Merslim run, native smoke and terminal controls. A release-label-only change from
-`0.2.1` to `0.3.0` preserves the final execution identity and Node eligibility.
+`0.2.1` to `0.3.0` preserves execution identity and Node eligibility. The
+[PR audit follow-up](../docs/evidence/pr90-audit-fixes-2026-11-08.json) supersedes
+its qualification binding: worker identity now follows transitive local imports
+and includes all execution-relevant census fields. All 26 pairs were rechecked,
+and a fresh automatic Merslim run reproduced all 7,364 callback dispositions.
 
 
 The [capture and runtime follow-up](../docs/evidence/retained-capture-and-runtime-refresh-2026-11-08.json)

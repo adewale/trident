@@ -1,6 +1,6 @@
 import { campaignPlan, assertCampaignCoverage, planDigest } from './campaign-plan.ts'
 import { drawingAssessmentProfiles, drawingObserverSources, verifyDrawingObserver } from '../fidelity/drawing/observer-contract.ts'
-import { retainDrawingOutput, type RetainedDrawingOutput } from '../fidelity/drawing/retained-output.ts'
+import { DrawingOutputStorageError, retainDrawingOutput, type RetainedDrawingOutput } from '../fidelity/drawing/retained-output.ts'
 import { atomicWrite, checkpointDue, reserveResultDirectory } from './result-storage.ts'
 import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -205,6 +205,7 @@ export async function main(args = process.argv.slice(2)) {
               } finally { await page.close() }
               rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: assessment.status, reason: assessment.reason, failed: assessment.missing, leaked: assessment.leaked })
             } catch (error) {
+              if (error instanceof DrawingOutputStorageError) throw error
               if (error instanceof InvocationTimeout && session) { await session.context.close(); session = undefined }
               // A zero-size or error-placeholder SVG is a known nonpass, not an observer gap.
               if (error instanceof InadmissibleOutput) rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: 'invalid-format', reason: 'Inadmissible SVG output: ' + error.message })

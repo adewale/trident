@@ -3,7 +3,7 @@ import { cpSync, existsSync, mkdirSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { chromium } from 'playwright'
 import { drawingCases } from '../fidelity/drawing/corpus.ts'
-import { assessSvgLabels, assessTerminalLabels, expectsEmptyDrawing } from '../fidelity/drawing/labels.ts'
+import { assessSvgLabels, assessTerminalLabels, expectsEmptyDrawing, labelPolicy } from '../fidelity/drawing/labels.ts'
 import { drawingAssessmentProfiles, drawingObserverSources, verifyDrawingObserver } from '../fidelity/drawing/observer-contract.ts'
 import { readDrawingOutput } from '../fidelity/drawing/retained-output.ts'
 import { planDigest } from '../unified/campaign-plan.ts'
@@ -47,7 +47,10 @@ export async function reassessDrawingRun(run: any, root: string, formats: string
     const { status: _status, reason: _reason, failed: _failed, leaked: _leaked, ...identity } = row
     rows.push({ ...identity, status: verdict.status, reason: verdict.reason, failed: 'missing' in verdict ? verdict.missing : undefined, leaked: 'leaked' in verdict ? verdict.leaked : undefined })
   }
-  return { ...run, rows, assessmentProfiles: { ...run.assessmentProfiles, ...drawingAssessmentProfiles(formats) }, observerSources: { ...run.observerSources, ...drawingObserverSources(formats) }, observerChecks, reassessedAt: new Date().toISOString(), reassessment: { sourceRun: root, scope: formats, renderersInvoked: false } }
+  const assessmentPolicies = Object.fromEntries([...new Set<string>(run.rows.map((row: any) => row.format))].map(format => [format, formats.includes(format) ? labelPolicy : run.assessmentPolicies?.[format] ?? run.assessmentPolicy]))
+  const policies = Object.values(assessmentPolicies), common = policies.length && policies.every(policy => policy === policies[0]) ? policies[0] : undefined
+  const { assessmentPolicy: _priorPolicy, ...metadata } = run
+  return { ...metadata, ...(common ? { assessmentPolicy: common } : {}), assessmentPolicies, rows, assessmentProfiles: { ...run.assessmentProfiles, ...drawingAssessmentProfiles(formats) }, observerSources: { ...run.observerSources, ...drawingObserverSources(formats) }, observerChecks, reassessedAt: new Date().toISOString(), reassessment: { sourceRun: root, scope: formats, renderersInvoked: false } }
 }
 if (import.meta.main) {
   const [input, destination, selection = 'svg,terminal'] = process.argv.slice(2)

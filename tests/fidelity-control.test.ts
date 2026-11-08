@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test'
 import { cpSync, mkdirSync, writeFileSync, rmSync, realpathSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { createRequire } from 'node:module'
-import { fidelityControlIdentity, assertReusableControl } from '../unified/fidelity-control.ts'
+import { fidelityControlIdentity, fidelityHarnessSources, assertReusableControl } from '../unified/fidelity-control.ts'
 import { byteDigest } from '../portable/artifacts.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 import { execFileSync } from 'node:child_process'
@@ -72,7 +72,8 @@ test('release labels and notes preserve Node qualification; dependency bytes and
   const helper = join(root, 'tooling/node_modules/helper'); mkdirSync(helper, { recursive: true })
   writeFileSync(join(root, 'tooling/package.json'), '{"name":"trident","version":"0.2.1","dependencies":{"helper":"1"}}')
   writeFileSync(join(helper, 'package.json'), '{"name":"helper","version":"1"}'); writeFileSync(join(helper, 'index.js'), 'implementation')
-  const identity = () => fidelityControlIdentity(join(root, 'upstream'), join(root, 'reference'), join(root, 'runtime'), [{ path: 'test.spec.ts', absolute: selected }], 'pin', undefined, join(root, 'tooling'))
+  const entry = { path: 'test.spec.ts', absolute: selected, family: 'flowchart', helperIdentifiers: [] as string[], fileIdentifiers: [] as string[] }
+  const identity = () => fidelityControlIdentity(join(root, 'upstream'), join(root, 'reference'), join(root, 'runtime'), [entry], 'pin', undefined, join(root, 'tooling'))
   const initial = identity(), target = { project: 'fixture', tool: 'native', version: '1', peer: { node: { description: 'before' }, artifact: { sha256: 'a'.repeat(64), detail: 'before' } } }
   const proof = { protocol: 'dom-free-qualification-v3', commit: currentReferencePin.commit, controlIdentity: initial, targets: { fixture: fidelityTargetIdentity(target) }, additionalFiles: { fixture: ['test.spec.ts'] }, qualifierSha256: 'old reporter bytes' }
   writeFileSync(join(root, 'tooling/package.json'), '{"name":"trident","version":"0.3.0","description":"release wording","dependencies":{"helper":"1"}}')
@@ -80,12 +81,32 @@ test('release labels and notes preserve Node qualification; dependency bytes and
   target.peer.node.description = 'after'; target.peer.artifact.detail = 'after'
   expect(identity()).toBe(initial)
   expect([...qualifiedNodeFiles(proof, identity(), target)]).toEqual(['test.spec.ts'])
+  for (const change of [{ family: 'sequence' }, { helperIdentifiers: ['log'] }, { fileIdentifiers: ['log'] }]) {
+    Object.assign(entry, change)
+    expect([...qualifiedNodeFiles(proof, identity(), target)]).toEqual([])
+    Object.assign(entry, { family: 'flowchart', helperIdentifiers: [], fileIdentifiers: [] })
+  }
   writeFileSync(join(helper, 'index.js'), 'changed implementation')
   expect([...qualifiedNodeFiles(proof, identity(), target)]).toEqual([])
   writeFileSync(join(helper, 'index.js'), 'implementation'); writeFileSync(selected, 'different assertion')
   expect(identity()).not.toBe(initial)
   target.peer.artifact.sha256 = 'b'.repeat(64)
   expect([...qualifiedNodeFiles(proof, initial, target)]).toEqual([])
+})
+
+test('worker identity follows transitive imports and reexports without including inactive sources', () => {
+  const root = temporary.dir()
+  writeFileSync(join(root, 'entry.ts'), "import './view.mjs'\n")
+  writeFileSync(join(root, 'view.mjs'), "export { value } from './leaf.mjs'\n")
+  writeFileSync(join(root, 'leaf.mjs'), 'export const value = 1\n')
+  const initial = fidelityHarnessSources(root, ['entry.ts'])
+  writeFileSync(join(root, 'inactive.mjs'), 'unbuilt recipe')
+  expect(fidelityHarnessSources(root, ['entry.ts'])).toEqual(initial)
+  writeFileSync(join(root, 'leaf.mjs'), 'export const value = 2\n')
+  expect(fidelityHarnessSources(root, ['entry.ts'])).not.toEqual(initial)
+  const actual = fidelityHarnessSources(join(import.meta.dirname, '../unified/mermaid-fidelity'))
+  expect(actual['view-core.mjs']).toBeDefined()
+  expect(actual['views/dart.mjs']).toBeDefined()
 })
 
 test('a changed bridge invalidates only its own candidate qualification', async () => {

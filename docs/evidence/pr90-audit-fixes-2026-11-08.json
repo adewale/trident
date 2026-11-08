@@ -1,0 +1,204 @@
+{
+  "protocol": "trident-pr90-audit-fixes-v1",
+  "recordedAt": "2026-11-08T20:53:53.915Z",
+  "reviewedHead": "7f0039349b203f4c7242f188d2c02cc5a36b505c",
+  "scope": "Audit fixes and qualification refresh. Published scores, timing collections and retained Drawing capture bytes are unchanged.",
+  "qualification": {
+    "method": "Recomputed all paired callback and audit fingerprints with conservative failure normalization; verified original raw evidence, previous qualification, unchanged worker code, actual installed artifacts and complete census metadata before rebinding.",
+    "previousControlIdentity": "12b24c9f1f1ea37dee6c28c7054b23809a47bb3d633cde621d4453c025358209",
+    "originalControlIdentity": "1cf1f6a40661f36455931ff2efc51719d0f1ffa42ca50896bf4244dc6cc1cbe5",
+    "controlIdentity": "9a5d4dd36a6bc9c84e0cb863810967e250c986dd84b98981a8c8ed6ff4fbb4b0",
+    "workerSourcesUnchanged": true,
+    "executionInputsUnchanged": true,
+    "oldFingerprintsVerified": true,
+    "rawEvidenceSha256": "3b57cc3252d5463d1cb1d814b04c947626014fd4de8e21dbc960127a57767ea3",
+    "pairs": 26,
+    "reachableWorkerSources": [
+      "../upstream-fidelity-projection.mjs",
+      "../upstream-test-assertions.mjs",
+      "bridge-client.mjs",
+      "config.ts",
+      "environments.ts",
+      "runtime.ts",
+      "schema-views.mjs",
+      "setup.ts",
+      "source-plugins.ts",
+      "view-core.mjs",
+      "views/dart.mjs",
+      "views/frankenmermaid.mjs",
+      "views/gitgraph.mjs",
+      "views/index.mjs",
+      "views/misc.mjs",
+      "views/ports.mjs",
+      "views/sequence.mjs",
+      "views/state.mjs",
+      "views/xmermaid.mjs"
+    ],
+    "executionCensusFields": [
+      "family",
+      "declarations",
+      "helperIdentifiers",
+      "fileIdentifiers"
+    ],
+    "candidateBindings": 26,
+    "commonNodeFiles": 349,
+    "additionalNodeFiles": {
+      "1jehuang/mermaid-rs-renderer": 0,
+      "adewale/agentic-mermaid": 1,
+      "AlexanderGrooff/mermaid-ascii": 0,
+      "anomalyco/opencode": 1,
+      "crabtalk/bezel": 1,
+      "crafter-station/mermaid": 0,
+      "dfadler/zombie-mermaid": 0,
+      "Dicklesworthstone/frankenmermaid": 0,
+      "emtyty/merslim": 0,
+      "evangwt/xmermaid": 1,
+      "fasouto/termaid": 0,
+      "kais-radwan/ascii-mermaid": 0,
+      "kitlangton/merman": 1,
+      "KlangHaus/vitepress-plugin-diagram": 1,
+      "Latias94/merman": 1,
+      "lukilabs/beautiful-mermaid": 0,
+      "Mootikins/figurehead-rs": 1,
+      "obsidianmd/pele": 1,
+      "orestesgaolin/mermaid": 0,
+      "pub:mermaid_flutter": 0,
+      "sandyyst/dsh-plugin-mermaid-gb-svg": 1,
+      "spacedock-dev/mermaidtext": 0,
+      "tariqshams/mermaidtui": 1,
+      "wevm/ondine": 1,
+      "xai-org/grok-build": 0,
+      "Yassimba/loom": 0
+    },
+    "qualificationSha256": "b1b250e68dbc34521f0cb6c022dba37af17c53fd18a9233b0b49e56cd4a7898a"
+  },
+  "automaticRun": {
+    "project": "emtyty/merslim",
+    "files": 352,
+    "environments": {
+      "node": 349,
+      "jsdom": 3,
+      "unobserved": 0
+    },
+    "matchedNodeFiles": 349,
+    "callbackAndAuditMismatches": 0,
+    "controlIdentity": "9a5d4dd36a6bc9c84e0cb863810967e250c986dd84b98981a8c8ed6ff4fbb4b0",
+    "callbackCount": 7364
+  },
+  "releaseLabelCheck": {
+    "originalVersion": "0.2.1",
+    "changedVersion": "0.3.0",
+    "before": {
+      "identity": "9a5d4dd36a6bc9c84e0cb863810967e250c986dd84b98981a8c8ed6ff4fbb4b0",
+      "nodeFiles": 349
+    },
+    "after": {
+      "identity": "9a5d4dd36a6bc9c84e0cb863810967e250c986dd84b98981a8c8ed6ff4fbb4b0",
+      "nodeFiles": 349
+    },
+    "retained": true
+  },
+  "regressionGuards": {
+    "census": {
+      "bugReintroduced": "fails",
+      "fixRestored": "passes"
+    },
+    "imports": {
+      "bugReintroduced": "fails",
+      "fixRestored": "passes"
+    },
+    "assertion": {
+      "bugReintroduced": "fails",
+      "fixRestored": "passes"
+    },
+    "storage": {
+      "bugReintroduced": "fails",
+      "fixRestored": "passes"
+    },
+    "policy": {
+      "bugReintroduced": "fails",
+      "fixRestored": "passes"
+    },
+    "runtime": {
+      "bugReintroduced": "fails",
+      "fixRestored": "passes"
+    }
+  },
+  "terminalControls": [
+    {
+      "version": "0.10.0",
+      "runtimeSha256": "386ab151ea1746b04bddb0d7432611a859bcff81c0a4798943c62acd3701bf56",
+      "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+      "archives": [
+        {
+          "sha256": "b884a616d30071643f8e93528b0ad68bd5696b41a7b5d31cd0554d2f990f28f2"
+        }
+      ],
+      "controls": 9,
+      "capabilities": [
+        "journey",
+        "gantt",
+        "gitgraph"
+      ],
+      "qualificationSha256": "5a874621a9d30252a9332d259893830fbe6d4c31696acaf459a22a6741a17d23"
+    },
+    {
+      "version": "0.12.0",
+      "runtimeSha256": "3da7d0507ff9cdce02d7402b70674435914f960888cc9a96d1831a3330a6063b",
+      "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+      "archives": [
+        {
+          "sha256": "1e2fbbb9a81f82b68113802ec8cde6683fab5d6d102a8a83fe29d5cd15702dc6"
+        }
+      ],
+      "controls": 9,
+      "capabilities": [
+        "journey",
+        "gantt",
+        "gitgraph"
+      ],
+      "qualificationSha256": "8bfadc6ed8553da45ba2f74a82385c45aa1aa212f05eca540445c19fc7726ba0"
+    }
+  ],
+  "drawing": {
+    "captureSha256": "b20e3004fe884a7426179a72dbac51e71fe4ab92e010e2b3fae4d7250683b7fd",
+    "publishedSha256": "c6b81d2e47968ba07523a865732e8e984913f733419c63038aa32e8b3fed1a8f",
+    "storageFailure": "Successful SVG render with obstructed output storage produces a Trident lane blocker and no renderer-failure row.",
+    "partialReplay": "Reassessed terminal lane carries current v2 policy; untouched SVG lane retains v1. Full publication and partial merge preserve each lane policy and omit a misleading global policy."
+  },
+  "validation": {
+    "testCi": {
+      "passed": 1076,
+      "skipped": 8,
+      "failed": 0
+    },
+    "finalNormalizationTests": {
+      "passed": 10,
+      "failed": 0
+    },
+    "focusedTests": {
+      "passed": 36,
+      "failed": 0
+    },
+    "typecheck": "passed",
+    "lint": "passed",
+    "snapshot": "current",
+    "regressionMethod": "Each of six bugs was reintroduced in an isolated copy of the final source. Its regression failed; restoring the fix passed."
+  },
+  "sourceSha256": {
+    "unified/fidelity-control.ts": "caa9db4aa7944e4554422bd267c7d33f40af0cabf60e880ab366ce2cb8643ca4",
+    "scripts/qualify-dom-free.ts": "1e751031a65ff8bad95a4d02ee473ea0a855adb5dc0a81167561c19121782b9a",
+    "fidelity/drawing/retained-output.ts": "8e6970a3bd7d12a58edf2db2815601a294dfb24050e21ec2b1cc89ad15cd4551",
+    "unified/drawing-correctness.ts": "330dd1945b618aaced60794a23844d22b7605af4b25664b12069bc796e56aa07",
+    "scripts/reassess-drawing-results.ts": "fab552c06b6cd04202f2005f0a3263a2a3935bcb08b0962551a04cfa96dc59b7",
+    "scripts/merge-drawing-results.ts": "eaee9e6e092fd2eee870568ef35d8ca560f9a3c0352ff90c58bc3407dc62b750",
+    "fidelity/terminal-encoding.ts": "4c0f9de02eff6a879be2855896af442f5248706b197a9b550f47f0faece9a03c",
+    "fidelity/terminal-encoding-runtime.ts": "440d3bf1d5fe845314de9145a2f91936bfad80d98899f0ec7c12f042d8b5f458",
+    "scripts/qualify-terminal-encoding.ts": "a8fbda6a11f9554bdda354e95f6fe3f50c845c651978e6aef54a48bf84595bc5"
+  },
+  "constraints": [
+    "The 145 SVG observations outside supported profiles remain unknown.",
+    "Historical Drawing runs without returned outputs require recollection before reassessment.",
+    "No fresh timing measurements were collected. Earlier qualification receipts retain their historical identities; this receipt describes the current qualification."
+  ]
+}

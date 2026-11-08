@@ -3,6 +3,7 @@ import { analyseTerminalSource } from './terminal-source.ts'
 import { inspectTerminalEncodedJourney } from './terminal-encoded-journey.ts'
 import { inspectTerminalGantt } from './terminal-family-schedule.ts'
 import { inspectTerminalGit } from './terminal-family-git.ts'
+import { terminalEncodingRuntime } from './terminal-encoding-runtime.ts'
 
 /** Independent inputs exercise every non-universal glyph mapping we decode. */
 export const terminalEncodingControls = [
@@ -11,6 +12,7 @@ export const terminalEncodingControls = [
   { id: 'gitgraph', family: 'gitgraph', source: 'gitGraph\ncommit id: "A"\nbranch other\ncommit id: "B"\ncheckout main\ncommit id: "C"' },
 ] as const
 export interface TerminalEncodingQualification {
+  runtimeSha256: string
   artifactSha256: string
   archives: { sha256: string }[]
   observations: { id: string; source: string; output: string }[]
@@ -24,7 +26,7 @@ const qualifiedContexts = new WeakSet<TerminalEncodingContext>()
 export function qualifyTerminalEncoding(owner: any, observations: TerminalEncodingQualification['observations']): TerminalEncodingQualification {
   const artifact = owner?.artifact
   if (!/^[a-f0-9]{64}$/.test(artifact?.sha256) || !artifact.files?.length || artifact.files.some((file: any) => !/^[a-f0-9]{64}$/.test(file.sha256))) throw Error('Encoding qualification needs a bound artifact and its archives')
-  const qualification = { artifactSha256: artifact.sha256, archives: artifact.files.map(({ sha256 }: any) => ({ sha256 })), observations }
+  const qualification = { runtimeSha256: terminalEncodingRuntime(owner), artifactSha256: artifact.sha256, archives: artifact.files.map(({ sha256 }: any) => ({ sha256 })), observations }
   if (!qualifiedCapabilities(qualification).length) throw Error('No terminal glyph dictionary passed independent controls')
   return qualification
 }
@@ -47,6 +49,7 @@ function qualifiedCapabilities(qualification: TerminalEncodingQualification) {
  * chooses a dictionary. A new artifact must qualify its own actual outputs. */
 export function terminalKnownEncodingContext(owner: any, binding: { sourceSha256: string; outputSha256: string; owningRawSha256: string }, qualification?: TerminalEncodingQualification): TerminalEncodingContext | undefined {
   if (!qualification || owner?.artifact?.sha256 !== qualification.artifactSha256 || evidenceDigest((owner.artifact.files ?? []).map(({ sha256 }: any) => ({ sha256 }))) !== evidenceDigest(qualification.archives) || !Object.values(binding).every(value => /^[a-f0-9]{64}$/.test(value))) return
+  try { if (!/^[a-f0-9]{64}$/.test(qualification.runtimeSha256) || terminalEncodingRuntime(owner) !== qualification.runtimeSha256) return } catch { return }
   const capabilities = qualifiedCapabilities(qualification)
   if (!capabilities.length) return
   const context = Object.freeze({ encoding: 'terminal-dictionary-v1' as const, artifactSha256: qualification.artifactSha256, qualificationSha256: evidenceDigest(qualification), capabilities: Object.freeze(capabilities), ...binding })

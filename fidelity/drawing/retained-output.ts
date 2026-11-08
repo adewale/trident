@@ -4,11 +4,14 @@ import { gzipSync, gunzipSync } from 'node:zlib'
 import { evidenceBytesDigest } from '../../portable/evidence-contract.ts'
 
 export interface RetainedDrawingOutput { project: string; caseId: string; format: string; sourceSha256: string; outputSha256: string }
+export class DrawingOutputStorageError extends Error {}
 export function retainDrawingOutput(root: string, project: string, test: { id: string; source: string }, format: string, output: string): RetainedDrawingOutput {
   const outputSha256 = evidenceBytesDigest(output), directory = join(root, 'outputs')
-  mkdirSync(directory, { recursive: true })
-  const path = join(directory, outputSha256 + '.gz')
-  if (!existsSync(path)) writeFileSync(path, gzipSync(output))
+  try {
+    mkdirSync(directory, { recursive: true })
+    const path = join(directory, outputSha256 + '.gz')
+    if (!existsSync(path)) writeFileSync(path, gzipSync(output))
+  } catch (cause) { throw new DrawingOutputStorageError('Drawing output storage failed: ' + String(cause), { cause }) }
   return { project, caseId: test.id, format, sourceSha256: evidenceBytesDigest(test.source), outputSha256 }
 }
 export function readDrawingOutput(root: string, record: RetainedDrawingOutput, source: string) {
