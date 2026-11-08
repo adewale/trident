@@ -30,7 +30,7 @@ let api: any,
   definitions = new Map<string, any>(),
   configurations: any,
   language: any
-let active: { protocol: string; expectedFailure: boolean; id: string; file: string; name: string; index: number; gaps: Set<string>; calls: number; rejections: number; unsupported: string[]; faults: string[] } | undefined
+let active: { protocol: string; expectedFailure: boolean; id: string; file: string; name: string; fullName: string; index: number; gaps: Set<string>; calls: number; rejections: number; unsupported: string[]; faults: string[] } | undefined
 const contexts = new Map<string, any>(),
   deferredValues = new WeakMap<object, string>(),
   ownDatabases = new WeakSet<object>()
@@ -238,7 +238,7 @@ export function begin(task: any) {
   if (index === undefined) throw new AdapterGap('TRIDENT_ADAPTER_GAP: Callback is absent from the collected file')
   const names = [task.name]
   for (let suite = task.suite; suite; suite = suite.suite) if (suite.name) names.unshift(suite.name)
-  active = { protocol: 'native-operations-v2', expectedFailure: !!task.fails, id: task.id, file: task.file.filepath, index, name: names.join(' > '), gaps: new Set(), calls: 0, rejections: 0, unsupported: [], faults: [] }
+  active = { protocol: job.target.tool === 'mermaid' ? 'pinned-source-control-v1' : 'native-operations-v2', expectedFailure: !!task.fails, id: task.id, file: task.file.filepath, index, name: names.join(' > '), fullName: names.join(' '), gaps: new Set(), calls: 0, rejections: 0, unsupported: [], faults: [] }
   if (job.target.tool === 'mermaid') configurations?.reset?.()
   hostConfig = undefined
   const c = contexts.get(task.file.filepath)
@@ -254,7 +254,7 @@ export function begin(task: any) {
 }
 export function finish(task: any) {
   if (!active || active.id !== task.id) throw new AdapterGap('TRIDENT_ADAPTER_GAP: Unbalanced test audit ownership')
-  if (!active.calls && !active.unsupported.length) active.gaps.add('No candidate operation was exercised by this test')
+  if (job.target.tool !== 'mermaid' && !active.calls && !active.unsupported.length) active.gaps.add('No candidate operation was exercised by this test')
   appendFileSync(auditFile, JSON.stringify({ ...active, gaps: [...active.gaps] }) + '\n')
   const reason = [...active.gaps].join('; ')
   active = undefined
@@ -675,6 +675,12 @@ function boundModule(value: any, c: any, locals: Record<string, string>) {
     },
   })
 }
+/** A dynamic import resolves a namespace, not an arbitrary thenable returned by
+ * an unbound member proxy. Observations still go through the same adapters. */
+export function importFor(family: string, source: string | undefined, file: string) {
+  if (source === undefined) return gap('Nonliteral production import has no native binding: ' + file)
+  return new Proxy(moduleFor(family, source, file), { get(target, key) { return key === 'then' ? undefined : Reflect.get(target, key) } })
+}
 export function moduleFor(family: string, source: string, file: string, locals: Record<string, string> = {}): any {
   let c = contexts.get(file)
   if (!c) {
@@ -708,7 +714,9 @@ export function moduleFor(family: string, source: string, file: string, locals: 
   }
   // Log verbosity changes no observable result.
   const setLogLevel = () => undefined
-  if (/config\.js$/.test(source)) return { ...config, default: config }
+  if (/config\.js$/.test(source)) return boundModule(new Proxy({ ...config, default: config } as Record<string, any>, {
+    get(target, key: string) { return Object.hasOwn(target, key) ? target[key] : deferred('Native host configuration export is not bound: ' + String(key)) },
+  }), c, locals)
   if (/diagramAPI\.js$/.test(source)) return boundModule({ ...config, setLogLevel, log: deferred('Logger side effects are not bound to the candidate'), default: config }, c, locals)
   // The public package registers every diagram at import; candidates need no registry.
   if (/diagram-orchestration\.js$/.test(source)) return { addDiagrams: () => undefined }
@@ -885,6 +893,9 @@ export function moduleFor(family: string, source: string, file: string, locals: 
     new Proxy(
       {},
       {
+        ownKeys() { return gap('Native module namespace is not bound: ' + source) },
+        has() { return gap('Native module namespace is not bound: ' + source) },
+        getOwnPropertyDescriptor() { return gap('Native module namespace is not bound: ' + source) },
         get(_t, key) {
           return deferred(source + '.' + String(key))
         },

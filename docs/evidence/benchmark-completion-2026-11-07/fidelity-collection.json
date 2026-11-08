@@ -1,0 +1,2270 @@
+{
+  "protocol": "fidelity-collection-review-v2",
+  "referenceMode": "pinned-production-source-v1",
+  "pin": "2086904e76c692331e34a45d7cc3bc30860d040e",
+  "catalogSha256": "de3e212c10f4cb858c3a616f980bca0150cdc0a87c30c3acdf9802f3acd053b8",
+  "control": {
+    "protocol": "fidelity-control-v1",
+    "identity": "1cf1f6a40661f36455931ff2efc51719d0f1ffa42ca50896bf4244dc6cc1cbe5",
+    "resultsSha256": "0bd689fbe81d8a3a84a9e80c9d7458628329e1d69ba2108fe3699f4daf3f3008",
+    "auditSha256": "13bc00ccb01681e5d299dd55916b1682988dc596552174ad014125ae65d923d7",
+    "environmentSha256": "d7c902996659a365ee288fdb92a1057281eedb15cfd984f02858d728c65e7264"
+  },
+  "qualifierSha256": "dca72bf324413104764461ff3f9c45bb2444649216594bfbefd5f6722c54f58d",
+  "qualificationSha256": "973f25265d859fc610312555d095b9020dfbb56d17d8471f4c8cd1feff6c722f",
+  "referenceReview": {
+    "counts": {
+      "passed": 7346,
+      "failed": 0,
+      "unsupported": 0,
+      "trident-blocked": 0,
+      "reference-unqualified": 0,
+      "upstream-skipped": 18,
+      "upstream-expected-failure": 0
+    },
+    "actualEnvironments": {
+      "node": 0,
+      "jsdom": 352,
+      "unobserved": 0
+    }
+  },
+  "candidateCount": 26,
+  "selectedFiles": 352,
+  "nodeQualifiedFiles": 349,
+  "jsdomRetainedFiles": [
+    "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js",
+    "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts",
+    "packages/mermaid/src/docs/.vitepress/theme/colorScheme.spec.ts"
+  ],
+  "environmentRequirements": {
+    "packages/mermaid/src/docs/.vitepress/theme/colorScheme.spec.ts": {
+      "environment": "jsdom",
+      "sourceSha256": "3bcc3b02f6cd4c417427d1ed076d7b92ca44b2d03bfd5b0aa8a8c8dacb9c6188",
+      "reason": "Original file explicitly requires JSDOM; the attempted Node configuration was rejected before imports"
+    }
+  },
+  "actualEnvironments": {
+    "1jehuang/mermaid-rs-renderer": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "adewale/agentic-mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "anomalyco/opencode": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "crabtalk/bezel": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "crafter-station/mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "dfadler/zombie-mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "Dicklesworthstone/frankenmermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "emtyty/merslim": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "evangwt/xmermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "fasouto/termaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "kais-radwan/ascii-mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "kitlangton/merman": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "Latias94/merman": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "lukilabs/beautiful-mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "Mootikins/figurehead-rs": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "obsidianmd/pele": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "orestesgaolin/mermaid": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "pub:mermaid_flutter": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "sandyyst/dsh-plugin-mermaid-gb-svg": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "spacedock-dev/mermaidtext": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "tariqshams/mermaidtui": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "wevm/ondine": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "xai-org/grok-build": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    },
+    "Yassimba/loom": {
+      "jsdom": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0,
+        "sha256": "63e3b843ba737521c0cf8d05c758aec40619ac32f68429e38e77396b55e4d561"
+      },
+      "node": {
+        "node": 351,
+        "jsdom": 0,
+        "unobserved": 1,
+        "sha256": "545ed5e49320ebcaa6d244c3f2517762369f21e3d734d30ffdc1e334b8fa48d3"
+      }
+    }
+  },
+  "retentionSummary": {
+    "incompleteCallbackOrAuditEvidence": 0,
+    "explicitEnvironmentRequirements": 1,
+    "nonmatchingFullyObservedFiles": 2
+  },
+  "collections": [
+    {
+      "profile": "jsdom",
+      "collectedThrough": "2026-11-08T03:58:55.546Z",
+      "selectedFiles": 352,
+      "projects": 27,
+      "blocked": [],
+      "environment": {
+        "controller": {
+          "engine": "bun",
+          "version": "1.4.2",
+          "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+          "platform": "linux",
+          "architecture": "x64",
+          "kernel": "6.18.57",
+          "cpu": "AMD EPYC 9V74 80-Core Processor",
+          "parallelism": 4,
+          "memoryBytes": 18882662400,
+          "cgroup": {
+            "cpuMax": "400000 100000",
+            "memoryMax": "17179869184"
+          },
+          "locale": "en-US",
+          "timezone": "UTC",
+          "rendererMemoryGuard": {
+            "limitMb": 2048,
+            "scope": "owned process tree RSS",
+            "pollMs": 1000,
+            "availability": "available",
+            "discovery": "proc process table"
+          }
+        },
+        "runner": {
+          "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "node": "24.19.0",
+          "v8": "13.6.233.17-node.51",
+          "platform": "linux",
+          "arch": "x64"
+        }
+      },
+      "rawResultsSha256": "095a1d6cb7911bf4e069d319241ce30bb3d99d28e4724bbd3c7ce5334837e823"
+    },
+    {
+      "profile": "node",
+      "collectedThrough": "2026-11-08T03:45:12.359Z",
+      "selectedFiles": 352,
+      "projects": 27,
+      "blocked": [],
+      "environment": {
+        "controller": {
+          "engine": "bun",
+          "version": "1.4.2",
+          "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+          "platform": "linux",
+          "architecture": "x64",
+          "kernel": "6.18.57",
+          "cpu": "AMD EPYC 9V74 80-Core Processor",
+          "parallelism": 4,
+          "memoryBytes": 18882662400,
+          "cgroup": {
+            "cpuMax": "400000 100000",
+            "memoryMax": "17179869184"
+          },
+          "locale": "en-US",
+          "timezone": "UTC",
+          "rendererMemoryGuard": {
+            "limitMb": 2048,
+            "scope": "owned process tree RSS",
+            "pollMs": 1000,
+            "availability": "available",
+            "discovery": "proc process table"
+          }
+        },
+        "runner": {
+          "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "node": "24.19.0",
+          "v8": "13.6.233.17-node.51",
+          "platform": "linux",
+          "arch": "x64"
+        }
+      },
+      "rawResultsSha256": "4cf2c72941e55af9f1e08a893a30ac6f319bacebcdc82568ebd887ff6927ddf6"
+    }
+  ],
+  "automaticSelection": {
+    "protocol": "dom-free-auto-selection-smoke-v2",
+    "project": "emtyty/merslim",
+    "files": 352,
+    "plannedNodeFiles": 349,
+    "actualEnvironments": {
+      "node": 349,
+      "jsdom": 3,
+      "unobserved": 0
+    },
+    "callbackAndAuditMismatches": 0,
+    "controlIdentity": "1cf1f6a40661f36455931ff2efc51719d0f1ffa42ca50896bf4244dc6cc1cbe5",
+    "qualificationSha256": "973f25265d859fc610312555d095b9020dfbb56d17d8471f4c8cd1feff6c722f",
+    "rawResultsSha256": "3e6a1d752262353fa8ce69615462ee5feb72bbb4752a2f5dd6181bd7179e386e"
+  },
+  "bindings": [
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "version": "0.3.1",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/trident/node_modules/.cache/fidelity-bridges/1jehuang-mermaid-rs-renderer/target/release/mmdr-bridge"
+        ],
+        "version": "0.3.1",
+        "description": "mermaid_rs_renderer parse_mermaid",
+        "persistent": false,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/1jehuang-mermaid-rs-renderer/target/release/mmdr-bridge",
+            "sha256": "daf8dba2116ccb670721ed733519c359e2997d1bf0448dd2762d0e0b251dc0ec"
+          }
+        ]
+      },
+      "targetSha256": "5fe51bac00e5833f8f0e79087ad82bb07b2b884e1732a8d0c015e8304e97aec6",
+      "preparedArtifact": {
+        "kind": "cli",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/public-release-cli/1jehuang--mermaid-rs-renderer/v0.3.1/e1da47b758769bff21b82a480fad640a3b893a90fc0dc321551486f8b50c7200",
+        "executable": "/workspace/trident/node_modules/.cache/unified-community/public-release-cli/1jehuang--mermaid-rs-renderer/v0.3.1/e1da47b758769bff21b82a480fad640a3b893a90fc0dc321551486f8b50c7200/mmdr",
+        "args": [
+          "-i",
+          "-",
+          "-e",
+          "svg"
+        ],
+        "input": "stdin",
+        "outputBindings": {
+          "svg": {
+            "args": [
+              "-i",
+              "-",
+              "-e",
+              "svg"
+            ],
+            "input": "stdin"
+          },
+          "png": {
+            "args": [
+              "-i",
+              "-",
+              "-e",
+              "png",
+              "-o",
+              "{output}"
+            ],
+            "input": "stdin"
+          }
+        },
+        "version": "0.3.1",
+        "versionSource": "command",
+        "revision": "2f993bd79a55235eb59a34d807852276ba25bea7",
+        "sha256": "d8824194cb660ada8edf596a6785278fe7c40aab61a43e8a2be9a19cc16f4923",
+        "runtime": "linux-x64 public native CLI",
+        "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+        "detail": "Archive https://github.com/1jehuang/mermaid-rs-renderer/releases/download/v0.3.1/mmdr-x86_64-unknown-linux-gnu.tar.gz; SHA-256 e1da47b758769bff21b82a480fad640a3b893a90fc0dc321551486f8b50c7200. Version identity: command. Source revision names the release tag, not a reproducible-build assertion.; Version policy: recorded immutable source/distribution. Recorded catalog versions remain separately available on the node.",
+        "format": "svg",
+        "defaults": "Public CLI SVG output with package default features, default font metrics/cache. Font/file caches are shared OS state, not cold-filesystem claims.",
+        "filesSha256": "c849deef417cc77c39ce2c690f65d8ea176f17ef379a8efe39abfdfa37be0140"
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/trident/node_modules/.cache/fidelity-bridges/AlexanderGrooff-mermaid-ascii/mermaid-ascii-bridge"
+        ],
+        "version": "1.6.1",
+        "description": "pkg/graph, pkg/sequence and pkg/er Parse",
+        "persistent": false,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/AlexanderGrooff-mermaid-ascii/mermaid-ascii-bridge",
+            "sha256": "c8f5c5d09637c783c0a3c9c00a6857e8b54ff287b553662f591ac2f0fedf515b"
+          }
+        ]
+      },
+      "targetSha256": "92a9746101fdbf9f627f90abbd3bfd3d09e21867db61124925d82d4c3bf00dfa",
+      "preparedArtifact": {
+        "kind": "cli",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41",
+        "executable": "/workspace/trident/node_modules/.cache/unified-community/public-release-cli/AlexanderGrooff--mermaid-ascii/1.6.1/9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41/mermaid-ascii",
+        "args": [],
+        "input": "stdin",
+        "outputBindings": {
+          "terminal": {
+            "args": [],
+            "input": "stdin"
+          }
+        },
+        "version": "1.6.1",
+        "versionSource": "release-tag",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "runtime": "linux-x64 public native CLI",
+        "apiBoundary": "public release executable; fresh process, stdin/file through drained output",
+        "detail": "Archive https://github.com/AlexanderGrooff/mermaid-ascii/releases/download/1.6.1/mermaid-ascii_Linux_x86_64.tar.gz; SHA-256 9c2844824635415982a8d34be301a0abb1f64599f019892f7d844c4620ce8d41. Version identity: release-tag. Source revision names the release tag, not a reproducible-build assertion.; Version policy: recorded immutable source/distribution. Recorded catalog versions remain separately available on the node.",
+        "format": "terminal",
+        "defaults": "Public CLI stdin with default Unicode diagram output, non-TTY color policy.",
+        "filesSha256": "3cc1fe2714681ea89acb8a76705b97eb60cf41c2be8855289bdb3f033aff608f"
+      }
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "tool": "native",
+      "root": "/workspace/trident/node_modules/.cache/unified-community/Dicklesworthstone--frankenmermaid@0.4.0-d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f/pkg",
+      "bun": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+      "bunSha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c",
+      "parserEntries": {},
+      "entry": "/workspace/trident/node_modules/.cache/unified-community/Dicklesworthstone--frankenmermaid@0.4.0-d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f/pkg/frankenmermaid.js",
+      "targetSha256": "d83b90b629914ca836f30bf87b341d5d65fa6601f8eecd81229b842b2f487319",
+      "preparedArtifact": {
+        "kind": "franken",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/Dicklesworthstone--frankenmermaid@0.4.0-d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f/pkg",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/Dicklesworthstone--frankenmermaid@0.4.0-d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f/pkg/frankenmermaid.js",
+        "wasm": "/workspace/trident/node_modules/.cache/unified-community/Dicklesworthstone--frankenmermaid@0.4.0-d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f/pkg/frankenmermaid_bg.wasm",
+        "version": "0.4.0",
+        "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
+        "sha256": "04538da51718ecf11a56233c6f029280882cb32c7194715888b71d529f9b525f",
+        "runtime": "Rust/WASM public Node/browser distribution",
+        "detail": "Pinned checked-in distribution, not current native source or live-site deployment. Terminal output is not exported by this WASM API.; Version policy: recorded immutable source/distribution. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "b5b89ea8bb7e995a62863f63c04661482915a0ab1967c62235fdfc1228b7f1a8"
+      }
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "version": "0.3.2",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+          "vitepress",
+          "/workspace/trident/node_modules/.cache/unified-community/vitepress-plugin-mermaid-diagram@0.3.2/node_modules/vitepress-plugin-mermaid-diagram/dist/index.js"
+        ],
+        "version": "0.3.2",
+        "description": "vitepress: the project's own per-family parsers",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+            "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/vitepress-plugin-mermaid-diagram@0.3.2/node_modules/vitepress-plugin-mermaid-diagram/dist/index.js",
+            "sha256": "448013e13d696562b1c4cac338a94c937dcc861b1641dd9b5fc56f87bf02cdf8"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+            "sha256": "a17bdc3f1e662172a054b5377007c91fbcb4e96e5879e91569b49a70d48ece68"
+          }
+        ]
+      },
+      "targetSha256": "0e14c2704b6a9b232a706b93908e88c9021a40d62db1fdf5cac5a0dacfbce327",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/vitepress-plugin-mermaid-diagram@0.3.2/node_modules/vitepress-plugin-mermaid-diagram",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/vitepress-plugin-mermaid-diagram@0.3.2/node_modules/vitepress-plugin-mermaid-diagram/dist/index.js",
+        "version": "0.3.2",
+        "integrity": "sha512-ECmsDtEy7745CMQqDP1zkCxHx2zq5Vj+FGOss1gUowirJvYmtxahMQ2jV6/BvPm9cltcm2XQajAqPTYJKmVKEA==",
+        "installedClosureSha256": "b02b324b3835dffdd25f7294729d0043aabd4576fe9aa8906e022f2932142322",
+        "runtime": "Node",
+        "sha256": "448013e13d696562b1c4cac338a94c937dcc861b1641dd9b5fc56f87bf02cdf8",
+        "apiBoundary": "published package API",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "6b5de03f3bb9b56a19435e91a16600dfacc732d3796638c2c2df7c14b3e4cead"
+      }
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/merman.mjs",
+          "/workspace/trident/node_modules/.cache/unified-community/public-release-cli/Latias94--merman/v0.9.3/e93dbf741319190d53107c4277b373d357dcdad3f4f7e50f114a51c9b682109b/merman-cli-x86_64-unknown-linux-gnu/merman-cli"
+        ],
+        "version": "0.9.3",
+        "description": "merman-cli parse --meta",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+            "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/public-release-cli/Latias94--merman/v0.9.3/e93dbf741319190d53107c4277b373d357dcdad3f4f7e50f114a51c9b682109b/merman-cli-x86_64-unknown-linux-gnu/merman-cli",
+            "sha256": "80fa7118095cac430259c828606191092607423b8c02461400215acc48f4f44d"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/merman.mjs",
+            "sha256": "f06761ad88017500d4c5147997b9a3159b53c373ec27368854e8a5fea72593aa"
+          }
+        ]
+      },
+      "targetSha256": "29db18dd29fdb6413ddfedb301950f09f901e164668f8668e6f6318b8e98d49a",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.3/node_modules/@mermanjs/node",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/_mermanjs_node@0.9.3/node_modules/@mermanjs/node/dist/index.mjs",
+        "version": "0.9.3",
+        "integrity": "sha512-82NQI8z4R6pNAOvZEfm6MS5sMJjQ1SEVjznM/3E5VrDu2g1tQlNj2BXdt4pnCnsRofsXoiklWinzO8WLAvVmqA==",
+        "installedClosureSha256": "cf242083c648c93ee09269b54a7f03a019ed1202d2514f43db27677691200681",
+        "runtime": "Node",
+        "sha256": "4e73f19d6c9961b5602bc33366920138d37c73c616ff57f1446fcb783809960d",
+        "apiBoundary": "published package API",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "c6cd899adc83a26df20834ff50a3ce480472d064543bc9106fdceb1d94193432"
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/trident/node_modules/.cache/fidelity-bridges/Mootikins-figurehead-rs/target/release/figurehead-bridge"
+        ],
+        "version": "v0.4.3",
+        "description": "figurehead::parse and per-family core::Parser implementations",
+        "persistent": false,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Mootikins-figurehead-rs/target/release/figurehead-bridge",
+            "sha256": "6de6b9e949f1f29fb47ddfa709902d5ac13008ec9f801bfc3b802be43e3fe1ec"
+          }
+        ]
+      },
+      "targetSha256": "bccc3fe1274d4fdd1ad0f1373778885f743ef2b7eb9890bce6a1b07741963e8c",
+      "preparedArtifact": {
+        "kind": "cli",
+        "executable": "/workspace/trident/node_modules/.cache/unified-community/Mootikins--figurehead-rs@34c47a93cd792f24e06b49b5196a1c876240f03a/bin/figurehead",
+        "args": [
+          "--log-level",
+          "error",
+          "convert",
+          "--style",
+          "unicode",
+          "--color",
+          "never",
+          "-i",
+          "-",
+          "-o",
+          "-"
+        ],
+        "input": "stdin",
+        "format": "terminal",
+        "defaults": "Public CLI Unicode output; error-level logging keeps progress messages out of rendered text, stderr retained separately.",
+        "version": "v0.4.3",
+        "revision": "34c47a93cd792f24e06b49b5196a1c876240f03a",
+        "sha256": "26d9b85a4b72f113ba83afdbf24b867e400fd2cf921833288bf3344ba8f3dfa6",
+        "sourceRoot": "/workspace/trident/node_modules/.cache/unified-community/Mootikins--figurehead-rs@34c47a93cd792f24e06b49b5196a1c876240f03a/source",
+        "buildCommand": [
+          "cargo",
+          "build",
+          "--release",
+          "--locked",
+          "--package",
+          "figurehead-cli",
+          "--bin",
+          "figurehead"
+        ],
+        "boundary": "cold-public-cli",
+        "detail": "Version policy: recorded immutable source/distribution. Recorded catalog versions remain separately available on the node."
+      }
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/loom/bridge.ts",
+          "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0"
+        ],
+        "version": "0.10.0",
+        "description": "module-private per-family parsers, called from an unchanged copy of the source",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+            "sha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/.complete",
+            "sha256": "11279ee50f52ad3f9b60d1e9debaa973a08dfa476fb0cddcf87868ffc6475354"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/ansi.ts",
+            "sha256": "2be9a04f17c6094c9c561c3d41fb6bd222fbc71d99541500575b663b7f2fbb6a"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/canvas.ts",
+            "sha256": "92f695e60da8ad4eb3a6e3bc8edd73fd4e90a286f1aba7866c6ad1056cb11d40"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/class-style.ts",
+            "sha256": "66dfb159297ca752a78f40d7863516725d518e1ff45ebbf9ed72076f688f407c"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/css-colors.ts",
+            "sha256": "2d88ba8267fff8f7250906084126da56b5044db26f30488d6795dc6f911bea16"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/diagrams/architecture.ts",
+            "sha256": "cbcf13706c03132ae8ba6e64b0c3c0738bc44530d172c4d6b037450a844815a7"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/diagrams/class.ts",
+            "sha256": "6b900ddddb56be0aea20229a4e5cd62cbcc567586705cc65debf72fbcb1338de"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/diagrams/er.ts",
+            "sha256": "40a568e3dd3c2b912a8ce5295fc7b54937123f5f5f3b93334919c7d73ace9f2f"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/diagrams/flowchart.ts",
+            "sha256": "bdbb2de79b2639813b1e42fdd468b1cd1030ae8a09d14c92cf489e98e42d0ecf"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/diagrams/gitgraph.ts",
+            "sha256": "3038a170df33473f5d81170339f9d74123ff63c868daa96503ed07fdca357bdc"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/diagrams/mindmap.ts",
+            "sha256": "f50fdc0dd1a24f60fb72beb08419d7abb021ebd239fd500be039377dd50ee483"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/diagrams/pie.ts",
+            "sha256": "6808b439feddc254ab3694511aa7400746d92fe19199af4a9b44600e892dcde8"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/diagrams/sequence.ts",
+            "sha256": "9af333870decaec496403750f251338ded18c5bb821276cc4b2fb5991036d66a"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/diagrams/state.ts",
+            "sha256": "99f73d53bc08ea771ff6f100b6fe9e74f29203305bfaa406a81d65a22147a050"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/diagrams/timeline.ts",
+            "sha256": "d814ab82bed5507db156da8e635869e497f5d2e8f5689dee50d7cbd608716400"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/graph-render.ts",
+            "sha256": "3973ab5a1102abd7a895c8ce84d5b8ba73f0e99f414f204c907571f672b3a46b"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/graph.ts",
+            "sha256": "ed8022d0d76602cd5f244d194e81ca7e5194430100805e1a12e8d821f8e64679"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/index.ts",
+            "sha256": "c890362de11e32be98b89e0b145323198f61b1a0a771e0e65246d8e44e98ab3a"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/labels.ts",
+            "sha256": "1e25f4008bfd1c6c4fe1be30152d073a271e014848f7e03e5d8fe40da6f48d10"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/layout-geom.ts",
+            "sha256": "86579eb24da66be5a0b7051562576fb753147bc9d3797b4bd414ef1c893efa4d"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/layout-rank.ts",
+            "sha256": "2d4554aad925a1651da18ac46e7763ae8f44e8b088c39f4351f6772ea259cc45"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/layout-seq.ts",
+            "sha256": "b50a82021c6842d7506a56ec461d3f16dffa39847bed0fda04bfefa5e1e3875e"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/layout-tracks.ts",
+            "sha256": "f2ce588394173ec1cd07fb1a11d0c4e10a89ed2ec7cd06b71032e6a00e54c6ce"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/layout.ts",
+            "sha256": "d1e131713d12cf0e67debfc032e5443601137f87f35eaf3744ae4b7d59a44bf3"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/paint.ts",
+            "sha256": "7d27e5a549438a52d5c355abd89ca7bbc7e7f7140435ada4ea103615629113df"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/placement.ts",
+            "sha256": "65e6bf6828428c5e6b601406713ed9a8ab93a4beddde352666783d3ddb2b3b2c"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/registry.ts",
+            "sha256": "80d47adb45b867c87b28c3d672f94d423f93f35a47d571d98936ea115adc3183"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/source-box.ts",
+            "sha256": "9bd7a30f58dffe6f7123ce16afd7349c0f183e8f8351620d95024a2f62ddc2a6"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/statements.ts",
+            "sha256": "d652694f8dec5c97c75ee13dafad0aba3c6ced978c869bf721dc98ef0e7dee67"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/types.ts",
+            "sha256": "ecc206bbaf2274708cfa955c4a6445ee7b38bbeabb4d578769aa60b8430aa54d"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/width-data.ts",
+            "sha256": "37a085fada0adf3d7cea5492ddbe6eea9b6ff5531e539c734600475b2994764d"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/Yassimba-loom/loom-mermaid-0.10.0/width.ts",
+            "sha256": "54b2fcfa07732419f6dba6dcf523b4a1c47920fb7d1da5080a5e272e73edd838"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/loom/bridge.ts",
+            "sha256": "75a6ce1d9b39a7ae7642a5d00751d4b141fd3393cfa7c93b984aa65b464c62d5"
+          }
+        ]
+      },
+      "targetSha256": "2a155c51774e0d9c9173a19b5201545fca8a4c1608de999b3b34ce9618be9ba4",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/_yassimba_pi-loom-mermaid@0.10.0/node_modules/@yassimba/pi-loom-mermaid",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/_yassimba_pi-loom-mermaid@0.10.0/node_modules/@yassimba/pi-loom-mermaid/src/loom-mermaid/index.ts",
+        "version": "0.10.0",
+        "integrity": "sha512-oLph3MkCXPRZ3QqFgbtquKqwdO3rHOEGicTcsO0M8yoUeMmO+Fvxros0EMl+o4J1PmX2XhvATOyHz1yhH6pmwg==",
+        "installedClosureSha256": "2ef825794b9df111c66a9521bbd53767ad83f72100056bde77941bfbf3572408",
+        "runtime": "Bun (published Loom renderer component)",
+        "sha256": "c890362de11e32be98b89e0b145323198f61b1a0a771e0e65246d8e44e98ab3a",
+        "apiBoundary": "published terminal renderer component; Pi host hooks excluded",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "f70c13cf609dfb44f0c5cd44c2647ad63ef1e872c7ce06b3d7e142e592e8e2ae"
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "tool": "agentic",
+      "root": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.5.6/node_modules/agentic-mermaid",
+      "bun": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+      "bunSha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c",
+      "parserEntries": {},
+      "entry": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.5.6/node_modules/agentic-mermaid/dist/agent-core.js",
+      "targetSha256": "dc35ad69645cb397464562e7d1f7091c30edab0a2890b387ed941606ee8710b9",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.5.6/node_modules/agentic-mermaid",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/agentic-mermaid@0.5.6/node_modules/agentic-mermaid/dist/agent.js",
+        "version": "0.5.6",
+        "integrity": "sha512-fHA2btF+GZ6s+AInzOJFzQQOCRX1ntFG94fpmu68TECTXg5iTOeDiVvhT6AhyALXtcDCpr51EfJFGipjq642TQ==",
+        "installedClosureSha256": "800fa7d49cb239560adf29efdd46ba3f4ed096f6ee84c50acfd4de5c4b7df54c",
+        "runtime": "Node",
+        "sha256": "01c277a6b3e55bf99d313e9ce0aea0860f46f80f5a09f74913007d0915028fdf",
+        "apiBoundary": "published package API",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "1604ad9c25e77b6a89176188d9a616b16e2573da3cfe98aac3999aba9263d87a"
+      }
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.2.5",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+          "opencode",
+          "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source/packages/merman"
+        ],
+        "version": "2.2.5",
+        "description": "opencode: the project's own per-family parsers",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+            "sha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+            "sha256": "a17bdc3f1e662172a054b5377007c91fbcb4e96e5879e91569b49a70d48ece68"
+          }
+        ]
+      },
+      "targetSha256": "6803cccb80e4982ad40e2f6e4ea0e53d6fc7fb58dd7fda08c68140cb5c02eed5",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source/packages/merman",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source/packages/merman/src/markdown.ts",
+        "version": "2.2.5",
+        "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+        "runtime": "Bun 1.4.2",
+        "sourceFiles": [
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "package.json",
+            "blob": "0117e09a5e851674b5d05dfdc36864de4bd336f6"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/package.json",
+            "blob": "5cc421fbe4dd83b21cbab411f3de7b593132fcf8"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/canvas.test.ts",
+            "blob": "2d172b44471c6ff41e523cdea097fe5dd55f2c73"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/canvas.ts",
+            "blob": "28b0c550e07d48a70aacfc56ea6ef5fa4bd71206"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/color/style.test.ts",
+            "blob": "f7f7799628dfb8b5604cfeab07af16547216bd4c"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/color/style.ts",
+            "blob": "779f0449980dc4fcbf33ecd2b6f6bd18fcc939b9"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/drawing.test.ts",
+            "blob": "e19761568834df564b10009ca52bd1bf7a542c07"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/drawing.ts",
+            "blob": "8bf262dfc42ed3ebe1174daa7bf33f975c33ad7d"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/geometry.test.ts",
+            "blob": "b4de7a9bfdb91a1b22ea22a8f0655dd4db6f761e"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/geometry.ts",
+            "blob": "e8a0ee33d1d9399c00f0191a13f2d8748492fbc4"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/mermaid.ts",
+            "blob": "e767e00be6399e902eb6183797bae49ee142b9cf"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/render-grid.ts",
+            "blob": "694ee9caa2f0c94d92786a958f83d0c9a083083e"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/spatial.test.ts",
+            "blob": "0bc311958dd9c8be6a40adcbd9c5569e0280d54e"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/spatial.ts",
+            "blob": "95f5a45fd8e6e249db8e2f1ace4f07b0f9a2de6b"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/text-lines.ts",
+            "blob": "7ce5392c7fc767cf2d4c625e021ac7ecb9c05381"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/text.test.ts",
+            "blob": "7c66a9fb1b0ae22655b1817732ff3fccb212d441"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/core/text.ts",
+            "blob": "0f68ebfb0174f5f18d4978891fb4f3df926fe494"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/detect.ts",
+            "blob": "4e58e32e9cbe68ccf6fd1d7b16f8db865d022e4f"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/diagnostics.ts",
+            "blob": "6a4a6450496207fe90adf1671eda4fce054cce9c"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/drawing.ts",
+            "blob": "4b7bbc20f76fddf73cb3b77910d34347998d70d0"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/flowchart.test.ts",
+            "blob": "f45601896516cbf38bacfdcb28867a4da9901ecd"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/labels.test.ts",
+            "blob": "f2c3659e789c407c06211905097ce20ede56222e"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/labels.ts",
+            "blob": "bf47c76ba960870b0d208a6a2c72dcf359c436c5"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/layout.ts",
+            "blob": "f54d8b9f361227b9e3a244866b203d5d70d8bd8d"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/options.ts",
+            "blob": "b1ec05e6d0ac446bafa36f5a455df654ff395fa5"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/parser.ts",
+            "blob": "525f6817c2d3859b86e9b74c50bd50a17250c650"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/render.ts",
+            "blob": "ab9f41e165d363fdb4919e5fb7168bda7bb0043f"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/routing.test.ts",
+            "blob": "99dbec0f52ab979bf8c5401e0b10a1391f3285d0"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/routing.ts",
+            "blob": "1bac11d9cf10fdcdd7b231e86f4a9fd1ce78a7cc"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/style.ts",
+            "blob": "030d0b09d0669913608b220120b422aabb6790af"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/flowchart/types.ts",
+            "blob": "ac26ea4654efd1b586caa9c20a1a8cb293555c52"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gantt/diagram.test.ts",
+            "blob": "d827ba220a04d918178e2ee351e7a94b577ce6bf"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gantt/diagram.ts",
+            "blob": "d4a93754b2c5ee8710a1c52805fc51a4f74523e9"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gantt/drawing.ts",
+            "blob": "dbd51a1a5ce4da80e2f8d186ce30c0d8dbef84b5"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gantt/parser.ts",
+            "blob": "ed57abbdef1bd9eec3e09e150ffa6fa8811a7394"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gantt/render-grid.ts",
+            "blob": "b7ca5a92c6838afdd559deb7438b177682eea8bc"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gantt/style.ts",
+            "blob": "26021b02db4e730bfdacce8a184bbd8d00844723"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gantt/types.ts",
+            "blob": "3e28014e48cb74ec1fc75aa43ed3359dc25549a8"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gitgraph/diagram.test.ts",
+            "blob": "a02106588908111492f2da6b380ec7c0ef55cade"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gitgraph/diagram.ts",
+            "blob": "81c89bc4073bd24845f325dd55c608714fba2bb9"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gitgraph/drawing.ts",
+            "blob": "8582bf91a1c91134ebb1ca029febc6ca0add1210"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gitgraph/parser.ts",
+            "blob": "f77ec4dfa072cb9a7df0f2850613e9f19a1917ce"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gitgraph/render-grid.ts",
+            "blob": "90874eaa426773ca34714ecd69315a60babf389b"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gitgraph/style.ts",
+            "blob": "966a53821d5460232fc43754162f87acc34beedd"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/gitgraph/types.ts",
+            "blob": "ad858e64bcefe38b014718b59a9a90bc631ac9d0"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/layout-audit.test.ts",
+            "blob": "781e7a703a01a4b590837a13192391bc4b5f498e"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/markdown.ts",
+            "blob": "86c8a635c078874b8361a7fafec738f577510b31"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/palette.test.ts",
+            "blob": "f0e6aa8ca5de6b11f130907b1702e8302b3eca71"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/palette.ts",
+            "blob": "ae7579f9ea2dc745f67f223a979a2b84c75893df"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/plugin.ts",
+            "blob": "6d955de4725570ac6eb40039fb8cfa28cf551b52"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/sequence/diagram.test.ts",
+            "blob": "61539ccfa054e2dc6145482456d28cb2f93b83ae"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/sequence/diagram.ts",
+            "blob": "8ea41c37e1c2cf55de82a7bae2c5b7b55d5dd26d"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/sequence/drawing.ts",
+            "blob": "a02c61b44824a931233756dc336f2d0bc39e52a3"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/sequence/options.ts",
+            "blob": "05a0fe88468fe3940423e9dd379803ff00c71050"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/sequence/parser.ts",
+            "blob": "b2ecfc66e33ce2ddfdb8488507424ec92947c881"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/sequence/placement.test.ts",
+            "blob": "effb40fdb4eb65e9d64ed452b40e09bac37be12c"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/sequence/placement.ts",
+            "blob": "d63a4bb35861968e237be04b6926c7918fb10e5d"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/sequence/render-grid.ts",
+            "blob": "da28e262fcbedfe0e035930afdbad424b06725c9"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/sequence/style.ts",
+            "blob": "382c9d1c63e8cd4181a36b12e5a8a5f5c3a5bf45"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/sequence/types.ts",
+            "blob": "ad8cb39fc4263331a04eff3b3803ff09de598549"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/diagram.test.ts",
+            "blob": "1d73b1901308c3b242ff247db3abc90f45e3149a"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/diagram.ts",
+            "blob": "d4e5b922d38c8773703648c2e8eaa2ab74600059"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/drawing.ts",
+            "blob": "b039c635e637879913adb733844942b6e7ccf36a"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/endpoint.ts",
+            "blob": "190cd67cdbffd1744d3ee3916b29c39333909eff"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/layout.test.ts",
+            "blob": "c3debbf57b651a4ec0692844cdf2bc109789678d"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/layout.ts",
+            "blob": "e3fd303b8bc33564a609d4f8d1445d078823cc2e"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/note.ts",
+            "blob": "78ae3866cbff3cc824b144fc307edfb45966b00d"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/options.ts",
+            "blob": "8fd6ae293d1b41f3a7ed14811335033bc14cc324"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/parser.ts",
+            "blob": "c02a5af881acdb42a9a6fb72ce2f257801316651"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/render-grid.ts",
+            "blob": "2895768953678b77665f2800c1406f295b036442"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/routing.test.ts",
+            "blob": "3dc9a1f2d0e68e912302e4323f05911303bb813f"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/routing.ts",
+            "blob": "ddfe131568c3a81ae215e1a4fb1ca74c3c78d74b"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/search.ts",
+            "blob": "e9553c8231e4d2075a944b39a00e64a8b4583562"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/style.test.ts",
+            "blob": "ddabbcd8a986204cc192b01e832f41f1f3cbc158"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/style.ts",
+            "blob": "44ce82d835d941592b8dd2646160909f79003442"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/types.ts",
+            "blob": "aea11c992869538c17f652a1e8d6d5cc7f1c1ba8"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/visible-model.test.ts",
+            "blob": "0e01e880bb843cc5a29f19368d0561713545411d"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/state/visible-model.ts",
+            "blob": "31948298974814332deed9425a2b1fbbc990ee30"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/test/diagnostics.test.ts",
+            "blob": "d0c68e1b49ea9f63adf1ac2ca439ab152707f725"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/test/diagram.ts",
+            "blob": "cdd0114d2081bab3328db19b72c99529d70e0b7b"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/test/layout-audit/fixtures.ts",
+            "blob": "594fc9d9c041bd4adfbf80d88ca262ac6c1646f5"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/test/layout-audit/harness.ts",
+            "blob": "641fee73c3d6c3e2ace0576821c280ed0d4d22a2"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/test/markdown.test.ts",
+            "blob": "f0e50845acbe0efee6be75a07b6d5f4dc5c09900"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/timeline/diagram.test.ts",
+            "blob": "52e8ee2f8c188bab2d0bfc96c03688f19e776bfe"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/timeline/diagram.ts",
+            "blob": "d8340bff5edc28f6e677b39c44faa71fea8f3ebf"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/timeline/drawing.ts",
+            "blob": "34fe704747e16a699ab7f113a8bb2870d880a471"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/timeline/parser.ts",
+            "blob": "818d90855766ae23328352c6b1da71c8a75ace6d"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/timeline/render-grid.ts",
+            "blob": "cb28a919a7c2686908fabeed471cf74856d92bf0"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/timeline/style.ts",
+            "blob": "bea9c14318c57befe49ddb34f5ba1879824ff8fa"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/opencode-source@78e066c9d497077ce2f645b1e7e64da1de857a04/source",
+            "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+            "gitPath": "packages/merman/src/timeline/types.ts",
+            "blob": "fc7c3ab108b91bbece85a15d3a1c7192f7ff21f7"
+          }
+        ],
+        "detail": "Public createMermaidCodeBlockRenderer using a real @opentui/core@0.8.1 testing renderer. Exact source catalog dependencies; direct private prepareDiagram is never extracted. Requires Bun for source .js-to-.ts resolution and OpenTUI runtime.; Public protocol admission completed outside clocks. Exact source revision 78e066c9d497077ce2f645b1e7e64da1de857a04.; Version policy: recorded immutable source/distribution. Recorded catalog versions remain separately available on the node.",
+        "sourceRevision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+        "acquisitionOrigin": "https://github.com/anomalyco/opencode.git",
+        "buildRecipeId": "extra-source-v1:opencode-source:public-source-export:opentui0.8.1:immutable-runtime-bindings:v3",
+        "runtimeCommandId": "bun-public-opentui:markdown-codeblock:headless-char-frame:v1",
+        "runtimeVersion": "1.4.2",
+        "reviewed": true,
+        "artifactClass": "git-interpreted-source",
+        "apiAdmission": "public-protocol",
+        "runtimeDependencyRoots": [
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/@opentui/core",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/entities",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/string-width",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/bun-ffi-structs",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/diff",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/marked",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/@opentui/core-linux-x64",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/web-tree-sitter",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/emoji-regex",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/get-east-asian-width",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/strip-ansi",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/typescript",
+          "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04/node_modules/ansi-regex"
+        ],
+        "buildDependencyPrefix": "/workspace/trident/node_modules/.cache/unified-community/node-dependencies/opencode-merman@78e066c9d497077ce2f645b1e7e64da1de857a04",
+        "filesSha256": "a2fb8c66ce9a2efdc56dea441ded6e8d35481153821606ed611f2ae04f0b56ab"
+      }
+    },
+    {
+      "project": "crabtalk/bezel",
+      "version": "0.2.24",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/trident/node_modules/.cache/fidelity-bridges/crabtalk-bezel/target/release/bezel-bridge"
+        ],
+        "version": "0.2.24",
+        "description": "bezel-mermaid mermaid::parse",
+        "persistent": false,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/crabtalk-bezel/target/release/bezel-bridge",
+            "sha256": "0e433a533c0b7399d1d2f2cdaa2dddd9577275c64896c7a7032c701b1c4e7aac"
+          }
+        ]
+      },
+      "targetSha256": "5e4309fc8788c935e3fb8c3a30b2ab9635d18e742133114d8b0fc91cf81fe266",
+      "preparedArtifact": {
+        "kind": "global",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/crabtalk--bezel@0.2.24-1a4dd921478045d2/wasm",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/crabtalk--bezel@0.2.24-1a4dd921478045d2/wasm/bezel.js",
+        "global": "bezelRender",
+        "wasm": "/workspace/trident/node_modules/.cache/unified-community/crabtalk--bezel@0.2.24-1a4dd921478045d2/wasm/pkg/bezel_bench_bg.wasm",
+        "version": "0.2.24",
+        "revision": "ab854a04f354f0c428a76d54b822dfd21e2e3962",
+        "sha256": "4b5dfd85beb61111d238e0ae9949b09d7e368e3d2551bc98b48ead9f8ccff92e",
+        "runtime": "Rust/WASM public render wrapper on Node/browser",
+        "detail": "Checksum-verified published crate VCS revision; public render(source, Options::default, Metrics).svg. opt-level3/LTO profile and actual Rust/wasm-bindgen versions retained in wasm/manifest.json.; Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "preparationIdentity": "1a4dd921478045d239d932814105bf5208cd85bef37002cff15d8b9f7202d4e5",
+        "filesSha256": "1599ff3eac20d68e4870328a267fec13dd3039fc2c9ec25918e3c8593c7f2662"
+      }
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/crafter.mjs",
+          "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-182d830e0e05bde2/node_modules/@crafter/mermaid-renderer/node_modules/@crafter/mermaid-parser/dist/index.js"
+        ],
+        "version": "0.0.3",
+        "description": "the renderer's own @crafter/mermaid-parser dependency: parse()",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+            "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-182d830e0e05bde2/node_modules/@crafter/mermaid-renderer/node_modules/@crafter/mermaid-parser/dist/index.js",
+            "sha256": "06a476d6c6a1eaedc277ff5262552012a193b6e239f7ce8484d524e543f5845d"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/crafter.mjs",
+            "sha256": "60a5cf4ef0a6242b37e5e75fc41d3ad056ec1cf39d51ead9a950eda712db2ea9"
+          }
+        ]
+      },
+      "targetSha256": "5d1811ace0456bed0f2d1217326e4a79b0c0eb2560606d518b25fd8352be6452",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-182d830e0e05bde2/node_modules/@crafter/mermaid-renderer",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-182d830e0e05bde2/node_modules/@crafter/mermaid-renderer/dist/index.js",
+        "version": "0.0.3",
+        "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
+        "installedClosureSha256": "85ecefeee851fd25fd68972e3160f3b48d590b6bd8232e23a8d74f9d9931d97b",
+        "runtime": "Node",
+        "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
+        "apiBoundary": "public parse → layout → renderToString pipeline",
+        "adapterCompanions": [
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-182d830e0e05bde2/node_modules/@crafter/mermaid-parser",
+            "name": "@crafter/mermaid-parser",
+            "version": "0.0.4",
+            "integrity": "sha512-wyOjJlbR//q1UWkoo70xZ1sAt/XZBv+MsVSQO40F1uoEIZ6c8GscJr1QibOvNdwqrqOxJ+xWL6zw2tqswRevNA==",
+            "closureSha256": "204d4db75142e4d1f03afb4d572cb8faffb2e121694f7b2902e875c4f5236b2f"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-182d830e0e05bde2/node_modules/@crafter/mermaid-layout",
+            "name": "@crafter/mermaid-layout",
+            "version": "0.0.4",
+            "integrity": "sha512-y/ZjIu4k2NNdhDs1xjfXHR9m+lrfKQc0KDFgCkzfH4Eff2GUYAitbcUWMKdCfZ0Hgszdq+4veFw/kNeoMZfDaw==",
+            "closureSha256": "c5ba704279b803b02f475a8e16e44265d798b0796c5066b310e1f33c9dd5b13b"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-182d830e0e05bde2/node_modules/@crafter/mermaid-themes",
+            "name": "@crafter/mermaid-themes",
+            "version": "0.0.4",
+            "integrity": "sha512-6qUej0VU6a47LKsixToACUSJwPuGkuDHkOD94tEnFxEpA15LhIx6NakGiIkm5WGVkAcUJZxox8q3rEN7XWWiNw==",
+            "closureSha256": "6042028d8a6fd36f08c63231d4aa196e1225231416528ea51798870cb138aa11"
+          },
+          {
+            "root": "/workspace/trident/node_modules/.cache/unified-community/_crafter_mermaid-renderer@0.0.3-recipe-182d830e0e05bde2/node_modules/@crafter/mermaid-cli",
+            "name": "@crafter/mermaid-cli",
+            "version": "0.0.4",
+            "integrity": "sha512-V3ZcvHMWFPCo9gxvewpsb7b7p1qLbVRK70G05qlYnwYsChiiWVs8gukH4aJxuH4rGj2PttnEFe8PvZeB86NsAQ==",
+            "closureSha256": "eb0ac80656815ced6dc157aa32e5ceb6e3df31ebe6c78b5a262ac3ec39b0e2ad"
+          }
+        ],
+        "dependencyOverrides": {
+          "@crafter/mermaid-cli": {
+            "@crafter/mermaid-parser": "0.0.4",
+            "@crafter/mermaid-layout": "0.0.4",
+            "@crafter/mermaid-themes": "0.0.4"
+          }
+        },
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "4ffb17aee456d5263ce6a54ad7037ca8afe0f7855dcbbeb747f7454a0de97820"
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.4",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+          "zombie",
+          "/workspace/trident/node_modules/.cache/unified-community/zombie-mermaid@5.14.4/node_modules/zombie-mermaid"
+        ],
+        "version": "5.14.4",
+        "description": "zombie: the project's own per-family parsers",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+            "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+            "sha256": "a17bdc3f1e662172a054b5377007c91fbcb4e96e5879e91569b49a70d48ece68"
+          }
+        ]
+      },
+      "targetSha256": "abc35a72b95c3d374bfc15d6ffd6f4a11b966bb6ac4f73c56bd21e192ec0bab0",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/zombie-mermaid@5.14.4/node_modules/zombie-mermaid",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/zombie-mermaid@5.14.4/node_modules/zombie-mermaid/dist/index.js",
+        "version": "5.14.4",
+        "integrity": "sha512-vo/yfpnzrWNn+2cqng2MNTSjgZgel0nd8XI9eRA7+WOWgPjUEsLfB0SmyNm8KOg9Gc8T1ptkV6MzW/KmGAijsg==",
+        "installedClosureSha256": "009c64d5cd53ee5a23936188bee7377f7eb63f5f5de80803fa7e3ffea921ce8c",
+        "runtime": "Node",
+        "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+        "apiBoundary": "published package API",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "f708dcaa1f5978d08b3d301513f100b1cf7eedeab69f56f6f3629592b5c0d05c"
+      }
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "tool": "native",
+      "root": "/workspace/trident/node_modules/.cache/unified-community/merslim@0.2.3/node_modules/merslim",
+      "bun": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+      "bunSha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c",
+      "parserEntries": {},
+      "entry": "/workspace/trident/node_modules/.cache/unified-community/merslim@0.2.3/node_modules/merslim/dist/index.js",
+      "targetSha256": "1f0d22a157f41ec26fb13d4e1cfcfbc5d55e3663c0c6676be2162d88a98e3f06",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/merslim@0.2.3/node_modules/merslim",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/merslim@0.2.3/node_modules/merslim/dist/index.js",
+        "version": "0.2.3",
+        "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
+        "installedClosureSha256": "e62a71b3ed588e543fa9887960de86af9e38c4ce445814426979f0478421d6e8",
+        "runtime": "Node",
+        "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
+        "apiBoundary": "published package API",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "97d771ae0ec025b71d811080e6e22a486fca3bca179ec51442266d7f673421ca"
+      }
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "version": "0.4.2",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/xmermaid/bridge.mjs",
+          "/workspace/trident/node_modules/.cache/fidelity-bridges/evangwt-xmermaid/xmermaid-0.4.2"
+        ],
+        "version": "0.4.2",
+        "description": "parse_dsl, its WASM parser for every family, from an unchanged copy of the glue with one export appended",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+            "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/evangwt-xmermaid/xmermaid-0.4.2/.complete",
+            "sha256": "58d43e4a63e9ceeb4de10005bc5b9b20625fba97cc2ad833490379079062fafb"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/evangwt-xmermaid/xmermaid-0.4.2/xmermaid_wasm_bg.wasm",
+            "sha256": "3ac7581a47a2f1a82df9373e396d7baef40de9a60fab913796158568ed4a744e"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/evangwt-xmermaid/xmermaid-0.4.2/xmermaid.mjs",
+            "sha256": "d50d4677de4969d82521269b00199853816b5927846168eea88fe17085e1933f"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/xmermaid/bridge.mjs",
+            "sha256": "482a84388721dfc357ecae8c987ca6a4908c3761a3e6ea84b08210f8adac933d"
+          }
+        ]
+      },
+      "targetSha256": "dcec8241803511ce9a6b3fa6924204f7b678f36243f9d998b0f3ec7755ca313b",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/_evangwt_xmermaid@0.4.2/node_modules/@evangwt/xmermaid",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/_evangwt_xmermaid@0.4.2/node_modules/@evangwt/xmermaid/dist/xmermaid.esm.js",
+        "version": "0.4.2",
+        "integrity": "sha512-/KxDLMfR0THbxtrZiGxDuTKp0NGJTJRHH5ForIvxVxf9ctveEPN9irXUBFYIiKB337CXMhH2w+ds8pJ5hpRGvA==",
+        "installedClosureSha256": "d3f25bdffb86767a1b005a299fa67059e382204877a9eeb430054eb36e6aa899",
+        "runtime": "Node",
+        "sha256": "4b083ff3979c7b07e1c364393ef17659ffe7bfcfea75a818260f4de7ece7789b",
+        "wasm": "/workspace/trident/node_modules/.cache/unified-community/_evangwt_xmermaid@0.4.2/node_modules/@evangwt/xmermaid/dist/xmermaid_wasm_bg.wasm",
+        "apiBoundary": "public browser XMermaid SVG API; DOM measurement included",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "e01c567fd7b8785f17c9aabe305f4be0007c361ccd394500818338b5d0ebb777"
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.12.0",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0/venv/bin/python",
+          "-I",
+          "-B",
+          "-X",
+          "pycache_prefix=/dev/null",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/termaid.py"
+        ],
+        "version": "0.12.0",
+        "description": "termaid.parser.<family>.parse_<family>()",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0/venv/bin/python",
+            "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/termaid.py",
+            "sha256": "3b5d2898a39cda803498148c95eb11853e4c45fa01cd93d867b29750d5a05352"
+          }
+        ],
+        "installedRuntimeSha256": "18d27f8e6a138f86e0e4239dc468ca8f576c71760f7f0345d5e108cd76b7c63e"
+      },
+      "targetSha256": "f556870dd985fc7f81a2bdab5a23bb27ab8a4023d9eb5697c7ba5c52c682033d",
+      "preparedArtifact": {
+        "kind": "python",
+        "python": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0/venv/bin/python",
+        "executable": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0/venv/bin/python",
+        "version": "0.12.0",
+        "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "runtime": "Python public termaid.render API; process startup recorded separately",
+        "detail": "Exact PyPI version in an isolated venv; every resolved dependency wheel is retained and hashed. No Python model/provider integration is implied.; Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "fb512982bd288a695822ecd2224f05b9082ad340fb351c23c4219d0610891daf"
+      }
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+          "asciimermaid",
+          "/workspace/trident/node_modules/.cache/unified-community/extra-source/ascii-mermaid-source@a91a0c7baec6392212c59221bc67389bb617feb7/source/ts"
+        ],
+        "version": "0.1.0",
+        "description": "asciimermaid: the project's own per-family parsers",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+            "sha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+            "sha256": "a17bdc3f1e662172a054b5377007c91fbcb4e96e5879e91569b49a70d48ece68"
+          }
+        ]
+      },
+      "targetSha256": "eaebaeccad23daa66bf5646b6dfa9abfaea9804635608d039e9b2cb94f294de8",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/ascii-mermaid-source@a91a0c7baec6392212c59221bc67389bb617feb7/source/ts",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/extra-source/ascii-mermaid-source@a91a0c7baec6392212c59221bc67389bb617feb7/source/ts/dist/index.js",
+        "version": "0.1.0",
+        "revision": "a91a0c7baec6392212c59221bc67389bb617feb7",
+        "runtime": "v24.19.0",
+        "sha256": "6cbc31d2719cfd2be538707c238d3ab1af24c20f2247f7f5a139df17e5bcb1ae",
+        "detail": "Unmodified catalog-pinned source or its tracked public distribution; acquisition.log retains the concrete public build commands. This is a source artifact, not an npm registry release.; Public protocol admission completed outside clocks. Exact source revision a91a0c7baec6392212c59221bc67389bb617feb7.; exact physical admitted artifact reused for kais-radwan/ascii-mermaid at identical Git revision/build/runtime protocol; Version policy: recorded immutable source/distribution. Recorded catalog versions remain separately available on the node.",
+        "sourceRevision": "a91a0c7baec6392212c59221bc67389bb617feb7",
+        "acquisitionOrigin": "https://github.com/kais-radwan/ascii-mermaid.git",
+        "buildRecipeId": "extra-source-v1:ascii-mermaid-source:tracked-public-distribution",
+        "runtimeCommandId": "node-public-api:renderMermaidAscii:unicode:v1",
+        "runtimeVersion": "v24.19.0",
+        "reviewed": true,
+        "artifactClass": "compiled-or-shipped",
+        "apiAdmission": "public-protocol",
+        "filesSha256": "724e17ff6ed929e9b492d5a14d1ad3d52eb7862cf33965ec79b96513f6904803"
+      }
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "tool": "native",
+      "root": "/workspace/trident/node_modules/.cache/unified-community/_kitlangton_merman@0.2.1/node_modules/@kitlangton/merman",
+      "bun": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+      "bunSha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c",
+      "parserEntries": {},
+      "entry": "/workspace/trident/node_modules/.cache/unified-community/_kitlangton_merman@0.2.1/node_modules/@kitlangton/merman/dist/index.mjs",
+      "targetSha256": "5bb336ff7707b0be97c66656cab8ad2711a1701de1339e2791bdfce3bd98253f",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/_kitlangton_merman@0.2.1/node_modules/@kitlangton/merman",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/_kitlangton_merman@0.2.1/node_modules/@kitlangton/merman/dist/index.mjs",
+        "version": "0.2.1",
+        "integrity": "sha512-SqKB/VjkjxNgyxAkvGGbTQACrTpPkg5udiDtJswYEnSkOjKdRISYKtK2Hzi/Y8TjK3beHMHyOQeoCS10V+AD4g==",
+        "installedClosureSha256": "c0152333363b8cfc1bcc768c8209c43b9197d4f2d135dd973f09306479d61238",
+        "runtime": "Bun (published terminal renderer)",
+        "sha256": "f1e16af45f4c43e2c7d69a48c2f3bc286b061b84dca994fa83da98593705793d",
+        "apiBoundary": "public render(content,{color:false})",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "159a911e0549319be3d08516548252b4623af865b757dd5634894567cf44ef67"
+      }
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+          "beautiful",
+          "/workspace/trident/node_modules/.cache/unified-community/beautiful-mermaid@1.1.3/node_modules/beautiful-mermaid"
+        ],
+        "version": "1.1.3",
+        "description": "beautiful: the project's own per-family parsers",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+            "sha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+            "sha256": "a17bdc3f1e662172a054b5377007c91fbcb4e96e5879e91569b49a70d48ece68"
+          }
+        ]
+      },
+      "targetSha256": "8558bb7d7d8cdd87cd593c9701b47b44bf0a0c57f4f70257911ad2b202a960c5",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/beautiful-mermaid@1.1.3/node_modules/beautiful-mermaid",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/beautiful-mermaid@1.1.3/node_modules/beautiful-mermaid/dist/index.js",
+        "version": "1.1.3",
+        "integrity": "sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==",
+        "installedClosureSha256": "f3cb677e308c2e8664b8254eaa6b9564eaa4060204f92ba4197a6c5fa50f6cfd",
+        "runtime": "Node",
+        "sha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
+        "apiBoundary": "published package API",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "3b0c7f6acd1fe5ae975f599272004019d0fe874f02ccea7271069a45bbad125b"
+      }
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.13.0",
+      "tool": "pele",
+      "root": "/workspace/trident/node_modules/.cache/unified-community/pele@1.13.0/node_modules/pele",
+      "bun": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+      "bunSha256": "a83d263767d839e4d2649ca8e35d07159c7afc99afdc96d731ced29e056dda0c",
+      "parserEntries": {},
+      "entry": "/workspace/trident/node_modules/.cache/unified-community/pele@1.13.0/node_modules/pele/dist/pele.js",
+      "targetSha256": "3972f75e9455372aa417070c3727c333ba48b9cce83f5fbd0e14834bc2826a91",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/pele@1.13.0/node_modules/pele",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/pele@1.13.0/node_modules/pele/dist/pele.js",
+        "version": "1.13.0",
+        "integrity": "sha512-Ie8UKY9x00MsuR3jO6AzUwzK2Z6MIV3Tf4EDdITiuk8Uaz8K7g0R082WqsqNaSU8DdgkrRvZThzhit83mi/uiw==",
+        "installedClosureSha256": "44bbae998b9bdd6d999ccaae376e2f25657cdb0d433a3d6ef56240811ffc19ab",
+        "runtime": "Node",
+        "sha256": "37bea5005aa6d2dde929032ced5d2958cf642667cbc1fe675f9dfacf4ba15a51",
+        "apiBoundary": "published package API",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "f6b4b9d7a4b9b940e8167b00afda408eb22ed69f326b423df55929151abe49d0"
+      }
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/trident/node_modules/.cache/fidelity-bridges/orestesgaolin-mermaid/mermaid-core-bridge"
+        ],
+        "version": "0.3.2",
+        "description": "mermaid_core 0.3.2 parseX functions, from its public library or its own src/ libraries where not re-exported",
+        "persistent": false,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/orestesgaolin-mermaid/mermaid-core-bridge",
+            "sha256": "11d71f96766ebf5694ad083edf7d7fc828a61af004898e257cb2cd54e69455b0"
+          }
+        ]
+      },
+      "targetSha256": "f91bcbffd8b9e1aa5bd2c7f28eadb6fa729c0ad06a894a015e3af64a302165a2",
+      "preparedArtifact": {
+        "kind": "global",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/orestesgaolin--mermaid@0.3.2-70e66928d55957bb/package",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/orestesgaolin--mermaid@0.3.2-70e66928d55957bb/package/dart.js",
+        "global": "mermaidDartRender",
+        "version": "0.3.2",
+        "sha256": "ca0dad14b4ca24ec1311894fa69c01fa6f9fff0c81e72537adea4f2e7dfd029a",
+        "runtime": "Dart dart2js -O2 on Node/browser",
+        "detail": "Unmodified mermaid_core public Mermaid(ApproximateTextMeasurer) → renderSceneToSvg; Mermaid Flutter native PNG is a separately cataloged brand, not an output of this SVG artifact. Compiler/dependency commands and versions are in acquisition.log/pubspec.lock.; Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "preparationIdentity": "70e66928d55957bb8231270f540de0827801109e374e7678207c36f04236ba81",
+        "filesSha256": "479996392046a9a2e72d80056efab02c1ad85268741be492470f0f4cc1eb9c84"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "version": "0.3.2",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/trident/node_modules/.cache/fidelity-bridges/pub-mermaid_flutter/mermaid-core-bridge"
+        ],
+        "version": "0.3.2",
+        "description": "mermaid_core 0.3.2 parseX functions (mermaid_flutter uses core's parser unchanged)",
+        "persistent": false,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/pub-mermaid_flutter/mermaid-core-bridge",
+            "sha256": "12b6169b83275b0a4bcbf2e66c7483b742c85582583c9714c789e1186aa058b4"
+          }
+        ]
+      },
+      "targetSha256": "c93fea13096191ed8e537109796451f5719ae0b90265eb308173880dcc82d898"
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "version": "0.1.5",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+          "dsh",
+          "/workspace/trident/node_modules/.cache/unified-community/dsh-plugin-mermaid-gb-svg@0.1.5/node_modules/dsh-plugin-mermaid-gb-svg/lib/engine.js"
+        ],
+        "version": "0.1.5",
+        "description": "dsh: the project's own per-family parsers",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+            "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/dsh-plugin-mermaid-gb-svg@0.1.5/node_modules/dsh-plugin-mermaid-gb-svg/lib/engine.js",
+            "sha256": "e7642aae65ffb9a8e00cf31ebd6a7516a5b9c4cd76deb94624d679f83c0baf47"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+            "sha256": "a17bdc3f1e662172a054b5377007c91fbcb4e96e5879e91569b49a70d48ece68"
+          }
+        ]
+      },
+      "targetSha256": "fa783222f3f6e9fb94ea241021efbe8563a60946fa8727fc7241e41a3feaa26e",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/dsh-plugin-mermaid-gb-svg@0.1.5/node_modules/dsh-plugin-mermaid-gb-svg",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/dsh-plugin-mermaid-gb-svg@0.1.5/node_modules/dsh-plugin-mermaid-gb-svg/lib/engine.js",
+        "version": "0.1.5",
+        "integrity": "sha512-hZRSXWNw6xPLcJnqI2xwv2+xuoq/b55bAxge3iueo/XMFJELK1WsGXkpmXBNMzW9qqIvReL+CybUJapVOexE5g==",
+        "installedClosureSha256": "f8908d85c710570a220c9430cdf5a4b5639a490349e3d6b7fa3e2394087c44e4",
+        "runtime": "Node",
+        "sha256": "e7642aae65ffb9a8e00cf31ebd6a7516a5b9c4cd76deb94624d679f83c0baf47",
+        "apiBoundary": "public /engine renderDiagram with DEFAULT_OPTIONS",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "90d2f6a79e4dfdb297bb9490fc05df8e8b94e4a720061b3297a2b61360d61fc1"
+      }
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/trident/node_modules/.cache/fidelity-bridges/spacedock-dev-mermaidtext/mermaidtext-bridge"
+        ],
+        "version": "git-a6b0c7657b94",
+        "description": "unexported Go parsers, reached through an overlay-injected export",
+        "persistent": false,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/spacedock-dev-mermaidtext/mermaidtext-bridge",
+            "sha256": "5be95b4b538204a8ae8f9d56260678ce1c4aa35cb94bcadc9abcebc3729c3fc7"
+          }
+        ]
+      },
+      "targetSha256": "89e75be4026c97ced42c58c80a00144c090ac45c1f7688e4b9db8c2321e9ee00",
+      "preparedArtifact": {
+        "kind": "cli",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/mermaidtext-go@a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12",
+        "executable": "/workspace/trident/node_modules/.cache/unified-community/extra-source/mermaidtext-go@a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12/bin/mermaidtext",
+        "args": [],
+        "input": "stdin",
+        "format": "terminal",
+        "version": "git-a6b0c7657b94",
+        "revision": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12",
+        "runtime": "native Go (go version go1.27.3 linux/amd64)",
+        "sha256": "b598bdc84c2e570d7f4e90ab82abc5435817c041269d9d0f769281f9cc6f08bc",
+        "sourceRevision": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12",
+        "acquisitionOrigin": "https://github.com/spacedock-dev/mermaidtext.git",
+        "buildRecipeId": "extra-source-v1:mermaidtext-go:go-build-trimpath",
+        "runtimeCommandId": "public-cli:stdin:default-unicode:v1",
+        "runtimeVersion": "go version go1.27.3 linux/amd64",
+        "reviewed": true,
+        "artifactClass": "compiled-or-shipped",
+        "apiAdmission": "public-protocol",
+        "supportedFamilies": [
+          "flowchart",
+          "state",
+          "class",
+          "er",
+          "sequence"
+        ],
+        "sourceFallback": "framed-source",
+        "detail": "Public protocol admission completed outside clocks. Exact source revision a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12.; exact physical admitted artifact reused for spacedock-dev/mermaidtext at identical Git revision/build/runtime protocol; Version policy: recorded immutable source/distribution. Recorded catalog versions remain separately available on the node."
+      }
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+          "mermaidtui",
+          "/workspace/trident/node_modules/.cache/unified-community/mermaidtui@0.0.6/node_modules/mermaidtui/dist/src/index.js"
+        ],
+        "version": "0.0.6",
+        "description": "mermaidtui: the project's own per-family parsers",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+            "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/mermaidtui@0.0.6/node_modules/mermaidtui/dist/src/index.js",
+            "sha256": "ca735b5d31c6c61667432c89028770f094dc19fbbc0b8763b8b3719ac5fb1dce"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/javascript.mjs",
+            "sha256": "a17bdc3f1e662172a054b5377007c91fbcb4e96e5879e91569b49a70d48ece68"
+          }
+        ]
+      },
+      "targetSha256": "027861dc7b036f25e84a08dabeea168636fff5e242dec5413032129b9b9cd8ff",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/mermaidtui@0.0.6/node_modules/mermaidtui",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/mermaidtui@0.0.6/node_modules/mermaidtui/dist/src/index.js",
+        "version": "0.0.6",
+        "integrity": "sha512-DN8UewGe7CH25pT9BLiV19CSbhnnT03T9o2Xnyy1KupBrsxWUevUAsYAO63yn7ujMNQCPEYm2xxzoItRWlP8Pw==",
+        "installedClosureSha256": "94b5d48f4cfed5cf70f06bdcb715773fac24a2a83b5ac45cb83eafd57902da33",
+        "runtime": "Node",
+        "sha256": "ca735b5d31c6c61667432c89028770f094dc19fbbc0b8763b8b3719ac5fb1dce",
+        "apiBoundary": "published package API",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "be15426d2d875510e9dd1aa2c77706c6b7ad0eb4a2e00dbdb4426b142cb509ca"
+      }
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "/workspace/trident/unified/mermaid-fidelity/bridges/ondine.mjs",
+          "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/index.js"
+        ],
+        "version": "0.0.3",
+        "description": "render() only: acceptance and rejection, no parsed model",
+        "persistent": true,
+        "runtimeFiles": [
+          {
+            "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+            "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+          },
+          {
+            "path": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/index.js",
+            "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b"
+          },
+          {
+            "path": "/workspace/trident/unified/mermaid-fidelity/bridges/ondine.mjs",
+            "sha256": "9154f2224a73df50d4ca2b58fca85a7a048e942d2bef9c976e56ac8c0b96b843"
+          }
+        ]
+      },
+      "targetSha256": "72852821895379fb7673f3a9faeb752368b4b9d7e4179c18bc1fc097284f7969",
+      "preparedArtifact": {
+        "kind": "node",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine",
+        "module": "/workspace/trident/node_modules/.cache/unified-community/ondine@0.0.3/node_modules/ondine/dist/compiler/index.js",
+        "version": "0.0.3",
+        "integrity": "sha512-O5lb0DvNhiQJQKitkTYEPRyR83uyGxB2SsLcyu1zD3zJeL+sWxAzW+kM+s8srliERxxx3fFUijEfs26EYXZ5OA==",
+        "installedClosureSha256": "31f6274022add16832cedf501d4a4c9f52ec565cfad782bd2a7a402ef966f2ec",
+        "runtime": "Node",
+        "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b",
+        "apiBoundary": "published package API",
+        "detail": "Version policy: recorded registry release. Recorded catalog versions remain separately available on the node.",
+        "filesSha256": "f3bb79fdb7dba87fd155b0a8c45ae361d81b2f33e41eb6850530e22e1bc535d6"
+      }
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "tool": "bridge",
+      "bridge": {
+        "command": [
+          "/workspace/trident/node_modules/.cache/fidelity-bridges/xai-org-grok-build/target/release/grok-bridge"
+        ],
+        "version": "git-2bdd1d6a6369",
+        "description": "private mermaid.rs parsers, compiled unchanged beside an export",
+        "persistent": false,
+        "runtimeFiles": [
+          {
+            "path": "/workspace/trident/node_modules/.cache/fidelity-bridges/xai-org-grok-build/target/release/grok-bridge",
+            "sha256": "6c9c115fb1f04cd044018a76b477eb2b32273ccd0379cc51a1923480b884f3ae"
+          }
+        ]
+      },
+      "targetSha256": "75b123087a9b0386292a2a7952860a593199ab6a6778a4863696c63ad89d7f37",
+      "preparedArtifact": {
+        "kind": "cli",
+        "root": "/workspace/trident/node_modules/.cache/unified-community/extra-source/grok-source@2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+        "executable": "/workspace/trident/node_modules/.cache/unified-community/extra-source/grok-source@2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/bin/grok-markdown-mermaid",
+        "args": [],
+        "input": "stdin",
+        "format": "terminal",
+        "version": "git-2bdd1d6a6369",
+        "revision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+        "runtime": "native Rust (rustc 1.99.1 (58cf8f9c3 2026-10-13)); public Markdown host",
+        "sha256": "1d206766ed84391ab036b1098a052bd9987185e75d55c4086856b8f8eb7ed1e3",
+        "detail": "Uses the unmodified public render_markdown_ratatui Markdown API on a Mermaid fence; direct mermaid::render is private and is not extracted. Markdown-host startup/work is included in this CLI boundary.; Public protocol admission completed outside clocks. Exact source revision 2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8.; exact physical admitted artifact reused for xai-org/grok-build at identical Git revision/build/runtime protocol; Version policy: recorded immutable source/distribution. Recorded catalog versions remain separately available on the node.",
+        "sourceRevision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
+        "acquisitionOrigin": "https://github.com/xai-org/grok-build.git",
+        "buildRecipeId": "extra-source-v1:grok-source:public-markdown-crate-shim",
+        "runtimeCommandId": "public-markdown-ratatui:fenced-mermaid:plain-lines:v1",
+        "runtimeVersion": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+        "reviewed": true,
+        "artifactClass": "compiled-or-shipped",
+        "apiAdmission": "public-protocol",
+        "supportedFamilies": [
+          "flowchart",
+          "state",
+          "class",
+          "er",
+          "sequence"
+        ],
+        "sourceFallback": "framed-source"
+      }
+    }
+  ]
+}

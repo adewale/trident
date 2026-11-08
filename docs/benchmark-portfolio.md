@@ -82,7 +82,7 @@ zero-size SVG is a nonpass. Each whole case earns one pass. This measures whethe
 the specified content is shown, not edges, arrow direction, layout, styling or
 pixel identity with Mermaid.
 
-The collection leaves <!-- fact:drawing-unassessed -->186<!-- /fact --> of
+The collection leaves <!-- fact:drawing-unassessed -->145<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. Unsupported
 observations receive no correctness credit.
 
@@ -156,13 +156,14 @@ inventory systematically. Do not preserve the 49-case selection as the target.
 **Current implementation:** `mermaid:fidelity` inventories the test files at the
 pinned Mermaid reference (Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->; the version and commit are in
 `data/upstream-mermaid-policy.json`), attempts the <!-- fact:fidelity-files -->352<!-- /fact --> core-package files in original
-Vitest, and lists the rest outside that runner. The current collection (<!-- fact:fidelity-collected -->7 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->6,439<!-- /fact --> callbacks; Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->
-passes <!-- fact:fidelity-population -->3,676<!-- /fact --> of them through the reference adapter, and those are the scored
+Vitest, and lists the rest outside that runner. The current collection (<!-- fact:fidelity-collected -->8 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->7,364<!-- /fact --> callbacks; Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->
+passes <!-- fact:fidelity-population -->7,346<!-- /fact --> of them through its original production source, and those are the scored
 population. Every candidate attempted all <!-- fact:fidelity-files -->352<!-- /fact --> files against one shared control run
 (`--reuse-reference`): 13 through their JavaScript parsers and 13 through parser
 bridges, small programs in each project's own language that call its own parser
 (`unified/mermaid-fidelity/bridges/`), read through reviewed per-project schema views.
-Fifteen selected files do not load; each needs a Mermaid internal at import. The
+All selected source-control files load. Candidate operations without reviewed
+bindings stay unassessed. The
 historical 49/154-case selections are not substituted for the original tests.
 
 ## How the portfolio drifted

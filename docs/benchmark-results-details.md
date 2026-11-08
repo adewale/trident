@@ -24,10 +24,9 @@ For Drawing Correctness, Failed combines missing labels, raw syntax shown, inval
 output and render failures. For Fidelity, Failed combines assertion nonpasses and
 native unsupported results; Unassessed is candidate adapter gaps. A Fidelity pass
 needs the original assertions to pass for the candidate and for the pinned Mermaid
-control, so callbacks the control cannot pass are unpassable for everyone. They are
-reported beside the table as reference-adapter coverage work instead of being
-counted as everyone's unknowns, which had capped Mermaid at 54.6% of its own tests.
-Upstream skips are outside the population.
+control. The control now executes pinned production source with the original
+compiler plugins and locked dependencies; it passes every active callback in
+the selected suite. Original skips/todos remain outside the population.
 
 **Verified rank** orders observed passes. **Possible rank** is the best and worst
 position a project can still reach when its unassessed cases resolve either way:
@@ -64,8 +63,11 @@ These gaps mostly describe unfinished Trident implementation, rather than demons
 limitations of the projects being benchmarked.
 
 **Fidelity runs every candidate on the whole selected suite.** All <!-- fact:fidelity-candidates -->26<!-- /fact --> candidates
-plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected core-package files (<!-- fact:fidelity-collected -->7 November 2026<!-- /fact -->) against one
-shared Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> control run. During development (3–5 November), the reviewed
+plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected core-package files (<!-- fact:fidelity-collected -->8 November 2026<!-- /fact -->) against one
+shared Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control run. The
+[completion record](evidence/benchmark-completion-2026-11-07/README.md) explains
+the corrected source control, guarded candidate execution and full comparison of
+actual Node and JSDOM environments. During development (3–5 November), the reviewed
 schema views and unsupported operations described below cut the bridged projects'
 unassessed callbacks from
 roughly 1,000–2,650 each to 250–1,000 (Grok renderer 2,146 → 336, Mermaid ASCII
@@ -75,7 +77,7 @@ Mermaid Dart 815 → 1,703, Mermaid RS Renderer 212 → 1,226). Where a JavaScri
 candidate's module exposes no parser for a family (ER, class, C4, state or agentflow
 for Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH Mermaid
 GB SVG and MermaidTUI), those tests count as operations it does not offer, not as
-Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->272<!-- /fact --> tests
+Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->99,799<!-- /fact --> tests
 remain unassessed by Trident. Thirteen are reached through their JavaScript
 parsers (generic native bindings, a guarded Bun/async parser bridge, native model
 schema views and the Frankenmermaid WASM binding) and thirteen through parser bridges.
@@ -251,44 +253,33 @@ type, so tests that check only `$type` are assessed, while every other field is 
 Unknown schemas and import or transport errors remain explicit per-test gaps;
 `scripts/fidelity-gaps.ts` lists them per project and cause.
 
-**The reference path defines the scored population.** The control is the public
-Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> package behind the same import substitution the candidates get. In the
-current collection <!-- fact:fidelity-expanded -->6,439<!-- /fact --> callbacks expanded: Mermaid passes **<!-- fact:fidelity-population -->3,676<!-- /fact -->**, the scored population;
-<!-- fact:fidelity-unqualified -->2,679<!-- /fact --> are reference-unqualified and <!-- fact:fidelity-skipped -->84<!-- /fact --> upstream-skipped. 15 of the <!-- fact:fidelity-files -->352<!-- /fact --> selected files
-do not load and 52 files remain outside the core Vitest runner.
+**The reference path defines the scored population.** The control executes the
+pinned Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> production source without candidate import
+substitution. The original Jison and JSON-schema plugins compile the same source
+the tests import. All <!-- fact:fidelity-files -->352<!-- /fact --> selected files load; of the
+<!-- fact:fidelity-expanded -->7,364<!-- /fact --> expanded callbacks,
+<!-- fact:fidelity-population -->7,346<!-- /fact --> pass,
+<!-- fact:fidelity-unqualified -->0<!-- /fact --> are reference-unqualified and
+<!-- fact:fidelity-skipped -->18<!-- /fact --> are original skips/todos.
+The source, generated inputs, runtime dependencies, runner and harness are bound
+in the control identity. Browser/application tests listed outside this runner
+remain outside the assessment.
 
-Most of the earlier unqualified callbacks were reference-adapter defects, now fixed:
-the adapter had no example diagram for the families added to Mermaid since its list was
-written (agentflow, railroad and its EBNF/ABNF/PEG variants, usecase, treeView,
-cynefin, venn, wardley, swimlanes; eventmodeling's header was misspelled);
-`addDiagrams`, `setLogLevel`, `Diagram.fromText`, diagram definition modules and
-Chevrotain parser modules were unbound; a test's own `vi.spyOn` mock was wrapped; and a
-commented-out `log.debug` call marked every test in its file as using the unavailable
-logger. The suite now runs from Mermaid's repository root on the locked runtime that
-`upstream:prepare` builds from Mermaid's own lockfile, as Mermaid's CI does. Together
-these raised the scored population from 2,894 to 3,602 and cut unloaded files from 23
-to 15 (`sequenceDiagram.spec.js`, 157 callbacks, now loads).
-
-The 2,034 callbacks Mermaid's public package still cannot pass test Mermaid's
-internals rather than its parse results: rendering, layout and drawing helpers (841);
-diagram-module internals such as lexers, member types and renderer state (537); host
-API, configuration, utilities and docs tooling (399); themes, palettes and styles
-(231); other (26). The 15 unloaded files fail at import on the same kind of internal
-(theme tables, ELK algorithm lists, Langium validators and value converters, the
-examples packages) or on Mermaid's own YAML-schema build plugin. Reaching them would
-mean running Mermaid's private source, which tests Mermaid's implementation rather
-than behaviour another implementation could match; no participant, Mermaid's public
-package included, can pass them. They are accounted for outside the scored
-population, as the portfolio definition allows, and reported beside the table.
+Candidates still use their own parsers and reviewed schema views. An unbound
+production import, caught adapter gap or callback without a native operation
+cannot earn a pass. Internal layout/rendering APIs without a candidate binding
+remain unassessed. The source control's wider population makes those missing
+bindings visible instead of excluding them as reference failures.
 
 **Drawing Correctness checks labels.** A case passes when every label named by its
 reviewed source facts is visibly shown and no raw Mermaid syntax is shown. SVG
-labels require browser visibility, canvas, clipping and resolved-paint evidence.
+labels require browser visibility, canvas, clipping and resolved-paint evidence,
+or a bounded raster witness proving the complete actual glyph ink survives.
 Unsupported paint profiles stay unassessed. Terminal matching preserves text
 order and joins wrapping inside observed boxes. Empty, error, echoed or zero-size
 outputs are nonpasses; the empty-diagram SVG case requires no painted ink.
 Edges, arrow direction, layout quality and authored style matching are not
-scored. The collection leaves <!-- fact:drawing-unassessed -->186<!-- /fact --> of
+scored. The collection leaves <!-- fact:drawing-unassessed -->145<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. A chart naming no
 labels is checked for raw-syntax leakage alone.
 
@@ -300,8 +291,7 @@ Broad assessment and original-test operation coverage are still incomplete; call
 the whole benchmark effort finished would be premature. Every project now has a
 Fidelity binding. The remaining work is to map more native model fields in the schema
 views (most bridged projects' unassessed callbacks are fields the generic view does not
-map), reach more Mermaid internals through the reference adapter, and run the
-unexpanded and outside-runner tests. The combined table displays score
+map), bind additional native operations, and adapt the outside-runner tests. The combined table displays score
 ranges; an exact overall score remains unavailable while required measurements are
 missing.
 
@@ -347,6 +337,6 @@ results snapshot remain in Git history.
 The [league tables](../RESULTS.md) list measured projects and setup gaps for each
 format. A scored result can include failures. It does not mean every input passed,
 every output was assessable, or the project has complete benchmark coverage.
-Drawing has <!-- fact:drawing-unassessed -->186<!-- /fact --> unassessed cases.
+Drawing has <!-- fact:drawing-unassessed -->145<!-- /fact --> unassessed cases.
 Fidelity's unmapped operations and unqualified reference callbacks remain
 coverage work. The synthesis keeps missing measurements as score ranges.

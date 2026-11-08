@@ -7,19 +7,20 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { threeBenchmarkReport } from '../unified/three-benchmark-report.ts'
 import { MERMAID_ORACLE_PIN } from '../portable/mermaid-oracle.ts'
+import { planDigest } from '../unified/campaign-plan.ts'
 
 const root = join(import.meta.dir, '../results/release')
 const read = (name: string) => JSON.parse(readFileSync(join(root, name), 'utf8'))
 const images = read('images.json'), terminal = read('terminal.json')
-const flutter = existsSync(join(root, 'flutter.json')) ? read('flutter.json') : undefined
-const collections = [images, terminal, ...(flutter ? [flutter] : [])]
+const nativePng = existsSync(join(root, 'native-png.json')) ? read('native-png.json') : undefined
+const collections = [images, terminal, ...(nativePng ? [nativePng] : [])]
 const drawing = read('drawing-correctness.json'), fidelity = read('mermaid-fidelity.json')
 const SCORED = ['passed', 'failed', 'unsupported', 'trident-blocked']
 const UNSCORED = ['reference-unqualified', 'upstream-skipped', 'upstream-expected-failure']
 const sum = (counts: Record<string, number>, keys = Object.keys(counts)) => keys.reduce((total, key) => total + (counts[key] ?? 0), 0)
 
 test('every DaveBench row has three complete runs whose accounting reconciles', () => {
-  expect(images.runs.filter((run: any) => run.project === 'pub:mermaid_flutter')).toEqual(flutter?.runs ?? [])
+  expect(images.runs.filter((run: any) => run.project === 'pub:mermaid_flutter')).toEqual(nativePng?.runs ?? [])
   for (const collection of collections) {
     expect(collection.state).toBe('complete')
     const rows = new Map<string, any[]>()
@@ -38,6 +39,20 @@ test('every DaveBench row has three complete runs whose accounting reconciles', 
         if (invalid) expect(Object.keys(run.rejected ?? {}).length, row).toBe(invalid)
       }
     }
+  }
+})
+
+test('native PNG publication retains the verified bundle and actual release worker provenance', () => {
+  if (!nativePng) return
+  const artifact = nativePng.artifact, build = artifact.nativeBuild
+  expect(planDigest(build.files)).toBe(build.bundleSha256)
+  expect(artifact.executableSha256).toBe(build.files.native_bench)
+  expect(artifact.applicationSha256).toBe(build.files['lib/libapp.so'])
+  expect(artifact.packageLockSha256).toBe(build.sources['app/pubspec.lock'])
+  expect(nativePng.workerIdentities.length).toBeGreaterThanOrEqual(3)
+  for (const identity of nativePng.workerIdentities) {
+    expect(identity).toMatchObject({ package: artifact.nativePackage, version: build.packageVersion, mode: 'release', runtime: { platform: 'linux' } })
+    expect(identity.runtime.dart.split(' ')[0]).toBe(build.sdk.dartSdkVersion.split(' ')[0])
   }
 })
 

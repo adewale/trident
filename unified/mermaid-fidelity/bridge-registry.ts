@@ -1,7 +1,7 @@
 // Concrete parser bridges. Each one calls the project's own parser; see bridges.ts.
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { nodeExecutable, registerBridge, type ParserBridge, type Resolver } from './bridges.ts'
+import { nodeExecutable, pythonBridgeCommand, registerBridge, type ParserBridge, type Resolver } from './bridges.ts'
 
 const here = join(import.meta.dirname, 'bridges')
 const script = (name: string) => join(here, name)
@@ -22,7 +22,7 @@ registerBridge('crafter-station/mermaid', async peer => {
 registerBridge('fasouto/termaid', async peer => {
   const python = peer.artifact?.python ?? peer.artifact?.executable
   if (!python) return undefined
-  return { command: [python, '-I', script('termaid.py')], version: peer.artifact.version, description: 'termaid.parser.<family>.parse_<family>()', persistent: true }
+  return { command: pythonBridgeCommand(python, script('termaid.py')), version: peer.artifact.version, description: 'termaid.parser.<family>.parse_<family>()', persistent: true }
 })
 
 registerBridge('wevm/ondine', async peer => {

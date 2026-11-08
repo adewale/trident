@@ -28,8 +28,23 @@ Drawing label policy `drawing-reviewed-labels-v2` includes reviewed group labels
 Its source/expectation digest is separate from the per-format observer digests.
 Changed common expectations require a new campaign; changed SVG observation does
 not invalidate terminal observation. A changed observer cannot be merged into
-only some projects of an existing format. Existing published scores predate this
-policy and have not been recollected by a code change.
+only some projects of an existing format. Historical scores remain at their original commits. Current published results
+record the policy and observer profiles used for their collection.
+
+SVG label profile `svg-label-paint-v3` can qualify a flat opaque label against an
+opaque static gradient with ordinary sRGB stops and sRGB/linearRGB interpolation
+when a colour channel separates that label
+from every stop's channel range. It retains canvas, clipping and occlusion checks.
+Possible colour matches, wider colour spaces, transparent or animated gradients, inherited gradients,
+patterns, arbitrary filters and unmapped path/image glyphs require separate
+evidence; a positive text bounding box does not qualify them.
+For static SVGs made only from text and primitive geometry, label assessment
+retains global paint checks and skips the unrelated visible-ink inventory.
+Images, references, HTML labels and animated content keep the full observer path.
+When those checks are unavailable, a bounded positive raster witness can prove
+plain SVG or transparent HTML text survives its actual backdrop and clipping.
+It compares complete original glyph masks, positions, contours and contrast;
+unsupported effects and path/image glyphs still require separate evidence.
 
 Workers own one outstanding request, bounded JSON frames and private process
 groups. API durations come from the worker/browser. A missing API duration leaves
@@ -47,8 +62,16 @@ collectors.
 
 Fidelity reduces each candidate before loading the next. Reference reuse requires
 a matching control receipt binding source, selection, harness, installed bytes,
-Node runtime and the native/audit evidence. Older controls without that receipt
+Node runtime and the result, callback-audit and environment evidence. Older controls without that receipt
 must be recollected. Test files still use separate processes.
+
+The harness digest includes every bridge language, build template and lockfile.
+The import rewriter's TypeScript package is a runtime dependency; its installed
+implementation bytes contribute to the control identity.
+Candidate bindings also hash the actual bridge executables, scripts and generated
+WASM/glue. Python bindings include installed package sources and extensions;
+Fidelity's Python worker bypasses mutable bytecode caches. Collection checks those
+bindings again after execution and refuses changed inputs or harness files.
 
 To qualify DOM-free files, collect the same frozen selection and artifacts once
 with `TRIDENT_FIDELITY_ENVIRONMENT=jsdom` and once with
@@ -59,9 +82,10 @@ timing benchmarks. Compare them with:
 bun scripts/qualify-dom-free.ts JSDOM_RUN NODE_RUN PINNED_COMMIT FRESH_OUTPUT.json
 ```
 
-The comparison requires identical expanded callback identities, outcomes, gaps,
-faults and native-operation counts. It reads one candidate pair at a time. Only
+The comparison requires attested actual environments and identical expanded
+callback identities, outcomes, normalized failures, gaps, faults and native-operation counts. It reads one candidate pair at a time. Only
 files equal for the supplied cohort are listed. A reviewed receipt can replace
 `mermaid-fidelity/dom-free-files.json`; automatic use additionally requires its
 control identity and exact candidate binding to match. An older or mismatched
-receipt keeps jsdom. The old profile has not been promoted to the current pin.
+receipt keeps jsdom. Vitest projects select the environment; a startup guard checks
+actual globals before imports. Original JSDOM directives retain JSDOM.

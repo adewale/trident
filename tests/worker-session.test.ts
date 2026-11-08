@@ -1,9 +1,10 @@
 import { expect, test } from 'bun:test'
-import { writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { JsonLineSession } from '../unified/json-line-session.ts'
 import { TerminalCallWorker } from '../unified/terminal-call-worker.ts'
-import { memoryLimit } from '../unified/process-memory.ts'
+import { memoryLimit, watchMemory } from '../unified/process-memory.ts'
+import { killCommunityProcess, spawnCommunitySubprocess } from '../unified/community-process.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 
 const temporary = useTempDirs('worker-session-')
@@ -21,6 +22,19 @@ test('concurrent calls are refused, while the owned request still settles and cl
     await session.close(); expect(await outcome).toBe('Worker closed')
     await session.close()
   } finally { await session.close() }
+})
+test('idle shutdown permits EOF cleanup and still kills an unresponsive worker', async () => {
+  const marker = join(temporary.dir(), 'cleanup')
+  const script = `const fs=require('node:fs'),rl=require('node:readline');(async()=>{for await(const line of rl.createInterface({input:process.stdin})){const job=JSON.parse(line);console.log(JSON.stringify({id:job.id,ok:true}))}fs.writeFileSync(process.argv[1],'cleaned')})()`
+  const session = new JsonLineSession(['node', '-e', script, marker], { reply })
+  await session.call({}, 1, 2000)
+  await session.close()
+  expect(readFileSync(marker, 'utf8')).toBe('cleaned')
+  expect(session.child.exitCode).toBe(0)
+  const stuck = new JsonLineSession(['node', '-e', script + ';setInterval(()=>{},1000)', marker], { reply })
+  await stuck.call({}, 1, 2000)
+  await stuck.close()
+  expect(stuck.child.signalCode).toBe('SIGKILL')
 })
 test('unexpected identities and oversized frames retire the session and drain pending calls', async () => {
   for (const [body, reason] of [[`console.log(JSON.stringify({id:job.id+1,ok:true}))`, 'identity'], [`console.log('x'.repeat(2000))`, 'byte budget']] as const) {
@@ -45,6 +59,24 @@ test('invalid or absent API durations cannot become zero or controller API timin
 test('invalid resource limits fail before collection', () => {
   for (const value of ['NaN', 'Infinity', '-1', '0', '']) expect(() => memoryLimit(value)).toThrow('finite and positive')
   expect(memoryLimit('512')).toBe(512)
+})
+
+test.skipIf(process.platform !== 'linux')('memory guard includes the renderer behind a small wrapper', async () => {
+  const renderer = `const allocation=Buffer.alloc(128*1024*1024,1);console.log('allocated');setInterval(()=>{if(allocation[0]!==1)process.exit(1)},1000)`
+  const wrapper = `require('node:child_process').spawn(process.execPath,['-e',${JSON.stringify(renderer)}],{stdio:'inherit'});setInterval(()=>{},1000)`
+  const child = spawnCommunitySubprocess(['node', '-e', wrapper])
+  let stop = () => {}
+  try {
+    const reader = child.stdout.getReader()
+    const chunk = await reader.read(); reader.releaseLock()
+    expect(new TextDecoder().decode(chunk.value)).toContain('allocated')
+    const rss = /VmRSS:\s+(\d+)/.exec(readFileSync(`/proc/${child.pid}/status`, 'utf8'))!
+    expect(Number(rss[1]) / 1024).toBeLessThan(96)
+    await new Promise<void>((resolve, reject) => {
+      const timeout = setTimeout(() => reject(Error('Renderer child escaped the memory guard')), 3000)
+      stop = watchMemory(child.pid, () => { clearTimeout(timeout); resolve() }, 96)
+    })
+  } finally { stop(); killCommunityProcess(child, 'SIGKILL'); await child.exited }
 })
 
 test('a final protocol reply is drained before worker exit and Unicode remains one request', async () => {

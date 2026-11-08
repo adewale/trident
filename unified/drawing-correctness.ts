@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from 'no
 import { tmpdir } from 'node:os'
 import { resolve, join } from 'node:path'
 import { watchMemory } from './process-memory.ts'
+import { pythonRenderer } from './python-renderer.ts'
 import { killCommunityProcess, spawnCommunityProcess } from './community-process.ts'
 import { chromium } from 'playwright'
 import { drawingCases } from '../fidelity/drawing/corpus.ts'
@@ -84,7 +85,7 @@ export async function main(args = process.argv.slice(2)) {
   const labelPlans = new Map(cases.map(test => [test.id, compileLabelPlan(test)]))
   const contractSha256 = planDigest(cases.map(test => ({ id: test.id, source: test.source, expected: test.expected, sourceGaps: test.sourceGaps })))
   const common = { policy: labelPolicy, labels: byteDigest(join(import.meta.dirname, '../fidelity/drawing/labels.ts')) }
-  const assessmentProfiles = Object.fromEntries(formats.map(format => [format, planDigest({ common, ...(format === 'svg' ? { profile: svgLabelProfile, paint: byteDigest(join(import.meta.dirname, '../fidelity/paint.ts')), observer: byteDigest(join(import.meta.dirname, '../fidelity/drawing/svg-label-observer.ts')), empty: byteDigest(join(import.meta.dirname, '../fidelity/drawing/empty.ts')) } : { display: byteDigest(join(import.meta.dirname, '../fidelity/terminal-display.ts')), rectangles: byteDigest(join(import.meta.dirname, '../fidelity/terminal-rectangles.ts')), budget: terminalLabelWorkBudget }) })]))
+  const assessmentProfiles = Object.fromEntries(formats.map(format => [format, planDigest({ common, ...(format === 'svg' ? { profile: svgLabelProfile, paint: byteDigest(join(import.meta.dirname, '../fidelity/paint.ts')), observer: byteDigest(join(import.meta.dirname, '../fidelity/drawing/svg-label-observer.ts')), glyphWitness: byteDigest(join(import.meta.dirname, '../fidelity/drawing/svg-glyph-witness.ts')), empty: byteDigest(join(import.meta.dirname, '../fidelity/drawing/empty.ts')) } : { display: byteDigest(join(import.meta.dirname, '../fidelity/terminal-display.ts')), rectangles: byteDigest(join(import.meta.dirname, '../fidelity/terminal-rectangles.ts')), budget: terminalLabelWorkBudget }) })]))
   const lanes = projects.flatMap(project => {
     const node = catalog.nodes.find((node: any) => node.id === project)!
     return formats.filter(format => communityDeclaresOutput(node, format)).map(format => {
@@ -99,6 +100,7 @@ export async function main(args = process.argv.slice(2)) {
   const due = checkpointDue()
   const rows: any[] = [],
     blocked: any[] = []
+  const pythonRuntimes = new Map<string, ReturnType<typeof pythonRenderer>>()
   // The collection's own times: published dates come from these, never from a later merge.
   const startedAt = new Date().toISOString()
   const save = (state = 'running', force = false) => {
@@ -118,12 +120,13 @@ export async function main(args = process.argv.slice(2)) {
         {
           benchmark: 'Drawing Correctness',
           state, plan, assessmentPolicy: labelPolicy, assessmentProfiles,
+          runtimeBindings: [...pythonRuntimes].map(([project, runtime]) => ({ project, format: 'terminal', binding: runtime.identity })),
           startedAt,
           updatedAt: new Date().toISOString(),
           selection: opts.get('--case') ? 'functional subset' : 'full shared corpus',
           corpus: { cases: cases.length, ids: cases.map(c => c.id), contractSha256, seed: 'reviewed Terminal Drawing Facts, invalid controls excluded', regressions: 'corpus/drawing-regressions.json' },
           versionsFrozenAt: catalog.benchmarkVersionsCheckedAt,
-          method: 'Label assessment: SVG labels must pass the existing browser visibility, canvas and clipping checks; unsupported visibility observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.',
+          method: 'Label assessment: SVG labels must pass browser visibility, canvas and clipping checks, or a bounded pixel comparison proving the complete original glyphs remain visible against their actual backdrop. Unsupported observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.',
           assessmentLimits: { invocationMs: 15000, svgObserverMs: 8000, terminalWorkerMs: 20000, terminalRectangleWork: terminalLabelWorkBudget, compileLabelPlan, labelPolicy },
           rows,
           blocked,
@@ -229,7 +232,11 @@ export async function main(args = process.argv.slice(2)) {
           const openWorker = async () => {
             const python = a.kind === 'python',
               executable = python ? a.executable : /bun/i.test(a.runtime ?? '') || /\.tsx?$/.test(a.module ?? '') ? process.execPath : 'node'
-            worker = new DrawingWorker([executable, join(import.meta.dirname, '../fidelity/drawing/terminal-worker.' + (python ? 'py' : 'mjs'))])
+            const script = join(import.meta.dirname, '../fidelity/drawing/terminal-worker.' + (python ? 'py' : 'mjs'))
+            if (python && !pythonRuntimes.has(project)) pythonRuntimes.set(project, pythonRenderer(terminalPeer, script))
+            const bound = pythonRuntimes.get(project)
+            bound?.assertUnchanged()
+            worker = new DrawingWorker(bound?.command ?? [executable, script])
             const ready = await worker.call({ type: 'init', peer: terminalPeer })
             if (!ready.ok) throw Error(ready.error)
           }
@@ -290,6 +297,7 @@ export async function main(args = process.argv.slice(2)) {
       } else if (formats.includes('terminal') && communityDeclaresOutput(node, 'terminal')) blocked.push({ project, format: 'terminal', reason: terminalPeer?.error ?? 'No prepared terminal artifact supplied' })
       save('running', true)
     }
+    for (const runtime of pythonRuntimes.values()) runtime.assertUnchanged()
     save('complete')
   } finally {
     await assessmentContext.close()

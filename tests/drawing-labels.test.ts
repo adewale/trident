@@ -48,6 +48,13 @@ test('overlapping terminal frames exhaust an observation budget instead of expan
   expect(assessTerminalLabels(flow, 'Mermaid.js Beautiful Mermaid derivative').status).toBe('correct')
 })
 
+test('sparse wide terminal frames are observed within the unchanged work budget', () => {
+  const width = 240, height = 160
+  const drawing = ['┌' + '─'.repeat(width) + '┐', '│Mermaid.js Beautiful Mermaid derivative'.padEnd(width + 1) + '│', ...Array(height - 3).fill('│' + ' '.repeat(width) + '│'), '└' + '─'.repeat(width) + '┘'].join('\n')
+  expect(assessTerminalLabels(flow, drawing).status).toBe('correct')
+  expect(assessTerminalLabels(flow, drawing.replace('Beautiful Mermaid', 'Beautiful Mermaix'))).toMatchObject({ status: 'incorrect', missing: ['Beautiful Mermaid'] })
+})
+
 test('raw source syntax in the output is a failure even when labels are present', () => {
   const echoed = 'flowchart TD Mermaid[Mermaid.js] -->|derivative| Beautiful[Beautiful Mermaid]'
   expect(leakedSyntax(flow, echoed)).toEqual(['flowchart TD', 'Mermaid[Mermaid.js', 'Beautiful[Beautiful Mermaid', '|derivative|'])
@@ -125,4 +132,26 @@ test('a label written with an escape sequence is found in its visible forms', ()
   expect(labelFound('\u001b[31mX', 'A X B')).toBe(true)
   expect(labelFound('\u001b[31mX', 'A \u001b[31mX B')).toBe(true)
   expect(labelFound('\u001b[31mX', 'A Y B')).toBe(false)
+})
+
+test('the static primitive label path preserves global unresolved-paint and visibility guards', async () => {
+  const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
+  const page = await browser.newPage({ javaScriptEnabled: false })
+  try {
+    const label = '<text x="20" y="40" fill="black">Alpha</text>'
+    const fixtures = [
+      label,
+      '<rect width="300" height="100" fill="white"/>' + label,
+      label + '<rect width="300" height="100" fill="white"/>',
+      '<g opacity="0">' + label + '</g>',
+      label + '<defs><pattern id="p" width="3" height="3" patternUnits="userSpaceOnUse"><line x2="3" y2="3" stroke="black"/></pattern></defs><rect x="200" y="60" width="20" height="20" fill="url(#p)"/>',
+      label + '<defs><filter id="f"><feColorMatrix type="saturate" values="0"/></filter></defs><line x1="250" x2="250" y1="80" y2="80" filter="url(#f)"/>',
+      '<path d="M0 0 L100 0 L100 50Z" fill="black"/>',
+    ]
+    for (const body of fixtures) {
+      await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">' + body + '</svg>')
+      const full = await page.evaluate(inspectFidelityPaint, { family: 'flowchart', expected: { labels: ['Alpha'] } })
+      expect(await observeSvgLabels(page, 'flowchart', ['Alpha'])).toEqual(Object.fromEntries(labelPaintCriteria.map(key => [key, full.checks.find(c => c.criterion === key)?.status ?? 'unavailable'])))
+    }
+  } finally { await browser.close() }
 })
