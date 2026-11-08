@@ -4,6 +4,25 @@ import { planDigest } from '../unified/campaign-plan.ts'
 import { atomicWrite } from '../unified/result-storage.ts'
 import { byteDigest } from '../portable/artifacts.ts'
 import { environmentSummary, type EnvironmentReceipt } from '../unified/mermaid-fidelity/environments.ts'
+import { fidelityTargetIdentity } from '../unified/fidelity-control.ts'
+
+/** Stack locations describe the reporter, not the failed operation or value.
+ * Preserve unfamiliar errors and assertion diffs; never equate failures by count. */
+export function failureObservation(message: string, upstream: string, runtime: string) {
+  const lines = message.replaceAll(upstream, '<upstream>').replaceAll(runtime, '<runtime>').replace(/\u001b\[[0-9;]*m/g, '').split('\n')
+  // Message payloads can themselves start with "at". Only a frame with a
+  // recognizable source location may be discarded as reporter formatting.
+  const location = String.raw`(?:file:///|node:|/|[A-Za-z]:[\\/]|<(?:upstream|runtime)>/)[^\n]+:\d+:\d+`
+  const frame = new RegExp(String.raw`^\s+at (?:(?:async )?${location}|[^\n()]+ \((?:${location}|native)\))\s*$`)
+  const isFrame = (line: string) => frame.test(line)
+  const normalized = lines.filter(line => !isFrame(line)).join('\n').trim()
+  const kind = /^(?:Error: )?Unsupported candidate operation:/.test(normalized) ? 'unsupported' : /^(?:Error: )?TRIDENT_ADAPTER_GAP\b/.test(normalized) ? 'adapter-gap' : /^AssertionError:/.test(normalized) ? 'assertion' : 'unclassified'
+  // The reducer distinguishes Trident programming errors from candidate faults
+  // using the first frame. Keep that origin while ignoring its line/column.
+  const origin = /^(?:TypeError|ReferenceError|RangeError):/.test(normalized) ? lines.find(isFrame)?.replace(/:\d+:\d+(?=\)?\s*$)/, '') : undefined
+  const stack = kind === 'unclassified' ? lines.filter(isFrame).map(line => line.trim().replace(/:\d+:\d+(?=\)?\s*$)/, '')) : undefined
+  return { kind, message: normalized, ...(origin ? { origin: origin.trim() } : {}), ...(stack ? { stack } : {}) }
+}
 
 type Run = { job: any; native: any; audit: any[]; environments: EnvironmentReceipt[] }
 /** Compare callback identity, outcomes and all semantic audit dispositions.
@@ -11,7 +30,7 @@ type Run = { job: any; native: any; audit: any[]; environments: EnvironmentRecei
 export function qualifyDomFree(baseline: Iterable<Run>, alternate: Iterable<Run>, commit: string) {
   const alternatives = alternate[Symbol.iterator]()
   let controlIdentity = '', files: string[] = []
-  const targets: Record<string, string> = {}, fingerprints: Record<string, unknown> = {}, environments: Record<string, unknown> = {}, environmentRequirements: Record<string, unknown> = {}
+  const targets: Record<string, string> = {}, targetFiles: Record<string, string[]> = {}, fingerprints: Record<string, unknown> = {}, environments: Record<string, unknown> = {}, environmentRequirements: Record<string, unknown> = {}
   let equal = new Set<string>()
   for (const base of baseline) {
     const other = alternatives.next().value as Run | undefined
@@ -22,10 +41,11 @@ export function qualifyDomFree(baseline: Iterable<Run>, alternate: Iterable<Run>
       files = base.job.files.map((file: any) => file.path)
       equal = new Set(files)
     }
-    if (base.job.pin !== commit || other.job.pin !== commit || base.job.controlIdentity !== controlIdentity || other.job.controlIdentity !== controlIdentity || JSON.stringify(base.job.files.map((file: any) => file.path)) !== JSON.stringify(files) || JSON.stringify(other.job.files.map((file: any) => file.path)) !== JSON.stringify(files) || planDigest(base.job.target) !== planDigest(other.job.target)) throw Error('Profile runs differ in frozen inputs, harness, artifacts or selection')
+    if (base.job.pin !== commit || other.job.pin !== commit || base.job.controlIdentity !== controlIdentity || other.job.controlIdentity !== controlIdentity || JSON.stringify(base.job.files.map((file: any) => file.path)) !== JSON.stringify(files) || JSON.stringify(other.job.files.map((file: any) => file.path)) !== JSON.stringify(files) || fidelityTargetIdentity(base.job.target) !== fidelityTargetIdentity(other.job.target)) throw Error('Profile runs differ in frozen inputs, harness, artifacts or selection')
     if (base.job.files.some((file: any) => file.environment === 'node') || other.job.files.some((file: any) => file.environment !== 'node')) throw Error('Compare an explicit jsdom baseline with an explicit node run')
     const project = base.job.target.project
-    targets[project] = planDigest(base.job.target)
+    targets[project] = fidelityTargetIdentity(base.job.target)
+    targetFiles[project] = []
     const normalizeEnvironments = (run: Run) => [...run.environments].map(receipt => ({ ...receipt, file: receipt.file.replaceAll(run.job.upstream, '<upstream>') })).sort((a, b) => a.file.localeCompare(b.file))
     environments[project] = { jsdom: { ...environmentSummary(base.job.files, base.environments), sha256: planDigest(normalizeEnvironments(base)) }, node: { ...environmentSummary(other.job.files, other.environments), sha256: planDigest(normalizeEnvironments(other)) } }
     const observe = (run: Run, file: string) => {
@@ -51,25 +71,28 @@ export function qualifyDomFree(baseline: Iterable<Run>, alternate: Iterable<Run>
         // they confer no semantic credit or invented callback observations.
         const message = String(suite.message ?? '').replaceAll(run.job.upstream, '<upstream>').replaceAll(run.job.runtime, '<runtime>')
         if (suite.status !== 'failed' || !message || audit.length) return undefined
-        return planDigest({ disposition: 'collection-failed', file, message })
+        return planDigest({ disposition: 'collection-failed', file, failure: failureObservation(message, run.job.upstream, run.job.runtime) })
       }
       if (new Set(audit.map(row => JSON.stringify([row.index, row.name]))).size !== audit.length) return undefined
-      const callbacks = suite.assertionResults.map((test: any, index: number) => ({ index, name: test.fullName, status: test.status, failures: (test.failureMessages ?? []).map((message: string) => message.replaceAll(run.job.upstream, '<upstream>').replaceAll(run.job.runtime, '<runtime>')) }))
+      const callbacks = suite.assertionResults.map((test: any, index: number) => ({ index, name: test.fullName, status: test.status, failures: (test.failureMessages ?? []).map((message: string) => failureObservation(message, run.job.upstream, run.job.runtime)) }))
       if (callbacks.some((test: any) => !['pending', 'todo', 'skipped'].includes(test.status) && !audit.some(row => row.index === test.index && (row.fullName ?? row.name.replaceAll(' > ', ' ')) === test.name))) return undefined
-      const collection = { status: suite.status, message: String(suite.message ?? '').replaceAll(run.job.upstream, '<upstream>').replaceAll(run.job.runtime, '<runtime>') }
+      const collection = { status: suite.status, failure: failureObservation(String(suite.message ?? ''), run.job.upstream, run.job.runtime) }
       return planDigest({ collection, callbacks, audit })
     }
     fingerprints[project] = Object.fromEntries(files.map(file => {
       const left = observe(base, file), right = observe(other, file)
       if (!left || left !== right) equal.delete(file)
+      else targetFiles[project]!.push(file)
       return [file, { jsdom: left ?? null, node: right ?? null }]
     }))
   }
   if (!controlIdentity || !alternatives.next().done) throw Error('Both profiles require the same candidate cohort')
-  return { protocol: 'dom-free-qualification-v2', qualifierSha256: byteDigest(import.meta.filename), commit, controlIdentity, targets, environments, environmentRequirements, files: files.filter(file => equal.has(file)), fingerprints }
+  const common = files.filter(file => equal.has(file))
+  const additionalFiles = Object.fromEntries(Object.entries(targetFiles).map(([project, qualified]) => [project, qualified.filter(file => !equal.has(file))]))
+  return { protocol: 'dom-free-qualification-v3', qualifierSha256: byteDigest(import.meta.filename), commit, controlIdentity, targets, additionalFiles, environments, environmentRequirements, files: common, fingerprints }
 }
 
-function* readRuns(root: string): Generator<Run> {
+export function* readRuns(root: string): Generator<Run> {
   const read = (path: string) => JSON.parse(readFileSync(path, 'utf8'))
   for (const entry of readdirSync(root, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
     if (!entry.isDirectory() || !existsSync(join(root, entry.name, 'job.json'))) continue

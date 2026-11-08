@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+- Recollect the full Drawing baseline with retained outputs and verify complete
+  reassessment without producer renderers; all 4,318 verdicts reproduce. Upgrade
+  unchanged legacy runtime receipts after native qualification, use relative
+  generated links and verify the relocated source/runtime pair against all
+  7,346 source-control callbacks.
+
+- Scope execution identity to worker inputs and candidate bindings. Release labels,
+  descriptions and stack positions no longer revoke Node qualification. Refresh
+  the qualification from verified retained paired runs, keeping per-candidate
+  additions separate from the common file set.
+- Retain compressed Drawing outputs for observer reassessment without rerendering.
+  Check independent observer controls, preserve producer provenance and compare
+  actual frozen operands instead of freeze dates. Native verification script edits
+  no longer force compilation; terminal glyph dictionaries require rendered
+  controls instead of a historical implementation allowlist.
+
 - Close adversarial audit findings: bound terminal frame searches and derived
   text; keep unresolved SVG source leaks unassessed; serve only verified browser
   bytes; preserve valid paired XML and APNG admission; distinguish missing parser
@@ -22,19 +38,19 @@
   integer overflow. Candidate parser faults count as nonpasses, and version-change detection includes
   source revisions, CLI releases and companion versions. Update js-yaml to 4.3.2.
   Recollect the three benchmarks against the frozen 7 November versions. Previous
-  results remain at their original Git commit; native Flutter PNG remains blocked
-  pending the pinned SDK and GTK build.
+  results remain at their original Git commit; native Flutter PNG now uses the
+  verified pinned SDK and GTK release bundle.
 - **Mermaid 12.3.0 is the reference.** The oracle, Mermaid's row in every benchmark and
   the Mermaid Fidelity suite move from 12.2.0 to 12.3.0: 352 test files, of whose tests
-  Mermaid passes 3,676. The Fidelity collector reads its pin from
+  Mermaid qualifies 7,346 active callbacks. The Fidelity collector reads its pin from
   `data/upstream-mermaid-policy.json`, and the no-jsdom file list applies only at the
   commit it was measured at. Building the 12.3.0 runtime needs npm 11.
 - **Trident's own errors no longer count as candidate failures.** An audit of failures
   with an `undefined` received value fixed views that misread bridged requirement Maps,
   flowchart `linkStyle default`, Kanban section icons and tree-view directory names, and
   returns `true` from accepted jison parses. A `TypeError`, `ReferenceError` or
-  `RangeError` raised in Trident's code now marks a test unassessed. Pele, Bezel and
-  Latias94/merman each lose 26–30 failures; unassessed tests rise to 274.
+  `RangeError` raised in Trident's code now marks a test unassessed. Previously misclassified
+  Trident errors remain unassessed.
 - Fresh results collected on 7 November against Mermaid 12.3.0.
 
 - **A fresh collection of all three benchmarks (6 November).** Zombie Mermaid 5.14.4,

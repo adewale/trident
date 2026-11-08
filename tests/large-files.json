@@ -1,8 +1,9 @@
 {
-  "about": "Tracked files larger than limitBytes fail tests/large-files.test.ts unless listed here with the reason the current results need them. Prefer gzip for inputs and keep rendered outputs and raw archives out of the repository.",
+  "about": "Tracked files larger than limitBytes require an explicit reason in this allowlist. Prefer compressed inputs; retain complete benchmark captures only when needed to reproduce published assessments.",
   "limitBytes": 2000000,
   "allow": {
     "results/release/mermaid-fidelity.json": "Complete numeric accounting for all 352 files across the source control and 26 candidates, including per-file dispositions and adapter-gap reasons; the expanded source control replaces the smaller proxy population without retaining rendered outputs.",
-    "unified/mermaid-fidelity/dom-free-files.json": "Complete per-file callback and semantic-audit fingerprints for both profiles across all 26 frozen candidates; numeric evidence binds automatic DOM-free execution to the measured cohort without retaining rendered outputs."
+    "unified/mermaid-fidelity/dom-free-files.json": "Complete per-file callback and semantic-audit fingerprints for both profiles across all 26 frozen candidates; numeric evidence binds automatic DOM-free execution to the measured cohort without retaining rendered outputs.",
+    "results/release/captures/drawing-capture-2026-11-08.tar.gz": "Complete Drawing capture requested for reproducible reassessment: 4,318 observations and all 3,684 returned outputs, compressed and deduplicated; avoids fetching or rerunning producer renderers."
   }
 }

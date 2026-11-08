@@ -49,9 +49,9 @@ export function inspectTerminalGanttAxis(canvas:FamilyCanvas,checks:ReturnType<t
   // No arbitrary skin decoder: only this exact admitted public encoder owns
   // these status codes. Its █ is deliberately noninjective (normal or crit).
   const decoded=task.glyph==='░'?['done']:task.glyph==='▓'?['active']:task.glyph==='◆'?['milestone']:['normal','crit']
-  if(!encoding||task.glyph==='█')unknown=true
+  if(!encoding?.capabilities.includes('gantt')||task.glyph==='█')unknown=true
   else if(!same(decoded,source.status))failed=true
-  return {...task,decodedStatus:encoding?decoded:null,projectedSourceInterval:{start:source.startDate,end:source.endDate},expectedColumns:{left:wantedLeft,right:wantedRight}}
+  return {...task,decodedStatus:encoding?.capabilities.includes('gantt')?decoded:null,projectedSourceInterval:{start:source.startDate,end:source.endDate},expectedColumns:{left:wantedLeft,right:wantedRight}}
  })
  setFamilyCheck(checks,'gantt-tasks',failed?'failed':unknown?'unknown':'passed',failed?'Owned task captions/sections, literal interval projections, milestone position or independently decoded status contradict the visible day axis':unknown?'Every owned interval/section matches the independently calibrated day axis; unprinted year/IDs/after syntax are forward projected, not inverse inferred. Status remains unqualified without its exact encoder; native █ cannot distinguish normal from critical.':'Full owned intervals/sections and injective admitted status codes match the source-forward calendar projection; source year/IDs/after syntax are retained without requiring printed native fields',{sections,tasks:actual,ticks:observedTicks,scale,axisScaleInterval:{lower:lowerScale,upper:upperScale},barCellQuantum:1.51,milestoneCellQuantum:2.51})
  const title=checks.find(check=>check.criterion==='title');if(title?.status==='unknown')setFamilyCheck(checks,'title','failed','Complete axis/task grammar contains no visible authored title row')

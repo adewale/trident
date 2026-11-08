@@ -1,9 +1,9 @@
 import { execFileSync } from 'node:child_process'
 import { expect, test } from 'bun:test'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, readlinkSync, realpathSync, renameSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { ignoreUpstreamRuntimeLink, prepareUpstream, upstreamZenCoreVersion } from '../unified/prepare-upstream.ts'
+import { ignoreUpstreamRuntimeLink, prepareUpstream, relativeRuntimeLink, upstreamZenCoreVersion } from '../unified/prepare-upstream.ts'
 import { lockedImporterDependency, lockedJsdomCanvas, lockedRegistryVersion, UPSTREAM_RUNTIME_PROTOCOL, upstreamFileDigest, upstreamInstalledClosureDigest, upstreamRunnerVersion, verifySealedUpstreamRuntime, verifyUpstreamInstalledClosure, verifyUpstreamInstalledSelections } from '../unified/upstream-runtime-qualification.ts'
 import { currentReferencePin as REVIEWED_REFERENCE } from '../reference/source.ts'
 
@@ -130,8 +130,15 @@ test('renaming a runtime never bypasses the sealed original baseline dependency 
     const qualifiedSeal = { ...seal, installedClosure: upstreamInstalledClosureDigest(runtime) }
     writeFileSync(join(runtime, 'preparation.json'), JSON.stringify(qualifiedSeal))
     expect(verifySealedUpstreamRuntime(source, runtime, plan).npmLock.sha256).toBe(seal.npmLock.sha256)
+    writeFileSync(join(runtime, 'canvas-install.log'), 'editorial installation note')
+    writeFileSync(join(runtime, 'package-lock.json'), JSON.stringify(JSON.parse(readFileSync(join(runtime, 'package-lock.json'), 'utf8')), null, 4))
+    expect(() => verifySealedUpstreamRuntime(source, runtime, plan)).not.toThrow()
     writeFileSync(join(runtime, 'package.json'), manifest('renamed-runtime'))
-    expect(() => verifySealedUpstreamRuntime(source, runtime, plan)).toThrow('package bytes changed')
+    expect(() => verifySealedUpstreamRuntime(source, runtime, plan)).not.toThrow()
+    const relocated = join(directory, 'relocated'); cpSync(runtime, relocated, { recursive: true })
+    expect(() => verifySealedUpstreamRuntime(source, relocated, plan)).not.toThrow()
+    writeFileSync(join(relocated, 'node_modules/uuid/index.js'), 'altered installed bytes')
+    expect(() => verifySealedUpstreamRuntime(source, relocated, plan)).toThrow('package bytes changed')
   } finally { rmSync(directory, { recursive: true, force: true }) }
 })
 
@@ -156,5 +163,31 @@ test('the external runtime link stays outside source changes without hiding new 
     expect(status).toContain('source.ts'); expect(status).toContain('new-case.ts')
     const wrong = join(root, 'wrong'); mkdirSync(wrong)
     expect(() => ignoreUpstreamRuntimeLink(source, wrong)).toThrow('differs from the selected runtime')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+
+test('generated runtime links preserve their operand and survive moving the source/runtime pair', () => {
+  const root = mkdtempSync(join(tmpdir(), 'trident-portable-links-'))
+  try {
+    const pair = join(root, 'pair'), source = join(pair, 'source'), runtime = join(pair, 'runtime'), modules = join(runtime, 'node_modules'), layout = join(source, 'packages/mermaid-layout-elk')
+    mkdirSync(join(modules, '@mermaid-js'), { recursive: true }); mkdirSync(layout, { recursive: true })
+    writeFileSync(join(runtime, 'package.json'), JSON.stringify({ name: 'fixture', dependencies: { '@mermaid-js/layout-elk': '1' } }))
+    writeFileSync(join(layout, 'package.json'), JSON.stringify({ name: '@mermaid-js/layout-elk', version: '1' }))
+    writeFileSync(join(layout, 'index.js'), 'original module')
+    const sourceLink = join(source, 'node_modules'), layoutLink = join(modules, '@mermaid-js/layout-elk')
+    symlinkSync(modules, sourceLink, 'dir'); symlinkSync(layout, layoutLink, 'dir')
+    const before = upstreamInstalledClosureDigest(runtime)
+    expect(relativeRuntimeLink(sourceLink, modules)).toBe(true)
+    expect(relativeRuntimeLink(layoutLink, layout)).toBe(true)
+    expect(relativeRuntimeLink(layoutLink, layout)).toBe(false)
+    expect(readlinkSync(sourceLink).startsWith('/')).toBe(false)
+    expect(upstreamInstalledClosureDigest(runtime).executionSha256).toBe(before.executionSha256)
+    const moved = join(root, 'moved'); renameSync(pair, moved)
+    expect(realpathSync(join(moved, 'source/node_modules'))).toBe(realpathSync(join(moved, 'runtime/node_modules')))
+    expect(() => verifyUpstreamInstalledClosure(join(moved, 'runtime'), before)).not.toThrow()
+    const unrelated = join(root, 'unrelated'); mkdirSync(unrelated)
+    expect(() => relativeRuntimeLink(join(moved, 'source/node_modules'), unrelated)).toThrow('different target')
+    expect(() => relativeRuntimeLink(join(moved, 'source'), unrelated)).toThrow('different target')
   } finally { rmSync(root, { recursive: true, force: true }) }
 })

@@ -1,5 +1,5 @@
 import { planDigest } from './campaign-plan.ts'
-import { fidelityControlIdentity, assertReusableControl } from './fidelity-control.ts'
+import { fidelityControlIdentity, fidelityTargetIdentity, assertReusableControl } from './fidelity-control.ts'
 import { byteDigest, runtimeIdentity } from '../portable/artifacts.ts'
 import { atomicWrite, reserveResultDirectory } from './result-storage.ts'
 import { executionEnvironment } from './execution-environment.ts'
@@ -116,7 +116,9 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
 const domFreeFile = join(import.meta.dirname, 'mermaid-fidelity/dom-free-files.json')
 const domFreeRecord = existsSync(domFreeFile) ? JSON.parse(readFileSync(domFreeFile, 'utf8')) : undefined
 // Automatic reuse also checks the control and each actual candidate binding below.
-const domFree = new Set<string>(domFreeRecord?.protocol === 'dom-free-qualification-v2' && domFreeRecord?.commit === currentReferencePin.commit ? domFreeRecord.files : [])
+export function qualifiedNodeFiles(record: any, controlIdentity: string, target: any): Set<string> {
+  return new Set(record?.protocol === 'dom-free-qualification-v3' && record.commit === currentReferencePin.commit && record.controlIdentity === controlIdentity && record.targets?.[target.project] === fidelityTargetIdentity(target) ? [...(record.files ?? []), ...(record.additionalFiles?.[target.project] ?? [])] : [])
+}
 export async function main(args = process.argv.slice(2)) {
   if (args.includes('--help')) {
     console.log('mermaid:fidelity --upstream DIR --reference DIR --runtime DIR --prepared FILE --out FRESH_DIR [--projects IDS] [--filter PATH_FRAGMENT] [--reuse-reference PRIOR_OUT] [--timeout-minutes N] [--workers N]\nExecute original pinned tests in Vitest, once per candidate and control. --reuse-reference reads an earlier complete control run for the same selection instead of repeating it. --workers runs that many test files at once (default 1); tests inside a file always run one at a time.')
@@ -252,8 +254,8 @@ export async function main(args = process.argv.slice(2)) {
   for (const target of targets) {
     const directory = join(out, encodeURIComponent(target.project))
     mkdirSync(directory)
-    const qualified = domFreeRecord?.qualifierSha256 === byteDigest(join(import.meta.dirname, '../scripts/qualify-dom-free.ts')) && domFreeRecord?.controlIdentity === controlIdentity && domFreeRecord?.targets?.[target.project] === planDigest(target)
-    const candidateFiles = files.map(file => ({ ...file, ...(!process.env.TRIDENT_FIDELITY_ENVIRONMENT && qualified && domFree.has(file.path) ? { environment: 'node' } : {}) }))
+    const domFree = qualifiedNodeFiles(domFreeRecord, controlIdentity, target)
+    const candidateFiles = files.map(file => ({ ...file, ...(!process.env.TRIDENT_FIDELITY_ENVIRONMENT && domFree.has(file.path) ? { environment: 'node' } : {}) }))
     const job = { upstream, reference, runtime, files: candidateFiles, target, workers, controlIdentity, pin: PIN, results: join(directory, 'vitest.json'), audit: join(directory, 'audit.jsonl'), environmentAudit: join(directory, 'environments.jsonl') }
     const jobPath = join(directory, 'job.json')
     writeFileSync(jobPath, JSON.stringify(job))

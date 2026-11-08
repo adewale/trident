@@ -1,0 +1,689 @@
+{
+  "protocol": "trident-behaviour-qualification-v1",
+  "recordedAt": "2026-11-08T11:02:09.487635+00:00",
+  "scope": "Qualification and readiness checks. Published benchmark scores and timing collections were preserved.",
+  "referencePin": "2086904e76c692331e34a45d7cc3bc30860d040e",
+  "qualification": {
+    "file": "unified/mermaid-fidelity/dom-free-files.json",
+    "sha256": "d3456cc3442feedc1321e212078836335eaa33a3cd9d4da1b145906fea4be2e4",
+    "originalSha256": "973f25265d859fc610312555d095b9020dfbb56d17d8471f4c8cd1feff6c722f",
+    "producerSha256": "557453c9e15ee0b1a1a335be95a47f2a92485df44a1e35a223ae836b22eae8a8",
+    "candidateBindings": 26,
+    "commonNodeFiles": 349,
+    "additionalNodeFiles": {
+      "1jehuang/mermaid-rs-renderer": 0,
+      "adewale/agentic-mermaid": 1,
+      "AlexanderGrooff/mermaid-ascii": 0,
+      "anomalyco/opencode": 1,
+      "crabtalk/bezel": 1,
+      "crafter-station/mermaid": 0,
+      "dfadler/zombie-mermaid": 0,
+      "Dicklesworthstone/frankenmermaid": 0,
+      "emtyty/merslim": 0,
+      "evangwt/xmermaid": 1,
+      "fasouto/termaid": 0,
+      "kais-radwan/ascii-mermaid": 0,
+      "kitlangton/merman": 1,
+      "KlangHaus/vitepress-plugin-diagram": 1,
+      "Latias94/merman": 1,
+      "lukilabs/beautiful-mermaid": 0,
+      "Mootikins/figurehead-rs": 1,
+      "obsidianmd/pele": 1,
+      "orestesgaolin/mermaid": 0,
+      "pub:mermaid_flutter": 0,
+      "sandyyst/dsh-plugin-mermaid-gb-svg": 1,
+      "spacedock-dev/mermaidtext": 0,
+      "tariqshams/mermaidtui": 1,
+      "wevm/ondine": 1,
+      "xai-org/grok-build": 0,
+      "Yassimba/loom": 0
+    },
+    "requalification": {
+      "method": "Recomputed qualification from unchanged retained paired executions; no callbacks or timings were recollected.",
+      "originalControlIdentity": "1cf1f6a40661f36455931ff2efc51719d0f1ffa42ca50896bf4244dc6cc1cbe5",
+      "controlIdentity": "12b24c9f1f1ea37dee6c28c7054b23809a47bb3d633cde621d4453c025358209",
+      "workerSourcesUnchanged": true,
+      "executionInputsUnchanged": true,
+      "oldFingerprintsVerified": true,
+      "rawEvidenceSha256": "3b57cc3252d5463d1cb1d814b04c947626014fd4de8e21dbc960127a57767ea3",
+      "pairs": 26
+    }
+  },
+  "automaticRun": {
+    "project": "emtyty/merslim",
+    "files": 352,
+    "environments": {
+      "node": 349,
+      "jsdom": 3,
+      "unobserved": 0
+    },
+    "matchedNodeFiles": 349,
+    "callbackAndAuditMismatches": 0,
+    "controlIdentity": "12b24c9f1f1ea37dee6c28c7054b23809a47bb3d633cde621d4453c025358209",
+    "callbackCount": 7364
+  },
+  "releaseLabelCheck": {
+    "originalVersion": "0.2.1",
+    "changedVersion": "0.3.0",
+    "before": {
+      "identity": "12b24c9f1f1ea37dee6c28c7054b23809a47bb3d633cde621d4453c025358209",
+      "nodeFiles": 349
+    },
+    "after": {
+      "identity": "12b24c9f1f1ea37dee6c28c7054b23809a47bb3d633cde621d4453c025358209",
+      "nodeFiles": 349
+    },
+    "retained": true
+  },
+  "nativeSmoke": {
+    "admissionChecks": [
+      "valid",
+      "null",
+      "empty",
+      "non-png",
+      "truncated-ihdr",
+      "zero-size",
+      "excessive-pixels",
+      "overflow-dimensions",
+      "excessive-encoded-bytes"
+    ],
+    "bundleSha256": "a25b5d496209135c633ee1d0c0d58ef49b7cec11c54c34266acf2c6ac166cff4",
+    "protocol": "native-flutter-smoke-v1",
+    "ready": {
+      "mode": "release",
+      "package": "mermaid_flutter",
+      "runtime": {
+        "dart": "3.13.7 (stable) (Thu Oct 22 14:28:57 2026 -0700) on \"linux_x64\"",
+        "platform": "linux"
+      },
+      "type": "ready",
+      "version": "0.3.2"
+    },
+    "result": "completed",
+    "verificationSources": {
+      "build.sh": "80dd4ad40afa60eba624e18356fa1151681591b816c45253766899707a1990d9",
+      "bundle.py": "d2e69d1dfe2bbc8cc2368f24a884514996f280657f3065830d7737a84d14cc84",
+      "env.sh": "520319562f372e05e8dc833ecc47d25a02cb18b6327fcb930eebdff6980ce970",
+      "smoke.py": "969639c9a06a5cecc3a90f00ae2525b2e5031e247798c97f56ee41e804ad265b"
+    }
+  },
+  "terminalControls": [
+    {
+      "version": "0.10.0",
+      "controls": 9,
+      "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+      "archives": [
+        {
+          "sha256": "b884a616d30071643f8e93528b0ad68bd5696b41a7b5d31cd0554d2f990f28f2"
+        }
+      ],
+      "runtimeSha256": "386ab151ea1746b04bddb0d7432611a859bcff81c0a4798943c62acd3701bf56"
+    },
+    {
+      "version": "0.12.0",
+      "controls": 9,
+      "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+      "archives": [
+        {
+          "sha256": "1e2fbbb9a81f82b68113802ec8cde6683fab5d6d102a8a83fe29d5cd15702dc6"
+        }
+      ],
+      "runtimeSha256": "3da7d0507ff9cdce02d7402b70674435914f960888cc9a96d1831a3330a6063b"
+    }
+  ],
+  "validation": {
+    "ci": {
+      "passed": 1070,
+      "skipped": 1,
+      "failed": 0
+    },
+    "affectedTests": {
+      "passed": 56,
+      "failed": 0
+    },
+    "typecheck": "passed",
+    "lint": "passed",
+    "svgObserverControls": [
+      "visible-label: correct",
+      "missing-label: incorrect",
+      "source-leak: incorrect"
+    ],
+    "nativeCanvasAndJsdomPixels": [
+      17,
+      34,
+      51,
+      255,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "constraints": [
+    "Historical Drawing runs without retained outputs require recollection before reassessment.",
+    "Runtime preparation receipts need fresh preparation when operands changed, and before relocation if they lack executionSha256.",
+    "Observer controls qualify their exercised cases; they do not establish equivalence for every possible drawing."
+  ],
+  "rawEvidence": [
+    {
+      "profile": "jsdom",
+      "project": "1jehuang/mermaid-rs-renderer",
+      "files": {
+        "job.json": "6941b230c768d88028ebb8cce7188d51068a14b03b7daa0448861150366e76f0",
+        "vitest.json": "c7c2efc0882dcfdc8fe0d97ad41f6f9d5467bfd6a22b880a0cb587db527bf2a4",
+        "audit.jsonl": "55d41e121f3ecf2132e89a495af7c4dd56b041b79cced2354187673563264697",
+        "environments.jsonl": "0f6f619b7f49ca677192a1f3fab982aad08210d471bda421b5c3ebf2508b2fb5"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "1jehuang/mermaid-rs-renderer",
+      "files": {
+        "job.json": "dc2cfab6e89f0262ce92498636efa059c765e01d5d2b53319c00ec6f95dabfc9",
+        "vitest.json": "a073b42657f56c65b07c162ebbc1a88ba4cdc55f3d02f2d10e2e63da60e1c391",
+        "audit.jsonl": "1fb50d3d79208a3d62b11d244f49cfb70f24dbe0fff637a6ebfe7ce87afbb349",
+        "environments.jsonl": "60643ac40f9d3b60fd1cd8679ac977dc869c201e762a6356d6164b7d4937c18e"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "adewale/agentic-mermaid",
+      "files": {
+        "job.json": "030cadf07fc1022504524a0ca82e7d4a6c10118d163438afc6157b37f06f8cc5",
+        "vitest.json": "99465d28b22f9de35326639fa5420e4f17cbe1151471f755544d34a5739d013e",
+        "audit.jsonl": "93738ec86ef2b394be52e61a7f22f3666b452cf48f29755d2a91f5bcd5a97987",
+        "environments.jsonl": "0cfd517b5f6c886e64eb3b39c1562d97ee50ec3ae94d1b77ee25bc22f419bc4c"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "adewale/agentic-mermaid",
+      "files": {
+        "job.json": "88669ffab2f8af3db69ff5d905596498152b36466aff5d59f065d40a185c1a69",
+        "vitest.json": "6ce2617a644d403709f7c6de387e9c199c8a2e2fa0807de8be2b0cbd022b311d",
+        "audit.jsonl": "7db1798fa514a835a26ffcf66994278dd417820cafdb88e2e15c6f229dc6c6ff",
+        "environments.jsonl": "8c7cab98dcdf5169c51bcd9c0f4ece85138079c03f0ee36feb15b4f9091701bd"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "files": {
+        "job.json": "cd8f73e294d4e0aaf0744424daa79297c695ccb445acaa8dbfca8fc47dd0e9bc",
+        "vitest.json": "ad29afb23c011ebeade5a47c4cf509c9d53b7a01c52f53f23676a4ae1baf4bd1",
+        "audit.jsonl": "d1b8bc14e5cb41d6862653b983e643ee199148cea9fdc26a65793460d07886df",
+        "environments.jsonl": "4c73305a512277fa186d45fa44ee644782e73b89b6ef36195b48754317a6e78d"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "files": {
+        "job.json": "d9b14b696cfe23ebb236bab6fea02b6f9d5a65b5d88301d245a2e661ccaa0681",
+        "vitest.json": "f72889c4d70eefdbe7a68168a81d15eca0f52daf89a6cfa6f95d99606331bbc3",
+        "audit.jsonl": "4b1e87c0c7d55480b559c16d590af1cc4f9c617a586536fdb0a1a65aaa39763a",
+        "environments.jsonl": "fa161b87ab9d662f9d826b9df1275b7ebfb72fa11561a7013b233c96021e988c"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "anomalyco/opencode",
+      "files": {
+        "job.json": "b3d9b6af234c9b02dd3fad8fa07bd05d523ebeb8e9ef245a0773c7ea64203952",
+        "vitest.json": "c234ad4595dfad5a830dd0df216077baaa1dd950b2747821dd570d09acc1b4ee",
+        "audit.jsonl": "b55f9348f8abdf1aedf17afd2d3e15741209287f6a13a620ebdb0bf95fcf99fd",
+        "environments.jsonl": "8347e2e370890f4fba6b4b545176c8d878477ac5b398b83d95a229a197c63272"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "anomalyco/opencode",
+      "files": {
+        "job.json": "b36e4af61378563283c567d43817e42f1beb04930edd70cea3ab4c353ca5d6e8",
+        "vitest.json": "76580bbd8d847613915259dbe65eff1548343656c784ae2235a91477f441bee3",
+        "audit.jsonl": "3d46b4fb48aa98c6fb65995ea4cd48a6bb7e16228f89ed3c7b505b1fd18333d5",
+        "environments.jsonl": "003895445f5b6e7aa9422d457cc038c3cde1123c4e99e96e6308d95f5e20186e"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "crabtalk/bezel",
+      "files": {
+        "job.json": "b0f985a315fb654be03131f26ecc157df454800eea81f98aabe3dc3fac1f5fe5",
+        "vitest.json": "8ccefc53f8d391f254cc98ff7ae3e18c5eb3c7328c57e30f3e347aa60decec5c",
+        "audit.jsonl": "3af0179b602c26c6c4eac0826614919741894552cef33c30c67f3878705b8396",
+        "environments.jsonl": "c869be3cc16b5da41ea9811e378efb965f006ccc878e39d2be89579e2be996db"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "crabtalk/bezel",
+      "files": {
+        "job.json": "e1476c16ec6caedf27c724aab2f1459f3eb204ebc7d939e3514b014b3a64b90c",
+        "vitest.json": "f36dfc9685ce5006942477512d6c919863877ee772d174d4bcad1358fc226d4e",
+        "audit.jsonl": "83a8efee4c9b9a13974a252f5f1e5cb750887e3da5e475c9d2661abcb6539611",
+        "environments.jsonl": "7356dd0151592a8b8cad1cbd58497a415a17792775d1936826676f5915e14476"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "crafter-station/mermaid",
+      "files": {
+        "job.json": "d2c2f26599a1aad302adddc90482b8647de95836aac312d3529fd5bef4b3e058",
+        "vitest.json": "0a3862f0f9e41a22ce65252a6be18cd84afb828207ec21ce0d80cf82757aea83",
+        "audit.jsonl": "b383b93a83141f1abc917137b220a572def6796ef01d95aa4c90715463e1e9d7",
+        "environments.jsonl": "efa4dd27088de31d13284d2fa913c738ad893c53b4341cb1891cd86e1880c6ce"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "crafter-station/mermaid",
+      "files": {
+        "job.json": "ba012d855ba93151ad1798e82d16775ed32d346052132f040cb71ba7f7a5a160",
+        "vitest.json": "7311fded1f7c691c84a07a48542f2673610c5ea7aa17bc4255632b1920b4b7f9",
+        "audit.jsonl": "d567884d7ed16ee541a1d89fb02d3fdd785dbaecd354c6722708e81edef6cf57",
+        "environments.jsonl": "cf1c5e0a9d448dad56745d4c54e2c1f5395deb9fb2ac7466102ee68f9f141b38"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "dfadler/zombie-mermaid",
+      "files": {
+        "job.json": "03914cdb2b67a61c24d59bafea4cccc1922703d56cf6b406c670e09f55d98128",
+        "vitest.json": "915b73ac5037b29eb2db9b699c0686e8cfc06b56e2c7202404c27a02914a202f",
+        "audit.jsonl": "cd0c2eae9fb9ae81187d85244dd704283c94d1dcba68b9ba633bb1edecc3946d",
+        "environments.jsonl": "a06e41854902e159bc985b8136c9bfdd6efc27583b384a527a12a75dbcb4fccd"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "dfadler/zombie-mermaid",
+      "files": {
+        "job.json": "a690d091307e9f9c4f2e9bcdae28237f0d013b8f49dabc68b8290058a7d44f90",
+        "vitest.json": "66e52854efbe82cf89263eb1b69fba311d21e1f7511428eb7ac30bcf6c6b883b",
+        "audit.jsonl": "5fcd0b6bcab774991d69a304df0a66475a74bd86b7b0ea40dcffe524a6acd0f7",
+        "environments.jsonl": "a1262f9c00b367acdfa5bc6aeec5f999a2a757ebafcff9c40118ceecb084aa8e"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "Dicklesworthstone/frankenmermaid",
+      "files": {
+        "job.json": "9c00c2adb14793ba9aece7787cc9f1dd7e7d15dab6d8ae39a34673d7fd6bcc4a",
+        "vitest.json": "c0637b51925399a1079635ec0a304525f1c0b7f3c139fa384dd3efac5cbdee22",
+        "audit.jsonl": "194aeb7d0c7503a5ce0bbae5b23331f70649b508f47e45869c0ff2f532fb5ec4",
+        "environments.jsonl": "fa136ab9b4c84520a8152d069fc1c7660abddf8366ac80e350a6b9c24fe139cc"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "Dicklesworthstone/frankenmermaid",
+      "files": {
+        "job.json": "d88ddccf5c7457145a6154bac78a2c264712611cf7ca831fab59e427d7df612a",
+        "vitest.json": "c6008b38fabb67ebc389bff14cee6c0a0b562442c37c6d5bc706eb6a55918d29",
+        "audit.jsonl": "61a5b3cc5919e23caee2aa5769513e84acecbb560efb75e63e6ce12b88edc6ef",
+        "environments.jsonl": "f62a722e044803f65dafb5be946a44035d1e5df241ce2a2283ceba85934ad40a"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "emtyty/merslim",
+      "files": {
+        "job.json": "e4197c81693a8062ca446647c666b8abffd447a2801637f7ad93179db583341e",
+        "vitest.json": "be56bdbe2efced8d8000f742a64177427eb212cf30f859aa1edd9949d9d62ebf",
+        "audit.jsonl": "7139df5d43fca9388b6c0ae6517e83802335fc7898922ef53ac81e4e25c1e975",
+        "environments.jsonl": "4854328e5b9529318434b6f4595c82b00592201a74c0fd23585971ab9f35d67b"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "emtyty/merslim",
+      "files": {
+        "job.json": "f68a81c1c03d754afcf46d10a8fa471a0299542674f37dddc523568c6dc2f070",
+        "vitest.json": "bbd247d6771651eaebc79631262cf630f8f3023d2eb060697b93bdf44828cea5",
+        "audit.jsonl": "903d82c403b6bcf522115cd87a69e0b0b2beab4f99481671f698a817feef1c43",
+        "environments.jsonl": "42aa73525515babe072abd2de984948198a0c289214522ce277b6c72bc1ff1dc"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "evangwt/xmermaid",
+      "files": {
+        "job.json": "43cee34c3d3375636af37b7ec783bc104e65ccc215b93395d90d919e4166d9b7",
+        "vitest.json": "4a4f5f86ff4736011d0c10a371b77a62484371b1de8764afb7f3e0e321fabd83",
+        "audit.jsonl": "9e1daee87ffe443b29045c141701d6bd68b23fbd5c9a8de88724d26cdfc89bcb",
+        "environments.jsonl": "47e3fbba1d3e2a42dc909727fa7d915cc714911a228686890de5021f8d61f2f0"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "evangwt/xmermaid",
+      "files": {
+        "job.json": "e2d009acde0cb2581a36685737c4449cbfbbfc2664e13478f63456fa3e17d970",
+        "vitest.json": "11fabd37553815bf4c464df9f20339d0e640106f69aaca93208032e8db59ef12",
+        "audit.jsonl": "5e34c1c1cc21e25cce7954251a0357f67484ea8dea33b3f95c7d5d5584c6b9b6",
+        "environments.jsonl": "5b42c2304a5f87d9fa68390f4076741ff2e917b2546e387798c9d377805177b1"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "fasouto/termaid",
+      "files": {
+        "job.json": "31f24b5772baeceb9e1ba5e7128a5b753fa335ba50afd766d68b7be69b418428",
+        "vitest.json": "b7858c730393182ecc474381d221da683dc29e1b85d4ac40a2fffa0946cc56e2",
+        "audit.jsonl": "c5b1f8199a64db8138d4bdef79b380026be300d0210c4914b21ff3bf54cab934",
+        "environments.jsonl": "08454dc9589239a9ee356f982ea01fddc0ce523511472d580535ee6992fc341f"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "fasouto/termaid",
+      "files": {
+        "job.json": "32ff9a5dbb67e8a2e73b8f02895b062fa2c78ba2958809a5d0072e52a3ccd4a1",
+        "vitest.json": "ebb8d8712e30ed77f8a8fabab4aa3227d3dd7d1f2314f9fa678d9cc55e729362",
+        "audit.jsonl": "296f5568c4c1746c89cc40b38de2640d53afe407f50f9d7aed4ca886bbeaf1cc",
+        "environments.jsonl": "e02f966e01c33724908bcd29c3dc88af9610e71fcf8279237f81345699d940c7"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "kais-radwan/ascii-mermaid",
+      "files": {
+        "job.json": "9d90ba38fddfadfbad04768cdc81158fdc11845ab452a80ee1db7d20f4a07a6f",
+        "vitest.json": "5c269e1da574f3c2815d5448e4a3faf395d3824c4ed00197c27cbf9f0c78263a",
+        "audit.jsonl": "522b93444adcf1444343ecefd60ab5ed7260f23afa904724b0bb3dcde57a651d",
+        "environments.jsonl": "60e408d65409cc013191962cb619f35986e65d961337d812efcaea5480550b6e"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "kais-radwan/ascii-mermaid",
+      "files": {
+        "job.json": "598a7d24e70ef1a8ced0101c2576993db03e4fff105657fba508a47250ebf892",
+        "vitest.json": "ace0687cb06208c6fc470ecd8587c2394b733f5dc04af7cf4de2172721ea7441",
+        "audit.jsonl": "beff49e6264dbddfd00e1c43260d554615c4a0a7751375b4087ab8b103834bbc",
+        "environments.jsonl": "789f0b0655264a6f69078cc24f7862a1ef12b5fff3b85fc0b748cee18936e672"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "kitlangton/merman",
+      "files": {
+        "job.json": "05bb3712d27865cb4ba4f5ab1d51088e81bc6202829ad9fd0176a643cb38482b",
+        "vitest.json": "312120d59b254a1ccf92028cc635205b7cbe28fe5d1e2107c2b242c7caac7727",
+        "audit.jsonl": "7254010b9451a80887a591e0c97d00ab37afb84bbea22c8c85e84fad11b7aed2",
+        "environments.jsonl": "e9506fc1d6e6ef46fba239440bc42c2eace3978359458ab0888d97eebb175a6a"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "kitlangton/merman",
+      "files": {
+        "job.json": "06762133825069828805e9771069be9e5e15b5f5b3776b97b5cc3c7b60b72119",
+        "vitest.json": "4cf9d25458efd62c06b3b5646a2cc4e1bedf06121a8929f137b525045d00d83c",
+        "audit.jsonl": "89871f328e29ed4ca0a6ac2357f338bbad3e5611f02ba7b6dc73758d5ae0791f",
+        "environments.jsonl": "2b9fee5ebc0fa874f4f74e7cfeb3513d18f159b10893552c46a35070d1681d60"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "files": {
+        "job.json": "193bc39acd0a51410b900bb4cf9933a96c20456e3b0708eb0820b31f5a411a54",
+        "vitest.json": "2f41c9b4e07b6f85cd1769cddbf0a6ca2047bdd9a99a5680545117ef13398c41",
+        "audit.jsonl": "8917a77b91e1399cf99def219e3527c763daf2fd698f3e347b34b8d23b1d7ae5",
+        "environments.jsonl": "9f9180fa9b92f62c3594afb1878814f14c1fe9a21ad252c214fafb21ed078154"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "files": {
+        "job.json": "c341cdaf1c741a44b72c1984cc787d69789a78c64049b0090a0724d1ebaf2124",
+        "vitest.json": "4f5f02fb68220364a30ca90fa99ed89787532ea592dcd83d2622676b6649af53",
+        "audit.jsonl": "c59c0955fd63888f8997ee208591b129267633291834b5c158d1ec15fc7bdf5b",
+        "environments.jsonl": "6a0ea624a0000fb3fca9a2d4a9df87fc825b94eba2d7fd40a296e4eec9be7cbe"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "Latias94/merman",
+      "files": {
+        "job.json": "dc2da3428cca86662182e53dadf64dd3778fb7aac93bb4472fafd373b6802cb9",
+        "vitest.json": "43e8bb2b79d05acbc57796e21fd94969011c870e50f50a4287fadab999abd2e7",
+        "audit.jsonl": "a37b2b16cba2b6db87bb9628d2e1ecb67a245e0b9afa04be4515c50db0c49f0c",
+        "environments.jsonl": "2a8851f0b254f9cf6989a887badc38fd5c0b59d7c52e3993e11c285d172db5a1"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "Latias94/merman",
+      "files": {
+        "job.json": "cec2e42158e57e18c23de79eeb27d1b2dddcf687c174691c6a84185dd4282e84",
+        "vitest.json": "b9b3786a42e32dc71b61b37a8615084a41e01c6447fdf6fab8d4b11d461e7f84",
+        "audit.jsonl": "6d245e4afd21468ec8178ba6390505b6518e025f62a26335f57ee366b3e27df1",
+        "environments.jsonl": "dddd512030840219c65632b86d8f8f858d07cd05936ed5b6087ac3a8bcae7bca"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "lukilabs/beautiful-mermaid",
+      "files": {
+        "job.json": "c0c8ae693b5067ed3a744a8f62968416455902fa76c40fa6a90735555a9d22a7",
+        "vitest.json": "29be3daca20e249150aa81011bd4d47b72f39304e0b31f9337b2f4e8147b095c",
+        "audit.jsonl": "01600e4d1cc512daba53d4dbbc4f5f077ce3dc3c6505e641d799aa2a08ce0032",
+        "environments.jsonl": "8e581c46f50099dc2acc26bcc8073ecd2c8c6de6c4dafd330e01c2d9bfcdc631"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "lukilabs/beautiful-mermaid",
+      "files": {
+        "job.json": "a2b373fe5aeffef416c7066c58449722158bce05b8a49945c12ae473ed2df1b8",
+        "vitest.json": "2f559c8a8d284b13160b1229f1bbf95a2e90be9bb0bf1127ca674826f1397953",
+        "audit.jsonl": "7efd4e144b0e0b5a7c9b6335279a589adec1f740006cdacfd006ec5a98698544",
+        "environments.jsonl": "bef7c3044b3c55feba67cfd812ba819747ff158bb7bac1670a9a07d2b2ac0611"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "Mootikins/figurehead-rs",
+      "files": {
+        "job.json": "4547f0aaf5289030bcc90578fdffe4f0d767806c835ee8277c44b8ca03db9b1f",
+        "vitest.json": "83f3f306c8c3fa957351fa6a8d565a2b2c122797aa8ce77d42832f074630e509",
+        "audit.jsonl": "96d80ed825debdeed4d6eabca6054558424842fd4fb14ff92540f4c122c8afba",
+        "environments.jsonl": "072413242480a59a55cec8bf67f6b1302dc49bb24a996a89d199a5b68f13ee22"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "Mootikins/figurehead-rs",
+      "files": {
+        "job.json": "721733919a19fc2013c861cc10138951f19b19c4d38eae4c25b4ab7aefd1f7cc",
+        "vitest.json": "f2cb4aa1a2a1dc66e88eb3a4f248f1df2dfc6daa96345915dd711a3352b743f2",
+        "audit.jsonl": "5df30ee791015f76725feec37bcd1aa080c648774da6d470bd9e2a68ece83656",
+        "environments.jsonl": "4076ca7188e75d3e092bdee8813b0dd2d69729246c2f41bdd4c8e3cff8844ebe"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "obsidianmd/pele",
+      "files": {
+        "job.json": "41658561bf1796de9ee14479798f605ec4177ecf9ab6210f6bd97537e5f52bfe",
+        "vitest.json": "82e73ca669ec8a4a5f593fc4f3c5fb49c45b2abea6928c977a641eca0a08be43",
+        "audit.jsonl": "95020da9047e237dc46f42227cc0a4dc4703fe4a82ea1791224edd331e93b8f4",
+        "environments.jsonl": "d33d9a8b6616687b5b2b4e265de5b52f4bbcfb6fabcd9e0a5709935ca42e1024"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "obsidianmd/pele",
+      "files": {
+        "job.json": "33aa5f65c7411728165c5dfcbdd4c59d73080a40c733a8a5ca665274fb8e60d8",
+        "vitest.json": "23f770c6cee0973d9fb36f4151374761c4d0cb152434a9d3ef952402b7f91da2",
+        "audit.jsonl": "b6e52214fdfc7d2eaaaeffa095fdb70a3ef6edfc43ea73b4a5734d0783c537b1",
+        "environments.jsonl": "2c931ea47577da43123f2f0e4549e696c1c7a565ad95eddd365ad0558240bc62"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "orestesgaolin/mermaid",
+      "files": {
+        "job.json": "52052b745bd4c310c627e623c1ed628cd81f7b9cda35dade30bbcaaf3b914e45",
+        "vitest.json": "f4813b44e9cbb33d77716dc516a60edf461b03a4da9cf3a7be4b831bd36efe4a",
+        "audit.jsonl": "4248a2eb8a48709c806f0cdf06e3fbec5740e8c4ea4baa35914a92d54d211c59",
+        "environments.jsonl": "67407821223f7eaf34e1c8c06fd4b5cd68674e01d1019e05a3f73599a50083a4"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "orestesgaolin/mermaid",
+      "files": {
+        "job.json": "2558f767f4569ecf8634eb4bbcef404782e5df43f65bf281238b50f3162f7bea",
+        "vitest.json": "103d910de4f118c57dbb1bf9c0bd79fa6938c7ae52ed7c767f35050d9c628e96",
+        "audit.jsonl": "ed213fe3441893fc0140a1c91b85fc8d9965867913f420d1d0f5c442b15666bf",
+        "environments.jsonl": "514bb4d84bcc299930aeefee226bd3665eba174780be8c7a5c040402d4546567"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "pub:mermaid_flutter",
+      "files": {
+        "job.json": "71cbdec30cafbebefd9f4f0c7b7b7d488fcdb1cd0a2bd322f84f6e64e2358be6",
+        "vitest.json": "123d161be6a7e416c8078feac4bd091c6c64cac04dd2776f84bbcfe4f37a359c",
+        "audit.jsonl": "7932c76b3db57b25739690baa1d23e87a04fd08a3eed4025f38a15da681aef32",
+        "environments.jsonl": "334e2cd4607913eb2d3a00e12219079fa3f87fad9a09aa5601fcf4b20ddb43e6"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "pub:mermaid_flutter",
+      "files": {
+        "job.json": "c06ca5030f3476cf13355987186541ea907d634cb5f4f2b53330c2d69888f886",
+        "vitest.json": "78b216a82ce2eb600fcf9976c615736792e1f17ad3f77224fa87ecef2ff13032",
+        "audit.jsonl": "7df49063e859cdada8b1627553bc573b934b615e23cf4de2a8f131613e72f844",
+        "environments.jsonl": "134a8140f75c04b27d81d14970cac1f0a6c860542c95c271d29e67c6df1c7ae0"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "files": {
+        "job.json": "b86f60c907441bcfb89cf3cb3d17bf272ba667de1b69ad31d97d27b512fcf21c",
+        "vitest.json": "f1b733fb50f09f4669fe41bc894415cd2fe5a7d662031bdeee3f56408ef18494",
+        "audit.jsonl": "3a57ba3a562dfaf6fafc8eb79ef079c87a26b7d21833c0ef94d3f79c596d8010",
+        "environments.jsonl": "2c174344bbf8475a2cf2d448ec7bff90538cdf8a816e92464957eb45a947b800"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "files": {
+        "job.json": "f227369fdb075f9c623e876a3cfbc6158f209592968eb0c32865e4ad8cda928e",
+        "vitest.json": "de791e9d19bfc623fb12e31fa885a2e3f927fabb2ca53865fd5915ef5d1f09aa",
+        "audit.jsonl": "4de1dc8255e9ceb83c3acdf56acd69379a0df2f3a4b0910020083e9f1ee6ce7d",
+        "environments.jsonl": "21f4a3333d6b8fa5161b5d9168b9889e7906e8c6468bdd6c524dccc2a819ecad"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "spacedock-dev/mermaidtext",
+      "files": {
+        "job.json": "1aa6a1d5fb16b7c395372e645dd67e439e03b1aa890e8a72726ce6f6372f70e2",
+        "vitest.json": "6bba0ff3e5754963e657dc3b9e200072a82659e5d3623bc83b77492979fc2a28",
+        "audit.jsonl": "34c24958a0582ceaf7ad70283d6ed44e2fa74a52934760185176afc5555488e8",
+        "environments.jsonl": "0e6deda390d35c70c1a7375f15f966c8bcec17bac81232b7a6c2778a504d691f"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "spacedock-dev/mermaidtext",
+      "files": {
+        "job.json": "8bdf396930fa36141833a02f2fb15f1708e2e9af7ca2637a4d72c30413a5cafa",
+        "vitest.json": "e6da83f8692be7800c5fc7290360f8b7666b28d1ac1f20a7c6e11a5194f15558",
+        "audit.jsonl": "4af1fca4f3ac098c58e58b414eb7a7bd9a158fbab95fe59aa4de534a50fd3ac7",
+        "environments.jsonl": "a563c4ec12e1ce7acd79883045c9b4df2a19763815b23f73374fc9c0d0c4d985"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "tariqshams/mermaidtui",
+      "files": {
+        "job.json": "90c0648641c17a2594be51dcdc50b58410d81a2ea47c4594bdc1643ae7fad1bc",
+        "vitest.json": "0abcd2bde987672adb820b000e19ea27f40fc9828485c728e9439eae5a5710e5",
+        "audit.jsonl": "21cb97abcc4baf3918a80a7fb7d41e425335dd0e556aebc3d341ca551b37046c",
+        "environments.jsonl": "615827c9afc6ba5453b60018e7b60ac24016615161b0e11fb1851aa8bfb11f70"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "tariqshams/mermaidtui",
+      "files": {
+        "job.json": "2de5e3350103a8a594abab93c0c8880e7cdcbc136e4b7d7a7a22de15d3d7620b",
+        "vitest.json": "5acf87b58089a22305634d16ef25d2cbb050d6b77f7fd7746df5761cfe4fdc77",
+        "audit.jsonl": "b6cd66782903804a0f7c4281751311fd4390aa3a9b43eafab4ae159e8245bfd9",
+        "environments.jsonl": "755af5ef9f11cd167a49608158f3fcdd85438d90eb0e3ec674dbd94107394112"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "wevm/ondine",
+      "files": {
+        "job.json": "8fb299d2e1ff5ac8d9be7410c9bb6726de0aa21957fbf2dea0b5200c126653b2",
+        "vitest.json": "c825f11ceb169392bc11163d624c6e114108b1dc595b528976253d3baca52c54",
+        "audit.jsonl": "002ef71e26f98147d58b1a9fb3e49f67c0f484eb22728e247fea0d7e655d48f4",
+        "environments.jsonl": "0ffca47c518f4a709d166790d6ec1d35a898897e0ea592cee8cc98944e21d81d"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "wevm/ondine",
+      "files": {
+        "job.json": "cc3b37ea7b87d7b6babcde922a4932e023b97a8755dbfbcb4a3105269b821f51",
+        "vitest.json": "53486544a5a097a51ad715c5a4642de53d53eb07cb041db23afcfbf0a781b831",
+        "audit.jsonl": "40ed03256498f401ace1f226a033fb447a9c7e70f6b28b3c8c8383636be42606",
+        "environments.jsonl": "29febfb056695f132c66432027c85a7f5ac6394a5fe568faa88e7145bdca907e"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "xai-org/grok-build",
+      "files": {
+        "job.json": "de5ef79f46630928d5f7a95e2fda8a54183805a63873ec2485e95cb1937e67c8",
+        "vitest.json": "41c12414b19ee0b19b55c047151aeeac73dc53697799602f5ad7bc1998e272ad",
+        "audit.jsonl": "3455c6d9272a9c00aae9c52d1e8288911d1e1e5cec62d00211a61620a3b50148",
+        "environments.jsonl": "d43c9402a3fdc3d62f82d7dac370cd9969e8952904a051c9208511f04a774fba"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "xai-org/grok-build",
+      "files": {
+        "job.json": "1f3d16282117375842b26bcd8f47297f05469b53dcc8b484864a212ce02cc666",
+        "vitest.json": "e7b4dd2339d44f65254df65e258728408564884061c56b44d99caee6ed20ad19",
+        "audit.jsonl": "803b79924f98de2b320d8e1fb93e9c8160340bf0fcc68f6b88b15b3ebc1aa95a",
+        "environments.jsonl": "8ec8dfa3f274844ca1b3f9dc3da6b7a233532c340d739129a4ac3d5e8c202a59"
+      }
+    },
+    {
+      "profile": "jsdom",
+      "project": "Yassimba/loom",
+      "files": {
+        "job.json": "3fd6556076bb768a1e451978a9a1539d0e94c3176a7a9251c5da679db9cd10af",
+        "vitest.json": "071e1de70358bd9bc86c26e5251a1829cf8cfaee9c77ebc79c3518bd6ada7004",
+        "audit.jsonl": "01180d78d8c8e71250999e4d69836b451b12a48614ecf577970dae2b923ece2f",
+        "environments.jsonl": "4dc641c09ecda2e4f3f6354418f8de362760fc20c3e9b91ee90dabb7ea8a6614"
+      }
+    },
+    {
+      "profile": "node",
+      "project": "Yassimba/loom",
+      "files": {
+        "job.json": "cf36ab845af79e262c92f556f6f2e66061f1cdb4c0f91b360f99ab3671ef5ab7",
+        "vitest.json": "fc614da32ce50107bb6e66bf1512e97be95568082123705ea64157b4ef5ddc0f",
+        "audit.jsonl": "d8792b8b10fcd456e91ff2362ce7bc8ac240b3f475d75f3bbd887fcb50423635",
+        "environments.jsonl": "8076b836e1eee3cf4d517746475a541b5677e64610baa117073e5f70b0da33de"
+      }
+    }
+  ]
+}

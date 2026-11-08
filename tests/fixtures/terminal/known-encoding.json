@@ -27,5 +27,61 @@
     "termaid/renderer/gitgraph.py": "bedcd48ca9cc1e74956d9e5ff87d27fbd97325a8f84f52d2119413d1a54d2eec",
     "termaid/parser/gitgraph.py": "e0968686ccf3ed13c9421332fdb24e10c3d5da4471ae6edd5b15667000c4fa59"
   },
-  "method": "Read exact public wheel ZIP members; compare installed member bytes. No package parser or renderer execution; source expected answers remain independently reviewed."
+  "method": "Independent public render() controls collected on 2026-11-08 from termaid 0.10.0 in a fresh venv. Python executable SHA and downloaded wheel SHA match the retained owner. Each score, status glyph and Git lane capability is admitted by observed source-fact checks; historical member hashes remain provenance only.",
+  "qualification": {
+    "artifactSha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "archives": [
+      {
+        "sha256": "b884a616d30071643f8e93528b0ad68bd5696b41a7b5d31cd0554d2f990f28f2"
+      }
+    ],
+    "observations": [
+      {
+        "id": "journey-1",
+        "source": "journey\nsection Section\nTask: 1: Actor",
+        "output": "  ● Actor\n\n  ╭Section╮\n\n  ╭●─────╮\n ─│ Task │────►\n  ╰──────╯\n     😞\n"
+      },
+      {
+        "id": "journey-2",
+        "source": "journey\nsection Section\nTask: 2: Actor",
+        "output": "  ● Actor\n\n  ╭Section╮\n\n  ╭●─────╮\n ─│ Task │────►\n  ╰──────╯\n     😟\n"
+      },
+      {
+        "id": "journey-3",
+        "source": "journey\nsection Section\nTask: 3: Actor",
+        "output": "  ● Actor\n\n  ╭Section╮\n\n  ╭●─────╮\n ─│ Task │────►\n  ╰──────╯\n     😐\n"
+      },
+      {
+        "id": "journey-4",
+        "source": "journey\nsection Section\nTask: 4: Actor",
+        "output": "  ● Actor\n\n  ╭Section╮\n\n  ╭●─────╮\n ─│ Task │────►\n  ╰──────╯\n     😊\n"
+      },
+      {
+        "id": "journey-5",
+        "source": "journey\nsection Section\nTask: 5: Actor",
+        "output": "  ● Actor\n\n  ╭Section╮\n\n  ╭●─────╮\n ─│ Task │────►\n  ╰──────╯\n     😄\n"
+      },
+      {
+        "id": "gantt-done",
+        "source": "gantt\ndateFormat YYYY-MM-DD\nsection Section\nTask :done, a, 2024-01-01, 10d",
+        "output": " Section     │\n   Task      │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n             └┬─────────┬──────────┬──────────┬─────────┬──────────┬──────────┬\n           Jan 01    Jan 02     Jan 04     Jan 06    Jan 07     Jan 09     Jan 11\n"
+      },
+      {
+        "id": "gantt-active",
+        "source": "gantt\ndateFormat YYYY-MM-DD\nsection Section\nTask :active, a, 2024-01-01, 10d",
+        "output": " Section     │\n   Task      │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n             └┬─────────┬──────────┬──────────┬─────────┬──────────┬──────────┬\n           Jan 01    Jan 02     Jan 04     Jan 06    Jan 07     Jan 09     Jan 11\n"
+      },
+      {
+        "id": "gantt-milestone",
+        "source": "gantt\ndateFormat YYYY-MM-DD\nsection Section\nTask :milestone, a, 2024-01-01, 0d\nSpan :done, b, 2024-01-01, 10d",
+        "output": " Section     │\n   Task      │◆\n   Span      │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n             └┬─────────┬──────────┬──────────┬─────────┬──────────┬──────────┬\n           Jan 01    Jan 02     Jan 04     Jan 06    Jan 07     Jan 09     Jan 11\n"
+      },
+      {
+        "id": "gitgraph",
+        "source": "gitGraph\ncommit id: \"A\"\nbranch other\ncommit id: \"B\"\ncheckout main\ncommit id: \"C\"",
+        "output": "\n\n  main  ──●─────┼─────●─\n          A     │     C\n                │\n  other         ●─\n                B\n"
+      }
+    ],
+    "runtimeSha256": "386ab151ea1746b04bddb0d7432611a859bcff81c0a4798943c62acd3701bf56"
+  }
 }

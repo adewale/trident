@@ -26,10 +26,10 @@ test('a recollected format replaces only that format and recounts totals', () =>
   expect(() => mergeDrawingResults(base(), { ...run, updatedAt: undefined }, ['terminal'])).toThrow('collection time')
 })
 
-test('a different corpus, freeze or incomplete case accounting cannot merge', () => {
+test('a different corpus, operand or incomplete case accounting cannot merge', () => {
   const run: any = { state: 'complete', corpus: { ids: ['c1'] }, versionsFrozenAt: 'freeze', blocked: [], rows: [] }
   expect(() => mergeDrawingResults(base(), run, ['terminal'])).toThrow('published corpus')
-  expect(() => mergeDrawingResults(base(), { ...run, corpus: { ids: ['c1', 'c2'] }, versionsFrozenAt: 'other' }, ['terminal'])).toThrow('version freeze')
+  expect(() => mergeDrawingResults(base(), { ...run, corpus: { ids: ['c1', 'c2'] }, rows: [{ project: 'p', version: '2', format: 'terminal', caseId: 'c1', status: 'correct' }] }, ['terminal'])).toThrow('frozen project/format version')
   expect(() => mergeDrawingResults(base(), { ...run, corpus: { ids: ['c1', 'c2'] }, rows: [{ project: 'p', version: '1', format: 'terminal', caseId: 'c1', status: 'correct' }] }, ['terminal'])).toThrow('every case')
   expect(() => aggregateDrawingRows([{ project: 'p', version: '1', format: 'svg', caseId: 'c1', status: 'correct' }, { project: 'p', version: '2', format: 'svg', caseId: 'c2', status: 'correct' }], ['c1', 'c2'])).toThrow('Mixed versions')
 })
@@ -62,4 +62,41 @@ test('a partial recollection replaces its runtime binding and removes stale bind
   const run = { state: 'complete', updatedAt: '2026-11-05T17:02:59.000Z', corpus: published.corpus, versionsFrozenAt: 'freeze', blocked: [], rows: ['c1', 'c2'].map(caseId => ({ project: 'p', version: '1', format: 'terminal', caseId, status: 'correct' })), runtimeBindings: [{ project: 'p', format: 'terminal', binding: 'new' }] }
   expect(mergeDrawingResults(published, run, ['terminal']).runtimeBindings).toEqual([published.runtimeBindings[0], run.runtimeBindings[0]])
   expect(mergeDrawingResults(published, { ...run, rows: [], blocked: [{ project: 'p', format: 'terminal', reason: 'unavailable' }], runtimeBindings: [] }, ['terminal']).runtimeBindings).toEqual([published.runtimeBindings[0]])
+})
+
+
+test('collection freeze timestamps are provenance; actual frozen versions decide compatibility', () => {
+  const run = { state: 'complete', updatedAt: '2026-11-08T12:00:00Z', versionsFrozenAt: 'new editorial date', corpus: base().corpus, blocked: [], rows: ['c1', 'c2'].map(caseId => ({ project: 'p', version: '1', format: 'terminal', caseId, status: 'correct' })) }
+  expect(mergeDrawingResults(base(), run, ['terminal']).totals.correct).toBe(3)
+  expect(() => mergeDrawingResults(base(), { ...run, rows: run.rows.map(row => ({ ...row, version: '2' })) }, ['terminal'])).toThrow('frozen project/format version')
+})
+
+test('same-version artifact substitutions cannot hide behind an unchanged freeze date', async () => {
+  const { campaignPlan } = await import('../unified/campaign-plan.ts')
+  const operand = { sha256: 'first bytes', integrity: 'download identity' }
+  const lane = { project: 'p', version: '1', format: 'terminal', operand }
+  const published = { ...base(), plan: campaignPlan([lane], ['c1', 'c2'], 1, {}) }
+  const run = { state: 'complete', updatedAt: '2026-11-08T12:00:00Z', corpus: published.corpus, versionsFrozenAt: 'any editorial date', plan: campaignPlan([{ ...lane, operand: { integrity: operand.integrity, sha256: operand.sha256 } }], ['c1', 'c2'], 1, {}), blocked: [], rows: ['c1', 'c2'].map(caseId => ({ project: 'p', version: '1', format: 'terminal', caseId, status: 'correct' })) }
+  const merged = mergeDrawingResults(published, run, ['terminal'])
+  expect(merged.results.find((row: any) => row.format === 'terminal').operand).toEqual(operand)
+  expect(() => mergeDrawingResults(published, { ...run, plan: campaignPlan([{ ...lane, operand: { ...operand, sha256: 'substituted bytes' } }], ['c1', 'c2'], 1, {}) }, ['terminal'])).toThrow('frozen artifact bytes')
+})
+
+test('partial reassessment preserves each lane\'s producer instead of claiming one global observer', () => {
+  const published = { ...base(), observerSources: { svg: { producer: 'old SVG' }, terminal: { producer: 'old terminal' } } }
+  const run = { state: 'complete', updatedAt: '2026-11-08T12:00:00Z', corpus: published.corpus, versionsFrozenAt: 'later check', observerSources: { svg: { producer: 'new SVG' } }, blocked: [], rows: ['c1', 'c2'].map(caseId => ({ project: 'p', version: '1', format: 'svg', caseId, status: 'correct' })) }
+  const merged = mergeDrawingResults(published, run, ['svg'])
+  expect(merged.observerSources).toBeUndefined()
+  expect(merged.results.find((row: any) => row.format === 'svg').observerSources).toEqual({ producer: 'new SVG' })
+  expect(merged.results.find((row: any) => row.format === 'terminal').observerSources).toEqual({ producer: 'old terminal' })
+})
+
+
+test('publication keeps capture counts without duplicating the raw output manifest', () => {
+  const rows = ['c1', 'c2'].map(caseId => ({ project: 'p', version: '1', format: 'terminal', caseId, status: 'correct' }))
+  const run = { state: 'complete', updatedAt: '2026-11-08T12:00:00Z', corpus: { cases: 2, ids: ['c1', 'c2'] }, rows, blocked: [], outputs: rows.map(row => ({ project: row.project, caseId: row.caseId, format: row.format, outputSha256: 'retained-object' })) }
+  const published = publishDrawingRun(run)
+  expect(published.collection).toMatchObject({ outputsRetained: true, returnedOutputs: 2 })
+  expect('outputs' in published).toBe(false)
+  expect('rows' in published).toBe(false)
 })

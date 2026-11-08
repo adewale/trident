@@ -1,29 +1,63 @@
 import{expect,test}from'bun:test'
-import{readFileSync}from'node:fs'
+import{readFileSync,writeFileSync}from'node:fs'
+import{execFileSync}from'node:child_process'
+import{join}from'node:path'
 import{gunzipSync}from'node:zlib'
-import{terminalKnownEncodingContext,admittedTerminalEncoding,termaidUnicodeEncoding}from'../fidelity/terminal-encoding.ts'
+import{terminalKnownEncodingContext,admittedTerminalEncoding,qualifyTerminalEncoding}from'../fidelity/terminal-encoding.ts'
 import{evidenceBytesDigest,evidenceDigest}from'../portable/evidence-contract.ts'
 import{reviewedTerminalCases}from'../fidelity/terminal-corpus.ts'
 import{assessTerminalDrawing}from'../fidelity/terminal-assessment.ts'
 import{analyseTerminalSource}from'../fidelity/terminal-source.ts'
 import{inspectTerminalFacts}from'../fidelity/terminal-facts.ts'
-import proof from'./fixtures/terminal/known-encoding.json'
+import retainedProof from'./fixtures/terminal/known-encoding.json'
+import{terminalEncodingCommand}from'../fidelity/terminal-encoding-runtime.ts'
+import{useTempDirs}from'./helpers/temp-dir.ts'
+import{byteDigest}from'../portable/artifacts.ts'
+const temporary=useTempDirs('terminal-encoding-'),runtime=temporary.dir(),python=join(runtime,'bin/python')
+execFileSync('python3',['-m','venv','--without-pip',runtime])
+const installed=execFileSync(python,['-c','import sysconfig; print(sysconfig.get_path("purelib"))'],{encoding:'utf8'}).trim(),module=join(installed,'termaid.py')
+// A small real runtime keeps decoder fixtures portable; its public API returns
+// the independently retained controls and its installed bytes are observed.
+const outputs=Object.fromEntries(retainedProof.qualification.observations.map(row=>[row.source,row.output]))
+const implementation='import json\nOUTPUTS=json.loads('+JSON.stringify(JSON.stringify(outputs))+')\ndef render(source): return OUTPUTS[source]\n'
+writeFileSync(module,implementation)
+const archive=join(runtime,'fixture.whl')
+execFileSync(python,['-c','import sys,zipfile; z=zipfile.ZipFile(sys.argv[1],"w"); z.write(sys.argv[2],"termaid.py"); z.close()',archive,module])
+const owner={...retainedProof.owner,artifact:{...retainedProof.owner.artifact,python,executable:python,sha256:byteDigest(python),files:[{path:archive,sha256:byteDigest(archive)}]}}
+const observe=()=>{const[command,...args]=terminalEncodingCommand(owner);return retainedProof.qualification.observations.map(row=>({...row,output:execFileSync(command!,args,{input:row.source,encoding:'utf8'})}))}
+const proof={...retainedProof,owner,qualification:qualifyTerminalEncoding(owner,observe())}
 const records=JSON.parse(gunzipSync(readFileSync(new URL('../docs/evidence/terminal-present-gaps-2026-11-01/minimum50-dispositions.json.gz',import.meta.url))).toString()) as{project:string;caseId:string;actualOutput:string;outputSha256:string}[],corpus=reviewedTerminalCases()
 const saved=(id:string)=>records.find(r=>r.project==='fasouto/termaid'&&r.caseId==='terminal:'+id)!
-const context=(source:string,output:string,owner=proof.owner)=>terminalKnownEncodingContext(owner,{sourceSha256:evidenceBytesDigest(source),outputSha256:evidenceBytesDigest(output),owningRawSha256:evidenceDigest({kind:'synthetic-encoding-control',source,output})})
+const context=(source:string,output:string,owner=proof.owner)=>terminalKnownEncodingContext(owner,{sourceSha256:evidenceBytesDigest(source),outputSha256:evidenceBytesDigest(output),owningRawSha256:evidenceDigest({kind:'synthetic-encoding-control',source,output})},proof.qualification)
 const actual=(id:string,text=saved(id).actualOutput,bound=true)=>{const input=corpus.find(c=>c.id==='terminal:'+id)!;return assessTerminalDrawing(input,text,bound?context(input.source,text):undefined)}
-test('known glyph codes require exact retained artifact, archive members and source/output ownership',()=>{
- expect(proof.sourceFiles).toEqual(termaidUnicodeEncoding.sourceFiles)
- const row=saved('a60c7e7b3b930353'),input=corpus.find(c=>c.id===row.caseId)!,binding={sourceSha256:input.sourceSha256,outputSha256:row.outputSha256,owningRawSha256:proof.owningRawSha256},admitted=terminalKnownEncodingContext(proof.owner,binding)!
+test('glyph dictionaries require independently exercised controls and source/output ownership',()=>{
+ const row=saved('a60c7e7b3b930353'),input=corpus.find(c=>c.id===row.caseId)!,binding={sourceSha256:input.sourceSha256,outputSha256:row.outputSha256,owningRawSha256:proof.owningRawSha256},admitted=terminalKnownEncodingContext(proof.owner,binding,proof.qualification)!
  expect(admittedTerminalEncoding(admitted,row.actualOutput,input.sourceSha256)).toEqual(admitted)
- expect(terminalKnownEncodingContext({...proof.owner,artifact:{...proof.owner.artifact,sha256:'0'.repeat(64)}},binding)).toBeUndefined()
- expect(terminalKnownEncodingContext({...proof.owner,artifact:{...proof.owner.artifact,files:[]}},binding)).toBeUndefined()
- expect(terminalKnownEncodingContext({...proof.owner,artifact:{...proof.owner.artifact,files:[{path:'termaid-0.10.0-py3-none-any.whl',sha256:'0'.repeat(64)}]}},binding)).toBeUndefined()
- expect(admittedTerminalEncoding({...admitted,sourceFiles:{...admitted.sourceFiles,'termaid/renderer/journey.py':'0'.repeat(64)}},row.actualOutput,input.sourceSha256)).toBeUndefined()
+ expect(terminalKnownEncodingContext({...proof.owner,artifact:{...proof.owner.artifact,sha256:'0'.repeat(64)}},binding,proof.qualification)).toBeUndefined()
+ expect(terminalKnownEncodingContext({...proof.owner,artifact:{...proof.owner.artifact,files:[]}},binding,proof.qualification)).toBeUndefined()
+ expect(terminalKnownEncodingContext({...proof.owner,artifact:{...proof.owner.artifact,files:[{path:'termaid-0.10.0-py3-none-any.whl',sha256:'0'.repeat(64)}]}},binding,proof.qualification)).toBeUndefined()
+ expect(admitted.capabilities).toEqual(['journey','gantt','gitgraph'])
+ expect(admittedTerminalEncoding({...admitted},row.actualOutput,input.sourceSha256)).toBeUndefined()
+ expect(terminalKnownEncodingContext({...proof.owner,project:'renamed/project',version:'new release'},binding,proof.qualification)?.capabilities).toEqual(admitted.capabilities)
+ const changed=structuredClone(proof.qualification);changed.observations.find(row=>row.id==='journey-5')!.output=changed.observations.find(row=>row.id==='journey-5')!.output.replace('😄','😞')
+ expect(terminalKnownEncodingContext(proof.owner,binding,changed)?.capabilities).not.toContain('journey')
+ expect(()=>qualifyTerminalEncoding(proof.owner,[])).toThrow('independent controls')
  expect(admittedTerminalEncoding(admitted,row.actualOutput+'x',input.sourceSha256)).toBeUndefined()
  expect(admittedTerminalEncoding(admitted,row.actualOutput,'0'.repeat(64))).toBeUndefined()
  expect(actual('a60c7e7b3b930353',row.actualOutput,false).status).toBe('unknown')
  expect(actual('a60c7e7b3b930353').status).toBe('correct')
+})
+test('changed installed renderer code revokes a proof even when interpreter and wheel are unchanged',()=>{
+ const row=proof.qualification.observations.find(row=>row.id==='journey-5')!,binding={sourceSha256:evidenceBytesDigest(row.source),outputSha256:evidenceBytesDigest(row.output),owningRawSha256:evidenceDigest(row)}
+ expect(terminalKnownEncodingContext(owner,binding,proof.qualification)?.capabilities).toContain('journey')
+ try{
+  writeFileSync(module,implementation.replace('😄','😞'))
+  expect(byteDigest(python)).toBe(owner.artifact.sha256)
+  expect(byteDigest(archive)).toBe(owner.artifact.files[0]!.sha256)
+  expect(terminalKnownEncodingContext(owner,binding,proof.qualification)).toBeUndefined()
+  const refreshed=qualifyTerminalEncoding(owner,observe())
+  expect(terminalKnownEncodingContext(owner,binding,refreshed)?.capabilities).toEqual(['gantt','gitgraph'])
+ }finally{writeFileSync(module,implementation)}
 })
 test('owned native faces, actor legends and section spans reject independent score/actor/task/timeline perturbations',()=>{
  const row=saved('a60c7e7b3b930353')

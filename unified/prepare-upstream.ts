@@ -1,14 +1,32 @@
 /** Prepare the actual pinned source runner without depending on a session-only kit. */
 import { execFileSync, spawnSync } from 'node:child_process'
-import { appendFileSync, closeSync, existsSync, lstatSync, mkdirSync, openSync, readFileSync, realpathSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
+import { appendFileSync, closeSync, existsSync, lstatSync, mkdirSync, openSync, readFileSync, readlinkSync, realpathSync, renameSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
+import { randomUUID } from 'node:crypto'
 import { createRequire } from 'node:module'
 import { basename, delimiter, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { parse } from 'yaml'
+import { planDigest } from './campaign-plan.ts'
+import { atomicWrite } from './result-storage.ts'
+import { captureInstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 import { mermaidOracleDirectory, mermaidUpstreamDirectory, admitMermaidOracle } from '../portable/mermaid-oracle.ts'
 import { currentReferencePin as REVIEWED_REFERENCE } from '../reference/source.ts'
 import { lockedImporterDependency, NPM_CLOSURE_SCOPE, preflightUpstreamCanvas, qualifyOriginalRuntime, UPSTREAM_RUNTIME_PROTOCOL, upstreamFileDigest, upstreamInstalledClosureDigest, upstreamRuntimePlan, verifyUpstreamInstalledSelections } from './upstream-runtime-qualification.ts'
 
 const read = (file: string): any => JSON.parse(readFileSync(file, 'utf8'))
+/** Generated source/runtime links must survive moving the prepared pair. Never
+ * replace a caller's directory or a link to a different operand. */
+export function relativeRuntimeLink(path: string, target: string): boolean {
+  const link = relative(dirname(path), target) || '.'
+  let existing
+  try { existing = lstatSync(path) } catch (error: any) { if (error.code !== 'ENOENT') throw error }
+  if (!existing) { symlinkSync(link, path, 'dir'); return true }
+  if (!existing.isSymbolicLink() || realpathSync(path) !== realpathSync(target)) throw Error('Generated runtime link has a different target: ' + path)
+  if (readlinkSync(path) === link) return false
+  const temporary = path + '.trident-link-' + randomUUID()
+  try { symlinkSync(link, temporary, 'dir'); renameSync(temporary, path) }
+  finally { rmSync(temporary, { force: true }) }
+  return true
+}
 /** Resolve the original source runner's actual package operand. The addon's
  * semver minimum is not the engine selected by the pinned monorepo lock. */
 export function upstreamZenCoreVersion(source: string): string {
@@ -45,7 +63,6 @@ export function prepareUpstream(source: string, runtime: string, reference: stri
   if (git('rev-parse', 'HEAD') !== REVIEWED_REFERENCE.commit) throw Error('Prepare only the pinned Mermaid source ' + REVIEWED_REFERENCE.commit)
   if (existsSync(runtimeLink) && lstatSync(runtimeLink).isSymbolicLink() && existsSync(runtimeModules) && realpathSync(runtimeLink) === realpathSync(runtimeModules)) ignoreRuntimeLink()
   if (git('status', '--porcelain')) throw Error('Prepare only clean pinned Mermaid source files')
-  admitMermaidOracle(reference)
   mkdirSync(runtime, { recursive: true })
   const lock = join(runtime, '.preparation.lock')
   let descriptor: number
@@ -54,16 +71,27 @@ export function prepareUpstream(source: string, runtime: string, reference: stri
     writeFileSync(descriptor, JSON.stringify({ pid: process.pid, source, runtime }) + '\n')
     const plan = upstreamRuntimePlan(source)
     const manifest = { name: 'trident-pinned-original-runner', private: true, type: 'module', dependencies: plan.dependencies }, file = join(runtime, 'package.json')
-    if (existsSync(file) && JSON.stringify(read(file)) !== JSON.stringify(manifest)) throw Error('Runtime directory has different dependencies; select a fresh --runtime directory')
+    if (existsSync(file) && (planDigest(Object.entries(read(file).dependencies ?? {}).sort()) !== planDigest(Object.entries(manifest.dependencies).sort()) || read(file).type !== manifest.type)) throw Error('Runtime directory has different dependencies or package scope; select a fresh --runtime directory')
     const modules = join(source, 'node_modules'), destination = join(runtime, 'node_modules')
     if (existsSync(modules) && (!lstatSync(modules).isSymbolicLink() || realpathSync(modules) !== resolve(destination))) throw Error('Preserve the existing source runtime; prepare a separate pinned checkout instead')
     if (existsSync(join(runtime, 'preparation.json'))) {
-      const previous = read(join(runtime, 'preparation.json'))
-      if (previous.protocol !== UPSTREAM_RUNTIME_PROTOCOL || previous.source !== source || previous.runtime !== runtime || !existsSync(modules)) throw Error('Preserve the existing prepared runtime; choose fresh source/runtime directories')
-      qualifyOriginalRuntime(source, runtime, node)
-      console.log('Existing original runtime qualified read-only; no installation or rebuild performed: ' + runtime)
+      const observed = captureInstalledDependencyClosure(runtime)
+      const qualified = qualifyOriginalRuntime(source, runtime, node, observed)
+      const before = upstreamInstalledClosureDigest(runtime, observed)
+      const sourceLinkChanged = relativeRuntimeLink(modules, destination)
+      ignoreRuntimeLink()
+      const layoutLink = join(destination, '@mermaid-js/layout-elk')
+      const layoutLinkChanged = relativeRuntimeLink(layoutLink, join(source, 'packages/mermaid-layout-elk'))
+      const installedClosure = upstreamInstalledClosureDigest(runtime)
+      if (before.executionSha256 !== installedClosure.executionSha256) throw Error('Installed execution graph changed while making runtime links portable')
+      if (!qualified.preparation.installedClosure.executionSha256 || sourceLinkChanged || layoutLinkChanged) {
+        const receipt = join(runtime, 'preparation.json')
+        atomicWrite(receipt, JSON.stringify({ ...qualified.preparation, installedClosure, refresh: { at: new Date().toISOString(), previousReceiptSha256: upstreamFileDigest(receipt), reason: 'Requalified unchanged installed bytes and real Canvas/JSDOM; portable execution digest and generated links' } }, null, 2) + '\n')
+        console.log('Existing original runtime qualified; portable receipt refreshed without reinstalling: ' + runtime)
+      } else console.log('Existing original runtime qualified read-only; no installation or rebuild performed: ' + runtime)
       return
     }
+    admitMermaidOracle(reference)
     writeFileSync(file, JSON.stringify(manifest, null, 2) + '\n')
     const environment: NodeJS.ProcessEnv = { ...process.env, npm_config_cache: process.env.npm_config_cache ?? join(runtime, 'npm-cache') }
     const run = (command: string, args: string[], cwd: string) => execFileSync(command, args, { cwd, stdio: 'inherit', env: environment })
@@ -85,7 +113,7 @@ export function prepareUpstream(source: string, runtime: string, reference: stri
       if (existsSync(modules) && realpathSync(modules) !== realpathSync(destination)) throw Error('Existing source runtime differs; do not replace an active runtime')
       unlinkSync(modules)
     }
-    symlinkSync(destination, modules, 'dir')
+    relativeRuntimeLink(modules, destination)
     ignoreRuntimeLink()
     const patches = []
     for (const [name, patch] of Object.entries(read(join(source, 'package.json')).pnpm?.patchedDependencies ?? {}) as [string, string][]) {
@@ -100,7 +128,7 @@ export function prepareUpstream(source: string, runtime: string, reference: stri
     run(process.execPath, ['--input-type=module', '-e', "import {build} from 'esbuild'; import {defaultOptions,getBuildConfig} from './.esbuild/util.ts'; import {packageOptions} from './.build/common.ts'; await build(getBuildConfig({...defaultOptions,core:true,minify:false,sourcemap:false,options:packageOptions['mermaid-layout-elk']}))"], source)
     const scope = join(destination, '@mermaid-js'); mkdirSync(scope, { recursive: true })
     const elkLink = join(scope, 'layout-elk')
-    if (!existsSync(elkLink)) symlinkSync(elk, elkLink, 'dir')
+    relativeRuntimeLink(elkLink, elk)
     if (git('status', '--porcelain')) throw Error('Source preparation altered tracked pinned files; inspect before running original tests')
     const npmLock = verifyUpstreamInstalledSelections(runtime, plan)
     const installedClosure = upstreamInstalledClosureDigest(runtime)

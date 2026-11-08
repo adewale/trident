@@ -14,8 +14,9 @@ remains at its original commit. Historical outputs and scores were not rescored.
 The [completion record](../../docs/evidence/benchmark-completion-2026-11-07/README.md)
 explains the proofs, source identities, full DOM-free comparison and remaining
 observer gaps. Timing collections ran serially without competing semantic jobs or fixture
-tests. Rendered outputs were discarded. Timings apply to the recorded
-machine, resource limits and API/CLI boundaries.
+tests. Timing collectors discarded rendered outputs; the current Drawing
+collection retains them in the committed archive described below. Timings apply
+to the recorded machine, resource limits and API/CLI boundaries.
 
 Termaid's affected timing and Drawing rows were recollected after its Python
 launcher gained source-only isolation and before/after installed-runtime checks.
@@ -115,3 +116,28 @@ previous commit. The earlier 1,882-probe comparison established equivalence only
 for the static observer optimization; the new glyph profile has its own positive
 and adversarial fixture evidence. No timing or memory gain is inferred from
 semantic comparisons.
+
+
+## Retained Drawing capture
+
+The current Drawing baseline includes the portable
+[capture archive](captures/drawing-capture-2026-11-08.tar.gz?raw=true) (3,963,733 bytes; SHA-256
+`b20e3004fe884a7426179a72dbac51e71fe4ab92e010e2b3fae4d7250683b7fd`).
+It contains the complete raw run and all 3,684 returned SVG/terminal outputs,
+stored as 3,437 compressed objects. The other 634 calls returned renderer
+failures. Every case verdict matches the preceding published collection.
+
+The archive is committed with the results. Reassessment needs no producer
+binaries or prepared artifact directories:
+
+```sh
+mkdir -p .cache/drawing-replay
+tar -xzf results/release/captures/drawing-capture-2026-11-08.tar.gz -C .cache/drawing-replay
+bun scripts/reassess-drawing-results.ts .cache/drawing-replay/drawing-retained .cache/drawing-replay/fresh-assessment
+```
+
+The [follow-up receipt](../../docs/evidence/retained-capture-and-runtime-refresh-2026-11-08.json)
+records byte verification, a complete reassessment with zero verdict changes,
+archive relocation and portable-runtime qualification. Collection time and
+reassessment time remain separate. Historical snapshots retain their original
+observations; the current baseline now supports reassessment from retained data.

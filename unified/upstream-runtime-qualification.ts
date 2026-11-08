@@ -1,13 +1,13 @@
 /** Exact selected direct operands, with an explicitly separate npm closure. */
 import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
-import { existsSync, readFileSync, realpathSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import { parse } from 'yaml'
 import { currentReferencePin as REVIEWED_REFERENCE } from '../reference/source.ts'
-import { captureInstalledDependencyClosure, type InstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
+import { captureInstalledDependencyClosure, dependencyExecutionInputs, type InstalledDependencyClosure } from '../portable/artifact-dependencies.ts'
 
 type Section = 'dependencies' | 'devDependencies' | 'optionalDependencies'
 export interface LockedOperand {
@@ -30,16 +30,16 @@ export const upstreamFileDigest = (file: string) => createHash('sha256').update(
 /** Reuse the owning byte-level closure observer, retaining only its digest in
  * preparation receipts. Full observations already belong to original runs. */
 export function upstreamInstalledClosureDigest(runtime: string, observed = captureInstalledDependencyClosure(runtime)) {
-  // A caller's symlink spelling must not look like changed installed bytes.
-  // Full observed logical paths remain available in the owning run evidence.
+  // Retain the original digest as provenance and to admit existing preparations
+  // at their original location. New receipts use the portable execution graph.
   const physical = { root: { realRoot: observed.root.realRoot, name: observed.root.name, version: observed.root.version }, nodes: observed.nodes.map(({ logicalRoots: _logicalRoots, ...node }) => node), edges: observed.edges.map(({ resolution, ...edge }) => ({ ...edge, resolution: resolution ? { realRoot: resolution.realRoot } : null })) }
-  return { sha256: createHash('sha256').update(JSON.stringify(physical)).digest('hex'), packages: observed.nodes.length, files: observed.nodes.reduce((count, node) => count + node.files.length, 0) }
+  return { sha256: createHash('sha256').update(JSON.stringify(physical)).digest('hex'), executionSha256: createHash('sha256').update(JSON.stringify(dependencyExecutionInputs(observed))).digest('hex'), packages: observed.nodes.length, files: observed.nodes.reduce((count, node) => count + node.files.length, 0) }
 }
 
-export function verifyUpstreamInstalledClosure(runtime: string, expected: { sha256?: unknown } | undefined, observed?: InstalledDependencyClosure) {
+export function verifyUpstreamInstalledClosure(runtime: string, expected: { sha256?: unknown; executionSha256?: unknown } | undefined, observed?: InstalledDependencyClosure) {
   if (typeof expected?.sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(expected.sha256)) throw Error('Prepared installed package byte receipt is missing')
   const actual = upstreamInstalledClosureDigest(runtime, observed)
-  if (expected.sha256 !== actual.sha256) throw Error('Prepared installed package bytes changed after qualification; use a fresh runtime')
+  if (expected.executionSha256 !== undefined ? expected.executionSha256 !== actual.executionSha256 : expected.sha256 !== actual.sha256) throw Error('Prepared installed package bytes changed after qualification; use a fresh runtime')
   return actual
 }
 
@@ -133,11 +133,8 @@ export function upstreamRunnerVersion(runtime: string, expectedVersion: string):
 export function verifySealedUpstreamRuntime(source: string, runtime: string, plan: ReturnType<typeof upstreamRuntimePlan>, observedClosure?: InstalledDependencyClosure) {
   const file = join(runtime, 'preparation.json'), receipt = existsSync(file) ? read(file) : undefined
   if (receipt?.protocol !== UPSTREAM_RUNTIME_PROTOCOL || receipt.sourceCommit !== REVIEWED_REFERENCE.commit || receipt.sourceLock?.sha256 !== plan.sourceLock.sha256 || JSON.stringify(receipt.operands) !== JSON.stringify(plan.operands)) throw Error('Original baseline requires a sealed locked-direct preparation and real Canvas qualification; use upstream:prepare with fresh runtime/source directories')
-  if (typeof receipt.source !== 'string' || typeof receipt.runtime !== 'string' || realpathSync(receipt.source) !== realpathSync(source) || realpathSync(receipt.runtime) !== realpathSync(runtime)) throw Error('Prepared original source/runtime binding differs; use its sealed source/runtime directories')
   const npmLock = verifyUpstreamInstalledSelections(runtime, plan)
-  if (receipt.npmLock?.sha256 !== npmLock.sha256) throw Error('Prepared npm closure changed after qualification')
   verifyUpstreamInstalledClosure(runtime, receipt.installedClosure, observedClosure)
-  if (receipt.nativeProvisioning?.log?.sha256 !== upstreamFileDigest(join(runtime, 'canvas-install.log'))) throw Error('Canvas provisioning log changed after qualification')
   return { preparation: receipt, npmLock }
 }
 

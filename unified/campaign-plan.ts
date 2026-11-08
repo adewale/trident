@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 
-export interface CampaignLane { readonly project: string; readonly version: string; readonly format: string }
+export interface CampaignLane { readonly project: string; readonly version: string; readonly format: string; readonly operand?: Readonly<Record<string, string>> }
 export interface CampaignPlan {
   readonly protocol: 'campaign-plan-v1'
   readonly scope: 'full' | 'subset'
@@ -12,7 +12,7 @@ export interface CampaignPlan {
 }
 export const planDigest = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex')
 const laneKey = (value: { project: string; format: string }) => JSON.stringify([value.project, value.format])
-const validLane = (lane: CampaignLane) => lane && ['project', 'version', 'format'].every(key => typeof lane[key as keyof CampaignLane] === 'string' && lane[key as keyof CampaignLane].length > 0)
+const validLane = (lane: CampaignLane) => lane && (['project', 'version', 'format'] as const).every(key => typeof lane[key] === 'string' && lane[key].length > 0) && (lane.operand === undefined || lane.operand !== null && typeof lane.operand === 'object' && !Array.isArray(lane.operand) && Object.values(lane.operand).every(value => typeof value === 'string' && value.length > 0))
 
 /** Called before preparation, from the selected catalog and reviewed inputs. */
 export function campaignPlan(lanes: readonly CampaignLane[], cases: readonly string[], rounds: number, inputs: unknown, scope: CampaignPlan['scope'] = 'full'): CampaignPlan {

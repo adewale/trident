@@ -53,3 +53,11 @@ Append its runs to the DaveBench image results before
 
 Mermaid Dart (`orestesgaolin/mermaid`) remains
 the distinct SVG product; both use the Dart core for parsing and layout.
+
+Bundle verification distinguishes compiled inputs from verification tooling.
+Dart, CMake, package locks and toolchain operands bind the compiled release;
+`bundle.py`, `smoke.py` and build/environment scripts are recorded separately as
+provenance. Editing verification tooling does not require recompilation. Run
+`python3 native-flutter/smoke.py RELEASE_BUNDLE` to exercise the current checks on
+an existing bundle. Bundle assets remain byte-bound, and the smoke receipt must
+match that bundle and all required PNG admission controls.

@@ -136,182 +136,395 @@
       {
         "project": "1jehuang/mermaid-rs-renderer",
         "version": "0.3.1",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "d8824194cb660ada8edf596a6785278fe7c40aab61a43e8a2be9a19cc16f4923",
+          "revision": "2f993bd79a55235eb59a34d807852276ba25bea7",
+          "filesSha256": "c60ea08e5f5972a8633434fbdcc5654afc0b49c9529653eb100e48deb39ca5bb"
+        }
       },
       {
         "project": "adewale/agentic-mermaid",
         "version": "0.5.6",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "01c277a6b3e55bf99d313e9ce0aea0860f46f80f5a09f74913007d0915028fdf",
+          "integrity": "sha512-fHA2btF+GZ6s+AInzOJFzQQOCRX1ntFG94fpmu68TECTXg5iTOeDiVvhT6AhyALXtcDCpr51EfJFGipjq642TQ==",
+          "installedClosureSha256": "800fa7d49cb239560adf29efdd46ba3f4ed096f6ee84c50acfd4de5c4b7df54c",
+          "filesSha256": "2483ab96bad20c01b34bd8bf0357b44872dd1fd0615fa7fe17d8d70eaad86ff9"
+        }
       },
       {
         "project": "adewale/agentic-mermaid",
         "version": "0.5.6",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "01c277a6b3e55bf99d313e9ce0aea0860f46f80f5a09f74913007d0915028fdf",
+          "integrity": "sha512-fHA2btF+GZ6s+AInzOJFzQQOCRX1ntFG94fpmu68TECTXg5iTOeDiVvhT6AhyALXtcDCpr51EfJFGipjq642TQ==",
+          "installedClosureSha256": "800fa7d49cb239560adf29efdd46ba3f4ed096f6ee84c50acfd4de5c4b7df54c",
+          "filesSha256": "2483ab96bad20c01b34bd8bf0357b44872dd1fd0615fa7fe17d8d70eaad86ff9"
+        }
       },
       {
         "project": "AlexanderGrooff/mermaid-ascii",
         "version": "1.6.1",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+          "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+          "filesSha256": "9e22c78c0657d8091ebcf1f270bb6e3e864b48279cf95aebdf0f6bd616e25b9b"
+        }
       },
       {
         "project": "anomalyco/opencode",
         "version": "2.2.5",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+          "filesSha256": "c96eaf3796df2489375c73b56823e2e442adcd3fb6b986091dc0844700c031d8"
+        }
       },
       {
         "project": "crabtalk/bezel",
         "version": "0.2.24",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "4b5dfd85beb61111d238e0ae9949b09d7e368e3d2551bc98b48ead9f8ccff92e",
+          "revision": "ab854a04f354f0c428a76d54b822dfd21e2e3962",
+          "filesSha256": "361592172424674f8bb96df72aca27e31a2661439fd8da60c728b04599251403"
+        }
       },
       {
         "project": "crafter-station/mermaid",
         "version": "0.0.3",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
+          "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
+          "installedClosureSha256": "85ecefeee851fd25fd68972e3160f3b48d590b6bd8232e23a8d74f9d9931d97b",
+          "filesSha256": "3f2199e0724c1564b7d1ea8c3f23c523a49460ac1af39aac68d16d076897ddfb"
+        }
       },
       {
         "project": "crafter-station/mermaid",
         "version": "0.0.3",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
+          "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
+          "installedClosureSha256": "85ecefeee851fd25fd68972e3160f3b48d590b6bd8232e23a8d74f9d9931d97b",
+          "filesSha256": "3f2199e0724c1564b7d1ea8c3f23c523a49460ac1af39aac68d16d076897ddfb"
+        }
       },
       {
         "project": "dfadler/zombie-mermaid",
         "version": "5.14.4",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+          "integrity": "sha512-vo/yfpnzrWNn+2cqng2MNTSjgZgel0nd8XI9eRA7+WOWgPjUEsLfB0SmyNm8KOg9Gc8T1ptkV6MzW/KmGAijsg==",
+          "installedClosureSha256": "009c64d5cd53ee5a23936188bee7377f7eb63f5f5de80803fa7e3ffea921ce8c",
+          "filesSha256": "be874758471d140c0f2d2f3b56d2a17e6cab9a03664c001e763252105915ddfb"
+        }
       },
       {
         "project": "dfadler/zombie-mermaid",
         "version": "5.14.4",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+          "integrity": "sha512-vo/yfpnzrWNn+2cqng2MNTSjgZgel0nd8XI9eRA7+WOWgPjUEsLfB0SmyNm8KOg9Gc8T1ptkV6MzW/KmGAijsg==",
+          "installedClosureSha256": "009c64d5cd53ee5a23936188bee7377f7eb63f5f5de80803fa7e3ffea921ce8c",
+          "filesSha256": "be874758471d140c0f2d2f3b56d2a17e6cab9a03664c001e763252105915ddfb"
+        }
       },
       {
         "project": "Dicklesworthstone/frankenmermaid",
         "version": "0.4.0",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "04538da51718ecf11a56233c6f029280882cb32c7194715888b71d529f9b525f",
+          "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
+          "filesSha256": "79b2da212bc980ae0308a13357fd7940776bf39872e55b30daa459cd38e3c62a"
+        }
       },
       {
         "project": "Dicklesworthstone/frankenmermaid",
         "version": "0.4.0",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "cc827264b1b9a201dfe4b42bb03b70a57067f3b8cf75f89c394cd39aeed22090",
+          "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
+          "filesSha256": "fc6287c29595f0da5d7d0c9c5e42a6b4e1dbabf56cc387ea4eafadde4ff1ff18"
+        }
       },
       {
         "project": "emtyty/merslim",
         "version": "0.2.3",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
+          "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
+          "installedClosureSha256": "e62a71b3ed588e543fa9887960de86af9e38c4ce445814426979f0478421d6e8",
+          "filesSha256": "4d1c7396d28610b7a1bd578982e264f469acb9030d4ea79169b929e617ad0116"
+        }
       },
       {
         "project": "emtyty/merslim",
         "version": "0.2.3",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
+          "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
+          "installedClosureSha256": "e62a71b3ed588e543fa9887960de86af9e38c4ce445814426979f0478421d6e8",
+          "filesSha256": "4d1c7396d28610b7a1bd578982e264f469acb9030d4ea79169b929e617ad0116"
+        }
       },
       {
         "project": "evangwt/xmermaid",
         "version": "0.4.2",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "4b083ff3979c7b07e1c364393ef17659ffe7bfcfea75a818260f4de7ece7789b",
+          "integrity": "sha512-/KxDLMfR0THbxtrZiGxDuTKp0NGJTJRHH5ForIvxVxf9ctveEPN9irXUBFYIiKB337CXMhH2w+ds8pJ5hpRGvA==",
+          "installedClosureSha256": "d3f25bdffb86767a1b005a299fa67059e382204877a9eeb430054eb36e6aa899",
+          "filesSha256": "436d9bff9b53deaefe6b336fba7dc09a6adaf378ed8cf1f50bf0840ce4bf9ab4"
+        }
       },
       {
         "project": "fasouto/termaid",
         "version": "0.12.0",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+          "filesSha256": "b74dd19fa49a894dd7f8ec5846724ef41c9669f8bd4e5911a6dea7ad0229de0d"
+        }
       },
       {
         "project": "kais-radwan/ascii-mermaid",
         "version": "0.1.0",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "6cbc31d2719cfd2be538707c238d3ab1af24c20f2247f7f5a139df17e5bcb1ae",
+          "revision": "a91a0c7baec6392212c59221bc67389bb617feb7",
+          "filesSha256": "2fa3a3dba7dde558e876b8accbc134e14870c60c7927661b2f9365df78f94b41"
+        }
       },
       {
         "project": "kitlangton/merman",
         "version": "0.2.1",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "f1e16af45f4c43e2c7d69a48c2f3bc286b061b84dca994fa83da98593705793d",
+          "integrity": "sha512-SqKB/VjkjxNgyxAkvGGbTQACrTpPkg5udiDtJswYEnSkOjKdRISYKtK2Hzi/Y8TjK3beHMHyOQeoCS10V+AD4g==",
+          "installedClosureSha256": "c0152333363b8cfc1bcc768c8209c43b9197d4f2d135dd973f09306479d61238",
+          "filesSha256": "9b1a1d4e5e780b43d1da85f582975e015b068c03509b03499ce3d7fa6b3192c4"
+        }
       },
       {
         "project": "KlangHaus/vitepress-plugin-diagram",
         "version": "0.3.2",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "448013e13d696562b1c4cac338a94c937dcc861b1641dd9b5fc56f87bf02cdf8",
+          "integrity": "sha512-ECmsDtEy7745CMQqDP1zkCxHx2zq5Vj+FGOss1gUowirJvYmtxahMQ2jV6/BvPm9cltcm2XQajAqPTYJKmVKEA==",
+          "installedClosureSha256": "b02b324b3835dffdd25f7294729d0043aabd4576fe9aa8906e022f2932142322",
+          "filesSha256": "50381a3bf28bafa271048ee1ab3dee363d26a8b8189f526fe78ab02bf2edae33"
+        }
       },
       {
         "project": "Latias94/merman",
         "version": "0.9.3",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "4e73f19d6c9961b5602bc33366920138d37c73c616ff57f1446fcb783809960d",
+          "integrity": "sha512-82NQI8z4R6pNAOvZEfm6MS5sMJjQ1SEVjznM/3E5VrDu2g1tQlNj2BXdt4pnCnsRofsXoiklWinzO8WLAvVmqA==",
+          "installedClosureSha256": "cf242083c648c93ee09269b54a7f03a019ed1202d2514f43db27677691200681",
+          "filesSha256": "f093ccaf09bd87c0f149502e1df1fbb59a0b89859d2a422c90918285cdc12ee3"
+        }
       },
       {
         "project": "Latias94/merman",
         "version": "0.9.3",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "80fa7118095cac430259c828606191092607423b8c02461400215acc48f4f44d",
+          "revision": "3b915f69c02d55b873d252cf6c8a6048e7f3427d",
+          "filesSha256": "b93468f74a91e2f80aa6110b539820fddffa739a7dd98cebada6dbd86b034f85"
+        }
       },
       {
         "project": "lukilabs/beautiful-mermaid",
         "version": "1.1.3",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
+          "integrity": "sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==",
+          "installedClosureSha256": "f3cb677e308c2e8664b8254eaa6b9564eaa4060204f92ba4197a6c5fa50f6cfd",
+          "filesSha256": "259909bc771979d07f059bdc14470a283a8ce75cc26eada390deb8296b0c5665"
+        }
       },
       {
         "project": "lukilabs/beautiful-mermaid",
         "version": "1.1.3",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
+          "integrity": "sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==",
+          "installedClosureSha256": "f3cb677e308c2e8664b8254eaa6b9564eaa4060204f92ba4197a6c5fa50f6cfd",
+          "filesSha256": "259909bc771979d07f059bdc14470a283a8ce75cc26eada390deb8296b0c5665"
+        }
       },
       {
         "project": "mermaid-js/mermaid",
         "version": "12.3.0",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "fafa28691baf87948a63ec13009437278f25d43ca7d85e74b71f3b53897e1738",
+          "integrity": "sha512-4113TdXeLAsMruJ79OpFL5O8+LTFXhQqZ260rF3tgUmiNAtRm4Uume04I+65PRN6yZ69J4f8rVYWW8zRk65UYw==",
+          "installedClosureSha256": "1ca50fe8c8938d8f036cfe8d06418130542b84c0ce82696c9d4044d681e70623",
+          "filesSha256": "6cc061b56952886cfaa6250232115e3e72e0836a9512344a7dea4c6f2951a97c"
+        }
       },
       {
         "project": "Mootikins/figurehead-rs",
         "version": "v0.4.3",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "26d9b85a4b72f113ba83afdbf24b867e400fd2cf921833288bf3344ba8f3dfa6",
+          "revision": "34c47a93cd792f24e06b49b5196a1c876240f03a"
+        }
       },
       {
         "project": "obsidianmd/pele",
         "version": "1.13.0",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "37bea5005aa6d2dde929032ced5d2958cf642667cbc1fe675f9dfacf4ba15a51",
+          "integrity": "sha512-Ie8UKY9x00MsuR3jO6AzUwzK2Z6MIV3Tf4EDdITiuk8Uaz8K7g0R082WqsqNaSU8DdgkrRvZThzhit83mi/uiw==",
+          "installedClosureSha256": "44bbae998b9bdd6d999ccaae376e2f25657cdb0d433a3d6ef56240811ffc19ab",
+          "filesSha256": "4bf5ca0529ba45a75c7fbd148801341d3415fc0a795ccedc1ada6f21d31edb55"
+        }
       },
       {
         "project": "orestesgaolin/mermaid",
         "version": "0.3.2",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "ca0dad14b4ca24ec1311894fa69c01fa6f9fff0c81e72537adea4f2e7dfd029a",
+          "filesSha256": "5df319f3048c6a2d18c2f53907e156f9c08793f16c379c11311c0c8c31350db6"
+        }
       },
       {
         "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
         "version": "0.1.5",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "e7642aae65ffb9a8e00cf31ebd6a7516a5b9c4cd76deb94624d679f83c0baf47",
+          "integrity": "sha512-hZRSXWNw6xPLcJnqI2xwv2+xuoq/b55bAxge3iueo/XMFJELK1WsGXkpmXBNMzW9qqIvReL+CybUJapVOexE5g==",
+          "installedClosureSha256": "f8908d85c710570a220c9430cdf5a4b5639a490349e3d6b7fa3e2394087c44e4",
+          "filesSha256": "2f14913ba89cbde1ee30c6137ba2903f358e6e02227db107aa4786e254352ddd"
+        }
       },
       {
         "project": "spacedock-dev/mermaidtext",
         "version": "git-a6b0c7657b94",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "b598bdc84c2e570d7f4e90ab82abc5435817c041269d9d0f769281f9cc6f08bc",
+          "revision": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12"
+        }
       },
       {
         "project": "tariqshams/mermaidtui",
         "version": "0.0.6",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "ca735b5d31c6c61667432c89028770f094dc19fbbc0b8763b8b3719ac5fb1dce",
+          "integrity": "sha512-DN8UewGe7CH25pT9BLiV19CSbhnnT03T9o2Xnyy1KupBrsxWUevUAsYAO63yn7ujMNQCPEYm2xxzoItRWlP8Pw==",
+          "installedClosureSha256": "94b5d48f4cfed5cf70f06bdcb715773fac24a2a83b5ac45cb83eafd57902da33",
+          "filesSha256": "172723ebaa053f2ada56d42872f82b053874c31735a61d25cc06e39baa68d5ba"
+        }
       },
       {
         "project": "wevm/ondine",
         "version": "0.0.3",
-        "format": "svg"
+        "format": "svg",
+        "operand": {
+          "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b",
+          "integrity": "sha512-O5lb0DvNhiQJQKitkTYEPRyR83uyGxB2SsLcyu1zD3zJeL+sWxAzW+kM+s8srliERxxx3fFUijEfs26EYXZ5OA==",
+          "installedClosureSha256": "31f6274022add16832cedf501d4a4c9f52ec565cfad782bd2a7a402ef966f2ec",
+          "filesSha256": "f2e97ea55dbbce8c43663d839d36d0fc4870b126fe7d92fd235b3ffc7aba56bf"
+        }
       },
       {
         "project": "wevm/ondine",
         "version": "0.0.3",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+          "filesSha256": "994d2f6ce3e1d45ef9e879793974c15f4bfa0a9c148a8bcca58fd4dfd7b7b791"
+        }
       },
       {
         "project": "xai-org/grok-build",
         "version": "git-2bdd1d6a6369",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "1d206766ed84391ab036b1098a052bd9987185e75d55c4086856b8f8eb7ed1e3",
+          "revision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8"
+        }
       },
       {
         "project": "Yassimba/loom",
         "version": "0.10.0",
-        "format": "terminal"
+        "format": "terminal",
+        "operand": {
+          "sha256": "c890362de11e32be98b89e0b145323198f61b1a0a771e0e65246d8e44e98ab3a",
+          "integrity": "sha512-oLph3MkCXPRZ3QqFgbtquKqwdO3rHOEGicTcsO0M8yoUeMmO+Fvxros0EMl+o4J1PmX2XhvATOyHz1yhH6pmwg==",
+          "installedClosureSha256": "2ef825794b9df111c66a9521bbd53767ad83f72100056bde77941bfbf3572408",
+          "filesSha256": "54163807f4c9c5a4ec4ec9e9566a4835f7d1124fc0587aee587a0dc5d810ae66"
+        }
       }
     ],
     "rounds": 1,
-    "inputsSha256": "2c70ee41345f6a0133ce9d8d65ad0752329887c510be1563a31050abd401ee58",
-    "identity": "9979e340cebe9e7da2395de2fcb339b96ab214391edc3c3fdded6b50e37cd69d"
+    "inputsSha256": "308958c48c337c1a9db0ec6468528dfd60392212d4a3e34078f6b441aa22712d",
+    "identity": "417cb14dbd838bda9fdb8e421f621856aede443cecd0c3ca7fe7ef563ead903d"
   },
   "assessmentPolicy": "drawing-reviewed-labels-v2",
   "assessmentProfiles": {
-    "svg": "8e588f1b68472d0923458fb6a6107626d67629b3c21f391f9384209dda2e1c27",
-    "terminal": "55dc7ee0b3fdbb9c9a7bf4d5ba714d82804f9d4678d67493e8ceaf91f10e8374"
+    "svg": "07aa186b53810c3b6dc8154a29779f7a63cdddaa87e1234bb8635aa518654820",
+    "terminal": "74f39168c6e1ed7f79b6342c52eda78bb542177a8cb3a7d4d43952bd96acacbe"
+  },
+  "observerChecks": {
+    "svg": [
+      {
+        "name": "visible-label",
+        "status": "correct"
+      },
+      {
+        "name": "missing-label",
+        "status": "incorrect"
+      },
+      {
+        "name": "source-leak",
+        "status": "incorrect"
+      }
+    ],
+    "terminal": [
+      {
+        "name": "visible-label",
+        "status": "correct"
+      },
+      {
+        "name": "missing-label",
+        "status": "incorrect"
+      },
+      {
+        "name": "source-leak",
+        "status": "incorrect"
+      }
+    ]
   },
   "runtimeBindings": [
     {
@@ -496,9 +709,18 @@
   "collection": {
     "svg": {},
     "terminal": {},
-    "outputsRetained": false,
-    "startedAt": "2026-11-08T02:24:31.463Z",
-    "finishedAt": "2026-11-08T02:54:34.337Z"
+    "outputsRetained": true,
+    "returnedOutputs": 3684,
+    "startedAt": "2026-11-08T12:46:46.199Z",
+    "finishedAt": "2026-11-08T12:56:21.652Z",
+    "captureArchive": {
+      "file": "drawing-capture-2026-11-08.tar.gz",
+      "sha256": "b20e3004fe884a7426179a72dbac51e71fe4ab92e010e2b3fae4d7250683b7fd",
+      "bytes": 3963733,
+      "root": "drawing-retained",
+      "path": "captures/drawing-capture-2026-11-08.tar.gz"
+    },
+    "previousPublishedSha256": "3c1dd98cc72ef077be4ac5fa39343c636f2afc35576ad426b45f981473e23992"
   },
   "results": [
     {
@@ -654,6 +876,19 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 11
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "d8824194cb660ada8edf596a6785278fe7c40aab61a43e8a2be9a19cc16f4923",
+        "revision": "2f993bd79a55235eb59a34d807852276ba25bea7",
+        "filesSha256": "c60ea08e5f5972a8633434fbdcc5654afc0b49c9529653eb100e48deb39ca5bb"
       }
     },
     {
@@ -809,6 +1044,20 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 1
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "01c277a6b3e55bf99d313e9ce0aea0860f46f80f5a09f74913007d0915028fdf",
+        "integrity": "sha512-fHA2btF+GZ6s+AInzOJFzQQOCRX1ntFG94fpmu68TECTXg5iTOeDiVvhT6AhyALXtcDCpr51EfJFGipjq642TQ==",
+        "installedClosureSha256": "800fa7d49cb239560adf29efdd46ba3f4ed096f6ee84c50acfd4de5c4b7df54c",
+        "filesSha256": "2483ab96bad20c01b34bd8bf0357b44872dd1fd0615fa7fe17d8d70eaad86ff9"
       }
     },
     {
@@ -960,7 +1209,19 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "01c277a6b3e55bf99d313e9ce0aea0860f46f80f5a09f74913007d0915028fdf",
+        "integrity": "sha512-fHA2btF+GZ6s+AInzOJFzQQOCRX1ntFG94fpmu68TECTXg5iTOeDiVvhT6AhyALXtcDCpr51EfJFGipjq642TQ==",
+        "installedClosureSha256": "800fa7d49cb239560adf29efdd46ba3f4ed096f6ee84c50acfd4de5c4b7df54c",
+        "filesSha256": "2483ab96bad20c01b34bd8bf0357b44872dd1fd0615fa7fe17d8d70eaad86ff9"
+      }
     },
     {
       "project": "AlexanderGrooff/mermaid-ascii",
@@ -1112,7 +1373,18 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
+        "revision": "5f00e3d9ac9fc96a19859d502333e35b87d2ffea",
+        "filesSha256": "9e22c78c0657d8091ebcf1f270bb6e3e864b48279cf95aebdf0f6bd616e25b9b"
+      }
     },
     {
       "project": "anomalyco/opencode",
@@ -1263,7 +1535,17 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
+        "filesSha256": "c96eaf3796df2489375c73b56823e2e442adcd3fb6b986091dc0844700c031d8"
+      }
     },
     {
       "project": "crabtalk/bezel",
@@ -1417,6 +1699,19 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 2
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "4b5dfd85beb61111d238e0ae9949b09d7e368e3d2551bc98b48ead9f8ccff92e",
+        "revision": "ab854a04f354f0c428a76d54b822dfd21e2e3962",
+        "filesSha256": "361592172424674f8bb96df72aca27e31a2661439fd8da60c728b04599251403"
       }
     },
     {
@@ -1573,6 +1868,20 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 17
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
+        "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
+        "installedClosureSha256": "85ecefeee851fd25fd68972e3160f3b48d590b6bd8232e23a8d74f9d9931d97b",
+        "filesSha256": "3f2199e0724c1564b7d1ea8c3f23c523a49460ac1af39aac68d16d076897ddfb"
       }
     },
     {
@@ -1726,7 +2035,19 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
+        "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
+        "installedClosureSha256": "85ecefeee851fd25fd68972e3160f3b48d590b6bd8232e23a8d74f9d9931d97b",
+        "filesSha256": "3f2199e0724c1564b7d1ea8c3f23c523a49460ac1af39aac68d16d076897ddfb"
+      }
     },
     {
       "project": "dfadler/zombie-mermaid",
@@ -1881,6 +2202,20 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 5
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+        "integrity": "sha512-vo/yfpnzrWNn+2cqng2MNTSjgZgel0nd8XI9eRA7+WOWgPjUEsLfB0SmyNm8KOg9Gc8T1ptkV6MzW/KmGAijsg==",
+        "installedClosureSha256": "009c64d5cd53ee5a23936188bee7377f7eb63f5f5de80803fa7e3ffea921ce8c",
+        "filesSha256": "be874758471d140c0f2d2f3b56d2a17e6cab9a03664c001e763252105915ddfb"
       }
     },
     {
@@ -2034,7 +2369,19 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
+        "integrity": "sha512-vo/yfpnzrWNn+2cqng2MNTSjgZgel0nd8XI9eRA7+WOWgPjUEsLfB0SmyNm8KOg9Gc8T1ptkV6MzW/KmGAijsg==",
+        "installedClosureSha256": "009c64d5cd53ee5a23936188bee7377f7eb63f5f5de80803fa7e3ffea921ce8c",
+        "filesSha256": "be874758471d140c0f2d2f3b56d2a17e6cab9a03664c001e763252105915ddfb"
+      }
     },
     {
       "project": "Dicklesworthstone/frankenmermaid",
@@ -2189,6 +2536,19 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 10
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "04538da51718ecf11a56233c6f029280882cb32c7194715888b71d529f9b525f",
+        "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
+        "filesSha256": "79b2da212bc980ae0308a13357fd7940776bf39872e55b30daa459cd38e3c62a"
       }
     },
     {
@@ -2341,7 +2701,18 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "cc827264b1b9a201dfe4b42bb03b70a57067f3b8cf75f89c394cd39aeed22090",
+        "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
+        "filesSha256": "fc6287c29595f0da5d7d0c9c5e42a6b4e1dbabf56cc387ea4eafadde4ff1ff18"
+      }
     },
     {
       "project": "emtyty/merslim",
@@ -2496,6 +2867,20 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 12
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
+        "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
+        "installedClosureSha256": "e62a71b3ed588e543fa9887960de86af9e38c4ce445814426979f0478421d6e8",
+        "filesSha256": "4d1c7396d28610b7a1bd578982e264f469acb9030d4ea79169b929e617ad0116"
       }
     },
     {
@@ -2649,7 +3034,19 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
+        "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
+        "installedClosureSha256": "e62a71b3ed588e543fa9887960de86af9e38c4ce445814426979f0478421d6e8",
+        "filesSha256": "4d1c7396d28610b7a1bd578982e264f469acb9030d4ea79169b929e617ad0116"
+      }
     },
     {
       "project": "evangwt/xmermaid",
@@ -2805,6 +3202,20 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 8
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "4b083ff3979c7b07e1c364393ef17659ffe7bfcfea75a818260f4de7ece7789b",
+        "integrity": "sha512-/KxDLMfR0THbxtrZiGxDuTKp0NGJTJRHH5ForIvxVxf9ctveEPN9irXUBFYIiKB337CXMhH2w+ds8pJ5hpRGvA==",
+        "installedClosureSha256": "d3f25bdffb86767a1b005a299fa67059e382204877a9eeb430054eb36e6aa899",
+        "filesSha256": "436d9bff9b53deaefe6b336fba7dc09a6adaf378ed8cf1f50bf0840ce4bf9ab4"
       }
     },
     {
@@ -2956,7 +3367,17 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "filesSha256": "b74dd19fa49a894dd7f8ec5846724ef41c9669f8bd4e5911a6dea7ad0229de0d"
+      }
     },
     {
       "project": "kais-radwan/ascii-mermaid",
@@ -3109,7 +3530,18 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "6cbc31d2719cfd2be538707c238d3ab1af24c20f2247f7f5a139df17e5bcb1ae",
+        "revision": "a91a0c7baec6392212c59221bc67389bb617feb7",
+        "filesSha256": "2fa3a3dba7dde558e876b8accbc134e14870c60c7927661b2f9365df78f94b41"
+      }
     },
     {
       "project": "kitlangton/merman",
@@ -3261,7 +3693,19 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "f1e16af45f4c43e2c7d69a48c2f3bc286b061b84dca994fa83da98593705793d",
+        "integrity": "sha512-SqKB/VjkjxNgyxAkvGGbTQACrTpPkg5udiDtJswYEnSkOjKdRISYKtK2Hzi/Y8TjK3beHMHyOQeoCS10V+AD4g==",
+        "installedClosureSha256": "c0152333363b8cfc1bcc768c8209c43b9197d4f2d135dd973f09306479d61238",
+        "filesSha256": "9b1a1d4e5e780b43d1da85f582975e015b068c03509b03499ce3d7fa6b3192c4"
+      }
     },
     {
       "project": "KlangHaus/vitepress-plugin-diagram",
@@ -3417,6 +3861,20 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 24
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "448013e13d696562b1c4cac338a94c937dcc861b1641dd9b5fc56f87bf02cdf8",
+        "integrity": "sha512-ECmsDtEy7745CMQqDP1zkCxHx2zq5Vj+FGOss1gUowirJvYmtxahMQ2jV6/BvPm9cltcm2XQajAqPTYJKmVKEA==",
+        "installedClosureSha256": "b02b324b3835dffdd25f7294729d0043aabd4576fe9aa8906e022f2932142322",
+        "filesSha256": "50381a3bf28bafa271048ee1ab3dee363d26a8b8189f526fe78ab02bf2edae33"
       }
     },
     {
@@ -3572,6 +4030,20 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 27
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "4e73f19d6c9961b5602bc33366920138d37c73c616ff57f1446fcb783809960d",
+        "integrity": "sha512-82NQI8z4R6pNAOvZEfm6MS5sMJjQ1SEVjznM/3E5VrDu2g1tQlNj2BXdt4pnCnsRofsXoiklWinzO8WLAvVmqA==",
+        "installedClosureSha256": "cf242083c648c93ee09269b54a7f03a019ed1202d2514f43db27677691200681",
+        "filesSha256": "f093ccaf09bd87c0f149502e1df1fbb59a0b89859d2a422c90918285cdc12ee3"
       }
     },
     {
@@ -3724,7 +4196,18 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "80fa7118095cac430259c828606191092607423b8c02461400215acc48f4f44d",
+        "revision": "3b915f69c02d55b873d252cf6c8a6048e7f3427d",
+        "filesSha256": "b93468f74a91e2f80aa6110b539820fddffa739a7dd98cebada6dbd86b034f85"
+      }
     },
     {
       "project": "lukilabs/beautiful-mermaid",
@@ -3877,7 +4360,21 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
+        "integrity": "sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==",
+        "installedClosureSha256": "f3cb677e308c2e8664b8254eaa6b9564eaa4060204f92ba4197a6c5fa50f6cfd",
+        "filesSha256": "259909bc771979d07f059bdc14470a283a8ce75cc26eada390deb8296b0c5665"
+      }
     },
     {
       "project": "lukilabs/beautiful-mermaid",
@@ -4030,7 +4527,19 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
+        "integrity": "sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==",
+        "installedClosureSha256": "f3cb677e308c2e8664b8254eaa6b9564eaa4060204f92ba4197a6c5fa50f6cfd",
+        "filesSha256": "259909bc771979d07f059bdc14470a283a8ce75cc26eada390deb8296b0c5665"
+      }
     },
     {
       "project": "mermaid-js/mermaid",
@@ -4185,6 +4694,20 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 3
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "fafa28691baf87948a63ec13009437278f25d43ca7d85e74b71f3b53897e1738",
+        "integrity": "sha512-4113TdXeLAsMruJ79OpFL5O8+LTFXhQqZ260rF3tgUmiNAtRm4Uume04I+65PRN6yZ69J4f8rVYWW8zRk65UYw==",
+        "installedClosureSha256": "1ca50fe8c8938d8f036cfe8d06418130542b84c0ce82696c9d4044d681e70623",
+        "filesSha256": "6cc061b56952886cfaa6250232115e3e72e0836a9512344a7dea4c6f2951a97c"
       }
     },
     {
@@ -4337,7 +4860,17 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "26d9b85a4b72f113ba83afdbf24b867e400fd2cf921833288bf3344ba8f3dfa6",
+        "revision": "34c47a93cd792f24e06b49b5196a1c876240f03a"
+      }
     },
     {
       "project": "obsidianmd/pele",
@@ -4491,6 +5024,20 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 2
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "37bea5005aa6d2dde929032ced5d2958cf642667cbc1fe675f9dfacf4ba15a51",
+        "integrity": "sha512-Ie8UKY9x00MsuR3jO6AzUwzK2Z6MIV3Tf4EDdITiuk8Uaz8K7g0R082WqsqNaSU8DdgkrRvZThzhit83mi/uiw==",
+        "installedClosureSha256": "44bbae998b9bdd6d999ccaae376e2f25657cdb0d433a3d6ef56240811ffc19ab",
+        "filesSha256": "4bf5ca0529ba45a75c7fbd148801341d3415fc0a795ccedc1ada6f21d31edb55"
       }
     },
     {
@@ -4647,6 +5194,18 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 5
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "ca0dad14b4ca24ec1311894fa69c01fa6f9fff0c81e72537adea4f2e7dfd029a",
+        "filesSha256": "5df319f3048c6a2d18c2f53907e156f9c08793f16c379c11311c0c8c31350db6"
       }
     },
     {
@@ -4803,6 +5362,20 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 15
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "e7642aae65ffb9a8e00cf31ebd6a7516a5b9c4cd76deb94624d679f83c0baf47",
+        "integrity": "sha512-hZRSXWNw6xPLcJnqI2xwv2+xuoq/b55bAxge3iueo/XMFJELK1WsGXkpmXBNMzW9qqIvReL+CybUJapVOexE5g==",
+        "installedClosureSha256": "f8908d85c710570a220c9430cdf5a4b5639a490349e3d6b7fa3e2394087c44e4",
+        "filesSha256": "2f14913ba89cbde1ee30c6137ba2903f358e6e02227db107aa4786e254352ddd"
       }
     },
     {
@@ -4955,7 +5528,17 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "b598bdc84c2e570d7f4e90ab82abc5435817c041269d9d0f769281f9cc6f08bc",
+        "revision": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12"
+      }
     },
     {
       "project": "tariqshams/mermaidtui",
@@ -5106,7 +5689,19 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "ca735b5d31c6c61667432c89028770f094dc19fbbc0b8763b8b3719ac5fb1dce",
+        "integrity": "sha512-DN8UewGe7CH25pT9BLiV19CSbhnnT03T9o2Xnyy1KupBrsxWUevUAsYAO63yn7ujMNQCPEYm2xxzoItRWlP8Pw==",
+        "installedClosureSha256": "94b5d48f4cfed5cf70f06bdcb715773fac24a2a83b5ac45cb83eafd57902da33",
+        "filesSha256": "172723ebaa053f2ada56d42872f82b053874c31735a61d25cc06e39baa68d5ba"
+      }
     },
     {
       "project": "wevm/ondine",
@@ -5260,6 +5855,20 @@
       },
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 3
+      },
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
+        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
+        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+      },
+      "operand": {
+        "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b",
+        "integrity": "sha512-O5lb0DvNhiQJQKitkTYEPRyR83uyGxB2SsLcyu1zD3zJeL+sWxAzW+kM+s8srliERxxx3fFUijEfs26EYXZ5OA==",
+        "installedClosureSha256": "31f6274022add16832cedf501d4a4c9f52ec565cfad782bd2a7a402ef966f2ec",
+        "filesSha256": "f2e97ea55dbbce8c43663d839d36d0fc4870b126fe7d92fd235b3ffc7aba56bf"
       }
     },
     {
@@ -5412,7 +6021,17 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+        "filesSha256": "994d2f6ce3e1d45ef9e879793974c15f4bfa0a9c148a8bcca58fd4dfd7b7b791"
+      }
     },
     {
       "project": "xai-org/grok-build",
@@ -5564,7 +6183,17 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "1d206766ed84391ab036b1098a052bd9987185e75d55c4086856b8f8eb7ed1e3",
+        "revision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8"
+      }
     },
     {
       "project": "Yassimba/loom",
@@ -5716,7 +6345,19 @@
         "unknown": [],
         "unrun": []
       },
-      "assessmentGapReasons": {}
+      "assessmentGapReasons": {},
+      "observerSources": {
+        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
+        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
+        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
+        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+      },
+      "operand": {
+        "sha256": "c890362de11e32be98b89e0b145323198f61b1a0a771e0e65246d8e44e98ab3a",
+        "integrity": "sha512-oLph3MkCXPRZ3QqFgbtquKqwdO3rHOEGicTcsO0M8yoUeMmO+Fvxros0EMl+o4J1PmX2XhvATOyHz1yhH6pmwg==",
+        "installedClosureSha256": "2ef825794b9df111c66a9521bbd53767ad83f72100056bde77941bfbf3572408",
+        "filesSha256": "54163807f4c9c5a4ec4ec9e9566a4835f7d1124fc0587aee587a0dc5d810ae66"
+      }
     }
   ],
   "totals": {
@@ -5727,5 +6368,5 @@
     "unknown": 145,
     "unrun": 0
   },
-  "updatedAt": "2026-11-08T02:54:34.337Z"
+  "updatedAt": "2026-11-08T12:56:21.652Z"
 }

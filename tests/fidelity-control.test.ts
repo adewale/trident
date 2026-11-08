@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test'
 import { cpSync, mkdirSync, writeFileSync, rmSync, realpathSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { createRequire } from 'node:module'
-import { fidelityControlIdentity, assertReusableControl, fidelityHarnessSources } from '../unified/fidelity-control.ts'
+import { fidelityControlIdentity, fidelityHarnessSources, assertReusableControl } from '../unified/fidelity-control.ts'
 import { byteDigest } from '../portable/artifacts.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
 import { execFileSync } from 'node:child_process'
@@ -15,21 +15,6 @@ test('the executing import rewriter belongs to the sealed runtime dependency clo
   const observed = captureInstalledDependencyClosure(root).nodes.find(node => node.realRoot === compiler)
   expect(observed?.name).toBe('typescript')
   expect(observed?.files.some(file => file.path === 'lib/typescript.js' && /^[a-f0-9]{64}$/.test(file.sha256 ?? ''))).toBe(true)
-})
-test('native harness languages and build inputs participate in control identity', () => {
-  const root = temporary.dir()
-  for (const name of ['parser.rs', 'parser.go', 'parser.dart', 'parser.py', 'Cargo.toml.template', 'Cargo.lock']) writeFileSync(join(root, name), 'original')
-  writeFileSync(join(root, 'README.md'), 'documentation')
-  writeFileSync(join(root, 'dom-free-files.json'), '{}')
-  const before = fidelityHarnessSources(root)
-  expect(before).toHaveLength(6)
-  for (const name of ['parser.rs', 'parser.go', 'parser.dart', 'parser.py', 'Cargo.toml.template', 'Cargo.lock']) {
-    writeFileSync(join(root, name), 'changed')
-    expect(fidelityHarnessSources(root)).not.toEqual(before)
-    writeFileSync(join(root, name), 'original')
-  }
-  writeFileSync(join(root, 'dom-free-files.json'), '{"proof":"new"}')
-  expect(fidelityHarnessSources(root)).toEqual(before)
 })
 test('control reuse binds selected source and installed bytes while allowing relocation', () => {
   const first = temporary.dir(), second = temporary.dir()
@@ -72,4 +57,85 @@ test('a reuse receipt cannot bless altered or missing native/audit evidence', ()
   expect(() => assertReusableControl(root, 'identity')).not.toThrow()
   writeFileSync(join(root, 'audit.jsonl'), '{"changed":true}\n')
   expect(() => assertReusableControl(root, 'identity')).toThrow('recollect')
+})
+
+test('release labels and notes preserve Node qualification; dependency bytes and assertions revoke it', async () => {
+  const { fidelityTargetIdentity } = await import('../unified/fidelity-control.ts')
+  const { qualifiedNodeFiles } = await import('../unified/mermaid-fidelity.ts')
+  const { currentReferencePin } = await import('../reference/source.ts')
+  const root = temporary.dir()
+  for (const name of ['upstream', 'reference', 'runtime', 'tooling']) mkdirSync(join(root, name))
+  execFileSync('git', ['init', '--quiet'], { cwd: join(root, 'upstream') })
+  writeFileSync(join(root, 'upstream/pnpm-lock.yaml'), 'lock')
+  const selected = join(root, 'upstream/test.spec.ts'); writeFileSync(selected, 'assertion')
+  for (const name of ['reference', 'runtime', 'tooling']) writeFileSync(join(root, name, 'package.json'), '{"name":"fixture","version":"0.2.1"}')
+  const helper = join(root, 'tooling/node_modules/helper'); mkdirSync(helper, { recursive: true })
+  writeFileSync(join(root, 'tooling/package.json'), '{"name":"trident","version":"0.2.1","dependencies":{"helper":"1"}}')
+  writeFileSync(join(helper, 'package.json'), '{"name":"helper","version":"1"}'); writeFileSync(join(helper, 'index.js'), 'implementation')
+  const entry = { path: 'test.spec.ts', absolute: selected, family: 'flowchart', helperIdentifiers: [] as string[], fileIdentifiers: [] as string[] }
+  const identity = () => fidelityControlIdentity(join(root, 'upstream'), join(root, 'reference'), join(root, 'runtime'), [entry], 'pin', undefined, join(root, 'tooling'))
+  const initial = identity(), target = { project: 'fixture', tool: 'native', version: '1', peer: { node: { description: 'before' }, artifact: { sha256: 'a'.repeat(64), detail: 'before' } } }
+  const proof = { protocol: 'dom-free-qualification-v3', commit: currentReferencePin.commit, controlIdentity: initial, targets: { fixture: fidelityTargetIdentity(target) }, additionalFiles: { fixture: ['test.spec.ts'] }, qualifierSha256: 'old reporter bytes' }
+  writeFileSync(join(root, 'tooling/package.json'), '{"name":"trident","version":"0.3.0","description":"release wording","dependencies":{"helper":"1"}}')
+  writeFileSync(join(root, 'upstream/audit-notes.txt'), 'untracked notes')
+  target.peer.node.description = 'after'; target.peer.artifact.detail = 'after'
+  expect(identity()).toBe(initial)
+  expect([...qualifiedNodeFiles(proof, identity(), target)]).toEqual(['test.spec.ts'])
+  for (const change of [{ family: 'sequence' }, { helperIdentifiers: ['log'] }, { fileIdentifiers: ['log'] }]) {
+    Object.assign(entry, change)
+    expect([...qualifiedNodeFiles(proof, identity(), target)]).toEqual([])
+    Object.assign(entry, { family: 'flowchart', helperIdentifiers: [], fileIdentifiers: [] })
+  }
+  writeFileSync(join(helper, 'index.js'), 'changed implementation')
+  expect([...qualifiedNodeFiles(proof, identity(), target)]).toEqual([])
+  writeFileSync(join(helper, 'index.js'), 'implementation'); writeFileSync(selected, 'different assertion')
+  expect(identity()).not.toBe(initial)
+  target.peer.artifact.sha256 = 'b'.repeat(64)
+  expect([...qualifiedNodeFiles(proof, initial, target)]).toEqual([])
+})
+
+test('worker identity follows transitive imports and reexports without including inactive sources', () => {
+  const root = temporary.dir()
+  writeFileSync(join(root, 'entry.ts'), "import './view.mjs'\n")
+  writeFileSync(join(root, 'view.mjs'), "export { value } from './leaf.mjs'\n")
+  writeFileSync(join(root, 'leaf.mjs'), 'export const value = 1\n')
+  const initial = fidelityHarnessSources(root, ['entry.ts'])
+  writeFileSync(join(root, 'inactive.mjs'), 'unbuilt recipe')
+  expect(fidelityHarnessSources(root, ['entry.ts'])).toEqual(initial)
+  writeFileSync(join(root, 'leaf.mjs'), 'export const value = 2\n')
+  expect(fidelityHarnessSources(root, ['entry.ts'])).not.toEqual(initial)
+  const actual = fidelityHarnessSources(join(import.meta.dirname, '../unified/mermaid-fidelity'))
+  expect(actual['view-core.mjs']).toBeDefined()
+  expect(actual['views/dart.mjs']).toBeDefined()
+})
+
+test('a changed bridge invalidates only its own candidate qualification', async () => {
+  const { bindParserBridge } = await import('../unified/mermaid-fidelity/bridges.ts')
+  const { fidelityTargetIdentity } = await import('../unified/fidelity-control.ts')
+  const { qualifiedNodeFiles } = await import('../unified/mermaid-fidelity.ts')
+  const { currentReferencePin } = await import('../reference/source.ts')
+  const root = temporary.dir(), script = join(root, 'active.mjs')
+  writeFileSync(script, 'original bridge')
+  const target = () => ({ project: 'active', version: '1', tool: 'bridge', bridge: bindParserBridge({ command: [process.execPath, script], version: '1', description: 'bridge' }, root, {}) })
+  const other = { project: 'other', version: '1', tool: 'native' }
+  const record = { protocol: 'dom-free-qualification-v3', commit: currentReferencePin.commit, controlIdentity: 'control', targets: { active: fidelityTargetIdentity(target()), other: fidelityTargetIdentity(other) }, additionalFiles: { active: ['a'], other: ['b'] } }
+  writeFileSync(join(root, 'inactive.rs'), 'unbuilt unrelated bridge')
+  expect([...qualifiedNodeFiles(record, 'control', target())]).toEqual(['a'])
+  writeFileSync(script, 'different bridge')
+  expect([...qualifiedNodeFiles(record, 'control', target())]).toEqual([])
+  expect([...qualifiedNodeFiles(record, 'control', other)]).toEqual(['b'])
+})
+
+test('package scope affects execution even though the release label does not', async () => {
+  const { dependencyExecutionInputs } = await import('../portable/artifact-dependencies.ts')
+  const root = temporary.dir(), manifest = { name: 'tool', version: '1', type: 'module', imports: { '#helper': './first.js' } }
+  writeFileSync(join(root, 'package.json'), JSON.stringify(manifest))
+  const identity = () => dependencyExecutionInputs(captureInstalledDependencyClosure(root))
+  const original = identity()
+  writeFileSync(join(root, 'package.json'), JSON.stringify({ ...manifest, version: '2' }))
+  expect(identity()).toEqual(original)
+  writeFileSync(join(root, 'package.json'), JSON.stringify({ ...manifest, type: 'commonjs' }))
+  expect(identity()).not.toEqual(original)
+  writeFileSync(join(root, 'package.json'), JSON.stringify({ ...manifest, imports: { '#helper': './other.js' } }))
+  expect(identity()).not.toEqual(original)
 })
