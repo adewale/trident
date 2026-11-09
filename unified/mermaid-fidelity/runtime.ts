@@ -665,10 +665,18 @@ function context(family: string) {
   c.parser.parser = c.parser
   return c
 }
-function boundModule(value: any, c: any, locals: Record<string, string>) {
+function boundModule(value: any, c: any, locals: Record<string, string>, unbound?: string, namespace = false) {
+  const inspectUnbound = (): never => gap('Native module namespace is not bound: ' + unbound)
   return new Proxy(value, {
+    ...(unbound ? {
+      ownKeys: inspectUnbound, has: inspectUnbound, getOwnPropertyDescriptor: inspectUnbound,
+      getPrototypeOf: inspectUnbound, setPrototypeOf: inspectUnbound,
+      isExtensible: inspectUnbound, preventExtensions: inspectUnbound,
+      set: inspectUnbound, defineProperty: inspectUnbound, deleteProperty: inspectUnbound,
+    } : {}),
     get(target, key) {
-      const result = target[key]
+      if (namespace && key === 'then') return undefined
+      const result = unbound ? deferred(unbound + '.' + String(key)) : target[key]
       const reason = (typeof result === 'object' && result) || typeof result === 'function' ? deferredValues.get(result) : undefined
       if (reason && locals[String(key)]) c.unavailableImports.set(locals[String(key)], reason)
       return result
@@ -679,9 +687,9 @@ function boundModule(value: any, c: any, locals: Record<string, string>) {
  * an unbound member proxy. Observations still go through the same adapters. */
 export function importFor(family: string, source: string | undefined, file: string) {
   if (source === undefined) return gap('Nonliteral production import has no native binding: ' + file)
-  return new Proxy(moduleFor(family, source, file), { get(target, key) { return key === 'then' ? undefined : Reflect.get(target, key) } })
+  return moduleFor(family, source, file, {}, true)
 }
-export function moduleFor(family: string, source: string, file: string, locals: Record<string, string> = {}): any {
+export function moduleFor(family: string, source: string, file: string, locals: Record<string, string> = {}, namespace = false): any {
   let c = contexts.get(file)
   if (!c) {
     c = context(family)
@@ -716,8 +724,8 @@ export function moduleFor(family: string, source: string, file: string, locals: 
   const setLogLevel = () => undefined
   if (/config\.js$/.test(source)) return boundModule(new Proxy({ ...config, default: config } as Record<string, any>, {
     get(target, key: string) { return Object.hasOwn(target, key) ? target[key] : deferred('Native host configuration export is not bound: ' + String(key)) },
-  }), c, locals)
-  if (/diagramAPI\.js$/.test(source)) return boundModule({ ...config, setLogLevel, log: deferred('Logger side effects are not bound to the candidate'), default: config }, c, locals)
+  }), c, locals, undefined, namespace)
+  if (/diagramAPI\.js$/.test(source)) return boundModule({ ...config, setLogLevel, log: deferred('Logger side effects are not bound to the candidate'), default: config }, c, locals, undefined, namespace)
   // The public package registers every diagram at import; candidates need no registry.
   if (/diagram-orchestration\.js$/.test(source)) return { addDiagrams: () => undefined }
   // A diagram module's `diagram` definition: the family's parser and database.
@@ -726,7 +734,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       const definition = definitions.get(family)
       return { diagram: definition ? { ...definition, parser: c.parser, db: c.db } : deferred(family + ': reference diagram unavailable') }
     }
-    return boundModule({ diagram: { parser: c.parser, db: c.db, renderer: deferred('Mermaid renderer module'), styles: deferred('Mermaid diagram styles') } }, c, locals)
+    return boundModule({ diagram: { parser: c.parser, db: c.db, renderer: deferred('Mermaid renderer module'), styles: deferred('Mermaid diagram styles') } }, c, locals, undefined, namespace)
   }
   if (/(?:^|\/)Diagram\.js$/.test(source)) {
     if (job.target.tool === 'mermaid')
@@ -774,6 +782,8 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       },
       c,
       locals,
+      undefined,
+      namespace,
     )
   if (/language\/index|language\/generated|language\/\w+\/module\.js$/.test(source)) {
     if (job.target.tool === 'mermaid')
@@ -800,6 +810,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       {},
       {
         get(_t, key: string) {
+          if (namespace && key === 'then') return undefined
           if (/^create\w+Services$/.test(key))
             return () => {
               const name = key.slice(6, -8)
@@ -860,6 +871,8 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       ),
       c,
       locals,
+      undefined,
+      namespace,
     )
   if (/mermaidAPI/.test(source)) {
     if (job.target.tool !== 'mermaid') {
@@ -874,7 +887,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
         reset: () => config.reset(),
         getConfig: () => config.getConfig(),
       }
-      return boundModule({ ...candidateAPI, mermaidAPI: candidateAPI, default: candidateAPI }, c, locals)
+      return boundModule({ ...candidateAPI, mermaidAPI: candidateAPI, default: candidateAPI }, c, locals, undefined, namespace)
     }
     const observed = new Proxy(api.mermaidAPI, {
       get(target, key) {
@@ -889,19 +902,8 @@ export function moduleFor(family: string, source: string, file: string, locals: 
     })
     return { mermaidAPI: observed, default: observed }
   }
-  return boundModule(
-    new Proxy(
-      {},
-      {
-        ownKeys() { return gap('Native module namespace is not bound: ' + source) },
-        has() { return gap('Native module namespace is not bound: ' + source) },
-        getOwnPropertyDescriptor() { return gap('Native module namespace is not bound: ' + source) },
-        get(_t, key) {
-          return deferred(source + '.' + String(key))
-        },
-      },
-    ),
-    c,
-    locals,
-  )
+  // One proxy keeps unused imports deferred. Wrapping a proxy here causes
+  // JavaScript's outer get-invariant check to invoke the inner descriptor trap,
+  // aborting collection even when no callback uses the unavailable export.
+  return boundModule({}, c, locals, source, namespace)
 }
