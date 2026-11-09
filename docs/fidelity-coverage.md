@@ -80,12 +80,13 @@ native verification/serialization/drawings, and selected reference renders:
   this review does not turn them into passes or remove them from the denominator.
 - Thirty-two reproduce native problems across four causes: rectangle border
   property syntax (25), legacy edge interpolation (4), empty GitGraph tag boxes
-  (2), and CSS value corruption in an empty State template's editable model (1).
+  (2), and hex CSS value corruption in Class/State style parsing (1).
 
 The rectangle syntax already exists in Agentic's declared Mermaid 12.2 target,
-as well as Trident's 12.3 reference. The State reproduction concerns the empty
-template's model and canonical output; a template with actual states retains
-the colour correctly. The GitGraph finding includes painted empty tag boxes,
+as well as Trident's 12.3 reference. The original State reproduction uses an
+empty template; tracing the shared style reader also reproduces it with actual
+states and in Class styles. A `fill`-only control exercises a different property
+and does not establish correctness for `background`. The GitGraph finding includes painted empty tag boxes,
 not just a difference between empty-list representations.
 
 The full 352-file rerun yields 2,638 passes, 101 assertion failures, 1,005 native

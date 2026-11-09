@@ -1498,7 +1498,7 @@ function beautifulGraph(graph, name, keeps, hooks) {
       // keeps that name as authoredShape (absent for bracket syntax).
       return [id, {
         text: node.label,
-        ...(typeof node.authoredShape === 'string' ? { type: node.authoredShape } : node.shape === 'rectangle' && node.label === id ? { [VERTEX_ABSENT]: { type: ambiguous } } : shape ? { type: shape } : {}),
+        ...(typeof node.authoredShape === 'string' ? { type: node.authoredShape } : node.shape === 'rectangle' && typeof node.borders === 'string' ? { type: 'rect', props: { borders: node.borders || 'none' } } : node.shape === 'rectangle' && node.label === id ? { [VERTEX_ABSENT]: { type: ambiguous } } : shape ? { type: shape } : {}),
         classes: assigned ? [assigned] : [],
         styles: styleStrings(get(graph.nodeStyles, id)),
       }]
@@ -1510,6 +1510,7 @@ function beautifulGraph(graph, name, keeps, hooks) {
         start: edge.source, end: edge.target, text: edge.label ?? '', type, stroke: strokeOf(edge.style),
         ...mermaidEdgeId(graph.edges, index),
         ...(keeps.length ? { length: edge.length ?? 1 } : {}),
+        ...(keeps.markers ? { interpolate: edge.curve ?? graph.linkCurves?.get(index) } : {}),
         ...(graph.linkStyles instanceof Map ? { style: styleStrings(get(graph.linkStyles, index)).length ? styleStrings(get(graph.linkStyles, index)) : undefined } : {}),
       }
     }),
@@ -1517,11 +1518,11 @@ function beautifulGraph(graph, name, keeps, hooks) {
     direction: directionWord(graph.direction),
     absent: {
       vertex: { link: `${name}'s graph keeps no click links`, tooltip: `${name}'s graph keeps no tooltips` },
-      edge: { ...(keeps.length ? {} : { length: `${name}'s edge model keeps no link length` }), ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), interpolate: `${name}'s edge model keeps no curve`, animate: `${name}'s edge model keeps no animation` },
+      edge: { ...(keeps.length ? {} : { length: `${name}'s edge model keeps no link length` }), ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), ...(keeps.markers ? {} : { interpolate: `${name}'s edge model keeps no curve` }), animate: `${name}'s edge model keeps no animation` },
       subgraph: { classes: `${name}'s subgraph model keeps no classes`, labelType: `${name} keeps a subgraph title's text without recording whether it was written as markdown` },
     },
   }, hooks)
-  return { ...view, getClasses: () => flowClasses(entriesOf(graph.classDefs).map(([id, style]) => [id, styleStrings(style)])) }
+  return { ...view, ...(keeps.markers ? { getEdges: () => Object.assign(view.getEdges(), { defaultInterpolate: graph.linkCurves?.get('default') }) } : {}), getClasses: () => flowClasses(entriesOf(graph.classDefs).map(([id, style]) => [id, styleStrings(style)])) }
 }
 flowchartSchema['adewale/agentic-mermaid'] = (raw, hooks) => {
   if (hooks[BASE_ONLY] || !raw.graph) return undefined

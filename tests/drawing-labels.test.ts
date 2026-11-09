@@ -168,11 +168,15 @@ test('sanitized SVG control labels use complete visible paint evidence and keep 
       ['<text x="10" y="30">Wrong</text>', 'incorrect'],
       ['<text x="10" y="30" opacity="0">Alpha</text>', 'incorrect'],
       ['<text x="10" y="30">Alpha</text><rect width="150" height="100" fill="white"/>', 'incorrect'],
-      ['<text x="-500" y="30">Alpha</text>', 'unknown'],
+      // Platforms with qualified glyph bounds can prove this failure; others
+      // withhold it. Neither may give an off-canvas label correctness credit.
+      ['<text x="-500" y="30">Alpha</text>', 'nonpass'],
     ] as const) {
       const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100">' + body + '<text x="200" y="30">Beta</text></svg>'
       await page.setContent(svg)
-      expect((await assessSvgLabels(example, page, svg)).status, body).toBe(expected)
+      const status = (await assessSvgLabels(example, page, svg)).status
+      if (expected === 'nonpass') expect(status, body).not.toBe('correct')
+      else expect(status, body).toBe(expected)
     }
     const missingOther = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100"><text x="10" y="30">Alpha</text></svg>'
     await page.setContent(missingOther)

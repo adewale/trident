@@ -3,6 +3,17 @@ import { nativeSchemaView, nativeAstView } from '../unified/mermaid-fidelity/sch
 
 const project = 'adewale/agentic-mermaid'
 const hooks = { unavailable: (why: string): never => { throw Error('gap: ' + why) }, unsupported: (why: string): never => { throw Error('unsupported: ' + why) } }
+test('Agentic flowchart views retain explicit borders and independent default, indexed and edge-ID curves', () => {
+  const raw = { graph: { direction: 'TD', nodes: new Map([['A', { id: 'A', label: 'Deploy', shape: 'rectangle', borders: 'lt' }], ['B', { id: 'B', label: 'B', shape: 'rectangle' }]]), edges: [{ source: 'A', target: 'B', hasArrowEnd: true, style: 'solid', curve: 'linear' }, { source: 'B', target: 'A', hasArrowEnd: true, style: 'solid' }], subgraphs: [], classDefs: new Map(), classAssignments: new Map(), nodeStyles: new Map(), linkStyles: new Map(), linkCurves: new Map<number | string, string>([['default', 'basis'], [0, 'cardinal'], [1, 'stepAfter']]) } }
+  const view = nativeSchemaView(project, 'flowchart', raw, hooks)
+  expect(view.getVertices().get('A').type).toBe('rect')
+  expect(view.getVertices().get('A').props).toEqual({ borders: 'lt' })
+  expect(view.getEdges().defaultInterpolate).toBe('basis')
+  expect(view.getEdges().map((edge: any) => edge.interpolate)).toEqual(['linear', 'stepAfter'])
+  const older = { graph: { ...raw.graph, linkCurves: undefined } }
+  expect(nativeSchemaView(project, 'flowchart', older, hooks).getEdges()[0].interpolate).toBe('linear')
+  expect(nativeSchemaView(project, 'flowchart', older, hooks).getEdges().defaultInterpolate).toBeUndefined()
+})
 test('Agentic C4 written boundary types override macro defaults', () => {
   const raw = { variant: 'C4Context', elements: [], relationships: [], boundaries: [
     { id: 'system', macro: 'System_Boundary', label: 'System', type: 'Written system type' },
