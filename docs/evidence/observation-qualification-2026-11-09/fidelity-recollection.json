@@ -1,0 +1,3396 @@
+{
+  "workerCodeCommit": "169b1e8eddd31ebed74d9aaea4d8cf7ceceabfe2",
+  "sourcePin": "2086904e76c692331e34a45d7cc3bc30860d040e",
+  "files": 352,
+  "candidates": 26,
+  "referenceQualifiedCallbacks": 7346,
+  "referenceOrdinalDigest": "b702e2431e9b3b3fb2fbc44cd601e598a786ce89f16f75af44a683d896967102",
+  "sourceCallbackPopulationUnchanged": true,
+  "passesWithoutNativeOperations": 0,
+  "controlIdentity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+  "profiles": {
+    "jsdom": {
+      "collectedThrough": "2026-11-09T11:23:58.022Z",
+      "resultSha256": "e26c622a29ca78898bc9df55c10980eb6b3aa97ec3fd65299b4f42bdf0f63e59",
+      "resumedCollection": {
+        "unchangedControlIdentity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+        "completedCandidatesPreserved": [
+          "Dicklesworthstone/frankenmermaid",
+          "AlexanderGrooff/mermaid-ascii",
+          "anomalyco/opencode",
+          "1jehuang/mermaid-rs-renderer",
+          "orestesgaolin/mermaid",
+          "pub:mermaid_flutter",
+          "dfadler/zombie-mermaid",
+          "wevm/ondine",
+          "adewale/agentic-mermaid"
+        ],
+        "completedCandidateCount": 9,
+        "newlyCollectedCandidates": 17,
+        "sourceReceiptSha256": "c55b31c386a6571cfebd082d85dba8979a3d586cc4cbd13fd32e25de48838f87",
+        "reduction": "Production compileFidelityReference/fidelityOutcomes applied to completed original Vitest reports and semantic audits; no candidate assertions or outcomes edited"
+      }
+    },
+    "node": {
+      "collectedThrough": "2026-11-09T12:01:14.780Z",
+      "resultSha256": "b5adb854e5c5e95c876f48a39a76b7d955e1304b893c3efed5e4ac335f944365"
+    }
+  },
+  "before": {
+    "totals": {
+      "passed": 25479,
+      "failed": 22559,
+      "unsupported": 43159,
+      "trident-blocked": 99799
+    },
+    "coverage": {
+      "candidates": 26,
+      "commonUnassessedCallbacks": 3822,
+      "commonUncollectedCallbacks": 3713,
+      "additionalGapObservations": 427,
+      "perFile": [
+        {
+          "path": "packages/examples/src/example.spec.ts",
+          "unassessed": 83,
+          "uncollected": 83
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "unassessed": 14,
+          "uncollected": 14
+        },
+        {
+          "path": "packages/mermaid-zenuml/src/zenumlRenderer.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/accessibility.spec.ts",
+          "unassessed": 20,
+          "uncollected": 20
+        },
+        {
+          "path": "packages/mermaid/src/config.appearance.spec.ts",
+          "unassessed": 43,
+          "uncollected": 43
+        },
+        {
+          "path": "packages/mermaid/src/config.spec.ts",
+          "unassessed": 27,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/config.usecase.spec.ts",
+          "unassessed": 13,
+          "uncollected": 13
+        },
+        {
+          "path": "packages/mermaid/src/defaultTheme.spec.ts",
+          "unassessed": 9,
+          "uncollected": 9
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/comments.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/diagram-beta-policy.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+          "unassessed": 27,
+          "uncollected": 27
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/diagramAPI.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/frontmatter.spec.ts",
+          "unassessed": 16,
+          "uncollected": 16
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/regexes.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/diagram.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
+          "unassessed": 12,
+          "uncollected": 12
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-max-text-size.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-render-positions.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/colorSlots.spec.ts",
+          "unassessed": 14,
+          "uncollected": 14
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/conformance/conformance.spec.ts",
+          "unassessed": 9,
+          "uncollected": 9
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/conformance/runner.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/containerOrder.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/diagnostics.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "unassessed": 7,
+          "uncollected": 7
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/block/blockColorIndex.spec.ts",
+          "unassessed": 8,
+          "uncollected": 8
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/block/layout.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/block/parser/block.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/classDiagram.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/classTypes.spec.ts",
+          "unassessed": 93,
+          "uncollected": 93
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/svgDraw.spec.js",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "unassessed": 210,
+          "uncollected": 210
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "unassessed": 32,
+          "uncollected": 32
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
+          "unassessed": 27,
+          "uncollected": 27
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/error/errorRenderer.spec.ts",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowChartShapes.spec.js",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowDb-elk-duplicate-subgraph.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowRenderer-elk-default.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowRenderer-v3-unified.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/git/gitGraph.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/mindmap/mindmapColors.spec.ts",
+          "unassessed": 8,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/packet/renderer.spec.ts",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/paletteCssGeneration.spec.ts",
+          "unassessed": 44,
+          "uncollected": 44
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
+          "unassessed": 20,
+          "uncollected": 20
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/abnfDetector.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/ebnfDetector.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/pegDetector.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts",
+          "unassessed": 14,
+          "uncollected": 14
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/railroadRenderer.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/styles.spec.ts",
+          "unassessed": 18,
+          "uncollected": 18
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/actorBandModel.spec.ts",
+          "unassessed": 5,
+          "uncollected": 5
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "unassessed": 7,
+          "uncollected": 7
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/noteFontWeight.spec.ts",
+          "unassessed": 12,
+          "uncollected": 12
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/palettePicking.spec.ts",
+          "unassessed": 9,
+          "uncollected": 9
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/rectSectionFill.spec.ts",
+          "unassessed": 23,
+          "uncollected": 23
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
+          "unassessed": 24,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/sequenceRenderer.spec.js",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/svgDraw.spec.js",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateDiagram-v2.spec.js",
+          "unassessed": 31,
+          "uncollected": 31
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateRenderer-v3-unified.spec.js",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateRenderer.spec.js",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
+          "unassessed": 42,
+          "uncollected": 42
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/swimlanes/swimlanesDiagram.spec.ts",
+          "unassessed": 9,
+          "uncollected": 9
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/treemap/utils.test.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/treeView/boxDrawingPreprocessor.spec.ts",
+          "unassessed": 42,
+          "uncollected": 42
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/treeView/icons.spec.ts",
+          "unassessed": 23,
+          "uncollected": 23
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/parser/usecase.lexer.spec.ts",
+          "unassessed": 13,
+          "uncollected": 13
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/parser/usecase.parser.spec.ts",
+          "unassessed": 76,
+          "uncollected": 76
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/parser/usecaseJson.spec.ts",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecase.parser.spec.ts",
+          "unassessed": 79,
+          "uncollected": 79
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecase.spec.ts",
+          "unassessed": 39,
+          "uncollected": 39
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRoleColors.spec.ts",
+          "unassessed": 15,
+          "uncollected": 15
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
+          "unassessed": 18,
+          "uncollected": 18
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
+          "unassessed": 12,
+          "uncollected": 12
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/wardley/wardleyBuilder.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
+          "unassessed": 8,
+          "uncollected": 8
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/textDimensionCalculator.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts",
+          "unassessed": 68,
+          "uncollected": 68
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/headerDomainRules.spec.ts",
+          "unassessed": 7,
+          "uncollected": 7
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/homepageHeroCopy.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/landingPopUp.spec.ts",
+          "unassessed": 8,
+          "uncollected": 8
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/noindexPages.spec.ts",
+          "unassessed": 9,
+          "uncollected": 9
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/ossHeroClass.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/pageMetadata.spec.ts",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/plausibleSettings.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/siteUrl.spec.ts",
+          "unassessed": 13,
+          "uncollected": 13
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/theme/colorScheme.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/theme/exampleConfig.spec.ts",
+          "unassessed": 13,
+          "uncollected": 13
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/theme/redirect.spec.ts",
+          "unassessed": 88,
+          "uncollected": 88
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/theme/siteBase.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/mermaid.spec.ts",
+          "unassessed": 13,
+          "uncollected": 13
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "unassessed": 100,
+          "uncollected": 100
+        },
+        {
+          "path": "packages/mermaid/src/profiler.spec.ts",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
+          "unassessed": 7,
+          "uncollected": 7
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/createText.spec.ts",
+          "unassessed": 9,
+          "uncollected": 9
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/handle-markdown-text.spec.ts",
+          "unassessed": 19,
+          "uncollected": 19
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/common/index.spec.ts",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/cose-bilkent/cytoscape-setup.test.ts",
+          "unassessed": 5,
+          "uncollected": 5
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/cose-bilkent/layout.test.ts",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/dagre/index.spec.js",
+          "unassessed": 19,
+          "uncollected": 19
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/dagre/mermaid-graphlib.spec.js",
+          "unassessed": 15,
+          "uncollected": 15
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/aggregateValidate.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureFreshness.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureMetadata.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureSizes.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/layout-fixtures.ddlt.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/arrowTypes.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/defaultPreset.spec.ts",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/elkOptionCatalogue.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/geometry.spec.ts",
+          "unassessed": 19,
+          "uncollected": 19
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/hostConfigSync.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/nestedEdgeOrder.spec.ts",
+          "unassessed": 7,
+          "uncollected": 7
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/render.spec.ts",
+          "unassessed": 103,
+          "uncollected": 103
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/subgraphFeedbackEdges.spec.ts",
+          "unassessed": 8,
+          "uncollected": 8
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/terminalLabels.spec.ts",
+          "unassessed": 9,
+          "uncollected": 9
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/groups.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/layoutCore.spec.ts",
+          "unassessed": 12,
+          "uncollected": 12
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/performance.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/placement.spec.ts",
+          "unassessed": 18,
+          "uncollected": 18
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/router.spec.ts",
+          "unassessed": 48,
+          "uncollected": 48
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerCompatibility.spec.ts",
+          "unassessed": 10,
+          "uncollected": 10
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerConstraint.spec.ts",
+          "unassessed": 13,
+          "uncollected": 13
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerInstrumentation.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerPlanning.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerSearch.spec.ts",
+          "unassessed": 13,
+          "uncollected": 13
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerTopology.spec.ts",
+          "unassessed": 14,
+          "uncollected": 14
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/helpers.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/scoreLayout.spec.ts",
+          "unassessed": 17,
+          "uncollected": 17
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/validateLayout.spec.ts",
+          "unassessed": 43,
+          "uncollected": 43
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/anchoredNodes.laneModel.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/anchoredNodes.spec.ts",
+          "unassessed": 266,
+          "uncollected": 266
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.endpointClip.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.geometry.spec.ts",
+          "unassessed": 5,
+          "uncollected": 5
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.lr.transform.spec.ts",
+          "unassessed": 8,
+          "uncollected": 8
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.materializedGeometry.spec.ts",
+          "unassessed": 10,
+          "uncollected": 10
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.portSwap.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.sharedTrackNudging.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.terminalStub.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/edgeLabelNodes.spec.ts",
+          "unassessed": 5,
+          "uncollected": 5
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/edgeLabelRanks.spec.ts",
+          "unassessed": 17,
+          "uncollected": 17
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/helpers.laneHeights.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/helpers.prepareLayout.spec.ts",
+          "unassessed": 12,
+          "uncollected": 12
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/laneOrdering.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/lanes.spec.ts",
+          "unassessed": 21,
+          "uncollected": 21
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/laneTitleBands.pooled.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/laneTitleBands.spec.ts",
+          "unassessed": 7,
+          "uncollected": 7
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/lrTransform.anchorFootprint.spec.ts",
+          "unassessed": 8,
+          "uncollected": 8
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/lrTransform.emptyLane.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/nestedGroupInLane.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/nestedGroupSizing.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase0.helpers.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase1.cycles.spec.ts",
+          "unassessed": 7,
+          "uncollected": 7
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.compact.lanes.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.compact.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.layering.spec.ts",
+          "unassessed": 7,
+          "uncollected": 7
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase3.ordering.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.coordinates.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.lanes.columns.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.lanes.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase5.pipeline.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.hoe.lr.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.knsv3.lr.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.lr.e2e.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/portSeparation.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/postProcessing.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/routeTouches.spec.ts",
+          "unassessed": 31,
+          "uncollected": 31
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/salesProcessRoutes.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/sameRankDetour.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/siblingFaces.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/sourceOrder.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/terminalGeometry.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/10-node-placement.ddlt.spec.ts",
+          "unassessed": 6,
+          "uncollected": 6
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/14-messy-layout.ddlt.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/15-border-hugging-compare.ddlt.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/15-border-hugging-lr.ddlt.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/16-intake-cycle-lr.ddlt.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/4-car-fun-sales-tb.ddlt.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/5-car-fun-sales-wide-tb.ddlt.spec.ts",
+          "unassessed": 5,
+          "uncollected": 5
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/6-legal-constr-sales.ddlt.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/7-car-sales-constr.ddlt.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/8-query-process-2.ddlt.spec.ts",
+          "unassessed": 5,
+          "uncollected": 5
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/direction/geometry.spec.ts",
+          "unassessed": 12,
+          "uncollected": 12
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/mermaid-work.ddlt.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.crossing.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.detour.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.issues.spec.ts",
+          "unassessed": 9,
+          "uncollected": 9
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.repro_crossing.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.router.spec.ts",
+          "unassessed": 18,
+          "uncollected": 18
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.wide_node.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/pebr-3-process-too-wide-in-lane.ddlt.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/phase2.layering.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/query-process.ddlt.spec.ts",
+          "unassessed": 10,
+          "uncollected": 10
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/simple-2.ddlt.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layoutFallback.spec.ts",
+          "unassessed": 8,
+          "uncollected": 8
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/multi-diagram-id-uniqueness.spec.ts",
+          "unassessed": 38,
+          "uncollected": 38
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/render.spec.ts",
+          "unassessed": 12,
+          "uncollected": 12
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/clusters.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/edgeMarker.spec.ts",
+          "unassessed": 7,
+          "uncollected": 7
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/edges.spec.js",
+          "unassessed": 25,
+          "uncollected": 25
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/edges.terminalLabels.spec.js",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/edgeStepAnimation.spec.ts",
+          "unassessed": 77,
+          "uncollected": 77
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/intersect/intersect-line.spec.ts",
+          "unassessed": 5,
+          "uncollected": 5
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/lineJump.integration.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/lineJump.spec.ts",
+          "unassessed": 28,
+          "uncollected": 28
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/markers.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/nodes.spec.ts",
+          "unassessed": 42,
+          "uncollected": 42
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/blockArrow.spec.ts",
+          "unassessed": 18,
+          "uncollected": 18
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/bpmnIconPack.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/bpmnIntersect.spec.ts",
+          "unassessed": 24,
+          "uncollected": 24
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/bpmnShapeRendering.spec.ts",
+          "unassessed": 22,
+          "uncollected": 22
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/c4LabelHelper.spec.ts",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/defaultMindmapNode.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/handDrawnShapeStyles.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/labelContainment.spec.ts",
+          "unassessed": 24,
+          "uncollected": 24
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/labelImageUtils.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/stadium.spec.ts",
+          "unassessed": 10,
+          "uncollected": 10
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "unassessed": 15,
+          "uncollected": 15
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/util.spec.ts",
+          "unassessed": 9,
+          "uncollected": 9
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/splitText.spec.ts",
+          "unassessed": 35,
+          "uncollected": 35
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts",
+          "unassessed": 15,
+          "uncollected": 15
+        },
+        {
+          "path": "packages/mermaid/src/setupGraphViewbox.spec.js",
+          "unassessed": 2,
+          "uncollected": 2
+        },
+        {
+          "path": "packages/mermaid/src/styles.spec.ts",
+          "unassessed": 199,
+          "uncollected": 199
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
+          "unassessed": 22,
+          "uncollected": 22
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-base-overrides.spec.ts",
+          "unassessed": 5,
+          "uncollected": 5
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-dark.spec.js",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-nested-overrides.spec.ts",
+          "unassessed": 31,
+          "uncollected": 31
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-redux-color-superset.spec.ts",
+          "unassessed": 14,
+          "uncollected": 14
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-xychart.spec.js",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/utils.spec.ts",
+          "unassessed": 57,
+          "uncollected": 57
+        },
+        {
+          "path": "packages/mermaid/src/utils/imperativeState.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/utils/sanitizeDirective.spec.ts",
+          "unassessed": 5,
+          "uncollected": 5
+        },
+        {
+          "path": "packages/mermaid/src/utils/subGraphTitleMargins.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/parser/tests/eventmodeling.test.ts",
+          "unassessed": 31,
+          "uncollected": 31
+        },
+        {
+          "path": "packages/parser/tests/radar.test.ts",
+          "unassessed": 86,
+          "uncollected": 86
+        },
+        {
+          "path": "packages/parser/tests/railroad.test.ts",
+          "unassessed": 7,
+          "uncollected": 7
+        },
+        {
+          "path": "packages/parser/tests/treeViewValueConverter.test.ts",
+          "unassessed": 19,
+          "uncollected": 19
+        }
+      ]
+    }
+  },
+  "after": {
+    "totals": {
+      "passed": 26530,
+      "failed": 23073,
+      "unsupported": 49890,
+      "trident-blocked": 91503
+    },
+    "coverage": {
+      "candidates": 26,
+      "commonUnassessedCallbacks": 3497,
+      "commonUncollectedCallbacks": 933,
+      "additionalGapObservations": 581,
+      "perFile": [
+        {
+          "path": "packages/examples/src/example.spec.ts",
+          "unassessed": 83,
+          "uncollected": 83
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "unassessed": 14,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid-zenuml/src/zenumlRenderer.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/accessibility.spec.ts",
+          "unassessed": 20,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/config.appearance.spec.ts",
+          "unassessed": 43,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/config.spec.ts",
+          "unassessed": 27,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/config.usecase.spec.ts",
+          "unassessed": 13,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/defaultTheme.spec.ts",
+          "unassessed": 9,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/comments.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/diagram-beta-policy.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/diagram-orchestration.spec.ts",
+          "unassessed": 27,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/diagramAPI.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/frontmatter.spec.ts",
+          "unassessed": 16,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagram-api/regexes.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagram.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-max-text-size.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/agentflow-render-positions.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/colorSlots.spec.ts",
+          "unassessed": 14,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/conformance/conformance.spec.ts",
+          "unassessed": 9,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/conformance/runner.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/containerOrder.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/diagnostics.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "unassessed": 7,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "unassessed": 1,
+          "uncollected": 1
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/block/blockColorIndex.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/block/layout.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/block/parser/block.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/classDiagram.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/classTypes.spec.ts",
+          "unassessed": 93,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/class/svgDraw.spec.js",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "unassessed": 210,
+          "uncollected": 210
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "unassessed": 32,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
+          "unassessed": 16,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/error/errorRenderer.spec.ts",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowChartShapes.spec.js",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowRenderer-elk-default.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/flowRenderer-v3-unified.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/git/gitGraph.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/mindmap/mindmapColors.spec.ts",
+          "unassessed": 8,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/packet/renderer.spec.ts",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/paletteCssGeneration.spec.ts",
+          "unassessed": 44,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/abnfDetector.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/ebnfDetector.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/pegDetector.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts",
+          "unassessed": 14,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/railroad/styles.spec.ts",
+          "unassessed": 18,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/actorBandModel.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/actorSizing.spec.ts",
+          "unassessed": 7,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/lifelineStart.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/noteFontWeight.spec.ts",
+          "unassessed": 12,
+          "uncollected": 12
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/palettePicking.spec.ts",
+          "unassessed": 9,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/rectSectionFill.spec.ts",
+          "unassessed": 23,
+          "uncollected": 23
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js",
+          "unassessed": 24,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/sequenceRenderer.spec.js",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/sequence/svgDraw.spec.js",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/state/stateRenderer.spec.js",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/swimlanes/lanePalette.spec.ts",
+          "unassessed": 42,
+          "uncollected": 42
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/swimlanes/swimlanesDiagram.spec.ts",
+          "unassessed": 8,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/treemap/utils.test.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/treeView/boxDrawingPreprocessor.spec.ts",
+          "unassessed": 42,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/treeView/icons.spec.ts",
+          "unassessed": 23,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/parser/usecase.lexer.spec.ts",
+          "unassessed": 13,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/parser/usecase.parser.spec.ts",
+          "unassessed": 76,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/parser/usecaseJson.spec.ts",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecase.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/usecase/usecaseRoleColors.spec.ts",
+          "unassessed": 15,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
+          "unassessed": 18,
+          "uncollected": 17
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
+          "unassessed": 12,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/wardley/wardleyBuilder.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts",
+          "unassessed": 8,
+          "uncollected": 8
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/components/legend.spec.ts",
+          "unassessed": 3,
+          "uncollected": 3
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/xychart/chartBuilder/textDimensionCalculator.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts",
+          "unassessed": 68,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/headerDomainRules.spec.ts",
+          "unassessed": 7,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/homepageHeroCopy.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/landingPopUp.spec.ts",
+          "unassessed": 8,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/noindexPages.spec.ts",
+          "unassessed": 9,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/ossHeroClass.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/pageMetadata.spec.ts",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/plausibleSettings.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/siteUrl.spec.ts",
+          "unassessed": 13,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/theme/colorScheme.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/theme/exampleConfig.spec.ts",
+          "unassessed": 13,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/theme/redirect.spec.ts",
+          "unassessed": 88,
+          "uncollected": 59
+        },
+        {
+          "path": "packages/mermaid/src/docs/.vitepress/theme/siteBase.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/mermaid.spec.ts",
+          "unassessed": 13,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/mermaidAPI.spec.ts",
+          "unassessed": 91,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/profiler.spec.ts",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/createGraph.spec.ts",
+          "unassessed": 7,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/createText.spec.ts",
+          "unassessed": 9,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/handle-markdown-text.spec.ts",
+          "unassessed": 19,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/common/index.spec.ts",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/cose-bilkent/cytoscape-setup.test.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/cose-bilkent/layout.test.ts",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/dagre/index.spec.js",
+          "unassessed": 19,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/dagre/mermaid-graphlib.spec.js",
+          "unassessed": 15,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/aggregateValidate.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureFreshness.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureMetadata.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/fixtureSizes.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/ddlt/layout-fixtures.ddlt.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/arrowTypes.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/defaultPreset.spec.ts",
+          "unassessed": 11,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/elkOptionCatalogue.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/geometry.spec.ts",
+          "unassessed": 19,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/hostConfigSync.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/nestedEdgeOrder.spec.ts",
+          "unassessed": 7,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/render.spec.ts",
+          "unassessed": 103,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/subgraphFeedbackEdges.spec.ts",
+          "unassessed": 8,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/elk/__tests__/terminalLabels.spec.ts",
+          "unassessed": 9,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/groups.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/layoutCore.spec.ts",
+          "unassessed": 12,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/performance.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/placement.spec.ts",
+          "unassessed": 18,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/router.spec.ts",
+          "unassessed": 48,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerCompatibility.spec.ts",
+          "unassessed": 10,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerConstraint.spec.ts",
+          "unassessed": 13,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerInstrumentation.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerPlanning.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerSearch.spec.ts",
+          "unassessed": 13,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/grid/routerTopology.spec.ts",
+          "unassessed": 14,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/helpers.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/scoreLayout.spec.ts",
+          "unassessed": 17,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/layout-utils/validateLayout.spec.ts",
+          "unassessed": 43,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/anchoredNodes.laneModel.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/anchoredNodes.spec.ts",
+          "unassessed": 266,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.endpointClip.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.geometry.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.lr.transform.spec.ts",
+          "unassessed": 8,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.materializedGeometry.spec.ts",
+          "unassessed": 10,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.portSwap.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.sharedTrackNudging.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/direction.terminalStub.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/edgeLabelNodes.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/edgeLabelRanks.spec.ts",
+          "unassessed": 17,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/helpers.laneHeights.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/helpers.prepareLayout.spec.ts",
+          "unassessed": 12,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/laneOrdering.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/lanes.spec.ts",
+          "unassessed": 21,
+          "uncollected": 21
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/laneTitleBands.pooled.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/laneTitleBands.spec.ts",
+          "unassessed": 7,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/lrTransform.anchorFootprint.spec.ts",
+          "unassessed": 8,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/lrTransform.emptyLane.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/nestedGroupInLane.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/nestedGroupSizing.spec.ts",
+          "unassessed": 4,
+          "uncollected": 4
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase0.helpers.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase1.cycles.spec.ts",
+          "unassessed": 7,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.compact.lanes.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.compact.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase2.layering.spec.ts",
+          "unassessed": 7,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase3.ordering.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.coordinates.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.lanes.columns.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase4.lanes.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/phase5.pipeline.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.hoe.lr.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.knsv3.lr.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/pipeline.lr.e2e.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/portSeparation.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/postProcessing.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/routeTouches.spec.ts",
+          "unassessed": 31,
+          "uncollected": 31
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/salesProcessRoutes.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/sameRankDetour.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/siblingFaces.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/__tests__/terminalGeometry.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/10-node-placement.ddlt.spec.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/14-messy-layout.ddlt.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/15-border-hugging-compare.ddlt.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/15-border-hugging-lr.ddlt.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/16-intake-cycle-lr.ddlt.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/4-car-fun-sales-tb.ddlt.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/5-car-fun-sales-wide-tb.ddlt.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/6-legal-constr-sales.ddlt.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/7-car-sales-constr.ddlt.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/8-query-process-2.ddlt.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/direction/geometry.spec.ts",
+          "unassessed": 12,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/mermaid-work.ddlt.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.crossing.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.detour.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.issues.spec.ts",
+          "unassessed": 9,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.repro_crossing.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.router.spec.ts",
+          "unassessed": 18,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/orthogonalRouter/__tests__/raykov.wide_node.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/pebr-3-process-too-wide-in-lane.ddlt.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/phase2.layering.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/query-process.ddlt.spec.ts",
+          "unassessed": 10,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layout-algorithms/swimlanes/simple-2.ddlt.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/layoutFallback.spec.ts",
+          "unassessed": 8,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/multi-diagram-id-uniqueness.spec.ts",
+          "unassessed": 38,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/render.spec.ts",
+          "unassessed": 12,
+          "uncollected": 12
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/clusters.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/edgeMarker.spec.ts",
+          "unassessed": 7,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/edges.spec.js",
+          "unassessed": 25,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/edges.terminalLabels.spec.js",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/edgeStepAnimation.spec.ts",
+          "unassessed": 77,
+          "uncollected": 77
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/intersect/intersect-line.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/lineJump.integration.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/lineJump.spec.ts",
+          "unassessed": 28,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/markers.spec.ts",
+          "unassessed": 4,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/nodes.spec.ts",
+          "unassessed": 42,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/blockArrow.spec.ts",
+          "unassessed": 18,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/bpmnIconPack.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/bpmnIntersect.spec.ts",
+          "unassessed": 24,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/bpmnShapeRendering.spec.ts",
+          "unassessed": 22,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/c4LabelHelper.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/defaultMindmapNode.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/handDrawnShapeStyles.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/labelContainment.spec.ts",
+          "unassessed": 24,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/labelImageUtils.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/squareRect.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/stadium.spec.ts",
+          "unassessed": 10,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/usecaseShapes.spec.ts",
+          "unassessed": 15,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/rendering-elements/shapes/util.spec.ts",
+          "unassessed": 9,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/splitText.spec.ts",
+          "unassessed": 35,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/setupGraphViewbox.spec.js",
+          "unassessed": 2,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/styles.spec.ts",
+          "unassessed": 199,
+          "uncollected": 198
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-agentflow-vars.spec.ts",
+          "unassessed": 22,
+          "uncollected": 22
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-base-overrides.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-dark.spec.js",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-nested-overrides.spec.ts",
+          "unassessed": 31,
+          "uncollected": 30
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-redux-color-superset.spec.ts",
+          "unassessed": 14,
+          "uncollected": 14
+        },
+        {
+          "path": "packages/mermaid/src/themes/theme-xychart.spec.js",
+          "unassessed": 11,
+          "uncollected": 11
+        },
+        {
+          "path": "packages/mermaid/src/utils.spec.ts",
+          "unassessed": 57,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/utils/imperativeState.spec.ts",
+          "unassessed": 3,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/utils/sanitizeDirective.spec.ts",
+          "unassessed": 5,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/mermaid/src/utils/subGraphTitleMargins.spec.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/parser/tests/eventmodeling.test.ts",
+          "unassessed": 31,
+          "uncollected": 31
+        },
+        {
+          "path": "packages/parser/tests/radar.test.ts",
+          "unassessed": 6,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/parser/tests/railroad.test.ts",
+          "unassessed": 1,
+          "uncollected": 0
+        },
+        {
+          "path": "packages/parser/tests/treeViewValueConverter.test.ts",
+          "unassessed": 19,
+          "uncollected": 19
+        }
+      ]
+    }
+  },
+  "transitions": {
+    "trident-blocked -> unsupported": 6731,
+    "trident-blocked -> passed": 1051,
+    "trident-blocked -> failed": 514
+  },
+  "candidatesCompared": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "before": {
+        "passed": 1254,
+        "failed": 1184,
+        "unsupported": 1028,
+        "trident-blocked": 3880,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 1322,
+        "failed": 1259,
+        "unsupported": 1191,
+        "trident-blocked": 3574,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 163,
+        "trident-blocked -> passed": 68,
+        "trident-blocked -> failed": 75
+      }
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "before": {
+        "passed": 263,
+        "failed": 62,
+        "unsupported": 3198,
+        "trident-blocked": 3823,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 298,
+        "failed": 83,
+        "unsupported": 3450,
+        "trident-blocked": 3515,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 18
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 252,
+        "trident-blocked -> passed": 35,
+        "trident-blocked -> failed": 21
+      }
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "before": {
+        "passed": 2085,
+        "failed": 513,
+        "unsupported": 903,
+        "trident-blocked": 3845,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 2128,
+        "failed": 534,
+        "unsupported": 1155,
+        "trident-blocked": 3529,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 252,
+        "trident-blocked -> passed": 43,
+        "trident-blocked -> failed": 21
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "version": "0.3.2",
+      "before": {
+        "passed": 2085,
+        "failed": 513,
+        "unsupported": 903,
+        "trident-blocked": 3845,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 2128,
+        "failed": 534,
+        "unsupported": 1155,
+        "trident-blocked": 3529,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 252,
+        "trident-blocked -> passed": 43,
+        "trident-blocked -> failed": 21
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "before": {
+        "passed": 2178,
+        "failed": 112,
+        "unsupported": 1203,
+        "trident-blocked": 3853,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 2239,
+        "failed": 114,
+        "unsupported": 1456,
+        "trident-blocked": 3537,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 253,
+        "trident-blocked -> passed": 61,
+        "trident-blocked -> failed": 2
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.4",
+      "before": {
+        "passed": 957,
+        "failed": 1225,
+        "unsupported": 1342,
+        "trident-blocked": 3822,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 980,
+        "failed": 1225,
+        "unsupported": 1641,
+        "trident-blocked": 3500,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 299,
+        "trident-blocked -> passed": 23
+      }
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "version": "0.3.1",
+      "before": {
+        "passed": 1432,
+        "failed": 484,
+        "unsupported": 1562,
+        "trident-blocked": 3868,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 1468,
+        "failed": 495,
+        "unsupported": 1837,
+        "trident-blocked": 3546,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 275,
+        "trident-blocked -> passed": 36,
+        "trident-blocked -> failed": 11
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "before": {
+        "passed": 722,
+        "failed": 964,
+        "unsupported": 1838,
+        "trident-blocked": 3822,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 722,
+        "failed": 964,
+        "unsupported": 2163,
+        "trident-blocked": 3497,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 325
+      }
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.2.5",
+      "before": {
+        "passed": 88,
+        "failed": 1137,
+        "unsupported": 2293,
+        "trident-blocked": 3828,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 96,
+        "failed": 1158,
+        "unsupported": 2589,
+        "trident-blocked": 3503,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 296,
+        "trident-blocked -> passed": 8,
+        "trident-blocked -> failed": 21
+      }
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "version": "0.0.3",
+      "before": {
+        "passed": 217,
+        "failed": 1684,
+        "unsupported": 1598,
+        "trident-blocked": 3847,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 217,
+        "failed": 1684,
+        "unsupported": 1923,
+        "trident-blocked": 3522,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 325
+      }
+    },
+    {
+      "project": "emtyty/merslim",
+      "version": "0.2.3",
+      "before": {
+        "passed": 298,
+        "failed": 1782,
+        "unsupported": 1444,
+        "trident-blocked": 3822,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 320,
+        "failed": 1782,
+        "unsupported": 1741,
+        "trident-blocked": 3503,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 297,
+        "trident-blocked -> passed": 22
+      }
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "version": "0.4.2",
+      "before": {
+        "passed": 878,
+        "failed": 1951,
+        "unsupported": 674,
+        "trident-blocked": 3843,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 896,
+        "failed": 2165,
+        "unsupported": 750,
+        "trident-blocked": 3535,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 76,
+        "trident-blocked -> failed": 214,
+        "trident-blocked -> passed": 18
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "version": "0.12.0",
+      "before": {
+        "passed": 1055,
+        "failed": 1160,
+        "unsupported": 1287,
+        "trident-blocked": 3844,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 1079,
+        "failed": 1162,
+        "unsupported": 1583,
+        "trident-blocked": 3522,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 296,
+        "trident-blocked -> passed": 24,
+        "trident-blocked -> failed": 2
+      }
+    },
+    {
+      "project": "kitlangton/merman",
+      "version": "0.2.1",
+      "before": {
+        "passed": 51,
+        "failed": 277,
+        "unsupported": 3193,
+        "trident-blocked": 3825,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 59,
+        "failed": 298,
+        "unsupported": 3488,
+        "trident-blocked": 3501,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 295,
+        "trident-blocked -> passed": 8,
+        "trident-blocked -> failed": 21
+      }
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "version": "0.3.2",
+      "before": {
+        "passed": 144,
+        "failed": 1092,
+        "unsupported": 2281,
+        "trident-blocked": 3829,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 144,
+        "failed": 1092,
+        "unsupported": 2605,
+        "trident-blocked": 3505,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 324
+      }
+    },
+    {
+      "project": "Latias94/merman",
+      "version": "0.9.3",
+      "before": {
+        "passed": 2775,
+        "failed": 238,
+        "unsupported": 455,
+        "trident-blocked": 3878,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 2928,
+        "failed": 283,
+        "unsupported": 572,
+        "trident-blocked": 3563,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 117,
+        "trident-blocked -> passed": 153,
+        "trident-blocked -> failed": 45
+      }
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "version": "1.1.3",
+      "before": {
+        "passed": 214,
+        "failed": 1665,
+        "unsupported": 1645,
+        "trident-blocked": 3822,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 237,
+        "failed": 1666,
+        "unsupported": 1945,
+        "trident-blocked": 3498,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 300,
+        "trident-blocked -> passed": 23,
+        "trident-blocked -> failed": 1
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "version": "v0.4.3",
+      "before": {
+        "passed": 341,
+        "failed": 1141,
+        "unsupported": 2042,
+        "trident-blocked": 3822,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 363,
+        "failed": 1143,
+        "unsupported": 2342,
+        "trident-blocked": 3498,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 300,
+        "trident-blocked -> passed": 22,
+        "trident-blocked -> failed": 2
+      }
+    },
+    {
+      "project": "obsidianmd/pele",
+      "version": "1.13.0",
+      "before": {
+        "passed": 3055,
+        "failed": 103,
+        "unsupported": 309,
+        "trident-blocked": 3879,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 3243,
+        "failed": 130,
+        "unsupported": 394,
+        "trident-blocked": 3579,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 85,
+        "trident-blocked -> passed": 188,
+        "trident-blocked -> failed": 27
+      }
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "version": "0.1.5",
+      "before": {
+        "passed": 128,
+        "failed": 668,
+        "unsupported": 2728,
+        "trident-blocked": 3822,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 128,
+        "failed": 668,
+        "unsupported": 3053,
+        "trident-blocked": 3497,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 325
+      }
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "version": "0.0.6",
+      "before": {
+        "passed": 0,
+        "failed": 55,
+        "unsupported": 3469,
+        "trident-blocked": 3822,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 0,
+        "failed": 55,
+        "unsupported": 3793,
+        "trident-blocked": 3498,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 324
+      }
+    },
+    {
+      "project": "xai-org/grok-build",
+      "version": "git-2bdd1d6a6369",
+      "before": {
+        "passed": 618,
+        "failed": 961,
+        "unsupported": 1945,
+        "trident-blocked": 3822,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 640,
+        "failed": 962,
+        "unsupported": 2246,
+        "trident-blocked": 3498,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 301,
+        "trident-blocked -> passed": 22,
+        "trident-blocked -> failed": 1
+      }
+    },
+    {
+      "project": "Yassimba/loom",
+      "version": "0.10.0",
+      "before": {
+        "passed": 730,
+        "failed": 947,
+        "unsupported": 1828,
+        "trident-blocked": 3841,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 753,
+        "failed": 947,
+        "unsupported": 2127,
+        "trident-blocked": 3519,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 299,
+        "trident-blocked -> passed": 23
+      }
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "version": "0.1.0",
+      "before": {
+        "passed": 332,
+        "failed": 1586,
+        "unsupported": 1606,
+        "trident-blocked": 3822,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 355,
+        "failed": 1587,
+        "unsupported": 1904,
+        "trident-blocked": 3500,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 298,
+        "trident-blocked -> passed": 23,
+        "trident-blocked -> failed": 1
+      }
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "version": "git-a6b0c7657b94",
+      "before": {
+        "passed": 618,
+        "failed": 961,
+        "unsupported": 1945,
+        "trident-blocked": 3822,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 640,
+        "failed": 962,
+        "unsupported": 2246,
+        "trident-blocked": 3498,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 301,
+        "trident-blocked -> passed": 22,
+        "trident-blocked -> failed": 1
+      }
+    },
+    {
+      "project": "crabtalk/bezel",
+      "version": "0.2.24",
+      "before": {
+        "passed": 2961,
+        "failed": 94,
+        "unsupported": 440,
+        "trident-blocked": 3851,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "after": {
+        "passed": 3147,
+        "failed": 121,
+        "unsupported": 541,
+        "trident-blocked": 3537,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "missingFiles": {
+        "before": 233,
+        "after": 19
+      },
+      "transitions": {
+        "trident-blocked -> unsupported": 101,
+        "trident-blocked -> passed": 186,
+        "trident-blocked -> failed": 27
+      }
+    }
+  ],
+  "qualification": {
+    "commonNodeFiles": 321,
+    "targets": 26,
+    "sha256": "905d244a90238a2e445f907c7881f2e1ee0f8348569f4bd358a0419cd5653377",
+    "automatic": {
+      "project": "emtyty/merslim",
+      "files": 352,
+      "environments": {
+        "node": 321,
+        "jsdom": 31,
+        "unobserved": 0
+      },
+      "matchedNodeFiles": 321,
+      "callbackAndAuditMismatches": 0,
+      "controlIdentity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+      "callbackCount": 7364,
+      "releaseLabelCheck": {
+        "beforeVersion": "0.2.1",
+        "afterVersion": "0.3.0",
+        "before": {
+          "identity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+          "nodeFiles": 321
+        },
+        "after": {
+          "identity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+          "nodeFiles": 321
+        }
+      }
+    }
+  }
+}

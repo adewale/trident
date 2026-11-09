@@ -1,0 +1,165 @@
+{
+  "protocol": "trident-observation-followup-v1",
+  "recordedAt": "2026-11-09T12:05:26.692Z",
+  "baseRelease": {
+    "tag": "v0.3.0",
+    "commit": "34d1dfcd2d4aaf7a19185529088c86199859764e"
+  },
+  "implementation": {
+    "fidelity": "169b1e8eddd31ebed74d9aaea4d8cf7ceceabfe2",
+    "svg": "148690631f2faf1815711ca6aec24083fa31597a",
+    "reporting": "abda7bc5b1bf9394b0d5c1ec89c558e0cc901286"
+  },
+  "sourcePin": "2086904e76c692331e34a45d7cc3bc30860d040e",
+  "versionFreeze": {
+    "catalog": "docs/evidence/benchmark-campaign-2026-11-07/catalog.json",
+    "catalogSha256": "de3e212c10f4cb858c3a616f980bca0150cdc0a87c30c3acdf9802f3acd053b8",
+    "versionsSha256": "9475c12dd16393af0c68b2795907554992c638d3685fcff1cd36d04084ff8238"
+  },
+  "unchangedTimingFiles": {
+    "results/release/images.json": "cc8ff792777f29ad4a44fc7690ba9c9ead7f0ffff292caa060017029541e172c",
+    "results/release/terminal.json": "ef9268e812448528b8de993d92f9cec8efe746ee58190a7d5299523d9c09e2b7",
+    "results/release/native-png.json": "bd8bd00995c9106f6ac82bb05579d4c6d903700bcbeeae5d78d8dfb3c5296d01",
+    "results/release/report.json": "f4ae56b0f5b969d8303c735c92206ff01f5a1a74dd14a59163816dd829168f68",
+    "results/release/report.md": "68af94b84136a7129e00becb047172470325d1a2513004f30f8a6edd2d2fc590"
+  },
+  "drawing": {
+    "sourceCollectedAt": "2026-11-09T00:41:24.214Z",
+    "reassessedAt": "2026-11-09T10:17:35.719Z",
+    "cases": 127,
+    "rows": 4318,
+    "terminalRowsPreserved": 2286,
+    "outputsUnchanged": 3684,
+    "uniqueOutputObjects": 3437,
+    "renderersInvoked": false,
+    "observerErrorCount": 0,
+    "totals": {
+      "correct": 3080,
+      "incorrect": 398,
+      "renderer-failure": 634,
+      "invalid-format": 86,
+      "unknown": 120,
+      "unrun": 0
+    },
+    "captureArchive": {
+      "path": "captures/drawing-capture-2026-11-09.tar.gz",
+      "sha256": "d60962ce8b5d4ea1aedf8de60d0b7169a6d5cb24110f74b15a89c60f72a8fe24",
+      "bytes": 4091382,
+      "root": "drawing-retained"
+    },
+    "comparison": "docs/evidence/observation-qualification-2026-11-09/drawing-reassessment.json"
+  },
+  "fidelity": {
+    "controlIdentity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+    "candidates": 26,
+    "selectedFiles": 352,
+    "referenceQualifiedCallbacks": 7346,
+    "pilot": {
+      "project": "obsidianmd/pele",
+      "file": "packages/parser/tests/radar.test.ts",
+      "before": {
+        "counts": {
+          "passed": 0,
+          "failed": 0,
+          "unsupported": 0,
+          "trident-blocked": 86,
+          "reference-unqualified": 0,
+          "upstream-skipped": 0,
+          "upstream-expected-failure": 0
+        },
+        "missingFiles": 1,
+        "controlPassed": 86,
+        "resultSha256": "9b9931c225cfe99b9fd28a7bf229c151602cfadf9b095e1e0bf21d840e791b34"
+      },
+      "after": {
+        "counts": {
+          "passed": 67,
+          "failed": 0,
+          "unsupported": 13,
+          "trident-blocked": 6,
+          "reference-unqualified": 0,
+          "upstream-skipped": 0,
+          "upstream-expected-failure": 0
+        },
+        "missingFiles": 0,
+        "controlPassed": 86,
+        "resultSha256": "0cab8780bb6d1d3894c20daacef465d62d8fba9ca40a5841d2ec1e7cd7f213c2"
+      },
+      "fullCohort": {
+        "file": "packages/parser/tests/radar.test.ts",
+        "callbacks": 86,
+        "counts": {
+          "passed": 67,
+          "failed": 0,
+          "unsupported": 13,
+          "trident-blocked": 6
+        }
+      },
+      "note": "The full cohort uses the final namespace guards; pilot runs establish the original collection defect, not DOM-free qualification"
+    },
+    "profiles": {
+      "jsdom": {
+        "collectedThrough": "2026-11-09T11:23:58.022Z",
+        "resultSha256": "e26c622a29ca78898bc9df55c10980eb6b3aa97ec3fd65299b4f42bdf0f63e59",
+        "resumedCollection": {
+          "unchangedControlIdentity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+          "completedCandidatesPreserved": [
+            "Dicklesworthstone/frankenmermaid",
+            "AlexanderGrooff/mermaid-ascii",
+            "anomalyco/opencode",
+            "1jehuang/mermaid-rs-renderer",
+            "orestesgaolin/mermaid",
+            "pub:mermaid_flutter",
+            "dfadler/zombie-mermaid",
+            "wevm/ondine",
+            "adewale/agentic-mermaid"
+          ],
+          "completedCandidateCount": 9,
+          "newlyCollectedCandidates": 17,
+          "sourceReceiptSha256": "c55b31c386a6571cfebd082d85dba8979a3d586cc4cbd13fd32e25de48838f87",
+          "reduction": "Production compileFidelityReference/fidelityOutcomes applied to completed original Vitest reports and semantic audits; no candidate assertions or outcomes edited"
+        }
+      },
+      "node": {
+        "collectedThrough": "2026-11-09T12:01:14.780Z",
+        "resultSha256": "b5adb854e5c5e95c876f48a39a76b7d955e1304b893c3efed5e4ac335f944365"
+      }
+    },
+    "qualification": {
+      "commonNodeFiles": 321,
+      "targets": 26,
+      "sha256": "905d244a90238a2e445f907c7881f2e1ee0f8348569f4bd358a0419cd5653377",
+      "automatic": {
+        "project": "emtyty/merslim",
+        "files": 352,
+        "environments": {
+          "node": 321,
+          "jsdom": 31,
+          "unobserved": 0
+        },
+        "matchedNodeFiles": 321,
+        "callbackAndAuditMismatches": 0,
+        "controlIdentity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+        "callbackCount": 7364,
+        "releaseLabelCheck": {
+          "beforeVersion": "0.2.1",
+          "afterVersion": "0.3.0",
+          "before": {
+            "identity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+            "nodeFiles": 321
+          },
+          "after": {
+            "identity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+            "nodeFiles": 321
+          }
+        }
+      }
+    },
+    "comparison": "docs/evidence/observation-qualification-2026-11-09/fidelity-recollection.json"
+  },
+  "numericFiles": {
+    "results/release/drawing-correctness.json": "1305bba54e255fb1b80f4a8f78494a4f95364e87dc0f3cf7356e1c33999a9a36",
+    "results/release/mermaid-fidelity.json": "3a94623284bc54f401fbd7ac98dda9f1cf8c5212abf385b2c638483d75465161",
+    "unified/mermaid-fidelity/dom-free-files.json": "905d244a90238a2e445f907c7881f2e1ee0f8348569f4bd358a0419cd5653377"
+  }
+}

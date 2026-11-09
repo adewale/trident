@@ -80,7 +80,7 @@ Mermaid Dart 815 → 1,703, Mermaid RS Renderer 212 → 1,226). Where a JavaScri
 candidate's module exposes no parser for a family (ER, class, C4, state or agentflow
 for Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH Mermaid
 GB SVG and MermaidTUI), those tests count as operations it does not offer, not as
-Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->99,799<!-- /fact --> tests
+Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->91,503<!-- /fact --> tests
 remain unassessed by Trident. Thirteen are reached through their JavaScript
 parsers (generic native bindings, a guarded Bun/async parser bridge, native model
 schema views and the Frankenmermaid WASM binding) and thirteen through parser bridges.

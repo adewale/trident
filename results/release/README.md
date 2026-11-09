@@ -1,11 +1,14 @@
 # Current benchmark collection
 
-All three benchmarks were recollected for Trident 0.3.0 against the
+DaveBench and Drawing outputs were collected for Trident 0.3.0 against the
 [7 November product freeze](../../docs/evidence/benchmark-campaign-2026-11-07/catalog.json)
-and Mermaid 12.3.0. The [release collection receipt](../../docs/evidence/release-0.3.0/collection.json)
-records collection windows, complete populations, runtime admission, qualification
-and numeric-file hashes. The [preceding collection](https://github.com/adewale/trident/tree/7b7dce98a8d8817bc0e3826490b187456b2b55ef/results/release)
-remains at its original commit.
+and Mermaid 12.3.0. SVG labels have since been reassessed from those retained
+outputs, and Fidelity recollected after fixing unused imports that prevented test
+collection. The [follow-up evidence](../../docs/evidence/observation-qualification-2026-11-09/README.md)
+records the changes and qualification. The
+[0.3.0 collection receipt](https://github.com/adewale/trident/blob/v0.3.0/docs/evidence/release-0.3.0/collection.json)
+records the original collection windows, admission and numeric-file hashes;
+those original results remain at the release tag. DaveBench timings are unchanged.
 
 | Measurement | Numeric evidence | Completed |
 |---|---|---|
@@ -51,19 +54,22 @@ adapter gaps remain visible in results and score ranges.
 All 26 candidates have fresh paired JSDOM/Node executions of all 352 files.
 Per-file startup receipts attest the actual environment before imports. The
 comparison checks callback identities, outcomes, normalized failures and semantic
-audit dispositions. 349 files qualify for Node in common, with candidate-specific
+audit dispositions. 321 files qualify for Node in common, with candidate-specific
 additions recorded separately; original JSDOM directives and observed differences
-retain JSDOM. A full automatic Merslim run used 349 actual Node environments
-and three actual JSDOM environments and reproduced all 7,364 baseline callback
+retain JSDOM. A full automatic Merslim run used 321 actual Node environments
+and 31 actual JSDOM environments and reproduced all 7,364 baseline callback
 dispositions. Changing only Trident's version from 0.2.1 to 0.3.0 preserves this
 fresh execution identity and qualification. Changed executing source, installed
 bytes, runtime or candidate artifacts still invalidate reuse.
 
-Drawing leaves <!-- fact:drawing-unassessed -->145<!-- /fact --> of
+Drawing leaves <!-- fact:drawing-unassessed -->120<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> observations unassessed. Path/image
 glyphs, unsupported effects and other representations outside the qualified SVG
-profiles receive no correctness credit. Each remaining case and its reason are
-in the retained raw run. PNG remains outside Drawing Correctness's scope. The
+profiles receive no correctness credit. The replay resolved 25 formerly unknown
+Latias SVGs: 24 have clipped label ink and one passes. Every remaining unknown
+records its unavailable criteria and glyph-proof stage and reason; none resulted
+from an observer fault. Each case's evidence is in the retained raw run. PNG
+remains outside Drawing Correctness's scope. The
 [earlier SVG inventory](../../docs/evidence/benchmark-completion-2026-11-07/svg-label-review.json)
 describes the preceding collection; its output hashes are historical.
 
@@ -102,11 +108,12 @@ bun commands.ts results:snapshot
 ## Retained Drawing capture
 
 The current [capture archive](captures/drawing-capture-2026-11-09.tar.gz?raw=true) is
-3,964,016 bytes, with SHA-256 `830017b0f5697c8e363642208a9c9b4c3c6029c98eeab5feb6ce4637cbfd2808`.
+4,091,382 bytes, with SHA-256 `d60962ce8b5d4ea1aedf8de60d0b7169a6d5cb24110f74b15a89c60f72a8fe24`.
 It contains the complete raw run and all 3,684 returned SVG/terminal outputs,
 stored as 3,437 compressed objects. The other 634 calls returned renderer
-failures. All 4,318 case verdicts match the preceding collection; freshly
-collected output bytes are retained independently.
+failures. The output bytes are identical to the 0.3.0 capture. The SVG replay
+changes 25 verdicts; all other SVG verdicts and all 2,286 terminal verdicts are
+preserved. The raw run retains both collection and reassessment times.
 
 Reassessment needs no producer binaries or prepared artifact directories:
 
