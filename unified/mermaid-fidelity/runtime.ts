@@ -107,23 +107,6 @@ function deferred(reason: string): any {
   deferredValues.set(value, reason)
   return value
 }
-/** A deferred value that records its gap only when used: read, compared or inspected. */
-function untilUsed(reason: string): any {
-  const use = (key: unknown) => deferred(reason + (key === undefined ? '' : '.' + String(key)))
-  const value: any = new Proxy(function () {}, {
-    get(_t, key) {
-      if (key === 'then' || key === 'asymmetricMatch' || key === 'toJSON') return undefined
-      return use(key)
-    },
-    apply: () => untilUsed(reason + '()'),
-    construct: () => gap('new ' + reason),
-    has: (_t, key) => use(key),
-    ownKeys: () => use(undefined),
-    getOwnPropertyDescriptor: (_t, key) => use(key),
-  })
-  deferredValues.set(value, reason)
-  return value
-}
 const examples: Record<string, string> = {
   flowchart: 'flowchart TD\nA-->B',
   sequence: 'sequenceDiagram\nA->>B: hello',
@@ -559,7 +542,7 @@ function context(family: string) {
       parsed = Boolean(Constructor)
     }
     clear()
-    const target: any = {
+    const target: any = Object.assign(Object.create(null), {
       clear,
       parse(source: string) {
         const before = { raw, view, parsed }
@@ -574,10 +557,15 @@ function context(family: string) {
           throw error
         }
       },
-    }
+    })
+    const inspectDatabase = () => gap(family + ' native database namespace is not bound')
     const proxy: any = new Proxy(target, {
+      ownKeys: inspectDatabase, getPrototypeOf: inspectDatabase, setPrototypeOf: inspectDatabase,
+      isExtensible: inspectDatabase, preventExtensions: inspectDatabase, set: inspectDatabase,
+      defineProperty: inspectDatabase, deleteProperty: inspectDatabase,
       get(t, key: string) {
-        if (key in t) return t[key]
+        if (Object.hasOwn(t, key)) return t[key]
+        if (Object.hasOwn(Object.prototype, key)) return gap(family + '.db.' + key)
         if (key === 'then') return undefined
         // Re-selecting FlowDB's default generation is configuration, not an observation, for
         // the control and candidates alike: counting it for the control alone qualified a
@@ -618,20 +606,20 @@ function context(family: string) {
         // Reading Mermaid's database API (to call it, spy on it or check that it exists) is
         // an operation the candidate does not offer.
         if (mermaidDatabaseMember(key)) return unsupportedOperation(`${family} database ${key} (the candidate exposes a parser, not Mermaid's database API)`)
-        // A getter read but whose value no assertion uses (getVertices() before parsing)
-        // is not an observation; it becomes a gap only when its value is used.
-        return untilUsed(family + '.db.' + key)
+        // typeof, truthiness and caught calls cannot prove a missing native member.
+        // Reject the read itself, including during module setup.
+        return gap(family + '.db.' + String(key))
       },
       // vi.spyOn looks a member up by descriptor (or `in`) before spying on it. A spy on a
       // Mermaid database member checks the parser -> database call protocol, which a
       // candidate parser never drives, even when its own model has a same-named method.
       getOwnPropertyDescriptor(t, key) {
         if (!(key in t) && key !== 'setGen' && mermaidDatabaseMember(key)) return unsupportedOperation(`${family} database ${String(key)} spied on or inspected (Mermaid's parser -> database protocol)`)
-        return Reflect.getOwnPropertyDescriptor(t, key)
+        return inspectDatabase()
       },
       has(t, key) {
         if (!(key in t) && key !== 'setGen' && mermaidDatabaseMember(key)) return unsupportedOperation(`${family} database ${String(key)} spied on or inspected (Mermaid's parser -> database protocol)`)
-        return key in t || (typeof key === 'string' && (view[key] !== undefined || raw?.[key] !== undefined))
+        return inspectDatabase()
       },
     })
     ownDatabases.add(proxy)
@@ -665,20 +653,21 @@ function context(family: string) {
   c.parser.parser = c.parser
   return c
 }
-function boundModule(value: any, c: any, locals: Record<string, string>, unbound?: string, namespace = false) {
-  const inspectUnbound = (): never => gap('Native module namespace is not bound: ' + unbound)
-  return new Proxy(value, {
-    ...(unbound ? {
-      ownKeys: inspectUnbound, has: inspectUnbound, getOwnPropertyDescriptor: inspectUnbound,
-      getPrototypeOf: inspectUnbound, setPrototypeOf: inspectUnbound,
-      isExtensible: inspectUnbound, preventExtensions: inspectUnbound,
-      set: inspectUnbound, defineProperty: inspectUnbound, deleteProperty: inspectUnbound,
-    } : {}),
-    get(target, key) {
+const missingExport = Symbol('unbound native export')
+function boundModule(read: (key: string | symbol) => any, c: any, locals: Record<string, string>, source: string, namespace = false) {
+  const inspectUnbound = (): never => gap('Native module namespace is not bound: ' + source)
+  // A virtual module is a partial binding, never evidence of the candidate's
+  // complete export set. Its null prototype cannot leak Object's members.
+  return new Proxy(Object.create(null), {
+    ownKeys: inspectUnbound, has: inspectUnbound, getOwnPropertyDescriptor: inspectUnbound,
+    getPrototypeOf: inspectUnbound, setPrototypeOf: inspectUnbound,
+    isExtensible: inspectUnbound, preventExtensions: inspectUnbound,
+    set: inspectUnbound, defineProperty: inspectUnbound, deleteProperty: inspectUnbound,
+    get(_target, key) {
       if (namespace && key === 'then') return undefined
-      const result = unbound ? deferred(unbound + '.' + String(key)) : target[key]
+      const resolved = read(key), result = resolved === missingExport ? deferred(source + '.' + String(key)) : resolved
       const reason = (typeof result === 'object' && result) || typeof result === 'function' ? deferredValues.get(result) : undefined
-      if (reason && locals[String(key)]) c.unavailableImports.set(locals[String(key)], reason)
+      if (reason && Object.hasOwn(locals, key)) c.unavailableImports.set(locals[String(key)], reason)
       return result
     },
   })
@@ -696,6 +685,8 @@ export function moduleFor(family: string, source: string, file: string, locals: 
     c.unavailableImports = new Map()
     contexts.set(file, c)
   }
+  const bind = (exports: Record<PropertyKey, any>) => boundModule(key => Object.hasOwn(exports, key) ? exports[key] : missingExport, c, locals, source, namespace)
+  const bindDynamic = (read: (key: string | symbol) => any) => boundModule(key => { const value = read(key); return value === undefined ? missingExport : value }, c, locals, source, namespace)
   const config = {
     setConfig(value: any) {
       if (job.target.tool !== 'mermaid' && configKeys(value).length) hostConfig = { ...hostConfig, ...value }
@@ -722,23 +713,24 @@ export function moduleFor(family: string, source: string, file: string, locals: 
   }
   // Log verbosity changes no observable result.
   const setLogLevel = () => undefined
-  if (/config\.js$/.test(source)) return boundModule(new Proxy({ ...config, default: config } as Record<string, any>, {
-    get(target, key: string) { return Object.hasOwn(target, key) ? target[key] : deferred('Native host configuration export is not bound: ' + String(key)) },
-  }), c, locals, undefined, namespace)
-  if (/diagramAPI\.js$/.test(source)) return boundModule({ ...config, setLogLevel, log: deferred('Logger side effects are not bound to the candidate'), default: config }, c, locals, undefined, namespace)
+  if (/config\.js$/.test(source)) {
+    const exports: Record<PropertyKey, any> = { ...config, default: config }
+    return bindDynamic(key => Object.hasOwn(exports, key) ? exports[key] : deferred('Native host configuration export is not bound: ' + String(key)))
+  }
+  if (/diagramAPI\.js$/.test(source)) return bind({ ...config, setLogLevel, log: deferred('Logger side effects are not bound to the candidate'), default: config })
   // The public package registers every diagram at import; candidates need no registry.
-  if (/diagram-orchestration\.js$/.test(source)) return { addDiagrams: () => undefined }
+  if (/diagram-orchestration\.js$/.test(source)) return bind({ addDiagrams: () => undefined })
   // A diagram module's `diagram` definition: the family's parser and database.
   if (/\w(?:Diagram|Diagram-v2)\.js$/.test(source) && locals.diagram) {
     if (job.target.tool === 'mermaid') {
       const definition = definitions.get(family)
-      return { diagram: definition ? { ...definition, parser: c.parser, db: c.db } : deferred(family + ': reference diagram unavailable') }
+      return bind({ diagram: definition ? { ...definition, parser: c.parser, db: c.db } : deferred(family + ': reference diagram unavailable') })
     }
-    return boundModule({ diagram: { parser: c.parser, db: c.db, renderer: deferred('Mermaid renderer module'), styles: deferred('Mermaid diagram styles') } }, c, locals, undefined, namespace)
+    return bind({ diagram: { parser: c.parser, db: c.db, renderer: deferred('Mermaid renderer module'), styles: deferred('Mermaid diagram styles') } })
   }
   if (/(?:^|\/)Diagram\.js$/.test(source)) {
     if (job.target.tool === 'mermaid')
-      return {
+      return bind({
         // Diagram is not exported publicly; getDiagramFromText is the public route to it.
         Diagram: {
           fromText(text: any, metadata?: any) {
@@ -746,17 +738,17 @@ export function moduleFor(family: string, source: string, file: string, locals: 
             return api.mermaidAPI.getDiagramFromText(typeof text === 'string' ? text : text.raw, metadata)
           },
         },
-      }
+      })
     // A shared test's Diagram.fromText drives Mermaid's own detection and registry: its
     // diagram type ids, external diagram registration and comment cleaning. A candidate
     // offers a parser per family, not that API.
     if (family === '<shared>')
-      return {
+      return bind({
         Diagram: {
           fromText: () => unsupportedOperation("Diagram.fromText in a shared test (Mermaid's diagram detection, type ids and registry)"),
         },
-      }
-    return {
+      })
+    return bind({
       Diagram: {
         // The candidate's own parser for this file's family, observed through the same database view.
         async fromText(text: any) {
@@ -772,56 +764,40 @@ export function moduleFor(family: string, source: string, file: string, locals: 
           return { type: family, db, parser: c.parser }
         },
       },
-    }
+    })
   }
-  if (/logger/.test(source))
-    return boundModule(
-      {
-        log: deferred('Logger side effects are not bound to the candidate'),
-        setLogLevel,
-      },
-      c,
-      locals,
-      undefined,
-      namespace,
-    )
+  if (/logger/.test(source)) return bind({ log: deferred('Logger side effects are not bound to the candidate'), setLogLevel })
   if (/language\/index|language\/generated|language\/\w+\/module\.js$/.test(source)) {
     if (job.target.tool === 'mermaid')
-      return new Proxy(language, {
-        get(target, key: string) {
-          const value = target[key]
-          if (!/^create\w+Services$/.test(key) || typeof value !== 'function') return value
-          return (...args: any[]) => {
-            const services = value(...args)
-            for (const service of Object.values(services) as any[])
-              if (service.parser?.LangiumParser) {
-                const parser = service.parser.LangiumParser,
-                  actual = parser.parse.bind(parser)
-                parser.parse = (...params: any[]) => {
-                  active && active.calls++
-                  return actual(...params)
-                }
+      return bindDynamic(key => {
+        const value = Object.hasOwn(language, key) ? language[key] : undefined
+        if (typeof key !== 'string') return value
+        if (!/^create\w+Services$/.test(key) || typeof value !== 'function') return value
+        return (...args: any[]) => {
+          const services = value(...args)
+          for (const service of Object.values(services) as any[])
+            if (service.parser?.LangiumParser) {
+              const parser = service.parser.LangiumParser,
+                actual = parser.parse.bind(parser)
+              parser.parse = (...params: any[]) => {
+                active && active.calls++
+                return actual(...params)
               }
-            return services
-          }
-        },
-      })
-    return new Proxy(
-      {},
-      {
-        get(_t, key: string) {
-          if (namespace && key === 'then') return undefined
-          if (/^create\w+Services$/.test(key))
-            return () => {
-              const name = key.slice(6, -8)
-              return { [name === 'EventModeling' ? 'EventModel' : name]: { parser: { LangiumParser: { parse: (text: string) => nativeAst(name, text) } } } }
             }
-          // Generated AST type constants (Radar.$type === 'Radar'): grammar vocabulary, not behaviour.
-          if (/^[A-Z][A-Za-z]*$/.test(key)) return { $type: key }
-          return deferred('Native AST type: ' + key)
-        },
-      },
-    )
+          return services
+        }
+      })
+    return bindDynamic(key => {
+      if (typeof key !== 'string') return undefined
+      if (/^create\w+Services$/.test(key))
+        return () => {
+          const name = key.slice(6, -8)
+          return { [name === 'EventModeling' ? 'EventModel' : name]: { parser: { LangiumParser: { parse: (text: string) => nativeAst(name, text) } } } }
+        }
+      // Generated AST type constants (Radar.$type === 'Radar'): grammar vocabulary, not behaviour.
+      if (/^[A-Z][A-Za-z]*$/.test(key)) return { $type: key }
+      return deferred('Native AST type: ' + key)
+    })
   }
   if (/\.jison$|[Pp]arser\.[jt]s$|\/parser\.[jt]s$|\.chevrotain\.[jt]s$/.test(source)) {
     let parser = c.parser
@@ -847,33 +823,29 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       })
       parser = jison
     }
-    return { default: parser, parser }
+    return bind({ default: parser, parser })
   }
   if (/(?:[dD][bB]|[aA]st)\.js$|\/db\.js$/.test(source))
-    return boundModule(
-      new Proxy(
-        {},
-        {
-          get(_t, key: string) {
-            if (key === 'default' || key === 'db') return c.db
-            if (/(?:DB|Db)$/.test(key))
-              return class {
-                constructor(...args: any[]) {
-                  return c.database(...args)
-                }
-              }
-            // A getter imported by name (getAccTitle from commonDb) reads whatever the
-            // file's database holds when it is called, after the test has parsed.
-            if (job.target.tool !== 'mermaid' && /^get[A-Z]\w*$/.test(key)) return (...args: any[]) => c.db[key](...args)
-            return c.db[key]
-          },
-        },
-      ),
-      c,
-      locals,
-      undefined,
-      namespace,
-    )
+    return bindDynamic(key => {
+      if (typeof key !== 'string' || Object.hasOwn(Object.prototype, key)) return undefined
+      if (key === 'default' || key === 'db') return c.db
+      if (/(?:DB|Db)$/.test(key))
+        return class {
+          constructor(...args: any[]) {
+            return c.database(...args)
+          }
+        }
+      try {
+        const value = c.db[key]
+        // Bind only an observed getter, while reading the current parse on each call.
+        if (job.target.tool !== 'mermaid' && /^get[A-Z]\w*$/.test(key) && typeof value === 'function') return (...args: any[]) => c.db[key](...args)
+        return value
+      } catch (error) {
+        // Missing named imports can remain unused; direct database reads cannot.
+        if (error instanceof AdapterGap) return deferred(error.message.replace(/^TRIDENT_ADAPTER_GAP: /, ''))
+        throw error
+      }
+    })
   if (/mermaidAPI/.test(source)) {
     if (job.target.tool !== 'mermaid') {
       // Mermaid's public parse() for this file's family is the candidate's own parser;
@@ -887,7 +859,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
         reset: () => config.reset(),
         getConfig: () => config.getConfig(),
       }
-      return boundModule({ ...candidateAPI, mermaidAPI: candidateAPI, default: candidateAPI }, c, locals, undefined, namespace)
+      return bind({ ...candidateAPI, mermaidAPI: candidateAPI, default: candidateAPI })
     }
     const observed = new Proxy(api.mermaidAPI, {
       get(target, key) {
@@ -900,10 +872,10 @@ export function moduleFor(family: string, source: string, file: string, locals: 
           : value
       },
     })
-    return { mermaidAPI: observed, default: observed }
+    return bind({ mermaidAPI: observed, default: observed })
   }
   // One proxy keeps unused imports deferred. Wrapping a proxy here causes
   // JavaScript's outer get-invariant check to invoke the inner descriptor trap,
   // aborting collection even when no callback uses the unavailable export.
-  return boundModule({}, c, locals, source, namespace)
+  return bind({})
 }

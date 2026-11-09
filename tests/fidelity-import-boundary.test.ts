@@ -12,10 +12,10 @@ test('unused imports permit native observations while unavailable uses, faults a
   mkdirSync(join(root, 'src'))
   writeFileSync(join(root, 'package.json'), '{"type":"module"}')
   writeFileSync(join(root, 'src/parser.ts'), `import {appendFileSync} from 'node:fs';export function parseMermaid(source){appendFileSync(${JSON.stringify(calls)},JSON.stringify(source)+'\\n');if(source==='fault')throw new TypeError('candidate fault');return {observed:source}}`)
-  const names = ['unused static import', 'unused dynamic import', 'used import', 'namespace reflection', 'wrong result', 'no native operation', 'candidate fault', 'used constructor']
+  const names = ['unused static import', 'unused dynamic import', 'used import', 'namespace reflection', 'wrong result', 'no native operation', 'candidate fault', 'used constructor', 'unused partial import', 'used partial import', 'inherited namespace member', 'partial namespace reflection', 'unknown database call', 'unknown database type', 'inherited database method', 'database namespace reflection', 'unbound named getter type']
   const job = {
     upstream: root, reference: root, audit: join(root, 'audit.jsonl'), target: { tool: 'beautiful', root },
-    files: [{ absolute: file, family: 'flowchart', helperIdentifiers: [], declarations: names.map(name => ({ name, identifiers: name === 'used import' ? ['unavailable'] : [] })) }],
+    files: [{ absolute: file, family: 'flowchart', helperIdentifiers: [], declarations: names.map(name => ({ name, identifiers: name === 'used import' ? ['unavailable'] : name === 'used partial import' ? ['partialMember'] : name === 'unbound named getter type' ? ['getMissing'] : [] })) }],
   }
   const jobPath = join(root, 'job.json'); writeFileSync(jobPath, JSON.stringify(job))
   const script = join(root, 'exercise.ts')
@@ -28,6 +28,8 @@ test('unused imports permit native observations while unavailable uses, faults a
     const unknown=moduleFor('flowchart','./unbound.js',file.filepath,{unavailable:'unavailable'})
     const unavailable=unknown.unavailable, Constructor=unknown.ClassMember
     const namespace=await importFor('flowchart','./dynamic-unbound.js',file.filepath)
+    const databaseModule=moduleFor('flowchart','./flowDb.js',file.filepath,{getMissing:'getMissing'}),database=databaseModule.default,getMissing=databaseModule.getMissing
+    const partial=moduleFor('flowchart','./diagramAPI.js',file.filepath,{getDiagram:'partialMember'}),partialMember=partial.getDiagram
     for(const inspect of [()=>Object.getPrototypeOf(namespace),()=>Object.isExtensible(namespace),()=>Reflect.set(namespace,'invented',1),()=>Object.defineProperty(namespace,'invented',{value:1}),()=>Reflect.deleteProperty(namespace,'invented')])assert.throws(inspect,/Native module namespace is not bound/)
     const observe=(source='native')=>probeNative('flowchart',source)
     const bodies=[
@@ -39,6 +41,15 @@ test('unused imports permit native observations while unavailable uses, faults a
       ()=>assert.equal(1,1),
       ()=>observe('fault'),
       ()=>{observe();try{new Constructor()}catch{}},
+      ()=>assert.equal(observe().observed,'native'),
+      ()=>{observe();assert.throws(()=>partialMember('missing'))},
+      ()=>{observe();assert.equal(partial.constructor,undefined)},
+      ()=>{observe();assert.ok(Object.keys(partial).includes('getDiagram'))},
+      ()=>{observe();assert.doesNotThrow(()=>database.probeMissing())},
+      ()=>{observe();assert.equal(typeof database.probeMissing,'function')},
+      ()=>{observe();assert.equal(database.toString(),'[object Object]')},
+      ()=>{observe();assert.ok(Object.keys(database).includes('parse'))},
+      ()=>{observe();assert.equal(typeof getMissing,'function')},
     ]
     const assertions=[]
     for(const [index,task] of file.tasks.entries()){
@@ -55,10 +66,10 @@ test('unused imports permit native observations while unavailable uses, faults a
   const assertions = JSON.parse(child.stdout), audit = readFileSync(job.audit, 'utf8').trim().split('\n').map(line => JSON.parse(line))
   const control = { testResults: [{ name: file, assertionResults: names.map(fullName => ({ fullName, status: 'passed' })) }] }
   const candidate = { testResults: [{ name: file, assertionResults: assertions }] }
-  expect(fidelityOutcomes(control, candidate, audit).map((row: any) => row.status)).toEqual(['passed', 'passed', 'trident-blocked', 'trident-blocked', 'failed', 'trident-blocked', 'failed', 'trident-blocked'])
-  expect(audit.map(row => row.calls)).toEqual([1, 1, 1, 1, 1, 0, 1, 1])
+  expect(fidelityOutcomes(control, candidate, audit).map((row: any) => row.status)).toEqual(['passed', 'passed', 'trident-blocked', 'trident-blocked', 'failed', 'trident-blocked', 'failed', 'trident-blocked', 'passed', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked'])
+  expect(audit.map(row => row.calls)).toEqual([1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
   expect(audit[3].gaps).toContain('Native module namespace is not bound: ./dynamic-unbound.js')
   expect(audit[6].faults[0]).toContain('candidate fault')
-  // The initial schema probe happens outside callbacks and earns no test credit.
-  expect(readFileSync(calls, 'utf8').trim().split('\n').map(line => JSON.parse(line))).toEqual(['flowchart TD\nA-->B', 'native', 'native', 'native', 'native', 'wrong', 'fault', 'native'])
+  // Schema and empty-model probes earn no callback credit.
+  expect(readFileSync(calls, 'utf8').trim().split('\n').map(line => JSON.parse(line))).toEqual(['flowchart TD\nA-->B', 'flowchart TD', 'native', 'native', 'native', 'native', 'wrong', 'fault', 'native', 'native', 'native', 'native', 'native', 'native', 'native', 'native', 'native', 'native'])
 })
