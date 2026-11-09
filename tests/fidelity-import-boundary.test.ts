@@ -11,8 +11,8 @@ test('unused imports permit native observations while unavailable uses, faults a
   const root = temporary.dir(), file = join(root, 'original.spec.ts'), calls = join(root, 'calls.jsonl')
   mkdirSync(join(root, 'src'))
   writeFileSync(join(root, 'package.json'), '{"type":"module"}')
-  writeFileSync(join(root, 'src/parser.ts'), `import {appendFileSync} from 'node:fs';export function parseMermaid(source){appendFileSync(${JSON.stringify(calls)},JSON.stringify(source)+'\\n');if(source==='fault')throw new TypeError('candidate fault');return {observed:source}}`)
-  const names = ['unused static import', 'unused dynamic import', 'used import', 'namespace reflection', 'wrong result', 'no native operation', 'candidate fault', 'used constructor', 'unused partial import', 'used partial import', 'inherited namespace member', 'partial namespace reflection', 'unknown database call', 'unknown database type', 'inherited database method', 'database namespace reflection', 'unbound named getter type', 'cached unavailable export', 'unused dynamic partial module']
+  writeFileSync(join(root, 'src/parser.ts'), `import {appendFileSync} from 'node:fs';export function parseMermaid(source){appendFileSync(${JSON.stringify(calls)},JSON.stringify(source)+'\\n');if(source==='fault')throw new TypeError('candidate fault');return {observed:source,getLogger(){return console}}}`)
+  const names = ['unused static import', 'unused dynamic import', 'used import', 'namespace reflection', 'wrong result', 'no native operation', 'candidate fault', 'used constructor', 'unused partial import', 'used partial import', 'inherited namespace member', 'partial namespace reflection', 'unknown database call', 'unknown database type', 'inherited database method', 'database namespace reflection', 'unbound named getter type', 'cached unavailable export', 'unused dynamic partial module', 'unused logger setup', 'observed logger stub']
   const job = {
     upstream: root, reference: root, audit: join(root, 'audit.jsonl'), target: { tool: 'beautiful', root },
     files: [{ absolute: file, family: 'flowchart', helperIdentifiers: [], declarations: names.map(name => ({ name, identifiers: name === 'used import' ? ['unavailable'] : name === 'used partial import' ? ['partialMember'] : name === 'unbound named getter type' ? ['getMissing'] : [] })) }],
@@ -53,6 +53,8 @@ test('unused imports permit native observations while unavailable uses, faults a
       ()=>{observe();assert.equal(typeof getMissing,'function')},
       ()=>{observe();assert.equal(typeof partial.log,'function')},
       async()=>{await importFor('flowchart','./diagramAPI.js',file.filepath);assert.equal(observe().observed,'native')},
+      ()=>{database.getLogger=()=>console;assert.equal(observe().observed,'native')},
+      ()=>{database.getLogger=()=>console;observe();assert.equal(typeof database.getLogger,'function')},
     ]
     const assertions=[]
     for(const [index,task] of file.tasks.entries()){
@@ -69,10 +71,11 @@ test('unused imports permit native observations while unavailable uses, faults a
   const assertions = JSON.parse(child.stdout), audit = readFileSync(job.audit, 'utf8').trim().split('\n').map(line => JSON.parse(line))
   const control = { testResults: [{ name: file, assertionResults: names.map(fullName => ({ fullName, status: 'passed' })) }] }
   const candidate = { testResults: [{ name: file, assertionResults: assertions }] }
-  expect(fidelityOutcomes(control, candidate, audit).map((row: any) => row.status)).toEqual(['passed', 'passed', 'trident-blocked', 'trident-blocked', 'failed', 'trident-blocked', 'failed', 'trident-blocked', 'passed', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'passed'])
-  expect(audit.map(row => row.calls)).toEqual([1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+  expect(fidelityOutcomes(control, candidate, audit).map((row: any) => row.status)).toEqual(['passed', 'passed', 'trident-blocked', 'trident-blocked', 'failed', 'trident-blocked', 'failed', 'trident-blocked', 'passed', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'trident-blocked', 'passed', 'passed', 'trident-blocked'])
+  expect(audit.map(row => row.calls)).toEqual(names.map(name => name === 'no native operation' ? 0 : 1))
   expect(audit[3].gaps).toContain('Native module namespace is not bound: ./dynamic-unbound.js')
   expect(audit[6].faults[0]).toContain('candidate fault')
-  // Schema and empty-model probes earn no callback credit.
-  expect(readFileSync(calls, 'utf8').trim().split('\n').map(line => JSON.parse(line))).toEqual(['flowchart TD\nA-->B', 'flowchart TD', 'native', 'native', 'native', 'native', 'wrong', 'fault', 'native', 'native', 'native', 'native', 'native', 'native', 'native', 'native', 'native', 'native', 'native', 'native'])
+  // Count actual callback inputs without fixing the number or order of setup probes.
+  const invocations = readFileSync(calls, 'utf8').trim().split('\n').map(line => JSON.parse(line))
+  expect(invocations.filter(source => ['native', 'wrong', 'fault'].includes(source))).toHaveLength(audit.reduce((sum, row) => sum + row.calls, 0))
 })

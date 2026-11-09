@@ -561,12 +561,19 @@ function context(family: string) {
     const inspectDatabase = () => gap(family + ' native database namespace is not bound')
     const proxy: any = new Proxy(target, {
       ownKeys: inspectDatabase, getPrototypeOf: inspectDatabase, setPrototypeOf: inspectDatabase,
-      isExtensible: inspectDatabase, preventExtensions: inspectDatabase, set: inspectDatabase,
+      isExtensible: inspectDatabase, preventExtensions: inspectDatabase,
+      set(_target, key, value) {
+        // Jison tests install a logger before parsing. Native parsers own their
+        // logging; accepting this setup neither exposes the stub nor earns credit.
+        if (key === 'getLogger' && typeof value === 'function') return true
+        return inspectDatabase()
+      },
       defineProperty: inspectDatabase, deleteProperty: inspectDatabase,
       get(t, key: string) {
         if (Object.hasOwn(t, key)) return t[key]
         if (Object.hasOwn(Object.prototype, key)) return gap(family + '.db.' + key)
         if (key === 'then') return undefined
+        if (key === 'getLogger') return gap('Native logger observations are not bound')
         // Re-selecting FlowDB's default generation is configuration, not an observation, for
         // the control and candidates alike: counting it for the control alone qualified a
         // test that observes nothing (flow-style's matcher-less expect) and left it a gap
