@@ -6,13 +6,13 @@
  * misread too many diagram labels to measure renderers rather than the OCR.
  */
 import type { DrawingCase } from './corpus.ts'
-import { labelPaintCriteria, observeSvgLabels } from './svg-label-observer.ts'
+import { observeSvgLabelEvidence, type SvgLabelEvidence } from './svg-label-observer.ts'
 import { inspectEmptySvgDrawing } from './empty.ts'
 import { interpretTerminal } from '../terminal-display.ts'
 import { terminalRectangles, TerminalRectangleBudgetExceeded } from '../terminal-rectangles.ts'
-import { observeGlyphWitness } from './svg-glyph-witness.ts'
+import { observeGlyphWitness, type GlyphWitnessResult } from './svg-glyph-witness.ts'
 
-export type LabelVerdict = { status: 'correct' | 'incorrect' | 'unknown'; reason?: string; missing?: string[]; leaked?: string[]; labels: number }
+export type LabelVerdict = { status: 'correct' | 'incorrect' | 'unknown'; reason?: string; missing?: string[]; leaked?: string[]; labels: number; evidence?: { checks: SvgLabelEvidence[]; glyphWitness?: GlyphWitnessResult } }
 export const labelPolicy = 'drawing-reviewed-labels-v2'
 export interface LabelPlan {
   readonly caseId: string
@@ -153,17 +153,18 @@ export async function assessSvgLabels(test: DrawingCase, page: any, svg: string,
     const empty = await inspectEmptySvgDrawing(page, test)
     return { status: empty.status, labels: 0, reason: [...empty.failed, ...empty.unknown].join('; ') || undefined }
   }
-  const observe = async (labels: string[]) => {
-    const paint = await observeSvgLabels(page, test.family, labels)
-    return labelPaintCriteria.map(criterion => ({ criterion, status: paint[criterion] ?? 'unavailable' }))
-  }
+  const observe = (labels: string[]) => observeSvgLabelEvidence(page, test.family, labels)
   let rasterWitness = false
   if (labels.length) {
     const checks = await observe(labels), failed = checks.filter(check => check?.status === 'failed')
-    if (failed.length) return { status: 'incorrect', labels: labels.length, reason: failed.map(check => check!.criterion).join('; ') }
+    if (failed.length) return { status: 'incorrect', labels: labels.length, reason: failed.map(check => check!.criterion).join('; '), evidence: { checks } }
     if (checks.some(check => check?.status !== 'passed')) {
-      rasterWitness = await observeGlyphWitness(page, labels)
-      if (!rasterWitness) return { status: 'unknown', labels: labels.length, reason: 'Visible label evidence is unavailable for this SVG representation' }
+      const witness = await observeGlyphWitness(page, labels)
+      rasterWitness = witness.status === 'proved'
+      if (witness.status === 'unassessed') {
+        const unavailable = checks.filter(check => check.status !== 'passed').map(check => check.criterion)
+        return { status: 'unknown', labels: labels.length, reason: `Unresolved SVG label evidence: ${unavailable.join(', ')}; glyph ${witness.kind} during ${witness.stage}: ${witness.reason}`, evidence: { checks, glyphWitness: witness } }
+      }
     }
   }
   // A serialized leak is a nomination, not proof of paint. Failure to match

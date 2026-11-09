@@ -44,8 +44,8 @@ export async function reassessDrawingRun(run: any, root: string, formats: string
       } catch (error) { verdict = { status: 'unknown', reason: 'SVG observer could not assess retained output: ' + String(error) } }
       finally { clearTimeout(timer); await page.close() }
     }
-    const { status: _status, reason: _reason, failed: _failed, leaked: _leaked, ...identity } = row
-    rows.push({ ...identity, status: verdict.status, reason: verdict.reason, failed: 'missing' in verdict ? verdict.missing : undefined, leaked: 'leaked' in verdict ? verdict.leaked : undefined })
+    const { status: _status, reason: _reason, failed: _failed, leaked: _leaked, evidence: _evidence, ...identity } = row
+    rows.push({ ...identity, status: verdict.status, reason: verdict.reason, evidence: 'evidence' in verdict ? verdict.evidence : undefined, failed: 'missing' in verdict ? verdict.missing : undefined, leaked: 'leaked' in verdict ? verdict.leaked : undefined })
   }
   const assessmentPolicies = Object.fromEntries([...new Set<string>(run.rows.map((row: any) => row.format))].map(format => [format, formats.includes(format) ? labelPolicy : run.assessmentPolicies?.[format] ?? run.assessmentPolicy]))
   const policies = Object.values(assessmentPolicies), common = policies.length && policies.every(policy => policy === policies[0]) ? policies[0] : undefined

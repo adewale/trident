@@ -63,6 +63,34 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const box = { x, y, width: Math.max(...known.map(box => box.x + box.width)) - x, height: Math.max(...known.map(box => box.y + box.height)) - y }
       glyphInk.set(element, box); return box
     }
+    // Plain HTML text in foreignObject has the same distinction between a
+    // line/font rectangle and actual ink. Qualify one unwrapped Latin-1 run
+    // using matching browser advances and font-box metrics before locating its
+    // baseline. Transforms within HTML and unfamiliar typography stay unknown.
+    if (element.namespaceURI === 'http://www.w3.org/1999/xhtml') {
+      const value = element.textContent ?? '', style = getComputedStyle(element)
+      const owner = element.closest('foreignObject') as SVGForeignObjectElement | null, matrix = owner?.getScreenCTM()
+      if (!owner || !/^[\x20-\x7e\u00a0-\u00ff]+$/.test(value) || !style.font || style.direction !== 'ltr' || style.writingMode !== 'horizontal-tb' || style.textTransform !== 'none' || !['normal', '0px'].includes(style.letterSpacing) || !['normal', '0px'].includes(style.wordSpacing) || style.fontFeatureSettings !== 'normal' || style.fontVariationSettings !== 'normal' || style.fontVariant !== 'normal' || !['normal', '100%'].includes(style.fontStretch) || style.textDecorationLine !== 'none' || style.textShadow !== 'none' || Number.parseFloat(style.webkitTextStrokeWidth) !== 0 || !['', 'none'].includes(style.getPropertyValue('-webkit-text-security')) || !matrix || ![matrix.a, matrix.b, matrix.c, matrix.d].every(Number.isFinite) || Math.abs(matrix.b) > 1e-6 || Math.abs(matrix.c) > 1e-6 || matrix.a <= 0 || matrix.d <= 0) return null
+      for (const pseudo of ['::before', '::after']) if (!['none', 'normal'].includes(getComputedStyle(element, pseudo).content)) return null
+      for (const pseudo of ['::first-letter', '::first-line']) {
+        const css = getComputedStyle(element, pseudo)
+        if (['font', 'font-variant', 'font-feature-settings', 'font-variation-settings', 'letter-spacing', 'word-spacing', 'color', '-webkit-text-fill-color', 'text-transform', 'text-decoration-line', 'text-shadow', '-webkit-text-stroke-width', 'visibility', 'opacity', 'filter', 'transform', 'clip-path', 'mask-image'].some(property => css.getPropertyValue(property) !== style.getPropertyValue(property)) || css.backgroundImage !== 'none' || colorAlpha(css.backgroundColor) !== 0) return null
+      }
+      for (let parent: Element | null = element; parent; parent = parent.parentElement) {
+        const css = getComputedStyle(parent)
+        if (css.filter !== 'none' || parent.namespaceURI === 'http://www.w3.org/1999/xhtml' && [css.transform, css.translate, css.rotate, css.scale].some(value => value !== 'none')) return null
+        if (parent === svg) break
+      }
+      const range = document.createRange(); range.selectNodeContents(element)
+      const rectangles = [...range.getClientRects()]
+      if (rectangles.length !== 1) return null
+      textCanvas.font = style.font; textCanvas.textAlign = 'left'; textCanvas.textBaseline = 'alphabetic'; textCanvas.direction = 'ltr'; textCanvas.fontKerning = style.fontKerning as CanvasFontKerning
+      const metric = textCanvas.measureText(value), rectangle = rectangles[0]!
+      if (![metric.width, metric.actualBoundingBoxLeft, metric.actualBoundingBoxRight, metric.actualBoundingBoxAscent, metric.actualBoundingBoxDescent, metric.fontBoundingBoxAscent, metric.fontBoundingBoxDescent].every(Number.isFinite) || metric.width <= 0 || Math.abs(rectangle.width - metric.width * matrix.a) > .1 || Math.abs(rectangle.height - (metric.fontBoundingBoxAscent + metric.fontBoundingBoxDescent) * matrix.d) > .25) return null
+      const box = { x: rectangle.x - metric.actualBoundingBoxLeft * matrix.a, y: rectangle.y + (metric.fontBoundingBoxAscent - metric.actualBoundingBoxAscent) * matrix.d, width: (metric.actualBoundingBoxLeft + metric.actualBoundingBoxRight) * matrix.a, height: (metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent) * matrix.d }
+      if (![box.x, box.y, box.width, box.height].every(Number.isFinite) || box.width <= 0 || box.height <= 0) return null
+      glyphInk.set(element, box); return box
+    }
     if (element.namespaceURI !== 'http://www.w3.org/2000/svg' || !['text', 'tspan'].includes(element.localName) || !/^[\x20-\x7e\u00a0-\u00ff]+$/.test(element.textContent ?? '')) return null
     const text = element as SVGTextPositioningElement, value = text.textContent!, style = getComputedStyle(text), matrix = text.getScreenCTM()
     if (!style.font || style.direction !== 'ltr' || style.writingMode !== 'horizontal-tb' || style.textTransform !== 'none' || !['normal', '0px'].includes(style.letterSpacing) || !['normal', '0px'].includes(style.wordSpacing) || style.fontFeatureSettings !== 'normal' || style.fontVariationSettings !== 'normal' || style.fontVariant !== 'normal' || !['normal', '100%'].includes(style.fontStretch) || style.textDecorationLine !== 'none' || style.textShadow !== 'none' || style.stroke !== 'none' && Number(style.strokeOpacity) !== 0 && Number.parseFloat(style.strokeWidth) !== 0 || text.hasAttribute('textLength') || !matrix || ![matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f].every(Number.isFinite) || Math.abs(matrix.b) > 1e-6 || Math.abs(matrix.c) > 1e-6 || matrix.a <= 0 || matrix.d <= 0 || [text.x, text.y, text.dx, text.dy, text.rotate].some(list => list.baseVal.numberOfItems > 1)) return null
@@ -426,7 +454,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const camouflagedText = [...camouflagedElements].map(element => ({ text: normalize(labelText(element)), box: labelBox(element) }))
   const camouflaged = requiredLabels.filter(label => visibleMatches(label).some(element => camouflagedElements.has(element)))
   check('visible-authored-labels', input.expected.labels, labelResults.map(item => ({ label: item.label, count: item.count, camouflaged: camouflaged.includes(item.label) })), camouflaged.length ? false : uninspectableLabels ? null : labelResults.every(item => item.count > 0), uninspectableLabels ? 'Missing DOM labels alongside path/image/use need a qualified glyph/image observer; missing parseable text supplies no renderer failure or correctness credit' : 'Computed visibility and nonzero browser text bounds, rejecting glyphs proved identical to their own opaque flat backdrop. Metadata/title/defs text earns no credit; this is not general contrast or accessibility certification')
-  check('labels-within-canvas', 'every authored label fits the canvas', labelResults, labelResults.some(item => item.count > 0 && item.inCanvas === false) ? false : uninspectableLabels || labelResults.some(item => item.inCanvas === null) ? null : labelResults.every(item => item.inCanvas), 'Measured plain-SVG glyph ink uses matching computed font, SVG advance/font-box metrics and axis-aligned transform; an unsupported overflowing font box alone remains unavailable. 1.5 CSS-pixel serialization tolerance')
+  check('labels-within-canvas', 'every authored label fits the canvas', labelResults, labelResults.some(item => item.count > 0 && item.inCanvas === false) ? false : uninspectableLabels || labelResults.some(item => item.inCanvas === null) ? null : labelResults.every(item => item.inCanvas), 'Measured plain SVG or single-line HTML glyph ink uses matching computed font, browser advance/font-box metrics and axis-aligned transforms; an unsupported overflowing font box alone remains unavailable. 1.5 CSS-pixel serialization tolerance')
   if (input.expected.forbiddenLabels?.length) {
     const painted: string[] = [], uncertain: string[] = []
     for (const label of input.expected.forbiddenLabels) for (const element of visibleMatches(label)) {

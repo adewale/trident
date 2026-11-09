@@ -203,7 +203,7 @@ export async function main(args = process.argv.slice(2)) {
               } catch (error) {
                 assessment = { status: 'unknown', reason: 'SVG label observer could not assess this output: ' + String(error).slice(0, 300) }
               } finally { await page.close() }
-              rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: assessment.status, reason: assessment.reason, failed: assessment.missing, leaked: assessment.leaked })
+              rows.push({ project, version: artifact.version, format: 'svg', caseId: test.id, status: assessment.status, reason: assessment.reason, evidence: assessment.evidence, failed: assessment.missing, leaked: assessment.leaked })
             } catch (error) {
               if (error instanceof DrawingOutputStorageError) throw error
               if (error instanceof InvocationTimeout && session) { await session.context.close(); session = undefined }
