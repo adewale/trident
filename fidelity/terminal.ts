@@ -30,7 +30,11 @@ function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeani
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if ((options.pointMarkers ?? ['●', '◉']).includes(cell(x, y)) && expected.nodes.some(node => node.label === cell(x, y)) && !boxes.some(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)) boxes.push({ x, y, right: x, bottom: y, label: cell(x, y) })
   if (!boxes.length) return verdict('unknown', 'No qualified closed node containers or explicit state markers are inspectable in this output representation')
   const disjoint = boxes.every((box, index) => boxes.every((other, at) => at === index || box.right < other.x || other.right < box.x || box.bottom < other.y || other.bottom < box.y))
-  if (!groupBoxes.length && disjoint && boxes.every(box => box.label) && boxes.length > expected.nodes.length) return verdict('incorrect', 'Additional independently closed, labelled node containers are absent from the authored node inventory')
+  // Wire crossings can close a rectangle containing only more wire ink. That
+  // is not an independently labelled extra node. Symbol-only captions retain
+  // ambiguity here; literal letters/numbers provide the negative witness.
+  const hasCaption = (box: Box) => /[\p{Letter}\p{Number}]/u.test(box.label)
+  if (!groupBoxes.length && disjoint && boxes.every(hasCaption) && boxes.length > expected.nodes.length) return verdict('incorrect', 'Additional independently closed, labelled node containers are absent from the authored node inventory')
   for (const node of expected.nodes) {
     const matches = boxes.filter(box => box.label.normalize('NFC') === normalizedTerminalText(node.label))
     if (!matches.length && (text.includes(node.label) || boxes.some(box => box.label.replace(/\s/g, '') === node.label.replace(/\s/g, '')))) return verdict('unknown', 'Visible authored label lacks a qualified node-container or wrapping projection: ' + node.label)
@@ -44,7 +48,7 @@ function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeani
     matches[0]!.id = node.id
   }
   if (boxes.length !== expected.nodes.length) {
-    if (!groupBoxes.length && disjoint && boxes.some(box => !box.id && box.label)) return verdict('incorrect', 'Additional independently closed, labelled node containers are absent from the authored node inventory')
+    if (!groupBoxes.length && disjoint && boxes.some(box => !box.id && hasCaption(box))) return verdict('incorrect', 'Additional independently closed, labelled node containers are absent from the authored node inventory')
     return verdict('unknown', 'Additional or nested containers need a reviewed ownership projection')
   }
   const inside = (x: number, y: number) => boxes.find(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)

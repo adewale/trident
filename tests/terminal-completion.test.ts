@@ -62,6 +62,8 @@ test('closed disjoint extra nodes fail the exact inventory, while nested ownersh
   const drawing = fixture('chain'), graph = { nodes: ['Alpha', 'Beta', 'Gamma'].map(id => ({ id, label: id })), edges: [{ source: 'Alpha', target: 'Beta' }, { source: 'Beta', target: 'Gamma' }] }
   expect(inspectTerminalMeaning(drawing + '\n┌───┐\n│ X │\n└───┘', graph).status).toBe('incorrect')
   expect(inspectTerminalMeaning(drawing.replace('Beta', 'Gone') + '\n┌───┐\n│ X │\n└───┘', graph).status).toBe('incorrect')
+  expect(inspectTerminalMeaning(drawing + '\n┌───┐\n│ │ │\n└───┘', graph).status).toBe('unknown')
+  expect(inspectTerminalMeaning(drawing + '\n┌───┐\n│ ! │\n└───┘', graph).status).toBe('unknown')
   expect(inspectTerminalMeaning('┌───────────┐\n│           │\n│ ┌───────┐ │\n│ │ Alpha │ │\n│ └───────┘ │\n└───────────┘', { nodes: [{ id: 'A', label: 'Alpha' }], edges: [] }).status).toBe('unknown')
 })
 

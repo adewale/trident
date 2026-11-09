@@ -10,8 +10,9 @@ import gitgraph from './gitgraph.mjs'
 import misc from './misc.mjs'
 import dart from './dart.mjs'
 import xmermaid from './xmermaid.mjs'
+import agentic from './agentic.mjs'
 
-const modules = () => [ports, frankenmermaid, sequence, state, gitgraph, misc, dart, xmermaid]
+const modules = () => [ports, frankenmermaid, sequence, state, gitgraph, misc, dart, xmermaid, agentic]
 
 /** The getters every registered module offers for this project and family, merged. */
 export function extraSchemaView(project, family, raw, hooks) {

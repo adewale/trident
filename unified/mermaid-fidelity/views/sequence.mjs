@@ -783,9 +783,91 @@ function xmermaidSequence(raw, hooks) {
   }
 }
 
+// Crafter 0.0.3: reviewed against the renderer's installed parser source map
+// (diagrams/sequence.ts). Blocks nest messages and notes in sections. Standalone
+// activations are discarded; +/- is read on the sender, even when that differs
+// from Mermaid syntax. Preserve the native endpoints instead of repairing them.
+function crafter(raw, hooks) {
+  const noWrap = { wrap: 'Crafter keeps no sequence wrapping flags' }
+  const walk = items => items.flatMap(item => {
+    if (item.sections) {
+      const block = blockTypes(item.type, item.sections.length > 1, hooks, 'Crafter')
+      return [withAbsent(marker(block[0], item.label), noWrap), ...item.sections.flatMap((section, index) => [
+        ...(index ? [withAbsent(marker(block[1], section.label ?? ''), noWrap)] : []), ...walk(section.messages),
+      ]), withAbsent(marker(block[2]), noWrap)]
+    }
+    if (item.placement) {
+      const [from, to] = noteEnds(item.participants)
+      return [withAbsent({ from, to, message: item.text, type: views.SEQ.NOTE, placement: placementOf(item.placement) }, noWrap)]
+    }
+    const type = { solid: views.SEQ.SOLID, dashed: views.SEQ.DOTTED, open: views.SEQ.SOLID_POINT, cross: views.SEQ.SOLID_CROSS }[item.arrowType]
+    if (type === undefined) return hooks.unavailable('Crafter sequence arrow ' + item.arrowType)
+    return [withAbsent({ from: item.from, to: item.to, message: item.label, type, activate: Boolean(item.activate), centralConnection: 0 }, noWrap),
+      ...(item.activate ? [withAbsent(marker(views.SEQ.ACTIVE_START, '', item.to), noWrap)] : []),
+      ...(item.deactivate ? [withAbsent(marker(views.SEQ.ACTIVE_END, '', item.from), noWrap)] : [])]
+  })
+  return {
+    ...messageView(() => walk(raw.messages), {}, hooks),
+    ...actorView(() => raw.participants.map(p => ({ id: p.id, description: p.label, type: p.type })), {
+      wrap: noWrap.wrap, links: 'Crafter keeps no participant links', properties: 'Crafter keeps no participant properties', box: 'Crafter keeps no participant boxes',
+    }, hooks),
+    getBoxes: () => [], getCreatedActors: () => new Map(), getDestroyedActors: () => new Map(),
+    ...unsupported(hooks, { getDiagramTitle: 'Crafter drops sequence titles', getAccTitle: 'Crafter drops accessibility titles', getAccDescription: 'Crafter drops accessibility descriptions' }),
+  }
+}
+
+// OpenCode merman 2.2.5 (78e066c9): sequence/parser.ts and types.ts. Steps
+// preserve statement order; groups lose colour, participant actor/participant
+// kinds are merged, and autonumber is folded into each message.number.
+function opencode(raw, hooks) {
+  const noWrap = { wrap: 'OpenCode merman keeps no sequence wrapping flags' }
+  const entries = () => {
+    const stack = [], out = []
+    for (const step of raw.steps) {
+      if (step.type === 'message') {
+        const m = step.message, dotted = m.style === 'dashed'
+        const word = { open: dotted ? 'DOTTED_OPEN' : 'SOLID_OPEN', cross: dotted ? 'DOTTED_CROSS' : 'SOLID_CROSS', async: dotted ? 'DOTTED_POINT' : 'SOLID_POINT', arrow: dotted ? 'DOTTED' : 'SOLID' }[m.head ?? 'arrow']
+        if (!word) return hooks.unavailable('OpenCode merman sequence head ' + m.head)
+        if (m.number !== undefined) return hooks.unsupported('OpenCode folds autonumber into message numbers without keeping the statement position or its written defaults')
+        out.push(withAbsent({ from: m.from, to: m.to, message: m.label, type: views.SEQ[word], activate: Boolean(m.activate), centralConnection: 0 }, noWrap))
+        if (m.activate) out.push(withAbsent(marker(views.SEQ.ACTIVE_START, '', m.activate), noWrap))
+        if (m.deactivate) out.push(withAbsent(marker(views.SEQ.ACTIVE_END, '', m.deactivate), noWrap))
+      } else if (step.type === 'note') {
+        const [from, to] = noteEnds(step.note.over)
+        out.push(withAbsent({ from, to, message: step.note.label, type: views.SEQ.NOTE, placement: placementOf(step.note.position ?? 'over') }, noWrap))
+      } else if (step.type === 'activation') out.push(withAbsent(marker(step.activation.active ? views.SEQ.ACTIVE_START : views.SEQ.ACTIVE_END, '', step.activation.participant), noWrap))
+      else if (step.type === 'fragment') {
+        const f = step.fragment
+        if (f.kind === 'end') {
+          const block = stack.pop()
+          if (!block) return hooks.unavailable('OpenCode sequence end without start')
+          out.push(withAbsent(marker(block[2]), noWrap))
+        } else if (f.kind === 'else') out.push(withAbsent(marker(views.SEQ.ALT_ELSE, f.label), noWrap))
+        else {
+          const block = blockTypes(f.kind, false, hooks, 'OpenCode merman')
+          stack.push(block)
+          out.push(withAbsent(marker(block[0], f.label), noWrap))
+        }
+      } else return hooks.unavailable('OpenCode sequence step ' + step.type)
+    }
+    return out
+  }
+  const boxes = () => raw.groups.map(g => boxRecord({ name: boxName(g.label), actorKeys: g.participantIds }, { fill: 'OpenCode discards box colours', wrap: noWrap.wrap }, hooks))
+  return {
+    ...messageView(entries, {}, hooks),
+    ...actorView(() => raw.participants.map(p => ({ id: p.id, description: p.label, box: boxes().find(b => b.actorKeys.includes(p.id)) })), {
+      type: 'OpenCode merges actor and participant declarations', wrap: noWrap.wrap, links: 'OpenCode keeps no participant links', properties: 'OpenCode keeps no participant properties',
+    }, hooks),
+    getBoxes: boxes, getCreatedActors: () => new Map(), getDestroyedActors: () => new Map(),
+    ...unsupported(hooks, { getDiagramTitle: 'OpenCode rejects sequence titles', getAccTitle: 'OpenCode rejects accessibility titles', getAccDescription: 'OpenCode rejects accessibility descriptions' }),
+  }
+}
+
 export default {
   schema: {
     sequence: {
+      'crafter-station/mermaid': crafter,
+      'anomalyco/opencode': opencode,
       'xai-org/grok-build': grokFamily('xai-org/grok-build'),
       'spacedock-dev/mermaidtext': grokFamily('spacedock-dev/mermaidtext'),
       'Yassimba/loom': grokFamily('Yassimba/loom'),

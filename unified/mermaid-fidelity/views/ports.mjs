@@ -359,6 +359,7 @@ const lookups = (view, hooks) => ({
   getJsonNode: id => view.getJsonNodes().get(id),
   getClassDef: id => view.getClassDefs().get(id),
 })
+export { lookups as usecaseLookups }
 const plainOrder = order => Object.fromEntries(entriesOf(order).map(([key, item]) => [key, [...item]]))
 
 /** Pele and Bezel keep the published state and, of the AST, its source text, header

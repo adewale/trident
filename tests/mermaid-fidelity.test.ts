@@ -190,4 +190,9 @@ test("a programming error raised in Trident's own code is unassessed; a candidat
   expect(refusal!.status).toBe('failed')
   const [candidate] = fidelityOutcomes(control, failing('TypeError: x is not a function\n    at render (/cache/candidate/dist/index.js:1:1)'), [audit(0)])
   expect(candidate!.status).toBe('failed')
+  const gapMessage = `Error: TRIDENT_ADAPTER_GAP: usecase.db.getAST\n    at gap (${join(import.meta.dir, '..', 'unified/mermaid-fidelity/runtime.ts')}:81:9)`
+  expect(fidelityOutcomes(control, failing(gapMessage), [audit(0)])[0]!.status).toBe('trident-blocked')
+  expect(fidelityOutcomes(control, failing(gapMessage), [audit(0, { faults: ['native parser crashed'] })])[0]!.status).toBe('failed')
+  expect(fidelityOutcomes(control, failing(gapMessage), [audit(0, { unsupported: ['native model drops the field'] })])[0]!.status).toBe('unsupported')
+  expect(fidelityOutcomes(control, failing('Error: TRIDENT_ADAPTER_GAP: candidate message\n    at parse (/cache/candidate/parser.js:1:1)'), [audit(0)])[0]!.status).toBe('failed')
 })

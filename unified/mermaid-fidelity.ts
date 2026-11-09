@@ -69,7 +69,10 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
     // failure: the test is unassessed. A candidate's refusal re-thrown by the runtime is a
     // plain Error and stays the candidate's.
     const tridentError = result?.status !== 'passed' && result?.failureMessages?.find((message: string) => {
-      if (!/^(?:TypeError|ReferenceError|RangeError):/.test(message)) return false
+      // Vitest can encounter a deferred gap while formatting a failed assertion,
+      // after the callback audit has closed. Require both our explicit marker and
+      // an owned first frame; candidate exceptions cannot claim adapter ownership.
+      if (!/^(?:TypeError|ReferenceError|RangeError):/.test(message) && !/^(?:Error|AdapterGap): TRIDENT_ADAPTER_GAP:/.test(message)) return false
       const frame = message.split('\n').find(line => line.trim().startsWith('at '))
       return !!frame && frame.includes(TRIDENT_SOURCE) && !frame.includes('/node_modules/')
     })

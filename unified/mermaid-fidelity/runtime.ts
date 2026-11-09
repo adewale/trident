@@ -7,6 +7,7 @@ import { pathToFileURL } from 'node:url'
 import { projectPublicDatabase } from '../upstream-fidelity-projection.mjs'
 import { persistentBridge } from './bridge-client.mjs'
 import { nativeAstView, mermaidConstants } from './schema-views.mjs'
+import { unavailableNamespace } from './namespace.mjs'
 
 const job = JSON.parse(readFileSync(process.env.TRIDENT_FIDELITY_JOB!, 'utf8'))
 // Parallel test files run in separate worker processes; each appends to its own part.
@@ -761,7 +762,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
               db.parse(typeof text === 'string' ? text : text.raw)
             } catch {}
           else db.parse(typeof text === 'string' ? text : text.raw)
-          return { type: family, db, parser: c.parser }
+          return { type: family, db, parser: c.parser, renderer: untilUsed('Mermaid Diagram renderer is not bound to the candidate') }
         },
       },
     }
@@ -889,19 +890,12 @@ export function moduleFor(family: string, source: string, file: string, locals: 
     })
     return { mermaidAPI: observed, default: observed }
   }
-  return boundModule(
-    new Proxy(
-      {},
-      {
-        ownKeys() { return gap('Native module namespace is not bound: ' + source) },
-        has() { return gap('Native module namespace is not bound: ' + source) },
-        getOwnPropertyDescriptor() { return gap('Native module namespace is not bound: ' + source) },
-        get(_t, key) {
-          return deferred(source + '.' + String(key))
-        },
-      },
-    ),
-    c,
-    locals,
-  )
+  // Namespace imports can be observed with typeof or identity comparisons,
+  // neither of which triggers a Proxy trap. Keep the lexical-use audit too.
+  if (locals['*']) c.unavailableImports.set(locals['*'], 'Native module namespace is not bound: ' + source)
+  return boundModule(unavailableNamespace(source, Object.keys(locals).filter(name => name !== '*'), {
+    observing: () => !!active,
+    unavailable: gap,
+    deferred,
+  }), c, locals)
 }

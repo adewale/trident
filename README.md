@@ -61,6 +61,16 @@ model translations stay unassessed
 Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
 and the range of ranks still possible once its unassessed cases are resolved.
 
+The optional [Fidelity coverage report](docs/fidelity-coverage.md) splits the same
+reference-qualified population by upstream source path and shows score bounds,
+assessed coverage and the remaining per-file gaps.
+
+The optional [retained structure diagnostics](docs/drawing-structure.md) replay
+captured drawings for qualified flowchart, class, state, ER and sequence topology,
+plus SVG quadrant box clearance and explicit graph layout constraints.
+They report separate coverage and verdicts without changing the
+label benchmark or overall score. Run `bun commands.ts drawing:structure --help`.
+
 ## Current results
 
 Collected <!-- fact:campaign-collected -->9 November 2026<!-- /fact -->. The
@@ -265,9 +275,10 @@ Bindings accept dotted public export paths, an optional JSON `options` argument 
   [its repository](https://github.com/adewale/agentic-mermaid/tree/main/eval/benchmark),
   not here. The [frozen corpus](corpus/community-corpus.json) is public
   development material, not an independent holdout.
-- No benchmark checks layout. DaveBench does not look at the drawing, Drawing
-  Correctness checks only labels, and Mermaid Fidelity reaches only what an
-  implementation's parser exposes.
+- The ranked Drawing Correctness score checks labels. The optional
+  [structure diagnostics](docs/drawing-structure.md) check qualified graph-family
+  connections, arrowheads, quadrant box clearance and explicit layout constraints;
+  other families and broader layout quality remain outside that profile.
 - DaveBench times compare only with rows from the same collection on the same
   machine.
 - Benchmarks run locally. CI tests Trident's code and refuses to run any

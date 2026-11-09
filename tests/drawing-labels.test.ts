@@ -155,3 +155,27 @@ test('the static primitive label path preserves global unresolved-paint and visi
     }
   } finally { await browser.close() }
 })
+
+test('sanitized SVG control labels use complete visible paint evidence and keep wrong or hidden labels failing', async () => {
+  const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
+  const page = await browser.newPage()
+  try {
+    const example: any = { ...flow, source: 'flowchart LR\nA["\u001b[31mAlpha"] --> B[Beta]', expected: { nodes: [{ id: 'A', label: '\u001b[31mAlpha' }, { id: 'B', label: 'Beta' }] } }
+    for (const [body, expected] of [
+      ['<text x="10" y="30">Alpha</text>', 'correct'],
+      ['<text x="10" y="30">[31mAlpha</text>', 'correct'],
+      ['<text x="10" y="30">?[31mAlpha</text>', 'correct'],
+      ['<text x="10" y="30">Wrong</text>', 'incorrect'],
+      ['<text x="10" y="30" opacity="0">Alpha</text>', 'incorrect'],
+      ['<text x="10" y="30">Alpha</text><rect width="150" height="100" fill="white"/>', 'incorrect'],
+      ['<text x="-500" y="30">Alpha</text>', 'unknown'],
+    ] as const) {
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100">' + body + '<text x="200" y="30">Beta</text></svg>'
+      await page.setContent(svg)
+      expect((await assessSvgLabels(example, page, svg)).status, body).toBe(expected)
+    }
+    const missingOther = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100"><text x="10" y="30">Alpha</text></svg>'
+    await page.setContent(missingOther)
+    expect((await assessSvgLabels(example, page, missingOther)).status).toBe('incorrect')
+  } finally { await page.close(); await browser.close() }
+})

@@ -126,10 +126,13 @@ function classesView(model, hooks) {
   if (model.namespaces) {
     const namespaces = () => {
       const all = classes()
-      return new Map(model.namespaces().map(space => {
-        const { classIds, ...rest } = space
-        return [space.id, record({ ...rest, classes: new Map(classIds.filter(id => all.has(id)).map(id => [id, all.get(id)])) }, 'namespace', NAMESPACE_FIELDS, { ...NAMESPACE_RENDERER, ...(model.absent.namespace ?? {}) }, hooks)]
+      const spaces = model.namespaces()
+      const result = new Map(spaces.map(space => {
+        const { classIds, childIds, ...rest } = space
+        return [space.id, record({ ...rest, ...(childIds ? { children: new Map() } : {}), classes: new Map(classIds.filter(id => all.has(id)).map(id => [id, all.get(id)])) }, 'namespace', NAMESPACE_FIELDS, { ...NAMESPACE_RENDERER, ...(model.absent.namespace ?? {}) }, hooks)]
       }))
+      for (const space of spaces) for (const id of space.childIds ?? []) result.get(space.id).children.set(id, result.get(id))
+      return result
     }
     view.getNamespaces = namespaces
     view.getNamespace = id => namespaces().get(id)
@@ -373,6 +376,22 @@ function graphClassModel(raw, name) {
 // a generic and a qualified namespace; namespaces keep name and label.
 function agenticClassModel(raw, hooks) {
   const rows = 'agentic-mermaid keeps a class body as raw rows, not split into annotations, attributes and methods'
+  // ClassNamespaceDecl.name and ClassNode.namespace are qualified paths. The
+  // editable body lists authored declarations, while its renderer and writer
+  // expand their path prefixes into the namespace hierarchy.
+  const namespaces = () => {
+    const spaces = new Map()
+    for (const declaration of raw.namespaces ?? []) {
+      const parts = declaration.name.split('.')
+      for (let n = 1; n <= parts.length; n++) {
+        const id = parts.slice(0, n).join('.')
+        if (!spaces.has(id)) spaces.set(id, { id, label: parts[n - 1], parent: n > 1 ? parts.slice(0, n - 1).join('.') : undefined, explicit: false, classIds: raw.classes.filter(item => item.namespace === id).map(item => item.id), childIds: [] })
+      }
+      Object.assign(spaces.get(declaration.name), { label: declaration.label ?? parts.at(-1), explicit: true })
+    }
+    for (const space of spaces.values()) if (space.parent !== undefined) spaces.get(space.parent).childIds.push(space.id)
+    return [...spaces.values()]
+  }
   return {
     classes: () => raw.classes.map(item => [item.id, {
       label: item.label ?? item.id,
@@ -382,10 +401,10 @@ function agenticClassModel(raw, hooks) {
       tooltip: item.tooltip ?? undefined,
       parent: item.namespace ?? undefined,
     }]),
-    namespaces: () => (raw.namespaces ?? []).map(space => ({ id: space.name, label: space.label ?? space.name, classIds: raw.classes.filter(item => item.namespace === space.name).map(item => item.id) })),
+    namespaces,
     absent: {
       class: { members: rows, methods: rows, annotations: rows, styles: "agentic-mermaid's class model keeps no per-class styles", haveCallback: "agentic-mermaid's class model keeps no click callbacks", linkTarget: "agentic-mermaid's class model keeps no link targets" },
-      namespace: { children: "agentic-mermaid's namespace keeps no nesting", parent: "agentic-mermaid's namespace keeps no nesting", explicit: "agentic-mermaid's namespace keeps no nesting", notes: "agentic-mermaid's namespaces keep no notes" },
+      namespace: { notes: "agentic-mermaid's namespaces keep no notes" },
       getDirection: "agentic-mermaid's class model keeps no direction",
       ...accAbsent('agentic-mermaid'),
     },
@@ -1068,6 +1087,10 @@ function ganttTasks(project, raw, hooks) {
   const time = value => (value instanceof Date ? new Date(value.getTime()) : value === null ? null : wallClock(value) ?? hooks.unavailable('Unmapped native gantt time ' + value))
   const asWritten = name => ({ startTime: `${name} keeps a task's start as written, not resolved to a date`, endTime: `${name} keeps a task's end as written, not resolved to a date` })
   switch (project) {
+    case 'crafter-station/mermaid':
+      // diagrams/gantt.ts in the renderer's own parser source map: one optional
+      // status, and startDate/endDate/duration/afterId kept as written.
+      return () => (raw.sections ?? []).flatMap(section => section.tasks.map(item => task({ id: item.id, task: item.label, section: section.name, ...tagFlags(item.status ? [item.status] : []) }, asWritten('Crafter'))))
     case 'orestesgaolin/mermaid':
     case 'pub:mermaid_flutter':
       return () => (raw.sections ?? []).flatMap(section => section.tasks.map(item => task({ id: item.id, task: item.name, section: section.name, startTime: time(item.start), endTime: time(item.end), active: item.active, done: item.done, crit: item.crit, milestone: item.milestone })))
@@ -1374,6 +1397,29 @@ function dartMindmap(raw) {
   return { name: 'mermaid_core', root: raw.root, node: item => ({ descr: item.label, shape: item.shape, icon: item.icon ?? undefined, class: (item.cssClasses ?? []).length ? item.cssClasses.join(' ') : undefined }), absent: { nodeId: "mermaid_core's mindmap node keeps no written id" } }
 }
 const mindmapSchema = Object.fromEntries(Object.entries(MINDMAP_MODELS).map(([project, model]) => [project, (raw, hooks) => mindmapView(model(raw), hooks)]))
+
+// mermaid-rs-renderer 0.3.1 ir::MindmapData / parse_mindmap_diagram:
+// a flat node list, root_id and child IDs, not a nested root. `level` is a
+// normalised two-space depth, not Mermaid's source indentation. IDs may be
+// sanitised/disambiguated by the parser; do not undo that candidate behaviour.
+mindmapSchema['1jehuang/mermaid-rs-renderer'] = (raw, hooks) => {
+  const data = raw.mindmap
+  if (!data || !Array.isArray(data.nodes)) return { getMindmap: () => hooks.unavailable('mermaid-rs-renderer mindmap data is not mapped') }
+  const nodes = new Map(data.nodes.map(item => [item.id, item]))
+  const types = { Default: 0, RoundedRect: 1, Rect: 2, Circle: 3, Cloud: 4, Bang: 5, Hexagon: 6 }
+  const node = (id, ancestors = new Set()) => {
+    const item = nodes.get(id)
+    if (!item || ancestors.has(id)) return hooks.unavailable('mermaid-rs-renderer mindmap has a missing or cyclic child ' + id)
+    const type = types[item.node_type]
+    if (type === undefined) return hooks.unavailable('mermaid-rs-renderer mindmap node type ' + item.node_type)
+    const classes = raw.node_classes?.[item.id]
+    return record({ nodeId: item.id, descr: item.label, type, icon: item.icon ?? undefined, class: item.class ?? (Array.isArray(classes) && classes.length ? classes.join(' ') : undefined),
+      children: item.children.map(child => node(child, new Set([...ancestors, id]))) }, 'mindmap node', MINDMAP_FIELDS, {
+      width: "a mindmap node's width is Mermaid's renderer setting", padding: "a mindmap node's padding is Mermaid's renderer setting", level: 'mermaid-rs-renderer normalises indentation into depth',
+    }, hooks)
+  }
+  return { nodeType: MINDMAP_NODE_TYPE, getMindmap: () => data.root_id == null ? null : node(data.root_id), getData: () => hooks.unsupported("Mermaid's mindmap getData() is its renderer's layout data") }
+}
 
 // ---------------------------------------------------------------------------------------
 // Block. Mermaid's getBlock(id) is the block with that id (undefined when none). Its
