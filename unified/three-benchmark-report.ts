@@ -2,7 +2,7 @@ import { reserveResultDirectory } from './result-storage.ts'
 import { fidelityPopulation, synthesiseBenchmarks, type ScoreBounds } from './overall-score.ts'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { davebenchRankings, type DavebenchRun } from './davebench-model.ts'
+import { davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
 import { assertTimingCollection, campaignPlan } from './campaign-plan.ts'
 
 function requireSameAdmission(left: any, right: any) {
@@ -67,7 +67,8 @@ export function mergeNativePng(images: any, native: any) {
     }
     plan = campaignPlan([...lanes.values()] as any[], plan.cases, plan.rounds, { collections: [plan.identity, native.plan.identity] }, plan.scope)
   }
-  const merged = { ...images, ...(plan ? { plan } : {}), runs: [...images.runs, ...native.runs], blocked: (images.blocked ?? []).filter((block: any) => !measured.has(block.project)) }
+  const runs = [...images.runs, ...native.runs]
+  const merged = { ...images, ...(plan ? { plan } : {}), runs, summary: davebenchSummary(runs), rankings: davebenchRankings(runs, images.corpus.occurrences), blocked: (images.blocked ?? []).filter((block: any) => !measured.has(block.project)) }
   assertTimingCollection(merged)
   return merged
 }
