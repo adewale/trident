@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.0
+## 0.3.0 — 9 November 2026
 
 The reference moves to Mermaid 12.3.0. This release updates all three benchmarks,
 adds native Flutter PNG measurements and retains Drawing outputs for reassessment.
@@ -12,8 +12,8 @@ The results distinguish demonstrated failures from observations Trident cannot a
   pinned Flutter/GTK native PNG API. Earlier collections remain in Git history.
 - Execute Mermaid's pinned production source with its original compiler plugins
   and locked dependencies. Collection rejects an unsealed or outdated runtime
-  before reserving its output directory. The source control qualifies 7,346 active callbacks
-  across 352 files; its 18 original skips stay outside the scored population.
+  before reserving its output directory. The control qualifies 7,346 active
+  callbacks across 352 files; its 18 original skips/todos stay outside the scored population.
   Candidate faults, unsupported operations and Trident adapter gaps remain distinct.
 - Retain compressed SVG and terminal Drawing outputs with source and ownership
   checks. Reassessment runs without producer renderers, preserves collection time
@@ -34,10 +34,10 @@ The results distinguish demonstrated failures from observations Trident cannot a
   controls extend assessed SVG coverage; unsupported paint and glyph evidence
   receive no correctness credit. Update js-yaml to 4.3.2.
 - Generate quoted results and collection dates from the numeric files. Campaign
-  reports include native PNG automatically and rebuild merged image summaries and rankings,
-  preserve complete case accounting and
-  compare frozen versions and artifact bytes when merging partial runs. Version
-  selection follows public release tags; the Mermaid control stays at its pin.
+  reports add native PNG automatically, rebuild summaries and rankings from all
+  runs, and preserve complete case accounting. Partial-run merges compare frozen
+  versions and artifact bytes. Version selection follows public release tags;
+  the Mermaid control stays at its pin.
 
 ## 0.2.1 — 6 November 2026
 

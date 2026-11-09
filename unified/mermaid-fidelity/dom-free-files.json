@@ -2,7 +2,7 @@
   "protocol": "dom-free-qualification-v3",
   "qualifierSha256": "1e751031a65ff8bad95a4d02ee473ea0a855adb5dc0a81167561c19121782b9a",
   "commit": "2086904e76c692331e34a45d7cc3bc30860d040e",
-  "controlIdentity": "9a5d4dd36a6bc9c84e0cb863810967e250c986dd84b98981a8c8ed6ff4fbb4b0",
+  "controlIdentity": "7de869e023dfd51098cb7ac3e1c67c10a4a04495b3cb4a4ce57280d9517943f4",
   "targets": {
     "1jehuang/mermaid-rs-renderer": "135a87d9b8fccb6a6f7e624ab0ff2e33e58cc109a1728599d0ad247f284c9d93",
     "adewale/agentic-mermaid": "5df5e7001e9f255d7f61464cef6996d765e6b22e9aa30b19a7f28353c13ea608",
@@ -37468,43 +37468,5 @@
         "node": "9e27981b46ec9068faa8bdc2f347466154e141bbd7b104673360c7176f4ad0e9"
       }
     }
-  },
-  "requalification": {
-    "method": "Recomputed all paired callback and audit fingerprints with conservative failure normalization; verified original raw evidence, previous qualification, unchanged worker code, actual installed artifacts and complete census metadata before rebinding.",
-    "previousControlIdentity": "12b24c9f1f1ea37dee6c28c7054b23809a47bb3d633cde621d4453c025358209",
-    "originalControlIdentity": "1cf1f6a40661f36455931ff2efc51719d0f1ffa42ca50896bf4244dc6cc1cbe5",
-    "controlIdentity": "9a5d4dd36a6bc9c84e0cb863810967e250c986dd84b98981a8c8ed6ff4fbb4b0",
-    "workerSourcesUnchanged": true,
-    "executionInputsUnchanged": true,
-    "oldFingerprintsVerified": true,
-    "rawEvidenceSha256": "3b57cc3252d5463d1cb1d814b04c947626014fd4de8e21dbc960127a57767ea3",
-    "pairs": 26,
-    "reachableWorkerSources": [
-      "../upstream-fidelity-projection.mjs",
-      "../upstream-test-assertions.mjs",
-      "bridge-client.mjs",
-      "config.ts",
-      "environments.ts",
-      "runtime.ts",
-      "schema-views.mjs",
-      "setup.ts",
-      "source-plugins.ts",
-      "view-core.mjs",
-      "views/dart.mjs",
-      "views/frankenmermaid.mjs",
-      "views/gitgraph.mjs",
-      "views/index.mjs",
-      "views/misc.mjs",
-      "views/ports.mjs",
-      "views/sequence.mjs",
-      "views/state.mjs",
-      "views/xmermaid.mjs"
-    ],
-    "executionCensusFields": [
-      "family",
-      "declarations",
-      "helperIdentifiers",
-      "fileIdentifiers"
-    ]
   }
 }

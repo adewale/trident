@@ -1356,8 +1356,8 @@
       }
     ],
     "rounds": 3,
-    "inputsSha256": "d2344966ce6075b6b6cdba930a42986a199aa14979a013fee2bc50f4b245192b",
-    "identity": "5765e90e9e4b02699ca4f6b64d7da732fbda7b898677f77865b0f82503d7382c"
+    "inputsSha256": "83d456dca288c174785042529a5a53a7b906ac6e1fda705284801eca4694d2bf",
+    "identity": "77f5c7aca8bee936f62b1699b7e8b223dd8688d64e85f8d13beebf24de631231"
   },
   "environment": {
     "engine": "bun",
@@ -1415,8 +1415,8 @@
       "mode": "release"
     }
   ],
-  "startedAt": "2026-11-07T21:04:55.973Z",
-  "updatedAt": "2026-11-07T21:07:10.014Z",
+  "startedAt": "2026-11-08T23:48:42.230Z",
+  "updatedAt": "2026-11-08T23:51:11.437Z",
   "corpus": {
     "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
     "occurrences": 1342,
@@ -1487,7 +1487,7 @@
       "display": "private Xvfb, 1280x720x24"
     },
     "hostLibraries": "\tlinux-vdso.so.1\n\tlibflutter_linux_gtk.so => /workspace/trident-completion/native-release/bundle/lib/libflutter_linux_gtk.so\n\tlibgtk-3.so.0 => /lib/x86_64-linux-gnu/libgtk-3.so.0\n\tlibgdk-3.so.0 => /lib/x86_64-linux-gnu/libgdk-3.so.0\n\tlibz.so.1 => /lib/x86_64-linux-gnu/libz.so.1\n\tlibpangocairo-1.0.so.0 => /lib/x86_64-linux-gnu/libpangocairo-1.0.so.0\n\tlibpango-1.0.so.0 => /lib/x86_64-linux-gnu/libpango-1.0.so.0\n\tlibharfbuzz.so.0 => /lib/x86_64-linux-gnu/libharfbuzz.so.0\n\tlibatk-1.0.so.0 => /lib/x86_64-linux-gnu/libatk-1.0.so.0\n\tlibcairo-gobject.so.2 => /lib/x86_64-linux-gnu/libcairo-gobject.so.2\n\tlibcairo.so.2 => /lib/x86_64-linux-gnu/libcairo.so.2\n\tlibgdk_pixbuf-2.0.so.0 => /lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0\n\tlibgio-2.0.so.0 => /lib/x86_64-linux-gnu/libgio-2.0.so.0\n\tlibgobject-2.0.so.0 => /lib/x86_64-linux-gnu/libgobject-2.0.so.0\n\tlibglib-2.0.so.0 => /lib/x86_64-linux-gnu/libglib-2.0.so.0\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6\n\tlibdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2\n\tlibepoxy.so.0 => /lib/x86_64-linux-gnu/libepoxy.so.0\n\tlibfontconfig.so.1 => /lib/x86_64-linux-gnu/libfontconfig.so.1\n\tlibpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0\n\t/lib64/ld-linux-x86-64.so.2\n\tlibgmodule-2.0.so.0 => /lib/x86_64-linux-gnu/libgmodule-2.0.so.0\n\tlibpangoft2-1.0.so.0 => /lib/x86_64-linux-gnu/libpangoft2-1.0.so.0\n\tlibfribidi.so.0 => /lib/x86_64-linux-gnu/libfribidi.so.0\n\tlibXi.so.6 => /lib/x86_64-linux-gnu/libXi.so.6\n\tlibX11.so.6 => /lib/x86_64-linux-gnu/libX11.so.6\n\tlibatk-bridge-2.0.so.0 => /lib/x86_64-linux-gnu/libatk-bridge-2.0.so.0\n\tlibcloudproviders.so.0 => /lib/x86_64-linux-gnu/libcloudproviders.so.0\n\tlibXfixes.so.3 => /lib/x86_64-linux-gnu/libXfixes.so.3\n\tlibxkbcommon.so.0 => /lib/x86_64-linux-gnu/libxkbcommon.so.0\n\tlibwayland-client.so.0 => /lib/x86_64-linux-gnu/libwayland-client.so.0\n\tlibwayland-cursor.so.0 => /lib/x86_64-linux-gnu/libwayland-cursor.so.0\n\tlibwayland-egl.so.1 => /lib/x86_64-linux-gnu/libwayland-egl.so.1\n\tlibXext.so.6 => /lib/x86_64-linux-gnu/libXext.so.6\n\tlibXcursor.so.1 => /lib/x86_64-linux-gnu/libXcursor.so.1\n\tlibXdamage.so.1 => /lib/x86_64-linux-gnu/libXdamage.so.1\n\tlibXcomposite.so.1 => /lib/x86_64-linux-gnu/libXcomposite.so.1\n\tlibXrandr.so.2 => /lib/x86_64-linux-gnu/libXrandr.so.2\n\tlibXinerama.so.1 => /lib/x86_64-linux-gnu/libXinerama.so.1\n\tlibthai.so.0 => /lib/x86_64-linux-gnu/libthai.so.0\n\tlibfreetype.so.6 => /lib/x86_64-linux-gnu/libfreetype.so.6\n\tlibgraphite2.so.3 => /lib/x86_64-linux-gnu/libgraphite2.so.3\n\tlibpng16.so.16 => /lib/x86_64-linux-gnu/libpng16.so.16\n\tlibXrender.so.1 => /lib/x86_64-linux-gnu/libXrender.so.1\n\tlibxcb.so.1 => /lib/x86_64-linux-gnu/libxcb.so.1\n\tlibxcb-render.so.0 => /lib/x86_64-linux-gnu/libxcb-render.so.0\n\tlibxcb-shm.so.0 => /lib/x86_64-linux-gnu/libxcb-shm.so.0\n\tlibpixman-1.so.0 => /lib/x86_64-linux-gnu/libpixman-1.so.0\n\tlibjpeg.so.62 => /lib/x86_64-linux-gnu/libjpeg.so.62\n\tlibmount.so.1 => /lib/x86_64-linux-gnu/libmount.so.1\n\tlibselinux.so.1 => /lib/x86_64-linux-gnu/libselinux.so.1\n\tlibffi.so.8 => /lib/x86_64-linux-gnu/libffi.so.8\n\tlibatomic.so.1 => /lib/x86_64-linux-gnu/libatomic.so.1\n\tlibpcre2-8.so.0 => /lib/x86_64-linux-gnu/libpcre2-8.so.0\n\tlibexpat.so.1 => /lib/x86_64-linux-gnu/libexpat.so.1\n\tlibatspi.so.0 => /lib/x86_64-linux-gnu/libatspi.so.0\n\tlibdbus-1.so.3 => /lib/x86_64-linux-gnu/libdbus-1.so.3\n\tlibdatrie.so.1 => /lib/x86_64-linux-gnu/libdatrie.so.1\n\tlibbz2.so.1.0 => /lib/x86_64-linux-gnu/libbz2.so.1.0\n\tlibbrotlidec.so.1 => /lib/x86_64-linux-gnu/libbrotlidec.so.1\n\tlibXau.so.6 => /lib/x86_64-linux-gnu/libXau.so.6\n\tlibXdmcp.so.6 => /lib/x86_64-linux-gnu/libXdmcp.so.6\n\tlibblkid.so.1 => /lib/x86_64-linux-gnu/libblkid.so.1\n\tlibsystemd.so.0 => /lib/x86_64-linux-gnu/libsystemd.so.0\n\tlibbrotlicommon.so.1 => /lib/x86_64-linux-gnu/libbrotlicommon.so.1\n\tlibcap.so.2 => /lib/x86_64-linux-gnu/libcap.so.2\n",
-    "smokeReceiptSha256": "ac03e0afc700fff2d75e8bccf1060ceef7f4e36adbc95363ba33deb8d256b805",
+    "smokeReceiptSha256": "63c870822389d6ae09241f542c4966f2f51ac32682066edf1840c9050f34d75c",
     "executableSha256": "7719efdb1a14096234b9be6420f604044fa09bc5e645e21b5a8e5f2732858527",
     "applicationSha256": "df241de85774aee1b6ad8ff009170857efdb05ea6ce419ea54b035895d4d3d43",
     "counterSourceSha256": "04d6cdec45899b18027773b66c1a6b36e975ba443ef17a91c9f18fb51ed458ab",
@@ -1517,7 +1517,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 24806.18000000006,
+      "totalMs": 25152.381000000085,
       "invalid": 0,
       "invalidReasons": {}
     },
@@ -1532,7 +1532,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 23902.270000000062,
+      "totalMs": 25455.313000000042,
       "invalid": 0,
       "invalidReasons": {}
     },
@@ -1547,7 +1547,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 25093.350000000035,
+      "totalMs": 25851.45400000008,
       "invalid": 0,
       "invalidReasons": {}
     }
@@ -1562,7 +1562,7 @@
         "boundary": "native Flutter renderToPng API; app startup excluded",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 24806.18000000006,
+        "medianTotalMs": 25455.313000000042,
         "rank": 1
       }
     ],

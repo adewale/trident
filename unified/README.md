@@ -161,3 +161,10 @@ baseline: all 4,318 Drawing verdicts reproduce from a fresh full collection;
 every returned output is archived, and full reassessment invokes no producer
 renderers. A legacy receipt upgrade preserved installed bytes, and the relocated
 pair passed all 7,346 source-control callbacks.
+
+
+The [0.3.0 release collection](../docs/evidence/release-0.3.0/collection.json)
+provides fresh paired executions for all 26 candidates under the fully sealed
+portable runtime. It supersedes the earlier qualification bindings and preserves
+qualification across the release-label change. The current Drawing archive and
+all DaveBench scores were recollected in the same release campaign.

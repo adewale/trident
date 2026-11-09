@@ -8,7 +8,7 @@ use the version freeze of 7 November 2026; changing presentation runs no rendere
 
 | Benchmark | Population | Ordering | Missing results |
 |---|---|---|---|
-| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->7 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
+| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->9 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
 | Drawing Correctness | The same 127 cases, separately for SVG and terminal text | More whole cases with every expected label shown and no raw syntax; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed: unsupported visibility evidence or unrun cases |
 | Mermaid Fidelity | The expanded upstream callbacks that pinned Mermaid itself passes | More passed callbacks; equal counts share a rank. **Possible rank** shows the positions still reachable | Candidate adapter gaps remain unassessed |
 
@@ -63,7 +63,7 @@ These gaps mostly describe unfinished Trident implementation, rather than demons
 limitations of the projects being benchmarked.
 
 **Fidelity runs every candidate on the whole selected suite.** All <!-- fact:fidelity-candidates -->26<!-- /fact --> candidates
-plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected core-package files (<!-- fact:fidelity-collected -->8 November 2026<!-- /fact -->) against one
+plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected original test files (<!-- fact:fidelity-collected -->9 November 2026<!-- /fact -->) against one
 shared Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control run. The
 [completion record](evidence/benchmark-completion-2026-11-07/README.md) explains
 the corrected source control, guarded candidate execution and full comparison of

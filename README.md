@@ -63,7 +63,7 @@ and the range of ranks still possible once its unassessed cases are resolved.
 
 ## Current results
 
-Collected <!-- fact:campaign-collected -->7 November 2026 to 8 November 2026<!-- /fact -->. The
+Collected <!-- fact:campaign-collected -->9 November 2026<!-- /fact -->. The
 leaders are:
 
 - **DaveBench**, examples completed. SVG:

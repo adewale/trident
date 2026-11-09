@@ -1,7 +1,7 @@
 {
   "benchmark": "Mermaid Fidelity",
   "referenceMode": "pinned-production-source-v1",
-  "controlIdentity": "1cf1f6a40661f36455931ff2efc51719d0f1ffa42ca50896bf4244dc6cc1cbe5",
+  "controlIdentity": "7de869e023dfd51098cb7ac3e1c67c10a4a04495b3cb4a4ce57280d9517943f4",
   "pin": "2086904e76c692331e34a45d7cc3bc30860d040e",
   "selection": "all core package tests",
   "inventory": {
@@ -327,6 +327,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "passed": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "passed": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "passed": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "passed": 20
@@ -402,24 +420,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "passed": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "passed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "passed": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "passed": 14
           }
         },
         {
@@ -773,18 +773,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "passed": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "passed": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "passed": 15
@@ -794,6 +782,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "passed": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "passed": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "passed": 32
           }
         },
         {
@@ -938,15 +938,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "passed": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "passed": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "passed": 5
           }
         },
         {
@@ -1197,12 +1197,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "passed": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "passed": 18
@@ -1212,6 +1206,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "passed": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "passed": 9
           }
         },
         {
@@ -1716,15 +1716,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "passed": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "passed": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "passed": 7
           }
         },
         {
@@ -3639,6 +3639,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -3714,24 +3732,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -4102,18 +4102,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -4123,6 +4111,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -4283,15 +4283,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -4550,12 +4550,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -4565,6 +4559,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -5114,18 +5114,18 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "passed": 5,
-            "failed": 2
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 11,
             "passed": 3,
             "failed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "passed": 5,
+            "failed": 2
           }
         },
         {
@@ -7078,6 +7078,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -7153,24 +7171,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -7533,18 +7533,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -7554,6 +7542,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -7707,15 +7707,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -7970,12 +7970,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -7985,6 +7979,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -8517,17 +8517,17 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "passed": 4,
-            "unsupported": 3
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 14,
             "passed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "passed": 4,
+            "unsupported": 3
           }
         },
         {
@@ -10459,6 +10459,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -10534,24 +10552,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -10917,18 +10917,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "passed": 15
@@ -10938,6 +10926,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -11097,15 +11097,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -11363,12 +11363,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -11378,6 +11372,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -11919,18 +11919,18 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
+          "counts": {
+            "passed": 14,
+            "failed": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
             "passed": 4,
             "unsupported": 2,
             "failed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
-          "counts": {
-            "passed": 14,
-            "failed": 3
           }
         },
         {
@@ -13866,6 +13866,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -13941,24 +13959,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -14324,18 +14324,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "passed": 15
@@ -14345,6 +14333,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -14504,15 +14504,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -14770,12 +14770,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -14785,6 +14779,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -15326,18 +15326,18 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
+          "counts": {
+            "passed": 14,
+            "failed": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
             "passed": 4,
             "unsupported": 2,
             "failed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
-          "counts": {
-            "passed": 14,
-            "failed": 3
           }
         },
         {
@@ -17273,6 +17273,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -17349,24 +17367,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -17730,18 +17730,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -17751,6 +17739,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -17907,15 +17907,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -18171,12 +18171,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -18186,6 +18180,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -18722,16 +18722,16 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
+          "counts": {
+            "unsupported": 17
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
             "passed": 6,
             "failed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
-          "counts": {
-            "unsupported": 17
           }
         },
         {
@@ -20670,6 +20670,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -20745,24 +20763,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -21125,18 +21125,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -21146,6 +21134,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -21295,15 +21295,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -21559,12 +21559,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -21574,6 +21568,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -22109,15 +22109,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -24049,6 +24049,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -24124,24 +24142,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -24507,18 +24507,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -24528,6 +24516,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -24684,15 +24684,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -24949,12 +24949,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -24964,6 +24958,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -25509,16 +25509,16 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
+          "counts": {
+            "unsupported": 17
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
             "passed": 4,
             "unsupported": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
-          "counts": {
-            "unsupported": 17
           }
         },
         {
@@ -27454,6 +27454,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -27529,24 +27547,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -27902,18 +27902,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -27923,6 +27911,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -28071,15 +28071,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -28334,12 +28334,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -28349,6 +28343,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -28873,15 +28873,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -30813,6 +30813,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -30888,24 +30906,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -31263,18 +31263,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -31284,6 +31272,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -31434,15 +31434,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -31700,12 +31700,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -31715,6 +31709,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -32241,15 +32241,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -34187,6 +34187,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -34262,24 +34280,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -34638,18 +34638,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -34659,6 +34647,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -34810,15 +34810,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -35074,12 +35074,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -35089,6 +35083,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -35617,15 +35617,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -37574,6 +37574,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -37649,24 +37667,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -38032,18 +38032,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -38053,6 +38041,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -38206,15 +38206,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -38470,12 +38470,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -38485,6 +38479,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -39024,17 +39024,17 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
+          "counts": {
+            "unsupported": 17
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
             "passed": 4,
             "unsupported": 2,
             "failed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
-          "counts": {
-            "unsupported": 17
           }
         },
         {
@@ -40966,6 +40966,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -41042,24 +41060,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -41424,18 +41424,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 7,
@@ -41447,6 +41435,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -41604,15 +41604,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -41872,12 +41872,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -41887,6 +41881,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -42438,18 +42438,18 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "failed": 6,
-            "unsupported": 1
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "trident-blocked": 2,
             "failed": 14,
             "passed": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "failed": 6,
+            "unsupported": 1
           }
         },
         {
@@ -44390,6 +44390,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -44465,24 +44483,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -44848,18 +44848,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -44869,6 +44857,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -45026,15 +45026,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -45291,12 +45291,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -45306,6 +45300,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -45837,17 +45837,17 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
+          "counts": {
+            "unsupported": 17
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
             "passed": 4,
             "unsupported": 2,
             "failed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
-          "counts": {
-            "unsupported": 17
           }
         },
         {
@@ -47782,6 +47782,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -47858,24 +47876,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -48231,18 +48231,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -48252,6 +48240,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -48399,15 +48399,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -48665,12 +48665,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -48680,6 +48674,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -49204,15 +49204,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -51147,6 +51147,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -51222,24 +51240,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -51598,18 +51598,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -51619,6 +51607,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -51768,15 +51768,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -52031,12 +52031,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -52046,6 +52040,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -52562,15 +52562,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -54503,6 +54503,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -54578,24 +54596,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -54962,18 +54962,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "passed": 15
@@ -54983,6 +54971,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -55141,15 +55141,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -55409,12 +55409,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -55424,6 +55418,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -55963,15 +55963,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "passed": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "passed": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "passed": 7
           }
         },
         {
@@ -57913,6 +57913,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -57988,24 +58006,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -58364,18 +58364,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -58385,6 +58373,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -58533,15 +58533,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -58797,12 +58797,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -58812,6 +58806,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -59339,15 +59339,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -61279,6 +61279,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -61354,24 +61372,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -61730,18 +61730,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -61751,6 +61739,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -61899,15 +61899,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -62163,12 +62163,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -62178,6 +62172,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -62705,15 +62705,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -64645,6 +64645,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -64720,24 +64738,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -65104,18 +65104,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "passed": 15
@@ -65125,6 +65113,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -65284,16 +65284,16 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
+          "counts": {
+            "trident-blocked": 20
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
           "counts": {
             "unsupported": 4,
             "failed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
-          "counts": {
-            "trident-blocked": 20
           }
         },
         {
@@ -65553,13 +65553,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "passed": 8,
-            "failed": 1
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -65569,6 +65562,13 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "passed": 8,
+            "failed": 1
           }
         },
         {
@@ -66100,16 +66100,16 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
+          "counts": {
+            "passed": 17
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
             "passed": 6,
             "failed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
-          "counts": {
-            "passed": 17
           }
         },
         {
@@ -68051,6 +68051,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -68126,24 +68144,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -68499,18 +68499,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -68520,6 +68508,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -68668,15 +68668,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -68928,12 +68928,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -68943,6 +68937,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -69468,15 +69468,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -71408,6 +71408,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -71483,24 +71501,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -71856,18 +71856,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -71877,6 +71865,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -72024,15 +72024,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -72284,12 +72284,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -72299,6 +72293,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -72811,15 +72811,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -74751,6 +74751,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -74826,24 +74844,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -75202,18 +75202,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -75223,6 +75211,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -75370,15 +75370,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -75635,12 +75635,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -75650,6 +75644,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -76181,15 +76181,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -78121,6 +78121,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -78196,24 +78214,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -78577,18 +78577,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -78598,6 +78586,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -78751,15 +78751,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -79016,12 +79016,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -79031,6 +79025,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -79560,15 +79560,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -81502,6 +81502,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -81577,24 +81595,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -81954,18 +81954,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -81975,6 +81963,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -82125,15 +82125,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -82389,12 +82389,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -82404,6 +82398,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -82933,15 +82933,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -84873,6 +84873,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -84948,24 +84966,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -85324,18 +85324,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "unsupported": 15
@@ -85345,6 +85333,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -85492,15 +85492,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -85757,12 +85757,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -85772,6 +85766,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -86303,15 +86303,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
-          "counts": {
-            "unsupported": 7
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
           "counts": {
             "unsupported": 17
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
+          "counts": {
+            "unsupported": 7
           }
         },
         {
@@ -88243,6 +88243,24 @@
           }
         },
         {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
+          "counts": {
+            "trident-blocked": 14
+          }
+        },
+        {
+          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
+          "counts": {
+            "trident-blocked": 3
+          }
+        },
+        {
           "path": "packages/mermaid/src/accessibility.spec.ts",
           "counts": {
             "trident-blocked": 20
@@ -88318,24 +88336,6 @@
           "path": "packages/mermaid/src/utils.spec.ts",
           "counts": {
             "trident-blocked": 57
-          }
-        },
-        {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
-          "counts": {
-            "trident-blocked": 3
-          }
-        },
-        {
-          "path": "packages/mermaid-layout-tidy-tree/src/layout.test.ts",
-          "counts": {
-            "trident-blocked": 14
           }
         },
         {
@@ -88702,18 +88702,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
-          "counts": {
-            "trident-blocked": 210
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
-          "counts": {
-            "trident-blocked": 32
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts",
           "counts": {
             "passed": 15
@@ -88723,6 +88711,18 @@
           "path": "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts",
           "counts": {
             "trident-blocked": 27
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/colorThemeGate.spec.ts",
+          "counts": {
+            "trident-blocked": 210
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/common/common.spec.ts",
+          "counts": {
+            "trident-blocked": 32
           }
         },
         {
@@ -88877,15 +88877,15 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
-          "counts": {
-            "unsupported": 5
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/radar/radar.spec.ts",
           "counts": {
             "trident-blocked": 20
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts",
+          "counts": {
+            "unsupported": 5
           }
         },
         {
@@ -89143,12 +89143,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
-          "counts": {
-            "unsupported": 9
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts",
           "counts": {
             "trident-blocked": 18
@@ -89158,6 +89152,12 @@
           "path": "packages/mermaid/src/diagrams/venn/vennRenderer.spec.ts",
           "counts": {
             "trident-blocked": 12
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js",
+          "counts": {
+            "unsupported": 9
           }
         },
         {
@@ -89692,16 +89692,16 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
+          "counts": {
+            "passed": 17
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js",
           "counts": {
             "passed": 6,
             "failed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts",
-          "counts": {
-            "passed": 17
           }
         },
         {
@@ -90449,6 +90449,6 @@
       }
     }
   ],
-  "updatedAt": "2026-11-08T03:58:55.546Z",
-  "collectedThrough": "2026-11-08T03:58:55.546Z"
+  "updatedAt": "2026-11-09T01:43:09.448Z",
+  "collectedThrough": "2026-11-09T01:43:09.448Z"
 }
