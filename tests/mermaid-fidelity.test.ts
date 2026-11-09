@@ -15,6 +15,14 @@ test('expanded parameter cases with the same title retain separate results', () 
 test('a caught missing-adapter exception, unsupported result, or absent target invocation cannot become a pass', () => {
   const rows = fidelityOutcomes(native(['passed', 'passed', 'passed']), native(['passed', 'passed', 'passed']), [audit(0, { gaps: ['missing native getter'] }), audit(1, { unsupported: ['actual opaque model'] }), audit(2, { calls: 0 })])
   expect(rows.map((r: any) => r.status)).toEqual(['trident-blocked', 'unsupported', 'trident-blocked'])
+  expect(rows[2].reason).toBe('No candidate operation was exercised by this test')
+})
+test('a candidate callback without an audit stays unassessed with its reported disposition', () => {
+  for (const status of ['passed', 'skipped', 'pending', 'todo']) {
+    const [row] = fidelityOutcomes(native(['passed']), native([status]), [])
+    expect(row.status).toBe('trident-blocked')
+    expect(row.reason).toBe(`Candidate callback has no native-operation audit (reported ${status})`)
+  }
 })
 test('a candidate fault remains a nonpass even if a negative assertion catches the exception', () => {
   const rows = fidelityOutcomes(native(['passed']), native(['passed']), [audit(0, { faults: ['RangeError: candidate stack overflow'], gaps: ['subsequent observation unavailable'] })])

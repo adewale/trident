@@ -93,8 +93,9 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
       const fileCounts = perFile.get(c.file) ?? {}
       fileCounts[c.status] = (fileCounts[c.status] ?? 0) + 1
       perFile.set(c.file, fileCounts)
-      if (c.status === 'trident-blocked' && c.reason) {
-        const reason = String(c.reason).split('\n')[0]!.replace(/\d+/g, 'N').slice(0, 160)
+      if (c.status === 'trident-blocked') {
+        if (typeof c.reason !== 'string' || !c.reason.trim()) throw Error(row.project + ' has an unassessed callback without a reason: ' + c.file + ' ' + c.name)
+        const reason = c.reason.trim().split('\n')[0]!.replace(/\d+/g, 'N').slice(0, 160)
         gapReasons[reason] = (gapReasons[reason] ?? 0) + 1
       }
     }

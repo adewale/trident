@@ -23,6 +23,14 @@ test('a candidate with no assessable callback is unassessed, not a measured zero
   expect(merged.blocked).toEqual([{ project: 'renderer-only', reason: 'No original test reached a candidate operation: TRIDENT_ADAPTER_GAP: parser N' }])
 })
 
+test('an unassessed callback without a diagnostic cannot be published', () => {
+  for (const reason of [undefined, '', '  ']) {
+    const row = candidate('a', 0, 0)
+    row.cases[0]!.reason = reason
+    expect(() => mergeFidelityRuns([run([reference, row])])).toThrow('without a reason')
+  }
+})
+
 test('different controls, selections and incomplete or substituted callbacks cannot merge', () => {
   expect(() => mergeFidelityRuns([run([reference], { controlIdentity: 'first' }), run([reference], { controlIdentity: 'second' })])).toThrow('executing control identity')
   expect(() => mergeFidelityRuns([run([reference]), run([reference], { selectedFiles: 2 })])).toThrow('one pin and file selection')
