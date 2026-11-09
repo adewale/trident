@@ -667,7 +667,11 @@ function boundModule(read: (key: string | symbol) => any, c: any, locals: Record
       if (namespace && key === 'then') return undefined
       const resolved = read(key), result = resolved === missingExport ? deferred(source + '.' + String(key)) : resolved
       const reason = (typeof result === 'object' && result) || typeof result === 'function' ? deferredValues.get(result) : undefined
-      if (reason && Object.hasOwn(locals, key)) c.unavailableImports.set(locals[String(key)], reason)
+      if (reason) {
+        if (Object.hasOwn(locals, key)) c.unavailableImports.set(locals[String(key)], reason)
+        else if (!active) return gap('Unavailable namespace export read during setup: ' + reason)
+        if (!failureReport()) active?.gaps.add(reason)
+      }
       return result
     },
   })
@@ -717,7 +721,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
     const exports: Record<PropertyKey, any> = { ...config, default: config }
     return bindDynamic(key => Object.hasOwn(exports, key) ? exports[key] : deferred('Native host configuration export is not bound: ' + String(key)))
   }
-  if (/diagramAPI\.js$/.test(source)) return bind({ ...config, setLogLevel, log: deferred('Logger side effects are not bound to the candidate'), default: config })
+  if (/diagramAPI\.js$/.test(source)) return bind({ ...config, setLogLevel, get log() { return deferred('Logger side effects are not bound to the candidate') }, default: config })
   // The public package registers every diagram at import; candidates need no registry.
   if (/diagram-orchestration\.js$/.test(source)) return bind({ addDiagrams: () => undefined })
   // A diagram module's `diagram` definition: the family's parser and database.
@@ -726,7 +730,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       const definition = definitions.get(family)
       return bind({ diagram: definition ? { ...definition, parser: c.parser, db: c.db } : deferred(family + ': reference diagram unavailable') })
     }
-    return bind({ diagram: { parser: c.parser, db: c.db, renderer: deferred('Mermaid renderer module'), styles: deferred('Mermaid diagram styles') } })
+    return bind({ diagram: { parser: c.parser, db: c.db, get renderer() { return gap('Mermaid renderer module') }, get styles() { return gap('Mermaid diagram styles') } } })
   }
   if (/(?:^|\/)Diagram\.js$/.test(source)) {
     if (job.target.tool === 'mermaid')
@@ -766,7 +770,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       },
     })
   }
-  if (/logger/.test(source)) return bind({ log: deferred('Logger side effects are not bound to the candidate'), setLogLevel })
+  if (/logger/.test(source)) return bind({ get log() { return deferred('Logger side effects are not bound to the candidate') }, setLogLevel })
   if (/language\/index|language\/generated|language\/\w+\/module\.js$/.test(source)) {
     if (job.target.tool === 'mermaid')
       return bindDynamic(key => {
