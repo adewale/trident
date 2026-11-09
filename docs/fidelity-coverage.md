@@ -35,9 +35,13 @@ outside callbacks; reflection cannot turn missing native behavior into a pass.
 
 ## Reviewed Agentic source views
 
-The Agentic 0.5.7 source candidate at `e7cb05b` has reviewed views in
-`unified/mermaid-fidelity/views/agentic.mjs`. They read the editable bodies returned
-by its own `parseRegisteredMermaid`, rather than calling Mermaid's parser:
+The Agentic 0.5.7 source candidate has reviewed views in
+`unified/mermaid-fidelity/views/`. Capability selection uses its public
+`parseClassDiagram`, `parseSequenceDiagram`, `parseErDiagram`,
+`parseUsecaseModel` and `parseAgentflowModel` exports when available. These
+parse the complete source through Agentic's own parsers. The frozen 0.5.6
+package lacks these exports and retains its `parseRegisteredMermaid` binding.
+A source parser rejection never falls back to the more permissive editing API.
 
 - Agentflow: native graph identities, markers, roles, metadata, containers,
   class assignments and line/column mappings. Mermaid's computed group/collapse
@@ -53,8 +57,20 @@ by its own `parseRegisteredMermaid`, rather than calling Mermaid's parser:
   artificial root is a representation wrapper. Parent depth never substitutes
   for authored indentation width, which the body discards.
 - UseCase: actor/use-case/boundary/relationship records, notes, classes and
-  explicit JSON property order. The editable body drops the normalized AST's
-  source/header/statement spans; those are not reconstructed from input text.
+  explicit JSON property order. The public model also retains source, header
+  spans and statement occurrences. Complete normalized AST tables remain
+  unsupported, including comparisons of the whole AST.
+- Class: structured attributes, methods, annotations, direction and inline
+  styles. The editing model supplements authored labels and explicit namespace
+  declarations that the render model expands. ClassDef/assignment mutation
+  order is not retained; it cannot stand in for Mermaid's node-style history.
+- ER: typed attributes, keys and comments, render cardinality vocabulary,
+  class definitions and accessibility descriptions. The editing model retains
+  group-close statement order.
+- Sequence: notes, boxes, titles, activation events, actor lifecycle bindings
+  and message heads. Semantic editing statements preserve their exact order;
+  indexed render records are interleaved only where their order is determined.
+  Cross-kind statements sharing an ambiguous boundary remain unsupported.
 
 Failure reduction recognizes an explicit `TRIDENT_ADAPTER_GAP` exception even
 when Vitest raises it during failure formatting after the callback audit closes.
@@ -70,11 +86,12 @@ The review of the same `e7cb05b` source candidate classified every original
 assertion nonpass using captured callback inputs, the pinned native public API,
 native verification/serialization/drawings, and selected reference renders:
 
-- Three were Trident mapping defects: two explicit C4 boundary types lost to
+- Nine were Trident mapping defects: two explicit C4 boundary types lost to
   macro defaults, and one qualified Class namespace hierarchy omitted by the
-  view. Both mappings are corrected. The namespace correction also resolves
-  two previously unsupported callbacks.
-- Seventy-five are compatibility differences: model text/array/identifier
+  view, plus four malformed sequence cases and two class-note cases bound to
+  the editing API instead of the public source parser. All are corrected. The
+  namespace correction also resolves two previously unsupported callbacks.
+- Sixty-nine are compatibility differences: model text/array/identifier
   representation, diagnostic wording, API-stage differences, or explicit native
   reader/interaction policies. They remain strict-reference assertion failures;
   this review does not turn them into passes or remove them from the denominator.
@@ -105,8 +122,32 @@ newline representation difference and five documented generous label reads
 that emit `flowchart_label_delimiter`. The classification above incorporates
 that correction without changing any raw benchmark outcome.
 
-The Agentic repair candidate at `beb29c9`, assessed by the same Trident view,
-yields 2,669 passes and 75 assertion failures, with unsupported and Trident-gap
-counts unchanged. Thirty native failures become passes: the original 26 plus
-the four newly assessed interpolation callbacks. The remaining 75 failures
-match the compatibility ledger; none were relabelled to improve the score.
+An earlier review classified the original 104 as 3 mapping defects, 75
+compatibility differences and 26 native problems. Inspection of the public
+source APIs moved six of those compatibility cases into the mapping category;
+the corrected classification above is 9 / 69 / 26. API-stage differences were
+not an established product limitation.
+
+At the earlier Trident head `81b939b`, the repaired Agentic candidate at
+`9543330` yielded 2,669 passes and 75 assertion failures, with unsupported and
+Trident-gap counts unchanged. Thirty native failures became passes: the
+original 26 plus the four newly assessed interpolation callbacks. The public
+source follow-up below measures that same unchanged package more completely.
+
+## Public source parser follow-up
+
+The same `9543330` package now yields **2,839 passes, 132 strict assertion
+failures, 775 unsupported callbacks and 3,600 Trident gaps**. No previously
+passing callback regresses. This fixes six more unfair failures and assesses
+226 formerly unsupported callbacks; 163 pass and 63 expose diagnostic,
+representation or documented reader-policy differences. The original 7,346
+qualified callbacks, 18 skips and 19 candidate collection-gap files remain.
+
+Trident also corrects cross-family parser imports, UseCase's asynchronous
+rejection protocol and stale publication after rejection. Complete AST
+comparisons cannot pass or fail as a partial native AST when its tables are
+declared absent. See the [run receipt and complete opaque audit](
+evidence/agentic-public-parsers-2026-11-09/README.md).
+
+This follow-up improves model coverage. It does not supply Mermaid's private
+renderer APIs or add rendered-layout coverage to the source-path Fidelity slice.

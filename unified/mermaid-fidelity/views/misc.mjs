@@ -375,6 +375,7 @@ function graphClassModel(raw, name) {
 // such as <<interface>> included), one className from cssClass or :::, href and tooltip,
 // a generic and a qualified namespace; namespaces keep name and label.
 function agenticClassModel(raw, hooks) {
+  if (raw.nativeParser === 'parseClassDiagram') return agenticSourceClassModel(raw, hooks)
   const rows = 'agentic-mermaid keeps a class body as raw rows, not split into annotations, attributes and methods'
   // ClassNamespaceDecl.name and ClassNode.namespace are qualified paths. The
   // editable body lists authored declarations, while its renderer and writer
@@ -407,6 +408,59 @@ function agenticClassModel(raw, hooks) {
       namespace: { notes: "agentic-mermaid's namespaces keep no notes" },
       getDirection: "agentic-mermaid's class model keeps no direction",
       ...accAbsent('agentic-mermaid'),
+    },
+  }
+}
+
+// 0.5.7's public parseClassDiagram returns the render model: parsed members,
+// namespace trees, styles and direction. Keep the editing model's declaration
+// flags and labels where the render model has expanded their representation.
+function agenticSourceClassModel(raw, hooks) {
+  const editable = raw.editingModel
+  const declarations = new Set((editable?.namespaces ?? []).map(space => space.name))
+  const spaces = []
+  const visit = (items, parent) => {
+    for (const item of items) {
+      const id = parent ? `${parent}.${item.name}` : item.name
+      spaces.push({ id, label: item.label ?? item.name, parent, classIds: item.classIds, childIds: (item.children ?? []).map(child => `${id}.${child.name}`), ...(editable ? { explicit: declarations.has(id) } : {}) })
+      visit(item.children ?? [], id)
+    }
+  }
+  visit(raw.namespaces ?? [], undefined)
+  const member = (item, method) => ({
+    visibility: item.visibility ?? '',
+    // sourceText is the native parser's attribute text with its classifier
+    // removed. It preserves spacing and types that name/type alone lose.
+    ...(method ? { id: item.name, parameters: item.params ?? '', returnType: item.type ?? '' } : typeof item.sourceText === 'string' ? { id: item.sourceText.slice((item.visibility ?? '').length) } : {}),
+    ...flags(item),
+  })
+  return {
+    classes: () => raw.classes.map(item => {
+      const declaration = editable?.classes.find(node => node.id === item.id)
+      return [item.id, {
+        label: declaration ? declaration.label ?? item.id : item.generic ? () => hooks.unsupported('Agentic folds the generic type into its render label; the editing declaration is unavailable') : item.label,
+        type: item.generic ?? '',
+        annotations: item.annotation ? [item.annotation] : [],
+        members: item.attributes.map(item => member(item, false)),
+        methods: item.methods.map(item => member(item, true)),
+        // Mermaid copies classDef styles into a node only when that definition
+        // is read after the assignment. Agentic resolves classDefs at render
+        // time and retains no relative declaration order in this model.
+        styles: () => (item.className ?? '').split(/\s+/).some(id => raw.classDefs.has(id)) ? hooks.unsupported('Agentic renders assigned classDefs separately without retaining Mermaid\'s classDef/assignment mutation order') : styleStrings(item.inlineStyle),
+        cssClasses: () => cssClasses((item.className ?? '').split(/\s+/), Boolean(item.href), 'agentic-mermaid', hooks),
+        link: item.href ?? undefined,
+        tooltip: item.tooltip ?? undefined,
+        parent: parentFrom(spaces, item.id, 'agentic-mermaid', hooks),
+      }]
+    }),
+    namespaces: () => spaces,
+    getDirection: raw.direction ?? 'TB',
+    getAccTitle: raw.accessibilityTitle ?? '',
+    getAccDescription: raw.accessibilityDescription ?? '',
+    absent: {
+      class: { haveCallback: "Agentic's render class model keeps no click callbacks", linkTarget: "Agentic's render class model keeps no link targets" },
+      member: { id: 'Agentic keeps no sourceText for this attribute', classifier: 'Agentic marks this member both static and abstract without retaining the final classifier' },
+      namespace: { explicit: 'Agentic expands namespace prefixes without marking explicit declarations; its editing model is unavailable', notes: "Agentic's namespaces keep no notes" },
     },
   }
 }
@@ -632,7 +686,7 @@ const ER_MODELS = {
   // style object, a groupId and its attributes as raw text rows; relations keep left/right
   // cardinality words, dashed and the label; groups are subgraphs (id, label, direction);
   // classDefs and the accessibility title are kept, accDescr is not.
-  'adewale/agentic-mermaid': raw => ({
+  'adewale/agentic-mermaid': (raw, hooks) => raw.nativeParser === 'parseErDiagram' ? agenticSourceEr(raw, hooks) : ({
     entities: () => raw.entities.map(entity => [entity.id, { label: entity.id, alias: entity.label ?? '', attributes: entity.attributes.map(() => ({})), ...erCss(entity.className ? [entity.className] : [], styleStrings(entity.style)) }]),
     relationships: () => raw.relations.map(rel => ({ entityA: rel.from, entityB: rel.to, roleA: rel.label ?? '', relSpec: { cardA: AGENTIC_CARD[rel.rightCard], cardB: AGENTIC_CARD[rel.leftCard], relType: identifying(typeof rel.dashed === 'boolean' ? !rel.dashed : undefined) } })),
     getClasses: () => erClasses(entriesOf(raw.classDefs).map(([id, style]) => [id, styleStrings(style)])),
@@ -670,6 +724,20 @@ function agenticErGroups(raw) {
     classes: [],
     cssStyles: [],
   }))
+}
+// Public parseErDiagram supplies typed attributes and render cardinalities;
+// the editing model additionally retains the order in which groups closed.
+function agenticSourceEr(raw, hooks) {
+  const cards = { ...ZOMBIE_CARD, parent: 'MD_PARENT' }
+  return {
+    entities: () => raw.entities.map(entity => [entity.id, { label: entity.id, alias: raw.editingModel?.entities.find(item => item.id === entity.id)?.label ?? (entity.label === entity.id ? '' : entity.label), attributes: entity.attributes.map(erAttribute), ...erCss((entity.className ?? '').split(/\s+/), styleStrings(entity.inlineStyle)) }]),
+    relationships: () => raw.relationships.map(rel => ({ entityA: rel.entity1, entityB: rel.entity2, roleA: rel.label, relSpec: { cardA: cards[rel.cardinality2], cardB: cards[rel.cardinality1], relType: identifying(rel.identifying) } })),
+    getClasses: () => erClasses(entriesOf(raw.classDefs).map(([id, style]) => [id, styleStrings(style)])),
+    getSubGraphs: () => raw.groups.length && !raw.editingModel ? hooks.unsupported('Agentic ER render groups retain no group-close statement order; its editing model is unavailable') : agenticErGroups({ ...raw, statements: raw.editingModel?.statements }),
+    getAccTitle: () => raw.accessibilityTitle ?? '',
+    getAccDescription: () => raw.accessibilityDescription ?? '',
+    absent: {},
+  }
 }
 function zombieEr(raw, name) {
   const zombie = name === 'zombie-mermaid'

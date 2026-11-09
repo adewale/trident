@@ -2,7 +2,7 @@
 // Reviewed against src/{agentflow,railroad,treeview,usecase}/{types,parser}.ts.
 // These are projections of native data, never parsers or replacement renderers.
 import { record, shapeOf, headOf, edgeType, strokeOf, styleStrings } from '../view-core.mjs'
-import { usecaseLookups } from './ports.mjs'
+import { usecaseLookups, usecaseState } from './ports.mjs'
 
 const PROJECT = 'adewale/agentic-mermaid'
 const text = raw => ({ getDiagramTitle: () => raw.title ?? '', getAccTitle: () => raw.accessibilityTitle ?? '', getAccDescription: () => raw.accessibilityDescription ?? '' })
@@ -76,6 +76,14 @@ function treeviewAst(raw, hooks) {
 // UsecaseBody keeps the published records, including JSON property order, but
 // drops the grammar model's source/header/statement spans and normalized AST.
 function usecase(raw, hooks) {
+  // Public parseUsecaseModel retains the same published state and source
+  // occurrences as its Pele-derived grammar; the editing body drops the latter.
+  if (raw.nativeParser === 'parseUsecaseModel') return {
+    ...usecaseState(raw, hooks, PROJECT, 'Agentic'),
+    getDiagramTitle: () => raw.title ?? '',
+    getAccTitle: () => raw.accTitle ?? '',
+    getAccDescription: () => raw.accDescr ?? '',
+  }
   const nodes = kind => new Map(raw.nodes.filter(n => n.kind === kind).map(({ kind: _kind, ...n }) => [n.id, n]))
   const keyed = list => new Map(list.map(n => [n.id, n]))
   return usecaseLookups({ ...text(raw), getDirection: () => raw.direction,

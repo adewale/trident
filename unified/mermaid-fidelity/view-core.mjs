@@ -543,7 +543,7 @@ const AGENTIC_KIND = { inheritance: [1, 0], realization: [1, 1], composition: [2
 CLASS['adewale/agentic-mermaid'] = raw => ({
   classes: () => raw.classes.map(item => [item.id, { label: item.label ?? item.id, ...(item.generic ? { type: item.generic } : {}) }]),
   relations: () =>
-    raw.relations.map(rel => {
+    (raw.nativeParser === 'parseClassDiagram' ? raw.relationships.map(rel => ({ ...rel, kind: rel.type, fromKind: rel.fromType, toKind: rel.toType })) : raw.relations).map(rel => {
       const at = rel.markerAt, code = kind => AGENTIC_KIND[kind]?.[0]
       const line = rel.lineStyle === 'dashed' ? 1 : rel.lineStyle === 'solid' ? 0 : AGENTIC_KIND[rel.kind]?.[1]
       const relation = { type1: at === 'from' || at === 'both' ? code(rel.fromKind ?? rel.kind) : 'none', type2: at === 'to' || at === 'both' ? code(rel.toKind ?? rel.kind) : 'none', lineType: line }
