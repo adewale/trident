@@ -74,12 +74,12 @@ native verification/serialization/drawings, and selected reference renders:
   macro defaults, and one qualified Class namespace hierarchy omitted by the
   view. Both mappings are corrected. The namespace correction also resolves
   two previously unsupported callbacks.
-- Sixty-nine are compatibility differences: model text/array/identifier
+- Seventy-five are compatibility differences: model text/array/identifier
   representation, diagnostic wording, API-stage differences, or explicit native
   reader/interaction policies. They remain strict-reference assertion failures;
   this review does not turn them into passes or remove them from the denominator.
-- Thirty-two reproduce native problems across four causes: rectangle border
-  property syntax (25), legacy edge interpolation (4), empty GitGraph tag boxes
+- Twenty-six reproduce native problems across four causes: rectangle border
+  property syntax (19), legacy edge interpolation (4), empty GitGraph tag boxes
   (2), and hex CSS value corruption in Class/State style parsing (1).
 
 The rectangle syntax already exists in Agentic's declared Mermaid 12.2 target,
@@ -89,10 +89,24 @@ states and in Class styles. A `fill`-only control exercises a different property
 and does not establish correctness for `background`. The GitGraph finding includes painted empty tag boxes,
 not just a difference between empty-list representations.
 
-The full 352-file rerun yields 2,638 passes, 101 assertion failures, 1,005 native
-unsupported callbacks and 3,602 Trident gaps. The same corrections on the frozen
-0.5.6 release yield 2,243 passes, 102 assertion failures, 1,454 unsupported
-callbacks and 3,547 Trident gaps. Each run keeps all 7,346 reference-qualified
+The final curve view assesses five formerly unsupported callbacks: one already
+passes in the original package and four expose the same interpolation gap.
+The full 352-file rerun on the original `e7cb05b` source yields 2,639 passes,
+105 assertion failures, 1,000 native unsupported callbacks and 3,602 Trident gaps.
+The frozen 0.5.6 release yields 2,244 passes, 106 assertion failures, 1,449
+unsupported callbacks and 3,547 Trident gaps. Each run keeps all 7,346 reference-qualified
 callbacks and the separate 18 upstream skips. These classifications cover the
 104 reviewed assertions, not the remaining unsupported operations, coverage
 gaps or independent rendered-layout findings.
+
+An initial file-level tally incorrectly assigned all 25 `flow-text` failures to
+rectangle properties. Exact-case review separates 19 rectangle cases from one
+newline representation difference and five documented generous label reads
+that emit `flowchart_label_delimiter`. The classification above incorporates
+that correction without changing any raw benchmark outcome.
+
+The Agentic repair candidate at `beb29c9`, assessed by the same Trident view,
+yields 2,669 passes and 75 assertion failures, with unsupported and Trident-gap
+counts unchanged. Thirty native failures become passes: the original 26 plus
+the four newly assessed interpolation callbacks. The remaining 75 failures
+match the compatibility ledger; none were relabelled to improve the score.
