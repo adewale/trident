@@ -492,7 +492,7 @@
     "identity": "417cb14dbd838bda9fdb8e421f621856aede443cecd0c3ca7fe7ef563ead903d"
   },
   "assessmentProfiles": {
-    "svg": "07aa186b53810c3b6dc8154a29779f7a63cdddaa87e1234bb8635aa518654820",
+    "svg": "357055276c152f2b53f48c10f5082f482722a8191f34ebd302ad3f6a958a47f0",
     "terminal": "74f39168c6e1ed7f79b6342c52eda78bb542177a8cb3a7d4d43952bd96acacbe"
   },
   "observerChecks": {
@@ -507,6 +507,14 @@
       },
       {
         "name": "source-leak",
+        "status": "incorrect"
+      },
+      {
+        "name": "html-font-box-overflow",
+        "status": "correct"
+      },
+      {
+        "name": "html-clipped-glyphs",
         "status": "incorrect"
       }
     ],
@@ -700,6 +708,14 @@
     "labelPolicy": "drawing-reviewed-labels-v2"
   },
   "blocked": [],
+  "reassessedAt": "2026-11-09T10:17:35.719Z",
+  "reassessment": {
+    "sourceRun": "/workspace/trident-release-0.3.0/drawing",
+    "scope": [
+      "svg"
+    ],
+    "renderersInvoked": false
+  },
   "assessmentPolicy": "drawing-reviewed-labels-v2",
   "state": "complete",
   "formats": [
@@ -715,11 +731,11 @@
     "finishedAt": "2026-11-09T00:41:24.214Z",
     "captureArchive": {
       "path": "captures/drawing-capture-2026-11-09.tar.gz",
-      "sha256": "830017b0f5697c8e363642208a9c9b4c3c6029c98eeab5feb6ce4637cbfd2808",
-      "bytes": 3964016,
+      "sha256": "d60962ce8b5d4ea1aedf8de60d0b7169a6d5cb24110f74b15a89c60f72a8fe24",
+      "bytes": 4091382,
       "root": "drawing-retained"
     },
-    "previousPublishedSha256": "c6b81d2e47968ba07523a865732e8e984913f733419c63038aa32e8b3fed1a8f"
+    "previousPublishedSha256": "901ad1f9585cecabe06dd018e10b3a96b7982c68387a5fc0464f5d8393c10a8f"
   },
   "results": [
     {
@@ -874,16 +890,19 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 11
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: Animated or image content is outside the glyph profile": 1,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 5,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 4,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "d8824194cb660ada8edf596a6785278fe7c40aab61a43e8a2be9a19cc16f4923",
@@ -1043,16 +1062,16 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 1
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Text paint, visibility or typography is outside the glyph profile": 1
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "01c277a6b3e55bf99d313e9ce0aea0860f46f80f5a09f74913007d0915028fdf",
@@ -1702,16 +1721,17 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 2
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "4b5dfd85beb61111d238e0ae9949b09d7e368e3d2551bc98b48ead9f8ccff92e",
@@ -1872,16 +1892,20 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 17
+        "Unresolved SVG label evidence: unclipped-authored-labels, paint-opacity-and-color; glyph proof-unavailable during prepare: Label text boxes overlap": 2,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 7,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 4,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 3,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels, paint-opacity-and-color; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 1
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
@@ -2208,16 +2232,19 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 5
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 2,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 1,
+        "Unresolved SVG label evidence: labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A non-whitespace character has no independently observed glyph ink": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
@@ -2544,16 +2571,20 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 10
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 4,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Text paint, visibility or typography is outside the glyph profile": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 3,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: A non-whitespace character has no independently observed glyph ink": 1
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "04538da51718ecf11a56233c6f029280882cb32c7194715888b71d529f9b525f",
@@ -2877,16 +2908,18 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 12
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 10,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
@@ -3214,16 +3247,18 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 8
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 5,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Observed glyph contour lacks independent exterior contrast": 2
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "4b083ff3979c7b07e1c364393ef17659ffe7bfcfea75a818260f4de7ece7789b",
@@ -3877,16 +3912,19 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 24
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 12,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 9,
+        "Unresolved SVG label evidence: labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 2
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "448013e13d696562b1c4cac338a94c937dcc861b1641dd9b5fc56f87bf02cdf8",
@@ -3900,11 +3938,11 @@
       "version": "0.9.3",
       "format": "svg",
       "counts": {
-        "correct": 98,
-        "incorrect": 1,
+        "correct": 99,
+        "incorrect": 25,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 27,
+        "unknown": 2,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -3968,6 +4006,7 @@
           "drawing:9516272260e4c69d",
           "drawing:9cdc849ecf29b4d2",
           "drawing:9e4e5a5e072642e8",
+          "drawing:a181524246065697",
           "drawing:a2118d0582abef57",
           "drawing:a5204531005bef25",
           "drawing:a60c7e7b3b930353",
@@ -4009,13 +4048,6 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "drawing:89e9eb6aebb72128"
-        ],
-        "renderer-failure": [
-          "drawing:dbc553f665d05c10"
-        ],
-        "invalid-format": [],
-        "unknown": [
           "drawing:1468e1cf1186af65",
           "drawing:206a9307ba8592b1",
           "drawing:2598092a6e404821",
@@ -4025,15 +4057,13 @@
           "drawing:4ae5560b57ca0064",
           "drawing:4f96b68984c54c5a",
           "drawing:570e13053d228e29",
-          "drawing:5c9a50898b1e6ffe",
           "drawing:75e652628bded0d8",
           "drawing:7801c75b869778fe",
           "drawing:867520b102964291",
           "drawing:89be4f2885fb74a9",
+          "drawing:89e9eb6aebb72128",
           "drawing:94e514f9f375364c",
           "drawing:9972eaa8ca8692d8",
-          "drawing:a181524246065697",
-          "drawing:b1428b5b59888938",
           "drawing:b23c0856e157b1f2",
           "drawing:c2e297448b5388ba",
           "drawing:c5455d2e2f5f8672",
@@ -4044,19 +4074,27 @@
           "regression:a1cbf1ae4b6a2b8a",
           "regression:d2ca0121985b295d"
         ],
+        "renderer-failure": [
+          "drawing:dbc553f665d05c10"
+        ],
+        "invalid-format": [],
+        "unknown": [
+          "drawing:5c9a50898b1e6ffe",
+          "drawing:b1428b5b59888938"
+        ],
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 27
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 2
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "4e73f19d6c9961b5602bc33366920138d37c73c616ff57f1446fcb783809960d",
@@ -4383,12 +4421,12 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
@@ -4715,16 +4753,18 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 3
+        "Unresolved SVG label evidence: paint-opacity-and-color; glyph proof-unavailable during prepare: HTML text has unsupported decoration, background, transform or generated content": 1,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during compare: Isolated label changes pixels outside its glyph mask": 1,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 1
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "fafa28691baf87948a63ec13009437278f25d43ca7d85e74b71f3b53897e1738",
@@ -5047,16 +5087,17 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 2
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "37bea5005aa6d2dde929032ced5d2958cf642667cbc1fe675f9dfacf4ba15a51",
@@ -5218,16 +5259,19 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 5
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Observed glyph contour lacks independent exterior contrast": 1,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during compare: Isolated label changes pixels outside its glyph mask": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 2
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "ca0dad14b4ca24ec1311894fa69c01fa6f9fff0c81e72537adea4f2e7dfd029a",
@@ -5387,16 +5431,17 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 15
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 12,
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 3
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "e7642aae65ffb9a8e00cf31ebd6a7516a5b9c4cd76deb94624d679f83c0baf47",
@@ -5883,16 +5928,17 @@
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Visible label evidence is unavailable for this SVG representation": 3
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 2,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 1
       },
       "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "svg-label-observer.ts": "169156190522136294874d0922b4199704ffeac29534624c8992563eb42e3bbb",
-        "svg-glyph-witness.ts": "78ce9d842a9cdea56ea7134417fa32433c07e10464437ce45625405cad2ffa88",
+        "labels.ts": "145259dcf5e3d53f4df7e8e61c33744c2931e9ce7c05aecb1aac8a8d994817a4",
+        "observer-contract.ts": "d8634bb20d544e2cdc6f6a99c613001606d38d25da8079c08201fbfd56b60d58",
+        "svg-label-observer.ts": "df49a6fd6709ef41a6b3c4e16d7d7dd140adf4788471b4a51b64fe9f05631651",
+        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
         "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "340ec7ef58effb2518a7376d006829e50e6aa9123854c232da27ff43d64d9a2c"
+        "../paint.ts": "b8fefbb7b5f4554ce191e92916fa0a7fc242e3495a6cf61ce915d4997247ec79"
       },
       "operand": {
         "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b",
@@ -6394,11 +6440,11 @@
     }
   ],
   "totals": {
-    "correct": 3079,
-    "incorrect": 374,
+    "correct": 3080,
+    "incorrect": 398,
     "renderer-failure": 634,
     "invalid-format": 86,
-    "unknown": 145,
+    "unknown": 120,
     "unrun": 0
   },
   "updatedAt": "2026-11-09T00:41:24.214Z"

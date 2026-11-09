@@ -288,7 +288,7 @@ Unsupported paint profiles stay unassessed. Terminal matching preserves text
 order and joins wrapping inside observed boxes. Empty, error, echoed or zero-size
 outputs are nonpasses; the empty-diagram SVG case requires no painted ink.
 Edges, arrow direction, layout quality and authored style matching are not
-scored. The collection leaves <!-- fact:drawing-unassessed -->145<!-- /fact --> of
+scored. The collection leaves <!-- fact:drawing-unassessed -->120<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. A chart naming no
 labels is checked for raw-syntax leakage alone.
 
@@ -351,6 +351,6 @@ results snapshot remain in Git history.
 The [league tables](../RESULTS.md) list measured projects and setup gaps for each
 format. A scored result can include failures. It does not mean every input passed,
 every output was assessable, or the project has complete benchmark coverage.
-Drawing has <!-- fact:drawing-unassessed -->145<!-- /fact --> unassessed cases.
+Drawing has <!-- fact:drawing-unassessed -->120<!-- /fact --> unassessed cases.
 Fidelity's unmapped operations and unqualified reference callbacks remain
 coverage work. The synthesis keeps missing measurements as score ranges.

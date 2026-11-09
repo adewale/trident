@@ -82,7 +82,7 @@ zero-size SVG is a nonpass. Each whole case earns one pass. This measures whethe
 the specified content is shown, not edges, arrow direction, layout, styling or
 pixel identity with Mermaid.
 
-The collection leaves <!-- fact:drawing-unassessed -->145<!-- /fact --> of
+The collection leaves <!-- fact:drawing-unassessed -->120<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. Unsupported
 observations receive no correctness credit.
 

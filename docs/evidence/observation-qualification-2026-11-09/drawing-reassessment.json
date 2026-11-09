@@ -1,0 +1,356 @@
+{
+  "sourceRawSha256": "4fac8471f2566ad79b05680078bf43cf7e889a76b38a77bf8b00ed001b9385f2",
+  "reassessedRawSha256": "4ef6f2fe5ccbe85376535d065798beedf0ac8cf2d4510efb26707bafc8854272",
+  "collectedAt": "2026-11-09T00:41:24.214Z",
+  "reassessedAt": "2026-11-09T10:17:35.719Z",
+  "observations": 4318,
+  "returnedOutputs": 3684,
+  "uniqueOutputObjects": 3437,
+  "terminalRowsPreserved": 2286,
+  "renderersInvoked": false,
+  "before": {
+    "correct": 3079,
+    "unknown": 145,
+    "incorrect": 374,
+    "invalid-format": 86,
+    "renderer-failure": 634
+  },
+  "after": {
+    "correct": 3080,
+    "unknown": 120,
+    "incorrect": 398,
+    "invalid-format": 86,
+    "renderer-failure": 634
+  },
+  "transitionCounts": {
+    "unknown -> incorrect": 24,
+    "unknown -> correct": 1
+  },
+  "transitions": [
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:1468e1cf1186af65",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:206a9307ba8592b1",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:2598092a6e404821",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:278dccc21dd27020",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:3042977d4e6d813b",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:43382cbc1379cf4c",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:4ae5560b57ca0064",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:4f96b68984c54c5a",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:570e13053d228e29",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:75e652628bded0d8",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:7801c75b869778fe",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:867520b102964291",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:89be4f2885fb74a9",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:94e514f9f375364c",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:9972eaa8ca8692d8",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:a181524246065697",
+      "from": "unknown",
+      "to": "correct",
+      "reason": null
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:b23c0856e157b1f2",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:c2e297448b5388ba",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:c5455d2e2f5f8672",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:cd771fca2659a460",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:d04b45557e7b8f2e",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:f78157ede4e2d1ab",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "regression:c707395491823d1f",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "regression:a1cbf1ae4b6a2b8a",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "regression:d2ca0121985b295d",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    }
+  ],
+  "observerErrorCount": 0,
+  "unassessedByProofReason": [
+    {
+      "reason": "Unresolved SVG label evidence: labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A non-whitespace character has no independently observed glyph ink",
+      "observations": 1
+    },
+    {
+      "reason": "Unresolved SVG label evidence: labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap",
+      "observations": 1
+    },
+    {
+      "reason": "Unresolved SVG label evidence: paint-opacity-and-color; glyph proof-unavailable during prepare: HTML text has unsupported decoration, background, transform or generated content",
+      "observations": 1
+    },
+    {
+      "reason": "Unresolved SVG label evidence: unclipped-authored-labels, paint-opacity-and-color; glyph proof-unavailable during prepare: Label text boxes overlap",
+      "observations": 2
+    },
+    {
+      "reason": "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs",
+      "observations": 12
+    },
+    {
+      "reason": "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Observed glyph contour lacks independent exterior contrast",
+      "observations": 3
+    },
+    {
+      "reason": "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: A non-whitespace character has no independently observed glyph ink",
+      "observations": 1
+    },
+    {
+      "reason": "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap",
+      "observations": 30
+    },
+    {
+      "reason": "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Text paint, visibility or typography is outside the glyph profile",
+      "observations": 2
+    },
+    {
+      "reason": "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels, paint-opacity-and-color; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match",
+      "observations": 1
+    },
+    {
+      "reason": "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs",
+      "observations": 1
+    },
+    {
+      "reason": "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during compare: Isolated label changes pixels outside its glyph mask",
+      "observations": 2
+    },
+    {
+      "reason": "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match",
+      "observations": 62
+    },
+    {
+      "reason": "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: Animated or image content is outside the glyph profile",
+      "observations": 1
+    }
+  ],
+  "unassessedByProject": [
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "observations": 11
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "observations": 10
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "observations": 24
+    },
+    {
+      "project": "Latias94/merman",
+      "observations": 2
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "observations": 1
+    },
+    {
+      "project": "crabtalk/bezel",
+      "observations": 2
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "observations": 17
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "observations": 5
+    },
+    {
+      "project": "emtyty/merslim",
+      "observations": 12
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "observations": 8
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "observations": 3
+    },
+    {
+      "project": "obsidianmd/pele",
+      "observations": 2
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "observations": 5
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "observations": 15
+    },
+    {
+      "project": "wevm/ondine",
+      "observations": 3
+    }
+  ],
+  "observerCodeCommit": "148690631f2faf1815711ca6aec24083fa31597a",
+  "sourceCapture": "https://github.com/adewale/trident/blob/v0.3.0/results/release/captures/drawing-capture-2026-11-09.tar.gz",
+  "currentCapture": "results/release/captures/drawing-capture-2026-11-09.tar.gz",
+  "individualEvidence": "drawing-retained/results.json inside the current capture records criteria and witness diagnostics per observation"
+}
