@@ -1,0 +1,298 @@
+{
+  "status": "incomplete-host-process-exhaustion",
+  "recordedAt": "2026-11-09T18:19:02.452666+00:00",
+  "workerCodeCommit": "4baa6849afd1b73480b87be6a1d1f698b2a9b85f",
+  "controlIdentity": "5818f5b9f9f382e8410f2d37d2a5fc28904f600c48f99cae996a2d015695a1d9",
+  "sourcePin": "2086904e76c692331e34a45d7cc3bc30860d040e",
+  "selectedFiles": 352,
+  "sourceControlCounts": {
+    "passed": 7346,
+    "failed": 0,
+    "unsupported": 0,
+    "trident-blocked": 0,
+    "reference-unqualified": 0,
+    "upstream-skipped": 18,
+    "upstream-expected-failure": 0
+  },
+  "sourceControlReceiptSha256": "a3749ee4721823da72590e04eaa9b64d69ac69f4224389e61a3aad941177c7c9",
+  "fullyObservedCandidates": 9,
+  "incompleteCandidates": 17,
+  "sourceCallbacksPerCandidate": 7364,
+  "qualifiedCallbacksPerCandidate": 7346,
+  "changesInFullyObservedCandidates": {
+    "unsupported -> trident-blocked": 120
+  },
+  "publishedNumericFilesReplaced": false,
+  "nodeQualificationRefreshed": false,
+  "previousCompleteWorkerControlIdentity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+  "failure": {
+    "stage": "candidate worker startup",
+    "observations": [
+      "esbuild could not create an OS thread (errno 11)",
+      "Vitest worker IPC failed with EPIPE",
+      "later jobs had no file-startup receipts"
+    ],
+    "workspaceZombieProcessesObserved": 29683,
+    "failedOrPartialCandidateRowsExcluded": 17
+  },
+  "candidates": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "version": "0.4.0",
+      "counts": {
+        "passed": 1322,
+        "failed": 1259,
+        "unsupported": 1168,
+        "trident-blocked": 3597,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "environments": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0
+      },
+      "changesFromPreviousCompleteCollection": {
+        "unsupported -> trident-blocked": 23
+      },
+      "priorPassesAndFailuresPreserved": true,
+      "rawEvidenceSha256": {
+        "job.json": "f107241cfe47fb7ee88de76a705634cbd7a74c98583ce13641a0950079c1f791",
+        "vitest.json": "56cfb88d5accc60b17d66b74413e7a8609ae3df4e3d289218f8dd56cf085d004",
+        "audit.jsonl": "8a89d72ae2b46f4af9c36272d640d49bde2eb919c2b28d5a63a76bf19471a48a",
+        "environments.jsonl": "34d84b5849d628cceac138ac74a3dfc8de26b2958b3673e9c532f7325d2872ea"
+      }
+    },
+    {
+      "project": "wevm/ondine",
+      "version": "0.0.3",
+      "counts": {
+        "passed": 298,
+        "failed": 83,
+        "unsupported": 3447,
+        "trident-blocked": 3518,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "environments": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0
+      },
+      "changesFromPreviousCompleteCollection": {
+        "unsupported -> trident-blocked": 3
+      },
+      "priorPassesAndFailuresPreserved": true,
+      "rawEvidenceSha256": {
+        "job.json": "1095e433f14e08b1acd3de80f8a472beaee2029f9be48eb651fe22cb16528b0d",
+        "vitest.json": "77003f5e8774273cda39b9d6059eda248f7625d940f5921a5d09fd0faa31fc11",
+        "audit.jsonl": "7e40c7ff9dfc4947885dd343131ba40a675bcabff8cb71071896a6a2ce161d09",
+        "environments.jsonl": "ea1a8c1b67546b0783a30bd589c40b30e4a294db6b1cb959a11f0c9cf4d939d2"
+      }
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "version": "0.3.2",
+      "counts": {
+        "passed": 2128,
+        "failed": 534,
+        "unsupported": 1133,
+        "trident-blocked": 3551,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "environments": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0
+      },
+      "changesFromPreviousCompleteCollection": {
+        "unsupported -> trident-blocked": 22
+      },
+      "priorPassesAndFailuresPreserved": true,
+      "rawEvidenceSha256": {
+        "job.json": "9010f85b880f513dd405e48e7d4c14993e4a827b61febd0962c3a950d14ec165",
+        "vitest.json": "d16469168d74451b1bd957c4c831e3f8acd2af59ce3854e067f5593623ff1325",
+        "audit.jsonl": "8370c2e4ee1e608b7736e97615b94c3f4a9d7879cf8aa27ea029ae282fd1c3e4",
+        "environments.jsonl": "a3e8edde0df0f15d45b431d6d1dafd25497e6680a4be2f6cf8431a46f96e3f5d"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "version": "0.3.2",
+      "counts": {
+        "passed": 2128,
+        "failed": 534,
+        "unsupported": 1133,
+        "trident-blocked": 3551,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "environments": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0
+      },
+      "changesFromPreviousCompleteCollection": {
+        "unsupported -> trident-blocked": 22
+      },
+      "priorPassesAndFailuresPreserved": true,
+      "rawEvidenceSha256": {
+        "job.json": "43a29c8824f95d68bd6672cfe2c3c42ad7b2ac31c6ac24957d5229a80a2bef6d",
+        "vitest.json": "9dfbb3e206ec5a058e4ca8a3de2da825d0f5f65a22a5440502636fe76925e59d",
+        "audit.jsonl": "7d5bb6229a52b19b25c9666cfaafcb7b30fc5ab722fbe29c631202a416b18ad0",
+        "environments.jsonl": "e686281775e652d09d075213357d1519d6f4a25238768e21ae7fe701c5ecde88"
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "version": "0.5.6",
+      "counts": {
+        "passed": 2239,
+        "failed": 114,
+        "unsupported": 1434,
+        "trident-blocked": 3559,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "environments": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0
+      },
+      "changesFromPreviousCompleteCollection": {
+        "unsupported -> trident-blocked": 22
+      },
+      "priorPassesAndFailuresPreserved": true,
+      "rawEvidenceSha256": {
+        "job.json": "1b64c8a5687819b15ba535f8ad94cf68c0fcccebc56d8f10044623bf6686ff3a",
+        "vitest.json": "c35b2ae41b0514e1ce75efa6e5b84600d5bfc042e9aadf71279be665eb60413c",
+        "audit.jsonl": "a6c48de93b416e5fbcd9ec528fd291aac403b170a5ea4d6ed342c79d85e38aa6",
+        "environments.jsonl": "88405e1c22ff5766751cbd47c9f7ebf0b4f12c8a7080001ea57bd005c9925587"
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "version": "5.14.4",
+      "counts": {
+        "passed": 980,
+        "failed": 1225,
+        "unsupported": 1639,
+        "trident-blocked": 3502,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "environments": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0
+      },
+      "changesFromPreviousCompleteCollection": {
+        "unsupported -> trident-blocked": 2
+      },
+      "priorPassesAndFailuresPreserved": true,
+      "rawEvidenceSha256": {
+        "job.json": "8bf7212aabfeba8cfdf9dc8c087320ea64b2b17cdb2894ed6dbd826b7dff52bf",
+        "vitest.json": "d877ea3dcdadc9255e6cd57e1adbce031920c03da393e091f494d24748e1d069",
+        "audit.jsonl": "a7d0d4a7bcdb7eac779bdabfcc87d0b085c9c930ac9168ce08b5347b645aee4a",
+        "environments.jsonl": "4d3da52e40a3dfa34aca2736b0d33a1abb624c5cdbb3ab645d368a6db6e1ae27"
+      }
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "version": "0.3.1",
+      "counts": {
+        "passed": 1468,
+        "failed": 495,
+        "unsupported": 1815,
+        "trident-blocked": 3568,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "environments": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0
+      },
+      "changesFromPreviousCompleteCollection": {
+        "unsupported -> trident-blocked": 22
+      },
+      "priorPassesAndFailuresPreserved": true,
+      "rawEvidenceSha256": {
+        "job.json": "926c625f6347721aefb9e74f29c989236e939369e8cf84f72e9e5d1fa5454abd",
+        "vitest.json": "b075c16bffe90149b8a8a4ba3f6794848c5f831fa19d99cc9820bc7d6eef4ffd",
+        "audit.jsonl": "a169cdcfd5065fd49fa07d3d46b62d940311b1be7f455de9281100b7bea22900",
+        "environments.jsonl": "94d721dbcf7f9f03265fc12cb1848123bd4d1dc95994038e7a7119e2e7763c79"
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "version": "1.6.1",
+      "counts": {
+        "passed": 722,
+        "failed": 964,
+        "unsupported": 2161,
+        "trident-blocked": 3499,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "environments": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0
+      },
+      "changesFromPreviousCompleteCollection": {
+        "unsupported -> trident-blocked": 2
+      },
+      "priorPassesAndFailuresPreserved": true,
+      "rawEvidenceSha256": {
+        "job.json": "7db1a6d1050a8e6b2292e23d2ea07505c405ff03d4ccf51286159f9d71d9fd21",
+        "vitest.json": "0f5d11b94e10d7bd8b7eac83ebed750dd845e3a8803f98af321890043ae4ee7c",
+        "audit.jsonl": "86226212332d83b9384bda8405db1e2ea8d8798feb2be7a8741b923e9b628877",
+        "environments.jsonl": "876c66ee7399315d58a842bf9bc620649b052fa938793726339d6d472c1fb8a9"
+      }
+    },
+    {
+      "project": "anomalyco/opencode",
+      "version": "2.2.5",
+      "counts": {
+        "passed": 96,
+        "failed": 1158,
+        "unsupported": 2587,
+        "trident-blocked": 3505,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "environments": {
+        "node": 0,
+        "jsdom": 352,
+        "unobserved": 0
+      },
+      "changesFromPreviousCompleteCollection": {
+        "unsupported -> trident-blocked": 2
+      },
+      "priorPassesAndFailuresPreserved": true,
+      "rawEvidenceSha256": {
+        "job.json": "1bd769f29c68c2a0c8d16e784fee95c93f4cfe3ca412f115668ca5b09dbd1b32",
+        "vitest.json": "80eb7d404229d6ffae897e13ac545e9bbd1ce1cf90a0e8dbd808a18d2b573603",
+        "audit.jsonl": "e3c4a01140a29261a56b0ed7b34804a18fbf6dcbd6d51da14468b25702161ae3",
+        "environments.jsonl": "b3e407370a41120f5b08744ad9a81d6d982c28bce25d027bf9b22466ce96ab0c"
+      }
+    }
+  ],
+  "remaining": [
+    "Recollect the 17 candidates without complete JSDOM startup receipts",
+    "Collect all 26 Node profiles under this worker",
+    "Recompute qualification and verify automatic Merslim callback/audit equivalence",
+    "Replace published scores, generated reports and qualification only after those checks pass"
+  ]
+}

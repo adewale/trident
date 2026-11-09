@@ -8,6 +8,20 @@ archive remain at [v0.3.0](https://github.com/adewale/trident/tree/v0.3.0/result
 The [collection receipt](collection.json) binds the executing code, frozen inputs,
 unchanged timing files, current archive and refreshed qualification.
 
+The current boundary worker is `4baa684`. Its source control passes all 7,346
+active callbacks, and Linux and macOS CI pass. The [refresh receipt](boundary-review-pending.json)
+records nine complete candidate JSDOM collections, preserving every previous pass
+and assertion/fault nonpass. The host then exhausted its process budget: esbuild
+and Vitest failed during startup. Seventeen candidate collections need repeating;
+paired Node qualification and automatic selection are still pending. Incomplete
+startup failures are excluded from the follow-up evidence.
+
+The tables and complete qualification below describe the preceding collection at
+`e88030a`, before the final boundary guards. Published numeric files retain that
+complete collection and its recorded execution identity. The current worker
+invalidates its automatic Node reuse and falls back to JSDOM until new paired
+qualification is complete.
+
 ## SVG results
 
 The observer now measures the actual ink of a plain, unwrapped HTML text run when
@@ -62,22 +76,42 @@ per-case evidence is in `drawing-retained/results.json` inside the
 Archive integrity checks bind every returned output to its source, owner and
 published verdict; terminal replay reproduces all terminal dispositions.
 
+A [follow-up probe](glyph-boundary-probes.json) independently isolates each label
+in all 33 overlap cases using the unchanged witness. No case proves every required
+label: 23 first fail the pixel comparison, five restoration, four mask isolation
+and one duplicate-match overlap. Removing the aggregate overlap guard would not
+qualify these drawings. These diagnostic attempts change no published verdict.
+
 ## Fidelity import boundary
 
 An outer proxy around an unbound namespace consulted the inner proxy's throwing
 property descriptor trap, so even reading an unused import could abort file
 collection. The replacement uses one proxy and defers unsupported exports until
-actual use. Namespace reflection and mutation still reject the unbound module.
+actual use. Every partial module namespace rejects reflection and mutation.
+Absent exports have an explicit unavailable state, including exports missing from
+an otherwise recognized module. Namespace objects cannot inherit adapter-side
+Object members or present an incomplete export list as candidate behaviour.
+Unknown database reads reject immediately: a callable placeholder cannot prove
+its own type, silently accept a call or supply an assertion result. This also
+prevents caught adapter TypeErrors from earning native credit. Named database
+getters bind only after an actual getter is observed; unused unavailable named
+imports remain deferred. An unavailable namespace member read during setup fails
+collection, since its later type or truthiness cannot be traced soundly. Merely
+importing an unused module does not exercise its unavailable exports. Jison logger
+installation remains unscored setup; reading that logger remains unassessed.
+Filtered Venn and block pilots preserve every previously measured pass and
+assertion/fault nonpass for Frankenmermaid and Ondine.
 There is no Mermaid fallback, substitute parser or emulated layout implementation.
 
 The bounded pilot runs the unchanged 86 expanded callbacks in
 `packages/parser/tests/radar.test.ts` against Pele's own parser. Before the fix,
 the file fails collection and all 86 callbacks are gaps. Afterwards, 67 pass,
 13 are unsupported and six remain gaps; the source control still passes all 86.
-The full cohort uses the final strengthened namespace guards, rather than reusing
-the pilot as qualification.
+The complete `e88030a` cohort uses the strengthened guards from that initial
+fix. The later partial-namespace and database guards need their own complete
+qualification; the filtered pilots do not supply it.
 
-Across all 26 candidates, the full JSDOM recollection changes the totals:
+Across all 26 candidates, the preceding complete JSDOM recollection changed the totals:
 
 | Candidate outcomes | Released | Recollected |
 |---|---:|---:|
@@ -107,7 +141,10 @@ native-operation guard.
 Adversarial boundary tests exercise the actual runtime with a controlled native
 parser. Wrong native results fail; no native operation, a caught unavailable
 import, namespace inspection or constructor use remains a gap; a native TypeError
-remains a fault. Unused static and dynamic imports allow original assertions to
+remains a fault. Further counterexamples cover missing partial exports, unknown
+database calls, `typeof`, inherited members and incomplete namespace reflection.
+They stay unassessed even when another native parse occurs in the same callback.
+Unused static and dynamic imports allow original assertions to
 observe a native result. Initial schema probing outside callbacks earns no credit.
 
 The [full recollection and qualification](fidelity-recollection.json) records both
@@ -117,10 +154,10 @@ outcomes, normalized failures and semantic audits, plus the executing source,
 installed bytes and candidate runtime identity. Release-label edits remain outside
 that execution identity.
 
-The fresh comparison qualifies 321 files for Node in common across all 26
+That complete comparison qualified 321 files for Node in common across all 26
 candidates. The 28 files newly excluded from the previous common set now reach
 code that had stopped at imports; several use browser globals in callbacks.
-The automatic Merslim run attests 321 actual Node environments and 31 JSDOM
+Its automatic Merslim run attested 321 actual Node environments and 31 JSDOM
 environments. All 7,364 callback dispositions match its JSDOM baseline, and the
 selected Node files also match callback and semantic-audit observations. A
 version-only change from Trident 0.2.1 to 0.3.0 preserves the new execution

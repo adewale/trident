@@ -1,0 +1,1107 @@
+{
+  "purpose": "Diagnostic investigation only; published Drawing verdicts and SVG profile are unchanged",
+  "sourceResultSha256": "4ef6f2fe5ccbe85376535d065798beedf0ac8cf2d4510efb26707bafc8854272",
+  "observerSource": "fidelity/drawing/svg-glyph-witness.ts",
+  "observerSourceSha256": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
+  "chromium": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+  "method": "For each overlap-only unknown, invoke the unchanged observeGlyphWitness with each required label separately, stopping at the first unavailable proof. Retain all glyph, mask, scene, contrast and duplicate-match guards. No producer is invoked.",
+  "observations": 33,
+  "completeIndividualProofs": 0,
+  "firstRejections": {
+    "Isolated label changes pixels outside its glyph mask": 4,
+    "Actual glyph pixels differ from the complete unclipped glyphs": 23,
+    "Surrounding scene changed after restoration": 5,
+    "Label text boxes overlap": 1
+  },
+  "cases": [
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "caseId": "drawing:cd771fca2659a460",
+      "labels": 13,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Idle",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Starting",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Isolated label changes pixels outside its glyph mask"
+          }
+        }
+      ]
+    },
+    {
+      "project": "crabtalk/bezel",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "labels": 11,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Start",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Queue",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Done",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "retry 1",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:1b492a74df0fc4b6",
+      "labels": 4,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "API",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:3042977d4e6d813b",
+      "labels": 9,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Draft",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Review",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Isolated label changes pixels outside its glyph mask"
+          }
+        }
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:4ae5560b57ca0064",
+      "labels": 2,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "ManualRetryRequired",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Retry fails again",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:4e4550d086c4e288",
+      "labels": 13,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Start",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Authenticated?",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Load Dashboard",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Login Form",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Valid?",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Database",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Cache Layer",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "API Gateway",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Render Page",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Done",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Yes",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:c2e297448b5388ba",
+      "labels": 13,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "USER",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "MEMBERSHIP",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "TEAM",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "PROJECT",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "INVITE",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "joins",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "caseId": "drawing:cd771fca2659a460",
+      "labels": 13,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Idle",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Surrounding scene changed after restoration"
+          }
+        }
+      ]
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "labels": 11,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Start",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Queue",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Done",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "retry 1",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "labels": 11,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Start",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Isolated label changes pixels outside its glyph mask"
+          }
+        }
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:cd771fca2659a460",
+      "labels": 13,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Idle",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Starting",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Recording",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Releasing",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Stopping",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Settling",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Space down / tap",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "caseId": "drawing:da9198e1adbc1c14",
+      "labels": 12,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Project Roadmap",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Phase 1",
+          "result": {
+            "status": "unassessed",
+            "stage": "prepare",
+            "kind": "proof-unavailable",
+            "reason": "Label text boxes overlap"
+          }
+        }
+      ]
+    },
+    {
+      "project": "emtyty/merslim",
+      "caseId": "drawing:529e14e4d09b944a",
+      "labels": 7,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "\u6ce8\u6587\u3092\u53d7\u3051\u53d6\u308b",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "\u652f\u6255\u3044\u3092\u78ba\u8a8d\u3059\u308b",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Surrounding scene changed after restoration"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:11426c4cad392dc7",
+      "labels": 5,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Mermaid.js",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Beautiful Mermaid",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Mermaid ASCII",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "derivative",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:128500dada38a009",
+      "labels": 3,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Start",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "End",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "\u65e5\u672c\u8a9e\u30e9\u30d9\u30eb",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:404189958f761756",
+      "labels": 3,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "A",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "B",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Save & Exit",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:46c4d04542ff7c8e",
+      "labels": 8,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Hard edge",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Round edge",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Decision",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Result one",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Result two",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Link text",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:4e4550d086c4e288",
+      "labels": 13,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Start",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Authenticated?",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Load Dashboard",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Login Form",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Valid?",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Database",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Cache Layer",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "API Gateway",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Render Page",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Done",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Yes",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:529e14e4d09b944a",
+      "labels": 7,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "\u6ce8\u6587\u3092\u53d7\u3051\u53d6\u308b",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Isolated label changes pixels outside its glyph mask"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:64788fe4b88b1f1f",
+      "labels": 3,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "x",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Outer",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:6f83e372d7057526",
+      "labels": 7,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "A",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "B",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "C",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "D",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "alpha",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:87325fd383c3b1af",
+      "labels": 4,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Draft",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Approve?",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Ship",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "yes",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:9516272260e4c69d",
+      "labels": 7,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Cart",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Address",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Payment",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Orders DB",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Retry",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "approved",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:a2118d0582abef57",
+      "labels": 7,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Start",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Decision",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Action 1",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Action 2",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "End",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Yes",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:b4c60f465d6bcb5b",
+      "labels": 3,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "A",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "B",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Label",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "caseId": "drawing:e920356ba6c73b52",
+      "labels": 6,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Start",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Decide",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Do it",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Skip",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "yes",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "obsidianmd/pele",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "labels": 11,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Start",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Queue",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Done",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "retry 1",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "labels": 11,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Start",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "Queue",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Surrounding scene changed after restoration"
+          }
+        }
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:29fc1dab07164509",
+      "labels": 5,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "row mounts",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "trigger div, as Kobalte renders it closed",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:529e14e4d09b944a",
+      "labels": 7,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "\u6ce8\u6587\u3092\u53d7\u3051\u53d6\u308b",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "caseId": "drawing:6f83e372d7057526",
+      "labels": 7,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "A",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "B",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "C",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "D",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "alpha",
+          "result": {
+            "status": "proved"
+          }
+        },
+        {
+          "label": "beta",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Actual glyph pixels differ from the complete unclipped glyphs"
+          }
+        }
+      ]
+    },
+    {
+      "project": "wevm/ondine",
+      "caseId": "drawing:2295dae5ca33addf",
+      "labels": 11,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "init",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Surrounding scene changed after restoration"
+          }
+        }
+      ]
+    },
+    {
+      "project": "wevm/ondine",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "labels": 11,
+      "individuallyProved": false,
+      "evidence": [
+        {
+          "label": "Start",
+          "result": {
+            "status": "unassessed",
+            "stage": "compare",
+            "kind": "proof-unavailable",
+            "reason": "Surrounding scene changed after restoration"
+          }
+        }
+      ]
+    }
+  ]
+}

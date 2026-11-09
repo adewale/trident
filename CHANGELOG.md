@@ -5,9 +5,12 @@
 - Let unused, unbound Fidelity imports defer until use so original callbacks can
   collect. Passes still require a candidate operation and the original assertions;
   unavailable imports, namespace inspection and native faults retain their verdicts.
-  Recollect all 26 candidates and refresh paired Node/JSDOM qualification under the
-  final worker, including an automatic-selection equivalence check.
+  Recollect all 26 candidates and verify automatic Node selection for the initial
+  import fix. The later boundary guards invalidate that qualification; their fresh
+  measurement campaign remains blocked by host process exhaustion.
   Every unassessed callback carries a diagnostic; publication rejects missing reasons.
+  Reject missing partial exports and database members before adapter-created
+  TypeErrors, callable placeholders or namespace metadata can earn native credit.
 - Record SVG proof stages and rejection reasons separately from observer errors.
   Qualify plain HTML glyph ink with independent clipping controls, and reassess
   the retained SVG outputs without rerunning producers or timing benchmarks.

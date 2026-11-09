@@ -41,6 +41,12 @@ measurement host.
 
 ## Qualification and remaining coverage
 
+The current published Fidelity figures and 321-file common qualification below
+belong to the complete collection at `e88030a`. A later boundary fix is verified
+in CI, but its measurement refresh is [incomplete](../../docs/evidence/observation-qualification-2026-11-09/boundary-review-pending.json)
+because the host exhausted its process budget. The changed worker falls back to
+JSDOM until fresh paired qualification is complete.
+
 Fidelity scores the <!-- fact:fidelity-population -->7,346<!-- /fact --> callbacks
 that the fresh Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> control
 qualifies. It leaves <!-- fact:fidelity-unqualified -->0<!-- /fact --> callbacks
