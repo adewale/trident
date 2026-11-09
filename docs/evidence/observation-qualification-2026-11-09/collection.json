@@ -1,6 +1,6 @@
 {
   "protocol": "trident-observation-followup-v1",
-  "recordedAt": "2026-11-09T12:05:26.692Z",
+  "recordedAt": "2026-11-09T12:27:18.644Z",
   "baseRelease": {
     "tag": "v0.3.0",
     "commit": "34d1dfcd2d4aaf7a19185529088c86199859764e"
@@ -8,7 +8,8 @@
   "implementation": {
     "fidelity": "169b1e8eddd31ebed74d9aaea4d8cf7ceceabfe2",
     "svg": "148690631f2faf1815711ca6aec24083fa31597a",
-    "reporting": "abda7bc5b1bf9394b0d5c1ec89c558e0cc901286"
+    "reporting": "abda7bc5b1bf9394b0d5c1ec89c558e0cc901286",
+    "diagnostics": "1d05ac0f0b3f8c9c67ffcb833735c178a6bfece4"
   },
   "sourcePin": "2086904e76c692331e34a45d7cc3bc30860d040e",
   "versionFreeze": {
@@ -100,7 +101,7 @@
     "profiles": {
       "jsdom": {
         "collectedThrough": "2026-11-09T11:23:58.022Z",
-        "resultSha256": "e26c622a29ca78898bc9df55c10980eb6b3aa97ec3fd65299b4f42bdf0f63e59",
+        "resultSha256": "fd681309e56218ff35aef056f31ba9fbde44390d2c159d65d7d5b6a10981c2a1",
         "resumedCollection": {
           "unchangedControlIdentity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
           "completedCandidatesPreserved": [
@@ -122,7 +123,7 @@
       },
       "node": {
         "collectedThrough": "2026-11-09T12:01:14.780Z",
-        "resultSha256": "b5adb854e5c5e95c876f48a39a76b7d955e1304b893c3efed5e4ac335f944365"
+        "resultSha256": "6cfa33d6268f22618391ccead778d7b5927d2ebe4ba1242589557c325eae2d24"
       }
     },
     "qualification": {
@@ -159,7 +160,47 @@
   },
   "numericFiles": {
     "results/release/drawing-correctness.json": "1305bba54e255fb1b80f4a8f78494a4f95364e87dc0f3cf7356e1c33999a9a36",
-    "results/release/mermaid-fidelity.json": "3a94623284bc54f401fbd7ac98dda9f1cf8c5212abf385b2c638483d75465161",
+    "results/release/mermaid-fidelity.json": "ca9f594a97d8f3b8acac25738cc9f60ca374e9c31b5cead4f4fc5d99975f7985",
     "unified/mermaid-fidelity/dom-free-files.json": "905d244a90238a2e445f907c7881f2e1ee0f8348569f4bd358a0419cd5653377"
+  },
+  "diagnosticReduction": {
+    "codeCommit": "1d05ac0f0b3f8c9c67ffcb833735c178a6bfece4",
+    "reducer": "scripts/rescore-fidelity.ts with production fidelityOutcomes",
+    "workerControlIdentity": "744b81b683b58658ae7d1be65d1adc9d936efd30cb4a58a77397cdf5f9caa692",
+    "profiles": [
+      {
+        "profile": "fidelity-jsdom",
+        "beforeSha256": "e26c622a29ca78898bc9df55c10980eb6b3aa97ec3fd65299b4f42bdf0f63e59",
+        "afterSha256": "fd681309e56218ff35aef056f31ba9fbde44390d2c159d65d7d5b6a10981c2a1",
+        "reasonsAdded": 1482,
+        "unassessedWithoutReason": 0,
+        "observationDigest": "f70371ee1c8bd04ef5003990aec944c2e021734a9fb1496ab61568716dcb9e47",
+        "verdictsCallsAndRejectionsUnchanged": true,
+        "collectionTimesPreserved": true,
+        "diagnosticsRegeneratedAt": "2026-11-09T12:25:59.740Z"
+      },
+      {
+        "profile": "fidelity-node",
+        "beforeSha256": "b5adb854e5c5e95c876f48a39a76b7d955e1304b893c3efed5e4ac335f944365",
+        "afterSha256": "6cfa33d6268f22618391ccead778d7b5927d2ebe4ba1242589557c325eae2d24",
+        "reasonsAdded": 1664,
+        "unassessedWithoutReason": 0,
+        "observationDigest": "4ea4720d802da045fbf87ac9be33a9c32eeb8c44bdc63c3266083b3c31a78842",
+        "verdictsCallsAndRejectionsUnchanged": true,
+        "collectionTimesPreserved": true,
+        "diagnosticsRegeneratedAt": "2026-11-09T12:26:09.793Z"
+      },
+      {
+        "profile": "fidelity-auto",
+        "beforeSha256": "44cf7ee89e9f7a42c26e65ed83ef3dda21b9f747a50cebc6d82b0aed3d76c652",
+        "afterSha256": "27c6022b4c62ebe0dbfc2eb67866a1d2211106cb898e579e5f6ff8f8411c9eed",
+        "reasonsAdded": 57,
+        "unassessedWithoutReason": 0,
+        "observationDigest": "ed890153210a909bb3eec87b5a445c310f3173badeccd62c40a05e3c8bd2f23a",
+        "verdictsCallsAndRejectionsUnchanged": true,
+        "collectionTimesPreserved": true,
+        "diagnosticsRegeneratedAt": "2026-11-09T12:26:11.613Z"
+      }
+    ]
   }
 }

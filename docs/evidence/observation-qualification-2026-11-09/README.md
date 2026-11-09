@@ -92,6 +92,11 @@ Every candidate pass has a recorded native operation. Of the remaining gaps,
 90,922 gap observations; another 581 vary by candidate. Of those shared
 identities, 933 have no matching collected callback. Shared gaps do not establish
 that all candidates have the same underlying limitation.
+Callbacks reported skipped or otherwise lacking an audit now retain that explicit
+reason. Publication rejects an unassessed callback without a diagnostic. These
+reasons were regenerated from retained Vitest reports and audits, preserving all
+verdicts, operation counts, rejections and collection times. The receipt records
+the diagnostic reduction separately from worker execution.
 
 The largest shared groups include swimlane anchored-node layout (266 callbacks),
 the color-theme gate (210), styles (199) and ELK rendering (103). These need
