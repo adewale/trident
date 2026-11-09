@@ -15,6 +15,18 @@ passing callback regresses. Of 226 formerly unsupported callbacks, 163 pass and
 63 fail. Six former assertion failures and one former Trident gap also pass;
 one other gap becomes an explicit unsupported observation.
 
+The three final runs share the exact sealed control identity:
+
+| Agentic artifact under final Trident bindings | Passed | Assertion failures | Unsupported | Trident gaps |
+| --- | ---: | ---: | ---: | ---: |
+| Original 0.5.7 source, `e7cb05b` | 2,809 | 162 | 775 | 3,600 |
+| Repaired 0.5.7 source, `9543330` | 2,839 | 132 | 775 | 3,600 |
+| Frozen published 0.5.6 | 2,244 | 106 | 1,449 | 3,547 |
+
+Exactly 30 native assertion failures become passes between the two 0.5.7
+artifacts, with no other status transitions. The 0.5.6 totals are unchanged,
+confirming that capability fallback preserves the older package's assessment.
+
 The 63 newly assessed failures comprise 50 class error-wording assertions,
 seven AgentFlow diagnostic format/position assertions, three sequence HTML-break
 representation assertions and three generous ER quoted-name reads. The ER

@@ -151,3 +151,8 @@ evidence/agentic-public-parsers-2026-11-09/README.md).
 
 This follow-up improves model coverage. It does not supply Mermaid's private
 renderer APIs or add rendered-layout coverage to the source-path Fidelity slice.
+
+Under the same final runtime and sealed reference, original Agentic `e7cb05b`
+yields 2,809 passes and 162 assertion failures; the repaired package turns
+exactly 30 failures into passes with no other status changes. Frozen 0.5.6
+retains its earlier 2,244 / 106 / 1,449 / 3,547 totals.
