@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- Let unused, unbound Fidelity imports defer until use so original callbacks can
+  collect. Passes still require a candidate operation and the original assertions;
+  unavailable imports, namespace inspection and native faults retain their verdicts.
+- Record SVG proof stages and rejection reasons separately from observer errors.
+  Qualify plain HTML glyph ink with independent clipping controls, and reassess
+  the retained SVG outputs without rerunning producers or timing benchmarks.
+- Show SVG pass bounds, Fidelity assertion/fault nonpasses separately from
+  unsupported operations, and shared adapter gaps separately from additional
+  gaps. Put timing boundaries and Drawing's label-only scope beside the tables.
+
 ## 0.3.0 — 9 November 2026
 
 The reference moves to Mermaid 12.3.0. This release updates all three benchmarks,

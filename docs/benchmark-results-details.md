@@ -21,8 +21,11 @@ include process startup; persistent API rows exclude initialization, so time
 orders equal completion counts only within one boundary kind.
 
 For Drawing Correctness, Failed combines missing labels, raw syntax shown, invalid
-output and render failures. For Fidelity, Failed combines assertion nonpasses and
-native unsupported results; Unassessed is candidate adapter gaps. A Fidelity pass
+output and render failures. SVG pass bounds span the observed passes through the
+passes plus unassessed cases. Fidelity separates assertion/fault nonpasses from
+operations the native candidate does not support. Unassessed is candidate adapter
+gaps, split into callbacks unassessed for every executed candidate and additional
+gaps for that candidate. A Fidelity pass
 needs the original assertions to pass for the candidate and for the pinned Mermaid
 control. The control now executes pinned production source with the original
 compiler plugins and locked dependencies; it passes every active callback in
@@ -266,7 +269,9 @@ in the control identity. Browser/application tests listed outside this runner
 remain outside the assessment.
 
 Candidates still use their own parsers and reviewed schema views. An unbound
-production import, caught adapter gap or callback without a native operation
+production import defers until used, allowing unrelated original callbacks to
+collect. Actual use, construction or namespace inspection records an adapter gap
+even when caught. A caught adapter gap or callback without a native operation
 cannot earn a pass. Internal layout/rendering APIs without a candidate binding
 remain unassessed. The source control's wider population makes those missing
 bindings visible instead of excluding them as reference failures.
@@ -275,6 +280,10 @@ bindings visible instead of excluding them as reference failures.
 reviewed source facts is visibly shown and no raw Mermaid syntax is shown. SVG
 labels require browser visibility, canvas, clipping and resolved-paint evidence,
 or a bounded raster witness proving the complete actual glyph ink survives.
+For plain, unwrapped HTML text, measured glyph ink can distinguish unused font-box
+overflow from actual letter cropping; unsupported typography does not qualify.
+Each unavailable SVG criterion records its reason. Witness diagnostics separate
+unsupported proof stages from observer errors, and neither earns a pass.
 Unsupported paint profiles stay unassessed. Terminal matching preserves text
 order and joins wrapping inside observed boxes. Empty, error, echoed or zero-size
 outputs are nonpasses; the empty-diagram SVG case requires no painted ink.
@@ -289,9 +298,11 @@ OCR. Mermaid Flutter, which only outputs PNG, has no Drawing result.
 
 Broad assessment and original-test operation coverage are still incomplete; calling
 the whole benchmark effort finished would be premature. Every project now has a
-Fidelity binding. The remaining work is to map more native model fields in the schema
-views (most bridged projects' unassessed callbacks are fields the generic view does not
-map), bind additional native operations, and adapt the outside-runner tests. The combined table displays score
+Fidelity binding. Remaining gaps include unbound internal operations, missing native
+model fields in schema views and tests outside the selected runner. The shared
+gap count identifies callbacks no candidate binding can currently assess; it does
+not establish that every candidate has the same underlying limitation. Unsupported
+SVG effects and glyph representations need independent proof controls. The combined table displays score
 ranges; an exact overall score remains unavailable while required measurements are
 missing.
 

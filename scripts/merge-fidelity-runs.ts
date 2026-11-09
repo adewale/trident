@@ -22,14 +22,17 @@ export function referenceDigest(reference: any) {
 
 /** File completion order can vary; callback ordinals within a file identify
  * repeated titles and must retain the same reference qualification. */
-function referenceFiles(reference: any) {
+function callbacksByFile(cases: any[]) {
   const files = new Map<string, any[]>()
-  for (const c of reference.cases) {
-    const callbacks = files.get(c.file) ?? []
-    callbacks.push([c.name, c.status])
-    files.set(c.file, callbacks)
+  for (const callback of cases) {
+    const callbacks = files.get(callback.file) ?? []
+    callbacks.push(callback)
+    files.set(callback.file, callbacks)
   }
-  return JSON.stringify([...files].sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))
+  return files
+}
+function referenceFiles(reference: any) {
+  return JSON.stringify([...callbacksByFile(reference.cases)].sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).map(([path, callbacks]) => [path, callbacks.map(callback => [callback.name, callback.status])]))
 }
 
 /** Replace the re-run projects of a published result; every other row is kept unchanged. */
@@ -43,8 +46,11 @@ export function mergeIntoPublished(published: any, runs: any[], extras: { catalo
   const keep = (row: any) => !replaced.has(row.project)
   const order = published.results.map((r: any) => r.project)
   const results = [...published.results.filter(keep), ...fresh.results.filter((r: any) => r.project !== 'mermaid-js/mermaid')].sort((a: any, b: any) => (order.indexOf(a.project) + 1 || Infinity) - (order.indexOf(b.project) + 1 || Infinity))
+  // Aggregated old rows cannot reconstruct callback intersections after a
+  // replacement. Keep totals; recompute the shared breakdown from full raw runs.
+  const { coverage: _coverage, ...prior } = published
   return {
-    ...published,
+    ...prior,
     blocked: [...published.blocked.filter(keep), ...fresh.blocked],
     results,
     updatedAt: [published.updatedAt, fresh.updatedAt].sort().at(-1),
@@ -98,6 +104,22 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
   // report it as unassessed with its dominant gap, not as a measured zero.
   const unbound = results.filter(r => r.project !== 'mermaid-js/mermaid' && r.counts.passed! + r.counts.failed! + r.counts.unsupported! === 0)
   const scored = results.filter(r => !unbound.includes(r))
+  const candidates = [...byProject.values()].map(value => value.row).filter(row => row.project !== 'mermaid-js/mermaid')
+  const sharedByFile = new Map<string, { path: string; unassessed: number; uncollected: number }>()
+  const candidateFiles = candidates.map(row => callbacksByFile(row.cases))
+  for (const [path, callbacks] of callbacksByFile(reference.cases)) for (const [ordinal, callback] of callbacks.entries()) {
+    const observations = candidateFiles.map(files => files.get(path)![ordinal])
+    if (callback.status !== 'passed' || !observations.length || !observations.every(observation => observation.status === 'trident-blocked')) continue
+    const file = sharedByFile.get(path) ?? { path, unassessed: 0, uncollected: 0 }
+    file.unassessed++
+    if (observations.every(observation => observation.reason === 'Candidate test not collected')) file.uncollected++
+    sharedByFile.set(path, file)
+  }
+  const commonUnassessedCallbacks = [...sharedByFile.values()].reduce((sum, file) => sum + file.unassessed, 0)
+  const commonUncollectedCallbacks = [...sharedByFile.values()].reduce((sum, file) => sum + file.uncollected, 0)
+  const coverage = { candidates: candidates.length, commonUnassessedCallbacks, commonUncollectedCallbacks,
+    additionalGapObservations: results.reduce((sum, row) => sum + row.counts['trident-blocked']!, 0) - commonUnassessedCallbacks * candidates.length,
+    perFile: [...sharedByFile.values()].sort((a, b) => a.path.localeCompare(b.path)) }
   const measured = new Set(scored.map(r => r.project))
   const dominant = (r: any) => Object.entries(r.gapReasons as Record<string, number>).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'no callback reached a candidate operation'
   const blocked = [...unbound.map(r => ({ project: r.project, reason: 'No original test reached a candidate operation: ' + dominant(r) })), ...runs.flatMap(run => run.blocked ?? []), ...(extras.blocked ?? [])].filter((row, index, all) => !measured.has(row.project) && all.findIndex(other => other.project === row.project) === index)
@@ -119,6 +141,7 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
     referenceQualifiedCallbacks: qualified,
     referenceDigest: digest,
     referenceOrdinalDigest: createHash('sha256').update(files).digest('hex'),
+    coverage,
     results: scored,
     updatedAt: runs.map(run => run.updatedAt).sort().at(-1),
     collectedThrough: runs.map(run => run.collectedThrough).sort().at(-1),

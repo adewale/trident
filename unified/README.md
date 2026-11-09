@@ -31,7 +31,7 @@ not invalidate terminal observation. A changed observer cannot be merged into
 only some projects of an existing format. Historical scores remain at their original commits. Current published results
 record the policy and observer profiles used for their collection.
 
-SVG label profile `svg-label-paint-v3` can qualify a flat opaque label against an
+SVG label profile `svg-label-paint-v4` can qualify a flat opaque label against an
 opaque static gradient with ordinary sRGB stops and sRGB/linearRGB interpolation
 when a colour channel separates that label
 from every stop's channel range. It retains canvas, clipping and occlusion checks.
@@ -42,9 +42,15 @@ For static SVGs made only from text and primitive geometry, label assessment
 retains global paint checks and skips the unrelated visible-ink inventory.
 Images, references, HTML labels and animated content keep the full observer path.
 When those checks are unavailable, a bounded positive raster witness can prove
-plain SVG or transparent HTML text survives its actual backdrop and clipping.
+plain SVG or flat-background HTML text survives its actual backdrop and clipping.
 It compares complete original glyph masks, positions, contours and contrast;
 unsupported effects and path/image glyphs still require separate evidence.
+For a single unwrapped HTML text run, matching browser font metrics and range
+geometry can establish the glyph ink bounds. This distinguishes unused font-box
+overflow from clipped letters. Unsupported typography, pseudo-content and HTML
+transforms do not qualify. Admission includes independent positive and clipped
+HTML controls. Raw results record each unavailable criterion and the witness's
+stage, separating proof-profile rejection from an observer error.
 
 Workers own one outstanding request, bounded JSON frames and private process
 groups. API durations come from the worker/browser. A missing API duration leaves
@@ -64,6 +70,12 @@ Fidelity reduces each candidate before loading the next. Reference reuse require
 a matching control receipt binding source, selection, harness, installed bytes,
 Node runtime and the result, callback-audit and environment evidence. Older controls without that receipt
 must be recollected. Test files still use separate processes.
+
+An unused, unbound production import is deferred so it cannot prevent unrelated
+original callbacks from collecting. Actual use, construction or namespace
+inspection records an adapter gap even if the test catches it. No such import
+supplies a Mermaid implementation. A callback must reach a candidate operation
+and pass its original assertions to earn credit; native faults remain nonpasses.
 
 The harness digest follows the worker's transitive local imports. Candidate
 bindings separately include the bridge helpers and executables they use.

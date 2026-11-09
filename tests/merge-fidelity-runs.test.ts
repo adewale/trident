@@ -80,10 +80,27 @@ test('a partial re-run replaces only its projects, and only against the publishe
   const updated = mergeIntoPublished(published, [run([reference, candidate('a', 3, 1)], { collectedThrough: '2026-11-05T00:00:00Z' })])
   expect(updated.results.map((r: any) => [r.project, r.counts.passed])).toEqual([['mermaid-js/mermaid', 4], ['a', 3], ['b', 1]])
   expect(updated.partialReruns).toEqual([{ projects: ['a'], collectedThrough: '2026-11-05T00:00:00Z' }])
+  expect(updated).not.toHaveProperty('coverage') // old numeric totals cannot reconstruct the new callback intersection
   const otherControl = { ...reference, cases: referenceCases.map((c, i) => i === 4 ? { ...c, status: 'upstream-skipped' } : c) }
   expect(() => mergeIntoPublished(published, [run([otherControl])])).toThrow('referenceDigest')
   const { referenceDigest: _, ...undigested } = published
   expect(() => mergeIntoPublished(undigested, [run([reference, candidate('a', 3, 1)])])).toThrow('records no control digest')
   const { referenceOrdinalDigest: _ordinal, ...unordered } = published
   expect(() => mergeIntoPublished(unordered, [run([reference, candidate('a', 3, 1)])])).toThrow('records no ordinal control digest')
+})
+
+test('shared gaps use file-local callback ordinals across file completion orders and repeated titles', () => {
+  const control = { ...reference, cases: [
+    { file: 'x.spec.ts', name: 'same', status: 'passed' },
+    { file: 'x.spec.ts', name: 'same', status: 'passed' },
+    { file: 'y.spec.ts', name: 'other', status: 'passed' },
+  ] }
+  const a = { ...candidate('a', 0, 0), cases: control.cases.map((c, index) => ({ ...c, status: index === 1 ? 'passed' : 'trident-blocked', reason: index === 0 ? 'Candidate test not collected' : 'Missing native field' })) }
+  const reorder = (row: any) => ({ ...row, cases: [row.cases[2], row.cases[0], row.cases[1]] })
+  const b = { ...a, project: 'b' }
+  const merged = mergeFidelityRuns([run([control, a]), run([reorder(control), reorder(b)])])
+  expect(merged.coverage).toEqual({ candidates: 2, commonUnassessedCallbacks: 2, commonUncollectedCallbacks: 1, additionalGapObservations: 0, perFile: [{ path: 'x.spec.ts', unassessed: 1, uncollected: 1 }, { path: 'y.spec.ts', unassessed: 1, uncollected: 0 }] })
+  const c = { ...a, project: 'c', cases: a.cases.map((callback, index) => index < 2 ? { ...callback, status: index === 0 ? 'passed' : 'trident-blocked' } : callback) }
+  const differentOrdinal = mergeFidelityRuns([run([control, a, b, c])])
+  expect(differentOrdinal.coverage).toMatchObject({ commonUnassessedCallbacks: 1, commonUncollectedCallbacks: 0, additionalGapObservations: 3 })
 })
