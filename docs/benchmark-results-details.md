@@ -8,7 +8,7 @@ use the version freeze of 7 November 2026; changing presentation runs no rendere
 
 | Benchmark | Population | Ordering | Missing results |
 |---|---|---|---|
-| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->7 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
+| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->9 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
 | Drawing Correctness | The same 127 cases, separately for SVG and terminal text | More whole cases with every expected label shown and no raw syntax; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed: unsupported visibility evidence or unrun cases |
 | Mermaid Fidelity | The expanded upstream callbacks that pinned Mermaid itself passes | More passed callbacks; equal counts share a rank. **Possible rank** shows the positions still reachable | Candidate adapter gaps remain unassessed |
 
@@ -63,7 +63,7 @@ These gaps mostly describe unfinished Trident implementation, rather than demons
 limitations of the projects being benchmarked.
 
 **Fidelity runs every candidate on the whole selected suite.** All <!-- fact:fidelity-candidates -->26<!-- /fact --> candidates
-plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected core-package files (<!-- fact:fidelity-collected -->8 November 2026<!-- /fact -->) against one
+plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected original test files (<!-- fact:fidelity-collected -->9 November 2026<!-- /fact -->) against one
 shared Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control run. The
 [completion record](evidence/benchmark-completion-2026-11-07/README.md) explains
 the corrected source control, guarded candidate execution and full comparison of
@@ -297,25 +297,28 @@ missing.
 
 ## Evidence and verification
 
-Results are verified by re-running them, not by archiving rendered outputs. Each
-published result is backed by four small, committed things:
+Results retain the information needed to reproduce the collection and audit its
+assessment. Each published result is backed by committed inputs and evidence:
 
 1. **The frozen version list:** the exact release or source revision of every
-   project, resolved once per campaign (`docs/evidence/benchmark-campaign-2026-11-06/versions.json`
+   project, resolved once per campaign (`docs/evidence/benchmark-campaign-2026-11-07/versions.json`
    and `catalog.json`).
 2. **The pinned inputs:** the Mermaid documentation commit for DaveBench, the 127-case
    Drawing corpus in the repository, and the Mermaid test-suite commit for Fidelity.
 3. **The code commit** that collected and scored the result.
 4. **The numeric results:** per-run counts and times for DaveBench, and per-case or
    per-file outcomes for Drawing Correctness and Mermaid Fidelity.
+5. **The Drawing capture:** compressed SVG and terminal outputs bound to their
+   project, case and source, with separate collection and reassessment times.
 
 Anyone can check a result by preparing the same frozen versions and running the same
 commands. On 3 November that reproduced every count the changes did not touch: every
-DaveBench completion count and Fidelity's 2,894 qualified tests. Re-running is also
-how a scoring change is applied; the full label-based Drawing collection takes a few
-minutes.
+DaveBench completion count and Fidelity's 2,894 qualified tests. A changed Drawing observer can reassess the retained outputs without invoking
+producer renderers. Older runs without outputs need recollection only if their
+specific observations must be reassessed.
 
-Rendered SVGs, PNGs and terminal text are not kept. The 605 MB raw archive of the
+DaveBench discards rendered outputs after counting and timing. Drawing retains
+SVG and terminal outputs in its [capture archive](../results/release/README.md#retained-drawing-capture); PNG is outside Drawing Correctness. The 605 MB raw archive of the
 1 November campaign was discarded rather than published. That campaign measured the
 superseded benchmark set; its tables and report receipts remain on the
 [`evidence/full-campaign-2026-11-01`](https://github.com/adewale/trident/tree/evidence/full-campaign-2026-11-01)

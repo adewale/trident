@@ -1,0 +1,222 @@
+{
+  "protocol": "trident-release-campaign-v1",
+  "version": "0.3.0",
+  "recordedAt": "2026-11-09T02:17:50.621Z",
+  "codeCommit": "37f404318e933bab9206c6b71796de9d436c3fb2",
+  "versionFreeze": {
+    "catalog": "docs/evidence/benchmark-campaign-2026-11-07/catalog.json",
+    "catalogSha256": "de3e212c10f4cb858c3a616f980bca0150cdc0a87c30c3acdf9802f3acd053b8",
+    "versionsSha256": "9475c12dd16393af0c68b2795907554992c638d3685fcff1cd36d04084ff8238"
+  },
+  "collection": {
+    "davebench": {
+      "runs": 153,
+      "attemptedCalls": 205326,
+      "occurrencesPerRun": 1342,
+      "blocked": 0,
+      "untimedCalls": 0,
+      "windows": {
+        "nativePng": {
+          "startedAt": "2026-11-08T23:48:42.230Z",
+          "finishedAt": "2026-11-08T23:51:11.437Z"
+        },
+        "images": {
+          "startedAt": "2026-11-08T23:51:20.216Z",
+          "finishedAt": "2026-11-09T00:15:01.551Z"
+        },
+        "terminal": {
+          "startedAt": "2026-11-09T00:15:11.772Z",
+          "finishedAt": "2026-11-09T00:32:22.303Z"
+        }
+      }
+    },
+    "drawing": {
+      "startedAt": "2026-11-09T00:32:23.415Z",
+      "finishedAt": "2026-11-09T00:41:24.214Z",
+      "cases": 127,
+      "lanes": 34,
+      "observations": 4318,
+      "returnedOutputs": 3684,
+      "uniqueOutputObjects": 3437,
+      "totals": {
+        "correct": 3079,
+        "incorrect": 374,
+        "renderer-failure": 634,
+        "invalid-format": 86,
+        "unknown": 145,
+        "unrun": 0
+      },
+      "captureArchive": {
+        "path": "captures/drawing-capture-2026-11-09.tar.gz",
+        "sha256": "830017b0f5697c8e363642208a9c9b4c3c6029c98eeab5feb6ce4637cbfd2808",
+        "bytes": 3964016,
+        "root": "drawing-retained"
+      },
+      "rawSha256": "4fac8471f2566ad79b05680078bf43cf7e889a76b38a77bf8b00ed001b9385f2"
+    },
+    "fidelity": {
+      "pin": "2086904e76c692331e34a45d7cc3bc30860d040e",
+      "environment": {
+        "controller": {
+          "engine": "bun",
+          "version": "1.4.2",
+          "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+          "platform": "linux",
+          "architecture": "x64",
+          "kernel": "6.18.57",
+          "cpu": "AMD EPYC 9V74 80-Core Processor",
+          "parallelism": 4,
+          "memoryBytes": 18882662400,
+          "cgroup": {
+            "cpuMax": "400000 100000",
+            "memoryMax": "17179869184"
+          },
+          "locale": "en-US",
+          "timezone": "UTC",
+          "rendererMemoryGuard": {
+            "limitMb": 2048,
+            "scope": "owned process tree RSS",
+            "pollMs": 1000,
+            "availability": "available",
+            "discovery": "proc process table"
+          }
+        },
+        "runner": {
+          "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "node": "24.19.0",
+          "v8": "13.6.233.17-node.51",
+          "platform": "linux",
+          "arch": "x64"
+        }
+      },
+      "files": 352,
+      "candidates": 26,
+      "sourceControl": {
+        "passed": 7346,
+        "failed": 0,
+        "unsupported": 0,
+        "trident-blocked": 0,
+        "reference-unqualified": 0,
+        "upstream-skipped": 18,
+        "upstream-expected-failure": 0
+      },
+      "sourceMissingFiles": 0,
+      "controlIdentity": "7de869e023dfd51098cb7ac3e1c67c10a4a04495b3cb4a4ce57280d9517943f4",
+      "profiles": {
+        "jsdom": {
+          "finishedAt": "2026-11-09T01:43:09.448Z",
+          "resultSha256": "59b5688debd2640e7d58ae66c9455a69b6981005419945bfbdef9a8bb2022c44"
+        },
+        "node": {
+          "finishedAt": "2026-11-09T02:14:28.294Z",
+          "resultSha256": "67a22a1058539158563a3b43aee6ee40201270344bbed6748188353d12dfa668",
+          "referenceReusedFrom": "fresh JSDOM control from this campaign"
+        }
+      },
+      "commonNodeFiles": 349,
+      "qualificationSha256": "d1f2a31eff7c1071cb40b6827b80b7b932201fb64adecca4b81078892e3ec8c1",
+      "automaticSelection": {
+        "project": "emtyty/merslim",
+        "files": 352,
+        "environments": {
+          "node": 349,
+          "jsdom": 3,
+          "unobserved": 0
+        },
+        "matchedNodeFiles": 349,
+        "callbackAndAuditMismatches": 0,
+        "controlIdentity": "7de869e023dfd51098cb7ac3e1c67c10a4a04495b3cb4a4ce57280d9517943f4",
+        "callbackCount": 7364,
+        "releaseLabelCheck": {
+          "beforeVersion": "0.2.1",
+          "afterVersion": "0.3.0",
+          "before": {
+            "identity": "7de869e023dfd51098cb7ac3e1c67c10a4a04495b3cb4a4ce57280d9517943f4",
+            "nodeFiles": 349
+          },
+          "after": {
+            "identity": "7de869e023dfd51098cb7ac3e1c67c10a4a04495b3cb4a4ce57280d9517943f4",
+            "nodeFiles": 349
+          }
+        }
+      }
+    }
+  },
+  "readiness": {
+    "preflight": {
+      "source": "/workspace/trident-constraints-work/portable/mermaid-source",
+      "runtime": "/workspace/trident-constraints-work/portable/runtime",
+      "at": "2026-11-08T23:48:41.904Z",
+      "verified": [
+        {
+          "kind": "community-prepared.json",
+          "projects": 27
+        },
+        {
+          "kind": "community-browser-prepared.json",
+          "projects": 27
+        }
+      ],
+      "catalogSha256": "de3e212c10f4cb858c3a616f980bca0150cdc0a87c30c3acdf9802f3acd053b8",
+      "versionsSha256": "9475c12dd16393af0c68b2795907554992c638d3685fcff1cd36d04084ff8238",
+      "historicalReleaseLabelCheck": {
+        "controlIdentity": "9a5d4dd36a6bc9c84e0cb863810967e250c986dd84b98981a8c8ed6ff4fbb4b0",
+        "preserved": true
+      }
+    },
+    "runtimeAdmission": {
+      "protocol": "locked-direct-original-runner-preparation-v3",
+      "preparationSha256": "01c6b24275cfadbf281020a143a20bbedeff5bfbb635035fbfea64790827681e",
+      "lockedOperands": 52,
+      "staleRuntimeRejectedBeforeOutput": true,
+      "rejectionLogSha256": "d92ee697a0de83a017287f663becde2889b1f76fc7fd7bf61bbb5dfdb87c56fc",
+      "rejectedConstraint": "Previous preparation omitted the now-required locked vitepress operand; the collector rejects it before reserving output."
+    },
+    "nativeSmoke": {
+      "admissionChecks": [
+        "valid",
+        "null",
+        "empty",
+        "non-png",
+        "truncated-ihdr",
+        "zero-size",
+        "excessive-pixels",
+        "overflow-dimensions",
+        "excessive-encoded-bytes"
+      ],
+      "bundleSha256": "a25b5d496209135c633ee1d0c0d58ef49b7cec11c54c34266acf2c6ac166cff4",
+      "protocol": "native-flutter-smoke-v1",
+      "ready": {
+        "mode": "release",
+        "package": "mermaid_flutter",
+        "runtime": {
+          "dart": "3.13.7 (stable) (Thu Oct 22 14:28:57 2026 -0700) on \"linux_x64\"",
+          "platform": "linux"
+        },
+        "type": "ready",
+        "version": "0.3.2"
+      },
+      "result": "completed",
+      "verificationSources": {
+        "build.sh": "80dd4ad40afa60eba624e18356fa1151681591b816c45253766899707a1990d9",
+        "bundle.py": "d2e69d1dfe2bbc8cc2368f24a884514996f280657f3065830d7737a84d14cc84",
+        "env.sh": "520319562f372e05e8dc833ecc47d25a02cb18b6327fcb930eebdff6980ce970",
+        "smoke.py": "969639c9a06a5cecc3a90f00ae2525b2e5031e247798c97f56ee41e804ad265b"
+      }
+    }
+  },
+  "method": "Every benchmark was recollected. Timing collectors ran serially before Drawing and Fidelity, without local fixture or semantic jobs competing for CPU. Fresh JSDOM/Node candidate pairs use the fully sealed portable runtime; no historical measurements were mixed into the published results.",
+  "constraints": [
+    "Unsupported SVG observations remain unknown and receive no correctness credit.",
+    "Candidate adapter gaps remain explicit in Fidelity score ranges.",
+    "Times apply to the recorded host, versions, resource limits and API/CLI boundaries."
+  ],
+  "numericSha256": {
+    "images.json": "cc8ff792777f29ad4a44fc7690ba9c9ead7f0ffff292caa060017029541e172c",
+    "terminal.json": "ef9268e812448528b8de993d92f9cec8efe746ee58190a7d5299523d9c09e2b7",
+    "native-png.json": "bd8bd00995c9106f6ac82bb05579d4c6d903700bcbeeae5d78d8dfb3c5296d01",
+    "report.json": "f4ae56b0f5b969d8303c735c92206ff01f5a1a74dd14a59163816dd829168f68",
+    "drawing-correctness.json": "901ad1f9585cecabe06dd018e10b3a96b7982c68387a5fc0464f5d8393c10a8f",
+    "mermaid-fidelity.json": "0d4adbfa77fce973875074ba54cfe482f72b2e36f6d2afde924ce0e561578fda"
+  }
+}

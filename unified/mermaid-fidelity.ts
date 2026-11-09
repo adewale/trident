@@ -14,6 +14,7 @@ import { parserBridge, parserBridgeDirectory, bindParserBridge } from './mermaid
 import './mermaid-fidelity/bridge-registry.ts'
 import { currentReferencePin } from '../reference/source.ts'
 import { environmentSummary } from './mermaid-fidelity/environments.ts'
+import { qualifyOriginalRuntime } from './upstream-runtime-qualification.ts'
 
 // The pinned Mermaid suite: one reviewed version and commit, shared with upstream:prepare.
 const PIN = currentReferencePin.commit
@@ -139,6 +140,7 @@ export async function main(args = process.argv.slice(2)) {
   if (existsSync(out)) throw Error('Use a fresh output directory')
   if (execFileSync('git', ['rev-parse', 'HEAD'], { cwd: upstream, encoding: 'utf8' }).trim() !== PIN) throw Error('Wrong Mermaid suite pin')
   execFileSync('git', ['diff', '--quiet', 'HEAD'], { cwd: upstream })
+  qualifyOriginalRuntime(upstream, runtime, process.env.NODE_BIN ?? 'node')
   const referenceRequire = createRequire(join(reference, 'package.json'))
   if (JSON.parse(readFileSync(referenceRequire.resolve('mermaid/package.json'), 'utf8')).version !== currentReferencePin.version) throw Error('Reference Mermaid must match the pinned suite version')
   const inventory = inventoryOriginalDeclarations(upstream)

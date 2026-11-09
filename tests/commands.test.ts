@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { mermaidOracleDirectory, mermaidUpstreamDirectory } from '../portable/mermaid-oracle.ts'
+import { version } from '../package.json'
 
 const command = resolve(import.meta.dir, '../commands.ts')
 const help = (args: string[]) => spawnSync(process.execPath, [command, ...args], {
@@ -46,7 +47,7 @@ test('a product source environment cannot relocate Trident oracle defaults', () 
 test('release version needs no renderer, oracle or compiled kit', () => {
   const result = help(['--version'])
   expect(result.status).toBe(0)
-  expect(result.stdout.trim()).toBe('Trident 0.2.1')
+  expect(result.stdout.trim()).toBe(`Trident ${version}`)
 })
 
 test('reading a campaign in CI needs neither an oracle nor execution configuration', () => {

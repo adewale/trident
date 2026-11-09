@@ -57,7 +57,9 @@ test('native PNG publication retains the verified bundle and actual release work
 })
 
 test('the DaveBench report is exactly what its raw runs produce', () => {
-  expect(JSON.stringify(threeBenchmarkReport(images, terminal))).toBe(JSON.stringify(read('report.json')))
+  const published = read('report.json')
+  // The CLI accepts the freeze timestamp as optional reporting metadata.
+  expect(JSON.stringify(threeBenchmarkReport(images, terminal, { checkedAt: published.versionsCheckedAt }))).toBe(JSON.stringify(published))
 })
 
 test('every Drawing row accounts for each case once and the totals reconcile', () => {

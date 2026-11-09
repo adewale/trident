@@ -65,7 +65,8 @@ a matching control receipt binding source, selection, harness, installed bytes,
 Node runtime and the result, callback-audit and environment evidence. Older controls without that receipt
 must be recollected. Test files still use separate processes.
 
-The harness digest includes every bridge language, build template and lockfile.
+The harness digest follows the worker's transitive local imports. Candidate
+bindings separately include the bridge helpers and executables they use.
 The import rewriter's TypeScript package is a runtime dependency; its installed
 implementation bytes contribute to the control identity.
 Candidate bindings also hash the actual bridge executables, scripts and generated
@@ -160,3 +161,10 @@ baseline: all 4,318 Drawing verdicts reproduce from a fresh full collection;
 every returned output is archived, and full reassessment invokes no producer
 renderers. A legacy receipt upgrade preserved installed bytes, and the relocated
 pair passed all 7,346 source-control callbacks.
+
+
+The [0.3.0 release collection](../docs/evidence/release-0.3.0/collection.json)
+provides fresh paired executions for all 26 candidates under the fully sealed
+portable runtime. It supersedes the earlier qualification bindings and preserves
+qualification across the release-label change. The current Drawing archive and
+all DaveBench scores were recollected in the same release campaign.

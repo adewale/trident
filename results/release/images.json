@@ -1516,11 +1516,11 @@
       }
     ],
     "rounds": 3,
-    "inputsSha256": "30e5601d8c0721fba5b42156ac6abaa44d1f9b260e75a4f83b25ee1ec583ddf7",
-    "identity": "a8a737e4ead62f397c1ae25b10fb7f99954598dc170e10c1d503f0915489b9ee"
+    "inputsSha256": "94506621e979904a321694d478186b69a02f64758c119cfcbe103cdd32eefe84",
+    "identity": "7137895361917562e54e9a5919f87d6fa5933423089eb1a68ed86abb38e6a4e7"
   },
-  "startedAt": "2026-11-07T21:07:21.456Z",
-  "updatedAt": "2026-11-07T21:30:55.474Z",
+  "startedAt": "2026-11-08T23:51:20.216Z",
+  "updatedAt": "2026-11-09T00:15:01.551Z",
   "corpus": {
     "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
     "directory": "docs/",
@@ -1575,7 +1575,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 548.2999998927116,
+      "totalMs": 631.4999994039536,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -1752,7 +1752,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 527.4999993592501,
+      "totalMs": 595.100000590086,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -1929,7 +1929,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 509.79999977350235,
+      "totalMs": 622.5999999046326,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -2106,7 +2106,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 12573.900000318885,
+      "totalMs": 13158.40000063181,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -2283,7 +2283,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 13173.80000050366,
+      "totalMs": 12981.699999809265,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -2460,7 +2460,7 @@
       "completed": 1185,
       "failed": 157,
       "timeouts": 0,
-      "totalMs": 12338.900000110269,
+      "totalMs": 12439.799999922514,
       "invalid": 157,
       "invalidReasons": {
         "fallback render": 157
@@ -2637,7 +2637,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 250.4999997317791,
+      "totalMs": 263.59999972581863,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2656,7 +2656,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 254.30000023543835,
+      "totalMs": 254.50000068545341,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2675,7 +2675,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 252.6999998241663,
+      "totalMs": 275.6999997794628,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2694,7 +2694,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7900.499999672174,
+      "totalMs": 7347.100000113249,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2713,7 +2713,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7854.600000038743,
+      "totalMs": 7362.900000244379,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2732,7 +2732,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7348.200000360608,
+      "totalMs": 7577.199999690056,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2751,7 +2751,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 992.5999998748302,
+      "totalMs": 844.2999995350838,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2788,7 +2788,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 1120.0000000447035,
+      "totalMs": 856.0000002086163,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2825,7 +2825,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 918.3999997526407,
+      "totalMs": 974.8999998867512,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2862,7 +2862,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 8531.300000026822,
+      "totalMs": 8100.599999725819,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2899,7 +2899,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 7612.9000000059605,
+      "totalMs": 7956.300000220537,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2936,7 +2936,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 8002.499999716878,
+      "totalMs": 8446.000000834465,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -2973,7 +2973,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 6496.4000002890825,
+      "totalMs": 7024.3000001609325,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3005,7 +3005,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 6306.600000023842,
+      "totalMs": 5991.80000051856,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3037,7 +3037,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 5936.899999722838,
+      "totalMs": 6552.800000727177,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3069,7 +3069,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 15267.499999895692,
+      "totalMs": 15450.799999713898,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3101,7 +3101,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 16391.599999964237,
+      "totalMs": 15067.799999892712,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3133,7 +3133,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 16469.70000074804,
+      "totalMs": 15741.000000536442,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3165,7 +3165,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 1746.4000000208616,
+      "totalMs": 1773.5999998748302,
       "invalid": 16,
       "invalidReasons": {
         "zero-size SVG": 16
@@ -3249,7 +3249,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 2117.400000333786,
+      "totalMs": 1588.1000001430511,
       "invalid": 16,
       "invalidReasons": {
         "zero-size SVG": 16
@@ -3333,7 +3333,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 1707.099999934435,
+      "totalMs": 1487.899999409914,
       "invalid": 16,
       "invalidReasons": {
         "zero-size SVG": 16
@@ -3417,7 +3417,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 5728.399999946356,
+      "totalMs": 5814.899999946356,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3482,7 +3482,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 5296.300000071526,
+      "totalMs": 6204.499999791384,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3547,7 +3547,7 @@
       "completed": 637,
       "failed": 705,
       "timeouts": 0,
-      "totalMs": 6265.599999949336,
+      "totalMs": 8031.7999993264675,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3612,7 +3612,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 13297.2499760004,
+      "totalMs": 13880.268156999839,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3638,7 +3638,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 12430.796969999152,
+      "totalMs": 13284.57976900012,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3664,7 +3664,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 12383.293315000366,
+      "totalMs": 12547.987235999259,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3690,7 +3690,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 37271.60079099983,
+      "totalMs": 38013.757765999995,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3710,7 +3710,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 37746.844858998375,
+      "totalMs": 38016.208586999914,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3730,7 +3730,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 37892.16185100033,
+      "totalMs": 37408.9083900011,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3750,7 +3750,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 437.69999976456165,
+      "totalMs": 496.9000003039837,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3787,7 +3787,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 349.2999998778105,
+      "totalMs": 367.50000062584877,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3824,7 +3824,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 336.5999998599291,
+      "totalMs": 316.0000002384186,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3861,7 +3861,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 5200.499999791384,
+      "totalMs": 5519.7000002563,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3898,7 +3898,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 4691.0000004172325,
+      "totalMs": 4806.400000214577,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3935,7 +3935,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 4985.600000023842,
+      "totalMs": 5046.40000012517,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -3972,7 +3972,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 20858.199999958277,
+      "totalMs": 21062.8999992311,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3990,7 +3990,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 20520.100000053644,
+      "totalMs": 20893.499999433756,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4008,7 +4008,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 21042.200000077486,
+      "totalMs": 20917.29999986291,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4026,7 +4026,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 26593.599999845028,
+      "totalMs": 26778.29999998212,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4044,7 +4044,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 27009.40000012517,
+      "totalMs": 27482.800000488758,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4062,7 +4062,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 27563.200000166893,
+      "totalMs": 27391.200000703335,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4080,7 +4080,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 549.7000001817942,
+      "totalMs": 498.7999992072582,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -4260,7 +4260,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 565.7000002264977,
+      "totalMs": 532.8999995589256,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -4440,7 +4440,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 552.1000000685453,
+      "totalMs": 497.8999997675419,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -4620,7 +4620,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 4265.500000149012,
+      "totalMs": 4311.8000001609325,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -4800,7 +4800,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 4377.800000220537,
+      "totalMs": 3871.00000038743,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -4980,7 +4980,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 4308.8999998271465,
+      "totalMs": 3820.900000035763,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -5160,7 +5160,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 119.70000000298023,
+      "totalMs": 104.09999993443489,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5178,7 +5178,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 109.00000001490116,
+      "totalMs": 99.80000019073486,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5196,7 +5196,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 95.99999977648258,
+      "totalMs": 98.49999997019768,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5214,7 +5214,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 2043.7999997884035,
+      "totalMs": 2042.1000002920628,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5232,7 +5232,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 1956.0999998003244,
+      "totalMs": 2294.9000003635883,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5250,7 +5250,7 @@
       "completed": 398,
       "failed": 944,
       "timeouts": 0,
-      "totalMs": 1884.8999999761581,
+      "totalMs": 1746.9999999701977,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5268,7 +5268,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 4572.69999986887,
+      "totalMs": 4220.599999427795,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5287,7 +5287,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 4580.20000000298,
+      "totalMs": 4309.2999997437,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5306,7 +5306,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 4592.599999368191,
+      "totalMs": 4747.3999998271465,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5325,7 +5325,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 15757.499999985099,
+      "totalMs": 15439.899999856949,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5344,7 +5344,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 16579.700000211596,
+      "totalMs": 16986.699999034405,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5363,7 +5363,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 15904.799999922514,
+      "totalMs": 17381.90000000596,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5382,7 +5382,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1073.5000002980232,
+      "totalMs": 1138.0000003278255,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -5477,7 +5477,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1028.3999998420477,
+      "totalMs": 1167.399999409914,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -5572,7 +5572,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1235.499999910593,
+      "totalMs": 1111.500000089407,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -5667,7 +5667,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3304.0999996960163,
+      "totalMs": 3896.7000000476837,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5735,7 +5735,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3258.100000113249,
+      "totalMs": 3842.0999999940395,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5803,7 +5803,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3694.8000000566244,
+      "totalMs": 3898.3999996483326,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5871,7 +5871,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 587.299999833107,
+      "totalMs": 611.0000001490116,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5890,7 +5890,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 575.8000000417233,
+      "totalMs": 597.3000006377697,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5909,7 +5909,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 674.4999999403954,
+      "totalMs": 566.3000002205372,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5928,7 +5928,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 8989.100000232458,
+      "totalMs": 8534.10000038147,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5947,7 +5947,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 8052.299999982119,
+      "totalMs": 8229.500000208616,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5966,7 +5966,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7977.299999475479,
+      "totalMs": 8114.699999928474,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5985,7 +5985,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 184.40000012516975,
+      "totalMs": 179.80000042915344,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -6963,7 +6963,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 184.99999989569187,
+      "totalMs": 173.60000017285347,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -7941,7 +7941,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 209.4999996125698,
+      "totalMs": 170.30000001192093,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -8919,7 +8919,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 6191.100000232458,
+      "totalMs": 5913.59999987483,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -9897,7 +9897,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 5873.300000473857,
+      "totalMs": 5832.799999475479,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -10875,7 +10875,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 6537.399999767542,
+      "totalMs": 5630.199999779463,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -11853,7 +11853,7 @@
       "completed": 1302,
       "failed": 40,
       "timeouts": 0,
-      "totalMs": 39867.19999958575,
+      "totalMs": 39749.60000008345,
       "invalid": 34,
       "invalidReasons": {
         "admission check failed": 34
@@ -11911,7 +11911,7 @@
       "completed": 1302,
       "failed": 40,
       "timeouts": 0,
-      "totalMs": 40828.7999997437,
+      "totalMs": 39146.49999991059,
       "invalid": 34,
       "invalidReasons": {
         "admission check failed": 34
@@ -11969,7 +11969,7 @@
       "completed": 1302,
       "failed": 40,
       "timeouts": 0,
-      "totalMs": 39890.70000003278,
+      "totalMs": 40878.699999690056,
       "invalid": 34,
       "invalidReasons": {
         "admission check failed": 34
@@ -12027,7 +12027,7 @@
       "completed": 1302,
       "failed": 40,
       "timeouts": 0,
-      "totalMs": 60963.60000009835,
+      "totalMs": 65629.30000033975,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12048,7 +12048,7 @@
       "completed": 1302,
       "failed": 40,
       "timeouts": 0,
-      "totalMs": 64921.60000017285,
+      "totalMs": 68806.40000033379,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12069,7 +12069,7 @@
       "completed": 1302,
       "failed": 40,
       "timeouts": 0,
-      "totalMs": 60769.80000035465,
+      "totalMs": 62502.60000047088,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12090,7 +12090,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 375.19999957084656,
+      "totalMs": 348.3000001013279,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12109,7 +12109,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 341.3999999463558,
+      "totalMs": 341.09999987483025,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12128,7 +12128,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 383.69999973475933,
+      "totalMs": 352.7000007033348,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12147,7 +12147,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 8880.40000012517,
+      "totalMs": 8462.399999469519,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12166,7 +12166,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7950.300000041723,
+      "totalMs": 8614.59999960661,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12185,7 +12185,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 9115.699999794364,
+      "totalMs": 8466.900000661612,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -12204,7 +12204,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 24806.18000000006,
+      "totalMs": 25152.381000000085,
       "invalid": 0,
       "invalidReasons": {}
     },
@@ -12219,7 +12219,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 23902.270000000062,
+      "totalMs": 25455.313000000042,
       "invalid": 0,
       "invalidReasons": {}
     },
@@ -12234,7 +12234,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 25093.350000000035,
+      "totalMs": 25851.45400000008,
       "invalid": 0,
       "invalidReasons": {}
     }
@@ -12256,11 +12256,11 @@
         157
       ],
       "totalMs": [
-        548.2999998927116,
-        527.4999993592501,
-        509.79999977350235
+        631.4999994039536,
+        595.100000590086,
+        622.5999999046326
       ],
-      "medianTotalMs": 527.4999993592501,
+      "medianTotalMs": 622.5999999046326,
       "runs": 3
     },
     {
@@ -12279,11 +12279,11 @@
         157
       ],
       "totalMs": [
-        12573.900000318885,
-        13173.80000050366,
-        12338.900000110269
+        13158.40000063181,
+        12981.699999809265,
+        12439.799999922514
       ],
-      "medianTotalMs": 12573.900000318885,
+      "medianTotalMs": 12981.699999809265,
       "runs": 3
     },
     {
@@ -12302,11 +12302,11 @@
         36
       ],
       "totalMs": [
-        250.4999997317791,
-        254.30000023543835,
-        252.6999998241663
+        263.59999972581863,
+        254.50000068545341,
+        275.6999997794628
       ],
-      "medianTotalMs": 252.6999998241663,
+      "medianTotalMs": 263.59999972581863,
       "runs": 3
     },
     {
@@ -12325,11 +12325,11 @@
         36
       ],
       "totalMs": [
-        7900.499999672174,
-        7854.600000038743,
-        7348.200000360608
+        7347.100000113249,
+        7362.900000244379,
+        7577.199999690056
       ],
-      "medianTotalMs": 7854.600000038743,
+      "medianTotalMs": 7362.900000244379,
       "runs": 3
     },
     {
@@ -12348,11 +12348,11 @@
         228
       ],
       "totalMs": [
-        992.5999998748302,
-        1120.0000000447035,
-        918.3999997526407
+        844.2999995350838,
+        856.0000002086163,
+        974.8999998867512
       ],
-      "medianTotalMs": 992.5999998748302,
+      "medianTotalMs": 856.0000002086163,
       "runs": 3
     },
     {
@@ -12371,11 +12371,11 @@
         228
       ],
       "totalMs": [
-        8531.300000026822,
-        7612.9000000059605,
-        8002.499999716878
+        8100.599999725819,
+        7956.300000220537,
+        8446.000000834465
       ],
-      "medianTotalMs": 8002.499999716878,
+      "medianTotalMs": 8100.599999725819,
       "runs": 3
     },
     {
@@ -12394,11 +12394,11 @@
         276
       ],
       "totalMs": [
-        6496.4000002890825,
-        6306.600000023842,
-        5936.899999722838
+        7024.3000001609325,
+        5991.80000051856,
+        6552.800000727177
       ],
-      "medianTotalMs": 6306.600000023842,
+      "medianTotalMs": 6552.800000727177,
       "runs": 3
     },
     {
@@ -12417,11 +12417,11 @@
         276
       ],
       "totalMs": [
-        15267.499999895692,
-        16391.599999964237,
-        16469.70000074804
+        15450.799999713898,
+        15067.799999892712,
+        15741.000000536442
       ],
-      "medianTotalMs": 16391.599999964237,
+      "medianTotalMs": 15450.799999713898,
       "runs": 3
     },
     {
@@ -12440,11 +12440,11 @@
         705
       ],
       "totalMs": [
-        1746.4000000208616,
-        2117.400000333786,
-        1707.099999934435
+        1773.5999998748302,
+        1588.1000001430511,
+        1487.899999409914
       ],
-      "medianTotalMs": 1746.4000000208616,
+      "medianTotalMs": 1588.1000001430511,
       "runs": 3
     },
     {
@@ -12463,11 +12463,11 @@
         705
       ],
       "totalMs": [
-        5728.399999946356,
-        5296.300000071526,
-        6265.599999949336
+        5814.899999946356,
+        6204.499999791384,
+        8031.7999993264675
       ],
-      "medianTotalMs": 5728.399999946356,
+      "medianTotalMs": 6204.499999791384,
       "runs": 3
     },
     {
@@ -12486,11 +12486,11 @@
         38
       ],
       "totalMs": [
-        13297.2499760004,
-        12430.796969999152,
-        12383.293315000366
+        13880.268156999839,
+        13284.57976900012,
+        12547.987235999259
       ],
-      "medianTotalMs": 12430.796969999152,
+      "medianTotalMs": 13284.57976900012,
       "runs": 3
     },
     {
@@ -12509,11 +12509,11 @@
         36
       ],
       "totalMs": [
-        37271.60079099983,
-        37746.844858998375,
-        37892.16185100033
+        38013.757765999995,
+        38016.208586999914,
+        37408.9083900011
       ],
-      "medianTotalMs": 37746.844858998375,
+      "medianTotalMs": 38013.757765999995,
       "runs": 3
     },
     {
@@ -12532,11 +12532,11 @@
         832
       ],
       "totalMs": [
-        437.69999976456165,
-        349.2999998778105,
-        336.5999998599291
+        496.9000003039837,
+        367.50000062584877,
+        316.0000002384186
       ],
-      "medianTotalMs": 349.2999998778105,
+      "medianTotalMs": 367.50000062584877,
       "runs": 3
     },
     {
@@ -12555,11 +12555,11 @@
         832
       ],
       "totalMs": [
-        5200.499999791384,
-        4691.0000004172325,
-        4985.600000023842
+        5519.7000002563,
+        4806.400000214577,
+        5046.40000012517
       ],
-      "medianTotalMs": 4985.600000023842,
+      "medianTotalMs": 5046.40000012517,
       "runs": 3
     },
     {
@@ -12578,11 +12578,11 @@
         642
       ],
       "totalMs": [
-        20858.199999958277,
-        20520.100000053644,
-        21042.200000077486
+        21062.8999992311,
+        20893.499999433756,
+        20917.29999986291
       ],
-      "medianTotalMs": 20858.199999958277,
+      "medianTotalMs": 20917.29999986291,
       "runs": 3
     },
     {
@@ -12601,11 +12601,11 @@
         642
       ],
       "totalMs": [
-        26593.599999845028,
-        27009.40000012517,
-        27563.200000166893
+        26778.29999998212,
+        27482.800000488758,
+        27391.200000703335
       ],
-      "medianTotalMs": 27009.40000012517,
+      "medianTotalMs": 27391.200000703335,
       "runs": 3
     },
     {
@@ -12624,11 +12624,11 @@
         662
       ],
       "totalMs": [
-        549.7000001817942,
-        565.7000002264977,
-        552.1000000685453
+        498.7999992072582,
+        532.8999995589256,
+        497.8999997675419
       ],
-      "medianTotalMs": 552.1000000685453,
+      "medianTotalMs": 498.7999992072582,
       "runs": 3
     },
     {
@@ -12647,11 +12647,11 @@
         662
       ],
       "totalMs": [
-        4265.500000149012,
-        4377.800000220537,
-        4308.8999998271465
+        4311.8000001609325,
+        3871.00000038743,
+        3820.900000035763
       ],
-      "medianTotalMs": 4308.8999998271465,
+      "medianTotalMs": 3871.00000038743,
       "runs": 3
     },
     {
@@ -12670,11 +12670,11 @@
         944
       ],
       "totalMs": [
-        119.70000000298023,
-        109.00000001490116,
-        95.99999977648258
+        104.09999993443489,
+        99.80000019073486,
+        98.49999997019768
       ],
-      "medianTotalMs": 109.00000001490116,
+      "medianTotalMs": 99.80000019073486,
       "runs": 3
     },
     {
@@ -12693,11 +12693,11 @@
         944
       ],
       "totalMs": [
-        2043.7999997884035,
-        1956.0999998003244,
-        1884.8999999761581
+        2042.1000002920628,
+        2294.9000003635883,
+        1746.9999999701977
       ],
-      "medianTotalMs": 1956.0999998003244,
+      "medianTotalMs": 2042.1000002920628,
       "runs": 3
     },
     {
@@ -12716,11 +12716,11 @@
         4
       ],
       "totalMs": [
-        4572.69999986887,
-        4580.20000000298,
-        4592.599999368191
+        4220.599999427795,
+        4309.2999997437,
+        4747.3999998271465
       ],
-      "medianTotalMs": 4580.20000000298,
+      "medianTotalMs": 4309.2999997437,
       "runs": 3
     },
     {
@@ -12739,11 +12739,11 @@
         4
       ],
       "totalMs": [
-        15757.499999985099,
-        16579.700000211596,
-        15904.799999922514
+        15439.899999856949,
+        16986.699999034405,
+        17381.90000000596
       ],
-      "medianTotalMs": 15904.799999922514,
+      "medianTotalMs": 16986.699999034405,
       "runs": 3
     },
     {
@@ -12762,11 +12762,11 @@
         829
       ],
       "totalMs": [
-        1073.5000002980232,
-        1028.3999998420477,
-        1235.499999910593
+        1138.0000003278255,
+        1167.399999409914,
+        1111.500000089407
       ],
-      "medianTotalMs": 1073.5000002980232,
+      "medianTotalMs": 1138.0000003278255,
       "runs": 3
     },
     {
@@ -12785,11 +12785,11 @@
         829
       ],
       "totalMs": [
-        3304.0999996960163,
-        3258.100000113249,
-        3694.8000000566244
+        3896.7000000476837,
+        3842.0999999940395,
+        3898.3999996483326
       ],
-      "medianTotalMs": 3304.0999996960163,
+      "medianTotalMs": 3896.7000000476837,
       "runs": 3
     },
     {
@@ -12808,11 +12808,11 @@
         36
       ],
       "totalMs": [
-        587.299999833107,
-        575.8000000417233,
-        674.4999999403954
+        611.0000001490116,
+        597.3000006377697,
+        566.3000002205372
       ],
-      "medianTotalMs": 587.299999833107,
+      "medianTotalMs": 597.3000006377697,
       "runs": 3
     },
     {
@@ -12831,11 +12831,11 @@
         36
       ],
       "totalMs": [
-        8989.100000232458,
-        8052.299999982119,
-        7977.299999475479
+        8534.10000038147,
+        8229.500000208616,
+        8114.699999928474
       ],
-      "medianTotalMs": 8052.299999982119,
+      "medianTotalMs": 8229.500000208616,
       "runs": 3
     },
     {
@@ -12854,11 +12854,11 @@
         958
       ],
       "totalMs": [
-        184.40000012516975,
-        184.99999989569187,
-        209.4999996125698
+        179.80000042915344,
+        173.60000017285347,
+        170.30000001192093
       ],
-      "medianTotalMs": 184.99999989569187,
+      "medianTotalMs": 173.60000017285347,
       "runs": 3
     },
     {
@@ -12877,11 +12877,11 @@
         958
       ],
       "totalMs": [
-        6191.100000232458,
-        5873.300000473857,
-        6537.399999767542
+        5913.59999987483,
+        5832.799999475479,
+        5630.199999779463
       ],
-      "medianTotalMs": 6191.100000232458,
+      "medianTotalMs": 5832.799999475479,
       "runs": 3
     },
     {
@@ -12900,11 +12900,11 @@
         40
       ],
       "totalMs": [
-        39867.19999958575,
-        40828.7999997437,
-        39890.70000003278
+        39749.60000008345,
+        39146.49999991059,
+        40878.699999690056
       ],
-      "medianTotalMs": 39890.70000003278,
+      "medianTotalMs": 39749.60000008345,
       "runs": 3
     },
     {
@@ -12923,11 +12923,11 @@
         40
       ],
       "totalMs": [
-        60963.60000009835,
-        64921.60000017285,
-        60769.80000035465
+        65629.30000033975,
+        68806.40000033379,
+        62502.60000047088
       ],
-      "medianTotalMs": 60963.60000009835,
+      "medianTotalMs": 65629.30000033975,
       "runs": 3
     },
     {
@@ -12946,11 +12946,11 @@
         36
       ],
       "totalMs": [
-        375.19999957084656,
-        341.3999999463558,
-        383.69999973475933
+        348.3000001013279,
+        341.09999987483025,
+        352.7000007033348
       ],
-      "medianTotalMs": 375.19999957084656,
+      "medianTotalMs": 348.3000001013279,
       "runs": 3
     },
     {
@@ -12969,11 +12969,34 @@
         36
       ],
       "totalMs": [
-        8880.40000012517,
-        7950.300000041723,
-        9115.699999794364
+        8462.399999469519,
+        8614.59999960661,
+        8466.900000661612
       ],
-      "medianTotalMs": 8880.40000012517,
+      "medianTotalMs": 8466.900000661612,
+      "runs": 3
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "version": "0.3.2",
+      "format": "png",
+      "boundary": "native Flutter renderToPng API; app startup excluded",
+      "completed": [
+        1114,
+        1114,
+        1114
+      ],
+      "failed": [
+        228,
+        228,
+        228
+      ],
+      "totalMs": [
+        25152.381000000085,
+        25455.313000000042,
+        25851.45400000008
+      ],
+      "medianTotalMs": 25455.313000000042,
       "runs": 3
     }
   ],
@@ -12993,7 +13016,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1338,
         "failed": 4,
-        "medianTotalMs": 4580.20000000298,
+        "medianTotalMs": 4309.2999997437,
         "rank": 1
       },
       {
@@ -13003,7 +13026,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 252.6999998241663,
+        "medianTotalMs": 263.59999972581863,
         "rank": 2
       },
       {
@@ -13013,7 +13036,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 375.19999957084656,
+        "medianTotalMs": 348.3000001013279,
         "rank": 3
       },
       {
@@ -13023,7 +13046,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 587.299999833107,
+        "medianTotalMs": 597.3000006377697,
         "rank": 4
       },
       {
@@ -13033,7 +13056,7 @@
         "boundary": "native CLI svg; process startup included",
         "completed": 1304,
         "failed": 38,
-        "medianTotalMs": 12430.796969999152,
+        "medianTotalMs": 13284.57976900012,
         "rank": 5
       },
       {
@@ -13043,7 +13066,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1302,
         "failed": 40,
-        "medianTotalMs": 39890.70000003278,
+        "medianTotalMs": 39749.60000008345,
         "rank": 6
       },
       {
@@ -13053,7 +13076,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1185,
         "failed": 157,
-        "medianTotalMs": 527.4999993592501,
+        "medianTotalMs": 622.5999999046326,
         "rank": 7
       },
       {
@@ -13063,7 +13086,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 992.5999998748302,
+        "medianTotalMs": 856.0000002086163,
         "rank": 8
       },
       {
@@ -13073,7 +13096,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 1066,
         "failed": 276,
-        "medianTotalMs": 6306.600000023842,
+        "medianTotalMs": 6552.800000727177,
         "rank": 9
       },
       {
@@ -13083,7 +13106,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 700,
         "failed": 642,
-        "medianTotalMs": 20858.199999958277,
+        "medianTotalMs": 20917.29999986291,
         "rank": 10
       },
       {
@@ -13093,7 +13116,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 680,
         "failed": 662,
-        "medianTotalMs": 552.1000000685453,
+        "medianTotalMs": 498.7999992072582,
         "rank": 11
       },
       {
@@ -13103,7 +13126,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 637,
         "failed": 705,
-        "medianTotalMs": 1746.4000000208616,
+        "medianTotalMs": 1588.1000001430511,
         "rank": 12
       },
       {
@@ -13113,7 +13136,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 513,
         "failed": 829,
-        "medianTotalMs": 1073.5000002980232,
+        "medianTotalMs": 1138.0000003278255,
         "rank": 13
       },
       {
@@ -13123,7 +13146,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 510,
         "failed": 832,
-        "medianTotalMs": 349.2999998778105,
+        "medianTotalMs": 367.50000062584877,
         "rank": 14
       },
       {
@@ -13133,7 +13156,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 398,
         "failed": 944,
-        "medianTotalMs": 109.00000001490116,
+        "medianTotalMs": 99.80000019073486,
         "rank": 15
       },
       {
@@ -13143,7 +13166,7 @@
         "boundary": "Chromium public SVG API",
         "completed": 384,
         "failed": 958,
-        "medianTotalMs": 184.99999989569187,
+        "medianTotalMs": 173.60000017285347,
         "rank": 16
       }
     ],
@@ -13155,7 +13178,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1338,
         "failed": 4,
-        "medianTotalMs": 15904.799999922514,
+        "medianTotalMs": 16986.699999034405,
         "rank": 1
       },
       {
@@ -13165,7 +13188,7 @@
         "boundary": "native CLI png; process startup included",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 37746.844858998375,
+        "medianTotalMs": 38013.757765999995,
         "rank": 2
       },
       {
@@ -13175,7 +13198,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 7854.600000038743,
+        "medianTotalMs": 7362.900000244379,
         "rank": 2
       },
       {
@@ -13185,7 +13208,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 8052.299999982119,
+        "medianTotalMs": 8229.500000208616,
         "rank": 2
       },
       {
@@ -13195,7 +13218,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 8880.40000012517,
+        "medianTotalMs": 8466.900000661612,
         "rank": 2
       },
       {
@@ -13205,7 +13228,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1302,
         "failed": 40,
-        "medianTotalMs": 60963.60000009835,
+        "medianTotalMs": 65629.30000033975,
         "rank": 6
       },
       {
@@ -13215,7 +13238,7 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1185,
         "failed": 157,
-        "medianTotalMs": 12573.900000318885,
+        "medianTotalMs": 12981.699999809265,
         "rank": 7
       },
       {
@@ -13225,8 +13248,18 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 8002.499999716878,
+        "medianTotalMs": 8100.599999725819,
         "rank": 8
+      },
+      {
+        "project": "pub:mermaid_flutter",
+        "version": "0.3.2",
+        "format": "png",
+        "boundary": "native Flutter renderToPng API; app startup excluded",
+        "completed": 1114,
+        "failed": 228,
+        "medianTotalMs": 25455.313000000042,
+        "rank": 9
       },
       {
         "project": "adewale/agentic-mermaid",
@@ -13235,8 +13268,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1066,
         "failed": 276,
-        "medianTotalMs": 16391.599999964237,
-        "rank": 9
+        "medianTotalMs": 15450.799999713898,
+        "rank": 10
       },
       {
         "project": "emtyty/merslim",
@@ -13245,8 +13278,8 @@
         "boundary": "Chromium public PNG API",
         "completed": 700,
         "failed": 642,
-        "medianTotalMs": 27009.40000012517,
-        "rank": 10
+        "medianTotalMs": 27391.200000703335,
+        "rank": 11
       },
       {
         "project": "evangwt/xmermaid",
@@ -13255,8 +13288,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 680,
         "failed": 662,
-        "medianTotalMs": 4308.8999998271465,
-        "rank": 11
+        "medianTotalMs": 3871.00000038743,
+        "rank": 12
       },
       {
         "project": "dfadler/zombie-mermaid",
@@ -13265,8 +13298,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 637,
         "failed": 705,
-        "medianTotalMs": 5728.399999946356,
-        "rank": 12
+        "medianTotalMs": 6204.499999791384,
+        "rank": 13
       },
       {
         "project": "lukilabs/beautiful-mermaid",
@@ -13275,8 +13308,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 513,
         "failed": 829,
-        "medianTotalMs": 3304.0999996960163,
-        "rank": 13
+        "medianTotalMs": 3896.7000000476837,
+        "rank": 14
       },
       {
         "project": "crafter-station/mermaid",
@@ -13285,8 +13318,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 510,
         "failed": 832,
-        "medianTotalMs": 4985.600000023842,
-        "rank": 14
+        "medianTotalMs": 5046.40000012517,
+        "rank": 15
       },
       {
         "project": "KlangHaus/vitepress-plugin-diagram",
@@ -13295,8 +13328,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 398,
         "failed": 944,
-        "medianTotalMs": 1956.0999998003244,
-        "rank": 15
+        "medianTotalMs": 2042.1000002920628,
+        "rank": 16
       },
       {
         "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
@@ -13305,8 +13338,8 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 384,
         "failed": 958,
-        "medianTotalMs": 6191.100000232458,
-        "rank": 16
+        "medianTotalMs": 5832.799999475479,
+        "rank": 17
       }
     ],
     "terminal": [],

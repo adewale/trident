@@ -491,7 +491,6 @@
     "inputsSha256": "308958c48c337c1a9db0ec6468528dfd60392212d4a3e34078f6b441aa22712d",
     "identity": "417cb14dbd838bda9fdb8e421f621856aede443cecd0c3ca7fe7ef563ead903d"
   },
-  "assessmentPolicy": "drawing-reviewed-labels-v2",
   "assessmentProfiles": {
     "svg": "07aa186b53810c3b6dc8154a29779f7a63cdddaa87e1234bb8635aa518654820",
     "terminal": "74f39168c6e1ed7f79b6342c52eda78bb542177a8cb3a7d4d43952bd96acacbe"
@@ -701,6 +700,7 @@
     "labelPolicy": "drawing-reviewed-labels-v2"
   },
   "blocked": [],
+  "assessmentPolicy": "drawing-reviewed-labels-v2",
   "state": "complete",
   "formats": [
     "svg",
@@ -711,16 +711,15 @@
     "terminal": {},
     "outputsRetained": true,
     "returnedOutputs": 3684,
-    "startedAt": "2026-11-08T12:46:46.199Z",
-    "finishedAt": "2026-11-08T12:56:21.652Z",
+    "startedAt": "2026-11-09T00:32:23.415Z",
+    "finishedAt": "2026-11-09T00:41:24.214Z",
     "captureArchive": {
-      "file": "drawing-capture-2026-11-08.tar.gz",
-      "sha256": "b20e3004fe884a7426179a72dbac51e71fe4ab92e010e2b3fae4d7250683b7fd",
-      "bytes": 3963733,
-      "root": "drawing-retained",
-      "path": "captures/drawing-capture-2026-11-08.tar.gz"
+      "path": "captures/drawing-capture-2026-11-09.tar.gz",
+      "sha256": "830017b0f5697c8e363642208a9c9b4c3c6029c98eeab5feb6ce4637cbfd2808",
+      "bytes": 3964016,
+      "root": "drawing-retained"
     },
-    "previousPublishedSha256": "3c1dd98cc72ef077be4ac5fa39343c636f2afc35576ad426b45f981473e23992"
+    "previousPublishedSha256": "c6b81d2e47968ba07523a865732e8e984913f733419c63038aa32e8b3fed1a8f"
   },
   "results": [
     {
@@ -877,6 +876,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 11
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -1045,6 +1045,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 1
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -1210,6 +1211,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -1374,6 +1376,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -1536,6 +1539,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -1700,6 +1704,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 2
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -1869,6 +1874,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 17
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -2036,6 +2042,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -2203,6 +2210,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 5
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -2370,6 +2378,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -2537,6 +2546,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 10
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -2702,6 +2712,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -2868,6 +2879,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 12
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -3035,6 +3047,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -3203,6 +3216,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 8
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -3368,6 +3382,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -3531,6 +3546,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -3694,6 +3710,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -3862,6 +3879,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 24
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -4031,6 +4049,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 27
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -4197,6 +4216,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -4361,6 +4381,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -4528,6 +4549,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -4695,6 +4717,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 3
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -4861,6 +4884,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -5025,6 +5049,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 2
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -5195,6 +5220,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 5
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -5363,6 +5389,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 15
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -5529,6 +5556,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -5690,6 +5718,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -5856,6 +5885,7 @@
       "assessmentGapReasons": {
         "Visible label evidence is unavailable for this SVG representation": 3
       },
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -6022,6 +6052,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -6184,6 +6215,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -6346,6 +6378,7 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
+      "assessmentPolicy": "drawing-reviewed-labels-v2",
       "observerSources": {
         "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
         "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
@@ -6368,5 +6401,5 @@
     "unknown": 145,
     "unrun": 0
   },
-  "updatedAt": "2026-11-08T12:56:21.652Z"
+  "updatedAt": "2026-11-09T00:41:24.214Z"
 }
