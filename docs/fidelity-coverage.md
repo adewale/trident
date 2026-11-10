@@ -187,3 +187,14 @@ reference. Corrected Agentic `42986d0` retains 2,842 passes / 131 strict failure
 assertions. Both public GitGraph APIs were checked against the ten syntax-only
 failures: those outcomes reflect actual native rejections, not missing AST fields
 or native JavaScript crashes. The new receipt retains exact inputs and observations.
+
+## Adversarial review of both PRs
+
+The [adversarial review](evidence/adversarial-review-2026-11-10/README.md) repairs
+border-label ownership and terminal note parity in Agentic, plus geometric SVG
+word-wrap qualification, entity-aware admission, class collections and default
+link styles in Trident. All six have concrete reproductions and owning regressions.
+Complete replays on native `cf1f224` retain 2,842 passes / 131 strict failures /
+775 unsupported /3,598 gaps under a fresh fully qualified control. All 2,032 peer
+SVG rows were reassessed; no passing row lost a pass. Original source/release
+comparisons and diagnostic coverage limits remain explicit in the new receipt.
