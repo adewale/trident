@@ -115,6 +115,28 @@ test('SVG emergency wrapping preserves letters only at observed line boundaries'
       if (expected === 'nonpass') expect(['incorrect', 'unknown']).toContain(status)
       else expect(status, JSON.stringify({ middle, last, attributes })).toBe(expected)
     }
+    for (const text of [
+      'Small rectangl\ne',
+      '<tspan>Small rectangl\ne</tspan>',
+      '<tspan font-size="30">Small rect </tspan><tspan font-size="16">angle</tspan>',
+      '<tspan>Small rect </tspan><tspan dy="-9">angle</tspan>',
+      '<tspan>Small rect </tspan><tspan x="20" dy="-9">angle</tspan>',
+      '<tspan>Small rect</tspan><tspan x="20" dy="-9">angle</tspan>',
+    ]) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><text x="20" y="35">${text}</text></svg>`
+      await page.setContent(svg)
+      expect((await assessSvgLabels(example, page, svg)).status, text).toBe('incorrect')
+    }
+    for (const anchor of ['start', 'middle', 'end']) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><text x="150" y="25" text-anchor="${anchor}"><tspan x="150">Small</tspan><tspan x="150" dy="20">rectangl</tspan><tspan x="150" dy="20">e</tspan></text></svg>`
+      await page.setContent(svg)
+      expect((await assessSvgLabels(example, page, svg)).status, anchor).toBe('correct')
+    }
+    for (const fontSize of [16, 20, 30]) for (const dy of [-2, -9]) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150"><text x="20" y="60" font-size="${fontSize}"><tspan>Small rect</tspan><tspan x="20" dy="${dy}">angle</tspan></text></svg>`
+      await page.setContent(svg)
+      expect((await assessSvgLabels(example, page, svg)).status, JSON.stringify({ fontSize, dy })).toBe('incorrect')
+    }
   } finally { await browser.close() }
 })
 
