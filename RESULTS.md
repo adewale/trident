@@ -6,92 +6,94 @@
 
 ### SVG rendering
 
-| Rank | Project | Completed / 1342 ↑ | Median seconds ↓ |
-| --- | --- | --- | --- |
-| 1 | Latias Merman 0.9.3 | 1338 | 4.309 |
-| 2 | Ondine 0.0.3 | 1306 | 0.264 |
-| 3 | Bezel 0.2.24 | 1306 | 0.348 |
-| 4 | Pele 1.13.0 | 1306 | 0.597 |
-| 5 | Mermaid RS Renderer 0.3.1 | 1304 | 13.285 |
-| 6 | Mermaid 12.3.0 | 1302 | 39.750 |
-| 7 | Frankenmermaid 0.4.0 | 1185 | 0.623 |
-| 8 | Mermaid Dart 0.3.2 | 1114 | 0.856 |
-| 9 | Agentic Mermaid 0.5.6 | 1066 | 6.553 |
-| 10 | Merslim 0.2.3 | 700 | 20.917 |
-| 11 | XMermaid 0.4.2 | 680 | 0.499 |
-| 12 | Zombie Mermaid 5.14.4 | 637 | 1.588 |
-| 13 | Beautiful Mermaid 1.1.3 | 513 | 1.138 |
-| 14 | Crafter Mermaid 0.0.3 | 510 | 0.368 |
-| 15 | VitePress Plugin Diagram 0.3.2 | 398 | 0.100 |
-| 16 | DSH Mermaid GB SVG 0.1.5 | 384 | 0.174 |
+| Rank | Project | Completed / 1342 ↑ | Median seconds ↓ | Timing boundary |
+| --- | --- | --- | --- | --- |
+| 1 | Latias Merman 0.9.3 | 1338 | 4.309 | API; initialization excluded |
+| 2 | Ondine 0.0.3 | 1306 | 0.264 | API; initialization excluded |
+| 3 | Bezel 0.2.24 | 1306 | 0.348 | API; initialization excluded |
+| 4 | Pele 1.13.0 | 1306 | 0.597 | API; initialization excluded |
+| 5 | Mermaid RS Renderer 0.3.1 | 1304 | 13.285 | CLI; startup included |
+| 6 | Mermaid 12.3.0 | 1302 | 39.750 | API; initialization excluded |
+| 7 | Frankenmermaid 0.4.0 | 1185 | 0.623 | API; initialization excluded |
+| 8 | Mermaid Dart 0.3.2 | 1114 | 0.856 | API; initialization excluded |
+| 9 | Agentic Mermaid 0.5.6 | 1066 | 6.553 | API; initialization excluded |
+| 10 | Merslim 0.2.3 | 700 | 20.917 | API; initialization excluded |
+| 11 | XMermaid 0.4.2 | 680 | 0.499 | API; initialization excluded |
+| 12 | Zombie Mermaid 5.14.4 | 637 | 1.588 | API; initialization excluded |
+| 13 | Beautiful Mermaid 1.1.3 | 513 | 1.138 | API; initialization excluded |
+| 14 | Crafter Mermaid 0.0.3 | 510 | 0.368 | API; initialization excluded |
+| 15 | VitePress Plugin Diagram 0.3.2 | 398 | 0.100 | API; initialization excluded |
+| 16 | DSH Mermaid GB SVG 0.1.5 | 384 | 0.174 | API; initialization excluded |
 
 ### PNG rendering
 
-| Rank | Project | Completed / 1342 ↑ | Median seconds ↓ |
-| --- | --- | --- | --- |
-| 1 | Latias Merman 0.9.3 | 1338 | 16.987 |
-| 2 | Bezel 0.2.24 | 1306 | 8.467 |
-| 2 | Mermaid RS Renderer 0.3.1 | 1306 | 38.014 |
-| 2 | Ondine 0.0.3 | 1306 | 7.363 |
-| 2 | Pele 1.13.0 | 1306 | 8.230 |
-| 6 | Mermaid 12.3.0 | 1302 | 65.629 |
-| 7 | Frankenmermaid 0.4.0 | 1185 | 12.982 |
-| 8 | Mermaid Dart 0.3.2 | 1114 | 8.101 |
-| 9 | Mermaid Flutter 0.3.2 | 1114 | 25.455 |
-| 10 | Agentic Mermaid 0.5.6 | 1066 | 15.451 |
-| 11 | Merslim 0.2.3 | 700 | 27.391 |
-| 12 | XMermaid 0.4.2 | 680 | 3.871 |
-| 13 | Zombie Mermaid 5.14.4 | 637 | 6.204 |
-| 14 | Beautiful Mermaid 1.1.3 | 513 | 3.897 |
-| 15 | Crafter Mermaid 0.0.3 | 510 | 5.046 |
-| 16 | VitePress Plugin Diagram 0.3.2 | 398 | 2.042 |
-| 17 | DSH Mermaid GB SVG 0.1.5 | 384 | 5.833 |
+| Rank | Project | Completed / 1342 ↑ | Median seconds ↓ | Timing boundary |
+| --- | --- | --- | --- | --- |
+| 1 | Latias Merman 0.9.3 | 1338 | 16.987 | API; initialization excluded |
+| 2 | Bezel 0.2.24 | 1306 | 8.467 | API; initialization excluded |
+| 2 | Mermaid RS Renderer 0.3.1 | 1306 | 38.014 | CLI; startup included |
+| 2 | Ondine 0.0.3 | 1306 | 7.363 | API; initialization excluded |
+| 2 | Pele 1.13.0 | 1306 | 8.230 | API; initialization excluded |
+| 6 | Mermaid 12.3.0 | 1302 | 65.629 | API; initialization excluded |
+| 7 | Frankenmermaid 0.4.0 | 1185 | 12.982 | API; initialization excluded |
+| 8 | Mermaid Dart 0.3.2 | 1114 | 8.101 | API; initialization excluded |
+| 9 | Mermaid Flutter 0.3.2 | 1114 | 25.455 | API; initialization excluded |
+| 10 | Agentic Mermaid 0.5.6 | 1066 | 15.451 | API; initialization excluded |
+| 11 | Merslim 0.2.3 | 700 | 27.391 | API; initialization excluded |
+| 12 | XMermaid 0.4.2 | 680 | 3.871 | API; initialization excluded |
+| 13 | Zombie Mermaid 5.14.4 | 637 | 6.204 | API; initialization excluded |
+| 14 | Beautiful Mermaid 1.1.3 | 513 | 3.897 | API; initialization excluded |
+| 15 | Crafter Mermaid 0.0.3 | 510 | 5.046 | API; initialization excluded |
+| 16 | VitePress Plugin Diagram 0.3.2 | 398 | 2.042 | API; initialization excluded |
+| 17 | DSH Mermaid GB SVG 0.1.5 | 384 | 5.833 | API; initialization excluded |
 
 ### Terminal rendering
 
-| Rank | Project | Completed / 1342 ↑ | Median seconds ↓ |
-| --- | --- | --- | --- |
-| 1 | Frankenmermaid 0.4.0 | 1342 | 3.213 |
-| 2 | Ondine 0.0.3 | 1304 | 234.173 |
-| 3 | Termaid 0.12.0 | 1286 | 1.914 |
-| 4 | Agentic Mermaid 0.5.6 | 1068 | 6.248 |
-| 5 | Loom renderer 0.10.0 | 745 | 0.387 |
-| 6 | Latias Merman 0.9.3 | 726 | 10.011 |
-| 7 | Zombie Mermaid 5.14.4 | 637 | 2.698 |
-| 8 | ASCII Mermaid 0.1.0 | 555 | 0.165 |
-| 9 | Merslim 0.2.3 | 538 | 0.662 |
-| 10 | Crafter Mermaid 0.0.3 | 534 | 0.189 |
-| 11 | Beautiful Mermaid 1.1.3 | 509 | 0.205 |
-| 12 | Grok renderer git-2bdd1d6a6369 | 475 | 1.937 |
-| 13 | MermaidText git-a6b0c7657b94 | 475 | 3.167 |
-| 14 | Figurehead v0.4.3 | 408 | 40.191 |
-| 15 | Mermaid ASCII 1.6.1 | 401 | 19.202 |
-| 16 | OpenCode Merman 2.2.5 | 254 | 0.684 |
-| 17 | Kitlangton Merman 0.2.1 | 181 | 0.142 |
-| 18 | MermaidTUI 0.0.6 | 23 | 0.022 |
+| Rank | Project | Completed / 1342 ↑ | Median seconds ↓ | Timing boundary |
+| --- | --- | --- | --- | --- |
+| 1 | Frankenmermaid 0.4.0 | 1342 | 3.213 | CLI; startup included |
+| 2 | Ondine 0.0.3 | 1304 | 234.173 | CLI; startup included |
+| 3 | Termaid 0.12.0 | 1286 | 1.914 | API; initialization excluded |
+| 4 | Agentic Mermaid 0.5.6 | 1068 | 6.248 | API; initialization excluded |
+| 5 | Loom renderer 0.10.0 | 745 | 0.387 | API; initialization excluded |
+| 6 | Latias Merman 0.9.3 | 726 | 10.011 | CLI; startup included |
+| 7 | Zombie Mermaid 5.14.4 | 637 | 2.698 | API; initialization excluded |
+| 8 | ASCII Mermaid 0.1.0 | 555 | 0.165 | API; initialization excluded |
+| 9 | Merslim 0.2.3 | 538 | 0.662 | API; initialization excluded |
+| 10 | Crafter Mermaid 0.0.3 | 534 | 0.189 | API; initialization excluded |
+| 11 | Beautiful Mermaid 1.1.3 | 509 | 0.205 | API; initialization excluded |
+| 12 | Grok renderer git-2bdd1d6a6369 | 475 | 1.937 | CLI; startup included |
+| 13 | MermaidText git-a6b0c7657b94 | 475 | 3.167 | CLI; startup included |
+| 14 | Figurehead v0.4.3 | 408 | 40.191 | CLI; startup included |
+| 15 | Mermaid ASCII 1.6.1 | 401 | 19.202 | CLI; startup included |
+| 16 | OpenCode Merman 2.2.5 | 254 | 0.684 | API; initialization excluded |
+| 17 | Kitlangton Merman 0.2.1 | 181 | 0.142 | API; initialization excluded |
+| 18 | MermaidTUI 0.0.6 | 23 | 0.022 | API; initialization excluded |
 
 ## Drawing Correctness
 
+Required labels must be visible without leaked source syntax. Edges, arrow direction, layout and styling are outside this benchmark; PNG is not assessed.
+
 ### SVG correctness
 
-| Verified rank | Possible rank | Project | Passed / 127 ↑ | Failed | Unassessed |
-| --- | --- | --- | --- | --- | --- |
-| 1 | 1–5 | Bezel 0.2.24 | 124 | 1 | 2 |
-| 1 | 1–5 | Pele 1.13.0 | 124 | 1 | 2 |
-| 3 | 1–5 | Ondine 0.0.3 | 123 | 1 | 3 |
-| 4 | 1–5 | Mermaid 12.3.0 | 122 | 2 | 3 |
-| 5 | 4–7 | Agentic Mermaid 0.5.6 | 121 | 5 | 1 |
-| 6 | 6–9 | Mermaid Dart 0.3.2 | 115 | 7 | 5 |
-| 7 | 4–9 | Frankenmermaid 0.4.0 | 112 | 5 | 10 |
-| 8 | 6–10 | Mermaid RS Renderer 0.3.1 | 108 | 8 | 11 |
-| 9 | 8–11 | Zombie Mermaid 5.14.4 | 104 | 18 | 5 |
-| 10 | 1–11 | Latias Merman 0.9.3 | 98 | 2 | 27 |
-| 10 | 9–11 | XMermaid 0.4.2 | 98 | 21 | 8 |
-| 12 | 12 | Beautiful Mermaid 1.1.3 | 92 | 35 | 0 |
-| 13 | 13–14 | Merslim 0.2.3 | 76 | 39 | 12 |
-| 14 | 13–15 | Crafter Mermaid 0.0.3 | 66 | 44 | 17 |
-| 15 | 14–16 | DSH Mermaid GB SVG 0.1.5 | 57 | 55 | 15 |
-| 16 | 15–16 | VitePress Plugin Diagram 0.3.2 | 41 | 62 | 24 |
+| Verified rank | Possible rank | Project | Passed / 127 ↑ | Pass bounds | Failed | Unassessed |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 1–3 | Bezel 0.2.24 | 125 | 125–126 | 1 | 1 |
+| 1 | 1–3 | Pele 1.13.0 | 125 | 125–126 | 1 | 1 |
+| 3 | 1–4 | Ondine 0.0.3 | 124 | 124–126 | 1 | 2 |
+| 4 | 1–4 | Mermaid 12.3.0 | 123 | 123–125 | 2 | 2 |
+| 5 | 4–5 | Agentic Mermaid 0.5.6 | 122 | 122–123 | 4 | 1 |
+| 6 | 6–8 | Mermaid Dart 0.3.2 | 116 | 116–120 | 7 | 4 |
+| 7 | 5–8 | Frankenmermaid 0.4.0 | 112 | 112–122 | 5 | 10 |
+| 8 | 6–9 | Mermaid RS Renderer 0.3.1 | 108 | 108–119 | 8 | 11 |
+| 9 | 8–10 | Zombie Mermaid 5.14.4 | 105 | 105–109 | 18 | 4 |
+| 10 | 10–11 | Latias Merman 0.9.3 | 100 | 100–101 | 26 | 1 |
+| 11 | 9–11 | XMermaid 0.4.2 | 98 | 98–106 | 21 | 8 |
+| 12 | 12 | Beautiful Mermaid 1.1.3 | 92 | 92 | 35 | 0 |
+| 13 | 13–14 | Merslim 0.2.3 | 76 | 76–88 | 39 | 12 |
+| 14 | 13–15 | Crafter Mermaid 0.0.3 | 66 | 66–83 | 44 | 17 |
+| 15 | 14–16 | DSH Mermaid GB SVG 0.1.5 | 57 | 57–72 | 55 | 15 |
+| 16 | 15–16 | VitePress Plugin Diagram 0.3.2 | 41 | 41–65 | 62 | 24 |
 
 ### Terminal correctness
 
@@ -118,52 +120,52 @@
 
 ## Mermaid Fidelity
 
-| Verified rank | Possible rank | Project | Passed / 7346 ↑ | Failed | Unassessed |
-| --- | --- | --- | --- | --- | --- |
-| 1 | 1 | Mermaid 12.3.0 | 7346 | 0 | 0 |
-| 2 | 2–27 | Pele 1.13.0 | 3055 | 412 | 3879 |
-| 3 | 2–27 | Bezel 0.2.24 | 2961 | 534 | 3851 |
-| 4 | 2–27 | Latias Merman 0.9.3 | 2775 | 693 | 3878 |
-| 5 | 2–27 | Agentic Mermaid 0.5.6 | 2178 | 1315 | 3853 |
-| 6 | 2–27 | Mermaid Dart 0.3.2 | 2085 | 1416 | 3845 |
-| 6 | 2–27 | Mermaid Flutter 0.3.2 | 2085 | 1416 | 3845 |
-| 8 | 2–27 | Mermaid RS Renderer 0.3.1 | 1432 | 2046 | 3868 |
-| 9 | 2–27 | Frankenmermaid 0.4.0 | 1254 | 2212 | 3880 |
-| 10 | 2–27 | Termaid 0.12.0 | 1055 | 2447 | 3844 |
-| 11 | 2–27 | Zombie Mermaid 5.14.4 | 957 | 2567 | 3822 |
-| 12 | 2–27 | XMermaid 0.4.2 | 878 | 2625 | 3843 |
-| 13 | 2–27 | Loom renderer 0.10.0 | 730 | 2775 | 3841 |
-| 14 | 2–27 | Mermaid ASCII 1.6.1 | 722 | 2802 | 3822 |
-| 15 | 2–27 | Grok renderer git-2bdd1d6a6369 | 618 | 2906 | 3822 |
-| 15 | 2–27 | MermaidText git-a6b0c7657b94 | 618 | 2906 | 3822 |
-| 17 | 2–27 | Figurehead v0.4.3 | 341 | 3183 | 3822 |
-| 18 | 2–27 | ASCII Mermaid 0.1.0 | 332 | 3192 | 3822 |
-| 19 | 2–27 | Merslim 0.2.3 | 298 | 3226 | 3822 |
-| 20 | 2–27 | Ondine 0.0.3 | 263 | 3260 | 3823 |
-| 21 | 2–27 | Crafter Mermaid 0.0.3 | 217 | 3282 | 3847 |
-| 22 | 2–27 | Beautiful Mermaid 1.1.3 | 214 | 3310 | 3822 |
-| 23 | 2–27 | VitePress Plugin Diagram 0.3.2 | 144 | 3373 | 3829 |
-| 24 | 2–27 | DSH Mermaid GB SVG 0.1.5 | 128 | 3396 | 3822 |
-| 25 | 2–27 | OpenCode Merman 2.2.5 | 88 | 3430 | 3828 |
-| 26 | 2–27 | Kitlangton Merman 0.2.1 | 51 | 3470 | 3825 |
-| 27 | 2–27 | MermaidTUI 0.0.6 | 0 | 3524 | 3822 |
+| Verified rank | Possible rank | Project | Passed / 7346 ↑ | Assertion/fault nonpasses | Unsupported | Unassessed |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 1 | Mermaid 12.3.0 | 7346 | 0 | 0 | 0 |
+| 2 | 2–27 | Pele 1.13.0 | 3055 | 103 | 309 | 3879 |
+| 3 | 2–27 | Bezel 0.2.24 | 2961 | 94 | 440 | 3851 |
+| 4 | 2–27 | Latias Merman 0.9.3 | 2775 | 238 | 455 | 3878 |
+| 5 | 2–27 | Agentic Mermaid 0.5.6 | 2178 | 112 | 1203 | 3853 |
+| 6 | 2–27 | Mermaid Dart 0.3.2 | 2085 | 513 | 903 | 3845 |
+| 6 | 2–27 | Mermaid Flutter 0.3.2 | 2085 | 513 | 903 | 3845 |
+| 8 | 2–27 | Mermaid RS Renderer 0.3.1 | 1432 | 484 | 1562 | 3868 |
+| 9 | 2–27 | Frankenmermaid 0.4.0 | 1254 | 1184 | 1028 | 3880 |
+| 10 | 2–27 | Termaid 0.12.0 | 1055 | 1160 | 1287 | 3844 |
+| 11 | 2–27 | Zombie Mermaid 5.14.4 | 957 | 1225 | 1342 | 3822 |
+| 12 | 2–27 | XMermaid 0.4.2 | 878 | 1951 | 674 | 3843 |
+| 13 | 2–27 | Loom renderer 0.10.0 | 730 | 947 | 1828 | 3841 |
+| 14 | 2–27 | Mermaid ASCII 1.6.1 | 722 | 964 | 1838 | 3822 |
+| 15 | 2–27 | Grok renderer git-2bdd1d6a6369 | 618 | 961 | 1945 | 3822 |
+| 15 | 2–27 | MermaidText git-a6b0c7657b94 | 618 | 961 | 1945 | 3822 |
+| 17 | 2–27 | Figurehead v0.4.3 | 341 | 1141 | 2042 | 3822 |
+| 18 | 2–27 | ASCII Mermaid 0.1.0 | 332 | 1586 | 1606 | 3822 |
+| 19 | 2–27 | Merslim 0.2.3 | 298 | 1782 | 1444 | 3822 |
+| 20 | 2–27 | Ondine 0.0.3 | 263 | 62 | 3198 | 3823 |
+| 21 | 2–27 | Crafter Mermaid 0.0.3 | 217 | 1684 | 1598 | 3847 |
+| 22 | 2–27 | Beautiful Mermaid 1.1.3 | 214 | 1665 | 1645 | 3822 |
+| 23 | 2–27 | VitePress Plugin Diagram 0.3.2 | 144 | 1092 | 2281 | 3829 |
+| 24 | 2–27 | DSH Mermaid GB SVG 0.1.5 | 128 | 668 | 2728 | 3822 |
+| 25 | 2–27 | OpenCode Merman 2.2.5 | 88 | 1137 | 2293 | 3828 |
+| 26 | 2–27 | Kitlangton Merman 0.2.1 | 51 | 277 | 3193 | 3825 |
+| 27 | 2–27 | MermaidTUI 0.0.6 | 0 | 55 | 3469 | 3822 |
 
 ## Equal-weight synthesis
 
 | Possible rank | Project | DaveBench / 100 | Drawing / 100 | Fidelity / 100 | Overall / 100 ↑ |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Mermaid 12.3.0 | 97.02 | 96.06–98.43 | 100.00 | 97.69–98.48 |
+| 1 | Mermaid 12.3.0 | 97.02 | 96.85–98.43 | 100.00 | 97.96–98.48 |
 | 2–11 | Mermaid RS Renderer 0.3.1 | 97.24 | 85.04–93.70 | 19.49–72.15 | 67.26–87.70 |
-| 2–11 | Agentic Mermaid 0.5.6 | 79.48 | 96.46–96.85 | 29.65–82.10 | 68.53–86.14 |
-| 2–11 | Bezel 0.2.24 | 97.32 | 97.64–99.21 | 40.31–92.73 | 78.42–96.42 |
-| 2–11 | Latias Merman 0.9.3 | 84.50 | 77.56–88.19 | 37.78–90.57 | 66.61–87.75 |
-| 2–11 | Pele 1.13.0 | 97.32 | 97.64–99.21 | 41.59–94.39 | 78.85–96.97 |
-| 2–11 | Mermaid Dart 0.3.2 | 83.01 | 90.55–94.49 | 28.38–80.72 | 67.31–86.07 |
+| 2–11 | Agentic Mermaid 0.5.6 | 79.48 | 96.85–97.24 | 29.65–82.10 | 68.66–86.28 |
+| 2–11 | Bezel 0.2.24 | 97.32 | 98.43–99.21 | 40.31–92.73 | 78.68–96.42 |
+| 2–11 | Latias Merman 0.9.3 | 84.50 | 78.35–78.74 | 37.78–90.57 | 66.87–84.60 |
+| 2–11 | Pele 1.13.0 | 97.32 | 98.43–99.21 | 41.59–94.39 | 79.11–96.97 |
+| 2–11 | Mermaid Dart 0.3.2 | 83.01 | 91.34–94.49 | 28.38–80.72 | 67.58–86.07 |
 | 2–14 | Frankenmermaid 0.4.0 | 92.20 | 84.65–88.58 | 17.07–69.89 | 64.64–83.56 |
 | 2–14 | Termaid 0.12.0 | 95.83 | 85.04 | 14.36–66.69 | 65.08–82.52 |
 | 2–14 | Mermaid Flutter 0.3.2 | 83.01 | n/a | 28.38–80.72 | 55.70–81.87 |
-| 2–14 | Ondine 0.0.3 | 97.27 | 94.09–95.28 | 3.58–55.62 | 64.98–82.72 |
-| 8–21 | Zombie Mermaid 5.14.4 | 47.47 | 82.68–84.65 | 13.03–65.06 | 47.72–65.72 |
+| 2–14 | Ondine 0.0.3 | 97.27 | 94.49–95.28 | 3.58–55.62 | 65.11–82.72 |
+| 8–21 | Zombie Mermaid 5.14.4 | 47.47 | 83.07–84.65 | 13.03–65.06 | 47.85–65.72 |
 | 8–21 | XMermaid 0.4.2 | 50.67 | 77.17–83.46 | 11.95–64.27 | 46.60–66.13 |
 | 8–21 | Loom renderer 0.10.0 | 55.51 | 81.10 | 9.94–62.22 | 48.85–66.28 |
 | 12–26 | Mermaid ASCII 1.6.1 | 29.88 | 60.63 | 9.83–61.86 | 33.45–50.79 |

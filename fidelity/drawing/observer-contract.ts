@@ -22,8 +22,12 @@ const svgControlLabels: readonly Control[] = [
   { name: 'superscript-is-not-wrapping', label: 'Small rectangle', text: '<tspan>Small rect </tspan><tspan dy="-9">angle</tspan>', status: 'incorrect' },
   { name: 'backward-row-is-not-forward-wrapping', label: 'Small rectangle', text: '<tspan font-size="30">Small rect</tspan><tspan x="10" dy="-2" font-size="30">angle</tspan>', status: 'incorrect' },
 ]
+const htmlControls = [
+  { name: 'html-font-box-overflow', height: 18, status: 'correct' },
+  { name: 'html-clipped-glyphs', height: 12, status: 'incorrect' },
+] as const
 export function drawingAssessmentProfiles(formats: readonly string[]) {
-  return Object.fromEntries(formats.map(format => [format, evidenceDigest({ policy: labelPolicy, controls, ...(format === 'svg' ? { profile: svgLabelProfile, svgControlLabels, visiblePaintRequired: true, glyphWitnessRequiredForOutlines: true } : { terminalRectangleWork: terminalLabelWorkBudget, displayCells: true }) })]))
+  return Object.fromEntries(formats.map(format => [format, evidenceDigest({ policy: labelPolicy, controls: format === 'svg' ? [...controls, ...htmlControls] : controls, ...(format === 'svg' ? { profile: svgLabelProfile, svgControlLabels, visiblePaintRequired: true, glyphWitnessRequiredForOutlines: true } : { terminalRectangleWork: terminalLabelWorkBudget, displayCells: true }) })]))
 }
 /** Producer bytes are provenance, separate from the observable assessment policy. */
 export function drawingObserverSources(formats: readonly string[]) {
@@ -32,11 +36,14 @@ export function drawingObserverSources(formats: readonly string[]) {
 }
 export async function verifyDrawingObserver(format: string, context?: any) {
   // Independently authored source facts and counterexamples, not renderer output.
+  const fixture = (label: string) => {
+    const graph = { nodes: [{ id: 'A', label }], edges: [] }
+    return { id: 'observer-control', source: 'flowchart LR\nA[' + label + ']', family: 'flowchart', expected: graph, sourceGaps: [], terminal: { expected: { graph } } } as unknown as DrawingCase
+  }
   const observed = []
   const selected: readonly Control[] = format === 'svg' ? [...controls, ...svgControlLabels] : controls
   for (const control of selected) {
-    const label = control.label ?? 'Alpha'
-    const test = { id: 'observer-control', source: 'flowchart LR\nA[' + label + ']', family: 'flowchart', expected: { nodes: [{ id: 'A', label }], edges: [] }, sourceGaps: [], terminal: { expected: { graph: { nodes: [{ id: 'A', label }], edges: [] } } } } as unknown as DrawingCase
+    const test = fixture(control.label ?? 'Alpha')
     let verdict
     if (format === 'terminal') verdict = assessTerminalLabels(test, control.text)
     else {
@@ -46,6 +53,17 @@ export async function verifyDrawingObserver(format: string, context?: any) {
     }
     if (verdict.status !== control.status) throw Error('Drawing observer failed independent control: ' + format + ' ' + control.name + ' (' + verdict.status + ')')
     observed.push({ name: control.name, status: verdict.status })
+  }
+  if (format === 'svg') for (const control of htmlControls) {
+    const sample = fixture('ABC')
+    const page = await context.newPage()
+    try {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><foreignObject x="10" y="10" width="200" height="60"><div xmlns="http://www.w3.org/1999/xhtml" style="font:20px/20px sans-serif;white-space:nowrap;color:black;background:white;overflow:hidden;width:100px;height:${control.height}px">ABC</div></foreignObject></svg>`
+      await page.setContent(svg)
+      const verdict = await assessSvgLabels(sample, page, svg)
+      if (verdict.status !== control.status) throw Error('Drawing observer failed independent control: svg ' + control.name + ' (' + verdict.status + ')')
+      observed.push({ name: control.name, status: verdict.status })
+    } finally { await page.close() }
   }
   return observed
 }

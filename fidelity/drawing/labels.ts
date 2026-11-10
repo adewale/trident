@@ -6,13 +6,13 @@
  * misread too many diagram labels to measure renderers rather than the OCR.
  */
 import type { DrawingCase } from './corpus.ts'
-import { labelPaintCriteria, observeSvgLabels } from './svg-label-observer.ts'
+import { observeSvgLabelEvidence, type SvgLabelEvidence } from './svg-label-observer.ts'
 import { inspectEmptySvgDrawing } from './empty.ts'
 import { interpretTerminal } from '../terminal-display.ts'
 import { terminalRectangles, TerminalRectangleBudgetExceeded } from '../terminal-rectangles.ts'
-import { observeGlyphWitness } from './svg-glyph-witness.ts'
+import { observeGlyphWitness, type GlyphWitnessResult } from './svg-glyph-witness.ts'
 
-export type LabelVerdict = { status: 'correct' | 'incorrect' | 'unknown'; reason?: string; missing?: string[]; leaked?: string[]; labels: number }
+export type LabelVerdict = { status: 'correct' | 'incorrect' | 'unknown'; reason?: string; missing?: string[]; leaked?: string[]; labels: number; evidence?: { checks: SvgLabelEvidence[]; glyphWitness?: GlyphWitnessResult } }
 export const labelPolicy = 'drawing-reviewed-labels-v2'
 export interface LabelPlan {
   readonly caseId: string
@@ -153,10 +153,7 @@ export async function assessSvgLabels(test: DrawingCase, page: any, svg: string,
     const empty = await inspectEmptySvgDrawing(page, test)
     return { status: empty.status, labels: 0, reason: [...empty.failed, ...empty.unknown].join('; ') || undefined }
   }
-  const observe = async (labels: string[]) => {
-    const paint = await observeSvgLabels(page, test.family, labels)
-    return labelPaintCriteria.map(criterion => ({ criterion, status: paint[criterion] ?? 'unavailable' }))
-  }
+  const observe = (labels: string[]) => observeSvgLabelEvidence(page, test.family, labels)
   let rasterWitness = false
   if (labels.length) {
     // The lexical and painted checks use the same visible forms of control-
@@ -167,18 +164,23 @@ export async function assessSvgLabels(test: DrawingCase, page: any, svg: string,
       ? labels.map(label => visibleForms(label).map(form => [form]))
       : [[labels]]
     for (const alternatives of obligations) {
-      let matched = false, uncertain = false
+      let matched = false, failedChecks: SvgLabelEvidence[] | undefined
+      let unresolved: { checks: SvgLabelEvidence[]; witness: Extract<GlyphWitnessResult, { status: 'unassessed' }> } | undefined
       const failed = new Set<string>()
       for (const forms of alternatives) {
         const checks = await observe(forms), failures = checks.filter(check => check.status === 'failed')
-        if (failures.length) { for (const check of failures) failed.add(check.criterion); continue }
+        if (failures.length) { for (const check of failures) failed.add(check.criterion); failedChecks ??= checks; continue }
         if (checks.every(check => check.status === 'passed')) { matched = true; break }
-        if (await observeGlyphWitness(page, forms)) { rasterWitness = true; matched = true; break }
-        uncertain = true
+        const witness = await observeGlyphWitness(page, forms)
+        if (witness.status === 'proved') { rasterWitness = true; matched = true; break }
+        unresolved ??= { checks, witness }
       }
-      if (!matched) return uncertain
-        ? { status: 'unknown', labels: labels.length, reason: 'Visible label evidence is unavailable for this SVG representation' }
-        : { status: 'incorrect', labels: labels.length, reason: [...failed].join('; ') }
+      if (matched) continue
+      if (unresolved) {
+        const { checks, witness } = unresolved, unavailable = checks.filter(check => check.status !== 'passed').map(check => check.criterion)
+        return { status: 'unknown', labels: labels.length, reason: `Unresolved SVG label evidence: ${unavailable.join(', ')}; glyph ${witness.kind} during ${witness.stage}: ${witness.reason}`, evidence: { checks, glyphWitness: witness } }
+      }
+      return { status: 'incorrect', labels: labels.length, reason: [...failed].join('; '), evidence: { checks: failedChecks! } }
     }
   }
   // A serialized leak is a nomination, not proof of paint. Failure to match

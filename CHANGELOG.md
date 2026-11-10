@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- Measure the glyph ink of plain, single-line HTML labels, separating unused
+  font-box overflow from cropped letters, with independent positive and clipped
+  admission controls. Record each unavailable SVG criterion and the glyph witness's
+  stage, and keep proof-profile rejections separate from observer errors.
+  Reassessing the retained 0.3.0 SVG outputs with this and the reviewed wrapping
+  and control-label observer changes from #94 changes 33 verdicts: 24 clipped Latias
+  Merman labels become failures, 9 unknown or failing cases pass and no pass is
+  lost. Unassessed Drawing observations fall from 145 to 113.
+- Show SVG pass bounds, Fidelity assertion/fault nonpasses separately from
+  unsupported operations, timing boundaries and Drawing's label scope in the
+  league tables.
 - Reap persistent Fidelity parser bridges when they stop. Each closed or restarted
   bridge previously left one unreaped process; long campaigns filled the process
   table on hosts whose PID 1 does not reap orphans. A regression test checks that
