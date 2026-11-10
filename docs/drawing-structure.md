@@ -43,7 +43,9 @@ order. Terminal controls include a complete graph, a reversed arrow and labels
 without a drawing. The original Mermaid test bodies and the 127 Drawing source
 cases are unchanged.
 Each additional graph family has independent SVG and terminal positive and
-damaged controls. Quadrant controls separate a clear layout from a point marker
+damaged controls. Terminal bend-caption controls independently distinguish a
+complete route, a broken stem and ambiguous wire contacts. The current
+production qualification runs 33 controls. Quadrant controls separate a clear layout from a point marker
 overlapping a section caption.
 
 A closed wire loop containing only stroke glyphs is an ambiguity control, not

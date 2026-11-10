@@ -156,3 +156,21 @@ Under the same final runtime and sealed reference, original Agentic `e7cb05b`
 yields 2,809 passes and 162 assertion failures; the repaired package turns
 exactly 30 failures into passes with no other status changes. Frozen 0.5.6
 retains its earlier 2,244 / 106 / 1,449 / 3,547 totals.
+
+## Final rendering and mapping follow-up, 2026-11-10
+
+The final Agentic source at `0102da4` produces **2,842 passes, 131 strict assertion
+failures, 775 unsupported callbacks and 3,598 Trident gaps**. The same runtime
+measures original `e7cb05b` at 2,812 / 161 / 775 / 3,598 and published 0.5.6 at
+2,247 / 106 / 1,449 / 3,544. Exactly 30 source failures become passes with no
+other callback-status changes. Two real native operations close former gaps;
+one source-coordinate mapping corrects a former failure. Exact error wording,
+private mutable bounds and DOM mounting are preserved as distinct capabilities.
+
+Full SVG, PNG and terminal completion now each reaches 1,332 / 1,342 in all
+three repeats; drawing labels reach 126 / 127 in both formats. Reviewed rendered
+repairs include wrapping, quadrant clearance, terminal notes and grouped-node
+containment. The [complete receipt](evidence/agentic-final-2026-11-10/README.md)
+records remaining refusals, strict assertions, coverage gaps and the 33-control
+rendered-structure replay. These final measurements supersede the earlier
+follow-up counts above without rewriting historical campaign results.
