@@ -105,11 +105,15 @@ test('SVG emergency wrapping preserves letters only at observed line boundaries'
       ['rectang', 'e', '', 'incorrect'],
       ['rect angl', 'e', '', 'incorrect'],
       ['rectangl', 'e', 'opacity="0"', 'incorrect'],
-      ['rectangl', 'e', 'transform="translate(400 0)"', 'unknown'],
+      ['rectangl', 'e', 'transform="translate(400 0)"', 'nonpass'],
     ] as const) {
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><text x="20" y="25" ${attributes}><tspan x="20">Small</tspan><tspan x="20" dy="20">${middle}</tspan><tspan x="20" dy="20">${last}</tspan></text></svg>`
       await page.setContent(svg)
-      expect((await assessSvgLabels(example, page, svg)).status, JSON.stringify({ middle, last, attributes })).toBe(expected)
+      const status = (await assessSvgLabels(example, page, svg)).status
+      // Font availability determines whether overflowing ink is measurable or
+      // unqualified. Neither outcome may earn a label pass on any platform.
+      if (expected === 'nonpass') expect(['incorrect', 'unknown']).toContain(status)
+      else expect(status, JSON.stringify({ middle, last, attributes })).toBe(expected)
     }
   } finally { await browser.close() }
 })
