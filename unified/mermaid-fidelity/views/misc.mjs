@@ -1549,6 +1549,13 @@ function mermaidEdgeId(edges, index) {
 const GRAPH_SHAPE = { rectangle: 'square', rounded: 'round', 'lean-r': 'lean_right', 'lean-l': 'lean_left', 'trapezoid-alt': 'inv_trapezoid', asymmetric: 'odd', 'double-circle': 'doublecircle' }
 function beautifulGraph(graph, name, keeps, hooks) {
   const get = (map, key) => (map instanceof Map ? map.get(key) : undefined)
+  const classes = id => {
+    const assigned = get(graph.classAssignments, id)
+    if (assigned === undefined || assigned === '') return []
+    if (typeof assigned === 'string') return assigned.split(/\s+/).filter(Boolean)
+    if (Array.isArray(assigned) && assigned.every(value => typeof value === 'string')) return [...assigned]
+    return hooks.unavailable(`${name} has an unreviewed class-assignment representation`)
+  }
   const flat = []
   const walk = group => {
     const children = (group.children ?? []).filter(child => typeof child === 'object')
@@ -1560,14 +1567,13 @@ function beautifulGraph(graph, name, keeps, hooks) {
   const head = (has, marker) => (has ? headOf(keeps.markers ? marker ?? 'arrow' : 'arrow') : 'none')
   const view = flowchartView({
     nodes: () => entriesOf(graph.nodes).map(([id, node]) => {
-      const assigned = get(graph.classAssignments, id)
       const shape = GRAPH_SHAPE[node.shape] ?? shapeOf(node.shape)
       // A shape written as @{ shape: X } is Mermaid's vertex type X as written; agentic-mermaid
       // keeps that name as authoredShape (absent for bracket syntax).
       return [id, {
         text: node.label,
         ...(typeof node.authoredShape === 'string' ? { type: node.authoredShape } : node.shape === 'rectangle' && typeof node.borders === 'string' ? { type: 'rect', props: { borders: node.borders || 'none' } } : node.shape === 'rectangle' && node.label === id ? { [VERTEX_ABSENT]: { type: ambiguous } } : shape ? { type: shape } : {}),
-        classes: assigned ? [assigned] : [],
+        classes: classes(id),
         styles: styleStrings(get(graph.nodeStyles, id)),
       }]
     }),
@@ -1577,6 +1583,7 @@ function beautifulGraph(graph, name, keeps, hooks) {
       return {
         start: edge.source, end: edge.target, text: edge.label ?? '', type, stroke: strokeOf(edge.style),
         ...mermaidEdgeId(graph.edges, index),
+        classes: edge.id && get(graph.classAssignments, edge.id) !== undefined ? classes(edge.id) : undefined,
         ...(keeps.length ? { length: edge.length ?? 1 } : {}),
         ...(keeps.markers ? { interpolate: edge.curve ?? graph.linkCurves?.get(index) } : {}),
         ...(graph.linkStyles instanceof Map ? { style: styleStrings(get(graph.linkStyles, index)).length ? styleStrings(get(graph.linkStyles, index)) : undefined } : {}),
@@ -1590,7 +1597,10 @@ function beautifulGraph(graph, name, keeps, hooks) {
       subgraph: { classes: `${name}'s subgraph model keeps no classes`, labelType: `${name} keeps a subgraph title's text without recording whether it was written as markdown` },
     },
   }, hooks)
-  return { ...view, ...(keeps.markers ? { getEdges: () => Object.assign(view.getEdges(), { defaultInterpolate: graph.linkCurves?.get('default') }) } : {}), getClasses: () => flowClasses(entriesOf(graph.classDefs).map(([id, style]) => [id, styleStrings(style)])) }
+  return { ...view, getEdges: () => Object.assign(view.getEdges(), {
+    ...(keeps.markers ? { defaultInterpolate: graph.linkCurves?.get('default') } : {}),
+    ...(graph.linkStyles instanceof Map ? { defaultStyle: graph.linkStyles.has('default') ? styleStrings(graph.linkStyles.get('default')) : undefined } : {}),
+  }), getClasses: () => flowClasses(entriesOf(graph.classDefs).map(([id, style]) => [id, styleStrings(style)])) }
 }
 flowchartSchema['adewale/agentic-mermaid'] = (raw, hooks) => {
   if (hooks[BASE_ONLY] || !raw.graph) return undefined

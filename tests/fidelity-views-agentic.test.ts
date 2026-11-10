@@ -3,6 +3,24 @@ import { nativeSchemaView, nativeAstView } from '../unified/mermaid-fidelity/sch
 
 const project = 'adewale/agentic-mermaid'
 const hooks = { unavailable: (why: string): never => { throw Error('gap: ' + why) }, unsupported: (why: string): never => { throw Error('unsupported: ' + why) } }
+test('Agentic flowchart classes and default link styles preserve native collection boundaries', () => {
+  const graph = { direction: 'LR', nodes: new Map([['A', { id: 'A', label: 'A', shape: 'rectangle' }], ['B', { id: 'B', label: 'B', shape: 'rectangle' }]]), edges: [{ id: 'e1', source: 'A', target: 'B', hasArrowEnd: true, style: 'solid' }], subgraphs: [], classDefs: new Map(), classAssignments: new Map<string, string | string[]>(), nodeStyles: new Map(), linkStyles: new Map<number | 'default', Record<string, string>>([['default', { stroke: 'red', 'stroke-width': '3px' }], [0, { stroke: 'blue' }]]) }
+  for (const [native, expected] of [['foo', ['foo']], ['foo bar', ['foo', 'bar']], [['bar', 'foo'], ['bar', 'foo']], ['', []], [[], []]] as const) {
+    graph.classAssignments.set('A', typeof native === 'string' ? native : [...native])
+    graph.classAssignments.set('e1', typeof native === 'string' ? native : [...native])
+    const original = structuredClone(graph), view = nativeSchemaView(project, 'flowchart', { graph }, hooks)
+    expect(view.getVertices().get('A').classes).toEqual([...expected])
+    expect(view.getVertices().get('B').classes).toEqual([])
+    expect(view.getEdges()[0].classes).toEqual([...expected])
+    expect(view.getEdges().defaultStyle).toEqual(['stroke:red', 'stroke-width:3px'])
+    expect(view.getEdges()[0].style).toEqual(['stroke:blue'])
+    expect(graph).toEqual(original)
+  }
+  graph.classAssignments.delete('e1')
+  expect(nativeSchemaView(project, 'flowchart', { graph }, hooks).getEdges()[0].classes).toBeUndefined()
+  graph.linkStyles.delete('default')
+  expect(nativeSchemaView(project, 'flowchart', { graph }, hooks).getEdges().defaultStyle).toBeUndefined()
+})
 test('Agentic C4 tag arrays retain their native plus-separated encoding', () => {
   const raw = { variant: 'C4Context', elements: [{ id: 'a', macro: 'Person', label: 'A', tags: ['v1.0', 'internal'] }, { id: 'b', macro: 'System', label: 'B' }], boundaries: [{ id: 'g', macro: 'System_Boundary', label: 'G', tags: ['one', 'two'] }], relationships: [{ macro: 'Rel', from: 'a', to: 'b', label: 'uses', tags: ['x', 'y'] }] }
   const view = nativeSchemaView(project, 'c4', raw, hooks)
