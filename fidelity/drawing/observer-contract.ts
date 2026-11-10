@@ -14,6 +14,9 @@ const svgControlLabels: readonly Control[] = [
   { name: 'sanitized-control-label', label: '\u001b[31mAlpha', text: 'Alpha', status: 'correct' },
   { name: 'wrong-sanitized-control-label', label: '\u001b[31mAlpha', text: 'Beta', status: 'incorrect' },
   { name: 'hidden-sanitized-control-label', label: '\u001b[31mAlpha', text: 'Alpha', hidden: true, status: 'incorrect' },
+  { name: 'emergency-wrapped-label', label: 'Small rectangle', text: '<tspan x="10">Small</tspan><tspan x="10" dy="20">rectangl</tspan><tspan x="10" dy="20">e</tspan>', status: 'correct' },
+  { name: 'wrapped-label-added-hyphen', label: 'Small rectangle', text: '<tspan x="10">Small</tspan><tspan x="10" dy="20">rectangl-</tspan><tspan x="10" dy="20">e</tspan>', status: 'incorrect' },
+  { name: 'wrapped-label-missing-letter', label: 'Small rectangle', text: '<tspan x="10">Small</tspan><tspan x="10" dy="20">rectang</tspan><tspan x="10" dy="20">e</tspan>', status: 'incorrect' },
 ]
 export function drawingAssessmentProfiles(formats: readonly string[]) {
   return Object.fromEntries(formats.map(format => [format, evidenceDigest({ policy: labelPolicy, controls, ...(format === 'svg' ? { profile: svgLabelProfile, svgControlLabels, visiblePaintRequired: true, glyphWitnessRequiredForOutlines: true } : { terminalRectangleWork: terminalLabelWorkBudget, displayCells: true }) })]))

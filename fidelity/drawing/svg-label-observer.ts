@@ -1,6 +1,6 @@
 import { inspectFidelityPaint } from '../paint.ts'
 
-export const svgLabelProfile = 'svg-label-paint-v4'
+export const svgLabelProfile = 'svg-label-paint-v5'
 export const labelPaintCriteria = ['visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels', 'paint-opacity-and-color'] as const
 type Status = 'passed' | 'failed' | 'unavailable'
 let source: Promise<string> | undefined

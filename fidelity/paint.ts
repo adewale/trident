@@ -276,7 +276,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       if (child.nodeType === Node.TEXT_NODE) { result += child.textContent ?? ''; const range = document.createRange(); range.selectNodeContents(child); const box = range.getBoundingClientRect(); if (box.width && box.height) previous = box; continue }
       if (!(child instanceof Element)) continue
       const box = child.getBoundingClientRect()
-      if (previous && Math.abs(box.y - previous.y) > Math.max(1, Math.min(box.height, previous.height) * .4)) result += ' '
+      if (previous && Math.abs(box.y - previous.y) > Math.max(1, Math.min(box.height, previous.height) * .4)) result += '\n'
       result += labelText(child); previous = box
     }
     return result
@@ -285,6 +285,27 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const matches = (label: string) => {
     const exact = labelElements.filter(element => normalize(labelText(element)) === normalize(label))
     if (exact.length) return exact
+    // Only an observed SVG line boundary may stand for either a word space
+    // or an emergency word break. Preserve every character and all whitespace
+    // inside a row; do not concatenate unrelated SVG text elements.
+    const wantedLabel = normalize(label)
+    const wrapped = labelElements.filter(element => {
+      if (element.namespaceURI !== 'http://www.w3.org/2000/svg') return false
+      const lines = labelText(element).split('\n').map(normalize).filter(Boolean)
+      if (lines.length < 2 || lines.length > 64) return false
+      let positions = new Set([0])
+      for (let index = 0; index < lines.length; index++) {
+        const next = new Set<number>()
+        for (const start of positions) if (wantedLabel.startsWith(lines[index]!, start)) {
+          const end = start + lines[index]!.length
+          next.add(end)
+          if (index < lines.length - 1 && wantedLabel[end] === ' ') next.add(end + 1)
+        }
+        positions = next
+      }
+      return positions.has(wantedLabel.length)
+    })
+    if (wrapped.length) return wrapped
     // Sequence condition captions may add one outer bracket pair and soft-wrap
     // across separate SVG text rows. Join only a unique adjacent complete block;
     // the fragment observer still has to prove its frame and chronological scope.

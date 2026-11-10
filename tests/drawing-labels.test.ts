@@ -94,6 +94,26 @@ test('SVG label verdicts require visible, unclipped text rather than hidden DOM 
   } finally { await browser.close() }
 })
 
+test('SVG emergency wrapping preserves letters only at observed line boundaries', async () => {
+  const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
+  const context = await browser.newContext({ javaScriptEnabled: false }), page = await context.newPage()
+  try {
+    const example: any = { ...flow, source: 'flowchart LR\nA[Small rectangle]', expected: { nodes: [{ id: 'A', label: 'Small rectangle' }] } }
+    for (const [middle, last, attributes, expected] of [
+      ['rectangl', 'e', '', 'correct'],
+      ['rectangl-', 'e', '', 'incorrect'],
+      ['rectang', 'e', '', 'incorrect'],
+      ['rect angl', 'e', '', 'incorrect'],
+      ['rectangl', 'e', 'opacity="0"', 'incorrect'],
+      ['rectangl', 'e', 'transform="translate(400 0)"', 'unknown'],
+    ] as const) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><text x="20" y="25" ${attributes}><tspan x="20">Small</tspan><tspan x="20" dy="20">${middle}</tspan><tspan x="20" dy="20">${last}</tspan></text></svg>`
+      await page.setContent(svg)
+      expect((await assessSvgLabels(example, page, svg)).status, JSON.stringify({ middle, last, attributes })).toBe(expected)
+    }
+  } finally { await browser.close() }
+})
+
 test('unresolved raw SVG syntax cannot earn credit through fragments or hidden exact matches', async () => {
   const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
   const context = await browser.newContext({ javaScriptEnabled: false }), page = await context.newPage()
