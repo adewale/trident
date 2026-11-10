@@ -1,0 +1,534 @@
+{
+  "protocol": "fidelity-recollection-v1",
+  "sourcePin": "2086904e76c692331e34a45d7cc3bc30860d040e",
+  "versionsFrozenAt": "2026-11-07T00:20:11.169Z",
+  "catalog": "docs/evidence/benchmark-campaign-2026-11-07/catalog.json",
+  "controlIdentity": "112fef9155d7a4f94b5d3d9b28d0c6e3fea945cb875bc9d35c29790a63790805",
+  "referenceQualifiedCallbacks": 7346,
+  "referenceOrdinalDigest": "b702e2431e9b3b3fb2fbc44cd601e598a786ce89f16f75af44a683d896967102",
+  "harnessDigest": "e611e63f68da044ad3b8e448b834a839b0cc4d6f6fc910cc15e0c1bfbdac679c",
+  "runtime": {
+    "controller": {
+      "engine": "bun",
+      "version": "1.4.4",
+      "executable": "/root/.bun/bin/bun",
+      "platform": "linux",
+      "architecture": "x64",
+      "kernel": "6.18.44-fc-v338",
+      "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+      "parallelism": 4,
+      "memoryBytes": 16867737600,
+      "cgroup": {},
+      "locale": "en-US",
+      "timezone": "UTC",
+      "rendererMemoryGuard": {
+        "limitMb": 2048,
+        "scope": "owned process tree RSS",
+        "pollMs": 100,
+        "availability": "available",
+        "discovery": "proc thread children"
+      }
+    },
+    "runner": {
+      "executable": "/home/user/campaign/node24/bin/node",
+      "node": "24.22.2",
+      "v8": "13.6.233.17-node.63",
+      "platform": "linux",
+      "arch": "x64"
+    }
+  },
+  "profiles": {
+    "jsdom": {
+      "startedAt": "2026-11-10T19:54:50Z",
+      "finishedAt": "2026-11-10T20:43:15Z",
+      "targets": 27,
+      "blocked": [],
+      "resultsSha256": "74912a0f36dc31773be0f6eb922e1debfc7152cbd3f2ea5b2254c5a0f14b805c"
+    },
+    "node": {
+      "startedAt": "2026-11-10T20:43:30Z",
+      "finishedAt": "2026-11-10T21:10:18Z",
+      "targets": 27,
+      "blocked": [],
+      "reusedControl": "jsdom",
+      "resultsSha256": "c01560a2734c0e2335bf5efd2285f5a4b3bb00904e0d0e1b09c70c4ee5104a84"
+    },
+    "automatic": {
+      "project": "emtyty/merslim",
+      "environments": {
+        "node": 321,
+        "jsdom": 31,
+        "unobserved": 0
+      },
+      "callbacks": 7364,
+      "identicalToJsdom": true,
+      "resultsSha256": "66603ee9a2d5c3c18ee8668327e426fbbdc2803e29ada48c74a205d90a144f0f"
+    }
+  },
+  "processTable": {
+    "zombiesBefore": 0,
+    "zombiesAfterEachProfile": 0,
+    "note": "Collected after #97; no bridge process was left unreaped."
+  },
+  "qualification": {
+    "commonFiles": 320,
+    "qualifierSha256": "1e751031a65ff8bad95a4d02ee473ea0a855adb5dc0a81167561c19121782b9a",
+    "additionalFiles": {
+      "1jehuang/mermaid-rs-renderer": 1,
+      "adewale/agentic-mermaid": 2,
+      "AlexanderGrooff/mermaid-ascii": 1,
+      "anomalyco/opencode": 2,
+      "crabtalk/bezel": 2,
+      "crafter-station/mermaid": 1,
+      "dfadler/zombie-mermaid": 1,
+      "Dicklesworthstone/frankenmermaid": 1,
+      "emtyty/merslim": 1,
+      "evangwt/xmermaid": 2,
+      "fasouto/termaid": 1,
+      "kais-radwan/ascii-mermaid": 1,
+      "kitlangton/merman": 1,
+      "KlangHaus/vitepress-plugin-diagram": 2,
+      "Latias94/merman": 2,
+      "lukilabs/beautiful-mermaid": 1,
+      "Mootikins/figurehead-rs": 2,
+      "obsidianmd/pele": 2,
+      "orestesgaolin/mermaid": 1,
+      "pub:mermaid_flutter": 1,
+      "sandyyst/dsh-plugin-mermaid-gb-svg": 2,
+      "spacedock-dev/mermaidtext": 1,
+      "tariqshams/mermaidtui": 2,
+      "wevm/ondine": 2,
+      "xai-org/grok-build": 1,
+      "Yassimba/loom": 1
+    }
+  },
+  "before": {
+    "source": "0.3.0 results/release/mermaid-fidelity.json",
+    "totals": {
+      "passed": 25479,
+      "failed": 22559,
+      "unsupported": 43159,
+      "trident-blocked": 99799
+    }
+  },
+  "after": {
+    "totals": {
+      "passed": 26645,
+      "failed": 22707,
+      "unsupported": 49660,
+      "trident-blocked": 91984
+    },
+    "coverage": {
+      "candidates": 26,
+      "commonUnassessedCallbacks": 3499,
+      "commonUncollectedCallbacks": 942,
+      "additionalGapObservations": 1010
+    }
+  },
+  "filePassDecreases": {
+    "sequenceDiagram.spec.js": {
+      "candidates": 13,
+      "callbacksPerCandidate": 1,
+      "cause": "#94 sequence lifecycle and renderer bindings; reproduced with the main worker before this change"
+    },
+    "flow.spec.js": {
+      "candidates": [
+        "evangwt/xmermaid"
+      ],
+      "callbacks": 2,
+      "cause": "Calls flow.parser.yy.getClasses(), which the candidate does not offer; an unavailable member is now an adapter gap even when its result is unused"
+    }
+  },
+  "candidates": [
+    {
+      "project": "Dicklesworthstone/frankenmermaid",
+      "before": {
+        "passed": 1254,
+        "failed": 1184,
+        "unsupported": 1028,
+        "trident-blocked": 3880
+      },
+      "after": {
+        "passed": 1326,
+        "failed": 1250,
+        "unsupported": 1169,
+        "trident-blocked": 3601
+      }
+    },
+    {
+      "project": "wevm/ondine",
+      "before": {
+        "passed": 263,
+        "failed": 62,
+        "unsupported": 3198,
+        "trident-blocked": 3823
+      },
+      "after": {
+        "passed": 305,
+        "failed": 55,
+        "unsupported": 3457,
+        "trident-blocked": 3529
+      }
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "before": {
+        "passed": 2085,
+        "failed": 513,
+        "unsupported": 903,
+        "trident-blocked": 3845
+      },
+      "after": {
+        "passed": 2127,
+        "failed": 525,
+        "unsupported": 1132,
+        "trident-blocked": 3562
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "before": {
+        "passed": 2085,
+        "failed": 513,
+        "unsupported": 903,
+        "trident-blocked": 3845
+      },
+      "after": {
+        "passed": 2127,
+        "failed": 525,
+        "unsupported": 1132,
+        "trident-blocked": 3562
+      }
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "before": {
+        "passed": 2178,
+        "failed": 112,
+        "unsupported": 1203,
+        "trident-blocked": 3853
+      },
+      "after": {
+        "passed": 2247,
+        "failed": 106,
+        "unsupported": 1427,
+        "trident-blocked": 3566
+      }
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "before": {
+        "passed": 957,
+        "failed": 1225,
+        "unsupported": 1342,
+        "trident-blocked": 3822
+      },
+      "after": {
+        "passed": 979,
+        "failed": 1216,
+        "unsupported": 1638,
+        "trident-blocked": 3513
+      }
+    },
+    {
+      "project": "1jehuang/mermaid-rs-renderer",
+      "before": {
+        "passed": 1432,
+        "failed": 484,
+        "unsupported": 1562,
+        "trident-blocked": 3868
+      },
+      "after": {
+        "passed": 1481,
+        "failed": 496,
+        "unsupported": 1815,
+        "trident-blocked": 3554
+      }
+    },
+    {
+      "project": "AlexanderGrooff/mermaid-ascii",
+      "before": {
+        "passed": 722,
+        "failed": 964,
+        "unsupported": 1838,
+        "trident-blocked": 3822
+      },
+      "after": {
+        "passed": 722,
+        "failed": 956,
+        "unsupported": 2161,
+        "trident-blocked": 3507
+      }
+    },
+    {
+      "project": "anomalyco/opencode",
+      "before": {
+        "passed": 88,
+        "failed": 1137,
+        "unsupported": 2293,
+        "trident-blocked": 3828
+      },
+      "after": {
+        "passed": 126,
+        "failed": 1123,
+        "unsupported": 2589,
+        "trident-blocked": 3508
+      }
+    },
+    {
+      "project": "crafter-station/mermaid",
+      "before": {
+        "passed": 217,
+        "failed": 1684,
+        "unsupported": 1598,
+        "trident-blocked": 3847
+      },
+      "after": {
+        "passed": 230,
+        "failed": 1666,
+        "unsupported": 1938,
+        "trident-blocked": 3512
+      }
+    },
+    {
+      "project": "emtyty/merslim",
+      "before": {
+        "passed": 298,
+        "failed": 1782,
+        "unsupported": 1444,
+        "trident-blocked": 3822
+      },
+      "after": {
+        "passed": 319,
+        "failed": 1773,
+        "unsupported": 1739,
+        "trident-blocked": 3515
+      }
+    },
+    {
+      "project": "evangwt/xmermaid",
+      "before": {
+        "passed": 878,
+        "failed": 1951,
+        "unsupported": 674,
+        "trident-blocked": 3843
+      },
+      "after": {
+        "passed": 894,
+        "failed": 2083,
+        "unsupported": 724,
+        "trident-blocked": 3645
+      }
+    },
+    {
+      "project": "fasouto/termaid",
+      "before": {
+        "passed": 1055,
+        "failed": 1160,
+        "unsupported": 1287,
+        "trident-blocked": 3844
+      },
+      "after": {
+        "passed": 1078,
+        "failed": 1153,
+        "unsupported": 1581,
+        "trident-blocked": 3534
+      }
+    },
+    {
+      "project": "kitlangton/merman",
+      "before": {
+        "passed": 51,
+        "failed": 277,
+        "unsupported": 3193,
+        "trident-blocked": 3825
+      },
+      "after": {
+        "passed": 59,
+        "failed": 292,
+        "unsupported": 3485,
+        "trident-blocked": 3510
+      }
+    },
+    {
+      "project": "KlangHaus/vitepress-plugin-diagram",
+      "before": {
+        "passed": 144,
+        "failed": 1092,
+        "unsupported": 2281,
+        "trident-blocked": 3829
+      },
+      "after": {
+        "passed": 144,
+        "failed": 1090,
+        "unsupported": 2602,
+        "trident-blocked": 3510
+      }
+    },
+    {
+      "project": "Latias94/merman",
+      "before": {
+        "passed": 2775,
+        "failed": 238,
+        "unsupported": 455,
+        "trident-blocked": 3878
+      },
+      "after": {
+        "passed": 2935,
+        "failed": 274,
+        "unsupported": 544,
+        "trident-blocked": 3593
+      }
+    },
+    {
+      "project": "lukilabs/beautiful-mermaid",
+      "before": {
+        "passed": 214,
+        "failed": 1665,
+        "unsupported": 1645,
+        "trident-blocked": 3822
+      },
+      "after": {
+        "passed": 236,
+        "failed": 1657,
+        "unsupported": 1942,
+        "trident-blocked": 3511
+      }
+    },
+    {
+      "project": "Mootikins/figurehead-rs",
+      "before": {
+        "passed": 341,
+        "failed": 1141,
+        "unsupported": 2042,
+        "trident-blocked": 3822
+      },
+      "after": {
+        "passed": 362,
+        "failed": 1134,
+        "unsupported": 2339,
+        "trident-blocked": 3511
+      }
+    },
+    {
+      "project": "obsidianmd/pele",
+      "before": {
+        "passed": 3055,
+        "failed": 103,
+        "unsupported": 309,
+        "trident-blocked": 3879
+      },
+      "after": {
+        "passed": 3263,
+        "failed": 97,
+        "unsupported": 375,
+        "trident-blocked": 3611
+      }
+    },
+    {
+      "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
+      "before": {
+        "passed": 128,
+        "failed": 668,
+        "unsupported": 2728,
+        "trident-blocked": 3822
+      },
+      "after": {
+        "passed": 128,
+        "failed": 668,
+        "unsupported": 3051,
+        "trident-blocked": 3499
+      }
+    },
+    {
+      "project": "tariqshams/mermaidtui",
+      "before": {
+        "passed": 0,
+        "failed": 55,
+        "unsupported": 3469,
+        "trident-blocked": 3822
+      },
+      "after": {
+        "passed": 0,
+        "failed": 55,
+        "unsupported": 3791,
+        "trident-blocked": 3500
+      }
+    },
+    {
+      "project": "xai-org/grok-build",
+      "before": {
+        "passed": 618,
+        "failed": 961,
+        "unsupported": 1945,
+        "trident-blocked": 3822
+      },
+      "after": {
+        "passed": 639,
+        "failed": 953,
+        "unsupported": 2244,
+        "trident-blocked": 3510
+      }
+    },
+    {
+      "project": "Yassimba/loom",
+      "before": {
+        "passed": 730,
+        "failed": 947,
+        "unsupported": 1828,
+        "trident-blocked": 3841
+      },
+      "after": {
+        "passed": 752,
+        "failed": 938,
+        "unsupported": 2125,
+        "trident-blocked": 3531
+      }
+    },
+    {
+      "project": "kais-radwan/ascii-mermaid",
+      "before": {
+        "passed": 332,
+        "failed": 1586,
+        "unsupported": 1606,
+        "trident-blocked": 3822
+      },
+      "after": {
+        "passed": 354,
+        "failed": 1578,
+        "unsupported": 1901,
+        "trident-blocked": 3513
+      }
+    },
+    {
+      "project": "spacedock-dev/mermaidtext",
+      "before": {
+        "passed": 618,
+        "failed": 961,
+        "unsupported": 1945,
+        "trident-blocked": 3822
+      },
+      "after": {
+        "passed": 639,
+        "failed": 953,
+        "unsupported": 2244,
+        "trident-blocked": 3510
+      }
+    },
+    {
+      "project": "crabtalk/bezel",
+      "before": {
+        "passed": 2961,
+        "failed": 94,
+        "unsupported": 440,
+        "trident-blocked": 3851
+      },
+      "after": {
+        "passed": 3173,
+        "failed": 91,
+        "unsupported": 515,
+        "trident-blocked": 3567
+      }
+    }
+  ]
+}

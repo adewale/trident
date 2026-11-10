@@ -4,7 +4,10 @@ All three benchmarks were recollected for Trident 0.3.0 against the
 [7 November product freeze](../../docs/evidence/benchmark-campaign-2026-11-07/catalog.json)
 and Mermaid 12.3.0. The [release collection receipt](../../docs/evidence/release-0.3.0/collection.json)
 records collection windows, complete populations, runtime admission, qualification
-and numeric-file hashes. SVG labels have since been reassessed from the retained
+and numeric-file hashes. Mermaid Fidelity was recollected on 10 November after
+fixes that let unused imports collect and stop adapter placeholders earning credit
+([recollection evidence](../../docs/evidence/fidelity-recollection-2026-11-10/README.md)).
+SVG labels have since been reassessed from the retained
 outputs without invoking any renderer
 ([reassessment evidence](../../docs/evidence/drawing-reassessment-2026-11-10/README.md)).
 The [preceding collection](https://github.com/adewale/trident/tree/7b7dce98a8d8817bc0e3826490b187456b2b55ef/results/release)
@@ -14,7 +17,7 @@ remains at its original commit.
 |---|---|---|
 | DaveBench, <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences per format | [Images](images.json), [terminal](terminal.json), [native PNG provenance](native-png.json), [report](report.json), [tables](report.md) | <!-- fact:davebench-collected -->9 November 2026<!-- /fact --> |
 | Drawing Correctness, <!-- fact:drawing-cases -->127<!-- /fact --> cases per project/format | [Results](drawing-correctness.json) | <!-- fact:drawing-collected -->9 November 2026<!-- /fact --> |
-| Mermaid Fidelity, <!-- fact:fidelity-files -->352<!-- /fact --> original test files | [Results](mermaid-fidelity.json) | <!-- fact:fidelity-collected -->9 November 2026<!-- /fact --> |
+| Mermaid Fidelity, <!-- fact:fidelity-files -->352<!-- /fact --> original test files | [Results](mermaid-fidelity.json) | <!-- fact:fidelity-collected -->10 November 2026<!-- /fact --> |
 
 Timing collectors ran serially before Drawing and Fidelity, without local fixture
 or semantic jobs competing for CPU. Every format has three complete repeats;
@@ -51,15 +54,14 @@ including actual Canvas/JSDOM pixel readback, before creating an output director
 A stale preparation missing a required locked operand was rejected. Candidate
 adapter gaps remain visible in results and score ranges.
 
-All 26 candidates have fresh paired JSDOM/Node executions of all 352 files.
-Per-file startup receipts attest the actual environment before imports. The
-comparison checks callback identities, outcomes, normalized failures and semantic
-audit dispositions. 349 files qualify for Node in common, with candidate-specific
-additions recorded separately; original JSDOM directives and observed differences
-retain JSDOM. A full automatic Merslim run used 349 actual Node environments
-and three actual JSDOM environments and reproduced all 7,364 baseline callback
-dispositions. Changing only Trident's version from 0.2.1 to 0.3.0 preserves this
-fresh execution identity and qualification. Changed executing source, installed
+All 26 candidates have fresh paired JSDOM/Node executions of all 352 files under
+the current worker. Per-file startup receipts attest the actual environment before
+imports. The comparison checks callback identities, outcomes, normalized failures
+and semantic audit dispositions. 320 files qualify for Node in common, with
+candidate-specific additions recorded separately; original JSDOM directives and
+observed differences retain JSDOM. A full automatic Merslim run used 321 actual
+Node environments and 31 actual JSDOM environments and reproduced all 7,364
+baseline callback dispositions, reasons and operation counts. Changed executing source, installed
 bytes, runtime or candidate artifacts still invalidate reuse.
 
 Drawing leaves <!-- fact:drawing-unassessed -->113<!-- /fact --> of
