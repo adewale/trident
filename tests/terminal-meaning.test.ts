@@ -1,6 +1,20 @@
 import { expect, test } from 'bun:test'
 import { readFileSync } from 'node:fs'
 import { inspectTerminalMeaning, type TerminalMeaning } from '../fidelity/terminal.ts'
+
+test('complete inline captions can join two observed contacts at a route bend', () => {
+  const meaning: TerminalMeaning = { nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', label: 'turn' }] }
+  const left = ['┌───┐', '│ A │', '└─┬─┘', '  │', '  └─turn', '       │', '       ▼', '     ┌───┐', '     │ B │', '     └───┘'].join('\n')
+  const right = ['        ┌───┐', '        │ A │', '        └─┬─┘', '          │', '     turn─┘', '     │', '     ▼', '   ┌───┐', '   │ B │', '   └───┘'].join('\n')
+  for (const drawing of [left, right]) {
+    expect(inspectTerminalMeaning(drawing, meaning).status).toBe('correct')
+    expect(inspectTerminalMeaning(drawing.replace('▼', '▲'), meaning).status).toBe('incorrect')
+    const lines = drawing.split('\n'); lines[5] = ''
+    expect(inspectTerminalMeaning(lines.join('\n'), meaning).status).toBe('incorrect')
+  }
+  const ambiguous = left.split('\n'); ambiguous[3] = '  │  │'
+  expect(inspectTerminalMeaning(ambiguous.join('\n'), meaning).status).toBe('unknown')
+})
 import { qualifyOutput } from '../unified/qualification.ts'
 
 const fixture = (name: string) => readFileSync(new URL('./fixtures/terminal/' + name + '.txt', import.meta.url), 'utf8')

@@ -88,6 +88,7 @@ function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeani
   const arrowAt = (x: number, y: number) => cell(x, y) === '>' && boxes.some(box => box.shape === 'asymmetric' && x === box.x && y > box.y && y < box.bottom) ? undefined : special.get(key(x, y))?.heading ?? arrows[cell(x, y)]
   const captions = new Map<string, { label: string; token: string; exits: number[] }>(), captionCells = new Set<string>(), captionSpans = new Map<string, string[]>()
   const floating: { label: string; x: number; y: number; width: number }[] = []
+  const ambiguousCaptionCells = new Set<string>()
   let uncertainCaption = false
   for (const label of new Set(expected.edges.map(edge => edge.label).filter((value): value is string => !!value))) {
     if (/[\r\x00-\x09\x0b-\x1f]/.test(label)) return verdict('unknown', 'Edge labels contain unqualified controls')
@@ -140,6 +141,26 @@ function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeani
         const midpoint = x + (width - 1) / 2
         const vertical = Array.from({ length: width }, (_, offset) => x + offset).filter(column => Math.abs(column - midpoint) <= .5 && (points[cell(column, y - 1)]?.includes(2) || arrowAt(column, y - 1) === 0) && (points[cell(column, y + 1)]?.includes(0) || arrowAt(column, y + 1) === 2))
         if (vertical.length === 1) { captions.set(key(vertical[0]!, y), { label, token, exits: [0, 2] }); continue }
+        // A caption can occupy a bend rather than a straight segment. Its
+        // two visible wire contacts determine the bridge independently of
+        // expected endpoints; three contacts cannot determine a pairing.
+        const contacts: { column: number; direction: number }[] = []
+        const contact = (column: number, direction: number) => {
+          const cx = column + dx[direction]!, cy = y + dy[direction]!
+          if (points[cell(cx, cy)]?.includes((direction + 2) % 4) || arrowAt(cx, cy) === direction) contacts.push({ column, direction })
+        }
+        contact(x, 3); contact(x + width - 1, 1)
+        for (let column = x; column < x + width; column++) { contact(column, 0); contact(column, 2) }
+        if (contacts.length === 2) {
+          const left = Math.min(...contacts.map(port => port.column)), right = Math.max(...contacts.map(port => port.column))
+          for (let column = left; column <= right; column++) {
+            const coordinate = key(column, y)
+            if (captions.has(coordinate)) return verdict('unknown', 'Overlapping edge-label spans are ambiguous')
+            captions.set(coordinate, { label, token, exits: [...(column > left ? [3] : []), ...(column < right ? [1] : []), ...contacts.filter(port => port.column === column).map(port => port.direction)] })
+          }
+          continue
+        }
+        if (contacts.length > 2) for (const coordinate of span) ambiguousCaptionCells.add(coordinate)
         floating.push({ label, x, y, width })
       }
     }
@@ -169,12 +190,13 @@ function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeani
     const sources: { source: Box; path: Set<string>; labels: Map<string, string> }[] = []
     const headSources: typeof sources = []
     const otherHeads = new Set<string>()
-    let steps = 0, cycle = false, unqualifiedGroupPort = false
+    let steps = 0, cycle = false, unqualifiedGroupPort = false, unqualifiedCaption = false
     while (pending.length) {
       if (++steps > 4096) return verdict('unknown', 'Route exploration exceeds the bounded graph profile', actual)
       const cursor = pending.pop()!, source = boundary(cursor.x, cursor.y, cursor.towardPrevious)
       if (source) { sources.push({ source, path: cursor.path, labels: cursor.labels }); continue }
       const coordinate = key(cursor.x, cursor.y)
+      if (ambiguousCaptionCells.has(coordinate)) unqualifiedCaption = true
       if (cursor.path.has(coordinate)) { cycle = true; continue }
       if (arrowAt(cursor.x, cursor.y) !== undefined && !captions.has(coordinate)) { otherHeads.add(coordinate); const heading = arrowAt(cursor.x, cursor.y)!, node = boundary(cursor.x + dx[heading]!, cursor.y + dy[heading]!); if (node) { const path = new Set(cursor.path); path.add(coordinate); headSources.push({ source: node, path, labels: cursor.labels }) }; continue }
       const caption = captions.get(coordinate), groupWire = groupExits(cursor.x, cursor.y), exits = caption?.exits ?? groupWire ?? points[cell(cursor.x, cursor.y)]
@@ -192,7 +214,7 @@ function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeani
     // to one source and cycles likewise retain their ambiguity.
     if (cycle || sources.length > 1 && (otherHeads.size || new Set(sources.map(found => found.source.id)).size !== sources.length)) return verdict('unknown', 'Junction, crossing or cycle has ambiguous source ownership', actual)
     if (!sources.length && unqualifiedGroupPort) return verdict('unknown', 'Group border has no qualified source endpoint or pass-through projection', actual)
-    if (!sources.length) return verdict('incorrect', 'Arrow stem is disconnected from its source node', actual)
+    if (!sources.length) return verdict(unqualifiedCaption ? 'unknown' : 'incorrect', unqualifiedCaption ? 'A caption has more than two wire contacts; its route pairing is ambiguous' : 'Arrow stem is disconnected from its source node', actual)
     for (const found of sources) {
       if (!found.source.id || found.labels.size > 1) return verdict('unknown', 'Source or relationship label ownership is ambiguous', actual)
       for (const coordinate of found.path) used.add(coordinate)

@@ -36,6 +36,9 @@ test('production structure qualification covers graph families and real quadrant
     const controls = await qualifyStructureObserver(context)
     expect(controls.find(c => c.name === 'quadrant-marker-over-caption')?.layout).toBe('failed')
     expect(controls.find(c => c.name === 'quadrant-clear')?.layout).toBe('passed')
+    expect(controls.find(c => c.name === 'corner-caption-complete')?.topology).toBe('passed')
+    expect(controls.find(c => c.name === 'corner-caption-broken-stem')?.topology).toBe('failed')
+    expect(controls.find(c => c.name === 'corner-caption-ambiguous-contacts')?.topology).toBe('unassessed')
   } finally { await context.close(); await browser.close() }
 }, 20_000)
 

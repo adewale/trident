@@ -16,6 +16,13 @@ export function structureControlSvg(reverseLayout = false) {
 }
 export const structureControlTerminal = '┌───────┐     ┌──────┐     ┌───────┐\n│       │     │      │     │       │\n│ Alpha ├────►│ Beta ├────►│ Gamma │\n│       │     │      │     │       │\n└───────┘     └──────┘     └───────┘'
 
+export function cornerCaptionStructureControl() {
+  const source = 'flowchart TD\nA -->|turn| B', { contract, graph } = analyseTerminalSource(source, 'flowchart')
+  const test = { ...structureControlCase, source, expected: { labels: ['A', 'B', 'turn'], nodes: [{ id: 'A', label: 'A' }, { id: 'B', label: 'B' }], edges: [{ source: 'A', target: 'B', label: 'turn', directed: true }] }, terminal: { expected: { contract, graph } } } as DrawingCase
+  const text = ['┌───┐', '│ A │', '└─┬─┘', '  │', '  └─turn', '       │', '       ▼', '     ┌───┐', '     │ B │', '     └───┘'].join('\n')
+  return { test, text }
+}
+
 export function familyStructureControl(family: 'class' | 'state' | 'er' | 'sequence') {
   const chain = 'Alpha-->Beta\nBeta-->Gamma'
   const source = family === 'class' ? 'classDiagram\nclass Alpha\nclass Beta\nclass Gamma\nAlpha --> Beta\nBeta --> Gamma' : family === 'state' ? 'stateDiagram-v2\n' + chain : family === 'sequence' ? 'sequenceDiagram\nAlpha->>Beta: hi\nBeta->>Gamma: ok' : 'erDiagram\nAlpha ||--|| Beta : links\nBeta ||--|| Gamma : links'
@@ -111,6 +118,17 @@ export async function qualifyStructureObserver(context: any) {
   ]) {
     const result = assessTerminalStructure(structureControlCase, control.text)
     if (result.topology.status !== control.topology) throw Error('Structural terminal observer failed ' + control.name + ': ' + JSON.stringify(result))
+    observed.push({ name: control.name, format: 'terminal', topology: result.topology.status, layout: result.layout.status })
+  }
+  const bend = cornerCaptionStructureControl(), broken = bend.text.split('\n'), ambiguous = bend.text.split('\n')
+  broken[5] = ''; ambiguous[3] = '  │  │'
+  for (const control of [
+    { name: 'corner-caption-complete', text: bend.text, topology: 'passed' },
+    { name: 'corner-caption-broken-stem', text: broken.join('\n'), topology: 'failed' },
+    { name: 'corner-caption-ambiguous-contacts', text: ambiguous.join('\n'), topology: 'unassessed' },
+  ]) {
+    const result = assessTerminalStructure(bend.test, control.text)
+    if (result.topology.status !== control.topology) throw Error('Corner-caption qualification failed ' + control.name + ': ' + JSON.stringify(result))
     observed.push({ name: control.name, format: 'terminal', topology: result.topology.status, layout: result.layout.status })
   }
   return observed
