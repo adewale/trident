@@ -56,7 +56,7 @@ Only the <!-- fact:fidelity-population -->7,346<!-- /fact --> tests that the pin
 <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control passes count. A native operation that reports
 it is unsupported counts as a failure. Missing Trident operation bindings or
 model translations stay unassessed
-(<!-- fact:fidelity-gaps -->99,799<!-- /fact --> tests across all implementations).
+(<!-- fact:fidelity-gaps -->91,984<!-- /fact --> tests across all implementations).
 
 Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
 and the range of ranks still possible once its unassessed cases are resolved.
@@ -73,7 +73,7 @@ label benchmark or overall score. Run `bun commands.ts drawing:structure --help`
 
 ## Current results
 
-Collected <!-- fact:campaign-collected -->9 November 2026<!-- /fact -->. The
+Collected <!-- fact:campaign-collected -->9 November 2026 to 10 November 2026<!-- /fact -->. The
 leaders are:
 
 - **DaveBench**, examples completed. SVG:
@@ -84,7 +84,7 @@ leaders are:
   <!-- fact:drawing-svg-leader -->Bezel and Pele with 125 each (not yet settled)<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
-  <!-- fact:fidelity-leader -->Pele with 3,055 (not yet settled)<!-- /fact -->.
+  <!-- fact:fidelity-leader -->Pele with 3,263 (not yet settled)<!-- /fact -->.
 
 Mermaid is ranked alongside the other implementations in DaveBench and Drawing
 Correctness. In Mermaid Fidelity it is the reference, so it passes every counted

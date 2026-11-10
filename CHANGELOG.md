@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Recollect Mermaid Fidelity for all 26 candidates under one frozen worker, with
+  paired JSDOM and Node profiles, fresh Node qualification (320 common files) and
+  an automatic Merslim run that reproduces every callback. Unused, unbound imports
+  defer until used, so original files collect. Missing exports, database members
+  and namespace reflection are adapter gaps even when caught. Worker startup and
+  dispatch failures are adapter gaps, never parser failures. Unassessed
+  observations fall from 99,799 to 91,984; 3,499 reference callbacks remain
+  unassessed for every candidate. Reports split shared and additional gaps.
 - Measure the glyph ink of plain, single-line HTML labels, separating unused
   font-box overflow from cropped letters, with independent positive and clipped
   admission controls. Record each unavailable SVG criterion and the glyph witness's

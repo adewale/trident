@@ -94,6 +94,12 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
               : result.status === 'passed'
                 ? 'passed'
                 : 'failed'
+    let unobservedReason: string | undefined
+    if (!result) unobservedReason = unsupportedFiles.get(control.file) ?? 'Candidate test not collected'
+    else if (status === 'trident-blocked') {
+      if (!evidence) unobservedReason = `Candidate callback has no native-operation audit (reported ${result.status})`
+      else if (!evidence.calls) unobservedReason = 'No candidate operation was exercised by this test'
+    }
     return {
       file: control.file,
       name: control.fullName,
@@ -110,7 +116,7 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
               ? 'Trident error: ' + tridentError.split('\n')[0]!.slice(0, 300)
             : evidence?.faults?.length
               ? evidence.faults.join('; ')
-            : (status === 'unsupported' && (evidence?.unsupported?.join('; ') || unsupportedFiles.get(control.file))) || evidence?.gaps?.join('; ') || evidence?.unsupported?.join('; ') || result?.failureMessages?.join('\n').slice(0, 1000) || (result ? undefined : unsupportedFiles.get(control.file) ?? 'Candidate test not collected'),
+            : (status === 'unsupported' && (evidence?.unsupported?.join('; ') || unsupportedFiles.get(control.file))) || evidence?.gaps?.join('; ') || evidence?.unsupported?.join('; ') || result?.failureMessages?.join('\n').slice(0, 1000) || unobservedReason,
     }
   })
 }

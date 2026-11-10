@@ -159,6 +159,17 @@ Merslim run, native smoke and terminal controls. A release-label-only change fro
 its qualification binding: worker identity now follows transitive local imports
 and includes all execution-relevant census fields. All 26 pairs were rechecked,
 and a fresh automatic Merslim run reproduced all 7,364 callback dispositions.
+The [10 November recollection](../docs/evidence/fidelity-recollection-2026-11-10/README.md)
+supersedes that qualification for the current worker: 320 files qualify for Node
+in common and automatic selection again reproduces every Merslim callback.
+
+An unused, unbound production import is deferred so it cannot prevent unrelated
+original callbacks from collecting. Actual use, construction or namespace
+inspection records an adapter gap even if the test catches it. No such import
+supplies a Mermaid implementation. A callback must reach a candidate operation
+and pass its original assertions to earn credit; native faults remain nonpasses.
+Persistent bridges are reaped when they stop, and a worker that cannot start or
+accept a request reports an adapter gap rather than a parser result.
 
 
 The [capture and runtime follow-up](../docs/evidence/retained-capture-and-runtime-refresh-2026-11-08.json)

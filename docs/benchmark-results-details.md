@@ -24,7 +24,8 @@ For Drawing Correctness, Failed combines missing labels, raw syntax shown, inval
 output and render failures. SVG pass bounds span the observed passes through the
 passes plus unassessed cases. Fidelity separates assertion/fault nonpasses from
 operations the native candidate does not support; Unassessed is candidate adapter
-gaps. A Fidelity pass
+gaps, split into callbacks unassessed for every executed candidate and additional
+gaps for that candidate. A Fidelity pass
 needs the original assertions to pass for the candidate and for the pinned Mermaid
 control. The control now executes pinned production source with the original
 compiler plugins and locked dependencies; it passes every active callback in
@@ -65,7 +66,7 @@ These gaps mostly describe unfinished Trident implementation, rather than demons
 limitations of the projects being benchmarked.
 
 **Fidelity runs every candidate on the whole selected suite.** All <!-- fact:fidelity-candidates -->26<!-- /fact --> candidates
-plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected original test files (<!-- fact:fidelity-collected -->9 November 2026<!-- /fact -->) against one
+plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected original test files (<!-- fact:fidelity-collected -->10 November 2026<!-- /fact -->) against one
 shared Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control run. The
 [completion record](evidence/benchmark-completion-2026-11-07/README.md) explains
 the corrected source control, guarded candidate execution and full comparison of
@@ -79,7 +80,7 @@ Mermaid Dart 815 → 1,703, Mermaid RS Renderer 212 → 1,226). Where a JavaScri
 candidate's module exposes no parser for a family (ER, class, C4, state or agentflow
 for Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH Mermaid
 GB SVG and MermaidTUI), those tests count as operations it does not offer, not as
-Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->99,799<!-- /fact --> tests
+Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->91,984<!-- /fact --> tests
 remain unassessed by Trident. Thirteen are reached through their JavaScript
 parsers (generic native bindings, a guarded Bun/async parser bridge, native model
 schema views and the Frankenmermaid WASM binding) and thirteen through parser bridges.
@@ -268,8 +269,12 @@ in the control identity. Browser/application tests listed outside this runner
 remain outside the assessment.
 
 Candidates still use their own parsers and reviewed schema views. An unbound
-production import, caught adapter gap or callback without a native operation
-cannot earn a pass. Internal layout/rendering APIs without a candidate binding
+production import defers until used, so unrelated original callbacks can collect.
+Reading, calling, constructing or inspecting an unavailable export or database
+member records an adapter gap even when the test catches the error or ignores
+the value, and worker startup or dispatch failures are adapter gaps, never parser
+results. A caught adapter gap or callback without a native operation cannot earn
+a pass. Internal layout/rendering APIs without a candidate binding
 remain unassessed. The source control's wider population makes those missing
 bindings visible instead of excluding them as reference failures.
 
