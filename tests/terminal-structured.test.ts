@@ -4,10 +4,29 @@ import { readFileSync } from 'node:fs'
 import { reviewedTerminalCases } from '../fidelity/terminal-corpus.ts'
 import { analyseTerminalSource } from '../fidelity/terminal-source.ts'
 import { assessTerminalDrawing } from '../fidelity/terminal-assessment.ts'
+import { inspectTerminalClass } from '../fidelity/terminal-class.ts'
 import provenance from './fixtures/terminal/structured-provenance.json'
 const cases = reviewedTerminalCases(), fixture = (name: string) => readFileSync(new URL('./fixtures/terminal/' + name + '.txt', import.meta.url), 'utf8')
 const input = (name: string) => cases.find(item => item.id === provenance.find(row => row.file === name + '.txt')!.caseId)!
 const assess = (name: string, output = fixture(name)) => assessTerminalDrawing(input(name), output)
+test('class cardinalities outside the ownership radius stay unknown; absent or uniquely owned wrong values fail', () => {
+  const contract = analyseTerminalSource('classDiagram\nclass Alpha\nclass Beta\nAlpha "1" --> "0..*" Beta', 'class').contract
+  const drawing = (left: string, column = 10) => {
+    const grid = Array.from({ length: 9 }, () => Array(52).fill(' ')), put = (x: number, y: number, text: string) => [...text].forEach((c, n) => grid[y]![x + n] = c)
+    for (const [x, label] of [[0, 'Alpha'], [42, 'Beta']] as const) {
+      put(x, 0, '┌───────┐'); put(x, 8, '└───────┘')
+      for (let y = 1; y < 8; y++) { put(x, y, '│'); put(x + 8, y, '│') }
+      put(x + 1, 1, label)
+    }
+    put(8, 4, '├' + '─'.repeat(32) + '►'); put(column, 3, left); put(37, 3, '0..*')
+    return grid.map(row => row.join('')).join('\n')
+  }
+  const status = (text: string) => inspectTerminalClass(text, contract).find(c => c.criterion === 'class-relations')?.status
+  expect(status(drawing('1'))).toBe('passed')
+  expect(status(drawing('1', 11))).toBe('unknown')
+  expect(status(drawing(''))).toBe('failed')
+  expect(status(drawing('2'))).toBe('failed')
+})
 test('structured controls bind exact retained bytes, source cases, artifacts and original measurement clocks', () => {
   for (const row of provenance) { expect(createHash('sha256').update(fixture(row.file.slice(0, -4))).digest('hex')).toBe(row.sha256); expect(cases.some(item => item.id === row.caseId)).toBe(true); expect(row.originalStartedAt < row.originalFinishedAt).toBe(true) }
 })

@@ -7,6 +7,9 @@ import { pathToFileURL } from 'node:url'
 import { projectPublicDatabase } from '../upstream-fidelity-projection.mjs'
 import { persistentBridge } from './bridge-client.mjs'
 import { nativeAstView, mermaidConstants } from './schema-views.mjs'
+import { unavailableNamespace, importFamily } from './namespace.mjs'
+import { parseAgenticSource, agenticDiagnostic } from './agentic-parser.mjs'
+import { agenticRenderer } from './agentic-renderer.ts'
 
 const job = JSON.parse(readFileSync(process.env.TRIDENT_FIDELITY_JOB!, 'utf8'))
 // Parallel test files run in separate worker processes; each appends to its own part.
@@ -72,7 +75,7 @@ const RENDERER_LAYOUT: Record<string, Record<string, string>> = {
   class: { getData: "Mermaid's class getData() is its renderer's layout data under the host configuration" },
   architecture: { getDataStructures: "Mermaid's architecture getDataStructures() is its renderer's layout computation" },
 }
-const PUBLISHES_ON_SUCCESS = new Set(['usecase'])
+const CLEARS_ON_REJECTION = new Set(['usecase'])
 const mermaidDatabaseMember = (key: unknown) => typeof key === 'string' && (DATABASE_OPERATION.test(key) || DATABASE_API.has(key))
 export class AdapterGap extends Error {}
 function gap(reason: string): never {
@@ -311,6 +314,22 @@ function nativeParse(family: string, source: string) {
     return bridgeReply(child.stdout, family, 'Parser bridge')
   }
   if (job.target.tool === 'agentic') {
+    try {
+      const parsed = invokeParser(() => parseAgenticSource(api, family, source))
+      if (parsed) {
+        if (parsed.model?.then) return gap('Asynchronous parser cannot supply the original synchronous parse interface')
+        // Harness metadata selects the reviewed native model; it is not an
+        // authored source field or a projection of Mermaid's parser result.
+        return { ...parsed.model, nativeParser: parsed.operation, editingModel: parsed.editingModel }
+      }
+    } catch (error: any) {
+      if (error instanceof AdapterGap) throw error
+      if (/^Candidate parser fault:/.test(String(error?.message))) throw error
+      if (!/^(?:MermaidSyntaxError|MermaidParseError|ParseError|SyntaxError)$/.test(String(error?.name))) return gap('Unclassified Agentic source parser refusal: ' + String(error?.message ?? error))
+      active && active.rejections++
+      throw family === 'agentflow' ? agenticDiagnostic(error, { unavailable: gap, unsupported: unsupportedOperation }) : error
+    }
+    if (typeof api.parseRegisteredMermaid !== 'function') return gap('Agentic no longer exports its editing parser and has no reviewed source parser for ' + family)
     const result = invokeParser(() => api.parseRegisteredMermaid(source))
     if (result?.then) return gap('Asynchronous parser cannot supply the original synchronous parse interface')
     if (!result.ok) {
@@ -562,15 +581,15 @@ function context(family: string) {
     const target: any = {
       clear,
       parse(source: string) {
-        const before = { raw, view, parsed }
         parsed = true
         try {
           raw = nativeParse(family, source)
           view = projectView(family, raw)
         } catch (error) {
-          // Mermaid's chevrotain usecase parser publishes its model only after a successful
-          // parse, so a read after a rejected parse sees the database as it was before.
-          if (PUBLISHES_ON_SUCCESS.has(family)) ({ raw, view, parsed } = before)
+          // usecase.chevrotain.ts clears publication on rejection. Stateless
+          // candidate source parsers likewise publish no failed model; do not
+          // invent persistence of an earlier successful result in this binding.
+          if (CLEARS_ON_REJECTION.has(family)) clear()
           throw error
         }
       },
@@ -682,12 +701,22 @@ export function importFor(family: string, source: string | undefined, file: stri
   return new Proxy(moduleFor(family, source, file), { get(target, key) { return key === 'then' ? undefined : Reflect.get(target, key) } })
 }
 export function moduleFor(family: string, source: string, file: string, locals: Record<string, string> = {}): any {
-  let c = contexts.get(file)
-  if (!c) {
-    c = context(family)
-    c.unavailableImports = new Map()
-    contexts.set(file, c)
+  // All families imported by a file share its import-availability audit, while
+  // their parsers and database state stay independent.
+  if (!contexts.has(file)) {
+    const primary = context(family)
+    primary.unavailableImports = new Map()
+    contexts.set(file, primary)
   }
+  const importedFamily = importFamily(family, source)
+  const key = importedFamily === family ? file : file + '\0' + importedFamily
+  let c = contexts.get(key)
+  if (!c) {
+    c = context(importedFamily)
+    c.unavailableImports = contexts.get(file).unavailableImports
+    contexts.set(key, c)
+  }
+  family = importedFamily
   const config = {
     setConfig(value: any) {
       if (job.target.tool !== 'mermaid' && configKeys(value).length) hostConfig = { ...hostConfig, ...value }
@@ -761,7 +790,16 @@ export function moduleFor(family: string, source: string, file: string, locals: 
               db.parse(typeof text === 'string' ? text : text.raw)
             } catch {}
           else db.parse(typeof text === 'string' ? text : text.raw)
-          return { type: family, db, parser: c.parser }
+          const renderer = job.target.tool === 'agentic' ? agenticRenderer(api, {
+            beforeCall: configuredCall,
+            called: () => { active && active.calls++ },
+            refused: () => { active && active.rejections++ },
+            fault: reason => { active?.faults.push(reason); throw Error('Candidate renderer fault: ' + reason) },
+            unavailable: gap,
+            missing: member => untilUsed('Native renderer does not expose Mermaid renderer member ' + member),
+            hasInlineTarget: id => typeof document !== 'undefined' && Boolean(document.getElementById(id)),
+          }) : undefined
+          return { type: family, db, parser: c.parser, renderer: renderer ?? untilUsed('Mermaid Diagram renderer is not bound to the candidate') }
         },
       },
     }
@@ -814,7 +852,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
   }
   if (/\.jison$|[Pp]arser\.[jt]s$|\/parser\.[jt]s$|\.chevrotain\.[jt]s$/.test(source)) {
     let parser = c.parser
-    if (job.target.tool !== 'mermaid' && !source.endsWith('.jison') && ['architecture', 'packet', 'pie', 'radar', 'gitgraph', 'treemap', 'eventmodeling', 'info'].includes(family))
+    if (job.target.tool !== 'mermaid' && !source.endsWith('.jison') && ['architecture', 'packet', 'pie', 'radar', 'gitgraph', 'treemap', 'eventmodeling', 'info', 'usecase'].includes(family))
       parser = new Proxy(c.parser, {
         get(target, key) {
           return key === 'parse' ? async (text: string) => target.parse(text) : target[key]
@@ -889,19 +927,12 @@ export function moduleFor(family: string, source: string, file: string, locals: 
     })
     return { mermaidAPI: observed, default: observed }
   }
-  return boundModule(
-    new Proxy(
-      {},
-      {
-        ownKeys() { return gap('Native module namespace is not bound: ' + source) },
-        has() { return gap('Native module namespace is not bound: ' + source) },
-        getOwnPropertyDescriptor() { return gap('Native module namespace is not bound: ' + source) },
-        get(_t, key) {
-          return deferred(source + '.' + String(key))
-        },
-      },
-    ),
-    c,
-    locals,
-  )
+  // Namespace imports can be observed with typeof or identity comparisons,
+  // neither of which triggers a Proxy trap. Keep the lexical-use audit too.
+  if (locals['*']) c.unavailableImports.set(locals['*'], 'Native module namespace is not bound: ' + source)
+  return boundModule(unavailableNamespace(source, Object.keys(locals).filter(name => name !== '*'), {
+    observing: () => !!active,
+    unavailable: gap,
+    deferred,
+  }), c, locals)
 }

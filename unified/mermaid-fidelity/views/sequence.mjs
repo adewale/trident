@@ -474,6 +474,7 @@ const AGENTIC_ARROW = {
   '--|\\': 'SOLID_TOP_DOTTED', '--|/': 'SOLID_BOTTOM_DOTTED', '--\\\\': 'STICK_TOP_DOTTED', '--//': 'STICK_BOTTOM_DOTTED', '/|--': 'SOLID_ARROW_TOP_REVERSE_DOTTED', '\\|--': 'SOLID_ARROW_BOTTOM_REVERSE_DOTTED', '//--': 'STICK_ARROW_TOP_REVERSE_DOTTED', '\\\\--': 'STICK_ARROW_BOTTOM_REVERSE_DOTTED',
 }
 function agentic(raw, hooks) {
+  if (raw.nativeParser === 'parseSequenceDiagram') return agenticSource(raw, hooks)
   const name = 'agentic-mermaid', LINETYPE = views.MERMAID_CONSTANTS.sequence.LINETYPE
   const noWrap = { wrap: `${name} keeps a wrap flag only on messages; Mermaid reads its configuration here` }
   const message = m => {
@@ -515,6 +516,67 @@ function agentic(raw, hooks) {
     getAccTitle: () => raw.accessibilityTitle ?? '',
     getAccDescription: () => raw.accessibilityDescription ?? '',
     ...unsupported(hooks, { getDiagramTitle: opaque('a title line'), getBoxes: opaque('box blocks'), getCreatedActors: opaque('create statements'), getDestroyedActors: opaque('destroy statements') }),
+  }
+}
+
+// 0.5.7 public source parser: render messages plus indexed notes, activations,
+// blocks and lifecycles. Unlike its editing API it rejects malformed statements.
+// Retain the editing API's exact order for statements it models semantically;
+// otherwise reconstruct only where the render indexes determine the order.
+function agenticSource(raw, hooks) {
+  const name = 'agentic-mermaid', L = views.MERMAID_CONSTANTS.sequence.LINETYPE
+  const noWrap = { wrap: 'Agentic keeps no authored wrapping here; Mermaid reads its host configuration' }
+  const wrap = item => typeof item.wrap === 'boolean' ? { wrap: item.wrap } : {}
+  const endTypes = { filled: ['SOLID', 'DOTTED'], none: ['SOLID_OPEN', 'DOTTED_OPEN'], cross: ['SOLID_CROSS', 'DOTTED_CROSS'], open: ['SOLID_POINT', 'DOTTED_POINT'], 'half-top': ['SOLID_TOP', 'SOLID_TOP_DOTTED'], 'half-bottom': ['SOLID_BOTTOM', 'SOLID_BOTTOM_DOTTED'], 'stick-top': ['STICK_TOP', 'STICK_TOP_DOTTED'], 'stick-bottom': ['STICK_BOTTOM', 'STICK_BOTTOM_DOTTED'] }
+  const startTypes = { 'half-bottom': ['SOLID_ARROW_TOP_REVERSE', 'SOLID_ARROW_TOP_REVERSE_DOTTED'], 'half-top': ['SOLID_ARROW_BOTTOM_REVERSE', 'SOLID_ARROW_BOTTOM_REVERSE_DOTTED'], 'stick-bottom': ['STICK_ARROW_TOP_REVERSE', 'STICK_ARROW_TOP_REVERSE_DOTTED'], 'stick-top': ['STICK_ARROW_BOTTOM_REVERSE', 'STICK_ARROW_BOTTOM_REVERSE_DOTTED'] }
+  const message = index => {
+    const m = raw.messages[index], dashed = m.lineStyle === 'dashed' ? 1 : 0
+    const word = m.startHead === 'filled' && m.endHead === 'filled' ? ['BIDIRECTIONAL_SOLID', 'BIDIRECTIONAL_DOTTED'][dashed] : m.startHead === 'none' ? endTypes[m.endHead]?.[dashed] : m.endHead === 'none' ? startTypes[m.startHead]?.[dashed] : undefined
+    if (!word) return hooks.unavailable(`Agentic sequence head combination ${m.startHead}/${m.endHead}`)
+    return [
+      { from: m.from, to: m.to, message: m.label, type: L[word], activate: Boolean(m.activate || m.centralEnd), centralConnection: m.centralStart && m.centralEnd ? CENTRAL.both : m.centralEnd ? CENTRAL.to : m.centralStart ? CENTRAL.from : 0, ...wrap(m) },
+      ...(m.activate ? [marker(views.SEQ.ACTIVE_START, '', m.to)] : []),
+      ...(m.deactivate ? [marker(views.SEQ.ACTIVE_END, '', m.from)] : []),
+      ...(m.centralEnd ? [marker(CENTRAL.to, '', m.to)] : []),
+      ...(m.centralStart ? [marker(CENTRAL.from, '', m.from)] : []),
+    ]
+  }
+  const notes = () => raw.notes.map(note => {
+    const [from, to] = noteEnds(note.actorIds)
+    return { slot: note.afterIndex + 1, kind: 'note', entry: { from, to, message: note.text, type: views.SEQ.NOTE, placement: placementOf(note.position), ...wrap(note) } }
+  })
+  const layout = () => {
+    if (raw.messages.some(m => m.number !== undefined)) return hooks.unsupported('Agentic records autonumber on messages without recording where its statements were written')
+    const activations = (raw.activationEvents ?? []).map(a => ({ slot: a.messageIndex, kind: 'activation', entry: marker(a.kind === 'activate' ? views.SEQ.ACTIVE_START : views.SEQ.ACTIVE_END, '', a.actorId) }))
+    const blocks = raw.blocks.map((b, seq) => {
+      if (b.endIndex === b.startIndex && b.startIndex < raw.messages.length) return hooks.unsupported('Agentic records an empty block and a block holding one message the same way')
+      return { kind: b.type, seq, start: b.startIndex, end: b.endIndex > b.startIndex ? b.endIndex + 1 : b.startIndex, sections: b.dividers.map(d => ({ slot: d.index, label: d.label })), startEntry: type => ({ ...marker(type, b.type === 'rect' ? b.color : b.label), ...wrap(b) }) }
+    })
+    return interleave({ count: raw.messages.length, message, slotted: [...notes(), ...activations], blocks, name }, hooks)
+  }
+  const boxes = () => (raw.boxes ?? []).map(box => boxRecord({ name: boxName(box.label), fill: box.color ?? 'transparent', actorKeys: box.actorIds, ...wrap(box) }, noWrap, hooks))
+  const lifeline = field => () => {
+    const actors = raw.actors.filter(a => a[field] !== undefined)
+    if (!actors.length) return new Map()
+    const { messageAt, busy } = layout()
+    return new Map(actors.map(a => {
+      if (busy[a[field]]) return hooks.unsupported(`Agentic binds ${field} to a message without retaining its order beside other statements`)
+      return [a.id, messageAt[a[field]]]
+    }))
+  }
+  const ordered = raw.editingModel && !raw.editingModel.statements.some(s => s.kind === 'opaque-block') ? agentic(raw.editingModel, hooks) : undefined
+  return {
+    ...messageView(() => layout().list, noWrap, hooks),
+    ...(ordered ? { getMessages: ordered.getMessages } : {}),
+    // Notes keep their own source order even when another kind's order is lost.
+    getNotes: messageView(() => notes().map(n => n.entry), noWrap, hooks).getNotes,
+    ...actorView(() => raw.actors.map(a => ({ id: a.id, description: a.label, type: a.type, links: a.links ?? {}, box: a.box === undefined ? undefined : boxes()[a.box], ...wrap(a) })), { ...noWrap, properties: 'Agentic keeps no actor properties in its render model' }, hooks),
+    getBoxes: boxes,
+    getCreatedActors: lifeline('createMessageIndex'),
+    getDestroyedActors: lifeline('destroyMessageIndex'),
+    getDiagramTitle: () => raw.title ?? '',
+    getAccTitle: () => raw.accessibilityTitle ?? '',
+    getAccDescription: () => raw.accessibilityDescription ?? '',
   }
 }
 
@@ -783,9 +845,99 @@ function xmermaidSequence(raw, hooks) {
   }
 }
 
+// Crafter 0.0.3: reviewed against the renderer's installed parser source map
+// (diagrams/sequence.ts). Blocks nest messages and notes in sections. Standalone
+// activations are discarded; +/- is read on the sender, even when that differs
+// from Mermaid syntax. Preserve the native endpoints instead of repairing them.
+function crafter(raw, hooks) {
+  const noWrap = { wrap: 'Crafter keeps no sequence wrapping flags' }
+  const walk = items => items.flatMap(item => {
+    if (item.sections) {
+      const block = blockTypes(item.type, item.sections.length > 1, hooks, 'Crafter')
+      return [withAbsent(marker(block[0], item.label), noWrap), ...item.sections.flatMap((section, index) => [
+        ...(index ? [withAbsent(marker(block[1], section.label ?? ''), noWrap)] : []), ...walk(section.messages),
+      ]), withAbsent(marker(block[2]), noWrap)]
+    }
+    if (item.placement) {
+      const [from, to] = noteEnds(item.participants)
+      return [withAbsent({ from, to, message: item.text, type: views.SEQ.NOTE, placement: placementOf(item.placement) }, noWrap)]
+    }
+    const type = { solid: views.SEQ.SOLID, dashed: views.SEQ.DOTTED, open: views.SEQ.SOLID_POINT, cross: views.SEQ.SOLID_CROSS }[item.arrowType]
+    if (type === undefined) return hooks.unavailable('Crafter sequence arrow ' + item.arrowType)
+    return [withAbsent({ from: item.from, to: item.to, message: item.label, type, activate: Boolean(item.activate), centralConnection: 0 }, noWrap),
+      ...(item.activate ? [withAbsent(marker(views.SEQ.ACTIVE_START, '', item.to), noWrap)] : []),
+      ...(item.deactivate ? [withAbsent(marker(views.SEQ.ACTIVE_END, '', item.from), noWrap)] : [])]
+  })
+  return {
+    ...messageView(() => walk(raw.messages), {}, hooks),
+    ...actorView(() => raw.participants.map(p => ({ id: p.id, description: p.label, type: p.type })), {
+      wrap: noWrap.wrap, links: 'Crafter keeps no participant links', properties: 'Crafter keeps no participant properties', box: 'Crafter keeps no participant boxes',
+    }, hooks),
+    ...unsupported(hooks, {
+      getBoxes: 'Crafter skips box blocks and keeps no participant boxes',
+      getCreatedActors: 'Crafter skips create statements and keeps no actor creation data',
+      getDestroyedActors: 'Crafter skips destroy statements and keeps no actor destruction data',
+      getDiagramTitle: 'Crafter drops sequence titles', getAccTitle: 'Crafter drops accessibility titles', getAccDescription: 'Crafter drops accessibility descriptions',
+    }),
+  }
+}
+
+// OpenCode merman 2.2.5 (78e066c9): sequence/parser.ts and types.ts. Steps
+// preserve statement order; groups lose colour, participant actor/participant
+// kinds are merged, and autonumber is folded into each message.number.
+function opencode(raw, hooks) {
+  const noWrap = { wrap: 'OpenCode merman keeps no sequence wrapping flags' }
+  const entries = () => {
+    const stack = [], out = []
+    for (const step of raw.steps) {
+      if (step.type === 'message') {
+        const m = step.message, dotted = m.style === 'dashed'
+        const word = { open: dotted ? 'DOTTED_OPEN' : 'SOLID_OPEN', cross: dotted ? 'DOTTED_CROSS' : 'SOLID_CROSS', async: dotted ? 'DOTTED_POINT' : 'SOLID_POINT', arrow: dotted ? 'DOTTED' : 'SOLID' }[m.head ?? 'arrow']
+        if (!word) return hooks.unavailable('OpenCode merman sequence head ' + m.head)
+        if (m.number !== undefined) return hooks.unsupported('OpenCode folds autonumber into message numbers without keeping the statement position or its written defaults')
+        out.push(withAbsent({ from: m.from, to: m.to, message: m.label, type: views.SEQ[word], activate: Boolean(m.activate), centralConnection: 0 }, noWrap))
+        if (m.activate) out.push(withAbsent(marker(views.SEQ.ACTIVE_START, '', m.activate), noWrap))
+        if (m.deactivate) out.push(withAbsent(marker(views.SEQ.ACTIVE_END, '', m.deactivate), noWrap))
+      } else if (step.type === 'note') {
+        const [from, to] = noteEnds(step.note.over)
+        out.push(withAbsent({ from, to, message: step.note.label, type: views.SEQ.NOTE, placement: placementOf(step.note.position ?? 'over') }, noWrap))
+      } else if (step.type === 'activation') out.push(withAbsent(marker(step.activation.active ? views.SEQ.ACTIVE_START : views.SEQ.ACTIVE_END, '', step.activation.participant), noWrap))
+      else if (step.type === 'fragment') {
+        const f = step.fragment
+        if (f.kind === 'end') {
+          const block = stack.pop()
+          if (!block) return hooks.unavailable('OpenCode sequence end without start')
+          out.push(withAbsent(marker(block[2]), noWrap))
+        } else if (f.kind === 'else') out.push(withAbsent(marker(views.SEQ.ALT_ELSE, f.label), noWrap))
+        else {
+          const block = blockTypes(f.kind, false, hooks, 'OpenCode merman')
+          stack.push(block)
+          out.push(withAbsent(marker(block[0], f.label), noWrap))
+        }
+      } else return hooks.unavailable('OpenCode sequence step ' + step.type)
+    }
+    return out
+  }
+  const boxes = () => raw.groups.map(g => boxRecord({ name: boxName(g.label), actorKeys: g.participantIds }, { fill: 'OpenCode discards box colours', wrap: noWrap.wrap }, hooks))
+  return {
+    ...messageView(entries, {}, hooks),
+    ...actorView(() => raw.participants.map(p => ({ id: p.id, description: p.label, box: boxes().find(b => b.actorKeys.includes(p.id)) })), {
+      type: 'OpenCode merges actor and participant declarations', wrap: noWrap.wrap, links: 'OpenCode keeps no participant links', properties: 'OpenCode keeps no participant properties',
+    }, hooks),
+    getBoxes: boxes,
+    ...unsupported(hooks, {
+      getCreatedActors: 'OpenCode keeps no actor creation data',
+      getDestroyedActors: 'OpenCode keeps no actor destruction data',
+      getDiagramTitle: 'OpenCode rejects sequence titles', getAccTitle: 'OpenCode rejects accessibility titles', getAccDescription: 'OpenCode rejects accessibility descriptions',
+    }),
+  }
+}
+
 export default {
   schema: {
     sequence: {
+      'crafter-station/mermaid': crafter,
+      'anomalyco/opencode': opencode,
       'xai-org/grok-build': grokFamily('xai-org/grok-build'),
       'spacedock-dev/mermaidtext': grokFamily('spacedock-dev/mermaidtext'),
       'Yassimba/loom': grokFamily('Yassimba/loom'),

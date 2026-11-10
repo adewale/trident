@@ -1,0 +1,686 @@
+{
+  "packageVersion": "0.5.7",
+  "sourceCommit": "9543330cc46ad7f1805fe035826c764006540d0b",
+  "class": {
+    "source": "classDiagram\ndirection LR\nnamespace A.B {\nclass C~T~ {\n<<interface>>\n+String name\n+go(x: int) bool$\n}\n}\nclass D\nC \"1\" *-- \"many\" D : owns\nclassDef hot fill:red\ncssClass C hot\nstyle C stroke:blue\nnote for C \"a note\"",
+    "model": {
+      "classes": [
+        {
+          "id": "C",
+          "label": "C<T>",
+          "generic": "T",
+          "attributes": [
+            {
+              "visibility": "+",
+              "name": "name",
+              "sourceText": "+String name",
+              "type": "String",
+              "isStatic": false,
+              "isAbstract": false,
+              "isMethod": false
+            }
+          ],
+          "methods": [
+            {
+              "visibility": "+",
+              "name": "go",
+              "type": "bool",
+              "isStatic": true,
+              "isAbstract": false,
+              "isMethod": true,
+              "params": "x: int"
+            }
+          ],
+          "annotation": "interface",
+          "className": "hot",
+          "inlineStyle": {
+            "stroke": "blue"
+          }
+        },
+        {
+          "id": "D",
+          "label": "D",
+          "attributes": [],
+          "methods": []
+        }
+      ],
+      "classDefs": {
+        "__map": [
+          [
+            "hot",
+            {
+              "fill": "red"
+            }
+          ]
+        ]
+      },
+      "relationships": [
+        {
+          "from": "C",
+          "to": "D",
+          "label": "owns",
+          "fromCardinality": "1",
+          "toCardinality": "many",
+          "type": "composition",
+          "markerAt": "from"
+        }
+      ],
+      "notes": [
+        {
+          "text": "a note",
+          "for": "C"
+        }
+      ],
+      "namespaces": [
+        {
+          "name": "A",
+          "classIds": [],
+          "children": [
+            {
+              "name": "B",
+              "classIds": [
+                "C"
+              ],
+              "children": []
+            }
+          ]
+        }
+      ],
+      "direction": "LR"
+    },
+    "editingModel": {
+      "kind": "class",
+      "classes": [
+        {
+          "id": "C"
+        },
+        {
+          "id": "D"
+        }
+      ],
+      "namespaces": [
+        {
+          "name": "A.B"
+        }
+      ]
+    }
+  },
+  "sequence": {
+    "source": "sequenceDiagram\nparticipant A as Alice\nparticipant B as Bob\nbox red Team\nparticipant C\nend\nNote over A,B: hello\nA->>+B: request\nactivate C\nalt ok\nB-->>-A: yes\nelse no\nB--xA: no\nend\ndeactivate C",
+    "model": {
+      "actors": [
+        {
+          "id": "A",
+          "label": "Alice",
+          "type": "participant"
+        },
+        {
+          "id": "B",
+          "label": "Bob",
+          "type": "participant"
+        },
+        {
+          "id": "C",
+          "label": "C",
+          "type": "participant",
+          "box": 0
+        }
+      ],
+      "messages": [
+        {
+          "from": "A",
+          "to": "B",
+          "label": "request",
+          "lineStyle": "solid",
+          "startHead": "none",
+          "endHead": "filled",
+          "centralStart": false,
+          "centralEnd": false,
+          "activate": true
+        },
+        {
+          "from": "B",
+          "to": "A",
+          "label": "yes",
+          "lineStyle": "dashed",
+          "startHead": "none",
+          "endHead": "filled",
+          "centralStart": false,
+          "centralEnd": false,
+          "deactivate": true
+        },
+        {
+          "from": "B",
+          "to": "A",
+          "label": "no",
+          "lineStyle": "dashed",
+          "startHead": "none",
+          "endHead": "cross",
+          "centralStart": false,
+          "centralEnd": false
+        }
+      ],
+      "blocks": [
+        {
+          "type": "alt",
+          "label": "ok",
+          "startIndex": 1,
+          "endIndex": 2,
+          "dividers": [
+            {
+              "index": 2,
+              "label": "no"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        {
+          "actorIds": [
+            "A",
+            "B"
+          ],
+          "text": "hello",
+          "position": "over",
+          "afterIndex": -1
+        }
+      ],
+      "activationEvents": [
+        {
+          "actorId": "C",
+          "kind": "activate",
+          "messageIndex": 1
+        },
+        {
+          "actorId": "C",
+          "kind": "deactivate",
+          "messageIndex": 3
+        }
+      ],
+      "boxes": [
+        {
+          "actorIds": [
+            "C"
+          ],
+          "color": "red",
+          "label": "Team"
+        }
+      ]
+    },
+    "editingModel": {
+      "kind": "sequence",
+      "participants": [
+        {
+          "id": "A",
+          "label": "Alice",
+          "kind": "participant"
+        },
+        {
+          "id": "B",
+          "label": "Bob",
+          "kind": "participant"
+        },
+        {
+          "id": "C",
+          "label": "C",
+          "kind": "participant"
+        }
+      ],
+      "messages": [
+        {
+          "from": "A",
+          "to": "B",
+          "text": "request",
+          "style": "sync",
+          "arrow": "->>",
+          "activate": true
+        }
+      ],
+      "statements": [
+        {
+          "kind": "participant",
+          "ref": 0
+        },
+        {
+          "kind": "participant",
+          "ref": 1
+        },
+        {
+          "kind": "opaque-block",
+          "lines": [
+            "box red Team",
+            "participant C",
+            "end",
+            "Note over A,B: hello"
+          ]
+        },
+        {
+          "kind": "message",
+          "ref": 0
+        },
+        {
+          "kind": "opaque-block",
+          "lines": [
+            "activate C"
+          ]
+        },
+        {
+          "kind": "fragment",
+          "fragment": {
+            "fragmentKind": "alt",
+            "label": "ok",
+            "branches": [
+              {
+                "messages": [
+                  {
+                    "from": "B",
+                    "to": "A",
+                    "text": "yes",
+                    "style": "reply",
+                    "arrow": "-->>",
+                    "deactivate": true
+                  }
+                ]
+              },
+              {
+                "label": "no",
+                "messages": [
+                  {
+                    "from": "B",
+                    "to": "A",
+                    "text": "no",
+                    "style": "lost-dashed",
+                    "arrow": "--x"
+                  }
+                ]
+              }
+            ],
+            "rawLines": [
+              "alt ok",
+              "B-->>-A: yes",
+              "else no",
+              "B--xA: no",
+              "end"
+            ]
+          }
+        },
+        {
+          "kind": "opaque-block",
+          "lines": [
+            "deactivate C"
+          ]
+        }
+      ]
+    }
+  },
+  "er": {
+    "source": "erDiagram\nA {\nstring id PK \"identifier\"\n}\nA ||--o{ B : owns\nclassDef hot fill:red\nclass A hot",
+    "model": {
+      "entities": [
+        {
+          "id": "A",
+          "label": "A",
+          "attributes": [
+            {
+              "type": "string",
+              "name": "id",
+              "keys": [
+                "PK"
+              ],
+              "comment": "identifier"
+            }
+          ],
+          "className": "hot"
+        },
+        {
+          "id": "B",
+          "label": "B",
+          "attributes": []
+        }
+      ],
+      "classDefs": {
+        "__map": [
+          [
+            "hot",
+            {
+              "fill": "red"
+            }
+          ]
+        ]
+      },
+      "relationships": [
+        {
+          "entity1": "A",
+          "entity2": "B",
+          "cardinality1": "one",
+          "cardinality2": "zero-many",
+          "label": "owns",
+          "identifying": true
+        }
+      ],
+      "groups": []
+    },
+    "editingModel": {
+      "kind": "er",
+      "entities": [
+        {
+          "id": "A"
+        },
+        {
+          "id": "B"
+        }
+      ],
+      "statements": [
+        {
+          "kind": "entity",
+          "id": "A"
+        },
+        {
+          "kind": "relation",
+          "ref": 0
+        }
+      ]
+    }
+  },
+  "usecase": {
+    "source": "usecase-beta\ndirection TB\nactor User\nBuy(\"Buy\")\nUser --> Buy",
+    "model": {
+      "type": "usecase",
+      "actors": {
+        "__map": [
+          [
+            "User",
+            {
+              "id": "User",
+              "label": "User",
+              "labelType": "text",
+              "business": false,
+              "classes": [],
+              "type": "normal",
+              "styles": []
+            }
+          ]
+        ]
+      },
+      "useCases": {
+        "__map": [
+          [
+            "Buy",
+            {
+              "id": "Buy",
+              "label": "Buy",
+              "labelType": "text",
+              "business": false,
+              "classes": [],
+              "shape": "ellipse",
+              "styles": []
+            }
+          ]
+        ]
+      },
+      "systemBoundaries": {
+        "__map": []
+      },
+      "relationships": [
+        {
+          "id": "edge-0",
+          "explicitId": false,
+          "source": "User",
+          "target": "Buy",
+          "type": "association",
+          "arrowType": 0,
+          "minlen": 1,
+          "classes": [],
+          "styles": [],
+          "animate": false
+        }
+      ],
+      "notes": {
+        "__map": []
+      },
+      "jsonNodes": {
+        "__map": []
+      },
+      "classDefs": {
+        "__map": []
+      },
+      "direction": "TB",
+      "accTitle": "",
+      "accDescr": "",
+      "accDescription": "",
+      "source": "usecase-beta\ndirection TB\nactor User\nBuy(\"Buy\")\nUser --> Buy",
+      "headerSpan": [
+        0,
+        12
+      ],
+      "statements": [
+        {
+          "kind": "direction",
+          "span": [
+            13,
+            25
+          ]
+        },
+        {
+          "kind": "node",
+          "span": [
+            26,
+            36
+          ],
+          "nodes": [
+            {
+              "id": "User",
+              "span": [
+                32,
+                36
+              ],
+              "idSpan": [
+                32,
+                36
+              ],
+              "labelSpan": [
+                32,
+                36
+              ],
+              "defines": true
+            }
+          ]
+        },
+        {
+          "kind": "node",
+          "span": [
+            37,
+            47
+          ],
+          "nodes": [
+            {
+              "id": "Buy",
+              "span": [
+                37,
+                47
+              ],
+              "idSpan": [
+                37,
+                40
+              ],
+              "labelSpan": [
+                42,
+                45
+              ],
+              "defines": true
+            }
+          ]
+        },
+        {
+          "kind": "edge",
+          "span": [
+            48,
+            60
+          ],
+          "nodes": [
+            {
+              "id": "User",
+              "span": [
+                48,
+                52
+              ],
+              "idSpan": [
+                48,
+                52
+              ],
+              "labelSpan": [
+                48,
+                52
+              ]
+            },
+            {
+              "id": "Buy",
+              "span": [
+                57,
+                60
+              ],
+              "idSpan": [
+                57,
+                60
+              ],
+              "labelSpan": [
+                57,
+                60
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "id": "edge-0",
+              "span": [
+                48,
+                60
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "agentflow": {
+    "source": "agentflow-beta\nA@{shape: task, label: \"Do\"}\nA --> B@{shape: tool}",
+    "model": {
+      "kind": "agentflow",
+      "graph": {
+        "direction": "TB",
+        "nodes": {
+          "__map": [
+            [
+              "A",
+              {
+                "id": "A",
+                "label": "Do",
+                "shape": "rectangle"
+              }
+            ],
+            [
+              "B",
+              {
+                "id": "B",
+                "label": "B",
+                "shape": "rectangle"
+              }
+            ]
+          ]
+        },
+        "edges": [
+          {
+            "source": "A",
+            "target": "B",
+            "style": "solid",
+            "hasArrowStart": false,
+            "hasArrowEnd": true,
+            "endMarker": "arrow"
+          }
+        ],
+        "subgraphs": [],
+        "classDefs": {
+          "__map": []
+        },
+        "classAssignments": {
+          "__map": []
+        },
+        "nodeStyles": {
+          "__map": []
+        },
+        "linkStyles": {
+          "__map": []
+        }
+      },
+      "metadata": {
+        "__map": [
+          [
+            "A",
+            {
+              "shape": "task",
+              "label": "Do"
+            }
+          ],
+          [
+            "B",
+            {
+              "shape": "tool"
+            }
+          ]
+        ]
+      },
+      "roles": {
+        "__map": [
+          [
+            "A",
+            "task"
+          ],
+          [
+            "B",
+            "tool"
+          ]
+        ]
+      },
+      "connectors": {
+        "__set": []
+      },
+      "globals": {
+        "__set": []
+      },
+      "mappings": [
+        {
+          "id": "A",
+          "type": "attachment",
+          "line": 2,
+          "col": 1,
+          "endLine": 2,
+          "endCol": 29
+        },
+        {
+          "id": "A",
+          "type": "vertex",
+          "line": 3,
+          "col": 1,
+          "endLine": 3,
+          "endCol": 2
+        },
+        {
+          "id": "A",
+          "type": "edge",
+          "line": 3,
+          "col": 1,
+          "endLine": 3,
+          "endCol": 22
+        },
+        {
+          "id": "B",
+          "type": "attachment",
+          "line": 3,
+          "col": 7,
+          "endLine": 3,
+          "endCol": 22
+        }
+      ]
+    }
+  }
+}

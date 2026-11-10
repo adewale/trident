@@ -359,14 +359,14 @@ const lookups = (view, hooks) => ({
   getJsonNode: id => view.getJsonNodes().get(id),
   getClassDef: id => view.getClassDefs().get(id),
 })
+export { lookups as usecaseLookups }
 const plainOrder = order => Object.fromEntries(entriesOf(order).map(([key, item]) => [key, [...item]]))
 
 /** Pele and Bezel keep the published state and, of the AST, its source text, header
  * span, accessibility text and statement occurrences; the AST's node, edge, group and
  * class tables are not kept. Pele's accDescr is the published description and its
  * accDescription the AST's verbatim block (checked against an accDescr {...} block). */
-function usecaseState(raw, hooks, project) {
-  const name = NAME[project]
+function usecaseState(raw, hooks, project, name = NAME[project]) {
   const astAbsent = reason => Object.fromEntries(['version', 'diagramType', 'nodes', 'edges', 'groups', 'classDefs'].map(key => [key, reason]))
   const getAST = () =>
     record({
@@ -375,7 +375,7 @@ function usecaseState(raw, hooks, project) {
       accTitle: raw.accTitle || undefined,
       accDescr: raw.accDescription || undefined,
       statements: deepUnset(raw.statements),
-    }, 'usecase AST', ['source', 'header', 'statements'], astAbsent(`${name} keeps the usecase AST's source and statement occurrences, not its node, edge, group and class tables`), hooks)
+    }, 'usecase AST', ['source', 'header', 'statements'], astAbsent(`${name} keeps the usecase AST's source and statement occurrences, not its node, edge, group and class tables`), hooks, ['version', 'diagramType', 'nodes', 'edges', 'groups', 'classDefs'])
   const ordered = (value, label) => keyedMap(value, hooks, `${name} usecase ${label}`)
   return lookups({
     getActors: () => ordered(raw.actors, 'actors'),
@@ -389,6 +389,7 @@ function usecaseState(raw, hooks, project) {
     getAST: () => (raw.source === undefined ? undefined : getAST()),
   }, hooks)
 }
+export { usecaseState }
 
 /** Latias94/merman lists actors and use cases as one node list told apart by kind
  * (actor, useCaseEllipse, useCaseRect), names an actor's type actorType and a

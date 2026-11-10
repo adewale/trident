@@ -159,11 +159,26 @@ export async function assessSvgLabels(test: DrawingCase, page: any, svg: string,
   }
   let rasterWitness = false
   if (labels.length) {
-    const checks = await observe(labels), failed = checks.filter(check => check?.status === 'failed')
-    if (failed.length) return { status: 'incorrect', labels: labels.length, reason: failed.map(check => check!.criterion).join('; ') }
-    if (checks.some(check => check?.status !== 'passed')) {
-      rasterWitness = await observeGlyphWitness(page, labels)
-      if (!rasterWitness) return { status: 'unknown', labels: labels.length, reason: 'Visible label evidence is unavailable for this SVG representation' }
+    // The lexical and painted checks use the same visible forms of control-
+    // bearing labels. Each alternative must satisfy every paint criterion;
+    // evidence for different forms cannot be combined into a passing label.
+    // Ordinary labels keep the existing single batched observation.
+    const obligations = labels.some(label => visibleForms(label).length > 1)
+      ? labels.map(label => visibleForms(label).map(form => [form]))
+      : [[labels]]
+    for (const alternatives of obligations) {
+      let matched = false, uncertain = false
+      const failed = new Set<string>()
+      for (const forms of alternatives) {
+        const checks = await observe(forms), failures = checks.filter(check => check.status === 'failed')
+        if (failures.length) { for (const check of failures) failed.add(check.criterion); continue }
+        if (checks.every(check => check.status === 'passed')) { matched = true; break }
+        if (await observeGlyphWitness(page, forms)) { rasterWitness = true; matched = true; break }
+        uncertain = true
+      }
+      if (!matched) return uncertain
+        ? { status: 'unknown', labels: labels.length, reason: 'Visible label evidence is unavailable for this SVG representation' }
+        : { status: 'incorrect', labels: labels.length, reason: [...failed].join('; ') }
     }
   }
   // A serialized leak is a nomination, not proof of paint. Failure to match

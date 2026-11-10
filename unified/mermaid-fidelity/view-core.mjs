@@ -543,7 +543,7 @@ const AGENTIC_KIND = { inheritance: [1, 0], realization: [1, 1], composition: [2
 CLASS['adewale/agentic-mermaid'] = raw => ({
   classes: () => raw.classes.map(item => [item.id, { label: item.label ?? item.id, ...(item.generic ? { type: item.generic } : {}) }]),
   relations: () =>
-    raw.relations.map(rel => {
+    (raw.nativeParser === 'parseClassDiagram' ? raw.relationships.map(rel => ({ ...rel, kind: rel.type, fromKind: rel.fromType, toKind: rel.toType })) : raw.relations).map(rel => {
       const at = rel.markerAt, code = kind => AGENTIC_KIND[kind]?.[0]
       const line = rel.lineStyle === 'dashed' ? 1 : rel.lineStyle === 'solid' ? 0 : AGENTIC_KIND[rel.kind]?.[1]
       const relation = { type1: at === 'from' || at === 'both' ? code(rel.fromKind ?? rel.kind) : 'none', type2: at === 'to' || at === 'both' ? code(rel.toKind ?? rel.kind) : 'none', lineType: line }
@@ -841,11 +841,12 @@ const C4 = {
   // agentic-mermaid 0.5.6 c4 body: each element, boundary and relationship keeps the macro
   // that declared it, its parentId, a tags list, sprite and link.
   'adewale/agentic-mermaid': (raw, hooks) => {
-    const tags = list => (list.length > 1 ? hooks.unavailable('agentic-mermaid C4 tag list of several tags') : list[0])
+    // c4/parser.ts splits native tags at '+', preserving their list order.
+    const tags = list => (list.length ? list.join('+') : undefined)
     return {
       type: raw.variant,
       shapes: () => raw.elements.map(item => { const type = C4_MACRO[item.macro]; if (!type) return hooks.unavailable('agentic-mermaid C4 macro ' + item.macro); return { alias: item.id, label: text(item.label), descr: text(item.description), ...(usesTechn(type) ? { techn: text(item.technology) } : {}), typeC4Shape: { text: type }, parentBoundary: item.parentId ?? 'global', ...optional(['sprite', 'tags', 'link'], { sprite: item.sprite, tags: tags(item.tags ?? []), link: item.link }) } }),
-      boundaries: () => raw.boundaries.map(item => { if (!(item.macro in C4_BOUNDARY_MACRO) && item.macro !== 'Boundary') return hooks.unavailable('agentic-mermaid C4 boundary macro ' + item.macro); return { alias: item.id, label: text(item.label), type: { text: C4_BOUNDARY_MACRO[item.macro] ?? item.type ?? 'system' }, parentBoundary: item.parentId ?? 'global', ...optional(['tags', 'link'], { tags: tags(item.tags ?? []), link: item.link }) } }),
+      boundaries: () => raw.boundaries.map(item => { if (!(item.macro in C4_BOUNDARY_MACRO) && item.macro !== 'Boundary') return hooks.unavailable('agentic-mermaid C4 boundary macro ' + item.macro); return { alias: item.id, label: text(item.label), type: { text: item.type ?? C4_BOUNDARY_MACRO[item.macro] ?? 'system' }, parentBoundary: item.parentId ?? 'global', ...optional(['tags', 'link'], { tags: tags(item.tags ?? []), link: item.link }) } }),
       rels: () => raw.relationships.map(item => ({ type: C4_REL_MACRO[item.macro] ?? hooks.unavailable('agentic-mermaid C4 relation macro ' + item.macro), from: item.from, to: item.to, label: text(item.label), techn: text(item.technology), descr: text(item.description), ...optional(['sprite', 'tags', 'link'], { sprite: item.sprite, tags: tags(item.tags ?? []), link: item.link }) })),
       absent: { shape: WRAP('agentic-mermaid'), boundary: WRAP('agentic-mermaid'), rel: WRAP('agentic-mermaid') },
     }

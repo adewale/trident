@@ -63,10 +63,10 @@ export function inspectTerminalClass(output: string, contract: TerminalSourceCon
   const verdict = inspectTerminalMeaning(normalized.map(row => row.join('')).join('\n'), { nodes: actual.map(item => ({ id: item.id, label: item.id })), edges }, { primitiveShapes: true })
   if (verdict.status === 'correct') {
     const endpoints = verdict.edges.flatMap((edge, index) => edge.route?.length ? [{ edge: index, end: 'target', point: edge.route[0]! }, { edge: index, end: 'source', point: edge.route.at(-1)! }] : [])
-    const assigned = new Map<string, string[]>(); let ambiguous = false
+    const assigned = new Map<string, string[]>(), unassigned: string[] = []; let ambiguous = false
     for (const card of cards) {
       const near = endpoints.map(endpoint => ({ ...endpoint, distance: Math.abs(endpoint.point.y - card.y) + Math.max(card.x - endpoint.point.x, 0, endpoint.point.x - card.x - card.width + 1) })).filter(endpoint => endpoint.distance <= 2)
-      if (near.length !== 1) { ambiguous = true; continue }
+      if (near.length !== 1) { ambiguous = true; unassigned.push(card.value); continue }
       const key = near[0]!.edge + ':' + near[0]!.end; assigned.set(key, [...(assigned.get(key) ?? []), card.value])
     }
     let mismatch = false
@@ -77,7 +77,13 @@ export function inspectTerminalClass(output: string, contract: TerminalSourceCon
       for (const [end, desired] of [['source', forward ? want.leftCardinality : want.rightCardinality], ['target', forward ? want.rightCardinality : want.leftCardinality]]) {
         const seen = assigned.get(index + ':' + end) ?? []
         if (seen.length > 1) ambiguous = true
-        else if ((seen[0] ?? '') !== desired) mismatch = true
+        else if ((seen[0] ?? '') !== desired) {
+          // A visible required token outside the bounded ownership radius is
+          // unresolved, not proved missing. A uniquely owned wrong value or a
+          // value absent from the entire outside-node inventory still fails.
+          if (!seen.length && desired && unassigned.includes(desired)) ambiguous = true
+          else mismatch = true
+        }
       }
     }
     set('class-relations', mismatch ? 'failed' : ambiguous ? 'unknown' : 'passed', 'Traced class endpoints own their marker, stroke, caption and separate numeric cardinality tokens; each token must have one nearby endpoint owner', verdict.edges)

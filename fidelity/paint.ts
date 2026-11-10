@@ -268,16 +268,34 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   }
   const rootBox = rect(svg)
   check('canvas', 'positive finite rendered canvas', rootBox, [rootBox.x, rootBox.y, rootBox.width, rootBox.height].every(Number.isFinite) && rootBox.width > 0 && rootBox.height > 0, 'Actual browser viewport of the returned SVG')
-  const labelText = (element: Element): string => {
+  const glyphBaseline = (element: Element, last: boolean): number | undefined => {
+    const text = element as SVGTextContentElement
+    if (typeof text.getNumberOfChars !== 'function') return undefined
+    try {
+      const count = text.getNumberOfChars(), matrix = text.getScreenCTM()
+      if (!count || !matrix || Math.abs(matrix.b) > 1e-6 || Math.abs(matrix.c) > 1e-6) return undefined
+      const point = text.getStartPositionOfChar(last ? count - 1 : 0)
+      return point.y * matrix.d + matrix.f
+    } catch { return undefined }
+  }
+  const labelText = (element: Element, lineSeparator = '\n'): string => {
     const fragments = fragmentedLabels.get(element); if (fragments) return fragments.map(fragment => fragment.textContent ?? '').join(' ')
     if (element.namespaceURI !== 'http://www.w3.org/2000/svg') return (element as HTMLElement).innerText ?? element.textContent ?? ''
-    let result = '', previous: DOMRect | undefined
+    let result = '', previous: { box: DOMRect; baseline?: number } | undefined
     for (const child of element.childNodes) {
-      if (child.nodeType === Node.TEXT_NODE) { result += child.textContent ?? ''; const range = document.createRange(); range.selectNodeContents(child); const box = range.getBoundingClientRect(); if (box.width && box.height) previous = box; continue }
+      if (child.nodeType === Node.TEXT_NODE) { result += child.textContent ?? ''; const range = document.createRange(); range.selectNodeContents(child); const box = range.getBoundingClientRect(); if (box.width && box.height) previous = { box }; continue }
       if (!(child instanceof Element)) continue
       const box = child.getBoundingClientRect()
-      if (previous && Math.abs(box.y - previous.y) > Math.max(1, Math.min(box.height, previous.height) * .4)) result += ' '
-      result += labelText(child); previous = box
+      const baseline = glyphBaseline(child, false)
+      const change = previous?.baseline !== undefined && baseline !== undefined ? baseline - previous.baseline : box.y - (previous?.box.y ?? box.y)
+      // A font-size change or superscript is not a new row. Wrapped rows
+      // advance baseline and reset left/right/centered flow. Backward rows
+      // retain a separator but cannot justify an emergency word join.
+      if (previous && (box.x <= previous.box.x + 1 || box.right <= previous.box.right + 1)) {
+        if (change < -1) result += '\n'
+        else if (change > Math.max(1, Math.min(box.height, previous.box.height) * .4)) result += lineSeparator
+      }
+      result += labelText(child, lineSeparator); previous = { box, baseline: glyphBaseline(child, true) }
     }
     return result
   }
@@ -285,6 +303,29 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
   const matches = (label: string) => {
     const exact = labelElements.filter(element => normalize(labelText(element)) === normalize(label))
     if (exact.length) return exact
+    // Only an observed SVG line boundary may stand for either a word space
+    // or an emergency word break. Preserve every character and all whitespace
+    // inside a row; do not concatenate unrelated SVG text elements.
+    const wantedLabel = normalize(label)
+    const wrapped = labelElements.filter(element => {
+      if (element.namespaceURI !== 'http://www.w3.org/2000/svg') return false
+      // Source newlines are ordinary SVG whitespace, not measured row breaks.
+      // An internal separator distinguishes only the geometric boundaries above.
+      const lines = labelText(element, '\u0000').split('\u0000').map(normalize).filter(Boolean)
+      if (lines.length < 2 || lines.length > 64) return false
+      let positions = new Set([0])
+      for (let index = 0; index < lines.length; index++) {
+        const next = new Set<number>()
+        for (const start of positions) if (wantedLabel.startsWith(lines[index]!, start)) {
+          const end = start + lines[index]!.length
+          next.add(end)
+          if (index < lines.length - 1 && wantedLabel[end] === ' ') next.add(end + 1)
+        }
+        positions = next
+      }
+      return positions.has(wantedLabel.length)
+    })
+    if (wrapped.length) return wrapped
     // Sequence condition captions may add one outer bracket pair and soft-wrap
     // across separate SVG text rows. Join only a unique adjacent complete block;
     // the fragment observer still has to prove its frame and chronological scope.

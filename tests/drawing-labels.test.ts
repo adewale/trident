@@ -94,6 +94,52 @@ test('SVG label verdicts require visible, unclipped text rather than hidden DOM 
   } finally { await browser.close() }
 })
 
+test('SVG emergency wrapping preserves letters only at observed line boundaries', async () => {
+  const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
+  const context = await browser.newContext({ javaScriptEnabled: false }), page = await context.newPage()
+  try {
+    const example: any = { ...flow, source: 'flowchart LR\nA[Small rectangle]', expected: { nodes: [{ id: 'A', label: 'Small rectangle' }] } }
+    for (const [middle, last, attributes, expected] of [
+      ['rectangl', 'e', '', 'correct'],
+      ['rectangl-', 'e', '', 'incorrect'],
+      ['rectang', 'e', '', 'incorrect'],
+      ['rect angl', 'e', '', 'incorrect'],
+      ['rectangl', 'e', 'opacity="0"', 'incorrect'],
+      ['rectangl', 'e', 'transform="translate(400 0)"', 'nonpass'],
+    ] as const) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><text x="20" y="25" ${attributes}><tspan x="20">Small</tspan><tspan x="20" dy="20">${middle}</tspan><tspan x="20" dy="20">${last}</tspan></text></svg>`
+      await page.setContent(svg)
+      const status = (await assessSvgLabels(example, page, svg)).status
+      // Font availability determines whether overflowing ink is measurable or
+      // unqualified. Neither outcome may earn a label pass on any platform.
+      if (expected === 'nonpass') expect(['incorrect', 'unknown']).toContain(status)
+      else expect(status, JSON.stringify({ middle, last, attributes })).toBe(expected)
+    }
+    for (const text of [
+      'Small rectangl\ne',
+      '<tspan>Small rectangl\ne</tspan>',
+      '<tspan font-size="30">Small rect </tspan><tspan font-size="16">angle</tspan>',
+      '<tspan>Small rect </tspan><tspan dy="-9">angle</tspan>',
+      '<tspan>Small rect </tspan><tspan x="20" dy="-9">angle</tspan>',
+      '<tspan>Small rect</tspan><tspan x="20" dy="-9">angle</tspan>',
+    ]) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><text x="20" y="35">${text}</text></svg>`
+      await page.setContent(svg)
+      expect((await assessSvgLabels(example, page, svg)).status, text).toBe('incorrect')
+    }
+    for (const anchor of ['start', 'middle', 'end']) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><text x="150" y="25" text-anchor="${anchor}"><tspan x="150">Small</tspan><tspan x="150" dy="20">rectangl</tspan><tspan x="150" dy="20">e</tspan></text></svg>`
+      await page.setContent(svg)
+      expect((await assessSvgLabels(example, page, svg)).status, anchor).toBe('correct')
+    }
+    for (const fontSize of [16, 20, 30]) for (const dy of [-2, -9]) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150"><text x="20" y="60" font-size="${fontSize}"><tspan>Small rect</tspan><tspan x="20" dy="${dy}">angle</tspan></text></svg>`
+      await page.setContent(svg)
+      expect((await assessSvgLabels(example, page, svg)).status, JSON.stringify({ fontSize, dy })).toBe('incorrect')
+    }
+  } finally { await browser.close() }
+})
+
 test('unresolved raw SVG syntax cannot earn credit through fragments or hidden exact matches', async () => {
   const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
   const context = await browser.newContext({ javaScriptEnabled: false }), page = await context.newPage()
@@ -154,4 +200,32 @@ test('the static primitive label path preserves global unresolved-paint and visi
       expect(await observeSvgLabels(page, 'flowchart', ['Alpha'])).toEqual(Object.fromEntries(labelPaintCriteria.map(key => [key, full.checks.find(c => c.criterion === key)?.status ?? 'unavailable'])))
     }
   } finally { await browser.close() }
+})
+
+test('sanitized SVG control labels use complete visible paint evidence and keep wrong or hidden labels failing', async () => {
+  const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) })
+  const page = await browser.newPage()
+  try {
+    const example: any = { ...flow, source: 'flowchart LR\nA["\u001b[31mAlpha"] --> B[Beta]', expected: { nodes: [{ id: 'A', label: '\u001b[31mAlpha' }, { id: 'B', label: 'Beta' }] } }
+    for (const [body, expected] of [
+      ['<text x="10" y="30">Alpha</text>', 'correct'],
+      ['<text x="10" y="30">[31mAlpha</text>', 'correct'],
+      ['<text x="10" y="30">?[31mAlpha</text>', 'correct'],
+      ['<text x="10" y="30">Wrong</text>', 'incorrect'],
+      ['<text x="10" y="30" opacity="0">Alpha</text>', 'incorrect'],
+      ['<text x="10" y="30">Alpha</text><rect width="150" height="100" fill="white"/>', 'incorrect'],
+      // Platforms with qualified glyph bounds can prove this failure; others
+      // withhold it. Neither may give an off-canvas label correctness credit.
+      ['<text x="-500" y="30">Alpha</text>', 'nonpass'],
+    ] as const) {
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100">' + body + '<text x="200" y="30">Beta</text></svg>'
+      await page.setContent(svg)
+      const status = (await assessSvgLabels(example, page, svg)).status
+      if (expected === 'nonpass') expect(status, body).not.toBe('correct')
+      else expect(status, body).toBe(expected)
+    }
+    const missingOther = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100"><text x="10" y="30">Alpha</text></svg>'
+    await page.setContent(missingOther)
+    expect((await assessSvgLabels(example, page, missingOther)).status).toBe('incorrect')
+  } finally { await page.close(); await browser.close() }
 })

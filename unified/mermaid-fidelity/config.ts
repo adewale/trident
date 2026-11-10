@@ -59,7 +59,10 @@ export default {
             locals.default = clause.name.text
           }
           if (clause?.name) bindings.push(`const ${clause.name.text} = ${name}.default;`)
-          if (clause?.namedBindings && ts.isNamespaceImport(clause.namedBindings)) bindings.push(`const ${clause.namedBindings.name.text} = ${name};`)
+          if (clause?.namedBindings && ts.isNamespaceImport(clause.namedBindings)) {
+            locals['*'] = clause.namedBindings.name.text
+            bindings.push(`const ${clause.namedBindings.name.text} = ${name};`)
+          }
           else if (clause?.namedBindings && ts.isNamedImports(clause.namedBindings))
             for (const entry of clause.namedBindings.elements)
               if (!entry.isTypeOnly) {

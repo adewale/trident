@@ -19,11 +19,13 @@ Benchmarks:
   bun commands.ts davebench:terminal --prepared FILE --out FRESH_DIRECTORY
   bun commands.ts davebench:native-png --help
   bun commands.ts drawing:correctness --help
+  bun commands.ts drawing:structure --help
   bun commands.ts mermaid:fidelity --help
 
 Results (read existing numbers; launch no renderers):
   bun commands.ts campaign:results --help
   bun commands.ts results:snapshot [--check]
+  bun commands.ts fidelity:coverage --help
 
 Version: node commands.ts --version
 
@@ -50,12 +52,14 @@ async function main() {
     'davebench:terminal': { file: 'unified/davebench-terminal.ts', capability: 'collect', oracle: true },
     'davebench:native-png': { file: 'unified/davebench-native-png.ts', capability: 'collect', oracle: true },
     'drawing:correctness': { file: 'unified/drawing-correctness.ts', capability: 'collect', oracle: true },
+    'drawing:structure': { file: 'unified/drawing-structure.ts', capability: 'collect', oracle: false },
     'mermaid:fidelity': { file: 'unified/mermaid-fidelity.ts', capability: 'collect', oracle: true },
     'campaign:results': { file: 'unified/three-benchmark-report.ts', capability: 'read', oracle: false },
     versions: { file: 'unified/benchmark-versions.ts', capability: 'prepare', oracle: true },
     prepare: { file: 'unified/prepare-artifacts.ts', capability: 'prepare', oracle: false },
     'upstream:prepare': { file: 'unified/prepare-upstream.ts', capability: 'prepare', oracle: false },
     'results:snapshot': { file: 'unified/results-snapshot.ts', capability: 'read', oracle: false },
+    'fidelity:coverage': { file: 'unified/fidelity-coverage.ts', capability: 'read', oracle: false },
   }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', resolve(directory, 'tests')],

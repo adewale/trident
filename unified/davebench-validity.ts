@@ -8,6 +8,7 @@
 
 import { svgXmlInspection } from './qualification.ts'
 import { inspectPng } from './png-inspection.ts'
+import { decodeHTML, decodeHTMLStrict } from 'entities'
 
 export type Validity = { valid: true } | { valid: false; reason: string }
 
@@ -24,11 +25,21 @@ const errorPhrases = [
 /** Serializable pattern list for the in-page browser check. */
 export const errorPatternSources = errorPhrases.map(pattern => [pattern.source, pattern.flags] as [string, string])
 
+/** Compare diagnostic words with authored text without changing renderer input.
+ * Mermaid's #name;/#number; and ordinary HTML entities can spell the same label. */
+export function authoredDiagnosticSource(source: string) {
+  return decodeHTML(source.replace(/(?<!&)#([A-Za-z][A-Za-z0-9]*);/g, (original, name: string) => {
+    const entity = '&' + name + ';'
+    return decodeHTMLStrict(entity) === entity ? original : entity
+  }).replace(/(?<!&)#(\d+);/g, '&#$1;')).replace(/\s+/g, ' ').trim()
+}
+
 export function errorPhrase(text: string, source: string, patterns: RegExp[] = errorPhrases) {
   const head = text.trim().split('\n').slice(0, 3).join('\n').slice(0, 400)
+  const authored = authoredDiagnosticSource(source).toLowerCase()
   for (const pattern of patterns) {
     const match = pattern.exec(head)
-    if (match && !source.toLowerCase().includes(match[0].trim().toLowerCase())) return match[0].trim()
+    if (match && !authored.includes(match[0].trim().toLowerCase())) return match[0].trim()
   }
   return undefined
 }
@@ -153,7 +164,7 @@ export function svgTextValidity(svg: string, source: string): Validity {
   const parsed = svgXmlInspection(svg)
   if (parsed.findings.length) return { valid: false, reason: parsed.findings.some(reason => reason.includes('positive finite')) ? 'zero-size SVG' : parsed.findings.join('; ') }
   if (parsed.root?.attributes['aria-roledescription'] === 'error') return { valid: false, reason: 'error placeholder' }
-  const text = svg.replace(/<(style|script)\b[\s\S]*?<\/\1\s*>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
+  const text = decodeHTML(svg.replace(/<(style|script)\b[\s\S]*?<\/\1\s*>/gi, ' ').replace(/<[^>]+>/g, ' '))
   const phrase = errorPhrase(squash(text), source)
   if (phrase) return { valid: false, reason: 'error message: ' + phrase }
   return { valid: true }

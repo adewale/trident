@@ -126,10 +126,13 @@ function classesView(model, hooks) {
   if (model.namespaces) {
     const namespaces = () => {
       const all = classes()
-      return new Map(model.namespaces().map(space => {
-        const { classIds, ...rest } = space
-        return [space.id, record({ ...rest, classes: new Map(classIds.filter(id => all.has(id)).map(id => [id, all.get(id)])) }, 'namespace', NAMESPACE_FIELDS, { ...NAMESPACE_RENDERER, ...(model.absent.namespace ?? {}) }, hooks)]
+      const spaces = model.namespaces()
+      const result = new Map(spaces.map(space => {
+        const { classIds, childIds, ...rest } = space
+        return [space.id, record({ ...rest, ...(childIds ? { children: new Map() } : {}), classes: new Map(classIds.filter(id => all.has(id)).map(id => [id, all.get(id)])) }, 'namespace', NAMESPACE_FIELDS, { ...NAMESPACE_RENDERER, ...(model.absent.namespace ?? {}) }, hooks)]
       }))
+      for (const space of spaces) for (const id of space.childIds ?? []) result.get(space.id).children.set(id, result.get(id))
+      return result
     }
     view.getNamespaces = namespaces
     view.getNamespace = id => namespaces().get(id)
@@ -372,7 +375,24 @@ function graphClassModel(raw, name) {
 // such as <<interface>> included), one className from cssClass or :::, href and tooltip,
 // a generic and a qualified namespace; namespaces keep name and label.
 function agenticClassModel(raw, hooks) {
+  if (raw.nativeParser === 'parseClassDiagram') return agenticSourceClassModel(raw, hooks)
   const rows = 'agentic-mermaid keeps a class body as raw rows, not split into annotations, attributes and methods'
+  // ClassNamespaceDecl.name and ClassNode.namespace are qualified paths. The
+  // editable body lists authored declarations, while its renderer and writer
+  // expand their path prefixes into the namespace hierarchy.
+  const namespaces = () => {
+    const spaces = new Map()
+    for (const declaration of raw.namespaces ?? []) {
+      const parts = declaration.name.split('.')
+      for (let n = 1; n <= parts.length; n++) {
+        const id = parts.slice(0, n).join('.')
+        if (!spaces.has(id)) spaces.set(id, { id, label: parts[n - 1], parent: n > 1 ? parts.slice(0, n - 1).join('.') : undefined, explicit: false, classIds: raw.classes.filter(item => item.namespace === id).map(item => item.id), childIds: [] })
+      }
+      Object.assign(spaces.get(declaration.name), { label: declaration.label ?? parts.at(-1), explicit: true })
+    }
+    for (const space of spaces.values()) if (space.parent !== undefined) spaces.get(space.parent).childIds.push(space.id)
+    return [...spaces.values()]
+  }
   return {
     classes: () => raw.classes.map(item => [item.id, {
       label: item.label ?? item.id,
@@ -382,12 +402,65 @@ function agenticClassModel(raw, hooks) {
       tooltip: item.tooltip ?? undefined,
       parent: item.namespace ?? undefined,
     }]),
-    namespaces: () => (raw.namespaces ?? []).map(space => ({ id: space.name, label: space.label ?? space.name, classIds: raw.classes.filter(item => item.namespace === space.name).map(item => item.id) })),
+    namespaces,
     absent: {
       class: { members: rows, methods: rows, annotations: rows, styles: "agentic-mermaid's class model keeps no per-class styles", haveCallback: "agentic-mermaid's class model keeps no click callbacks", linkTarget: "agentic-mermaid's class model keeps no link targets" },
-      namespace: { children: "agentic-mermaid's namespace keeps no nesting", parent: "agentic-mermaid's namespace keeps no nesting", explicit: "agentic-mermaid's namespace keeps no nesting", notes: "agentic-mermaid's namespaces keep no notes" },
+      namespace: { notes: "agentic-mermaid's namespaces keep no notes" },
       getDirection: "agentic-mermaid's class model keeps no direction",
       ...accAbsent('agentic-mermaid'),
+    },
+  }
+}
+
+// 0.5.7's public parseClassDiagram returns the render model: parsed members,
+// namespace trees, styles and direction. Keep the editing model's declaration
+// flags and labels where the render model has expanded their representation.
+function agenticSourceClassModel(raw, hooks) {
+  const editable = raw.editingModel
+  const declarations = new Set((editable?.namespaces ?? []).map(space => space.name))
+  const spaces = []
+  const visit = (items, parent) => {
+    for (const item of items) {
+      const id = parent ? `${parent}.${item.name}` : item.name
+      spaces.push({ id, label: item.label ?? item.name, parent, classIds: item.classIds, childIds: (item.children ?? []).map(child => `${id}.${child.name}`), ...(editable ? { explicit: declarations.has(id) } : {}) })
+      visit(item.children ?? [], id)
+    }
+  }
+  visit(raw.namespaces ?? [], undefined)
+  const member = (item, method) => ({
+    visibility: item.visibility ?? '',
+    // sourceText is the native parser's attribute text with its classifier
+    // removed. It preserves spacing and types that name/type alone lose.
+    ...(method ? { id: item.name, parameters: item.params ?? '', returnType: item.type ?? '' } : typeof item.sourceText === 'string' ? { id: item.sourceText.slice((item.visibility ?? '').length) } : {}),
+    ...flags(item),
+  })
+  return {
+    classes: () => raw.classes.map(item => {
+      const declaration = editable?.classes.find(node => node.id === item.id)
+      return [item.id, {
+        label: declaration ? declaration.label ?? item.id : item.generic ? () => hooks.unsupported('Agentic folds the generic type into its render label; the editing declaration is unavailable') : item.label,
+        type: item.generic ?? '',
+        annotations: item.annotation ? [item.annotation] : [],
+        members: item.attributes.map(item => member(item, false)),
+        methods: item.methods.map(item => member(item, true)),
+        // Mermaid copies classDef styles into a node only when that definition
+        // is read after the assignment. Agentic resolves classDefs at render
+        // time and retains no relative declaration order in this model.
+        styles: () => (item.className ?? '').split(/\s+/).some(id => raw.classDefs.has(id)) ? hooks.unsupported('Agentic renders assigned classDefs separately without retaining Mermaid\'s classDef/assignment mutation order') : styleStrings(item.inlineStyle),
+        cssClasses: () => cssClasses((item.className ?? '').split(/\s+/), Boolean(item.href), 'agentic-mermaid', hooks),
+        link: item.href ?? undefined,
+        tooltip: item.tooltip ?? undefined,
+        parent: parentFrom(spaces, item.id, 'agentic-mermaid', hooks),
+      }]
+    }),
+    namespaces: () => spaces,
+    getDirection: raw.direction ?? 'TB',
+    getAccTitle: raw.accessibilityTitle ?? '',
+    getAccDescription: raw.accessibilityDescription ?? '',
+    absent: {
+      class: { haveCallback: "Agentic's render class model keeps no click callbacks", linkTarget: "Agentic's render class model keeps no link targets" },
+      member: { id: 'Agentic keeps no sourceText for this attribute', classifier: 'Agentic marks this member both static and abstract without retaining the final classifier' },
+      namespace: { explicit: 'Agentic expands namespace prefixes without marking explicit declarations; its editing model is unavailable', notes: "Agentic's namespaces keep no notes" },
     },
   }
 }
@@ -613,7 +686,7 @@ const ER_MODELS = {
   // style object, a groupId and its attributes as raw text rows; relations keep left/right
   // cardinality words, dashed and the label; groups are subgraphs (id, label, direction);
   // classDefs and the accessibility title are kept, accDescr is not.
-  'adewale/agentic-mermaid': raw => ({
+  'adewale/agentic-mermaid': (raw, hooks) => raw.nativeParser === 'parseErDiagram' ? agenticSourceEr(raw, hooks) : ({
     entities: () => raw.entities.map(entity => [entity.id, { label: entity.id, alias: entity.label ?? '', attributes: entity.attributes.map(() => ({})), ...erCss(entity.className ? [entity.className] : [], styleStrings(entity.style)) }]),
     relationships: () => raw.relations.map(rel => ({ entityA: rel.from, entityB: rel.to, roleA: rel.label ?? '', relSpec: { cardA: AGENTIC_CARD[rel.rightCard], cardB: AGENTIC_CARD[rel.leftCard], relType: identifying(typeof rel.dashed === 'boolean' ? !rel.dashed : undefined) } })),
     getClasses: () => erClasses(entriesOf(raw.classDefs).map(([id, style]) => [id, styleStrings(style)])),
@@ -651,6 +724,20 @@ function agenticErGroups(raw) {
     classes: [],
     cssStyles: [],
   }))
+}
+// Public parseErDiagram supplies typed attributes and render cardinalities;
+// the editing model additionally retains the order in which groups closed.
+function agenticSourceEr(raw, hooks) {
+  const cards = { ...ZOMBIE_CARD, parent: 'MD_PARENT' }
+  return {
+    entities: () => raw.entities.map(entity => [entity.id, { label: entity.id, alias: raw.editingModel?.entities.find(item => item.id === entity.id)?.label ?? (entity.label === entity.id ? '' : entity.label), attributes: entity.attributes.map(erAttribute), ...erCss((entity.className ?? '').split(/\s+/), styleStrings(entity.inlineStyle)) }]),
+    relationships: () => raw.relationships.map(rel => ({ entityA: rel.entity1, entityB: rel.entity2, roleA: rel.label, relSpec: { cardA: cards[rel.cardinality2], cardB: cards[rel.cardinality1], relType: identifying(rel.identifying) } })),
+    getClasses: () => erClasses(entriesOf(raw.classDefs).map(([id, style]) => [id, styleStrings(style)])),
+    getSubGraphs: () => raw.groups.length && !raw.editingModel ? hooks.unsupported('Agentic ER render groups retain no group-close statement order; its editing model is unavailable') : agenticErGroups({ ...raw, statements: raw.editingModel?.statements }),
+    getAccTitle: () => raw.accessibilityTitle ?? '',
+    getAccDescription: () => raw.accessibilityDescription ?? '',
+    absent: {},
+  }
 }
 function zombieEr(raw, name) {
   const zombie = name === 'zombie-mermaid'
@@ -1068,6 +1155,10 @@ function ganttTasks(project, raw, hooks) {
   const time = value => (value instanceof Date ? new Date(value.getTime()) : value === null ? null : wallClock(value) ?? hooks.unavailable('Unmapped native gantt time ' + value))
   const asWritten = name => ({ startTime: `${name} keeps a task's start as written, not resolved to a date`, endTime: `${name} keeps a task's end as written, not resolved to a date` })
   switch (project) {
+    case 'crafter-station/mermaid':
+      // diagrams/gantt.ts in the renderer's own parser source map: one optional
+      // status, and startDate/endDate/duration/afterId kept as written.
+      return () => (raw.sections ?? []).flatMap(section => section.tasks.map(item => task({ id: item.id, task: item.label, section: section.name, ...tagFlags(item.status ? [item.status] : []) }, asWritten('Crafter'))))
     case 'orestesgaolin/mermaid':
     case 'pub:mermaid_flutter':
       return () => (raw.sections ?? []).flatMap(section => section.tasks.map(item => task({ id: item.id, task: item.name, section: section.name, startTime: time(item.start), endTime: time(item.end), active: item.active, done: item.done, crit: item.crit, milestone: item.milestone })))
@@ -1375,6 +1466,29 @@ function dartMindmap(raw) {
 }
 const mindmapSchema = Object.fromEntries(Object.entries(MINDMAP_MODELS).map(([project, model]) => [project, (raw, hooks) => mindmapView(model(raw), hooks)]))
 
+// mermaid-rs-renderer 0.3.1 ir::MindmapData / parse_mindmap_diagram:
+// a flat node list, root_id and child IDs, not a nested root. `level` is a
+// normalised two-space depth, not Mermaid's source indentation. IDs may be
+// sanitised/disambiguated by the parser; do not undo that candidate behaviour.
+mindmapSchema['1jehuang/mermaid-rs-renderer'] = (raw, hooks) => {
+  const data = raw.mindmap
+  if (!data || !Array.isArray(data.nodes)) return { getMindmap: () => hooks.unavailable('mermaid-rs-renderer mindmap data is not mapped') }
+  const nodes = new Map(data.nodes.map(item => [item.id, item]))
+  const types = { Default: 0, RoundedRect: 1, Rect: 2, Circle: 3, Cloud: 4, Bang: 5, Hexagon: 6 }
+  const node = (id, ancestors = new Set()) => {
+    const item = nodes.get(id)
+    if (!item || ancestors.has(id)) return hooks.unavailable('mermaid-rs-renderer mindmap has a missing or cyclic child ' + id)
+    const type = types[item.node_type]
+    if (type === undefined) return hooks.unavailable('mermaid-rs-renderer mindmap node type ' + item.node_type)
+    const classes = raw.node_classes?.[item.id]
+    return record({ nodeId: item.id, descr: item.label, type, icon: item.icon ?? undefined, class: item.class ?? (Array.isArray(classes) && classes.length ? classes.join(' ') : undefined),
+      children: item.children.map(child => node(child, new Set([...ancestors, id]))) }, 'mindmap node', MINDMAP_FIELDS, {
+      width: "a mindmap node's width is Mermaid's renderer setting", padding: "a mindmap node's padding is Mermaid's renderer setting", level: 'mermaid-rs-renderer normalises indentation into depth',
+    }, hooks)
+  }
+  return { nodeType: MINDMAP_NODE_TYPE, getMindmap: () => data.root_id == null ? null : node(data.root_id), getData: () => hooks.unsupported("Mermaid's mindmap getData() is its renderer's layout data") }
+}
+
 // ---------------------------------------------------------------------------------------
 // Block. Mermaid's getBlock(id) is the block with that id (undefined when none). Its
 // colorIndex is the palette slot the renderer stamps on a composite; agentic-mermaid keeps
@@ -1435,6 +1549,13 @@ function mermaidEdgeId(edges, index) {
 const GRAPH_SHAPE = { rectangle: 'square', rounded: 'round', 'lean-r': 'lean_right', 'lean-l': 'lean_left', 'trapezoid-alt': 'inv_trapezoid', asymmetric: 'odd', 'double-circle': 'doublecircle' }
 function beautifulGraph(graph, name, keeps, hooks) {
   const get = (map, key) => (map instanceof Map ? map.get(key) : undefined)
+  const classes = id => {
+    const assigned = get(graph.classAssignments, id)
+    if (assigned === undefined || assigned === '') return []
+    if (typeof assigned === 'string') return assigned.split(/\s+/).filter(Boolean)
+    if (Array.isArray(assigned) && assigned.every(value => typeof value === 'string')) return [...assigned]
+    return hooks.unavailable(`${name} has an unreviewed class-assignment representation`)
+  }
   const flat = []
   const walk = group => {
     const children = (group.children ?? []).filter(child => typeof child === 'object')
@@ -1446,14 +1567,13 @@ function beautifulGraph(graph, name, keeps, hooks) {
   const head = (has, marker) => (has ? headOf(keeps.markers ? marker ?? 'arrow' : 'arrow') : 'none')
   const view = flowchartView({
     nodes: () => entriesOf(graph.nodes).map(([id, node]) => {
-      const assigned = get(graph.classAssignments, id)
       const shape = GRAPH_SHAPE[node.shape] ?? shapeOf(node.shape)
       // A shape written as @{ shape: X } is Mermaid's vertex type X as written; agentic-mermaid
       // keeps that name as authoredShape (absent for bracket syntax).
       return [id, {
         text: node.label,
-        ...(typeof node.authoredShape === 'string' ? { type: node.authoredShape } : node.shape === 'rectangle' && node.label === id ? { [VERTEX_ABSENT]: { type: ambiguous } } : shape ? { type: shape } : {}),
-        classes: assigned ? [assigned] : [],
+        ...(typeof node.authoredShape === 'string' ? { type: node.authoredShape } : node.shape === 'rectangle' && typeof node.borders === 'string' ? { type: 'rect', props: { borders: node.borders || 'none' } } : node.shape === 'rectangle' && node.label === id ? { [VERTEX_ABSENT]: { type: ambiguous } } : shape ? { type: shape } : {}),
+        classes: classes(id),
         styles: styleStrings(get(graph.nodeStyles, id)),
       }]
     }),
@@ -1463,7 +1583,9 @@ function beautifulGraph(graph, name, keeps, hooks) {
       return {
         start: edge.source, end: edge.target, text: edge.label ?? '', type, stroke: strokeOf(edge.style),
         ...mermaidEdgeId(graph.edges, index),
+        classes: edge.id && get(graph.classAssignments, edge.id) !== undefined ? classes(edge.id) : undefined,
         ...(keeps.length ? { length: edge.length ?? 1 } : {}),
+        ...(keeps.markers ? { interpolate: edge.curve ?? graph.linkCurves?.get(index) } : {}),
         ...(graph.linkStyles instanceof Map ? { style: styleStrings(get(graph.linkStyles, index)).length ? styleStrings(get(graph.linkStyles, index)) : undefined } : {}),
       }
     }),
@@ -1471,11 +1593,14 @@ function beautifulGraph(graph, name, keeps, hooks) {
     direction: directionWord(graph.direction),
     absent: {
       vertex: { link: `${name}'s graph keeps no click links`, tooltip: `${name}'s graph keeps no tooltips` },
-      edge: { ...(keeps.length ? {} : { length: `${name}'s edge model keeps no link length` }), ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), interpolate: `${name}'s edge model keeps no curve`, animate: `${name}'s edge model keeps no animation` },
+      edge: { ...(keeps.length ? {} : { length: `${name}'s edge model keeps no link length` }), ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), ...(keeps.markers ? {} : { interpolate: `${name}'s edge model keeps no curve` }), animate: `${name}'s edge model keeps no animation` },
       subgraph: { classes: `${name}'s subgraph model keeps no classes`, labelType: `${name} keeps a subgraph title's text without recording whether it was written as markdown` },
     },
   }, hooks)
-  return { ...view, getClasses: () => flowClasses(entriesOf(graph.classDefs).map(([id, style]) => [id, styleStrings(style)])) }
+  return { ...view, getEdges: () => Object.assign(view.getEdges(), {
+    ...(keeps.markers ? { defaultInterpolate: graph.linkCurves?.get('default') } : {}),
+    ...(graph.linkStyles instanceof Map ? { defaultStyle: graph.linkStyles.has('default') ? styleStrings(graph.linkStyles.get('default')) : undefined } : {}),
+  }), getClasses: () => flowClasses(entriesOf(graph.classDefs).map(([id, style]) => [id, styleStrings(style)])) }
 }
 flowchartSchema['adewale/agentic-mermaid'] = (raw, hooks) => {
   if (hooks[BASE_ONLY] || !raw.graph) return undefined

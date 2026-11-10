@@ -9,8 +9,21 @@ const controls = [
   { name: 'missing-label', text: 'Beta', status: 'incorrect' },
   { name: 'source-leak', text: 'Alpha flowchart LR A[Alpha]', status: 'incorrect' },
 ] as const
+interface Control { name: string; text: string; status: 'correct' | 'incorrect'; label?: string; hidden?: boolean }
+const svgControlLabels: readonly Control[] = [
+  { name: 'sanitized-control-label', label: '\u001b[31mAlpha', text: 'Alpha', status: 'correct' },
+  { name: 'wrong-sanitized-control-label', label: '\u001b[31mAlpha', text: 'Beta', status: 'incorrect' },
+  { name: 'hidden-sanitized-control-label', label: '\u001b[31mAlpha', text: 'Alpha', hidden: true, status: 'incorrect' },
+  { name: 'emergency-wrapped-label', label: 'Small rectangle', text: '<tspan x="10">Small</tspan><tspan x="10" dy="20">rectangl</tspan><tspan x="10" dy="20">e</tspan>', status: 'correct' },
+  { name: 'wrapped-label-added-hyphen', label: 'Small rectangle', text: '<tspan x="10">Small</tspan><tspan x="10" dy="20">rectangl-</tspan><tspan x="10" dy="20">e</tspan>', status: 'incorrect' },
+  { name: 'wrapped-label-missing-letter', label: 'Small rectangle', text: '<tspan x="10">Small</tspan><tspan x="10" dy="20">rectang</tspan><tspan x="10" dy="20">e</tspan>', status: 'incorrect' },
+  { name: 'raw-newline-is-row-whitespace', label: 'Small rectangle', text: 'Small rectangl\ne', status: 'incorrect' },
+  { name: 'font-size-change-is-not-wrapping', label: 'Small rectangle', text: '<tspan font-size="30">Small rect </tspan><tspan font-size="16">angle</tspan>', status: 'incorrect' },
+  { name: 'superscript-is-not-wrapping', label: 'Small rectangle', text: '<tspan>Small rect </tspan><tspan dy="-9">angle</tspan>', status: 'incorrect' },
+  { name: 'backward-row-is-not-forward-wrapping', label: 'Small rectangle', text: '<tspan font-size="30">Small rect</tspan><tspan x="10" dy="-2" font-size="30">angle</tspan>', status: 'incorrect' },
+]
 export function drawingAssessmentProfiles(formats: readonly string[]) {
-  return Object.fromEntries(formats.map(format => [format, evidenceDigest({ policy: labelPolicy, controls, ...(format === 'svg' ? { profile: svgLabelProfile, visiblePaintRequired: true, glyphWitnessRequiredForOutlines: true } : { terminalRectangleWork: terminalLabelWorkBudget, displayCells: true }) })]))
+  return Object.fromEntries(formats.map(format => [format, evidenceDigest({ policy: labelPolicy, controls, ...(format === 'svg' ? { profile: svgLabelProfile, svgControlLabels, visiblePaintRequired: true, glyphWitnessRequiredForOutlines: true } : { terminalRectangleWork: terminalLabelWorkBudget, displayCells: true }) })]))
 }
 /** Producer bytes are provenance, separate from the observable assessment policy. */
 export function drawingObserverSources(formats: readonly string[]) {
@@ -19,13 +32,15 @@ export function drawingObserverSources(formats: readonly string[]) {
 }
 export async function verifyDrawingObserver(format: string, context?: any) {
   // Independently authored source facts and counterexamples, not renderer output.
-  const test = { id: 'observer-control', source: 'flowchart LR\nA[Alpha]', family: 'flowchart', expected: { nodes: [{ id: 'A', label: 'Alpha' }], edges: [] }, sourceGaps: [], terminal: { expected: { graph: { nodes: [{ id: 'A', label: 'Alpha' }], edges: [] } } } } as unknown as DrawingCase
   const observed = []
-  for (const control of controls) {
+  const selected: readonly Control[] = format === 'svg' ? [...controls, ...svgControlLabels] : controls
+  for (const control of selected) {
+    const label = control.label ?? 'Alpha'
+    const test = { id: 'observer-control', source: 'flowchart LR\nA[' + label + ']', family: 'flowchart', expected: { nodes: [{ id: 'A', label }], edges: [] }, sourceGaps: [], terminal: { expected: { graph: { nodes: [{ id: 'A', label }], edges: [] } } } } as unknown as DrawingCase
     let verdict
     if (format === 'terminal') verdict = assessTerminalLabels(test, control.text)
     else {
-      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100"><text x="10" y="40" font-size="20">' + control.text + '</text></svg>'
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100"><text x="10" y="40" font-size="20"' + (control.hidden ? ' opacity="0"' : '') + '>' + control.text + '</text></svg>'
       const page = await context.newPage()
       try { await page.setContent(svg); verdict = await assessSvgLabels(test, page, svg) } finally { await page.close() }
     }
