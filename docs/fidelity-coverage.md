@@ -174,3 +174,16 @@ containment. The [complete receipt](evidence/agentic-final-2026-11-10/README.md)
 records remaining refusals, strict assertions, coverage gaps and the 33-control
 rendered-structure replay. These final measurements supersede the earlier
 follow-up counts above without rewriting historical campaign results.
+
+## Independent completion review
+
+The [subsequent completion review](evidence/agentic-completion-review-2026-11-10/README.md)
+found and repaired three additional Agentic interpolation consumers and one
+sequence-capability mapping. Crafter's three unavailable lifecycle observations
+now remain unsupported; OpenCode's real native refusals remain failures. Complete
+Crafter/OpenCode runs and all Agentic workloads were replayed with a fresh sealed
+reference. Corrected Agentic `42986d0` retains 2,842 passes / 131 strict failures /
+775 unsupported / 3,598 gaps; the added native defects were outside the original
+assertions. Both public GitGraph APIs were checked against the ten syntax-only
+failures: those outcomes reflect actual native rejections, not missing AST fields
+or native JavaScript crashes. The new receipt retains exact inputs and observations.
