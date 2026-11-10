@@ -51,7 +51,12 @@ export function persistentBridge(command, args, cwd, timeoutMs = 10_000) {
     state = new Int32Array(new SharedArrayBuffer(8))
     const channel = new MessageChannel()
     port = channel.port1
-    worker = new Worker(WORKER, { eval: true, workerData: { command, args, cwd, state, port: channel.port2, mark: MARK }, transferList: [channel.port2] })
+    try {
+      worker = new Worker(WORKER, { eval: true, workerData: { command, args, cwd, state, port: channel.port2, mark: MARK }, transferList: [channel.port2] })
+    } catch (error) {
+      channel.port2.close()
+      throw error
+    }
     worker.unref()
     worker.on('error', () => {}) // The bounded wait reports a worker failure as a gap.
   }
@@ -67,11 +72,17 @@ export function persistentBridge(command, args, cwd, timeoutMs = 10_000) {
     call(request) {
       if (closed) return { failure: 'bridge is closed' }
       // A message left over from a bridge that exited between calls means restart first.
-      if (worker && receiveMessageOnPort(port)) stop()
-      if (!worker) start()
-      Atomics.store(state, 0, 0)
-      const requestId = epoch + ':' + sequence++
-      worker.postMessage({ request, requestId })
+      let requestId
+      try {
+        if (worker && receiveMessageOnPort(port)) stop()
+        if (!worker) start()
+        Atomics.store(state, 0, 0)
+        requestId = epoch + ':' + sequence++
+        worker.postMessage({ request, requestId })
+      } catch (error) {
+        stop()
+        return { failure: 'bridge transport failed: ' + String(error) }
+      }
       if (Atomics.wait(state, 0, 0, timeoutMs) === 'timed-out') {
         stop()
         return { failure: `bridge gave no reply within ${timeoutMs} ms` }
