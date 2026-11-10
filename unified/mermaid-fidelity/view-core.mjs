@@ -841,7 +841,8 @@ const C4 = {
   // agentic-mermaid 0.5.6 c4 body: each element, boundary and relationship keeps the macro
   // that declared it, its parentId, a tags list, sprite and link.
   'adewale/agentic-mermaid': (raw, hooks) => {
-    const tags = list => (list.length > 1 ? hooks.unavailable('agentic-mermaid C4 tag list of several tags') : list[0])
+    // c4/parser.ts splits native tags at '+', preserving their list order.
+    const tags = list => (list.length ? list.join('+') : undefined)
     return {
       type: raw.variant,
       shapes: () => raw.elements.map(item => { const type = C4_MACRO[item.macro]; if (!type) return hooks.unavailable('agentic-mermaid C4 macro ' + item.macro); return { alias: item.id, label: text(item.label), descr: text(item.description), ...(usesTechn(type) ? { techn: text(item.technology) } : {}), typeC4Shape: { text: type }, parentBoundary: item.parentId ?? 'global', ...optional(['sprite', 'tags', 'link'], { sprite: item.sprite, tags: tags(item.tags ?? []), link: item.link }) } }),

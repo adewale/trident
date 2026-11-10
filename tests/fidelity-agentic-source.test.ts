@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test'
 import captured from './fixtures/agentic-source-models.json'
-import { parseAgenticSource } from '../unified/mermaid-fidelity/agentic-parser.mjs'
+import { parseAgenticSource, agenticDiagnostic } from '../unified/mermaid-fidelity/agentic-parser.mjs'
 import { nativeSchemaView } from '../unified/mermaid-fidelity/schema-views.mjs'
 
 const hooks = {
@@ -17,6 +17,17 @@ const revive = (value: any): any => {
   return value
 }
 const operations = { class: 'parseClassDiagram', sequence: 'parseSequenceDiagram', er: 'parseErDiagram', usecase: 'parseUsecaseModel', agentflow: 'parseAgentflowModel' }
+test('native diagnostic locations retain their source coordinates without rewriting the error', () => {
+  const error = Object.assign(new SyntaxError('native wording'), { line: 6, column: 7 })
+  const keys = Object.keys(error), viewed = agenticDiagnostic(error, hooks)
+  expect(viewed).toBe(error)
+  expect(viewed.message).toBe('native wording')
+  expect(Object.keys(viewed)).toEqual(keys)
+  expect([viewed.line, viewed.column, viewed.hash.loc.first_line, viewed.hash.loc.first_column]).toEqual([6, 7, 6, 6])
+  expect(() => viewed.hash.loc.last_line).toThrow('unsupported:')
+  error.line = 9
+  expect(viewed.hash.loc.first_line).toBe(9)
+})
 const sourceView = (family: keyof typeof operations, changes = {}) => nativeSchemaView('adewale/agentic-mermaid', family, {
   ...revive(captured[family].model),
   nativeParser: operations[family],

@@ -3,6 +3,14 @@ import { nativeSchemaView, nativeAstView } from '../unified/mermaid-fidelity/sch
 
 const project = 'adewale/agentic-mermaid'
 const hooks = { unavailable: (why: string): never => { throw Error('gap: ' + why) }, unsupported: (why: string): never => { throw Error('unsupported: ' + why) } }
+test('Agentic C4 tag arrays retain their native plus-separated encoding', () => {
+  const raw = { variant: 'C4Context', elements: [{ id: 'a', macro: 'Person', label: 'A', tags: ['v1.0', 'internal'] }, { id: 'b', macro: 'System', label: 'B' }], boundaries: [{ id: 'g', macro: 'System_Boundary', label: 'G', tags: ['one', 'two'] }], relationships: [{ macro: 'Rel', from: 'a', to: 'b', label: 'uses', tags: ['x', 'y'] }] }
+  const view = nativeSchemaView(project, 'c4', raw, hooks)
+  expect(view.getC4ShapeArray()[0].tags).toBe('v1.0+internal')
+  expect(view.getBoundaries().find((b: any) => b.alias === 'g').tags).toBe('one+two')
+  expect(view.getRels()[0].tags).toBe('x+y')
+  expect(view.getC4ShapeArray()[1].tags).toBeUndefined()
+})
 test('Agentic flowchart views retain explicit borders and independent default, indexed and edge-ID curves', () => {
   const raw = { graph: { direction: 'TD', nodes: new Map([['A', { id: 'A', label: 'Deploy', shape: 'rectangle', borders: 'lt' }], ['B', { id: 'B', label: 'B', shape: 'rectangle' }]]), edges: [{ source: 'A', target: 'B', hasArrowEnd: true, style: 'solid', curve: 'linear' }, { source: 'B', target: 'A', hasArrowEnd: true, style: 'solid' }], subgraphs: [], classDefs: new Map(), classAssignments: new Map(), nodeStyles: new Map(), linkStyles: new Map(), linkCurves: new Map<number | string, string>([['default', 'basis'], [0, 'cardinal'], [1, 'stepAfter']]) } }
   const view = nativeSchemaView(project, 'flowchart', raw, hooks)

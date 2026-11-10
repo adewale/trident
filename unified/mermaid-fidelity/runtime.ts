@@ -8,7 +8,8 @@ import { projectPublicDatabase } from '../upstream-fidelity-projection.mjs'
 import { persistentBridge } from './bridge-client.mjs'
 import { nativeAstView, mermaidConstants } from './schema-views.mjs'
 import { unavailableNamespace, importFamily } from './namespace.mjs'
-import { parseAgenticSource } from './agentic-parser.mjs'
+import { parseAgenticSource, agenticDiagnostic } from './agentic-parser.mjs'
+import { agenticRenderer } from './agentic-renderer.ts'
 
 const job = JSON.parse(readFileSync(process.env.TRIDENT_FIDELITY_JOB!, 'utf8'))
 // Parallel test files run in separate worker processes; each appends to its own part.
@@ -326,7 +327,7 @@ function nativeParse(family: string, source: string) {
       if (/^Candidate parser fault:/.test(String(error?.message))) throw error
       if (!/^(?:MermaidSyntaxError|MermaidParseError|ParseError|SyntaxError)$/.test(String(error?.name))) return gap('Unclassified Agentic source parser refusal: ' + String(error?.message ?? error))
       active && active.rejections++
-      throw error
+      throw family === 'agentflow' ? agenticDiagnostic(error, { unavailable: gap, unsupported: unsupportedOperation }) : error
     }
     if (typeof api.parseRegisteredMermaid !== 'function') return gap('Agentic no longer exports its editing parser and has no reviewed source parser for ' + family)
     const result = invokeParser(() => api.parseRegisteredMermaid(source))
@@ -789,7 +790,16 @@ export function moduleFor(family: string, source: string, file: string, locals: 
               db.parse(typeof text === 'string' ? text : text.raw)
             } catch {}
           else db.parse(typeof text === 'string' ? text : text.raw)
-          return { type: family, db, parser: c.parser, renderer: untilUsed('Mermaid Diagram renderer is not bound to the candidate') }
+          const renderer = job.target.tool === 'agentic' ? agenticRenderer(api, {
+            beforeCall: configuredCall,
+            called: () => { active && active.calls++ },
+            refused: () => { active && active.rejections++ },
+            fault: reason => { active?.faults.push(reason); throw Error('Candidate renderer fault: ' + reason) },
+            unavailable: gap,
+            missing: member => untilUsed('Native renderer does not expose Mermaid renderer member ' + member),
+            hasInlineTarget: id => typeof document !== 'undefined' && Boolean(document.getElementById(id)),
+          }) : undefined
+          return { type: family, db, parser: c.parser, renderer: renderer ?? untilUsed('Mermaid Diagram renderer is not bound to the candidate') }
         },
       },
     }
