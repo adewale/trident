@@ -873,8 +873,12 @@ function crafter(raw, hooks) {
     ...actorView(() => raw.participants.map(p => ({ id: p.id, description: p.label, type: p.type })), {
       wrap: noWrap.wrap, links: 'Crafter keeps no participant links', properties: 'Crafter keeps no participant properties', box: 'Crafter keeps no participant boxes',
     }, hooks),
-    getBoxes: () => [], getCreatedActors: () => new Map(), getDestroyedActors: () => new Map(),
-    ...unsupported(hooks, { getDiagramTitle: 'Crafter drops sequence titles', getAccTitle: 'Crafter drops accessibility titles', getAccDescription: 'Crafter drops accessibility descriptions' }),
+    ...unsupported(hooks, {
+      getBoxes: 'Crafter skips box blocks and keeps no participant boxes',
+      getCreatedActors: 'Crafter skips create statements and keeps no actor creation data',
+      getDestroyedActors: 'Crafter skips destroy statements and keeps no actor destruction data',
+      getDiagramTitle: 'Crafter drops sequence titles', getAccTitle: 'Crafter drops accessibility titles', getAccDescription: 'Crafter drops accessibility descriptions',
+    }),
   }
 }
 
@@ -920,8 +924,12 @@ function opencode(raw, hooks) {
     ...actorView(() => raw.participants.map(p => ({ id: p.id, description: p.label, box: boxes().find(b => b.actorKeys.includes(p.id)) })), {
       type: 'OpenCode merges actor and participant declarations', wrap: noWrap.wrap, links: 'OpenCode keeps no participant links', properties: 'OpenCode keeps no participant properties',
     }, hooks),
-    getBoxes: boxes, getCreatedActors: () => new Map(), getDestroyedActors: () => new Map(),
-    ...unsupported(hooks, { getDiagramTitle: 'OpenCode rejects sequence titles', getAccTitle: 'OpenCode rejects accessibility titles', getAccDescription: 'OpenCode rejects accessibility descriptions' }),
+    getBoxes: boxes,
+    ...unsupported(hooks, {
+      getCreatedActors: 'OpenCode keeps no actor creation data',
+      getDestroyedActors: 'OpenCode keeps no actor destruction data',
+      getDiagramTitle: 'OpenCode rejects sequence titles', getAccTitle: 'OpenCode rejects accessibility titles', getAccDescription: 'OpenCode rejects accessibility descriptions',
+    }),
   }
 }
 

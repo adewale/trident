@@ -25,6 +25,10 @@ test('Crafter maps nested block and note records without repairing malformed nat
   expect(() => view.getMessages()[0].wrap).toThrow('unsupported')
   const malformed = nativeSchemaView('crafter-station/mermaid', 'sequence', { participants: [], messages: [{ from: 'A', to: '+B', label: 'hi', arrowType: 'solid' }] }, hooks)
   expect(malformed.getMessages()[0].to).toBe('+B')
+  for (const getter of ['getBoxes', 'getCreatedActors', 'getDestroyedActors']) expect(() => view[getter]()).toThrow('unsupported:')
+  const empty = nativeSchemaView('crafter-station/mermaid', 'sequence', { participants: [], messages: [] }, hooks)
+  expect(empty.getActors().size).toBe(0)
+  expect(empty.getMessages()).toEqual([])
 })
 
 test('OpenCode maps ordered steps, arrow semantics and activations; lost actor kind and box colour stay unsupported', () => {
@@ -46,6 +50,9 @@ test('OpenCode maps ordered steps, arrow semantics and activations; lost actor k
   expect(view.getBoxes()[0].name).toBe('Team')
   expect(() => view.getBoxes()[0].fill).toThrow('unsupported')
   expect(() => view.getActor('A').type).toThrow('unsupported')
+  for (const getter of ['getCreatedActors', 'getDestroyedActors']) expect(() => view[getter]()).toThrow('unsupported:')
+  const empty = nativeSchemaView('anomalyco/opencode', 'sequence', { participants: [], groups: [], steps: [] }, hooks)
+  expect(empty.getBoxes()).toEqual([])
   expect(() => nativeSchemaView('anomalyco/opencode', 'sequence', { participants: [], groups: [], steps: [{ type: 'message', message: { style: 'solid', number: 1 } }] }, hooks).getMessages()).toThrow('unsupported')
 })
 
