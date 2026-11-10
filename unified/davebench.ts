@@ -15,7 +15,7 @@ import { publicSvgBrowserAction } from './public-svg-browser.ts'
 import { communityCatalogFile, tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../portable/ci-policy.ts'
 import { defaultChromium } from './benchmark-context.ts'
-import { davebenchSvgValidity, errorPatternSources, pngBytesValidity, rawStatements } from './davebench-validity.ts'
+import { authoredDiagnosticSource, davebenchSvgValidity, errorPatternSources, pngBytesValidity, rawStatements } from './davebench-validity.ts'
 import { watchMemory } from './process-memory.ts'
 import { killCommunityProcess, spawnCommunityProcess } from './community-process.ts'
 
@@ -24,7 +24,7 @@ export { davebenchInputs } from './davebench-inputs.ts'
 
 /** Runs in the renderer page. Returns counters and an admission reason only;
  * outputs never leave the page. The clock stops before admission checks. */
-export async function davebenchBrowserCall(input: { source: string; id: string; format: string; errorPatterns?: [string, string][]; raw?: { header?: string; statements: string[] } }) {
+export async function davebenchBrowserCall(input: { source: string; id: string; format: string; errorPatterns?: [string, string][]; errorSource?: string; raw?: { header?: string; statements: string[] } }) {
   const host = globalThis as any, state = host.__fidelityCommunity, started = performance.now()
   let outcome = 'completed', svgText: string | undefined, pngValue: unknown, pngBytes = 0, error: string | undefined
   const parseSvg = (text: string) => {
@@ -69,7 +69,7 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
     const patterns = (input.errorPatterns ?? []).map(([source, flags]) => new RegExp(source, flags))
     const phrase = (text: string) => {
       const head = text.replace(/\s+/g, ' ').trim().slice(0, 400)
-      for (const pattern of patterns) { const match = pattern.exec(head); if (match && !input.source.toLowerCase().includes(match[0].trim().toLowerCase())) return match[0].trim() }
+      for (const pattern of patterns) { const match = pattern.exec(head); if (match && !(input.errorSource ?? input.source).toLowerCase().includes(match[0].trim().toLowerCase())) return match[0].trim() }
       return undefined
     }
     try {
@@ -283,7 +283,7 @@ export async function main(args = process.argv.slice(2)) {
               let timer: ReturnType<typeof setTimeout> | undefined
               const started = performance.now()
               try {
-                return await Promise.race<import('./terminal-call-worker.ts').TimedCall>([session!.page.evaluate(davebenchBrowserCall, { ...input, id: 'dave_' + round + '_' + index, format, errorPatterns: errorPatternSources, raw: rawStatements(input.source) }), new Promise<import('./terminal-call-worker.ts').TimedCall>(done => { timer = setTimeout(() => { void session!.context.close().catch(() => {}); done({ outcome: 'timeout', ms: null, controllerMs: performance.now() - started }) }, timeoutMs) })])
+                return await Promise.race<import('./terminal-call-worker.ts').TimedCall>([session!.page.evaluate(davebenchBrowserCall, { ...input, id: 'dave_' + round + '_' + index, format, errorPatterns: errorPatternSources, errorSource: authoredDiagnosticSource(input.source), raw: rawStatements(input.source) }), new Promise<import('./terminal-call-worker.ts').TimedCall>(done => { timer = setTimeout(() => { void session!.context.close().catch(() => {}); done({ outcome: 'timeout', ms: null, controllerMs: performance.now() - started }) }, timeoutMs) })])
               } catch { return { outcome: 'error', ms: null, controllerMs: performance.now() - started } }
               finally { if (timer) clearTimeout(timer) }
             }

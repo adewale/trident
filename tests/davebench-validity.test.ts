@@ -48,10 +48,16 @@ test('source printed back inside a frame or fence is an echo, not a drawing', ()
 })
 
 test('an error phrase that the source itself contains is an authored label, not a failure', () => {
-  const source = 'flowchart LR\n  A[Syntax error] --> B'
-  expect(errorPhrase('┌──────────────┐\n│ Syntax error │', source)).toBeUndefined()
-  expect(terminalTextValidity('┌──────────────┐\n│ Syntax error ├─►B', source)).toEqual({ valid: true })
+  for (const label of ['Syntax error', 'Syntax#32;error', 'Syntax&#32;error', 'Syntax#nbsp;error', 'Syntax&nbsp;error', 'Syntax  error']) {
+    const source = `flowchart LR\n  A["${label}"] --> B`
+    expect(errorPhrase('┌──────────────┐\n│ Syntax error │', source)).toBeUndefined()
+    expect(terminalTextValidity('┌──────────────┐\n│ Syntax error ├─►B', source)).toEqual({ valid: true })
+    expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="160" height="40"><text x="5" y="20">Syntax error</text></svg>', source)).toEqual({ valid: true })
+    expect(errorPhrase('Unsupported diagram', source)).toBe('Unsupported diagram')
+  }
   expect(errorPhrase('Syntax error in text', 'flowchart LR\n A --> B')).toBe('Syntax error')
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="160" height="40"><text>Syntax&#32;error</text></svg>', 'flowchart LR\nA[Other]').valid).toBe(false)
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="160" height="40"><text>Syntax&amp;#32;error</text></svg>', 'flowchart LR\nA[Other]').valid).toBe(true)
 })
 
 test('serialized SVG admission needs a sized svg root and no error placeholder; an empty drawing is not an error', () => {
