@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Reap persistent Fidelity parser bridges when they stop. Each closed or restarted
+  bridge previously left one unreaped process; long campaigns filled the process
+  table on hosts whose PID 1 does not reap orphans. A regression test checks that
+  stopped bridge processes no longer exist.
+
 ## 0.3.0 — 9 November 2026
 
 The reference moves to Mermaid 12.3.0. This release updates all three benchmarks,
