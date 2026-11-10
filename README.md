@@ -94,6 +94,11 @@ test by definition and is left out of the leader above.
 [How each count is made](docs/benchmark-results-details.md) ·
 [How the collection was run](results/release/README.md)
 
+The optional [flowchart SVG layout observer](docs/layout-observer.md) measures
+crossings and overlaps from retained Drawing outputs, with explicit coverage and
+per-case evidence. These separate diagnostics do not change the three benchmark
+scores or establish layout quality for unassessed cases.
+
 ## Quick start
 
 This reproduces one row of the DaveBench tables: Ondine's SVG and PNG counts.
@@ -278,7 +283,8 @@ Bindings accept dotted public export paths, an optional JSON `options` argument 
 - The ranked Drawing Correctness score checks labels. The optional
   [structure diagnostics](docs/drawing-structure.md) check qualified graph-family
   connections, arrowheads, quadrant box clearance and explicit layout constraints;
-  other families and broader layout quality remain outside that profile.
+  the separate [flowchart SVG layout observer](docs/layout-observer.md) measures
+  crossings and clearance. Broader layout quality remains outside these profiles.
 - DaveBench times compare only with rows from the same collection on the same
   machine.
 - Benchmarks run locally. CI tests Trident's code and refuses to run any

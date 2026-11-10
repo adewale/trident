@@ -26,6 +26,7 @@ Results (read existing numbers; launch no renderers):
   bun commands.ts campaign:results --help
   bun commands.ts results:snapshot [--check]
   bun commands.ts fidelity:coverage --help
+  bun commands.ts layout:observe --run RAW_DRAWING_DIRECTORY --out FRESH_DIRECTORY
 
 Version: node commands.ts --version
 
@@ -60,6 +61,7 @@ async function main() {
     'upstream:prepare': { file: 'unified/prepare-upstream.ts', capability: 'prepare', oracle: false },
     'results:snapshot': { file: 'unified/results-snapshot.ts', capability: 'read', oracle: false },
     'fidelity:coverage': { file: 'unified/fidelity-coverage.ts', capability: 'read', oracle: false },
+    'layout:observe': { file: 'unified/layout-observe.ts', capability: 'read', oracle: false },
   }
   const checks: Record<string, string[]> = {
     test: ['test', '--timeout', '30000', resolve(directory, 'tests')],

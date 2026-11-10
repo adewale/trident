@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="240" viewBox="0 0 400 240">
+  <g fill="white" stroke="black">
+    <rect x="0" y="40" width="60" height="40"/><rect x="280" y="40" width="60" height="40"/>
+    <rect x="0" y="160" width="60" height="40"/><rect x="280" y="160" width="60" height="40"/>
+  </g>
+  <g fill="none" stroke="black"><path d="M60 60 H280"/><path d="M60 180 H280"/></g>
+  <g fill="black" font-family="Arial" font-size="12">
+    <text x="10" y="65">Alpha</text><text x="290" y="65">Beta</text>
+    <text x="8" y="185">Gamma</text><text x="290" y="185">Delta</text>
+  </g>
+</svg>
