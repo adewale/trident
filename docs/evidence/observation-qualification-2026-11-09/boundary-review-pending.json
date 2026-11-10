@@ -290,9 +290,11 @@
     }
   ],
   "remaining": [
-    "Recollect the 17 candidates without complete JSDOM startup receipts",
-    "Collect all 26 Node profiles under this worker",
+    "Collect a fresh source control and all 26 JSDOM profiles under the current worker",
+    "Collect all 26 Node profiles under the current worker",
     "Recompute qualification and verify automatic Merslim callback/audit equivalence",
     "Replace published scores, generated reports and qualification only after those checks pass"
-  ]
+  ],
+  "scope": "Partial evidence for workerCodeCommit only; superseded by the transport startup fix. No current-worker candidate collection is complete.",
+  "currentWorkerCodeCommit": "dbc4d5ba02104bb08dae1a504292ead39e40a4aa"
 }

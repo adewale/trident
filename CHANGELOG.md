@@ -11,6 +11,9 @@
   Every unassessed callback carries a diagnostic; publication rejects missing reasons.
   Reject missing partial exports and database members before adapter-created
   TypeErrors, callable placeholders or namespace metadata can earn native credit.
+  Classify native worker startup and dispatch errors as adapter gaps, including
+  when an original negative assertion catches the error. These transport changes
+  also invalidate earlier partial collections; final-worker verification is pending.
 - Record SVG proof stages and rejection reasons separately from observer errors.
   Qualify plain HTML glyph ink with independent clipping controls, and reassess
   the retained SVG outputs without rerunning producers or timing benchmarks.

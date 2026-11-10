@@ -8,13 +8,25 @@ archive remain at [v0.3.0](https://github.com/adewale/trident/tree/v0.3.0/result
 The [collection receipt](collection.json) binds the executing code, frozen inputs,
 unchanged timing files, current archive and refreshed qualification.
 
-The current boundary worker is `4baa684`. Its source control passes all 7,346
-active callbacks, and Linux and macOS CI pass. The [refresh receipt](boundary-review-pending.json)
-records nine complete candidate JSDOM collections, preserving every previous pass
-and assertion/fault nonpass. The host then exhausted its process budget: esbuild
-and Vitest failed during startup. Seventeen candidate collections need repeating;
-paired Node qualification and automatic selection are still pending. Incomplete
-startup failures are excluded from the follow-up evidence.
+The current boundary worker is `dbc4d5b`. Fresh verification exposed a worker
+startup error that could escape as a parser failure or be swallowed by a negative
+assertion. Transport startup and dispatch failures now produce adapter gaps; a
+regression control verifies both retry and reduction of a caught failure to an
+unassessed callback. Native parser errors retain their existing verdicts.
+
+The [partial refresh receipt](boundary-review-pending.json) belongs to the preceding
+worker, `4baa684`: its source control passes all 7,346 active callbacks, and nine
+complete candidate JSDOM collections preserve every previous pass and
+assertion/fault nonpass. Seventeen collections failed or were incomplete. None of
+these collections qualifies the current worker. All 26 JSDOM and 26 Node profiles,
+the source control, refreshed qualification and automatic-selection equivalence
+need collecting under the final worker before scores can be replaced.
+
+The new attempt remains blocked by host process exhaustion (about 29,700 zombie
+processes). A reduced-thread diagnostic source run passed 86 callbacks, but the
+native candidate could not start its worker or parser process. These diagnostic
+runs are not benchmark evidence. Restarting the workspace did not clear the
+process table. Published numeric files, qualification and archive remain unchanged.
 
 The tables and complete qualification below describe the preceding collection at
 `e88030a`, before the final boundary guards. Published numeric files retain that
