@@ -1,0 +1,300 @@
+{
+  "sourceRawSha256": "4fac8471f2566ad79b05680078bf43cf7e889a76b38a77bf8b00ed001b9385f2",
+  "reassessedRawSha256": "dd5af1253065bc0b63c45f0dcc460c3908b7669cb123f96ebedb76f3914f9a34",
+  "collectedAt": "2026-11-09T00:41:24.214Z",
+  "reassessedAt": "2026-11-10T20:05:37.051Z",
+  "observations": 4318,
+  "returnedOutputs": 3684,
+  "uniqueOutputObjects": 3437,
+  "terminalRowsPreserved": 2286,
+  "renderersInvoked": false,
+  "environment": {
+    "browser": "Playwright Chromium 145.0.7632.6 (build 1208), the version pinned by the repository",
+    "fonts": "Host fonts with Inter excluded through fontconfig; with Inter available, Frankenmermaid case drawing:11426c4cad392dc7 loses its glyph proof and becomes unknown"
+  },
+  "before": {
+    "correct": 3079,
+    "unknown": 145,
+    "incorrect": 374,
+    "invalid-format": 86,
+    "renderer-failure": 634
+  },
+  "after": {
+    "correct": 3088,
+    "unknown": 113,
+    "incorrect": 397,
+    "invalid-format": 86,
+    "renderer-failure": 634
+  },
+  "transitionCounts": {
+    "unknown -> incorrect": 24,
+    "unknown -> correct": 8,
+    "incorrect -> correct": 1
+  },
+  "transitions": [
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:1468e1cf1186af65",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:206a9307ba8592b1",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:2598092a6e404821",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:278dccc21dd27020",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:3042977d4e6d813b",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:43382cbc1379cf4c",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:4ae5560b57ca0064",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:4f96b68984c54c5a",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:570e13053d228e29",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:5c9a50898b1e6ffe",
+      "from": "unknown",
+      "to": "correct",
+      "reason": null
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:75e652628bded0d8",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:7801c75b869778fe",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:867520b102964291",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:89be4f2885fb74a9",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:94e514f9f375364c",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:9972eaa8ca8692d8",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:a181524246065697",
+      "from": "unknown",
+      "to": "correct",
+      "reason": null
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:b23c0856e157b1f2",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:c2e297448b5388ba",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:c5455d2e2f5f8672",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:cd771fca2659a460",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:d04b45557e7b8f2e",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "drawing:f78157ede4e2d1ab",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "regression:a1cbf1ae4b6a2b8a",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "regression:c707395491823d1f",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "Latias94/merman",
+      "format": "svg",
+      "caseId": "regression:d2ca0121985b295d",
+      "from": "unknown",
+      "to": "incorrect",
+      "reason": "unclipped-authored-labels"
+    },
+    {
+      "project": "adewale/agentic-mermaid",
+      "format": "svg",
+      "caseId": "drawing:5c9a50898b1e6ffe",
+      "from": "incorrect",
+      "to": "correct",
+      "reason": null
+    },
+    {
+      "project": "crabtalk/bezel",
+      "format": "svg",
+      "caseId": "drawing:5c9a50898b1e6ffe",
+      "from": "unknown",
+      "to": "correct",
+      "reason": null
+    },
+    {
+      "project": "dfadler/zombie-mermaid",
+      "format": "svg",
+      "caseId": "drawing:61cc5e1150412252",
+      "from": "unknown",
+      "to": "correct",
+      "reason": null
+    },
+    {
+      "project": "mermaid-js/mermaid",
+      "format": "svg",
+      "caseId": "drawing:89e9eb6aebb72128",
+      "from": "unknown",
+      "to": "correct",
+      "reason": null
+    },
+    {
+      "project": "obsidianmd/pele",
+      "format": "svg",
+      "caseId": "drawing:5c9a50898b1e6ffe",
+      "from": "unknown",
+      "to": "correct",
+      "reason": null
+    },
+    {
+      "project": "orestesgaolin/mermaid",
+      "format": "svg",
+      "caseId": "drawing:89e9eb6aebb72128",
+      "from": "unknown",
+      "to": "correct",
+      "reason": null
+    },
+    {
+      "project": "wevm/ondine",
+      "format": "svg",
+      "caseId": "drawing:5c9a50898b1e6ffe",
+      "from": "unknown",
+      "to": "correct",
+      "reason": null
+    }
+  ]
+}

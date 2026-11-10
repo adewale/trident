@@ -21,8 +21,10 @@ include process startup; persistent API rows exclude initialization, so time
 orders equal completion counts only within one boundary kind.
 
 For Drawing Correctness, Failed combines missing labels, raw syntax shown, invalid
-output and render failures. For Fidelity, Failed combines assertion nonpasses and
-native unsupported results; Unassessed is candidate adapter gaps. A Fidelity pass
+output and render failures. SVG pass bounds span the observed passes through the
+passes plus unassessed cases. Fidelity separates assertion/fault nonpasses from
+operations the native candidate does not support; Unassessed is candidate adapter
+gaps. A Fidelity pass
 needs the original assertions to pass for the candidate and for the pinned Mermaid
 control. The control now executes pinned production source with the original
 compiler plugins and locked dependencies; it passes every active callback in
@@ -275,11 +277,16 @@ bindings visible instead of excluding them as reference failures.
 reviewed source facts is visibly shown and no raw Mermaid syntax is shown. SVG
 labels require browser visibility, canvas, clipping and resolved-paint evidence,
 or a bounded raster witness proving the complete actual glyph ink survives.
+For plain, unwrapped HTML text, measured glyph ink can distinguish unused font-box
+overflow from actual letter cropping; unsupported typography does not qualify.
+Each unavailable SVG criterion records its reason. Witness diagnostics separate
+unsupported proof stages from observer errors, and neither earns a pass. Glyph
+proofs compare actual pixels, so a replay must use the original fonts.
 Unsupported paint profiles stay unassessed. Terminal matching preserves text
 order and joins wrapping inside observed boxes. Empty, error, echoed or zero-size
 outputs are nonpasses; the empty-diagram SVG case requires no painted ink.
 Edges, arrow direction, layout quality and authored style matching are not
-scored. The collection leaves <!-- fact:drawing-unassessed -->145<!-- /fact --> of
+scored. The collection leaves <!-- fact:drawing-unassessed -->113<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. A chart naming no
 labels is checked for raw-syntax leakage alone.
 
@@ -340,6 +347,6 @@ results snapshot remain in Git history.
 The [league tables](../RESULTS.md) list measured projects and setup gaps for each
 format. A scored result can include failures. It does not mean every input passed,
 every output was assessable, or the project has complete benchmark coverage.
-Drawing has <!-- fact:drawing-unassessed -->145<!-- /fact --> unassessed cases.
+Drawing has <!-- fact:drawing-unassessed -->113<!-- /fact --> unassessed cases.
 Fidelity's unmapped operations and unqualified reference callbacks remain
 coverage work. The synthesis keeps missing measurements as score ranges.

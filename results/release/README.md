@@ -4,7 +4,10 @@ All three benchmarks were recollected for Trident 0.3.0 against the
 [7 November product freeze](../../docs/evidence/benchmark-campaign-2026-11-07/catalog.json)
 and Mermaid 12.3.0. The [release collection receipt](../../docs/evidence/release-0.3.0/collection.json)
 records collection windows, complete populations, runtime admission, qualification
-and numeric-file hashes. The [preceding collection](https://github.com/adewale/trident/tree/7b7dce98a8d8817bc0e3826490b187456b2b55ef/results/release)
+and numeric-file hashes. SVG labels have since been reassessed from the retained
+outputs without invoking any renderer
+([reassessment evidence](../../docs/evidence/drawing-reassessment-2026-11-10/README.md)).
+The [preceding collection](https://github.com/adewale/trident/tree/7b7dce98a8d8817bc0e3826490b187456b2b55ef/results/release)
 remains at its original commit.
 
 | Measurement | Numeric evidence | Completed |
@@ -59,7 +62,7 @@ dispositions. Changing only Trident's version from 0.2.1 to 0.3.0 preserves this
 fresh execution identity and qualification. Changed executing source, installed
 bytes, runtime or candidate artifacts still invalidate reuse.
 
-Drawing leaves <!-- fact:drawing-unassessed -->145<!-- /fact --> of
+Drawing leaves <!-- fact:drawing-unassessed -->113<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> observations unassessed. Path/image
 glyphs, unsupported effects and other representations outside the qualified SVG
 profiles receive no correctness credit. Each remaining case and its reason are
@@ -102,19 +105,26 @@ bun commands.ts results:snapshot
 ## Retained Drawing capture
 
 The current [capture archive](captures/drawing-capture-2026-11-09.tar.gz?raw=true) is
-3,964,016 bytes, with SHA-256 `830017b0f5697c8e363642208a9c9b4c3c6029c98eeab5feb6ce4637cbfd2808`.
+4,055,738 bytes, with SHA-256 `20b7684363a30b9d2b34b3ef40f87c429e16c7f5bd60ef9614e0ba36ae22833c`.
 It contains the complete raw run and all 3,684 returned SVG/terminal outputs,
 stored as 3,437 compressed objects. The other 634 calls returned renderer
-failures. All 4,318 case verdicts match the preceding collection; freshly
-collected output bytes are retained independently.
+failures. The output bytes are identical to the 0.3.0 capture. The SVG replay
+changes 33 verdicts and removes no pass; all 2,286 terminal verdicts are
+preserved. The raw run retains both collection and reassessment times.
 
 Reassessment needs no producer binaries or prepared artifact directories:
 
 ```sh
 mkdir -p .cache/drawing-replay
 tar -xzf results/release/captures/drawing-capture-2026-11-09.tar.gz -C .cache/drawing-replay
-bun scripts/reassess-drawing-results.ts .cache/drawing-replay/drawing-retained .cache/drawing-replay/fresh-assessment
+bun scripts/reassess-drawing-results.ts .cache/drawing-replay/drawing-retained .cache/drawing-replay/fresh-assessment svg
 ```
+
+Glyph proofs compare actual pixels, so they depend on the assessing machine's
+fonts. The published replay used Playwright's pinned Chromium and excluded the
+Inter font family. That reproduces every original pass; with Inter installed,
+one Frankenmermaid pass becomes unknown. See the
+[reassessment evidence](../../docs/evidence/drawing-reassessment-2026-11-10/README.md).
 
 The committed archive and numeric results are checked together: every returned
 output has a unique owning project/case/format, source and content checksums,

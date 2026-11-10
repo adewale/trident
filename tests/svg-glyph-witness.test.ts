@@ -1,24 +1,26 @@
 import { expect, test } from 'bun:test'
 import { chromium } from 'playwright'
 import { defaultChromium } from '../unified/benchmark-context.ts'
-import { observeGlyphWitness, compareGlyphWitness, glyphWitnessOperation } from '../fidelity/drawing/svg-glyph-witness.ts'
+import { observeGlyphWitness, compareGlyphWitness } from '../fidelity/drawing/svg-glyph-witness.ts'
 
-async function explainUnavailable(page: any, labels: string[]) {
-  let step = 'prepare'
-  try {
-    const plan = await page.evaluate(glyphWitnessOperation, { step, labels })
-    if (!plan) return { step, prepared: false, browser: await page.evaluate(() => navigator.userAgent) }
-    const images: string[] = [], capture = async (clip = plan.visibleClip) => images.push('data:image/png;base64,' + (await page.screenshot({ fullPage: true, clip, animations: 'disabled' })).toString('base64'))
-    await capture()
-    for (step of ['hide', 'ideal']) { await page.evaluate(glyphWitnessOperation, { step }); await capture() }
-    step = 'mask'; const geometry = await page.evaluate(glyphWitnessOperation, { step }); await capture(plan.maskClip)
-    step = 'restore'; await page.evaluate(glyphWitnessOperation, { step }); await capture()
-    step = 'compare'; let checkpoint = 0
-    const diagnostic = compareGlyphWitness.toString().replace(/return (?:false|!1);/g, () => `throw Error('Raster obligation ${++checkpoint}')`)
-    return { step, result: await page.evaluate(({ fn, input }: any) => Function('return (' + fn + ')')()(input), { fn: diagnostic, input: { images, ...geometry } }) }
-  } catch (error) { return { step, error: String(error) } }
-  finally { await page.evaluate(glyphWitnessOperation, { step: 'cleanup' }).catch(() => {}) }
-}
+async function proved(page: any, labels: string[]) { return (await observeGlyphWitness(page, labels)).status === 'proved' }
+
+test('observer faults and failed cleanup cannot become a glyph proof', async () => {
+  const unavailable = await observeGlyphWitness({ evaluate() { throw Error('browser disconnected') } }, ['Alpha'])
+  expect(unavailable).toMatchObject({ status: 'unassessed', stage: 'prepare', kind: 'observer-error' })
+  for (const failure of ['compare', 'cleanup']) {
+    const page = {
+      async evaluate(_fn: unknown, input: any) {
+        if (input.step === 'prepare') return { visibleClip: {}, maskClip: {} }
+        if (input.step === 'cleanup' && failure === 'cleanup') throw Error('cleanup failed')
+        if (input.step === 'mask') return {}
+        if (!input.step) return failure !== 'compare'
+      },
+      async screenshot() { return Buffer.from('fixture') },
+    }
+    expect(await observeGlyphWitness(page, ['Alpha'])).toMatchObject({ status: 'unassessed', stage: failure, kind: 'observer-error' })
+  }
+})
 
 test('glyph pixels prove text survives complex backdrops and clips, without trusting font boxes', async () => {
   // This witness requires a grayscale glyph mask. Linux LCD/subpixel text is
@@ -47,29 +49,33 @@ test('glyph pixels prove text survives complex backdrops and clips, without trus
     ]
     for (const [body, expected] of fixtures) {
       await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">' + body + '</svg>')
-      const observed = await observeGlyphWitness(page, ['Alpha'])
-      if (expected && !observed) console.error('Unavailable positive glyph fixture', await explainUnavailable(page, ['Alpha']))
+      const observed = await proved(page, ['Alpha'])
       expect({ body, observed }).toEqual({ body, observed: expected })
       expect(await page.evaluate(() => !!(globalThis as any).__tridentGlyphWitness)).toBe(false)
     }
     await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><text x="20" y="45" font-size="20">東京</text></svg>')
-    expect(await observeGlyphWitness(page, ['東京'])).toBe(true)
-    expect(await observeGlyphWitness(page, ['Missing'])).toBe(false)
+    expect(await proved(page, ['東京'])).toBe(true)
+    expect(await proved(page, ['Missing'])).toBe(false)
     await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><text x="20" y="45" font-size="20">Al\u0378pha</text></svg>')
-    expect(await observeGlyphWitness(page, ['Al\u0378pha'])).toBe(false)
+    expect(await proved(page, ['Al\u0378pha'])).toBe(false)
     await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="1300"><text x="30" y="45" font-size="20">Alpha</text><text x="30" y="1290" font-size="20">Beta</text></svg>')
-    expect(await observeGlyphWitness(page, ['Alpha', 'Beta'])).toBe(true)
+    expect(await proved(page, ['Alpha', 'Beta'])).toBe(true)
     await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><text x="-100 30 50" y="40" font-size="20">ABC</text></svg>')
-    expect(await observeGlyphWitness(page, ['ABC'])).toBe(false)
+    expect(await proved(page, ['ABC'])).toBe(false)
     const html = '<foreignObject x="30" y="20" width="160" height="70"><div xmlns="http://www.w3.org/1999/xhtml" style="font:20px/24px sans-serif;color:black">Alpha</div></foreignObject>'
-    for (const [body, expected] of [[html, true], [html.replace('Alpha', 'Al<strong>ph</strong>a'), true], [html.replace('Alpha', 'Al<br/>pha'), true], [html.replace('color:black', 'color:white'), false], [html.replace('color:black', 'color:black;-webkit-text-security:disc'), false], [html.replace('color:black', 'color:black;background:white'), false], [html + '<path d="M40 0H55V100H40Z" fill="white"/>', false], ['<style>div::first-letter{color:white}</style>' + html, false]] as const) {
+    for (const [body, expected] of [[html, true], [html.replace('Alpha', 'Al<strong>ph</strong>a'), true], [html.replace('Alpha', 'Al<br/>pha'), true], [html.replace('color:black', 'color:white'), false], [html.replace('color:black', 'color:black;-webkit-text-security:disc'), false], [html.replace('color:black', 'color:black;background:white'), true], [html.replace('color:black', 'color:white;background:white'), false], [html + '<path d="M40 0H55V100H40Z" fill="white"/>', false], ['<style>div::first-letter{color:white}</style>' + html, false]] as const) {
       await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">' + body + '</svg>')
-      expect({ body, observed: await observeGlyphWitness(page, ['Alpha']) }).toEqual({ body, observed: expected })
+      expect({ body, observed: await proved(page, ['Alpha']) }).toEqual({ body, observed: expected })
     }
     for (const body of [html.replace('Alpha', '<span style="position:absolute;left:-300px">Alpha</span>Beta'), html.replace('color:black', 'color:black;content:url(data:image/svg+xml,%3Csvg/%3E)')]) {
       await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">' + body + '</svg>')
-      expect(await observeGlyphWitness(page, [body.includes('Beta') ? 'AlphaBeta' : 'Alpha'])).toBe(false)
+      expect(await proved(page, [body.includes('Beta') ? 'AlphaBeta' : 'Alpha'])).toBe(false)
     }
+    await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">' + html.replace('Alpha', 'Prefix Alpha suffix').replace('color:black', 'color:black;background:white') + '</svg>')
+    expect((await observeGlyphWitness(page, ['Alpha'])).status).toBe('proved')
+    expect(await observeGlyphWitness(page, ['Alphx'])).toMatchObject({ status: 'unassessed', kind: 'proof-unavailable', stage: 'prepare', reason: 'A required label has no original SVG or HTML text match' })
+    await page.setContent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><image href="data:image/png;base64,"/></svg>')
+    expect(await observeGlyphWitness(page, ['Alpha'])).toMatchObject({ status: 'unassessed', kind: 'proof-unavailable', stage: 'prepare', reason: 'Animated or image content is outside the glyph profile' })
     // Erasing a glyph-shaped backdrop can create a counterfactual difference
     // even though the actual image is blank. Literal rasters expose that case.
     const rasters = await page.evaluate(() => {
@@ -80,7 +86,7 @@ test('glyph pixels prove text survives complex backdrops and clips, without trus
       return { blank, glyph, coloured: canvas.toDataURL(), clip: { x: 0, y: 0, width: 9, height: 9 }, root: { x: 0, y: 0, width: 9, height: 9 }, boxes: [{ x: 3, y: 2, width: 3, height: 5 }] }
     })
     expect(await page.evaluate(compareGlyphWitness, { ...rasters, images: [rasters.glyph, rasters.blank, rasters.glyph, rasters.glyph, rasters.glyph] })).toBe(true)
-    expect(await page.evaluate(compareGlyphWitness, { ...rasters, images: [rasters.blank, rasters.glyph, rasters.blank, rasters.glyph, rasters.blank] })).toBe(false)
-    expect(await page.evaluate(compareGlyphWitness, { ...rasters, images: [rasters.glyph, rasters.blank, rasters.glyph, rasters.coloured, rasters.glyph] })).toBe(false)
+    await expect(page.evaluate(compareGlyphWitness, { ...rasters, images: [rasters.blank, rasters.glyph, rasters.blank, rasters.glyph, rasters.blank] })).rejects.toThrow('GLYPH_PROOF_UNAVAILABLE')
+    await expect(page.evaluate(compareGlyphWitness, { ...rasters, images: [rasters.glyph, rasters.blank, rasters.glyph, rasters.coloured, rasters.glyph] })).rejects.toThrow('GLYPH_PROOF_UNAVAILABLE')
   } finally { await browser.close() }
 }, 30000)

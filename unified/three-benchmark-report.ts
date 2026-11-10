@@ -2,7 +2,7 @@ import { reserveResultDirectory } from './result-storage.ts'
 import { fidelityPopulation, synthesiseBenchmarks, type ScoreBounds } from './overall-score.ts'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
+import { boundaryKind, davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
 import { assertTimingCollection, campaignPlan } from './campaign-plan.ts'
 
 function requireSameAdmission(left: any, right: any) {
@@ -112,11 +112,14 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   for (const format of ['svg', 'png', 'terminal']) {
     lines.push('### ' + (format === 'terminal' ? 'Terminal rendering' : format.toUpperCase() + ' rendering'), '')
     const ranked = [...davebench.rankings[format]].sort((a: any, b: any) => a.rank - b.rank || label(a).localeCompare(label(b)))
-    const rows: unknown[][] = ranked.map((r: any) => [r.rank, label(r), r.completed, (r.medianTotalMs === null ? '—' : (r.medianTotalMs / 1000).toFixed(3))])
-    for (const block of davebench.blocked ?? []) if (!ranked.some((r: any) => r.project === block.project) && catalog.nodes.find((n: any) => n.id === block.project)?.benchmark?.outputs.includes(format)) rows.push(['—', label(block), 'Blocked', '—'])
-    table(['Rank', 'Project', `Completed / ${davebench.corpus.occurrences} ↑`, 'Median seconds ↓'], rows)
+    const rows: unknown[][] = ranked.map((r: any) => {
+      const kind = davebench.runs?.find((run: any) => run.project === r.project && run.format === format)?.boundaryKind ?? (r.boundary ? boundaryKind(r.boundary) : undefined)
+      return [r.rank, label(r), r.completed, (r.medianTotalMs === null ? '—' : (r.medianTotalMs / 1000).toFixed(3)), kind === 'fresh-process' ? 'CLI; startup included' : kind === 'persistent-api' ? 'API; initialization excluded' : 'Not recorded']
+    })
+    for (const block of davebench.blocked ?? []) if (!ranked.some((r: any) => r.project === block.project) && catalog.nodes.find((n: any) => n.id === block.project)?.benchmark?.outputs.includes(format)) rows.push(['—', label(block), 'Blocked', '—', '—'])
+    table(['Rank', 'Project', `Completed / ${davebench.corpus.occurrences} ↑`, 'Median seconds ↓', 'Timing boundary'], rows)
   }
-  const caseTable = (entries: any[], population: number, blocks: any[], blockedLabel = 'Not run') => {
+  const caseTable = (entries: any[], population: number, blocks: any[], mode: 'svg' | 'terminal' | 'fidelity', blockedLabel = 'Not run') => {
     const measured = entries.map(r => ({ ...r, scored: r.passed + r.failed > 0 })).sort((a, b) => Number(b.scored) - Number(a.scored) || b.passed - a.passed || label(a).localeCompare(label(b)))
     // Every unassessed case could still pass or fail. The range is the best and
     // worst position reachable once those cases are resolved, for scored rows.
@@ -128,19 +131,28 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
     let rank = 0, previous: number | undefined
     const rows: unknown[][] = measured.map((r, index) => {
       if (r.scored && r.passed !== previous) { rank = index + 1; previous = r.passed }
-      return [r.scored ? rank : '—', r.scored ? range(r) : '—', label(r), r.scored ? r.passed : 'Not assessed', r.scored ? r.failed : '—', r.gaps]
+      const cells: unknown[] = [r.scored ? rank : '—', r.scored ? range(r) : '—', label(r), r.scored ? r.passed : 'Not assessed']
+      if (mode === 'svg') cells.push(r.gaps ? r.passed + '–' + (r.passed + r.gaps) : r.passed)
+      cells.push(r.scored ? mode === 'fidelity' ? r.counts.failed : r.failed : '—')
+      if (mode === 'fidelity') cells.push(r.scored ? r.counts.unsupported : '—')
+      const shared = mode === 'fidelity' ? fidelity.coverage?.commonUnassessedCallbacks : undefined
+      if (shared !== undefined && (!Number.isSafeInteger(shared) || shared < 0 || r.project !== 'mermaid-js/mermaid' && shared > r.gaps)) throw Error('Invalid shared Fidelity gap accounting')
+      cells.push(shared !== undefined && r.project !== 'mermaid-js/mermaid' ? shared + ' + ' + (r.gaps - shared) : r.gaps)
+      return cells
     })
-    for (const block of [...blocks].sort((a, b) => label(a).localeCompare(label(b)))) if (!measured.some(r => r.project === block.project)) rows.push(['—', '—', label(block), blockedLabel, '—', population])
-    table(['Verified rank', 'Possible rank', 'Project', `Passed / ${population} ↑`, 'Failed', 'Unassessed'], rows)
+    for (const block of [...blocks].sort((a, b) => label(a).localeCompare(label(b)))) if (!measured.some(r => r.project === block.project)) rows.push(['—', '—', label(block), blockedLabel, ...(mode === 'svg' ? ['0–' + population] : []), '—', ...(mode === 'fidelity' ? ['—'] : []), population])
+    table(['Verified rank', 'Possible rank', 'Project', `Passed / ${population} ↑`, ...(mode === 'svg' ? ['Pass bounds'] : []), mode === 'fidelity' ? 'Assertion/fault nonpasses' : 'Failed', ...(mode === 'fidelity' ? ['Unsupported'] : []), mode === 'fidelity' && fidelity.coverage ? 'Unassessed (shared + additional)' : 'Unassessed'], rows)
   }
   lines.push('## Drawing Correctness', '')
+  lines.push('Required labels must be visible without leaked source syntax. Edges, arrow direction, layout and styling are outside this benchmark; PNG is not assessed.', '')
   for (const format of drawing.formats ?? ['svg', 'png', 'terminal']) {
     lines.push('### ' + (format === 'terminal' ? 'Terminal correctness' : format.toUpperCase() + ' correctness'), '')
-    caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => String(r.format).split('/').includes(format)), 'Blocked')
+    caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => String(r.format).split('/').includes(format)), format, 'Blocked')
   }
   lines.push('## Mermaid Fidelity', '')
   const population = fidelityPopulation(fidelity)
-  caseTable(fidelity.results.map((r: any) => ({ ...r, passed: r.counts.passed, failed: r.counts.failed + r.counts.unsupported, gaps: r.counts['trident-blocked'] })), population, fidelity.blocked)
+  if (fidelity.coverage) lines.push(`${fidelity.coverage.commonUnassessedCallbacks} reference-qualified callbacks are unassessed for every one of the ${fidelity.coverage.candidates} executed candidates; ${fidelity.coverage.commonUncollectedCallbacks} of them have no matching collected callback. Additional gaps vary by candidate. These gaps receive no verified pass credit.`, '')
+  caseTable(fidelity.results.map((r: any) => ({ ...r, passed: r.counts.passed, failed: r.counts.failed + r.counts.unsupported, gaps: r.counts['trident-blocked'] })), population, fidelity.blocked, 'fidelity')
   lines.push('## Equal-weight synthesis', '')
   const bounds = (value: ScoreBounds | null) => value === null ? 'n/a' : Math.abs(value.upper - value.lower) < 1e-9 ? value.lower.toFixed(2) : value.lower.toFixed(2) + '–' + value.upper.toFixed(2)
   const rank = (row: { bestRank: number; worstRank: number }) => row.bestRank === row.worstRank ? String(row.bestRank) : row.bestRank + '–' + row.worstRank

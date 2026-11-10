@@ -81,7 +81,7 @@ leaders are:
   <!-- fact:davebench-png-leader -->Latias Merman with 1,338<!-- /fact -->. Terminal text:
   <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,342<!-- /fact -->.
 - **Drawing Correctness**, cases correct. SVG:
-  <!-- fact:drawing-svg-leader -->Bezel and Pele with 124 each (not yet settled)<!-- /fact -->.
+  <!-- fact:drawing-svg-leader -->Bezel and Pele with 125 each (not yet settled)<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
   <!-- fact:fidelity-leader -->Pele with 3,055 (not yet settled)<!-- /fact -->.

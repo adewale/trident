@@ -70,9 +70,10 @@ test('Latin-1 glyph bounds distinguish fitting accents from actual raster clippi
   }
 })
 
-test('unqualified font-box overflow cannot turn HTML, complex glyphs or stretched text into renderer faults', async () => {
+test('plain HTML ink qualifies while unsupported typography and stretched text keep overflowing font boxes unassessed', async () => {
   const html = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="80"><foreignObject x="0" y="-6" width="800" height="80"><div xmlns="http://www.w3.org/1999/xhtml" style="font:32px Arial;line-height:36px">${title}</div></foreignObject></svg>`
-  expect(statuses(await inspect(html))).toEqual(['unavailable', 'unavailable'])
+  expect(statuses(await inspect(html))).toEqual(['passed', 'passed'])
+  expect(statuses(await inspect(html.replace('line-height:36px', 'line-height:36px;letter-spacing:2px')))).toEqual(['unavailable', 'unavailable'])
   expect(statuses(await inspect(drawing().replace(title, 'Cafe\u0301'), 'Cafe\u0301'))).toEqual(['unavailable', 'unavailable'])
   expect(statuses(await inspect(drawing(16, 80, 'textLength="300" lengthAdjust="spacingAndGlyphs"')))).toEqual(['unavailable', 'unavailable'])
   const clipped = drawing().replace('<g>', '<defs><clipPath id="cut"><rect width="1" height="1"/></clipPath></defs><g clip-path="url(#cut)">')

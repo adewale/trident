@@ -38,7 +38,7 @@ function leaguesFixture() {
   const catalog = { nodes: ['a', 'b'].map(id => ({ id, benchmark: { version: '1.0.0', outputs: ['svg'] } })) }
   return { davebench, drawing, fidelity, catalog }
 }
-test('the landing page contains all three leagues, one project-version label and no method prose', () => {
+test('the landing page names timing boundaries, label scope and uncertainty alongside its leagues', () => {
   const { davebench, drawing, fidelity, catalog } = leaguesFixture()
   const before = JSON.stringify({ davebench, drawing, fidelity })
   const page = renderBenchmarkLeagues(davebench, drawing, fidelity, catalog, { a: 'Alpha', b: 'Beta' })
@@ -48,11 +48,13 @@ test('the landing page contains all three leagues, one project-version label and
   expect(page).toContain('### Terminal rendering')
   expect(page).toContain('### Terminal correctness')
   expect(page).not.toContain('### Terminal text')
-  expect(page).toContain('| 1 | 1–2 | Beta 1.0.0 | 1 | 0 | 1 |') // equal drawing passes tie; one unassessed case leaves either order possible
-  expect(page).toContain('| — | — | Beta 1.0.0 | Not run | — | 2 |') // missing adapter is not zero
+  expect(page).toContain('| 1 | 1–2 | Beta 1.0.0 | 1 | 1–2 | 0 | 1 |') // pass bounds retain the unknown case
+  expect(page).toContain('| — | — | Beta 1.0.0 | Not run | — | — | 2 |') // missing adapter is not zero
   expect(page).toContain('| 1–2 | Alpha 1.0.0 |') // synthesis shows reachable ranks, not rank by minimum
   expect(page).not.toContain('remain unimplemented')
-  expect(page.split('\n').every(line => !line || /^[#|[]/.test(line))).toBe(true)
+  expect(page).toContain('API; initialization excluded')
+  expect(page).toContain('Edges, arrow direction, layout and styling are outside this benchmark')
+  expect(page).toContain('Assertion/fault nonpasses | Unsupported')
   expect(JSON.stringify({ davebench, drawing, fidelity })).toBe(before)
 })
 test('observed zero and wholly unassessed drawing outputs remain different', () => {
@@ -60,8 +62,8 @@ test('observed zero and wholly unassessed drawing outputs remain different', () 
   drawing.results[0]!.counts = { correct: 0, incorrect: 2, 'renderer-failure': 0, 'invalid-format': 0, unknown: 0, unrun: 0 }
   drawing.results[1]!.counts = { correct: 0, incorrect: 0, 'renderer-failure': 0, 'invalid-format': 0, unknown: 2, unrun: 0 }
   const page = renderBenchmarkLeagues(davebench, drawing, fidelity, catalog)
-  expect(page).toContain('| 1 | 1 | a 1.0.0 | 0 | 2 | 0 |')
-  expect(page.split('## Drawing Correctness')[1]!.split('## Mermaid Fidelity')[0]).toContain('| — | — | b 1.0.0 | Not assessed | — | 2 |')
+  expect(page).toContain('| 1 | 1 | a 1.0.0 | 0 | 0 | 2 | 0 |')
+  expect(page.split('## Drawing Correctness')[1]!.split('## Mermaid Fidelity')[0]).toContain('| — | — | b 1.0.0 | Not assessed | 0–2 | — | 2 |')
 })
 
 test('snapshot regeneration reads all three current results', () => {
@@ -88,8 +90,19 @@ test('Fidelity scores the reference-qualified population; callbacks the control 
   const page = renderBenchmarkLeagues(davebench, drawing, fidelity, catalog)
   const league = page.split('## Mermaid Fidelity')[1]!.split('## Equal-weight synthesis')[0]!
   expect(league).toContain('Passed / 2 ↑')
-  expect(league).toContain('| 1 | 1 | a 1.0.0 | 1 | 1 | 0 |')
-  expect(league).toContain('| — | — | b 1.0.0 | Not run | — | 2 |')
+  expect(league).toContain('| 1 | 1 | a 1.0.0 | 1 | 1 | 0 | 0 |')
+  expect(league).toContain('| — | — | b 1.0.0 | Not run | — | — | 2 |')
+})
+
+test('shared Fidelity gaps remain distinct from additional gaps and unsupported operations', () => {
+  const model = leaguesFixture(), row = model.fidelity.results[0]!
+  row.counts = { passed: 0, failed: 0, unsupported: 1, 'trident-blocked': 1 }
+  const fidelity = { ...model.fidelity, coverage: { candidates: 1, commonUnassessedCallbacks: 1, commonUncollectedCallbacks: 1 } }
+  const page = renderBenchmarkLeagues(model.davebench, model.drawing, fidelity, model.catalog)
+  expect(page).toContain('1 reference-qualified callbacks are unassessed')
+  expect(page).toContain('Unassessed (shared + additional)')
+  expect(page.split('## Mermaid Fidelity')[1]).toContain('| 1 | 1 | a 1.0.0 | 0 | 0 | 1 | 1 + 0 |')
+  expect(() => renderBenchmarkLeagues(model.davebench, model.drawing, { ...fidelity, coverage: { ...fidelity.coverage, commonUnassessedCallbacks: 2 } }, model.catalog)).toThrow('shared Fidelity gap')
 })
 
 test('current result files carry no hand-chosen collection date in their names', () => {
