@@ -24,3 +24,24 @@ test('a marked stale reply cannot be attributed to the current request', () => {
   try { expect(client.call({ source: 'current' }).failure).toContain('identity') }
   finally { client.close() }
 })
+test('stopping a bridge reaps its process, after a deadline and on close', () => {
+  // A dead child that is never reaped stays in the process table. kill(pid, 0)
+  // still succeeds for such a zombie and fails only once the child is reaped.
+  const file = join(temporary.dir(), 'bridge.mjs')
+  writeFileSync(file, `import {serve} from ${JSON.stringify(resolve(import.meta.dir, '../unified/mermaid-fidelity/bridges/common.mjs'))};await serve(async(family,source)=>{if(source==='hang')await new Promise(()=>{});return {value:process.pid}})`)
+  const exists = (pid: number) => {
+    try { process.kill(pid, 0); return true } catch { return false }
+  }
+  const client = persistentBridge('node', [file], undefined, 1000)
+  let restarted: number
+  try {
+    const first = JSON.parse(client.call({ family: 'flowchart', source: 'pid' }).line!).value
+    expect(client.call({ family: 'flowchart', source: 'hang' }).failure).toContain('no reply')
+    expect(exists(first)).toBe(false)
+    restarted = JSON.parse(client.call({ family: 'flowchart', source: 'pid' }).line!).value
+    expect(restarted).not.toBe(first)
+  } finally {
+    client.close()
+  }
+  expect(exists(restarted)).toBe(false)
+})

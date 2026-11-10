@@ -32,10 +32,22 @@ child.stdout.on('data', data => {
   }
 })
 child.on('error', error => wake({ failure: 'bridge could not start: ' + error.message }))
+// A reaped process id can be reused; never signal it again.
+child.on('exit', code => Atomics.store(state, 1, 0))
 child.on('exit', code => wake({ failure: 'bridge exited with ' + code + (stderr ? ': ' + stderr.slice(-400) : '') }))
 child.stdin.on('error', () => {})
 Atomics.store(state, 1, child.pid ?? 0)
-parentPort.on('message', ({ request, requestId }) => {
+parentPort.on('message', ({ request, requestId, stop }) => {
+  // Stopping waits for the child's exit event: libuv reaps the child before it
+  // fires. A worker terminated first leaves the dead child unreaped, and once
+  // this process exits it passes to PID 1, which in containers often never reaps.
+  if (stop) {
+    const reaped = () => { Atomics.store(state, 2, 1); Atomics.notify(state, 2) }
+    if (!child.pid || child.exitCode !== null || child.signalCode !== null) return reaped()
+    child.once('exit', reaped)
+    try { process.kill(process.platform === 'win32' ? child.pid : -child.pid, 'SIGKILL') } catch { reaped() }
+    return
+  }
   if (pending) return wake({ failure: 'overlapping bridge request' })
   pending = requestId
   child.stdin.write(JSON.stringify({ ...request, requestId }).replace(/[\\u2028\\u2029]/g, c => '\\\\u' + c.charCodeAt(0).toString(16)) + '\\n')
@@ -47,8 +59,8 @@ export function persistentBridge(command, args, cwd, timeoutMs = 10_000) {
   let worker, port, state, closed = false, sequence = 0
   const epoch = randomUUID()
   const start = () => {
-    // [0]: reply ready flag, [1]: the child's process id
-    state = new Int32Array(new SharedArrayBuffer(8))
+    // [0]: reply ready flag, [1]: the child's process id, [2]: child reaped
+    state = new Int32Array(new SharedArrayBuffer(12))
     const channel = new MessageChannel()
     port = channel.port1
     worker = new Worker(WORKER, { eval: true, workerData: { command, args, cwd, state, port: channel.port2, mark: MARK }, transferList: [channel.port2] })
@@ -56,6 +68,10 @@ export function persistentBridge(command, args, cwd, timeoutMs = 10_000) {
     worker.on('error', () => {}) // The bounded wait reports a worker failure as a gap.
   }
   const stop = () => {
+    // Bounded: a worker that cannot answer is still killed and terminated below.
+    if (worker) {
+      try { Atomics.store(state, 2, 0); worker.postMessage({ stop: true }); Atomics.wait(state, 2, 0, 2000) } catch {}
+    }
     const pid = state && Atomics.load(state, 1)
     try { if (pid) process.kill(process.platform === 'win32' ? pid : -pid, 'SIGKILL') } catch {}
     worker?.terminate()
