@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200">
+  <defs><marker id="head" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto"><polygon points="0,0 10,5 0,10" fill="black" stroke="none"/></marker></defs>
+  <g><rect x="0" y="80" width="60" height="40" fill="white" stroke="black"/><text x="10" y="105" font-family="Arial" font-size="12">Alpha</text></g>
+  <g><rect x="280" y="80" width="60" height="40" fill="white" stroke="black"/><text x="290" y="105" font-family="Arial" font-size="12">Beta</text></g>
+  <path d="M60 100 H280" fill="none" stroke="black" marker-end="url(#head)"/>
+  <text x="258" y="104" font-family="Arial" font-size="12">Yes</text>
+</svg>
