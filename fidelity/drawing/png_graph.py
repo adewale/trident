@@ -90,7 +90,7 @@ def observe(job):
     taken=[a['frame'] for a in assigned]
     extras=[i for i,ws in enumerate(frame_words) if ws and i not in taken and not any(all(contained(word,f) for word in ws) and f!=frames[i] and (f[2]-f[0])*(f[3]-f[1])<(frames[i][2]-frames[i][0])*(frames[i][3]-frames[i][1]) for f in frames)]
     if extras:return {'status':'unknown','reason':'Additional labeled frame requires semantic classification'}
-    routes_mask=ink
+    routes_mask=ink.copy()
     for a in assigned:
         x0,y0,x1,y1=a['box'];routes_mask[max(0,y0-2):min(h,y1+3),max(0,x0-2):min(w,x1+3)]=False
     for word in words:

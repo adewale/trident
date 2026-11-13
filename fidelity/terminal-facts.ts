@@ -1,7 +1,7 @@
 import { TerminalRectangleBudgetExceeded } from './terminal-rectangles.ts'
 import { inspectTerminalEncodedJourney } from './terminal-encoded-journey.ts'
 import { admittedTerminalEncoding, type TerminalEncodingContext } from './terminal-encoding.ts'
-import { inspectTerminalGraphFacts, terminalGraphSourceObservable } from './terminal-graph-facts.ts'
+import { inspectTerminalGraphFacts, terminalGraphSourceObservable, terminalLabelOwners } from './terminal-graph-facts.ts'
 import { inspectTerminalClass, terminalClassSourceObservable } from './terminal-class.ts'
 import { inspectTerminalState, terminalStateSourceObservable } from './terminal-state.ts'
 import { inspectTerminalFamilyFacts, terminalFamilySourceObservable } from './terminal-family-facts.ts'
@@ -58,7 +58,7 @@ function inspectTerminalFactsUnchecked(output: string, contract: TerminalSourceC
   }
   if (graph && graph.nodes.length && graph.nodes.length <= 32 && display.cells.length <= 256 && display.cells.every(row => row.length <= 512) && [...text].filter(glyph => /[┌╭+◇◯◎(/▷⌜╟]/.test(glyph)).length <= 64) {
     const containers = terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true }), normalize = (value: string) => value.replace(/\s+/g, ' ').trim().normalize('NFC')
-    const ownedById = new Map<string, typeof containers>(), owned = (id: string) => { let found = ownedById.get(id); if (!found) { const node = graph.nodes.find(node => node.id === id), label = node && normalize(node.label); found = node ? containers.filter(box => normalize(box.lines.join(' ')) === label) : []; ownedById.set(id, found) } return found }
+    const owned = terminalLabelOwners(graph.nodes, containers)
     const shapes = contract.facts.find(fact => fact.criterion === 'node-shapes')?.expected as { id: string; shape: string }[] | undefined
     if (shapes?.length && shapes.every(item => owned(item.id).length === 1)) {
       const actual = shapes.map(item => ({ id: item.id, shape: owned(item.id)[0]!.shape })), unknown = actual.some(item => item.shape?.startsWith('unqualified-')), mismatch = actual.some((item, n) => !item.shape?.startsWith('unqualified-') && item.shape !== shapes[n]!.shape)
