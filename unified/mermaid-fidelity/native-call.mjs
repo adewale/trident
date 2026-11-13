@@ -11,7 +11,7 @@ const modules = new Map()
 async function load(entry) {
   if (!modules.has(entry)) {
     const imported = await import(entry)
-    modules.set(entry, { api: imported.default && typeof imported.default === 'object' ? { ...imported.default, ...imported } : imported, declaration: readFileSync(entry, 'utf8') })
+    modules.set(entry, { api: imported.default && typeof imported.default === 'object' ? { ...imported.default, ...imported } : imported, declaration: readFileSync(entry, 'utf8'), takesLines: new Map() })
   }
   return modules.get(entry)
 }
@@ -23,7 +23,8 @@ async function answer(request) {
     api = loaded.api
     method = request.methods.find(name => typeof api[name] === 'function')
     if (!method) return { adapterGap: 'No native parser export among ' + request.methods.join(', ') }
-    const takesLines = loaded.declaration.split(/\r?\n/).some(line => line.includes('function ' + method + '(') && /\(\s*\w+\s*:\s*string\s*\[\]/.test(line))
+    if (!loaded.takesLines.has(method)) loaded.takesLines.set(method, loaded.declaration.split(/\r?\n/).some(line => line.includes('function ' + method + '(') && /\(\s*\w+\s*:\s*string\s*\[\]/.test(line)))
+    const takesLines = loaded.takesLines.get(method)
     input = takesLines ? request.source.split(/\r?\n/).map(line => line.trim()).filter(Boolean) : request.source
   } catch (error) {
     return { adapterGap: 'Native parser import/binding failed: ' + String(error) }

@@ -179,18 +179,19 @@ export async function initialize(file?: string) {
     const text = readFileSync(entry, 'utf8'),
       chunk = [...text.matchAll(/import\s*\{([^}]+)\}\s*from\s*"([^"]+)"/g)].find(x => /\bsetConfig\b/.test(x[1]!))?.[2]
     if (chunk) configurations = await import(/* @vite-ignore */ new URL(chunk, pathToFileURL(entry)).href)
+    let manifestText = ''
     const manifest = referenceRequire.resolve
       .paths('@mermaid-js/parser')!
       .map(p => join(p, '@mermaid-js/parser/package.json'))
       .find(p => {
         try {
-          readFileSync(p)
+          manifestText = readFileSync(p, 'utf8')
           return true
         } catch {
           return false
         }
       })!
-    language = await import(/* @vite-ignore */ pathToFileURL(resolve(dirname(manifest), JSON.parse(readFileSync(manifest, 'utf8')).exports['.'].import)).href)
+    language = await import(/* @vite-ignore */ pathToFileURL(resolve(dirname(manifest), JSON.parse(manifestText).exports['.'].import)).href)
     for (const family of new Set(job.files.filter((f: any) => !file || f.absolute === file).map((f: any) => f.family)) as Set<string>)
       for (const key of [family, ...(variants[family] ?? []).map(([, key]) => key)])
         if (examples[key]) {
@@ -260,8 +261,9 @@ export function begin(task: any) {
 export function finish(task: any) {
   if (!active || active.id !== task.id) throw new AdapterGap('TRIDENT_ADAPTER_GAP: Unbalanced test audit ownership')
   if (job.target.tool !== 'mermaid' && !active.calls && !active.unsupported.length) active.gaps.add('No candidate operation was exercised by this test')
-  appendFileSync(auditFile, JSON.stringify({ ...active, gaps: [...active.gaps] }) + '\n')
-  const reason = [...active.gaps].join('; ')
+  const gaps = [...active.gaps]
+  appendFileSync(auditFile, JSON.stringify({ ...active, gaps }) + '\n')
+  const reason = gaps.join('; ')
   active = undefined
   if (reason && task.result?.state !== 'skip') throw new AdapterGap('TRIDENT_ADAPTER_GAP: ' + reason)
 }

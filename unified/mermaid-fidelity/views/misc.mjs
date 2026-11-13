@@ -770,12 +770,15 @@ function frankenEr(ir, hooks) {
   if (ir?.diagram_type !== 'Er') return undefined
   const refs = target => (ir.style_refs ?? []).filter(ref => ref.target && typeof ref.target === 'object' && target in ref.target)
   return {
-    entities: () => ir.nodes.map((node, index) => [node.id, {
-      label: node.id,
-      ...(typeof node.label === 'number' ? { [VERTEX_ABSENT]: { alias: "Frankenmermaid keeps an entity's alias and the text of a quoted entity name in the same label" } } : { alias: '' }),
-      attributes: (node.members ?? []).map(m => ({ type: m.data_type, name: m.name, keys: (m.keys ?? []).map(key => String(key).toUpperCase()), comment: m.comment ?? '' })),
-      ...erCss(node.classes, refs('Node').filter(ref => ref.target.Node === index).flatMap(ref => styleList(hooks, ref.style))),
-    }]),
+    entities: () => {
+      const nodeRefs = refs('Node')
+      return ir.nodes.map((node, index) => [node.id, {
+        label: node.id,
+        ...(typeof node.label === 'number' ? { [VERTEX_ABSENT]: { alias: "Frankenmermaid keeps an entity's alias and the text of a quoted entity name in the same label" } } : { alias: '' }),
+        attributes: (node.members ?? []).map(m => ({ type: m.data_type, name: m.name, keys: (m.keys ?? []).map(key => String(key).toUpperCase()), comment: m.comment ?? '' })),
+        ...erCss(node.classes, nodeRefs.filter(ref => ref.target.Node === index).flatMap(ref => styleList(hooks, ref.style))),
+      }])
+    },
     getClasses: () => {
       const defs = new Map()
       for (const ref of refs('Class')) defs.set(ref.target.Class, [...(defs.get(ref.target.Class) ?? []), ...styleList(hooks, ref.style)])
@@ -830,7 +833,7 @@ function refineFlowchart(base, more, hooks) {
   if (base?.getSubGraphs && more.subgraph) view.getSubGraphs = () => base.getSubGraphs().map(item => refine(item, more.subgraph.fields?.(item) ?? {}, more.subgraph.absent ?? {}, hooks))
   return view
 }
-const flowClasses = defs => new Map(defs.map(([id, styles]) => [id, { id, styles: [...styles], textStyles: styles.filter(style => /color/.test(style)).map(style => style.replace('fill', 'bgFill')) }]))
+const flowClasses = defs => new Map(defs.map(([id, styles]) => [id, { id, styles, textStyles: styles.filter(style => /color/.test(style)).map(style => style.replace('fill', 'bgFill')) }]))
 const flowAcc = name => ({ getAccTitle: `${name}'s flowchart model keeps no accessibility title`, getAccDescription: `${name}'s flowchart model keeps no accessibility description` })
 const NO_MARKDOWN_TITLE = name => ({ labelType: `${name} keeps a subgraph title's text without recording whether it was written as markdown` })
 const FLOW_MODELS = {
@@ -1248,7 +1251,7 @@ const requirementSchema = {
   // accessibility title and description and the direction are kept.
   'adewale/agentic-mermaid': (raw, hooks) => ({
     getRequirements: () => new Map((raw.requirements ?? []).map(item => [item.name, record({ ...item }, 'requirement', REQUIREMENT_FIELDS, {}, hooks)])),
-    getElements: () => new Map((raw.elements ?? []).map(({ directStyles, ...item }) => [item.name, record({ ...item }, 'element', ELEMENT_FIELDS, {}, hooks)])),
+    getElements: () => new Map((raw.elements ?? []).map(({ directStyles, ...item }) => [item.name, record(item, 'element', ELEMENT_FIELDS, {}, hooks)])),
     getRelationships: () => (raw.relations ?? []).map(rel => ({ type: rel.type, src: rel.src, dst: rel.dst })),
     getClasses: () => requirementClasses((raw.classDefs ?? []).map(item => [item.id, item.styles ?? []])),
     getDirection: () => raw.direction ?? 'TB',
@@ -1480,9 +1483,9 @@ mindmapSchema['1jehuang/mermaid-rs-renderer'] = (raw, hooks) => {
     if (!item || ancestors.has(id)) return hooks.unavailable('mermaid-rs-renderer mindmap has a missing or cyclic child ' + id)
     const type = types[item.node_type]
     if (type === undefined) return hooks.unavailable('mermaid-rs-renderer mindmap node type ' + item.node_type)
-    const classes = raw.node_classes?.[item.id]
+    const classes = raw.node_classes?.[item.id], path = new Set([...ancestors, id])
     return record({ nodeId: item.id, descr: item.label, type, icon: item.icon ?? undefined, class: item.class ?? (Array.isArray(classes) && classes.length ? classes.join(' ') : undefined),
-      children: item.children.map(child => node(child, new Set([...ancestors, id]))) }, 'mindmap node', MINDMAP_FIELDS, {
+      children: item.children.map(child => node(child, path)) }, 'mindmap node', MINDMAP_FIELDS, {
       width: "a mindmap node's width is Mermaid's renderer setting", padding: "a mindmap node's padding is Mermaid's renderer setting", level: 'mermaid-rs-renderer normalises indentation into depth',
     }, hooks)
   }
@@ -1540,11 +1543,14 @@ const blockSchema = Object.fromEntries(Object.entries(BLOCK_MODELS).map(([projec
 // otherwise L_<start>_<end>_<n>, n being 0 for the first link between the two and the
 // number of earlier ones plus one after that. agentic-mermaid keeps a written id; Crafter
 // drops an edge written with one, so its edges never had one.
-function mermaidEdgeId(edges, index) {
-  const edge = edges[index], earlier = edges.slice(0, index)
-  if (edge.id && !earlier.some((other, at) => mermaidEdgeId(edges, at).id === edge.id)) return { id: edge.id, isUserDefinedId: true }
-  const existing = earlier.filter(other => other.source === edge.source && other.target === edge.target).length
-  return { id: `L_${edge.source}_${edge.target}_${existing === 0 ? 0 : existing + 1}`, isUserDefinedId: false }
+function mermaidEdgeIds(edges) {
+  const ids = []
+  edges.forEach((edge, index) => {
+    if (edge.id && !ids.some(other => other.id === edge.id)) return ids.push({ id: edge.id, isUserDefinedId: true })
+    const existing = edges.slice(0, index).filter(other => other.source === edge.source && other.target === edge.target).length
+    ids.push({ id: `L_${edge.source}_${edge.target}_${existing === 0 ? 0 : existing + 1}`, isUserDefinedId: false })
+  })
+  return ids
 }
 const GRAPH_SHAPE = { rectangle: 'square', rounded: 'round', 'lean-r': 'lean_right', 'lean-l': 'lean_left', 'trapezoid-alt': 'inv_trapezoid', asymmetric: 'odd', 'double-circle': 'doublecircle' }
 function beautifulGraph(graph, name, keeps, hooks) {
@@ -1577,18 +1583,22 @@ function beautifulGraph(graph, name, keeps, hooks) {
         styles: styleStrings(get(graph.nodeStyles, id)),
       }]
     }),
-    edges: () => graph.edges.map((edge, index) => {
-      const start = head(edge.hasArrowStart, edge.startMarker), end = head(edge.hasArrowEnd, edge.endMarker)
-      const type = edgeType(start, end) ?? (end === 'none' && start !== 'none' ? `${name}:start-only-${start}` : undefined)
-      return {
-        start: edge.source, end: edge.target, text: edge.label ?? '', type, stroke: strokeOf(edge.style),
-        ...mermaidEdgeId(graph.edges, index),
-        classes: edge.id && get(graph.classAssignments, edge.id) !== undefined ? classes(edge.id) : undefined,
-        ...(keeps.length ? { length: edge.length ?? 1 } : {}),
-        ...(keeps.markers ? { interpolate: edge.curve ?? graph.linkCurves?.get(index) } : {}),
-        ...(graph.linkStyles instanceof Map ? { style: styleStrings(get(graph.linkStyles, index)).length ? styleStrings(get(graph.linkStyles, index)) : undefined } : {}),
-      }
-    }),
+    edges: () => {
+      const ids = mermaidEdgeIds(graph.edges)
+      return graph.edges.map((edge, index) => {
+        const start = head(edge.hasArrowStart, edge.startMarker), end = head(edge.hasArrowEnd, edge.endMarker)
+        const type = edgeType(start, end) ?? (end === 'none' && start !== 'none' ? `${name}:start-only-${start}` : undefined)
+        const style = graph.linkStyles instanceof Map ? styleStrings(get(graph.linkStyles, index)) : undefined
+        return {
+          start: edge.source, end: edge.target, text: edge.label ?? '', type, stroke: strokeOf(edge.style),
+          ...ids[index],
+          classes: edge.id && get(graph.classAssignments, edge.id) !== undefined ? classes(edge.id) : undefined,
+          ...(keeps.length ? { length: edge.length ?? 1 } : {}),
+          ...(keeps.markers ? { interpolate: edge.curve ?? graph.linkCurves?.get(index) } : {}),
+          ...(graph.linkStyles instanceof Map ? { style: style.length ? style : undefined } : {}),
+        }
+      })
+    },
     subgraphs: () => flat,
     direction: directionWord(graph.direction),
     absent: {
@@ -1622,7 +1632,7 @@ function agenticIshikawa(raw, hooks) {
   const nodes = raw.nodes ?? []
   const node = item => ({ text: item.label, children: nodes.filter(child => child.parentId === item.id).map(node) })
   const root = () => nodes.find(item => item.parentId == null)
-  return { getRoot: () => (root() ? node(root()) : undefined), getDiagramTitle: () => root()?.label ?? '' }
+  return { getRoot: () => { const top = root(); return top ? node(top) : undefined }, getDiagramTitle: () => root()?.label ?? '' }
 }
 function xmermaidIshikawa(raw, hooks) {
   const tree = () => {

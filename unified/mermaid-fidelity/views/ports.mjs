@@ -62,7 +62,7 @@ const EMIT = "Mermaid's AgentFlowDB.emitWarning/emitError record a diagnostic in
 function agentflowState(raw, hooks, project) {
   const name = NAME[project]
   const vertexAbsent = { domId: `a vertex's DOM id is Mermaid's renderer state; ${name} keeps none` }
-  const vertex = item => record({ ...item }, 'agentflow vertex', ['id', 'text', 'labelType', 'styles', 'classes'], vertexAbsent, hooks)
+  const vertex = item => record(item, 'agentflow vertex', ['id', 'text', 'labelType', 'styles', 'classes'], vertexAbsent, hooks)
   const vertices = () => keyedMap(raw.nodes, hooks, name + ' agentflow vertices', item => vertex(deepUnset(item)))
   const edgeList = () => entriesOf(raw.edges).map(([, item]) => ({ interpolate: undefined, ...deepUnset(item) }))
   const subGraphs = () => entriesOf(raw.subgraphs).map(([, item]) => ({ dir: undefined, ...deepUnset(item) }))
@@ -157,10 +157,10 @@ function agentflowState(raw, hooks, project) {
       const resolved = afResolve(item.type)
       model.vertices.push({ id, ...(item.text !== undefined ? { label: item.text } : {}), ...(resolved !== undefined ? { shape: resolved } : {}), vertexKind: afKind(item.type, resolved), ...(metadata ? { metadata } : {}) })
     }
-    model.edges = edgeList().map(e => ({ start: e.start, end: e.end, ...(e.id !== undefined ? { id: e.id } : {}), ...(typeof e.text === 'string' && e.text.length ? { label: e.text } : {}), ...(e.type !== undefined ? { type: e.type } : {}), ...(e.stroke !== undefined ? { stroke: e.stroke } : {}), ...(e.edgeSemantic !== undefined ? { edgeSemantic: e.edgeSemantic } : {}), ...(e.length !== undefined ? { length: e.length } : {}), ...(e.metadata && Object.keys(e.metadata).length ? { metadata: { ...e.metadata } } : {}) }))
+    model.edges = edgeList().map(e => ({ start: e.start, end: e.end, ...(e.id !== undefined ? { id: e.id } : {}), ...(typeof e.text === 'string' && e.text.length ? { label: e.text } : {}), ...(e.type !== undefined ? { type: e.type } : {}), ...(e.stroke !== undefined ? { stroke: e.stroke } : {}), ...(e.edgeSemantic !== undefined ? { edgeSemantic: e.edgeSemantic } : {}), ...(e.length !== undefined ? { length: e.length } : {}), ...(e.metadata && Object.keys(e.metadata).length ? { metadata: e.metadata } : {}) }))
     model.subGraphs = sgs.map(sg => {
       const metadata = sg.metadata && Object.keys(sg.metadata).length ? afMeta(sg.metadata) : undefined
-      return { id: sg.id, nodes: [...sg.nodes], ...(sg.type !== undefined ? { type: sg.type } : {}), ...(sg.title !== undefined ? { title: sg.title } : {}), ...(sg.dir !== undefined ? { direction: sg.dir } : {}), ...(metadata ? { metadata } : {}) }
+      return { id: sg.id, nodes: sg.nodes, ...(sg.type !== undefined ? { type: sg.type } : {}), ...(sg.title !== undefined ? { title: sg.title } : {}), ...(sg.dir !== undefined ? { direction: sg.dir } : {}), ...(metadata ? { metadata } : {}) }
     })
     if (raw.direction != null) model.direction = raw.direction
     return model

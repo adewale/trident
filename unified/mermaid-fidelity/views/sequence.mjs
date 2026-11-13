@@ -402,7 +402,7 @@ function mermaidAscii(raw, hooks) {
     return map
   }
   const participants = () => [...raw.Participants].sort((a, b) => a.Index - b.Index)
-  const boxes = () => (raw.Boxes ?? []).map(box => boxRecord({ name: boxName(box.Title), actorKeys: participants().filter(p => p.Index >= box.First && p.Index <= box.Last).map(p => p.ID) }, { fill: `${name} parses a box colour and discards it`, wrap: `${name} keeps no text wrapping per box` }, hooks))
+  const boxes = () => { const list = participants(); return (raw.Boxes ?? []).map(box => boxRecord({ name: boxName(box.Title), actorKeys: list.filter(p => p.Index >= box.First && p.Index <= box.Last).map(p => p.ID) }, { fill: `${name} parses a box colour and discards it`, wrap: `${name} keeps no text wrapping per box` }, hooks)) }
   return {
     ...messageView(() => flatten().out, { wrap: `${name}'s sequence model keeps no text wrapping` }, hooks),
     ...actorView(() => participants().map(p => ({ id: p.ID, description: p.Label, box: boxes().find(box => box.actorKeys.includes(p.ID)) })), {

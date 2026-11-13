@@ -257,18 +257,21 @@ function frankenGraph(ir, _project, hooks) {
   const walk = group => { for (const child of group.children ?? []) walk(groups[child]); ordered.push(group) }
   for (const group of groups) if (group.parent == null) walk(group)
   return {
-    nodes: () =>
-      ir.nodes.map((node, index) => {
+    nodes: () => {
+      const nodeRefs = refs('Node')
+      return ir.nodes.map((node, index) => {
         const text = label(node.label)
-        const styles = refs('Node').filter(ref => ref.target.Node === index).flatMap(ref => styleList(hooks, ref.style))
+        const styles = nodeRefs.filter(ref => ref.target.Node === index).flatMap(ref => styleList(hooks, ref.style))
         return [node.id, { text: text ?? node.id, ...(text === undefined && node.shape === 'Rect' ? { type: undefined } : FRANKEN_SHAPE[node.shape] ? { type: FRANKEN_SHAPE[node.shape] } : {}), classes: (node.classes ?? []).filter(name => !(name === 'has-link' && node.interaction?.href)), styles, link: node.interaction?.href ?? undefined, tooltip: node.interaction?.tooltip ?? undefined }]
-      }),
+      })
+    },
     edges: () => {
       if ((ir.style_refs ?? []).some(ref => ref.target === 'LinkDefault')) return hooks.unavailable('Frankenmermaid linkStyle default')
+      const linkRefs = refs('Link')
       return ir.edges.map((edge, index) => {
         if (typeof edge.from?.Node !== 'number' || typeof edge.to?.Node !== 'number') return hooks.unavailable('Frankenmermaid edge endpoint that is not a node')
         const [type, stroke] = frankenArrow(edge.arrow)
-        const style = refs('Link').filter(ref => ref.target.Link === index).flatMap(ref => styleList(hooks, ref.style))
+        const style = linkRefs.filter(ref => ref.target.Link === index).flatMap(ref => styleList(hooks, ref.style))
         return { start: ids[edge.from?.Node], end: ids[edge.to?.Node], text: label(edge.label) ?? '', type, stroke, style: style.length ? style : undefined }
       })
     },
@@ -484,7 +487,7 @@ const CLASS = {
   // Loom: sections [header rows, attribute rows, method rows]; cardinalities kept per end.
   'Yassimba/loom': raw => ({
     classes: () => indexNames(raw).map(([id, node]) => [id, { label: node.label, members: node.sections?.[1] ?? [], methods: node.sections?.[2] ?? [] }]),
-    relations: () => raw.edges.map(edge => relation(indexNames(raw)[edge.from][0], indexNames(raw)[edge.to][0], edge.headFrom, edge.headTo, edge.line === 'dotted' ? true : edge.line === 'solid' ? false : undefined, { relationTitle1: card(edge.cardFrom), relationTitle2: card(edge.cardTo), ...(edge.label ? { title: edge.label } : {}) })),
+    relations: () => { const names = indexNames(raw); return raw.edges.map(edge => relation(names[edge.from][0], names[edge.to][0], edge.headFrom, edge.headTo, edge.line === 'dotted' ? true : edge.line === 'solid' ? false : undefined, { relationTitle1: card(edge.cardFrom), relationTitle2: card(edge.cardTo), ...(edge.label ? { title: edge.label } : {}) })) },
     absent: {},
   }),
 }
@@ -522,16 +525,19 @@ CLASS['evangwt/xmermaid'] = raw => ({
 const FRANKEN_RELATION = { Inheritance: [1, 'from'], InheritanceReverse: [1, 'to'], Composition: [2, 'from'], CompositionReverse: [2, 'to'], Aggregation: [0, 'from'], AggregationReverse: [0, 'to'], Arrow: [3, 'to', 0], DottedArrow: [3, 'to', 1], Line: ['none', 'none', 0], DottedLine: ['none', 'none', 1] }
 CLASS['Dicklesworthstone/frankenmermaid'] = ir => ({
   classes: () => ir.nodes.map(node => [node.id, { label: node.id, annotations: node.class_meta?.stereotype ? [String(node.class_meta.stereotype).toLowerCase()] : [], members: node.class_meta?.attributes ?? [], methods: node.class_meta?.methods ?? [], ...(node.class_meta?.generics?.length ? { type: node.class_meta.generics.join(',') } : {}) }]),
-  relations: () =>
-    ir.edges.map(edge => {
+  relations: () => {
+    const nodes = frankenNodes(ir)
+    return ir.edges.map(edge => {
       const [code, side, line] = FRANKEN_RELATION[edge.arrow] ?? []
-      const extra = { relationTitle1: card(edge.extras?.source_cardinality), relationTitle2: card(edge.extras?.target_cardinality), ...(frankenLabel(ir, edge.label) ? { title: frankenLabel(ir, edge.label) } : {}) }
-      const ids = { id1: frankenNodes(ir)[edge.from?.Node], id2: frankenNodes(ir)[edge.to?.Node] }
+      const title = frankenLabel(ir, edge.label)
+      const extra = { relationTitle1: card(edge.extras?.source_cardinality), relationTitle2: card(edge.extras?.target_cardinality), ...(title ? { title } : {}) }
+      const ids = { id1: nodes[edge.from?.Node], id2: nodes[edge.to?.Node] }
       if (code === undefined) return { ...ids, ...extra }
       const relation = side === 'none' ? { type1: 'none', type2: 'none', lineType: line } : { type1: side === 'from' ? code : 'none', type2: side === 'to' ? code : 'none', ...(line !== undefined ? { lineType: line } : {}) }
       if (line === undefined) Object.defineProperty(relation, LINE_ABSENT, { value: "Frankenmermaid's relation kind does not record the line style for this marker" })
       return { ...ids, relation, ...extra }
-    }),
+    })
+  },
   absent: {},
 })
 // agentic-mermaid 0.5.6 class body: relations as written (from = left-hand class) with
@@ -578,7 +584,7 @@ function graphClasses(raw, name) {
   const [graph, details] = raw
   return {
     classes: () => indexNames(graph).map(([id, node], index) => [id, { label: node.label, annotations: details?.[index]?.annotation ? [details[index].annotation] : [], members: details?.[index]?.attrs ?? [], methods: details?.[index]?.methods ?? [] }]),
-    relations: () => graph.edges.map(edge => relation(indexNames(graph)[edge.from][0], indexNames(graph)[edge.to][0], edge.head_from ?? edge.headFrom, edge.head_to ?? edge.headTo, ['Dotted', 'lineDotted'].includes(edge.line) ? true : ['Solid', 'lineSolid'].includes(edge.line) ? false : undefined, {})),
+    relations: () => { const names = indexNames(graph); return graph.edges.map(edge => relation(names[edge.from][0], names[edge.to][0], edge.head_from ?? edge.headFrom, edge.head_to ?? edge.headTo, ['Dotted', 'lineDotted'].includes(edge.line) ? true : ['Solid', 'lineSolid'].includes(edge.line) ? false : undefined, {})) },
     absent: {
       class: { type: `${name} keeps a generic class's type parameter only in its display label`, link: `${name}'s class model keeps no links`, tooltip: `${name}'s class model keeps no tooltips` },
       relation: { title: `${name} folds the relation label and cardinalities into one display label`, relationTitle1: `${name} folds relation cardinalities into its display label`, relationTitle2: `${name} folds relation cardinalities into its display label` },
@@ -671,7 +677,7 @@ const ER = {
   // Loom: '0..1', '1', '1..*', '*' per end; attributes are display rows, comments dropped.
   'Yassimba/loom': raw => ({
     entities: () => indexNames(raw).map(([name, node]) => [name, { label: node.label, attributes: (node.sections?.[1] ?? []).map(() => ({})) }]),
-    relationships: () => raw.edges.map(edge => ({ entityA: indexNames(raw)[edge.from][0], entityB: indexNames(raw)[edge.to][0], roleA: edge.label ?? '', relSpec: { cardA: LOOM_CARD[edge.cardTo], cardB: LOOM_CARD[edge.cardFrom], relType: identifying(edge.line === 'solid' ? true : edge.line === 'dotted' ? false : undefined) } })),
+    relationships: () => { const names = indexNames(raw); return raw.edges.map(edge => ({ entityA: names[edge.from][0], entityB: names[edge.to][0], roleA: edge.label ?? '', relSpec: { cardA: LOOM_CARD[edge.cardTo], cardB: LOOM_CARD[edge.cardFrom], relType: identifying(edge.line === 'solid' ? true : edge.line === 'dotted' ? false : undefined) } })) },
     absent: { attribute: Object.fromEntries(ATTRIBUTE_FIELDS.map(field => [field, "Loom keeps ER attributes as display rows, not typed fields"])), entity: { alias: "Loom's ER model keeps no entity alias" } },
   }),
   // Grok and MermaidText render ER as a graph: cardinalities are folded into the edge
@@ -709,12 +715,14 @@ const frankenNodes = ir => ir.nodes.map(node => node.id)
 const frankenLabel = (ir, index) => (typeof index === 'number' ? ir.labels[index]?.text : undefined)
 ER['Dicklesworthstone/frankenmermaid'] = ir => ({
   entities: () => ir.nodes.map(node => [node.id, { label: node.id, attributes: (node.members ?? []).map(m => ({ type: m.data_type, name: m.name, keys: (m.keys ?? []).map(key => String(key).toUpperCase()), comment: m.comment ?? '' })) }]),
-  relationships: () =>
-    ir.edges.map(edge => {
+  relationships: () => {
+    const nodes = frankenNodes(ir)
+    return ir.edges.map(edge => {
       const notation = edge.extras?.er_notation ?? ''
       const line = notation.slice(2, 4)
-      return { entityA: frankenNodes(ir)[edge.from?.Node], entityB: frankenNodes(ir)[edge.to?.Node], roleA: frankenLabel(ir, edge.label) ?? '', relSpec: { cardA: CARD_SYMBOL[notation.slice(4, 6)], cardB: CARD_SYMBOL[notation.slice(0, 2)], relType: identifying(line === '--' ? true : line === '..' ? false : undefined) } }
-    }),
+      return { entityA: nodes[edge.from?.Node], entityB: nodes[edge.to?.Node], roleA: frankenLabel(ir, edge.label) ?? '', relSpec: { cardA: CARD_SYMBOL[notation.slice(4, 6)], cardB: CARD_SYMBOL[notation.slice(0, 2)], relType: identifying(line === '--' ? true : line === '..' ? false : undefined) } }
+    })
+  },
   absent: {},
 })
 // merslim 0.2.3 parseToIR er: a table schema. Columns carry name, type and PK/FK/UK flags;
@@ -745,7 +753,7 @@ function graphEr(raw, name) {
   const [graph, details] = raw
   return {
     entities: () => indexNames(graph).map(([id, node], index) => [id, { label: node.label, attributes: (details?.[index]?.attrs ?? []).map(() => ({})) }]),
-    relationships: () => graph.edges.map(edge => ({ entityA: indexNames(graph)[edge.from][0], entityB: indexNames(graph)[edge.to][0] })),
+    relationships: () => { const names = indexNames(graph); return graph.edges.map(edge => ({ entityA: names[edge.from][0], entityB: names[edge.to][0] })) },
     absent: {
       attribute: Object.fromEntries(ATTRIBUTE_FIELDS.map(field => [field, `${name} keeps ER attributes as display rows, not typed fields`])),
       entity: { alias: `${name}'s ER model keeps no entity alias` },
@@ -1105,7 +1113,7 @@ const unsetCommit = commit => Object.fromEntries(Object.entries(commit).map(([ke
 const GITGRAPH = {
   'crabtalk/bezel': raw => ({
     getCommits: () => new Map(entriesOf(raw.commits)),
-    getCommitsArray: () => [...entriesOf(raw.commits).map(([, commit]) => commit)].sort((a, b) => a.seq - b.seq),
+    getCommitsArray: () => entriesOf(raw.commits).map(([, commit]) => commit).sort((a, b) => a.seq - b.seq),
     getBranches: () => new Map(entriesOf(raw.branches)),
     getCurrentBranch: () => raw.currentBranch,
     getDirection: () => raw.direction,
@@ -1328,8 +1336,9 @@ export function flowchartLayoutData(view, hooks, project) {
     }
     // Vertex-derived fields are read when a test reads them, so an unmapped or absent
     // vertex field surfaces as that test's gap or unsupported verdict, not as undefined.
+    const groupNodes = new Set(nodes.map(n => n.id))
     for (const [id, vertex] of vertices) {
-      if (nodes.some(n => n.id === id)) continue
+      if (groupNodes.has(id)) continue
       const isGroup = groups.has(id)
       nodes.push(node(lazy({ id, parentId: parentOf.get(id), isGroup }, {
         label: () => vertex.text, labelType: () => vertex.labelType, cssStyles: () => vertex.styles, cssClasses: () => 'default ' + (vertex.classes ?? []).join(' '),
