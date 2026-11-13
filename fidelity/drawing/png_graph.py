@@ -75,11 +75,11 @@ def observe(job):
     norm=lambda text:' '.join(text.split())
     assigned=[]
     for n in nodes:
-        matches=[]
+        matches=[];taken=[a['frame'] for a in assigned];label=norm(n['label'])
         for i,(f,ws) in enumerate(zip(frames,frame_words)):
-            if i in [a['frame'] for a in assigned]:continue
+            if i in taken:continue
             text=norm(' '.join(word['text'] for word in ws))
-            if text==norm(n['label']):matches.append((i,f))
+            if text==label:matches.append((i,f))
         if not matches:return {'status':'unknown','reason':'No uniquely OCR-owned closed frame for '+n['id'],'observedWords':[x['text'] for x in words]}
         matches.sort(key=lambda t:(t[1][2]-t[1][0])*(t[1][3]-t[1][1]))
         if len(matches)>1 and (matches[0][1][2]-matches[0][1][0])*(matches[0][1][3]-matches[0][1][1])==(matches[1][1][2]-matches[1][1][0])*(matches[1][1][3]-matches[1][1][1]):return {'status':'unknown','reason':'Ambiguous repeated label frames'}
@@ -87,9 +87,10 @@ def observe(job):
     if expected.get('groups'):return {'status':'unknown','reason':'Raster group enclosure observation is unavailable'}
     if not nodes and ink.sum():return {'status':'unknown','reason':'Empty source raster has unexplained visible ink'}
     # Unassigned labeled frames cannot silently disappear from the inventory.
-    extras=[i for i,ws in enumerate(frame_words) if ws and i not in [a['frame'] for a in assigned] and not any(all(contained(word,f) for word in ws) and f!=frames[i] and (f[2]-f[0])*(f[3]-f[1])<(frames[i][2]-frames[i][0])*(frames[i][3]-frames[i][1]) for f in frames)]
+    taken=[a['frame'] for a in assigned]
+    extras=[i for i,ws in enumerate(frame_words) if ws and i not in taken and not any(all(contained(word,f) for word in ws) and f!=frames[i] and (f[2]-f[0])*(f[3]-f[1])<(frames[i][2]-frames[i][0])*(frames[i][3]-frames[i][1]) for f in frames)]
     if extras:return {'status':'unknown','reason':'Additional labeled frame requires semantic classification'}
-    routes_mask=ink.copy()
+    routes_mask=ink
     for a in assigned:
         x0,y0,x1,y1=a['box'];routes_mask[max(0,y0-2):min(h,y1+3),max(0,x0-2):min(w,x1+3)]=False
     for word in words:
@@ -146,7 +147,8 @@ def observe(job):
     if expected.get('facts',{}).get('direction') and not job.get('layout') and len(nodes)>1:return {'status':'unknown','reason':'Required raster direction lacks a qualified order constraint'}
     supported={'node-shapes','direction'}
     facts=expected.get('facts',{})
-    if set(facts)-supported:return {'status':'unknown','reason':'Additional required raster facts lack observers: '+', '.join(sorted(set(facts)-supported))}
+    unsupported=set(facts)-supported
+    if unsupported:return {'status':'unknown','reason':'Additional required raster facts lack observers: '+', '.join(sorted(unsupported))}
     if any(s.get('shape')!='rectangle' for s in facts.get('node-shapes',[])):return {'status':'unknown','reason':'Nonrectangular raster shapes need a shape observer'}
     for shape in facts.get('node-shapes',[]):
         node=next((n for n in assigned if n['id']==shape['id']),None)

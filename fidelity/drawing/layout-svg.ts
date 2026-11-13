@@ -47,6 +47,7 @@ export function extractLayoutGeometry(input: { paint: PaintEvidence; policy: typ
     const x = extent('x', -.1), y = extent('y', -.1), width = extent('width', 1.2), height = extent('height', 1.2)
     return [x, y, width, height].every(Number.isFinite) && x <= 0 && y <= 0 && x + width >= 1 && y + height >= 1
   }
+  const animated = svg.querySelector('animate,animateTransform,animateMotion,set')
   const supported = (element: Element) => {
     for (let owner: Element | null = element; owner; owner = owner.parentElement) {
       const style = getComputedStyle(owner)
@@ -54,7 +55,7 @@ export function extractLayoutGeometry(input: { paint: PaintEvidence; policy: typ
       if (style.display === 'none' || style.visibility !== 'visible' || Number(style.opacity) !== 1 || !preservesBody(style.filter) || style.clipPath !== 'none' || style.maskImage !== 'none' || style.mixBlendMode !== 'normal' || style.animationName !== 'none') return false
       if (owner === svg) break
     }
-    return !element.closest('a') && !svg.querySelector('animate,animateTransform,animateMotion,set')
+    return !element.closest('a') && !animated
   }
   let samples = 0
   type Point = { x: number; y: number }
@@ -124,11 +125,10 @@ export function extractLayoutGeometry(input: { paint: PaintEvidence; policy: typ
     const match = /^url\(["']?#([^\s"')]+)["']?\)$/.exec(setting)
     const found = match ? document.getElementById(decodeURIComponent(match[1]!)) : null
     if (!found || found.localName !== 'marker' || found.children.length !== 1) throw Error('Unsupported marker reference or compound marker')
-    const marker = found as unknown as SVGMarkerElement, shape = marker.children[0] as SVGGeometryElement
+    const marker = found as unknown as SVGMarkerElement, shape = marker.children[0] as SVGGeometryElement, ink = getComputedStyle(shape)
     if (![marker.refX, marker.refY, marker.markerWidth, marker.markerHeight].every(length => length.baseVal.unitType === SVGLength.SVG_LENGTHTYPE_NUMBER || length.baseVal.unitType === SVGLength.SVG_LENGTHTYPE_PX)) throw Error('Unsupported marker length units')
-    if (!['rect', 'circle', 'ellipse', 'polygon', 'path'].includes(shape.localName) || shape.hasAttribute('transform') || getComputedStyle(shape).transform !== 'none' || getComputedStyle(marker).transform !== 'none' || marker.hasAttribute('href') || !supported(shape)) throw Error('Unsupported marker body or transform')
+    if (!['rect', 'circle', 'ellipse', 'polygon', 'path'].includes(shape.localName) || shape.hasAttribute('transform') || ink.transform !== 'none' || getComputedStyle(marker).transform !== 'none' || marker.hasAttribute('href') || !supported(shape)) throw Error('Unsupported marker body or transform')
     if (shape.localName === 'path' && ((shape.getAttribute('d')?.match(/[Mm]/g)?.length ?? 0) !== 1 || !/[Zz]\s*$/.test(shape.getAttribute('d') ?? ''))) throw Error('Only closed single-contour markers are supported')
-    const ink = getComputedStyle(shape)
     if (ink.fill === 'none' || Number(ink.fillOpacity) !== 1 || !/^rgb\(/.test(ink.fill)) throw Error('Only opaque filled marker contours are supported')
     const view = marker.viewBox.baseVal, width = marker.markerWidth.baseVal.value, height = marker.markerHeight.baseVal.value
     const hasView = marker.hasAttribute('viewBox'), par = marker.preserveAspectRatio.baseVal

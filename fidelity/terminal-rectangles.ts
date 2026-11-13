@@ -87,7 +87,7 @@ export function terminalRectangles(grid: string[][], profile: ContainerProfile =
           // must also be connected. Until that whole profile is observed, keep
           // the curve ink in the label and withhold shape evidence.
           if (shape === 'rounded' && /^╭─+╮$/.test(lines[0] ?? '')) shape = 'unqualified-nested-boundary'
-          else if (shape === 'rounded' && /^╰─+╯$/.test(rawLines[0] ?? '')) { shape = 'database'; lines = lines.slice(1) }
+          else if (shape === 'rounded' && /^╰─+╯$/.test(rawLines[0] ?? '')) { shape = 'database'; lines.shift() }
           else if (lines.length && lines.every(line => /^│.*│$/.test(line))) {
             const leftWall = rawLines[0]!.indexOf('│'), rightWall = rawLines[0]!.lastIndexOf('│'), complete = leftWall >= 0 && rightWall > leftWall && rawLines.every(line => line[leftWall] === '│' && line[rightWall] === '│' && !line.slice(0, leftWall).trim() && !line.slice(rightWall + 1).trim())
             if (complete) { shape = 'subroutine'; lines = rawLines.map(line => line.slice(leftWall + 1, rightWall).trim()) } else shape = 'unqualified-inner-walls'

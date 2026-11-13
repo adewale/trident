@@ -13,7 +13,13 @@ export async function inspectEmptySvgDrawing(page: any, test: DrawingCase) {
       box.width * box.height > 4000000 ||
       style.backgroundImage !== 'none' ||
       style.boxShadow !== 'none' ||
-      [...svg.querySelectorAll('*')].some(e => !e.closest('defs') && e.getBoundingClientRect().width > 0 && e.getBoundingClientRect().height > 0 && (getComputedStyle(e).filter !== 'none' || /url\(/.test(getComputedStyle(e).fill)))
+      [...svg.querySelectorAll('*')].some(e => {
+        if (e.closest('defs')) return false
+        const rect = e.getBoundingClientRect()
+        if (!(rect.width > 0 && rect.height > 0)) return false
+        const css = getComputedStyle(e)
+        return css.filter !== 'none' || /url\(/.test(css.fill)
+      })
     )
       return { error: 'Empty-canvas paint is outside the uniform-background profile' }
     return {}

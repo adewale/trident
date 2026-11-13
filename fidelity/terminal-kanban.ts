@@ -10,10 +10,10 @@ export function inspectTerminalKanban(output: string, contract: TerminalSourceCo
   const unknown = (detail: string): TerminalFactCheck => ({ criterion: 'kanban-hierarchy', status: 'unknown', detail, expected })
   const display = interpretTerminal(output)
   if (display.status !== 'available') return unknown(display.reason!)
-  const grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' ', boxes: Box[] = []
+  const grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' '
   if (grid.length > 256 || grid.some(row => row.length > 512) || [...display.text].filter(glyph => ['┌', '╭', '+'].includes(glyph)).length > 64 || !expected?.length || expected.some(item => item.parent && expected.find(parent => parent.id === item.parent)?.parent) || new Set(expected.map(item => item.label)).size !== expected.length) return unknown('Board exceeds the bounded two-level, unique-label profile')
   const line = (left: number, right: number, y: number) => grid[y]?.slice(left, right).join('') ?? ''
-  boxes.push(...terminalRectangles(grid, { horizontal: /^[─-]+$/, vertical: /^[│|]$/ }))
+  const boxes: Box[] = terminalRectangles(grid, { horizontal: /^[─-]+$/, vertical: /^[│|]$/ })
   const contains = (a: Box, b: Box) => a !== b && a.x < b.x && a.right > b.right && a.y < b.y && a.bottom > b.bottom
   const columns = boxes.filter(box => !boxes.some(parent => contains(parent, box))).sort((a, b) => a.x - b.x)
   if (!columns.length || columns.length > 16 || new Set(columns.map(box => box.y)).size !== 1) return unknown('No qualified row of board columns')

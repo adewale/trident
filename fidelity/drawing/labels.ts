@@ -39,7 +39,7 @@ const plain = (label: string) => decode(label.replace(breaks, ' ')).replace(/\*\
 /** Every distinct non-empty label named by the case's reviewed facts. */
 export function compileLabelPlan(test: DrawingCase): LabelPlan {
   const required: { role: 'node' | 'edge' | 'group' | 'fact' | 'authored'; text: string }[] = []
-  const add = (value: unknown, role: typeof required[number]['role']) => { if (typeof value === 'string' && plain(value).trim()) required.push(Object.freeze({ role, text: plain(value).trim() })) }
+  const add = (value: unknown, role: typeof required[number]['role']) => { const text = typeof value === 'string' ? plain(value).trim() : ''; if (text) required.push(Object.freeze({ role, text })) }
   for (const node of test.expected.nodes ?? []) add(node.label, 'node')
   for (const edge of test.expected.edges ?? []) add((edge as any).label, 'edge')
   for (const group of test.expected.groups ?? []) add(group.label, 'group')
@@ -51,7 +51,7 @@ export function compileLabelPlan(test: DrawingCase): LabelPlan {
   walk(test.expected.facts ?? {})
   // The reviewed label inventory is authoritative even when a fact uses a new
   // field name. Field-name reflection must not silently shrink the obligations.
-  for (const label of test.expected.labels ?? []) if (!required.some(item => item.text === plain(label).trim())) add(label, 'authored')
+  for (const label of test.expected.labels ?? []) { const text = plain(label).trim(); if (!required.some(item => item.text === text)) add(label, 'authored') }
   const unavailable = !labelFamilies.has(test.family) ? 'No reviewed label plan for family ' + test.family : test.sourceGaps?.length ? test.sourceGaps.join('; ') : undefined
   return Object.freeze({ caseId: test.id, source: test.source, policy: labelPolicy, required: Object.freeze(required), labels: Object.freeze([...new Set(required.map(label => label.text))]), forbidden: compileForbiddenSyntax(test), unlabeledStatements: Object.freeze(test.source.split('\n').slice(1).map(line => line.trim()).filter(line => line.length >= 4)), empty: expectsEmptyDrawing(test), ...(unavailable ? { unavailable } : {}) })
 }
@@ -109,7 +109,8 @@ function compileForbiddenSyntax(test: DrawingCase): LabelPlan['forbidden'] {
   }
   // Terminal drawings legitimately place edge labels between '|' line characters.
   for (const edge of test.expected.edges ?? []) { const label = (edge as any).label; if (label) svg.push({ match: squash('|' + plain(label) + '|'), label: '|' + label + '|' }) }
-  return Object.freeze({ terminal: Object.freeze(common.map(pattern => Object.freeze(pattern))), svg: Object.freeze([...common, ...svg].map(pattern => Object.freeze(pattern))) })
+  const terminal = Object.freeze(common.map(pattern => Object.freeze(pattern)))
+  return Object.freeze({ terminal, svg: Object.freeze([...terminal, ...svg.map(pattern => Object.freeze(pattern))]) })
 }
 export function leakedSyntax(test: DrawingCase, text: string, format: 'svg' | 'terminal' = 'svg', plan = compileLabelPlan(test)) {
   if (plan.caseId !== test.id || plan.source !== test.source) throw Error('Label plan belongs to another case/source')
@@ -128,7 +129,7 @@ export function assessLabels(test: DrawingCase, format: 'svg' | 'terminal', text
   // A chart that names nothing has no label to find, so only the other half of the check
   // applies: no raw Mermaid syntax, including any source statement printed verbatim.
   if (!labels.length) {
-    const leaked = [...leakedSyntax(test, text, format, plan), ...plan.unlabeledStatements.filter(line => squash(text).includes(squash(line)))]
+    const haystack = squash(text), leaked = [...leakedSyntax(test, text, format, plan), ...plan.unlabeledStatements.filter(line => haystack.includes(squash(line)))]
     return leaked.length ? { status: 'incorrect', reason: 'Raw source syntax shown: ' + leaked.join(', '), leaked, labels: 0 } : { status: 'correct', reason: 'No label to find; no raw source syntax shown', labels: 0 }
   }
   const missing = labels.filter(label => !labelFound(label, text))
@@ -141,27 +142,27 @@ export function assessTerminalLabels(test: DrawingCase, output: string, plan = c
   try { return assessLabels(test, 'terminal', terminalText(output), plan) }
   catch (error) {
     if (!(error instanceof TerminalRectangleBudgetExceeded)) throw error
-    return { status: 'unknown', labels: expectedLabels(test).length, reason: error.message }
+    return { status: 'unknown', labels: plan.labels.length, reason: error.message }
   }
 }
 
 /** SVG passes require measured paint or a complete actual-glyph raster witness. */
 export async function assessSvgLabels(test: DrawingCase, page: any, svg: string, plan = compileLabelPlan(test)): Promise<LabelVerdict> {
-  const text = assessLabels(test, 'svg', svgText(svg), plan), labels = [...plan.labels]
+  const text = assessLabels(test, 'svg', svgText(svg), plan), labels = plan.labels
   if (plan.unavailable) return text
   if (plan.empty) {
     const empty = await inspectEmptySvgDrawing(page, test)
     return { status: empty.status, labels: 0, reason: [...empty.failed, ...empty.unknown].join('; ') || undefined }
   }
-  const observe = (labels: string[]) => observeSvgLabelEvidence(page, test.family, labels)
+  const observe = (labels: readonly string[]) => observeSvgLabelEvidence(page, test.family, labels)
   let rasterWitness = false
   if (labels.length) {
     // The lexical and painted checks use the same visible forms of control-
     // bearing labels. Each alternative must satisfy every paint criterion;
     // evidence for different forms cannot be combined into a passing label.
     // Ordinary labels keep the existing single batched observation.
-    const obligations = labels.some(label => visibleForms(label).length > 1)
-      ? labels.map(label => visibleForms(label).map(form => [form]))
+    const visible = labels.map(visibleForms), obligations = visible.some(alternatives => alternatives.length > 1)
+      ? visible.map(alternatives => alternatives.map(form => [form]))
       : [[labels]]
     for (const alternatives of obligations) {
       let matched = false, failedChecks: SvgLabelEvidence[] | undefined

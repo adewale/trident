@@ -162,16 +162,17 @@ export function measureLayout(geometry: LayoutGeometry): { findings: LayoutFindi
       }
     }
   }
+  const polygons = new Map(geometry.labels.map(label => [label, rectangle(label.box)]))
   for (let i = 0; i < geometry.nodes.length; i++) {
     const node = geometry.nodes[i]!
     for (const other of geometry.nodes.slice(i + 1)) { tick(); const p = overlaps(node.boundary, other.boundary); if (p) add('nodeOverlaps', [node.id, other.id], p) }
     for (const edge of geometry.edges) if (edge.source !== node.id && edge.target !== node.id) { tick(); const p = penetrates(edge.points, node.boundary); if (p) add('edgeNodeIntersections', [edge.id, node.id], p) }
     else { tick(); const p = penetrates(outsideAttachments(edge, node.id), node.boundary); if (p) add('edgeEndpointNodeIntersections', [edge.id, node.id], p) }
-    for (const label of geometry.labels) if (label.owner !== node.id) { tick(); const p = overlaps(rectangle(label.box), node.boundary); if (p) add('labelNodeOverlaps', [label.id, node.id], p) }
+    for (const label of geometry.labels) if (label.owner !== node.id) { tick(); const p = overlaps(polygons.get(label)!, node.boundary); if (p) add('labelNodeOverlaps', [label.id, node.id], p) }
   }
   for (let i = 0; i < geometry.labels.length; i++) {
-    const label = geometry.labels[i]!, polygon = rectangle(label.box)
-    for (const other of geometry.labels.slice(i + 1)) { tick(); const p = overlaps(polygon, rectangle(other.box)); if (p) add('labelOverlaps', [label.id, other.id], p) }
+    const label = geometry.labels[i]!, polygon = polygons.get(label)!
+    for (const other of geometry.labels.slice(i + 1)) { tick(); const p = overlaps(polygon, polygons.get(other)!); if (p) add('labelOverlaps', [label.id, other.id], p) }
     for (const edge of geometry.edges) if (label.owner !== edge.id) { tick(); const p = penetrates(edge.points, polygon); if (p) add('edgeLabelIntersections', [edge.id, label.id], p) }
     for (const marker of geometry.markers ?? []) { tick(); const p = overlaps(polygon, marker.boundary); if (p) add('labelMarkerOverlaps', [label.id, marker.id], p) }
     for (const group of geometry.groups ?? []) { tick(); const p = penetrates(group.boundary, polygon); if (p) add('labelGroupBorderIntersections', [label.id, group.id], p) }

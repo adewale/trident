@@ -33,13 +33,14 @@ export function qualifyTerminalEncoding(owner: any, observations: TerminalEncodi
 function qualifiedCapabilities(qualification: TerminalEncodingQualification) {
   if (!Array.isArray(qualification.observations) || new Set(qualification.observations.map(row => row.id)).size !== qualification.observations.length) return []
   const passed = new Set<string>()
+  let qualificationSha256: string | undefined
   for (const control of terminalEncodingControls) {
     const row = qualification.observations.find(row => row.id === control.id)
     if (!row || row.source !== control.source || typeof row.output !== 'string') continue
     const source = analyseTerminalSource(control.source, control.family)
     // This local context only enables the decoder being qualified. It is never
     // returned as evidence for a candidate drawing.
-    const context: TerminalEncodingContext = { encoding: 'terminal-dictionary-v1', capabilities: [control.family], artifactSha256: qualification.artifactSha256, qualificationSha256: evidenceDigest(qualification), sourceSha256: evidenceBytesDigest(control.source), outputSha256: evidenceBytesDigest(row.output), owningRawSha256: evidenceDigest(row) }
+    const context: TerminalEncodingContext = { encoding: 'terminal-dictionary-v1', capabilities: [control.family], artifactSha256: qualification.artifactSha256, qualificationSha256: qualificationSha256 ??= evidenceDigest(qualification), sourceSha256: evidenceBytesDigest(control.source), outputSha256: evidenceBytesDigest(row.output), owningRawSha256: evidenceDigest(row) }
     const checks = control.family === 'journey' ? inspectTerminalEncodedJourney(row.output, source.contract) : control.family === 'gantt' ? inspectTerminalGantt(row.output, source.contract, context) : inspectTerminalGit(row.output, source.contract, context)
     if (checks.length && checks.every(check => check.status === 'passed')) passed.add(control.id)
   }

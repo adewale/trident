@@ -5,8 +5,8 @@ function linear(ticks: Tick[]) { if (ticks.length < 2 || new Set(ticks.map(t => 
 export function inspectTerminalXY(output: string, contract: TerminalSourceContract) {
   const checks = familyChecks(contract), canvas = new FamilyCanvas(output); if (canvas.error) return checks
   familyTitle(canvas, checks)
-  const expected = expectedFact<any>(contract, 'xy-series'), axes = canvas.grid.map((row, y) => ({ text: row.join(''), y })).filter(row => /[└┼]┬?[─┬]+/.test(row.text)), axis = axes.at(-1); if (!axis || !canvas.grid.some(row => row.some(c => /[█▄]/.test(c)))) return checks
-  const axisX = Math.min(...[axis.text.indexOf('└'), axis.text.indexOf('┼')].filter(x => x >= 0)), right = axis.text.trimEnd().length - 1, numericRows = canvas.grid.map((row, y) => ({ text: row.join(''), y })).filter(row => /^\s*-?\d+(?:\.\d+)?[ │┤┼]/.test(row.text) && row.y <= axis.y), verticalTicks = numericRows.map(row => ({ p: row.y, value: Number(/^\s*(-?\d+(?:\.\d+)?)/.exec(row.text)![1]) })), orientation = verticalTicks.length >= 2 ? 'vertical' : 'horizontal'
+  const expected = expectedFact<any>(contract, 'xy-series'), rows = canvas.grid.map((row, y) => ({ text: row.join(''), y })), axes = rows.filter(row => /[└┼]┬?[─┬]+/.test(row.text)), axis = axes.at(-1); if (!axis || !canvas.grid.some(row => row.some(c => /[█▄]/.test(c)))) return checks
+  const axisX = Math.min(...[axis.text.indexOf('└'), axis.text.indexOf('┼')].filter(x => x >= 0)), right = axis.text.trimEnd().length - 1, numericRows = rows.filter(row => /^\s*-?\d+(?:\.\d+)?[ │┤┼]/.test(row.text) && row.y <= axis.y), verticalTicks = numericRows.map(row => ({ p: row.y, value: Number(/^\s*(-?\d+(?:\.\d+)?)/.exec(row.text)![1]) })), orientation = verticalTicks.length >= 2 ? 'vertical' : 'horizontal'
   const actual: any = { horizontal: orientation === 'horizontal', categories: [], series: [] }; let good = expected.series.length === 1 && expected.series[0].kind === 'bar' && expected.horizontal === actual.horizontal
   const intervals: { low: number; high: number }[] = []
   if (orientation === 'vertical') {

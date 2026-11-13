@@ -22,7 +22,7 @@ function inspectTerminalGroupingUnchecked(output: string, nodes: readonly { id: 
     return { ...box, label: normalize(labels.join(' ')), titleRows }
   })
   for (const group of expected) {
-    const matched = candidates.filter(box => box.label === normalize(group.label))
+    const label = normalize(group.label), matched = candidates.filter(box => box.label === label)
     if (matched.length !== 1) return result(expected.length === 1 && candidates.length === 1 ? 'failed' : 'unknown', 'No unique enclosing container has the exact authored group label: ' + group.label + '; observed container labels: ' + JSON.stringify(candidates.map(candidate => candidate.label)))
     const box = matched[0]!
     groups.push({ ...box, id: group.id })
@@ -34,14 +34,15 @@ function inspectTerminalGroupingUnchecked(output: string, nodes: readonly { id: 
   if (groups.some((a, index) => groups.slice(index + 1).some(b => Math.max(a.x, b.x) < Math.min(a.right, b.right) && Math.max(a.y, b.y) < Math.min(a.bottom, b.bottom) && !contains(a, b) && !contains(b, a)))) return result('unknown', 'Overlapping non-nested group frames do not establish unique ownership')
   const leafBoxes = boxes.filter(box => !candidates.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)), mapped: { id: string; box: TerminalRectangle }[] = []
   for (const node of nodes) {
-    const matched = leafBoxes.filter(box => normalize(box.lines.join(' ')) === normalize(node.label))
+    const label = normalize(node.label), matched = leafBoxes.filter(box => normalize(box.lines.join(' ')) === label)
     if (matched.length !== 1) return result('unknown', 'A group member has no unique independently observed node container: ' + node.label)
     mapped.push({ id: node.id, box: matched[0]! })
   }
   if (leafBoxes.length !== mapped.length) return result('unknown', 'Additional or decorative leaf containers need an ownership projection')
   const owner = (box: TerminalRectangle) => groups.filter(group => contains(group, box)).sort((a, b) => (a.right - a.x) * (a.bottom - a.y) - (b.right - b.x) * (b.bottom - b.y))[0]
-  for (const group of groups) {
-    const parent = owner(group), members = [...mapped.filter(node => owner(node.box)?.id === group.id).map(node => node.id), ...groups.filter(child => owner(child)?.id === group.id).map(child => child.id)]
+  const nodeOwners = mapped.map(node => owner(node.box)?.id), groupOwners = groups.map(owner)
+  for (const [index, group] of groups.entries()) {
+    const parent = groupOwners[index], members = [...mapped.filter((_node, n) => nodeOwners[n] === group.id).map(node => node.id), ...groups.filter((_child, n) => groupOwners[n]?.id === group.id).map(child => child.id)]
     actual.push({ id: group.id, label: group.label, members, ...(parent ? { parent: parent.id } : {}) })
   }
   const canonical = (items: readonly TerminalGroup[]) => items.map(group => JSON.stringify([group.id, normalize(group.label), [...group.members].sort(), group.parent ?? null])).sort()

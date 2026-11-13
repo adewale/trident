@@ -153,7 +153,7 @@ export function analyseTerminalSource(source: string, family: string): TerminalS
     }
     const ends = new Map<string, string>()
     for (const task of tasks) {
-      const tokens: string[] = [...task.declaration], status = tokens.filter(token => ['done', 'active', 'crit', 'milestone'].includes(token))
+      const tokens: string[] = task.declaration, status = tokens.filter(token => ['done', 'active', 'crit', 'milestone'].includes(token))
       const values = tokens.filter(token => !status.includes(token)); let id: string | null = null
       if (values[0] && !/^(?:after\s|\d{4}-\d{2}-\d{2}|\d+(?:\.\d+)?d$)/.test(values[0])) id = values.shift()!
       const start = values[0]?.startsWith('after ') ? ends.get(values[0].slice(6).trim()) : values[0], duration = values[1] && /^(\d+)d$/.exec(values[1]), startMs = typeof start === 'string' ? Date.parse(start + 'T00:00:00Z') : NaN

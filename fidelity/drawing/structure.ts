@@ -28,7 +28,7 @@ export function unavailableStructure(test: DrawingCase, reason: string, failed =
  * it. Cyclic or contradictory orders cannot supply a layout verdict. */
 function acyclic(orders: readonly { before: string; after: string }[]) {
   const edges = new Map<string, string[]>()
-  for (const o of orders) edges.set(o.before, [...(edges.get(o.before) ?? []), o.after])
+  for (const o of orders) { const next = edges.get(o.before); if (next) next.push(o.after); else edges.set(o.before, [o.after]) }
   const done = new Set<string>(), visiting = new Set<string>()
   const visit = (id: string): boolean => {
     if (visiting.has(id)) return false
@@ -55,14 +55,14 @@ export function inspectGraphLayout(test: DrawingCase, paint: PaintEvidence): Str
   const boxes = new Map(nodes.map(n => [n.id, n.box]))
   const containers = new Set((test.expected.groups ?? []).map(g => g.id))
   const leaves = (test.expected.nodes ?? []).filter(n => !containers.has(n.id))
-  const overlaps: [string, string][] = []
-  if (qualified && leaves.every(n => boxes.has(n.id))) {
+  const overlaps: [string, string][] = [], measurable = qualified && leaves.every(n => boxes.has(n.id))
+  if (measurable) {
     for (let i = 0; i < leaves.length; i++) for (let j = i + 1; j < leaves.length; j++) {
       const a = boxes.get(leaves[i]!.id)!, b = boxes.get(leaves[j]!.id)!
       if (Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x) > 1 && Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y) > 1) overlaps.push([leaves[i]!.id, leaves[j]!.id])
     }
   }
-  checks.push({ criterion: 'leaf-node-box-overlap', status: !qualified || !leaves.every(n => boxes.has(n.id)) ? 'unassessed' : overlaps.length ? 'failed' : 'passed', detail: 'Distinct source-owned leaf node boxes must not overlap by more than one CSS pixel on both axes; declared containers are excluded', actual: overlaps })
+  checks.push({ criterion: 'leaf-node-box-overlap', status: !measurable ? 'unassessed' : overlaps.length ? 'failed' : 'passed', detail: 'Distinct source-owned leaf node boxes must not overlap by more than one CSS pixel on both axes; declared containers are excluded', actual: overlaps })
   const facts = test.terminal.expected.contract?.facts ?? []
   const requiredOrder = facts.some(f => f.criterion === 'layout-order' && f.required !== false)
   const orders = test.terminal.expected.graph?.layout ?? []

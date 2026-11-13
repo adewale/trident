@@ -56,8 +56,9 @@ export function interpretTerminal(output: string, bounds = { columns: 1024, rows
       else if (code === 49) background = palette[0]!
       else if (code === 38 || code === 48) {
         let colour: string
+        const rgb = values.slice(n + 2, n + 5)
         if (values[n + 1] === 5 && Number.isInteger(values[n + 2]) && values[n + 2]! >= 0 && values[n + 2]! <= 255) { colour = indexedColour(values[n + 2]!); n += 2 }
-        else if (values[n + 1] === 2 && values.slice(n + 2, n + 5).length === 3 && values.slice(n + 2, n + 5).every(value => Number.isInteger(value) && value >= 0 && value <= 255)) { colour = values.slice(n + 2, n + 5).join(','); n += 4 }
+        else if (values[n + 1] === 2 && rgb.length === 3 && rgb.every(value => Number.isInteger(value) && value >= 0 && value <= 255)) { colour = rgb.join(','); n += 4 }
         else throw Error('Unknown terminal colour sequence')
         if (code === 38) foreground = colour; else background = colour
       } else if (![1, 2, 3, 4, 9, 22, 23, 24, 29].includes(code)) throw Error('Unqualified terminal SGR attribute: ' + code)
@@ -69,7 +70,7 @@ export function interpretTerminal(output: string, bounds = { columns: 1024, rows
         if (body === '?1049') {
           if (final === 'h') {
             if (alternate) throw Error('Nested alternate-screen entry is unqualified')
-            alternate = { cells: cells.map(row => [...row]), x, y, foreground, background, concealed, inverse }; cells.length = 0; x = 0; y = 0
+            alternate = { cells: cells.splice(0), x, y, foreground, background, concealed, inverse }; x = 0; y = 0
           } else {
             if (!alternate) throw Error('Alternate-screen exit has no owned entry')
             cells.splice(0, cells.length, ...alternate.cells); ({ x, y, foreground, background, concealed, inverse } = alternate); alternate = undefined
@@ -124,7 +125,7 @@ export function interpretTerminal(output: string, bounds = { columns: 1024, rows
       if (character === '\t') { x += 8 - x % 8; position(); index++; continue }
       if (/[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/u.test(character)) throw Error('Bidirectional formatting controls require a reviewed display-order profile')
       if (character < ' ' || /[\x7f-\x9f]/.test(character)) throw Error('Unqualified terminal control character')
-      const stop = output.slice(index).search(/[\x00-\x1f\x7f-\x9f]/), run = stop < 0 ? output.slice(index) : output.slice(index, index + stop)
+      const tail = output.slice(index), stop = tail.search(/[\x00-\x1f\x7f-\x9f]/), run = stop < 0 ? tail : tail.slice(0, stop)
       if (/[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/u.test(run)) throw Error('Bidirectional formatting controls require a reviewed display-order profile')
       for (const part of segmenter.segment(run)) write(part.segment)
       index += run.length
