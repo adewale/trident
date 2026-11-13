@@ -138,7 +138,8 @@ export function verifySealedUpstreamRuntime(source: string, runtime: string, pla
   return { preparation: receipt, npmLock }
 }
 
-export function qualifyOriginalRuntime(source: string, runtime: string, node: string, observedClosure?: InstalledDependencyClosure, plan = upstreamRuntimePlan(source)) {
+export function qualifyOriginalRuntime(source: string, runtime: string, node: string, observedClosure?: InstalledDependencyClosure) {
+  const plan = upstreamRuntimePlan(source)
   const { preparation, npmLock } = verifySealedUpstreamRuntime(source, runtime, plan, observedClosure)
   const runnerVersion = upstreamRunnerVersion(runtime, plan.dependencies.vitest!)
   const canvas = preflightUpstreamCanvas(runtime, node)

@@ -1544,12 +1544,13 @@ const blockSchema = Object.fromEntries(Object.entries(BLOCK_MODELS).map(([projec
 // number of earlier ones plus one after that. agentic-mermaid keeps a written id; Crafter
 // drops an edge written with one, so its edges never had one.
 function mermaidEdgeIds(edges) {
-  const ids = []
-  edges.forEach((edge, index) => {
-    if (edge.id && !ids.some(other => other.id === edge.id)) return ids.push({ id: edge.id, isUserDefinedId: true })
-    const existing = edges.slice(0, index).filter(other => other.source === edge.source && other.target === edge.target).length
-    ids.push({ id: `L_${edge.source}_${edge.target}_${existing === 0 ? 0 : existing + 1}`, isUserDefinedId: false })
-  })
+  const ids = [], used = new Set(), pairs = new Map()
+  for (const edge of edges) {
+    const targets = pairs.get(edge.source) ?? new Map(), existing = targets.get(edge.target) ?? 0
+    targets.set(edge.target, existing + 1); pairs.set(edge.source, targets)
+    const id = edge.id && !used.has(edge.id) ? { id: edge.id, isUserDefinedId: true } : { id: `L_${edge.source}_${edge.target}_${existing === 0 ? 0 : existing + 1}`, isUserDefinedId: false }
+    used.add(id.id); ids.push(id)
+  }
   return ids
 }
 const GRAPH_SHAPE = { rectangle: 'square', rounded: 'round', 'lean-r': 'lean_right', 'lean-l': 'lean_left', 'trapezoid-alt': 'inv_trapezoid', asymmetric: 'odd', 'double-circle': 'doublecircle' }

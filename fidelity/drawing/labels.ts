@@ -142,7 +142,7 @@ export function assessTerminalLabels(test: DrawingCase, output: string, plan = c
   try { return assessLabels(test, 'terminal', terminalText(output), plan) }
   catch (error) {
     if (!(error instanceof TerminalRectangleBudgetExceeded)) throw error
-    return { status: 'unknown', labels: plan.labels.length, reason: error.message }
+    return { status: 'unknown', labels: expectedLabels(test).length, reason: error.message }
   }
 }
 

@@ -77,7 +77,7 @@ export function prepareUpstream(source: string, runtime: string, reference: stri
     if (existsSync(modules) && (!lstatSync(modules).isSymbolicLink() || realpathSync(modules) !== resolve(destination))) throw Error('Preserve the existing source runtime; prepare a separate pinned checkout instead')
     if (existsSync(join(runtime, 'preparation.json'))) {
       const observed = captureInstalledDependencyClosure(runtime)
-      const qualified = qualifyOriginalRuntime(source, runtime, node, observed, plan)
+      const qualified = qualifyOriginalRuntime(source, runtime, node, observed)
       const before = upstreamInstalledClosureDigest(runtime, observed)
       const sourceLinkChanged = relativeRuntimeLink(modules, destination)
       ignoreRuntimeLink()

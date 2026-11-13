@@ -1339,6 +1339,7 @@ export function flowchartLayoutData(view, hooks, project) {
     const groupNodes = new Set(nodes.map(n => n.id))
     for (const [id, vertex] of vertices) {
       if (groupNodes.has(id)) continue
+      groupNodes.add(id)
       const isGroup = groups.has(id)
       nodes.push(node(lazy({ id, parentId: parentOf.get(id), isGroup }, {
         label: () => vertex.text, labelType: () => vertex.labelType, cssStyles: () => vertex.styles, cssClasses: () => 'default ' + (vertex.classes ?? []).join(' '),
