@@ -6,7 +6,7 @@
  * misread too many diagram labels to measure renderers rather than the OCR.
  */
 import type { DrawingCase } from './corpus.ts'
-import { observeSvgLabelEvidence, type SvgLabelEvidence } from './svg-label-observer.ts'
+import { isFontDependentClipping, observeSvgLabelEvidence, type SvgLabelEvidence } from './svg-label-observer.ts'
 import { inspectEmptySvgDrawing } from './empty.ts'
 import { interpretTerminal } from '../terminal-display.ts'
 import { terminalRectangles, TerminalRectangleBudgetExceeded } from '../terminal-rectangles.ts'
@@ -138,9 +138,77 @@ export function assessLabels(test: DrawingCase, format: 'svg' | 'terminal', text
   return { status: 'correct', labels: labels.length }
 }
 
+/** Display rows of a terminal capture with each character's display column.
+ * Box-drawing and control characters become blanks, as in terminalText. */
+function terminalRows(output: string): { text: string; columns: number[] }[] {
+  const display = interpretTerminal(output)
+  if (display.status !== 'available') return output.replace(ansi, '').replace(boxDrawing, ' ').replace(controls, ' ').split('\n').map(line => { const text = line.normalize('NFKC'); return { text, columns: [...text].flatMap((character, index) => Array(character.length).fill(index)) } })
+  return display.cells.map(cells => {
+    let text = ''
+    const columns: number[] = []
+    cells.forEach((cell, column) => { if (!cell) return; const visible = cell.normalize('NFKC').replace(boxDrawing, ' ').replace(controls, ' '); text += visible; for (let n = 0; n < visible.length; n++) columns.push(column) })
+    return { text, columns }
+  })
+}
+const wordCharacter = /[\p{L}\p{N}]/u
+const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+/** A label that the ordinary rules do not find can still be drawn across rows outside
+ * a walled rectangle: on an edge, in a diamond or a round node. Its words then cannot
+ * be bound to one owner, so the case is unknown rather than missing. Evidence is
+ * deliberately narrow, so that common words scattered over a drawing never qualify:
+ * the label has at least two words; its words appear whole and in reading order as
+ * whitespace-separated runs on two or more successive display rows, at most one row
+ * apart; each run overlaps the previous run's columns; and inside the band of columns
+ * those runs span, the rows (a skipped row included) hold no other letters or digits. */
+export function wrappedLabelWordsPresent(label: string, rows: readonly { text: string; columns: number[] }[]) {
+  return visibleForms(label).some(form => {
+    const words = form.normalize('NFKC').split(/\s+/).filter(Boolean)
+    if (words.length < 2) return false
+    type Run = { row: number; first: number; last: number; start: number; end: number; offset: number; length: number }
+    const runs = new Map<string, Run[]>(), at = (row: number, first: number) => runs.get(row + ':' + first) ?? []
+    const edge = (word: string, end: boolean) => wordCharacter.test(end ? [...word].at(-1)! : [...word][0]!)
+    rows.forEach((row, index) => {
+      for (let first = 0; first < words.length; first++) for (let last = first; last < words.length; last++) {
+        const pattern = (edge(words[first]!, false) ? '(?<![\\p{L}\\p{N}])' : '') + words.slice(first, last + 1).map(escapeRegExp).join('\\s+') + (edge(words[last]!, true) ? '(?![\\p{L}\\p{N}])' : '')
+        for (const match of row.text.matchAll(new RegExp(pattern, 'gu'))) {
+          const run = { row: index, first, last, offset: match.index, length: match[0].length, start: row.columns[match.index]!, end: row.columns[match.index + match[0].length - 1]! + 1 }
+          const key = index + ':' + first
+          if (runs.has(key)) runs.get(key)!.push(run); else runs.set(key, [run])
+        }
+      }
+    })
+    // No other letter or digit may share the rows, including a skipped row, inside the
+    // runs' column band.
+    const clean = (chain: Run[]) => {
+      const start = Math.min(...chain.map(run => run.start)), end = Math.max(...chain.map(run => run.end))
+      const owned = new Map(chain.map(run => [run.row, run]))
+      for (let row = chain[0]!.row; row <= chain.at(-1)!.row; row++) {
+        const { text, columns } = rows[row]!, run = owned.get(row)
+        for (let n = 0; n < text.length; n++) if ((!run || n < run.offset || n >= run.offset + run.length) && columns[n]! >= start && columns[n]! < end && wordCharacter.test(String.fromCodePoint(text.codePointAt(n)!))) return false
+      }
+      return true
+    }
+    const extend = (chain: Run[]): boolean => {
+      const tail = chain.at(-1)!
+      if (tail.last === words.length - 1) return chain.length > 1 && clean(chain)
+      return [tail.row + 1, tail.row + 2].some(row => at(row, tail.last + 1).some(run => run.start < tail.end && tail.start < run.end && extend([...chain, run])))
+    }
+    return rows.some((_row, index) => at(index, 0).some(run => extend([run])))
+  })
+}
+
 export function assessTerminalLabels(test: DrawingCase, output: string, plan = compileLabelPlan(test)): LabelVerdict {
-  try { return assessLabels(test, 'terminal', terminalText(output), plan) }
-  catch (error) {
+  try {
+    const verdict = assessLabels(test, 'terminal', terminalText(output), plan)
+    // Leaked syntax stays a failure; only labels that are otherwise missing qualify.
+    if (verdict.status !== 'incorrect' || verdict.leaked?.length || !verdict.missing?.length) return verdict
+    const rows = terminalRows(output), unowned = verdict.missing.filter(label => wrappedLabelWordsPresent(label, rows))
+    if (!unowned.length) return verdict
+    const note = unowned.map(label => 'Label ' + JSON.stringify(label) + ': its words are present in reading order on successive rows but not contiguous, so ownership cannot be established').join('; ')
+    const absent = verdict.missing.filter(label => !unowned.includes(label))
+    if (absent.length) return { ...verdict, reason: 'Missing labels: ' + absent.join(', ') + '; ' + note }
+    return { status: 'unknown', reason: note, labels: verdict.labels }
+  } catch (error) {
     if (!(error instanceof TerminalRectangleBudgetExceeded)) throw error
     return { status: 'unknown', labels: expectedLabels(test).length, reason: error.message }
   }
@@ -179,7 +247,8 @@ export async function assessSvgLabels(test: DrawingCase, page: any, svg: string,
       if (matched) continue
       if (unresolved) {
         const { checks, witness } = unresolved, unavailable = checks.filter(check => check.status !== 'passed').map(check => check.criterion)
-        return { status: 'unknown', labels: labels.length, reason: `Unresolved SVG label evidence: ${unavailable.join(', ')}; glyph ${witness.kind} during ${witness.stage}: ${witness.reason}`, evidence: { checks, glyphWitness: witness } }
+        const environment = checks.filter(isFontDependentClipping).map(check => check.scope)
+        return { status: 'unknown', labels: labels.length, reason: `Unresolved SVG label evidence: ${unavailable.join(', ')}; ${environment.map(scope => scope + '; ').join('')}glyph ${witness.kind} during ${witness.stage}: ${witness.reason}`, evidence: { checks, glyphWitness: witness } }
       }
       return { status: 'incorrect', labels: labels.length, reason: [...failed].join('; '), evidence: { checks: failedChecks! } }
     }
