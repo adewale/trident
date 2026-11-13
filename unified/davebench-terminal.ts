@@ -8,10 +8,10 @@ import { join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import type { CommunityArtifact, PreparedCommunity } from './community-types.ts'
 import { communityCliRequest } from './community-cli-request.ts'
-import { davebenchAdmissionProfile, davebenchAdmission, davebenchRankings, type DavebenchRun } from './davebench-model.ts'
+import { davebenchAdmissionProfile, davebenchAdmission, davebenchRankings, recordOutcome, type DavebenchRun } from './davebench-model.ts'
 import { watchMemory } from './process-memory.ts'
 import { killCommunityProcess, spawnCommunityProcess } from './community-process.ts'
-import { davebenchTerminalValidity } from './davebench-validity.ts'
+import { davebenchEmptyOutputCorpus, davebenchEmptyOutputRule, davebenchTerminalValidity } from './davebench-validity.ts'
 import { tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { communityDeclaresOutput, communityModuleOutputSupported } from './community.ts'
@@ -80,10 +80,10 @@ export async function main(args = process.argv.slice(2)) {
   })
   const inventory = davebenchInputs(resolve(options.get('--upstream') ?? join(tridentDirectory, '../mermaid'))), runs: DavebenchRun[] = [], blocked: { project: string; reason: string }[] = []
   const plan = campaignPlan(prepared.map(peer => ({ project: peer.node.id, version: plannedBenchmarkVersion(peer.node, peer.artifact?.kind === 'cli' ? peer.artifact : !communityModuleOutputSupported(peer.node, 'terminal') ? peer.artifact?.additionalCli?.find(cli => cli.outputs.includes('terminal'))?.artifact ?? peer.artifact : peer.artifact), format: 'terminal' })), inventory.cases.map(input => input.id), 3, { commit: inventory.commit, sources: inventory.cases, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile }, wanted ? 'subset' : 'full')
-  const workerIdentities: any[] = []
+  const workerIdentities: any[] = [], emptyCorpus = davebenchEmptyOutputCorpus(inventory.cases, inventory.cases.map(input => davebenchEmptyOutputRule(input.source)))
   const startedAt = new Date().toISOString(), timeoutMs = 15_000
   const save = (state: string) => {
-    const report = { schema: 'davebench-terminal-v2', state, plan, environment: executionEnvironment(), workerIdentities, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files }, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup.' }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
+    const report = { schema: 'davebench-terminal-v2', state, plan, environment: executionEnvironment(), workerIdentities, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files, ...emptyCorpus }, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup.', failures: 'Each run lists its failed inputs by reason as ranges of plan.cases positions (failures); completed inputs are implied.' }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
     if (state === 'complete') assertTimingCollection(report)
     atomicWrite(join(out, 'results.json'), JSON.stringify(report, null, 2) + '\n')
   }
@@ -108,14 +108,10 @@ export async function main(args = process.argv.slice(2)) {
           return row
         }
         for (const [index, input] of inventory.cases.slice(0, 30).entries()) await call(input, -index - 1)
-        const row: DavebenchRun = { project: peer.node.id, version: native?.version ?? a.version, format: 'terminal', run: round, boundary, boundaryKind: native ? 'fresh-process' : 'persistent-api', attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, errorReasons: {} }; runs.push(row)
+        const row: DavebenchRun = { project: peer.node.id, version: native?.version ?? a.version, format: 'terminal', run: round, boundary, boundaryKind: native ? 'fresh-process' : 'persistent-api', attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, errorReasons: {}, failures: {} }; runs.push(row)
         console.log(`${peer.node.id} terminal ${round}/3`)
         for (const [index, input] of inventory.cases.entries()) {
-          const result = await call(input, index); row.attempted++; if (result.ms === null) row.untimedCalls = (row.untimedCalls ?? 0) + 1; else row.totalMs += result.ms
-          if (result.outcome === 'completed') row.completed++; else row.failed++
-          if (result.outcome === 'error') { const reason = (result.error ?? 'no message').replace(/\d+/g, 'N'); row.errorReasons![reason] = (row.errorReasons![reason] ?? 0) + 1 }
-          if (result.outcome === 'invalid') { row.invalid!++; const reason = result.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1; (row.rejected ??= {})[input.id] = result.invalid! }
-          if (result.outcome === 'timeout') row.timeouts++
+          recordOutcome(row, index, input.id, await call(input, index))
           if ((index + 1) % 100 === 0) save('running')
         }
         await worker?.close(); worker = undefined; save('running')

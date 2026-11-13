@@ -15,7 +15,7 @@ import { publicSvgBrowserAction } from './public-svg-browser.ts'
 import { communityCatalogFile, tridentDirectory } from './trident-paths.ts'
 import { assertBenchmarkExecutionAllowed } from '../portable/ci-policy.ts'
 import { defaultChromium } from './benchmark-context.ts'
-import { authoredDiagnosticSource, davebenchSvgValidity, errorPatternSources, pngBytesValidity, rawStatements } from './davebench-validity.ts'
+import { authoredDiagnosticSource, davebenchEmptyOutputCorpus, davebenchEmptyOutputRule, davebenchSvgValidity, errorPatternSources, pngBytesValidity, rawStatements } from './davebench-validity.ts'
 import { watchMemory } from './process-memory.ts'
 import { killCommunityProcess, spawnCommunityProcess } from './community-process.ts'
 
@@ -23,18 +23,36 @@ import { davebenchInputs } from './davebench-inputs.ts'
 export { davebenchInputs } from './davebench-inputs.ts'
 
 /** Runs in the renderer page. Returns counters and an admission reason only;
- * outputs never leave the page. The clock stops before admission checks. */
-export async function davebenchBrowserCall(input: { source: string; id: string; format: string; errorPatterns?: [string, string][]; errorSource?: string; raw?: { header?: string; statements: string[] } }) {
+ * outputs never leave the page. The clock stops before admission checks.
+ * `drawsNothing` is the reviewed empty-output rule for this input (see EmptyOutputRule). */
+export async function davebenchBrowserCall(input: { source: string; id: string; format: string; errorPatterns?: [string, string][]; errorSource?: string; raw?: { header?: string; statements: string[] }; drawsNothing?: boolean }) {
   const host = globalThis as any, state = host.__fidelityCommunity, started = performance.now()
-  let outcome = 'completed', svgText: string | undefined, pngValue: unknown, pngBytes = 0, error: string | undefined
+  let outcome = 'completed', svgText: string | undefined, pngValue: unknown, pngBytes = 0, error: string | undefined, strictXmlInvalid: string | undefined
+  /** Admit SVG the way a browser displays it: as an SVG document (strict XML), or else
+   * embedded in an HTML page, where the HTML parser must yield exactly one SVG element
+   * and nothing else. The strict parser's complaint is kept as a diagnostic. */
   const parseSvg = (text: string) => {
-    // Match the shared XML validator's admission of HTML-serialized void elements.
-    const parser = new DOMParser()
-    let document = parser.parseFromString(text, 'image/svg+xml')
-    if (document.querySelector('parsererror')) document = parser.parseFromString(text.replace(/<(area|base|br|col|embed|hr|img|input|link|meta|source|track|wbr)\b([^<>]*?)\/?>/gi, '<$1$2/>'), 'image/svg+xml')
-    const svg = document.documentElement
-    if (document.querySelector('parsererror') || svg.localName !== 'svg' || svg.namespaceURI !== 'http://www.w3.org/2000/svg') throw Error('Malformed SVG document')
-    return svg
+    const parser = new DOMParser(), strict = parser.parseFromString(text, 'image/svg+xml'), root = strict.documentElement
+    const error = strict.querySelector('parsererror')
+    if (!error && root.localName === 'svg' && root.namespaceURI === 'http://www.w3.org/2000/svg') return { svg: root as unknown as SVGSVGElement }
+    const page = parser.parseFromString(text, 'text/html'), body = page.body
+    const svg = body?.firstElementChild
+    if (!svg || body.childElementCount !== 1 || page.head.childElementCount || svg.localName !== 'svg' || svg.namespaceURI !== 'http://www.w3.org/2000/svg' || [...body.childNodes].some(node => node.nodeType === 3 && /\S/.test(node.nodeValue ?? ''))) throw Error('Malformed SVG document')
+    const reason = error ? (error.querySelector('div')?.textContent ?? error.textContent ?? '').replace(/^[\s\S]*?error on line \d+ at column \d+:\s*/, '').trim().split('\n')[0]!.replace(/\b(line|column) \d+/gi, '$1 N').slice(0, 120) : 'Expected an SVG root in the SVG namespace'
+    return { svg: svg as SVGSVGElement, strict: reason || 'not strict XML' }
+  }
+  /** The structural rule of svgDrawsNothing in davebench-validity.ts, on the parsed document. */
+  const drawsNothing = (root: Element) => {
+    const shapes = ['path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'image', 'use'], unpainted = ['defs', 'clippath', 'mask', 'marker', 'pattern', 'symbol', 'lineargradient', 'radialgradient', 'filter', 'style', 'script', 'title', 'desc', 'metadata']
+    const positive = (element: Element, key: string) => { const value = Number.parseFloat(element.getAttribute(key) ?? ''); return Number.isFinite(value) && value > 0 }
+    const geometry = (element: Element, name: string) => name === 'path' ? !!element.getAttribute('d')?.trim() : name === 'polyline' || name === 'polygon' ? !!element.getAttribute('points')?.trim() : name === 'rect' || name === 'image' ? positive(element, 'width') && positive(element, 'height') : name === 'circle' ? positive(element, 'r') : name === 'ellipse' ? positive(element, 'rx') && positive(element, 'ry') : true
+    const draws = (element: Element): boolean => {
+      const name = element.localName.toLowerCase()
+      if (unpainted.includes(name) || element.getAttribute('display')?.trim() === 'none' || element.getAttribute('visibility')?.trim() === 'hidden') return false
+      if (shapes.includes(name) && geometry(element, name)) return true
+      return [...element.childNodes].some(child => child.nodeType === 3 || child.nodeType === 4 ? /[^\s\u2800]/.test(child.nodeValue ?? '') : child.nodeType === 1 && draws(child as Element))
+    }
+    return !draws(root)
   }
   const canvasSize = (svg: Element) => {
     const box = svg.getAttribute('viewBox')?.trim().split(/[\s,]+/).map(Number)
@@ -48,8 +66,9 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
       const value = await state.render(input.source, input.id)
       svgText = typeof value === 'string' ? value : typeof value?.svg === 'string' ? value.svg : undefined
       if (input.format === 'png') {
-        // This parsing is part of conversion, not a drawing assessment.
-        const svg = parseSvg(svgText ?? '')
+        // This parsing is part of conversion, not a drawing assessment. The leniently parsed
+        // element is serialized as XML, so a strict-XML-only problem does not fail conversion.
+        const { svg } = parseSvg(svgText ?? '')
         const size = canvasSize(svg), width = Math.ceil(size.width), height = Math.ceil(size.height)
         if (!(Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0)) throw Error('zero-size SVG')
         svg.setAttribute('width', String(width)); svg.setAttribute('height', String(height)); svg.style.maxWidth = 'none'
@@ -89,16 +108,19 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
       } else if (typeof svgText !== 'string') invalid = 'non-SVG return'
       else if (!svgText.trim()) invalid = 'no SVG document'
       else {
-        const svg = parseSvg(svgText)
+        const parsed = parseSvg(svgText), svg = parsed.svg
+        strictXmlInvalid = parsed.strict
         const { width, height } = canvasSize(svg)
         if (!svg) invalid = 'no SVG document'
         else if (svg.getAttribute('aria-roledescription') === 'error') invalid = 'error placeholder'
         else if (!(Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0)) invalid = 'zero-size SVG'
         else if (input.format === 'png' && !(pngBytes > 0)) invalid = 'empty PNG encoding'
         else {
+          const empty = input.drawsNothing === false && drawsNothing(svg)
           for (const node of svg.querySelectorAll('style,script')) node.remove()
           const found = phrase(svg.textContent ?? '')
           if (found) invalid = 'error message: ' + found
+          else if (empty) invalid = 'draws nothing'
           else if (input.raw) {
             // The fallback check of davebench-validity.ts (fallbackShown), on drawn text only.
             for (const node of svg.querySelectorAll('title,desc,metadata')) node.remove()
@@ -117,18 +139,18 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
   }
   try { host.__communityAfterCall?.() } catch {}
   for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove()
-  return invalid ? { outcome, ms, invalid } : error ? { outcome, ms, error } : { outcome, ms }
+  return invalid ? { outcome, ms, invalid } : error ? { outcome, ms, error } : strictXmlInvalid ? { outcome, ms, strictXmlInvalid } : { outcome, ms }
 }
 
-import { davebenchAdmissionProfile, davebenchAdmission, davebenchSummary, davebenchRankings, davebenchRankingRule, type DavebenchRun } from './davebench-model.ts'
-export { davebenchAdmission, davebenchSummary, davebenchRankings, davebenchRankingRule, boundaryKind, type DavebenchRun } from './davebench-model.ts'
+import { davebenchAdmissionProfile, davebenchAdmission, davebenchSummary, davebenchRankings, davebenchRankingRule, recordOutcome, type DavebenchRun } from './davebench-model.ts'
+export { davebenchAdmission, davebenchSummary, davebenchRankings, davebenchRankingRule, davebenchFailedInputs, boundaryKind, type DavebenchRun } from './davebench-model.ts'
 type Run = DavebenchRun
 
 function rankingMarkdown(rankings: ReturnType<typeof davebenchRankings>, planned: number, blocked: { project: string; reason: string }[]) {
   const lines = ['# DaveBench rankings', '', `${planned} examples per format; three runs after 30 warm-ups. Outputs are discarded without assessment.`, '', ...Object.values(davebenchRankingRule).map(rule => '- ' + rule), '']
   for (const format of ['svg', 'png'] as const) {
     lines.push('## ' + format.toUpperCase(), '', '| Rank | Project | Version | Completed | Failed | Median total seconds | Path |', '|---:|---|---|---:|---:|---:|---|')
-    for (const row of rankings[format]) lines.push(`| ${row.rank} | ${row.project} | ${row.version} | ${row.completed} | ${row.failed} | ${(row.medianTotalMs === null ? '—' : (row.medianTotalMs / 1000).toFixed(3))} | ${row.boundary.includes('CLI') ? 'Native CLI' : 'Browser API'} |`)
+    for (const row of rankings[format]) lines.push(`| ${row.rank} | ${row.project} | ${row.version} | ${row.completed} | ${row.failed} | ${(row.medianTotalMs === null ? '—' : (row.medianTotalMs / 1000).toFixed(3))} | ${row.boundary.includes('CLI') ? 'Native CLI' : 'Browser API'}${row.pngPath === 'native' ? '; own PNG export' : row.pngPath === 'trident-conversion' ? '; Trident PNG conversion of its SVG' : ''} |`)
     lines.push('')
   }
   if (blocked.length || rankings.unranked.length) {
@@ -178,7 +200,7 @@ const scratchFile = (name: string) => join(cliScratch ??= mkdtempSync(join(tmpdi
 /** Fresh CLI process per call. Output goes to a regular scratch file so native
  * exporters that reopen stdout still work; it is read for admission after the
  * clock stops and then deleted. */
-export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: string, format: string, timeoutMs: number) {
+export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: string, format: string, timeoutMs: number): Promise<{ outcome: string; ms: number; error?: string; invalid?: string; strictXmlInvalid?: string }> {
   const artifact = peer.artifact!, binding = artifact.outputBindings![format]!
   const output = scratchFile('output.' + format), captured = scratchFile('stdout.' + format)
   rmSync(output, { force: true })
@@ -199,7 +221,7 @@ export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: s
     if (result.outcome !== 'completed') return result
     const bytes = binding.args.some(arg => arg.includes('{output}')) && existsSync(output) ? readFileSync(output) : readFileSync(captured)
     const validity = format === 'png' ? pngBytesValidity(bytes) : davebenchSvgValidity(bytes.toString('utf8'), source)
-    return validity.valid ? result : { ...result, outcome: 'invalid', invalid: validity.reason }
+    return validity.valid ? validity.strictXmlInvalid ? { ...result, strictXmlInvalid: validity.strictXmlInvalid } : result : { ...result, outcome: 'invalid', invalid: validity.reason }
   } finally { rmSync(output, { force: true }); rmSync(captured, { force: true }) }
 }
 
@@ -251,9 +273,10 @@ export async function main(args = process.argv.slice(2)) {
   for (const node of nodes) if (!prepared.some(peer => peer.node.id === node.id)) prepared.push({ node, browserStatus: 'blocked', error: 'No prepared artifact supplied' })
   const plan = campaignPlan(nodes.flatMap((node: any) => (communityDeclaresOutput(node, 'svg') ? ['svg', 'png'] : ['png']).map(format => ({ project: node.id, version: plannedBenchmarkVersion(node, prepared.find(peer => peer.node.id === node.id)?.artifact), format }))), inventory.cases.map(input => input.id), 3, { commit: inventory.commit, sources: inventory.cases, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile }, options.has('--projects') ? 'subset' : 'full')
   const startedAt = new Date().toISOString(), runs: Run[] = [], blocked: { project: string; format?: string; reason: string }[] = [], timeoutMs = 15_000
+  const emptyRules = inventory.cases.map(input => davebenchEmptyOutputRule(input.source))
   const save = (state: string) => {
-    const report = { schema: 'davebench-simple-v2', state, plan, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, directory: 'docs/', occurrences: inventory.cases.length, files: inventory.files },
-      method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.', png: 'Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available. No image inspection.' },
+    const report = { schema: 'davebench-simple-v2', state, plan, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, directory: 'docs/', occurrences: inventory.cases.length, files: inventory.files, ...davebenchEmptyOutputCorpus(inventory.cases, emptyRules) },
+      method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.', png: 'Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available (pngPath: native or trident-conversion). No image inspection.', failures: 'Each run lists its failed inputs by reason as ranges of plan.cases positions (failures); completed inputs are implied.' },
       environment: { ...executionEnvironment(), chromium: browser.version() },
       runs, summary: davebenchSummary(runs), rankingRule: davebenchRankingRule, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
     if (state === 'complete') assertTimingCollection(report)
@@ -278,26 +301,24 @@ export async function main(args = process.argv.slice(2)) {
           if (!cli) host = await browserHost(browser, peer, format, assets)
           for (let round = 1; round <= 3; round++) {
             if (!cli) await open()
-            const call = async (input: { id: string; source: string }, index: number): Promise<import('./terminal-call-worker.ts').TimedCall> => {
+            const call = async (input: { id: string; source: string }, index: number): Promise<import('./terminal-call-worker.ts').TimedCall & { strictXmlInvalid?: string }> => {
               if (cli) return davebenchCliCall(peer, input.source, format, timeoutMs)
               let timer: ReturnType<typeof setTimeout> | undefined
-              const started = performance.now()
+              const started = performance.now(), rule = index >= 0 ? emptyRules[index]! : davebenchEmptyOutputRule(input.source)
               try {
-                return await Promise.race<import('./terminal-call-worker.ts').TimedCall>([session!.page.evaluate(davebenchBrowserCall, { ...input, id: 'dave_' + round + '_' + index, format, errorPatterns: errorPatternSources, errorSource: authoredDiagnosticSource(input.source), raw: rawStatements(input.source) }), new Promise<import('./terminal-call-worker.ts').TimedCall>(done => { timer = setTimeout(() => { void session!.context.close().catch(() => {}); done({ outcome: 'timeout', ms: null, controllerMs: performance.now() - started }) }, timeoutMs) })])
+                return await Promise.race<import('./terminal-call-worker.ts').TimedCall>([session!.page.evaluate(davebenchBrowserCall, { ...input, id: 'dave_' + round + '_' + index, format, errorPatterns: errorPatternSources, errorSource: authoredDiagnosticSource(input.source), raw: rawStatements(input.source), ...(rule.drawsNothing === undefined ? {} : { drawsNothing: rule.drawsNothing }) }), new Promise<import('./terminal-call-worker.ts').TimedCall>(done => { timer = setTimeout(() => { void session!.context.close().catch(() => {}); done({ outcome: 'timeout', ms: null, controllerMs: performance.now() - started }) }, timeoutMs) })])
               } catch { return { outcome: 'error', ms: null, controllerMs: performance.now() - started } }
               finally { if (timer) clearTimeout(timer) }
             }
             for (const [index, input] of inventory.cases.slice(0, 30).entries()) { const value = await call(input, -index - 1); if (value.outcome === 'timeout' && !cli) await open() }
-            const row: Run = { project: peer.node.id, version: peer.artifact!.version, format, run: round, boundary, boundaryKind: cli ? 'fresh-process' : 'persistent-api', attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, errorReasons: {} }
+            const row: Run = { project: peer.node.id, version: peer.artifact!.version, format, run: round, boundary, boundaryKind: cli ? 'fresh-process' : 'persistent-api', ...(format === 'png' ? { pngPath: cli || peer.browser!.additionalOutputs?.includes('png') ? 'native' as const : 'trident-conversion' as const } : {}), attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, errorReasons: {}, failures: {} }
+            if (format === 'svg' || row.pngPath === 'trident-conversion') { row.strictXmlInvalid = 0; row.strictXmlReasons = {} }
             runs.push(row)
             console.log(`${peer.node.id} ${format} run ${round}/3`)
             for (const [index, input] of inventory.cases.entries()) {
               const value = await call(input, index)
-              row.attempted++; if (value.ms === null) row.untimedCalls = (row.untimedCalls ?? 0) + 1; else row.totalMs += value.ms
-              if (value.outcome === 'completed') row.completed++; else row.failed++
-              if (value.outcome === 'error') { const reason = (value.error ?? 'no message').replace(/\d+/g, 'N'); row.errorReasons![reason] = (row.errorReasons![reason] ?? 0) + 1 }
-              if (value.outcome === 'invalid') { row.invalid!++; const reason = value.invalid!.replace(/: .*/, ''); row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1; (row.rejected ??= {})[input.id] = value.invalid! }
-              if (value.outcome === 'timeout') { row.timeouts++; if (!cli) await open() }
+              recordOutcome(row, index, input.id, value)
+              if (value.outcome === 'timeout' && !cli) await open()
               if ((index + 1) % 100 === 0) { save('running'); console.log(`  ${index + 1}/${inventory.cases.length}: ${row.completed} completed, ${row.failed} failed, ${(row.totalMs / 1000).toFixed(2)} s`) }
             }
             console.log(`  done: ${row.completed}/${row.attempted}, ${(row.totalMs / 1000).toFixed(3)} s`)

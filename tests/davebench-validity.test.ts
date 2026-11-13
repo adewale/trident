@@ -26,7 +26,7 @@ test('PNG ancillary chunk work is bounded independently of encoded bytes', () =>
 test('terminal admission rejects empty, error and echoed output but keeps real drawings', () => {
   const source = 'graph LR\n  A --> B'
   expect(terminalTextValidity('┌───┐   ┌───┐\n│ A ├──►│ B │\n└───┘   └───┘', source)).toEqual({ valid: true })
-  expect(terminalTextValidity('\u001b[31m\u001b[0m  \n', source)).toEqual({ valid: false, reason: 'empty output' })
+  expect(terminalTextValidity('\u001b[31m\u001b[0m  \n', source)).toEqual({ valid: false, reason: 'draws nothing' })
   expect(terminalTextValidity('Error: unsupported diagram type "pie"', source).valid).toBe(false)
   expect(terminalTextValidity('Syntax error at line 2', source).valid).toBe(false)
   expect(terminalTextValidity('graph LR\n A --> B\n', source)).toEqual({ valid: false, reason: 'echoed source' })
@@ -69,11 +69,17 @@ test('serialized SVG admission needs a sized svg root and no error placeholder; 
   expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17"><g/></svg>', 'gantt\n  weekday monday')).toEqual({ valid: true })
   expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" aria-roledescription="error" viewBox="0 0 9 9"><path/></svg>', source)).toEqual({ valid: false, reason: 'error placeholder' })
   expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 20"><style>.error{}</style><text>Parse error on line 1</text></svg>', source).valid).toBe(false)
-  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><g></svg>', source).valid).toBe(false)
-  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><text>&nbsp;</text></svg>', source).valid).toBe(false)
-  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><text>&#160;</text></svg>', source).valid).toBe(true)
-  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><a xlink:href="#a"><text>A</text></a></svg>', source).valid).toBe(false)
-  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10" height="10"><a xlink:href="#a"><text>A</text></a></svg>', source).valid).toBe(true)
+  // A browser closes an unclosed element at its ancestor's end tag, reads HTML entities and
+  // binds xlink itself, so these are admitted; their strict-XML failure is reported separately.
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><g></svg>', source)).toMatchObject({ valid: true, strictXmlInvalid: 'unexpected close tag.' })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><text>&nbsp;</text></svg>', source)).toMatchObject({ valid: true, strictXmlInvalid: 'undefined entity.' })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><text>&#160;</text></svg>', source)).toEqual({ valid: true })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><a xlink:href="#a"><text>A</text></a></svg>', source)).toMatchObject({ valid: true, strictXmlInvalid: 'unbound namespace prefix: "xlink".' })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10" height="10"><a xlink:href="#a"><text>A</text></a></svg>', source)).toEqual({ valid: true })
+  // A browser does not display these as one SVG either.
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><text>A</text></svg><div>B</div>', source).valid).toBe(false)
+  expect(svgTextValidity('Rendering failed', source)).toMatchObject({ valid: false })
+  expect(svgTextValidity('<html><body><p>no drawing</p></body></html>', source).valid).toBe(false)
 })
 
 test('PNG admission decodes complete image data instead of trusting a plausible header', () => {
