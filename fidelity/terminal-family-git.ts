@@ -50,12 +50,12 @@ export function inspectTerminalGit(output: string, contract: TerminalSourceContr
       const match = /^([│●◎├╭╮╯┼─ ]+?)\s{2,}(\S.*)$/.exec(row.text)
       if (match && /[●◎]/.test(match[1]!)) {
         const prefix = match[1]!, symbols = [...prefix].map((glyph, x) => ({ glyph, x })).filter(item => /[●◎]/.test(item.glyph)); if (symbols.length !== 1) return checks
-        const node = symbols[0]!, text = match[2]!, tags = [...text.matchAll(/\[([^\]]+)\]/g)].map(m => m[1]!), branches = tags.filter(tag => expected.branches.includes(tag)), labels = text.replace(/\s*\[[^\]]+\]/g, '').trim()
+        const node = symbols[0]!, text = match[2]!, tags = [...text.matchAll(/\[([^\]]+)\]/g)].map(m => m[1]!), branches = tags.filter(tag => expected.branches.includes(tag)), tag = tags.find(tag => !branches.includes(tag)), labels = text.replace(/\s*\[[^\]]+\]/g, '').trim()
         if (branches.length > 1) return checks
         if (branches[0]) { if (names.has(node.x) && names.get(node.x) !== branches[0]) return checks; names.set(node.x, branches[0]) }
         const parent = heads.get(node.x), right = prefix.indexOf('╯'), secondary = right > node.x ? heads.get(right) : undefined, operation = node.glyph === '◎' ? 'merge' : 'commit'
         if (operation === 'merge' && (secondary === undefined || !/^─+╯$/.test(prefix.slice(node.x + 1)))) { setFamilyCheck(checks, 'git-operations', 'failed', 'Merge marker is detached from its source column'); return checks }
-        events.push({ operation, branch: String(node.x), id: labels, ...(tags.find(tag => !branches.includes(tag)) ? { tag: tags.find(tag => !branches.includes(tag)) } : {}), ...(secondary === undefined ? {} : { from: events[secondary]!.branch }), parents: [parent, secondary].filter((n): n is number => n !== undefined) }); heads.set(node.x, events.length - 1); if (operation === 'merge') heads.delete(right); canvas.claimRow(row.y); qualified = true
+        events.push({ operation, branch: String(node.x), id: labels, ...(tag ? { tag } : {}), ...(secondary === undefined ? {} : { from: events[secondary]!.branch }), parents: [parent, secondary].filter((n): n is number => n !== undefined) }); heads.set(node.x, events.length - 1); if (operation === 'merge') heads.delete(right); canvas.claimRow(row.y); qualified = true
       } else if (/^[│ ]*├─+╮\s*$/.test(row.text)) {
         const source = row.text.indexOf('├'), target = row.text.indexOf('╮'); if (!heads.has(source) || heads.has(target)) return checks
         heads.set(target, heads.get(source)!); branchTargets.add(target); canvas.claimRow(row.y)
@@ -70,7 +70,7 @@ export function inspectTerminalGit(output: string, contract: TerminalSourceContr
   // Generated merge commit IDs are display labels, not source identities. All
   // explicitly authored IDs, tags, messages, types and provenance stay required.
   if (events.some((event, i) => !required[i]?.id && event.id && !/^commit-?\d+$/.test(event.id))) { setFamilyCheck(checks, 'git-operations', 'failed', 'An anonymous source commit has an unqualified extra caption', events); return checks }
-  const canonical = events.map((event, i) => ({ ...event, ...(!required[i]?.id ? { id: undefined } : {}) })), requiredCanonical = required.map(event => ({ ...event, id: event.id }))
-  setFamilyCheck(checks, 'git-operations', same(canonical, requiredCanonical) && same([...actualBranches].sort(), [...expected.branches].sort()) && !canvas.leftovers() ? 'passed' : 'failed', 'Owned commit markers, track continuity, branch stems and merge/cherry-pick stems establish chronological parent history; checkout is projected through resulting branch heads', events)
+  const canonical = events.map((event, i) => ({ ...event, ...(!required[i]?.id ? { id: undefined } : {}) }))
+  setFamilyCheck(checks, 'git-operations', same(canonical, required) && same([...actualBranches].sort(), [...expected.branches].sort()) && !canvas.leftovers() ? 'passed' : 'failed', 'Owned commit markers, track continuity, branch stems and merge/cherry-pick stems establish chronological parent history; checkout is projected through resulting branch heads', events)
   return checks
 }

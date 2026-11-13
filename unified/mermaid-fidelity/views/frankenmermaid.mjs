@@ -130,8 +130,7 @@ function sequence(ir, hooks) {
     if (meta.autonumber_ranges?.length || meta.autonumber) return hooks.unsupported(`${NAME} keeps autonumber as numbering ranges over messages, not where each autonumber statement was written or whether its start and step were given`)
     return flat()
   }
-  const statementIndex = (at, kind) => {
-    const { edgeEntry, timeline } = placed()
+  const statementIndex = (at, kind, { edgeEntry, timeline }) => {
     const position = edgeEntry[at]
     if (position === undefined) return hooks.unavailable(`${NAME} ${kind} event at a message that does not exist`)
     let messages = 0, previous
@@ -139,7 +138,7 @@ function sequence(ir, hooks) {
     if (previous !== undefined && previous !== 'Message') return hooks.unsupported(`${NAME} anchors ${kind} statements to the next message, so whether one was written before or after the note or block line preceding that message is not recorded`)
     return position
   }
-  const lifecycle = kind => () => new Map((meta.lifecycle_events ?? []).filter(event => event.kind === kind).map(event => [ids[event.participant], statementIndex(event.at_edge, kind.toLowerCase())]))
+  const lifecycle = kind => () => { let list; return new Map((meta.lifecycle_events ?? []).filter(event => event.kind === kind).map(event => [ids[event.participant], statementIndex(event.at_edge, kind.toLowerCase(), list ??= placed())])) }
   const entries = () => placed().entries
   const view = sequenceView(entries, { wrap: NO_WRAP, centralConnection: `${NAME} does not keep central-connection markers on messages` }, hooks)
   return {
@@ -266,6 +265,7 @@ function stateModel(ir, { refs, styleParts }) {
     if (label === undefined) return []
     return label.includes('\n') ? stateAbsent(`${NAME} joins a state's description lines into one display label`) : [label]
   }
+  const nodeRefs = refs('Node')
   const states = ir.nodes.map((node, index) => {
     const label = labelOf(ir, node.label), pseudo = STATE_PSEUDO.exec(node.id)
     const group = composite.get(node.id)
@@ -278,7 +278,7 @@ function stateModel(ir, { refs, styleParts }) {
       label: Array.isArray(descriptions) ? descriptions[0] ?? node.id : descriptions,
       descriptions,
       classes: [...(node.classes ?? [])],
-      styles: refs('Node').filter(ref => ref.target.Node === index).flatMap(ref => String(ref.style).split(',').map(part => part.replace(/;/g, '').trim())),
+      styles: nodeRefs.filter(ref => ref.target.Node === index).flatMap(ref => String(ref.style).split(',').map(part => part.replace(/;/g, '').trim())),
       singleLabel: !Array.isArray(descriptions),
     }
   })
@@ -730,7 +730,7 @@ function architectureModel(ir, hooks) {
     services: () => ir.nodes.flatMap((node, index) => {
       if (!kind(node, 'service')) return []
       const title = labelOf(ir, node.label)
-      return [{ fields: { id: node.id, ...(title !== node.id ? { title } : {}), icon: node.interaction?.icon ?? undefined, ...(inOf(index) !== undefined ? { in: inOf(index) } : { in: undefined }) }, absent: title === node.id ? { title: sameAsId } : {} }]
+      return [{ fields: { id: node.id, ...(title !== node.id ? { title } : {}), icon: node.interaction?.icon ?? undefined, in: inOf(index) }, absent: title === node.id ? { title: sameAsId } : {} }]
     }),
     junctions: () => ir.nodes.flatMap((node, index) => (kind(node, 'junction') ? [{ id: node.id, in: inOf(index) }] : [])),
     groups: () => groups.map(group => ({ id: group.key, title: labelOf(ir, group.title), in: group.parent == null ? undefined : groups[group.parent].key })),

@@ -57,7 +57,7 @@ export function compileVisualStyles(input: MeaningExpectation): { complete: bool
   for (const attributes of linkDefaults) for (let index = 0; index < (expected.edges?.length ?? 0); index++) applyEdge(index, attributes)
   for (const rule of linkIndexed) for (const index of rule.indices) applyEdge(index, rule.attributes)
   if (linkDefaults.length && expected.edges === undefined) complete = false
-  if (!complete) return { complete: false, active, rules: [], expected: structuredClone(input) }
+  if (!complete) return { complete: false, active, rules: [], expected }
   if (active) {
     delete facts['authored-style']; delete facts['entity-classes']; delete facts['state-classes']; delete facts['css-classes']
     if (facts['node-attributes']) {

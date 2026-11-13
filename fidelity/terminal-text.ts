@@ -20,7 +20,8 @@ export function terminalAuthoredLinesObserved(rows: readonly string[], wanted: r
     if (at === wanted.length) return row === rows.length
     const key = row + ',' + at
     if (memo.has(key)) return memo.get(key)!
-    for (let end = row + 1; end <= rows.length; end++) if (normalizedTerminalText(rows.slice(row, end).join(' ')) === normalizedTerminalText(wanted[at]!) && match(end, at + 1)) { memo.set(key, true); return true }
+    const target = normalizedTerminalText(wanted[at]!)
+    for (let end = row + 1; end <= rows.length; end++) if (normalizedTerminalText(rows.slice(row, end).join(' ')) === target && match(end, at + 1)) { memo.set(key, true); return true }
     memo.set(key, false); return false
   }
   return match(0, 0)

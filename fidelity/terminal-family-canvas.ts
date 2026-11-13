@@ -9,7 +9,7 @@ export const same = (a: unknown, b: unknown) => stable(a) === stable(b)
 export class FamilyCanvas {
   grid: string[][]; boxes: FamilyBox[] = []; owned = new Set<string>(); error?: string
   constructor(output: string) {
-    const display = interpretTerminal(output); this.grid = display.status === 'available' ? display.cells.map(row => [...row]) : []
+    const display = interpretTerminal(output); this.grid = display.status === 'available' ? display.cells : []
     if (display.status !== 'available') { this.error = display.reason ?? 'Terminal state cannot be inspected'; return }
     if (this.grid.length > 256 || this.grid.some(row => row.length > 512)) { this.error = 'Drawing exceeds the bounded 512 by 256 cell profile'; return }
     const forms = [['┌', '┐', '└', '┘'], ['╭', '╮', '╰', '╯'], ['+', '+', '+', '+']]

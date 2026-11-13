@@ -24,7 +24,7 @@ export function projectEventData(expected:MeaningExpectation){
     const own=resolved.get(frame.id)
     if(!own)return frame
     const{dataReference,...visible}=frame
-    referenceMetadata.push({frame:frame.id,reference:dataReference,definition:own.definition.id,supersededInlineFields:structuredClone(frame.fields??[])})
+    referenceMetadata.push({frame:frame.id,reference:dataReference,definition:own.definition.id,supersededInlineFields:frame.fields??[]})
     return{...visible,fields:structuredClone(own.definition.fields)}
   })
   if(Array.isArray(facts['frame-content']))facts['frame-content']=facts['frame-content'].map((frame:any)=>{
@@ -32,7 +32,7 @@ export function projectEventData(expected:MeaningExpectation){
     if(!own)return frame
     const{dataReference,data,fields,...visible}=frame
     const original:Record<string,MeaningJson>={frame:frame.id}
-    for(const key of ['dataReference','data','fields'])if(Object.hasOwn(frame,key))original[key]=structuredClone(frame[key])
+    for(const key of ['dataReference','data','fields'])if(Object.hasOwn(frame,key))original[key]=frame[key]
     aliases.push(original)
     return{...visible,fields:structuredClone(own.definition.fields)}
   })
@@ -45,7 +45,7 @@ export function projectEventData(expected:MeaningExpectation){
   expected.labels=expected.labels.filter(label=>!declarationLabels.has(label)||requiredLabels.has(label))
   for(const label of requiredLabels)if(label&&!expected.labels.includes(label))expected.labels.push(label)
   const advisory=expected.advisoryFacts??={}
-  advisory['native-event-data-definitions']=structuredClone(definitions)
+  advisory['native-event-data-definitions']=definitions
   if(referenceMetadata.length)advisory['event-reference-resolution']=referenceMetadata
   if(aliases.length)advisory['native-event-frame-data']=aliases
   delete facts['data-definitions']

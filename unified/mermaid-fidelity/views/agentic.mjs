@@ -132,7 +132,7 @@ function agentflow(raw, hooks) {
   const semantic = () => {
     const observedEdges = edges()
     return record({ direction: graph.direction,
-    vertices: [...graph.nodes.values()].filter(n => !raw.connectors.has(n.id) && !groups.some(g => g.id === n.id)).map(n => ({ id: n.id, label: n.label, shape: vertexType(n) === 'round' ? 'rect' : vertexType(n), vertexKind: raw.roles.get(n.id), ...meta(n.id) })),
+    vertices: [...graph.nodes.values()].filter(n => !raw.connectors.has(n.id) && !groups.some(g => g.id === n.id)).map(n => { const type = vertexType(n); return { id: n.id, label: n.label, shape: type === 'round' ? 'rect' : type, vertexKind: raw.roles.get(n.id), ...meta(n.id) } }),
     connectors: [...raw.connectors].map(id => ({ id, ...(graph.nodes.get(id)?.label !== id ? { title: graph.nodes.get(id)?.label } : {}), ...meta(id) })),
     edges: graph.edges.map((e, index) => ({ start: e.source, end: e.target, ...(e.id !== undefined ? { id: e.id } : {}), ...(e.label ? { label: e.label } : {}), type: observedEdges[index].type, stroke: strokeOf(e.style), length: e.length ?? 1, edgeSemantic: edgeSemantic(e), ...(e.id ? meta(e.id) : {}) })),
     subGraphs: groups.map(g => ({ id: g.id, nodes: [...g.nodeIds, ...g.children.map(c => c.id)], title: g.label, type: 'flow', ...(g.direction ? { direction: g.direction } : {}), ...meta(g.id) })),

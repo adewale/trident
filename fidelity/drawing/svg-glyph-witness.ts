@@ -16,17 +16,17 @@ export function glyphWitnessOperation(input: { step: string; labels?: readonly s
     if (svg.querySelectorAll('*').length > 2048) return unavailable('Element work limit exceeded')
     if (svg.querySelector('animate,animateTransform,animateMotion,set,image,img,video') || document.getAnimations().length) return unavailable('Animated or image content is outside the glyph profile')
     const normalize = (value: string) => value.normalize('NFC').replace(/\s+/g, '')
-    const textCandidates = [...svg.querySelectorAll('text')], htmlCandidates = [...svg.querySelectorAll('foreignObject *')]
+    const candidates = [...svg.querySelectorAll('text'), ...svg.querySelectorAll('foreignObject *')]
     const matches = (label: string) => {
-      const candidates = [...textCandidates, ...htmlCandidates], exact = candidates.filter(element => normalize(element.textContent ?? '') === normalize(label))
+      const wanted = normalize(label), exact = candidates.filter(element => normalize(element.textContent ?? '') === wanted)
       // The label policy accepts a contiguous literal within a displayed text
       // run. Prove that entire original run when extra notation surrounds it.
-      return exact.length ? exact : candidates.filter(element => normalize(element.textContent ?? '').includes(normalize(label)))
+      return exact.length ? exact : candidates.filter(element => normalize(element.textContent ?? '').includes(wanted))
     }
-    const selected = [...new Set((input.labels ?? []).flatMap(label => matches(label).map(element => element.closest('foreignObject') ?? element)))] as (SVGTextElement | SVGForeignObjectElement)[]
+    const found = (input.labels ?? []).map(matches), selected = [...new Set(found.flatMap(elements => elements.map(element => element.closest('foreignObject') ?? element)))] as (SVGTextElement | SVGForeignObjectElement)[]
     if (!input.labels?.length) return unavailable('No required labels')
     if (input.labels.length > 256) return unavailable('Label work limit exceeded')
-    if (input.labels.some(label => !matches(label).length)) return unavailable('A required label has no original SVG or HTML text match')
+    if (found.some(elements => !elements.length)) return unavailable('A required label has no original SVG or HTML text match')
     const box = (element: Element) => { const b = element.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height } }
     const root = box(svg), rootStyle = getComputedStyle(svg)
     if ([rootStyle.transform, rootStyle.translate, rootStyle.rotate, rootStyle.scale].some(value => value !== 'none') || ['padding-top','padding-right','padding-bottom','padding-left','border-top-width','border-right-width','border-bottom-width','border-left-width'].some(property => Number.parseFloat(rootStyle.getPropertyValue(property)) !== 0)) return unavailable('SVG root transforms, padding or borders are outside the glyph profile')
@@ -42,9 +42,10 @@ export function glyphWitnessOperation(input: { step: string; labels?: readonly s
     const plainPseudo = (element: Element) => {
       const css = getComputedStyle(element)
       for (const pseudo of ['::before','::after']) if (!['none','normal'].includes(getComputedStyle(element, pseudo).content)) return false
+      const font = fontSignature(element)
       for (const pseudo of ['::first-letter','::first-line']) {
         const style = getComputedStyle(element, pseudo)
-        if (fontSignature(element, pseudo) !== fontSignature(element) || !transparent(style.backgroundColor) || style.backgroundImage !== 'none' || style.display === 'none' || style.visibility !== 'visible' || Number(style.opacity) !== 1 || style.filter !== 'none' || style.transform !== 'none' || style.clipPath !== 'none' || style.maskImage !== 'none' || ['color','-webkit-text-fill-color','text-decoration-line','text-shadow','-webkit-text-stroke-width'].some(property => style.getPropertyValue(property) !== css.getPropertyValue(property))) return false
+        if (fontSignature(element, pseudo) !== font || !transparent(style.backgroundColor) || style.backgroundImage !== 'none' || style.display === 'none' || style.visibility !== 'visible' || Number(style.opacity) !== 1 || style.filter !== 'none' || style.transform !== 'none' || style.clipPath !== 'none' || style.maskImage !== 'none' || ['color','-webkit-text-fill-color','text-decoration-line','text-shadow','-webkit-text-stroke-width'].some(property => style.getPropertyValue(property) !== css.getPropertyValue(property))) return false
       }
       return true
     }
@@ -190,17 +191,17 @@ export function glyphWitnessOperation(input: { step: string; labels?: readonly s
         }
         continue
       }
-      const count = target.original.getNumberOfChars()
+      const count = target.original.getNumberOfChars(), matrix = target.original.getScreenCTM()!, cloneMatrix = target.clone.getScreenCTM()!
       if (target.clone.getNumberOfChars() !== count) unavailable('Glyph inventory changed')
       for (let index = 0; index < count; index++) {
-        const extent = target.original.getExtentOfChar(index), matrix = target.original.getScreenCTM()!
+        const extent = target.original.getExtentOfChar(index)
         for (const [x, y] of [[extent.x, extent.y], [extent.x + extent.width, extent.y], [extent.x, extent.y + extent.height], [extent.x + extent.width, extent.y + extent.height]]) {
           const point = new DOMPoint(x, y).matrixTransform(matrix)
           if (point.x < state.clip.x || point.y < state.clip.y || point.x > state.clip.x + state.clip.width || point.y > state.clip.y + state.clip.height) unavailable('SVG character is outside the complete capture')
         }
       }
       for (let index = 0; index < count; index++) for (const method of ['getStartPositionOfChar', 'getEndPositionOfChar'] as const) {
-        const a = target.original[method](index).matrixTransform(target.original.getScreenCTM()!), b = target.clone[method](index).matrixTransform(target.clone.getScreenCTM()!)
+        const a = target.original[method](index).matrixTransform(matrix), b = target.clone[method](index).matrixTransform(cloneMatrix)
         if (Math.abs(a.x - b.x) > .01 || Math.abs(a.y - b.y) > .01) unavailable('Staged glyph positions differ')
       }
     }

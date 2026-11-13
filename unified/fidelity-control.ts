@@ -4,6 +4,7 @@ import ts from 'typescript'
 import { planDigest } from './campaign-plan.ts'
 import { byteDigest, runtimeIdentity } from '../portable/artifacts.ts'
 import { captureInstalledDependencyClosure, dependencyExecutionInputs } from '../portable/artifact-dependencies.ts'
+import { evidenceBytesDigest } from '../portable/evidence-contract.ts'
 import { execFileSync } from 'node:child_process'
 
 /** Source imports and the pinned project's grammar/schema compilers execute in
@@ -32,9 +33,9 @@ export function fidelityHarnessSources(root: string, entries = ['config.ts', 'se
   const visit = (path: string) => {
     const name = relative(root, path)
     if (sources.has(name)) return
-    const code = readFileSync(path, 'utf8')
-    sources.set(name, byteDigest(path))
-    for (const imported of ts.preProcessFile(code, true, true).importedFiles) {
+    const bytes = readFileSync(path)
+    sources.set(name, evidenceBytesDigest(bytes))
+    for (const imported of ts.preProcessFile(bytes.toString('utf8'), true, true).importedFiles) {
       if (imported.fileName.startsWith('.')) visit(resolve(dirname(path), imported.fileName))
     }
   }

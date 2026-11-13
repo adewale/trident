@@ -7,6 +7,11 @@ import { inspectTerminalGrouping } from './terminal-groups.ts'
 import type { TerminalFactCheck } from './terminal-facts.ts'
 import type { TerminalSourceContract } from './terminal-source.ts'
 const normalize = (value: string) => value.replace(/\s+/g, ' ').trim().normalize('NFC')
+/** The containers whose text is a node's label, computed once per node id. */
+export function terminalLabelOwners<T extends { lines: string[] }>(nodes: readonly { id: string; label: string }[], boxes: readonly T[]) {
+  const byId = new Map<string, T[]>()
+  return (id: string) => { let found = byId.get(id); if (!found) { const node = nodes.find(node => node.id === id), label = node && normalize(node.label); found = node ? boxes.filter(box => normalize(box.lines.join(' ')) === label) : []; byId.set(id, found) } return found }
+}
 /** Full flowchart facts remain separate even when one relationship is ambiguous.
  * Primitive boundaries and authored lines use actual owned display containers. */
 export function inspectTerminalGraphFacts(output: string, contract: TerminalSourceContract, graph: TerminalMeaning, observation = terminalObservation(output)): TerminalFactCheck[] {
@@ -27,7 +32,7 @@ export function inspectTerminalGraphFacts(output: string, contract: TerminalSour
   }
   const grouping = graph.groups?.length ? inspectTerminalGrouping(output, graph.nodes, graph.groups, observation) : undefined
   if (grouping) set('groups', grouping.status, grouping.reason, grouping.actual)
-  const boxes = containers.filter(box => !grouping?.groups.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)), owned = (id: string) => { const node = graph.nodes.find(node => node.id === id); return node ? boxes.filter(box => normalize(box.lines.join(' ')) === normalize(node.label)) : [] }
+  const boxes = containers.filter(box => !grouping?.groups.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)), owned = terminalLabelOwners(graph.nodes, boxes)
   if (graph.nodes.length && boxes.length === graph.nodes.length && graph.nodes.every(node => owned(node.id).length === 1)) set('nodes', 'passed', 'The exact node multiset has one independently observed closed container per authored identity', boxes.map(box => box.lines))
   const verdict = inspectTerminalMeaning(output, graph, { primitiveShapes: contract.facts.some(fact => fact.criterion === 'node-shapes') }, observation)
   if (verdict.status === 'correct') for (const criterion of ['nodes', 'relationships', 'layout-order']) set(criterion, 'passed', verdict.reason, criterion === 'relationships' ? verdict.edges : undefined)

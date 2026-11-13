@@ -13,7 +13,8 @@ export function assessTextDrawing(test: DrawingCase, text: string) {
   if (!graph || display.status !== 'available') return { ...base, status: 'unknown', reason: 'Regression geometry has no qualified terminal ownership' }
   const normalize = (s: string) => s.replace(/\s+/g, ' ').trim().normalize('NFC')
   const containers = terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true, cornerPorts: true })
-  const nodes = graph.nodes.map(n => ({ ...n, matches: containers.filter(b => normalize(b.lines.join(' ')) === normalize(n.label)) }))
+  const labels = containers.map(b => normalize(b.lines.join(' ')))
+  const nodes = graph.nodes.map(n => { const label = normalize(n.label); return { ...n, matches: containers.filter((_b, i) => labels[i] === label) } })
   if (nodes.some(n => n.matches.length !== 1)) return { ...base, status: 'unknown', reason: 'Regression geometry requires uniquely owned node frames' }
   const boxes = nodes.map(n => ({ id: n.id, ...n.matches[0]! })),
     failed: string[] = [],

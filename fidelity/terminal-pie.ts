@@ -10,9 +10,10 @@ const fractions: Record<string, number> = { '▉': .875, '▊': .75, '▋': .625
 export function inspectTerminalStackedPie(output: string, contract: TerminalSourceContract): TerminalFactCheck[] | undefined {
   const display = interpretTerminal(output); if (display.status !== 'available') return undefined
   const rows = display.text.split('\n').map((text, y) => ({ text: text.trimEnd(), y })).filter(r => r.text.trim())
-  const legend = rows.flatMap(row => { const m = new RegExp('^\\s*(.+?)┃([' + glyphs + ']+)\\s+(\\d+(?:\\.\\d+)?)%$').exec(row.text); if (!m) return []; const symbols = [...m[2]!]; if (new Set(symbols).size !== 1) return []; const glyph = symbols[0]!, quantum = fractions[glyph] ?? 1; return [{ ...row, label: normalizedTerminalText(m[1]!), glyph, units: symbols.length * quantum, quantum, percent: Number(m[3]), precision: m[3]!.split('.')[1]?.length ?? 0 }] })
+  const legendRow = new RegExp('^\\s*(.+?)┃([' + glyphs + ']+)\\s+(\\d+(?:\\.\\d+)?)%$'), stripRow = new RegExp('^\\s*[' + glyphs + ']+$')
+  const legend = rows.flatMap(row => { const m = legendRow.exec(row.text); if (!m) return []; const symbols = [...m[2]!]; if (new Set(symbols).size !== 1) return []; const glyph = symbols[0]!, quantum = fractions[glyph] ?? 1; return [{ ...row, label: normalizedTerminalText(m[1]!), glyph, units: symbols.length * quantum, quantum, percent: Number(m[3]), precision: m[3]!.split('.')[1]?.length ?? 0 }] })
   if (!legend.length || legend.length > 32 || new Set(legend.map(r => r.glyph)).size !== legend.length || new Set(legend.map(r => r.label)).size !== legend.length) return undefined
-  const strip = rows.filter(r => new RegExp('^\\s*[' + glyphs + ']+$').test(r.text)); if (strip.length !== 1 || strip[0]!.y >= legend[0]!.y) return undefined
+  const strip = rows.filter(r => stripRow.test(r.text)); if (strip.length !== 1 || strip[0]!.y >= legend[0]!.y) return undefined
   const plot = strip[0]!, cells = display.cells[plot.y]!, segments = legend.map(() => ({ start: Infinity, end: -Infinity, units: 0 })); let previous = -1, total = 0
   for (let x = 0; x < cells.length; x++) { const glyph = cells[x]!; if (glyph === ' ') continue; const at = legend.findIndex(row => row.glyph === glyph); if (at < previous || at < 0) return undefined; const segment = segments[at]!; segment.start = Math.min(segment.start, x); segment.end = x; segment.units += fractions[glyph] ?? 1; total += fractions[glyph] ?? 1; previous = at }
   const between = rows.filter(r => r.y > plot.y && r.y < legend[0]!.y); if (between.length !== 1) return undefined

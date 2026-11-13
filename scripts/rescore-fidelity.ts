@@ -6,7 +6,7 @@
 //   bun scripts/rescore-fidelity.ts RUN_DIR [--reference-run CONTROL_RUN_DIR]
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
-import { fidelityOutcomes } from '../unified/mermaid-fidelity.ts'
+import { compileFidelityReference, fidelityOutcomes } from '../unified/mermaid-fidelity.ts'
 
 const STATUSES = ['passed', 'failed', 'unsupported', 'trident-blocked', 'reference-unqualified', 'upstream-skipped', 'upstream-expected-failure']
 const read = (path: string) => (existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : null)
@@ -22,10 +22,12 @@ export function rescoreFidelityRun(run: string, referenceRun = run) {
   const results = read(join(run, 'results.json'))
   if (!results) throw Error('No results.json in ' + run)
   const control = recorded(referenceRun, 'mermaid-js/mermaid')
+  let reference: ReturnType<typeof compileFidelityReference> | undefined
   results.results = results.results.map((row: any) => {
     const candidate = row.project === 'mermaid-js/mermaid' ? control : recorded(run, row.project)
-    const rows = fidelityOutcomes(control.native, candidate.native, candidate.audit, control.audit)
-    const counts = Object.fromEntries(STATUSES.map(status => [status, rows.filter((r: any) => r.status === status).length]))
+    const rows = fidelityOutcomes((reference ??= compileFidelityReference(control.native, control.audit)), candidate.native, candidate.audit)
+    const counts: Record<string, number> = Object.fromEntries(STATUSES.map(status => [status, 0]))
+    for (const r of rows as any[]) if (Object.hasOwn(counts, r.status)) counts[r.status]!++
     return { ...row, counts, cases: rows.map((r: any) => ({ ...r, file: relative(candidate.upstream, r.file) })) }
   })
   results.rescoredAt = new Date().toISOString()

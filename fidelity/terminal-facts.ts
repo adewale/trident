@@ -1,7 +1,7 @@
 import { TerminalRectangleBudgetExceeded } from './terminal-rectangles.ts'
 import { inspectTerminalEncodedJourney } from './terminal-encoded-journey.ts'
 import { admittedTerminalEncoding, type TerminalEncodingContext } from './terminal-encoding.ts'
-import { inspectTerminalGraphFacts, terminalGraphSourceObservable } from './terminal-graph-facts.ts'
+import { inspectTerminalGraphFacts, terminalGraphSourceObservable, terminalLabelOwners } from './terminal-graph-facts.ts'
 import { inspectTerminalClass, terminalClassSourceObservable } from './terminal-class.ts'
 import { inspectTerminalState, terminalStateSourceObservable } from './terminal-state.ts'
 import { inspectTerminalFamilyFacts, terminalFamilySourceObservable } from './terminal-family-facts.ts'
@@ -43,11 +43,11 @@ function inspectTerminalFactsUnchecked(output: string, contract: TerminalSourceC
   if (contract.family === 'kanban') { const board = inspectTerminalKanban(output, contract); return checks.map(check => check.criterion === board.criterion ? board : check) }
   const set = (criterion: string, status: TerminalFactCheck['status'], detail: string, actual?: unknown) => { const target = checks.find(check => check.criterion === criterion); if (target) Object.assign(target, { status, detail, ...(actual === undefined ? {} : { actual }) }) }
   if (display.status !== 'available') { for (const check of checks) check.detail = display.reason ?? 'No qualified terminal state'; return checks }
-  const text = display.text, lines = text.split('\n').map(line => line.trimEnd())
+  const text = display.text, lines = text.split('\n').map(line => line.trimEnd()), title = contract.facts.find(fact => fact.criterion === 'title')?.expected
   if (graph?.groups?.length) { const grouping = inspectTerminalGrouping(output, graph.nodes, graph.groups); set('groups', grouping.status, grouping.reason, grouping.actual) }
   if (graph) {
     if (!graph.nodes.length && !graph.edges.length && contract.facts.every(fact => fact.required === false || ['nodes', 'relationships', 'title'].includes(fact.criterion))) {
-      const title = contract.facts.find(fact => fact.criterion === 'title')?.expected, body = typeof title === 'string' ? lines.filter(line => line.trim() !== title).join('\n') : text
+      const body = typeof title === 'string' ? lines.filter(line => line.trim() !== title).join('\n') : text
       const blank = !body.trim(); set('nodes', blank ? 'passed' : 'failed', 'An independently empty drawing must remain empty', text); set('relationships', blank ? 'passed' : 'failed', 'Empty source contains no relationships', text)
     } else if (!graph.edges.some(edge => (edge as any).directed === false || (edge as any).endMarker || (edge as any).stroke || (edge as any).visible === false)) {
       const verdict = inspectTerminalMeaning(output, graph, { primitiveShapes: contract.facts.some(fact => fact.criterion === 'node-shapes') })
@@ -58,7 +58,7 @@ function inspectTerminalFactsUnchecked(output: string, contract: TerminalSourceC
   }
   if (graph && graph.nodes.length && graph.nodes.length <= 32 && display.cells.length <= 256 && display.cells.every(row => row.length <= 512) && [...text].filter(glyph => /[┌╭+◇◯◎(/▷⌜╟]/.test(glyph)).length <= 64) {
     const containers = terminalRectangles(display.cells, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: true, ports: true }), normalize = (value: string) => value.replace(/\s+/g, ' ').trim().normalize('NFC')
-    const owned = (id: string) => { const node = graph.nodes.find(node => node.id === id); if (!node) return []; return containers.filter(box => normalize(box.lines.join(' ')) === normalize(node.label)) }
+    const owned = terminalLabelOwners(graph.nodes, containers)
     const shapes = contract.facts.find(fact => fact.criterion === 'node-shapes')?.expected as { id: string; shape: string }[] | undefined
     if (shapes?.length && shapes.every(item => owned(item.id).length === 1)) {
       const actual = shapes.map(item => ({ id: item.id, shape: owned(item.id)[0]!.shape })), unknown = actual.some(item => item.shape?.startsWith('unqualified-')), mismatch = actual.some((item, n) => !item.shape?.startsWith('unqualified-') && item.shape !== shapes[n]!.shape)
@@ -89,7 +89,6 @@ function inspectTerminalFactsUnchecked(output: string, contract: TerminalSourceC
       else if (verdict.status === 'incorrect') set(/node labelled/.test(verdict.reason) ? 'class-bodies' : 'class-relations', 'failed', verdict.reason)
     }
   }
-  const title = contract.facts.find(fact => fact.criterion === 'title')?.expected
   if (typeof title === 'string') set('title', lines.filter(line => line.trim() === title).length === 1 ? 'passed' : 'unknown', 'Exact visible title needs its own line; other layouts remain unqualified')
   if (contract.family === 'pie') {
     const slices = contract.facts.find(fact => fact.criterion === 'slice-values')?.expected as { label: string; value: number }[] | undefined

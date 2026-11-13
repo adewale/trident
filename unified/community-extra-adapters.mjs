@@ -95,8 +95,8 @@ function terminalArt(value) {
   return lines.join('\n')
 }
 
-async function bindExtraCommunityApi(context) {
-  const { artifact, output, cleanups } = context, name = packageName(context)
+async function bindExtraCommunityApi(context, name) {
+  const { artifact, output, cleanups } = context
   let imported = context.module
   if (!imported) imported = await import(pathToFileURL(artifact.module).href)
   const api = imported.default && typeof imported.default === 'object' ? { ...imported.default, ...imported } : imported
@@ -192,7 +192,7 @@ async function bindExtraCommunityApi(context) {
 }
 
 export async function createExtraCommunityApi(context) {
-  const bound = await bindExtraCommunityApi(context), name = packageName(context)
+  const name = packageName(context), bound = await bindExtraCommunityApi(context, name)
   const component = ['@ramtinj95/pi-mermaid-tui', '@yassimba/pi-loom-mermaid'].includes(name)
   const runtime = process.versions.bun ? 'bun' : 'node'
   return {

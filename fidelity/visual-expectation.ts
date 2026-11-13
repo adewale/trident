@@ -10,7 +10,7 @@ import { projectSourceEdgePattern } from './edge-pattern-expectation.ts'
  * pixel anchors, CSS repairs, or literal text for a typed priority enum. */
 function projectStandaloneInputs(family: string, expected: MeaningExpectation, projections: string[], excluded: string[], suppliedStyles: any[]) {
   const facts: any = expected.facts ?? {}, config = facts['authored-config'], retained: Record<string, any> = {}
-  const retain = (key: string, value: any, reason: string) => { retained[key] = structuredClone(value); excluded.push(reason + ': ' + key + '=' + JSON.stringify(value)) }
+  const retain = (key: string, value: any, reason: string) => { retained[key] = value; excluded.push(reason + ': ' + key + '=' + JSON.stringify(value)) }
   if (family === 'agentflow' || family === 'usecase') {
     const settings = config?.[family]
     for (const key of ['nodeSpacing', 'rankSpacing']) if (settings && Object.hasOwn(settings, key)) {
@@ -91,14 +91,14 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
   const expected = structuredClone(literal), facts: any = expected.facts ??= {}, projections: string[] = []
   let profileExpected:MeaningExpectation|undefined
   const excludedNonvisual:string[]=[]
-  if(family==='eventmodeling'){const dataProjection=projectEventData(expected);if(dataProjection.changed){profileExpected=structuredClone(literal);projections.push(...dataProjection.projections);excludedNonvisual.push(...dataProjection.excluded)}}
+  if(family==='eventmodeling'){const dataProjection=projectEventData(expected);if(dataProjection.changed){profileExpected??=structuredClone(literal);projections.push(...dataProjection.projections);excludedNonvisual.push(...dataProjection.excluded)}}
   const sourceMetadata=projectSourceMetadata(family,expected)
-  if(sourceMetadata.changed){profileExpected=structuredClone(literal);projections.push(...sourceMetadata.projections);excludedNonvisual.push(...sourceMetadata.excluded)}
+  if(sourceMetadata.changed){profileExpected??=structuredClone(literal);projections.push(...sourceMetadata.projections);excludedNonvisual.push(...sourceMetadata.excluded)}
   if(family==='flowchart'&&Array.isArray(facts['node-shapes'])){
     const glyphs=new Set(['sm-circ','start','small-circle','fr-circ','stop','framed-circle','fork','join','hourglass','collate','bolt','com-link','lightning-bolt','f-circ','junction','filled-circle','cross-circ','summary','crossed-circle'])
     const symbols:any[]=facts['node-shapes'].filter((row:any)=>glyphs.has(row.shape)),symbolIds=new Set(symbols.map(row=>row.id)),nativeLabels=(expected.nodes??[]).filter(node=>symbolIds.has(node.id)).map(node=>({id:node.id,label:node.label,shape:symbols.find(row=>row.id===node.id)!.shape}))
     if(nativeLabels.length){
-      profileExpected=structuredClone(literal)
+      profileExpected??=structuredClone(literal)
       const protectedLabels=new Set([...(expected.nodes??[]).filter(node=>!symbolIds.has(node.id)).map(node=>node.label),...(expected.groups??[]).map(group=>group.label),...(expected.edges??[]).flatMap(edge=>edge.label?[edge.label]:[]),...(typeof facts.title==='string'?[facts.title]:[])])
       const hidden=new Set(nativeLabels.map(row=>row.label));expected.labels=expected.labels.filter(label=>!hidden.has(label)||protectedLabels.has(label))
       expected.nodes=expected.nodes?.map(node=>symbolIds.has(node.id)?{...node,label:''}:node)
@@ -113,7 +113,7 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
   if(family==='gitgraph'&&Array.isArray(facts.commits)){
     const messages:any[]=[]
     facts.commits=facts.commits.map((entry:any)=>{if(!Object.hasOwn(entry,'message'))return entry;const{message,...visual}=entry;messages.push({id:entry.id,message});return visual})
-    if(messages.length){profileExpected=structuredClone(literal);(expected.advisoryFacts??={})['nonvisual-commit-messages']=messages;excludedNonvisual.push('Git commit messages are carried native metadata distinct from displayed commit IDs/tags (gitGraphParser.ts50-57,gitGraph.spec.ts345-375,gitGraphRenderer.ts350/423): '+JSON.stringify(messages));projections.push('Git bare quoted commit messages remain exact owned advisory metadata and complete native profile facts; displayed custom id and tag text remain separate visible obligations')}
+    if(messages.length){profileExpected??=structuredClone(literal);(expected.advisoryFacts??={})['nonvisual-commit-messages']=messages;excludedNonvisual.push('Git commit messages are carried native metadata distinct from displayed commit IDs/tags (gitGraphParser.ts50-57,gitGraph.spec.ts345-375,gitGraphRenderer.ts350/423): '+JSON.stringify(messages));projections.push('Git bare quoted commit messages remain exact owned advisory metadata and complete native profile facts; displayed custom id and tag text remain separate visible obligations')}
     if(Array.isArray(facts.branches)){
       const ownedBranches=new Set(facts.commits.map((commit:any)=>commit.branch)),heads:any[]=[]
       facts.branches=facts.branches.map((branch:any)=>{if(ownedBranches.has(branch.id)||!Object.hasOwn(branch,'head'))return branch;const{head,...visible}=branch;heads.push({id:branch.id,head});return visible})
@@ -125,7 +125,7 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
     facts.components=facts.components.map((component:any)=>{
       const pipeline=facts.pipelines.find((row:any)=>row.component===component.name)
       if(!pipeline||component.kind!=='component'||component.coordinates?.length!==2||!pipeline.members?.length||!pipeline.members.every((member:any)=>member.coordinates?.length===1))return component
-      originals.push({name:component.name,coordinates:structuredClone(component.coordinates)})
+      originals.push({name:component.name,coordinates:component.coordinates})
       const{coordinates,...identity}=component
       return{...identity,kind:'pipeline-group',visibility:coordinates[0]}
     })
@@ -159,7 +159,7 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
       return{id:entry.id,attributes:visual}
     }).filter((entry:any)=>Object.keys(entry.attributes).length)
     if(!facts['node-attributes'].length)delete facts['node-attributes']
-    if(metadata.length){profileExpected=structuredClone(literal);(expected.advisoryFacts??={})['nonvisual-node-metadata']=metadata;projections.push('Agentflow acts only on shape,label,labelType,view,algorithm,curve,animate,animation; other exact metadata keys/values remain advisory for static drawings and mandatory in the original native profileExpected')}
+    if(metadata.length){profileExpected??=structuredClone(literal);(expected.advisoryFacts??={})['nonvisual-node-metadata']=metadata;projections.push('Agentflow acts only on shape,label,labelType,view,algorithm,curve,animate,animation; other exact metadata keys/values remain advisory for static drawings and mandatory in the original native profileExpected')}
   }
   const configuration = facts['authored-config'] ?? {}
   const lineBreaks: any[] = Array.isArray(facts['text-line-breaks']) ? facts['text-line-breaks'] : []
@@ -203,7 +203,7 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
     }
   }
   if (family === 'sankey' && Array.isArray(facts.links)) {
-    const links = structuredClone(facts.links) as { source: string; target: string; value: number }[], settings = configuration.sankey ?? {}, total = links.reduce((sum, link) => sum + link.value, 0)
+    const links = facts.links as { source: string; target: string; value: number }[], settings = configuration.sankey ?? {}, total = links.reduce((sum, link) => sum + link.value, 0)
     facts['show-values'] = settings.showValues !== false
     if (facts['show-values']) {
       const ids = [...new Set(links.flatMap(link => [link.source, link.target]))]
@@ -217,7 +217,7 @@ export function projectVisualExpectation(family: string, literal: MeaningExpecta
     if (configuration.sankey && !Object.keys(settings).length) delete configuration.sankey
   }
   if (family === 'treemap' && Array.isArray(facts.values)) {
-    const literalValues = structuredClone(facts.values) as { id: string; value: number }[], settings = configuration.treemap ?? {}, hierarchy: { id: string; parent: string }[] = facts.hierarchy ?? (expected.nodes ?? []).map(node => ({ id: node.id, parent: node.id.split('/').slice(0, -1).join('/') })), weights = new Map(literalValues.map(entry => [entry.id, entry.value]))
+    const literalValues = facts.values as { id: string; value: number }[], settings = configuration.treemap ?? {}, hierarchy: { id: string; parent: string }[] = facts.hierarchy ?? (expected.nodes ?? []).map(node => ({ id: node.id, parent: node.id.split('/').slice(0, -1).join('/') })), weights = new Map(literalValues.map(entry => [entry.id, entry.value]))
     facts['show-values'] = settings.showValues !== false
     const visiting = new Set<string>()
     const weight = (id: string): number => {

@@ -187,12 +187,12 @@ export function inspectSvgText(root: SvgInspectionElement, expectedLabels: reado
   const opaqueInk = (node: SvgInspectionNode): boolean => node.kind === 'element' && !excluded(node) && (node.namespaceURI === SVG_NAMESPACE && (node.localName === 'path' && !!node.attributes.d?.trim() || ['image', 'use'].includes(node.localName) && !!(node.attributes.href ?? node.attributes['xlink:href'])) || node.children.some(opaqueInk))
   // Paths/raster/use can encode glyphs without machine-readable text. Their
   // presence supplies neither a missing-label verdict nor positive OCR proof.
-  const opaqueLabelCandidates = opaqueInk(root)
+  const opaqueLabelCandidates = opaqueInk(root), runList = [...runs]
   return {
-    runs: [...runs],
+    runs: runList,
     primaryRuns,
     opaqueLabelCandidates,
-    missingLabels: expectedLabels.filter(label => ![...runs].some(run => containsAuthoredLabel(run, label, markdownLabels.includes(label)))),
+    missingLabels: expectedLabels.filter(label => !runList.some(run => containsAuthoredLabel(run, label, markdownLabels.includes(label)))),
     scope: 'namespace-aware-authored-text-retention; CSS-and-paint-visibility-unmeasured',
   }
 }

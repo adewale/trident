@@ -47,10 +47,10 @@ export function inspectTerminalBlock(output: string, contract: TerminalSourceCon
  * an interval [start/columns,end/columns] describes placement, not printed text.
  * Nonempty scope ordering follows the first descendant's source node order. */
 export function projectTerminalBlockLayout(expected: any): { scope: string | null; columns: number; items: { id: string; kind: 'node' | 'group'; span: number; row: number; start: number; end: number }[] }[] | undefined {
-  const ids = [...expected.nodes, ...expected.groups].map(item => item.id), scopes = expected.columns.map((column: any) => column.scope)
+  const all = [...expected.nodes, ...expected.groups], ids = all.map(item => item.id), scopes = expected.columns.map((column: any) => column.scope)
   if (new Set(ids).size !== ids.length || new Set(scopes).size !== scopes.length) return
   const groups = new Map<string, any>(expected.groups.map((group: any) => [group.id, group]))
-  for (const item of [...expected.nodes, ...expected.groups]) {
+  for (const item of all) {
     let parent = 'group' in item ? item.group : item.parent
     const seen = new Set<string>([item.id])
     while (parent !== null) {

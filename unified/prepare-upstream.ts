@@ -71,7 +71,8 @@ export function prepareUpstream(source: string, runtime: string, reference: stri
     writeFileSync(descriptor, JSON.stringify({ pid: process.pid, source, runtime }) + '\n')
     const plan = upstreamRuntimePlan(source)
     const manifest = { name: 'trident-pinned-original-runner', private: true, type: 'module', dependencies: plan.dependencies }, file = join(runtime, 'package.json')
-    if (existsSync(file) && (planDigest(Object.entries(read(file).dependencies ?? {}).sort()) !== planDigest(Object.entries(manifest.dependencies).sort()) || read(file).type !== manifest.type)) throw Error('Runtime directory has different dependencies or package scope; select a fresh --runtime directory')
+    const existing = existsSync(file) ? read(file) : undefined
+    if (existing && (planDigest(Object.entries(existing.dependencies ?? {}).sort()) !== planDigest(Object.entries(manifest.dependencies).sort()) || existing.type !== manifest.type)) throw Error('Runtime directory has different dependencies or package scope; select a fresh --runtime directory')
     const modules = join(source, 'node_modules'), destination = join(runtime, 'node_modules')
     if (existsSync(modules) && (!lstatSync(modules).isSymbolicLink() || realpathSync(modules) !== resolve(destination))) throw Error('Preserve the existing source runtime; prepare a separate pinned checkout instead')
     if (existsSync(join(runtime, 'preparation.json'))) {

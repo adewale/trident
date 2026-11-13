@@ -70,8 +70,8 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
   const byProject = new Map<string, any>()
   for (const run of runs) {
     const control = run.results.find((row: any) => row.project === 'mermaid-js/mermaid')
-    if (!control || control.version !== reference.version || referenceDigest(control) !== digest) throw Error('Fidelity runs must share one referenceDigest and reference version')
-    if (referenceFiles(control) !== files) throw Error('Fidelity runs must preserve reference callback order within each file')
+    if (!control || control !== reference && (control.version !== reference.version || referenceDigest(control) !== digest)) throw Error('Fidelity runs must share one referenceDigest and reference version')
+    if (control !== reference && referenceFiles(control) !== files) throw Error('Fidelity runs must preserve reference callback order within each file')
     for (const row of run.results) {
       if (byProject.has(row.project)) {
         if (row.project !== 'mermaid-js/mermaid') throw Error('Duplicate Fidelity candidate ' + row.project)

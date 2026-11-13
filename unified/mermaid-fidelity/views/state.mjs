@@ -258,7 +258,7 @@ const asMap = value => (value instanceof Map ? new Map(value) : new Map(entriesO
 function portView(project, raw, hooks) {
   const latias = project === 'Latias94/merman'
   const unsetDeep = value => (latias ? deepUnset(value) : value)
-  const states = () => new Map([...asMap(raw.states)].map(([id, state]) => [id, unsetDeep(state)]))
+  const states = () => new Map(entriesOf(raw.states).map(([id, state]) => [id, unsetDeep(state)]))
   const view = {
     getStates: states,
     getState: id => states().get(id),
@@ -496,7 +496,7 @@ function dartState(raw) {
   const KIND = { normal: 'default', composite: 'default', start: 'start', end: 'end', fork: 'fork', join: 'join', choice: 'choice' }
   const descriptionsOf = node => (node.label === node.id ? absent('mermaid_core records a bare state and one described by its own id with the same label') : node.label.includes('\n') ? absent('mermaid_core joins repeated descriptions (and a <br>) into one label with newlines') : [node.label])
   const states = [
-    ...nodes.map(node => ({ id: node.id, kind: KIND[node.kind] ?? node.kind, container: regionOf.get(node.id) ?? node.parent ?? null, composite: node.kind === 'composite', label: descriptionsOf(node), descriptions: descriptionsOf(node), classes: node.cssClasses ?? [], styles: styleStrings(node.styles), singleLabel: node.label === node.id })),
+    ...nodes.map(node => { const descriptions = descriptionsOf(node); return { id: node.id, kind: KIND[node.kind] ?? node.kind, container: regionOf.get(node.id) ?? node.parent ?? null, composite: node.kind === 'composite', label: descriptions, descriptions, classes: node.cssClasses ?? [], styles: styleStrings(node.styles), singleLabel: node.label === node.id } }),
     ...regions,
   ]
   // Mermaid's layout label is the first description, or the id when there is none: an id
@@ -623,8 +623,9 @@ function agenticState(raw) {
     // Mermaid names a `[*]` by the document it is written in and its side of the arrow.
     const marker = (side, cls) => {
       const id = `[*]${side}\u0000${doc ?? ''}`
-      if (!states.some(state => state.id === id)) states.push({ id, kind: side, container: doc, classes: [], styles: [] })
-      if (cls) states.find(state => state.id === id).classes.push(cls)
+      let state = states.find(item => item.id === id)
+      if (!state) states.push(state = { id, kind: side, container: doc, classes: [], styles: [] })
+      if (cls) state.classes.push(cls)
       return id
     }
     for (const t of moves ?? []) transitions.push({ from: t.from === '[*]' ? marker('start', t.fromClass) : t.from, to: t.to === '[*]' ? marker('end', t.toClass) : t.to, title: t.label ?? '', doc })

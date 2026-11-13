@@ -18,7 +18,8 @@ const scope = 'Closed graph containers in at most 128 nodes, 4096 columns, 2048 
 function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeaning, options: { primitiveShapes: boolean; pointMarkers?: readonly string[] } = { primitiveShapes: false }, observation = terminalObservation(output)) {
   observation.assertOutput(output)
   const verdict = (status: 'correct' | 'incorrect' | 'unknown', reason: string, edges: { source: string; target: string; label?: string; route?: { x: number; y: number }[] }[] = []) => ({ status, reason, scope, edges })
-  if (!expected.nodes.length && !expected.groups?.length || new Set(expected.nodes.map(node => node.id)).size !== expected.nodes.length || new Set(expected.nodes.map(node => normalizedTerminalText(node.label))).size !== expected.nodes.length || expected.nodes.some(node => !normalizedTerminalText(node.label) || /[\r\x00-\x09\x0b-\x1f]/.test(node.label)) || expected.edges.some(edge => ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.source) || ![...expected.nodes, ...(expected.groups ?? [])].some(node => node.id === edge.target))) return verdict('unknown', 'Expected identities/labels are ambiguous or outside the declared display scope')
+  const known = [...expected.nodes, ...(expected.groups ?? [])]
+  if (!expected.nodes.length && !expected.groups?.length || new Set(expected.nodes.map(node => node.id)).size !== expected.nodes.length || new Set(expected.nodes.map(node => normalizedTerminalText(node.label))).size !== expected.nodes.length || expected.nodes.some(node => !normalizedTerminalText(node.label) || /[\r\x00-\x09\x0b-\x1f]/.test(node.label)) || expected.edges.some(edge => !known.some(node => node.id === edge.source) || !known.some(node => node.id === edge.target))) return verdict('unknown', 'Expected identities/labels are ambiguous or outside the declared display scope')
   const display = observation.display({ columns: 4096, rows: 2048, inputBytes: 2_000_000 })
   if (display.status !== 'available') return verdict('unknown', display.reason ?? 'No qualified terminal-state interpretation')
   const text = display.text, grid = display.cells, cell = (x: number, y: number) => grid[y]?.[x] ?? ' '
@@ -26,7 +27,7 @@ function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeani
   const grouping = expected.groups?.length ? inspectTerminalGrouping(output, expected.nodes, expected.groups, observation) : undefined
   if (grouping && grouping.status !== 'passed') return verdict('unknown', grouping.reason)
   const groupBoxes = grouping?.groups ?? []
-  const boxes: Box[] = observation.rectangles(display, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true, cornerPorts: true }).filter(box => !groupBoxes.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)).map(box => ({ ...box, label: normalizedTerminalText(box.lines.join(' ')) }))
+  const boxes: Box[] = observation.rectangles(display, { horizontal: /^[─┬┴┼+\-]+$/, vertical: /^[│|├┤┼+]$/, primitives: options.primitiveShapes, ports: true, cornerPorts: true }).filter(box => !groupBoxes.some(group => group.x === box.x && group.y === box.y && group.right === box.right && group.bottom === box.bottom)).map(box => Object.assign(box, { label: normalizedTerminalText(box.lines.join(' ')) }))
   for (let y = 0; y < grid.length; y++) for (let x = 0; x < grid[y]!.length; x++) if ((options.pointMarkers ?? ['●', '◉']).includes(cell(x, y)) && expected.nodes.some(node => node.label === cell(x, y)) && !boxes.some(box => x >= box.x && x <= box.right && y >= box.y && y <= box.bottom)) boxes.push({ x, y, right: x, bottom: y, label: cell(x, y) })
   if (!boxes.length) return verdict('unknown', 'No qualified closed node containers or explicit state markers are inspectable in this output representation')
   const disjoint = boxes.every((box, index) => boxes.every((other, at) => at === index || box.right < other.x || other.right < box.x || box.bottom < other.y || other.bottom < box.y))
@@ -36,7 +37,7 @@ function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeani
   const hasCaption = (box: Box) => /[\p{Letter}\p{Number}]/u.test(box.label)
   if (!groupBoxes.length && disjoint && boxes.every(hasCaption) && boxes.length > expected.nodes.length) return verdict('incorrect', 'Additional independently closed, labelled node containers are absent from the authored node inventory')
   for (const node of expected.nodes) {
-    const matches = boxes.filter(box => box.label.normalize('NFC') === normalizedTerminalText(node.label))
+    const label = normalizedTerminalText(node.label), matches = boxes.filter(box => box.label.normalize('NFC') === label)
     if (!matches.length && (text.includes(node.label) || boxes.some(box => box.label.replace(/\s/g, '') === node.label.replace(/\s/g, '')))) return verdict('unknown', 'Visible authored label lacks a qualified node-container or wrapping projection: ' + node.label)
     if (matches.length !== 1) return verdict('incorrect', 'Expected exactly one drawn node labelled ' + node.label + '; found ' + matches.length)
     const rows = matches[0]!.lines
@@ -60,7 +61,7 @@ function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeani
     const node = boxes.find(box => box.x === box.right && box.y === box.bottom && x === box.x && y === box.y || (x === box.x || x === box.right) && y > box.y && y < box.bottom || (y === box.y || y === box.bottom) && x > box.x && x < box.right)
     if (node) return node
     const group = groupBoundary(x, y), exits = groupExits(x, y)
-    return group && (sourceDirection === undefined || exits?.length === 1 && exits[0] === sourceDirection) ? { ...group, label: group.label } : undefined
+    return group && (sourceDirection === undefined || exits?.length === 1 && exits[0] === sourceDirection) ? group : undefined
   }
 
   const points: Record<string, number[]> = { '┄': [1, 3], '┈': [1, 3], '╌': [1, 3], '━': [1, 3], '┆': [0, 2], '┊': [0, 2], '╎': [0, 2], '┃': [0, 2], '─': [1, 3], '-': [1, 3], '│': [0, 2], '|': [0, 2], '┌': [1, 2], '┐': [2, 3], '└': [0, 1], '┘': [0, 3], '╭': [1, 2], '╮': [2, 3], '╰': [0, 1], '╯': [0, 3], '┬': [1, 2, 3], '┴': [0, 1, 3], '├': [0, 1, 2], '┤': [0, 2, 3], '┼': [0, 1, 2, 3], '+': [0, 1, 2, 3] }
@@ -113,11 +114,12 @@ function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeani
       }
       continue
     }
+    const needle = label.normalize('NFC'), labelWidth = terminalTextWidth(label)
     for (let y = 0; y < grid.length; y++) {
       const line = grid[y]!.join(''), hits: { x: number; width: number; uncertain: boolean }[] = []
-      for (let offset = line.indexOf(label.normalize('NFC')); offset >= 0; offset = line.indexOf(label.normalize('NFC'), offset + 1)) {
+      for (let offset = line.indexOf(needle); offset >= 0; offset = line.indexOf(needle, offset + 1)) {
         const prefix = line.slice(0, offset), column = terminalTextWidth(prefix)
-        hits.push({ x: column, width: terminalTextWidth(label), uncertain: false })
+        hits.push({ x: column, width: labelWidth, uncertain: false })
       }
       if (!hits.length && /\s/.test(label)) {
         const escaped = label.split(/(\s+)/).map(part => /^\s+$/.test(part) ? '[ ─-]+' : part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('')
@@ -221,9 +223,9 @@ function inspectTerminalMeaningUnchecked(output: string, expected: TerminalMeani
       for (const token of found.labels.keys()) for (const coordinate of captionSpans.get(token) ?? []) used.add(coordinate)
       const strokes = new Set([...found.path].map(coordinate => { const [col, row] = coordinate.split(',').map(Number); const glyph = cell(col!, row!); return /[┄┈╌┆┊╎]/.test(glyph) ? 'dotted' : /[━┃]/.test(glyph) ? 'thick' : /[─│|-]/.test(glyph) ? 'solid' : undefined }).filter(Boolean))
       if (strokes.size > 1) return verdict('unknown', 'Mixed line strokes have no qualified style ownership', actual)
-      const stroke = [...strokes][0]
-      actual.push({ source: found.source.id, target, ...(found.labels.size ? { label: [...found.labels.values()][0]! } : {}), ...(stroke && stroke !== 'solid' ? { stroke } : {}), ...(special.get(key(x, y))?.directed === false ? { directed: false } : {}), ...(special.get(key(x, y))?.endMarker ? { endMarker: special.get(key(x, y))!.endMarker } : {}), route: [{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })] })
-      paths.push([{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })])
+      const stroke = [...strokes][0], marker = special.get(key(x, y)), route = [{ x, y }, ...[...found.path].map(coordinate => { const [x, y] = coordinate.split(',').map(Number); return { x: x!, y: y! } })]
+      actual.push({ source: found.source.id, target, ...(found.labels.size ? { label: [...found.labels.values()][0]! } : {}), ...(stroke && stroke !== 'solid' ? { stroke } : {}), ...(marker?.directed === false ? { directed: false } : {}), ...(marker?.endMarker ? { endMarker: marker.endMarker } : {}), route })
+      paths.push(route)
     }
   }
   for (const caption of floating) {

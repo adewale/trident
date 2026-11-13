@@ -144,13 +144,15 @@ function immutableWrite(file: string, bytes: Buffer | string) {
  * rewritten, including on an explicit publication retry. */
 export function writeProjectBenchmarkRecord(file: string, record: ProjectBenchmarkRecord): OutputReference {
   validateRecord(record)
-  record = JSON.parse(JSON.stringify(record)) as ProjectBenchmarkRecord
+  return writeCanonicalRecord(file, JSON.parse(JSON.stringify(record)) as ProjectBenchmarkRecord)
+}
+function writeCanonicalRecord(file: string, record: ProjectBenchmarkRecord, bytes?: Buffer): OutputReference {
   if (!file.endsWith('.json.gz')) return fail('new canonical record needs a .json.gz path')
   if (existsSync(file)) {
     if (stableValue(readProjectBenchmarkRecord(file)) !== stableValue(record)) return fail('canonical payload already contains a different attempt')
     return outputReference(file)
   }
-  immutableWrite(file, gzipSync(Buffer.from(JSON.stringify(record))))
+  immutableWrite(file, bytes ?? gzipSync(Buffer.from(JSON.stringify(record))))
   return outputReference(file)
 }
 /** Legacy inline records remain readable. New store files are small references
@@ -290,11 +292,11 @@ export function publishProjectRecord(store: string, record: ProjectBenchmarkReco
       // publication. A truncated or conflicting orphan cannot be overwritten.
       if (stableValue(readProjectBenchmarkRecord(destination)) !== stableValue(record)) return fail('unpublished record differs from the completed attempt')
     } else {
-      const payload = options.payloadFile ?? join(record.evidenceDirectory, 'record-' + digest(gzipSync(Buffer.from(JSON.stringify(record)))) + '.json.gz')
+      const bytes = options.payloadFile ? undefined : gzipSync(Buffer.from(JSON.stringify(record))), payload = options.payloadFile ?? join(record.evidenceDirectory, 'record-' + digest(bytes!) + '.json.gz')
       if (!resolve(payload).startsWith(resolve(record.evidenceDirectory) + sep)) return fail('canonical payload must belong to the evidence directory')
       if (options.payloadFile) {
         if (stableValue(readProjectBenchmarkRecord(payload)) !== stableValue(record)) return fail('canonical payload differs from the completed attempt')
-      } else writeProjectBenchmarkRecord(payload, record)
+      } else writeCanonicalRecord(payload, record, bytes)
       const reference: StoredRecordReference = { schemaVersion: 2, kind: 'project-benchmark-record-reference', id: record.id, project: record.identity.project, ...(record.identity.lane ? { lane: record.identity.lane } : {}), payload: outputReference(payload) }
       immutableWrite(destination, JSON.stringify(reference) + '\n')
     }

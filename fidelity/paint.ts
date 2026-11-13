@@ -417,7 +417,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
     return labelElements.filter(element => pattern.test(normalize(labelText(element))))
   }
   const visibleMatches = (label: string) => matches(label).filter(element => visible(element) && labelBox(element).width > 0 && labelBox(element).height > 0)
-  const labelResults = [...new Set(requiredLabels.filter(Boolean))].map(label => {
+  const labelResults = requiredLabels.filter(Boolean).map(label => {
     const elements = visibleMatches(label)
     const bounds = elements.map(element => { const fontBox = labelBox(element), inkBox = labelInkBox(element); return { fontBox, inkBox, inCanvas: inkBox ? contains(rootBox, inkBox) : contains(rootBox, fontBox) ? true : null } })
     return { label, count: elements.length, boxes: bounds.map(item => item.fontBox), glyphInkBoxes: bounds.map(item => item.inkBox), inCanvas: bounds.some(item => item.inCanvas === false) ? false : bounds.some(item => item.inCanvas === null) ? null : elements.length > 0 }
@@ -758,7 +758,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const count = Math.min(16384, Math.max(32, Math.ceil(local * Math.hypot(matrix.a, matrix.b, matrix.c, matrix.d) / .1)))
       const points = Array.from({ length: count + 1 }, (_, index) => { const p = item.getPointAtLength(local * index / count).matrixTransform(matrix); return { x: p.x, y: p.y } })
       const cells = new Map<string, Point[]>(); let length = 0
-      points.forEach((point, index) => { const key = Math.floor(point.x / .2) + ':' + Math.floor(point.y / .2); cells.set(key, [...(cells.get(key) ?? []), point]); if (index) length += Math.hypot(point.x - points[index - 1]!.x, point.y - points[index - 1]!.y) })
+      points.forEach((point, index) => { const key = Math.floor(point.x / .2) + ':' + Math.floor(point.y / .2); const cell = cells.get(key); if (cell) cell.push(point); else cells.set(key, [point]); if (index) length += Math.hypot(point.x - points[index - 1]!.x, point.y - points[index - 1]!.y) })
       const observed = { points, length, cells }; contours.set(element, observed); return observed
     }
     const equivalent = (a: Element, b: Element) => {
@@ -773,7 +773,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       return covered(first, second) && covered(second, first)
     }
     if (parts.some(matches => !matches.length || !matches.every(element => equivalent(matches[0]!, element)))) continue
-    const observed = [...new Set(parts.flat())].filter((element, index, all) => !all.slice(0, index).some(other => equivalent(element, other)))
+    const outlines = [...new Set(parts.flat())], observed = outlines.filter((element, index, all) => !all.slice(0, index).some(other => equivalent(element, other)))
     const existing = anchors.get(source.id)
     if (existing && !observed.some(element => equivalent(element, existing.shape))) continue
     const boxes = observed.map(rect), x = Math.min(...boxes.map(b => b.x)), y = Math.min(...boxes.map(b => b.y)), union = { x, y, width: Math.max(...boxes.map(b => b.x + b.width)) - x, height: Math.max(...boxes.map(b => b.y + b.height)) - y }
@@ -786,7 +786,7 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const adjacent = Math.abs(middle.x - body.x) <= Math.max(12, union.width * .6) && Math.max(union.y - label.y - label.height, label.y - union.y - union.height, 0) <= Math.max(12, label.height * 1.5)
       if (!inside && !adjacent) continue
     }
-    anchors.set(source.id, { ...source, owner: observed[0]!, shape: observed[0]!, outlines: [...new Set(parts.flat())], box: union })
+    anchors.set(source.id, { ...source, owner: observed[0]!, shape: observed[0]!, outlines, box: union })
     const index = missingNodes.indexOf(source.id); if (index >= 0) missingNodes.splice(index, 1)
   }
   // A common ancestor can contain several unrelated labels. It is not a
@@ -1355,9 +1355,6 @@ export async function inspectFidelityPaint(input: PaintInput): Promise<PaintEvid
       const body = [...owner.querySelectorAll('rect,circle,ellipse,polygon,path')].some(shape => visible(shape) && rect(shape).width > 0 && rect(shape).height > 0)
       if (body) unexpectedNodes.push(...labelElements.filter(element => owner.contains(element) && visible(element) && !presentationRole(element)).map(element => normalize(labelText(element))).filter(label => label && !allowed.has(label)))
     }
-  }
-  if (input.expected.nodes?.length && !['sequence', 'zenuml'].includes(input.family)) {
-    const allowed = new Set(requiredLabels.map(normalize))
     for (const [index, element] of labelElements.entries()) {
       const label = normalize(labelText(element))
       if (!label || allowed.has(label) || !visible(element) || presentationRole(element)) continue

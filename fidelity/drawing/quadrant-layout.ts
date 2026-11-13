@@ -15,7 +15,7 @@ export function inspectQuadrantClearance(expected: MeaningExpectation): Structur
   const owned: { label: string; role: string; box: ReturnType<typeof box> }[] = []
   const used = new Set<Element>()
   for (const item of wanted) {
-    const matches = texts.filter(e => norm(e.textContent ?? '') === norm(item.label))
+    const label = norm(item.label), matches = texts.filter(e => norm(e.textContent ?? '') === label)
     if (matches.length !== 1 || used.has(matches[0]!)) return unavailable('Label ownership is ambiguous or uses an unqualified representation: ' + item.label)
     const e = matches[0]!, bounds = box(e)
     for (let owner: Element | null = e; owner; owner = owner.parentElement) {
@@ -34,7 +34,7 @@ export function inspectQuadrantClearance(expected: MeaningExpectation): Structur
   const overlaps = (a: ReturnType<typeof box>, b: ReturnType<typeof box>) => Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x) > 1 && Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y) > 1
   const labels: { first: string; second: string }[] = [], dots: { marker: number; label: string; role: string }[] = []
   for (let i = 0; i < owned.length; i++) for (let j = i + 1; j < owned.length; j++) if (overlaps(owned[i]!.box, owned[j]!.box)) labels.push({ first: owned[i]!.label, second: owned[j]!.label })
-  markers.forEach((marker, index) => { for (const label of owned) if (overlaps(box(marker), label.box)) dots.push({ marker: index, label: label.label, role: label.role }) })
+  markers.forEach((marker, index) => { const bounds = box(marker); for (const label of owned) if (overlaps(bounds, label.box)) dots.push({ marker: index, label: label.label, role: label.role }) })
   return [
     { criterion: 'quadrant-label-box-clearance', status: labels.length ? 'failed' : 'passed', detail: 'Uniquely owned point and section-caption text boxes must not overlap by more than one CSS pixel on both axes', actual: labels },
     { criterion: 'quadrant-marker-box-clearance', status: dots.length ? 'failed' : 'passed', detail: 'Qualified visible point-marker boxes must not overlap point or section-caption text boxes by more than one CSS pixel on both axes', actual: dots },

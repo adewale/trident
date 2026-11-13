@@ -90,9 +90,10 @@ export function inspectTerminalSequence(output: string, contract: TerminalSource
     }
     // A uniquely identified closed note can decisively lose its hard breaks
     // even when an overlapping side-note layout leaves actor ownership unknown.
-    for (const note of notes) {
-      const text = normalizedTerminalText(note.text), owners = noteBoxes.filter(box => normalizedTerminalText(box.lines.join(' ')) === text)
-      if (notes.filter(other => normalizedTerminalText(other.text) === text).length === 1 && owners.length === 1 && terminalAuthoredLinesObserved(owners[0]!.lines, note.text.split('\n')) === false) set('owned-notes', 'failed', 'A uniquely owned closed note merges or changes an authored hard line', owners[0]!.lines)
+    const noteTexts = notes.map(note => normalizedTerminalText(note.text)), boxTexts = noteBoxes.map(box => normalizedTerminalText(box.lines.join(' ')))
+    for (const [index, note] of notes.entries()) {
+      const text = noteTexts[index]!, owners = noteBoxes.filter((_box, n) => boxTexts[n] === text)
+      if (noteTexts.filter(other => other === text).length === 1 && owners.length === 1 && terminalAuthoredLinesObserved(owners[0]!.lines, note.text.split('\n')) === false) set('owned-notes', 'failed', 'A uniquely owned closed note merges or changes an authored hard line', owners[0]!.lines)
     }
   }
 

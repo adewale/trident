@@ -7,8 +7,8 @@ export function inspectTerminalEncodedJourney(output:string,contract:TerminalSou
  const boxes=canvas.boxes.sort((a,b)=>a.x-b.x);if(!boxes.length||boxes.some(box=>box.y!==boxes[0]!.y||box.bottom!==box.y+2||box.lines.filter(Boolean).length!==1))return checks
  const top=boxes[0]!.y,legends=new Map<string,string>(),sections:{x:number;right:number;label:string}[]=[],faces=new Map([['😞',1],['😟',2],['😐',3],['😊',4],['😄',5]])
  for(let y=0;y<top;y++){
-  if(canvas.owned.has('0,'+y)||!canvas.row(y).trim())continue
-  const row=canvas.row(y),legend=/^\s*([●◆■▲★◉◈▶])\s+(.+?)\s*$/.exec(row)
+  const row=canvas.row(y);if(canvas.owned.has('0,'+y)||!row.trim())continue
+  const legend=/^\s*([●◆■▲★◉◈▶])\s+(.+?)\s*$/.exec(row)
   if(legend){if(legends.has(legend[1]!)||[...legends.values()].includes(legend[2]!))return checks;legends.set(legend[1]!,legend[2]!.normalize('NFC'));canvas.claimRow(y);continue}
   for(let x=0;x<canvas.grid[y]!.length;x++)if(canvas.cell(x,y)==='╭'){
    const right=canvas.grid[y]!.findIndex((glyph,at)=>at>x&&glyph==='╮');if(right<0)return checks

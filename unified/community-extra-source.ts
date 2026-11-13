@@ -304,9 +304,9 @@ async function mermaidBuild(source: string, root: string, cache: string, env: No
   const parser = packageRoots.get('@mermaid-js/parser')
   if (!parser) throw Error('Pinned Mermaid public build requires its exact local parser package')
   visit(parser)
-  const runtimeSeeds = Object.keys(dependencies)
+  const runtimeSeeds = Object.keys(dependencies), rootManifest = json(join(root, 'package.json'))
   for (const name of ['esbuild', 'tsx', 'langium-cli', 'jison', 'js-yaml', 'ajv']) {
-    const version = manifest.devDependencies?.[name] ?? json(join(root, 'package.json')).devDependencies?.[name]
+    const version = manifest.devDependencies?.[name] ?? rootManifest.devDependencies?.[name]
     if (typeof version !== 'string') throw Error('Pinned Mermaid build lacks a declared build-tool version: ' + name)
     dependencies[name] = version
   }

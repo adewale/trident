@@ -30,7 +30,7 @@ export function gapsByCause(result: any) {
   for (const row of result.results) {
     if (row.project === 'mermaid-js/mermaid') continue
     const causes: Record<string, number> = {}
-    for (const [reason, count] of Object.entries(row.gapReasons ?? {}) as [string, number][]) causes[gapCause(reason)] = (causes[gapCause(reason)] ?? 0) + count
+    for (const [reason, count] of Object.entries(row.gapReasons ?? {}) as [string, number][]) { const cause = gapCause(reason); causes[cause] = (causes[cause] ?? 0) + count }
     table[row.project] = causes
   }
   return table
@@ -50,8 +50,7 @@ if (import.meta.main) {
     else for (const [project, n] of hits) console.log(String(n).padStart(6), project)
   } else {
     const names = [...new Set(Object.values(table).flatMap(causes => Object.keys(causes)))]
-    for (const [project, causes] of Object.entries(table).sort((a, b) => Object.values(b[1]).reduce((s, n) => s + n, 0) - Object.values(a[1]).reduce((s, n) => s + n, 0))) {
-      const total = Object.values(causes).reduce((sum, n) => sum + n, 0)
+    for (const [project, causes, total] of Object.entries(table).map(([project, causes]) => [project, causes, Object.values(causes).reduce((sum, n) => sum + n, 0)] as const).sort((a, b) => b[2] - a[2])) {
       console.log(`${String(total).padStart(6)} ${project}: ${names.filter(name => causes[name]).map(name => `${name} ${causes[name]}`).join(', ')}`)
     }
   }

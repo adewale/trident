@@ -67,7 +67,7 @@ export function inspectTerminalClass(output: string, contract: TerminalSourceCon
     for (const card of cards) {
       const near = endpoints.map(endpoint => ({ ...endpoint, distance: Math.abs(endpoint.point.y - card.y) + Math.max(card.x - endpoint.point.x, 0, endpoint.point.x - card.x - card.width + 1) })).filter(endpoint => endpoint.distance <= 2)
       if (near.length !== 1) { ambiguous = true; unassigned.push(card.value); continue }
-      const key = near[0]!.edge + ':' + near[0]!.end; assigned.set(key, [...(assigned.get(key) ?? []), card.value])
+      const key = near[0]!.edge + ':' + near[0]!.end, values = assigned.get(key); if (values) values.push(card.value); else assigned.set(key, [card.value])
     }
     let mismatch = false
     for (const [index, edge] of verdict.edges.entries()) {

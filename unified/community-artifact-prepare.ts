@@ -114,6 +114,7 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
     const module = join(root, pkg.main),
       wasm = join(root, names.find(name => name.endsWith('_bg.wasm')) ?? '')
     if (!existsSync(wasm)) throw new Error('Franken package has no WASM binary')
+    const files = artifactFiles(names.map(name => join(root, name)))
     artifact = {
       kind: 'franken',
       root,
@@ -121,8 +122,8 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
       wasm,
       version,
       revision,
-      sha256: digest(readFileSync(module)),
-      files: artifactFiles(names.map(name => join(root, name))),
+      sha256: files.find(file => file.path === module)!.sha256,
+      files,
       runtime: 'Rust/WASM public Node/browser distribution',
       detail: 'Pinned checked-in distribution, not current native source or live-site deployment. Terminal output is not exported by this WASM API.',
     }
@@ -136,14 +137,15 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
     const module = join(root, 'dart.js')
     await run([dart, '--suppress-analytics', 'compile', 'js', '-O2', '-o', module, join(root, 'benchmark_wrapper.dart')], root, env, log)
     await run([dart, '--version'], root, env, log)
+    const files = artifactFiles([module])
     artifact = {
       kind: 'global',
       root,
       module,
       global: 'mermaidDartRender',
       version,
-      sha256: digest(readFileSync(module)),
-      files: artifactFiles([module]),
+      sha256: files[0]!.sha256,
+      files,
       runtime: 'Dart dart2js -O2 on Node/browser',
       detail: 'Unmodified mermaid_core public Mermaid(ApproximateTextMeasurer) → renderSceneToSvg; Mermaid Flutter native PNG is a separately cataloged brand, not an output of this SVG artifact. Compiler/dependency commands and versions are in acquisition.log/pubspec.lock.',
     }
@@ -174,6 +176,7 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
       wasm = join(root, 'pkg/bezel_bench_bg.wasm')
     const built = JSON.parse(readFileSync(join(root, 'manifest.json'), 'utf8')) as { version: string; revision: string }
     if (built.version !== version || built.revision !== revision) throw new Error('Compiled Bezel wrapper identity mismatch')
+    const files = artifactFiles([module, wasm, archive])
     artifact = {
       kind: 'global',
       root,
@@ -182,8 +185,8 @@ export async function prepareCommunityArtifact(node: CommunityNode, cacheRoot: s
       wasm,
       version,
       revision,
-      sha256: digest(readFileSync(module)),
-      files: artifactFiles([module, wasm, archive]),
+      sha256: files[0]!.sha256,
+      files,
       runtime: 'Rust/WASM public render wrapper on Node/browser',
       detail: 'Checksum-verified published crate VCS revision; public render(source, Options::default, Metrics).svg. opt-level3/LTO profile and actual Rust/wasm-bindgen versions retained in wasm/manifest.json.',
     }

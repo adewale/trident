@@ -86,8 +86,9 @@ export async function executeUpstreamSpecs(files, parse) {
   const equal = (actual, expected) => expected?.[arraySubset] ? expected[arraySubset].every(entry => Array.isArray(actual) && actual.some(value => { try { assert.deepStrictEqual(plain(value), plain(entry)); return true } catch { return false } })) : (() => { try { assert.deepStrictEqual(plain(actual), plain(expected)); return true } catch { return false } })()
   const expectation = (actual, invert = false) => {
     const check = (passed, matcher, expected, observed = actual) => {
-      state.assertions.push({ matcher, negated: invert, actual: plain(observed), expected: plain(expected), passed: invert ? !passed : passed })
-      assert.ok(invert ? !passed : passed, `${invert ? 'not.' : ''}${matcher}: expected ${JSON.stringify(plain(expected))}, observed ${JSON.stringify(plain(observed))}`)
+      const plainObserved = plain(observed), plainExpected = plain(expected)
+      state.assertions.push({ matcher, negated: invert, actual: plainObserved, expected: plainExpected, passed: invert ? !passed : passed })
+      assert.ok(invert ? !passed : passed, `${invert ? 'not.' : ''}${matcher}: expected ${JSON.stringify(plainExpected)}, observed ${JSON.stringify(plainObserved)}`)
     }
     const thrown = (error, expected) => {
       if (error instanceof PrepareSource || error instanceof ProjectionUnavailable) throw error

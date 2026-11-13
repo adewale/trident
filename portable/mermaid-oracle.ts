@@ -56,10 +56,10 @@ export function admitMermaidOracle(directory: string, environment: NodeJS.Proces
   }
   // Node honours package exports, which need not expose package.json; find the directory instead.
   const manifest = (require: NodeJS.Require, name: string) => require.resolve.paths(name)?.map(directory => join(directory, name, 'package.json')).find(path => existsSync(path)) ?? refuse(`${name} is not installed`)
-  const version = (require: NodeJS.Require, name: string) => JSON.parse(readFileSync(manifest(require, name), 'utf8')).version as string
+  const version = (path: string) => JSON.parse(readFileSync(path, 'utf8')).version as string
   if (!existsSync(join(directory, 'package.json'))) refuse('no install exists')
-  const require = createRequire(join(directory, 'package.json'))
-  const installed = { version: version(require, 'mermaid'), parserVersion: version(createRequire(manifest(require, 'mermaid')), '@mermaid-js/parser'), domVersion: version(require, 'jsdom') }
+  const require = createRequire(join(directory, 'package.json')), mermaid = manifest(require, 'mermaid')
+  const installed = { version: version(mermaid), parserVersion: version(manifest(createRequire(mermaid), '@mermaid-js/parser')), domVersion: version(manifest(require, 'jsdom')) }
   if (installed.version !== pin.version || installed.parserVersion !== pin.parser || installed.domVersion !== pin.dom) refuse(`found mermaid ${installed.version}, @mermaid-js/parser ${installed.parserVersion}, jsdom ${installed.domVersion}`)
   let integrity: string | null = null
   try {

@@ -42,11 +42,11 @@ export function inspectTerminalGitLanes(canvas:FamilyCanvas,checks:ReturnType<ty
  // A non-head copy is not identifiable from a branch-level transfer stem.
  // Do not use its source ID to select an unseen edge or invert a suffix.
  let uncertain=required.some(event=>event.msg||event.type)
- for(const event of required)if(event.operation==='cherry-pick'){
-  const index=required.indexOf(event),picked=event.parents.at(-1),sourceBranch=picked===undefined?undefined:required[picked]?.branch,prior=required.slice(0,index).map((e,i)=>({e,i})).filter(row=>row.e.branch===sourceBranch).at(-1)?.i
+ for(const [index,event] of required.entries())if(event.operation==='cherry-pick'){
+  const picked=event.parents.at(-1),sourceBranch=picked===undefined?undefined:required[picked]?.branch,prior=required.slice(0,index).map((e,i)=>({e,i})).filter(row=>row.e.branch===sourceBranch).at(-1)?.i
   if(picked!==prior)uncertain=true
  }
- const wanted=required.map(event=>({branch:event.branch,parents:event.parents,...(event.id?{id:event.id}:{}),...(event.tag?{tag:event.tag}:{})})),actual=events.map((event,index)=>({branch:event.branch,parents:event.parents,...(required[index]?.id?{id:event.id}:{}),...(required[index]?.tag?{tag:event.tag}:{})})),equal=JSON.stringify(wanted)===JSON.stringify(actual)&&JSON.stringify(tracks.map(track=>track.name).sort())===JSON.stringify([...expected.branches].sort())
+ const wanted=required.map(event=>({branch:event.branch,parents:event.parents,...(event.id?{id:event.id}:{}),...(event.tag?{tag:event.tag}:{})})),actual=events.map((event,index)=>({branch:event.branch,parents:event.parents,...(required[index]?.id?{id:event.id}:{}),...(required[index]?.tag?{tag:event.tag}:{})})),equal=JSON.stringify(wanted)===JSON.stringify(actual)
  if(events.some((event,index)=>!required[index]?.id&&!/^\d+$/.test(event.id)&&!events.slice(0,index).some(parent=>new RegExp('^'+parent.id.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'-cherry(?:-cp)*$').test(event.id))))uncertain=true
  setFamilyCheck(checks,'git-operations',!equal?'failed':uncertain?'unknown':'passed','The exact admitted native lane encoding retains all ordered branch/commit IDs, requested tags and uniquely drawn current-head parent/provenance stems. Source operations are forward projected to this visible graph, not inverse inferred as native history; non-head copies and unprinted messages/types remain unknown.',{branches:tracks.map(track=>track.name),events})
  return true

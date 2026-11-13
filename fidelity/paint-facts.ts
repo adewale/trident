@@ -273,14 +273,15 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       }).sort((a: any, b: any) => String(a.id).localeCompare(String(b.id)))
       const expected = facts.members.map((entry: any) => ({ id: entry.id, values: Array.isArray(entry.values) ? entry.values.map((value: any) => canonical(String(value))).sort() : null })).sort((a: any, b: any) => String(a.id).localeCompare(String(b.id)))
       const profile = expected.every((entry: any) => Array.isArray(entry.values) && entry.values.every((value: string) => !/[~$*]|<<|>>/.test(value))) && actual.every((entry: any) => entry.elements && !ambiguousOwnedText(entry.id) && rowPaint(entry.elements))
-      add(key, actual.map(({ elements: _, ...entry }: any) => entry), profile ? same(expected, actual.map(({ elements: _, ...entry }: any) => entry)) : null, 'Exact visible member multiset within each independently owned class body, including access, arguments and return types. Standard UML Type name and name:Type field notation, visibility spacing and return-type colon punctuation are equivalent; names and types preserve case. Generic, abstract/static decorations, clipped/covered rows and unowned bodies need additional qualified projections')
+      const rows = actual.map(({ elements: _, ...entry }: any) => entry)
+      add(key, rows, profile ? same(expected, rows) : null, 'Exact visible member multiset within each independently owned class body, including access, arguments and return types. Standard UML Type name and name:Type field notation, visibility spacing and return-type colon punctuation are equivalent; names and types preserve case. Generic, abstract/static decorations, clipped/covered rows and unowned bodies need additional qualified projections')
       continue
     }
     if (key === 'attributes' && input.family === 'er' && Array.isArray(facts.attributes)) {
       const actual = facts.attributes.map((entry: any) => {
         const elements = ownedText(entry.id), content = bodyText(entry.id, elements)
         const rows: { y: number; height: number; cells: { x: number; text: string }[] }[] = []
-        for (const element of [...content].sort((a, b) => a.getBoundingClientRect().y - b.getBoundingClientRect().y)) {
+        for (const element of content.sort((a, b) => a.getBoundingClientRect().y - b.getBoundingClientRect().y)) {
           const box = element.getBoundingClientRect(), y = box.y + box.height / 2
           const row = rows.find(row => Math.abs(row.y - y) <= Math.max(1.5, Math.min(row.height, box.height) * .35))
           const cell = { x: box.x, text: normalize(element.textContent ?? '') }
@@ -308,7 +309,8 @@ export function inspectSourceFacts(input: { family: string; source: string; expe
       })
       if (key === 'message-order') {
         const project = (message: any, index: number) => ({ from: message.from, to: message.to, text: typeof message.text === 'string' ? normalize(message.text) : message.text ?? null, ...(facts[key][index]?.direction ? { direction: message.direction } : {}) })
-        add(key, actual.map(project), bound ? same(facts[key].map(project), actual.map(project)) : null, 'Every message caption owns a measured route, then physical heights establish chronology. Visible arrowheads establish directed endpoints; unheaded lines establish only unordered endpoint pairs. SVG path-writing order and source metadata cannot invent an invisible sender')
+        const projected = actual.map(project)
+        add(key, projected, bound ? same(facts[key].map(project), projected) : null, 'Every message caption owns a measured route, then physical heights establish chronology. Visible arrowheads establish directed endpoints; unheaded lines establish only unordered endpoint pairs. SVG path-writing order and source metadata cannot invent an invisible sender')
       }
       else {
         const supported = facts[key].every((style: any) => ['->>', '-->>', '->', '-->'].includes(style))

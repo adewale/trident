@@ -19,8 +19,9 @@ export async function reassessDrawingRun(run: any, root: string, formats: string
   const outputs = new Map<string, any>()
   const key = (row: any) => JSON.stringify([row.project, row.caseId, row.format])
   for (const record of run.outputs) {
-    if (outputs.has(key(record))) throw Error('Duplicate retained drawing output')
-    outputs.set(key(record), record)
+    const id = key(record)
+    if (outputs.has(id)) throw Error('Duplicate retained drawing output')
+    outputs.set(id, record)
   }
   const observerChecks: Record<string, unknown> = { ...run.observerChecks }
   for (const format of formats) observerChecks[format] = await verifyDrawingObserver(format, context)
