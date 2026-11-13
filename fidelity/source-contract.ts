@@ -20,7 +20,7 @@ const canonical = (value: any, key = ''): any => {
  * An incompatible fact is retained and explicitly prevents a whole-source
  * certificate. Candidate render/model output never enters this function. */
 export function enrollAuthoredSource(input: AuthoredFidelityCase): AuthoredFidelityCase {
-  const review = reviewDocumentationSource({ id: input.id, family: input.family, source: input.source }, { visual: false }), literal = structuredClone(review.expected), unresolved = [...review.sourceReview.unresolved]
+  const review = reviewDocumentationSource({ id: input.id, family: input.family, source: input.source }, { visual: false }), literal = review.expected, unresolved = review.sourceReview.unresolved
   if (review.family !== input.family) unresolved.push('Authored family conflicts with literal source family: ' + input.family + ' / ' + review.family)
   if (!literal || review.intent !== 'drawing') unresolved.push('Authored drawing lacks an independently transcribed drawing source')
   const expected = structuredClone(input.expected), facts: Record<string, any> = expected.facts ??= {}

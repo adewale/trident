@@ -11,7 +11,7 @@ export function projectSourceMetadata(family:string,expected:MeaningExpectation)
   const facts:any=expected.facts??={},projections:string[]=[],excluded:string[]=[],metadata:Record<string,MeaningJson>={}
   const keys=family==='gitgraph'?['git-operation-order']:['railroad','railroad-abnf','railroad-ebnf','railroad-peg'].includes(family)?['grammar-dialect']:family==='mindmap'?['tree-order']:[]
   for(const key of keys)if(Object.hasOwn(facts,key)){
-    metadata[key]=structuredClone(facts[key]);delete facts[key]
+    metadata[key]=facts[key];delete facts[key]
     excluded.push('Raw '+key+' is source/native identity or history without a unique printed inverse; its complete ordered commits/parents/branch order,grammar AST or rooted hierarchy remains required: '+JSON.stringify(metadata[key]))
   }
   if(Object.keys(metadata).length)projections.push('Only Git operation history,railroad grammar dialect and mindmap DFS traversal are advisory/native identities; all visible topology,chronology,ownership and recursive grammar semantics remain required')

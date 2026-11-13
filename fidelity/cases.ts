@@ -184,9 +184,8 @@ const authored: Array<Omit<AuthoredFidelityCase, 'required' | 'provenance'>> = [
 export function fidelityCases(): AuthoredFidelityCase[] {
   const basics = portableCases(['family']).map(testCase => {
     const declared = basicFacts[testCase.family]
-    let expected: MeaningExpectation = { labels: [...testCase.expected.labels] }
-    if (declared) expected = { ...declared, labels: [...testCase.expected.labels] }
-    else if (testCase.expected.topology) {
+    const expected: MeaningExpectation = declared ? { ...declared, labels: [...testCase.expected.labels] } : { labels: [...testCase.expected.labels] }
+    if (!declared && testCase.expected.topology) {
       const topology = testCase.expected.topology
       expected.nodes = topology.nodes.map(id => ({ id, label: topology.nodeLabels?.[id] ?? id }))
       expected.edges = topology.edges.map(item => ({ source: item.source, target: item.target, directed: testCase.family !== 'er' }))

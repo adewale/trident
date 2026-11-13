@@ -7,8 +7,7 @@ import { sourceContractComplete, sourceContractScope } from './source-contract.t
 export interface SvgEvidenceBinding { sourceSha256: string; expectationsSha256: string; svgSha256: string; observerSha256: string }
 export type SvgEvidenceBindings = Readonly<Record<string, SvgEvidenceBinding>>
 
-export function makeSvgCaseContract(testCase: AuthoredFidelityCase) {
-  const planned = planFidelityCriteria([testCase]).filter(item => item.surface !== 'native-public-api')
+export function makeSvgCaseContract(testCase: AuthoredFidelityCase, planned = planFidelityCriteria([testCase]).filter(item => item.surface !== 'native-public-api')) {
   return defineCaseEvidenceContract({ caseId: testCase.id, source: testCase.source, expectations: JSON.parse(JSON.stringify({ family: testCase.family, expected: testCase.expected, paint: testCase.paint, prelude: testCase.prelude, sourceReview: testCase.sourceReview })), requiredChecks: planned.map(item => ({ surface: item.surface, criterion: item.criterion })) })
 }
 
@@ -25,9 +24,11 @@ export function makeSvgObservationBinding(testCase: AuthoredFidelityCase, svgSha
  * Preserved status rows need independently revalidated evidence before they can
  * qualify; a fresh binding cannot relabel a historical observation. */
 export function assessSvgCases(cases: readonly AuthoredFidelityCase[], observations: readonly BenchmarkObservation[], bindings?: SvgEvidenceBindings) {
+  const byCase = new Map<unknown, BenchmarkObservation[]>()
+  for (const row of observations) if (row.surface !== 'native-public-api') { const owned = byCase.get(row.metrics?.authoredCase); if (owned) owned.push(row); else byCase.set(row.metrics?.authoredCase, [row]) }
   return cases.map(testCase => {
     const planned = planFidelityCriteria([testCase]).filter(item => item.surface !== 'native-public-api')
-    const rows = observations.filter(row => row.metrics?.authoredCase === testCase.id && row.surface !== 'native-public-api')
+    const rows = byCase.get(testCase.id) ?? []
     const indexed = new Map<string, BenchmarkObservation>()
     for (const row of rows) {
       const key = JSON.stringify([row.surface, row.operation])
@@ -36,7 +37,7 @@ export function assessSvgCases(cases: readonly AuthoredFidelityCase[], observati
       indexed.set(key, row)
     }
     const required = planned.map(item => indexed.get(JSON.stringify([item.surface, item.criterion])))
-    const contract = makeSvgCaseContract(testCase)
+    const contract = makeSvgCaseContract(testCase, planned)
     const explicit = bindings && Object.hasOwn(bindings, testCase.id) ? bindings[testCase.id] : undefined
     for (const row of rows) if (row.metrics?.sourceSha256 !== undefined && row.metrics.sourceSha256 !== contract.sourceSha256 || row.metrics?.expectationsSha256 !== undefined && row.metrics.expectationsSha256 !== contract.expectationsSha256) throw Error('SVG observation is stale for the actual source/expectations contract')
     if (explicit && (explicit.sourceSha256 !== contract.sourceSha256 || explicit.expectationsSha256 !== contract.expectationsSha256)) throw Error('SVG binding is stale for the actual source/expectations contract')

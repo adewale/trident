@@ -25,7 +25,7 @@ const named=new Set(['base','default','forest','dark','neutral'])
 export function projectSourceConfiguration(family:string,expected:MeaningExpectation){
   const facts:any=expected.facts??={},config:any=facts['authored-config'],advisory:Record<string,MeaningJson>={},projections:string[]=[],excluded:string[]=[]
   const requestedLook=config?.look
-  const retain=(path:string,value:MeaningJson,reason:string)=>{advisory[path]=structuredClone(value);excluded.push(reason+': '+path+'='+JSON.stringify(value))}
+  const retain=(path:string,value:MeaningJson,reason:string)=>{advisory[path]=value;excluded.push(reason+': '+path+'='+JSON.stringify(value))}
   if(config){
     for(const key of ['layout','look','htmlLabels'])if(Object.hasOwn(config,key)&&(key!=='look'||config.look==='classic')){
       retain(key,config[key],'Engine/look/DOM implementation identity is source/native provenance; owned topology,labels,shapes and every concrete metric/paint setting remain required')

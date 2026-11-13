@@ -201,7 +201,7 @@ export function inspectQuantitativePaint(input: { family: string; expected: Mean
   if (input.family === 'journey' && facts.tasks && new Set((facts.tasks as { score: number }[]).map(task => task.score)).size > 1) {
     const tasks: { label: string; score: number }[] = facts.tasks, faces = [...svg.querySelectorAll('circle')].filter(element => visible(element) && Number(element.getAttribute('r')) >= 9)
     const values = tasks.map(task => { const element = label(task.label), x = element ? center(box(element)).x : NaN; const candidates = faces.filter(face => Math.abs(center(box(face)).x - x) <= 4); return { ...task, y: candidates.length === 1 ? center(box(candidates[0]!)).y : null } })
-    const available = values.every(value => value.y !== null) && new Set(values.map(value => value.score)).size > 1
+    const available = values.every(value => value.y !== null)
     add('painted-score-order', tasks, values, available ? values.every(a => values.every(b => a.score === b.score ? Math.abs(a.y! - b.y!) <= 2 : a.score > b.score ? a.y! < b.y! : a.y! > b.y!)) : null, 'Actual task-owned score glyphs preserve relative score order and equal-score alignment within2px. A single unlabeled score has no independent absolute-axis observation; native exact values remain separate')
   }
   if (uncertain.size) for (const check of checks) if (check.status === 'passed') { check.status = 'unavailable'; check.scope += '; geometry/paint projection remains unavailable: ' + [...uncertain].join(', ') }

@@ -118,7 +118,7 @@ export function inspectChartFacts(input: { family: string; source: string; expec
     const ticks = text.map(element => ({ element, value: numeric(element.textContent ?? ''), coordinate: tickCoordinate(element, valueAxis), perpendicular: anchor(element)[categoryAxis] })).filter(item => Number.isFinite(item.value) && item.coordinate !== undefined && !categoryLabels.includes(item.element))
     const clusters = ticks.map(seed => ticks.filter(tick => Math.abs(tick.perpendicular - seed.perpendicular) < 1)).filter(group => group.length > 1 && new Set(group.map(tick => tick.value)).size === group.length)
     const distinct = [...new Map(clusters.map(group => [group.map(tick => tick.value).sort((a, b) => a - b).join(','), group])).values()].sort((a, b) => b.length - a.length)
-    const calibrated = distinct[0] && (!distinct[1] || distinct[0].length > distinct[1].length) ? [...distinct[0]].sort((a, b) => a.value - b.value) : null
+    const calibrated = distinct[0] && (!distinct[1] || distinct[0].length > distinct[1].length) ? distinct[0].sort((a, b) => a.value - b.value) : null
     const first = calibrated?.[0], last = calibrated?.at(-1), slope = first && last ? (last.coordinate! - first.coordinate!) / (last.value - first.value) : NaN
     const calibrationOkay = first && Number.isFinite(slope) && slope !== 0 && calibrated!.every(tick => Math.abs(tick.coordinate! - (first.coordinate! + (tick.value - first.value) * slope)) < 1)
     const ready = calibrationOkay && categories.length > 1 && new Set(categories).size === categories.length && categoryLabels.every(Boolean) && categoryTicks.every(coordinate => coordinate !== undefined) && range.length === 2 && range[1]! > range[0]! && series.length > 0 && series.every(item => ['bar', 'line'].includes(item.kind) && item.values.length === categories.length && item.values.every(value => Number.isFinite(value) && value >= range[0]! && value <= range[1]!))
@@ -174,7 +174,7 @@ export function inspectChartFacts(input: { family: string; source: string; expec
         })
       }
     }
-    if (bars.length !== series.filter(item => item.kind === 'bar').reduce((sum, item) => sum + item.values.filter(value => value !== Math.max(range[0]!, Math.min(range[1]!, 0))).length, 0) || lines.length !== expectedLines.length) available = false
+    if (bars.length !== expectedBars.reduce((sum, item) => sum + item.values.filter(value => value !== Math.max(range[0]!, Math.min(range[1]!, 0))).length, 0) || lines.length !== expectedLines.length) available = false
     const scope = 'Exact category/series inventory with label-to-legend or explicit source-ordinal palette ownership for repeated series kinds, visible numeric tick calibration, value positions within 3 CSS pixels and bounded baseline overhang. No series order or DOM class supplies ownership.'
     add('series', observed, available ? passed : null, scope); quantitative('painted-series-values', facts.series, observed, available ? passed : null, scope)
     if (facts['authored-config']?.themeVariables?.xyChart?.plotColorPalette) {
@@ -237,7 +237,7 @@ export function inspectChartFacts(input: { family: string; source: string; expec
   if (input.family === 'radar') {
     const axes: { id: string; label: string }[] = facts.axes ?? [], curves: { id: string; label?: string; values: number[] }[] = facts.curves ?? [], range: number[] = facts.range ?? []
     const circles = [...svg.querySelectorAll('circle')].filter(element => visible(element) && box(element).width > 20 && Math.abs(box(element).width - box(element).height) < 1)
-    const outer = [...circles].sort((a, b) => box(b).width - box(a).width)[0], origin = outer ? center(box(outer)) : null, radius = outer ? box(outer).width / 2 : 0
+    const outer = circles.sort((a, b) => box(b).width - box(a).width)[0], origin = outer ? center(box(outer)) : null, radius = outer ? box(outer).width / 2 : 0
     const rings = origin ? circles.filter(element => Math.hypot(center(box(element)).x - origin.x, center(box(element)).y - origin.y) < 1) : []
     const spokes = origin ? paths.filter(path => {
       const ends = endPoints(path); if (ends.length !== 2) return false
