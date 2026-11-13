@@ -49,11 +49,15 @@ const fail = (message: string): never => { throw Error('Invalid evidence contrac
 function obligations(value: unknown): asserts value is EvidenceObligation[] {
   if (!Array.isArray(value) || !value.length || value.some(item => !item || !text(item.surface) || !text(item.criterion)) || new Set(value.map(coordinate)).size !== value.length) fail('required checks must be unique, nonempty coordinates')
 }
+const admittedContracts = new WeakSet<object>()
 export function admitCaseEvidenceContract(value: unknown): Readonly<CaseEvidenceContract> {
+  if (admittedContracts.has(value as object)) return value as Readonly<CaseEvidenceContract>
   const item = value as CaseEvidenceContract
   if (!item || item.schema !== 'trident-case-evidence-v1' || !text(item.caseId) || !digest(item.sourceSha256) || !digest(item.expectationsSha256)) fail('case source/expectation identity is absent or invalid')
   obligations(item.requiredChecks)
-  return Object.freeze({ ...item, requiredChecks: Object.freeze(item.requiredChecks.map(check => Object.freeze({ surface: check.surface, criterion: check.criterion }))) })
+  const contract = Object.freeze({ ...item, requiredChecks: Object.freeze(item.requiredChecks.map(check => Object.freeze({ surface: check.surface, criterion: check.criterion }))) })
+  admittedContracts.add(contract)
+  return contract
 }
 /** Build from the source and complete authored expectations, not renderer output. */
 export function defineCaseEvidenceContract(input: { caseId: string; source: string; expectations: unknown; requiredChecks: readonly EvidenceObligation[] }) {
@@ -65,15 +69,17 @@ export function admitCheckedEvidence(contract: CaseEvidenceContract, value: unkn
   const item = value as CheckedEvidence
   if (!item || item.schema !== 'trident-checked-evidence-v1' || item.caseId !== contract.caseId || item.sourceSha256 !== contract.sourceSha256 || item.expectationsSha256 !== contract.expectationsSha256 || !digest(item.outputSha256) || !digest(item.observerSha256)) fail('checked evidence is stale or lacks output/observer identity')
   if (!Array.isArray(item.checks) || item.checks.some(check => !check || !text(check.surface) || !text(check.criterion) || !text(check.detail) || !['passed', 'failed', 'unknown'].includes(check.status)) || new Set(item.checks.map(coordinate)).size !== item.checks.length) fail('checked evidence has duplicate or invalid criteria')
-  if (item.checks.some(check => !contract.requiredChecks.some(required => coordinate(required) === coordinate(check)))) fail('unplanned diagnostics cannot satisfy this case contract')
+  const planned = new Set(contract.requiredChecks.map(coordinate))
+  if (item.checks.some(check => !planned.has(coordinate(check)))) fail('unplanned diagnostics cannot satisfy this case contract')
   return Object.freeze({ ...item, checks: Object.freeze(item.checks.map(check => Object.freeze({ ...check }))) })
 }
 export function constructEvidenceVerdict(contract: CaseEvidenceContract, value?: CheckedEvidence): Readonly<EvidenceVerdict> {
   contract = admitCaseEvidenceContract(contract)
   const evidence = value === undefined ? undefined : admitCheckedEvidence(contract, value)
-  const checks = contract.requiredChecks.map(required => evidence?.checks.find(check => coordinate(check) === coordinate(required)))
+  const observed = new Map(evidence?.checks.map(check => [coordinate(check), check]))
+  const checks = contract.requiredChecks.map(required => observed.get(coordinate(required)))
   const passed = checks.filter(check => check?.status === 'passed').length, failed = checks.filter(check => check?.status === 'failed').length, unknown = checks.length - passed - failed
-  return Object.freeze({ schema: 'trident-evidence-verdict-v1', status: failed ? 'incorrect' : passed === checks.length ? 'correct' : 'unknown', caseId: contract.caseId, sourceSha256: contract.sourceSha256, expectationsSha256: contract.expectationsSha256, outputSha256: evidence?.outputSha256 ?? null, observerSha256: evidence?.observerSha256 ?? null, contractSha256: evidenceDigest(contract), evidenceSha256: evidence ? evidenceDigest(evidence) : null, planned: checks.length, passed, failed, unknown, missingChecks: Object.freeze(contract.requiredChecks.filter((_required, index) => !checks[index]).map(item => Object.freeze({ ...item }))) })
+  return Object.freeze({ schema: 'trident-evidence-verdict-v1', status: failed ? 'incorrect' : passed === checks.length ? 'correct' : 'unknown', caseId: contract.caseId, sourceSha256: contract.sourceSha256, expectationsSha256: contract.expectationsSha256, outputSha256: evidence?.outputSha256 ?? null, observerSha256: evidence?.observerSha256 ?? null, contractSha256: evidenceDigest(contract), evidenceSha256: evidence ? evidenceDigest(evidence) : null, planned: checks.length, passed, failed, unknown, missingChecks: Object.freeze(contract.requiredChecks.filter((_required, index) => !checks[index])) })
 }
 
 export interface InvocationIdentity {

@@ -148,11 +148,12 @@ export function captureInstalledDependencyClosure(packageRoot: string): Installe
                 .some(part => part === 'node_modules' || part === '.git'),
           )
           if (rootOwned(resolvedTarget) || !admittedTarget) throw Error(`Dependency symlink leaves admitted fetched packages: ${path}`)
-          if (statSync(path).isDirectory()) {
+          const targetStat = statSync(path)
+          if (targetStat.isDirectory()) {
             const cycleTo = ancestors.get(resolvedTarget)
             node.files.push({ path: name, kind: 'symlink-directory', target, resolvedTarget, ...(cycleTo !== undefined ? { cycleTo } : {}) })
             if (cycleTo === undefined) walk(resolvedTarget, name, new Map([...ancestors, [resolvedTarget, name]]))
-          } else if (statSync(path).isFile()) {
+          } else if (targetStat.isFile()) {
             const bytes = readFileSync(path)
             node.files.push({ path: name, kind: 'symlink-file', target, resolvedTarget, sha256: createHash('sha256').update(bytes).digest('hex'), bytes: bytes.byteLength })
           } else throw Error(`Unsupported dependency symlink target: ${path}`)
@@ -192,7 +193,7 @@ export function dependencyExecutionInputs(closure: InstalledDependencyClosure) {
   }
   const roots = [...names].sort((a, b) => b[0].length - a[0].length)
   const normalize = (path: string) => {
-    for (const [root, name] of roots) if (within(root, path)) return name + (relative(root, path) ? '/' + relative(root, path).split(sep).join('/') : '')
+    for (const [root, name] of roots) if (within(root, path)) { const suffix = relative(root, path); return name + (suffix ? '/' + suffix.split(sep).join('/') : '') }
     throw Error('Execution dependency path leaves observed packages: ' + path)
   }
   return {
@@ -201,6 +202,6 @@ export function dependencyExecutionInputs(closure: InstalledDependencyClosure) {
     // when the package declares exports.
     root: Object.fromEntries(['type', 'main', 'module', 'exports', 'imports', 'browser', 'bin', ...(manifest.exports ? ['name'] : [])].filter(key => manifest[key] !== undefined).map(key => [key, manifest[key]])),
     nodes: closure.nodes.map(node => ({ root: names.get(node.realRoot), files: node.files.map(({ target: _target, resolvedTarget, ...file }) => ({ ...file, ...(resolvedTarget ? { resolvedTarget: normalize(resolvedTarget) } : {}) })) })).sort((a, b) => a.root!.localeCompare(b.root!)),
-    edges: closure.edges.map(({ from, resolution, ...edge }) => ({ ...edge, from: names.get(from), resolution: resolution ? { root: names.get(resolution.realRoot), search: resolution.search } : null })).sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b))),
+    edges: closure.edges.map(({ from, resolution, ...edge }) => ({ ...edge, from: names.get(from), resolution: resolution ? { root: names.get(resolution.realRoot), search: resolution.search } : null })).map(edge => [JSON.stringify(edge), edge] as const).sort((a, b) => a[0].localeCompare(b[0])).map(([, edge]) => edge),
   }
 }

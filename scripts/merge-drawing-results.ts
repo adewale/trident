@@ -55,14 +55,15 @@ export function mergeDrawingResults(base: any, run: any, formats: string[]) {
   if (run.state !== 'complete') throw Error('Drawing run is not complete')
   if (base.corpus.ids.length !== base.corpus.cases) throw Error('Drawing population differs from its case IDs')
   if (JSON.stringify(run.corpus.ids) !== JSON.stringify(base.corpus.ids)) throw Error('Drawing run must use the published corpus')
-  const frozen = new Map([...(base.plan?.lanes ?? []), ...base.results].filter((row: any) => row.version !== undefined).map((row: any) => [JSON.stringify([row.project, row.format]), row.version]))
-  const operands = new Map([...(base.plan?.lanes ?? []), ...base.results].filter((lane: any) => lane.operand).map((lane: any) => [laneKey(lane), lane.operand]))
-  for (const lane of [...(run.plan?.lanes ?? []), ...run.rows]) {
+  const published = [...(base.plan?.lanes ?? []), ...base.results], observed = [...(run.plan?.lanes ?? []), ...run.rows]
+  const frozen = new Map(published.filter((row: any) => row.version !== undefined).map((row: any) => [JSON.stringify([row.project, row.format]), row.version]))
+  const operands = new Map(published.filter((lane: any) => lane.operand).map((lane: any) => [laneKey(lane), lane.operand]))
+  for (const lane of observed) {
     const expected = frozen.get(JSON.stringify([lane.project, lane.format]))
     if (expected !== undefined && lane.version !== expected) throw Error('Drawing run changed a frozen project/format version: ' + lane.project + ' ' + lane.format)
   }
-  for (const lane of [...(run.plan?.lanes ?? []), ...run.rows]) {
-    const expected = operands.get(laneKey(lane)), actual = run.plan?.lanes.find((planned: any) => laneKey(planned) === laneKey(lane))?.operand
+  for (const lane of observed) {
+    const id = laneKey(lane), expected = operands.get(id), actual = run.plan?.lanes.find((planned: any) => laneKey(planned) === id)?.operand
     if (expected && operandDigest(actual) !== operandDigest(expected)) throw Error('Drawing run changed or omitted frozen artifact bytes: ' + lane.project + ' ' + lane.format)
   }
   validateDrawingCoverage(run)
