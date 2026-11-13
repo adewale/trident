@@ -371,9 +371,9 @@
         ],
         "cliRelease": {
           "repository": "Dicklesworthstone/frankenmermaid",
-          "tag": "v0.4.0",
-          "version": "0.4.0",
-          "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
+          "tag": "v0.5.0",
+          "version": "0.5.0",
+          "revision": "834665dd11b8365481958dd3ef5ac2276c072246",
           "outputs": {
             "terminal": {
               "args": [
@@ -391,7 +391,7 @@
           "platforms": {
             "linux-x64": {
               "asset": "frankenmermaid-linux-amd64.tar.xz",
-              "sha256": "a1e4ccf2cb02a01b00a36363791201faa9bc24f787b759330c96b5d545af175a",
+              "sha256": "d7ced2d8be37576e3f3fff6c81c95fb26125e34bea5dc9b67d69141d0d98380d",
               "executable": "frankenmermaid"
             }
           }
@@ -3891,9 +3891,9 @@
         ],
         "cliRelease": {
           "repository": "Latias94/merman",
-          "tag": "v0.9.3",
-          "version": "0.9.3",
-          "revision": "3b915f69c02d55b873d252cf6c8a6048e7f3427d",
+          "tag": "v0.10.0",
+          "version": "0.10.0",
+          "revision": "e0e75bcab2fa8e39dd7a09465b7f2e035eda82ef",
           "outputs": {
             "terminal": {
               "args": [
@@ -3938,7 +3938,7 @@
           "platforms": {
             "linux-x64": {
               "asset": "merman-cli-x86_64-unknown-linux-gnu.tar.xz",
-              "sha256": "e93dbf741319190d53107c4277b373d357dcdad3f4f7e50f114a51c9b682109b",
+              "sha256": "f0273090f6c0973793139365bbe496035d1e89cd5bd514663ceaffb3d4f00926",
               "executable": "merman-cli-x86_64-unknown-linux-gnu/merman-cli"
             }
           }
