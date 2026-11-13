@@ -16,3 +16,5 @@ The page reads the current numeric results directly. Regenerate or check it with
 `bun commands.ts results:snapshot` or `bun commands.ts results:snapshot --check`.
 Neither command runs renderers or rebuilds historical evidence. See
 [results instructions](results/README.md) for the input files.
+
+To contest a row, follow [Dispute a result](CONTRIBUTING.md#dispute-a-result).

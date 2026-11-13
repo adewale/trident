@@ -5,8 +5,10 @@ retained SVG and terminal drawings. It invokes no renderer and collects no new
 timings. The current profile, `drawing-structure-v2`, qualifies flowchart, class,
 state, ER and sequence topology in SVG and terminal output, plus SVG quadrant
 point/caption box clearance. Other families and unsupported representations remain unassessed.
-These diagnostic axes are separate from the existing label benchmark and do not
-change its score or the equal-weight synthesis.
+`drawing:structure` is an optional diagnostic, not a benchmark. It never changes a
+Drawing Correctness, DaveBench or Mermaid Fidelity score, a rank or the
+equal-weight synthesis. The README lists it with the other
+[diagnostics](../README.md#diagnostics).
 
 ```sh
 bun commands.ts drawing:structure --run RETAINED_DRAWING_RUN --out FRESH_DIRECTORY

@@ -1,8 +1,10 @@
 # Flowchart SVG layout observer
 
 `layout:observe` measures layout geometry from retained Drawing SVG outputs.
-It does not invoke renderers or alter Drawing Correctness, Mermaid Fidelity,
-DaveBench or the published overall scores. It needs Bun, the locked dependencies
+It is an optional diagnostic, not a benchmark: it does not invoke renderers and
+never changes a Drawing Correctness, Mermaid Fidelity or DaveBench score, a rank
+or the overall synthesis. The README lists it with the other
+[diagnostics](../README.md#diagnostics). It needs Bun, the locked dependencies
 and Chromium; no Mermaid reference installation is required.
 
 ```sh

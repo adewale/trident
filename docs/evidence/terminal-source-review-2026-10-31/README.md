@@ -1,4 +1,9 @@
-# Independent terminal source review
+# Terminal source review
+
+This review was a separate AI-agent session run by Trident's maintainer (the
+receipt names the reviewer as a Codex session), independent only of the session
+that transcribed the terminal sources. It was not a review by an independent third
+party.
 
 The review read **all 120 literal sources and all 333 original source-fact rows**
 at commit `31ff662`, then separately read every changed fact and scope in the

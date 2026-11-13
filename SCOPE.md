@@ -6,25 +6,55 @@ declared output, measuring comparable work and publishing readable evidence.
 
 ## Current priority
 
-Implement Drawing Correctness and Mermaid Fidelity before adding reporting or
-release infrastructure. Reuse the existing public drivers, source cases and
-upstream execution machinery. Keep development runs small and affected checks
-focused; run the full workload after the changed path works. Freeze versions
-once, record blockers, and continue with available projects. Produce one result
-file and one readable table; archive packaging and publication are separate
-release tasks. Historical evidence stays available without being regenerated for
-every change.
+All three benchmarks are implemented and collected. The work now is:
+
+1. Freeze the three benchmark definitions (DaveBench, Drawing Correctness and
+   Mermaid Fidelity) for one release cycle, under the rule below.
+2. Close assessment gaps: unassessed Drawing observations, Fidelity callbacks
+   without an operation binding or model translation, and adapter gaps. The
+   [methods and coverage details](docs/benchmark-results-details.md#why-coverage-is-incomplete)
+   list them.
+3. Keep diagnostics (`drawing:structure`, `layout:observe`, `fidelity:coverage`)
+   separate from the ranked benchmarks. A diagnostic never changes a score, a rank
+   or the synthesis, and it does not become a benchmark without a definition
+   change made under the rule below.
+
+Keep development runs small and affected checks focused; run the full workload
+after the changed path works. Freeze versions once per campaign, record blockers,
+and continue with available projects. Historical evidence stays available without
+being regenerated for every change.
+
+## Benchmark definitions change only at a release boundary
+
+A benchmark definition is its corpus or input population, its admission rules,
+its scored population and its scoring formula. These change only at a release
+boundary. Each change is listed in [CHANGELOG.md](CHANGELOG.md) under the release
+that makes it, with its measured effect on the published results (which counts and
+ranks moved, and by how much). Results collected under different definitions are
+not compared, in tables or prose, without saying that the definitions differ and
+how. Observer fixes that correct a wrong verdict under an unchanged definition,
+adapter bindings and model translations are not definition changes; they are
+recorded in the changelog when they change a published result.
 
 ## Core work
 
 - Public SVG, PNG and terminal rendering (DaveBench); visible labels on a shared
-  corpus (Drawing Correctness); original Mermaid test assertions (Mermaid Fidelity).
+  corpus (Drawing Correctness); parser-model fidelity under original Mermaid test
+  assertions (Mermaid Fidelity).
 - Independent inputs, output-meaning checks and invalid controls.
 - Explicit artifact, version, runtime and workload identities.
 - Bounded campaigns, named case selection and honest missing/blocked outcomes.
 - Per-benchmark ranked tables, reproducible reductions and retained failures.
 
 Each benchmark applies only where its interface and observation contract fit.
+Mermaid Fidelity applies only to a project with a public parse interface: an
+exported parser, a public CLI command or the parser of a public dependency.
+Grok's renderer component, MermaidText and Loom's renderer component expose their
+parsers only through private or unexported code, so the code is being changed to
+report their Fidelity as not applicable. They are then left out of the Fidelity
+ranking and out of the synthesis's Fidelity component, as Mermaid Flutter is left
+out of Drawing Correctness.
+
 Every catalog entry does not need every benchmark, format or optional model API.
 Neither a passing invocation nor an entire ecosystem campaign can substitute for
 missing correctness proof.

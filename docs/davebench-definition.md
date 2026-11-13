@@ -15,13 +15,13 @@ Count at commit [`370c4af57f43cb0bda05f4a9fe2d99c912ba16dd`](https://github.com/
 | `docs/` recursively | 1,342 | 49 |
 | `docs/syntax/` only | 1,239 | 34 |
 
-The full `docs/` population contains 673 `mermaid` blocks and 669 `mermaid-example` blocks. These often contain duplicate source; duplicates remain separate attempts.
+The full `docs/` population contains 673 `mermaid` blocks and 669 `mermaid-example` blocks: 1,342 documentation occurrences of 658 distinct sources (after trimming whitespace). Duplicates remain separate attempts. A repeated example counts each time it appears in the docs, so each family's weight in the score follows how many examples its documentation shows; `flowchart.md` alone contributes 232 occurrences and `all-examples.md` 158.
 
 The [numeric count and per-file breakdown](evidence/davebench-docs-count-2026-11-02.json) record the extraction result. No renderer was invoked for this count.
 
 Dave Kiss's reported 1,095 is reproduced by counting the generated `docs/syntax/` directory at our older pin, `1fb7869866dd619168d840291c9c54b4f129758b`: 547 `mermaid` blocks and 548 `mermaid-example` blocks across 34 files. Our former 548-occurrence corpus used `packages/mermaid/src/docs/syntax/`, before documentation generation duplicated many examples.
 
-The new DaveBench uses the full `docs/` population specified above: **1,342 attempts per renderer, format and run** at this revision.
+The new DaveBench uses the full `docs/` population specified above: **1,342 attempts per renderer, format and run** at this revision, one per documentation occurrence.
 
 ## Execution and timing
 
@@ -45,7 +45,7 @@ Returning without an error is not enough: some renderers return an empty string,
 
 | Format | Admitted output |
 |---|---|
-| SVG | Parses as XML to an SVG namespace root with finite positive `viewBox` or `width`/`height`. HTML-serialized void elements such as `<br>` are normalized by the existing validator. |
+| SVG | Parses as XML to an SVG namespace root with finite positive `viewBox` or `width`/`height`. HTML-serialized void elements such as `<br>` are normalized by the existing validator. (Being changed; see below.) |
 | PNG | A complete, decodable PNG with positive dimensions. The existing bounded decoder checks CLI output; browser and native Flutter exports use their image decoders after the clock stops. Shared conversion also requires the SVG to be admissible. |
 | Terminal text | Non-empty after removing ANSI/OSC control sequences, and not just the Mermaid source echoed back. |
 
@@ -53,6 +53,16 @@ XML namespace prefixes must be declared, and text must use XML-compatible
 entities. For example, `&#160;` is valid; an undeclared `&nbsp;` is rejected.
 A serialized `xlink:href` needs its `xmlns:xlink` declaration. These rules also
 apply to SVG used as input to the shared PNG conversion.
+
+**SVG admission is being changed to parse the way a browser does.** Strict XML
+rejected 34 of Mermaid's own documentation renders that browsers display: tooltips
+containing a raw `&`, and `&nbsp;` entities. Under the new rule an SVG is admitted
+when it parses, the way a browser parses SVG embedded in an HTML page, to an SVG
+root with a positive size. Strict-XML validity is counted and reported separately;
+it does not affect the completion count. This is an admission-rule change, so it takes effect
+at a release boundary and the changelog records its measured effect; counts
+collected under the strict-XML rule are not compared with counts under the new
+rule without saying so.
 
 Well-formed XML is parsed before attempting HTML void-element normalization, so
 paired XHTML tags such as `<br></br>` remain valid. APNG receives mechanical
@@ -63,7 +73,7 @@ Every format also rejects error output: an SVG root with `aria-roledescription="
 
 **Fallback renders are rejected.** Some renderers do not understand a diagram family and draw its text instead: a flowchart whose nodes are the source lines, the header keyword drawn as a node (`block`, `agentflow-beta TB`), or the source in a box. Without a check, these count as completions, so DaveBench rewarded them. Admission therefore applies one cheap meaning check to drawn SVG text (without `<title>`, `<desc>` and `<metadata>`, which are not drawn) and to terminal text. The output is a **fallback render** when it shows the source's header line verbatim as a separate label, or at least three, and at least half, of the source's syntax-bearing statements (lines of at least 8 characters with an arrow, a shape bracket glued to an id, `:::`, `@{` or a call). `key: value` lines are not statements: data records (quadrant points, event-modeling payloads, legends) are legitimately drawn as written. Left out of the statements: accessibility description blocks, class bodies (Mermaid draws members such as `+quack()` verbatim) and any line that also occurs inside another line, because that text is an authored label. One or two raw statements among real labels are misread labels, which Drawing Correctness judges. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate's SVG.
 
-Calibration over all 1,342 inputs, with the same text extraction as the in-page check: Mermaid 12.2.0's own SVG renders trip it 0 times; Frankenmermaid's 157 times (mostly block, swimlane, agentflow, railroad and packet headers drawn as nodes); Termaid's 26 times (families it does not parse, such as wardley, railroad and venn, drawn as boxes of raw lines); Agentic Mermaid's SVG and terminal output 0 times. DSH GB SVG, which draws every diagram as a flowchart, trips it on most of its returned outputs, and Latias Merman's terminal CLI prints a debug dump of its git-graph model instead of a drawing. Each run records which inputs were rejected and why (`rejected`), so every rejection can be audited.
+Calibration over all 1,342 inputs, with the same text extraction as the in-page check, was run on 5 November 2026, when the reference was still Mermaid 12.2.0 (the reference moved to 12.3.0 in release 0.3.0). Mermaid 12.2.0's own SVG renders tripped it 0 times; Frankenmermaid's 157 times (mostly block, swimlane, agentflow, railroad and packet headers drawn as nodes); Termaid's 26 times (families it does not parse, such as wardley, railroad and venn, drawn as boxes of raw lines); Agentic Mermaid's SVG and terminal output 0 times. DSH GB SVG, which draws every diagram as a flowchart, tripped it on most of its returned outputs, and Latias Merman's terminal CLI prints a debug dump of its git-graph model instead of a drawing. Each run records which inputs were rejected and why (`rejected`), so every rejection can be audited.
 
 A well-formed, positively sized SVG that draws nothing is admitted. Two documentation examples declare a Gantt chart with settings but no tasks, and several renderers deliberately draw nothing for them; whether an empty output is right for a given source is a drawing-correctness question. A zero-size SVG (`viewBox="0 0 0 0"`) is rejected.
 

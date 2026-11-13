@@ -8,7 +8,7 @@ use the version freeze of 7 November 2026; changing presentation runs no rendere
 
 | Benchmark | Population | Ordering | Missing results |
 |---|---|---|---|
-| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->9 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
+| DaveBench | <!-- fact:davebench-inputs -->1,342<!-- /fact --> documentation occurrences of 658 distinct sources, separately for SVG, PNG and terminal text (<!-- fact:davebench-collected -->9 November 2026<!-- /fact --> collection) | More admissible completions first; lower median total seconds breaks ties between rows with the same boundary kind | Blocked projects have no completion or timing score |
 | Drawing Correctness | The same 127 cases, separately for SVG and terminal text | More whole cases with every expected label shown and no raw syntax; equal counts share a rank. **Possible rank** shows the positions still reachable | Unassessed: unsupported visibility evidence or unrun cases |
 | Mermaid Fidelity | The expanded upstream callbacks that pinned Mermaid itself passes | More passed callbacks; equal counts share a rank. **Possible rank** shows the positions still reachable | Candidate adapter gaps remain unassessed |
 
@@ -46,8 +46,8 @@ unknown measurements as zero, for scoring or for ordering.
 
 The format is shared; the questions and input corpora differ:
 
-- **DaveBench — Terminal rendering:** render all 1,342 documentation examples to
-  native terminal text. Count completed operations and measure total time. No
+- **DaveBench — Terminal rendering:** render every documentation occurrence to
+  native terminal text (repeated examples count each time they appear). Count completed operations and measure total time. No
   drawing assessment or conversion to PNG takes place.
 - **Drawing Correctness — Terminal correctness:** render the 127 reviewed drawing
   cases to native terminal text and check that every expected label is shown without
@@ -81,17 +81,23 @@ candidate's module exposes no parser for a family (ER, class, C4, state or agent
 for Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH Mermaid
 GB SVG and MermaidTUI), those tests count as operations it does not offer, not as
 Trident gaps. Across all candidates, <!-- fact:fidelity-gaps -->91,984<!-- /fact --> tests
-remain unassessed by Trident. Thirteen are reached through their JavaScript
-parsers (generic native bindings, a guarded Bun/async parser bridge, native model
-schema views and the Frankenmermaid WASM binding) and thirteen through parser bridges.
+remain unassessed by Trident. Some candidates are called in-process through
+their JavaScript modules (generic native bindings, native model schema views and
+the Frankenmermaid WASM binding). The others run through parser bridges, one per
+project, registered in `unified/mermaid-fidelity/bridge-registry.ts`: JavaScript
+packages whose module exports no per-family parser the tests can import run
+through a guarded Node or Bun bridge (`bridges/javascript.mjs`), XMermaid's WASM
+parser runs through an unchanged copy of its glue with one export appended, and
+the remaining parsers run through the bridges described next.
 Ten of the JavaScript candidates had previously been run on only 42 files, so most of
 their earlier unassessed callbacks were tests Trident had not run rather than missing
 bindings. Full-suite runs raised Pele from 2,157 to 2,204 passes, Agentic Mermaid from
 1,186 to 1,202 and Merslim from 113 to 157; the shape-name fix below raised
 Frankenmermaid from 308 to 367.
 
-**Parser bridges reach the other 13 projects.** Their parsers are not JavaScript
-modules the original tests can import, so each has a small bridge program in the
+**Bridges reach parsers the tests cannot import.** These parsers are compiled
+Rust, Go, Dart or Python code, a native CLI, or a JavaScript parser the renderer
+does not re-export, so each project has a small bridge program, usually in the
 project's own language (`unified/mermaid-fidelity/bridges/`). A bridge calls the
 project's own parser for the requested family and prints the model it returns, with
 native field names; it parses nothing itself. Only the parser's own syntax rejection
@@ -104,22 +110,34 @@ version matches the one DaveBench and Drawing record.
 |---|---|
 | Latias Merman 0.9.3 | the native CLI's own `parse` command |
 | Crafter Mermaid 0.0.3 | the renderer's own `@crafter/mermaid-parser` dependency |
-| Termaid 0.10.0 | `termaid.parser.<family>.parse_<family>()` |
+| Termaid 0.12.0 | `termaid.parser.<family>.parse_<family>()` |
 | Mermaid Dart and Mermaid Flutter 0.3.2 | `mermaid_core` 0.3.2 `parseX` functions (Flutter uses core's parser unchanged) |
 | Bezel 0.2.24 | `bezel-mermaid` `mermaid::parse` |
 | Figurehead v0.4.3 | `figurehead::parse` and its per-family parser types |
 | Mermaid RS Renderer 0.3.1 | `parse_mermaid`, the entry point its CLI uses |
 | Mermaid ASCII 1.6.1 | its `pkg/graph`, `pkg/sequence` and `pkg/er` parsers |
-| Grok renderer | the binary's private `mermaid.rs` parsers, compiled unchanged beside an export |
-| MermaidText | its unexported Go parsers, reached by an injected export |
-| Loom 0.10.0 | its module-private parsers, from an unchanged source copy with exports appended |
+| Grok renderer | the binary's private `mermaid.rs` parsers, compiled unchanged beside an export (no public parse interface; see below) |
+| MermaidText | its unexported Go parsers, reached by an injected export (no public parse interface; see below) |
+| Loom 0.10.0 | its module-private parsers, from an unchanged source copy with exports appended (no public parse interface; see below) |
 | Ondine 0.0.3 | no parser exists: `render()` reports acceptance or rejection only |
+
+**Fidelity needs a public parse interface.** Trident compares implementations
+through their public interfaces ([scope](../SCOPE.md)). Grok's renderer component,
+MermaidText and Loom's renderer component expose no public parser: the bridges
+above reach private Rust, unexported Go and module-private TypeScript code. The
+code is being changed so that Mermaid Fidelity is not applicable to these three.
+Their Fidelity is then reported as not applicable, they are excluded from the
+Fidelity ranking, and the [synthesis](overall-scoring.md) leaves Fidelity out of
+their mean, as it leaves Drawing Correctness out of Mermaid Flutter's. Their
+DaveBench and Drawing Correctness results are unaffected. Results collected
+before this change include Fidelity rows for them and are not comparable on that
+point.
 
 Three limits are the projects' own. Ondine exposes no model, so every assertion about
 the parsed model is an operation it does not offer (unsupported); only acceptance and
 rejection can pass. MermaidText's and Grok's parsers return nothing rather than an
-error, so they cannot reject input; such sources count as unsupported. Termaid's
-parsers never reject input either and return a partial model.
+error, so they cannot reject input; such sources counted as unsupported while those
+two were scored. Termaid's parsers never reject input either and return a partial model.
 
 **Reviewed schema views map each bridged model.** A view
 (`unified/mermaid-fidelity/schema-views.mjs`) reads one project's own model field by
@@ -268,6 +286,14 @@ The source, generated inputs, runtime dependencies, runner and harness are bound
 in the control identity. Browser/application tests listed outside this runner
 remain outside the assessment.
 
+Mermaid Fidelity measures parser-model fidelity: whether a candidate's parser
+produces Mermaid's model as Mermaid's own tests read it. The code is being changed
+so that only callbacks from `packages/mermaid/src/diagrams/` and `packages/parser/`
+are scored. Callbacks from the other selected files (rendering utilities, Mermaid's
+website and its top-level modules) test code that no reimplementation's parser can
+reach; they will be listed as inventory, with their counts, and will not enter the
+scored population. The figures above were collected before this change.
+
 Candidates still use their own parsers and reviewed schema views. An unbound
 production import defers until used, so unrelated original callbacks can collect.
 Reading, calling, constructing or inspecting an unavailable export or database
@@ -279,7 +305,14 @@ remain unassessed. The source control's wider population makes those missing
 bindings visible instead of excluding them as reference failures.
 
 **Drawing Correctness checks labels.** A case passes when every label named by its
-reviewed source facts is visibly shown and no raw Mermaid syntax is shown. SVG
+reviewed source facts is visibly shown and no raw Mermaid syntax is shown.
+"Correct" is this label definition, not agreement with Mermaid, so Mermaid itself
+can fail or be unassessed on a case. In the published collection Mermaid's renderer
+fails on an unnamed `subgraph` (`regression:68230bdf498c2525`, from Pele's parser
+tests), and its SVG for a label containing a raw ESC control character
+(`drawing:5c9a50898b1e6ffe`, from Termaid issue 16) is not admissible output; a few
+other Mermaid outputs are unassessed. These are expected outcomes of the definition,
+not harness errors. SVG
 labels require browser visibility, canvas, clipping and resolved-paint evidence,
 or a bounded raster witness proving the complete actual glyph ink survives.
 For plain, unwrapped HTML text, measured glyph ink can distinguish unused font-box
@@ -325,7 +358,8 @@ assessment. Each published result is backed by committed inputs and evidence:
 
 Anyone can check a result by preparing the same frozen versions and running the same
 commands. On 3 November that reproduced every count the changes did not touch: every
-DaveBench completion count and Fidelity's 2,894 qualified tests. A changed Drawing observer can reassess the retained outputs without invoking
+DaveBench completion count and Fidelity's qualified population as it was then
+(2,894 tests; the population has since been redefined). A changed Drawing observer can reassess the retained outputs without invoking
 producer renderers. Older runs without outputs need recollection only if their
 specific observations must be reassessed.
 

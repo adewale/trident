@@ -8,7 +8,7 @@ output formats are averaged within DaveBench and Drawing Correctness first.
 |---|---|
 | DaveBench | `100 × completed / planned` occurrences, averaged across applicable formats. Completions are the minimum across the three runs and require an [admissible output](davebench-definition.md#output-admission). |
 | Drawing Correctness | `100 × passed / 127`, averaged across the project's SVG and terminal formats. Not applicable to a project with neither (Mermaid Flutter) |
-| Mermaid Fidelity | `100 × passed / qualified population`: the expanded upstream callbacks that pinned Mermaid itself passes |
+| Mermaid Fidelity | `100 × passed / qualified population`: the expanded upstream callbacks that pinned Mermaid itself passes. Not applicable to a project without a public parse interface (Grok's renderer component, MermaidText and Loom's renderer component; the code is being changed to apply this) |
 | Overall | Arithmetic mean of the applicable components |
 
 ## Why these components
@@ -61,7 +61,9 @@ A benchmark that cannot apply to any of a project's outputs is left out of that
 project's mean and shown as `n/a`. That differs from unmeasured work, which stays a
 0–100 range: Drawing Correctness assesses only SVG and terminal text, so a PNG-only
 renderer has no Drawing component at all, whereas a missing Fidelity binding could
-still be written.
+still be written. Likewise, a project whose parser is reachable only through
+private code has no Fidelity component, because Trident compares public
+interfaces only ([scope](../SCOPE.md)).
 
 While Fidelity and SVG observation coverage remain incomplete, **most projects
 do not have an exact overall score**. A position is decided only where a project's

@@ -8,7 +8,7 @@ report the remaining assessment and adapter gaps explicitly.
 |---|---|---|---|
 | **DaveBench** | How many documentation examples complete, and how long does rendering take? | Every Mermaid block occurrence in the same pinned generated `docs/` tree. Separate SVG, PNG and terminal-text runs. | More completed examples first; for equal completion counts, lower median total time over three runs. |
 | **Drawing Correctness** | Does the output show the specified diagram's labels, without errors or raw syntax? | One shared, versioned corpus of real examples and bug reproducers from renderer tests, issues and PRs, starting with the existing 116 drawing cases and expanding beyond terminal projects. Assess SVG and terminal text separately. | More whole examples with every expected label shown and no raw syntax. |
-| **Mermaid Fidelity** | How many tests from the pinned Mermaid test suite does the implementation pass? | Inventory the full pinned suite, execute original tests through candidate adapters, and account for every test and omission. | More fully passed upstream test cases on the same fixed test population. |
+| **Mermaid Fidelity** | Does the implementation's parser produce Mermaid's model, as Mermaid's own pinned tests read it? | Inventory the full pinned suite, execute original tests through candidate adapters, and account for every test and omission. | More fully passed upstream test cases on the same fixed test population. |
 
 Equal correctness/fidelity counts share a rank. DaveBench retains its
 completion/time tie rule. Each benchmark has its own league tables, one per output
@@ -26,7 +26,10 @@ Use the [existing DaveBench method](davebench-definition.md) for all three outpu
 formats: identical documentation occurrences, 30 warm-ups, three complete runs,
 one timeout policy, completion counts and summed elapsed render/export time.
 Keep duplicate documentation occurrences. The current workload contains 1,342
-occurrences across 49 files at Mermaid commit `370c4af57f43cb0bda05f4a9fe2d99c912ba16dd`.
+occurrences of 658 distinct sources across 49 files at Mermaid commit
+`370c4af57f43cb0bda05f4a9fe2d99c912ba16dd`. A repeated example counts each time it
+appears in the docs, so a family's weight follows how many examples its
+documentation shows.
 
 Terminal participants return their native terminal text, including Unicode or
 ANSI where appropriate. Do not turn it into PNG. Time the actual text-rendering
@@ -106,6 +109,12 @@ ranking.
 
 ## Mermaid Fidelity: execute pinned upstream tests
 
+Mermaid Fidelity measures parser-model fidelity: whether an implementation's
+parser, given a test's source, produces the model Mermaid's parser produces, as
+Mermaid's own tests read it. It does not measure rendering; DaveBench and Drawing
+Correctness do. It applies only to a project with a public parse interface (see
+[scope](../SCOPE.md)).
+
 Use one common Mermaid pin for every participant. Start from the full upstream
 test inventory, including family parser/database suites and parser-package tests,
 and account for other render, browser and API suites explicitly. Let the original
@@ -129,9 +138,14 @@ because a negative assertion happened to catch its exception.
 Keep a complete inventory with pass, fail, unsupported, upstream-skipped and
 Trident-blocked outcomes. Any benchmark-wide exclusion needs a stated reason
 and applies equally to all candidates; do not silently remove hard tests or
-change the denominator for each project's supported families. Tests of Mermaid's
-build tooling or other non-renderer concerns can remain accounted for outside
-the scored population. Show total inventory and scored population together.
+change the denominator for each project's supported families. The scored
+population is the reference-qualified callbacks of the parser and diagram-model
+tests, the same for every candidate. The code is being changed so that only
+callbacks from `packages/mermaid/src/diagrams/` and `packages/parser/` are scored.
+Callbacks from other paths (rendering utilities, Mermaid's website and its
+top-level modules) test code no reimplementation's parser can reach; they are
+reported as inventory, with their counts, and stay outside the scored population.
+Show total inventory and scored population together.
 Results must disclose incomplete Trident coverage rather than present it as
 complete suite execution.
 
@@ -159,9 +173,10 @@ pinned Mermaid reference (Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fac
 Vitest, and lists the rest outside that runner. The current collection (<!-- fact:fidelity-collected -->10 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->7,364<!-- /fact --> callbacks; Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->
 passes <!-- fact:fidelity-population -->7,346<!-- /fact --> of them through its original production source, and those are the scored
 population. Every candidate attempted all <!-- fact:fidelity-files -->352<!-- /fact --> files against one shared control run
-(`--reuse-reference`): 13 through their JavaScript parsers and 13 through parser
-bridges, small programs in each project's own language that call its own parser
-(`unified/mermaid-fidelity/bridges/`), read through reviewed per-project schema views.
+(`--reuse-reference`), either in-process through their JavaScript modules or
+through parser bridges, small programs that call each project's own parser
+(registered in `unified/mermaid-fidelity/bridge-registry.ts`), read through
+reviewed per-project schema views.
 All selected source-control files load. Candidate operations without reviewed
 bindings stay unassessed. The
 historical 49/154-case selections are not substituted for the original tests.
