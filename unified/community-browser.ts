@@ -102,7 +102,7 @@ function packageRoot(artifact: CommunityArtifact): string | undefined {
     directory = parent
   }
 }
-async function installWebMerman(prepared: PreparedCommunity, cache: string): Promise<string> {
+async function installWebMerman(prepared: PreparedCommunity, cache: string): Promise<{ root: string; pkg: any }> {
   const declared = prepared.node.packages?.find(pkg => pkg.registry === 'npm' && pkg.name === '@mermanjs/web')
   if (!declared) throw new Error('The community node declares no @mermanjs/web browser package')
   const version = prepared.artifact?.version ?? declared.version,
@@ -132,7 +132,7 @@ async function installWebMerman(prepared: PreparedCommunity, cache: string): Pro
   }
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
   if (pkg.version !== version) throw new Error('Merman web installed version differs from the pinned candidate')
-  return root
+  return { root, pkg }
 }
 
 /** Preparation is deliberately separate from all API clocks. It may bundle
@@ -175,8 +175,7 @@ export async function prepareCommunityBrowsers(prepared: readonly PreparedCommun
       let engine: CommunityBrowserEngine | undefined
       if (adapter === 'merman') {
         if (artifact?.candidate) throw new Error('The Merman Node candidate has no matching candidate browser SDK; a released @mermanjs/web cannot represent it')
-        const root = await installWebMerman(peer, cache),
-          pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
+        const { root, pkg } = await installWebMerman(peer, cache)
         engine = make(root, pkg.main, 'merman')
         engine.version = pkg.version
         const lock = JSON.parse(readFileSync(join(root, '../../..', 'package-lock.json'), 'utf8'))

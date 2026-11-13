@@ -31,8 +31,8 @@ export function verifyReleaseCli(node: CommunityNode, artifact: CommunityArtifac
     if (!platform || extra.id !== 'native-release' || cli.kind !== 'cli' || cli.version !== spec.version || (cli.versionSource ?? 'command') !== releaseVersionSource(spec) || cli.revision !== spec.revision || JSON.stringify(extra.outputs) !== JSON.stringify(Object.keys(spec.outputs)) || JSON.stringify(cli.outputBindings) !== JSON.stringify(spec.outputs)) throw Error('Frozen release CLI differs from its declared public binding')
     const archive = cli.files?.find(file => file.path === join(cli.root!, platform.asset))
     if (!archive || archive.sha256 !== platform.sha256 || digest(readFileSync(archive.path)) !== platform.sha256) throw Error('Frozen release CLI archive differs from its reviewed SHA-256')
-    const bytes = execFileSync('tar', ['-xOf', archive.path, '--', platform.executable], { maxBuffer: 128 * 1024 * 1024 })
-    if (cli.sha256 !== digest(bytes) || !cli.executable || digest(readFileSync(cli.executable)) !== digest(bytes)) throw Error('Frozen release CLI executable differs from its reviewed archive')
+    const sha256 = digest(execFileSync('tar', ['-xOf', archive.path, '--', platform.executable], { maxBuffer: 128 * 1024 * 1024 }))
+    if (cli.sha256 !== sha256 || !cli.executable || digest(readFileSync(cli.executable)) !== sha256) throw Error('Frozen release CLI executable differs from its reviewed archive')
   }
 }
 /** A separately identified public CLI transport; never relabel a WASM artifact
@@ -63,12 +63,13 @@ export async function prepareReleaseCli(node: CommunityNode, cache: string): Pro
     // Extract only the reviewed regular-file member, without trusting archive paths or links.
     const bytes = execFileSync('tar', ['-xOf', archive, '--', platform.executable], { maxBuffer: 128 * 1024 * 1024 })
     if (!existsSync(executable)) { mkdirSync(join(executable, '..'), { recursive: true }); writeFileSync(executable, bytes, { flag: 'wx' }); chmodSync(executable, 0o755) }
-    if (digest(readFileSync(executable)) !== digest(bytes)) throw Error('Release CLI executable differs from its authenticated archive')
+    const sha256 = digest(bytes)
+    if (digest(readFileSync(executable)) !== sha256) throw Error('Release CLI executable differs from its authenticated archive')
     if (versionSource === 'command') {
       const observedVersion = execFileSync(executable, ['--version'], { encoding: 'utf8', timeout: 10_000 }).trim()
       if (!observedVersion.split(/\s+/).includes(spec.version)) throw Error('Release CLI version differs: ' + observedVersion)
     }
     const first = spec.outputs[outputs[0]!]!
-    return { id, outputs, artifact: { kind: 'cli', root, executable, args: first.args, input: first.input ?? 'stdin', outputBindings: spec.outputs, version: spec.version, versionSource, revision: spec.revision, sha256: digest(bytes), files: [{ path: executable, sha256: digest(bytes) }, { path: archive, sha256: platform.sha256 }], runtime: `${process.platform}-${process.arch} public native CLI`, apiBoundary: 'public release executable; fresh process, stdin/file through drained output', detail: `Archive ${url}; SHA-256 ${platform.sha256}. Version identity: ${versionSource}. Source revision names the release tag, not a reproducible-build assertion.` } }
+    return { id, outputs, artifact: { kind: 'cli', root, executable, args: first.args, input: first.input ?? 'stdin', outputBindings: spec.outputs, version: spec.version, versionSource, revision: spec.revision, sha256, files: [{ path: executable, sha256 }, { path: archive, sha256: platform.sha256 }], runtime: `${process.platform}-${process.arch} public native CLI`, apiBoundary: 'public release executable; fresh process, stdin/file through drained output', detail: `Archive ${url}; SHA-256 ${platform.sha256}. Version identity: ${versionSource}. Source revision names the release tag, not a reproducible-build assertion.` } }
   } catch (error) { return { id, outputs, error: String(error) } }
 }

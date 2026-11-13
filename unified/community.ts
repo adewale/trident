@@ -185,7 +185,8 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
   const addFile = (path: string) => {
     if (existsSync(path)) wasmFiles.push({ path, sha256: artifactDigest(path) })
   }
-  addFile(module)
+  const moduleSha256 = artifactDigest(module)
+  wasmFiles.push({ path: module, sha256: moduleSha256 })
   for (const relative of [plan.wasmRelativePath, 'pkg/affine_mermaid_renderer_wasm_bg.wasm', 'grok-mermaid.wasm', 'src/grok-mermaid.wasm', 'dist/xmermaid_bg.wasm'].filter((value): value is string => typeof value === 'string')) addFile(join(root, relative))
   const adapterCompanions = companions.map(spec => { const name = spec.slice(0, spec.lastIndexOf('@')), root = join(prefix, 'node_modules', name), pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')); if (pkg.version !== spec.slice(spec.lastIndexOf('@') + 1)) throw Error('Adapter companion version differs: ' + spec); return { root, name, version: pkg.version as string, integrity: installedNpmIntegrity(prefix, root, name, pkg.version), closureSha256: createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(root))).digest('hex') } })
   if (retainedDependencies.length) {
@@ -199,7 +200,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
       adapterCompanions.push({ root: dependencyRoot, name: pkg.name, version: pkg.version, integrity, closureSha256: createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(dependencyRoot))).digest('hex') })
     }
   }
-  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, installedClosureSha256: evidenceDigest(adapterCompanionIdentity(root)), runtime, sha256: artifactDigest(module), files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(adapterCompanions.length ? { adapterCompanions } : {}), ...(plan.overrides ? { dependencyOverrides: plan.overrides } : {}), ...(candidate ? { candidate: { sha256: candidate.sha256, tarball: copy, ...(retainedDependencies.length ? { dependencies: retainedDependencies.map(({ tarball, sha256 }) => ({ tarball, sha256 })) } : {}) } } : {}) }
+  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, installedClosureSha256: evidenceDigest(adapterCompanionIdentity(root)), runtime, sha256: moduleSha256, files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(adapterCompanions.length ? { adapterCompanions } : {}), ...(plan.overrides ? { dependencyOverrides: plan.overrides } : {}), ...(candidate ? { candidate: { sha256: candidate.sha256, tarball: copy, ...(retainedDependencies.length ? { dependencies: retainedDependencies.map(({ tarball, sha256 }) => ({ tarball, sha256 })) } : {}) } } : {}) }
   return extra.prepareExtraPublishedArtifact(prepared, { installedIntegrity: (nativeRoot: string, packageName: string, packageVersion: string) => installedNpmIntegrity(prefix, nativeRoot, packageName, packageVersion) })
 }
 
@@ -384,11 +385,10 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
         artifact = await prepareExtraCommunitySource(node, process.env.AM_COMMUNITY_SOURCE_CACHE ?? cache)
       } else if (node.benchmark.package) artifact = await npmArtifact(node, cache, node.id === 'mermaid-js/mermaid')
       else if (node.benchmark.adapter === 'source-cli') {
-        const { prepareCommunitySource } = await import('./community-source-prepare.ts')
+        const { prepareCommunitySource, reviewedCommunitySourcePresentation } = await import('./community-source-prepare.ts')
         if (node.benchmark.cliRelease) {
           const result = await (await import('./release-cli.ts')).prepareReleaseCli(node, cache)
           if (!result.artifact) throw Error(result.error)
-          const { reviewedCommunitySourcePresentation } = await import('./community-source-prepare.ts')
           artifact = { ...result.artifact, ...reviewedCommunitySourcePresentation(node) }
         } else artifact = await prepareCommunitySource(node, process.env.AM_COMMUNITY_SOURCE_CACHE ?? cache)
       } else {
@@ -397,10 +397,7 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
       }
       if (!artifact) throw new Error('Preparation returned no actual artifact')
       if (node.benchmark.adapter === 'source-cli' && node.benchmark.cliRelease && artifact.kind === 'cli') artifact.outputBindings = { ...node.benchmark.cliRelease.outputs, ...(artifact.outputBindings ?? {}) }
-      if (node.benchmark.adapter === 'source-cli' && node.benchmark.cliRelease && !artifact.candidate) {
-        const { verifyReleaseCli } = await import('./release-cli.ts')
-        verifyReleaseCli(node, artifact)
-      }
+      if (node.benchmark.adapter === 'source-cli' && node.benchmark.cliRelease && !artifact.candidate) verifyReleaseCli(node, artifact)
       if (node.benchmark.cliRelease && node.benchmark.adapter !== 'source-cli' && !(provided[node.id] && options.communityArtifactPolicy === 'frozen')) artifact = { ...artifact, additionalCli: [await (await import('./release-cli.ts')).prepareReleaseCli(node, cache)] }
       if (node.benchmark.cli && !(artifact.additionalCli ?? []).some(cli => cli.id === 'node-cli')) {
         const cli = (await import('./community-cli.ts')).packageCliVariants([{ node, artifact }]).find(variant => variant.variant === 'node-cli')
@@ -415,8 +412,6 @@ export async function prepareCommunity(options: UnifiedRunOptions): Promise<Prep
   }
   prepared.sort((left, right) => catalog.nodes.findIndex(node => node.id === left.node.id) - catalog.nodes.findIndex(node => node.id === right.node.id))
   checkpoint(true)
-  mkdirSync(options.out, { recursive: true })
-  writeFileSync(join(options.out, 'community-prepared.json'), JSON.stringify(prepared, null, 2))
   return prepared
 }
 

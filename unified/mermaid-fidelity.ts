@@ -167,8 +167,8 @@ export async function main(args = process.argv.slice(2)) {
   if (!files.length) throw Error('No original tests selected')
   reserveResultDirectory(out)
   const prepared = JSON.parse(readFileSync(opts.get('--prepared')!, 'utf8'))
+  const catalog = opts.has('--catalog') ? JSON.parse(readFileSync(opts.get('--catalog')!, 'utf8')) : undefined
   if (opts.has('--catalog')) {
-    const catalog = JSON.parse(readFileSync(opts.get('--catalog')!, 'utf8'))
     for (const peer of prepared)
       if (peer.artifact) {
         const selected = catalog.nodes.find((n: any) => n.id === peer.node.id)
@@ -301,7 +301,7 @@ export async function main(args = process.argv.slice(2)) {
         environment: { controller: executionEnvironment(), runner: runnerEnvironment },
         updatedAt: new Date().toISOString(),
         collectedThrough: new Date().toISOString(),
-        versionsFrozenAt: opts.has('--catalog') ? JSON.parse(readFileSync(opts.get('--catalog')!, 'utf8')).benchmarkVersionsCheckedAt : undefined,
+        versionsFrozenAt: opts.has('--catalog') ? catalog.benchmarkVersionsCheckedAt : undefined,
         pin: PIN,
         selection: opts.get('--filter') ?? 'all core package tests',
         inventory: inventory.counts,

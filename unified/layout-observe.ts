@@ -17,19 +17,19 @@ export interface LayoutRow { project: string; version: string; caseId: string; s
 /** Totals use exactly the same assessed case IDs for every selected project,
  * independently per metric. Availability itself never earns a quality score. */
 export function summarizeLayouts(rows: LayoutRow[]) {
-  const projects = [...new Set(rows.map(row => row.project))].sort()
+  const projects = [...new Set(rows.map(row => row.project))].sort(), caseIds = [...new Set(rows.map(row => row.caseId))].sort()
   return layoutMetrics.map(metric => {
-    const common = [...new Set(rows.map(row => row.caseId))].sort().filter(caseId => projects.every(project => rows.some(row => row.project === project && row.caseId === caseId && row.observation.metrics[metric].status === 'assessed')))
+    const common = caseIds.filter(caseId => projects.every(project => rows.some(row => row.project === project && row.caseId === caseId && row.observation.metrics[metric].status === 'assessed')))
     return { metric, commonCaseIds: common, projects: projects.map(project => {
       const own = rows.filter(row => row.project === project)
       return { project, version: own[0]!.version, assessed: own.filter(row => row.observation.metrics[metric].status === 'assessed').length, total: own.length, commonCases: common.length, count: common.length ? own.filter(row => common.includes(row.caseId)).reduce((sum, row) => sum + row.observation.metrics[metric].value!, 0) : null }
     }) }
   })
 }
-export function layoutMarkdown(rows: LayoutRow[]) {
+export function layoutMarkdown(rows: LayoutRow[], summaries = summarizeLayouts(rows)) {
   const escape = (value: string) => value.replaceAll('|', '\\|').replaceAll('\n', ' ')
   const lines = ['# Flowchart SVG layout observations', '', 'Raw geometry measurements, not correctness verdicts or an overall quality ranking. Each metric compares the same assessed cases across every selected project. Counts of zero apply only to measured geometry; unassessed cases remain explicit.', '', 'Observer policy: `' + layoutPolicy.id + '`.', '', layoutPolicy.scope, '', 'Crossings are transverse contacts between different edge centerlines; shared endpoints and tangencies are excluded. Shared and crowded parallel paths count edge pairs. Other overlap metrics count object pairs. Endpoint-node intersections exclude only the first/last ' + layoutPolicy.endpointAllowance + ' pixels of the route at the corresponding node. Parallel sections need at least ' + layoutPolicy.parallelSpan + ' pixels of projected span and a gap below ' + layoutPolicy.parallelGap + ' pixels; shared-node terminal fans are exempt. Group containment and ordinary edge/frame crossings are allowed. Label overlaps concern text layout bounds, not pixel-level occlusion. Curves and node contours use bounded sampling; differences below the published tolerance are unresolved.', '', '| Metric | Project | Version | Assessed / selected | Common cases | Count on common cases |', '| --- | --- | --- | --- | --- | --- |']
-  for (const summary of summarizeLayouts(rows)) for (const p of summary.projects) lines.push(`| ${summary.metric} | ${escape(p.project)} | ${escape(p.version)} | ${p.assessed} / ${p.total} | ${p.commonCases} | ${p.count ?? 'unassessed'} |`)
+  for (const summary of summaries) for (const p of summary.projects) lines.push(`| ${summary.metric} | ${escape(p.project)} | ${escape(p.version)} | ${p.assessed} / ${p.total} | ${p.commonCases} | ${p.count ?? 'unassessed'} |`)
   lines.push('', 'Per-case contours, route samples, collision locations, observed partial counts and gap reasons are retained in `results.json`. Per-metric common case IDs are listed there. Compare the same observer policy, viewport and case selection; a lower count alone does not establish better semantics or a universally better layout.', '')
   return lines.join('\n')
 }
@@ -106,7 +106,7 @@ if (import.meta.main) {
       const sources = Object.fromEntries(['../fidelity/drawing/layout-geometry.ts', '../fidelity/drawing/layout-svg.ts', '../fidelity/paint.ts', 'layout-observe.ts'].map(path => [path, evidenceBytesDigest(readFileSync(new URL(path, import.meta.url)))]))
       const report = { schema: 'trident-layout-observations-v1', observedAt: new Date().toISOString(), renderersInvoked: false, policy: layoutPolicy, observerSha256: evidenceDigest({ sources, policy: layoutPolicy }), sources, sourceRunSha256: evidenceBytesDigest(input), corpus: run.corpus, viewport, browser: executableIdentity(defaultChromium(chromium)), summaries: summarizeLayouts(rows), rows }
       atomicWrite(join(destination, 'results.json'), JSON.stringify(report, null, 2) + '\n')
-      atomicWrite(join(destination, 'observations.md'), layoutMarkdown(rows))
+      atomicWrite(join(destination, 'observations.md'), layoutMarkdown(rows, report.summaries))
       console.log('Observed ' + rows.length + ' retained flowchart SVG rows: ' + destination)
     } finally { await context.close(); await browser.close() }
   }
