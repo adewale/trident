@@ -5,6 +5,7 @@ import { commonDrawingComparison, commonFidelityComparison, renderCommonComparis
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { boundaryKind, davebenchFailedInputs, davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
+import { acceptedRankings } from './davebench-report.ts'
 import { assertTimingCollection, campaignPlan } from './campaign-plan.ts'
 
 function requireSameAdmission(left: any, right: any) {
@@ -20,9 +21,14 @@ export function threeBenchmarkReport(images: any, terminal: any, versions?: any)
   requireSameAdmission(images, terminal)
   assertTimingCollection(images); assertTimingCollection(terminal)
   const runs: DavebenchRun[] = [...images.runs, ...terminal.runs]
-  const rankings = davebenchRankings(runs, images.corpus.occurrences)
+  const plans = images.plan || terminal.plan ? { images: images.plan, terminal: terminal.plan } : undefined
+  // A collection that recorded the oracle's verdicts credits completion only over the
+  // inputs the Mermaid reference accepts; rendering a rejected input earns nothing.
+  const accepted = images.corpus.referenceRejected && plans ? acceptedRankings({ corpus: images.corpus, plans, runs }) : undefined
+  const rankings = accepted ? { svg: accepted.svg, png: accepted.png, terminal: accepted.terminal, unranked: accepted.unranked } : davebenchRankings(runs, images.corpus.occurrences)
   return { schema: 'trident-davebench-report-v2', corpus: images.corpus, versionsCheckedAt: versions?.checkedAt, status: 'davebench-only',
-    ...(images.plan || terminal.plan ? { scope: images.plan?.scope === 'subset' || terminal.plan?.scope === 'subset' ? 'subset' : 'full', plans: { images: images.plan, terminal: terminal.plan } } : {}),
+    ...(accepted ? { credit: { basis: 'reference-accepted', inputs: accepted.accepted.svg } } : {}),
+    ...(plans ? { scope: images.plan?.scope === 'subset' || terminal.plan?.scope === 'subset' ? 'subset' : 'full', plans } : {}),
     collection: { images: { startedAt: images.startedAt, finishedAt: images.updatedAt, environment: images.environment, method: images.method, consolidation: images.consolidation }, terminal: { startedAt: terminal.startedAt, finishedAt: terminal.updatedAt, environment: terminal.environment, method: terminal.method, consolidation: terminal.consolidation } },
     measurements: { davebench: { status: runs.some(row => row.attempted > 0) ? 'measured' : 'unmeasured', runs: runs.length, attemptedCalls: runs.reduce((sum, row) => sum + row.attempted, 0) }, drawing: { status: 'not-supplied' }, fidelity: { status: 'not-supplied' } },
     runs, rankings, blocked: [...images.blocked, ...terminal.blocked] }
@@ -129,9 +135,10 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
       return [r.rank, label(r), r.completed, ...(strict ? [Math.max(0, ...own(r).map((run: any) => run.strictXmlInvalid ?? 0))] : []), ...(origin ? [r.pngPath === 'native' ? 'Own PNG interface' : r.pngPath === 'trident-conversion' ? "Trident's Chromium conversion of its SVG" : 'Not recorded'] : []), (r.medianTotalMs === null ? '—' : (r.medianTotalMs / 1000).toFixed(3)), kind === 'fresh-process' ? 'CLI; startup included' : kind === 'persistent-api' ? 'API; initialization excluded' : 'Not recorded']
     })
     for (const block of davebench.blocked ?? []) if (!ranked.some((r: any) => r.project === block.project) && catalog.nodes.find((n: any) => n.id === block.project)?.benchmark?.outputs.includes(format)) rows.push(['—', label(block), 'Blocked', ...(strict ? ['—'] : []), ...(origin ? ['—'] : []), '—', '—'])
-    table(['Rank', 'Project', `Completed / ${davebench.corpus.occurrences} ↑`, ...(strict ? ['Strict-XML invalid'] : []), ...(origin ? ['PNG source'] : []), 'Median seconds ↓', 'Timing boundary'], rows)
+    table(['Rank', 'Project', davebench.credit ? `Completed / ${davebench.credit.inputs} accepted ↑` : `Completed / ${davebench.corpus.occurrences} ↑`, ...(strict ? ['Strict-XML invalid'] : []), ...(origin ? ['PNG source'] : []), 'Median seconds ↓', 'Timing boundary'], rows)
     for (const r of ranked) { const recorded = own(r).sort((a: any, b: any) => a.run - b.run); if (recorded.length && recorded.every((run: any) => run.failures)) fingerprint(r.project, 'davebench:' + format, JSON.stringify(recorded.map((run: any) => run.failures))) }
   }
+  if (davebench.credit) lines.push(`Completion counts only the ${davebench.credit.inputs.toLocaleString('en-GB')} of ${davebench.corpus.occurrences.toLocaleString('en-GB')} inputs the Mermaid reference accepts. [Reference-rejected inputs and failures by kind](docs/davebench-completion.md)`, '')
   if (davebench.corpus?.families) lines.push('[Completion by diagram family](docs/davebench-families.md)', '')
   const caseTable = (entries: any[], population: number, blocks: any[], mode: 'svg' | 'terminal' | 'fidelity', blockedLabel = 'Not run', notApplicable: any[] = [], unsupportedLabel = 'Unsupported') => {
     const measured = entries.map(r => ({ ...r, scored: r.passed + r.failed > 0 })).sort((a, b) => Number(b.scored) - Number(a.scored) || b.passed - a.passed || label(a).localeCompare(label(b)))

@@ -52,7 +52,7 @@ export function possibleRanks<T extends { overall: ScoreBounds }>(rows: T[]) {
 export function synthesiseBenchmarks(davebench: any, drawing: any, fidelity: any, catalog: any) {
   const formats = ['svg', 'png', 'terminal']
   const ids = new Set<string>([...drawing.results, ...drawing.blocked, ...fidelity.results, ...fidelity.blocked, ...(davebench.runs ?? []), ...(davebench.blocked ?? [])].map((r: any) => r.project))
-  const planned = davebench.corpus?.occurrences
+  const planned = davebench.credit?.inputs ?? davebench.corpus?.occurrences
   if (!Number.isInteger(planned) || planned <= 0) throw Error('DaveBench synthesis needs the planned occurrence count')
   const faithfulScoring = fidelityScoring(fidelity, catalog)
   const faithfulPopulation = fidelityPopulation(fidelity, catalog)
