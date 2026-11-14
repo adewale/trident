@@ -590,7 +590,8 @@ function agenticSource(raw, hooks) {
 // bidirectional (<<->>). A +/- mark is activate / deactivate on the message. beautiful
 // skips activate, title, accTitle, accDescr, autonumber, box, create and destroy lines;
 // zombie keeps standalone activations, boxes, createdAt / destroyedAt (message indexes),
-// seqNumber for autonumber, a rect's colour, and drops title and accessibility lines.
+// seqNumber for autonumber, a rect's colour and a `title` / `title:` line (title, unset when
+// unwritten; 5.17.0 parses, model-concept review 2026-11-14), and drops accessibility lines.
 function beautifulFamily(project) {
   const zombie = project === 'dfadler/zombie-mermaid'
   const name = { 'lukilabs/beautiful-mermaid': 'beautiful-mermaid', 'kais-radwan/ascii-mermaid': 'ascii-mermaid', 'dfadler/zombie-mermaid': 'zombie-mermaid' }[project]
@@ -652,7 +653,8 @@ function beautifulFamily(project) {
       ...messageView(() => layout().list, { wrap: `${name}'s sequence model keeps no text wrapping` }, hooks),
       ...actorView(actors, { wrap: `${name} keeps no text wrapping per participant`, links: skipped('link statements'), properties: skipped('properties statements'), ...(zombie ? {} : { box: skipped('box blocks') }) }, hooks),
       ...(zombie ? { getBoxes: boxes, getCreatedActors: lifeline('createdAt'), getDestroyedActors: lifeline('destroyedAt') } : unsupported(hooks, { getBoxes: skipped('box blocks'), getCreatedActors: skipped('create statements'), getDestroyedActors: skipped('destroy statements') })),
-      ...unsupported(hooks, { getDiagramTitle: skipped('title lines'), getAccTitle: skipped('accTitle'), getAccDescription: skipped('accDescr') }),
+      ...(zombie ? { getDiagramTitle: () => raw.title ?? '' } : unsupported(hooks, { getDiagramTitle: skipped('title lines') })),
+      ...unsupported(hooks, { getAccTitle: skipped('accTitle'), getAccDescription: skipped('accDescr') }),
     }
   }
 }

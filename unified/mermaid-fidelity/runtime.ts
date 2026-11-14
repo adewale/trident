@@ -613,7 +613,7 @@ function nativeAst(family: string, source: string): any {
 function projectView(family: string, raw: any) {
   if (raw == null) return {}
   try {
-    return projectPublicDatabase(job.target.tool, family, raw, (reason: string) => gap(reason), (reason: string) => unsupportedOperation(reason), job.target.project)
+    return projectPublicDatabase(job.target.tool, family, raw, (reason: string) => gap(reason), (reason: string) => unsupportedOperation(reason), job.target.project, job.target.version)
   } catch (error) {
     return gap('Native schema projection failed: ' + String(error))
   }

@@ -43,6 +43,27 @@
   flow-vertice-chaining 1, flowDb 2). Pele's outcomes are unchanged. Latias
   Merman's 12 flow-style and chaining failures stay failures, now reading the
   style lists its classDefs hold.
+### Mermaid Fidelity
+
+- Probe every `model-concept` capability assessment (657 distinct reasons over
+  21 candidates) against the installed artifacts
+  (docs/evidence/fidelity-model-concept-review-2026-11-14.json): 636 confirmed,
+  21 disproved in 11 concepts. The views now read what the native models carry:
+  agentic-mermaid's accessibility descriptions (flowchart, ER, gantt, class,
+  radar), class style statements and written `animate: true`; subgraph class
+  assignments (Frankenmermaid, agentic-mermaid, Crafter, Zombie Mermaid,
+  beautiful-mermaid, ascii-mermaid); Zombie Mermaid's sequence title, `link` /
+  `dashed-link` / dashed class relations, ER aliases and state note sides;
+  mermaid_core's ER aliases. Bezel's agentflow `emitWarning` / `emitError` are a
+  Trident gap (its crate has them). Views now receive the measured version.
+  Measured: 31 capability assessments became passes (agentic-mermaid 25, Zombie
+  Mermaid 4 plus 4 native failures, Mermaid Dart and Flutter 1 each), 2 became
+  adapter limitations (Bezel); no pass was lost.
+- MMDR and termaid answer the families they draw as flowcharts with their own
+  public parse (`mmdr detected this source as Flowchart, not railroad`,
+  `termaid parsed this source as flowchart, not c4`, or MMDR's own missing-header
+  refusal) instead of Trident's family table: 608 MMDR and 930 termaid
+  callbacks move from capability assessment to native unsupported.
 
 ## 0.4.0 — 14 November 2026
 

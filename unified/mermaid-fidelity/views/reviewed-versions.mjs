@@ -21,7 +21,7 @@ export const REVIEWED_VIEW_VERSIONS = {
   'Dicklesworthstone/frankenmermaid': {
     '0.4.0': 'views written against the 0.4.0 IR',
     '0.5.0': {
-      note: 'IR of 1,080 corpus sources (corpus/community-corpus.json) captured from 0.4.0 (pkg/ at d5ade10) and 0.5.0: 1,014 identical. New keys only in gantt (task end UntilTasks, edges, weekend_start, {Weekday} excludes) and xychart meta; the gantt view reads neither tasks[].end nor edges and reports an unknown excludes entry as a gap; no xychart view. One encoding the state view reads changed: a start/end inside a later concurrency region is its own node `__state_start__state_<c>___region_<n>`; the view now declares its Mermaid id absent instead of inventing one. Timeline node ids changed, but no view reads timeline. Gap reasons identical to the 0.3.0 run',
+      note: 'IR of 1,080 corpus sources (corpus/community-corpus.json) captured from 0.4.0 (pkg/ at d5ade10) and 0.5.0: 1,014 identical. New keys only in gantt (task end UntilTasks, edges, weekend_start, {Weekday} excludes) and xychart meta; the gantt view reads neither tasks[].end nor edges and reports an unknown excludes entry as a gap; no xychart view. One encoding the state view reads changed: a start/end inside a later concurrency region is its own node `__state_start__state_<c>___region_<n>`; the view now declares its Mermaid id absent instead of inventing one. Timeline node ids changed, but no view reads timeline. Gap reasons identical to the 0.3.0 run. 2026-11-14 model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json): a subgraph cluster lists its classes (clusters[].classes), now read by the flowchart view',
       revisions: {
         bf4fd10861bcc274a4558174c5228f1c3063bd2a: 'the build captured in the 0.5.0 review above',
         a5be33d9097af8b7c90fef7dd4a0c20a0bf55752: 'rebuild of the source distribution: every pkg/ file (frankenmermaid_bg.wasm, frankenmermaid.js, both .d.ts, package.json) has the same SHA-256 as at bf4fd108, and the IR of all 1,080 corpus sources is identical',
@@ -43,31 +43,31 @@ export const REVIEWED_VIEW_VERSIONS = {
   'dfadler/zombie-mermaid': {
     '5.14.4': 'views written against the 5.14 MermaidGraph, class, sequence and ER types',
     '5.16.0': 'shared/index.d.ts of @zombie-mermaid/core and mermaid-parser 5.14.4 and 5.16.0 compared, and 1,080 corpus sources captured from both: no field removed. Changes the views read: a left-of state note is joined note -> state (the state view no longer reads that edge as a transition), messages and notes record a written wrap (now translated), a dotted lollipop records dashed (still declared absent: conservative). 5.16.0 also exports gantt, gitgraph, journey, kanban, mindmap, packet, radar, requirement, sankey and timeline parsers with no reviewed binding: the bridge reports those families as Trident gaps',
-    '5.17.0': '2026-11-14: MermaidEdge.id (written `A e1@--> B`) and .animate (written `e1@{ animate: true }`), declared in core dist/shared/index.d.ts since 5.16.0, are now read by the flowchart view (they were declared absent); checked against parses with and without both. shared/index.d.ts of @zombie-mermaid/core and mermaid-parser 5.16.0 and 5.17.0 compared: no field removed; a participant now records a written wrap:/nowrap: (and drops the prefix from its label), which the sequence view now translates; gantt gains config sizes and git graph gains positioned look fields, which no view reads. 1,080 corpus sources captured from both: 1,072 identical, the other 8 differ only in state note node ids, which no view reads (Mermaid note ids are declared absent)',
+    '5.17.0': '2026-11-14: MermaidEdge.id (written `A e1@--> B`) and .animate (written `e1@{ animate: true }`), declared in core dist/shared/index.d.ts since 5.16.0, are now read by the flowchart view (they were declared absent); checked against parses with and without both. shared/index.d.ts of @zombie-mermaid/core and mermaid-parser 5.16.0 and 5.17.0 compared: no field removed; a participant now records a written wrap:/nowrap: (and drops the prefix from its label), which the sequence view now translates; gantt gains config sizes and git graph gains positioned look fields, which no view reads. 1,080 corpus sources captured from both: 1,072 identical, the other 8 differ only in state note node ids, which no view reads (Mermaid note ids are declared absent). 2026-11-14 model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json): the sequence title, class link / dashed-link / association types and dashed relations, an ER entity alias (label differing from its id), subgraph class assignments and the state note side (note edge direction, also in 5.16.0) are now read; they had been declared absent',
   },
   'anomalyco/opencode': {
     '2.2.5': 'views written against merman at 78e066c9 (opencode 2.2.5)',
     '2.3.0': 'packages/merman at source pin 83960f8a is identical to 78e066c9 except the package.json version; every per-file count and gap reason identical',
   },
   'wevm/ondine': { '0.0.3': '0.3.0 release' },
-  'orestesgaolin/mermaid': { '0.3.2': '0.3.0 release (mermaid_core 0.3.2)' },
-  'pub:mermaid_flutter': { '0.3.2': '0.3.0 release (calls mermaid_core 0.3.2 unchanged)' },
-  'adewale/agentic-mermaid': { '0.5.6': '0.3.0 release' },
+  'orestesgaolin/mermaid': { '0.3.2': '0.3.0 release (mermaid_core 0.3.2). 2026-11-14 model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json): an ER entity label that differs from its id is its alias, now read' },
+  'pub:mermaid_flutter': { '0.3.2': '0.3.0 release (calls mermaid_core 0.3.2 unchanged). 2026-11-14 model-concept review: as Mermaid Dart' },
+  'adewale/agentic-mermaid': { '0.5.6': '0.3.0 release. 2026-11-14 model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json): meta.accessibility descr (flowchart, ER, gantt, class, radar), class style objects, a written edge animate and subgraph class assignments are now read' },
   '1jehuang/mermaid-rs-renderer': { '0.3.1': '0.3.0 release' },
   'AlexanderGrooff/mermaid-ascii': { '1.6.1': '0.3.0 release' },
-  'crafter-station/mermaid': { '0.0.3': '0.3.0 release' },
+  'crafter-station/mermaid': { '0.0.3': '0.3.0 release. 2026-11-14 model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json): subgraph class assignments are now read' },
   'emtyty/merslim': { '0.2.3': '0.3.0 release' },
   'evangwt/xmermaid': { '0.4.2': '0.3.0 release' },
   'fasouto/termaid': { '0.12.0': '0.3.0 release' },
   'kitlangton/merman': { '0.2.1': '0.3.0 release' },
   'KlangHaus/vitepress-plugin-diagram': { '0.3.2': '0.3.0 release' },
-  'lukilabs/beautiful-mermaid': { '1.1.3': '0.3.0 release' },
+  'lukilabs/beautiful-mermaid': { '1.1.3': '0.3.0 release. 2026-11-14 model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json): subgraph class assignments are now read' },
   'Mootikins/figurehead-rs': { 'v0.4.3': '0.3.0 release' },
   'obsidianmd/pele': { '1.13.0': '0.3.0 release. 2026-11-14: block (root, byId, blocks, edges, classes Map) and timeline (periods {text, events, section}, sections) models checked against parses of written, unwritten and `auto` columns and of periods with and without sections and events, for the block getBlocks/getColumns/getEdges/getClasses and timeline getters' },
   'sandyyst/dsh-plugin-mermaid-gb-svg': { '0.1.5': '0.3.0 release' },
   'xai-org/grok-build': { 'git-2bdd1d6a6369': '0.3.0 release' },
   'Yassimba/loom': { '0.10.0': '0.3.0 release' },
-  'kais-radwan/ascii-mermaid': { '0.1.0': '0.3.0 release' },
+  'kais-radwan/ascii-mermaid': { '0.1.0': '0.3.0 release. 2026-11-14 model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json): subgraph class assignments are now read' },
   'spacedock-dev/mermaidtext': { 'git-a6b0c7657b94': '0.3.0 release' },
 }
 

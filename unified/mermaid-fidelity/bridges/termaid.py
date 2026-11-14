@@ -1,7 +1,11 @@
 """fasouto/termaid: call termaid's own public per-family parser and print its model.
 
 termaid's parsers never raise on invalid input; whatever model they return is
-the observation. See ../bridges.ts for the reply protocol."""
+the observation. A family termaid has no parser for is answered by its public
+termaid.parse(), which auto-detects a state diagram or else reads the source as a
+flowchart (termaid/__init__.py parse; its renderer draws every other header the
+same way): the kind it chose is the native observation. See ../bridges.ts for the
+reply protocol."""
 import dataclasses, enum, importlib, json, os, sys
 
 PARSERS = {
@@ -30,8 +34,33 @@ def plain(value, seen):
         return value
     return str(value)
 
+def detected_kind(source):
+    """The diagram kind termaid.parse() dispatched the source to, observed by wrapping
+    the two parsers it calls (it parses nothing itself)."""
+    termaid = importlib.import_module('termaid')
+    seen = []
+    originals = {name: getattr(termaid, name) for name in ('parse_flowchart', 'parse_state_diagram')}
+    def watch(kind, parse):
+        return lambda *args, **kwargs: (seen.append(kind), parse(*args, **kwargs))[1]
+    termaid.parse_flowchart = watch('flowchart', originals['parse_flowchart'])
+    termaid.parse_state_diagram = watch('state', originals['parse_state_diagram'])
+    try:
+        termaid.parse(source)
+    finally:
+        for name, parse in originals.items():
+            setattr(termaid, name, parse)
+    return seen[0] if len(seen) == 1 else None
+
 def handle(request):
     family = request['family']
+    if family not in PARSERS and family != '<shared>':
+        try:
+            kind = detected_kind(request['source'])
+        except Exception as error:
+            return {'adapterGap': 'termaid.parse raised (it is documented never to): ' + repr(error)}
+        if kind is None:
+            return {'adapterGap': 'termaid.parse did not dispatch to exactly one of its parsers'}
+        return {'unsupported': 'termaid parsed this source as ' + kind + ', not ' + family, 'native': True}
     if family not in PARSERS:
         return {'unsupported': 'termaid has no ' + family + ' parser'}
     module, name = PARSERS[family]

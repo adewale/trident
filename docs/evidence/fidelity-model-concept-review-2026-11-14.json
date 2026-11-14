@@ -1,0 +1,5026 @@
+{
+ "protocol": "fidelity-model-concept-review-v1",
+ "reviewed": "2026-11-14",
+ "subject": "Mermaid Fidelity capability assessments with basis `model-concept` (\"a reviewed view declares the concept absent from the native model\", unified/mermaid-fidelity/outcome-kinds.ts): every distinct reason in results/release/mermaid-fidelity.json assessmentReasons, per candidate, checked against the installed candidate artifacts of the 0.4.0 campaign (prepared artifacts: the campaign's community-prepared.json; packages under node_modules/.cache/unified-community/ and node_modules/.cache/fidelity-bridges/). Follows the capability review (fidelity-capability-review-2026-11-14.json), which probed class notes, edge ids, participant/actor kinds, C4 wrap and the git checked-out branch and left the rest unprobed.",
+ "baseline": "results/release/mermaid-fidelity.json (the 2026-11-14 jsdom campaign): baselineCallbacks counts, per project, the callbacks whose capability assessment carried that reason.",
+ "method": "Each concept was probed by running the candidate's own public parser, through the runtime's native parse path exactly as the views receive it (runtime.ts probeNative, scripts/fidelity-probe.ts; batch runner in the review's scratch tools), on sources that write the concept with unique marker tokens (probeSources below), then searching the native model for the markers and comparing models of sources that differ only in the concept. Where a model carried the concept, the installed source or type declarations were read to establish the encoding (cited file:line). Confirmed: the native model does not carry the value (dropped, folded into display text, merged with another written form, or rejected). Disproved: the native model carries it; the view now reads it from the model. Not decidable: the probe cannot settle the claim (none in this review).",
+ "summary": {
+  "Dicklesworthstone/frankenmermaid": {
+   "confirmed": 41,
+   "disproved": 1,
+   "not decidable": 0,
+   "reasons": 42,
+   "callbacks": {
+    "confirmed": 446,
+    "disproved": 1,
+    "not decidable": 0
+   }
+  },
+  "orestesgaolin/mermaid": {
+   "confirmed": 35,
+   "disproved": 1,
+   "not decidable": 0,
+   "reasons": 36,
+   "callbacks": {
+    "confirmed": 174,
+    "disproved": 1,
+    "not decidable": 0
+   }
+  },
+  "pub:mermaid_flutter": {
+   "confirmed": 35,
+   "disproved": 1,
+   "not decidable": 0,
+   "reasons": 36,
+   "callbacks": {
+    "confirmed": 174,
+    "disproved": 1,
+    "not decidable": 0
+   }
+  },
+  "adewale/agentic-mermaid": {
+   "confirmed": 45,
+   "disproved": 8,
+   "not decidable": 0,
+   "reasons": 53,
+   "callbacks": {
+    "confirmed": 194,
+    "disproved": 29,
+    "not decidable": 0
+   }
+  },
+  "dfadler/zombie-mermaid": {
+   "confirmed": 26,
+   "disproved": 6,
+   "not decidable": 0,
+   "reasons": 32,
+   "callbacks": {
+    "confirmed": 232,
+    "disproved": 10,
+    "not decidable": 0
+   }
+  },
+  "1jehuang/mermaid-rs-renderer": {
+   "confirmed": 75,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 75,
+   "callbacks": {
+    "confirmed": 870,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "AlexanderGrooff/mermaid-ascii": {
+   "confirmed": 17,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 17,
+   "callbacks": {
+    "confirmed": 80,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "anomalyco/opencode": {
+   "confirmed": 17,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 17,
+   "callbacks": {
+    "confirmed": 88,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "crafter-station/mermaid": {
+   "confirmed": 22,
+   "disproved": 1,
+   "not decidable": 0,
+   "reasons": 23,
+   "callbacks": {
+    "confirmed": 290,
+    "disproved": 1,
+    "not decidable": 0
+   }
+  },
+  "emtyty/merslim": {
+   "confirmed": 63,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 63,
+   "callbacks": {
+    "confirmed": 564,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "evangwt/xmermaid": {
+   "confirmed": 33,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 33,
+   "callbacks": {
+    "confirmed": 335,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "fasouto/termaid": {
+   "confirmed": 56,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 56,
+   "callbacks": {
+    "confirmed": 317,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "kitlangton/merman": {
+   "confirmed": 9,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 9,
+   "callbacks": {
+    "confirmed": 30,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "KlangHaus/vitepress-plugin-diagram": {
+   "confirmed": 18,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 18,
+   "callbacks": {
+    "confirmed": 258,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "Latias94/merman": {
+   "confirmed": 13,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 13,
+   "callbacks": {
+    "confirmed": 132,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "lukilabs/beautiful-mermaid": {
+   "confirmed": 39,
+   "disproved": 1,
+   "not decidable": 0,
+   "reasons": 40,
+   "callbacks": {
+    "confirmed": 354,
+    "disproved": 1,
+    "not decidable": 0
+   }
+  },
+  "Mootikins/figurehead-rs": {
+   "confirmed": 27,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 27,
+   "callbacks": {
+    "confirmed": 195,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "obsidianmd/pele": {
+   "confirmed": 7,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 7,
+   "callbacks": {
+    "confirmed": 101,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "sandyyst/dsh-plugin-mermaid-gb-svg": {
+   "confirmed": 8,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 8,
+   "callbacks": {
+    "confirmed": 184,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "kais-radwan/ascii-mermaid": {
+   "confirmed": 43,
+   "disproved": 1,
+   "not decidable": 0,
+   "reasons": 44,
+   "callbacks": {
+    "confirmed": 385,
+    "disproved": 1,
+    "not decidable": 0
+   }
+  },
+  "crabtalk/bezel": {
+   "confirmed": 7,
+   "disproved": 1,
+   "not decidable": 0,
+   "reasons": 8,
+   "callbacks": {
+    "confirmed": 101,
+    "disproved": 2,
+    "not decidable": 0
+   }
+  }
+ },
+ "concepts": [
+  {
+   "basis": "model-concept",
+   "concept": "agentic-acc-description",
+   "verdict": "disproved",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid's radar model keeps no accessibility description": 16,
+     "agentic-mermaid's ER model keeps no accessibility description": 2,
+     "agentic-mermaid's flowchart model keeps no accessibility description": 2,
+     "agentic-mermaid's gantt model keeps no accessibility description": 2
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 22
+   },
+   "probes": [
+    "f-acc",
+    "e-acc",
+    "g-acc",
+    "r-all"
+   ],
+   "evidence": "agentic-mermaid 0.5.6 parseRegisteredMermaid keeps accDescr in the result's meta.accessibility.descr for flowchart, ER, gantt and radar bodies; the runtime hands it to the views as accessibilityDescription (runtime.ts nativeParse, agentic branch). Probes return accessibilityDescription: 'ACCDSC' for all four (and for the upstream erDiagram.spec.js accessible-title source: 'this graph is about stuff'). ER uses the editing model, since 0.5.6's agent-core exports no parseErDiagram.",
+   "action": "Views read raw.accessibilityDescription (misc.mjs flowchart, ER editing branch and ganttGetters; gitgraph.mjs agenticRadar), Mermaid's '' when the meta field is unwritten."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "agentic-class-acc",
+   "verdict": "disproved",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid's class model keeps no accessibility title": 2
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 2
+   },
+   "probes": [
+    "c-acc"
+   ],
+   "evidence": "classDiagram / accTitle: ACCTTL / accDescr: ACCDSC / class A: the 0.5.6 class body comes back with accessibilityTitle 'ACCTTL' and accessibilityDescription 'ACCDSC' (meta.accessibility).",
+   "action": "misc.mjs agenticClassModel reads getAccTitle / getAccDescription from the model."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "agentic-class-styles",
+   "verdict": "disproved",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid's class model keeps no per-class styles": 3
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 3
+   },
+   "probes": [
+    "c-style",
+    "c2-style"
+   ],
+   "evidence": "`style A stroke-width:4px,fill:#f9f,font-size:20px` gives classes[0].style = { 'stroke-width': '4px', fill: '#f9f', 'font-size': '20px' }: every written property, in written order, unknown ones included.",
+   "action": "misc.mjs agenticClassModel: styles = the style object as Mermaid's property:value list ([] when none). A class with a defined class (`class C:::pink` / classDef pink) stays unsupported: Mermaid merges the classDef into styles in statement order, and the model keeps className, classDefs and style apart (measured: the two classDiagram-styles.spec.js callbacks that test this merge)."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "agentic-edge-animation",
+   "verdict": "disproved",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid's edge model keeps no animation": 1
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 1
+   },
+   "probes": [
+    "f-anim"
+   ],
+   "evidence": "`A e1@--> B / e1@{ animate: true }` gives graph.edges[0] = { id: 'e1', ..., animate: true }; an edge without the attachment has no animate key.",
+   "action": "misc.mjs beautifulGraph (keeps.animate, agentic only): animate is true where the model records it. The model drops a written `animate: false` (e2@{ animate: false } leaves no flag, and e3@{ animate: true } followed by e3@{ animate: false } keeps true), so an edge without the flag is declared absent for that edge alone; Crafter keeps the declaration."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "subgraph-classes-disproved",
+   "verdict": "disproved",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid's subgraph model keeps no classes": 1
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid's subgraph model keeps no classes": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's subgraph model keeps no classes": 1
+    },
+    "crafter-station/mermaid": {
+     "Crafter's subgraph model keeps no classes": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's subgraph model keeps no classes": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's subgraph model keeps no classes": 1
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 1,
+    "adewale/agentic-mermaid": 1,
+    "dfadler/zombie-mermaid": 1,
+    "crafter-station/mermaid": 1,
+    "lukilabs/beautiful-mermaid": 1,
+    "kais-radwan/ascii-mermaid": 1
+   },
+   "probes": [
+    "f-sub-class"
+   ],
+   "evidence": "`subgraph S1 / A / end / classDef SUBCLS fill:#f00 / class S1 SUBCLS`: zombie-mermaid, beautiful-mermaid, ascii-mermaid, Crafter and agentic-mermaid record classAssignments Map [['S1', 'SUBCLS']] (the same map as node assignments, keyed by the subgraph id); Frankenmermaid 0.5.0 records clusters[0].classes = ['SUBCLS'] on the subgraph's cluster (graph.subgraphs[0].cluster = 0), and no classes key on a cluster without one.",
+   "action": "view-core.mjs mermaidGraphView and frankenGraph, misc.mjs beautifulGraph read the subgraph's classes ([] when none)."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "zombie-sequence-title",
+   "verdict": "disproved",
+   "projects": {
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's sequence parser skips title lines": 1
+    }
+   },
+   "baselineCallbacks": {
+    "dfadler/zombie-mermaid": 1
+   },
+   "probes": [
+    "s-title",
+    "s-title-colon"
+   ],
+   "evidence": "zombie-mermaid 5.17.0 returns title: 'SEQTTL' for both `title SEQTTL` and `title: SEQTTL`; mermaid-parser dist/shared/index.d.ts SequenceDiagram.title: \"Text of a `title <text>` line (the last one wins); unset when there is none\".",
+   "action": "sequence.mjs beautifulFamily: zombie's getDiagramTitle reads title ('' when unset)."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "zombie-class-link",
+   "verdict": "disproved",
+   "projects": {
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid records a plain link (--) and an arrow (-->) as the same 'association'": 2
+    }
+   },
+   "baselineCallbacks": {
+    "dfadler/zombie-mermaid": 2
+   },
+   "probes": [
+    "c-rels"
+   ],
+   "evidence": "zombie-mermaid 5.17.0 types R2A -- R2B as 'link', R3A --> R3B as 'association' and R8A .. R8B as 'dashed-link' (mermaid-parser dist/shared/index.d.ts RelationshipType includes 'link' | 'dashed-link'). The claim holds for beautiful-mermaid 1.1.3 and ascii-mermaid (both 'association'), whose view had borrowed zombie's reason text.",
+   "action": "view-core.mjs zombieClasses: zombie's association is Mermaid's DEPENDENCY end on a solid line, link and dashed-link none/none on a solid / dotted line. beautiful-mermaid and ascii-mermaid now name themselves in the reason."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "zombie-class-line",
+   "verdict": "disproved",
+   "projects": {
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's class relation has no line style for this type": 1
+    }
+   },
+   "baselineCallbacks": {
+    "dfadler/zombie-mermaid": 1
+   },
+   "probes": [
+    "c2-dashed"
+   ],
+   "evidence": "ClassRelationship.dashed (5.16.0+ dist/shared/index.d.ts): \"Dashed line on a type that is solid by default (`A ..() B`)\"; its parser rejects dotted composition and aggregation (`D1A *.. D1B`: Malformed class-diagram relationship), so composition, aggregation and lollipop are solid unless dashed is set.",
+   "action": "view-core.mjs zombieClasses: lineType = dashed ? DOTTED_LINE : LINE for those types (beautiful-mermaid and ascii-mermaid, which have no dashed field, keep the assessment)."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "er-alias-disproved",
+   "verdict": "disproved",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core's ER entity model keeps no alias": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's ER entity model keeps no alias": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's ER entity model keeps no alias": 2
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "dfadler/zombie-mermaid": 2
+   },
+   "probes": [
+    "e-alias"
+   ],
+   "evidence": "`p[ALIASX] { string name }`: mermaid_core 0.3.2 gives entity p label 'ALIASX' (er_parser.dart:161-173: the alias, else the id) and zombie-mermaid 5.17.0 label 'ALIASX' (ErEntity.label: \"Display name (same as id unless aliased)\"); an unaliased entity's label is its id. Both views had also mapped Mermaid's label (the entity name) from that alias.",
+   "action": "misc.mjs dartEr and zombieEr: label = the entity name, alias = the native label when it differs from the id, else ''. mermaid-ascii's view, which already read Display that way, now also takes Mermaid's label from Name."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "zombie-state-note-side",
+   "verdict": "disproved",
+   "projects": {
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's note parser drops the side (left of / right of)": 3
+    }
+   },
+   "baselineCallbacks": {
+    "dfadler/zombie-mermaid": 3
+   },
+   "probes": [
+    "st-note"
+   ],
+   "evidence": "zombie-mermaid 5.16.0 and 5.17.0 mermaid-parser dist/index.js: n.edges.push({source:t?s:e,target:t?e:s,style:`dotted`,...}) with t the note's left-of flag, so a left-of note is joined note -> state and a right-of note state -> note (probe: `note right of A : NOTETXT` gives A -> A----note-1, `note left of A ... end note` gives A----note-2 -> A). 5.14.4, still a reviewed version, joined every note state -> note.",
+   "action": "state.mjs mermaidGraphState reads the side from the edge direction for the versions that write it (ZOMBIE_NOTE_SIDE: 5.16.0, 5.17.0); views now receive the measured version (upstream-fidelity-projection.mjs projectPublicDatabase, runtime.ts projectView)."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "bezel-emit",
+   "verdict": "disproved",
+   "projects": {
+    "crabtalk/bezel": {
+     "Mermaid's AgentFlowDB.emitWarning/emitError record a diagnostic into its database; the candidate exposes a parse result, not that mutation": 2
+    }
+   },
+   "baselineCallbacks": {
+    "crabtalk/bezel": 2
+   },
+   "probes": [],
+   "evidence": "bezel-mermaid 0.2.26 src/diagrams/agentflow/db.rs:781 pub fn emit_warning and :785 pub fn emit_error (crate as the bridge extracts it); the capability review already records emit_warning in native-capabilities.mjs. The bridge returns only the parsed model, so the member is unbound, not absent.",
+   "action": "ports.mjs: Bezel emitWarning / emitError are a Trident gap naming that evidence (unboundNativeCapability); native-capabilities.mjs gains emitError.",
+   "supersededBy": "The stateful Bezel bridge (tests/fidelity-native-bindings.test.ts, native-capabilities.mjs) runs AgentflowDb::emit_warning and emit_error on Bezel's own model, so these calls are measured rather than recorded as a Trident gap."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "emit-latias",
+   "verdict": "confirmed",
+   "projects": {
+    "Latias94/merman": {
+     "Mermaid's AgentFlowDB.emitWarning/emitError record a diagnostic into its database; the candidate exposes a parse result, not that mutation": 2
+    }
+   },
+   "baselineCallbacks": {
+    "Latias94/merman": 2
+   },
+   "probes": [
+    "af3-view"
+   ],
+   "evidence": "merman-cli 0.10.0 `parse --meta` prints the agentflow semantic model (connectors, vertices, edges, subGraphs, diagnostics); the CLI is the public interface and offers no call that records a diagnostic.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "flow-acc",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core's flowchart model keeps no accessibility title": 2
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's flowchart model keeps no accessibility title": 2
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's flowchart model keeps no accessibility title": 2
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's flowchart model keeps no accessibility title": 2
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii's flowchart model keeps no accessibility title": 2
+    },
+    "crafter-station/mermaid": {
+     "Crafter's flowchart model keeps no accessibility title": 2
+    },
+    "emtyty/merslim": {
+     "merslim's flowchart model keeps no accessibility title": 2
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's flowchart model keeps no accessibility title": 2
+    },
+    "fasouto/termaid": {
+     "termaid's flowchart model keeps no accessibility title": 2
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "vitepress-plugin-mermaid-diagram's flowchart model keeps no accessibility title": 2
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's flowchart model keeps no accessibility title": 2
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's flowchart model keeps no accessibility title": 2
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's flowchart model keeps no accessibility title": 2
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 2,
+    "pub:mermaid_flutter": 2,
+    "dfadler/zombie-mermaid": 2,
+    "1jehuang/mermaid-rs-renderer": 2,
+    "AlexanderGrooff/mermaid-ascii": 2,
+    "crafter-station/mermaid": 2,
+    "emtyty/merslim": 2,
+    "evangwt/xmermaid": 2,
+    "fasouto/termaid": 2,
+    "KlangHaus/vitepress-plugin-diagram": 2,
+    "lukilabs/beautiful-mermaid": 2,
+    "Mootikins/figurehead-rs": 2,
+    "kais-radwan/ascii-mermaid": 2
+   },
+   "probes": [
+    "f-acc"
+   ],
+   "evidence": "No model holds ACCTTL as an accessibility field: mermaid_core, zombie-mermaid, mermaid-rs-renderer, Crafter, merslim, XMermaid, vitepress-plugin-mermaid-diagram, beautiful-mermaid, figurehead and ascii-mermaid drop it; mermaid-ascii and termaid read `accTitle: ACCTTL` as a node.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "subgraph-markdown",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid strips a markdown subgraph title's markers and does not record that it was markdown": 12
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core keeps a subgraph title's text without recording whether it was written as markdown": 9
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core keeps a subgraph title's text without recording whether it was written as markdown": 9
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps a subgraph title's text without recording whether it was written as markdown": 10
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid keeps a subgraph title's text without recording whether it was written as markdown": 9
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps a subgraph title's text without recording whether it was written as markdown": 10
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii keeps a subgraph title's text without recording whether it was written as markdown": 8
+    },
+    "anomalyco/opencode": {
+     "merman keeps a subgraph title's text without recording whether it was written as markdown": 8
+    },
+    "crafter-station/mermaid": {
+     "Crafter keeps a subgraph title's text without recording whether it was written as markdown": 8
+    },
+    "evangwt/xmermaid": {
+     "XMermaid keeps a subgraph title's text without recording whether it was written as markdown": 9
+    },
+    "fasouto/termaid": {
+     "termaid keeps a subgraph title's text without recording whether it was written as markdown": 10
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid keeps a subgraph title's text without recording whether it was written as markdown": 9
+    },
+    "sandyyst/dsh-plugin-mermaid-gb-svg": {
+     "dsh-plugin-mermaid-gb-svg keeps a subgraph title's text without recording whether it was written as markdown": 9
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid keeps a subgraph title's text without recording whether it was written as markdown": 8
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 12,
+    "orestesgaolin/mermaid": 9,
+    "pub:mermaid_flutter": 9,
+    "adewale/agentic-mermaid": 10,
+    "dfadler/zombie-mermaid": 9,
+    "1jehuang/mermaid-rs-renderer": 10,
+    "AlexanderGrooff/mermaid-ascii": 8,
+    "anomalyco/opencode": 8,
+    "crafter-station/mermaid": 8,
+    "evangwt/xmermaid": 9,
+    "fasouto/termaid": 10,
+    "lukilabs/beautiful-mermaid": 9,
+    "sandyyst/dsh-plugin-mermaid-gb-svg": 9,
+    "kais-radwan/ascii-mermaid": 8
+   },
+   "probes": [
+    "f-md-sub",
+    "f2-md-sub",
+    "f-plain-sub"
+   ],
+   "evidence": "`subgraph S1 [\"`**MDSUB**`\"]`: no subgraph record carries a markdown flag or label type. mermaid_core keeps '**MDSUB**' (only nodes have a markdown flag), Frankenmermaid and XMermaid 'MDSUB', zombie-mermaid '<b>MDSUB</b>'; mermaid-rs-renderer, mermaid-ascii, OpenCode, Crafter, merslim, termaid, vitepress, dsh and ascii-mermaid keep the written backticks inside the label text and beautiful-mermaid '`<b>MDSUB</b>`' (telling them apart would mean parsing the display text); agentic-mermaid returns an opaque body for a markdown subgraph title.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "subgraph-classes-confirmed",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core's subgraph model keeps no classes": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's subgraph model keeps no classes": 1
+    },
+    "emtyty/merslim": {
+     "merslim's flowchart parser keeps no subgraph classes": 1
+    },
+    "fasouto/termaid": {
+     "termaid's subgraph model keeps no classes": 1
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "emtyty/merslim": 1,
+    "fasouto/termaid": 1
+   },
+   "probes": [
+    "f-sub-class"
+   ],
+   "evidence": "mermaid_core keeps classDefs only (no assignment recorded for S1); termaid keeps class_defs only; merslim keeps neither.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "subgraph-direction",
+   "verdict": "confirmed",
+   "projects": {
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer records a subgraph's direction TB and TD as the same TopDown": 1
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii's subgraph model keeps no direction": 1
+    },
+    "emtyty/merslim": {
+     "merslim's flowchart parser keeps no subgraph directions": 1
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's subgraph model keeps no direction": 2
+    }
+   },
+   "baselineCallbacks": {
+    "1jehuang/mermaid-rs-renderer": 1,
+    "AlexanderGrooff/mermaid-ascii": 1,
+    "emtyty/merslim": 1,
+    "evangwt/xmermaid": 2
+   },
+   "probes": [
+    "f2-sub-dir",
+    "f2-sub-dir-tb",
+    "f2-sub-dir-td"
+   ],
+   "evidence": "`subgraph S1 / direction LR`: mermaid-ascii reads 'direction LR' as a member node, XMermaid and merslim keep no direction; mermaid-rs-renderer's models for `direction TB` and `direction TD` are identical.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "subgraph-members",
+   "verdict": "confirmed",
+   "projects": {
+    "emtyty/merslim": {
+     "merslim keeps a subgraph's id and title, not its members": 19
+    }
+   },
+   "baselineCallbacks": {
+    "emtyty/merslim": 19
+   },
+   "probes": [
+    "f-sub-members"
+   ],
+   "evidence": "merslim subgraphs are [{ id: 'S1', label: 'S1' }] with no member list.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "link-length",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid's edge model keeps no link length": 54
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's edge model keeps no link length": 54
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's edge model has no link length": 66
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii's edge model has no link length": 2
+    },
+    "anomalyco/opencode": {
+     "merman's edge model keeps no link length": 2
+    },
+    "crafter-station/mermaid": {
+     "Crafter's edge model keeps no link length": 16
+    },
+    "kitlangton/merman": {
+     "merman's edge model keeps no link length": 2
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's edge model keeps no link length": 1
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's edge model has no link length": 12
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's edge model keeps no link length": 16
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 54,
+    "dfadler/zombie-mermaid": 54,
+    "1jehuang/mermaid-rs-renderer": 66,
+    "AlexanderGrooff/mermaid-ascii": 2,
+    "anomalyco/opencode": 2,
+    "crafter-station/mermaid": 16,
+    "kitlangton/merman": 2,
+    "lukilabs/beautiful-mermaid": 1,
+    "Mootikins/figurehead-rs": 12,
+    "kais-radwan/ascii-mermaid": 16
+   },
+   "probes": [
+    "f2-len1",
+    "f2-len3",
+    "f-len1",
+    "f-len3"
+   ],
+   "evidence": "`A --> B` vs `A ----> B`: zombie-mermaid and mermaid-rs-renderer models are identical; Frankenmermaid differs only in the edge span; Crafter, beautiful-mermaid and ascii-mermaid read `A ----> B` as an edge to a node '-', mermaid-ascii and kitlangton merman as a node 'A --', OpenCode and figurehead reject it. (mermaid_core, which is not assessed for this, keeps minLen.)",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "edge-ids",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid's edge model keeps no edge ids": 52
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's edge model keeps no edge ids": 65
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii's edge model keeps no edge ids": 20
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's edge model keeps no edge ids": 59
+    },
+    "fasouto/termaid": {
+     "termaid's edge model keeps no edge ids": 20
+    },
+    "kitlangton/merman": {
+     "merman's edge model keeps no edge ids": 16
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 52,
+    "1jehuang/mermaid-rs-renderer": 65,
+    "AlexanderGrooff/mermaid-ascii": 20,
+    "evangwt/xmermaid": 59,
+    "fasouto/termaid": 20,
+    "kitlangton/merman": 16
+   },
+   "probes": [
+    "f-edgeid"
+   ],
+   "evidence": "`A EDGEID@--> B`: no edge carries EDGEID in Frankenmermaid, mermaid-rs-renderer, XMermaid; mermaid-ascii, termaid and kitlangton merman read 'A EDGEID@' as a node (as the capability review found).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "edge-curve",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid's edge model keeps no curve": 7
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's edge model keeps no curve": 7
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's edge model keeps no curve": 7
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii's edge model keeps no curve": 7
+    },
+    "fasouto/termaid": {
+     "termaid's edge model keeps no curve": 7
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's edge model keeps no curve": 6
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 7,
+    "dfadler/zombie-mermaid": 7,
+    "1jehuang/mermaid-rs-renderer": 7,
+    "AlexanderGrooff/mermaid-ascii": 7,
+    "fasouto/termaid": 7,
+    "Mootikins/figurehead-rs": 6
+   },
+   "probes": [
+    "f-curve",
+    "f-curve-ls",
+    "f2-curve",
+    "f-linkstyle-interp",
+    "f-curve-ls-default"
+   ],
+   "evidence": "Neither `e1@{ curve: stepBefore }` nor `linkStyle 0 interpolate stepAfter` reaches an edge field in zombie-mermaid, mermaid-rs-renderer, mermaid-ascii, termaid or figurehead (figurehead's edge style is all null). Frankenmermaid maps `interpolate basis` and `linkStyle default interpolate cardinal` to the routing class 'curved' and drops stepAfter: the curve name is not kept.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "typed-styles",
+   "verdict": "confirmed",
+   "projects": {
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps node styles as a fixed set of typed properties, not the written style list": 8,
+     "mermaid-rs-renderer keeps a classDef as a fixed set of typed style properties, not the written style list": 16,
+     "mermaid-rs-renderer keeps link styles as a fixed set of typed properties, not the written style list": 1,
+     "mermaid-rs-renderer keeps a classDef only as the typed properties it renders, not the declarations as written": 11
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead keeps a node style as a fixed set of typed properties, not the written style list": 3,
+     "figurehead keeps a classDef as a fixed set of typed style properties, not the written style list": 12,
+     "figurehead keeps a link style as a fixed set of typed properties, not the written style list": 1
+    }
+   },
+   "baselineCallbacks": {
+    "1jehuang/mermaid-rs-renderer": 36,
+    "Mootikins/figurehead-rs": 16
+   },
+   "probes": [
+    "f-classdef",
+    "f2-classdef",
+    "f2-style",
+    "f2-linkstyle",
+    "f-classdef2"
+   ],
+   "evidence": "mermaid-rs-renderer: class_defs/node_styles/edge_styles are { fill, stroke, text_color, stroke_width: 4, stroke_dasharray, line_color } ('4px' becomes 4, other properties dropped, written order lost). figurehead: { fill: {Hex}, stroke: {Hex}, text_color, stroke_width: 4, stroke_dasharray: false } for classDef, style and linkStyle.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "ascii-classdef-sorted",
+   "verdict": "confirmed",
+   "projects": {
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii keeps a classDef's properties sorted by name, not as the written style list": 1
+    }
+   },
+   "baselineCallbacks": {
+    "AlexanderGrooff/mermaid-ascii": 1
+   },
+   "probes": [
+    "f-classdef2"
+   ],
+   "evidence": "`classDef CDEF stroke-width:4px,fill:#f9f` gives styleClasses CDEF.styles as a Go map (fill, stroke-width): a Go map keeps no written order.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "ascii-no-shapes",
+   "verdict": "confirmed",
+   "projects": {
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii parses no node shapes": 15,
+     "mermaid-ascii's edge model keeps no link styles": 1
+    }
+   },
+   "baselineCallbacks": {
+    "AlexanderGrooff/mermaid-ascii": 16
+   },
+   "probes": [
+    "f-shapes",
+    "f-linkstyle"
+   ],
+   "evidence": "nodeSpecs keep a label and styleClass only (no shape field; `C((circle))` stays a node id); a linkStyle line becomes a node.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "shape-merges",
+   "verdict": "confirmed",
+   "projects": {
+    "anomalyco/opencode": {
+     "merman records (..) and ([..]) as the same 'rounded' shape": 1
+    },
+    "emtyty/merslim": {
+     "merslim records several Mermaid shapes as the same 'service' kind": 1
+    },
+    "kitlangton/merman": {
+     "merman records (..) and ([..]) as the same 'rounded' shape": 1
+    },
+    "sandyyst/dsh-plugin-mermaid-gb-svg": {
+     "dsh-plugin-mermaid-gb-svg records Mermaid's round, stadium, circle and double circle shapes as the same 'terminal' symbol": 22
+    }
+   },
+   "baselineCallbacks": {
+    "anomalyco/opencode": 1,
+    "emtyty/merslim": 1,
+    "kitlangton/merman": 1,
+    "sandyyst/dsh-plugin-mermaid-gb-svg": 22
+   },
+   "probes": [
+    "f-shapes",
+    "f2-round"
+   ],
+   "evidence": "kitlangton merman and OpenCode: A(round) and B([stadium]) are both 'rounded'; merslim: both 'service'; dsh-plugin-mermaid-gb-svg: round, stadium, circle and double circle are all 'terminal'.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "bare-node",
+   "verdict": "confirmed",
+   "projects": {
+    "crafter-station/mermaid": {
+     "Crafter records a bare node and a rectangle labelled with its own id as the same 'rectangle'": 8
+    },
+    "kitlangton/merman": {
+     "merman records a bare node and a rectangle labelled with its own id as the same 'box'": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid records a bare node and a rectangle labelled with its own id as the same 'rectangle'": 8
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid records a bare node and a rectangle labelled with its own id as the same 'rectangle'": 8
+    }
+   },
+   "baselineCallbacks": {
+    "crafter-station/mermaid": 8,
+    "kitlangton/merman": 1,
+    "lukilabs/beautiful-mermaid": 8,
+    "kais-radwan/ascii-mermaid": 8
+   },
+   "probes": [
+    "f-bare",
+    "f2-bare"
+   ],
+   "evidence": "`A` and `B[B]` give identical node records ({ label = id, shape: 'rectangle' } for Crafter, beautiful-mermaid, ascii-mermaid; 'box' for kitlangton merman); Crafter's records differ only in their source span.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "arrowheads",
+   "verdict": "confirmed",
+   "projects": {
+    "emtyty/merslim": {
+     "merslim keeps an edge's line, not its arrowheads: A --> B and A --- B are the same solid edge": 16
+    },
+    "sandyyst/dsh-plugin-mermaid-gb-svg": {
+     "dsh-plugin-mermaid-gb-svg reads no arrowheads: A --- B, A --> B, A --o B and A --x B are the same edge": 125
+    }
+   },
+   "baselineCallbacks": {
+    "emtyty/merslim": 16,
+    "sandyyst/dsh-plugin-mermaid-gb-svg": 125
+   },
+   "probes": [
+    "f2-arrows",
+    "f-arrows"
+   ],
+   "evidence": "dsh-plugin-mermaid-gb-svg: `A --> B`, `C --- D`, `E --o F`, `G --x H` are all { dashed: false, thick: false }; merslim keeps `A-->B` and `C---D` as kind 'solid' and drops --o / --x edges.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "dropped-flow-statements",
+   "verdict": "confirmed",
+   "projects": {
+    "anomalyco/opencode": {
+     "merman accepts class statements and keeps nothing of them": 1,
+     "merman accepts linkStyle statements and keeps nothing of them": 5,
+     "merman accepts class statements and ::: shorthands and keeps nothing of them": 1,
+     "merman accepts classDef statements and keeps nothing of them": 1
+    },
+    "emtyty/merslim": {
+     "merslim's flowchart parser keeps no linkStyle statements": 6,
+     "merslim's flowchart parser keeps no classDef statements": 14,
+     "merslim's flowchart parser keeps no class assignments": 1
+    },
+    "kitlangton/merman": {
+     "merman accepts linkStyle statements and keeps nothing of them": 5,
+     "merman accepts classDef statements and keeps nothing of them": 1
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "vitepress-plugin-mermaid-diagram's flowchart model keeps no classDef styles": 13
+    },
+    "sandyyst/dsh-plugin-mermaid-gb-svg": {
+     "dsh-plugin-mermaid-gb-svg skips class lines": 2,
+     "dsh-plugin-mermaid-gb-svg skips direction lines": 2,
+     "dsh-plugin-mermaid-gb-svg skips style lines": 8,
+     "dsh-plugin-mermaid-gb-svg skips classDef lines": 14,
+     "dsh-plugin-mermaid-gb-svg skips accTitle lines": 2
+    }
+   },
+   "baselineCallbacks": {
+    "anomalyco/opencode": 8,
+    "emtyty/merslim": 21,
+    "kitlangton/merman": 6,
+    "KlangHaus/vitepress-plugin-diagram": 13,
+    "sandyyst/dsh-plugin-mermaid-gb-svg": 28
+   },
+   "probes": [
+    "f2-classes",
+    "f-classdef",
+    "f-class",
+    "f-style",
+    "f2-sub-dir",
+    "f-acc"
+   ],
+   "evidence": "kitlangton merman and OpenCode return only nodes, edges and subgraphs (classDef, class, ::: and linkStyle leave no trace); merslim keeps no classDef, class or linkStyle; vitepress-plugin-mermaid-diagram keeps no classDef (A:::CDEF stays a plain node); dsh keeps no class, style, classDef, subgraph direction or accTitle line.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "xmermaid-node-style",
+   "verdict": "confirmed",
+   "projects": {
+    "evangwt/xmermaid": {
+     "XMermaid keeps one resolved node style that merges classDef and style statements": 8
+    }
+   },
+   "baselineCallbacks": {
+    "evangwt/xmermaid": 8
+   },
+   "probes": [
+    "f-style-class"
+   ],
+   "evidence": "`classDef C1 fill:#111 / class A C1 / style A stroke:#222` gives node A { classes: ['C1'], styles: [], style: { fill: '#111', stroke: '#222' } }: one merged object.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "termaid-linkstyle-interp",
+   "verdict": "confirmed",
+   "projects": {
+    "fasouto/termaid": {
+     "termaid reads a linkStyle's properties without separating its interpolate setting": 1
+    }
+   },
+   "baselineCallbacks": {
+    "fasouto/termaid": 1
+   },
+   "probes": [
+    "f-linkstyle-interp"
+   ],
+   "evidence": "`linkStyle 0 interpolate basis stroke:#ff3` gives link_styles[0] = { 'interpolate basis stroke': '#ff3' } (zombie-mermaid the same).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "merman-direction",
+   "verdict": "confirmed",
+   "projects": {
+    "anomalyco/opencode": {
+     "OpenCode merman reports LR both for `direction LR` and for a diagram with no direction": 2
+    },
+    "kitlangton/merman": {
+     "merman reports LR both for `direction LR` and for a diagram with no direction": 2
+    }
+   },
+   "baselineCallbacks": {
+    "anomalyco/opencode": 2,
+    "kitlangton/merman": 2
+   },
+   "probes": [
+    "st2-dir",
+    "st2-nodir",
+    "st-composite"
+   ],
+   "evidence": "State diagrams: `stateDiagram-v2 / direction LR / A --> B` and the same without the direction line give identical models with direction 'LR' (kitlangton merman and OpenCode).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-title",
+   "verdict": "confirmed",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps a title line only as unparsed source lines": 1
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's sequence parser skips title lines": 1
+    },
+    "crafter-station/mermaid": {
+     "Crafter drops sequence titles": 1
+    },
+    "fasouto/termaid": {
+     "termaid drops a title line as an unrecognized line": 1
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "VitePress's sequence parser skips title lines": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's sequence parser skips title lines": 1
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's sequence parser reads only participants and messages; it skips title lines": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's sequence parser skips title lines": 1
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 1,
+    "1jehuang/mermaid-rs-renderer": 1,
+    "crafter-station/mermaid": 1,
+    "fasouto/termaid": 1,
+    "KlangHaus/vitepress-plugin-diagram": 1,
+    "lukilabs/beautiful-mermaid": 1,
+    "Mootikins/figurehead-rs": 1,
+    "kais-radwan/ascii-mermaid": 1
+   },
+   "probes": [
+    "s-title",
+    "s-title-colon"
+   ],
+   "evidence": "No title field: mermaid-rs-renderer, vitepress, beautiful-mermaid, ascii-mermaid, figurehead and Crafter drop the line; termaid warns 'Unrecognized line'; agentic-mermaid keeps an opaque-block statement ['title SEQTTL'].",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-acc",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core parses accDescr and discards it": 2,
+     "mermaid_core parses accTitle and discards it": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core parses accDescr and discards it": 2,
+     "mermaid_core parses accTitle and discards it": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's sequence parser skips accDescr": 2,
+     "zombie-mermaid's sequence parser skips accTitle": 1
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's sequence parser skips accDescr": 2,
+     "mermaid-rs-renderer's sequence parser skips accTitle": 1
+    },
+    "crafter-station/mermaid": {
+     "Crafter drops accessibility titles": 1
+    },
+    "emtyty/merslim": {
+     "merslim's sequence parser drops accDescr": 2,
+     "merslim's sequence parser drops accTitle": 1
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's sequence model keeps no accessibility title": 1
+    },
+    "fasouto/termaid": {
+     "termaid drops accDescr as an unrecognized line": 2,
+     "termaid drops accTitle as an unrecognized line": 1
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "VitePress's sequence parser skips accDescr": 2,
+     "VitePress's sequence parser skips accTitle": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's sequence parser skips accDescr": 2,
+     "beautiful-mermaid's sequence parser skips accTitle": 1
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's sequence parser reads only participants and messages; it skips accDescr": 2,
+     "figurehead's sequence parser reads only participants and messages; it skips accTitle": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's sequence parser skips accDescr": 2,
+     "ascii-mermaid's sequence parser skips accTitle": 1
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 3,
+    "pub:mermaid_flutter": 3,
+    "dfadler/zombie-mermaid": 3,
+    "1jehuang/mermaid-rs-renderer": 3,
+    "crafter-station/mermaid": 1,
+    "emtyty/merslim": 3,
+    "evangwt/xmermaid": 1,
+    "fasouto/termaid": 3,
+    "KlangHaus/vitepress-plugin-diagram": 3,
+    "lukilabs/beautiful-mermaid": 3,
+    "Mootikins/figurehead-rs": 3,
+    "kais-radwan/ascii-mermaid": 3
+   },
+   "probes": [
+    "s-acc"
+   ],
+   "evidence": "No model of mermaid_core, zombie-mermaid, mermaid-rs-renderer, Crafter, merslim, XMermaid, vitepress, beautiful-mermaid, figurehead or ascii-mermaid holds ACCTTL / ACCDSC; termaid warns and drops them.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-links",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core parses link statements and discards it": 7
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core parses link statements and discards it": 7
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's sequence parser skips link statements": 7
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps no participant links": 7
+    },
+    "crafter-station/mermaid": {
+     "Crafter keeps no participant links": 7
+    },
+    "emtyty/merslim": {
+     "merslim's sequence parser drops link statements": 7
+    },
+    "fasouto/termaid": {
+     "termaid drops link statements as an unrecognized line": 7
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "VitePress's sequence parser skips link statements": 7
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's sequence parser skips link statements": 7
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's sequence parser reads only participants and messages; it skips link statements": 7
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's sequence parser skips link statements": 7
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 7,
+    "pub:mermaid_flutter": 7,
+    "dfadler/zombie-mermaid": 7,
+    "1jehuang/mermaid-rs-renderer": 7,
+    "crafter-station/mermaid": 7,
+    "emtyty/merslim": 7,
+    "fasouto/termaid": 7,
+    "KlangHaus/vitepress-plugin-diagram": 7,
+    "lukilabs/beautiful-mermaid": 7,
+    "Mootikins/figurehead-rs": 7,
+    "kais-radwan/ascii-mermaid": 7
+   },
+   "probes": [
+    "s-link",
+    "s-links"
+   ],
+   "evidence": "`link A: LNKLBL @ https://\u2026` and `links A: {...}` reach no field in mermaid_core, zombie-mermaid, mermaid-rs-renderer, Crafter, merslim, vitepress, beautiful-mermaid, figurehead, ascii-mermaid; termaid warns; (Frankenmermaid and agentic-mermaid, not assessed for links, keep them).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-properties",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid does not keep participant properties statements": 3
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core parses properties statements and discards it": 3
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core parses properties statements and discards it": 3
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps properties statements only as unparsed source lines": 3
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's sequence parser skips properties statements": 3
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps no participant properties": 3
+    },
+    "crafter-station/mermaid": {
+     "Crafter keeps no participant properties": 3
+    },
+    "emtyty/merslim": {
+     "merslim's sequence parser drops properties statements": 3
+    },
+    "fasouto/termaid": {
+     "termaid drops properties statements as an unrecognized line": 3
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "VitePress's sequence parser skips properties statements": 3
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's sequence parser skips properties statements": 3
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's sequence parser reads only participants and messages; it skips properties statements": 3
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's sequence parser skips properties statements": 3
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 3,
+    "orestesgaolin/mermaid": 3,
+    "pub:mermaid_flutter": 3,
+    "adewale/agentic-mermaid": 3,
+    "dfadler/zombie-mermaid": 3,
+    "1jehuang/mermaid-rs-renderer": 3,
+    "crafter-station/mermaid": 3,
+    "emtyty/merslim": 3,
+    "fasouto/termaid": 3,
+    "KlangHaus/vitepress-plugin-diagram": 3,
+    "lukilabs/beautiful-mermaid": 3,
+    "Mootikins/figurehead-rs": 3,
+    "kais-radwan/ascii-mermaid": 3
+   },
+   "probes": [
+    "s-props"
+   ],
+   "evidence": "`properties A: {\"class\": \"PROPCLS\"}` reaches no field anywhere; agentic-mermaid keeps it as an opaque-block line, termaid as a warning.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-central",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid does not keep central-connection markers on messages": 1
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core has no central connections": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core has no central connections": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid has no central connections": 1
+    },
+    "emtyty/merslim": {
+     "merslim has no central connections": 1
+    },
+    "fasouto/termaid": {
+     "termaid has no central connections": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid has no central connections": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid has no central connections": 1
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 1,
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "dfadler/zombie-mermaid": 1,
+    "emtyty/merslim": 1,
+    "fasouto/termaid": 1,
+    "lukilabs/beautiful-mermaid": 1,
+    "kais-radwan/ascii-mermaid": 1
+   },
+   "probes": [
+    "s-central",
+    "s-central1",
+    "s-plain"
+   ],
+   "evidence": "`Alice ()->>() Bob`: Frankenmermaid's model equals the plain message's (only spans differ); mermaid_core, zombie-mermaid and merslim fold '()' into participant names ('Alice ()', '() Bob'); termaid, beautiful-mermaid and ascii-mermaid drop the line.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-wrap",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps no text-wrapping flag; a wrap: or nowrap: prefix stays part of the text": 2
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps no wrap flag unless one was written; Mermaid then reads its configuration": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's sequence model keeps no text wrapping": 2
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's sequence model keeps no text wrapping": 2
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii's sequence model keeps no text wrapping": 2
+    },
+    "anomalyco/opencode": {
+     "OpenCode merman keeps no sequence wrapping flags": 2
+    },
+    "emtyty/merslim": {
+     "merslim's sequence model keeps no text wrapping": 2
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's sequence model keeps no text wrapping": 2
+    },
+    "fasouto/termaid": {
+     "termaid's sequence model keeps no text wrapping per message": 2
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "VitePress's sequence model keeps no text wrapping": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's sequence model keeps no text wrapping": 2
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's sequence model keeps no text wrapping": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's sequence model keeps no text wrapping": 2
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 2,
+    "adewale/agentic-mermaid": 1,
+    "dfadler/zombie-mermaid": 2,
+    "1jehuang/mermaid-rs-renderer": 2,
+    "AlexanderGrooff/mermaid-ascii": 2,
+    "anomalyco/opencode": 2,
+    "emtyty/merslim": 2,
+    "evangwt/xmermaid": 2,
+    "fasouto/termaid": 2,
+    "KlangHaus/vitepress-plugin-diagram": 1,
+    "lukilabs/beautiful-mermaid": 2,
+    "Mootikins/figurehead-rs": 1,
+    "kais-radwan/ascii-mermaid": 2
+   },
+   "probes": [
+    "s-wrap",
+    "s-wrap-note"
+   ],
+   "evidence": "`A->>B: wrap: WRAPTXT`: mermaid-rs-renderer, mermaid-ascii, OpenCode, merslim, XMermaid, termaid, vitepress, beautiful-mermaid, figurehead, ascii-mermaid and Frankenmermaid keep 'wrap: WRAPTXT' as the label. zombie-mermaid and agentic-mermaid keep wrap true/false only where written (their views read it) and nothing for an unwritten one, whose Mermaid value is the host configuration (autoWrap): the assessed readings are those.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-actor",
+   "verdict": "confirmed",
+   "projects": {
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer records a participant and an actor the same way": 21
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii records a participant and an actor the same way": 2
+    },
+    "anomalyco/opencode": {
+     "OpenCode merges actor and participant declarations": 1
+    },
+    "emtyty/merslim": {
+     "merslim records a participant and an actor the same way": 21
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead records a participant and an actor the same way": 21
+    }
+   },
+   "baselineCallbacks": {
+    "1jehuang/mermaid-rs-renderer": 21,
+    "AlexanderGrooff/mermaid-ascii": 2,
+    "anomalyco/opencode": 1,
+    "emtyty/merslim": 21,
+    "Mootikins/figurehead-rs": 21
+   },
+   "probes": [
+    "s-actor"
+   ],
+   "evidence": "`participant PA / actor AB`: mermaid-rs-renderer gives both shape 'ActorBox'; mermaid-ascii, merslim, figurehead and OpenCode keep no kind.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-activation",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps activations as edge ranges: it records neither where an activate / deactivate line or a +/- marker was written nor deactivations by a - mar": 3
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core records A->>+B as a message followed by an activation, the same as an activate line": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core records A->>+B as a message followed by an activation, the same as an activate line": 1
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer records a +/- mark at its own message's index and an activate line at the next message's index, so an activation's position is not kept": 7
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii records A->>+B as a message followed by an activation, the same as an activate line": 1
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 3,
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "1jehuang/mermaid-rs-renderer": 7,
+    "AlexanderGrooff/mermaid-ascii": 1
+   },
+   "probes": [
+    "s2-act-a",
+    "s2-act-b",
+    "s-act-plus"
+   ],
+   "evidence": "`A->>+B` vs `A->>B / activate B`: mermaid_core and mermaid-ascii models identical; mermaid-rs-renderer records index 0 for the + mark and index 1 for the activate line (an activate line written before message 0 is also index 0); Frankenmermaid keeps { participant, start_edge, end_edge, depth } ranges.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-box",
+   "verdict": "confirmed",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps box blocks only as unparsed source lines": 3
+    },
+    "emtyty/merslim": {
+     "merslim's sequence parser drops box blocks": 3
+    },
+    "fasouto/termaid": {
+     "termaid drops box blocks as an unrecognized line": 3
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "VitePress's sequence parser skips box blocks": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's sequence parser skips box blocks": 3
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's sequence parser reads only participants and messages; it skips box blocks": 3
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's sequence parser skips box blocks": 3
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 3,
+    "emtyty/merslim": 3,
+    "fasouto/termaid": 3,
+    "KlangHaus/vitepress-plugin-diagram": 1,
+    "lukilabs/beautiful-mermaid": 3,
+    "Mootikins/figurehead-rs": 3,
+    "kais-radwan/ascii-mermaid": 3
+   },
+   "probes": [
+    "s-box"
+   ],
+   "evidence": "`box Aqua BOXTTL`: merslim, vitepress, beautiful-mermaid, figurehead and ascii-mermaid keep nothing; termaid warns; agentic-mermaid keeps an opaque-block ['box Aqua BOXTTL', 'participant A', 'end'].",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-create",
+   "verdict": "confirmed",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps create statements only as unparsed source lines": 2,
+     "agentic-mermaid keeps destroy statements only as unparsed source lines": 1
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's sequence parser skips create statements": 2,
+     "mermaid-rs-renderer's sequence parser skips destroy statements": 1
+    },
+    "crafter-station/mermaid": {
+     "Crafter skips create statements and keeps no actor creation data": 2,
+     "Crafter skips destroy statements and keeps no actor destruction data": 1
+    },
+    "emtyty/merslim": {
+     "merslim's sequence parser drops create statements": 2,
+     "merslim's sequence parser drops destroy statements": 1
+    },
+    "fasouto/termaid": {
+     "termaid accepts a create prefix and discards it": 2
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's sequence parser skips create statements": 2,
+     "beautiful-mermaid's sequence parser skips destroy statements": 1
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's sequence parser reads only participants and messages; it skips create statements": 2,
+     "figurehead's sequence parser reads only participants and messages; it skips destroy statements": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's sequence parser skips create statements": 2,
+     "ascii-mermaid's sequence parser skips destroy statements": 1
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 3,
+    "1jehuang/mermaid-rs-renderer": 3,
+    "crafter-station/mermaid": 3,
+    "emtyty/merslim": 3,
+    "fasouto/termaid": 2,
+    "lukilabs/beautiful-mermaid": 3,
+    "Mootikins/figurehead-rs": 3,
+    "kais-radwan/ascii-mermaid": 3
+   },
+   "probes": [
+    "s-create"
+   ],
+   "evidence": "`create participant CRT \u2026 destroy CRT`: mermaid-rs-renderer, Crafter (spans only), merslim, beautiful-mermaid, ascii-mermaid and figurehead keep CRT as an ordinary participant; termaid keeps a destroy event and discards the create prefix; agentic-mermaid keeps both lines as opaque blocks.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-arrows",
+   "verdict": "confirmed",
+   "projects": {
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid spells -> and -) (and their dashed forms) both 'open'": 2
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps only a solid or dotted line per message, not its arrow head": 2
+    },
+    "emtyty/merslim": {
+     "merslim spells ->> and -> both 'sync'": 1,
+     "merslim spells -->> and --> both 'reply'": 1
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "VitePress spells -> and -) (and their dotted forms) both 'open'": 2
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid spells ->> and -x both 'filled' and -> and -) both 'open'": 6
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid spells ->> and -x both 'filled' and -> and -) both 'open'": 6
+    }
+   },
+   "baselineCallbacks": {
+    "dfadler/zombie-mermaid": 2,
+    "1jehuang/mermaid-rs-renderer": 2,
+    "emtyty/merslim": 2,
+    "KlangHaus/vitepress-plugin-diagram": 2,
+    "lukilabs/beautiful-mermaid": 6,
+    "kais-radwan/ascii-mermaid": 6
+   },
+   "probes": [
+    "s-arrows"
+   ],
+   "evidence": "zombie-mermaid and vitepress: -> and -) both 'open'; merslim: ->> and -> 'sync', -->> and --> 'reply'; beautiful-mermaid and ascii-mermaid: ->> and -x 'filled', -> and -) 'open'; mermaid-rs-renderer: ->> and -> identical edges (Solid), and -), -x lost.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-blocks",
+   "verdict": "confirmed",
+   "projects": {
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid records a block holding one message and an empty block followed by a message the same way": 11
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid records a block holding one message and an empty block followed by a message the same way": 15
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid records a block holding one message and an empty block followed by a message the same way": 15
+    }
+   },
+   "baselineCallbacks": {
+    "dfadler/zombie-mermaid": 11,
+    "lukilabs/beautiful-mermaid": 15,
+    "kais-radwan/ascii-mermaid": 15
+   },
+   "probes": [
+    "s-block-msg",
+    "s-block-empty"
+   ],
+   "evidence": "zombie-mermaid, beautiful-mermaid and ascii-mermaid give identical models for `loop L1 / A->>B / end` and `loop L1 / end / A->>B` (startIndex 0, endIndex 0).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-positions",
+   "verdict": "confirmed",
+   "projects": {
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps positions as message indexes; the order of the note and block marker statements before message N is not kept": 7
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid keeps positions as message indexes; the order of the note and block marker statements before message N is not kept": 2
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid keeps positions as message indexes; the order of the note and block marker statements before message N is not kept": 2
+    }
+   },
+   "baselineCallbacks": {
+    "1jehuang/mermaid-rs-renderer": 7,
+    "lukilabs/beautiful-mermaid": 2,
+    "kais-radwan/ascii-mermaid": 2
+   },
+   "probes": [
+    "s-note-order",
+    "s-note-order2"
+   ],
+   "evidence": "A note written inside vs before a loop that starts at the same message gives identical mermaid-rs-renderer, beautiful-mermaid and ascii-mermaid models.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "seq-rect",
+   "verdict": "confirmed",
+   "projects": {
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii strips a rect's rgb() colour from its label": 2
+    },
+    "evangwt/xmermaid": {
+     "XMermaid re-spaces a rect's colour text": 2
+    }
+   },
+   "baselineCallbacks": {
+    "AlexanderGrooff/mermaid-ascii": 2,
+    "evangwt/xmermaid": 2
+   },
+   "probes": [
+    "s-rect",
+    "s2-rect",
+    "s2-rect2"
+   ],
+   "evidence": "mermaid-ascii: FragmentRect Label ''. XMermaid: `rect rgb(10,20,30)` becomes color 'rgb(10, 20, 30)' and `rgba(0, 0, 255, .1)` 'rgba(0, 0, 255, 0.1)', so the written text is not kept.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "agentic-opaque",
+   "verdict": "confirmed",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"Note right of Bob: Bob thinks\"": 2,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"title: Diagram Title\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"title Diagram Title\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"activate Bob\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"      %% Comment\", \"      Note right of Bob: Bob thinks\"": 2,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"%% Comment\", \"Note right of Bob: Bob thinks\"": 6,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"Note right of John: Rational thoughts<br/>prevail...\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"note right of N: multiline<br>text\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"note right of N: single-line text\"": 2,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"note right of N:wrap: single-line text\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"Note over Bob: Bob thinks\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"Note over Alice,Bob: confusion\", \"Note over Bob,Alice: resolution\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"        %% Comment\", \"        rect rgb(N, N, N)\", \"        Note right of Bob: Bob thinks\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"        %% Comment\", \"        rect rgb(N, N, N)\", \"        rect rgb(N, N, N)\", \"        N": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"    critical Establish a connection to the DB\", \"        Service-->DB: connect\", \"    end": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"    critical Establish a connection to the DB\", \"        Service-->DB: connect\", \"    opt": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"    break when the booking process fails\", \"        API-->Consumer: show failure\", \"    e": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"par_over Parallel overlap\", \"Alice ->> Bob: Message\", \"Note left of Alice: Alice note\", \"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"# comment\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"Note right of Bob: -:<>,\", \"# comment\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"loop -:<>,\", \"# comment\", \"Bob-->Alice: I am good thanks!\", \"end\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"opt -:<>,\", \"# comment\", \"Bob-->Alice: I am good thanks!\", \"end\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"alt -:<>,\", \"# comment\", \"Bob-->Alice: I am good thanks!\", \"else ,<>:-\", \"#; comment\", \"B": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"par -:<>,\", \"# comment\", \"Bob-->Alice: I am good thanks!\", \"and ,<>:-\", \"#; comment\", \"Bo": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"opt \", \"# comment\", \"Bob-->Alice: I am good thanks!\", \"end\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"alt\", \"Bob-->Alice: I am good thanks!\", \"else \", \"# comment\", \"Bob-->Alice: I am good tha": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"par\", \"Bob-->Alice: I am good thanks!\", \"and \", \"# comment\", \"Bob-->Alice: I am good than": 1
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 35
+   },
+   "probes": [
+    "s-note-side",
+    "s-critical",
+    "s-comment",
+    "s-act-line",
+    "s-rect",
+    "s-box",
+    "s-create",
+    "s-props"
+   ],
+   "evidence": "agentic-mermaid 0.5.6 SequenceBody keeps notes, activate lines, rect / critical / break / par_over blocks, comments, box, create, destroy and properties lines as { kind: 'opaque-block', lines: [...] } statements (raw source text, which a view would have to parse).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-acc",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core's class model keeps no accessibility title": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's class model keeps no accessibility title": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's class model keeps no accessibility title": 2
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's class model keeps no accessibility title": 2
+    },
+    "crafter-station/mermaid": {
+     "Crafter's class model keeps no accessibility title": 2
+    },
+    "emtyty/merslim": {
+     "Merslim's class model keeps no accessibility title": 2
+    },
+    "fasouto/termaid": {
+     "termaid's class model keeps no accessibility title": 2
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "vitepress-plugin-mermaid-diagram's class model keeps no accessibility title": 2
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's class model keeps no accessibility title": 2
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's class model keeps no accessibility title": 2
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "dfadler/zombie-mermaid": 2,
+    "1jehuang/mermaid-rs-renderer": 2,
+    "crafter-station/mermaid": 2,
+    "emtyty/merslim": 2,
+    "fasouto/termaid": 2,
+    "KlangHaus/vitepress-plugin-diagram": 2,
+    "lukilabs/beautiful-mermaid": 2,
+    "kais-radwan/ascii-mermaid": 2
+   },
+   "probes": [
+    "c-acc"
+   ],
+   "evidence": "mermaid_core, mermaid-rs-renderer and XMermaid drop accTitle; zombie-mermaid, Crafter, merslim, termaid, vitepress, beautiful-mermaid and ascii-mermaid read 'accTitle: ACCTTL' as a class member.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-notes",
+   "verdict": "confirmed",
+   "projects": {
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's class model keeps no notes": 200
+    },
+    "crafter-station/mermaid": {
+     "Crafter's class model keeps no notes": 200
+    },
+    "emtyty/merslim": {
+     "Merslim's class model keeps no notes": 200
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's class model keeps no notes": 100
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "vitepress-plugin-mermaid-diagram's class model keeps no notes": 200
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's class model keeps no notes": 200
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's class model keeps no notes": 200
+    }
+   },
+   "baselineCallbacks": {
+    "1jehuang/mermaid-rs-renderer": 200,
+    "crafter-station/mermaid": 200,
+    "emtyty/merslim": 200,
+    "evangwt/xmermaid": 100,
+    "KlangHaus/vitepress-plugin-diagram": 200,
+    "lukilabs/beautiful-mermaid": 200,
+    "kais-radwan/ascii-mermaid": 200
+   },
+   "probes": [
+    "c-notes"
+   ],
+   "evidence": "As the capability review: neither note text appears in any of the seven models.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-assignments",
+   "verdict": "confirmed",
+   "projects": {
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's class parser records no class assignments": 4
+    },
+    "emtyty/merslim": {
+     "Merslim's class model keeps no class assignments": 4
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's class model keeps no class assignments": 4
+    },
+    "fasouto/termaid": {
+     "termaid skips class cssClass lines": 6
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "vitepress-plugin-mermaid-diagram's class model keeps no class assignments": 9
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's class model keeps no class assignments": 6
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's class model keeps no class assignments": 6
+    }
+   },
+   "baselineCallbacks": {
+    "1jehuang/mermaid-rs-renderer": 4,
+    "emtyty/merslim": 4,
+    "evangwt/xmermaid": 4,
+    "fasouto/termaid": 6,
+    "KlangHaus/vitepress-plugin-diagram": 9,
+    "lukilabs/beautiful-mermaid": 6,
+    "kais-radwan/ascii-mermaid": 6
+   },
+   "probes": [
+    "c-cssclass",
+    "c-cssclass-list"
+   ],
+   "evidence": "merslim, vitepress (':::SHORTCLS' stays in the label as '::SHORTCLS'), beautiful-mermaid and ascii-mermaid ('B:::SHORTCLS' becomes the class id), XMermaid and mermaid-rs-renderer (the same) keep no assignment; termaid warns and ignores cssClass.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-styles",
+   "verdict": "confirmed",
+   "projects": {
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's class parser records no class styles": 1
+    },
+    "emtyty/merslim": {
+     "Merslim's class model keeps no class styles": 1
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's class model keeps no class styles": 1
+    },
+    "fasouto/termaid": {
+     "termaid skips class style lines": 1
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "vitepress-plugin-mermaid-diagram's class model keeps no class styles": 3
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's class model keeps no class styles": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's class model keeps no class styles": 1
+    }
+   },
+   "baselineCallbacks": {
+    "1jehuang/mermaid-rs-renderer": 1,
+    "emtyty/merslim": 1,
+    "evangwt/xmermaid": 1,
+    "fasouto/termaid": 1,
+    "KlangHaus/vitepress-plugin-diagram": 3,
+    "lukilabs/beautiful-mermaid": 1,
+    "kais-radwan/ascii-mermaid": 1
+   },
+   "probes": [
+    "c-style",
+    "c2-style"
+   ],
+   "evidence": "merslim, vitepress, beautiful-mermaid, ascii-mermaid and mermaid-rs-renderer keep no style; termaid ignores it. XMermaid keeps a typed { fill, stroke, stroke_width } object: `style A stroke-width:4px,fill:#f9f,font-size:20px` becomes { fill: '#f9f', stroke_width: '4px' } (font-size dropped, order lost), so Mermaid's written style list is not kept.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-namespaces",
+   "verdict": "confirmed",
+   "projects": {
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's class parser records no namespaces": 6
+    },
+    "emtyty/merslim": {
+     "Merslim's class model keeps no namespaces": 5
+    },
+    "fasouto/termaid": {
+     "termaid skips class namespace lines": 6
+    }
+   },
+   "baselineCallbacks": {
+    "1jehuang/mermaid-rs-renderer": 6,
+    "emtyty/merslim": 5,
+    "fasouto/termaid": 6
+   },
+   "probes": [
+    "c-ns"
+   ],
+   "evidence": "merslim and mermaid-rs-renderer keep no namespace; termaid warns.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-ns-flat",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core lists a class in several namespaces without recording which one it was declared in": 1,
+     "mermaid_core keeps namespaces as a flat list without nesting": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core lists a class in several namespaces without recording which one it was declared in": 1,
+     "mermaid_core keeps namespaces as a flat list without nesting": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid keeps namespaces as a flat list without nesting": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid keeps namespaces as a flat list without nesting": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid keeps namespaces as a flat list without nesting": 1
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 2,
+    "pub:mermaid_flutter": 2,
+    "dfadler/zombie-mermaid": 1,
+    "lukilabs/beautiful-mermaid": 1,
+    "kais-radwan/ascii-mermaid": 1
+   },
+   "probes": [
+    "c-ns-nested"
+   ],
+   "evidence": "`namespace Company.Project` and `namespace Company.Project.Module` give two flat entries named by the written dotted path (mermaid_core id/label 'Company.Project'; zombie-mermaid, beautiful-mermaid, ascii-mermaid name): nesting would mean splitting the written name. (agentic-mermaid's view does split its qualified paths, which its own types declare as paths.)",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-links",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid's class parser keeps no link or click statements": 7
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core's class model keeps no click callbacks": 1,
+     "mermaid_core's class model keeps no tooltips": 3
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's class model keeps no click callbacks": 1,
+     "mermaid_core's class model keeps no tooltips": 3
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's class parser records no links": 4
+    },
+    "emtyty/merslim": {
+     "Merslim's class model keeps no links": 4
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's class model keeps no links": 2
+    },
+    "fasouto/termaid": {
+     "termaid skips class click and callback lines": 1,
+     "termaid skips class link and click lines": 6
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "vitepress-plugin-mermaid-diagram's class model keeps no click callbacks": 1,
+     "vitepress-plugin-mermaid-diagram's class model keeps no tooltips": 1,
+     "vitepress-plugin-mermaid-diagram's class model keeps no links": 5
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's class model keeps no click callbacks": 1,
+     "beautiful-mermaid's class model keeps no tooltips": 1,
+     "beautiful-mermaid's class model keeps no links": 5
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's class model keeps no click callbacks": 1,
+     "ascii-mermaid's class model keeps no tooltips": 1,
+     "ascii-mermaid's class model keeps no links": 5
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 7,
+    "orestesgaolin/mermaid": 4,
+    "pub:mermaid_flutter": 4,
+    "1jehuang/mermaid-rs-renderer": 4,
+    "emtyty/merslim": 4,
+    "evangwt/xmermaid": 2,
+    "fasouto/termaid": 7,
+    "KlangHaus/vitepress-plugin-diagram": 7,
+    "lukilabs/beautiful-mermaid": 7,
+    "kais-radwan/ascii-mermaid": 7
+   },
+   "probes": [
+    "c-link",
+    "c-click",
+    "c-callback",
+    "c-click-call"
+   ],
+   "evidence": "merslim, vitepress, beautiful-mermaid, ascii-mermaid, mermaid-rs-renderer, Frankenmermaid keep no link or click; XMermaid rejects `link` and drops `click`; termaid warns. mermaid_core keeps the link URL but no tooltip ('LNKTIP' absent) and nothing of `callback` / `click \u2026 call`.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-direction",
+   "verdict": "confirmed",
+   "projects": {
+    "crafter-station/mermaid": {
+     "Crafter's class model keeps no direction": 1
+    },
+    "emtyty/merslim": {
+     "Merslim's class model keeps no direction": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's class model keeps no direction": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's class model keeps no direction": 1
+    }
+   },
+   "baselineCallbacks": {
+    "crafter-station/mermaid": 1,
+    "emtyty/merslim": 1,
+    "lukilabs/beautiful-mermaid": 1,
+    "kais-radwan/ascii-mermaid": 1
+   },
+   "probes": [
+    "c-dir"
+   ],
+   "evidence": "`direction RL` reaches no field in Crafter, merslim, beautiful-mermaid or ascii-mermaid.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-generic",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core keeps a generic class's type parameter only in its display label": 3
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core keeps a generic class's type parameter only in its display label": 3
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid keeps a generic class's type parameter only in its display label": 4
+    },
+    "fasouto/termaid": {
+     "termaid's class model keeps no generic type": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid keeps a generic class's type parameter only in its display label": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid keeps a generic class's type parameter only in its display label": 1
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 3,
+    "pub:mermaid_flutter": 3,
+    "dfadler/zombie-mermaid": 4,
+    "fasouto/termaid": 1,
+    "lukilabs/beautiful-mermaid": 1,
+    "kais-radwan/ascii-mermaid": 1
+   },
+   "probes": [
+    "c-generic"
+   ],
+   "evidence": "`class Square~GENT~`: mermaid_core, zombie-mermaid, beautiful-mermaid and ascii-mermaid keep label 'Square<GENT>' only; termaid drops the class.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-members",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps a method's name and parameter list as one written text, and splits an attribute's 'name : type' text without its spacing": 9
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core keeps a class member as its display text with static/abstract flags, not Mermaid's parsed member fields": 3
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core keeps a class member as its display text with static/abstract flags, not Mermaid's parsed member fields": 3
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps a class body as raw rows, not split into annotations, attributes and methods": 35
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer folds a class's annotations, label and members into one display label": 29
+    },
+    "emtyty/merslim": {
+     "Merslim keeps an attribute written 'int age' or 'age : int' as the same name and type": 6
+    },
+    "evangwt/xmermaid": {
+     "XMermaid keeps class members and methods as one display list": 19
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's class member keeps no method parameters": 6
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 9,
+    "orestesgaolin/mermaid": 3,
+    "pub:mermaid_flutter": 3,
+    "adewale/agentic-mermaid": 35,
+    "1jehuang/mermaid-rs-renderer": 29,
+    "emtyty/merslim": 6,
+    "evangwt/xmermaid": 19,
+    "kais-radwan/ascii-mermaid": 6
+   },
+   "probes": [
+    "c-body",
+    "c-member-lines",
+    "c-attr-forms"
+   ],
+   "evidence": "mermaid_core: { text: '+getAgeX(int pa, String pb) : bool', isStatic, isAbstract }; agentic-mermaid: raw rows; XMermaid: one members list; mermaid-rs-renderer: label 'A\\n---\\n+int x'; ascii-mermaid methods keep no parameters; merslim: `int AGEONE` and `AGETWO : int` both { name, returnType: 'int' }; Frankenmermaid: method name 'getAgeX(int pa, String pb)', attribute name 'int AGEX'.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-relation-ends",
+   "verdict": "confirmed",
+   "projects": {
+    "emtyty/merslim": {
+     "Merslim normalizes inheritance child -> parent, so the left-hand class (idN) is not recorded": 10
+    },
+    "evangwt/xmermaid": {
+     "XMermaid normalizes class relations child -> parent, so the left-hand class (idN) is not recorded": 9
+    },
+    "KlangHaus/vitepress-plugin-diagram": {
+     "vitepress-plugin-mermaid-diagram's class relation keeps no record of which end carries the marker": 4
+    }
+   },
+   "baselineCallbacks": {
+    "emtyty/merslim": 10,
+    "evangwt/xmermaid": 9,
+    "KlangHaus/vitepress-plugin-diagram": 4
+   },
+   "probes": [
+    "c-rels",
+    "c-rel-ends"
+   ],
+   "evidence": "`E1A <|-- E1B` and `E2A --|> E2B`: XMermaid and merslim record both child -> parent (E1B -> E1A, E2A -> E2B); vitepress records both from/to as written with type inheritance and no marker side.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-relation-assoc-others",
+   "verdict": "confirmed",
+   "projects": {
+    "lukilabs/beautiful-mermaid": {
+     "zombie-mermaid records a plain link (--) and an arrow (-->) as the same 'association'": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "zombie-mermaid records a plain link (--) and an arrow (-->) as the same 'association'": 1
+    }
+   },
+   "baselineCallbacks": {
+    "lukilabs/beautiful-mermaid": 1,
+    "kais-radwan/ascii-mermaid": 1
+   },
+   "probes": [
+    "c-rels"
+   ],
+   "evidence": "beautiful-mermaid 1.1.3 and ascii-mermaid: R2A -- R2B and R3A --> R3B are both 'association' (class/types.ts has no link type and no dashed flag). Their callbacks carried zombie-mermaid's name in the reason; the reason now names the project.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "franken-relation-line",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid's relation kind does not record the line style for this marker": 6
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 6
+   },
+   "probes": [
+    "c-rels",
+    "c2-dashed"
+   ],
+   "evidence": "`*..` and `*--` both 'Composition', `<|..` and `<|--` both 'Inheritance' (no line field).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "state-acc",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core's state parser ignores accDescr lines": 4,
+     "mermaid_core's state parser ignores accTitle lines": 2
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's state parser ignores accDescr lines": 4,
+     "mermaid_core's state parser ignores accTitle lines": 2
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's state parser reads no accDescr statement": 5,
+     "zombie-mermaid's state parser reads no accTitle statement": 2
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's state parser reads no accDescr statement": 5,
+     "mermaid-rs-renderer's state parser reads no accTitle statement": 2
+    },
+    "emtyty/merslim": {
+     "merslim's state parser reads no accDescr statement": 5,
+     "merslim's state parser reads no accTitle statement": 2
+    },
+    "fasouto/termaid": {
+     "termaid's state parser reads no accDescr statement": 5,
+     "termaid's state parser reads no accTitle statement": 2
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's state parser reads no accDescr statement": 5,
+     "beautiful-mermaid's state parser reads no accTitle statement": 2
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's state parser reads only state declarations and transitions; it keeps no accDescr": 5,
+     "figurehead's state parser reads only state declarations and transitions; it keeps no accTitle": 2
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's state parser reads no accDescr statement": 5,
+     "ascii-mermaid's state parser reads no accTitle statement": 2
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 6,
+    "pub:mermaid_flutter": 6,
+    "dfadler/zombie-mermaid": 7,
+    "1jehuang/mermaid-rs-renderer": 7,
+    "emtyty/merslim": 7,
+    "fasouto/termaid": 7,
+    "lukilabs/beautiful-mermaid": 7,
+    "Mootikins/figurehead-rs": 7,
+    "kais-radwan/ascii-mermaid": 7
+   },
+   "probes": [
+    "st-acc",
+    "st-acc-ml"
+   ],
+   "evidence": "mermaid_core, termaid and figurehead drop accTitle/accDescr; zombie-mermaid, merslim, beautiful-mermaid and ascii-mermaid read them as states labelled 'ACCTTL'; mermaid-rs-renderer as a node 'accTitle' labelled 'accTitle\\n---\\nACCTTL'.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "state-notes",
+   "verdict": "confirmed",
+   "projects": {
+    "emtyty/merslim": {
+     "merslim's state parser reads no notes, so its layout data lacks Mermaid's note nodes and note edges": 14,
+     "merslim's state parser reads no notes": 5
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's state parser reads no notes, so its layout data lacks Mermaid's note nodes and note edges": 14,
+     "beautiful-mermaid's state parser reads no notes": 4
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's state parser reads only state declarations and transitions; it keeps no notes, so its layout data lacks Mermaid's note nodes and note edges": 14,
+     "figurehead's state parser reads only state declarations and transitions; it keeps no notes": 4
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's state parser reads no notes, so its layout data lacks Mermaid's note nodes and note edges": 14,
+     "ascii-mermaid's state parser reads no notes": 4
+    }
+   },
+   "baselineCallbacks": {
+    "emtyty/merslim": 19,
+    "lukilabs/beautiful-mermaid": 18,
+    "Mootikins/figurehead-rs": 18,
+    "kais-radwan/ascii-mermaid": 18
+   },
+   "probes": [
+    "st-note"
+   ],
+   "evidence": "merslim reads 'NOTEML' as a state and drops `note right of A : NOTETXT`; beautiful-mermaid, ascii-mermaid and figurehead keep neither.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "state-classdef",
+   "verdict": "confirmed",
+   "projects": {
+    "emtyty/merslim": {
+     "merslim's state parser reads no classDef statements": 11,
+     "merslim's state parser reads no style statements": 3
+    },
+    "fasouto/termaid": {
+     "termaid's state parser reads no classDef statements": 11,
+     "termaid's state parser reads no style statements": 3
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's state parser reads no classDef statements": 11
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's state parser reads only state declarations and transitions; it keeps no classDef statements": 11
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's state parser reads no classDef statements": 11
+    }
+   },
+   "baselineCallbacks": {
+    "emtyty/merslim": 14,
+    "fasouto/termaid": 14,
+    "lukilabs/beautiful-mermaid": 11,
+    "Mootikins/figurehead-rs": 11,
+    "kais-radwan/ascii-mermaid": 11
+   },
+   "probes": [
+    "st-classdef",
+    "st-style"
+   ],
+   "evidence": "merslim, termaid, beautiful-mermaid, ascii-mermaid and figurehead keep no classDef or class (':::SHORTCLS' stays in a label); merslim and termaid keep no style.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "state-direction",
+   "verdict": "confirmed",
+   "projects": {
+    "emtyty/merslim": {
+     "merslim's state parser reads no direction statements": 2
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's state AST keeps no direction": 1
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's state parser reads only state declarations and transitions; it keeps no direction": 2
+    }
+   },
+   "baselineCallbacks": {
+    "emtyty/merslim": 2,
+    "evangwt/xmermaid": 1,
+    "Mootikins/figurehead-rs": 2
+   },
+   "probes": [
+    "st-dir"
+   ],
+   "evidence": "merslim and figurehead keep no direction; XMermaid rejects `direction LR` (Invalid state statement).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "state-doc",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps a composite state's members, not its statement document": 3
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core keeps a composite's children as an id list, not Mermaid's statement document": 6
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core keeps a composite's children as an id list, not Mermaid's statement document": 6
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps a composite's states and transitions as separate lists, not Mermaid's statement document": 7
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid keeps a composite's members as a node list, not Mermaid's statement document": 6
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps an empty or unnamed composite, whose place in the nesting its node lists do not record": 3,
+     "mermaid-rs-renderer keeps a composite's states as a node list, not Mermaid's statement document": 5
+    },
+    "anomalyco/opencode": {
+     "OpenCode merman keeps a composite's members as states with a parent, not Mermaid's statement document": 1
+    },
+    "emtyty/merslim": {
+     "merslim keeps a composite's members as states with a parent, not Mermaid's statement document": 5
+    },
+    "evangwt/xmermaid": {
+     "XMermaid keeps a composite's members as states with a parent, not Mermaid's statement document": 2
+    },
+    "fasouto/termaid": {
+     "termaid keeps a composite's members as a node list, not Mermaid's statement document": 4
+    },
+    "kitlangton/merman": {
+     "merman keeps a composite's members as states with a parent, not Mermaid's statement document": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid keeps a composite's members as a node list, not Mermaid's statement document": 7
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid keeps a composite's members as a node list, not Mermaid's statement document": 7
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 3,
+    "orestesgaolin/mermaid": 6,
+    "pub:mermaid_flutter": 6,
+    "adewale/agentic-mermaid": 7,
+    "dfadler/zombie-mermaid": 6,
+    "1jehuang/mermaid-rs-renderer": 8,
+    "anomalyco/opencode": 1,
+    "emtyty/merslim": 5,
+    "evangwt/xmermaid": 2,
+    "fasouto/termaid": 4,
+    "kitlangton/merman": 1,
+    "lukilabs/beautiful-mermaid": 7,
+    "kais-radwan/ascii-mermaid": 7
+   },
+   "probes": [
+    "st-composite"
+   ],
+   "evidence": "No model keeps an ordered statement list per composite: mermaid_core children id lists with a global transition list; zombie-mermaid, beautiful-mermaid, ascii-mermaid, termaid and mermaid-rs-renderer subgraph node lists (mermaid-rs-renderer's empty composite has no node list position); merslim, XMermaid, OpenCode and kitlangton merman states with parentId; agentic-mermaid separate states and transitions lists; Frankenmermaid members.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "state-crossdoc",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid records a transition between two states of one composite state without the document it was written in": 5
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core records transitions globally; a transition between states of different documents (Inactive -> Idle) has no recorded document": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core records transitions globally; a transition between states of different documents (Inactive -> Idle) has no recorded document": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid records transitions globally; a transition between states of different documents (Inactive -> Idle) has no recorded document": 1
+    },
+    "evangwt/xmermaid": {
+     "XMermaid records transitions globally; a transition between states of different documents (\"Not Shooting State\" as NotShooting_start -> NotShooting) has no reco": 1
+    },
+    "fasouto/termaid": {
+     "termaid records transitions globally; a transition between states of different documents (Inactive -> Idle) has no recorded document": 1
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 5,
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "dfadler/zombie-mermaid": 1,
+    "evangwt/xmermaid": 1,
+    "fasouto/termaid": 1
+   },
+   "probes": [
+    "st-crossdoc",
+    "st2-crossdoc"
+   ],
+   "evidence": "`Inactive --> Idle` across two composites is one global edge in mermaid_core, zombie-mermaid, termaid and XMermaid; Frankenmermaid's edge carries a source span but composite clusters keep only their header span, so the containing document is not recorded.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "state-bare",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core records a bare state and one described by its own id with the same label": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core records a bare state and one described by its own id with the same label": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid records a bare state and one described by its own id as the same node": 1
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer records a bare state and `state \"X\" as X` with the same label": 1
+    },
+    "anomalyco/opencode": {
+     "OpenCode merman records a bare state and `state \"X\" as X` with the same label": 1
+    },
+    "fasouto/termaid": {
+     "termaid records a bare state and `state \"X\" as X` with the same label": 1
+    },
+    "kitlangton/merman": {
+     "merman records a bare state and `state \"X\" as X` with the same label": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid records a bare state and one described by its own id as the same node": 1
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead records a bare state and `state \"X\" as X` with the same label": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid records a bare state and one described by its own id as the same node": 1
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "dfadler/zombie-mermaid": 1,
+    "1jehuang/mermaid-rs-renderer": 1,
+    "anomalyco/opencode": 1,
+    "fasouto/termaid": 1,
+    "kitlangton/merman": 1,
+    "lukilabs/beautiful-mermaid": 1,
+    "Mootikins/figurehead-rs": 1,
+    "kais-radwan/ascii-mermaid": 1
+   },
+   "probes": [
+    "st-bare",
+    "st2-bare"
+   ],
+   "evidence": "mermaid_core, zombie-mermaid, termaid, beautiful-mermaid, ascii-mermaid, figurehead, kitlangton merman, OpenCode and mermaid-rs-renderer give BARE and `state \"DESC\" as DESC` (or `BYID : BYID`) the same label as their id.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "state-desc",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid joins a state's description lines into one display label": 5
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer joins the state text and its descriptions into one display label": 4
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 5,
+    "1jehuang/mermaid-rs-renderer": 4
+   },
+   "probes": [
+    "st-desc-lines"
+   ],
+   "evidence": "Frankenmermaid labels 'LINEONE\\nLINETWO' and 'TEXTX\\nDESCX'; mermaid-rs-renderer 'S1\\n---\\nLINEONE\\nLINETWO'.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "franken-css",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps style and class statements apart, not the cssStyles list Mermaid merges from them in statement order": 3
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 3
+   },
+   "probes": [
+    "st-classdef",
+    "st-style"
+   ],
+   "evidence": "Classes are node.classes and style statements style_refs / inline_style: their relative statement order is not kept.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "latias-pattern",
+   "verdict": "confirmed",
+   "projects": {
+    "Latias94/merman": {
+     "LatiasN/merman's layout edges keep no stroke pattern (they predate Mermaid's `pattern` field)": 2
+    }
+   },
+   "baselineCallbacks": {
+    "Latias94/merman": 2
+   },
+   "probes": [
+    "st-note"
+   ],
+   "evidence": "merman-cli 0.10.0 state layout edges carry thickness but no pattern on the note edge.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "er-acc",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core's ER model keeps no accessibility title": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's ER model keeps no accessibility title": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's ER model keeps no accessibility title": 1
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's ER model keeps no accessibility title": 2
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii's ER model keeps no accessibility title": 1
+    },
+    "crafter-station/mermaid": {
+     "Crafter's ER model keeps no accessibility title": 1
+    },
+    "emtyty/merslim": {
+     "Merslim's ER model keeps no accessibility title": 2
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's ER model keeps no accessibility title": 1
+    },
+    "fasouto/termaid": {
+     "termaid's ER model keeps no accessibility title": 2
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's ER model keeps no accessibility title": 2
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's ER model keeps no accessibility title": 2
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "dfadler/zombie-mermaid": 1,
+    "1jehuang/mermaid-rs-renderer": 2,
+    "AlexanderGrooff/mermaid-ascii": 1,
+    "crafter-station/mermaid": 1,
+    "emtyty/merslim": 2,
+    "evangwt/xmermaid": 1,
+    "fasouto/termaid": 2,
+    "lukilabs/beautiful-mermaid": 2,
+    "kais-radwan/ascii-mermaid": 2
+   },
+   "probes": [
+    "e-acc"
+   ],
+   "evidence": "mermaid_core, zombie-mermaid, mermaid-ascii, Crafter, merslim, XMermaid, beautiful-mermaid and ascii-mermaid keep nothing; mermaid-rs-renderer reads the lines as entities; termaid warns.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "er-alias-confirmed",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps an entity's alias and the text of a quoted entity name in the same label": 2
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's ER model keeps no entity alias": 2
+    },
+    "crafter-station/mermaid": {
+     "Crafter's ER model keeps no entity alias": 2
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's ER entity model keeps no alias": 2
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's ER entity model keeps no alias": 2
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 2,
+    "1jehuang/mermaid-rs-renderer": 2,
+    "crafter-station/mermaid": 2,
+    "lukilabs/beautiful-mermaid": 2,
+    "kais-radwan/ascii-mermaid": 2
+   },
+   "probes": [
+    "e-alias"
+   ],
+   "evidence": "mermaid-rs-renderer keeps 'p[ALIASX]' as the entity id; beautiful-mermaid and ascii-mermaid the same; Crafter does not read the aliased declaration at all (no entity); Frankenmermaid keeps 'ALIASX' and 'QUOTED NAME' in the same label slot.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "er-subgraphs",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid's ER parser reads no subgraphs: subgraph and end lines become entities": 18
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core's ER model keeps no subgraphs": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's ER model keeps no subgraphs": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's ER model keeps no subgraphs": 18
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's ER model keeps no subgraphs": 18
+    },
+    "crafter-station/mermaid": {
+     "Crafter's ER model keeps no subgraphs": 17
+    },
+    "emtyty/merslim": {
+     "Merslim's ER model keeps no subgraphs": 18
+    },
+    "fasouto/termaid": {
+     "termaid's ER model keeps no subgraphs": 18
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's ER model keeps no subgraphs": 18
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's ER model keeps no subgraphs": 18
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 18,
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "dfadler/zombie-mermaid": 18,
+    "1jehuang/mermaid-rs-renderer": 18,
+    "crafter-station/mermaid": 17,
+    "emtyty/merslim": 18,
+    "fasouto/termaid": 18,
+    "lukilabs/beautiful-mermaid": 18,
+    "kais-radwan/ascii-mermaid": 18
+   },
+   "probes": [
+    "e-subgraph"
+   ],
+   "evidence": "mermaid_core and XMermaid reject `subgraph`; zombie-mermaid, Crafter, merslim, beautiful-mermaid and ascii-mermaid keep nothing; mermaid-rs-renderer and Frankenmermaid read it as an entity; termaid warns. (agentic-mermaid, not assessed, keeps groups.)",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "er-styles",
+   "verdict": "confirmed",
+   "projects": {
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's ER model keeps no entity styles": 3,
+     "mermaid-rs-renderer's ER model keeps no class assignments": 4,
+     "mermaid-rs-renderer's ER model keeps no classDef styles": 2
+    },
+    "AlexanderGrooff/mermaid-ascii": {
+     "mermaid-ascii's ER model keeps no entity styles": 3,
+     "mermaid-ascii's ER model keeps no class assignments": 10,
+     "mermaid-ascii's ER model keeps no classDef styles": 2
+    },
+    "crafter-station/mermaid": {
+     "Crafter's ER model keeps no classDef styles": 2
+    },
+    "emtyty/merslim": {
+     "Merslim's ER model keeps no classDef styles": 2
+    },
+    "fasouto/termaid": {
+     "termaid's ER model keeps no entity styles": 3,
+     "termaid's ER model keeps no class assignments": 4,
+     "termaid's ER model keeps no classDef styles": 2
+    },
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid's ER model keeps no classDef styles": 2
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's ER model keeps no classDef styles": 2
+    }
+   },
+   "baselineCallbacks": {
+    "1jehuang/mermaid-rs-renderer": 9,
+    "AlexanderGrooff/mermaid-ascii": 15,
+    "crafter-station/mermaid": 2,
+    "emtyty/merslim": 2,
+    "fasouto/termaid": 9,
+    "lukilabs/beautiful-mermaid": 2,
+    "kais-radwan/ascii-mermaid": 2
+   },
+   "probes": [
+    "e-style",
+    "e-classdef"
+   ],
+   "evidence": "mermaid-rs-renderer reads the lines as entities; mermaid-ascii, Crafter, merslim, beautiful-mermaid and ascii-mermaid keep nothing; termaid warns.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "er-attrs",
+   "verdict": "confirmed",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps ER attributes as raw text rows, not typed fields": 10
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer folds ER attributes into the node's display label": 25
+    },
+    "emtyty/merslim": {
+     "Merslim's ER column model keeps no comments": 2
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 10,
+    "1jehuang/mermaid-rs-renderer": 25,
+    "emtyty/merslim": 2
+   },
+   "probes": [
+    "e-attrs"
+   ],
+   "evidence": "agentic-mermaid: attributes[].text 'string NAMEX PK \"COMMENTX\"'; mermaid-rs-renderer: label 'CUST\\n---\\nstring NAMEX PK \u2026'; merslim columns keep name and type, no comment.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "er-card",
+   "verdict": "confirmed",
+   "projects": {
+    "emtyty/merslim": {
+     "Merslim keeps one nullable flag per relationship, not its two cardinalities or line style": 19
+    }
+   },
+   "baselineCallbacks": {
+    "emtyty/merslim": 19
+   },
+   "probes": [
+    "e-card"
+   ],
+   "evidence": "merslim relations: { fromTable, fromCol, toTable, toCol, nullable } only.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "gantt-weekday",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps no gantt_meta for a gantt without tasks, so its weekday statement is not kept": 7
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core's gantt model keeps no weekday setting": 7
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's gantt model keeps no weekday setting": 7
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid's gantt model keeps no weekday setting": 7
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's gantt model keeps no weekday setting": 7
+    },
+    "crafter-station/mermaid": {
+     "Crafter's gantt model keeps no weekday setting": 7
+    },
+    "emtyty/merslim": {
+     "Merslim's gantt model keeps no weekday setting": 7
+    },
+    "fasouto/termaid": {
+     "termaid's gantt model keeps no weekday setting": 7
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's gantt model keeps no weekday setting": 7
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 7,
+    "orestesgaolin/mermaid": 7,
+    "pub:mermaid_flutter": 7,
+    "adewale/agentic-mermaid": 7,
+    "1jehuang/mermaid-rs-renderer": 7,
+    "crafter-station/mermaid": 7,
+    "emtyty/merslim": 7,
+    "fasouto/termaid": 7,
+    "kais-radwan/ascii-mermaid": 7
+   },
+   "probes": [
+    "g-weekday",
+    "g-weekday-empty",
+    "g2-weekday"
+   ],
+   "evidence": "`weekday friday` reaches no field in mermaid_core, mermaid-rs-renderer, Crafter, merslim, termaid or ascii-mermaid; agentic-mermaid keeps an opaque-block line. Frankenmermaid keeps gantt_meta.weekday_start whenever gantt_meta exists (also with a dateFormat line and no tasks), but the tests' `gantt\\nweekday monday` produces no gantt_meta at all; its view reads weekday_start when gantt_meta exists.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "gantt-excludes",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core's gantt model keeps no excludes tokens as written": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's gantt model keeps no excludes tokens as written": 1
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid's gantt model keeps no excludes tokens as written": 1
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's gantt model keeps no excludes tokens as written": 1
+    },
+    "crafter-station/mermaid": {
+     "Crafter's gantt model keeps no excludes tokens as written": 1
+    },
+    "emtyty/merslim": {
+     "Merslim's gantt model keeps no excludes tokens as written": 1
+    },
+    "fasouto/termaid": {
+     "termaid's gantt model keeps no excludes tokens as written": 1
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "adewale/agentic-mermaid": 1,
+    "1jehuang/mermaid-rs-renderer": 1,
+    "crafter-station/mermaid": 1,
+    "emtyty/merslim": 1,
+    "fasouto/termaid": 1
+   },
+   "probes": [
+    "g-excludes"
+   ],
+   "evidence": "mermaid_core resolves excludes into excludeWeekdays / excludeDates (ISO times); agentic-mermaid keeps an opaque line; mermaid-rs-renderer, Crafter, merslim, termaid keep nothing.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "gantt-acc",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core's gantt model keeps no accessibility title": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's gantt model keeps no accessibility title": 1
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's gantt model keeps no accessibility title": 2
+    },
+    "anomalyco/opencode": {
+     "opencode merman's gantt model keeps no accessibility title": 2
+    },
+    "crafter-station/mermaid": {
+     "Crafter's gantt model keeps no accessibility title": 2
+    },
+    "emtyty/merslim": {
+     "Merslim's gantt model keeps no accessibility title": 2
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's gantt model keeps no accessibility title": 2
+    },
+    "fasouto/termaid": {
+     "termaid's gantt model keeps no accessibility title": 2
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid's gantt model keeps no accessibility title": 2
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "1jehuang/mermaid-rs-renderer": 2,
+    "anomalyco/opencode": 2,
+    "crafter-station/mermaid": 2,
+    "emtyty/merslim": 2,
+    "evangwt/xmermaid": 2,
+    "fasouto/termaid": 2,
+    "kais-radwan/ascii-mermaid": 2
+   },
+   "probes": [
+    "g-acc"
+   ],
+   "evidence": "mermaid_core, OpenCode, Crafter, merslim, XMermaid keep nothing; mermaid-rs-renderer, termaid and ascii-mermaid read the lines as tasks.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "gantt-start",
+   "verdict": "confirmed",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps a task's start as written, not resolved to a date": 2
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps a task's start as written, not resolved to a date": 2
+    },
+    "crafter-station/mermaid": {
+     "Crafter keeps a task's start as written, not resolved to a date": 2
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid keeps a task's start as written, not resolved to a date": 2
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 2,
+    "1jehuang/mermaid-rs-renderer": 2,
+    "crafter-station/mermaid": 2,
+    "kais-radwan/ascii-mermaid": 2
+   },
+   "probes": [
+    "g-start"
+   ],
+   "evidence": "agentic-mermaid start 'after a1', mermaid-rs-renderer start '2024-01-01' / after, Crafter startDate / afterId, ascii-mermaid rawStart 'after a1'.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "pie",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid drops pie_meta, and with it showData, when no slice is written": 4
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core's pie model keeps no accessibility title": 1,
+     "mermaid_core's pie model keeps no accessibility description": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's pie model keeps no accessibility title": 1,
+     "mermaid_core's pie model keeps no accessibility description": 1
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's pie model keeps no accessibility title": 1,
+     "mermaid-rs-renderer's pie model keeps no accessibility description": 2
+    },
+    "crafter-station/mermaid": {
+     "Crafter's pie model keeps no title": 4
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's pie model keeps no accessibility title": 1,
+     "XMermaid's pie model keeps no accessibility description": 2
+    },
+    "fasouto/termaid": {
+     "termaid's pie model keeps no accessibility title": 1,
+     "termaid's pie model keeps no accessibility description": 2
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 4,
+    "orestesgaolin/mermaid": 2,
+    "pub:mermaid_flutter": 2,
+    "1jehuang/mermaid-rs-renderer": 3,
+    "crafter-station/mermaid": 4,
+    "evangwt/xmermaid": 3,
+    "fasouto/termaid": 3
+   },
+   "probes": [
+    "p-title",
+    "p-title2",
+    "p-showdata-empty"
+   ],
+   "evidence": "mermaid_core, mermaid-rs-renderer and XMermaid keep no accTitle/accDescr (termaid warns); Crafter keeps no title (`pie title X`: no title; `pie / title X`: its detector fails); Frankenmermaid's `pie showData` with no slice has no pie_meta.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "journey",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core's journey model keeps no accessibility description": 2
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's journey model keeps no accessibility description": 2
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's journey model keeps no accessibility description": 2,
+     "mermaid-rs-renderer folds a journey task's actors into its display label": 1
+    },
+    "emtyty/merslim": {
+     "Merslim's journey model keeps no accessibility description": 2
+    },
+    "fasouto/termaid": {
+     "termaid's journey model keeps no accessibility description": 2
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 2,
+    "pub:mermaid_flutter": 2,
+    "1jehuang/mermaid-rs-renderer": 3,
+    "emtyty/merslim": 2,
+    "fasouto/termaid": 2
+   },
+   "probes": [
+    "j-acc"
+   ],
+   "evidence": "mermaid_core, mermaid-rs-renderer, merslim and termaid keep no accDescr; mermaid-rs-renderer labels the task 'Task\\nACTONE, ACTTWO'.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "packet",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core's packet model keeps no accessibility title": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's packet model keeps no accessibility title": 1
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer folds a packet field's bit range and label into one display label": 7,
+     "mermaid-rs-renderer's packet model keeps no title": 1
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's packet model keeps no accessibility title": 1
+    },
+    "fasouto/termaid": {
+     "termaid's packet model keeps no title": 1
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
+    "1jehuang/mermaid-rs-renderer": 8,
+    "evangwt/xmermaid": 1,
+    "fasouto/termaid": 1
+   },
+   "probes": [
+    "pk-title"
+   ],
+   "evidence": "mermaid_core and XMermaid keep no accTitle; mermaid-rs-renderer and termaid no title; mermaid-rs-renderer labels fields '0-15\\nFIELDX'.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "git-acc",
+   "verdict": "confirmed",
+   "projects": {
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer skips accessibility titles": 4,
+     "mermaid-rs-renderer skips accessibility descriptions": 1
+    },
+    "anomalyco/opencode": {
+     "OpenCode's git graph parser skips accessibility titles": 3,
+     "OpenCode's git graph parser skips accessibility descriptions": 1
+    },
+    "emtyty/merslim": {
+     "merslim's git graph parser reads no accessibility title": 4,
+     "merslim's git graph parser reads no accessibility description": 1
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's git graph model keeps no accessibility title": 3,
+     "XMermaid's git graph model keeps no accessibility description": 1
+    },
+    "fasouto/termaid": {
+     "termaid's git graph parser reads no accessibility title": 4,
+     "termaid's git graph parser reads no accessibility description": 1
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's git graph model keeps no accessibility title": 4,
+     "figurehead's git graph model keeps no accessibility description": 1
+    }
+   },
+   "baselineCallbacks": {
+    "1jehuang/mermaid-rs-renderer": 5,
+    "anomalyco/opencode": 4,
+    "emtyty/merslim": 5,
+    "evangwt/xmermaid": 4,
+    "fasouto/termaid": 5,
+    "Mootikins/figurehead-rs": 5
+   },
+   "probes": [
+    "gg-acc"
+   ],
+   "evidence": "mermaid-rs-renderer, OpenCode, merslim, XMermaid, figurehead keep nothing; termaid warns.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "git-statements",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps commits and lanes, not the git graph's statements (checkouts and branch statements leave no record)": 23,
+     "Frankenmermaid does not record checkouts, so the current branch and HEAD are not kept": 42
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer builds its commit graph directly and keeps no statement list (checkouts and statement order are not recorded)": 22,
+     "mermaid-rs-renderer's git graph model keeps no checked-out branch": 42
+    },
+    "anomalyco/opencode": {
+     "OpenCode builds its commit graph directly and keeps no statement list (checkouts and statement order are not recorded)": 13,
+     "OpenCode's git graph model keeps no checked-out branch": 43
+    },
+    "emtyty/merslim": {
+     "merslim keeps a git graph as its list of statements and builds no commit graph (generated ids, sequence, parents, branch heads) from them": 51
+    },
+    "evangwt/xmermaid": {
+     "XMermaid builds its commit graph directly and keeps no statement list (checkouts and statement order are not recorded)": 7,
+     "XMermaid's git graph model keeps no checked-out branch": 31,
+     "XMermaid's git graph model lists commits only; it keeps no branch list": 1
+    },
+    "fasouto/termaid": {
+     "termaid builds its commit graph directly and keeps no statement list (checkouts and statement order are not recorded)": 22,
+     "termaid's git graph model keeps no checked-out branch": 42
+    },
+    "Latias94/merman": {
+     "LatiasN/merman keeps the resolved git graph (commits, branch heads), not the statements as written": 14
+    },
+    "Mootikins/figurehead-rs": {
+     "figurehead's git graph model is an unordered node and edge graph with no statement list": 22,
+     "figurehead's git graph model is an unordered node and edge graph: commit and branch nodes are not told apart and carry no branch, type, tags or message": 51
+    },
+    "obsidianmd/pele": {
+     "Pele keeps the resolved git graph (commits, branch heads), not the statements as written": 14
+    },
+    "crabtalk/bezel": {
+     "Bezel keeps the resolved git graph (commits, branch heads), not the statements as written": 14
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 65,
+    "1jehuang/mermaid-rs-renderer": 64,
+    "anomalyco/opencode": 56,
+    "emtyty/merslim": 51,
+    "evangwt/xmermaid": 39,
+    "fasouto/termaid": 64,
+    "Latias94/merman": 14,
+    "Mootikins/figurehead-rs": 73,
+    "obsidianmd/pele": 14,
+    "crabtalk/bezel": 14
+   },
+   "probes": [
+    "gg-checkout",
+    "gg3-statements",
+    "gg-commit"
+   ],
+   "evidence": "Commit-graph models (mermaid-rs-renderer, OpenCode, XMermaid, termaid, Frankenmermaid, Pele, Bezel, merman-cli) keep commits and branches (Pele and Bezel also currentBranch and head, the state after the last statement) but no statement list or checkout record; XMermaid keeps no branch list; figurehead keeps unordered Circle nodes with no branch, type or tags; merslim keeps only its ops list (no generated ids, parents or heads).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "git-commit-fields",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid folds a commit's id, message and tags into one display label": 7
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid stores a commit without type: as NORMAL": 3
+    },
+    "emtyty/merslim": {
+     "merslim's commit statement keeps no message": 4,
+     "merslim stores a commit without type: as NORMAL": 1,
+     "merslim's branch statement keeps no order": 2,
+     "merslim's merge statement keeps no id": 1,
+     "merslim's cherry-pick statement keeps no tags": 1
+    },
+    "fasouto/termaid": {
+     "termaid's commit model keeps no message": 1
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 7,
+    "adewale/agentic-mermaid": 3,
+    "emtyty/merslim": 9,
+    "fasouto/termaid": 1
+   },
+   "probes": [
+    "gg-commit",
+    "gg-merge",
+    "gg-cherry",
+    "gg-branch-order"
+   ],
+   "evidence": "merslim and termaid keep no message; Frankenmermaid labels 'CID1 MSGX [TAGX]'; merslim's merge op keeps no id, cherry-pick no tag, branch no order; agentic-mermaid and merslim give an untyped commit type 'NORMAL', as for a written `type: NORMAL`.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "mindmap",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core's mindmap node keeps no written id": 16
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's mindmap node keeps no written id": 16
+    },
+    "emtyty/merslim": {
+     "Merslim replaces written mindmap node ids with generated ones": 16
+    },
+    "fasouto/termaid": {
+     "termaid keeps a mindmap node's written text unparsed": 15
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 16,
+    "pub:mermaid_flutter": 16,
+    "emtyty/merslim": 16,
+    "fasouto/termaid": 15
+   },
+   "probes": [
+    "mm-ids"
+   ],
+   "evidence": "mermaid_core nodes keep label and shape only; merslim ids '__mm_0'\u2026; termaid label 'ROOTID((ROOTTXT))'.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "kanban",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid does not parse kanban ::icon() decorations": 5,
+     "Frankenmermaid does not parse kanban ::: class decorations": 3,
+     "Frankenmermaid keeps a kanban card's priority only as a lower-cased CSS class name": 1,
+     "Frankenmermaid keeps a kanban card's assignee only as a lower-cased, hyphenated CSS class name": 1,
+     "Frankenmermaid does not keep a kanban card's ticket": 1
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps no kanban section metadata or decorations": 4
+    },
+    "evangwt/xmermaid": {
+     "XMermaid keeps no kanban section metadata or decorations": 4
+    },
+    "fasouto/termaid": {
+     "termaid's kanban model keeps no section or item ids": 26
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 11,
+    "1jehuang/mermaid-rs-renderer": 4,
+    "evangwt/xmermaid": 4,
+    "fasouto/termaid": 26
+   },
+   "probes": [
+    "k-meta",
+    "k2-meta",
+    "k3-section-meta",
+    "k3-section-icon"
+   ],
+   "evidence": "Frankenmermaid: no ticket; priority and assignee only as classes 'kanban-priority-high' / 'kanban-assigned-assignx'; ::icon(\u2026) becomes a node; ::: classes dropped. mermaid-rs-renderer folds metadata into labels and reads `root@{\u2026}` / a section ::icon as subgraphs; XMermaid keeps a section's metadata in its label and an icon as a column; termaid keeps no ids.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "radar",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid fills radar graticule and showLegend defaults into its model, so which options were written, and their order, is not recorded": 7
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid resolves a curve's entries to one value per axis in axis order; the written entries are not kept": 6,
+     "agentic-mermaid merges radar option defaults, so the written options are not kept": 6
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer skips radar titles": 16,
+     "mermaid-rs-renderer skips radar accessibility descriptions": 8,
+     "mermaid-rs-renderer skips radar accessibility titles": 8,
+     "mermaid-rs-renderer keeps no radar axes (they only label curve entries)": 8,
+     "mermaid-rs-renderer keeps a radar curve only as a node whose display label folds its name and entries": 12,
+     "mermaid-rs-renderer skips radar options": 7
+    },
+    "Latias94/merman": {
+     "the resolved radar database lists a curve's values in axis order, not whether an entry named its axis": 6,
+     "the resolved radar database merges option defaults in, so written options cannot be told from defaults": 7
+    },
+    "obsidianmd/pele": {
+     "the resolved radar database lists a curve's values in axis order, not whether an entry named its axis": 6,
+     "the resolved radar database merges option defaults in, so written options cannot be told from defaults": 7
+    },
+    "crabtalk/bezel": {
+     "the resolved radar database lists a curve's values in axis order, not whether an entry named its axis": 6,
+     "the resolved radar database merges option defaults in, so written options cannot be told from defaults": 7
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 7,
+    "adewale/agentic-mermaid": 12,
+    "1jehuang/mermaid-rs-renderer": 59,
+    "Latias94/merman": 13,
+    "obsidianmd/pele": 13,
+    "crabtalk/bezel": 13
+   },
+   "probes": [
+    "r-all",
+    "r-plain",
+    "r3-named",
+    "r3-plain"
+   ],
+   "evidence": "mermaid-rs-renderer: one node whose label folds the curve and entries, no title/acc/axes/options. agentic-mermaid, Frankenmermaid, Pele, Bezel and merman-cli resolve entries to one value per axis in axis order (`{ax2: 2, ax1: 1}` equals `{1, 2}`) and fill option defaults (min 0, ticks 5, graticule circle, showLegend true).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "treemap",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid does not keep where classDef rows stand among a treemap's rows": 3
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps classDef statements in a map, so their position among the treemap rows is not kept": 2
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps every treemap line as a node whose display label folds name, value and class": 15
+    },
+    "fasouto/termaid": {
+     "termaid keeps only treemap node lines (classDef rows are dropped) and stores a value not written as N": 15
+    },
+    "Latias94/merman": {
+     "Mermaid's treemap database keeps classDefs by name, apart from the rows, so their position among the rows is not kept": 3
+    },
+    "obsidianmd/pele": {
+     "Mermaid's treemap database keeps classDefs by name, apart from the rows, so their position among the rows is not kept": 3
+    },
+    "crabtalk/bezel": {
+     "Mermaid's treemap database keeps classDefs by name, apart from the rows, so their position among the rows is not kept": 3
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 3,
+    "adewale/agentic-mermaid": 2,
+    "1jehuang/mermaid-rs-renderer": 15,
+    "fasouto/termaid": 15,
+    "Latias94/merman": 3,
+    "obsidianmd/pele": 3,
+    "crabtalk/bezel": 3
+   },
+   "probes": [
+    "tm-classdef",
+    "tm3"
+   ],
+   "evidence": "agentic-mermaid, Pele, Bezel and merman-cli keep classDefs by name apart from the rows; mermaid-rs-renderer keeps every line as a node with a folded label; termaid drops the classDef row and stores value 0 for an unwritten value; Frankenmermaid's row spans are not reliable positions (the classDef and the next row both record line 4).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "architecture",
+   "verdict": "confirmed",
+   "projects": {
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's architecture model keeps no title": 4,
+     "zombie-mermaid drops architecture align directives": 3
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer skips architecture titles": 8,
+     "mermaid-rs-renderer's architecture model keeps no title": 2,
+     "mermaid-rs-renderer's architecture model keeps no accessibility title": 1,
+     "mermaid-rs-renderer's architecture model keeps no accessibility description": 1,
+     "mermaid-rs-renderer drops architecture align directives": 2
+    },
+    "emtyty/merslim": {
+     "merslim's architecture parser skips titles": 8,
+     "Merslim's architecture model keeps no title": 2,
+     "Merslim's architecture model keeps no accessibility title": 1,
+     "Merslim's architecture model keeps no accessibility description": 1,
+     "Merslim drops architecture align directives": 3,
+     "Merslim drops architecture junctions": 1
+    },
+    "fasouto/termaid": {
+     "termaid's architecture model keeps no title": 10,
+     "termaid folds a service's icon into its display label and drops untitled services": 13,
+     "termaid's architecture model keeps no accessibility title": 1,
+     "termaid's architecture model keeps no accessibility description": 1,
+     "termaid drops architecture align directives": 3,
+     "termaid drops architecture junctions": 1
+    }
+   },
+   "baselineCallbacks": {
+    "dfadler/zombie-mermaid": 7,
+    "1jehuang/mermaid-rs-renderer": 14,
+    "emtyty/merslim": 16,
+    "fasouto/termaid": 29
+   },
+   "probes": [
+    "a-all",
+    "a2-align",
+    "a2-title"
+   ],
+   "evidence": "mermaid-rs-renderer, merslim and termaid keep no title, accTitle, accDescr or align (`align row a b`); zombie-mermaid rejects `title` and keeps no align; merslim and termaid keep no junction; termaid labels '\ud83d\uddc4 SVCX' and drops the untitled service S2.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "block-palette",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps no palette slot for a composite block (Mermaid's renderer setting)": 4
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps no palette slot for a composite block (Mermaid's renderer setting)": 4
+    },
+    "fasouto/termaid": {
+     "termaid keeps no palette slot for a composite block (Mermaid's renderer setting)": 4
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 4,
+    "1jehuang/mermaid-rs-renderer": 4,
+    "fasouto/termaid": 4
+   },
+   "probes": [
+    "b-composite"
+   ],
+   "evidence": "Frankenmermaid, mermaid-rs-renderer and termaid block models carry no colour index (agentic-mermaid and Pele, not assessed, keep colorIndex).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "c4-wrap",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps text wrapping as a renderer setting, not per CN element": 59
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core keeps text wrapping as a renderer setting, not per CN element": 59
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core keeps text wrapping as a renderer setting, not per CN element": 59
+    },
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps text wrapping as a renderer setting, not per CN element": 59
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid keeps text wrapping as a renderer setting, not per CN element": 59
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer keeps text wrapping as a renderer setting, not per CN element": 79
+    },
+    "emtyty/merslim": {
+     "Merslim keeps text wrapping as a renderer setting, not per CN element": 26
+    },
+    "evangwt/xmermaid": {
+     "XMermaid keeps text wrapping as a renderer setting, not per CN element": 36
+    },
+    "obsidianmd/pele": {
+     "Pele keeps text wrapping as a renderer setting, not per CN element": 59
+    },
+    "crabtalk/bezel": {
+     "Bezel keeps text wrapping as a renderer setting, not per CN element": 59
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 59,
+    "orestesgaolin/mermaid": 59,
+    "pub:mermaid_flutter": 59,
+    "adewale/agentic-mermaid": 59,
+    "dfadler/zombie-mermaid": 59,
+    "1jehuang/mermaid-rs-renderer": 79,
+    "emtyty/merslim": 26,
+    "evangwt/xmermaid": 36,
+    "obsidianmd/pele": 59,
+    "crabtalk/bezel": 59
+   },
+   "probes": [
+    "c4-all",
+    "c43-wrap"
+   ],
+   "evidence": "No wrap key in any element of Frankenmermaid, mermaid_core, agentic-mermaid, zombie-mermaid, mermaid-rs-renderer, merslim, XMermaid, Pele or Bezel.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "c4-attrs",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid's CN model keeps no sprites, tags or links": 26,
+     "Frankenmermaid folds a CN relation's description into its display label": 2
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core's CN model keeps no sprites, tags or links": 24
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's CN model keeps no sprites, tags or links": 24
+    },
+    "dfadler/zombie-mermaid": {
+     "zombie-mermaid's CN model keeps no sprites, tags or links": 24
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer's CN model keeps no title": 1
+    },
+    "evangwt/xmermaid": {
+     "XMermaid's CN model keeps no sprites, tags or links (a named attribute is read as positional text)": 13
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 28,
+    "orestesgaolin/mermaid": 24,
+    "pub:mermaid_flutter": 24,
+    "dfadler/zombie-mermaid": 24,
+    "1jehuang/mermaid-rs-renderer": 1,
+    "evangwt/xmermaid": 13
+   },
+   "probes": [
+    "c4-all",
+    "c42-named"
+   ],
+   "evidence": "Frankenmermaid, mermaid_core and zombie-mermaid keep no $sprite/$tags/$link; XMermaid reads `$sprite=SPRITEX` as the description; mermaid-rs-renderer keeps no title; Frankenmermaid labels the relation 'RELLBL - $descr=\"RELDESC\"'.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "c4-boundary",
+   "verdict": "confirmed",
+   "projects": {
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer records System_Boundary and an untyped Boundary as the same 'system' type": 4
+    }
+   },
+   "baselineCallbacks": {
+    "1jehuang/mermaid-rs-renderer": 4
+   },
+   "probes": [
+    "c42-btype"
+   ],
+   "evidence": "mermaid-rs-renderer parser.rs:3095-3100,3448-3460: boundary_type is the written third argument (or $type), else a default from the macro name, so System_Boundary and untyped Boundary are both 'system' (Mermaid: 'SYSTEM' and 'system') and a written type cannot be told from a macro default.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "requirement",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps a requirement relationship's type only in its display label": 7
+    },
+    "orestesgaolin/mermaid": {
+     "mermaid_core's requirement model keeps no accessibility title": 1,
+     "mermaid_core's requirement model keeps no direction": 4
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core's requirement model keeps no accessibility title": 1,
+     "mermaid_core's requirement model keeps no direction": 4
+    },
+    "1jehuang/mermaid-rs-renderer": {
+     "mermaid-rs-renderer folds a requirement's and an element's fields into one display label": 28,
+     "mermaid-rs-renderer's requirement model keeps no accessibility title": 2
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 7,
+    "orestesgaolin/mermaid": 5,
+    "pub:mermaid_flutter": 5,
+    "1jehuang/mermaid-rs-renderer": 30
+   },
+   "probes": [
+    "rq-all"
+   ],
+   "evidence": "mermaid_core keeps no accTitle or direction; mermaid-rs-renderer reads accTitle as a node and folds fields into labels; Frankenmermaid labels the relationship '<<satisfies>>'.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "cynefin",
+   "verdict": "confirmed",
+   "projects": {
+    "evangwt/xmermaid": {
+     "XMermaid lists every cynefin domain, so an empty domain written as a block and one not written cannot be told apart": 5,
+     "XMermaid's cynefin model keeps no accessibility title": 2,
+     "XMermaid's cynefin model keeps no accessibility description": 1
+    }
+   },
+   "baselineCallbacks": {
+    "evangwt/xmermaid": 8
+   },
+   "probes": [],
+   "evidence": "XMermaid probe (`cynefin-beta / accTitle / accDescr / complex / \"ITEMX\" / clear`): accTitle and accDescr dropped, and all five domains listed whether written or not (clear and complicated both empty).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "venn",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps sets and unlabelled unions in separate lists, so their written order is not recorded": 4,
+     "Frankenmermaid labels a venn text written without a label with its id": 1,
+     "Frankenmermaid merges venn style statements into each set's resolved style with palette defaults": 6
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 11
+   },
+   "probes": [
+    "v-all"
+   ],
+   "evidence": "Frankenmermaid venn_meta keeps sets and unions in separate lists; `text A` is labelled 'A'; set styles are resolved with palette defaults (color, fill-opacity, stroke-width) merged in.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "treeview",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps a tree node's depth, not its indentation": 4,
+     "Frankenmermaid does not parse tree node annotations; they stay part of the name": 9,
+     "Frankenmermaid does not tell files from directories; a trailing slash stays part of the name": 8
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 21
+   },
+   "probes": [
+    "tv-all"
+   ],
+   "evidence": "Frankenmermaid labels 'FILEX :::CLASSX', 'DIRX/', '\"deep.js\" icon(ICONX)' (annotations and trailing slash stay in the name); nodes keep no indentation.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "wardley",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid's Wardley IR keeps a laid-out drawing (points, marks and stage bands), not Mermaid's component, link and axis model": 20
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 20
+   },
+   "probes": [
+    "w-all"
+   ],
+   "evidence": "wardley_meta keeps width, height, points, marks and stage bands (a laid-out drawing).",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "railroad-fold",
+   "verdict": "confirmed",
+   "projects": {
+    "Latias94/merman": {
+     "LatiasN/merman keeps Mermaid's railroad database record, which folds a one-element sequence or choice into its element, so a rule's written expression is not ke": 4
+    },
+    "obsidianmd/pele": {
+     "Pele keeps Mermaid's railroad database record, which folds a one-element sequence or choice into its element, so a rule's written expression is not kept": 4
+    },
+    "crabtalk/bezel": {
+     "Bezel keeps Mermaid's railroad database record, which folds a one-element sequence or choice into its element, so a rule's written expression is not kept": 4
+    }
+   },
+   "baselineCallbacks": {
+    "Latias94/merman": 4,
+    "obsidianmd/pele": 4,
+    "crabtalk/bezel": 4
+   },
+   "probes": [
+    "rr4-seq",
+    "rr4-one"
+   ],
+   "evidence": "`rule = sequence(terminal(\"a\"))` gives definition { type: 'terminal', value: 'a' } in merman-cli, Pele and Bezel, the same as `rule = terminal(\"a\")`.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "usecase",
+   "verdict": "confirmed",
+   "projects": {
+    "Latias94/merman": {
+     "LatiasN/merman's usecase model keeps no normalized AST (statement spans and source)": 22
+    },
+    "obsidianmd/pele": {
+     "Pele keeps the usecase AST's source and statement occurrences, not its node, edge, group and class tables": 8
+    },
+    "crabtalk/bezel": {
+     "Bezel keeps the usecase AST's source and statement occurrences, not its node, edge, group and class tables": 8
+    }
+   },
+   "baselineCallbacks": {
+    "Latias94/merman": 22,
+    "obsidianmd/pele": 8,
+    "crabtalk/bezel": 8
+   },
+   "probes": [
+    "uc4-geom",
+    "uc4-empty"
+   ],
+   "evidence": "Pele and Bezel keep the usecase database maps (actors, useCases, systemBoundaries, relationships, classDefs) plus source and statement spans, not Mermaid's normalized AST node/edge/group/class tables (deriving them would compute Mermaid's normalization); merman-cli keeps nodes and relationships with no source or spans.",
+   "action": "Kept."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "agentflow-latias",
+   "verdict": "confirmed",
+   "projects": {
+    "Latias94/merman": {
+     "LatiasN/merman's agentflow model is the semantic model, which drops presentation-only metadata (shape, view, icon, img, form, pos, w, h, class, style, labelType": 5,
+     "LatiasN/merman's semantic model drops a container's view hint (collapsed or expanded), which Mermaid's getData layout is built from": 32,
+     "LatiasN/merman's agentflow model keeps no element source positions": 33,
+     "LatiasN/merman's semantic model drops the vertex records Mermaid keeps for container ids": 1,
+     "LatiasN/merman's semantic model lists connectors apart from vertices, without their declaration order": 1
+    }
+   },
+   "baselineCallbacks": {
+    "Latias94/merman": 72
+   },
+   "probes": [
+    "af3-view",
+    "af3-meta"
+   ],
+   "evidence": "merman-cli 0.10.0 agentflow output is the semantic model: no view hint for `pipeline@{ view: \"collapsed\" }`, no icon / shape metadata (ICONX absent), no element source positions, connectors listed apart from vertices, no vertex record for a container id.",
+   "action": "Kept."
+  }
+ ],
+ "bridgeFallbacks": [
+  {
+   "basis": "family-table",
+   "project": "1jehuang/mermaid-rs-renderer",
+   "verdict": "replaced by the candidate's own answer",
+   "evidence": "mermaid-rs-renderer 0.3.1 src/parser.rs:58-62 parse_mermaid (the public entry the mmdr CLI uses) bails 'unknown or missing Mermaid diagram header' when detect_diagram_kind (parser.rs:109-210, private) finds none, and detect_diagram_kind returns Flowchart when a first line looks like flowchart edges. For agentflow, railroad (all notations), treeview, usecase, cynefin, ishikawa, wardley and venn sources it returns a Flowchart graph; for info and eventmodeling it bails with no header.",
+   "action": "bridges/mmdr/src/main.rs: every family but Mermaid's cross-family <shared> request goes to parse_mermaid; a graph of another kind is 'mmdr detected this source as Flowchart, not <family>', no header is mmdr's own message, and a rejection of a source for a family its DiagramKind lacks is 'mmdr declined this source (...)' (never that family's syntax error). All three are NATIVE_OBSERVED / bridge-relayed candidate messages: native-unsupported. No pass/fail logic changed.",
+   "baselineCallbacks": 627,
+   "remaining": "19 callbacks keep 'mmdr has no <shared> parser' (a capability assessment: Mermaid's own cross-family detection, which SHARED_REQUEST classifies as an assessment whoever words it)."
+  },
+  {
+   "basis": "family-table",
+   "project": "fasouto/termaid",
+   "verdict": "replaced by the candidate's own answer",
+   "evidence": "termaid 0.12.0 termaid/__init__.py parse(source) (public: 'Auto-detects diagram type (flowchart or state diagram)') calls parse_state_diagram for a stateDiagram header and parse_flowchart for anything else; its renderer (_render_canvas) draws every header it does not dispatch the same way, as the capability review found. For c4, radar, requirement, agentflow, railroad, treeview, usecase, cynefin, eventmodeling, ishikawa, wardley, venn and info sources termaid.parse() reads the source as a flowchart.",
+   "action": "bridges/termaid.py: a family with no per-family parser (other than <shared>) is answered by termaid.parse(); the bridge observes which of its two parsers it dispatched to (wrapping the module's parse_flowchart / parse_state_diagram for that call) and replies {unsupported: 'termaid parsed this source as <kind>, not <family>', native: true}: native-unsupported. No pass/fail logic changed.",
+   "baselineCallbacks": 949,
+   "remaining": "19 callbacks keep 'termaid has no <shared> parser'."
+  }
+ ],
+ "measured": {
+  "run": "mermaid:fidelity --workers 1 (jsdom), control and the twelve affected candidates recollected in full (all 352 selected files, 7,346 reference-qualified callbacks each); agentic-mermaid recollected again after its edge-animate and class-styles readings were narrowed. Compared per callback (file, name, ordinal) with the published raw run of the 0.4.0 campaign. Kinds: P passed, NF native-failure, NU native-unsupported, CA capability-assessment, AL adapter-limitation.",
+  "passesLost": 0,
+  "notes": [
+   "Every move is out of capability-assessment; no callback moved out of passed or native-failure, and none moved into capability-assessment.",
+   "zombie-mermaid: 4 newly known callbacks fail on the candidate's own values: `buzz foo[\"batman\"]` leaves foo unaliased in its model (2, erDiagram.spec.js; Mermaid: alias 'batman'), and its note text keeps line breaks as newlines where Mermaid keeps '<br>' (2 inline snapshots, stateDiagram-v2.spec.js).",
+   "The six disproved subgraph-classes readings moved no callback: their one test (flowDb.spec.ts repeated subgraph ids) also reads the subgraph's label type, a confirmed absent concept for those models (Frankenmermaid, agentic-mermaid, Crafter, zombie-mermaid, beautiful-mermaid, ascii-mermaid), so it stays a capability assessment under that reason.",
+   "agentic-mermaid's first collection with the edge-animate and class-styles readings fixed made 3 native failures that came from the view, not the candidate (an `animate: false` the model drops read as unset; classDef styles Mermaid merges into a class read as empty); both readings were narrowed (declared absent where the model cannot tell) and agentic-mermaid recollected: 25 capability assessments became passes, no native failures."
+  ],
+  "projects": {
+   "Dicklesworthstone/frankenmermaid": {
+    "moves": {
+     "scored": {},
+     "all": {},
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 1337,
+      "native-failure": 1235,
+      "native-unsupported": 341,
+      "capability-assessment": 798,
+      "adapter-limitation": 1133
+     },
+     "qualified": {
+      "passed": 1337,
+      "native-failure": 1235,
+      "native-unsupported": 341,
+      "capability-assessment": 819,
+      "adapter-limitation": 3614
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 1337,
+      "native-failure": 1235,
+      "native-unsupported": 341,
+      "capability-assessment": 798,
+      "adapter-limitation": 1133
+     },
+     "qualified": {
+      "passed": 1337,
+      "native-failure": 1235,
+      "native-unsupported": 341,
+      "capability-assessment": 819,
+      "adapter-limitation": 3614
+     }
+    }
+   },
+   "orestesgaolin/mermaid": {
+    "moves": {
+     "scored": {
+      "CA -> P": 1
+     },
+     "all": {
+      "CA -> P": 1
+     },
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 1981,
+      "native-failure": 452,
+      "native-unsupported": 0,
+      "capability-assessment": 1350,
+      "adapter-limitation": 1061
+     },
+     "qualified": {
+      "passed": 1981,
+      "native-failure": 452,
+      "native-unsupported": 0,
+      "capability-assessment": 1390,
+      "adapter-limitation": 3523
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 1982,
+      "native-failure": 452,
+      "native-unsupported": 0,
+      "capability-assessment": 1349,
+      "adapter-limitation": 1061
+     },
+     "qualified": {
+      "passed": 1982,
+      "native-failure": 452,
+      "native-unsupported": 0,
+      "capability-assessment": 1389,
+      "adapter-limitation": 3523
+     }
+    }
+   },
+   "pub:mermaid_flutter": {
+    "moves": {
+     "scored": {
+      "CA -> P": 1
+     },
+     "all": {
+      "CA -> P": 1
+     },
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 1981,
+      "native-failure": 452,
+      "native-unsupported": 0,
+      "capability-assessment": 1350,
+      "adapter-limitation": 1061
+     },
+     "qualified": {
+      "passed": 1981,
+      "native-failure": 452,
+      "native-unsupported": 0,
+      "capability-assessment": 1390,
+      "adapter-limitation": 3523
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 1982,
+      "native-failure": 452,
+      "native-unsupported": 0,
+      "capability-assessment": 1349,
+      "adapter-limitation": 1061
+     },
+     "qualified": {
+      "passed": 1982,
+      "native-failure": 452,
+      "native-unsupported": 0,
+      "capability-assessment": 1389,
+      "adapter-limitation": 3523
+     }
+    }
+   },
+   "adewale/agentic-mermaid": {
+    "moves": {
+     "scored": {
+      "CA -> P": 25
+     },
+     "all": {
+      "CA -> P": 25
+     },
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 2240,
+      "native-failure": 106,
+      "native-unsupported": 888,
+      "capability-assessment": 500,
+      "adapter-limitation": 1110
+     },
+     "qualified": {
+      "passed": 2246,
+      "native-failure": 106,
+      "native-unsupported": 898,
+      "capability-assessment": 518,
+      "adapter-limitation": 3578
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 2265,
+      "native-failure": 106,
+      "native-unsupported": 888,
+      "capability-assessment": 475,
+      "adapter-limitation": 1110
+     },
+     "qualified": {
+      "passed": 2271,
+      "native-failure": 106,
+      "native-unsupported": 898,
+      "capability-assessment": 493,
+      "adapter-limitation": 3578
+     }
+    }
+   },
+   "dfadler/zombie-mermaid": {
+    "moves": {
+     "scored": {
+      "CA -> P": 4,
+      "CA -> NF": 4
+     },
+     "all": {
+      "CA -> P": 4,
+      "CA -> NF": 4
+     },
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 1053,
+      "native-failure": 1234,
+      "native-unsupported": 0,
+      "capability-assessment": 1147,
+      "adapter-limitation": 1410
+     },
+     "qualified": {
+      "passed": 1053,
+      "native-failure": 1234,
+      "native-unsupported": 0,
+      "capability-assessment": 1187,
+      "adapter-limitation": 3872
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 1057,
+      "native-failure": 1238,
+      "native-unsupported": 0,
+      "capability-assessment": 1139,
+      "adapter-limitation": 1410
+     },
+     "qualified": {
+      "passed": 1057,
+      "native-failure": 1238,
+      "native-unsupported": 0,
+      "capability-assessment": 1179,
+      "adapter-limitation": 3872
+     }
+    }
+   },
+   "1jehuang/mermaid-rs-renderer": {
+    "moves": {
+     "scored": {
+      "CA -> NU": 605
+     },
+     "all": {
+      "CA -> NU": 608
+     },
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 1478,
+      "native-failure": 495,
+      "native-unsupported": 1,
+      "capability-assessment": 1765,
+      "adapter-limitation": 1105
+     },
+     "qualified": {
+      "passed": 1478,
+      "native-failure": 495,
+      "native-unsupported": 1,
+      "capability-assessment": 1805,
+      "adapter-limitation": 3567
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 1478,
+      "native-failure": 495,
+      "native-unsupported": 606,
+      "capability-assessment": 1160,
+      "adapter-limitation": 1105
+     },
+     "qualified": {
+      "passed": 1478,
+      "native-failure": 495,
+      "native-unsupported": 609,
+      "capability-assessment": 1197,
+      "adapter-limitation": 3567
+     }
+    }
+   },
+   "AlexanderGrooff/mermaid-ascii": {
+    "moves": {
+     "scored": {},
+     "all": {},
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 719,
+      "native-failure": 955,
+      "native-unsupported": 3,
+      "capability-assessment": 2120,
+      "adapter-limitation": 1047
+     },
+     "qualified": {
+      "passed": 719,
+      "native-failure": 955,
+      "native-unsupported": 3,
+      "capability-assessment": 2160,
+      "adapter-limitation": 3509
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 719,
+      "native-failure": 955,
+      "native-unsupported": 3,
+      "capability-assessment": 2120,
+      "adapter-limitation": 1047
+     },
+     "qualified": {
+      "passed": 719,
+      "native-failure": 955,
+      "native-unsupported": 3,
+      "capability-assessment": 2160,
+      "adapter-limitation": 3509
+     }
+    }
+   },
+   "crafter-station/mermaid": {
+    "moves": {
+     "scored": {},
+     "all": {},
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 230,
+      "native-failure": 1666,
+      "native-unsupported": 1467,
+      "capability-assessment": 431,
+      "adapter-limitation": 1050
+     },
+     "qualified": {
+      "passed": 230,
+      "native-failure": 1666,
+      "native-unsupported": 1480,
+      "capability-assessment": 458,
+      "adapter-limitation": 3512
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 230,
+      "native-failure": 1666,
+      "native-unsupported": 1467,
+      "capability-assessment": 431,
+      "adapter-limitation": 1050
+     },
+     "qualified": {
+      "passed": 230,
+      "native-failure": 1666,
+      "native-unsupported": 1480,
+      "capability-assessment": 458,
+      "adapter-limitation": 3512
+     }
+    }
+   },
+   "fasouto/termaid": {
+    "moves": {
+     "scored": {
+      "CA -> NU": 927
+     },
+     "all": {
+      "CA -> NU": 930
+     },
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 1075,
+      "native-failure": 1152,
+      "native-unsupported": 0,
+      "capability-assessment": 1532,
+      "adapter-limitation": 1085
+     },
+     "qualified": {
+      "passed": 1075,
+      "native-failure": 1152,
+      "native-unsupported": 0,
+      "capability-assessment": 1572,
+      "adapter-limitation": 3547
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 1075,
+      "native-failure": 1152,
+      "native-unsupported": 927,
+      "capability-assessment": 605,
+      "adapter-limitation": 1085
+     },
+     "qualified": {
+      "passed": 1075,
+      "native-failure": 1152,
+      "native-unsupported": 930,
+      "capability-assessment": 642,
+      "adapter-limitation": 3547
+     }
+    }
+   },
+   "lukilabs/beautiful-mermaid": {
+    "moves": {
+     "scored": {},
+     "all": {},
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 236,
+      "native-failure": 1657,
+      "native-unsupported": 0,
+      "capability-assessment": 1902,
+      "adapter-limitation": 1049
+     },
+     "qualified": {
+      "passed": 236,
+      "native-failure": 1657,
+      "native-unsupported": 0,
+      "capability-assessment": 1942,
+      "adapter-limitation": 3511
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 236,
+      "native-failure": 1657,
+      "native-unsupported": 0,
+      "capability-assessment": 1902,
+      "adapter-limitation": 1049
+     },
+     "qualified": {
+      "passed": 236,
+      "native-failure": 1657,
+      "native-unsupported": 0,
+      "capability-assessment": 1942,
+      "adapter-limitation": 3511
+     }
+    }
+   },
+   "kais-radwan/ascii-mermaid": {
+    "moves": {
+     "scored": {},
+     "all": {},
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 354,
+      "native-failure": 1579,
+      "native-unsupported": 0,
+      "capability-assessment": 1850,
+      "adapter-limitation": 1061
+     },
+     "qualified": {
+      "passed": 354,
+      "native-failure": 1579,
+      "native-unsupported": 0,
+      "capability-assessment": 1890,
+      "adapter-limitation": 3523
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 354,
+      "native-failure": 1579,
+      "native-unsupported": 0,
+      "capability-assessment": 1850,
+      "adapter-limitation": 1061
+     },
+     "qualified": {
+      "passed": 354,
+      "native-failure": 1579,
+      "native-unsupported": 0,
+      "capability-assessment": 1890,
+      "adapter-limitation": 3523
+     }
+    }
+   },
+   "crabtalk/bezel": {
+    "moves": {
+     "scored": {
+      "CA -> AL": 2
+     },
+     "all": {
+      "CA -> AL": 2
+     },
+     "unmatchedCallbacks": 0
+    },
+    "before": {
+     "scored": {
+      "passed": 3218,
+      "native-failure": 90,
+      "native-unsupported": 7,
+      "capability-assessment": 167,
+      "adapter-limitation": 1362
+     },
+     "qualified": {
+      "passed": 3218,
+      "native-failure": 90,
+      "native-unsupported": 9,
+      "capability-assessment": 193,
+      "adapter-limitation": 3836
+     }
+    },
+    "after": {
+     "scored": {
+      "passed": 3218,
+      "native-failure": 90,
+      "native-unsupported": 7,
+      "capability-assessment": 165,
+      "adapter-limitation": 1364
+     },
+     "qualified": {
+      "passed": 3218,
+      "native-failure": 90,
+      "native-unsupported": 9,
+      "capability-assessment": 191,
+      "adapter-limitation": 3838
+     }
+    }
+   }
+  }
+ },
+ "probeSources": {
+  "a-all": {
+   "family": "architecture",
+   "source": "architecture-beta\ntitle ARCHTTL\naccTitle: ACCTTL\naccDescr: ACCDSC\ngroup G1(cloud)[GRPX]\nservice S1(database)[SVCX] in G1\nservice S2(server)\njunction J1\nS1:R -- L:S2\nalign S1 S2"
+  },
+  "a2-align": {
+   "family": "architecture",
+   "source": "architecture-beta\nservice a(server)[A]\nservice b(server)[B]\nalign row a b"
+  },
+  "a2-title": {
+   "family": "architecture",
+   "source": "architecture-beta\ntitle ARCHTTL\nservice a(server)[A]"
+  },
+  "af3-meta": {
+   "family": "agentflow",
+   "source": "agentflow-beta TB\n  a@{ shape: rect, icon: \"ICONX\", label: \"LBLX\" }\n  a --> b"
+  },
+  "af3-view": {
+   "family": "agentflow",
+   "source": "agentflow-beta TB\n  flow pipeline[\"Pipeline\"]\n    a --> b\n  end\n  pipeline@{ view: \"collapsed\" }"
+  },
+  "b-composite": {
+   "family": "block",
+   "source": "block-beta\nblock:first\n  a\nend\nblock:second\n  b\nend"
+  },
+  "c-acc": {
+   "family": "class",
+   "source": "classDiagram\naccTitle: ACCTTL\naccDescr: ACCDSC\nclass A"
+  },
+  "c-attr-forms": {
+   "family": "class",
+   "source": "classDiagram\nclass A {\nint AGEONE\nAGETWO : int\n}"
+  },
+  "c-body": {
+   "family": "class",
+   "source": "classDiagram\nclass A {\n<<INTERFACEX>>\n+int AGEX\n-String NAMEX\n+getAgeX(int pa, String pb) bool\n+someStatic()$\n+someAbstract()*\n}"
+  },
+  "c-callback": {
+   "family": "class",
+   "source": "classDiagram\nclass A\ncallback A \"CBFN\" \"CBTIP\""
+  },
+  "c-click": {
+   "family": "class",
+   "source": "classDiagram\nclass A\nclick A href \"https://clk.example.com\" \"CLKTIP\""
+  },
+  "c-click-call": {
+   "family": "class",
+   "source": "classDiagram\nclass A\nclick A call CALLFN() \"CALLTIP\""
+  },
+  "c-cssclass": {
+   "family": "class",
+   "source": "classDiagram\nclass A\nclass B\ncssClass \"A\" CSSCLS\nclass B:::SHORTCLS"
+  },
+  "c-cssclass-list": {
+   "family": "class",
+   "source": "classDiagram\nclass A\nclass B\ncssClass \"A,B\" CSSCLS"
+  },
+  "c-dir": {
+   "family": "class",
+   "source": "classDiagram\ndirection RL\nclass A"
+  },
+  "c-generic": {
+   "family": "class",
+   "source": "classDiagram\nclass Square~GENT~\nclass Other"
+  },
+  "c-link": {
+   "family": "class",
+   "source": "classDiagram\nclass A\nlink A \"https://lnk.example.com\" \"LNKTIP\""
+  },
+  "c-member-lines": {
+   "family": "class",
+   "source": "classDiagram\nclass A\nA : +int AGEX\nA : +getAgeX(int pa) int"
+  },
+  "c-notes": {
+   "family": "class",
+   "source": "classDiagram\nclass Alpha\nnote for Alpha \"NOTEONE\"\nnote \"NOTETWO\""
+  },
+  "c-ns": {
+   "family": "class",
+   "source": "classDiagram\nnamespace NSONE {\nclass A\n}\nnamespace NSTWO {\nclass B\n}"
+  },
+  "c-ns-nested": {
+   "family": "class",
+   "source": "classDiagram\nnamespace Company.Project {\nclass A\n}\nnamespace Company.Project.Module {\nclass B\n}"
+  },
+  "c-rel-ends": {
+   "family": "class",
+   "source": "classDiagram\nE1A <|-- E1B\nE2A --|> E2B"
+  },
+  "c-rels": {
+   "family": "class",
+   "source": "classDiagram\nR1A <|-- R1B\nR2A -- R2B\nR3A --> R3B\nR4A ..> R4B\nR5A ..|> R5B\nR6A *-- R6B\nR7A o-- R7B\nR8A .. R8B\nR9A <|.. R9B"
+  },
+  "c-style": {
+   "family": "class",
+   "source": "classDiagram\nclass A\nstyle A fill:#f9f,stroke:#333,stroke-width:4px"
+  },
+  "c2-dashed": {
+   "family": "class",
+   "source": "classDiagram\nD1A *.. D1B\nD2A o.. D2B\nD3A ()-- D3B\nD4A ()..D4B\nD5A *-- D5B\nD6A ..o D6B"
+  },
+  "c2-style": {
+   "family": "class",
+   "source": "classDiagram\nclass A\nstyle A stroke-width:4px,fill:#f9f,font-size:20px"
+  },
+  "c4-all": {
+   "family": "c4",
+   "source": "C4Context\ntitle C4TTL\nPerson(pa, \"PERSONX\", \"DESCX\", $sprite=\"SPRITEX\", $tags=\"TAGSX\", $link=\"https://lnk.example.com\")\nSystem_Boundary(sb, \"SBX\") {\nSystem(s1, \"S1X\")\n}\nBoundary(ub, \"UBX\") {\nSystem(s2, \"S2X\")\n}\nRel(pa, s1, \"RELLBL\", \"RELTECH\", $descr=\"RELDESC\")\nUpdateElementStyle(pa, $fontColor=\"red\")"
+  },
+  "c42-btype": {
+   "family": "c4",
+   "source": "C4Context\nBoundary(b1, \"B1\", \"company\") {\nSystem(SA, \"X\")\n}\nSystem_Boundary(b2, \"B2\") {\nSystem(SB, \"Y\")\n}\nBoundary(b3, \"B3\") {\nSystem(SC, \"Z\")\n}"
+  },
+  "c42-named": {
+   "family": "c4",
+   "source": "C4Context\nPerson(pa, \"PERSONX\", $sprite=\"SPRITEX\")\nSystem(s, \"S\", $tags=\"TAGSX\")"
+  },
+  "c43-wrap": {
+   "family": "c4",
+   "source": "C4Context\nPerson(pa, \"PERSONX\", \"DESCX\")\nRel(pa, pa, \"RELLBL\")"
+  },
+  "e-acc": {
+   "family": "er",
+   "source": "erDiagram\naccTitle: ACCTTL\naccDescr: ACCDSC\nA ||--o{ B : owns"
+  },
+  "e-alias": {
+   "family": "er",
+   "source": "erDiagram\np[ALIASX] {\nstring name\n}\n\"QUOTED NAME\" {\nint x\n}"
+  },
+  "e-attrs": {
+   "family": "er",
+   "source": "erDiagram\nCUST {\nstring NAMEX PK \"COMMENTX\"\nint AGEX FK\n}"
+  },
+  "e-card": {
+   "family": "er",
+   "source": "erDiagram\nA ||--o{ B : r1\nC |o..|{ D : r2\nE }|--|| F : r3"
+  },
+  "e-classdef": {
+   "family": "er",
+   "source": "erDiagram\nA\nclassDef CDEF fill:#f00\nclass A CDEF\nB:::SHORTCLS"
+  },
+  "e-style": {
+   "family": "er",
+   "source": "erDiagram\nA\nstyle A fill:#f00,stroke:#0f0"
+  },
+  "e-subgraph": {
+   "family": "er",
+   "source": "erDiagram\nsubgraph SGRP [SGTITLE]\nA\nB\nend"
+  },
+  "f-acc": {
+   "family": "flowchart",
+   "source": "flowchart TD\naccTitle: ACCTTL\naccDescr: ACCDSC\nA-->B"
+  },
+  "f-anim": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA e1@--> B\ne1@{ animate: true }"
+  },
+  "f-arrows": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA-->B\nC---D\nE--oF\nG--xH\nI<-->J"
+  },
+  "f-bare": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA\nB[B]"
+  },
+  "f-class": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA-->B\nclass A CLSASSIGN"
+  },
+  "f-classdef": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA:::CDEF\nclassDef CDEF fill:#f9f,stroke:#333,stroke-width:4px"
+  },
+  "f-classdef2": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA\nclassDef CDEF stroke-width:4px,fill:#f9f"
+  },
+  "f-curve": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA e1@--> B\ne1@{ curve: stepBefore }"
+  },
+  "f-curve-ls": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA --> B\nlinkStyle 0 interpolate stepAfter"
+  },
+  "f-curve-ls-default": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA --> B\nlinkStyle default interpolate cardinal"
+  },
+  "f-edgeid": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA EDGEID@--> B"
+  },
+  "f-len1": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA-->B"
+  },
+  "f-len3": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA---->B"
+  },
+  "f-linkstyle": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA-->B\nlinkStyle 0 stroke:#ff3,stroke-width:4px,color:red;"
+  },
+  "f-linkstyle-interp": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA-->B\nlinkStyle 0 interpolate basis stroke:#ff3"
+  },
+  "f-md-sub": {
+   "family": "flowchart",
+   "source": "flowchart TD\nsubgraph S1 [\"`**MDSUB**`\"]\nA\nend"
+  },
+  "f-plain-sub": {
+   "family": "flowchart",
+   "source": "flowchart TD\nsubgraph S1 [PLAINSUB]\nA\nend"
+  },
+  "f-shapes": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA(round)\nB([stadium])\nC((circle))\nD(((dbl)))\nE[rect]\nF{diamond}\nG[[sub]]\nH[(cyl)]\nI{{hex}}\nJ>odd]"
+  },
+  "f-style": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA\nstyle A fill:#f9f,stroke:#333,stroke-width:4px"
+  },
+  "f-style-class": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA\nclassDef C1 fill:#111\nclass A C1\nstyle A stroke:#222"
+  },
+  "f-sub-class": {
+   "family": "flowchart",
+   "source": "flowchart TD\nsubgraph S1\nA\nend\nclassDef SUBCLS fill:#f00\nclass S1 SUBCLS"
+  },
+  "f-sub-members": {
+   "family": "flowchart",
+   "source": "flowchart TD\nsubgraph S1\nMEMBA\nMEMBB\nend"
+  },
+  "f2-arrows": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA --> B\nC --- D\nE --o F\nG --x H"
+  },
+  "f2-bare": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA-->B[B]"
+  },
+  "f2-classdef": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA-->B\nclassDef CDEF fill:#f9f,stroke:#333,stroke-width:4px\nclass A CDEF"
+  },
+  "f2-classes": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA-->B\nclassDef CDEF fill:#f9f\nclass A CDEF\nlinkStyle 0 stroke:#f00"
+  },
+  "f2-curve": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA-->B\nlinkStyle 0 interpolate stepAfter"
+  },
+  "f2-len1": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA --> B"
+  },
+  "f2-len3": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA ----> B"
+  },
+  "f2-linkstyle": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA-->B\nlinkStyle 0 stroke:#ff3,stroke-width:4px,color:red"
+  },
+  "f2-md-sub": {
+   "family": "flowchart",
+   "source": "flowchart TD\nsubgraph S1 [\"`MDSUB`\"]\nA-->B\nend"
+  },
+  "f2-round": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA(round)-->B([stadium])"
+  },
+  "f2-style": {
+   "family": "flowchart",
+   "source": "flowchart TD\nA-->B\nstyle A fill:#f9f,stroke:#333,stroke-width:4px"
+  },
+  "f2-sub-dir": {
+   "family": "flowchart",
+   "source": "flowchart TD\nsubgraph S1\ndirection LR\nA-->B\nend"
+  },
+  "f2-sub-dir-tb": {
+   "family": "flowchart",
+   "source": "flowchart TD\nsubgraph S1\ndirection TB\nA-->B\nend"
+  },
+  "f2-sub-dir-td": {
+   "family": "flowchart",
+   "source": "flowchart TD\nsubgraph S1\ndirection TD\nA-->B\nend"
+  },
+  "g-acc": {
+   "family": "gantt",
+   "source": "gantt\ndateFormat YYYY-MM-DD\naccTitle: ACCTTL\naccDescr: ACCDSC\nsection S\nT1 :a1, 2024-01-01, 3d"
+  },
+  "g-excludes": {
+   "family": "gantt",
+   "source": "gantt\ndateFormat YYYY-MM-DD\nexcludes weekends, 2024-01-10, monday\nsection S\nT1 :a1, 2024-01-01, 3d"
+  },
+  "g-start": {
+   "family": "gantt",
+   "source": "gantt\ndateFormat YYYY-MM-DD\nsection S\nT1 :a1, 2024-01-01, 3d\nT2 :a2, after a1, 2d"
+  },
+  "g-weekday": {
+   "family": "gantt",
+   "source": "gantt\ndateFormat YYYY-MM-DD\nweekday friday\nsection S\nT1 :a1, 2024-01-01, 3d"
+  },
+  "g-weekday-empty": {
+   "family": "gantt",
+   "source": "gantt\ndateFormat YYYY-MM-DD\nweekday friday"
+  },
+  "g2-weekday": {
+   "family": "gantt",
+   "source": "gantt\nweekday monday"
+  },
+  "gg-acc": {
+   "family": "gitgraph",
+   "source": "gitGraph\naccTitle: ACCTTL\naccDescr: ACCDSC\ncommit"
+  },
+  "gg-branch-order": {
+   "family": "gitgraph",
+   "source": "gitGraph\ncommit\nbranch BRZ order: 3\nbranch BRY order: 1\ncheckout main\nmerge BRZ id: \"MERGEID\" tag: \"MTAG\"\ncherry-pick id: \"CID9\" tag: \"CPTAG\""
+  },
+  "gg-checkout": {
+   "family": "gitgraph",
+   "source": "gitGraph\ncommit id: \"CID1\"\nbranch develop\ncheckout develop\ncommit id: \"CID2\"\ncheckout main"
+  },
+  "gg-cherry": {
+   "family": "gitgraph",
+   "source": "gitGraph\ncommit id: \"ONE\"\nbranch dev\ncommit id: \"TWO\"\ncheckout main\ncherry-pick id: \"TWO\" tag: \"CPTAG\""
+  },
+  "gg-commit": {
+   "family": "gitgraph",
+   "source": "gitGraph\ncommit id: \"CID1\" msg: \"MSGX\" tag: \"TAGX\"\ncommit type: HIGHLIGHT\ncommit"
+  },
+  "gg-merge": {
+   "family": "gitgraph",
+   "source": "gitGraph\ncommit id: \"ONE\"\nbranch dev\ncommit id: \"TWO\"\ncheckout main\nmerge dev id: \"MERGEID\" tag: \"MTAG\""
+  },
+  "gg3-statements": {
+   "family": "gitgraph",
+   "source": "gitGraph\ncommit id: \"ONE\"\nbranch dev\ncheckout dev\ncommit id: \"TWO\"\ncheckout main\nmerge dev"
+  },
+  "j-acc": {
+   "family": "journey",
+   "source": "journey\ntitle JTTL\naccTitle: ACCTTL\naccDescr: ACCDSC\nsection S\nTask: 3: ACTONE, ACTTWO"
+  },
+  "k-meta": {
+   "family": "kanban",
+   "source": "kanban\nCOLID[Todo]\n  CARDID[Card text]@{ ticket: TICKX, assigned: \"ASSIGNX\", priority: \"High\" }\n  CARD2[Two]\n  ::icon(ICONX)\n  CARD3[Three]:::CLASSX"
+  },
+  "k2-meta": {
+   "family": "kanban",
+   "source": "kanban\nCOLID[Todo]\n  CARDID[Card]@{ ticket: TICKX, assigned: \"ASSIGNX\" }\n  CARD2[Two]\n  ::icon(ICONX)"
+  },
+  "k3-section-icon": {
+   "family": "kanban",
+   "source": "kanban\nroot[Root]\n::icon(ICONX)\n  CARD[Card]"
+  },
+  "k3-section-meta": {
+   "family": "kanban",
+   "source": "kanban\nroot@{ priority: high, ticket: TICKX }\n  CARD[Card]"
+  },
+  "mm-ids": {
+   "family": "mindmap",
+   "source": "mindmap\nROOTID((ROOTTXT))\n  CHILDID[CHILDTXT]\n  PLAINCHILD"
+  },
+  "p-showdata-empty": {
+   "family": "pie",
+   "source": "pie showData"
+  },
+  "p-title": {
+   "family": "pie",
+   "source": "pie title PIETTL\naccTitle: ACCTTL\naccDescr: ACCDSC\n\"A\": 1"
+  },
+  "p-title2": {
+   "family": "pie",
+   "source": "pie\ntitle PIETTL\n\"A\": 1"
+  },
+  "pk-title": {
+   "family": "packet",
+   "source": "packet-beta\ntitle PKTTL\naccTitle: ACCTTL\naccDescr: ACCDSC\n0-15: \"FIELDX\"\n16-31: \"FIELDY\""
+  },
+  "r-all": {
+   "family": "radar",
+   "source": "radar-beta\ntitle RADTTL\naccTitle: ACCTTL\naccDescr: ACCDSC\naxis ax1[\"AXONE\"], ax2[\"AXTWO\"]\ncurve CRV[\"CURVEX\"]{ax2: 2, ax1: 1}\nshowLegend false\ngraticule polygon\nticks 7\nmax 9\nmin 1"
+  },
+  "r-plain": {
+   "family": "radar",
+   "source": "radar-beta\naxis ax1[\"AXONE\"], ax2[\"AXTWO\"]\ncurve CRV[\"CURVEX\"]{1, 2}"
+  },
+  "r3-named": {
+   "family": "radar",
+   "source": "radar-beta\naxis ax1[\"AXONE\"], ax2[\"AXTWO\"]\ncurve CRV[\"CURVEX\"]{ax2: 2, ax1: 1}"
+  },
+  "r3-plain": {
+   "family": "radar",
+   "source": "radar-beta\naxis ax1[\"AXONE\"], ax2[\"AXTWO\"]\ncurve CRV[\"CURVEX\"]{1, 2}"
+  },
+  "rq-all": {
+   "family": "requirement",
+   "source": "requirementDiagram\naccTitle: ACCTTL\naccDescr: ACCDSC\ndirection LR\nrequirement REQX {\nid: RID1\ntext: RTEXT\nrisk: high\nverifymethod: test\n}\nelement ELX {\ntype: ETYPE\ndocref: EDOC\n}\nELX - satisfies -> REQX"
+  },
+  "rr4-one": {
+   "family": "railroad",
+   "source": "railroad-beta\nrule = sequence(terminal(\"a\")) ;"
+  },
+  "rr4-seq": {
+   "family": "railroad",
+   "source": "railroad-beta\nrule = sequence(terminal(\"a\"), nonterminal(\"b\")) ;"
+  },
+  "s-acc": {
+   "family": "sequence",
+   "source": "sequenceDiagram\naccTitle: ACCTTL\naccDescr: ACCDSC\nA->>B: hi"
+  },
+  "s-act-line": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>B: hi\nactivate B\nB-->>A: ok\ndeactivate B"
+  },
+  "s-act-plus": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>+B: hi\nB-->>-A: ok"
+  },
+  "s-actor": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nparticipant PA\nactor AB\nPA->>AB: hi"
+  },
+  "s-arrows": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->B: m1\nA-)B: m2\nA->>B: m3\nA-xB: m4\nA-->>B: m5\nA-->B: m6\nA--)B: m7\nA--xB: m8"
+  },
+  "s-block-empty": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nloop L1\nend\nA->>B: hi"
+  },
+  "s-block-msg": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nloop L1\nA->>B: hi\nend"
+  },
+  "s-box": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nbox Aqua BOXTTL\nparticipant A\nend\nA->>B: hi"
+  },
+  "s-central": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nAlice ()->>() Bob: CENTRALMSG"
+  },
+  "s-central1": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nAlice ->>() Bob: CENTRALMSG"
+  },
+  "s-comment": {
+   "family": "sequence",
+   "source": "sequenceDiagram\n%% Comment\nA->>B: hi\n# hashcomment"
+  },
+  "s-create": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>B: hi\ncreate participant CRT\nA->>CRT: hi\ndestroy CRT\nCRT->>A: bye"
+  },
+  "s-critical": {
+   "family": "sequence",
+   "source": "sequenceDiagram\ncritical CRITX\nA->>B: hi\noption OPTX\nA->>B: no\nend\nbreak BRKX\nA->>B: x\nend"
+  },
+  "s-link": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nparticipant A\nlink A: LNKLBL @ https://lnk.example.com\nA->>B: hi"
+  },
+  "s-links": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nparticipant A\nlinks A: {\"LNKSLBL\": \"https://lnks.example.com\"}\nA->>B: hi"
+  },
+  "s-note-order": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>B: m0\nloop LOOPX\nNote right of A: NOTEX\nA->>B: m1\nend"
+  },
+  "s-note-order2": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>B: m0\nNote right of A: NOTEX\nloop LOOPX\nA->>B: m1\nend"
+  },
+  "s-note-side": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>B: hi\nNote left of A: NOTELEFT\nNote right of A: NOTERIGHT\nNote over A,B: NOTEOVER"
+  },
+  "s-plain": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nAlice ->> Bob: CENTRALMSG"
+  },
+  "s-props": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nparticipant A\nproperties A: {\"class\": \"PROPCLS\"}\nA->>B: hi"
+  },
+  "s-rect": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nrect rgb(10, 20, 30)\nA->>B: hi\nend"
+  },
+  "s-title": {
+   "family": "sequence",
+   "source": "sequenceDiagram\ntitle SEQTTL\nA->>B: hi"
+  },
+  "s-title-colon": {
+   "family": "sequence",
+   "source": "sequenceDiagram\ntitle: SEQTTL\nA->>B: hi"
+  },
+  "s-wrap": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>B: wrap: WRAPTXT\nA->>B: nowrap: NOWRAPTXT\nA->>B: PLAINTXT"
+  },
+  "s-wrap-note": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nNote right of A: wrap: WRAPNOTE"
+  },
+  "s2-act-a": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>+B: hi"
+  },
+  "s2-act-b": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>B: hi\nactivate B"
+  },
+  "s2-rect": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nrect rgb(10,20,30)\nA->>B: hi\nend"
+  },
+  "s2-rect2": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nrect rgba(0, 0, 255, .1)\nA->>B: hi\nend"
+  },
+  "st-acc": {
+   "family": "state",
+   "source": "stateDiagram-v2\naccTitle: ACCTTL\naccDescr: ACCDSC\n[*] --> A"
+  },
+  "st-acc-ml": {
+   "family": "state",
+   "source": "stateDiagram-v2\naccDescr {\nACCMULTI\n}\n[*] --> A"
+  },
+  "st-bare": {
+   "family": "state",
+   "source": "stateDiagram-v2\nBARE\nstate \"DESC\" as DESC\nBYID : BYID"
+  },
+  "st-classdef": {
+   "family": "state",
+   "source": "stateDiagram-v2\nclassDef CDEF fill:#f00,color:white\n[*] --> A\nclass A CDEF\nB:::SHORTCLS"
+  },
+  "st-composite": {
+   "family": "state",
+   "source": "stateDiagram-v2\n[*] --> First\nstate First {\n[*] --> Inner\nInner --> [*]\n}\nstate Empty {\n}"
+  },
+  "st-crossdoc": {
+   "family": "state",
+   "source": "stateDiagram-v2\nstate Active {\nIdle\n}\nstate Other {\nInactive\n}\nInactive --> Idle"
+  },
+  "st-desc-lines": {
+   "family": "state",
+   "source": "stateDiagram-v2\nS1 : LINEONE\nS1 : LINETWO\nstate \"TEXTX\" as S2\nS2 : DESCX"
+  },
+  "st-dir": {
+   "family": "state",
+   "source": "stateDiagram-v2\ndirection LR\n[*] --> A"
+  },
+  "st-note": {
+   "family": "state",
+   "source": "stateDiagram-v2\n[*] --> A\nnote right of A : NOTETXT\nnote left of A\nNOTEML\nend note"
+  },
+  "st-style": {
+   "family": "state",
+   "source": "stateDiagram-v2\n[*] --> A\nstyle A fill:#f00,stroke:#0f0"
+  },
+  "st2-bare": {
+   "family": "state",
+   "source": "stateDiagram-v2\n[*] --> BARE\nstate \"DESC\" as DESC\nBARE --> DESC"
+  },
+  "st2-crossdoc": {
+   "family": "state",
+   "source": "stateDiagram-v2\nstate Active {\n[*] --> Idle\n}\nstate Other {\n[*] --> Inactive\n}\nInactive --> Idle"
+  },
+  "st2-dir": {
+   "family": "state",
+   "source": "stateDiagram-v2\ndirection LR\nA --> B"
+  },
+  "st2-nodir": {
+   "family": "state",
+   "source": "stateDiagram-v2\nA --> B"
+  },
+  "tm-classdef": {
+   "family": "treemap",
+   "source": "treemap-beta\n\"ROOTX\"\n    \"LEAFX\": 7:::CLSX\nclassDef CLSX fill:#f00\n    \"LEAFY\": 3"
+  },
+  "tm3": {
+   "family": "treemap",
+   "source": "treemap-beta\n\"ROOTX\"\n    \"LEAFX\": 7:::CLSX\nclassDef CLSX fill:#f00\n    \"LEAFY\": 3"
+  },
+  "tv-all": {
+   "family": "treeview",
+   "source": "treeView-beta\n    \"ROOTX/\"\n        FILEX :::CLASSX\n        DIRX/\n            \"deep.js\" icon(ICONX)"
+  },
+  "uc4-empty": {
+   "family": "usecase",
+   "source": "usecase-beta"
+  },
+  "uc4-geom": {
+   "family": "usecase",
+   "source": "usecase-beta\nactor Normal\nactor Hollow@{ type: hollow, business: true }\nBusiness(Business)@{ business: true }\nEllipse\nRectCase[Rectangle]"
+  },
+  "v-all": {
+   "family": "venn",
+   "source": "venn-beta\n  set A[\"SETA\"]\n  set B[\"SETB\"]\n  union A,B\n  set C\n  text A\n  text A1[\"TEXTLBL\"]\n  style A fill:#ff0000"
+  },
+  "w-all": {
+   "family": "wardley",
+   "source": "wardley-beta\ntitle WTTL\ncomponent COMPX [0.5, 0.6]\ncomponent COMPY [0.2, 0.3]\nCOMPX -> COMPY"
+  }
+ }
+}

@@ -251,6 +251,8 @@ function xmermaidGraph(graph, _project, hooks) {
 // click link); edges with one ArrowType word naming the line and both ends; subgraphs in
 // graph.subgraphs with their source key, children and members (nested members included);
 // style statements kept per target in style_refs. Edges keep no length or id.
+// 0.5.0: a subgraph's cluster (ir.clusters[subgraph.cluster]) lists the classes a `class`
+// statement gave it (`classes`, absent when none; model-concept review 2026-11-14).
 const FRANKEN_SHAPE = { Rect: 'square', Rounded: 'round', Stadium: 'stadium', Subroutine: 'subroutine', Cylinder: 'cylinder', Circle: 'circle', DoubleCircle: 'doublecircle', Diamond: 'diamond', Hexagon: 'hexagon', Parallelogram: 'lean_right', InvParallelogram: 'lean_left', Trapezoid: 'trapezoid', InvTrapezoid: 'inv_trapezoid', Asymmetric: 'odd' }
 function frankenArrow(word) {
   const match = /^(Double)?(Dotted|Thick)?(Arrow|Line|Circle|Cross)(Both)?$/.exec(word ?? '')
@@ -291,7 +293,8 @@ function frankenGraph(ir, _project, hooks) {
     subgraphs: () =>
       ordered.map(group => {
         const nested = new Set((group.children ?? []).flatMap(child => groups[child].members ?? []))
-        return { id: group.key, title: label(group.title) ?? group.key, nodes: [...(group.members ?? []).filter(member => !nested.has(member)).map(member => ids[member]), ...(group.children ?? []).map(child => groups[child].key)], dir: group.direction ?? undefined }
+        const cluster = typeof group.cluster === 'number' ? ir.clusters?.[group.cluster] : undefined
+        return { id: group.key, title: label(group.title) ?? group.key, nodes: [...(group.members ?? []).filter(member => !nested.has(member)).map(member => ids[member]), ...(group.children ?? []).map(child => groups[child].key)], dir: group.direction ?? undefined, ...(cluster ? { classes: [...(cluster.classes ?? [])] } : {}) }
       }),
     direction: directionOf(ir.direction),
     absent: {
@@ -314,9 +317,17 @@ function frankenGraph(ir, _project, hooks) {
 // is Mermaid's user-defined id; without one Mermaid generates `L_<start>_<end>_<n>`, which
 // the model does not keep (absent for that edge), and records isUserDefinedId false. An
 // unwritten animate is undefined in both.
+// `class S1 c` on a subgraph is recorded in the same classAssignments map, keyed by the
+// subgraph id (zombie-mermaid 5.17.0, beautiful-mermaid 1.1.3 and ascii-mermaid 0.1.0
+// parses; model-concept review 2026-11-14).
 function mermaidGraphView(name, { edgeIds = false } = {}) {
   return (graph, _project, hooks) => {
     const get = (map, key) => (map instanceof Map ? map.get(key) : undefined)
+    const assignedClasses = id => {
+      const assigned = get(graph.classAssignments, id)
+      if (typeof assigned === 'string' && /\s|,/.test(assigned)) return hooks.unavailable(`${name} class assignment of several classes`)
+      return assigned ? [assigned] : []
+    }
     const flat = []
     const walk = group => {
       const children = (group.children ?? []).map(child => (typeof child === 'string' ? undefined : child)).filter(Boolean)
@@ -347,7 +358,7 @@ function mermaidGraphView(name, { edgeIds = false } = {}) {
           const ids = !edgeIds ? {} : typeof edge.id === 'string' ? { id: edge.id, isUserDefinedId: true } : { isUserDefinedId: false, [VERTEX_ABSENT]: { id: `${name} keeps no generated edge id (Mermaid generates L_<start>_<end>_<n> for an edge written without one)` } }
           return { start: edge.source, end: edge.target, text: edge.label ?? '', type, stroke: strokeOf(edge.style), ...(graph.linkStyles instanceof Map ? { style: style.length ? style : undefined } : {}), ...ids, ...(edgeIds ? { animate: typeof edge.animate === 'boolean' ? edge.animate : undefined } : {}) }
         }),
-      subgraphs: () => flat,
+      subgraphs: () => (graph.classAssignments instanceof Map ? flat.map(group => ({ ...group, classes: assignedClasses(group.id) })) : flat),
       direction: directionOf(graph.direction),
       absent: {
         vertex: {
@@ -355,7 +366,7 @@ function mermaidGraphView(name, { edgeIds = false } = {}) {
           ...(graph.interactions instanceof Map ? {} : { link: `${name}'s graph keeps no click links`, tooltip: `${name}'s graph keeps no tooltips` }),
         },
         edge: { length: `${name}'s edge model keeps no link length`, ...(edgeIds ? {} : { id: `${name}'s edge model keeps no edge ids`, animate: `${name}'s edge model keeps no animation` }), ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), interpolate: `${name}'s edge model keeps no curve` },
-        subgraph: { classes: `${name}'s subgraph model keeps no classes` },
+        subgraph: graph.classAssignments instanceof Map ? {} : { classes: `${name}'s subgraph model keeps no classes` },
       },
     }
   }
@@ -512,26 +523,35 @@ const CLASS = {
   }),
 }
 // zombie-mermaid ClassRelationship: type and markerAt ('from' | 'to' | 'both'). Realization
-// (..|>) and dependency (..>) are dotted by definition; the model has no line style for the
-// other types, and 'association' covers both a plain link (--) and an arrow (-->).
+// (..|>) and dependency (..>) are dotted by definition. beautiful-mermaid 1.1.3
+// (class/types.ts) and ascii-mermaid share the vocabulary without a line style for the other
+// types, and their 'association' covers both a plain link (--) and an arrow (-->).
+// zombie-mermaid 5.16.0 and 5.17.0 (mermaid-parser dist/shared/index.d.ts RelationshipType and
+// ClassRelationship.dashed) name a plain link 'link' and a dotted one 'dashed-link', so its
+// 'association' is the arrow (-->, Mermaid's DEPENDENCY end on a solid line), and record
+// `dashed` on a type that is solid by default (`A ..() B`); its parser rejects dotted
+// composition and aggregation (`*..`, `o..`). Model-concept review 2026-11-14.
 const ZOMBIE_RELATION = { inheritance: [1, 0], realization: [1, 1], composition: [2], aggregation: [0], dependency: [3, 1], lollipop: [4] }
-CLASS['dfadler/zombie-mermaid'] = raw => ({
+const ZOMBIE_5_16_RELATION = { ...ZOMBIE_RELATION, association: [3, 0], link: ['none', 0], 'dashed-link': ['none', 1] }
+const zombieClasses = (name, typed) => raw => ({
   classes: () => raw.classes.map(item => [item.id, { label: item.label, annotations: item.annotation ? [item.annotation] : item.annotations ?? [], members: item.attributes ?? [], methods: item.methods ?? [] }]),
   relations: () =>
     raw.relationships.map(rel => {
-      const [code, line] = ZOMBIE_RELATION[rel.type] ?? []
+      const [code, written] = (typed ? ZOMBIE_5_16_RELATION : ZOMBIE_RELATION)[rel.type] ?? []
+      const line = written ?? (typed && code !== undefined ? (rel.dashed ? 1 : 0) : undefined)
       const extra = { relationTitle1: card(rel.fromCardinality), relationTitle2: card(rel.toCardinality), ...(rel.label ? { title: rel.label } : {}) }
       if (code === undefined) return { id1: rel.from, id2: rel.to, ...extra }
       const relation = { type1: rel.markerAt === 'to' ? 'none' : code, type2: rel.markerAt === 'from' ? 'none' : code, ...(line !== undefined ? { lineType: line } : {}) }
-      if (line === undefined) Object.defineProperty(relation, LINE_ABSENT, { value: "zombie-mermaid's class relation has no line style for this type" })
+      if (line === undefined) Object.defineProperty(relation, LINE_ABSENT, { value: `${name}'s class relation has no line style for this type` })
       return { id1: rel.from, id2: rel.to, relation, ...extra }
     }),
-  absent: { relation: { relation: "zombie-mermaid records a plain link (--) and an arrow (-->) as the same 'association'" } },
+  absent: { relation: { relation: `${name} records a plain link (--) and an arrow (-->) as the same 'association'` } },
 })
+CLASS['dfadler/zombie-mermaid'] = zombieClasses('zombie-mermaid', true)
 // beautiful-mermaid 1.1.3 class/types.ts: the same ClassRelationship vocabulary (markerAt
-// 'from' | 'to', no lollipop) and no class notes.
-CLASS['lukilabs/beautiful-mermaid'] = raw => CLASS['dfadler/zombie-mermaid'](raw)
-CLASS['kais-radwan/ascii-mermaid'] = raw => CLASS['dfadler/zombie-mermaid'](raw)
+// 'from' | 'to', no lollipop, no link types, no dashed flag) and no class notes.
+CLASS['lukilabs/beautiful-mermaid'] = zombieClasses('beautiful-mermaid', false)
+CLASS['kais-radwan/ascii-mermaid'] = zombieClasses('ascii-mermaid', false)
 // XMermaid class: members are one display list and relations are normalized child -> parent.
 CLASS['evangwt/xmermaid'] = raw => ({
   classes: () => raw.classes.map(item => [item.id, { label: item.label }]),

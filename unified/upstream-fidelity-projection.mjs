@@ -66,11 +66,13 @@ export function snapshotMermaidDatabase(db) {
 }
 
 /** Translate actual observed public field names, retaining representation gaps.
- * These projections do not promise Mermaid's private renderer/database API. */
-export function projectPublicDatabase(tool, family, raw, unavailable, unsupported, project) {
+ * These projections do not promise Mermaid's private renderer/database API. `version` is
+ * the candidate's measured version, for a reviewed view whose mapping differs between the
+ * reviewed versions of one project (views/reviewed-versions.mjs). */
+export function projectPublicDatabase(tool, family, raw, unavailable, unsupported, project, version) {
   if (tool === 'mermaid') return snapshotMermaidDatabase(raw)
   // A reviewed per-project view takes precedence over the generic field-name guesses.
-  const native = project && unavailable && unsupported ? nativeSchemaView(project, family, raw, { unavailable, unsupported }) : undefined
+  const native = project && unavailable && unsupported ? nativeSchemaView(project, family, raw, { unavailable, unsupported, version }) : undefined
   if (native?.whole) return native.whole
   // Frankenmermaid's IR is read only through reviewed views; the field-name guesses below
   // would misread its index-addressed graph.

@@ -304,11 +304,16 @@ function portView(project, raw, hooks) {
 // concurrency regions are `<id>__region<n>` subgraphs flagged `region`. Only zombie reads
 // fork, join and choice (one 'fork-join' shape for both, and it clears their label),
 // classDef / class / `:::` (one class per state), style statements and notes (a 'note' node
-// `<state>----note-<n>` joined by a dotted edge, with the side dropped by its regex).
+// `<state>----note-<n>` joined by a dotted edge; 5.14 drops the side, 5.16.0 and 5.17.0
+// join a left-of note note -> state and a right-of note state -> note, mermaid-parser
+// dist/index.js n.edges.push({source:t?s:e,target:t?e:s,...}) with t the
+// note's left flag; model-concept review 2026-11-14).
 // None of the three reads accTitle / accDescr (their description pattern takes those lines
 // for states) or click statements.
+// zombie-mermaid versions whose note edge direction records the note's side.
+const ZOMBIE_NOTE_SIDE = new Set(['5.16.0', '5.17.0'])
 function mermaidGraphState(name, zombie) {
-  return graph => {
+  return (graph, hooks) => {
     const nodes = graph.nodes instanceof Map ? graph.nodes : new Map(entriesOf(graph.nodes))
     const container = new Map(), composites = [], regions = []
     const walk = (group, parent) => {
@@ -340,7 +345,8 @@ function mermaidGraphState(name, zombie) {
     if (ambiguous) states.length = 0
     // zombie-mermaid 5.14 joins every note as state -> note; 5.16 joins a left-of note as
     // note -> state. Either way the edge is the note's attachment, never a transition. The
-    // edge direction is not read as the side: in 5.14 it carries none.
+    // edge direction is the side only in the versions that write it (ZOMBIE_NOTE_SIDE): in
+    // 5.14 it carries none.
     const touchesNote = edge => noteIds.has(edge.target) || noteIds.has(edge.source)
     const noteEdges = graph.edges.filter(touchesNote)
     return {
@@ -348,7 +354,7 @@ function mermaidGraphState(name, zombie) {
       states,
       ambiguous: ambiguous?.ambiguous,
       transitions: graph.edges.filter(edge => !touchesNote(edge)).map(edge => ({ from: edge.source, to: edge.target, title: edge.label ?? '' })),
-      notes: zombie ? noteEdges.map(edge => { const note = noteIds.has(edge.target) ? edge.target : edge.source; return { target: note === edge.target ? edge.source : edge.target, text: nodes.get(note).label, position: absent(`${name}'s note parser drops the side (left of / right of)`) } }) : absent(notesAbsent),
+      notes: zombie ? noteEdges.map(edge => { const note = noteIds.has(edge.target) ? edge.target : edge.source; return { target: note === edge.target ? edge.source : edge.target, text: nodes.get(note).label, position: ZOMBIE_NOTE_SIDE.has(hooks?.version) ? (note === edge.source ? 'left of' : 'right of') : absent(`${name}'s note parser drops the side (left of / right of)`) } }) : absent(notesAbsent),
       classDefs: zombie ? entriesOf(graph.classDefs).map(([id, props]) => [id, styleStrings(props)]) : absent(`${name}'s state parser reads no classDef statements`),
       direction: directionOf(graph.direction),
       compositeDirection: id => directionOf(composites.find(({ group }) => group.id === id)?.group.direction ?? 'TB'),
@@ -735,7 +741,7 @@ const STATE = {
 function view(project) {
   return (raw, hooks) => {
     if (['obsidianmd/pele', 'crabtalk/bezel', 'Latias94/merman'].includes(project)) return raw.states ? portView(project, raw, hooks) : undefined
-    const model = STATE[project](raw)
+    const model = STATE[project](raw, hooks)
     if (model.ambiguous) return Object.fromEntries(['getStates', 'getState', 'getRelations', 'getData'].map(getter => [getter, () => hooks.unsupported(model.ambiguous.reason)]))
     return stateView(model, hooks)
   }

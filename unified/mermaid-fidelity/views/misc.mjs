@@ -373,7 +373,11 @@ function graphClassModel(raw, name) {
 
 // agentic-mermaid 0.5.6 class body: a class keeps its body as raw rows (annotation rows
 // such as <<interface>> included), one className from cssClass or :::, href and tooltip,
-// a generic and a qualified namespace; namespaces keep name and label.
+// a generic, a qualified namespace and its style statements as one property object in
+// written order (`style A stroke-width:4px,fill:#f9f` is { 'stroke-width': '4px', fill:
+// '#f9f' }); namespaces keep name and label. The accessibility title and description are
+// the body's meta.accessibility fields (accessibilityTitle / accessibilityDescription in
+// the runtime's model; model-concept review 2026-11-14).
 function agenticClassModel(raw, hooks) {
   if (raw.nativeParser === 'parseClassDiagram') return agenticSourceClassModel(raw, hooks)
   const rows = 'agentic-mermaid keeps a class body as raw rows, not split into annotations, attributes and methods'
@@ -401,13 +405,18 @@ function agenticClassModel(raw, hooks) {
       link: item.href ?? undefined,
       tooltip: item.tooltip ?? undefined,
       parent: item.namespace ?? undefined,
+      // Mermaid's styles merge the classDef of an assigned class with the class's style
+      // statements in statement order; the model keeps them apart (className, classDefs,
+      // style), so only a class without a defined class has its styles answered.
+      styles: () => (item.className && raw.classDefs?.[item.className] ? hooks.unsupported("agentic-mermaid keeps a class's style statements, its class and the classDefs apart, not the styles list Mermaid merges from them in statement order") : styleStrings(item.style)),
     }]),
     namespaces,
+    getAccTitle: raw.accessibilityTitle ?? '',
+    getAccDescription: raw.accessibilityDescription ?? '',
     absent: {
-      class: { members: rows, methods: rows, annotations: rows, styles: "agentic-mermaid's class model keeps no per-class styles", haveCallback: "agentic-mermaid's class model keeps no click callbacks", linkTarget: "agentic-mermaid's class model keeps no link targets" },
+      class: { members: rows, methods: rows, annotations: rows, haveCallback: "agentic-mermaid's class model keeps no click callbacks", linkTarget: "agentic-mermaid's class model keeps no link targets" },
       namespace: { notes: "agentic-mermaid's namespaces keep no notes" },
       getDirection: "agentic-mermaid's class model keeps no direction",
-      ...accAbsent('agentic-mermaid'),
     },
   }
 }
@@ -639,10 +648,11 @@ const ZOMBIE_CARD = { one: 'ONLY_ONE', 'zero-one': 'ZERO_OR_ONE', many: 'ONE_OR_
 const MMDR_CARD = { CrowsFootOne: 'ONLY_ONE', CrowsFootZeroOne: 'ZERO_OR_ONE', CrowsFootMany: 'ONE_OR_MORE', CrowsFootZeroMany: 'ZERO_OR_MORE' }
 const AGENTIC_CARD = { 'one-only': 'ONLY_ONE', 'zero-or-one': 'ZERO_OR_ONE', 'one-or-many': 'ONE_OR_MORE', 'zero-or-many': 'ZERO_OR_MORE', parent: 'MD_PARENT' }
 const ER_MODELS = {
-  // mermaid-ascii pkg/er: Entities and Relationships only (accTitle, classDef, class, style
-  // and subgraph statements are not kept; subgraphs are rejected).
+  // mermaid-ascii pkg/er: Entities (Name, and Display: the alias, or the name without one) and
+  // Relationships only (accTitle, classDef, class, style and subgraph statements are not
+  // kept; subgraphs are rejected). Mermaid's label is the entity name.
   'AlexanderGrooff/mermaid-ascii': raw => ({
-    entities: () => raw.Entities.map(entity => [entity.Name, { label: entity.Display, alias: entity.Display === entity.Name ? '' : entity.Display, attributes: entity.Attributes.map(a => ({ type: a.Type, name: a.Name, keys: a.Keys ?? [], comment: a.Comment ?? '' })) }]),
+    entities: () => raw.Entities.map(entity => [entity.Name, { label: entity.Name, alias: entity.Display === entity.Name ? '' : entity.Display, attributes: entity.Attributes.map(a => ({ type: a.Type, name: a.Name, keys: a.Keys ?? [], comment: a.Comment ?? '' })) }]),
     absent: erNone('mermaid-ascii'),
   }),
   // termaid parser/erdiagram.py: class, :::, style, subgraph and acc lines are unrecognized.
@@ -685,16 +695,16 @@ const ER_MODELS = {
   // agentic-mermaid 0.5.6 er body: an entity keeps its alias as label, one className, a
   // style object, a groupId and its attributes as raw text rows; relations keep left/right
   // cardinality words, dashed and the label; groups are subgraphs (id, label, direction);
-  // classDefs and the accessibility title are kept, accDescr is not.
+  // classDefs and the accessibility title and description (meta.accessibility) are kept.
   'adewale/agentic-mermaid': (raw, hooks) => raw.nativeParser === 'parseErDiagram' ? agenticSourceEr(raw, hooks) : ({
     entities: () => raw.entities.map(entity => [entity.id, { label: entity.id, alias: entity.label ?? '', attributes: entity.attributes.map(() => ({})), ...erCss(entity.className ? [entity.className] : [], styleStrings(entity.style)) }]),
     relationships: () => raw.relations.map(rel => ({ entityA: rel.from, entityB: rel.to, roleA: rel.label ?? '', relSpec: { cardA: AGENTIC_CARD[rel.rightCard], cardB: AGENTIC_CARD[rel.leftCard], relType: identifying(typeof rel.dashed === 'boolean' ? !rel.dashed : undefined) } })),
     getClasses: () => erClasses(entriesOf(raw.classDefs).map(([id, style]) => [id, styleStrings(style)])),
     getSubGraphs: () => agenticErGroups(raw),
     getAccTitle: () => raw.accessibilityTitle ?? '',
+    getAccDescription: () => raw.accessibilityDescription ?? '',
     absent: {
       attribute: Object.fromEntries(['type', 'name', 'keys', 'comment'].map(field => [field, 'agentic-mermaid keeps ER attributes as raw text rows, not typed fields'])),
-      getAccDescription: "agentic-mermaid's ER model keeps no accessibility description",
     },
   }),
   // Crafter (@crafter/mermaid-renderer 0.0.3) er: entities with typed attributes (name,
@@ -739,25 +749,33 @@ function agenticSourceEr(raw, hooks) {
     absent: {},
   }
 }
+// zombie-mermaid ErEntity.label is the display name, "same as id unless aliased"
+// (mermaid-parser dist/shared/index.d.ts), so a label other than the id is the written
+// alias and an unaliased entity's label is its id (Mermaid's alias ''); Mermaid's label is
+// the entity name. beautiful-mermaid and ascii-mermaid keep `p[Alias]` as the entity id
+// itself, so they keep no alias. Model-concept review 2026-11-14.
 function zombieEr(raw, name) {
   const zombie = name === 'zombie-mermaid'
   const get = (map, key) => (map instanceof Map ? map.get(key) : undefined)
   const none = erNone(name)
   return {
     entities: () => raw.entities.map(entity => [entity.id, {
-      label: entity.label,
+      ...(zombie ? { label: entity.id, alias: entity.label === entity.id ? '' : entity.label } : { label: entity.label }),
       attributes: entity.attributes.map(erAttribute),
       ...(zombie ? erCss(String(get(raw.classAssignments, entity.id) ?? '').split(/\s+/), styleStrings(get(raw.nodeStyles, entity.id))) : {}),
     }]),
     ...(zombie ? { getClasses: () => erClasses(entriesOf(raw.classDefs).map(([id, style]) => [id, styleStrings(style)])) } : {}),
-    absent: { ...none, ...(zombie ? { getClasses: undefined } : {}), entity: { ...(zombie ? {} : none.entity), alias: `${name}'s ER entity model keeps no alias` } },
+    absent: { ...none, ...(zombie ? { getClasses: undefined } : {}), entity: zombie ? {} : { ...none.entity, alias: `${name}'s ER entity model keeps no alias` } },
   }
 }
+// mermaid_core 0.3.2 er_parser.dart:161-173: an entity's label is its alias (`name[alias]`,
+// unquoted and passed through normalizeHtmlLabel) or, without one, its id; Mermaid's label is
+// the entity name and its alias '' when none was written. Model-concept review 2026-11-14.
 function dartEr(raw) {
   return {
-    entities: () => entriesOf(raw.entities).map(([name, entity]) => [name, { label: entity.label, attributes: entity.attributes.map(erAttribute), ...erCss(entity.cssClasses, entity.cssStyles) }]),
+    entities: () => entriesOf(raw.entities).map(([name, entity]) => [name, { label: name, alias: entity.label === name ? '' : entity.label, attributes: entity.attributes.map(erAttribute), ...erCss(entity.cssClasses, entity.cssStyles) }]),
     getClasses: () => erClasses(entriesOf(raw.classDefs).map(([id, styles]) => [id, styles ?? []])),
-    absent: { entity: { alias: "mermaid_core's ER entity model keeps no alias" }, getSubGraphs: "mermaid_core's ER model keeps no subgraphs", getAccTitle: "mermaid_core's ER model keeps no accessibility title", getAccDescription: "mermaid_core's ER model keeps no accessibility description" },
+    absent: { getSubGraphs: "mermaid_core's ER model keeps no subgraphs", getAccTitle: "mermaid_core's ER model keeps no accessibility title", getAccDescription: "mermaid_core's ER model keeps no accessibility description" },
   }
 }
 // Frankenmermaid 0.4.0 IR (diagram_type Er): an entity's label slot holds either its alias
@@ -1142,7 +1160,7 @@ const c4Schema = {
 // line only as raw text of an opaque block; the others drop or reject it). ascii-mermaid
 // keeps the excludes tokens as written; mermaid_core keeps them resolved into weekday
 // numbers and dates. Acc statements are dropped, or read as task names, except
-// agentic-mermaid's accessibility title.
+// agentic-mermaid's accessibility title and description (meta.accessibility).
 //
 // getTasks(): Mermaid schedules each task (startTime and endTime as local Dates, after/
 // until and durations resolved) and keeps its tags as active/done/crit/milestone flags.
@@ -1196,8 +1214,8 @@ function ganttGetters(name, keeps, raw, hooks, project) {
     ...(tasks ? { getTasks: tasks } : {}),
     getWeekday: none('weekday setting'),
     getExcludes: keeps.excludes ? () => [...(raw.excludes ?? [])] : none('excludes tokens as written'),
-    getAccTitle: keeps.accTitle ? () => raw.accessibilityTitle ?? '' : none('accessibility title'),
-    getAccDescription: none('accessibility description'),
+    getAccTitle: keeps.acc ? () => raw.accessibilityTitle ?? '' : none('accessibility title'),
+    getAccDescription: keeps.acc ? () => raw.accessibilityDescription ?? '' : none('accessibility description'),
   }
 }
 const GANTT_NAMES = {
@@ -1205,7 +1223,7 @@ const GANTT_NAMES = {
   'fasouto/termaid': 'termaid', 'kais-radwan/ascii-mermaid': 'ascii-mermaid', 'orestesgaolin/mermaid': 'mermaid_core', 'pub:mermaid_flutter': 'mermaid_core',
   'evangwt/xmermaid': 'XMermaid', 'anomalyco/opencode': 'opencode merman',
 }
-const ganttSchema = Object.fromEntries(Object.entries(GANTT_NAMES).map(([project, name]) => [project, (raw, hooks) => ganttGetters(name, { excludes: project === 'kais-radwan/ascii-mermaid', accTitle: project === 'adewale/agentic-mermaid' }, raw, hooks, project)]))
+const ganttSchema = Object.fromEntries(Object.entries(GANTT_NAMES).map(([project, name]) => [project, (raw, hooks) => ganttGetters(name, { excludes: project === 'kais-radwan/ascii-mermaid', acc: project === 'adewale/agentic-mermaid' }, raw, hooks, project)]))
 
 // ---------------------------------------------------------------------------------------
 // Requirement diagrams. Mermaid's requirementDb keeps requirements and elements as Maps
@@ -1543,9 +1561,11 @@ const blockSchema = Object.fromEntries(Object.entries(BLOCK_MODELS).map(([projec
 // agentic-mermaid 0.5.6 (its flowchart graph) and Crafter (@crafter/mermaid-renderer 0.0.3)
 // keep beautiful-mermaid's MermaidGraph: a node's label is its id when none was written
 // (a bare node and A[A] are the same 'rectangle'), edges keep a line style and arrow
-// flags, class assignments (one class per node), node styles and classDefs are maps.
+// flags, class assignments (one class per node or subgraph id: `class S1 c` is S1 -> 'c'),
+// node styles and classDefs are maps.
 // agentic-mermaid also keeps the end markers (arrow, circle, cross), a link length when it
-// is not 1, written edge ids and link styles by edge index; Crafter reads no circle or
+// is not 1, written edge ids, a written `e1@{ animate: true }` (edge.animate; `animate:
+// false` is dropped like an unwritten one) and link styles by edge index; Crafter reads no circle or
 // cross ends, no longer links and no edge ids (such edges are dropped). Mermaid has no start-only edge type: such an
 // edge keeps its own spelling.
 // Mermaid's edge id (flowDb.addSingleLink): the written id unless an earlier edge took it,
@@ -1605,16 +1625,19 @@ function beautifulGraph(graph, name, keeps, hooks) {
           classes: edge.id && get(graph.classAssignments, edge.id) !== undefined ? classes(edge.id) : undefined,
           ...(keeps.length ? { length: edge.length ?? 1 } : {}),
           ...(keeps.markers ? { interpolate: edge.curve ?? graph.linkCurves?.get(index) } : {}),
+          // agentic-mermaid records a written `animate: true` and drops `animate: false`, so an
+          // edge without the flag is unwritten or false: absent for that edge.
+          ...(keeps.animate ? (edge.animate === true ? { animate: true } : { [VERTEX_ABSENT]: { animate: `${name} records a written animate: false and an unwritten animate the same way` } }) : {}),
           ...(graph.linkStyles instanceof Map ? { style: style.length ? style : undefined } : {}),
         }
       })
     },
-    subgraphs: () => flat,
+    subgraphs: () => flat.map(group => ({ ...group, classes: classes(group.id) })),
     direction: directionWord(graph.direction),
     absent: {
       vertex: { link: `${name}'s graph keeps no click links`, tooltip: `${name}'s graph keeps no tooltips` },
-      edge: { ...(keeps.length ? {} : { length: `${name}'s edge model keeps no link length` }), ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), ...(keeps.markers ? {} : { interpolate: `${name}'s edge model keeps no curve` }), animate: `${name}'s edge model keeps no animation` },
-      subgraph: { classes: `${name}'s subgraph model keeps no classes`, labelType: `${name} keeps a subgraph title's text without recording whether it was written as markdown` },
+      edge: { ...(keeps.length ? {} : { length: `${name}'s edge model keeps no link length` }), ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), ...(keeps.markers ? {} : { interpolate: `${name}'s edge model keeps no curve` }), ...(keeps.animate ? {} : { animate: `${name}'s edge model keeps no animation` }) },
+      subgraph: { labelType: `${name} keeps a subgraph title's text without recording whether it was written as markdown` },
     },
   }, hooks)
   return { ...view, getEdges: () => Object.assign(view.getEdges(), {
@@ -1624,7 +1647,7 @@ function beautifulGraph(graph, name, keeps, hooks) {
 }
 flowchartSchema['adewale/agentic-mermaid'] = (raw, hooks) => {
   if (hooks[BASE_ONLY] || !raw.graph) return undefined
-  return { ...beautifulGraph(raw.graph, 'agentic-mermaid', { markers: true, length: true }, hooks), getAccTitle: () => raw.accessibilityTitle ?? '', getAccDescription: () => hooks.unsupported("agentic-mermaid's flowchart model keeps no accessibility description") }
+  return { ...beautifulGraph(raw.graph, 'agentic-mermaid', { markers: true, length: true, animate: true }, hooks), getAccTitle: () => raw.accessibilityTitle ?? '', getAccDescription: () => raw.accessibilityDescription ?? '' }
 }
 flowchartSchema['crafter-station/mermaid'] = (raw, hooks) => {
   if (hooks[BASE_ONLY]) return undefined
