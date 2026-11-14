@@ -47,8 +47,8 @@
 
 - Probe every `model-concept` capability assessment (657 distinct reasons over
   21 candidates) against the installed artifacts
-  (docs/evidence/fidelity-model-concept-review-2026-11-14.json): 636 confirmed,
-  21 disproved in 11 concepts. The views now read what the native models carry:
+  (docs/evidence/fidelity-model-concept-review-2026-11-14.json): 631 confirmed,
+  26 disproved in 12 concepts. The views now read what the native models carry:
   agentic-mermaid's accessibility descriptions (flowchart, ER, gantt, class,
   radar), class style statements and written `animate: true`; subgraph class
   assignments (Frankenmermaid, agentic-mermaid, Crafter, Zombie Mermaid,
@@ -64,6 +64,15 @@
   `termaid parsed this source as flowchart, not c4`, or MMDR's own missing-header
   refusal) instead of Trident's family table: 608 MMDR and 930 termaid
   callbacks move from capability assessment to native unsupported.
+- One namespace rule for every class model that records namespaces by their
+  written name: the views build Mermaid's hierarchy from the qualified name with
+  Mermaid's own algorithm (a shared helper, formerly agentic-mermaid's alone)
+  for agentic-mermaid, Mermaid Dart and Flutter, Zombie Mermaid,
+  beautiful-mermaid, ascii-mermaid, vitepress-plugin-mermaid-diagram, XMermaid
+  and Frankenmermaid's dotted keys; a brace-nested namespace recorded under its
+  bare name gets no guessed parent. Measured on the class specs: 11 callbacks
+  pass that had been a view-made native failure or a flat-list assessment; no
+  pass was lost.
 
 ## 0.4.0 — 14 November 2026
 

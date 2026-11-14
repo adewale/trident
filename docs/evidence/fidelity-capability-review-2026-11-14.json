@@ -793,7 +793,7 @@
       },
       "verdict": "not individually probed in this review",
       "evidence": "Each is declared by a reviewed view against the project's types or parser source at the reviewed version (views/reviewed-versions.mjs). The spot checks above, which cover the largest declarations, found one wrong declaration (zombie-mermaid edge ids, added to its types in 5.16.0 after the view was written against 5.14).",
-      "action": "Kept; a later review should probe the rest the same way. Probed one by one in fidelity-model-concept-review-2026-11-14.json: 636 project reasons confirmed and 21 disproved (11 concepts; views fixed)."
+      "action": "Kept; a later review should probe the rest the same way. Probed one by one in fidelity-model-concept-review-2026-11-14.json: 631 project reasons confirmed and 26 disproved (12 concepts; views fixed)."
     },
     {
       "basis": "renderer-layout",

@@ -17,24 +17,24 @@
    }
   },
   "orestesgaolin/mermaid": {
-   "confirmed": 35,
-   "disproved": 1,
+   "confirmed": 34,
+   "disproved": 2,
    "not decidable": 0,
    "reasons": 36,
    "callbacks": {
-    "confirmed": 174,
-    "disproved": 1,
+    "confirmed": 173,
+    "disproved": 2,
     "not decidable": 0
    }
   },
   "pub:mermaid_flutter": {
-   "confirmed": 35,
-   "disproved": 1,
+   "confirmed": 34,
+   "disproved": 2,
    "not decidable": 0,
    "reasons": 36,
    "callbacks": {
-    "confirmed": 174,
-    "disproved": 1,
+    "confirmed": 173,
+    "disproved": 2,
     "not decidable": 0
    }
   },
@@ -50,13 +50,13 @@
    }
   },
   "dfadler/zombie-mermaid": {
-   "confirmed": 26,
-   "disproved": 6,
+   "confirmed": 25,
+   "disproved": 7,
    "not decidable": 0,
    "reasons": 32,
    "callbacks": {
-    "confirmed": 232,
-    "disproved": 10,
+    "confirmed": 231,
+    "disproved": 11,
     "not decidable": 0
    }
   },
@@ -171,13 +171,13 @@
    }
   },
   "lukilabs/beautiful-mermaid": {
-   "confirmed": 39,
-   "disproved": 1,
+   "confirmed": 38,
+   "disproved": 2,
    "not decidable": 0,
    "reasons": 40,
    "callbacks": {
-    "confirmed": 354,
-    "disproved": 1,
+    "confirmed": 353,
+    "disproved": 2,
     "not decidable": 0
    }
   },
@@ -215,13 +215,13 @@
    }
   },
   "kais-radwan/ascii-mermaid": {
-   "confirmed": 43,
-   "disproved": 1,
+   "confirmed": 42,
+   "disproved": 2,
    "not decidable": 0,
    "reasons": 44,
    "callbacks": {
-    "confirmed": 385,
-    "disproved": 1,
+    "confirmed": 384,
+    "disproved": 2,
     "not decidable": 0
    }
   },
@@ -1282,7 +1282,7 @@
     "s-link",
     "s-links"
    ],
-   "evidence": "`link A: LNKLBL @ https://\u2026` and `links A: {...}` reach no field in mermaid_core, zombie-mermaid, mermaid-rs-renderer, Crafter, merslim, vitepress, beautiful-mermaid, figurehead, ascii-mermaid; termaid warns; (Frankenmermaid and agentic-mermaid, not assessed for links, keep them).",
+   "evidence": "`link A: LNKLBL @ https://…` and `links A: {...}` reach no field in mermaid_core, zombie-mermaid, mermaid-rs-renderer, Crafter, merslim, vitepress, beautiful-mermaid, figurehead, ascii-mermaid; termaid warns; (Frankenmermaid and agentic-mermaid, not assessed for links, keep them).",
    "action": "Kept."
   },
   {
@@ -1628,7 +1628,7 @@
    "probes": [
     "s-create"
    ],
-   "evidence": "`create participant CRT \u2026 destroy CRT`: mermaid-rs-renderer, Crafter (spans only), merslim, beautiful-mermaid, ascii-mermaid and figurehead keep CRT as an ordinary participant; termaid keeps a destroy event and discards the create prefix; agentic-mermaid keeps both lines as opaque blocks.",
+   "evidence": "`create participant CRT … destroy CRT`: mermaid-rs-renderer, Crafter (spans only), merslim, beautiful-mermaid, ascii-mermaid and figurehead keep CRT as an ordinary participant; termaid keeps a destroy event and discards the create prefix; agentic-mermaid keeps both lines as opaque blocks.",
    "action": "Kept."
   },
   {
@@ -2009,15 +2009,13 @@
   },
   {
    "basis": "model-concept",
-   "concept": "class-ns-flat",
-   "verdict": "confirmed",
+   "concept": "class-ns-qualified",
+   "verdict": "disproved",
    "projects": {
     "orestesgaolin/mermaid": {
-     "mermaid_core lists a class in several namespaces without recording which one it was declared in": 1,
      "mermaid_core keeps namespaces as a flat list without nesting": 1
     },
     "pub:mermaid_flutter": {
-     "mermaid_core lists a class in several namespaces without recording which one it was declared in": 1,
      "mermaid_core keeps namespaces as a flat list without nesting": 1
     },
     "dfadler/zombie-mermaid": {
@@ -2031,16 +2029,41 @@
     }
    },
    "baselineCallbacks": {
-    "orestesgaolin/mermaid": 2,
-    "pub:mermaid_flutter": 2,
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1,
     "dfadler/zombie-mermaid": 1,
     "lukilabs/beautiful-mermaid": 1,
     "kais-radwan/ascii-mermaid": 1
    },
    "probes": [
-    "c-ns-nested"
+    "c-ns-nested",
+    "ns5-dotted",
+    "ns5-nested",
+    "ns5-label"
    ],
-   "evidence": "`namespace Company.Project` and `namespace Company.Project.Module` give two flat entries named by the written dotted path (mermaid_core id/label 'Company.Project'; zombie-mermaid, beautiful-mermaid, ascii-mermaid name): nesting would mean splitting the written name. (agentic-mermaid's view does split its qualified paths, which its own types declare as paths.)",
+   "evidence": "Mermaid derives its namespace hierarchy from the qualified id alone (packages/mermaid/src/diagrams/class/classDb.ts:563-640: resolveQualifiedId, getAncestorIds, addNamespace; auto-created ancestors explicit: false, the declared leaf explicit: true, labels the path segment unless a label is written). mermaid_core, zombie-mermaid, beautiful-mermaid and ascii-mermaid record each namespace by its written name, a dotted `Company.Project.Module` whole (probes ns5-dotted, c-ns-nested), so their models carry what Mermaid derives from; mermaid_core's own layout builds the same dotted hierarchy (class_layout.dart:139-152). The earlier 'nesting would mean splitting the written name' was an inconsistent reading: agentic-mermaid's view already derived the hierarchy from the same kind of name.",
+   "action": "views/misc.mjs qualifiedNamespaces (shared, Mermaid's algorithm; agentic-mermaid's implementation factored into it) builds the hierarchy for every class model that records namespaces by written name: agentic-mermaid, mermaid_core, zombie-mermaid, beautiful-mermaid, ascii-mermaid, and also vitepress-plugin-mermaid-diagram, XMermaid and Frankenmermaid's dotted keys (namespaceFollowUp). A brace-nested namespace recorded under a bare name gets no guessed parent."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-ns-several",
+   "verdict": "confirmed",
+   "projects": {
+    "orestesgaolin/mermaid": {
+     "mermaid_core lists a class in several namespaces without recording which one it was declared in": 1
+    },
+    "pub:mermaid_flutter": {
+     "mermaid_core lists a class in several namespaces without recording which one it was declared in": 1
+    }
+   },
+   "baselineCallbacks": {
+    "orestesgaolin/mermaid": 1,
+    "pub:mermaid_flutter": 1
+   },
+   "probes": [
+    "ns5-nested"
+   ],
+   "evidence": "`namespace Outer { namespace Inner { class Foo } class Baz }`: mermaid_core lists Foo in both Inner and Outer (class_parser.dart:117-125 adds a nested block's classes to the enclosing one 'for cluster sizing'), so the namespace Foo was declared in is not recorded.",
    "action": "Kept."
   },
   {
@@ -2106,7 +2129,7 @@
     "c-callback",
     "c-click-call"
    ],
-   "evidence": "merslim, vitepress, beautiful-mermaid, ascii-mermaid, mermaid-rs-renderer, Frankenmermaid keep no link or click; XMermaid rejects `link` and drops `click`; termaid warns. mermaid_core keeps the link URL but no tooltip ('LNKTIP' absent) and nothing of `callback` / `click \u2026 call`.",
+   "evidence": "merslim, vitepress, beautiful-mermaid, ascii-mermaid, mermaid-rs-renderer, Frankenmermaid keep no link or click; XMermaid rejects `link` and drops `click`; termaid warns. mermaid_core keeps the link URL but no tooltip ('LNKTIP' absent) and nothing of `callback` / `click … call`.",
    "action": "Kept."
   },
   {
@@ -2888,7 +2911,7 @@
    "probes": [
     "e-attrs"
    ],
-   "evidence": "agentic-mermaid: attributes[].text 'string NAMEX PK \"COMMENTX\"'; mermaid-rs-renderer: label 'CUST\\n---\\nstring NAMEX PK \u2026'; merslim columns keep name and type, no comment.",
+   "evidence": "agentic-mermaid: attributes[].text 'string NAMEX PK \"COMMENTX\"'; mermaid-rs-renderer: label 'CUST\\n---\\nstring NAMEX PK …'; merslim columns keep name and type, no comment.",
    "action": "Kept."
   },
   {
@@ -3373,7 +3396,7 @@
    "probes": [
     "mm-ids"
    ],
-   "evidence": "mermaid_core nodes keep label and shape only; merslim ids '__mm_0'\u2026; termaid label 'ROOTID((ROOTTXT))'.",
+   "evidence": "mermaid_core nodes keep label and shape only; merslim ids '__mm_0'…; termaid label 'ROOTID((ROOTTXT))'.",
    "action": "Kept."
   },
   {
@@ -3410,7 +3433,7 @@
     "k3-section-meta",
     "k3-section-icon"
    ],
-   "evidence": "Frankenmermaid: no ticket; priority and assignee only as classes 'kanban-priority-high' / 'kanban-assigned-assignx'; ::icon(\u2026) becomes a node; ::: classes dropped. mermaid-rs-renderer folds metadata into labels and reads `root@{\u2026}` / a section ::icon as subgraphs; XMermaid keeps a section's metadata in its label and an icon as a column; termaid keeps no ids.",
+   "evidence": "Frankenmermaid: no ticket; priority and assignee only as classes 'kanban-priority-high' / 'kanban-assigned-assignx'; ::icon(…) becomes a node; ::: classes dropped. mermaid-rs-renderer folds metadata into labels and reads `root@{…}` / a section ::icon as subgraphs; XMermaid keeps a section's metadata in its label and an icon as a column; termaid keeps no ids.",
    "action": "Kept."
   },
   {
@@ -3550,7 +3573,7 @@
     "a2-align",
     "a2-title"
    ],
-   "evidence": "mermaid-rs-renderer, merslim and termaid keep no title, accTitle, accDescr or align (`align row a b`); zombie-mermaid rejects `title` and keeps no align; merslim and termaid keep no junction; termaid labels '\ud83d\uddc4 SVCX' and drops the untitled service S2.",
+   "evidence": "mermaid-rs-renderer, merslim and termaid keep no title, accTitle, accDescr or align (`align row a b`); zombie-mermaid rejects `title` and keeps no align; merslim and termaid keep no junction; termaid labels '🗄 SVCX' and drops the untitled service S2.",
    "action": "Kept."
   },
   {
@@ -4778,6 +4801,18 @@
    "family": "mindmap",
    "source": "mindmap\nROOTID((ROOTTXT))\n  CHILDID[CHILDTXT]\n  PLAINCHILD"
   },
+  "ns5-dotted": {
+   "family": "class",
+   "source": "classDiagram\n        namespace Company.Project.Module.SubModule {\n          class Report {\n            +generatePDF(data: List)\n          }\n        }\n        namespace Company.Project.Module {\n          class Admin {\n            +generateReport()\n          }\n        }\n        Admin --> Report : generates"
+  },
+  "ns5-label": {
+   "family": "class",
+   "source": "classDiagram\n        namespace Company.Project[\"Proj Label\"] {\n          class User\n        }\n        namespace Company {\n          class CEO\n        }"
+  },
+  "ns5-nested": {
+   "family": "class",
+   "source": "classDiagram\n        namespace Outer {\n          namespace Inner {\n            class Foo {\n              +bar()\n            }\n          }\n          class Baz {\n            +qux()\n          }\n        }"
+  },
   "p-showdata-empty": {
    "family": "pie",
    "source": "pie showData"
@@ -5021,6 +5056,95 @@
   "w-all": {
    "family": "wardley",
    "source": "wardley-beta\ntitle WTTL\ncomponent COMPX [0.5, 0.6]\ncomponent COMPY [0.2, 0.3]\nCOMPX -> COMPY"
+  }
+ },
+ "namespaceFollowUp": {
+  "reviewed": "2026-11-14 (follow-up)",
+  "question": "One rule for every class model that records namespaces by written name; agentic-mermaid's view built Mermaid's hierarchy while mermaid_core, zombie-mermaid, beautiful-mermaid and ascii-mermaid were declared 'flat list without nesting'.",
+  "probes": {
+   "adewale/agentic-mermaid": {
+    "dotted": "namespaces named Company.Project.Module.SubModule and Company.Project.Module; classes carry the qualified namespace",
+    "nested": "qualified 'Outer.Inner' (and 'Outer'); Foo in Outer.Inner, Baz in Outer",
+    "label": "written label kept ({ name: 'Company.Project', label: 'Proj Label' })",
+    "classification": "qualified names: Mermaid's hierarchy, ids equal Mermaid's for both forms"
+   },
+   "orestesgaolin/mermaid": {
+    "dotted": "ids Company.Project.Module.SubModule and Company.Project.Module (label = id), classIds per declaration",
+    "nested": "bare 'Inner' (classIds Foo) and 'Outer' (classIds Foo, Baz); no parent recorded",
+    "label": "written label kept ('Proj Label'); unwritten label is the id",
+    "classification": "dotted: Mermaid's hierarchy. Nested: Inner's id is the candidate's own value ('Inner', Mermaid 'Outer.Inner'), no parent is guessed; Foo's namespace stays unsupported (listed in two). A dotted leaf whose label equals its id is declared absent (unwritten, Mermaid: last segment, or written as the whole id)."
+   },
+   "pub:mermaid_flutter": {
+    "classification": "identical models to Mermaid Dart (mermaid_core 0.3.2 unchanged)"
+   },
+   "dfadler/zombie-mermaid": {
+    "dotted": "names Company.Project.Module.SubModule and Company.Project.Module with classIds",
+    "nested": "only 'Inner' (classIds Foo): one open namespace at a time, the outer block is lost and Baz has none",
+    "label": "a labelled declaration is not recorded at all (its namespace regex `^namespace\\s+(\\S+)\\s*\\{$`, mermaid-parser dist/index.js)",
+    "classification": "dotted: Mermaid's hierarchy, labels are last segments (only unlabelled declarations are recorded). Nested: 'Inner' is the candidate's own id; no parent guessed."
+   },
+   "lukilabs/beautiful-mermaid": {
+    "classification": "same parser shape as zombie-mermaid (src/class/parser.ts:74-84) and the same probe results"
+   },
+   "kais-radwan/ascii-mermaid": {
+    "classification": "same parser shape as zombie-mermaid (src/class/parser.ts:74-84) and the same probe results"
+   },
+   "KlangHaus/vitepress-plugin-diagram": {
+    "dotted": "ids with classIds, classes carry the namespace",
+    "nested": "only 'Outer' with Foo (the inner block is dropped), Baz has none",
+    "label": "a labelled declaration is not recorded",
+    "classification": "not in the original list but the same model shape: its 'keeps no namespace nesting' declaration (no callback carried it) is replaced by the shared rule."
+   },
+   "evangwt/xmermaid": {
+    "dotted": "namespaces { id, classes } and class.namespace (it rejects class bodies inside a namespace)",
+    "nested": "rejected (Invalid class namespace statement)",
+    "label": "a written label is glued into the id ('Company.Project[\"Proj Label\"]')",
+    "classification": "its view declared 'keeps no namespaces' although the model keeps them (no callback carried the reason); now read with the shared rule."
+   },
+   "Dicklesworthstone/frankenmermaid": {
+    "dotted": "graph.subgraphs keyed by the dotted name, no parent",
+    "nested": "subgraphs 'Outer' and 'Inner' with Inner.parent = Outer's index",
+    "label": "a written label is glued into the key",
+    "classification": "dotted keys: the shared rule (the view had answered no parent / no children). Structurally nested keys keep the existing declaration ('nested namespaces are not mapped to Mermaid's qualified ids')."
+   },
+   "crafter-station/mermaid": {
+    "classification": "rejects dotted names and `[\"label\"]` (Invalid namespace syntax); answered by the generic projection, no reviewed declaration involved"
+   }
+  },
+  "measured": {
+   "run": "mermaid:fidelity --workers 1, jsdom, filter diagrams/class/ (classDiagram.spec.ts and classDiagram-colorIndex.spec.ts are the specs that read namespaces), control recollected on that selection; before = b4db446, after = this change; compared per callback.",
+   "moves": {
+    "orestesgaolin/mermaid": {
+     "native-failure -> passed": 1,
+     "capability-assessment -> passed": 1
+    },
+    "pub:mermaid_flutter": {
+     "native-failure -> passed": 1,
+     "capability-assessment -> passed": 1
+    },
+    "dfadler/zombie-mermaid": {
+     "native-failure -> passed": 1,
+     "capability-assessment -> passed": 1
+    },
+    "lukilabs/beautiful-mermaid": {
+     "native-failure -> passed": 1,
+     "capability-assessment -> passed": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "native-failure -> passed": 1,
+     "capability-assessment -> passed": 1
+    },
+    "Dicklesworthstone/frankenmermaid": {
+     "native-failure -> passed": 1
+    },
+    "adewale/agentic-mermaid": {},
+    "KlangHaus/vitepress-plugin-diagram": {},
+    "evangwt/xmermaid": {}
+   },
+   "notes": [
+    "'should handle nested namespaces and relationships' had been a native failure the views made (getNamespaces() lacked Mermaid's derived ancestors, `namespaces.has('Company')` false); it now passes for the six. 'should add classes namespaces' moved from the flat-list assessment to passed.",
+    "'should handle syntactically nested namespace blocks' stays a native failure for zombie-mermaid, beautiful-mermaid, ascii-mermaid, vitepress and Frankenmermaid (the candidate's own bare or outer namespace id) and unsupported for mermaid_core (class listed in two namespaces); XMermaid rejects the source. No pass was lost."
+   ]
   }
  }
 }

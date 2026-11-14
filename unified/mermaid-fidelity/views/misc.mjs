@@ -128,8 +128,8 @@ function classesView(model, hooks) {
       const all = classes()
       const spaces = model.namespaces()
       const result = new Map(spaces.map(space => {
-        const { classIds, childIds, ...rest } = space
-        return [space.id, record({ ...rest, ...(childIds ? { children: new Map() } : {}), classes: new Map(classIds.filter(id => all.has(id)).map(id => [id, all.get(id)])) }, 'namespace', NAMESPACE_FIELDS, { ...NAMESPACE_RENDERER, ...(model.absent.namespace ?? {}) }, hooks)]
+        const { classIds, childIds, absent: own, ...rest } = space
+        return [space.id, record({ ...rest, ...(childIds ? { children: new Map() } : {}), classes: new Map(classIds.filter(id => all.has(id)).map(id => [id, all.get(id)])) }, 'namespace', NAMESPACE_FIELDS, { ...NAMESPACE_RENDERER, ...(model.absent.namespace ?? {}), ...(own ?? {}) }, hooks)]
       }))
       for (const space of spaces) for (const id of space.childIds ?? []) result.get(space.id).children.set(id, result.get(id))
       return result
@@ -151,16 +151,55 @@ const parentFrom = (spaces, id, name, hooks) => {
   return owners[0]?.id
 }
 const accAbsent = name => ({ getAccTitle: `${name}'s class model keeps no accessibility title`, getAccDescription: `${name}'s class model keeps no accessibility description` })
+/**
+ * Mermaid's namespace hierarchy from namespaces a model records by their written qualified
+ * name, in declaration order: Mermaid derives it from that name alone (classDb.ts
+ * addNamespace, resolveQualifiedId and getAncestorIds). Each declaration creates its missing
+ * ancestors (`Company`, `Company.Project` for `Company.Project.Module`) as non-explicit
+ * namespaces labelled with their path segment under their parent, and is itself explicit,
+ * labelled with its written label or else its last segment; re-declaring a namespace makes
+ * it explicit and a written label replaces its label. A model that records a brace-nested
+ * namespace under its bare name (`Inner` for `namespace Outer { namespace Inner {…} }`)
+ * carries no parent for it, and none is guessed: its id is the candidate's own value.
+ * declarations: [{ name, label?, labelAbsent?, classIds }]: `label` a written label,
+ * `labelAbsent` a reason when the model cannot tell whether one was written.
+ */
+function qualifiedNamespaces(declarations) {
+  const spaces = new Map()
+  for (const declaration of declarations) {
+    const parts = declaration.name.split('.')
+    for (let n = 1; n <= parts.length; n++) {
+      const id = parts.slice(0, n).join('.')
+      if (!spaces.has(id)) spaces.set(id, { id, label: parts[n - 1], parent: n > 1 ? parts.slice(0, n - 1).join('.') : undefined, explicit: false, classIds: [], childIds: [] })
+    }
+    const leaf = spaces.get(declaration.name)
+    leaf.explicit = true
+    if (declaration.label !== undefined) leaf.label = declaration.label
+    if (declaration.labelAbsent) { delete leaf.label; leaf.absent = { label: declaration.labelAbsent } }
+    for (const id of declaration.classIds ?? []) if (!leaf.classIds.includes(id)) leaf.classIds.push(id)
+  }
+  for (const space of spaces.values()) if (space.parent !== undefined) spaces.get(space.parent).childIds.push(space.id)
+  return [...spaces.values()]
+}
 
 // mermaid_core 0.3.2 (Mermaid Dart and Mermaid Flutter): a member is its display text
 // ('+getAge(int x) : int', generics resolved) with isStatic/isAbstract flags; cssClasses,
-// one link, styles and a flat namespace list naming its classes. A generic type parameter
+// one link, styles and a namespace list naming its classes. A generic type parameter
 // is folded into the display label ('Box<T>'), and accTitle/accDescr, tooltips, link
-// targets and click callbacks are not kept.
+// targets and click callbacks are not kept. A namespace keeps its written id (a dotted
+// `Company.Project` whole) and its label, the written `["label"]` or else the id
+// (class_parser.dart:17 and 131-135, class_model.dart:140-141; its own layout builds the
+// dotted hierarchy, class_layout.dart:139-152). A brace-nested namespace keeps its bare
+// name, and its classes are also listed in the enclosing namespace (class_parser.dart:117-125).
 function dartClassModel(raw, hooks) {
   const spaces = raw.namespaces ?? []
   const member = item => ({ display: item.text, ...flags(item) })
-  const flat = "mermaid_core keeps namespaces as a flat list without nesting"
+  // A label equal to a dotted id is unwritten (Mermaid: the last segment) or written as the
+  // whole path: the model cannot tell. For an undotted id both are the id.
+  const declarations = spaces.map(space => ({
+    name: space.id, classIds: space.classIds ?? [],
+    ...(space.label != null && space.label !== space.id ? { label: space.label } : space.id.includes('.') ? { labelAbsent: "mermaid_core records a dotted namespace's unwritten label as its whole id, the same as a label written as that id" } : {}),
+  }))
   return {
     classes: () => entriesOf(raw.classes).map(([id, item]) => [id, {
       label: item.label,
@@ -172,12 +211,12 @@ function dartClassModel(raw, hooks) {
       ...(item.link ? { link: item.link } : {}),
       parent: parentFrom(spaces, id, 'mermaid_core', hooks),
     }]),
-    namespaces: () => spaces.map(space => ({ id: space.id, label: space.label ?? space.id, classIds: space.classIds ?? [] })),
+    namespaces: () => qualifiedNamespaces(declarations),
     getDirection: typeof raw.direction === 'string' ? raw.direction.toUpperCase() : undefined,
     absent: {
       class: { type: "mermaid_core keeps a generic class's type parameter only in its display label", tooltip: "mermaid_core's class model keeps no tooltips", linkTarget: "mermaid_core's class model keeps no link targets", haveCallback: "mermaid_core's class model keeps no click callbacks" },
       member: Object.fromEntries(['id', 'visibility', 'parameters', 'returnType', 'text'].map(key => [key, "mermaid_core keeps a class member as its display text with static/abstract flags, not Mermaid's parsed member fields"])),
-      namespace: { children: flat, parent: flat, explicit: flat, notes: "mermaid_core keeps class notes outside its namespaces" },
+      namespace: { notes: "mermaid_core keeps class notes outside its namespaces" },
       ...accAbsent('mermaid_core'),
     },
   }
@@ -191,6 +230,11 @@ function dartClassModel(raw, hooks) {
 // beautiful-mermaid 1.1.3 and ascii-mermaid share the types but split an attribute at its
 // first whitespace into type and name (beautiful-mermaid dist parseMember), keep no class
 // assignments, interactions or styles, and ascii-mermaid keeps no method parameters.
+// All three record a namespace by its written name only when it was written without a label
+// (`/^namespace\s+(\S+)\s*\{$/`: zombie-mermaid mermaid-parser dist/index.js,
+// beautiful-mermaid and ascii-mermaid src/class/parser.ts:74-84), so its Mermaid label is its
+// last segment; one open namespace at a time, so a brace-nested block replaces the enclosing
+// one (only `Inner` is kept for `namespace Outer { namespace Inner {…} }`).
 function zombieClassModel(raw, name, hooks) {
   const zombie = name === 'zombie-mermaid', ascii = name === 'ascii-mermaid'
   const spaces = (raw.namespaces ?? []).map(space => ({ id: space.name ?? space.id, classIds: space.classIds ?? [] }))
@@ -218,7 +262,7 @@ function zombieClassModel(raw, name, hooks) {
         parent: parentFrom(spaces, item.id, name, hooks),
       }]
     }),
-    namespaces: () => spaces.map(space => ({ ...space, label: space.id })),
+    namespaces: () => qualifiedNamespaces(spaces.map(space => ({ name: space.id, classIds: space.classIds }))),
     // zombie-mermaid records a direction only when one is written; Mermaid's default is TB.
     ...(zombie ? { getDirection: raw.direction ?? 'TB' } : {}),
     absent: {
@@ -228,7 +272,7 @@ function zombieClassModel(raw, name, hooks) {
         linkTarget: zombie ? `${name} keeps a link target only when one is written` : none('link targets'),
       },
       member: ascii ? { parameters: "ascii-mermaid's class member keeps no method parameters" } : {},
-      namespace: { children: `${name} keeps namespaces as a flat list without nesting`, parent: `${name} keeps namespaces as a flat list without nesting`, explicit: `${name} keeps namespaces as a flat list without nesting`, notes: `${name}'s namespaces keep no notes` },
+      namespace: { notes: `${name}'s namespaces keep no notes` },
       ...accAbsent(name),
       ...(zombie ? {} : { getDirection: none('direction') }),
     },
@@ -240,6 +284,9 @@ function zombieClassModel(raw, name, hooks) {
 // returnType; an attribute keeps its whole text as name unless written 'name : type'
 // (/^(\S+)\s*:\s*(.+)$/), which it keeps as name and returnType. Classes keep a generic,
 // a namespace and members; there are no class assignments, links, styles or acc fields.
+// A namespace is recorded by its written name, only when written without a label, one open
+// block at a time (dist/index.js parseClass: a brace-nested block is dropped and its classes
+// stay in the enclosing one).
 const VITEPRESS_VISIBILITY = { public: '+', private: '-', protected: '#', internal: '~' }
 function vitepressClassModel(raw) {
   const spaces = (raw.namespaces ?? []).map(space => ({ id: space.id, classIds: space.classIds ?? [] }))
@@ -258,12 +305,12 @@ function vitepressClassModel(raw) {
       type: item.generic ?? '',
       parent: item.namespace ?? undefined,
     }]),
-    namespaces: () => spaces.map(space => ({ ...space, label: space.id })),
+    namespaces: () => qualifiedNamespaces(spaces.map(space => ({ name: space.id, classIds: space.classIds }))),
     // A direction is recorded only when written (parseClass dirMatch); Mermaid's default is TB.
     getDirection: raw.direction ?? 'TB',
     absent: {
       class: { cssClasses: none('class assignments'), styles: none('class styles'), link: none('links'), tooltip: none('tooltips'), haveCallback: none('click callbacks'), linkTarget: none('link targets') },
-      namespace: { children: none('namespace nesting'), parent: none('namespace nesting'), explicit: none('namespace nesting'), notes: none('notes') },
+      namespace: { notes: none('notes') },
       ...accAbsent('vitepress-plugin-mermaid-diagram'),
     },
   }
@@ -384,19 +431,7 @@ function agenticClassModel(raw, hooks) {
   // ClassNamespaceDecl.name and ClassNode.namespace are qualified paths. The
   // editable body lists authored declarations, while its renderer and writer
   // expand their path prefixes into the namespace hierarchy.
-  const namespaces = () => {
-    const spaces = new Map()
-    for (const declaration of raw.namespaces ?? []) {
-      const parts = declaration.name.split('.')
-      for (let n = 1; n <= parts.length; n++) {
-        const id = parts.slice(0, n).join('.')
-        if (!spaces.has(id)) spaces.set(id, { id, label: parts[n - 1], parent: n > 1 ? parts.slice(0, n - 1).join('.') : undefined, explicit: false, classIds: raw.classes.filter(item => item.namespace === id).map(item => item.id), childIds: [] })
-      }
-      Object.assign(spaces.get(declaration.name), { label: declaration.label ?? parts.at(-1), explicit: true })
-    }
-    for (const space of spaces.values()) if (space.parent !== undefined) spaces.get(space.parent).childIds.push(space.id)
-    return [...spaces.values()]
-  }
+  const namespaces = () => qualifiedNamespaces((raw.namespaces ?? []).map(declaration => ({ name: declaration.name, label: declaration.label ?? undefined, classIds: raw.classes.filter(item => item.namespace === declaration.name).map(item => item.id) })))
   return {
     classes: () => raw.classes.map(item => [item.id, {
       label: item.label ?? item.id,
@@ -475,16 +510,19 @@ function agenticSourceClassModel(raw, hooks) {
 }
 
 // XMermaid 0.4.2 class: one annotation as written ('<<interface>>'), members and methods
-// as one display list; no class assignments, links, styles or namespaces.
+// as one display list; no class assignments, links or styles. Namespaces keep their written
+// name ({ id, classes }, a written ["label"] glued into the id) and each class its namespace;
+// it rejects a class body or a brace-nested namespace inside a namespace block.
 function xmermaidClassModel(raw) {
   const list = "XMermaid keeps class members and methods as one display list"
   const none = what => `XMermaid's class model keeps no ${what}`
   return {
-    classes: () => raw.classes.map(item => [item.id, { label: item.label, annotations: item.annotation ? [/^<<(.*)>>$/s.exec(item.annotation)?.[1] ?? item.annotation] : [] }]),
+    classes: () => raw.classes.map(item => [item.id, { label: item.label, annotations: item.annotation ? [/^<<(.*)>>$/s.exec(item.annotation)?.[1] ?? item.annotation] : [], parent: item.namespace ?? undefined }]),
+    namespaces: () => qualifiedNamespaces((raw.namespaces ?? []).map(space => ({ name: space.id, classIds: space.classes ?? [] }))),
     ...(typeof raw.direction === 'string' ? { getDirection: raw.direction } : {}),
     absent: {
-      class: { members: list, methods: list, type: none('generic type'), cssClasses: none('class assignments'), styles: none('class styles'), link: none('links'), tooltip: none('tooltips'), haveCallback: none('click callbacks'), linkTarget: none('link targets'), parent: none('namespaces') },
-      getNamespaces: none('namespaces'),
+      class: { members: list, methods: list, type: none('generic type'), cssClasses: none('class assignments'), styles: none('class styles'), link: none('links'), tooltip: none('tooltips'), haveCallback: none('click callbacks'), linkTarget: none('link targets') },
+      namespace: { notes: none('namespace notes') },
       ...accAbsent('XMermaid'),
     },
   }
@@ -570,7 +608,13 @@ function frankenClassModel(ir, hooks) {
       cssClasses: ['default', ...(node.classes ?? [])].join(' '),
       parent: owner(index),
     }]),
-    namespaces: () => spaces.map(space => ({ id: space.key, label: labelText(space.title) ?? space.key, classIds: (space.members ?? []).filter(index => owner(index) === space.key).map(index => ir.nodes[index]?.id), ...(nested ? {} : { children: new Map(), parent: undefined }) })),
+    // A dotted key is the written qualified name (Mermaid's hierarchy, qualifiedNamespaces);
+    // a brace-nested block is a child subgraph under its bare key (below).
+    namespaces: () => {
+      const classIds = space => (space.members ?? []).filter(index => owner(index) === space.key).map(index => ir.nodes[index]?.id)
+      if (!nested) return qualifiedNamespaces(spaces.map(space => ({ name: space.key, ...(labelText(space.title) != null && labelText(space.title) !== space.key ? { label: labelText(space.title) } : {}), classIds: classIds(space) })))
+      return spaces.map(space => ({ id: space.key, label: labelText(space.title) ?? space.key, classIds: classIds(space) }))
+    },
     getAccTitle: ir.meta?.acc_title ?? '',
     getAccDescription: ir.meta?.acc_descr ?? '',
     absent: {
@@ -578,8 +622,7 @@ function frankenClassModel(ir, hooks) {
       member: { id: asWritten, parameters: asWritten, text: asWritten },
       namespace: {
         notes: `${NAME_FRANKEN} keeps class notes outside its namespaces`,
-        explicit: `${NAME_FRANKEN} does not record whether a namespace was declared or implied by a dotted name`,
-        ...(nested ? { children: `${NAME_FRANKEN}'s nested namespaces are not mapped to Mermaid's qualified ids`, parent: `${NAME_FRANKEN}'s nested namespaces are not mapped to Mermaid's qualified ids` } : {}),
+        ...(nested ? { explicit: `${NAME_FRANKEN}'s nested namespaces are not mapped to Mermaid's qualified ids`, children: `${NAME_FRANKEN}'s nested namespaces are not mapped to Mermaid's qualified ids`, parent: `${NAME_FRANKEN}'s nested namespaces are not mapped to Mermaid's qualified ids` } : {}),
       },
     },
   }
