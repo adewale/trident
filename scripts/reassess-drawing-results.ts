@@ -11,6 +11,7 @@ import { qualifyOutputFormat } from '../unified/qualification.ts'
 import { svgTextValidity, terminalTextValidity } from '../unified/davebench-validity.ts'
 import { defaultChromium } from '../unified/benchmark-context.ts'
 import { atomicWrite } from '../unified/result-storage.ts'
+import { assessmentFonts } from '../fidelity/drawing/assessment-fonts.ts'
 
 export async function reassessDrawingRun(run: any, root: string, formats: string[], context?: any) {
   if (run.state !== 'complete' || !Array.isArray(run.rows) || !run.outputs?.length) throw Error('Reassessment needs a completed raw run with retained outputs; recollect older runs without outputs')
@@ -48,10 +49,12 @@ export async function reassessDrawingRun(run: any, root: string, formats: string
     const { status: _status, reason: _reason, failed: _failed, leaked: _leaked, evidence: _evidence, ...identity } = row
     rows.push({ ...identity, status: verdict.status, reason: verdict.reason, evidence: 'evidence' in verdict ? verdict.evidence : undefined, failed: 'missing' in verdict ? verdict.missing : undefined, leaked: 'leaked' in verdict ? verdict.leaked : undefined })
   }
+  // Reassessed formats were judged with this machine's fonts; others keep the original record.
+  const fonts = assessmentFonts()
   const assessmentPolicies = Object.fromEntries([...new Set<string>(run.rows.map((row: any) => row.format))].map(format => [format, formats.includes(format) ? labelPolicy : run.assessmentPolicies?.[format] ?? run.assessmentPolicy]))
   const policies = Object.values(assessmentPolicies), common = policies.length && policies.every(policy => policy === policies[0]) ? policies[0] : undefined
   const { assessmentPolicy: _priorPolicy, ...metadata } = run
-  return { ...metadata, ...(common ? { assessmentPolicy: common } : {}), assessmentPolicies, rows, assessmentProfiles: { ...run.assessmentProfiles, ...drawingAssessmentProfiles(formats) }, observerSources: { ...run.observerSources, ...drawingObserverSources(formats) }, observerChecks, reassessedAt: new Date().toISOString(), reassessment: { sourceRun: root, scope: formats, renderersInvoked: false } }
+  return { ...metadata, ...(common ? { assessmentPolicy: common } : {}), assessmentPolicies, rows, assessmentProfiles: { ...run.assessmentProfiles, ...drawingAssessmentProfiles(formats) }, observerSources: { ...run.observerSources, ...drawingObserverSources(formats) }, observerChecks, assessmentEnvironments: { ...run.assessmentEnvironments, ...Object.fromEntries(formats.map(format => [format, { fonts }])) }, reassessedAt: new Date().toISOString(), reassessment: { sourceRun: root, scope: formats, renderersInvoked: false } }
 }
 if (import.meta.main) {
   const [input, destination, selection = 'svg,terminal'] = process.argv.slice(2)

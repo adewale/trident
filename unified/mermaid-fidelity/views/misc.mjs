@@ -1254,7 +1254,8 @@ const requirementSchema = {
     getElements: () => new Map((raw.elements ?? []).map(({ directStyles, ...item }) => [item.name, record(item, 'element', ELEMENT_FIELDS, {}, hooks)])),
     getRelationships: () => (raw.relations ?? []).map(rel => ({ type: rel.type, src: rel.src, dst: rel.dst })),
     getClasses: () => requirementClasses((raw.classDefs ?? []).map(item => [item.id, item.styles ?? []])),
-    getDirection: () => raw.direction ?? 'TB',
+    // Agentic records the requirement direction ('TB' when none is written).
+    getDirection: () => raw.direction,
     getAccTitle: () => raw.accessibilityTitle ?? '',
     getAccDescription: () => raw.accessibilityDescription ?? '',
   }),
@@ -1579,7 +1580,7 @@ function beautifulGraph(graph, name, keeps, hooks) {
       // keeps that name as authoredShape (absent for bracket syntax).
       return [id, {
         text: node.label,
-        ...(typeof node.authoredShape === 'string' ? { type: node.authoredShape } : node.shape === 'rectangle' && typeof node.borders === 'string' ? { type: 'rect', props: { borders: node.borders || 'none' } } : node.shape === 'rectangle' && node.label === id ? { [VERTEX_ABSENT]: { type: ambiguous } } : shape ? { type: shape } : {}),
+        ...(typeof node.authoredShape === 'string' ? { type: node.authoredShape } : node.shape === 'rectangle' && typeof node.borders === 'string' ? { type: 'rect', props: { borders: node.borders } } : node.shape === 'rectangle' && node.label === id ? { [VERTEX_ABSENT]: { type: ambiguous } } : shape ? { type: shape } : {}),
         classes: classes(id),
         styles: styleStrings(get(graph.nodeStyles, id)),
       }]

@@ -1,0 +1,134 @@
+{
+  "schema": "trident-drawing-reviews-v1",
+  "project": "dfadler/zombie-mermaid",
+  "version": "5.17.0",
+  "capture": {
+    "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
+    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+  },
+  "reviewedAt": "2026-11-14",
+  "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
+  "reviews": [
+    {
+      "format": "svg",
+      "caseId": "drawing:0dbd28f2f1c494cc",
+      "outputSha256": "83603b7a45460d1d1b6ac90d33976ed12a40ae3a146d04aa81dcc6b85b196f7b",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows the title, the person and both systems with their descriptions, and the 'Uses' and 'Sends emails using' (wrapped over three lines) captions on their arrows.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:64788fe4b88b1f1f",
+      "outputSha256": "c29e68c45005d540480e19d2dd25cc53b90a0cd7367ab6e02ac1a250f8b2f0f9",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: Outer contains Inner, which contains x, but the Outer -> Inner edge is not drawn.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "outputSha256": "86596ead6b00da87df51943ad26329838dcdd457e53ab18e9e9852cd4b95046e",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "undecidable",
+      "reason": "Screenshot: the eight self-loops are drawn as nested elongated loops to the left of Queue, each with a readable 'retry n' pill, but the strokes merge into one band, so the endpoints of individual loops cannot be told apart.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:94e514f9f375364c",
+      "outputSha256": "e9eb1a9d3428708ef8e9639dd2253b8f147425b006ba414845165510594d74b8",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot: places, contains and references join the right entities with the source cardinality markers and captions; the light grey entity styling hides nothing.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:de6e8bf0fd559efc",
+      "outputSha256": "1d6e460dc3ca3b5e6d94285ac3985bb5cba488c723d639b1740782b416f42186",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: group G holds nodes a and b, but no G -> a edge is drawn at all.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:fbfb884b46380275",
+      "outputSha256": "02070fb3b17df79c799674e9aae8d6a7aeb2ce188547519158b8475ed5ed4b77",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: node B reads 'B' rather than 'Reconcile all ledgers / then archive', and a stray extra node 'then' is drawn: the multi-line Markdown string was mis-parsed.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:89e9eb6aebb72128",
+      "outputSha256": "44de62b1628e8b3a702ebb8123ca4bafad83dea4f7acd06ad3258cb789b2feb7",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "The three labels sit line-broken inside a single circle, a nested double circle and a box drawn with ╭╱╲ outlines; the curved walls are not recognised as frames, so ownership was left unknown.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "outputSha256": "0df9b38fb04ecae689df463c8d97ac461939f0a7f2c1902e245c64b61b12bc2d",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Only three of the eight Queue self-loops are drawn (retry 1-3); 'retry 4' to 'retry 8' and their loops are absent.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:9516272260e4c69d",
+      "outputSha256": "dc4fe2788ebe56f79ed425b23ea9007da0c02cfb798aacef44ed4b0a43add23d",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "drawn-correctly",
+      "reason": "All five arrows are traceable: Cart -> Address -> Payment, 'approved' to Orders DB, 'declined' down to Retry, and Retry back up to Payment ending in ▲; the rounded ( ) bodies kept node ownership unassessed.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:de6e8bf0fd559efc",
+      "outputSha256": "1a8f6675e7b429d3af8a1763eb011d312f1fb89acba17011e1744d8d27eea019",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "Group G frames a and b, but no G -> a route or arrowhead is drawn.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:fbfb884b46380275",
+      "outputSha256": "a9ce287a8f129e8cbe07c41e737377b9ceea93da36da09c291e362ad8fb5c0c9",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Node B is drawn as 'B' rather than 'Reconcile all ledgers / then archive', and a stray unconnected node 'then' appears, as in its SVG.",
+      "method": "terminal-text"
+    }
+  ]
+}

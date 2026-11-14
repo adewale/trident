@@ -1356,31 +1356,28 @@
       }
     ],
     "rounds": 3,
-    "inputsSha256": "83d456dca288c174785042529a5a53a7b906ac6e1fda705284801eca4694d2bf",
-    "identity": "77f5c7aca8bee936f62b1699b7e8b223dd8688d64e85f8d13beebf24de631231"
+    "inputsSha256": "ebdca0bd1ea72d9598991a95e8b896c1a30759b7446462b1e89024595225112e",
+    "identity": "f5a3ad505131aab6b71f0f5b4cb9fa93dff7ee74b15cd42e5a9c81223fe89625"
   },
   "environment": {
     "engine": "bun",
-    "version": "1.4.2",
-    "executable": "/workspace/.cloud-tools/node_modules/bun/bin/bun.exe",
+    "version": "1.4.4",
+    "executable": "/root/.bun/bin/bun",
     "platform": "linux",
     "architecture": "x64",
-    "kernel": "6.18.57",
-    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "kernel": "6.18.44-fc-v470",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
     "parallelism": 4,
-    "memoryBytes": 18882662400,
-    "cgroup": {
-      "cpuMax": "400000 100000",
-      "memoryMax": "17179869184"
-    },
+    "memoryBytes": 16869146624,
+    "cgroup": {},
     "locale": "en-US",
     "timezone": "UTC",
     "rendererMemoryGuard": {
       "limitMb": 2048,
       "scope": "owned process tree RSS",
-      "pollMs": 1000,
+      "pollMs": 100,
       "availability": "available",
-      "discovery": "proc process table"
+      "discovery": "proc thread children"
     }
   },
   "workerIdentities": [
@@ -1415,8 +1412,8 @@
       "mode": "release"
     }
   ],
-  "startedAt": "2026-11-08T23:48:42.230Z",
-  "updatedAt": "2026-11-08T23:51:11.437Z",
+  "startedAt": "2026-11-14T00:32:15.858Z",
+  "updatedAt": "2026-11-14T00:34:00.942Z",
   "corpus": {
     "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
     "occurrences": 1342,
@@ -1425,7 +1422,7 @@
   "artifact": {
     "image": "host",
     "nativeBuild": {
-      "bundleSha256": "a25b5d496209135c633ee1d0c0d58ef49b7cec11c54c34266acf2c6ac166cff4",
+      "bundleSha256": "b8feb10f06805319b6f2f3a22b43f7521bddecf9da6f899a28f40b70599e0025",
       "files": {
         "data/flutter_assets/AssetManifest.bin": "f566cc6fccc657365c0197accf3a7d6f80f85209ff666ff774f4dcbc524aa842",
         "data/flutter_assets/FontManifest.json": "28b1eb2b3d2e1ad60b8c8b0f9100b1ccbf492f7fa97f5bebb51ea97e73926e7d",
@@ -1438,28 +1435,28 @@
         "data/icudtl.dat": "325a86063d26334c2eabe1743cea073b612540fbf3d8fc2ef0b5708e3763a8c7",
         "lib/libapp.so": "df241de85774aee1b6ad8ff009170857efdb05ea6ce419ea54b035895d4d3d43",
         "lib/libflutter_linux_gtk.so": "360ff98cd21382014818e418a9b96dcddf93240751300627fe14816d5993a891",
-        "native_bench": "7719efdb1a14096234b9be6420f604044fa09bc5e645e21b5a8e5f2732858527"
+        "native_bench": "6333dd804a68263109b7fb3844bca81882c3b6144b3b924c7c3c2a2bcde1a06c"
       },
       "host": {
         "gtk": "3.24.41",
-        "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39"
+        "platform": "Linux-6.18.44-fc-v445-x86_64-with-glibc2.39"
       },
       "packageVersion": "0.3.2",
       "protocol": "native-flutter-release-v1",
       "sdk": {
-        "channel": "[user-branch]",
+        "channel": "stable",
         "dartSdkVersion": "3.13.7",
         "devToolsVersion": "2.60.0",
-        "engineBuildDate": "2026-10-23 03:34:48.330",
+        "engineBuildDate": "2026-10-22 20:34:48.330",
         "engineCommitDate": "2026-10-23 02:13:38.000Z",
         "engineContentHash": "dfd2e6cb7d319db05e3bf1503f3e2ac60f6288a2",
         "engineRevision": "cf636b1dfb818dd6a3ff16e390e93b1a036969c8",
-        "flutterRoot": "/home/runner/work/trident/trident/.flutter-sdk",
+        "flutterRoot": "/opt/flutter",
         "flutterVersion": "3.47.8",
         "frameworkCommitDate": "2026-10-22 21:37:31 -0700",
         "frameworkRevision": "737ba8f885dc774b53b442759999a312c9461e4e",
         "frameworkVersion": "3.47.8",
-        "repositoryUrl": "https://github.com/flutter/flutter"
+        "repositoryUrl": "https://github.com/flutter/flutter.git"
       },
       "sources": {
         "app/lib/davebench_worker.dart": "04d6cdec45899b18027773b66c1a6b36e975ba443ef17a91c9f18fb51ed458ab",
@@ -1473,22 +1470,24 @@
         "app/linux/runner/my_application.h": "a4218d7ac0db8a9a6716daf216b2d4fc6bdc7ac647e3183078b2c962ebdfcf70",
         "app/pubspec.lock": "388d85f3334be0b47755c92e9f6911bfb2cca253c9514d232e55e781e677f35e",
         "app/pubspec.yaml": "48140882a5d27575ad492025830f8f11abb55d1e4c13d87a10df3704dda222fe",
-        "build.sh": "80dd4ad40afa60eba624e18356fa1151681591b816c45253766899707a1990d9",
-        "bundle.py": "7b84a7eeb2273c9751f94e3f5b8d03dbf094fbccf2235b0d1d0a7f89e7eae341",
-        "env.sh": "520319562f372e05e8dc833ecc47d25a02cb18b6327fcb930eebdff6980ce970",
-        "smoke.py": "94ee54a6e175c9ea50ba1a8e22bfd31984339ec3378b23121f90c86f0f22ec5e",
         "toolchain.json": "cce05314ce03de2660966933d30280e56074310249e17738e21ed3b96a2738b0"
       },
-      "target": "lib/davebench_worker.dart"
+      "target": "lib/davebench_worker.dart",
+      "verificationSources": {
+        "build.sh": "80dd4ad40afa60eba624e18356fa1151681591b816c45253766899707a1990d9",
+        "bundle.py": "d2e69d1dfe2bbc8cc2368f24a884514996f280657f3065830d7737a84d14cc84",
+        "env.sh": "520319562f372e05e8dc833ecc47d25a02cb18b6327fcb930eebdff6980ce970",
+        "smoke.py": "969639c9a06a5cecc3a90f00ae2525b2e5031e247798c97f56ee41e804ad265b"
+      }
     },
     "rendering": {
       "softwareRequested": true,
       "backend": "x11",
       "display": "private Xvfb, 1280x720x24"
     },
-    "hostLibraries": "\tlinux-vdso.so.1\n\tlibflutter_linux_gtk.so => /workspace/trident-completion/native-release/bundle/lib/libflutter_linux_gtk.so\n\tlibgtk-3.so.0 => /lib/x86_64-linux-gnu/libgtk-3.so.0\n\tlibgdk-3.so.0 => /lib/x86_64-linux-gnu/libgdk-3.so.0\n\tlibz.so.1 => /lib/x86_64-linux-gnu/libz.so.1\n\tlibpangocairo-1.0.so.0 => /lib/x86_64-linux-gnu/libpangocairo-1.0.so.0\n\tlibpango-1.0.so.0 => /lib/x86_64-linux-gnu/libpango-1.0.so.0\n\tlibharfbuzz.so.0 => /lib/x86_64-linux-gnu/libharfbuzz.so.0\n\tlibatk-1.0.so.0 => /lib/x86_64-linux-gnu/libatk-1.0.so.0\n\tlibcairo-gobject.so.2 => /lib/x86_64-linux-gnu/libcairo-gobject.so.2\n\tlibcairo.so.2 => /lib/x86_64-linux-gnu/libcairo.so.2\n\tlibgdk_pixbuf-2.0.so.0 => /lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0\n\tlibgio-2.0.so.0 => /lib/x86_64-linux-gnu/libgio-2.0.so.0\n\tlibgobject-2.0.so.0 => /lib/x86_64-linux-gnu/libgobject-2.0.so.0\n\tlibglib-2.0.so.0 => /lib/x86_64-linux-gnu/libglib-2.0.so.0\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6\n\tlibdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2\n\tlibepoxy.so.0 => /lib/x86_64-linux-gnu/libepoxy.so.0\n\tlibfontconfig.so.1 => /lib/x86_64-linux-gnu/libfontconfig.so.1\n\tlibpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0\n\t/lib64/ld-linux-x86-64.so.2\n\tlibgmodule-2.0.so.0 => /lib/x86_64-linux-gnu/libgmodule-2.0.so.0\n\tlibpangoft2-1.0.so.0 => /lib/x86_64-linux-gnu/libpangoft2-1.0.so.0\n\tlibfribidi.so.0 => /lib/x86_64-linux-gnu/libfribidi.so.0\n\tlibXi.so.6 => /lib/x86_64-linux-gnu/libXi.so.6\n\tlibX11.so.6 => /lib/x86_64-linux-gnu/libX11.so.6\n\tlibatk-bridge-2.0.so.0 => /lib/x86_64-linux-gnu/libatk-bridge-2.0.so.0\n\tlibcloudproviders.so.0 => /lib/x86_64-linux-gnu/libcloudproviders.so.0\n\tlibXfixes.so.3 => /lib/x86_64-linux-gnu/libXfixes.so.3\n\tlibxkbcommon.so.0 => /lib/x86_64-linux-gnu/libxkbcommon.so.0\n\tlibwayland-client.so.0 => /lib/x86_64-linux-gnu/libwayland-client.so.0\n\tlibwayland-cursor.so.0 => /lib/x86_64-linux-gnu/libwayland-cursor.so.0\n\tlibwayland-egl.so.1 => /lib/x86_64-linux-gnu/libwayland-egl.so.1\n\tlibXext.so.6 => /lib/x86_64-linux-gnu/libXext.so.6\n\tlibXcursor.so.1 => /lib/x86_64-linux-gnu/libXcursor.so.1\n\tlibXdamage.so.1 => /lib/x86_64-linux-gnu/libXdamage.so.1\n\tlibXcomposite.so.1 => /lib/x86_64-linux-gnu/libXcomposite.so.1\n\tlibXrandr.so.2 => /lib/x86_64-linux-gnu/libXrandr.so.2\n\tlibXinerama.so.1 => /lib/x86_64-linux-gnu/libXinerama.so.1\n\tlibthai.so.0 => /lib/x86_64-linux-gnu/libthai.so.0\n\tlibfreetype.so.6 => /lib/x86_64-linux-gnu/libfreetype.so.6\n\tlibgraphite2.so.3 => /lib/x86_64-linux-gnu/libgraphite2.so.3\n\tlibpng16.so.16 => /lib/x86_64-linux-gnu/libpng16.so.16\n\tlibXrender.so.1 => /lib/x86_64-linux-gnu/libXrender.so.1\n\tlibxcb.so.1 => /lib/x86_64-linux-gnu/libxcb.so.1\n\tlibxcb-render.so.0 => /lib/x86_64-linux-gnu/libxcb-render.so.0\n\tlibxcb-shm.so.0 => /lib/x86_64-linux-gnu/libxcb-shm.so.0\n\tlibpixman-1.so.0 => /lib/x86_64-linux-gnu/libpixman-1.so.0\n\tlibjpeg.so.62 => /lib/x86_64-linux-gnu/libjpeg.so.62\n\tlibmount.so.1 => /lib/x86_64-linux-gnu/libmount.so.1\n\tlibselinux.so.1 => /lib/x86_64-linux-gnu/libselinux.so.1\n\tlibffi.so.8 => /lib/x86_64-linux-gnu/libffi.so.8\n\tlibatomic.so.1 => /lib/x86_64-linux-gnu/libatomic.so.1\n\tlibpcre2-8.so.0 => /lib/x86_64-linux-gnu/libpcre2-8.so.0\n\tlibexpat.so.1 => /lib/x86_64-linux-gnu/libexpat.so.1\n\tlibatspi.so.0 => /lib/x86_64-linux-gnu/libatspi.so.0\n\tlibdbus-1.so.3 => /lib/x86_64-linux-gnu/libdbus-1.so.3\n\tlibdatrie.so.1 => /lib/x86_64-linux-gnu/libdatrie.so.1\n\tlibbz2.so.1.0 => /lib/x86_64-linux-gnu/libbz2.so.1.0\n\tlibbrotlidec.so.1 => /lib/x86_64-linux-gnu/libbrotlidec.so.1\n\tlibXau.so.6 => /lib/x86_64-linux-gnu/libXau.so.6\n\tlibXdmcp.so.6 => /lib/x86_64-linux-gnu/libXdmcp.so.6\n\tlibblkid.so.1 => /lib/x86_64-linux-gnu/libblkid.so.1\n\tlibsystemd.so.0 => /lib/x86_64-linux-gnu/libsystemd.so.0\n\tlibbrotlicommon.so.1 => /lib/x86_64-linux-gnu/libbrotlicommon.so.1\n\tlibcap.so.2 => /lib/x86_64-linux-gnu/libcap.so.2\n",
-    "smokeReceiptSha256": "63c870822389d6ae09241f542c4966f2f51ac32682066edf1840c9050f34d75c",
-    "executableSha256": "7719efdb1a14096234b9be6420f604044fa09bc5e645e21b5a8e5f2732858527",
+    "hostLibraries": "\tlinux-vdso.so.1\n\tlibflutter_linux_gtk.so => /home/user/trident/native-flutter/app/build/linux/x64/release/bundle/lib/libflutter_linux_gtk.so\n\tlibgtk-3.so.0 => /lib/x86_64-linux-gnu/libgtk-3.so.0\n\tlibgdk-3.so.0 => /lib/x86_64-linux-gnu/libgdk-3.so.0\n\tlibz.so.1 => /lib/x86_64-linux-gnu/libz.so.1\n\tlibpangocairo-1.0.so.0 => /lib/x86_64-linux-gnu/libpangocairo-1.0.so.0\n\tlibpango-1.0.so.0 => /lib/x86_64-linux-gnu/libpango-1.0.so.0\n\tlibharfbuzz.so.0 => /lib/x86_64-linux-gnu/libharfbuzz.so.0\n\tlibatk-1.0.so.0 => /lib/x86_64-linux-gnu/libatk-1.0.so.0\n\tlibcairo-gobject.so.2 => /lib/x86_64-linux-gnu/libcairo-gobject.so.2\n\tlibcairo.so.2 => /lib/x86_64-linux-gnu/libcairo.so.2\n\tlibgdk_pixbuf-2.0.so.0 => /lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0\n\tlibgio-2.0.so.0 => /lib/x86_64-linux-gnu/libgio-2.0.so.0\n\tlibgobject-2.0.so.0 => /lib/x86_64-linux-gnu/libgobject-2.0.so.0\n\tlibglib-2.0.so.0 => /lib/x86_64-linux-gnu/libglib-2.0.so.0\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6\n\tlibdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2\n\tlibepoxy.so.0 => /lib/x86_64-linux-gnu/libepoxy.so.0\n\tlibfontconfig.so.1 => /lib/x86_64-linux-gnu/libfontconfig.so.1\n\tlibpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0\n\t/lib64/ld-linux-x86-64.so.2\n\tlibgmodule-2.0.so.0 => /lib/x86_64-linux-gnu/libgmodule-2.0.so.0\n\tlibpangoft2-1.0.so.0 => /lib/x86_64-linux-gnu/libpangoft2-1.0.so.0\n\tlibfribidi.so.0 => /lib/x86_64-linux-gnu/libfribidi.so.0\n\tlibXi.so.6 => /lib/x86_64-linux-gnu/libXi.so.6\n\tlibX11.so.6 => /lib/x86_64-linux-gnu/libX11.so.6\n\tlibatk-bridge-2.0.so.0 => /lib/x86_64-linux-gnu/libatk-bridge-2.0.so.0\n\tlibXfixes.so.3 => /lib/x86_64-linux-gnu/libXfixes.so.3\n\tlibxkbcommon.so.0 => /lib/x86_64-linux-gnu/libxkbcommon.so.0\n\tlibwayland-client.so.0 => /lib/x86_64-linux-gnu/libwayland-client.so.0\n\tlibwayland-cursor.so.0 => /lib/x86_64-linux-gnu/libwayland-cursor.so.0\n\tlibwayland-egl.so.1 => /lib/x86_64-linux-gnu/libwayland-egl.so.1\n\tlibXext.so.6 => /lib/x86_64-linux-gnu/libXext.so.6\n\tlibXcursor.so.1 => /lib/x86_64-linux-gnu/libXcursor.so.1\n\tlibXdamage.so.1 => /lib/x86_64-linux-gnu/libXdamage.so.1\n\tlibXcomposite.so.1 => /lib/x86_64-linux-gnu/libXcomposite.so.1\n\tlibXrandr.so.2 => /lib/x86_64-linux-gnu/libXrandr.so.2\n\tlibXinerama.so.1 => /lib/x86_64-linux-gnu/libXinerama.so.1\n\tlibthai.so.0 => /lib/x86_64-linux-gnu/libthai.so.0\n\tlibfreetype.so.6 => /lib/x86_64-linux-gnu/libfreetype.so.6\n\tlibgraphite2.so.3 => /lib/x86_64-linux-gnu/libgraphite2.so.3\n\tlibpng16.so.16 => /lib/x86_64-linux-gnu/libpng16.so.16\n\tlibXrender.so.1 => /lib/x86_64-linux-gnu/libXrender.so.1\n\tlibxcb.so.1 => /lib/x86_64-linux-gnu/libxcb.so.1\n\tlibxcb-render.so.0 => /lib/x86_64-linux-gnu/libxcb-render.so.0\n\tlibxcb-shm.so.0 => /lib/x86_64-linux-gnu/libxcb-shm.so.0\n\tlibpixman-1.so.0 => /lib/x86_64-linux-gnu/libpixman-1.so.0\n\tlibjpeg.so.8 => /lib/x86_64-linux-gnu/libjpeg.so.8\n\tlibmount.so.1 => /lib/x86_64-linux-gnu/libmount.so.1\n\tlibselinux.so.1 => /lib/x86_64-linux-gnu/libselinux.so.1\n\tlibffi.so.8 => /lib/x86_64-linux-gnu/libffi.so.8\n\tlibpcre2-8.so.0 => /lib/x86_64-linux-gnu/libpcre2-8.so.0\n\tlibexpat.so.1 => /lib/x86_64-linux-gnu/libexpat.so.1\n\tlibatspi.so.0 => /lib/x86_64-linux-gnu/libatspi.so.0\n\tlibdbus-1.so.3 => /lib/x86_64-linux-gnu/libdbus-1.so.3\n\tlibdatrie.so.1 => /lib/x86_64-linux-gnu/libdatrie.so.1\n\tlibbz2.so.1.0 => /lib/x86_64-linux-gnu/libbz2.so.1.0\n\tlibbrotlidec.so.1 => /lib/x86_64-linux-gnu/libbrotlidec.so.1\n\tlibXau.so.6 => /lib/x86_64-linux-gnu/libXau.so.6\n\tlibXdmcp.so.6 => /lib/x86_64-linux-gnu/libXdmcp.so.6\n\tlibblkid.so.1 => /lib/x86_64-linux-gnu/libblkid.so.1\n\tlibsystemd.so.0 => /lib/x86_64-linux-gnu/libsystemd.so.0\n\tlibbrotlicommon.so.1 => /lib/x86_64-linux-gnu/libbrotlicommon.so.1\n\tlibbsd.so.0 => /lib/x86_64-linux-gnu/libbsd.so.0\n\tlibcap.so.2 => /lib/x86_64-linux-gnu/libcap.so.2\n\tlibgcrypt.so.20 => /lib/x86_64-linux-gnu/libgcrypt.so.20\n\tliblz4.so.1 => /lib/x86_64-linux-gnu/liblz4.so.1\n\tliblzma.so.5 => /lib/x86_64-linux-gnu/liblzma.so.5\n\tlibzstd.so.1 => /lib/x86_64-linux-gnu/libzstd.so.1\n\tlibmd.so.0 => /lib/x86_64-linux-gnu/libmd.so.0\n\tlibgpg-error.so.0 => /lib/x86_64-linux-gnu/libgpg-error.so.0\n",
+    "smokeReceiptSha256": "743d195bf9d589588e8a9500656520a857854cb600de66ae39fd493014aef764",
+    "executableSha256": "6333dd804a68263109b7fb3844bca81882c3b6144b3b924c7c3c2a2bcde1a06c",
     "applicationSha256": "df241de85774aee1b6ad8ff009170857efdb05ea6ce419ea54b035895d4d3d43",
     "counterSourceSha256": "04d6cdec45899b18027773b66c1a6b36e975ba443ef17a91c9f18fb51ed458ab",
     "packageLockSha256": "388d85f3334be0b47755c92e9f6911bfb2cca253c9514d232e55e781e677f35e",
@@ -1502,8 +1501,8 @@
     "outputsRetained": false,
     "outputsAssessed": false,
     "boundary": "Native Linux Flutter renderToPng(source,pixelRatio:1); Stopwatch inside release app on the host under a private Xvfb display. App startup, warm-ups, IPC, admission and reporting excluded.",
-    "admission": "A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse as XML to an SVG namespace root with finite positive size; PNG must contain complete decodable image data with positive dimensions; terminal text must be non-empty after removing control sequences. Error placeholders (aria-roledescription=\"error\"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.",
-    "admissionProfile": "davebench-public-api-admission-v2"
+    "admission": "A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse the way a browser displays it (as an SVG document, or embedded in an HTML page, where the HTML parser must yield exactly one SVG element) to an SVG namespace root with finite positive size; strict-XML validity is reported separately and does not affect completion; PNG must contain complete decodable image data with positive dimensions; terminal text must be non-empty after removing control sequences. An output that draws nothing (SVG: no painted shape with geometry and no visible text; terminal: nothing left after removing whitespace, control sequences and blank braille U+2800) is admitted only when the reviewed source draws nothing (configuration-only), and rejected when the reviewed source draws something; for inputs whose source bytes have no review, an empty sized SVG stays admitted and empty terminal text stays rejected. Error placeholders (aria-roledescription=\"error\"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.",
+    "admissionProfile": "davebench-public-api-admission-v3"
   },
   "runs": [
     {
@@ -1513,13 +1512,20 @@
       "run": 1,
       "boundaryKind": "persistent-api",
       "boundary": "native Flutter renderToPng API; app startup excluded",
+      "pngPath": "native",
       "attempted": 1342,
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 25152.381000000085,
+      "totalMs": 23725.36500000001,
       "invalid": 0,
-      "invalidReasons": {}
+      "invalidReasons": {},
+      "failures": {
+        "error: no message": "4-5,11-12,41-42,79-80,103-126,149-150,233-238,247-256,381-382,437-438,465-466,479-498,697-708,729-730,743-744,765-766,887-888,1094-1119,1148-1173,1190-1237,1310-1341"
+      },
+      "errorReasons": {
+        "no message": 228
+      }
     },
     {
       "project": "pub:mermaid_flutter",
@@ -1528,13 +1534,20 @@
       "run": 2,
       "boundaryKind": "persistent-api",
       "boundary": "native Flutter renderToPng API; app startup excluded",
+      "pngPath": "native",
       "attempted": 1342,
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 25455.313000000042,
+      "totalMs": 23369.481000000025,
       "invalid": 0,
-      "invalidReasons": {}
+      "invalidReasons": {},
+      "failures": {
+        "error: no message": "4-5,11-12,41-42,79-80,103-126,149-150,233-238,247-256,381-382,437-438,465-466,479-498,697-708,729-730,743-744,765-766,887-888,1094-1119,1148-1173,1190-1237,1310-1341"
+      },
+      "errorReasons": {
+        "no message": 228
+      }
     },
     {
       "project": "pub:mermaid_flutter",
@@ -1543,13 +1556,20 @@
       "run": 3,
       "boundaryKind": "persistent-api",
       "boundary": "native Flutter renderToPng API; app startup excluded",
+      "pngPath": "native",
       "attempted": 1342,
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 25851.45400000008,
+      "totalMs": 23952.076000000012,
       "invalid": 0,
-      "invalidReasons": {}
+      "invalidReasons": {},
+      "failures": {
+        "error: no message": "4-5,11-12,41-42,79-80,103-126,149-150,233-238,247-256,381-382,437-438,465-466,479-498,697-708,729-730,743-744,765-766,887-888,1094-1119,1148-1173,1190-1237,1310-1341"
+      },
+      "errorReasons": {
+        "no message": 228
+      }
     }
   ],
   "rankings": {
@@ -1562,7 +1582,12 @@
         "boundary": "native Flutter renderToPng API; app startup excluded",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 25455.313000000042,
+        "medianTotalMs": 23725.36500000001,
+        "totalMsRange": [
+          23369.481000000025,
+          23952.076000000012
+        ],
+        "pngPath": "native",
         "rank": 1
       }
     ],

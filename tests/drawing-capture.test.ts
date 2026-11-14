@@ -46,6 +46,7 @@ test('committed capture owns every returned output and reproduces terminal asses
   }
   expect(accounted).toBe(raw.rows.length)
   const reassessed = await reassessDrawingRun(raw, root, ['terminal'])
+  // The capture was assessed by the current observer, so reassessing it reproduces every verdict.
   for (const row of reassessed.rows) expect(row.status).toBe(rows.get(key(row)).status)
   expect(reassessed.updatedAt).toBe(raw.updatedAt)
   expect(reassessed.reassessment.renderersInvoked).toBe(false)

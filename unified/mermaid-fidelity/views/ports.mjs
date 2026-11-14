@@ -541,15 +541,53 @@ function gitGraphAst(raw, hooks, project) {
 // packet/db.ts getPacket(): the rows of words (Pele and Bezel: rows; Latias94/merman:
 // packet). blockDB.ts getBlock(id): the block record by id, including the composite's
 // colour slot the database assigns (Pele and Bezel: byId plus root; Latias94/merman:
-// blocksFlat). ishikawaDb.ts getRoot(): the cause tree.
+// blocksFlat). getBlocks(): the root's children as the database ordered them, which all
+// three keep as `blocks`. getColumns(id): the block's columns when set (the root keeps
+// Mermaid's -1 when none or `auto` is written), else its number of children, else -1, read
+// from the same record getBlock returns (checked against Pele 1.13.0, Bezel 0.2.26 and
+// Latias94/merman 0.10.0 parses of written, unwritten and `auto` columns).
+// ishikawaDb.ts getRoot(): the cause tree.
 const packetView = raw => ({ getPacket: () => deepUnset(raw.rows ?? raw.packet ?? []) })
-const blockView = (raw, _hooks, project) => ({
-  getBlock: id => {
-    const found = project === MERMAN ? (raw.blocksFlat ?? []).find(item => item.id === id) : id === 'root' ? raw.root : mapOf(raw.byId).get(id)
-    return found == null ? undefined : deepUnset(found)
-  },
-})
+const blockView = (raw, hooks, project) => {
+  const lookup = id => (project === MERMAN ? (raw.blocksFlat ?? []).find(item => item.id === id) : id === 'root' ? raw.root : mapOf(raw.byId).get(id))
+  return {
+    getBlock: id => {
+      const found = lookup(id)
+      return found == null ? undefined : deepUnset(found)
+    },
+    ...(Array.isArray(raw.blocks) ? { getBlocks: () => deepUnset(raw.blocks) } : {}),
+    // getEdges(): the edge records ({id: '<n>-<start>-<end>', start, end, label, arrowTypeStart,
+    // arrowTypeEnd, thickness, pattern}); getClasses(): the classDefs by name. All three keep both.
+    ...(Array.isArray(raw.edges) ? { getEdges: () => deepUnset(raw.edges) } : {}),
+    ...(raw.classes && typeof raw.classes === 'object' ? { getClasses: () => keyedMap(raw.classes, hooks, `${NAME[project]} block classes`) } : {}),
+    getColumns: id => {
+      const block = lookup(id)
+      if (!block) return -1
+      if (block.columns) return block.columns
+      if (!block.children) return -1
+      return block.children.length
+    },
+  }
+}
 const ishikawaView = raw => ({ getRoot: () => (raw.root == null ? undefined : deepUnset(raw.root)) })
+
+// timelineDb.js at the pinned tag: getSections() lists the section names as written;
+// getTasks() one record per period, {id, section, type (its section), task, score, events}.
+// Latias94/merman keeps those task records as `tasks`. Pele and Bezel keep each period as
+// {text, events, section}: task is the period's text and type its section. Mermaid's id is a
+// counter its database keeps across diagrams and its score is the 0 its grammar always
+// passes; neither port keeps either, so both are declared absent. (Checked against Pele
+// 1.13.0, Bezel 0.2.26 and Latias94/merman 0.10.0 parses of periods with and without a
+// section and with one, several and continued events.)
+const TIMELINE_TASK_FIELDS = ['id', 'section', 'type', 'task', 'score', 'events']
+function timelineView(raw, hooks, project) {
+  const absent = {
+    id: `${NAME[project]} keeps no timeline task id (Mermaid's database numbers tasks with a counter it keeps across diagrams)`,
+    score: `${NAME[project]} keeps no timeline task score (Mermaid's grammar always stores 0)`,
+  }
+  const tasks = project === MERMAN ? deepUnset(raw.tasks ?? []) : (raw.periods ?? []).map(period => record({ section: period.section, type: period.section, task: period.text, events: deepUnset(period.events ?? []) }, 'timeline task', TIMELINE_TASK_FIELDS, absent, hooks))
+  return { getSections: () => [...(raw.sections ?? [])], getTasks: () => tasks }
+}
 
 /** A JSON object loses the insertion order of integer-like keys (JavaScript lists them
  * first, ascending), so Bezel's object-shaped maps keep their order only without them.
@@ -734,6 +772,7 @@ export default {
     packet: each([PELE, BEZEL, MERMAN], packetView),
     block: each([PELE, BEZEL, MERMAN], blockView),
     ishikawa: each([PELE, BEZEL, MERMAN], ishikawaView),
+    timeline: each([PELE, BEZEL, MERMAN], timelineView),
     architecture: each([PELE, BEZEL, MERMAN], architectureView),
     gitgraph: each([BEZEL, MERMAN], gitBranches),
     journey: each([PELE, BEZEL, MERMAN], textOnly),

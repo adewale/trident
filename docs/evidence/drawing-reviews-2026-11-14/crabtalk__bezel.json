@@ -1,0 +1,46 @@
+{
+  "schema": "trident-drawing-reviews-v1",
+  "project": "crabtalk/bezel",
+  "version": "0.2.26",
+  "capture": {
+    "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
+    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+  },
+  "reviewedAt": "2026-11-14",
+  "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
+  "reviews": [
+    {
+      "format": "svg",
+      "caseId": "drawing:75e652628bded0d8",
+      "outputSha256": "76b091e00f1db101bbd91f3e5264c5841614d77e8e8c05559d1237685ca651e1",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot: all six captioned relationships join the right entity pairs with the source cardinalities (e.g. || at CUSTOMER and o{ at ORDER for 'places'; dashed }|..|{ for 'uses').",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "outputSha256": "c0ccc1af09401bf532aa1e93d4737d2deed333b313c486d928bb2f221e717e2d",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the eight Queue self-loops are nested on one side and their captions overprint as 'r r r r r r r retry 8'; 'retry 1' to 'retry 7' are unreadable.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:e54c4b6195e240be",
+      "outputSha256": "7a104f504a2654b9adaa9f4904d5e0383fae862a6dd3ca9b4432caa77d04499f",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the solid double-headed arrow is correct, but the dashed 'Top <-.- Bot' line has no arrowhead at Top.",
+      "method": "svg-screenshot"
+    }
+  ]
+}

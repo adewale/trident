@@ -12,6 +12,8 @@
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
+import { fidelityNotApplicableReason, fidelityPopulationSizes, fidelityScoringDefinition, isScoredFidelityFile, scoredFidelityCounts } from '../unified/mermaid-fidelity/scoring.ts'
+import { assessmentBasis, outcomeKind, outcomeKindCounts } from '../unified/mermaid-fidelity/outcome-kinds.ts'
 
 /** Identity of one control run: every reference callback and its outcome. */
 export function referenceDigest(reference: any) {
@@ -40,9 +42,10 @@ export function mergeIntoPublished(published: any, runs: any[], extras: { catalo
   if (!published.referenceDigest) throw Error('The published result records no control digest; merge a full campaign first')
   if (!published.referenceOrdinalDigest) throw Error('The published result records no ordinal control digest; merge a full campaign first')
   const fresh: any = mergeFidelityRuns(runs, extras)
-  for (const key of ['pin', 'selection', 'selectedFiles', 'referenceMode', 'controlIdentity', 'referenceVersion', 'expandedCallbacks', 'referenceQualifiedCallbacks', 'referenceDigest', 'referenceOrdinalDigest'])
+  if (JSON.stringify(published.scoring) !== JSON.stringify(fresh.scoring)) throw Error('The published result was scored under a different Fidelity definition; merge a full campaign instead')
+  for (const key of ['pin', 'selection', 'selectedFiles', 'referenceMode', 'controlIdentity', 'referenceVersion', 'expandedCallbacks', 'referenceQualifiedCallbacks', 'scoredPopulation', 'inventoryCallbacks', 'referenceDigest', 'referenceOrdinalDigest'])
     if (JSON.stringify(fresh[key]) !== JSON.stringify(published[key])) throw Error(`Re-run differs from the published result in ${key}; re-run against the published control`)
-  const replaced = new Set(fresh.results.map((r: any) => r.project).concat(fresh.blocked.map((r: any) => r.project)).filter((p: string) => p !== "mermaid-js/mermaid"))
+  const replaced = new Set(fresh.results.map((r: any) => r.project).concat(fresh.blocked.map((r: any) => r.project), fresh.notApplicable.map((r: any) => r.project)).filter((p: string) => p !== "mermaid-js/mermaid"))
   const keep = (row: any) => !replaced.has(row.project)
   const order = published.results.map((r: any) => r.project)
   const results = [...published.results.filter(keep), ...fresh.results.filter((r: any) => r.project !== 'mermaid-js/mermaid')].sort((a: any, b: any) => (order.indexOf(a.project) + 1 || Infinity) - (order.indexOf(b.project) + 1 || Infinity))
@@ -52,6 +55,7 @@ export function mergeIntoPublished(published: any, runs: any[], extras: { catalo
   return {
     ...prior,
     blocked: [...published.blocked.filter(keep), ...fresh.blocked],
+    notApplicable: [...(published.notApplicable ?? []).filter(keep), ...fresh.notApplicable],
     results,
     updatedAt: [published.updatedAt, fresh.updatedAt].sort().at(-1),
     collectedThrough: [published.collectedThrough, fresh.collectedThrough].sort().at(-1),
@@ -67,12 +71,18 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
   if (!reference) throw Error('Merged Fidelity runs have no Mermaid control')
   const digest = referenceDigest(reference)
   const files = referenceFiles(reference)
+  // Fidelity applies only through a public parse interface: a project the catalog or a
+  // run declares not applicable has no row, whatever an older run collected for it.
+  const notApplicable = new Map<string, string>()
+  for (const run of runs) for (const row of run.notApplicable ?? []) notApplicable.set(row.project, row.reason)
+  for (const node of extras.catalog?.nodes ?? []) { const reason = fidelityNotApplicableReason(node); if (reason) notApplicable.set(node.id, reason) }
   const byProject = new Map<string, any>()
   for (const run of runs) {
     const control = run.results.find((row: any) => row.project === 'mermaid-js/mermaid')
     if (!control || control !== reference && (control.version !== reference.version || referenceDigest(control) !== digest)) throw Error('Fidelity runs must share one referenceDigest and reference version')
     if (control !== reference && referenceFiles(control) !== files) throw Error('Fidelity runs must preserve reference callback order within each file')
     for (const row of run.results) {
+      if (notApplicable.has(row.project)) continue
       if (byProject.has(row.project)) {
         if (row.project !== 'mermaid-js/mermaid') throw Error('Duplicate Fidelity candidate ' + row.project)
         continue
@@ -80,12 +90,15 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
       byProject.set(row.project, { row, control })
     }
   }
-  const qualified = reference.cases.filter((c: any) => c.status === 'passed').length
+  const sizes = fidelityPopulationSizes(reference.cases), qualified = sizes.referenceQualifiedCallbacks
   const statuses = ['passed', 'failed', 'unsupported', 'trident-blocked', 'reference-unqualified', 'upstream-skipped', 'upstream-expected-failure']
   const results = [...byProject.values()].map(({ row, control: ownReference }) => {
     if (row.cases?.length !== ownReference.cases.length) throw Error(row.project + ' must account for every reference callback')
     const counts: Record<string, number> = Object.fromEntries(statuses.map(status => [status, 0]))
-    const perFile = new Map<string, Record<string, number>>(), gapReasons: Record<string, number> = {}
+    const perFile = new Map<string, Record<string, number>>(), gapReasons: Record<string, number> = {}, unsupportedReasons: Record<string, number> = {}
+    // Unsupported verdicts of the scored population by kind (outcome-kinds.ts): the
+    // candidate's own refusal, or Trident's capability assessment by its basis.
+    const nativeUnsupportedReasons: Record<string, number> = {}, assessmentReasons: Record<string, number> = {}, assessmentBases: Record<string, number> = {}
     for (const [index, c] of row.cases.entries()) {
       const control = ownReference.cases[index]
       if (c.file !== control.file || c.name !== control.name || !statuses.includes(c.status) || (control.status === 'passed' ? !statuses.slice(0, 4).includes(c.status) : c.status !== control.status)) throw Error(row.project + ' differs from its reference callback population')
@@ -98,19 +111,42 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
         const reason = c.reason.trim().split('\n')[0]!.replace(/\d+/g, 'N').slice(0, 160)
         gapReasons[reason] = (gapReasons[reason] ?? 0) + 1
       }
+      // Unreviewed unsupported verdicts are unassessed in scoring; keep their reasons beside the gaps.
+      if (c.status === 'unsupported' && isScoredFidelityFile(c.file)) {
+        const reason = String(c.reason ?? 'unsupported').trim().split('\n')[0]!.replace(/\d+/g, 'N').slice(0, 160)
+        unsupportedReasons[reason] = (unsupportedReasons[reason] ?? 0) + 1
+        if (outcomeKind(c) === 'native-unsupported') nativeUnsupportedReasons[reason] = (nativeUnsupportedReasons[reason] ?? 0) + 1
+        else {
+          assessmentReasons[reason] = (assessmentReasons[reason] ?? 0) + 1
+          const basis = assessmentBasis(String(c.reason ?? ''))
+          assessmentBases[basis] = (assessmentBases[basis] ?? 0) + 1
+        }
+      }
     }
-    return { project: row.project, version: row.version, counts, environments: row.environments, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts })), gapReasons }
+    const scored = scoredFidelityCounts(row.cases)
+    if (Object.values(scored).reduce((sum, n) => sum + n, 0) !== sizes.scoredPopulation) throw Error(row.project + ' does not account for the scored population')
+    const shared = row.sharedParserWith ? { sharedParserWith: row.sharedParserWith, parserVersion: row.parserVersion } : {}
+    // Outcome kinds over the scored population and all qualified callbacks: what the
+    // candidate's own code decided against what Trident assessed or could not bind.
+    const outcomeKinds = outcomeKindCounts(row.cases, isScoredFidelityFile)
+    return { project: row.project, version: row.version, ...(row.revision ? { revision: row.revision } : {}), ...shared, counts, scored, outcomeKinds, environments: row.environments, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts })), gapReasons, unsupportedReasons, nativeUnsupportedReasons, assessmentReasons, assessmentBases }
   })
-  // A candidate with no assessable callback has no working operation binding:
-  // report it as unassessed with its dominant gap, not as a measured zero.
-  const unbound = results.filter(r => r.project !== 'mermaid-js/mermaid' && r.counts.passed! + r.counts.failed! + r.counts.unsupported! === 0)
+  for (const row of results) if (row.sharedParserWith) {
+    const owner = results.find(other => other.project === row.sharedParserWith)
+    if (owner && owner.version !== row.parserVersion) throw Error(`${row.project} records ${row.sharedParserWith}'s parser ${row.parserVersion}, but that row measured ${owner.version}`)
+  }
+  // A candidate with no assessed callback in the scored population has no working
+  // operation binding: report it as unassessed with its dominant gap, not a measured zero.
+  const unbound = results.filter(r => r.project !== 'mermaid-js/mermaid' && r.scored.passed + r.scored.failed === 0)
   const scored = results.filter(r => !unbound.includes(r))
   const candidates = [...byProject.values()].map(value => value.row).filter(row => row.project !== 'mermaid-js/mermaid')
+  // Callbacks of the scored population that no candidate's observation assessed.
+  const unassessed = new Set(fidelityScoringDefinition.unassessed as readonly string[])
   const sharedByFile = new Map<string, { path: string; unassessed: number; uncollected: number }>()
   const candidateFiles = candidates.map(row => callbacksByFile(row.cases))
   for (const [path, callbacks] of callbacksByFile(reference.cases)) for (const [ordinal, callback] of callbacks.entries()) {
     const observations = candidateFiles.map(files => files.get(path)![ordinal])
-    if (callback.status !== 'passed' || !observations.length || !observations.every(observation => observation.status === 'trident-blocked')) continue
+    if (callback.status !== 'passed' || !isScoredFidelityFile(path) || !observations.length || !observations.every(observation => unassessed.has(observation.status))) continue
     const file = sharedByFile.get(path) ?? { path, unassessed: 0, uncollected: 0 }
     file.unassessed++
     if (observations.every(observation => observation.reason === 'Candidate test not collected')) file.uncollected++
@@ -119,11 +155,11 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
   const commonUnassessedCallbacks = [...sharedByFile.values()].reduce((sum, file) => sum + file.unassessed, 0)
   const commonUncollectedCallbacks = [...sharedByFile.values()].reduce((sum, file) => sum + file.uncollected, 0)
   const coverage = { candidates: candidates.length, commonUnassessedCallbacks, commonUncollectedCallbacks,
-    additionalGapObservations: results.reduce((sum, row) => sum + row.counts['trident-blocked']!, 0) - commonUnassessedCallbacks * candidates.length,
+    additionalGapObservations: results.reduce((sum, row) => sum + row.scored.unsupported + row.scored['trident-blocked'], 0) - commonUnassessedCallbacks * candidates.length,
     perFile: [...sharedByFile.values()].sort((a, b) => a.path.localeCompare(b.path)) }
   const measured = new Set(scored.map(r => r.project))
   const dominant = (r: any) => Object.entries(r.gapReasons as Record<string, number>).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'no callback reached a candidate operation'
-  const blocked = [...unbound.map(r => ({ project: r.project, reason: 'No original test reached a candidate operation: ' + dominant(r) })), ...runs.flatMap(run => run.blocked ?? []), ...(extras.blocked ?? [])].filter((row, index, all) => !measured.has(row.project) && all.findIndex(other => other.project === row.project) === index)
+  const blocked = [...unbound.map(r => ({ project: r.project, reason: 'No original test reached a candidate operation: ' + dominant(r) })), ...runs.flatMap(run => run.blocked ?? []), ...(extras.blocked ?? [])].filter((row, index, all) => !measured.has(row.project) && !notApplicable.has(row.project) && all.findIndex(other => other.project === row.project) === index)
   const expanded = reference.cases.length
   return {
     benchmark: 'Mermaid Fidelity',
@@ -136,10 +172,14 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
     outsideSelectedRunner: base.outsideSelectedRunner,
     blocked,
     versionsFrozenAt: extras.catalog?.benchmarkVersionsCheckedAt ?? base.versionsFrozenAt,
-    scope: `Every candidate attempted all ${base.selectedFiles} selected core-package files against one shared Mermaid ${reference.version} control run. Scores use the ${qualified} expanded callbacks the control passes.`,
+    scope: `Every candidate attempted all ${base.selectedFiles} selected core-package files against one shared Mermaid ${reference.version} control run. The control passes ${qualified} expanded callbacks; scores use the ${sizes.scoredPopulation} of them in ${fidelityScoringDefinition.scoredAreas.join(' and ')}, and the other ${sizes.inventoryCallbacks} are inventory. An unsupported operation is unassessed, not a known nonpass.`,
+    scoring: fidelityScoringDefinition,
     referenceVersion: reference.version,
     expandedCallbacks: expanded,
     referenceQualifiedCallbacks: qualified,
+    scoredPopulation: sizes.scoredPopulation,
+    inventoryCallbacks: sizes.inventoryCallbacks,
+    notApplicable: [...notApplicable].map(([project, reason]) => ({ project, reason })).sort((a, b) => a.project.localeCompare(b.project)),
     referenceDigest: digest,
     referenceOrdinalDigest: createHash('sha256').update(files).digest('hex'),
     coverage,

@@ -4,8 +4,12 @@ import { join, resolve } from 'node:path'
 import { chromium } from 'playwright'
 import { drawingCases } from '../fidelity/drawing/corpus.ts'
 import { readDrawingOutput } from '../fidelity/drawing/retained-output.ts'
-import { assessSvgStructure, assessTerminalStructure, unavailableStructure, structureProfile, structureGraphFamilies, type StructureAssessment } from '../fidelity/drawing/structure.ts'
+import { observeSvgStructure, unavailableStructure, structureProfile, structureGraphFamilies, type StructureAssessment } from '../fidelity/drawing/structure.ts'
 import { qualifyStructureObserver } from '../fidelity/drawing/structure-controls.ts'
+import { classifyObligations, obligationProfile, summarizeObligations, type ObligationEvidence, type ObligationRow } from '../fidelity/drawing/obligations.ts'
+import { completeSvgObligations, observeLayoutInContext, observeTerminalObligations } from '../fidelity/drawing/obligation-observe.ts'
+import { qualifyObligationObservers } from '../fidelity/drawing/obligation-controls.ts'
+import { layoutPolicy } from '../fidelity/drawing/layout-geometry.ts'
 import { fidelityHarnessSources } from './fidelity-control.ts'
 import { planDigest } from './campaign-plan.ts'
 import { atomicWrite } from './result-storage.ts'
@@ -47,32 +51,46 @@ export async function main(args = process.argv.slice(2)) {
   mkdirSync(out, { recursive: true })
   const browser = await chromium.launch({ headless: true, executablePath: defaultChromium(chromium) }), context = await browser.newContext({ javaScriptEnabled: false })
   await context.route('**/*', route => route.abort())
-  const startedAt = new Date().toISOString(), rows: any[] = [], sources = fidelityHarnessSources(resolve(import.meta.dirname, '..'), ['unified/drawing-structure.ts'])
-  let qualification: Awaited<ReturnType<typeof qualifyStructureObserver>>
+  // Layout geometry is measured exactly as layout:observe measures it.
+  const layoutContext = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1600, height: 1200 }, deviceScaleFactor: 1, serviceWorkers: 'block' })
+  await layoutContext.route('**/*', route => route.abort())
+  const startedAt = new Date().toISOString(), rows: any[] = [], obligationRows: ObligationRow[] = [], sources = fidelityHarnessSources(resolve(import.meta.dirname, '..'), ['unified/drawing-structure.ts'])
+  const full = !projects && !opts.has('--case')
+  let qualification: Awaited<ReturnType<typeof qualifyStructureObserver>>, obligationQualification: Awaited<ReturnType<typeof qualifyObligationObservers>>
   try {
     qualification = await qualifyStructureObserver(context)
-    const save = (state: string) => atomicWrite(join(out, 'results.json'), JSON.stringify({ benchmark: 'Rendered structure', profile: structureProfile, state, startedAt, assessedAt: new Date().toISOString(), collection: { startedAt: run.startedAt, finishedAt: run.updatedAt }, sourceRun: root, corpus: run.corpus, selection: { projects: projects ?? 'all', case: opts.get('--case') ?? null }, method: { renderersInvoked: false, timingsCollected: false, qualifiedFamilies: structureGraphFamilies, additionalSvgLayoutFamilies: ['quadrant'], scope: 'Actual painted SVG routes, arrowheads, visibility and multiplicity; measured leaf-node box overlap, canvas clipping and explicitly required acyclic source order. Terminal source-owned family facts and explicit order. SVG quadrant point/caption and marker/text box clearance after visible point inventory and coordinates qualify. Other families and unsupported representations remain unassessed. Diagnostic axes do not alter the existing overall score.' }, observerSources: sources, runtime: { node: process.versions.node, bun: process.versions.bun, chromium: browser.version(), platform: process.platform }, qualification, rows, results: aggregateStructure(rows) }, null, 2) + '\n')
+    obligationQualification = await qualifyObligationObservers(context, layoutContext)
+    const save = (state: string) => { atomicWrite(join(out, 'results.json'), JSON.stringify({ benchmark: 'Rendered structure', profile: structureProfile, state, startedAt, assessedAt: new Date().toISOString(), collection: { startedAt: run.startedAt, finishedAt: run.updatedAt }, sourceRun: root, corpus: run.corpus, selection: { projects: projects ?? 'all', case: opts.get('--case') ?? null }, method: { renderersInvoked: false, timingsCollected: false, qualifiedFamilies: structureGraphFamilies, additionalSvgLayoutFamilies: ['quadrant'], scope: 'Actual painted SVG routes, arrowheads, visibility and multiplicity; measured leaf-node box overlap, canvas clipping and explicitly required acyclic source order. Terminal source-owned family facts and explicit order. SVG quadrant point/caption and marker/text box clearance after visible point inventory and coordinates qualify. Other families and unsupported representations remain unassessed. Diagnostic axes do not alter the existing overall score.' }, observerSources: sources, runtime: { node: process.versions.node, bun: process.versions.bun, chromium: browser.version(), platform: process.platform }, qualification, rows, results: aggregateStructure(rows) }, null, 2) + '\n')
+      atomicWrite(join(out, 'obligations.json'), JSON.stringify({ schema: 'trident-drawing-obligations-v1', profile: obligationProfile, state, startedAt, assessedAt: new Date().toISOString(), collection: { startedAt: run.startedAt, finishedAt: run.updatedAt }, sourceRun: root, corpus: run.corpus, selection: { projects: projects ?? 'all', case: opts.get('--case') ?? null }, method: { renderersInvoked: false, observers: { structure: structureProfile, layout: layoutPolicy.id, regressionGeometry: 'fidelity/drawing/svg.ts inspectRegressionGeometry; fidelity/drawing/terminal.ts inspectTerminalRegressionGeometry' }, scope: 'Applicable obligations come from each case\'s reviewed source contract and regression geometry list. A category passes only when every applicable obligation in it passed, fails when any failed, and is otherwise unassessed. No drawing (renderer failure, inadmissible output) is a known nonpass. The ranked label verdict is unchanged.' }, observerSources: sources, qualification: { structure: qualification, obligations: obligationQualification }, rows: obligationRows, ...(full && state === 'complete' ? { results: summarizeObligations(obligationRows, run.corpus.ids) } : {}) }, null, 2) + '\n') }
     for (const row of selected) {
       const test = cases.find(c => c.id === row.caseId)
       if (!test) throw Error('Unknown captured source')
-      let assessment: StructureAssessment
+      let assessment: StructureAssessment, evidence: Omit<ObligationEvidence, 'producerStatus'> | undefined
       const output = outputs.get(key(row))
       if (['renderer-failure', 'invalid-format'].includes(row.status)) assessment = unavailableStructure(test, row.status + ': ' + (row.reason ?? ''), true)
       else if (row.status === 'unrun') assessment = unavailableStructure(test, 'Renderer was not run')
       else {
         if (!output) throw Error('Missing captured output: ' + key(row))
         const text = readDrawingOutput(root, output, test.source)
-        if (row.format === 'terminal') assessment = assessTerminalStructure(test, text)
+        if (row.format === 'terminal') { evidence = observeTerminalObligations(test, text); assessment = evidence.structure! }
         else if (row.format === 'svg') {
           const page = await context.newPage()
-          let timer: ReturnType<typeof setTimeout> | undefined
+          let timer: ReturnType<typeof setTimeout> | undefined, observed: Awaited<ReturnType<typeof observeSvgStructure>> | undefined
+          const deadline = (label: string) => new Promise<never>((_, reject) => { timer = setTimeout(() => reject(Error(label + ' deadline exceeded')), 8000) })
           try {
             await page.setContent('<!doctype html><style>body{margin:0}</style>' + text)
-            assessment = await Promise.race([assessSvgStructure(test, page), new Promise<never>((_, reject) => { timer = setTimeout(() => reject(Error('Structural observer deadline exceeded')), 8000) })])
+            observed = await Promise.race([observeSvgStructure(test, page), deadline('Structural observer')])
+            assessment = observed.assessment
           } catch (error) { assessment = unavailableStructure(test, 'SVG structural observation unavailable: ' + String(error)) }
+          clearTimeout(timer)
+          try {
+            // Obligation observers have their own deadline, so they cannot change the structure verdict.
+            evidence = observed ? await Promise.race([completeSvgObligations(test, page, observed, () => observeLayoutInContext(layoutContext, test, text)), deadline('Obligation observer')]) : { structure: assessment }
+          } catch (error) { evidence = { structure: assessment, regression: test.geometry.map(criterion => ({ criterion, status: 'unassessed' as const, detail: 'Obligation observation unavailable: ' + String(error) })) } }
           finally { clearTimeout(timer); await page.close() }
         } else assessment = unavailableStructure(test, 'Unqualified output format')
       }
+      if (row.format === 'svg' || row.format === 'terminal') obligationRows.push({ project: row.project, version: row.version, format: row.format, caseId: row.caseId, producerStatus: row.status, ...(output ? { outputSha256: output.outputSha256 } : {}), ...classifyObligations(test, row.format, { producerStatus: row.status, ...(evidence ?? { structure: assessment }) }) })
       rows.push({ project: row.project, version: row.version, format: row.format, caseId: row.caseId, producerStatus: row.status, ...(output ? { sourceSha256: output.sourceSha256, outputSha256: output.outputSha256 } : {}), ...assessment })
       if (rows.length % 100 === 0) { save('running'); console.log(rows.length + '/' + selected.length) }
     }
@@ -82,6 +100,6 @@ export async function main(args = process.argv.slice(2)) {
     const counts = (v: any) => ['passed', 'failed', 'unassessed', 'not-applicable'].map(s => v[s]).join(' / ')
     for (const row of aggregateStructure(rows)) lines.push(`| ${row.project} | ${row.version} | ${row.format} | ${counts(row.topology)} | ${counts(row.layout)} |`)
     writeFileSync(join(out, 'report.md'), lines.join('\n') + '\n')
-  } finally { await context.close(); await browser.close() }
+  } finally { await context.close(); await layoutContext.close(); await browser.close() }
 }
 if (import.meta.main) await main()

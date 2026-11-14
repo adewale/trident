@@ -31,7 +31,7 @@ export function requiredDocumentationObligations(expected?: MeaningExpectation, 
   ]
 }
 const hash = (source: string) => createHash('sha256').update(source).digest('hex')
-const familyNames: Record<string, string> = { graph: 'flowchart', flowchart: 'flowchart', classdiagram: 'class', sequencediagram: 'sequence', statediagram: 'state', 'statediagram-v2': 'state', erdiagram: 'er', requirementdiagram: 'requirement', gitgraph: 'gitgraph', journey: 'journey', quadrantchart: 'quadrant', xychart: 'xychart', 'xychart-beta': 'xychart' }
+export const familyNames: Record<string, string> = { graph: 'flowchart', flowchart: 'flowchart', classdiagram: 'class', sequencediagram: 'sequence', statediagram: 'state', 'statediagram-v2': 'state', erdiagram: 'er', requirementdiagram: 'requirement', gitgraph: 'gitgraph', journey: 'journey', quadrantchart: 'quadrant', xychart: 'xychart', 'xychart-beta': 'xychart' }
 const cleanLabel = (label: string) => {
   let value = label.trim()
   if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1)

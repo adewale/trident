@@ -1,7 +1,8 @@
 import { atomicWrite } from './result-storage.ts'
 import { existsSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { readCurrentBenchmarkResults, renderBenchmarkLeagues } from './three-benchmark-report.ts'
+import { projectVersion, readCurrentBenchmarkResults, renderBenchmarkLeagues, renderDavebenchFamilies } from './three-benchmark-report.ts'
+import { renderDavebenchAcceptedCompletion } from './davebench-report.ts'
 import { factOutputs, publishedFacts } from './published-facts.ts'
 
 /** League-table display names that differ from the catalog's comparison branding. */
@@ -23,7 +24,9 @@ export function writeSnapshot(root: string, check = false, names = projectNames)
   const { davebench, drawing, fidelity, catalog } = model
   const leagues = renderBenchmarkLeagues(davebench, drawing, fidelity, catalog, names)
   const display = { ...Object.fromEntries(catalog.nodes.filter((node: any) => node.comparisonBranding?.name).map((node: any) => [node.id, node.comparisonBranding.name])), ...names }
-  const outputs: [string, string][] = [[join(root, 'RESULTS.md'), leagues], ...factOutputs(root, () => publishedFacts(davebench, drawing, fidelity, display))]
+  const families = renderDavebenchFamilies(davebench, catalog, names)
+  const completion = davebench.credit ? renderDavebenchAcceptedCompletion(davebench, (project, version) => projectVersion(project, version, display)) + '\n' : undefined
+  const outputs: [string, string][] = [[join(root, 'RESULTS.md'), leagues], ...(families ? [[join(root, 'docs/davebench-families.md'), families] as [string, string]] : []), ...(completion ? [[join(root, 'docs/davebench-completion.md'), completion] as [string, string]] : []), ...factOutputs(root, () => publishedFacts(davebench, drawing, fidelity, display))]
   for (const [path, expected] of outputs)
     if (check) { if (!existsSync(path) || readFileSync(path, 'utf8') !== expected) throw Error('Results snapshot is stale: ' + path + ' (run bun commands.ts results:snapshot)') }
     else atomicWrite(path, expected)

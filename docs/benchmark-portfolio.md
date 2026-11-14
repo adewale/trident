@@ -8,7 +8,7 @@ report the remaining assessment and adapter gaps explicitly.
 |---|---|---|---|
 | **DaveBench** | How many documentation examples complete, and how long does rendering take? | Every Mermaid block occurrence in the same pinned generated `docs/` tree. Separate SVG, PNG and terminal-text runs. | More completed examples first; for equal completion counts, lower median total time over three runs. |
 | **Drawing Correctness** | Does the output show the specified diagram's labels, without errors or raw syntax? | One shared, versioned corpus of real examples and bug reproducers from renderer tests, issues and PRs, starting with the existing 116 drawing cases and expanding beyond terminal projects. Assess SVG and terminal text separately. | More whole examples with every expected label shown and no raw syntax. |
-| **Mermaid Fidelity** | How many tests from the pinned Mermaid test suite does the implementation pass? | Inventory the full pinned suite, execute original tests through candidate adapters, and account for every test and omission. | More fully passed upstream test cases on the same fixed test population. |
+| **Mermaid Fidelity** | Does the implementation's parser produce Mermaid's model, as Mermaid's own pinned tests read it? | Inventory the full pinned suite, execute original tests through candidate adapters, and account for every test and omission. | More fully passed upstream test cases on the same fixed test population. |
 
 Equal correctness/fidelity counts share a rank. DaveBench retains its
 completion/time tie rule. Each benchmark has its own league tables, one per output
@@ -26,7 +26,10 @@ Use the [existing DaveBench method](davebench-definition.md) for all three outpu
 formats: identical documentation occurrences, 30 warm-ups, three complete runs,
 one timeout policy, completion counts and summed elapsed render/export time.
 Keep duplicate documentation occurrences. The current workload contains 1,342
-occurrences across 49 files at Mermaid commit `370c4af57f43cb0bda05f4a9fe2d99c912ba16dd`.
+occurrences of 658 distinct sources across 49 files at Mermaid commit
+`370c4af57f43cb0bda05f4a9fe2d99c912ba16dd`. A repeated example counts each time it
+appears in the docs, so a family's weight follows how many examples its
+documentation shows.
 
 Terminal participants return their native terminal text, including Unicode or
 ANSI where appropriate. Do not turn it into PNG. Time the actual text-rendering
@@ -82,14 +85,22 @@ zero-size SVG is a nonpass. Each whole case earns one pass. This measures whethe
 the specified content is shown, not edges, arrow direction, layout, styling or
 pixel identity with Mermaid.
 
-The collection leaves <!-- fact:drawing-unassessed -->113<!-- /fact --> of
+The collection leaves <!-- fact:drawing-unassessed -->154<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. Unsupported
 observations receive no correctness credit.
 
 **Formats:** SVG labels must pass the existing browser observer's visibility,
 canvas, clipping and resolved-paint checks. Hidden DOM text earns no credit;
-unsupported filters, masks and glyph representations stay unassessed. Terminal
-matching preserves reading order and joins wrapping inside observed boxes.
+unsupported filters, masks and glyph representations stay unassessed. When every
+clipped label's declared primary font is not installed on the assessing machine,
+clipping was measured in a fallback face and is unavailable rather than failed;
+each run records that machine's fontconfig family list and its SHA-256
+(`assessmentEnvironments`). Terminal matching preserves reading order and joins
+wrapping inside observed boxes. A multi-word terminal label that no other rule
+finds, but whose words appear whole, in reading order, on successive rows at most
+one apart with overlapping columns and no other letters or digits in that band, is
+unknown rather than missing: it is wrapped outside a frame and its owner cannot be
+established.
 **PNG is not part of Drawing Correctness.** OCR cannot read diagram labels
 reliably enough: on Mermaid PNGs rasterized from SVGs that pass 124 of 127 cases,
 Tesseract found every label in only 43. PNG production and speed remain in
@@ -105,6 +116,12 @@ repeated independent regressions guide this initial expansion. The corpus does n
 ranking.
 
 ## Mermaid Fidelity: execute pinned upstream tests
+
+Mermaid Fidelity measures parser-model fidelity: whether an implementation's
+parser, given a test's source, produces the model Mermaid's parser produces, as
+Mermaid's own tests read it. It does not measure rendering; DaveBench and Drawing
+Correctness do. It applies only to a project with a public parse interface (see
+[scope](../SCOPE.md)).
 
 Use one common Mermaid pin for every participant. Start from the full upstream
 test inventory, including family parser/database suites and parser-package tests,
@@ -129,9 +146,17 @@ because a negative assertion happened to catch its exception.
 Keep a complete inventory with pass, fail, unsupported, upstream-skipped and
 Trident-blocked outcomes. Any benchmark-wide exclusion needs a stated reason
 and applies equally to all candidates; do not silently remove hard tests or
-change the denominator for each project's supported families. Tests of Mermaid's
-build tooling or other non-renderer concerns can remain accounted for outside
-the scored population. Show total inventory and scored population together.
+change the denominator for each project's supported families. The scored
+population is the reference-qualified callbacks of the parser and diagram-model
+tests, the same for every candidate: only callbacks from files under
+`packages/mermaid/src/diagrams/` and `packages/parser/` are scored. Callbacks from
+other paths (rendering utilities, Mermaid's website and its top-level modules) test
+code no reimplementation's parser can reach; they are executed and reported as
+inventory, with their counts, and stay outside the scored population. Show total
+inventory and scored population together. Until every candidate's unsupported
+verdicts have had a per-assertion review separating its real limits from Trident
+binding gaps, an unsupported operation is scored as unassessed for every
+candidate; result files keep the raw disposition.
 Results must disclose incomplete Trident coverage rather than present it as
 complete suite execution.
 
@@ -156,12 +181,17 @@ inventory systematically. Do not preserve the 49-case selection as the target.
 **Current implementation:** `mermaid:fidelity` inventories the test files at the
 pinned Mermaid reference (Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->; the version and commit are in
 `data/upstream-mermaid-policy.json`), attempts the <!-- fact:fidelity-files -->352<!-- /fact --> core-package files in original
-Vitest, and lists the rest outside that runner. The current collection (<!-- fact:fidelity-collected -->10 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->7,364<!-- /fact --> callbacks; Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->
-passes <!-- fact:fidelity-population -->7,346<!-- /fact --> of them through its original production source, and those are the scored
-population. Every candidate attempted all <!-- fact:fidelity-files -->352<!-- /fact --> files against one shared control run
-(`--reuse-reference`): 13 through their JavaScript parsers and 13 through parser
-bridges, small programs in each project's own language that call its own parser
-(`unified/mermaid-fidelity/bridges/`), read through reviewed per-project schema views.
+Vitest, and lists the rest outside that runner. The current collection (<!-- fact:fidelity-collected -->14 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->7,364<!-- /fact --> callbacks, which Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->
+runs through its original production source. Of the callbacks it passes, <!-- fact:fidelity-population -->4,844<!-- /fact --> are the scored
+population and <!-- fact:fidelity-inventory -->2,502<!-- /fact --> are inventory. Every applicable candidate attempted all <!-- fact:fidelity-files -->352<!-- /fact --> files against one shared control run
+(`--reuse-reference`), either in-process through their JavaScript modules or
+through parser bridges, small programs that call each project's own parser
+(registered in `unified/mermaid-fidelity/bridge-registry.ts`), read through
+reviewed per-project schema views. A candidate whose frozen version (or source
+revision) is not listed in `unified/mermaid-fidelity/views/reviewed-versions.mjs`
+for its views gets every qualified callback as a Trident gap. Grok's renderer component,
+MermaidText and Loom's renderer component are not run: their catalog entries
+declare Fidelity not applicable.
 All selected source-control files load. Candidate operations without reviewed
 bindings stay unassessed. The
 historical 49/154-case selections are not substituted for the original tests.

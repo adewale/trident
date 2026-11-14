@@ -15,13 +15,13 @@ Count at commit [`370c4af57f43cb0bda05f4a9fe2d99c912ba16dd`](https://github.com/
 | `docs/` recursively | 1,342 | 49 |
 | `docs/syntax/` only | 1,239 | 34 |
 
-The full `docs/` population contains 673 `mermaid` blocks and 669 `mermaid-example` blocks. These often contain duplicate source; duplicates remain separate attempts.
+The full `docs/` population contains 673 `mermaid` blocks and 669 `mermaid-example` blocks: 1,342 documentation occurrences of 658 distinct sources (after trimming whitespace). Duplicates remain separate attempts. A repeated example counts each time it appears in the docs, so each family's weight in the score follows how many examples its documentation shows; `flowchart.md` alone contributes 232 occurrences and `all-examples.md` 158.
 
 The [numeric count and per-file breakdown](evidence/davebench-docs-count-2026-11-02.json) record the extraction result. No renderer was invoked for this count.
 
 Dave Kiss's reported 1,095 is reproduced by counting the generated `docs/syntax/` directory at our older pin, `1fb7869866dd619168d840291c9c54b4f129758b`: 547 `mermaid` blocks and 548 `mermaid-example` blocks across 34 files. Our former 548-occurrence corpus used `packages/mermaid/src/docs/syntax/`, before documentation generation duplicated many examples.
 
-The new DaveBench uses the full `docs/` population specified above: **1,342 attempts per renderer, format and run** at this revision.
+The new DaveBench uses the full `docs/` population specified above: **1,342 attempts per renderer, format and run** at this revision, one per documentation occurrence.
 
 ## Execution and timing
 
@@ -45,17 +45,31 @@ Returning without an error is not enough: some renderers return an empty string,
 
 | Format | Admitted output |
 |---|---|
-| SVG | Parses as XML to an SVG namespace root with finite positive `viewBox` or `width`/`height`. HTML-serialized void elements such as `<br>` are normalized by the existing validator. |
+| SVG | Parses the way a browser displays it to an SVG namespace root with finite positive `viewBox` or `width`/`height`: as strict XML, or, if that fails, the way a browser parses SVG embedded in an HTML page (below). |
 | PNG | A complete, decodable PNG with positive dimensions. The existing bounded decoder checks CLI output; browser and native Flutter exports use their image decoders after the clock stops. Shared conversion also requires the SVG to be admissible. |
-| Terminal text | Non-empty after removing ANSI/OSC control sequences, and not just the Mermaid source echoed back. |
+| Terminal text | Draws something after removing ANSI/OSC control sequences (unless the reviewed source draws nothing; below), and not just the Mermaid source echoed back. |
 
-XML namespace prefixes must be declared, and text must use XML-compatible
-entities. For example, `&#160;` is valid; an undeclared `&nbsp;` is rejected.
-A serialized `xlink:href` needs its `xmlns:xlink` declaration. These rules also
-apply to SVG used as input to the shared PNG conversion.
-
-Well-formed XML is parsed before attempting HTML void-element normalization, so
-paired XHTML tags such as `<br></br>` remain valid. APNG receives mechanical
+**SVG is admitted the way a browser displays it.** Strict XML rejected 34 of
+Mermaid's own documentation renders that browsers display: tooltips containing a
+raw `&`, `&nbsp;` entities and undeclared `xlink` prefixes. An SVG is first parsed
+as strict XML. If that fails, it is parsed the way a browser parses SVG embedded in
+an HTML page. In the page (browser API rows), `DOMParser` parses it as `text/html`,
+and the document body must hold exactly one element, an SVG-namespace `svg`, with
+no other text or head content. Outside a browser (CLI rows), `htmlSvgAsXml` in
+[`unified/davebench-validity.ts`](../unified/davebench-validity.ts) rewrites only
+the HTML-isms the HTML parser accepts (HTML named entities become numeric
+references, a stray `&` or `<` is escaped, attribute values are quoted, void
+elements and unclosed elements are closed, the SVG and `xlink` namespaces and
+other undeclared prefixes are declared) and the result is parsed as strict XML.
+Well-formed XML is never rewritten, so paired XHTML tags such as `<br></br>` remain
+valid. An admitted SVG that is not strict XML is counted per run
+(`strictXmlInvalid`, with the strict parser's first complaint in
+`strictXmlReasons`) and shown in the SVG league table; it does not affect
+completion. Shared PNG conversion serialises the leniently parsed element, so a
+strict-XML-only problem does not fail the conversion. The admission profile is
+`davebench-public-api-admission-v3`. The published 9 November collection was
+admitted under `davebench-public-api-admission-v2`, which required strict XML;
+counts under the two profiles are not compared without saying so. APNG receives mechanical
 admission when its default PNG image decodes; animation content still needs a
 frame-specific observer and receives no static content witness.
 
@@ -63,11 +77,11 @@ Every format also rejects error output: an SVG root with `aria-roledescription="
 
 **Fallback renders are rejected.** Some renderers do not understand a diagram family and draw its text instead: a flowchart whose nodes are the source lines, the header keyword drawn as a node (`block`, `agentflow-beta TB`), or the source in a box. Without a check, these count as completions, so DaveBench rewarded them. Admission therefore applies one cheap meaning check to drawn SVG text (without `<title>`, `<desc>` and `<metadata>`, which are not drawn) and to terminal text. The output is a **fallback render** when it shows the source's header line verbatim as a separate label, or at least three, and at least half, of the source's syntax-bearing statements (lines of at least 8 characters with an arrow, a shape bracket glued to an id, `:::`, `@{` or a call). `key: value` lines are not statements: data records (quadrant points, event-modeling payloads, legends) are legitimately drawn as written. Left out of the statements: accessibility description blocks, class bodies (Mermaid draws members such as `+quack()` verbatim) and any line that also occurs inside another line, because that text is an authored label. One or two raw statements among real labels are misread labels, which Drawing Correctness judges. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate's SVG.
 
-Calibration over all 1,342 inputs, with the same text extraction as the in-page check: Mermaid 12.2.0's own SVG renders trip it 0 times; Frankenmermaid's 157 times (mostly block, swimlane, agentflow, railroad and packet headers drawn as nodes); Termaid's 26 times (families it does not parse, such as wardley, railroad and venn, drawn as boxes of raw lines); Agentic Mermaid's SVG and terminal output 0 times. DSH GB SVG, which draws every diagram as a flowchart, trips it on most of its returned outputs, and Latias Merman's terminal CLI prints a debug dump of its git-graph model instead of a drawing. Each run records which inputs were rejected and why (`rejected`), so every rejection can be audited.
+Calibration over all 1,342 inputs, with the same text extraction as the in-page check, was run on 5 November 2026, when the reference was still Mermaid 12.2.0 (the reference moved to 12.3.0 in release 0.3.0). Mermaid 12.2.0's own SVG renders tripped it 0 times; Frankenmermaid's 157 times (mostly block, swimlane, agentflow, railroad and packet headers drawn as nodes); Termaid's 26 times (families it does not parse, such as wardley, railroad and venn, drawn as boxes of raw lines); Agentic Mermaid's SVG and terminal output 0 times. DSH GB SVG, which draws every diagram as a flowchart, tripped it on most of its returned outputs, and Latias Merman's terminal CLI prints a debug dump of its git-graph model instead of a drawing. Each run records which inputs were rejected and why (`rejected`), so every rejection can be audited.
 
-A well-formed, positively sized SVG that draws nothing is admitted. Two documentation examples declare a Gantt chart with settings but no tasks, and several renderers deliberately draw nothing for them; whether an empty output is right for a given source is a drawing-correctness question. A zero-size SVG (`viewBox="0 0 0 0"`) is rejected.
+**One empty-output rule covers SVG and terminal text.** An SVG draws nothing when it has no shape with geometry (a path with data, a rect or image with positive size, and so on) and no visible text outside definitions, resources, metadata and elements hidden with `display="none"` or `visibility="hidden"`; CSS and transforms are not evaluated. Terminal text draws nothing when nothing is left after removing control sequences, whitespace, other control characters, zero-width characters and the blank braille cell U+2800. Each input's source is matched by its SHA-256 against Trident's reviewed docs corpus (`corpus/docs-reviewed.json.gz`). Output that draws nothing is admitted only when the reviewed source draws nothing (a configuration-only source, such as the two Gantt charts that set options but declare no tasks, or a reviewed drawing with no expected labels, nodes, edges, groups or facts) and is rejected (`draws nothing`) when the reviewed source draws something. An input whose source no review covers keeps the earlier behaviour: an empty sized SVG is admitted and empty terminal text is rejected. The results file records the inputs whose reviewed source draws nothing (`corpus.drawsNothing`) and how many inputs no review covers (`corpus.emptyOutputUnreviewed`). A zero-size SVG (`viewBox="0 0 0 0"`) is rejected.
 
-For **SVG**, completion means the public SVG render operation has returned an admissible SVG. For **PNG**, completion means admissible encoded PNG output has been returned: a native PNG export, or SVG rendering followed by a shared SVG-to-PNG conversion. Include conversion and encoding in PNG time and record which path was used. Do not substitute SVG-call time for PNG-export time.
+For **SVG**, completion means the public SVG render operation has returned an admissible SVG. For **PNG**, completion means admissible encoded PNG output has been returned: a native PNG export, or SVG rendering followed by a shared SVG-to-PNG conversion. Include conversion and encoding in PNG time and record which path was used: each PNG run and ranking row records `pngPath: 'native'` (the project's own PNG interface) or `pngPath: 'trident-conversion'` (Trident's Chromium conversion of the project's SVG), and the PNG league table shows it as **PNG source**. The [synthesis](overall-scoring.md) leaves converted PNG out, since it repeats the SVG measurement. Do not substitute SVG-call time for PNG-export time.
 
 For **terminal text**, completion means the native terminal-rendering operation has returned admissible text. Measure its Unicode/ASCII/ANSI text path directly; do not rasterize it. Record persistent API/worker versus fresh-process CLI invocation boundaries. Discard text after admission, just as SVG and PNG output are discarded.
 
@@ -78,8 +92,8 @@ Run terminal collection with `bun commands.ts davebench:terminal --prepared FILE
 Publish a separate stack-ranked table for SVG, PNG and terminal text:
 
 1. **More completed examples is better.** Use the minimum completion count observed across the three complete runs. This rewards handling more of the fixed documentation workload consistently.
-2. **For equal completion counts, less time is better — between rows with the same boundary kind.** Use the median total render/export time across those runs. A fresh-process CLI clock includes process startup on every call and a persistent API clock does not, so they measure different work. When rows with equal completion counts mix those two kinds, they share a rank and time does not order them.
-3. Exact ties share a rank. Incomplete collections and blocked projects remain unranked. Different renderer versions or invocation boundaries cannot be pooled into one three-run result.
+2. **For equal completion counts, less time is better — between rows with the same boundary kind, when their run times do not overlap.** Rows are ordered by median total render/export time across the three runs. A row shares the rank of the row above it when their three-run time ranges [min, max] overlap, so overlapping ranges chain into one shared rank; differences inside run-to-run spread are not evidence. A fresh-process CLI clock includes process startup on every call and a persistent API clock does not, so they measure different work. When rows with equal completion counts mix those two kinds, or a time is missing, they share a rank and time does not order them.
+3. Incomplete collections and blocked projects remain unranked. Different renderer versions, invocation boundaries or PNG sources cannot be pooled into one three-run result.
 
 The ranking covers each declared public execution path. Native CLI times include per-example process startup; browser API times use initialized runtimes. Show the path beside each score so the measured integration cost is explicit. Completion follows API success plus output admission; drawing meaning is not assessed.
 
@@ -93,6 +107,6 @@ Total time is the sum of measured call times over every attempted input, includi
 
 The runner writes the rule and rankings to `results.json` and a readable `rankings.md`. Rank before rounding displayed times. There is no weighted combination of completion and speed, and no combined rank across output formats.
 
-Retain source revision, extraction rule, renderer versions, invocation/conversion path, environment, timeout and numeric results. Each run also counts failed calls by their first error line (`errorReasons`, numbers folded to `N`) beside the admission failures (`invalidReasons`); these are diagnostics, not part of the ranking, and they show whether a failure is the renderer's own or the harness's. No SVGs, PNGs, terminal outputs, output hashes, output sizes or drawing judgments are needed.
+Retain source revision, extraction rule, renderer versions, invocation/conversion path, environment, timeout and numeric results. Each run also counts failed calls by their first error line (`errorReasons`, numbers folded to `N`) beside the admission failures (`invalidReasons`); these are diagnostics, not part of the ranking, and they show whether a failure is the renderer's own or the harness's. Each run records every failed input in `failures`: keys are reasons such as `error: <first line>`, `timeout` and `invalid: <admission reason>`, and values are ranges of positions in the plan's case list (`0-3,17`), so every failed input can be listed; completed inputs are the rest. Each case also records its diagram family (`corpus.families`: the diagram type its first statement declares, after front matter, directives and comments), used only to group results: `results:snapshot` writes [completion by diagram family](davebench-families.md) from it. No SVGs, PNGs, terminal outputs, output hashes, output sizes or drawing judgments are needed.
 
 Run this benchmark with `bun commands.ts davebench --out FRESH_DIRECTORY`. It uses a separate counter-and-timer runner; it does not invoke the older drawing-assessment collectors. `--prepared FILE` reuses installed public artifacts, and `--projects OWNER/PROJECT,...` selects participants. Native CLI PNG exports use the declared stdout binding where supported (including Merman), or a scratch destination. Stdout goes to a regular scratch file, so native exporters can reopen it without a socket-backed pipe; Merman rejects `/dev/null` as a non-regular file. The file is admitted after the clock stops and deleted; no image file is retained.

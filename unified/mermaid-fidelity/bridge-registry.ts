@@ -2,6 +2,7 @@
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { nodeExecutable, pythonBridgeCommand, registerBridge, type ParserBridge, type Resolver } from './bridges.ts'
+import { flutterLock } from './bridges/dart/lock.ts'
 
 const here = join(import.meta.dirname, 'bridges')
 const script = (name: string) => join(here, name)
@@ -65,6 +66,12 @@ registerBridge('1jehuang/mermaid-rs-renderer', built('mmdr', 'mermaid_rs_rendere
 registerBridge('crabtalk/bezel', built('bezel', 'bezel-mermaid mermaid::parse'))
 registerBridge('AlexanderGrooff/mermaid-ascii', built('mermaid-ascii', 'pkg/graph, pkg/sequence and pkg/er Parse'))
 registerBridge('spacedock-dev/mermaidtext', built('mermaidtext', 'unexported Go parsers, reached through an overlay-injected export'))
-registerBridge('orestesgaolin/mermaid', built('dart', "mermaid_core 0.3.2 parseX functions, from its public library or its own src/ libraries where not re-exported"))
-registerBridge('pub:mermaid_flutter', built('dart', "mermaid_core 0.3.2 parseX functions (mermaid_flutter uses core's parser unchanged)", () => '0.3.2'))
+// Mermaid Dart is mermaid_core itself. Mermaid Flutter calls mermaid_core's parser
+// unchanged; the versions it uses are the ones its native app resolves (pubspec.lock).
+registerBridge('orestesgaolin/mermaid', built('dart', "mermaid_core parseX functions exported by its public library (package:mermaid_core/mermaid_core.dart)"))
+registerBridge('pub:mermaid_flutter', async (peer, outDir) => {
+  const lock = flutterLock()
+  const bridge = await built('dart', `mermaid_core ${lock.mermaid_core} parseX functions exported by its public library (mermaid_flutter ${lock.mermaid_flutter} uses core's parser unchanged)`, () => lock.mermaid_flutter)(peer, outDir)
+  return bridge && { ...bridge, sharedParserWith: 'orestesgaolin/mermaid', parserVersion: lock.mermaid_core }
+})
 registerBridge('evangwt/xmermaid', built('xmermaid', 'parse_dsl, its WASM parser for every family, from an unchanged copy of the glue with one export appended', undefined, true))

@@ -26,7 +26,7 @@ test('PNG ancillary chunk work is bounded independently of encoded bytes', () =>
 test('terminal admission rejects empty, error and echoed output but keeps real drawings', () => {
   const source = 'graph LR\n  A --> B'
   expect(terminalTextValidity('┌───┐   ┌───┐\n│ A ├──►│ B │\n└───┘   └───┘', source)).toEqual({ valid: true })
-  expect(terminalTextValidity('\u001b[31m\u001b[0m  \n', source)).toEqual({ valid: false, reason: 'empty output' })
+  expect(terminalTextValidity('\u001b[31m\u001b[0m  \n', source)).toEqual({ valid: false, reason: 'draws nothing' })
   expect(terminalTextValidity('Error: unsupported diagram type "pie"', source).valid).toBe(false)
   expect(terminalTextValidity('Syntax error at line 2', source).valid).toBe(false)
   expect(terminalTextValidity('graph LR\n A --> B\n', source)).toEqual({ valid: false, reason: 'echoed source' })
@@ -69,11 +69,17 @@ test('serialized SVG admission needs a sized svg root and no error placeholder; 
   expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17"><g/></svg>', 'gantt\n  weekday monday')).toEqual({ valid: true })
   expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" aria-roledescription="error" viewBox="0 0 9 9"><path/></svg>', source)).toEqual({ valid: false, reason: 'error placeholder' })
   expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 20"><style>.error{}</style><text>Parse error on line 1</text></svg>', source).valid).toBe(false)
-  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><g></svg>', source).valid).toBe(false)
-  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><text>&nbsp;</text></svg>', source).valid).toBe(false)
-  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><text>&#160;</text></svg>', source).valid).toBe(true)
-  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><a xlink:href="#a"><text>A</text></a></svg>', source).valid).toBe(false)
-  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10" height="10"><a xlink:href="#a"><text>A</text></a></svg>', source).valid).toBe(true)
+  // A browser closes an unclosed element at its ancestor's end tag, reads HTML entities and
+  // binds xlink itself, so these are admitted; their strict-XML failure is reported separately.
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><g></svg>', source)).toMatchObject({ valid: true, strictXmlInvalid: 'unexpected close tag.' })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><text>&nbsp;</text></svg>', source)).toMatchObject({ valid: true, strictXmlInvalid: 'undefined entity.' })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><text>&#160;</text></svg>', source)).toEqual({ valid: true })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><a xlink:href="#a"><text>A</text></a></svg>', source)).toMatchObject({ valid: true, strictXmlInvalid: 'unbound namespace prefix: "xlink".' })
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10" height="10"><a xlink:href="#a"><text>A</text></a></svg>', source)).toEqual({ valid: true })
+  // A browser does not display these as one SVG either.
+  expect(svgTextValidity('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><text>A</text></svg><div>B</div>', source).valid).toBe(false)
+  expect(svgTextValidity('Rendering failed', source)).toMatchObject({ valid: false })
+  expect(svgTextValidity('<html><body><p>no drawing</p></body></html>', source).valid).toBe(false)
 })
 
 test('PNG admission decodes complete image data instead of trusting a plausible header', () => {
@@ -128,4 +134,17 @@ test('raw statements leave out authored labels, accessibility prose and class me
   // Data fields inside { … } blocks are drawn as written; other syntax inside blocks still counts.
   expect(rawStatements("eventmodeling\ntf 01 cmd AddItem [[AddItem01]]\ndata AddItem01 {\n  description: 'john'\n  price: 20.4\n}").statements).toEqual([])
   expect(rawStatements('stateDiagram-v2\n  state Busy {\n    Working --> Waiting\n  }').statements).toEqual(['Working --> Waiting'])
+})
+
+test('terminal output that boxes each body line of the source is a fallback, not a drawing', () => {
+  const source = 'zenuml\n    title Async message\n    Alice->Bob: How are you?\n'
+  const boxed = ['┌───────────────────────┐    ┌───────────────────────┐', '│  title Async message  │    │  Alice->Bob: How are  │', '│                       │    │         you?          │', '└───────────────────────┘    └───────────────────────┘'].join('\n')
+  expect(davebenchTerminalValidity(boxed, source)).toEqual({ valid: false, reason: 'fallback render: source lines boxed' })
+  // A line the fallback cannot place leaves an empty box; the rest is still the source.
+  const nested = 'zenuml\n    A.method() {\n      B.nested_sync_method()\n      B->C: nested async message\n    }\n'
+  expect(davebenchTerminalValidity('┌──────────────┐  ╭────╮  ┌──────────────────────┐  ┌───┐\n│ A.method() { │  │    │  │ B->C: nested async   │  │ } │\n│              │  │    │  │       message        │  │   │\n└──────────────┘  ╰────╯  └──────────────────────┘  └───┘', nested)).toEqual({ valid: false, reason: 'fallback render: source lines boxed' })
+  // Bare node declarations drawn as boxes are a drawing: no body line carries edge syntax.
+  expect(davebenchTerminalValidity('┌───┐ ┌───┐\n│ A │ │ B │\n└───┘ └───┘', 'flowchart TD\n  A\n  B\n').valid).toBe(true)
+  // A drawing that adds structure beyond the source lines is not an echo.
+  expect(davebenchTerminalValidity('┌───┐     ┌───┐\n│ A ├────►│ B │\n└───┘     └───┘', 'flowchart LR\n  A-->B\n  B-->C\n').valid).toBe(true)
 })

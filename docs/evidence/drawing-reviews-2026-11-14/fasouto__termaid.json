@@ -1,0 +1,57 @@
+{
+  "schema": "trident-drawing-reviews-v1",
+  "project": "fasouto/termaid",
+  "version": "0.12.0",
+  "capture": {
+    "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
+    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+  },
+  "reviewedAt": "2026-11-14",
+  "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
+  "reviews": [
+    {
+      "format": "terminal",
+      "caseId": "drawing:27a0bf1eef1bdb6f",
+      "outputSha256": "b4d74094b30fedd898ce70628dace5f3d4a4819c84e6f0b8f9a3e0ef86046cba",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "The C4 source is drawn as a row of boxes holding raw syntax ('admin, \"Admin\"', 'Boundary(b0, \"Services\") {', '}'); User, Worker and the Uses, Reads/Writes and Queues captions are missing.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:5c9a50898b1e6ffe",
+      "outputSha256": "006f8952a47f46159aee34a097c8b13bc4c9917eb79e8c34b7642d89aa66a6b4",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "drawn-correctly",
+      "reason": "A single ├───► arrow joins the first box (label '[31mX') to box B in the right direction.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:89e9eb6aebb72128",
+      "outputSha256": "2e8367626dc70dfb0b75d49b08be10bd2a4173d6fe9125644992dc1c7a1e8ab1",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "The third node reads only 'rectangle'; 'Small' is missing from 'Small rectangle'. The circle and double-circle labels are complete.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:c5455d2e2f5f8672",
+      "outputSha256": "4505b8f9045302e205b254b8161c8186432cebfe3f7b520e9f9e00062e1e895b",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Box and IntBox are drawn as two unconnected boxes; the inheritance relationship and its 'specializes' caption are absent.",
+      "method": "terminal-text"
+    }
+  ]
+}

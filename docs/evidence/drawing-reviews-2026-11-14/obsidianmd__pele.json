@@ -1,0 +1,46 @@
+{
+  "schema": "trident-drawing-reviews-v1",
+  "project": "obsidianmd/pele",
+  "version": "1.13.0",
+  "capture": {
+    "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
+    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+  },
+  "reviewedAt": "2026-11-14",
+  "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
+  "reviews": [
+    {
+      "format": "svg",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "outputSha256": "c75e9c9178eb7b459f5517162c6504b2f67d9a1744fae4478f9e831d59d8774b",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the eight Queue self-loop captions overprint as 'r r r r r r r retry 8'; only 'retry 8' is readable.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:c2e297448b5388ba",
+      "outputSha256": "ffeb2500dfaf2caf711ad4b42afc73e1d68be1e592d7d6d117ac76f29d28b984",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot: joins, includes, owns and sends each join the right pair with || at the parent and o{ at the child; the includes and owns routes cross once but stay traceable.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:e54c4b6195e240be",
+      "outputSha256": "aeec7a6ba46ccbb2b76803b9db11a04e825649649d9abb40817ab2d0720b0f60",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the solid double-headed arrow is correct, but the dashed 'Top <-.- Bot' line has no arrowhead at Top.",
+      "method": "svg-screenshot"
+    }
+  ]
+}

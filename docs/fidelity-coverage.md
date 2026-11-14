@@ -3,6 +3,9 @@
 `fidelity:coverage` reads a completed raw Mermaid Fidelity run and reports the
 same reference-qualified callback population in three fixed source-path slices.
 It does not execute tests, change outcomes or remove unknowns from a score.
+It is an optional diagnostic, not a benchmark, and never changes a score, a rank
+or the synthesis; the README lists it with the other
+[diagnostics](../README.md#diagnostics).
 
 ```sh
 bun commands.ts fidelity:coverage --run RAW_FIDELITY_RUN --out FRESH_DIRECTORY
@@ -21,24 +24,67 @@ These are reproducible source slices, not assertions about every callback's
 semantic purpose. The three populations partition the full qualified population.
 Repeated titles retain their callback ordinals; missing callbacks are rejected.
 
+Separately from the slices, each project's counts are split into the **scored
+population** (qualified callbacks in files under `packages/mermaid/src/diagrams/`
+or `packages/parser/`, the callbacks Mermaid Fidelity scores) and **inventory**
+(the other qualified callbacks: rendering utilities, Mermaid's website and
+top-level modules). Inventory is executed and shown here but not scored;
+`report.md` states both sizes and `results.json` marks each gap file that is
+inventory.
+
 `report.md` shows population, passed, failed, explicitly unsupported and
-unassessed counts, plus assessed percentage and score bounds. The lower bound
-credits verified passes only. The upper bound additionally allows every
-unassessed callback to pass. Unsupported native operations are assessed
-nonpasses. An empty slice has no score. `results.json` also lists remaining gaps
-by file, with captured reasons and whether the file failed collection.
+unassessed counts, plus assessed percentage and score bounds, for the scored
+population, the inventory and each slice. The lower bound credits verified passes
+only. The upper bound additionally allows every unassessed or unsupported callback
+to pass: as in Fidelity scoring, an operation the candidate's side reports as
+unsupported is unassessed, not a known nonpass, and the assessed percentage
+excludes it. An empty slice has no score. `results.json` also lists remaining gaps
+by file, unsupported callbacks included with an `Unsupported:` reason prefix, with
+captured reasons and whether the file failed collection. Projects whose Fidelity
+is not applicable are listed under `notApplicable`.
 
 Unbound module exports are deferred during test-file loading so unused imports
 do not block unrelated callbacks. Using an unavailable export still produces an
 adapter gap. Namespace use is conservatively audited, including helper code
 outside callbacks; reflection cannot turn missing native behavior into a pass.
 
-## Reviewed Agentic source views
+## Reviewed view versions
 
-The Agentic 0.5.7 source candidate has reviewed views in
-`unified/mermaid-fidelity/views/`. Capability selection uses its public
-`parseClassDiagram`, `parseSequenceDiagram`, `parseErDiagram`,
-`parseUsecaseModel` and `parseAgentflowModel` exports when available. These
+A reviewed schema view reads one project's own model field by field, so it holds
+only for the model shape it was checked against.
+`unified/mermaid-fidelity/views/reviewed-versions.mjs` lists, per project with
+reviewed views, the native versions the views were reviewed against, each with a
+note saying what was checked. An entry is either a note, which covers any build of
+that version, or `{ note, revisions: { <source revision>: note } }` for a project
+whose artifact records a source revision and can be rebuilt under the same version.
+When a candidate's frozen version is not listed, or its artifact's revision is not
+listed for an entry that names revisions, `unreviewedViewGap` makes every qualified
+callback a Trident gap with the reason `view not reviewed for <project> <version>`
+(or `… at revision <revision>`), whatever the run observed. Result rows record the
+artifact's `revision`, and `scripts/rescore-fidelity.ts` applies the same check
+when rescoring. Projects with no entry have no reviewed view; they use the generic
+field-name projection and the check does not apply.
+
+To add a reviewed version, compare the model fields the project's views read in a
+reviewed version and the new one: the type definitions or parser source, and the
+native models the two versions produce for the same corpus sources
+(`scripts/fidelity-probe.ts` prints the model a view receives). Update the views
+where a field the views read was renamed, removed or re-encoded, then add the
+version (and, for a source distribution, the revision) with a note recording what
+was compared and what changed.
+
+The views' default rule is stated in the header of
+`unified/mermaid-fidelity/view-core.mjs`: a view supplies Mermaid's default only
+where the native model shows the source left a value unwritten and Mermaid's own
+parser stores a documented default for that unwritten value; a model that keeps no
+such field gets no default.
+
+## Reviewed Agentic views
+
+Agentic Mermaid has reviewed views in `unified/mermaid-fidelity/views/`.
+Capability selection uses its public `parseClassDiagram`, `parseSequenceDiagram`,
+`parseErDiagram`, `parseUsecaseModel` and `parseAgentflowModel` exports when the
+measured package has them. These
 parse the complete source through Agentic's own parsers. The frozen 0.5.6
 package lacks these exports and retains its `parseRegisteredMermaid` binding.
 A source parser rejection never falls back to the more permissive editing API.
@@ -80,121 +126,5 @@ with a similar message does not gain adapter ownership. Unbound Diagram renderer
 access is deferred explicitly, so a negative test cannot earn a pass by catching
 a missing-property TypeError instead of its intended native validation error.
 
-## Review of the 104 Agentic assertion nonpasses
-
-The review of the same `e7cb05b` source candidate classified every original
-assertion nonpass using captured callback inputs, the pinned native public API,
-native verification/serialization/drawings, and selected reference renders:
-
-- Nine were Trident mapping defects: two explicit C4 boundary types lost to
-  macro defaults, and one qualified Class namespace hierarchy omitted by the
-  view, plus four malformed sequence cases and two class-note cases bound to
-  the editing API instead of the public source parser. All are corrected. The
-  namespace correction also resolves two previously unsupported callbacks.
-- Sixty-nine are compatibility differences: model text/array/identifier
-  representation, diagnostic wording, API-stage differences, or explicit native
-  reader/interaction policies. They remain strict-reference assertion failures;
-  this review does not turn them into passes or remove them from the denominator.
-- Twenty-six reproduce native problems across four causes: rectangle border
-  property syntax (19), legacy edge interpolation (4), empty GitGraph tag boxes
-  (2), and hex CSS value corruption in Class/State style parsing (1).
-
-The rectangle syntax already exists in Agentic's declared Mermaid 12.2 target,
-as well as Trident's 12.3 reference. The original State reproduction uses an
-empty template; tracing the shared style reader also reproduces it with actual
-states and in Class styles. A `fill`-only control exercises a different property
-and does not establish correctness for `background`. The GitGraph finding includes painted empty tag boxes,
-not just a difference between empty-list representations.
-
-The final curve view assesses five formerly unsupported callbacks: one already
-passes in the original package and four expose the same interpolation gap.
-The full 352-file rerun on the original `e7cb05b` source yields 2,639 passes,
-105 assertion failures, 1,000 native unsupported callbacks and 3,602 Trident gaps.
-The frozen 0.5.6 release yields 2,244 passes, 106 assertion failures, 1,449
-unsupported callbacks and 3,547 Trident gaps. Each run keeps all 7,346 reference-qualified
-callbacks and the separate 18 upstream skips. These classifications cover the
-104 reviewed assertions, not the remaining unsupported operations, coverage
-gaps or independent rendered-layout findings.
-
-An initial file-level tally incorrectly assigned all 25 `flow-text` failures to
-rectangle properties. Exact-case review separates 19 rectangle cases from one
-newline representation difference and five documented generous label reads
-that emit `flowchart_label_delimiter`. The classification above incorporates
-that correction without changing any raw benchmark outcome.
-
-An earlier review classified the original 104 as 3 mapping defects, 75
-compatibility differences and 26 native problems. Inspection of the public
-source APIs moved six of those compatibility cases into the mapping category;
-the corrected classification above is 9 / 69 / 26. API-stage differences were
-not an established product limitation.
-
-At the earlier Trident head `81b939b`, the repaired Agentic candidate at
-`9543330` yielded 2,669 passes and 75 assertion failures, with unsupported and
-Trident-gap counts unchanged. Thirty native failures became passes: the
-original 26 plus the four newly assessed interpolation callbacks. The public
-source follow-up below measures that same unchanged package more completely.
-
-## Public source parser follow-up
-
-The same `9543330` package now yields **2,839 passes, 132 strict assertion
-failures, 775 unsupported callbacks and 3,600 Trident gaps**. No previously
-passing callback regresses. This fixes six more unfair failures and assesses
-226 formerly unsupported callbacks; 163 pass and 63 expose diagnostic,
-representation or documented reader-policy differences. The original 7,346
-qualified callbacks, 18 skips and 19 candidate collection-gap files remain.
-
-Trident also corrects cross-family parser imports, UseCase's asynchronous
-rejection protocol and stale publication after rejection. Complete AST
-comparisons cannot pass or fail as a partial native AST when its tables are
-declared absent. See the [run receipt and complete opaque audit](
-evidence/agentic-public-parsers-2026-11-09/README.md).
-
-This follow-up improves model coverage. It does not supply Mermaid's private
-renderer APIs or add rendered-layout coverage to the source-path Fidelity slice.
-
-Under the same final runtime and sealed reference, original Agentic `e7cb05b`
-yields 2,809 passes and 162 assertion failures; the repaired package turns
-exactly 30 failures into passes with no other status changes. Frozen 0.5.6
-retains its earlier 2,244 / 106 / 1,449 / 3,547 totals.
-
-## Final rendering and mapping follow-up, 2026-11-10
-
-The final Agentic source at `0102da4` produces **2,842 passes, 131 strict assertion
-failures, 775 unsupported callbacks and 3,598 Trident gaps**. The same runtime
-measures original `e7cb05b` at 2,812 / 161 / 775 / 3,598 and published 0.5.6 at
-2,247 / 106 / 1,449 / 3,544. Exactly 30 source failures become passes with no
-other callback-status changes. Two real native operations close former gaps;
-one source-coordinate mapping corrects a former failure. Exact error wording,
-private mutable bounds and DOM mounting are preserved as distinct capabilities.
-
-Full SVG, PNG and terminal completion now each reaches 1,332 / 1,342 in all
-three repeats; drawing labels reach 126 / 127 in both formats. Reviewed rendered
-repairs include wrapping, quadrant clearance, terminal notes and grouped-node
-containment. The [complete receipt](evidence/agentic-final-2026-11-10/README.md)
-records remaining refusals, strict assertions, coverage gaps and the 33-control
-rendered-structure replay. These final measurements supersede the earlier
-follow-up counts above without rewriting historical campaign results.
-
-## Independent completion review
-
-The [subsequent completion review](evidence/agentic-completion-review-2026-11-10/README.md)
-found and repaired three additional Agentic interpolation consumers and one
-sequence-capability mapping. Crafter's three unavailable lifecycle observations
-now remain unsupported; OpenCode's real native refusals remain failures. Complete
-Crafter/OpenCode runs and all Agentic workloads were replayed with a fresh sealed
-reference. Corrected Agentic `42986d0` retains 2,842 passes / 131 strict failures /
-775 unsupported / 3,598 gaps; the added native defects were outside the original
-assertions. Both public GitGraph APIs were checked against the ten syntax-only
-failures: those outcomes reflect actual native rejections, not missing AST fields
-or native JavaScript crashes. The new receipt retains exact inputs and observations.
-
-## Adversarial review of both PRs
-
-The [adversarial review](evidence/adversarial-review-2026-11-10/README.md) repairs
-border-label ownership and terminal note parity in Agentic, plus geometric SVG
-word-wrap qualification, entity-aware admission, class collections and default
-link styles in Trident. All six have concrete reproductions and owning regressions.
-Complete replays on native `cf1f224` retain 2,842 passes / 131 strict failures /
-775 unsupported /3,598 gaps under a fresh fully qualified control. All 2,032 peer
-SVG rows were reassessed; no passing row lost a pass. Original source/release
-comparisons and diagnostic coverage limits remain explicit in the new receipt.
+Agentic-specific reviews, repair comparisons and their receipts live in the
+[Agentic Mermaid repository](https://github.com/adewale/agentic-mermaid), not here.

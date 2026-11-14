@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test'
 import { mergeFidelityRuns, mergeIntoPublished } from '../scripts/merge-fidelity-runs.ts'
 
 const run = (results: any[], extra: any = {}) => ({ pin: 'p', selection: 'all core package tests', selectedFiles: 3, inventory: {}, outsideSelectedRunner: [], blocked: [], updatedAt: '2026-11-03T00:00:00Z', collectedThrough: '2026-11-03T00:00:00Z', results, ...extra })
-const referenceCases = ['passed', 'passed', 'passed', 'passed', 'reference-unqualified', 'reference-unqualified', 'upstream-skipped'].map((status, i) => ({ file: 'x.spec.ts', name: 't' + i, status }))
+const referenceCases = ['passed', 'passed', 'passed', 'passed', 'reference-unqualified', 'reference-unqualified', 'upstream-skipped'].map((status, i) => ({ file: 'packages/mermaid/src/diagrams/x/x.spec.ts', name: 't' + i, status }))
 const reference = { project: 'mermaid-js/mermaid', version: '12.2.0', missingFiles: [], cases: referenceCases }
 const candidate = (project: string, passed: number, failed: number) => ({ project, version: '1', missingFiles: [], cases: referenceCases.map((c, i) => ({ ...c, ...(i < 4 ? { status: i < passed ? 'passed' : i < passed + failed ? 'failed' : 'trident-blocked', ...(i >= passed + failed ? { reason: 'TRIDENT_ADAPTER_GAP: parser 12' } : {}) } : {}) })) })
 
@@ -14,7 +14,7 @@ test('merging derives counts from the shared control population and keeps candid
   expect(merged.results[1]!.counts.passed).toBe(3)
   expect(merged.blocked).toEqual([{ project: 'c', reason: 'no binding' }])
   expect(merged.results[2]!.gapReasons).toEqual({ 'TRIDENT_ADAPTER_GAP: parser N': 3 })
-  expect(merged.results[1]!.perFile).toEqual([{ path: 'x.spec.ts', counts: { passed: 3, failed: 1, 'reference-unqualified': 2, 'upstream-skipped': 1 } }])
+  expect(merged.results[1]!.perFile).toEqual([{ path: 'packages/mermaid/src/diagrams/x/x.spec.ts', counts: { passed: 3, failed: 1, 'reference-unqualified': 2, 'upstream-skipped': 1 } }])
 })
 
 test('a candidate with no assessable callback is unassessed, not a measured zero', () => {
@@ -44,12 +44,12 @@ test('different controls, selections and incomplete or substituted callbacks can
 
 test('independent file completion order preserves callback ordinals and duplicate titles', () => {
   const control = { ...reference, cases: [
-    { file: 'x.spec.ts', name: 'repeated title', status: 'reference-unqualified' },
-    { file: 'x.spec.ts', name: 'repeated title', status: 'passed' },
-    { file: 'y.spec.ts', name: 'another file', status: 'passed' },
+    { file: 'packages/mermaid/src/diagrams/x/x.spec.ts', name: 'repeated title', status: 'reference-unqualified' },
+    { file: 'packages/mermaid/src/diagrams/x/x.spec.ts', name: 'repeated title', status: 'passed' },
+    { file: 'packages/parser/tests/y.test.ts', name: 'another file', status: 'passed' },
   ] }
   const b = { ...candidate('b', 0, 0), cases: control.cases.map(c => ({ ...c, status: c.status === 'passed' ? 'failed' : c.status })) }
-  const reorderFiles = (row: any) => ({ ...row, cases: [...row.cases.filter((c: any) => c.file === 'y.spec.ts'), ...row.cases.filter((c: any) => c.file === 'x.spec.ts')] })
+  const reorderFiles = (row: any) => ({ ...row, cases: [...row.cases.filter((c: any) => c.file === 'packages/parser/tests/y.test.ts'), ...row.cases.filter((c: any) => c.file === 'packages/mermaid/src/diagrams/x/x.spec.ts')] })
   const merged = mergeFidelityRuns([run([control]), run([reorderFiles(control), reorderFiles(b)])])
   expect(merged.referenceQualifiedCallbacks).toBe(2)
   expect(merged.results.find(row => row.project === 'b')!.counts).toMatchObject({ passed: 0, failed: 2, 'reference-unqualified': 1 })
@@ -62,8 +62,8 @@ test('independent file completion order preserves callback ordinals and duplicat
 
 test('matching duplicate titles cannot hide a changed reference qualification', () => {
   const control = { ...reference, cases: [
-    { file: 'x.spec.ts', name: 'repeated title', status: 'reference-unqualified' },
-    { file: 'x.spec.ts', name: 'repeated title', status: 'passed' },
+    { file: 'packages/mermaid/src/diagrams/x/x.spec.ts', name: 'repeated title', status: 'reference-unqualified' },
+    { file: 'packages/mermaid/src/diagrams/x/x.spec.ts', name: 'repeated title', status: 'passed' },
   ] }
   const swapped = { ...control, cases: [...control.cases].reverse() }
   const b = { ...candidate('b', 0, 0), cases: swapped.cases }
@@ -72,8 +72,8 @@ test('matching duplicate titles cannot hide a changed reference qualification', 
 
 test('a partial re-run cannot swap qualification between repeated callback titles', () => {
   const control = { ...reference, cases: [
-    { file: 'x.spec.ts', name: 'repeated title', status: 'reference-unqualified' },
-    { file: 'x.spec.ts', name: 'repeated title', status: 'passed' },
+    { file: 'packages/mermaid/src/diagrams/x/x.spec.ts', name: 'repeated title', status: 'reference-unqualified' },
+    { file: 'packages/mermaid/src/diagrams/x/x.spec.ts', name: 'repeated title', status: 'passed' },
   ] }
   const a = { ...candidate('a', 0, 0), cases: control.cases.map(c => ({ ...c, status: c.status === 'passed' ? 'failed' : c.status })) }
   const published = mergeFidelityRuns([run([control, a])])
@@ -99,15 +99,15 @@ test('a partial re-run replaces only its projects, and only against the publishe
 
 test('shared gaps use file-local callback ordinals across file completion orders and repeated titles', () => {
   const control = { ...reference, cases: [
-    { file: 'x.spec.ts', name: 'same', status: 'passed' },
-    { file: 'x.spec.ts', name: 'same', status: 'passed' },
-    { file: 'y.spec.ts', name: 'other', status: 'passed' },
+    { file: 'packages/mermaid/src/diagrams/x/x.spec.ts', name: 'same', status: 'passed' },
+    { file: 'packages/mermaid/src/diagrams/x/x.spec.ts', name: 'same', status: 'passed' },
+    { file: 'packages/parser/tests/y.test.ts', name: 'other', status: 'passed' },
   ] }
   const a = { ...candidate('a', 0, 0), cases: control.cases.map((c, index) => ({ ...c, status: index === 1 ? 'passed' : 'trident-blocked', reason: index === 0 ? 'Candidate test not collected' : 'Missing native field' })) }
   const reorder = (row: any) => ({ ...row, cases: [row.cases[2], row.cases[0], row.cases[1]] })
   const b = { ...a, project: 'b' }
   const merged = mergeFidelityRuns([run([control, a]), run([reorder(control), reorder(b)])])
-  expect(merged.coverage).toEqual({ candidates: 2, commonUnassessedCallbacks: 2, commonUncollectedCallbacks: 1, additionalGapObservations: 0, perFile: [{ path: 'x.spec.ts', unassessed: 1, uncollected: 1 }, { path: 'y.spec.ts', unassessed: 1, uncollected: 0 }] })
+  expect(merged.coverage).toEqual({ candidates: 2, commonUnassessedCallbacks: 2, commonUncollectedCallbacks: 1, additionalGapObservations: 0, perFile: [{ path: 'packages/mermaid/src/diagrams/x/x.spec.ts', unassessed: 1, uncollected: 1 }, { path: 'packages/parser/tests/y.test.ts', unassessed: 1, uncollected: 0 }] })
   const c = { ...a, project: 'c', cases: a.cases.map((callback, index) => index < 2 ? { ...callback, status: index === 0 ? 'passed' : 'trident-blocked' } : callback) }
   const differentOrdinal = mergeFidelityRuns([run([control, a, b, c])])
   expect(differentOrdinal.coverage).toMatchObject({ commonUnassessedCallbacks: 1, commonUncollectedCallbacks: 0, additionalGapObservations: 3 })

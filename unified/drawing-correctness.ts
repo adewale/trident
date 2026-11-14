@@ -20,6 +20,7 @@ import { communityDeclaresOutput, communityModuleOutputSupported } from './commu
 import { comparisonProjects } from './lineage.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { svgTextValidity, terminalTextValidity } from './davebench-validity.ts'
+import { assessmentFonts } from '../fidelity/drawing/assessment-fonts.ts'
 
 class InadmissibleOutput extends Error {}
 class InvocationTimeout extends Error {}
@@ -86,6 +87,8 @@ export async function main(args = process.argv.slice(2)) {
   const contractSha256 = planDigest(cases.map(test => ({ id: test.id, source: test.source, expected: test.expected, sourceGaps: test.sourceGaps })))
   const assessmentProfiles = drawingAssessmentProfiles(formats), observerSources = drawingObserverSources(formats)
   const outputs: RetainedDrawingOutput[] = [], observerChecks: Record<string, unknown> = {}
+  // Which fonts judged the labels: SVG clipping and glyph proofs depend on them.
+  const fonts = assessmentFonts(), assessmentEnvironments = Object.fromEntries(formats.map(format => [format, { fonts }]))
   const lanes = projects.flatMap(project => {
     const node = catalog.nodes.find((node: any) => node.id === project)!
     return formats.filter(format => communityDeclaresOutput(node, format)).map(format => {
@@ -121,14 +124,14 @@ export async function main(args = process.argv.slice(2)) {
       JSON.stringify(
         {
           benchmark: 'Drawing Correctness',
-          state, plan, assessmentPolicy: labelPolicy, assessmentProfiles, observerSources, observerChecks, outputs,
+          state, plan, assessmentPolicy: labelPolicy, assessmentProfiles, observerSources, observerChecks, assessmentEnvironments, outputs,
           runtimeBindings: [...pythonRuntimes].map(([project, runtime]) => ({ project, format: 'terminal', binding: runtime.identity })),
           startedAt,
           updatedAt: new Date().toISOString(),
           selection: opts.get('--case') ? 'functional subset' : 'full shared corpus',
           corpus: { cases: cases.length, ids: cases.map(c => c.id), contractSha256, seed: 'reviewed Terminal Drawing Facts, invalid controls excluded', regressions: 'corpus/drawing-regressions.json' },
           versionsFrozenAt: catalog.benchmarkVersionsCheckedAt,
-          method: 'Label assessment: SVG labels must pass browser visibility, canvas and clipping checks, or a bounded pixel comparison proving the complete original glyphs remain visible against their actual backdrop. Unsupported observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.',
+          method: 'Label assessment: SVG labels must pass browser visibility, canvas and clipping checks, or a bounded pixel comparison proving the complete original glyphs remain visible against their actual backdrop. Unsupported observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames; a label found only as whole words wrapped across successive rows outside a frame has no established owner and is unknown, not missing. Clipping measured in a fallback face because the declared primary font is not installed is environment-dependent and unavailable, not failed; assessmentEnvironments records the fontconfig families that judged the run. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.',
           assessmentLimits: { invocationMs: 15000, svgObserverMs: 8000, terminalWorkerMs: 20000, terminalRectangleWork: terminalLabelWorkBudget, compileLabelPlan, labelPolicy },
           rows,
           blocked,

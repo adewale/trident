@@ -100,3 +100,11 @@ test('publication keeps capture counts without duplicating the raw output manife
   expect('outputs' in published).toBe(false)
   expect('rows' in published).toBe(false)
 })
+
+test('a merged format carries the font record of the machine that reassessed it', () => {
+  const fonts = (sha256: string) => ({ fonts: { families: ['DejaVu Sans'], sha256 } })
+  const published = { ...base(), assessmentEnvironments: { svg: fonts('old-svg'), terminal: fonts('old-terminal') }, observerSources: { svg: { producer: 'old SVG' }, terminal: { producer: 'old terminal' } } }
+  const run = { state: 'complete', updatedAt: '2026-11-08T12:00:00Z', corpus: published.corpus, versionsFrozenAt: 'later check', assessmentEnvironments: { svg: fonts('new-svg'), terminal: fonts('new-terminal') }, observerSources: { svg: { producer: 'new SVG' } }, blocked: [], rows: ['c1', 'c2'].map(caseId => ({ project: 'p', version: '1', format: 'svg', caseId, status: 'correct' })) }
+  const merged = mergeDrawingResults(published, run, ['svg'])
+  expect(merged.assessmentEnvironments).toEqual({ svg: fonts('new-svg'), terminal: fonts('old-terminal') })
+})

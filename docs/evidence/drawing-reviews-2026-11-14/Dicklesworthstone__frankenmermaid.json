@@ -1,0 +1,281 @@
+{
+  "schema": "trident-drawing-reviews-v1",
+  "project": "Dicklesworthstone/frankenmermaid",
+  "version": "0.5.0",
+  "capture": {
+    "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
+    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+  },
+  "reviewedAt": "2026-11-14",
+  "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
+  "reviews": [
+    {
+      "format": "svg",
+      "caseId": "drawing:03019928d457c65c",
+      "outputSha256": "6b669152d7f0d23189a5a15915e51c4e920143cf5592287cb290c8bf62d4648d",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot: the single node shows the ⚠️ emoji on one line and 'warn' on the next inside its box, so the whole label '⚠️ warn' is visible in reading order.",
+      "method": "svg-screenshot",
+      "candidateObserverDefect": {
+        "observer": "svg-label-observer (visible-authored-labels)",
+        "evidence": "The node holds <text class=\"fm-node-icon-emoji\">⚠️</text> at y=72.77 and <text>warn</text> at y=111.62, both visible, and the observer counted 0 occurrences of '⚠️ warn' (failed). The identically structured 🎉 / Party node in drawing:48d7ff23dee1b343 from the same renderer was left unknown, not failed."
+      }
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:128500dada38a009",
+      "outputSha256": "db2c60010a2687cca1601c353e225379bd825ee89ab3a0ff8c1128f0cc2052f5",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot: one arrow runs from Start down to End, with the caption '日本語ラベル' on it.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:1b492a74df0fc4b6",
+      "outputSha256": "e406867a83c09242f09c15c82e92a4062f1866c2b6ef2ccd6a79f6c090623052",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows Client, the Backend group title, API and DB, all unobstructed.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:2295dae5ca33addf",
+      "outputSha256": "67c251ee2e08fb2fd429bd2b5a2d7ac733eead896cfe29f919a2110e51b80aec",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows every commit id inside its circle, the tags as 'hotfix [v1.0.1]' and 'commit_2 [v1.1.0]', and the main/develop/feature/ui lane titles.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:25b4a684eb0b6e31",
+      "outputSha256": "7d2566377635ba09a16889f57536cfdc15fc1cee95e3542b763309ddde403f58",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the fourth node reads only 'Qux'; the authored label 'Qux & Test' lost '& Test'.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:29fc1dab07164509",
+      "outputSha256": "7e27de5dc3519a7782396f094a9b6e286b38cb746eff7196a66623db95b6aab0",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows all four node labels wrapped inside their boxes and 'first pointerenter or focus' on the B -> C arrow.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:3042977d4e6d813b",
+      "outputSha256": "11b7633868c7155016267bbe64fb10ebccab4f09f3e5169956616124bbeaf898",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows the four states and the submit, changes, ok, publish and hotfix captions, each on its own transition.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:48d7ff23dee1b343",
+      "outputSha256": "956255e0b69df0612f2744db4c2979387aae14602c6677ee215bdad2c61d025a",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows the colour emoji above 'Party' in the first box and 'Done' in the second; the emoji is drawn as a glyph on its own line.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:4e4550d086c4e288",
+      "outputSha256": "5006ec4cc88954066da767f32cfe18f203e4fed1f50f1cbdd82417ae10e42232",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows all ten node labels, the Backend group title and the Yes/No captions on their branches.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:529e14e4d09b944a",
+      "outputSha256": "c7e19cf870809e5e9a88b53238583ec24c7b038ecb3033d9573050b54896b3c4",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows the five Japanese node labels and both edge captions ('支払い済み', '😀 emoji label'), with each caption on a white plate above the routes.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:5c9a50898b1e6ffe",
+      "outputSha256": "074e2a64cb51a246f3dd3c6872217242e6f8de58a2e274dd3be72cee14da0ca1",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot and SVG: only node 'B' is drawn (data-nodes=1, data-edges=0). The node whose label has a control prefix ('X') and the A -> B edge are missing.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:a60c7e7b3b930353",
+      "outputSha256": "dac7c9db3efbfbb770a15b3dec7bef0ed994d68f9b79a16e5bfe3d4d8482d2f9",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: only the journey title '私の一日の / 流れ' is drawn; no sections, tasks or actors appear.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:b1428b5b59888938",
+      "outputSha256": "0c38bb860d0d2bdf9c8d4427521e53fa550e59d5a81e2566c9d4ba03d92052af",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the title 'Accessibility i18n sample' and both edges with their 'read' and 'write' captions are missing; only the group and three services are drawn.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:b23c0856e157b1f2",
+      "outputSha256": "a7cb58f014c1721803c5dbb95ae0ba6562ad58c647c41bb91f1436fec532f670",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows CUSTOMER, ORDER with 'int id', and the caption 'places ❤️' (colour emoji) beside the relationship.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:c64d9c102f509905",
+      "outputSha256": "09001d3dc1a5433d7385c1a2021183dfa5afa28e57da1f755478e3951d3816fa",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows commits A and B, the cherry-pick commit and the main/develop lane titles; the branch line touches 'develop' between letters but the title stays legible.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:cd771fca2659a460",
+      "outputSha256": "c7bfecc1e98a5ba011b885b78849c7a71c74a046ddce162bc6e6119af03dc540",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows all six states and seven distinct transition captions unobstructed; the routing is tangled, but labels are all this verdict covers.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:d7362afef7c26051",
+      "outputSha256": "3459a1f9c32f67fafa554617cbb463ba91b37d85b99edfccd4b409060aec7da5",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the second participant reads 'Shop.order() {' (raw ZenUML syntax), the Store participant and the 'order'/'save' message labels are missing, and the one message line has no arrowhead.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:ddef9c7af192e428",
+      "outputSha256": "5208f654c9767679b0ba01cb495bd7302db3020ec0b6b83f2be1ef7fb4fad1c1",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the four authored fields are drawn correctly, but an extra box labelled 'packet' (the diagram keyword) is drawn below them, so source syntax leaks into the drawing.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:1c0f33b5035768f2",
+      "outputSha256": "425aaaba05e97e4b7a851f4a15736ea6783a7939c5a748b64c7bc58067ae2697",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Braille-drawn boxes contain 'First / Second' and 'Line 1 / Line 2 / Line 3' on consecutive rows, as authored; braille walls are not a recognised frame, so ownership was left unknown.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:29fc1dab07164509",
+      "outputSha256": "88634d956b43b89d8c87c90f05e8e0f085eb5f9ccabcd9148c8ea6c14dd13843",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Node C reads 'Kobalte tooltip mounts, its ... div' with 'Trigger adopts the' dropped, and node D loses 'ce, popper,' ('presen' ... 'dismiss: Kobalte, unchanged').",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:87325fd383c3b1af",
+      "outputSha256": "44be606d1414324e347a63467dfbbe5c0760ed4734ebe18a0d80f00fb0a9481c",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "undecidable",
+      "reason": "The labels Draft, Approve?, yes and Ship sit in source order, but nodes and edges are braille dot strokes with no textual arrowheads, so edge direction cannot be read from the terminal text.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:89e9eb6aebb72128",
+      "outputSha256": "581b316f37b9ff8e3cd711db8f4b4567aa5e628c3597521cc1500ad3ecf54962",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Braille circle, double circle and box outlines contain 'Small circle', 'Small double circle' and 'Small rectangle', line-broken as authored, in source order.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:b1428b5b59888938",
+      "outputSha256": "e18cdacf764830816ca6ecb162c78fedf297d40218e01feb5139a360c4a79360",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Only 'City Cloud', 'Gateway', 'DB Primary' and 'Cache Hot' are printed; the title and the 'read' and 'write' captions are missing.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:ddef9c7af192e428",
+      "outputSha256": "d297ae8198a6af25ca4c52b8b9d84de34a1119ae5b9d225638d5ffebaf6359b2",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "The four field names are drawn, and the diagram keyword 'packet' is printed as a fifth text block below them, so source syntax leaks.",
+      "method": "terminal-text"
+    }
+  ]
+}

@@ -24,12 +24,16 @@ const PROJECTS = {
     const scope = join(dirname(root), '@zombie-mermaid')
     const core = await load(join(scope, 'core/dist/index.js')), p = await load(join(scope, 'mermaid-parser/dist/index.js'))
     const split = parse => withInput(parse, core.splitStatements?.bind(core))
+    // 5.16.0 also exports parsers for these families. Trident has no reviewed binding or
+    // view for them yet, so a test of one is a Trident gap, not an operation zombie lacks.
+    const later = { gantt: 'parseGantt', gitgraph: 'parseGitGraph', journey: 'parseJourney', kanban: 'parseKanban', mindmap: 'parseMindmap', packet: 'parsePacket', radar: 'parseRadar', requirement: 'parseRequirementDiagram', sankey: 'parseSankey', timeline: 'parseTimeline' }
     return {
       name: 'zombie-mermaid',
       families: {
         flowchart: p.parseMermaid, state: p.parseMermaid, sequence: split(p.parseSequenceDiagram), class: split(p.parseClassDiagram), er: split(p.parseErDiagram),
         c4: split(p.parseC4Diagram), xychart: split(p.parseXYChart), architecture: split(p.parseArchitecture), pie: p.parsePieChart, quadrant: p.parseQuadrantChart,
       },
+      unbound: Object.fromEntries(Object.entries(later).filter(([, name]) => typeof p[name] === 'function')),
     }
   },
   // lukilabs/beautiful-mermaid 1.1.3: its renderer's detectDiagramType recognizes xychart,
@@ -66,8 +70,12 @@ const PROJECTS = {
   },
   // sandyyst/dsh-plugin-mermaid-gb-svg 0.1.5: a Mermaid flowchart to GB/T 1526 converter.
   dsh: async module => ({ name: 'dsh-plugin-mermaid-gb-svg', families: { flowchart: (await load(module)).parseMermaid } }),
-  // tariqshams/mermaidtui 0.0.6: parseMermaid accepts `flowchart <direction>` only.
-  mermaidtui: async module => ({ name: 'mermaidtui', families: { flowchart: (await load(module)).parseMermaid } }),
+  // tariqshams/mermaidtui 0.0.6: parseMermaid is its one public parser, and its renderer
+  // (renderMermaidToTui) passes every source to it; it accepts `flowchart <direction>` only
+  // and throws its own ParseError ("Unsupported diagram type or missing direction") for any
+  // other header (dist/src/parser/index.js:33-36). Every family goes to it, so a family it
+  // does not parse is its own refusal rather than a table entry.
+  mermaidtui: async module => ({ name: 'mermaidtui', families: {}, all: (await load(module)).parseMermaid }),
   // anomalyco/opencode packages/merman: detectMermaidDiagram names six families, each
   // with its own src/<family>/parser.ts.
   opencode: async root => {
@@ -93,8 +101,10 @@ await serve(async (family, _source) => {
     } catch (error) {
       return { adapterGap: `${key} parser import failed: ` + String(error) }
     }
-  const parse = project.families[family]
-  if (!Object.hasOwn(project.families, family)) return { unsupported: `${project.name} has no ${family} parser (it parses ${Object.keys(project.families).join(', ')})` }
+  // `all`: the project's one parser for every source, which itself refuses what it cannot parse.
+  const parse = project.all ?? project.families[family]
+  if (project.unbound && Object.hasOwn(project.unbound, family)) return { adapterGap: `${project.name} exports ${project.unbound[family]} for ${family}, which has no reviewed Trident binding` }
+  if (!project.all && !Object.hasOwn(project.families, family)) return { unsupported: `${project.name} has no ${family} parser (it parses ${Object.keys(project.families).join(', ')})` }
   if (typeof parse !== 'function') return { adapterGap: `${project.name} no longer exports its ${family} parser` }
   try { if (lazy[family] && !loaded[family]) await lazy[family]() }
   catch (error) { return { adapterGap: `${project.name} ${family} parser import failed: ${String(error)}` } }

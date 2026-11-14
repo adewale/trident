@@ -14,7 +14,9 @@ import { byteDigest } from '../../portable/artifacts.ts'
 import { planDigest } from '../campaign-plan.ts'
 
 /** persistent: the bridge also answers one request per line under TRIDENT_BRIDGE_SERVE=1. */
-export interface ParserBridge { command: string[]; version: string; description: string; persistent?: boolean; cwd?: string; runtimeFiles?: { path: string; sha256: string }[]; installedRuntimeSha256?: string }
+/** sharedParserWith: another catalogued project whose parser this bridge calls unchanged
+ * (parserVersion is that parser's version), so the two Fidelity rows are one parser. */
+export interface ParserBridge { command: string[]; version: string; description: string; persistent?: boolean; cwd?: string; runtimeFiles?: { path: string; sha256: string }[]; installedRuntimeSha256?: string; sharedParserWith?: string; parserVersion?: string }
 /** Returns the bridge for a prepared peer, building it into outDir if needed, or undefined when it does not apply. */
 export type Resolver = (peer: any, outDir: string) => Promise<ParserBridge | undefined>
 

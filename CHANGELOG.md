@@ -2,29 +2,115 @@
 
 ## Unreleased
 
-- Recollect Mermaid Fidelity for all 26 candidates under one frozen worker, with
-  paired JSDOM and Node profiles, fresh Node qualification (320 common files) and
-  an automatic Merslim run that reproduces every callback. Unused, unbound imports
-  defer until used, so original files collect. Missing exports, database members
-  and namespace reflection are adapter gaps even when caught. Worker startup and
-  dispatch failures are adapter gaps, never parser failures. Unassessed
-  observations fall from 99,799 to 91,984; 3,499 reference callbacks remain
-  unassessed for every candidate. Reports split shared and additional gaps.
+## 0.4.0 — 14 November 2026
+
+This release recollects all three benchmarks against a 14 November product
+freeze and changes how each benchmark admits, scores and reports results, after
+an outside review of the repository found results that measured Trident's own
+observers or adapters rather than the implementations. Results from 0.3.0 and
+0.4.0 are not directly comparable: DaveBench admission, Drawing's label and
+clipping rules, and Mermaid Fidelity's scored population all changed, and each
+change's effect is listed below.
+
+### Collection
+
+- Recollect DaveBench, Drawing Correctness and Mermaid Fidelity against the
+  latest public releases on 14 November: Bezel 0.2.26, Zombie Mermaid 5.17.0,
+  Frankenmermaid 0.5.0 (library and CLI), Latias Merman 0.10.0 (library and
+  CLI) and OpenCode's Merman component 2.3.0 are new since 0.3.0; the other
+  projects are unchanged. The Frankenmermaid 0.5.0 and Merman 0.10.0 release
+  CLIs are bound to their reviewed archives, whose SHA-256 values match the
+  checksums each project published.
+
+### DaveBench
+
+- Admit SVG the way a browser displays it. Strict XML first; if that fails, the
+  SVG is parsed as a browser parses SVG embedded in HTML. Strict-XML failures
+  are counted per run and shown in the SVG table, and do not affect completion.
+  Mermaid completes 1,336 of its own 1,342 documentation examples, up from
+  1,302, and moves from sixth to second in SVG: strict XML had rejected raw `&`
+  in click tooltips, `&nbsp;` and unbound xlink prefixes.
+- Apply one empty-output rule to SVG and terminal text: output that draws
+  nothing is admitted only for examples whose reviewed source draws nothing.
+  Frankenmermaid loses 4 SVG and 4 terminal completions (blank SVGs and blank
+  braille canvases), VitePress Plugin Diagram loses 2 SVG, and six terminal
+  renderers gain 2 for the two Gantt examples that draw nothing.
+- Keep every run's failed inputs with their reasons, and record each example's
+  diagram family. `results:snapshot` writes `docs/davebench-families.md`:
+  completion per diagram family for every implementation and format.
+- Rows with equal completions and the same timing boundary share a rank when
+  their three-run time ranges overlap.
+- Label each PNG row's source: the project's own PNG interface or Trident's
+  Chromium conversion of its SVG. The synthesis leaves converted PNG out,
+  because it repeats the SVG measurement.
+
+### Drawing Correctness
+
+- Label policy `drawing-reviewed-labels-v3`: a terminal label whose words are
+  drawn whole, in reading order, on successive rows outside a walled box (on an
+  edge, in a diamond or a round node) is unknown rather than missing. Five of
+  Ondine's terminal failures, and wrapped labels from Frankenmermaid, Zombie
+  Mermaid and Kitlangton Merman, were drawn labels the observer could not find.
+- SVG profile `svg-label-paint-v8`: when every clipped label's declared font is
+  not installed on the assessing machine, clipping is unavailable rather than
+  failed. Each run records the machine's fontconfig family list and SHA-256.
+  24 of Latias Merman's SVG failures and 6 others become unknown.
+- Both rules have admission controls that run with every collection. Together
+  they move 39 rows from incorrect to unknown and none to correct.
 - Measure the glyph ink of plain, single-line HTML labels, separating unused
-  font-box overflow from cropped letters, with independent positive and clipped
-  admission controls. Record each unavailable SVG criterion and the glyph witness's
-  stage, and keep proof-profile rejections separate from observer errors.
-  Reassessing the retained 0.3.0 SVG outputs with this and the reviewed wrapping
-  and control-label observer changes from #94 changes 33 verdicts: 24 clipped Latias
-  Merman labels become failures, 9 unknown or failing cases pass and no pass is
-  lost. Unassessed Drawing observations fall from 145 to 113.
-- Show SVG pass bounds, Fidelity assertion/fault nonpasses separately from
-  unsupported operations, timing boundaries and Drawing's label scope in the
-  league tables.
-- Reap persistent Fidelity parser bridges when they stop. Each closed or restarted
-  bridge previously left one unreaped process; long campaigns filled the process
-  table on hosts whose PID 1 does not reap orphans. A regression test checks that
-  stopped bridge processes no longer exist.
+  font-box overflow from cropped letters, with positive and clipped admission
+  controls, and record each unavailable SVG criterion and the glyph witness's
+  stage (#98).
+
+### Mermaid Fidelity
+
+- Score only callbacks from Mermaid's diagram and parser tests
+  (`packages/mermaid/src/diagrams/`, `packages/parser/`): 4,844 of the 7,346
+  reference-qualified callbacks. The other 2,502 (rendering utilities, Mermaid's
+  website and top-level modules) are inventory; 2,492 of them have no pass from
+  any implementation.
+- Count "unsupported" as unassessed for every candidate. A review of one
+  candidate's unsupported verdicts found most were Trident binding gaps, and no
+  other candidate had that review.
+- Remove the renderer binding and error-location translation that only Agentic
+  Mermaid had. Agentic loses 2 passes.
+- Apply Fidelity only through public parse interfaces. Grok's renderer
+  component, MermaidText and Loom's renderer component are reached only through
+  private code and are now not applicable. The Mermaid Dart bridge calls only
+  the 16 parsers `mermaid_core` exports; its 12 private parsers are unassessed,
+  and Mermaid Dart and Mermaid Flutter fall from 2,127 to 1,968 passes.
+- Views are reviewed per native version and, where a project publishes one,
+  source revision (`views/reviewed-versions.mjs`); an unreviewed version gets
+  every callback as a Trident gap. Frankenmermaid 0.5.0, Bezel 0.2.26, Zombie
+  Mermaid 5.17.0 and OpenCode 2.3.0 were reviewed by comparing native model
+  output or source; Latias Merman 0.10.0 on result equivalence only.
+- The Mermaid Flutter row reads `mermaid_core`'s version from its lockfile and
+  says it shares Mermaid Dart's parser.
+- Earlier in this cycle, on the 0.3.0 product versions: recollect under one
+  frozen worker with paired JSDOM and Node profiles (unused imports defer until
+  used; missing exports, database members and worker failures are adapter gaps,
+  not parser failures), and reap persistent parser bridges when they stop.
+
+### Reporting and documentation
+
+- League tables show strict-XML invalidity, PNG source, SVG pass bounds,
+  Fidelity assertion nonpasses separately from unsupported operations, timing
+  boundaries, and projects whose per-case outcomes match in every lane.
+- The README's Fidelity facts come from the scored population.
+- Add "Dispute a result" to CONTRIBUTING.md. Record in SCOPE.md that benchmark
+  definitions change only at a release boundary. Describe the optional
+  diagnostics (`drawing:structure`, `layout:observe`, `fidelity:coverage`) as
+  diagnostics; none changes a score.
+- Remove Agentic Mermaid repair and candidate receipts from `docs/evidence`,
+  which published scores for an unreleased Agentic Mermaid version.
+- Add optional diagnostics: retained structure checks for qualified graph
+  families and quadrant clearance (#94), and a flowchart SVG layout observer
+  for crossings and clearance (#96).
+- Remove redundant copies and repeated work from the harness (#101); output is
+  unchanged, and Mermaid edge-id generation is no longer exponential in the
+  number of authored edge ids.
+- Update `actions/setup-python` to 7.1.0 and `actions/upload-artifact` to 7.0.2
+  (#100).
 
 ## 0.3.0 — 9 November 2026
 

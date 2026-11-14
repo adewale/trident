@@ -338,13 +338,17 @@ function mermaidGraphState(name, zombie) {
     for (const { group, parent } of regions) states.push({ id: group.id, kind: 'default', container: parent, region: true, classes: [], styles: [] })
     const ambiguous = states.find(state => state.ambiguous)
     if (ambiguous) states.length = 0
-    const noteEdges = graph.edges.filter(edge => noteIds.has(edge.target))
+    // zombie-mermaid 5.14 joins every note as state -> note; 5.16 joins a left-of note as
+    // note -> state. Either way the edge is the note's attachment, never a transition. The
+    // edge direction is not read as the side: in 5.14 it carries none.
+    const touchesNote = edge => noteIds.has(edge.target) || noteIds.has(edge.source)
+    const noteEdges = graph.edges.filter(touchesNote)
     return {
       name,
       states,
       ambiguous: ambiguous?.ambiguous,
-      transitions: graph.edges.filter(edge => !noteIds.has(edge.target)).map(edge => ({ from: edge.source, to: edge.target, title: edge.label ?? '' })),
-      notes: zombie ? noteEdges.map(edge => ({ target: edge.source, text: nodes.get(edge.target).label, position: absent(`${name}'s note parser drops the side (left of / right of)`) })) : absent(notesAbsent),
+      transitions: graph.edges.filter(edge => !touchesNote(edge)).map(edge => ({ from: edge.source, to: edge.target, title: edge.label ?? '' })),
+      notes: zombie ? noteEdges.map(edge => { const note = noteIds.has(edge.target) ? edge.target : edge.source; return { target: note === edge.target ? edge.source : edge.target, text: nodes.get(note).label, position: absent(`${name}'s note parser drops the side (left of / right of)`) } }) : absent(notesAbsent),
       classDefs: zombie ? entriesOf(graph.classDefs).map(([id, props]) => [id, styleStrings(props)]) : absent(`${name}'s state parser reads no classDef statements`),
       direction: directionOf(graph.direction),
       compositeDirection: id => directionOf(composites.find(({ group }) => group.id === id)?.group.direction ?? 'TB'),

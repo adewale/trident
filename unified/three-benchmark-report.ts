@@ -1,8 +1,13 @@
 import { reserveResultDirectory } from './result-storage.ts'
 import { fidelityPopulation, synthesiseBenchmarks, type ScoreBounds } from './overall-score.ts'
+import { fidelityScoring } from './mermaid-fidelity/scoring.ts'
+import { commonDrawingComparison, commonFidelityComparison, renderCommonComparison } from './comparison-report.ts'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { boundaryKind, davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
+import { boundaryKind, davebenchFailedInputs, davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
+import { acceptedRankings } from './davebench-report.ts'
+import { renderDrawingObligations, renderDrawingReviews } from './drawing-report.ts'
+import { renderBindingCoverage } from './fidelity-report.ts'
 import { assertTimingCollection, campaignPlan } from './campaign-plan.ts'
 
 function requireSameAdmission(left: any, right: any) {
@@ -18,9 +23,14 @@ export function threeBenchmarkReport(images: any, terminal: any, versions?: any)
   requireSameAdmission(images, terminal)
   assertTimingCollection(images); assertTimingCollection(terminal)
   const runs: DavebenchRun[] = [...images.runs, ...terminal.runs]
-  const rankings = davebenchRankings(runs, images.corpus.occurrences)
+  const plans = images.plan || terminal.plan ? { images: images.plan, terminal: terminal.plan } : undefined
+  // A collection that recorded the oracle's verdicts credits completion only over the
+  // inputs the Mermaid reference accepts; rendering a rejected input earns nothing.
+  const accepted = images.corpus.referenceRejected && plans ? acceptedRankings({ corpus: images.corpus, plans, runs }) : undefined
+  const rankings = accepted ? { svg: accepted.svg, png: accepted.png, terminal: accepted.terminal, unranked: accepted.unranked } : davebenchRankings(runs, images.corpus.occurrences)
   return { schema: 'trident-davebench-report-v2', corpus: images.corpus, versionsCheckedAt: versions?.checkedAt, status: 'davebench-only',
-    ...(images.plan || terminal.plan ? { scope: images.plan?.scope === 'subset' || terminal.plan?.scope === 'subset' ? 'subset' : 'full', plans: { images: images.plan, terminal: terminal.plan } } : {}),
+    ...(accepted ? { credit: { basis: 'reference-accepted', inputs: accepted.accepted.svg } } : {}),
+    ...(plans ? { scope: images.plan?.scope === 'subset' || terminal.plan?.scope === 'subset' ? 'subset' : 'full', plans } : {}),
     collection: { images: { startedAt: images.startedAt, finishedAt: images.updatedAt, environment: images.environment, method: images.method, consolidation: images.consolidation }, terminal: { startedAt: terminal.startedAt, finishedAt: terminal.updatedAt, environment: terminal.environment, method: terminal.method, consolidation: terminal.consolidation } },
     measurements: { davebench: { status: runs.some(row => row.attempted > 0) ? 'measured' : 'unmeasured', runs: runs.length, attemptedCalls: runs.reduce((sum, row) => sum + row.attempted, 0) }, drawing: { status: 'not-supplied' }, fidelity: { status: 'not-supplied' } },
     runs, rankings, blocked: [...images.blocked, ...terminal.blocked] }
@@ -109,17 +119,30 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   const escape = (v: unknown) => String(v).replaceAll('|', '\\|').replaceAll('\n', ' ')
   const lines = ['# Benchmark league tables', '', '[Methods, scoring and coverage details](docs/benchmark-results-details.md)', '', '## DaveBench', '']
   const table = (columns: string[], rows: unknown[][]) => lines.push('| ' + columns.join(' | ') + ' |', '| ' + columns.map(() => '---').join(' | ') + ' |', ...rows.map(r => '| ' + r.map(escape).join(' | ') + ' |'), '')
+  // Per-case outcome fingerprints by lane, used to name projects whose outcomes match in
+  // every DaveBench and Drawing lane they both have. Matching outcomes are reported as a
+  // fact; they do not by themselves show that two projects share code.
+  const lanes = new Map<string, Map<string, string>>()
+  const fingerprint = (project: string, lane: string, key: string) => { if (!lanes.has(project)) lanes.set(project, new Map()); lanes.get(project)!.set(lane, key) }
   for (const format of ['svg', 'png', 'terminal']) {
     lines.push('### ' + (format === 'terminal' ? 'Terminal rendering' : format.toUpperCase() + ' rendering'), '')
     const ranked = [...davebench.rankings[format]].sort((a: any, b: any) => a.rank - b.rank || label(a).localeCompare(label(b)))
+    const own = (r: any) => (davebench.runs ?? []).filter((run: any) => run.project === r.project && run.format === format)
+    // Strict-XML validity and the PNG's origin are reported beside completion when the
+    // collection recorded them; neither changes a completion count.
+    const strict = format === 'svg' && ranked.some((r: any) => own(r).some((run: any) => Number.isInteger(run.strictXmlInvalid)))
+    const origin = format === 'png' && ranked.some((r: any) => r.pngPath)
     const rows: unknown[][] = ranked.map((r: any) => {
-      const kind = davebench.runs?.find((run: any) => run.project === r.project && run.format === format)?.boundaryKind ?? (r.boundary ? boundaryKind(r.boundary) : undefined)
-      return [r.rank, label(r), r.completed, (r.medianTotalMs === null ? '—' : (r.medianTotalMs / 1000).toFixed(3)), kind === 'fresh-process' ? 'CLI; startup included' : kind === 'persistent-api' ? 'API; initialization excluded' : 'Not recorded']
+      const kind = own(r)[0]?.boundaryKind ?? (r.boundary ? boundaryKind(r.boundary) : undefined)
+      return [r.rank, label(r), r.completed, ...(strict ? [Math.max(0, ...own(r).map((run: any) => run.strictXmlInvalid ?? 0))] : []), ...(origin ? [r.pngPath === 'native' ? 'Own PNG interface' : r.pngPath === 'trident-conversion' ? "Trident's Chromium conversion of its SVG" : 'Not recorded'] : []), (r.medianTotalMs === null ? '—' : (r.medianTotalMs / 1000).toFixed(3)), kind === 'fresh-process' ? 'CLI; startup included' : kind === 'persistent-api' ? 'API; initialization excluded' : 'Not recorded']
     })
-    for (const block of davebench.blocked ?? []) if (!ranked.some((r: any) => r.project === block.project) && catalog.nodes.find((n: any) => n.id === block.project)?.benchmark?.outputs.includes(format)) rows.push(['—', label(block), 'Blocked', '—', '—'])
-    table(['Rank', 'Project', `Completed / ${davebench.corpus.occurrences} ↑`, 'Median seconds ↓', 'Timing boundary'], rows)
+    for (const block of davebench.blocked ?? []) if (!ranked.some((r: any) => r.project === block.project) && catalog.nodes.find((n: any) => n.id === block.project)?.benchmark?.outputs.includes(format)) rows.push(['—', label(block), 'Blocked', ...(strict ? ['—'] : []), ...(origin ? ['—'] : []), '—', '—'])
+    table(['Rank', 'Project', davebench.credit ? `Completed / ${davebench.credit.inputs} accepted ↑` : `Completed / ${davebench.corpus.occurrences} ↑`, ...(strict ? ['Strict-XML invalid'] : []), ...(origin ? ['PNG source'] : []), 'Median seconds ↓', 'Timing boundary'], rows)
+    for (const r of ranked) { const recorded = own(r).sort((a: any, b: any) => a.run - b.run); if (recorded.length && recorded.every((run: any) => run.failures)) fingerprint(r.project, 'davebench:' + format, JSON.stringify(recorded.map((run: any) => run.failures))) }
   }
-  const caseTable = (entries: any[], population: number, blocks: any[], mode: 'svg' | 'terminal' | 'fidelity', blockedLabel = 'Not run') => {
+  if (davebench.credit) lines.push(`Completion counts only the ${davebench.credit.inputs.toLocaleString('en-GB')} of ${davebench.corpus.occurrences.toLocaleString('en-GB')} inputs the Mermaid reference accepts. [Reference-rejected inputs and failures by kind](docs/davebench-completion.md)`, '')
+  if (davebench.corpus?.families) lines.push('[Completion by diagram family](docs/davebench-families.md)', '')
+  const caseTable = (entries: any[], population: number, blocks: any[], mode: 'svg' | 'terminal' | 'fidelity', blockedLabel = 'Not run', notApplicable: any[] = [], unsupportedLabel = 'Unsupported') => {
     const measured = entries.map(r => ({ ...r, scored: r.passed + r.failed > 0 })).sort((a, b) => Number(b.scored) - Number(a.scored) || b.passed - a.passed || label(a).localeCompare(label(b)))
     // Every unassessed case could still pass or fail. The range is the best and
     // worst position reachable once those cases are resolved, for scored rows.
@@ -131,28 +154,45 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
     let rank = 0, previous: number | undefined
     const rows: unknown[][] = measured.map((r, index) => {
       if (r.scored && r.passed !== previous) { rank = index + 1; previous = r.passed }
-      const cells: unknown[] = [r.scored ? rank : '—', r.scored ? range(r) : '—', label(r), r.scored ? r.passed : 'Not assessed']
+      const cells: unknown[] = [r.scored ? rank : '—', r.scored ? range(r) : '—', label(r) + (r.sharedParserWith ? ` (same parser as ${projectVersion(r.sharedParserWith, r.parserVersion, names)})` : ''), r.scored ? r.passed : 'Not assessed']
       if (mode === 'svg') cells.push(r.gaps ? r.passed + '–' + (r.passed + r.gaps) : r.passed)
-      cells.push(r.scored ? mode === 'fidelity' ? r.counts.failed : r.failed : '—')
-      if (mode === 'fidelity') cells.push(r.scored ? r.counts.unsupported : '—')
+      cells.push(r.scored ? mode === 'fidelity' ? r.assertionNonpasses : r.failed : '—')
+      if (mode === 'fidelity') cells.push(r.scored ? r.unsupported : '—')
       const shared = mode === 'fidelity' ? fidelity.coverage?.commonUnassessedCallbacks : undefined
       if (shared !== undefined && (!Number.isSafeInteger(shared) || shared < 0 || r.project !== 'mermaid-js/mermaid' && shared > r.gaps)) throw Error('Invalid shared Fidelity gap accounting')
       cells.push(shared !== undefined && r.project !== 'mermaid-js/mermaid' ? shared + ' + ' + (r.gaps - shared) : r.gaps)
       return cells
     })
     for (const block of [...blocks].sort((a, b) => label(a).localeCompare(label(b)))) if (!measured.some(r => r.project === block.project)) rows.push(['—', '—', label(block), blockedLabel, ...(mode === 'svg' ? ['0–' + population] : []), '—', ...(mode === 'fidelity' ? ['—'] : []), population])
-    table(['Verified rank', 'Possible rank', 'Project', `Passed / ${population} ↑`, ...(mode === 'svg' ? ['Pass bounds'] : []), mode === 'fidelity' ? 'Assertion/fault nonpasses' : 'Failed', ...(mode === 'fidelity' ? ['Unsupported'] : []), mode === 'fidelity' && fidelity.coverage ? 'Unassessed (shared + additional)' : 'Unassessed'], rows)
+    // Not applicable is neither a zero nor unassessed work: no rank, no count.
+    for (const entry of [...notApplicable].sort((a, b) => label(a).localeCompare(label(b)))) rows.push(['—', '—', label(entry), 'n/a', ...(mode === 'svg' ? ['n/a'] : []), 'n/a', ...(mode === 'fidelity' ? ['n/a'] : []), 'n/a'])
+    table(['Verified rank', 'Possible rank', 'Project', `Passed / ${population} ↑`, ...(mode === 'svg' ? ['Pass bounds'] : []), mode === 'fidelity' ? 'Assertion/fault nonpasses' : 'Failed', ...(mode === 'fidelity' ? [unsupportedLabel] : []), mode === 'fidelity' && fidelity.coverage ? `Unassessed${unsupportedLabel === 'Unsupported' ? '' : ', including unsupported'} (shared + additional)` : unsupportedLabel === 'Unsupported' ? 'Unassessed' : 'Unassessed, including unsupported'], rows)
   }
   lines.push('## Drawing Correctness', '')
   lines.push('Required labels must be visible without leaked source syntax. Edges, arrow direction, layout and styling are outside this benchmark; PNG is not assessed.', '')
   for (const format of drawing.formats ?? ['svg', 'png', 'terminal']) {
     lines.push('### ' + (format === 'terminal' ? 'Terminal correctness' : format.toUpperCase() + ' correctness'), '')
     caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => String(r.format).split('/').includes(format)), format, 'Blocked')
+    for (const r of drawing.results.filter((r: any) => r.format === format && r.caseOutcomes)) fingerprint(r.project, 'drawing:' + format, JSON.stringify(Object.fromEntries(Object.entries(r.caseOutcomes).map(([status, ids]: [string, any]) => [status, [...ids].sort()]))))
+    lines.push(...renderCommonComparison(commonDrawingComparison(drawing, format), label))
+    lines.push(...renderDrawingObligations(drawing, format, label), ...renderDrawingReviews(drawing, format, label))
   }
+  // Only projects with recorded DaveBench per-case outcomes are compared, so a match rests
+  // on every input of every lane, not on a nearly saturated Drawing table alone.
+  const groups = new Map<string, string[]>()
+  for (const [project, byLane] of lanes) if ([...byLane.keys()].some(lane => lane.startsWith('davebench:'))) { const key = JSON.stringify([...byLane].sort()); groups.set(key, [...(groups.get(key) ?? []), project]) }
+  const matching = [...groups.values()].filter(group => group.length > 1)
+  if (matching.length) { lines.push('### Matching outcomes', ''); for (const group of matching) lines.push('- ' + group.map(project => label({ project })).sort().join(' and ') + ': identical per-case outcomes in every DaveBench and Drawing lane.'); lines.push('') }
   lines.push('## Mermaid Fidelity', '')
-  const population = fidelityPopulation(fidelity)
-  if (fidelity.coverage) lines.push(`${fidelity.coverage.commonUnassessedCallbacks} reference-qualified callbacks are unassessed for every one of the ${fidelity.coverage.candidates} executed candidates; ${fidelity.coverage.commonUncollectedCallbacks} of them have no matching collected callback. Additional gaps vary by candidate. These gaps receive no verified pass credit.`, '')
-  caseTable(fidelity.results.map((r: any) => ({ ...r, passed: r.counts.passed, failed: r.counts.failed + r.counts.unsupported, gaps: r.counts['trident-blocked'] })), population, fidelity.blocked, 'fidelity')
+  const scoring = fidelityScoring(fidelity, catalog)
+  const population = fidelityPopulation(fidelity, catalog)
+  if (scoring.current) lines.push(`Scores use the ${population.toLocaleString('en-GB')} reference-qualified callbacks of Mermaid's diagram and parser tests (\`${fidelity.scoring.scoredAreas.join('`, `')}\`). The other ${Number(fidelity.inventoryCallbacks).toLocaleString('en-GB')} qualified callbacks (rendering utilities, Mermaid's website and its top-level modules) are inventory: executed and listed in the coverage report, not scored. An operation reported as unsupported is unassessed, not a known nonpass. A project whose parser is reachable only through private code is not applicable (n/a) and is not ranked.`, '')
+  if (fidelity.coverage) lines.push(`${fidelity.coverage.commonUnassessedCallbacks} ${scoring.current ? 'scored' : 'reference-qualified'} callbacks are unassessed for every one of the ${fidelity.coverage.candidates} executed candidates; ${fidelity.coverage.commonUncollectedCallbacks} of them have no matching collected callback. Additional gaps vary by candidate. These gaps receive no verified pass credit.`, '')
+  const notApplicable = [...scoring.notApplicable.keys()].map(project => ({ project }))
+  caseTable(scoring.results.map((r: any) => { const score = scoring.score(r); return { ...r, passed: score.passed, failed: score.nonpasses, gaps: score.unassessed, assertionNonpasses: score.failed, unsupported: score.unsupported } }), population, fidelity.blocked.filter((r: any) => !scoring.notApplicable.has(r.project)), 'fidelity', 'Not run', notApplicable, scoring.current ? 'Unsupported (counted as unassessed)' : 'Unsupported')
+  lines.push(...renderCommonComparison(commonFidelityComparison(fidelity, catalog), label))
+  // Results merged with outcome kinds show how each callback ended; earlier merges record none.
+  if (fidelity.results?.length && fidelity.results.every((row: any) => row.project === 'mermaid-js/mermaid' || row.outcomeKinds)) lines.push(...renderBindingCoverage(fidelity, label, '### Binding coverage').split('\n'))
   lines.push('## Equal-weight synthesis', '')
   const bounds = (value: ScoreBounds | null) => value === null ? 'n/a' : Math.abs(value.upper - value.lower) < 1e-9 ? value.lower.toFixed(2) : value.lower.toFixed(2) + '–' + value.upper.toFixed(2)
   const rank = (row: { bestRank: number; worstRank: number }) => row.bestRank === row.worstRank ? String(row.bestRank) : row.bestRank + '–' + row.worstRank
@@ -160,11 +200,42 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   return lines.join('\n')
 }
 
+/** DaveBench completion per diagram family: which families each implementation renders.
+ * Each row uses the run with the fewest completions, the run its league-table count comes
+ * from, and the failures that run recorded. Undefined for collections that recorded no
+ * case families or no per-case failures. */
+export function renderDavebenchFamilies(davebench: any, catalog: any, displayNames: Record<string, string> = {}) {
+  const families: string[] | undefined = davebench.corpus?.families
+  if (!Array.isArray(families)) return undefined
+  const names = { ...Object.fromEntries(catalog.nodes.filter((n: any) => n.comparisonBranding?.name).map((n: any) => [n.id, n.comparisonBranding.name])), ...displayNames }
+  const counts = new Map<string, number>()
+  for (const family of families) counts.set(family, (counts.get(family) ?? 0) + 1)
+  const order = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([family]) => family)
+  const lines = ['# DaveBench completion by diagram family', '',
+    `Each cell is the percentage of a family's documentation occurrences that the implementation completed, in the run with the fewest completions (the run its DaveBench count comes from). Column headings give each family's occurrence count out of ${families.length}; repeated documentation examples count each time they appear. A family is the diagram type an example declares in its first statement. Generated by \`bun commands.ts results:snapshot\`.`, '']
+  for (const format of ['svg', 'png', 'terminal']) {
+    const cases: string[] | undefined = (format === 'terminal' ? davebench.plans?.terminal : davebench.plans?.images)?.cases
+    if (!cases || cases.length !== families.length) throw Error('DaveBench case families do not match the planned cases for ' + format)
+    const rows: string[][] = []
+    for (const ranked of [...(davebench.rankings[format] ?? [])].sort((a: any, b: any) => a.rank - b.rank || String(a.project).localeCompare(String(b.project)))) {
+      const runs = (davebench.runs ?? []).filter((run: any) => run.project === ranked.project && run.format === format).sort((a: any, b: any) => a.completed - b.completed || a.run - b.run)
+      const run = runs[0]
+      if (!run?.failures) return undefined
+      const failed = new Set(Object.keys(davebenchFailedInputs(run, cases)))
+      const done = new Map<string, number>()
+      cases.forEach((id, index) => { if (!failed.has(id)) done.set(families[index]!, (done.get(families[index]!) ?? 0) + 1) })
+      rows.push([projectVersion(ranked.project, ranked.version, names), ...order.map(family => String(Math.floor(100 * (done.get(family) ?? 0) / counts.get(family)!)))])
+    }
+    lines.push('## ' + (format === 'terminal' ? 'Terminal text' : format.toUpperCase()), '', '| Project | ' + order.map(family => `${family} (${counts.get(family)})`).join(' | ') + ' |', '| --- | ' + order.map(() => '---:').join(' | ') + ' |', ...rows.map(row => '| ' + row.join(' | ') + ' |'), '')
+  }
+  return lines.join('\n')
+}
+
 /** DaveBench, Drawing Correctness, Mermaid Fidelity and the frozen catalog behind the landing page. */
 /** The release campaign lives at fixed paths: a file name never claims a collection date.
  * Published dates come from the timestamps each result file records (published-facts.ts).
  * The catalog is the version cutoff the campaign ran against, named for the day it was frozen. */
-export const currentBenchmarkResultFiles = ['results/release/report.json', 'results/release/drawing-correctness.json', 'results/release/mermaid-fidelity.json', 'docs/evidence/benchmark-campaign-2026-11-07/catalog.json']
+export const currentBenchmarkResultFiles = ['results/release/report.json', 'results/release/drawing-correctness.json', 'results/release/mermaid-fidelity.json', 'docs/evidence/benchmark-campaign-2026-11-14/catalog.json']
 
 /** Current campaign inputs already tracked in the repository; older snapshots
  * continue to support explicit historical exports to other directories. */
