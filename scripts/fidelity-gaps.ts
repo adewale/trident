@@ -11,6 +11,7 @@
 import { readFileSync } from 'node:fs'
 
 export const GAP_CAUSES: [name: string, pattern: RegExp][] = [
+  ['View not reviewed for this version', /^view not reviewed for /],
   ['Langium AST view', /Langium AST|AST field|Native AST type/],
   ['Layout data (getData)', /getData/],
   ['Host configuration', /configuration/i],
@@ -24,13 +25,19 @@ export const GAP_CAUSES: [name: string, pattern: RegExp][] = [
 
 export const gapCause = (reason: string) => GAP_CAUSES.find(([, pattern]) => pattern.test(reason))?.[0] ?? 'Other'
 
-/** Unassessed callbacks per project and cause, from each row's gapReasons. */
+/** Unsupported verdicts no per-assertion review has confirmed; scored as unassessed. */
+export const UNREVIEWED_UNSUPPORTED = 'Unsupported (unreviewed; scored as unassessed)'
+
+/** Unassessed callbacks per project and cause, from each row's gapReasons and, for
+ * results scored under the current definition, its unreviewed unsupported verdicts. */
 export function gapsByCause(result: any) {
   const table: Record<string, Record<string, number>> = {}
   for (const row of result.results) {
     if (row.project === 'mermaid-js/mermaid') continue
     const causes: Record<string, number> = {}
     for (const [reason, count] of Object.entries(row.gapReasons ?? {}) as [string, number][]) { const cause = gapCause(reason); causes[cause] = (causes[cause] ?? 0) + count }
+    const unsupported = Object.values(row.unsupportedReasons ?? {}).reduce((sum: number, count) => sum + Number(count), 0)
+    if (unsupported) causes[UNREVIEWED_UNSUPPORTED] = unsupported
     table[row.project] = causes
   }
   return table

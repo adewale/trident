@@ -4370,7 +4370,10 @@
         "sourcePin": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8",
         "outputs": [
           "terminal"
-        ]
+        ],
+        "notApplicable": {
+          "fidelity": "No public parse interface: the renderer component's mermaid.rs parsers are private to the grok binary; Trident could reach them only by compiling the private source beside an injected export (SCOPE.md)."
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -4418,7 +4421,10 @@
         "versionPolicy": "recorded",
         "outputs": [
           "terminal"
-        ]
+        ],
+        "notApplicable": {
+          "fidelity": "No public parse interface: the renderer component's parsers are module-private; Trident could reach them only from a source copy with exports appended (SCOPE.md)."
+        }
       },
       "benchmarkEligibility": {
         "classification": "independently-rooted-implementation",
@@ -4652,7 +4658,10 @@
         "sourcePin": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12",
         "outputs": [
           "terminal"
-        ]
+        ],
+        "notApplicable": {
+          "fidelity": "No public parse interface: the Go parsers are unexported; Trident could reach them only through an overlay-injected export (SCOPE.md)."
+        }
       },
       "benchmarkEligibility": {
         "classification": "port-implementation",

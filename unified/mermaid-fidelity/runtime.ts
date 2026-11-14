@@ -8,8 +8,7 @@ import { projectPublicDatabase } from '../upstream-fidelity-projection.mjs'
 import { persistentBridge } from './bridge-client.mjs'
 import { nativeAstView, mermaidConstants } from './schema-views.mjs'
 import { importFamily } from './namespace.mjs'
-import { parseAgenticSource, agenticDiagnostic } from './agentic-parser.mjs'
-import { agenticRenderer } from './agentic-renderer.ts'
+import { parseAgenticSource } from './agentic-parser.mjs'
 
 const job = JSON.parse(readFileSync(process.env.TRIDENT_FIDELITY_JOB!, 'utf8'))
 // Parallel test files run in separate worker processes; each appends to its own part.
@@ -39,7 +38,8 @@ const contexts = new Map<string, any>(),
   ownDatabases = new WeakSet<object>()
 /** An operation the candidate's real interface does not offer. The candidate's
  * interface is parse(source) -> its own model; Mermaid's mutable database API and
- * jison callback protocol are not part of it. Recorded as a known nonpass. */
+ * jison callback protocol are not part of it. Recorded as the raw 'unsupported'
+ * disposition; scoring counts it as unassessed (scoring.ts). */
 function unsupportedOperation(reason: string): never {
   // The verdict comes from the candidate's own interface, so it counts as exercised.
   if (active && !failureReport()) {
@@ -111,8 +111,8 @@ function deferred(reason: string): any {
   return value
 }
 /** A deferred value that records its gap only when used: read, compared or inspected.
- * Only Agentic renderer members absent from the candidate use it; database and
- * module namespace reads are rejected outright. */
+ * Only the unbound Mermaid Diagram renderer uses it; database and module namespace
+ * reads are rejected outright. */
 function untilUsed(reason: string): any {
   const use = (key: unknown) => deferred(reason + (key === undefined ? '' : '.' + String(key)))
   const value: any = new Proxy(function () {}, {
@@ -331,7 +331,7 @@ function nativeParse(family: string, source: string) {
       if (/^Candidate parser fault:/.test(String(error?.message))) throw error
       if (!/^(?:MermaidSyntaxError|MermaidParseError|ParseError|SyntaxError)$/.test(String(error?.name))) return gap('Unclassified Agentic source parser refusal: ' + String(error?.message ?? error))
       active && active.rejections++
-      throw family === 'agentflow' ? agenticDiagnostic(error, { unavailable: gap, unsupported: unsupportedOperation }) : error
+      throw error
     }
     if (typeof api.parseRegisteredMermaid !== 'function') return gap('Agentic no longer exports its editing parser and has no reviewed source parser for ' + family)
     const result = invokeParser(() => api.parseRegisteredMermaid(source))
@@ -822,16 +822,9 @@ export function moduleFor(family: string, source: string, file: string, locals: 
               db.parse(typeof text === 'string' ? text : text.raw)
             } catch {}
           else db.parse(typeof text === 'string' ? text : text.raw)
-          const renderer = job.target.tool === 'agentic' ? agenticRenderer(api, {
-            beforeCall: configuredCall,
-            called: () => { active && active.calls++ },
-            refused: () => { active && active.rejections++ },
-            fault: reason => { active?.faults.push(reason); throw Error('Candidate renderer fault: ' + reason) },
-            unavailable: gap,
-            missing: member => untilUsed('Native renderer does not expose Mermaid renderer member ' + member),
-            hasInlineTarget: id => typeof document !== 'undefined' && Boolean(document.getElementById(id)),
-          }) : undefined
-          return { type: family, db, parser: c.parser, renderer: renderer ?? untilUsed('Mermaid Diagram renderer is not bound to the candidate') }
+          // Fidelity compares parser models. No candidate's renderer is bound in Mermaid's
+          // renderer protocol, so a test that draws is a Trident binding gap for everyone.
+          return { type: family, db, parser: c.parser, renderer: untilUsed('Mermaid Diagram renderer is not bound to the candidate') }
         },
       },
     })

@@ -606,7 +606,8 @@ function beautifulFamily(project) {
     const headReason = zombie ? `${name} spells -> and -) (and their dashed forms) both 'open'` : `${name} spells ->> and -x both 'filled' and -> and -) both 'open'`
     const message = index => {
       const m = raw.messages[index], type = typeOf(m)
-      const entry = { from: m.from, to: m.to, message: m.label, activate: Boolean(m.activate), ...(type !== undefined ? { type } : {}) }
+      // zombie-mermaid 5.16 records a written wrap: on a message or note; an unrecorded one stays absent.
+      const entry = { from: m.from, to: m.to, message: m.label, activate: Boolean(m.activate), ...(type !== undefined ? { type } : {}), ...(zombie && typeof m.wrap === 'boolean' ? { wrap: m.wrap } : {}) }
       return [withAbsent(entry, { centralConnection: `${name} has no central connections`, ...(type === undefined ? { type: headReason } : {}) }), ...(m.activate ? [marker(views.SEQ.ACTIVE_START, '', m.to)] : []), ...(m.deactivate ? [marker(views.SEQ.ACTIVE_END, '', m.from)] : [])]
     }
     const layout = () => {
@@ -614,7 +615,7 @@ function beautifulFamily(project) {
       // zombie's blocks name the notes they hold (noteStartIndex .. noteEndIndex).
       const notes = raw.notes.map((note, index) => {
         const [from, to] = noteEnds(note.actorIds)
-        return { slot: note.afterIndex + 1, kind: 'note', entry: { from, to, message: note.text, type: views.SEQ.NOTE, placement: placementOf(note.position) }, ...(zombie ? { inside: block => block.noteStart <= index && index < block.noteEnd } : {}) }
+        return { slot: note.afterIndex + 1, kind: 'note', entry: { from, to, message: note.text, type: views.SEQ.NOTE, placement: placementOf(note.position), ...(zombie && typeof note.wrap === 'boolean' ? { wrap: note.wrap } : {}) }, ...(zombie ? { inside: block => block.noteStart <= index && index < block.noteEnd } : {}) }
       })
       const activations = (zombie ? raw.activations ?? [] : []).map(a => ({ slot: a.afterIndex + 1, kind: 'activation', entry: marker(a.kind === 'start' ? views.SEQ.ACTIVE_START : views.SEQ.ACTIVE_END, '', a.actorId) }))
       const blocks = raw.blocks.map((block, seq) => {

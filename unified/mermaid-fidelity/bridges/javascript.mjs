@@ -24,12 +24,16 @@ const PROJECTS = {
     const scope = join(dirname(root), '@zombie-mermaid')
     const core = await load(join(scope, 'core/dist/index.js')), p = await load(join(scope, 'mermaid-parser/dist/index.js'))
     const split = parse => withInput(parse, core.splitStatements?.bind(core))
+    // 5.16.0 also exports parsers for these families. Trident has no reviewed binding or
+    // view for them yet, so a test of one is a Trident gap, not an operation zombie lacks.
+    const later = { gantt: 'parseGantt', gitgraph: 'parseGitGraph', journey: 'parseJourney', kanban: 'parseKanban', mindmap: 'parseMindmap', packet: 'parsePacket', radar: 'parseRadar', requirement: 'parseRequirementDiagram', sankey: 'parseSankey', timeline: 'parseTimeline' }
     return {
       name: 'zombie-mermaid',
       families: {
         flowchart: p.parseMermaid, state: p.parseMermaid, sequence: split(p.parseSequenceDiagram), class: split(p.parseClassDiagram), er: split(p.parseErDiagram),
         c4: split(p.parseC4Diagram), xychart: split(p.parseXYChart), architecture: split(p.parseArchitecture), pie: p.parsePieChart, quadrant: p.parseQuadrantChart,
       },
+      unbound: Object.fromEntries(Object.entries(later).filter(([, name]) => typeof p[name] === 'function')),
     }
   },
   // lukilabs/beautiful-mermaid 1.1.3: its renderer's detectDiagramType recognizes xychart,
@@ -94,6 +98,7 @@ await serve(async (family, _source) => {
       return { adapterGap: `${key} parser import failed: ` + String(error) }
     }
   const parse = project.families[family]
+  if (project.unbound && Object.hasOwn(project.unbound, family)) return { adapterGap: `${project.name} exports ${project.unbound[family]} for ${family}, which has no reviewed Trident binding` }
   if (!Object.hasOwn(project.families, family)) return { unsupported: `${project.name} has no ${family} parser (it parses ${Object.keys(project.families).join(', ')})` }
   if (typeof parse !== 'function') return { adapterGap: `${project.name} no longer exports its ${family} parser` }
   try { if (lazy[family] && !loaded[family]) await lazy[family]() }

@@ -5,9 +5,20 @@
 // against the project's own type definitions or parser source at the pinned version.
 // A view never parses source text, never re-splits a display string into fields and
 // never fills in a value the native model does not carry:
-//   - a field the model carries under another name or encoding is translated;
+//   - a field the model carries under another name or encoding is translated, including
+//     an encoding by omission that the project's own types or parser document (OpenCode
+//     omits a note's 'over' placement; zombie-mermaid omits the marker of a plain
+//     arrowhead), and a structural root the model expresses by having no parent
+//     (Mermaid's C4 'global' boundary, a state document's 'root');
+//   - the one exception: where the model leaves a value unset because the source did not
+//     write it, and Mermaid's own parser stores a documented default for that same
+//     unwritten value, the view reads Mermaid's default (direction 'TB', a sequence box's
+//     'transparent' fill, an untyped C4 Boundary's 'system', a commit's NORMAL type, a
+//     state's 'default' type, '' for unwritten text). The native model must establish that
+//     the value was unwritten: a model that keeps no such field at all gets no default;
 //   - a concept the model does not carry at all is declared absent with its reason,
-//     and reading it is that project's unsupported operation (a known nonpass);
+//     and reading it is that project's unsupported operation (unassessed in scoring,
+//     scoring.ts);
 //   - anything else the tests read stays a Trident gap.
 
 
@@ -832,7 +843,8 @@ const C4 = {
   'dfadler/zombie-mermaid': raw => {
     const parentOf = {}, flat = []
     const walk = (group, parent) => {
-      flat.push({ alias: group.alias, label: text(group.label), type: { text: group.type ?? 'system' }, parentBoundary: parent })
+      // zombie-mermaid records every boundary's type, already in Mermaid's spelling.
+      flat.push({ alias: group.alias, label: text(group.label), type: { text: group.type }, parentBoundary: parent })
       for (const alias of group.elementAliases ?? []) parentOf[alias] = group.alias
       for (const child of group.children ?? []) walk(child, group.alias)
     }

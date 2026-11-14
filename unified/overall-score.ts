@@ -1,3 +1,5 @@
+import { fidelityScoring } from './mermaid-fidelity/scoring.ts'
+
 export interface BenchmarkScores { davebench: number | null; drawing: number | null; fidelity: number | null }
 
 /** Equal weights; missing measurements cannot become zero or disappear. */
@@ -18,15 +20,14 @@ const epsilon = 1e-9
 
 /** Fidelity scores only callbacks whose pinned Mermaid control passes. A callback
  * the reference cannot pass is unpassable for every participant by definition,
- * so it is reported as reference coverage work instead of a shared unknown. */
-export function fidelityPopulation(fidelity: any) {
-  const population = fidelity.referenceQualifiedCallbacks
-  if (!Number.isInteger(population) || population <= 0) throw Error('Fidelity needs a positive reference-qualified population')
-  for (const row of fidelity.results) {
-    const c = row.counts, accounted = c.passed + c.failed + c.unsupported + c['trident-blocked']
-    if (accounted !== population) throw Error(`Fidelity counts for ${row.project} cover ${accounted} callbacks, not the ${population}-callback qualified population`)
-  }
-  return population
+ * so it is reported as reference coverage work instead of a shared unknown. Under the
+ * current definition only the qualified callbacks of Mermaid's diagram and parser tests
+ * are scored (the rest are inventory), and an unsupported operation is unassessed;
+ * results published under the earlier definition are read under it (scoring.ts). */
+export function fidelityPopulation(fidelity: any, catalog?: any) {
+  const scoring = fidelityScoring(fidelity, catalog)
+  for (const row of scoring.results) scoring.score(row)
+  return scoring.population
 }
 
 /**
@@ -53,13 +54,14 @@ export function synthesiseBenchmarks(davebench: any, drawing: any, fidelity: any
   const ids = new Set<string>([...drawing.results, ...drawing.blocked, ...fidelity.results, ...fidelity.blocked, ...(davebench.runs ?? []), ...(davebench.blocked ?? [])].map((r: any) => r.project))
   const planned = davebench.corpus?.occurrences
   if (!Number.isInteger(planned) || planned <= 0) throw Error('DaveBench synthesis needs the planned occurrence count')
-  const faithfulPopulation = fidelityPopulation(fidelity)
+  const faithfulScoring = fidelityScoring(fidelity, catalog)
+  const faithfulPopulation = fidelityPopulation(fidelity, catalog)
   const drawingFormats: string[] = drawing.formats ?? formats
   const rows = [...ids].map(project => {
     const declared = catalog.nodes.find((n: any) => n.id === project)?.benchmark?.outputs ?? []
     const applicable = formats.filter(format => declared.includes(format) || format === 'png' && declared.includes('svg') || drawing.results.some((r: any) => r.project === project && r.format === format) || davebench.rankings[format]?.some((r: any) => r.project === project))
     if (!applicable.length) throw Error('No declared synthesis formats for ' + project)
-    const observations = [...drawing.results, ...fidelity.results, ...(davebench.runs ?? [])].filter((r: any) => r.project === project)
+    const observations = [...drawing.results, ...faithfulScoring.results, ...(davebench.runs ?? [])].filter((r: any) => r.project === project)
     if (new Set(observations.map((r: any) => r.version)).size > 1) throw Error('Cannot synthesise different project versions: ' + project)
     const dave = meanBounds(applicable.map(format => {
       const row = davebench.rankings[format]?.find((r: any) => r.project === project)
@@ -75,8 +77,11 @@ export function synthesiseBenchmarks(davebench: any, drawing: any, fidelity: any
       const row = drawing.results.find((r: any) => r.project === project && r.format === format)
       return row ? caseBounds(row.counts.correct, row.counts.unknown + row.counts.unrun, drawing.corpus.cases) : unknownBounds()
     })) : null
-    const native = fidelity.results.find((r: any) => r.project === project)
-    const faithful = native ? caseBounds(native.counts.passed, native.counts['trident-blocked'], faithfulPopulation) : unknownBounds()
+    // Fidelity applies only through a public parse interface. A project without one
+    // has no Fidelity component: not applicable, not unknown.
+    const native = faithfulScoring.results.find((r: any) => r.project === project)
+    const faithfulScore = native && faithfulScoring.score(native)
+    const faithful: ScoreBounds | null = faithfulScoring.notApplicable.has(project) ? null : faithfulScore ? caseBounds(faithfulScore.passed, faithfulScore.unassessed, faithfulPopulation) : unknownBounds()
     const components = [dave, draw, faithful].filter((value): value is ScoreBounds => value !== null)
     const overall = meanBounds(components)
     const exact = components.every(value => value.lower === value.upper)

@@ -15,6 +15,8 @@ import './mermaid-fidelity/bridge-registry.ts'
 import { currentReferencePin } from '../reference/source.ts'
 import { environmentSummary } from './mermaid-fidelity/environments.ts'
 import { qualifyOriginalRuntime } from './upstream-runtime-qualification.ts'
+import { fidelityNotApplicableReason, fidelityPopulationSizes, fidelityScoringDefinition, scoredFidelityCounts } from './mermaid-fidelity/scoring.ts'
+import { unreviewedViewGap } from './mermaid-fidelity/views/reviewed-versions.mjs'
 
 // The pinned Mermaid suite: one reviewed version and commit, shared with upstream:prepare.
 const PIN = currentReferencePin.commit
@@ -33,7 +35,9 @@ const outcomeIndex = (rows: any[], name: (row: any) => string) => {
 export function compileFidelityReference(reference: any, audit?: any[]) {
   return { protocol: 'indexed-fidelity-reference-v1' as const, native: reference, controls: expandedTests(reference), guarded: audit !== undefined, referenceBy: audit && outcomeIndex(audit, row => row.fullName ?? row.name.replaceAll(' > ', ' ')) }
 }
-export function fidelityOutcomes(reference: any, candidate: any, audit: any[], referenceAudit?: any[]) {
+/** `viewGap`: the candidate's views are not reviewed for its version, so no qualified
+ * callback can be assessed (views/reviewed-versions.mjs). */
+export function fidelityOutcomes(reference: any, candidate: any, audit: any[], referenceAudit?: any[], options: { viewGap?: string } = {}) {
   const compiled = reference?.protocol === 'indexed-fidelity-reference-v1' ? reference : compileFidelityReference(reference, referenceAudit)
   const controls = compiled.controls, attempted = expandedTests(candidate)
   // A candidate file that failed to load on the candidate's own unsupported operation (a
@@ -86,7 +90,8 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
           : evidence?.faults?.length
             ? 'failed'
           : // A refused parse, an operation the candidate does not offer or a concept its
-            // model does not carry means the test cannot pass, whatever else Trident maps.
+            // model does not carry outranks any Trident gap in the same test. The raw
+            // disposition is kept; scoring counts it as unassessed (mermaid-fidelity/scoring.ts).
             (result && evidence?.unsupported?.length) || (!result && unsupportedFiles.has(control.file))
             ? 'unsupported'
             : !result || !evidence || evidence.gaps.length || !evidence.calls && !(candidate === compiled.native && evidence.protocol === 'pinned-source-control-v1') || unmappedMemberCall || tridentError
@@ -94,6 +99,8 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
               : result.status === 'passed'
                 ? 'passed'
                 : 'failed'
+    if (options.viewGap && ['passed', 'failed', 'unsupported', 'trident-blocked'].includes(status))
+      return { file: control.file, name: control.fullName, status: 'trident-blocked', calls: evidence?.calls ?? 0, rejections: evidence?.rejections ?? 0, reason: options.viewGap }
     let unobservedReason: string | undefined
     if (!result) unobservedReason = unsupportedFiles.get(control.file) ?? 'Candidate test not collected'
     else if (status === 'trident-blocked') {
@@ -180,9 +187,17 @@ export async function main(args = process.argv.slice(2)) {
   const bunSha256 = byteDigest(process.execPath)
   const bridgeCache = join(dirname(import.meta.dirname), 'node_modules/.cache/fidelity-bridges')
   const blocked: any[] = []
+  // Fidelity applies only through a public parse interface; a project whose parser is
+  // reachable only through private code is declared not applicable in the catalog.
+  const notApplicable: { project: string; reason: string }[] = []
   for (const peer of prepared) {
     const project = peer.node.id
     if (project === 'mermaid-js/mermaid' || (opts.has('--projects') && !opts.get('--projects')!.split(',').includes(project))) continue
+    const inapplicable = fidelityNotApplicableReason(catalog?.nodes.find((n: any) => n.id === project) ?? peer.node)
+    if (inapplicable) {
+      notApplicable.push({ project, reason: inapplicable })
+      continue
+    }
     if (!opts.has('--catalog')) verifyBenchmarkArtifact(peer, peer.node)
     // A registered out-of-process bridge calls the project's own parser in its own language.
     const bridge = await parserBridge(peer, bridgeCache)
@@ -239,11 +254,13 @@ export async function main(args = process.argv.slice(2)) {
     }
     referenceRun ??= candidate
     indexedReference ??= compileFidelityReference(referenceRun.native, referenceRun.audit)
-    const rows = fidelityOutcomes(indexedReference, candidate.native, candidate.audit)
+    const rows = fidelityOutcomes(indexedReference, candidate.native, candidate.audit, undefined, { viewGap: unreviewedViewGap(candidate.target.project, candidate.target.version) })
     const counts = Object.fromEntries(['passed', 'failed', 'unsupported', 'trident-blocked', 'reference-unqualified', 'upstream-skipped', 'upstream-expected-failure'].map(status => [status, rows.filter((row: any) => row.status === status).length]))
     const byFile = new Map<string, any>((candidate.native?.testResults ?? []).map((row: any) => [row.name, row]))
     const missingFiles = files.filter(file => !byFile.get(file.absolute)?.assertionResults.length).map(file => ({ path: file.path, declaredTests: file.declarations.length, reason: byFile.get(file.absolute)?.message ?? 'No expanded test callbacks collected' }))
-    results.push({ project: candidate.target.project, version: candidate.target.version, counts, environments: candidate.environments, missingFiles, cases: rows.map((row: any) => ({ ...row, file: relative(upstream, row.file) })) })
+    const cases = rows.map((row: any) => ({ ...row, file: relative(upstream, row.file) }))
+    const shared = candidate.target.bridge?.sharedParserWith ? { sharedParserWith: candidate.target.bridge.sharedParserWith, parserVersion: candidate.target.bridge.parserVersion } : {}
+    results.push({ project: candidate.target.project, version: candidate.target.version, ...shared, counts, scored: scoredFidelityCounts(cases), environments: candidate.environments, missingFiles, cases })
   }
   const timeout = 60_000 * Number(opts.get('--timeout-minutes') ?? 60)
   if (!(timeout > 0)) throw Error('--timeout-minutes must be positive')
@@ -305,10 +322,13 @@ export async function main(args = process.argv.slice(2)) {
         pin: PIN,
         selection: opts.get('--filter') ?? 'all core package tests',
         inventory: inventory.counts,
+        scoring: fidelityScoringDefinition,
+        ...(results[0]?.project === 'mermaid-js/mermaid' ? fidelityPopulationSizes(results[0].cases) : {}),
         selectedFiles: files.length,
         outsideSelectedRunner: inventory.files.filter(f => !files.some(x => x.path === f.path)).map(f => ({ path: f.path, declaredTests: f.declarations.length, reason: opts.has('--filter') ? 'Functional subset only' : 'Outside core package Vitest suites; browser/application runner not adapted' })),
         results,
         blocked,
+        notApplicable,
       },
       null,
       2,

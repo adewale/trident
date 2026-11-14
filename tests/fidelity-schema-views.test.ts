@@ -218,7 +218,7 @@ test('C4 views: Mermaid shape types, the global boundary, and what each model ke
   const zombie = nativeSchemaView('dfadler/zombie-mermaid', 'c4', {
     variant: 'container',
     elements: [{ alias: 'web', kind: 'container', shape: 'default', external: false, label: 'Web', technology: 'React', description: 'UI' }, { alias: 'db', kind: 'container', shape: 'db', external: true, label: 'DB' }, { alias: 'p', kind: 'person', shape: 'default', external: false, label: 'P' }],
-    boundaries: [{ alias: 'sb', label: 'Sys', type: 'SYSTEM', elementAliases: ['web'], children: [{ alias: 'in', label: 'In', elementAliases: ['db'], children: [] }] }],
+    boundaries: [{ alias: 'sb', label: 'Sys', type: 'SYSTEM', elementAliases: ['web'], children: [{ alias: 'in', label: 'In', type: 'system', elementAliases: ['db'], children: [] }] }],
     relationships: [{ from: 'p', to: 'web', label: 'Uses', bidirectional: false, layout: 'up' }, { from: 'web', to: 'db', label: 'Reads', bidirectional: false, reversed: true, technology: 'SQL' }],
   }, hooks)
   expect(zombie.getC4Type()).toBe('C4Container')
