@@ -26,6 +26,9 @@ export { davebenchInputs } from './davebench-inputs.ts'
  * outputs never leave the page (keepOutput, which only spot-checks set, returns the SVG).
  * The clock stops before admission checks.
  * `drawsNothing` is the reviewed empty-output rule for this input (see EmptyOutputRule). */
+/** A 1x1 transparent PNG served for every external image request during DaveBench renders. */
+export const externalImagePlaceholder = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgYGBgAAAABQABpfZFQAAAAABJRU5ErkJggg==', 'base64')
+
 export async function davebenchBrowserCall(input: { source: string; id: string; format: string; errorPatterns?: [string, string][]; errorSource?: string; raw?: { header?: string; statements: string[] }; drawsNothing?: boolean; keepOutput?: boolean }) {
   const host = globalThis as any, state = host.__fidelityCommunity, started = performance.now()
   let outcome = 'completed', svgText: string | undefined, pngValue: unknown, pngBytes = 0, error: string | undefined, strictXmlInvalid: string | undefined
@@ -183,7 +186,15 @@ export async function browserHost(browser: Browser, peer: PreparedCommunityBrows
   const origin = 'http://127.0.0.1:' + (server.address() as { port: number }).port
   const open = async (): Promise<{ context: BrowserContext; page: Page }> => {
     const context = await browser.newContext(), page = await context.newPage()
-    await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort())
+    // Renders stay offline. An example that references an external image (Mermaid's flowchart
+    // image nodes) receives the same local placeholder image for every project instead of a
+    // failed request, which would otherwise end the render with an image decode error.
+    await context.route('**/*', route => {
+      const request = route.request()
+      if (new URL(request.url()).origin === origin) return route.continue()
+      if (request.resourceType() === 'image') return route.fulfill({ status: 200, contentType: 'image/png', body: externalImagePlaceholder })
+      return route.abort()
+    })
     await page.goto(origin + '/blank')
     if (engine.kind === 'franken' || engine.kind === 'merman') await page.evaluate(publicSvgBrowserAction, { type: 'initialize-module', kind: engine.kind, url: origin + '/' + engine.entry, wasm: origin + '/' + engine.wasm })
     else {
@@ -281,7 +292,7 @@ export async function main(args = process.argv.slice(2)) {
   const emptyRules = inventory.cases.map(input => davebenchEmptyOutputRule(input.source))
   const save = (state: string) => {
     const report = { schema: 'davebench-simple-v2', state, plan, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, directory: 'docs/', occurrences: inventory.cases.length, files: inventory.files, families: inventory.cases.map(input => davebenchFamily(input.source)), ...davebenchEmptyOutputCorpus(inventory.cases, emptyRules), referenceRejected },
-      method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.', png: 'Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available (pngPath: native or trident-conversion). No image inspection.', failures: 'Each run lists its failed inputs by reason as ranges of plan.cases positions (failures); completed inputs are implied.' },
+      method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, externalRequests: 'Offline: external image requests receive a fixed 1x1 transparent PNG; all other external requests are refused', admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.', png: 'Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available (pngPath: native or trident-conversion). No image inspection.', failures: 'Each run lists its failed inputs by reason as ranges of plan.cases positions (failures); completed inputs are implied.' },
       environment: { ...executionEnvironment(), chromium: browser.version() },
       runs, summary: davebenchSummary(runs), rankingRule: davebenchRankingRule, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
     if (state === 'complete') assertTimingCollection(report)

@@ -164,7 +164,8 @@ export function davebenchTerminalValidity(value: unknown, source: string): Valid
   const validity = terminalTextValidity(value, source, davebenchEmptyOutputRule(source))
   if (!validity.valid) return validity
   const text = typeof value === 'string' ? value : value instanceof Uint8Array ? new TextDecoder().decode(value) : String((value as any)?.output ?? (value as any)?.text)
-  const fallback = fallbackShown(text.replace(ansi, ''), rawStatements(source))
+  const visible = text.replace(ansi, '')
+  const fallback = fallbackShown(visible, rawStatements(source)) ?? (boxesSourceLines(visible, source) ? 'source lines boxed' : undefined)
   return fallback ? { valid: false, reason: 'fallback render: ' + fallback } : validity
 }
 
@@ -202,6 +203,50 @@ export function echoesSource(visible: string, source: string) {
     position = index + line.length
   }
   return true
+}
+
+/** Frame characters of separate boxes: edges and corners, but no junction joining a box
+ * to a connector. */
+const plainBox = /^[─━═│┃║┌┐└┘╭╮╰╯┏┓┗┛╔╗╚╝]$/
+const arrowGlyph = /[\u2190-\u21FF\u25B2-\u25C5]/
+
+/** Text read box by box: each run of non-frame characters belongs to the box whose
+ * left wall is at its column, so a line wrapped inside one of several side-by-side boxes
+ * stays whole. Boxes are read left to right, rows top to bottom within each. */
+function boxText(visible: string) {
+  const boxes = new Map<number, string[]>()
+  for (const row of visible.split('\n')) for (const match of row.matchAll(/[^\u2500-\u259F]+/g)) {
+    const text = squash(match[0])
+    if (text) boxes.set(match.index!, [...boxes.get(match.index!) ?? [], text])
+  }
+  return [...boxes.entries()].sort(([a], [b]) => a - b).map(([, rows]) => rows.join(' ')).join(' ')
+}
+
+/**
+ * A fallback that draws body lines of the source in separate boxes: the keyword line is
+ * dropped, long lines wrap inside their boxes and a line it cannot place may leave its box
+ * empty, so the line-order echo check and the statement check (which needs three
+ * statements) both miss it. The boxes are unconnected (no junctions or arrows) and their
+ * text is nothing but whole body lines, in source order: at least two and at least half of
+ * them, one carrying raw statement syntax, which a drawing that understood the line would
+ * not show verbatim.
+ */
+export function boxesSourceLines(visible: string, source: string) {
+  const glyphs = [...visible.matchAll(frame)].map(match => match[0])
+  if (!glyphs.length || !glyphs.every(glyph => plainBox.test(glyph)) || arrowGlyph.test(visible)) return false
+  const body = source.replace(/^\s*---\s*\n[\s\S]*?\n---\s*\n/, '').split('\n').map(line => squash(line)).filter(line => line && !line.startsWith('%%')).slice(1)
+  if (body.length < 2) return false
+  return [squash(visible.replace(frame, ' ')), boxText(visible)].some(text => {
+    if (!text) return false
+    const shown: string[] = []
+    let position = 0
+    for (const line of body) {
+      if (!text.startsWith(line, position) || (position + line.length < text.length && text[position + line.length] !== ' ')) continue
+      shown.push(line)
+      position += line.length + 1
+    }
+    return position >= text.length && shown.length >= 2 && shown.length * 2 >= body.length && shown.some(line => statementSyntax.test(line))
+  })
 }
 
 /** Graphic elements that paint when present; containers and references are judged by their content. */

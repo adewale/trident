@@ -135,3 +135,16 @@ test('raw statements leave out authored labels, accessibility prose and class me
   expect(rawStatements("eventmodeling\ntf 01 cmd AddItem [[AddItem01]]\ndata AddItem01 {\n  description: 'john'\n  price: 20.4\n}").statements).toEqual([])
   expect(rawStatements('stateDiagram-v2\n  state Busy {\n    Working --> Waiting\n  }').statements).toEqual(['Working --> Waiting'])
 })
+
+test('terminal output that boxes each body line of the source is a fallback, not a drawing', () => {
+  const source = 'zenuml\n    title Async message\n    Alice->Bob: How are you?\n'
+  const boxed = ['┌───────────────────────┐    ┌───────────────────────┐', '│  title Async message  │    │  Alice->Bob: How are  │', '│                       │    │         you?          │', '└───────────────────────┘    └───────────────────────┘'].join('\n')
+  expect(davebenchTerminalValidity(boxed, source)).toEqual({ valid: false, reason: 'fallback render: source lines boxed' })
+  // A line the fallback cannot place leaves an empty box; the rest is still the source.
+  const nested = 'zenuml\n    A.method() {\n      B.nested_sync_method()\n      B->C: nested async message\n    }\n'
+  expect(davebenchTerminalValidity('┌──────────────┐  ╭────╮  ┌──────────────────────┐  ┌───┐\n│ A.method() { │  │    │  │ B->C: nested async   │  │ } │\n│              │  │    │  │       message        │  │   │\n└──────────────┘  ╰────╯  └──────────────────────┘  └───┘', nested)).toEqual({ valid: false, reason: 'fallback render: source lines boxed' })
+  // Bare node declarations drawn as boxes are a drawing: no body line carries edge syntax.
+  expect(davebenchTerminalValidity('┌───┐ ┌───┐\n│ A │ │ B │\n└───┘ └───┘', 'flowchart TD\n  A\n  B\n').valid).toBe(true)
+  // A drawing that adds structure beyond the source lines is not an echo.
+  expect(davebenchTerminalValidity('┌───┐     ┌───┐\n│ A ├────►│ B │\n└───┘     └───┘', 'flowchart LR\n  A-->B\n  B-->C\n').valid).toBe(true)
+})
