@@ -91,8 +91,16 @@ observations receive no correctness credit.
 
 **Formats:** SVG labels must pass the existing browser observer's visibility,
 canvas, clipping and resolved-paint checks. Hidden DOM text earns no credit;
-unsupported filters, masks and glyph representations stay unassessed. Terminal
-matching preserves reading order and joins wrapping inside observed boxes.
+unsupported filters, masks and glyph representations stay unassessed. When every
+clipped label's declared primary font is not installed on the assessing machine,
+clipping was measured in a fallback face and is unavailable rather than failed;
+each run records that machine's fontconfig family list and its SHA-256
+(`assessmentEnvironments`). Terminal matching preserves reading order and joins
+wrapping inside observed boxes. A multi-word terminal label that no other rule
+finds, but whose words appear whole, in reading order, on successive rows at most
+one apart with overlapping columns and no other letters or digits in that band, is
+unknown rather than missing: it is wrapped outside a frame and its owner cannot be
+established.
 **PNG is not part of Drawing Correctness.** OCR cannot read diagram labels
 reliably enough: on Mermaid PNGs rasterized from SVGs that pass 124 of 127 cases,
 Tesseract found every label in only 43. PNG production and speed remain in
@@ -140,12 +148,15 @@ Trident-blocked outcomes. Any benchmark-wide exclusion needs a stated reason
 and applies equally to all candidates; do not silently remove hard tests or
 change the denominator for each project's supported families. The scored
 population is the reference-qualified callbacks of the parser and diagram-model
-tests, the same for every candidate. The code is being changed so that only
-callbacks from `packages/mermaid/src/diagrams/` and `packages/parser/` are scored.
-Callbacks from other paths (rendering utilities, Mermaid's website and its
-top-level modules) test code no reimplementation's parser can reach; they are
-reported as inventory, with their counts, and stay outside the scored population.
-Show total inventory and scored population together.
+tests, the same for every candidate: only callbacks from files under
+`packages/mermaid/src/diagrams/` and `packages/parser/` are scored. Callbacks from
+other paths (rendering utilities, Mermaid's website and its top-level modules) test
+code no reimplementation's parser can reach; they are executed and reported as
+inventory, with their counts, and stay outside the scored population. Show total
+inventory and scored population together. Until every candidate's unsupported
+verdicts have had a per-assertion review separating its real limits from Trident
+binding gaps, an unsupported operation is scored as unassessed for every
+candidate; result files keep the raw disposition.
 Results must disclose incomplete Trident coverage rather than present it as
 complete suite execution.
 
@@ -170,13 +181,17 @@ inventory systematically. Do not preserve the 49-case selection as the target.
 **Current implementation:** `mermaid:fidelity` inventories the test files at the
 pinned Mermaid reference (Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->; the version and commit are in
 `data/upstream-mermaid-policy.json`), attempts the <!-- fact:fidelity-files -->352<!-- /fact --> core-package files in original
-Vitest, and lists the rest outside that runner. The current collection (<!-- fact:fidelity-collected -->10 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->7,364<!-- /fact --> callbacks; Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->
-passes <!-- fact:fidelity-population -->7,346<!-- /fact --> of them through its original production source, and those are the scored
-population. Every candidate attempted all <!-- fact:fidelity-files -->352<!-- /fact --> files against one shared control run
+Vitest, and lists the rest outside that runner. The current collection (<!-- fact:fidelity-collected -->10 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->7,364<!-- /fact --> callbacks, which Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->
+runs through its original production source. Of the callbacks it passes, <!-- fact:fidelity-population -->7,346<!-- /fact --> are the scored
+population and <!-- fact:fidelity-inventory -->0<!-- /fact --> are inventory. Every applicable candidate attempted all <!-- fact:fidelity-files -->352<!-- /fact --> files against one shared control run
 (`--reuse-reference`), either in-process through their JavaScript modules or
 through parser bridges, small programs that call each project's own parser
 (registered in `unified/mermaid-fidelity/bridge-registry.ts`), read through
-reviewed per-project schema views.
+reviewed per-project schema views. A candidate whose frozen version (or source
+revision) is not listed in `unified/mermaid-fidelity/views/reviewed-versions.mjs`
+for its views gets every qualified callback as a Trident gap. Grok's renderer component,
+MermaidText and Loom's renderer component are not run: their catalog entries
+declare Fidelity not applicable.
 All selected source-control files load. Candidate operations without reviewed
 bindings stay unassessed. The
 historical 49/154-case selections are not substituted for the original tests.

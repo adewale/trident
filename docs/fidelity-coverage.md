@@ -24,17 +24,60 @@ These are reproducible source slices, not assertions about every callback's
 semantic purpose. The three populations partition the full qualified population.
 Repeated titles retain their callback ordinals; missing callbacks are rejected.
 
+Separately from the slices, each project's counts are split into the **scored
+population** (qualified callbacks in files under `packages/mermaid/src/diagrams/`
+or `packages/parser/`, the callbacks Mermaid Fidelity scores) and **inventory**
+(the other qualified callbacks: rendering utilities, Mermaid's website and
+top-level modules). Inventory is executed and shown here but not scored;
+`report.md` states both sizes and `results.json` marks each gap file that is
+inventory.
+
 `report.md` shows population, passed, failed, explicitly unsupported and
-unassessed counts, plus assessed percentage and score bounds. The lower bound
-credits verified passes only. The upper bound additionally allows every
-unassessed callback to pass. Unsupported native operations are assessed
-nonpasses. An empty slice has no score. `results.json` also lists remaining gaps
-by file, with captured reasons and whether the file failed collection.
+unassessed counts, plus assessed percentage and score bounds, for the scored
+population, the inventory and each slice. The lower bound credits verified passes
+only. The upper bound additionally allows every unassessed or unsupported callback
+to pass: as in Fidelity scoring, an operation the candidate's side reports as
+unsupported is unassessed, not a known nonpass, and the assessed percentage
+excludes it. An empty slice has no score. `results.json` also lists remaining gaps
+by file, unsupported callbacks included with an `Unsupported:` reason prefix, with
+captured reasons and whether the file failed collection. Projects whose Fidelity
+is not applicable are listed under `notApplicable`.
 
 Unbound module exports are deferred during test-file loading so unused imports
 do not block unrelated callbacks. Using an unavailable export still produces an
 adapter gap. Namespace use is conservatively audited, including helper code
 outside callbacks; reflection cannot turn missing native behavior into a pass.
+
+## Reviewed view versions
+
+A reviewed schema view reads one project's own model field by field, so it holds
+only for the model shape it was checked against.
+`unified/mermaid-fidelity/views/reviewed-versions.mjs` lists, per project with
+reviewed views, the native versions the views were reviewed against, each with a
+note saying what was checked. An entry is either a note, which covers any build of
+that version, or `{ note, revisions: { <source revision>: note } }` for a project
+whose artifact records a source revision and can be rebuilt under the same version.
+When a candidate's frozen version is not listed, or its artifact's revision is not
+listed for an entry that names revisions, `unreviewedViewGap` makes every qualified
+callback a Trident gap with the reason `view not reviewed for <project> <version>`
+(or `… at revision <revision>`), whatever the run observed. Result rows record the
+artifact's `revision`, and `scripts/rescore-fidelity.ts` applies the same check
+when rescoring. Projects with no entry have no reviewed view; they use the generic
+field-name projection and the check does not apply.
+
+To add a reviewed version, compare the model fields the project's views read in a
+reviewed version and the new one: the type definitions or parser source, and the
+native models the two versions produce for the same corpus sources
+(`scripts/fidelity-probe.ts` prints the model a view receives). Update the views
+where a field the views read was renamed, removed or re-encoded, then add the
+version (and, for a source distribution, the revision) with a note recording what
+was compared and what changed.
+
+The views' default rule is stated in the header of
+`unified/mermaid-fidelity/view-core.mjs`: a view supplies Mermaid's default only
+where the native model shows the source left a value unwritten and Mermaid's own
+parser stores a documented default for that unwritten value; a model that keeps no
+such field gets no default.
 
 ## Reviewed Agentic views
 

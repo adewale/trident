@@ -50,10 +50,13 @@ Each benchmark applies only where its interface and observation contract fit.
 Mermaid Fidelity applies only to a project with a public parse interface: an
 exported parser, a public CLI command or the parser of a public dependency.
 Grok's renderer component, MermaidText and Loom's renderer component expose their
-parsers only through private or unexported code, so the code is being changed to
-report their Fidelity as not applicable. They are then left out of the Fidelity
-ranking and out of the synthesis's Fidelity component, as Mermaid Flutter is left
-out of Drawing Correctness.
+parsers only through private or unexported code, so the catalog declares their
+Fidelity not applicable (`benchmark.notApplicable.fidelity`, with the reason).
+They are not run, are shown as n/a, and are left out of the Fidelity ranking and
+out of the synthesis's Fidelity component, as Mermaid Flutter is left out of
+Drawing Correctness. The same rule limits a bridge to a project's public parsers:
+Mermaid Dart's bridge calls only the parsers `mermaid_core` exports from its public
+library.
 
 Every catalog entry does not need every benchmark, format or optional model API.
 Neither a passing invocation nor an entire ecosystem campaign can substitute for

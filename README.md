@@ -32,10 +32,11 @@ Mermaid example block in Mermaid's documentation at a pinned commit:
 Documentation generation repeats many examples, and each occurrence counts, so a
 diagram family's weight follows how many examples its documentation shows.
 Trident renders each occurrence three times per format. It counts the renders that produce a
-usable output: an SVG with a size, a valid PNG, or terminal text that is not
-empty, an error or the source printed back. It ranks by that count, then by
-median time. DaveBench never looks at the drawing, so an implementation can
-complete an example and still draw it wrong.
+usable output: an SVG that a browser displays, with a size; a valid PNG; or
+terminal text that is not empty, an error or the source printed back. It ranks
+by that count, then by median time between implementations with the same timing
+boundary whose three-run times do not overlap. DaveBench never looks at the
+drawing, so an implementation can complete an example and still draw it wrong.
 
 **[Drawing Correctness](docs/benchmark-portfolio.md#drawing-correctness-real-rendering-failures-across-formats):
 is the drawing right?** There are <!-- fact:drawing-cases -->127<!-- /fact -->
@@ -64,18 +65,25 @@ small program that calls the project's own public parser and prints its model.
 The bridges are registered in `unified/mermaid-fidelity/bridge-registry.ts`.
 Comparison goes through public interfaces only, so Mermaid Fidelity does not
 apply to a project whose parser can be reached only through private code (Grok's
-renderer component, MermaidText and Loom's renderer component). The code is being
-changed to report their Fidelity as not applicable and to leave them out of the
-Fidelity ranking and out of the synthesis's Fidelity component.
-Only the <!-- fact:fidelity-population -->7,346<!-- /fact --> tests that the pinned Mermaid
-<!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control passes count. A native operation that reports
-it is unsupported counts as a failure. Missing Trident operation bindings or
-model translations stay unassessed
-(<!-- fact:fidelity-gaps -->91,984<!-- /fact --> tests across all implementations).
-The code is being changed so that only tests in `packages/mermaid/src/diagrams/`
-and `packages/parser/` are scored. The other core test files cover rendering
+renderer component, MermaidText and Loom's renderer component). The catalog
+declares their Fidelity not applicable (`benchmark.notApplicable.fidelity`): they
+are not run, the tables show them as n/a, and they are left out of the Fidelity
+ranking and out of the synthesis's Fidelity component.
+Only tests that the pinned Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control passes
+and whose file is under `packages/mermaid/src/diagrams/` or `packages/parser/`
+are scored: <!-- fact:fidelity-population -->7,346<!-- /fact --> tests. The other
+<!-- fact:fidelity-inventory -->0<!-- /fact --> tests the control passes cover rendering
 utilities, Mermaid's website and its top-level modules, which no reimplementation's
-parser can reach; they will be reported as inventory.
+parser can reach; they are executed and listed as inventory, not scored. An
+operation the implementation's side reports as unsupported, a missing Trident
+operation binding and a missing model translation all stay unassessed
+(<!-- fact:fidelity-gaps -->91,984<!-- /fact --> tests across all applicable
+implementations), because no per-test review has separated each
+implementation's real limits from Trident's binding gaps. Result files scored
+this way declare `scoring.protocol: 'fidelity-scored-population-v2'`; a result file
+collected before this rule is read under the rules it was published with, which
+score every test the control passes and count an unsupported operation as a
+failure.
 
 Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
 and the range of ranks still possible once its unassessed cases are resolved.
@@ -100,9 +108,15 @@ Correctness. In Mermaid Fidelity it is the reference, so it passes every counted
 test by definition and is left out of the leader above.
 
 [Full league tables, with timings](RESULTS.md) ·
+[DaveBench completion by diagram family](docs/davebench-families.md) ·
 [How each count is made](docs/benchmark-results-details.md) ·
 [How the collection was run](results/release/README.md) ·
 [Dispute a result](CONTRIBUTING.md#dispute-a-result)
+
+The diagram-family page gives each implementation's DaveBench completion
+percentage per diagram family and format. `results:snapshot` writes it from
+collections that record each case's family (the type its first statement
+declares); collections made before that record have no family page.
 
 ## Diagnostics
 
