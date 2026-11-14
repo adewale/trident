@@ -150,7 +150,7 @@
         "operand": {
           "sha256": "01c277a6b3e55bf99d313e9ce0aea0860f46f80f5a09f74913007d0915028fdf",
           "integrity": "sha512-fHA2btF+GZ6s+AInzOJFzQQOCRX1ntFG94fpmu68TECTXg5iTOeDiVvhT6AhyALXtcDCpr51EfJFGipjq642TQ==",
-          "installedClosureSha256": "800fa7d49cb239560adf29efdd46ba3f4ed096f6ee84c50acfd4de5c4b7df54c",
+          "installedClosureSha256": "2d8da1a1827a9e7a146322a6fae864bc85c527762024aae0db88c1a64e125c4e",
           "filesSha256": "2483ab96bad20c01b34bd8bf0357b44872dd1fd0615fa7fe17d8d70eaad86ff9"
         }
       },
@@ -161,7 +161,7 @@
         "operand": {
           "sha256": "01c277a6b3e55bf99d313e9ce0aea0860f46f80f5a09f74913007d0915028fdf",
           "integrity": "sha512-fHA2btF+GZ6s+AInzOJFzQQOCRX1ntFG94fpmu68TECTXg5iTOeDiVvhT6AhyALXtcDCpr51EfJFGipjq642TQ==",
-          "installedClosureSha256": "800fa7d49cb239560adf29efdd46ba3f4ed096f6ee84c50acfd4de5c4b7df54c",
+          "installedClosureSha256": "2d8da1a1827a9e7a146322a6fae864bc85c527762024aae0db88c1a64e125c4e",
           "filesSha256": "2483ab96bad20c01b34bd8bf0357b44872dd1fd0615fa7fe17d8d70eaad86ff9"
         }
       },
@@ -177,21 +177,21 @@
       },
       {
         "project": "anomalyco/opencode",
-        "version": "2.2.5",
+        "version": "2.3.0",
         "format": "terminal",
         "operand": {
-          "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
-          "filesSha256": "c96eaf3796df2489375c73b56823e2e442adcd3fb6b986091dc0844700c031d8"
+          "revision": "83960f8a56b2f2b8ad0b751f23baaf9d0eb65ad9",
+          "filesSha256": "247a432fea845b629ea1c22202aa7cfeb9d75d4a27473c82e0cf3bf8c75c0cb0"
         }
       },
       {
         "project": "crabtalk/bezel",
-        "version": "0.2.24",
+        "version": "0.2.26",
         "format": "svg",
         "operand": {
-          "sha256": "4b5dfd85beb61111d238e0ae9949b09d7e368e3d2551bc98b48ead9f8ccff92e",
-          "revision": "ab854a04f354f0c428a76d54b822dfd21e2e3962",
-          "filesSha256": "361592172424674f8bb96df72aca27e31a2661439fd8da60c728b04599251403"
+          "sha256": "8450b71eb1e2dd7ed757cb04f33abe9420d75f0f563b243e0809162ec193c6db",
+          "revision": "79a1913fdc479ad5628f32c7f233675992347c21",
+          "filesSha256": "322c2ee939440ea2b92844ee44907bcedb185176643427ca6556a6807b6bbe57"
         }
       },
       {
@@ -201,7 +201,7 @@
         "operand": {
           "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
           "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
-          "installedClosureSha256": "85ecefeee851fd25fd68972e3160f3b48d590b6bd8232e23a8d74f9d9931d97b",
+          "installedClosureSha256": "897e37143d8e9414028079a232cdf111c0fa5f296540dc8120f78f7320922baa",
           "filesSha256": "3f2199e0724c1564b7d1ea8c3f23c523a49460ac1af39aac68d16d076897ddfb"
         }
       },
@@ -212,50 +212,50 @@
         "operand": {
           "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
           "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
-          "installedClosureSha256": "85ecefeee851fd25fd68972e3160f3b48d590b6bd8232e23a8d74f9d9931d97b",
+          "installedClosureSha256": "897e37143d8e9414028079a232cdf111c0fa5f296540dc8120f78f7320922baa",
           "filesSha256": "3f2199e0724c1564b7d1ea8c3f23c523a49460ac1af39aac68d16d076897ddfb"
         }
       },
       {
         "project": "dfadler/zombie-mermaid",
-        "version": "5.14.4",
+        "version": "5.17.0",
         "format": "svg",
         "operand": {
-          "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
-          "integrity": "sha512-vo/yfpnzrWNn+2cqng2MNTSjgZgel0nd8XI9eRA7+WOWgPjUEsLfB0SmyNm8KOg9Gc8T1ptkV6MzW/KmGAijsg==",
-          "installedClosureSha256": "009c64d5cd53ee5a23936188bee7377f7eb63f5f5de80803fa7e3ffea921ce8c",
-          "filesSha256": "be874758471d140c0f2d2f3b56d2a17e6cab9a03664c001e763252105915ddfb"
+          "sha256": "4e04f8c1163de071cbcceb62ddb2ce6107b98df3038ac456e6d16dea121d46d9",
+          "integrity": "sha512-/L31e8A0rpFUzrE9e45K0kV3ylo9COOz1Prmt7r7+Cb2k0a+wEVBcoQRfUzuQsdT6u3UCXP9NFGvsTQvtXyyJg==",
+          "installedClosureSha256": "11f28aff216eef2e1cf67702e43abf0375de3f958880fb59930be985d8c2033f",
+          "filesSha256": "53110d6d888cbbc048101f82738669473a6bd18ef7795488280dc61a0d89cc29"
         }
       },
       {
         "project": "dfadler/zombie-mermaid",
-        "version": "5.14.4",
+        "version": "5.17.0",
         "format": "terminal",
         "operand": {
-          "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
-          "integrity": "sha512-vo/yfpnzrWNn+2cqng2MNTSjgZgel0nd8XI9eRA7+WOWgPjUEsLfB0SmyNm8KOg9Gc8T1ptkV6MzW/KmGAijsg==",
-          "installedClosureSha256": "009c64d5cd53ee5a23936188bee7377f7eb63f5f5de80803fa7e3ffea921ce8c",
-          "filesSha256": "be874758471d140c0f2d2f3b56d2a17e6cab9a03664c001e763252105915ddfb"
+          "sha256": "4e04f8c1163de071cbcceb62ddb2ce6107b98df3038ac456e6d16dea121d46d9",
+          "integrity": "sha512-/L31e8A0rpFUzrE9e45K0kV3ylo9COOz1Prmt7r7+Cb2k0a+wEVBcoQRfUzuQsdT6u3UCXP9NFGvsTQvtXyyJg==",
+          "installedClosureSha256": "11f28aff216eef2e1cf67702e43abf0375de3f958880fb59930be985d8c2033f",
+          "filesSha256": "53110d6d888cbbc048101f82738669473a6bd18ef7795488280dc61a0d89cc29"
         }
       },
       {
         "project": "Dicklesworthstone/frankenmermaid",
-        "version": "0.4.0",
+        "version": "0.5.0",
         "format": "svg",
         "operand": {
-          "sha256": "04538da51718ecf11a56233c6f029280882cb32c7194715888b71d529f9b525f",
-          "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
-          "filesSha256": "79b2da212bc980ae0308a13357fd7940776bf39872e55b30daa459cd38e3c62a"
+          "sha256": "06a334b1bb34c1d39a7d6a0077f0dd65341d6c6752853d38a531ee79ad1c4930",
+          "revision": "a5be33d9097af8b7c90fef7dd4a0c20a0bf55752",
+          "filesSha256": "660332957be07a775f7ed3da9429e11e6e6b67cafe2724ba5db87277eb99f6fa"
         }
       },
       {
         "project": "Dicklesworthstone/frankenmermaid",
-        "version": "0.4.0",
+        "version": "0.5.0",
         "format": "terminal",
         "operand": {
-          "sha256": "cc827264b1b9a201dfe4b42bb03b70a57067f3b8cf75f89c394cd39aeed22090",
-          "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
-          "filesSha256": "fc6287c29595f0da5d7d0c9c5e42a6b4e1dbabf56cc387ea4eafadde4ff1ff18"
+          "sha256": "e95578ab3dd23376c22d1d5a056da63b649ae772432b19a7d5e7799c9788d113",
+          "revision": "834665dd11b8365481958dd3ef5ac2276c072246",
+          "filesSha256": "9f05ec705ed79fe1f9f2386cb7b97a1c9196bce9cc0bb88ed58ba2dad831303d"
         }
       },
       {
@@ -265,7 +265,7 @@
         "operand": {
           "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
           "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
-          "installedClosureSha256": "e62a71b3ed588e543fa9887960de86af9e38c4ce445814426979f0478421d6e8",
+          "installedClosureSha256": "9386c93b251e682d14943e0baa3923e08864cb6a26200fe4d0f49214867ee435",
           "filesSha256": "4d1c7396d28610b7a1bd578982e264f469acb9030d4ea79169b929e617ad0116"
         }
       },
@@ -276,7 +276,7 @@
         "operand": {
           "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
           "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
-          "installedClosureSha256": "e62a71b3ed588e543fa9887960de86af9e38c4ce445814426979f0478421d6e8",
+          "installedClosureSha256": "9386c93b251e682d14943e0baa3923e08864cb6a26200fe4d0f49214867ee435",
           "filesSha256": "4d1c7396d28610b7a1bd578982e264f469acb9030d4ea79169b929e617ad0116"
         }
       },
@@ -287,7 +287,7 @@
         "operand": {
           "sha256": "4b083ff3979c7b07e1c364393ef17659ffe7bfcfea75a818260f4de7ece7789b",
           "integrity": "sha512-/KxDLMfR0THbxtrZiGxDuTKp0NGJTJRHH5ForIvxVxf9ctveEPN9irXUBFYIiKB337CXMhH2w+ds8pJ5hpRGvA==",
-          "installedClosureSha256": "d3f25bdffb86767a1b005a299fa67059e382204877a9eeb430054eb36e6aa899",
+          "installedClosureSha256": "fb06de45a70cf8ea38aa9093046f39b4c90195439bd92aa0719187ca05fdefdf",
           "filesSha256": "436d9bff9b53deaefe6b336fba7dc09a6adaf378ed8cf1f50bf0840ce4bf9ab4"
         }
       },
@@ -296,7 +296,7 @@
         "version": "0.12.0",
         "format": "terminal",
         "operand": {
-          "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+          "sha256": "3fff8e682225671f0ab9659e9a0f540f7c81491352004fc1397b16f57bed56ca",
           "filesSha256": "b74dd19fa49a894dd7f8ec5846724ef41c9669f8bd4e5911a6dea7ad0229de0d"
         }
       },
@@ -317,7 +317,7 @@
         "operand": {
           "sha256": "f1e16af45f4c43e2c7d69a48c2f3bc286b061b84dca994fa83da98593705793d",
           "integrity": "sha512-SqKB/VjkjxNgyxAkvGGbTQACrTpPkg5udiDtJswYEnSkOjKdRISYKtK2Hzi/Y8TjK3beHMHyOQeoCS10V+AD4g==",
-          "installedClosureSha256": "c0152333363b8cfc1bcc768c8209c43b9197d4f2d135dd973f09306479d61238",
+          "installedClosureSha256": "9e78863178b934fff206309c94ea08a326b2661eb67d77c8fde13ef50bf82a0e",
           "filesSha256": "9b1a1d4e5e780b43d1da85f582975e015b068c03509b03499ce3d7fa6b3192c4"
         }
       },
@@ -328,29 +328,29 @@
         "operand": {
           "sha256": "448013e13d696562b1c4cac338a94c937dcc861b1641dd9b5fc56f87bf02cdf8",
           "integrity": "sha512-ECmsDtEy7745CMQqDP1zkCxHx2zq5Vj+FGOss1gUowirJvYmtxahMQ2jV6/BvPm9cltcm2XQajAqPTYJKmVKEA==",
-          "installedClosureSha256": "b02b324b3835dffdd25f7294729d0043aabd4576fe9aa8906e022f2932142322",
+          "installedClosureSha256": "3d7a37571b0a62a0e8137faf0d2d5b18ea6af80b63a10c930b4e210123b10d9f",
           "filesSha256": "50381a3bf28bafa271048ee1ab3dee363d26a8b8189f526fe78ab02bf2edae33"
         }
       },
       {
         "project": "Latias94/merman",
-        "version": "0.9.3",
+        "version": "0.10.0",
         "format": "svg",
         "operand": {
           "sha256": "4e73f19d6c9961b5602bc33366920138d37c73c616ff57f1446fcb783809960d",
-          "integrity": "sha512-82NQI8z4R6pNAOvZEfm6MS5sMJjQ1SEVjznM/3E5VrDu2g1tQlNj2BXdt4pnCnsRofsXoiklWinzO8WLAvVmqA==",
-          "installedClosureSha256": "cf242083c648c93ee09269b54a7f03a019ed1202d2514f43db27677691200681",
+          "integrity": "sha512-jGv/7YevzoH9kL24VBjH3BgQ2pkBF667yekAo9ri+y1q/HacSpE65Vu8YEzXCUCxj202alK5SLYfHxoXMjz69g==",
+          "installedClosureSha256": "6524ff377dd52670ce724d975b3d609db982c434aad9c17b9c9283f903e8434d",
           "filesSha256": "f093ccaf09bd87c0f149502e1df1fbb59a0b89859d2a422c90918285cdc12ee3"
         }
       },
       {
         "project": "Latias94/merman",
-        "version": "0.9.3",
+        "version": "0.10.0",
         "format": "terminal",
         "operand": {
-          "sha256": "80fa7118095cac430259c828606191092607423b8c02461400215acc48f4f44d",
-          "revision": "3b915f69c02d55b873d252cf6c8a6048e7f3427d",
-          "filesSha256": "b93468f74a91e2f80aa6110b539820fddffa739a7dd98cebada6dbd86b034f85"
+          "sha256": "81fd2d67c8d4a43bff71384435f31852a7d696b9ddb2c2641095e3a59cd6a751",
+          "revision": "e0e75bcab2fa8e39dd7a09465b7f2e035eda82ef",
+          "filesSha256": "0eb04f465ae9051657db1acbb7318e39bb64c7d9c0b2b61703846a45f4e8dfa9"
         }
       },
       {
@@ -360,7 +360,7 @@
         "operand": {
           "sha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
           "integrity": "sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==",
-          "installedClosureSha256": "f3cb677e308c2e8664b8254eaa6b9564eaa4060204f92ba4197a6c5fa50f6cfd",
+          "installedClosureSha256": "89476871d65c072bc7dc4a443379a630ebd16c1df46ad1481bc5fd365f50c1e4",
           "filesSha256": "259909bc771979d07f059bdc14470a283a8ce75cc26eada390deb8296b0c5665"
         }
       },
@@ -371,7 +371,7 @@
         "operand": {
           "sha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
           "integrity": "sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==",
-          "installedClosureSha256": "f3cb677e308c2e8664b8254eaa6b9564eaa4060204f92ba4197a6c5fa50f6cfd",
+          "installedClosureSha256": "89476871d65c072bc7dc4a443379a630ebd16c1df46ad1481bc5fd365f50c1e4",
           "filesSha256": "259909bc771979d07f059bdc14470a283a8ce75cc26eada390deb8296b0c5665"
         }
       },
@@ -382,7 +382,7 @@
         "operand": {
           "sha256": "fafa28691baf87948a63ec13009437278f25d43ca7d85e74b71f3b53897e1738",
           "integrity": "sha512-4113TdXeLAsMruJ79OpFL5O8+LTFXhQqZ260rF3tgUmiNAtRm4Uume04I+65PRN6yZ69J4f8rVYWW8zRk65UYw==",
-          "installedClosureSha256": "1ca50fe8c8938d8f036cfe8d06418130542b84c0ce82696c9d4044d681e70623",
+          "installedClosureSha256": "37e103a7c57091116b1129ee36f7517f2a2876910dcb246d82bc3650c9332835",
           "filesSha256": "6cc061b56952886cfaa6250232115e3e72e0836a9512344a7dea4c6f2951a97c"
         }
       },
@@ -391,7 +391,7 @@
         "version": "v0.4.3",
         "format": "terminal",
         "operand": {
-          "sha256": "26d9b85a4b72f113ba83afdbf24b867e400fd2cf921833288bf3344ba8f3dfa6",
+          "sha256": "686cfc16ee7f49d692e2027ac7140f9b45229c6f368cedbd79af7718c359320f",
           "revision": "34c47a93cd792f24e06b49b5196a1c876240f03a"
         }
       },
@@ -402,7 +402,7 @@
         "operand": {
           "sha256": "37bea5005aa6d2dde929032ced5d2958cf642667cbc1fe675f9dfacf4ba15a51",
           "integrity": "sha512-Ie8UKY9x00MsuR3jO6AzUwzK2Z6MIV3Tf4EDdITiuk8Uaz8K7g0R082WqsqNaSU8DdgkrRvZThzhit83mi/uiw==",
-          "installedClosureSha256": "44bbae998b9bdd6d999ccaae376e2f25657cdb0d433a3d6ef56240811ffc19ab",
+          "installedClosureSha256": "d3c6b7c8b35bf85b768db0c9a92ac27354cd9faa5a5e3562f00bbfe39ed1bcdc",
           "filesSha256": "4bf5ca0529ba45a75c7fbd148801341d3415fc0a795ccedc1ada6f21d31edb55"
         }
       },
@@ -411,8 +411,8 @@
         "version": "0.3.2",
         "format": "svg",
         "operand": {
-          "sha256": "ca0dad14b4ca24ec1311894fa69c01fa6f9fff0c81e72537adea4f2e7dfd029a",
-          "filesSha256": "5df319f3048c6a2d18c2f53907e156f9c08793f16c379c11311c0c8c31350db6"
+          "sha256": "bf7dadb7cc3c5427d7fd2731b5f61b96a32cf3ec52fae26e5d25fb061947779a",
+          "filesSha256": "2e83775439b7df351da71c141bae623dc24cf6b7788981964e1d06960d353ad6"
         }
       },
       {
@@ -422,7 +422,7 @@
         "operand": {
           "sha256": "e7642aae65ffb9a8e00cf31ebd6a7516a5b9c4cd76deb94624d679f83c0baf47",
           "integrity": "sha512-hZRSXWNw6xPLcJnqI2xwv2+xuoq/b55bAxge3iueo/XMFJELK1WsGXkpmXBNMzW9qqIvReL+CybUJapVOexE5g==",
-          "installedClosureSha256": "f8908d85c710570a220c9430cdf5a4b5639a490349e3d6b7fa3e2394087c44e4",
+          "installedClosureSha256": "49f01d4993d3b0b2f45a31f58f6d8547a7e8861cb8bd2e2093e32c3256922a8c",
           "filesSha256": "2f14913ba89cbde1ee30c6137ba2903f358e6e02227db107aa4786e254352ddd"
         }
       },
@@ -431,7 +431,7 @@
         "version": "git-a6b0c7657b94",
         "format": "terminal",
         "operand": {
-          "sha256": "b598bdc84c2e570d7f4e90ab82abc5435817c041269d9d0f769281f9cc6f08bc",
+          "sha256": "e8df1b346f68435f2d5ee505e70950561789c79ed71940b8e138a6e77009a582",
           "revision": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12"
         }
       },
@@ -442,7 +442,7 @@
         "operand": {
           "sha256": "ca735b5d31c6c61667432c89028770f094dc19fbbc0b8763b8b3719ac5fb1dce",
           "integrity": "sha512-DN8UewGe7CH25pT9BLiV19CSbhnnT03T9o2Xnyy1KupBrsxWUevUAsYAO63yn7ujMNQCPEYm2xxzoItRWlP8Pw==",
-          "installedClosureSha256": "94b5d48f4cfed5cf70f06bdcb715773fac24a2a83b5ac45cb83eafd57902da33",
+          "installedClosureSha256": "cd7d7f1789c8849c6125ac42b31284c63580d423e9e52c5362085dcc42eccdae",
           "filesSha256": "172723ebaa053f2ada56d42872f82b053874c31735a61d25cc06e39baa68d5ba"
         }
       },
@@ -453,7 +453,7 @@
         "operand": {
           "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b",
           "integrity": "sha512-O5lb0DvNhiQJQKitkTYEPRyR83uyGxB2SsLcyu1zD3zJeL+sWxAzW+kM+s8srliERxxx3fFUijEfs26EYXZ5OA==",
-          "installedClosureSha256": "31f6274022add16832cedf501d4a4c9f52ec565cfad782bd2a7a402ef966f2ec",
+          "installedClosureSha256": "500638ddc7f8764b26766c2aded5cc0d3cd4535db69c8715ac5a46f762efe41d",
           "filesSha256": "f2e97ea55dbbce8c43663d839d36d0fc4870b126fe7d92fd235b3ffc7aba56bf"
         }
       },
@@ -471,7 +471,7 @@
         "version": "git-2bdd1d6a6369",
         "format": "terminal",
         "operand": {
-          "sha256": "1d206766ed84391ab036b1098a052bd9987185e75d55c4086856b8f8eb7ed1e3",
+          "sha256": "38dcf4568e89008952a66f20c39c8ba8384f304bfa05f3296bdef64f6d876814",
           "revision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8"
         }
       },
@@ -482,18 +482,18 @@
         "operand": {
           "sha256": "c890362de11e32be98b89e0b145323198f61b1a0a771e0e65246d8e44e98ab3a",
           "integrity": "sha512-oLph3MkCXPRZ3QqFgbtquKqwdO3rHOEGicTcsO0M8yoUeMmO+Fvxros0EMl+o4J1PmX2XhvATOyHz1yhH6pmwg==",
-          "installedClosureSha256": "2ef825794b9df111c66a9521bbd53767ad83f72100056bde77941bfbf3572408",
+          "installedClosureSha256": "c7fbf2fca7a787836ab0a156f11a651116a052f638aaededb41ac5f47c552d16",
           "filesSha256": "54163807f4c9c5a4ec4ec9e9566a4835f7d1124fc0587aee587a0dc5d810ae66"
         }
       }
     ],
     "rounds": 1,
-    "inputsSha256": "308958c48c337c1a9db0ec6468528dfd60392212d4a3e34078f6b441aa22712d",
-    "identity": "417cb14dbd838bda9fdb8e421f621856aede443cecd0c3ca7fe7ef563ead903d"
+    "inputsSha256": "9605c95925d598e7ead84040344b840a0ae7ea45c8d5be46b053e3e4d1d401a0",
+    "identity": "edb47ea6a410872943c66f1f6d55adfa48cab6fed8ecb7bd6fdd54722834bbc7"
   },
   "assessmentProfiles": {
-    "svg": "c2af84751fc27de6195641e38150733c1789d8dcb56deb87735f55453f8f702f",
-    "terminal": "74f39168c6e1ed7f79b6342c52eda78bb542177a8cb3a7d4d43952bd96acacbe"
+    "svg": "9b0922732c8347551551ce4a9af2045c74b9d46d9e0e097e53bd507993153e23",
+    "terminal": "2c0e0910ff25ed93e385c41807b127139ac2be2dc0d697006ab348febff1c263"
   },
   "observerChecks": {
     "svg": [
@@ -556,6 +556,14 @@
       {
         "name": "html-clipped-glyphs",
         "status": "incorrect"
+      },
+      {
+        "name": "absent-font-clipping-environment-dependent",
+        "status": "unknown"
+      },
+      {
+        "name": "generic-font-clipping-fails",
+        "status": "incorrect"
       }
     ],
     "terminal": [
@@ -570,8 +578,132 @@
       {
         "name": "source-leak",
         "status": "incorrect"
+      },
+      {
+        "name": "wrapped-unwalled-label",
+        "status": "unknown"
+      },
+      {
+        "name": "wrapped-label-word-absent",
+        "status": "incorrect"
       }
     ]
+  },
+  "assessmentEnvironments": {
+    "svg": {
+      "fonts": {
+        "source": "fc-list : family",
+        "families": [
+          "Bitstream Charter",
+          "Caladea",
+          "Carlito",
+          "Courier 10 Pitch",
+          "DejaVu Sans",
+          "DejaVu Sans Mono",
+          "DejaVu Serif",
+          "FreeMono",
+          "FreeSans",
+          "FreeSerif",
+          "IPAGothic,IPA\u30b4\u30b7\u30c3\u30af",
+          "IPAPGothic,IPA P\u30b4\u30b7\u30c3\u30af,\u4950\u4150\u476f\u7468\u6963",
+          "Inter",
+          "Inter Display",
+          "Inter Display,Inter Display Black",
+          "Inter Display,Inter Display ExtraBold",
+          "Inter Display,Inter Display ExtraLight",
+          "Inter Display,Inter Display Light",
+          "Inter Display,Inter Display Medium",
+          "Inter Display,Inter Display SemiBold",
+          "Inter Display,Inter Display Thin",
+          "Inter,Inter Black",
+          "Inter,Inter ExtraBold",
+          "Inter,Inter ExtraLight",
+          "Inter,Inter Light",
+          "Inter,Inter Medium",
+          "Inter,Inter SemiBold",
+          "Inter,Inter Thin",
+          "JetBrains Mono",
+          "JetBrains Mono,JetBrains Mono ExtraBold",
+          "JetBrains Mono,JetBrains Mono ExtraLight",
+          "JetBrains Mono,JetBrains Mono Light",
+          "JetBrains Mono,JetBrains Mono Medium",
+          "JetBrains Mono,JetBrains Mono SemiBold",
+          "JetBrains Mono,JetBrains Mono Thin",
+          "Liberation Mono",
+          "Liberation Sans",
+          "Liberation Serif",
+          "Loma",
+          "Noto Color Emoji",
+          "OpenSymbol",
+          "Unifont",
+          "Unifont CSUR",
+          "Unifont Sample",
+          "Unifont Upper",
+          "Unifont\\-JP",
+          "WenQuanYi Zen Hei Mono,\u6587\u6cc9\u9a5b\u7b49\u5bec\u6b63\u9ed1,\u6587\u6cc9\u9a7f\u7b49\u5bbd\u6b63\u9ed1",
+          "WenQuanYi Zen Hei Sharp,\u6587\u6cc9\u9a5b\u9ede\u9663\u6b63\u9ed1,\u6587\u6cc9\u9a7f\u70b9\u9635\u6b63\u9ed1",
+          "WenQuanYi Zen Hei,\u6587\u6cc9\u9a5b\u6b63\u9ed1,\u6587\u6cc9\u9a7f\u6b63\u9ed1"
+        ],
+        "sha256": "939b326443704235f702db8599eb7f55a4203f238e7d9d0372b8228e2cb12588"
+      }
+    },
+    "terminal": {
+      "fonts": {
+        "source": "fc-list : family",
+        "families": [
+          "Bitstream Charter",
+          "Caladea",
+          "Carlito",
+          "Courier 10 Pitch",
+          "DejaVu Sans",
+          "DejaVu Sans Mono",
+          "DejaVu Serif",
+          "FreeMono",
+          "FreeSans",
+          "FreeSerif",
+          "IPAGothic,IPA\u30b4\u30b7\u30c3\u30af",
+          "IPAPGothic,IPA P\u30b4\u30b7\u30c3\u30af,\u4950\u4150\u476f\u7468\u6963",
+          "Inter",
+          "Inter Display",
+          "Inter Display,Inter Display Black",
+          "Inter Display,Inter Display ExtraBold",
+          "Inter Display,Inter Display ExtraLight",
+          "Inter Display,Inter Display Light",
+          "Inter Display,Inter Display Medium",
+          "Inter Display,Inter Display SemiBold",
+          "Inter Display,Inter Display Thin",
+          "Inter,Inter Black",
+          "Inter,Inter ExtraBold",
+          "Inter,Inter ExtraLight",
+          "Inter,Inter Light",
+          "Inter,Inter Medium",
+          "Inter,Inter SemiBold",
+          "Inter,Inter Thin",
+          "JetBrains Mono",
+          "JetBrains Mono,JetBrains Mono ExtraBold",
+          "JetBrains Mono,JetBrains Mono ExtraLight",
+          "JetBrains Mono,JetBrains Mono Light",
+          "JetBrains Mono,JetBrains Mono Medium",
+          "JetBrains Mono,JetBrains Mono SemiBold",
+          "JetBrains Mono,JetBrains Mono Thin",
+          "Liberation Mono",
+          "Liberation Sans",
+          "Liberation Serif",
+          "Loma",
+          "Noto Color Emoji",
+          "OpenSymbol",
+          "Unifont",
+          "Unifont CSUR",
+          "Unifont Sample",
+          "Unifont Upper",
+          "Unifont\\-JP",
+          "WenQuanYi Zen Hei Mono,\u6587\u6cc9\u9a5b\u7b49\u5bec\u6b63\u9ed1,\u6587\u6cc9\u9a7f\u7b49\u5bbd\u6b63\u9ed1",
+          "WenQuanYi Zen Hei Sharp,\u6587\u6cc9\u9a5b\u9ede\u9663\u6b63\u9ed1,\u6587\u6cc9\u9a7f\u70b9\u9635\u6b63\u9ed1",
+          "WenQuanYi Zen Hei,\u6587\u6cc9\u9a5b\u6b63\u9ed1,\u6587\u6cc9\u9a7f\u6b63\u9ed1"
+        ],
+        "sha256": "939b326443704235f702db8599eb7f55a4203f238e7d9d0372b8228e2cb12588"
+      }
+    }
   },
   "runtimeBindings": [
     {
@@ -579,26 +711,26 @@
       "format": "terminal",
       "binding": {
         "command": [
-          "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0/venv/bin/python",
+          "/home/user/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0-34006e94ecbc4244/venv/bin/python",
           "-I",
           "-B",
           "-X",
           "pycache_prefix=/dev/null",
-          "/workspace/trident/fidelity/drawing/terminal-worker.py"
+          "/home/user/trident/fidelity/drawing/terminal-worker.py"
         ],
         "version": "0.12.0",
         "description": "public Python render API",
         "runtimeFiles": [
           {
-            "path": "/workspace/trident/fidelity/drawing/terminal-worker.py",
+            "path": "/home/user/trident/fidelity/drawing/terminal-worker.py",
             "sha256": "2c5c3e7cf6e2ca6a70e561ab585b2740519758ca146b086a698122c5c1cca666"
           },
           {
-            "path": "/workspace/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0/venv/bin/python",
-            "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+            "path": "/home/user/trident/node_modules/.cache/unified-community/fasouto--termaid@0.12.0-34006e94ecbc4244/venv/bin/python",
+            "sha256": "3fff8e682225671f0ab9659e9a0f540f7c81491352004fc1397b16f57bed56ca"
           }
         ],
-        "installedRuntimeSha256": "18d27f8e6a138f86e0e4239dc468ca8f576c71760f7f0345d5e108cd76b7c63e"
+        "installedRuntimeSha256": "69be0b244877b6b12dab60c12d3aa5d170d866fbd4ec016c4ce98b4744c51fbb"
       }
     }
   ],
@@ -738,25 +870,17 @@
     "seed": "reviewed Terminal Drawing Facts, invalid controls excluded",
     "regressions": "corpus/drawing-regressions.json"
   },
-  "versionsFrozenAt": "2026-11-07T00:20:11.169Z",
-  "method": "Label assessment: SVG labels must pass browser visibility, canvas and clipping checks, or a bounded pixel comparison proving the complete original glyphs remain visible against their actual backdrop. Unsupported observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.",
+  "versionsFrozenAt": "2026-11-14T00:14:18.895Z",
+  "method": "Label assessment: SVG labels must pass browser visibility, canvas and clipping checks, or a bounded pixel comparison proving the complete original glyphs remain visible against their actual backdrop. Unsupported observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames; a label found only as whole words wrapped across successive rows outside a frame has no established owner and is unknown, not missing. Clipping measured in a fallback face because the declared primary font is not installed is environment-dependent and unavailable, not failed; assessmentEnvironments records the fontconfig families that judged the run. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.",
   "assessmentLimits": {
     "invocationMs": 15000,
     "svgObserverMs": 8000,
     "terminalWorkerMs": 20000,
     "terminalRectangleWork": 1000000,
-    "labelPolicy": "drawing-reviewed-labels-v2"
+    "labelPolicy": "drawing-reviewed-labels-v3"
   },
   "blocked": [],
-  "reassessedAt": "2026-11-10T20:05:37.051Z",
-  "reassessment": {
-    "sourceRun": "/home/user/campaign/drawing-0.3.0/drawing-retained",
-    "scope": [
-      "svg"
-    ],
-    "renderersInvoked": false
-  },
-  "assessmentPolicy": "drawing-reviewed-labels-v2",
+  "assessmentPolicy": "drawing-reviewed-labels-v3",
   "state": "complete",
   "formats": [
     "svg",
@@ -766,16 +890,16 @@
     "svg": {},
     "terminal": {},
     "outputsRetained": true,
-    "returnedOutputs": 3684,
-    "startedAt": "2026-11-09T00:32:23.415Z",
-    "finishedAt": "2026-11-09T00:41:24.214Z",
+    "returnedOutputs": 3703,
+    "startedAt": "2026-11-14T01:14:58.294Z",
+    "finishedAt": "2026-11-14T01:23:41.461Z",
     "captureArchive": {
-      "path": "captures/drawing-capture-2026-11-09.tar.gz",
-      "sha256": "20b7684363a30b9d2b34b3ef40f87c429e16c7f5bd60ef9614e0ba36ae22833c",
-      "bytes": 4055738,
+      "path": "captures/drawing-capture-2026-11-14.tar.gz",
+      "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64",
+      "bytes": 4101285,
       "root": "drawing-retained"
     },
-    "previousPublishedSha256": "901ad1f9585cecabe06dd018e10b3a96b7982c68387a5fc0464f5d8393c10a8f"
+    "previousPublishedSha256": "f64aa54e663458994b812b8da9f1ba4b9352bf8bf28f9d1ba08b66872a15dcd5"
   },
   "results": [
     {
@@ -784,10 +908,10 @@
       "format": "svg",
       "counts": {
         "correct": 108,
-        "incorrect": 7,
+        "incorrect": 6,
         "renderer-failure": 0,
         "invalid-format": 1,
-        "unknown": 11,
+        "unknown": 12,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -905,7 +1029,6 @@
           "drawing:22775b7f44c796b6",
           "drawing:3f4b6bd0b23e6927",
           "drawing:570e13053d228e29",
-          "drawing:64788fe4b88b1f1f",
           "drawing:a181524246065697",
           "drawing:a5204531005bef25",
           "drawing:da9198e1adbc1c14"
@@ -920,6 +1043,7 @@
           "drawing:43382cbc1379cf4c",
           "drawing:478ab66bb4c7e4f5",
           "drawing:4e4550d086c4e288",
+          "drawing:64788fe4b88b1f1f",
           "drawing:75e652628bded0d8",
           "drawing:b1428b5b59888938",
           "drawing:cd771fca2659a460",
@@ -933,16 +1057,17 @@
         "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: Animated or image content is outside the glyph profile": 1,
         "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 5,
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 4,
+        "Unresolved SVG label evidence: unclipped-authored-labels; Declared font \"trebuchet ms\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during prepare: Label text boxes overlap": 1,
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "d8824194cb660ada8edf596a6785278fe7c40aab61a43e8a2be9a19cc16f4923",
@@ -1104,19 +1229,19 @@
       "assessmentGapReasons": {
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Text paint, visibility or typography is outside the glyph profile": 1
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "01c277a6b3e55bf99d313e9ce0aea0860f46f80f5a09f74913007d0915028fdf",
         "integrity": "sha512-fHA2btF+GZ6s+AInzOJFzQQOCRX1ntFG94fpmu68TECTXg5iTOeDiVvhT6AhyALXtcDCpr51EfJFGipjq642TQ==",
-        "installedClosureSha256": "800fa7d49cb239560adf29efdd46ba3f4ed096f6ee84c50acfd4de5c4b7df54c",
+        "installedClosureSha256": "2d8da1a1827a9e7a146322a6fae864bc85c527762024aae0db88c1a64e125c4e",
         "filesSha256": "2483ab96bad20c01b34bd8bf0357b44872dd1fd0615fa7fe17d8d70eaad86ff9"
       }
     },
@@ -1270,17 +1395,17 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
         "sha256": "01c277a6b3e55bf99d313e9ce0aea0860f46f80f5a09f74913007d0915028fdf",
         "integrity": "sha512-fHA2btF+GZ6s+AInzOJFzQQOCRX1ntFG94fpmu68TECTXg5iTOeDiVvhT6AhyALXtcDCpr51EfJFGipjq642TQ==",
-        "installedClosureSha256": "800fa7d49cb239560adf29efdd46ba3f4ed096f6ee84c50acfd4de5c4b7df54c",
+        "installedClosureSha256": "2d8da1a1827a9e7a146322a6fae864bc85c527762024aae0db88c1a64e125c4e",
         "filesSha256": "2483ab96bad20c01b34bd8bf0357b44872dd1fd0615fa7fe17d8d70eaad86ff9"
       }
     },
@@ -1435,12 +1560,12 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
         "sha256": "e940686912699c015358f0b86f7bad61816067c9ccce655d787fe1fde9a1b6e8",
@@ -1450,7 +1575,7 @@
     },
     {
       "project": "anomalyco/opencode",
-      "version": "2.2.5",
+      "version": "2.3.0",
       "format": "terminal",
       "counts": {
         "correct": 81,
@@ -1598,21 +1723,21 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
-        "revision": "78e066c9d497077ce2f645b1e7e64da1de857a04",
-        "filesSha256": "c96eaf3796df2489375c73b56823e2e442adcd3fb6b986091dc0844700c031d8"
+        "revision": "83960f8a56b2f2b8ad0b751f23baaf9d0eb65ad9",
+        "filesSha256": "247a432fea845b629ea1c22202aa7cfeb9d75d4a27473c82e0cf3bf8c75c0cb0"
       }
     },
     {
       "project": "crabtalk/bezel",
-      "version": "0.2.24",
+      "version": "0.2.26",
       "format": "svg",
       "counts": {
         "correct": 125,
@@ -1763,19 +1888,19 @@
       "assessmentGapReasons": {
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
-        "sha256": "4b5dfd85beb61111d238e0ae9949b09d7e368e3d2551bc98b48ead9f8ccff92e",
-        "revision": "ab854a04f354f0c428a76d54b822dfd21e2e3962",
-        "filesSha256": "361592172424674f8bb96df72aca27e31a2661439fd8da60c728b04599251403"
+        "sha256": "8450b71eb1e2dd7ed757cb04f33abe9420d75f0f563b243e0809162ec193c6db",
+        "revision": "79a1913fdc479ad5628f32c7f233675992347c21",
+        "filesSha256": "322c2ee939440ea2b92844ee44907bcedb185176643427ca6556a6807b6bbe57"
       }
     },
     {
@@ -1784,10 +1909,10 @@
       "format": "svg",
       "counts": {
         "correct": 66,
-        "incorrect": 13,
+        "incorrect": 10,
         "renderer-failure": 30,
         "invalid-format": 1,
-        "unknown": 17,
+        "unknown": 20,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -1860,13 +1985,10 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "drawing:11426c4cad392dc7",
           "drawing:3f4b6bd0b23e6927",
           "drawing:478ab66bb4c7e4f5",
-          "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
           "drawing:61cc5e1150412252",
-          "drawing:7801c75b869778fe",
           "drawing:90e78c1ed707e7e4",
           "drawing:9e4e5a5e072642e8",
           "drawing:c18237e0a535bdb7",
@@ -1910,14 +2032,17 @@
           "drawing:5c9a50898b1e6ffe"
         ],
         "unknown": [
+          "drawing:11426c4cad392dc7",
           "drawing:1b492a74df0fc4b6",
           "drawing:29fc1dab07164509",
           "drawing:3042977d4e6d813b",
           "drawing:404189958f761756",
           "drawing:4ae5560b57ca0064",
           "drawing:4e4550d086c4e288",
+          "drawing:529e14e4d09b944a",
           "drawing:75a4be6507dd75fe",
           "drawing:75e652628bded0d8",
+          "drawing:7801c75b869778fe",
           "drawing:867520b102964291",
           "drawing:9972eaa8ca8692d8",
           "drawing:c2e297448b5388ba",
@@ -1931,25 +2056,26 @@
         "unrun": []
       },
       "assessmentGapReasons": {
+        "Unresolved SVG label evidence: unclipped-authored-labels; Declared font \"Geist Mono\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during prepare: Label text boxes overlap": 3,
         "Unresolved SVG label evidence: unclipped-authored-labels, paint-opacity-and-color; glyph proof-unavailable during prepare: Label text boxes overlap": 2,
         "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 7,
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 4,
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 3,
         "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels, paint-opacity-and-color; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 1
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
         "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
-        "installedClosureSha256": "85ecefeee851fd25fd68972e3160f3b48d590b6bd8232e23a8d74f9d9931d97b",
+        "installedClosureSha256": "897e37143d8e9414028079a232cdf111c0fa5f296540dc8120f78f7320922baa",
         "filesSha256": "3f2199e0724c1564b7d1ea8c3f23c523a49460ac1af39aac68d16d076897ddfb"
       }
     },
@@ -2105,30 +2231,30 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
         "sha256": "c7a25a29f167eb88944f95536b13be8f62443a105a9e4e0c71d96f4fd7433837",
         "integrity": "sha512-CwJC9ygrnIXyMG0sPNVSJ9BWpwl1NK/fN3aMd1e7xHUTHj/bzfJS+8fS7bsNWoqUPn2KX5FgcBbKxcTGwnh8EQ==",
-        "installedClosureSha256": "85ecefeee851fd25fd68972e3160f3b48d590b6bd8232e23a8d74f9d9931d97b",
+        "installedClosureSha256": "897e37143d8e9414028079a232cdf111c0fa5f296540dc8120f78f7320922baa",
         "filesSha256": "3f2199e0724c1564b7d1ea8c3f23c523a49460ac1af39aac68d16d076897ddfb"
       }
     },
     {
       "project": "dfadler/zombie-mermaid",
-      "version": "5.14.4",
+      "version": "5.17.0",
       "format": "svg",
       "counts": {
-        "correct": 105,
+        "correct": 116,
         "incorrect": 0,
-        "renderer-failure": 16,
+        "renderer-failure": 7,
         "invalid-format": 2,
-        "unknown": 4,
+        "unknown": 2,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -2143,10 +2269,13 @@
           "drawing:206a9307ba8592b1",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
+          "drawing:2295dae5ca33addf",
           "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
+          "drawing:2598092a6e404821",
           "drawing:25b4a684eb0b6e31",
           "drawing:25e166249d24378d",
+          "drawing:276c8474274911fa",
           "drawing:278dccc21dd27020",
           "drawing:27a0bf1eef1bdb6f",
           "drawing:29fc1dab07164509",
@@ -2156,6 +2285,7 @@
           "drawing:3c2f67b774f592f2",
           "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
+          "drawing:43382cbc1379cf4c",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
           "drawing:46c4d04542ff7c8e",
@@ -2163,6 +2293,7 @@
           "drawing:48d7ff23dee1b343",
           "drawing:4ab51e1e2963ef1c",
           "drawing:4ab6c5415bc7a24c",
+          "drawing:4ae5560b57ca0064",
           "drawing:4e4550d086c4e288",
           "drawing:4f96b68984c54c5a",
           "drawing:529e14e4d09b944a",
@@ -2191,6 +2322,7 @@
           "drawing:89be4f2885fb74a9",
           "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
+          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
@@ -2198,6 +2330,8 @@
           "drawing:9972eaa8ca8692d8",
           "drawing:9cdc849ecf29b4d2",
           "drawing:a2118d0582abef57",
+          "drawing:a60c7e7b3b930353",
+          "drawing:aaf86b713c100b5a",
           "drawing:b1c4dd60b314e8a1",
           "drawing:b23c0856e157b1f2",
           "drawing:b29260d2c1b434d5",
@@ -2208,13 +2342,16 @@
           "drawing:c18237e0a535bdb7",
           "drawing:c2e297448b5388ba",
           "drawing:c5455d2e2f5f8672",
+          "drawing:c64d9c102f509905",
           "drawing:cd2dd60c268497d1",
           "drawing:cd771fca2659a460",
           "drawing:d04b45557e7b8f2e",
           "drawing:d2896678981aedb8",
           "drawing:d3cc8b77d097ec56",
           "drawing:d98a600399ba3ce5",
+          "drawing:da9198e1adbc1c14",
           "drawing:dbc553f665d05c10",
+          "drawing:ddef9c7af192e428",
           "drawing:de6e8bf0fd559efc",
           "drawing:df5eb5c9968bbb86",
           "drawing:e52b4b37f626102c",
@@ -2241,22 +2378,13 @@
         ],
         "incorrect": [],
         "renderer-failure": [
-          "drawing:2295dae5ca33addf",
-          "drawing:2598092a6e404821",
           "drawing:263ec71ab0c651b3",
-          "drawing:276c8474274911fa",
           "drawing:39d5de95eb42396b",
-          "drawing:43382cbc1379cf4c",
           "drawing:570e13053d228e29",
           "drawing:a181524246065697",
           "drawing:a5204531005bef25",
-          "drawing:a60c7e7b3b930353",
-          "drawing:aaf86b713c100b5a",
           "drawing:b1428b5b59888938",
-          "drawing:c64d9c102f509905",
-          "drawing:d7362afef7c26051",
-          "drawing:da9198e1adbc1c14",
-          "drawing:ddef9c7af192e428"
+          "drawing:d7362afef7c26051"
         ],
         "invalid-format": [
           "drawing:5c9a50898b1e6ffe",
@@ -2264,49 +2392,46 @@
         ],
         "unknown": [
           "drawing:0dbd28f2f1c494cc",
-          "drawing:4ae5560b57ca0064",
-          "drawing:90e78c1ed707e7e4",
           "drawing:fbfb884b46380275"
         ],
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 2,
-        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 1,
-        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 2
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
-        "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
-        "integrity": "sha512-vo/yfpnzrWNn+2cqng2MNTSjgZgel0nd8XI9eRA7+WOWgPjUEsLfB0SmyNm8KOg9Gc8T1ptkV6MzW/KmGAijsg==",
-        "installedClosureSha256": "009c64d5cd53ee5a23936188bee7377f7eb63f5f5de80803fa7e3ffea921ce8c",
-        "filesSha256": "be874758471d140c0f2d2f3b56d2a17e6cab9a03664c001e763252105915ddfb"
+        "sha256": "4e04f8c1163de071cbcceb62ddb2ce6107b98df3038ac456e6d16dea121d46d9",
+        "integrity": "sha512-/L31e8A0rpFUzrE9e45K0kV3ylo9COOz1Prmt7r7+Cb2k0a+wEVBcoQRfUzuQsdT6u3UCXP9NFGvsTQvtXyyJg==",
+        "installedClosureSha256": "11f28aff216eef2e1cf67702e43abf0375de3f958880fb59930be985d8c2033f",
+        "filesSha256": "53110d6d888cbbc048101f82738669473a6bd18ef7795488280dc61a0d89cc29"
       }
     },
     {
       "project": "dfadler/zombie-mermaid",
-      "version": "5.14.4",
+      "version": "5.17.0",
       "format": "terminal",
       "counts": {
-        "correct": 106,
-        "incorrect": 4,
-        "renderer-failure": 16,
+        "correct": 115,
+        "incorrect": 2,
+        "renderer-failure": 8,
         "invalid-format": 1,
-        "unknown": 0,
+        "unknown": 1,
         "unrun": 0
       },
       "caseOutcomes": {
         "correct": [
           "drawing:03019928d457c65c",
           "drawing:049722f83e7a31e0",
+          "drawing:0dbd28f2f1c494cc",
           "drawing:11426c4cad392dc7",
           "drawing:128500dada38a009",
           "drawing:1468e1cf1186af65",
@@ -2315,10 +2440,13 @@
           "drawing:206a9307ba8592b1",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
+          "drawing:2295dae5ca33addf",
           "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
+          "drawing:2598092a6e404821",
           "drawing:25b4a684eb0b6e31",
           "drawing:25e166249d24378d",
+          "drawing:276c8474274911fa",
           "drawing:278dccc21dd27020",
           "drawing:27a0bf1eef1bdb6f",
           "drawing:29fc1dab07164509",
@@ -2328,6 +2456,7 @@
           "drawing:3c2f67b774f592f2",
           "drawing:3f4b6bd0b23e6927",
           "drawing:404189958f761756",
+          "drawing:43382cbc1379cf4c",
           "drawing:435d2e71f8557532",
           "drawing:46492176fc22b23d",
           "drawing:46c4d04542ff7c8e",
@@ -2368,9 +2497,10 @@
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
           "drawing:9516272260e4c69d",
-          "drawing:9972eaa8ca8692d8",
           "drawing:9cdc849ecf29b4d2",
           "drawing:a2118d0582abef57",
+          "drawing:a60c7e7b3b930353",
+          "drawing:aaf86b713c100b5a",
           "drawing:b1c4dd60b314e8a1",
           "drawing:b23c0856e157b1f2",
           "drawing:b29260d2c1b434d5",
@@ -2381,13 +2511,16 @@
           "drawing:c18237e0a535bdb7",
           "drawing:c2e297448b5388ba",
           "drawing:c5455d2e2f5f8672",
+          "drawing:c64d9c102f509905",
           "drawing:cd2dd60c268497d1",
           "drawing:cd771fca2659a460",
           "drawing:d04b45557e7b8f2e",
           "drawing:d2896678981aedb8",
           "drawing:d3cc8b77d097ec56",
           "drawing:d98a600399ba3ce5",
+          "drawing:da9198e1adbc1c14",
           "drawing:dbc553f665d05c10",
+          "drawing:ddef9c7af192e428",
           "drawing:de6e8bf0fd559efc",
           "drawing:df5eb5c9968bbb86",
           "drawing:e52b4b37f626102c",
@@ -2413,60 +2546,54 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "drawing:0dbd28f2f1c494cc",
-          "drawing:89e9eb6aebb72128",
           "drawing:90e78c1ed707e7e4",
           "drawing:fbfb884b46380275"
         ],
         "renderer-failure": [
-          "drawing:2295dae5ca33addf",
-          "drawing:2598092a6e404821",
           "drawing:263ec71ab0c651b3",
-          "drawing:276c8474274911fa",
           "drawing:39d5de95eb42396b",
-          "drawing:43382cbc1379cf4c",
           "drawing:570e13053d228e29",
+          "drawing:9972eaa8ca8692d8",
           "drawing:a181524246065697",
           "drawing:a5204531005bef25",
-          "drawing:a60c7e7b3b930353",
-          "drawing:aaf86b713c100b5a",
           "drawing:b1428b5b59888938",
-          "drawing:c64d9c102f509905",
-          "drawing:d7362afef7c26051",
-          "drawing:da9198e1adbc1c14",
-          "drawing:ddef9c7af192e428"
+          "drawing:d7362afef7c26051"
         ],
         "invalid-format": [
           "drawing:9e4e5a5e072642e8"
         ],
-        "unknown": [],
+        "unknown": [
+          "drawing:89e9eb6aebb72128"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentGapReasons": {
+        "Label \"Small\\ndouble\\ncircle\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established": 1
+      },
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
-        "sha256": "968644a3d4a250afa73de61ce241b3c6d457640dfc0afd61bc7c1a2f7e2657cd",
-        "integrity": "sha512-vo/yfpnzrWNn+2cqng2MNTSjgZgel0nd8XI9eRA7+WOWgPjUEsLfB0SmyNm8KOg9Gc8T1ptkV6MzW/KmGAijsg==",
-        "installedClosureSha256": "009c64d5cd53ee5a23936188bee7377f7eb63f5f5de80803fa7e3ffea921ce8c",
-        "filesSha256": "be874758471d140c0f2d2f3b56d2a17e6cab9a03664c001e763252105915ddfb"
+        "sha256": "4e04f8c1163de071cbcceb62ddb2ce6107b98df3038ac456e6d16dea121d46d9",
+        "integrity": "sha512-/L31e8A0rpFUzrE9e45K0kV3ylo9COOz1Prmt7r7+Cb2k0a+wEVBcoQRfUzuQsdT6u3UCXP9NFGvsTQvtXyyJg==",
+        "installedClosureSha256": "11f28aff216eef2e1cf67702e43abf0375de3f958880fb59930be985d8c2033f",
+        "filesSha256": "53110d6d888cbbc048101f82738669473a6bd18ef7795488280dc61a0d89cc29"
       }
     },
     {
       "project": "Dicklesworthstone/frankenmermaid",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "format": "svg",
       "counts": {
-        "correct": 112,
-        "incorrect": 4,
+        "correct": 109,
+        "incorrect": 3,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 10,
+        "unknown": 14,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -2476,21 +2603,18 @@
           "drawing:11426c4cad392dc7",
           "drawing:128500dada38a009",
           "drawing:1468e1cf1186af65",
-          "drawing:1b492a74df0fc4b6",
           "drawing:1c0f33b5035768f2",
           "drawing:206a9307ba8592b1",
           "drawing:2091f6913743bcab",
           "drawing:22775b7f44c796b6",
-          "drawing:2295dae5ca33addf",
           "drawing:22e97a0fc1fff023",
           "drawing:2431a54dd231055c",
           "drawing:2598092a6e404821",
+          "drawing:25e166249d24378d",
           "drawing:263ec71ab0c651b3",
           "drawing:276c8474274911fa",
           "drawing:278dccc21dd27020",
           "drawing:27a0bf1eef1bdb6f",
-          "drawing:29fc1dab07164509",
-          "drawing:3042977d4e6d813b",
           "drawing:32ad8ee06ab49562",
           "drawing:383e68bb60ac3633",
           "drawing:39d5de95eb42396b",
@@ -2505,9 +2629,7 @@
           "drawing:4ab51e1e2963ef1c",
           "drawing:4ab6c5415bc7a24c",
           "drawing:4ae5560b57ca0064",
-          "drawing:4e4550d086c4e288",
           "drawing:4f96b68984c54c5a",
-          "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
           "drawing:54f7237ee5ab1a85",
           "drawing:570e13053d228e29",
@@ -2528,11 +2650,13 @@
           "drawing:767a3f8c3e47e0bd",
           "drawing:7801c75b869778fe",
           "drawing:837336a6e0f8f27c",
+          "drawing:867520b102964291",
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
           "drawing:89be4f2885fb74a9",
           "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
+          "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
@@ -2543,8 +2667,8 @@
           "drawing:a181524246065697",
           "drawing:a2118d0582abef57",
           "drawing:a5204531005bef25",
+          "drawing:aaf86b713c100b5a",
           "drawing:b1c4dd60b314e8a1",
-          "drawing:b23c0856e157b1f2",
           "drawing:b29260d2c1b434d5",
           "drawing:b4c60f465d6bcb5b",
           "drawing:bd36b029775eba8c",
@@ -2553,12 +2677,12 @@
           "drawing:c18237e0a535bdb7",
           "drawing:c2e297448b5388ba",
           "drawing:c5455d2e2f5f8672",
-          "drawing:c64d9c102f509905",
           "drawing:cd2dd60c268497d1",
           "drawing:d04b45557e7b8f2e",
           "drawing:d2896678981aedb8",
           "drawing:d3cc8b77d097ec56",
           "drawing:d98a600399ba3ce5",
+          "drawing:da9198e1adbc1c14",
           "drawing:dbc553f665d05c10",
           "drawing:de6e8bf0fd559efc",
           "drawing:df5eb5c9968bbb86",
@@ -2587,59 +2711,65 @@
         "incorrect": [
           "drawing:03019928d457c65c",
           "drawing:5c9a50898b1e6ffe",
-          "drawing:a60c7e7b3b930353",
-          "drawing:ddef9c7af192e428"
+          "drawing:a60c7e7b3b930353"
         ],
         "renderer-failure": [
           "drawing:ef20265c9ef84973"
         ],
         "invalid-format": [],
         "unknown": [
+          "drawing:1b492a74df0fc4b6",
+          "drawing:2295dae5ca33addf",
           "drawing:25b4a684eb0b6e31",
-          "drawing:25e166249d24378d",
+          "drawing:29fc1dab07164509",
+          "drawing:3042977d4e6d813b",
           "drawing:48d7ff23dee1b343",
-          "drawing:867520b102964291",
-          "drawing:90e78c1ed707e7e4",
-          "drawing:aaf86b713c100b5a",
+          "drawing:4e4550d086c4e288",
+          "drawing:529e14e4d09b944a",
           "drawing:b1428b5b59888938",
+          "drawing:b23c0856e157b1f2",
+          "drawing:c64d9c102f509905",
           "drawing:cd771fca2659a460",
           "drawing:d7362afef7c26051",
-          "drawing:da9198e1adbc1c14"
+          "drawing:ddef9c7af192e428"
         ],
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 4,
-        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Text paint, visibility or typography is outside the glyph profile": 1,
-        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 1,
-        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 3,
-        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: A non-whitespace character has no independently observed glyph ink": 1
+        "Unresolved SVG label evidence: paint-opacity-and-color; glyph proof-unavailable during compare: Surrounding scene changed after restoration": 3,
+        "Unresolved SVG label evidence: paint-opacity-and-color; glyph proof-unavailable during prepare: Complete glyph capture exceeds the pixel or dimension work limit": 2,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels, paint-opacity-and-color; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 4,
+        "Unresolved SVG label evidence: paint-opacity-and-color; glyph proof-unavailable during compare: Mask is not opaque grayscale or scene alpha is unsupported": 1,
+        "Unresolved SVG label evidence: paint-opacity-and-color; glyph proof-unavailable during prepare: A non-whitespace character has no independently observed glyph ink": 1,
+        "Unresolved SVG label evidence: paint-opacity-and-color; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 1,
+        "Unresolved SVG label evidence: paint-opacity-and-color; glyph proof-unavailable during compare: Isolated label changes pixels outside its glyph mask": 1,
+        "Visibility of possible raw source syntax is unassessed": 1
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
-        "sha256": "04538da51718ecf11a56233c6f029280882cb32c7194715888b71d529f9b525f",
-        "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
-        "filesSha256": "79b2da212bc980ae0308a13357fd7940776bf39872e55b30daa459cd38e3c62a"
+        "sha256": "06a334b1bb34c1d39a7d6a0077f0dd65341d6c6752853d38a531ee79ad1c4930",
+        "revision": "a5be33d9097af8b7c90fef7dd4a0c20a0bf55752",
+        "filesSha256": "660332957be07a775f7ed3da9429e11e6e6b67cafe2724ba5db87277eb99f6fa"
       }
     },
     {
       "project": "Dicklesworthstone/frankenmermaid",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "format": "terminal",
       "counts": {
-        "correct": 103,
-        "incorrect": 23,
+        "correct": 107,
+        "incorrect": 17,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 0,
+        "unknown": 2,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -2674,12 +2804,12 @@
           "drawing:4ab51e1e2963ef1c",
           "drawing:4ab6c5415bc7a24c",
           "drawing:4ae5560b57ca0064",
-          "drawing:4e4550d086c4e288",
           "drawing:4f96b68984c54c5a",
           "drawing:529e14e4d09b944a",
           "drawing:53e2d239ed8df992",
           "drawing:54f7237ee5ab1a85",
           "drawing:570e13053d228e29",
+          "drawing:587429a5094fbb28",
           "drawing:5b249b03683c12ec",
           "drawing:5d18804ad5e0e31f",
           "drawing:5eee7283ba095288",
@@ -2691,13 +2821,14 @@
           "drawing:6f0f134c3b965095",
           "drawing:6f83e372d7057526",
           "drawing:704f69aae7273edd",
-          "drawing:75a4be6507dd75fe",
           "drawing:75e652628bded0d8",
           "drawing:767a3f8c3e47e0bd",
           "drawing:7801c75b869778fe",
           "drawing:837336a6e0f8f27c",
+          "drawing:867520b102964291",
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
+          "drawing:89be4f2885fb74a9",
           "drawing:908bfa4128c34006",
           "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
@@ -2711,6 +2842,7 @@
           "drawing:a5204531005bef25",
           "drawing:aaf86b713c100b5a",
           "drawing:b1c4dd60b314e8a1",
+          "drawing:b23c0856e157b1f2",
           "drawing:b29260d2c1b434d5",
           "drawing:b4c60f465d6bcb5b",
           "drawing:bd36b029775eba8c",
@@ -2723,9 +2855,11 @@
           "drawing:cd771fca2659a460",
           "drawing:d04b45557e7b8f2e",
           "drawing:d2896678981aedb8",
+          "drawing:d3cc8b77d097ec56",
           "drawing:d98a600399ba3ce5",
           "drawing:da9198e1adbc1c14",
           "drawing:de6e8bf0fd559efc",
+          "drawing:df5eb5c9968bbb86",
           "drawing:e52b4b37f626102c",
           "drawing:e54c4b6195e240be",
           "drawing:e84af4bd39ddf3eb",
@@ -2751,47 +2885,47 @@
         "incorrect": [
           "drawing:03019928d457c65c",
           "drawing:0dbd28f2f1c494cc",
-          "drawing:1c0f33b5035768f2",
           "drawing:25b4a684eb0b6e31",
           "drawing:27a0bf1eef1bdb6f",
           "drawing:29fc1dab07164509",
           "drawing:43382cbc1379cf4c",
           "drawing:48d7ff23dee1b343",
-          "drawing:587429a5094fbb28",
+          "drawing:4e4550d086c4e288",
           "drawing:5c9a50898b1e6ffe",
-          "drawing:867520b102964291",
-          "drawing:89be4f2885fb74a9",
-          "drawing:89e9eb6aebb72128",
+          "drawing:75a4be6507dd75fe",
           "drawing:94e514f9f375364c",
           "drawing:a60c7e7b3b930353",
           "drawing:b1428b5b59888938",
-          "drawing:b23c0856e157b1f2",
           "drawing:c2e297448b5388ba",
-          "drawing:d3cc8b77d097ec56",
           "drawing:d7362afef7c26051",
           "drawing:dbc553f665d05c10",
-          "drawing:ddef9c7af192e428",
-          "drawing:df5eb5c9968bbb86"
+          "drawing:ddef9c7af192e428"
         ],
         "renderer-failure": [
           "drawing:ef20265c9ef84973"
         ],
         "invalid-format": [],
-        "unknown": [],
+        "unknown": [
+          "drawing:1c0f33b5035768f2",
+          "drawing:89e9eb6aebb72128"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentGapReasons": {
+        "Label \"First\\nSecond\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established; Label \"Line 1\\nLine 2\\nLine 3\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established": 1,
+        "Label \"Small\\ndouble\\ncircle\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established; Label \"Small\\nrectangle\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established": 1
+      },
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
-        "sha256": "cc827264b1b9a201dfe4b42bb03b70a57067f3b8cf75f89c394cd39aeed22090",
-        "revision": "d5ade10ac414a8c9eb07bd42b3df6a62c6474f6f",
-        "filesSha256": "fc6287c29595f0da5d7d0c9c5e42a6b4e1dbabf56cc387ea4eafadde4ff1ff18"
+        "sha256": "e95578ab3dd23376c22d1d5a056da63b649ae772432b19a7d5e7799c9788d113",
+        "revision": "834665dd11b8365481958dd3ef5ac2276c072246",
+        "filesSha256": "9f05ec705ed79fe1f9f2386cb7b97a1c9196bce9cc0bb88ed58ba2dad831303d"
       }
     },
     {
@@ -2950,19 +3084,19 @@
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 1,
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
         "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
-        "installedClosureSha256": "e62a71b3ed588e543fa9887960de86af9e38c4ce445814426979f0478421d6e8",
+        "installedClosureSha256": "9386c93b251e682d14943e0baa3923e08864cb6a26200fe4d0f49214867ee435",
         "filesSha256": "4d1c7396d28610b7a1bd578982e264f469acb9030d4ea79169b929e617ad0116"
       }
     },
@@ -3118,17 +3252,17 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
         "sha256": "2ef93d0283cc39361c0fb5d62926d870921618c1539f0044f4081a09b1a9cd7d",
         "integrity": "sha512-LUmNFbtg5RBrtwyR3MkKSPaO6Cgr66j4HsTtqtLGRyzVtLKlcrfIc/I8gm5BHqcyhjGN1pHA7R6h7c8tDSaynA==",
-        "installedClosureSha256": "e62a71b3ed588e543fa9887960de86af9e38c4ce445814426979f0478421d6e8",
+        "installedClosureSha256": "9386c93b251e682d14943e0baa3923e08864cb6a26200fe4d0f49214867ee435",
         "filesSha256": "4d1c7396d28610b7a1bd578982e264f469acb9030d4ea79169b929e617ad0116"
       }
     },
@@ -3289,19 +3423,19 @@
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 1,
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Observed glyph contour lacks independent exterior contrast": 2
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "4b083ff3979c7b07e1c364393ef17659ffe7bfcfea75a818260f4de7ece7789b",
         "integrity": "sha512-/KxDLMfR0THbxtrZiGxDuTKp0NGJTJRHH5ForIvxVxf9ctveEPN9irXUBFYIiKB337CXMhH2w+ds8pJ5hpRGvA==",
-        "installedClosureSha256": "d3f25bdffb86767a1b005a299fa67059e382204877a9eeb430054eb36e6aa899",
+        "installedClosureSha256": "fb06de45a70cf8ea38aa9093046f39b4c90195439bd92aa0719187ca05fdefdf",
         "filesSha256": "436d9bff9b53deaefe6b336fba7dc09a6adaf378ed8cf1f50bf0840ce4bf9ab4"
       }
     },
@@ -3455,15 +3589,15 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
-        "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "sha256": "3fff8e682225671f0ab9659e9a0f540f7c81491352004fc1397b16f57bed56ca",
         "filesSha256": "b74dd19fa49a894dd7f8ec5846724ef41c9669f8bd4e5911a6dea7ad0229de0d"
       }
     },
@@ -3619,12 +3753,12 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
         "sha256": "6cbc31d2719cfd2be538707c238d3ab1af24c20f2247f7f5a139df17e5bcb1ae",
@@ -3638,10 +3772,10 @@
       "format": "terminal",
       "counts": {
         "correct": 64,
-        "incorrect": 7,
+        "incorrect": 6,
         "renderer-failure": 56,
         "invalid-format": 0,
-        "unknown": 0,
+        "unknown": 1,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -3715,7 +3849,6 @@
           "drawing:25b4a684eb0b6e31",
           "drawing:3f4b6bd0b23e6927",
           "drawing:478ab66bb4c7e4f5",
-          "drawing:767a3f8c3e47e0bd",
           "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
           "drawing:cd771fca2659a460"
@@ -3779,21 +3912,25 @@
           "regression:d2ca0121985b295d"
         ],
         "invalid-format": [],
-        "unknown": [],
+        "unknown": [
+          "drawing:767a3f8c3e47e0bd"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentGapReasons": {
+        "Label \"First\\nSecond\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established": 1
+      },
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
         "sha256": "f1e16af45f4c43e2c7d69a48c2f3bc286b061b84dca994fa83da98593705793d",
         "integrity": "sha512-SqKB/VjkjxNgyxAkvGGbTQACrTpPkg5udiDtJswYEnSkOjKdRISYKtK2Hzi/Y8TjK3beHMHyOQeoCS10V+AD4g==",
-        "installedClosureSha256": "c0152333363b8cfc1bcc768c8209c43b9197d4f2d135dd973f09306479d61238",
+        "installedClosureSha256": "9e78863178b934fff206309c94ea08a326b2661eb67d77c8fde13ef50bf82a0e",
         "filesSha256": "9b1a1d4e5e780b43d1da85f582975e015b068c03509b03499ce3d7fa6b3192c4"
       }
     },
@@ -3955,32 +4092,32 @@
         "Unresolved SVG label evidence: labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1,
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 2
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "448013e13d696562b1c4cac338a94c937dcc861b1641dd9b5fc56f87bf02cdf8",
         "integrity": "sha512-ECmsDtEy7745CMQqDP1zkCxHx2zq5Vj+FGOss1gUowirJvYmtxahMQ2jV6/BvPm9cltcm2XQajAqPTYJKmVKEA==",
-        "installedClosureSha256": "b02b324b3835dffdd25f7294729d0043aabd4576fe9aa8906e022f2932142322",
+        "installedClosureSha256": "3d7a37571b0a62a0e8137faf0d2d5b18ea6af80b63a10c930b4e210123b10d9f",
         "filesSha256": "50381a3bf28bafa271048ee1ab3dee363d26a8b8189f526fe78ab02bf2edae33"
       }
     },
     {
       "project": "Latias94/merman",
-      "version": "0.9.3",
+      "version": "0.10.0",
       "format": "svg",
       "counts": {
-        "correct": 100,
-        "incorrect": 25,
+        "correct": 101,
+        "incorrect": 0,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 1,
+        "unknown": 25,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -4038,6 +4175,7 @@
           "drawing:837336a6e0f8f27c",
           "drawing:87325fd383c3b1af",
           "drawing:898156db49cbe4e9",
+          "drawing:89e9eb6aebb72128",
           "drawing:908bfa4128c34006",
           "drawing:90e78c1ed707e7e4",
           "drawing:915784d6704949c2",
@@ -4086,7 +4224,12 @@
           "regression:b37bebe1a745f1d6",
           "regression:aea8f60cfe1ecdeb"
         ],
-        "incorrect": [
+        "incorrect": [],
+        "renderer-failure": [
+          "drawing:dbc553f665d05c10"
+        ],
+        "invalid-format": [],
+        "unknown": [
           "drawing:1468e1cf1186af65",
           "drawing:206a9307ba8592b1",
           "drawing:2598092a6e404821",
@@ -4100,9 +4243,9 @@
           "drawing:7801c75b869778fe",
           "drawing:867520b102964291",
           "drawing:89be4f2885fb74a9",
-          "drawing:89e9eb6aebb72128",
           "drawing:94e514f9f375364c",
           "drawing:9972eaa8ca8692d8",
+          "drawing:b1428b5b59888938",
           "drawing:b23c0856e157b1f2",
           "drawing:c2e297448b5388ba",
           "drawing:c5455d2e2f5f8672",
@@ -4113,42 +4256,43 @@
           "regression:a1cbf1ae4b6a2b8a",
           "regression:d2ca0121985b295d"
         ],
-        "renderer-failure": [
-          "drawing:dbc553f665d05c10"
-        ],
-        "invalid-format": [],
-        "unknown": [
-          "drawing:b1428b5b59888938"
-        ],
         "unrun": []
       },
       "assessmentGapReasons": {
-        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 1
+        "Unresolved SVG label evidence: unclipped-authored-labels; Declared font \"Recursive Variable\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 16,
+        "Unresolved SVG label evidence: unclipped-authored-labels; Declared font \"Recursive Variable\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during mask: Mask translation changed glyph geometry": 2,
+        "Unresolved SVG label evidence: unclipped-authored-labels; Declared font \"trebuchet ms\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during mask: Mask translation changed glyph geometry": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; Declared font \"trebuchet ms\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during compare: Isolated label changes pixels outside its glyph mask": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; Declared font \"trebuchet ms\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during compare: Actual glyph pixels differ from the complete unclipped glyphs": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels, paint-opacity-and-color; Declared font \"trebuchet ms\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during prepare: HTML text has unsupported decoration, background, transform or generated content": 1,
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; Declared font \"Recursive Variable\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during prepare: A non-whitespace character has no independently observed glyph ink": 1,
+        "Unresolved SVG label evidence: unclipped-authored-labels; Declared font \"Recursive Variable\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during compare: Isolated label changes pixels outside its glyph mask": 1
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "4e73f19d6c9961b5602bc33366920138d37c73c616ff57f1446fcb783809960d",
-        "integrity": "sha512-82NQI8z4R6pNAOvZEfm6MS5sMJjQ1SEVjznM/3E5VrDu2g1tQlNj2BXdt4pnCnsRofsXoiklWinzO8WLAvVmqA==",
-        "installedClosureSha256": "cf242083c648c93ee09269b54a7f03a019ed1202d2514f43db27677691200681",
+        "integrity": "sha512-jGv/7YevzoH9kL24VBjH3BgQ2pkBF667yekAo9ri+y1q/HacSpE65Vu8YEzXCUCxj202alK5SLYfHxoXMjz69g==",
+        "installedClosureSha256": "6524ff377dd52670ce724d975b3d609db982c434aad9c17b9c9283f903e8434d",
         "filesSha256": "f093ccaf09bd87c0f149502e1df1fbb59a0b89859d2a422c90918285cdc12ee3"
       }
     },
     {
       "project": "Latias94/merman",
-      "version": "0.9.3",
+      "version": "0.10.0",
       "format": "terminal",
       "counts": {
-        "correct": 99,
+        "correct": 101,
         "incorrect": 5,
-        "renderer-failure": 23,
+        "renderer-failure": 21,
         "invalid-format": 0,
         "unknown": 0,
         "unrun": 0
@@ -4204,9 +4348,11 @@
           "drawing:898156db49cbe4e9",
           "drawing:89be4f2885fb74a9",
           "drawing:89e9eb6aebb72128",
+          "drawing:908bfa4128c34006",
           "drawing:915784d6704949c2",
           "drawing:94ac61fd1311d5bc",
           "drawing:94e514f9f375364c",
+          "drawing:9516272260e4c69d",
           "drawing:9972eaa8ca8692d8",
           "drawing:9cdc849ecf29b4d2",
           "drawing:9e4e5a5e072642e8",
@@ -4278,9 +4424,7 @@
           "drawing:61cc5e1150412252",
           "drawing:6f0f134c3b965095",
           "drawing:704f69aae7273edd",
-          "drawing:908bfa4128c34006",
           "drawing:90e78c1ed707e7e4",
-          "drawing:9516272260e4c69d",
           "drawing:a181524246065697",
           "drawing:b1428b5b59888938",
           "drawing:cd771fca2659a460",
@@ -4292,17 +4436,17 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
-        "sha256": "80fa7118095cac430259c828606191092607423b8c02461400215acc48f4f44d",
-        "revision": "3b915f69c02d55b873d252cf6c8a6048e7f3427d",
-        "filesSha256": "b93468f74a91e2f80aa6110b539820fddffa739a7dd98cebada6dbd86b034f85"
+        "sha256": "81fd2d67c8d4a43bff71384435f31852a7d696b9ddb2c2641095e3a59cd6a751",
+        "revision": "e0e75bcab2fa8e39dd7a09465b7f2e035eda82ef",
+        "filesSha256": "0eb04f465ae9051657db1acbb7318e39bb64c7d9c0b2b61703846a45f4e8dfa9"
       }
     },
     {
@@ -4457,19 +4601,19 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
         "integrity": "sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==",
-        "installedClosureSha256": "f3cb677e308c2e8664b8254eaa6b9564eaa4060204f92ba4197a6c5fa50f6cfd",
+        "installedClosureSha256": "89476871d65c072bc7dc4a443379a630ebd16c1df46ad1481bc5fd365f50c1e4",
         "filesSha256": "259909bc771979d07f059bdc14470a283a8ce75cc26eada390deb8296b0c5665"
       }
     },
@@ -4625,17 +4769,17 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
         "sha256": "54acbb8c0d458bfed51bd5e116eb64d475390ac1893bc25a31148646fd9a2c39",
         "integrity": "sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==",
-        "installedClosureSha256": "f3cb677e308c2e8664b8254eaa6b9564eaa4060204f92ba4197a6c5fa50f6cfd",
+        "installedClosureSha256": "89476871d65c072bc7dc4a443379a630ebd16c1df46ad1481bc5fd365f50c1e4",
         "filesSha256": "259909bc771979d07f059bdc14470a283a8ce75cc26eada390deb8296b0c5665"
       }
     },
@@ -4794,19 +4938,19 @@
         "Unresolved SVG label evidence: paint-opacity-and-color; glyph proof-unavailable during prepare: HTML text has unsupported decoration, background, transform or generated content": 1,
         "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 1
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "fafa28691baf87948a63ec13009437278f25d43ca7d85e74b71f3b53897e1738",
         "integrity": "sha512-4113TdXeLAsMruJ79OpFL5O8+LTFXhQqZ260rF3tgUmiNAtRm4Uume04I+65PRN6yZ69J4f8rVYWW8zRk65UYw==",
-        "installedClosureSha256": "1ca50fe8c8938d8f036cfe8d06418130542b84c0ce82696c9d4044d681e70623",
+        "installedClosureSha256": "37e103a7c57091116b1129ee36f7517f2a2876910dcb246d82bc3650c9332835",
         "filesSha256": "6cc061b56952886cfaa6250232115e3e72e0836a9512344a7dea4c6f2951a97c"
       }
     },
@@ -4961,15 +5105,15 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
-        "sha256": "26d9b85a4b72f113ba83afdbf24b867e400fd2cf921833288bf3344ba8f3dfa6",
+        "sha256": "686cfc16ee7f49d692e2027ac7140f9b45229c6f368cedbd79af7718c359320f",
         "revision": "34c47a93cd792f24e06b49b5196a1c876240f03a"
       }
     },
@@ -5126,19 +5270,19 @@
       "assessmentGapReasons": {
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "37bea5005aa6d2dde929032ced5d2958cf642667cbc1fe675f9dfacf4ba15a51",
         "integrity": "sha512-Ie8UKY9x00MsuR3jO6AzUwzK2Z6MIV3Tf4EDdITiuk8Uaz8K7g0R082WqsqNaSU8DdgkrRvZThzhit83mi/uiw==",
-        "installedClosureSha256": "44bbae998b9bdd6d999ccaae376e2f25657cdb0d433a3d6ef56240811ffc19ab",
+        "installedClosureSha256": "d3c6b7c8b35bf85b768db0c9a92ac27354cd9faa5a5e3562f00bbfe39ed1bcdc",
         "filesSha256": "4bf5ca0529ba45a75c7fbd148801341d3415fc0a795ccedc1ada6f21d31edb55"
       }
     },
@@ -5148,10 +5292,10 @@
       "format": "svg",
       "counts": {
         "correct": 116,
-        "incorrect": 3,
+        "incorrect": 2,
         "renderer-failure": 3,
         "invalid-format": 1,
-        "unknown": 4,
+        "unknown": 5,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -5275,8 +5419,7 @@
         ],
         "incorrect": [
           "drawing:263ec71ab0c651b3",
-          "drawing:3f4b6bd0b23e6927",
-          "regression:4e15c9b5403a9b04"
+          "drawing:3f4b6bd0b23e6927"
         ],
         "renderer-failure": [
           "drawing:478ab66bb4c7e4f5",
@@ -5290,27 +5433,29 @@
           "drawing:22e97a0fc1fff023",
           "drawing:90e78c1ed707e7e4",
           "drawing:b1428b5b59888938",
-          "drawing:fbfb884b46380275"
+          "drawing:fbfb884b46380275",
+          "regression:4e15c9b5403a9b04"
         ],
         "unrun": []
       },
       "assessmentGapReasons": {
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during compare: Observed glyph contour lacks independent exterior contrast": 1,
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 1,
-        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 2
+        "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 2,
+        "Unresolved SVG label evidence: unclipped-authored-labels; Declared font \"trebuchet ms\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during prepare: Label text boxes overlap": 1
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
-        "sha256": "ca0dad14b4ca24ec1311894fa69c01fa6f9fff0c81e72537adea4f2e7dfd029a",
-        "filesSha256": "5df319f3048c6a2d18c2f53907e156f9c08793f16c379c11311c0c8c31350db6"
+        "sha256": "bf7dadb7cc3c5427d7fd2731b5f61b96a32cf3ec52fae26e5d25fb061947779a",
+        "filesSha256": "2e83775439b7df351da71c141bae623dc24cf6b7788981964e1d06960d353ad6"
       }
     },
     {
@@ -5319,10 +5464,10 @@
       "format": "svg",
       "counts": {
         "correct": 57,
-        "incorrect": 53,
+        "incorrect": 52,
         "renderer-failure": 1,
         "invalid-format": 1,
-        "unknown": 15,
+        "unknown": 16,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -5412,7 +5557,6 @@
           "drawing:7801c75b869778fe",
           "drawing:867520b102964291",
           "drawing:89be4f2885fb74a9",
-          "drawing:90e78c1ed707e7e4",
           "drawing:94e514f9f375364c",
           "drawing:9e4e5a5e072642e8",
           "drawing:a181524246065697",
@@ -5459,6 +5603,7 @@
           "drawing:6f83e372d7057526",
           "drawing:767a3f8c3e47e0bd",
           "drawing:89e9eb6aebb72128",
+          "drawing:90e78c1ed707e7e4",
           "drawing:9972eaa8ca8692d8",
           "drawing:cd771fca2659a460",
           "drawing:fbfb884b46380275"
@@ -5467,21 +5612,22 @@
       },
       "assessmentGapReasons": {
         "Unresolved SVG label evidence: visible-authored-labels, labels-within-canvas, unclipped-authored-labels; glyph proof-unavailable during prepare: A required label has no original SVG or HTML text match": 12,
-        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 3
+        "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 3,
+        "Unresolved SVG label evidence: unclipped-authored-labels; Declared font \"SimSun\" is not installed on the assessing machine, so the labels were measured in a fallback font; clipping is environment-dependent; glyph proof-unavailable during prepare: Label text boxes overlap": 1
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "e7642aae65ffb9a8e00cf31ebd6a7516a5b9c4cd76deb94624d679f83c0baf47",
         "integrity": "sha512-hZRSXWNw6xPLcJnqI2xwv2+xuoq/b55bAxge3iueo/XMFJELK1WsGXkpmXBNMzW9qqIvReL+CybUJapVOexE5g==",
-        "installedClosureSha256": "f8908d85c710570a220c9430cdf5a4b5639a490349e3d6b7fa3e2394087c44e4",
+        "installedClosureSha256": "49f01d4993d3b0b2f45a31f58f6d8547a7e8861cb8bd2e2093e32c3256922a8c",
         "filesSha256": "2f14913ba89cbde1ee30c6137ba2903f358e6e02227db107aa4786e254352ddd"
       }
     },
@@ -5636,15 +5782,15 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
-        "sha256": "b598bdc84c2e570d7f4e90ab82abc5435817c041269d9d0f769281f9cc6f08bc",
+        "sha256": "e8df1b346f68435f2d5ee505e70950561789c79ed71940b8e138a6e77009a582",
         "revision": "a6b0c7657b947cbd8361ca3b8f0be4302bb5dc12"
       }
     },
@@ -5798,17 +5944,17 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
         "sha256": "ca735b5d31c6c61667432c89028770f094dc19fbbc0b8763b8b3719ac5fb1dce",
         "integrity": "sha512-DN8UewGe7CH25pT9BLiV19CSbhnnT03T9o2Xnyy1KupBrsxWUevUAsYAO63yn7ujMNQCPEYm2xxzoItRWlP8Pw==",
-        "installedClosureSha256": "94b5d48f4cfed5cf70f06bdcb715773fac24a2a83b5ac45cb83eafd57902da33",
+        "installedClosureSha256": "cd7d7f1789c8849c6125ac42b31284c63580d423e9e52c5362085dcc42eccdae",
         "filesSha256": "172723ebaa053f2ada56d42872f82b053874c31735a61d25cc06e39baa68d5ba"
       }
     },
@@ -5965,19 +6111,19 @@
       "assessmentGapReasons": {
         "Unresolved SVG label evidence: unclipped-authored-labels; glyph proof-unavailable during prepare: Label text boxes overlap": 2
       },
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "37390061a3e5dd47e8c1c9f290eef070ae15de0c1d010ac1f003cba28b7eb569",
-        "observer-contract.ts": "b70b7a5099d0e65cdb774c07d5a14ad086fcefaa00c9e2e7d49daa1aeefcd1c1",
-        "svg-label-observer.ts": "711652b12ed6a1a7a744eb68d57fe9577c233ec98d040122f8adee5ea9a0e844",
-        "svg-glyph-witness.ts": "b591d4ee5df69e546f5af20863310dc15531f9e55cde3b7395bacdf9f4ec8398",
-        "empty.ts": "3d880f791c02366bc74382686e5f89709a2ea1c574de992bc31ed4870861fd6e",
-        "../paint.ts": "8d9e80d8a3efd1e5d0b627b3d778e2c9ca5c1493345e80aee4a67e7f2c3b512d"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
+        "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
+        "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
+        "../paint.ts": "5b3916d6547ea6c5042d08138f499e2cb631ba583120fc259745f87597b5a3b1"
       },
       "operand": {
         "sha256": "57edf049d726b8f4dd86443c75e0a18eff7fc18c3b3655d1fbb9fc5bb788834b",
         "integrity": "sha512-O5lb0DvNhiQJQKitkTYEPRyR83uyGxB2SsLcyu1zD3zJeL+sWxAzW+kM+s8srliERxxx3fFUijEfs26EYXZ5OA==",
-        "installedClosureSha256": "31f6274022add16832cedf501d4a4c9f52ec565cfad782bd2a7a402ef966f2ec",
+        "installedClosureSha256": "500638ddc7f8764b26766c2aded5cc0d3cd4535db69c8715ac5a46f762efe41d",
         "filesSha256": "f2e97ea55dbbce8c43663d839d36d0fc4870b126fe7d92fd235b3ffc7aba56bf"
       }
     },
@@ -5987,10 +6133,10 @@
       "format": "terminal",
       "counts": {
         "correct": 116,
-        "incorrect": 10,
+        "incorrect": 5,
         "renderer-failure": 1,
         "invalid-format": 0,
-        "unknown": 0,
+        "unknown": 5,
         "unrun": 0
       },
       "caseOutcomes": {
@@ -6113,31 +6259,38 @@
           "regression:aea8f60cfe1ecdeb"
         ],
         "incorrect": [
-          "drawing:0dbd28f2f1c494cc",
           "drawing:2295dae5ca33addf",
           "drawing:25e166249d24378d",
-          "drawing:29fc1dab07164509",
-          "drawing:89e9eb6aebb72128",
           "drawing:90e78c1ed707e7e4",
-          "drawing:9cdc849ecf29b4d2",
           "drawing:c64d9c102f509905",
-          "drawing:cd771fca2659a460",
           "drawing:de6e8bf0fd559efc"
         ],
         "renderer-failure": [
           "drawing:d7362afef7c26051"
         ],
         "invalid-format": [],
-        "unknown": [],
+        "unknown": [
+          "drawing:0dbd28f2f1c494cc",
+          "drawing:29fc1dab07164509",
+          "drawing:89e9eb6aebb72128",
+          "drawing:9cdc849ecf29b4d2",
+          "drawing:cd771fca2659a460"
+        ],
         "unrun": []
       },
-      "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentGapReasons": {
+        "Label \"Sends emails using\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established": 1,
+        "Label \"first pointerenter or focus\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established": 1,
+        "Label \"Small\\ncircle\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established; Label \"Small\\ndouble\\ncircle\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established": 1,
+        "Label \"Which path is shorter?\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established": 1,
+        "Label \"Space up, focus lost / tap\": its words are present in reading order on successive rows but not contiguous, so ownership cannot be established": 1
+      },
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
         "sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
@@ -6295,15 +6448,15 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
-        "sha256": "1d206766ed84391ab036b1098a052bd9987185e75d55c4086856b8f8eb7ed1e3",
+        "sha256": "38dcf4568e89008952a66f20c39c8ba8384f304bfa05f3296bdef64f6d876814",
         "revision": "2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8"
       }
     },
@@ -6458,28 +6611,28 @@
         "unrun": []
       },
       "assessmentGapReasons": {},
-      "assessmentPolicy": "drawing-reviewed-labels-v2",
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "b37ecc3e5f4cbcadb374068e192aeb27c6aceaa501a1b8f79599fdf5c50573ee",
-        "observer-contract.ts": "165569e4bd7668db4d3ca2ff0756f0ff05460ddfd8d7323c6857524c0739f59e",
-        "../terminal-display.ts": "57419045ee16869da85a08596624ff936e5cdb9b36164e6e2f81574f75b3eff5",
-        "../terminal-rectangles.ts": "ca8e3300fcecff9a9daf0060752b6f0879dd2ad42cb3cb407b4411bb16a43624"
+        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
+        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
+        "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
       "operand": {
         "sha256": "c890362de11e32be98b89e0b145323198f61b1a0a771e0e65246d8e44e98ab3a",
         "integrity": "sha512-oLph3MkCXPRZ3QqFgbtquKqwdO3rHOEGicTcsO0M8yoUeMmO+Fvxros0EMl+o4J1PmX2XhvATOyHz1yhH6pmwg==",
-        "installedClosureSha256": "2ef825794b9df111c66a9521bbd53767ad83f72100056bde77941bfbf3572408",
+        "installedClosureSha256": "c7fbf2fca7a787836ab0a156f11a651116a052f638aaededb41ac5f47c552d16",
         "filesSha256": "54163807f4c9c5a4ec4ec9e9566a4835f7d1124fc0587aee587a0dc5d810ae66"
       }
     }
   ],
   "totals": {
-    "correct": 3088,
-    "incorrect": 397,
-    "renderer-failure": 634,
+    "correct": 3112,
+    "incorrect": 351,
+    "renderer-failure": 615,
     "invalid-format": 86,
-    "unknown": 113,
+    "unknown": 154,
     "unrun": 0
   },
-  "updatedAt": "2026-11-09T00:41:24.214Z"
+  "updatedAt": "2026-11-14T01:23:41.461Z"
 }

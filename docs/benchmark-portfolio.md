@@ -85,7 +85,7 @@ zero-size SVG is a nonpass. Each whole case earns one pass. This measures whethe
 the specified content is shown, not edges, arrow direction, layout, styling or
 pixel identity with Mermaid.
 
-The collection leaves <!-- fact:drawing-unassessed -->113<!-- /fact --> of
+The collection leaves <!-- fact:drawing-unassessed -->154<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. Unsupported
 observations receive no correctness credit.
 
@@ -181,9 +181,9 @@ inventory systematically. Do not preserve the 49-case selection as the target.
 **Current implementation:** `mermaid:fidelity` inventories the test files at the
 pinned Mermaid reference (Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->; the version and commit are in
 `data/upstream-mermaid-policy.json`), attempts the <!-- fact:fidelity-files -->352<!-- /fact --> core-package files in original
-Vitest, and lists the rest outside that runner. The current collection (<!-- fact:fidelity-collected -->10 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->7,364<!-- /fact --> callbacks, which Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->
-runs through its original production source. Of the callbacks it passes, <!-- fact:fidelity-population -->7,346<!-- /fact --> are the scored
-population and <!-- fact:fidelity-inventory -->0<!-- /fact --> are inventory. Every applicable candidate attempted all <!-- fact:fidelity-files -->352<!-- /fact --> files against one shared control run
+Vitest, and lists the rest outside that runner. The current collection (<!-- fact:fidelity-collected -->14 November 2026<!-- /fact -->) expanded <!-- fact:fidelity-expanded -->7,364<!-- /fact --> callbacks, which Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact -->
+runs through its original production source. Of the callbacks it passes, <!-- fact:fidelity-population -->4,844<!-- /fact --> are the scored
+population and <!-- fact:fidelity-inventory -->2,502<!-- /fact --> are inventory. Every applicable candidate attempted all <!-- fact:fidelity-files -->352<!-- /fact --> files against one shared control run
 (`--reuse-reference`), either in-process through their JavaScript modules or
 through parser bridges, small programs that call each project's own parser
 (registered in `unified/mermaid-fidelity/bridge-registry.ts`), read through

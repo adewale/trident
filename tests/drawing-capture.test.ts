@@ -46,20 +46,8 @@ test('committed capture owns every returned output and reproduces terminal asses
   }
   expect(accounted).toBe(raw.rows.length)
   const reassessed = await reassessDrawingRun(raw, root, ['terminal'])
-  // The current observer no longer reports a label wrapped across rows outside a walled
-  // box as missing: its words are present but unowned, so the case is unknown. These are
-  // the only rows of the committed capture that this changes.
-  const unowned = new Set([
-    ['dfadler/zombie-mermaid', 'drawing:0dbd28f2f1c494cc'], ['dfadler/zombie-mermaid', 'drawing:89e9eb6aebb72128'],
-    ['Dicklesworthstone/frankenmermaid', 'drawing:1c0f33b5035768f2'], ['Dicklesworthstone/frankenmermaid', 'drawing:89e9eb6aebb72128'],
-    ['kitlangton/merman', 'drawing:767a3f8c3e47e0bd'], ['wevm/ondine', 'drawing:0dbd28f2f1c494cc'], ['wevm/ondine', 'drawing:29fc1dab07164509'],
-    ['wevm/ondine', 'drawing:89e9eb6aebb72128'], ['wevm/ondine', 'drawing:9cdc849ecf29b4d2'], ['wevm/ondine', 'drawing:cd771fca2659a460'],
-  ].map(([project, caseId]) => key({ project, format: 'terminal', caseId })))
-  for (const row of reassessed.rows) {
-    if (!unowned.has(key(row))) { expect(row.status).toBe(rows.get(key(row)).status); continue }
-    expect([rows.get(key(row)).status, row.status]).toEqual(['incorrect', 'unknown'])
-    expect(row.reason).toContain('ownership cannot be established')
-  }
+  // The capture was assessed by the current observer, so reassessing it reproduces every verdict.
+  for (const row of reassessed.rows) expect(row.status).toBe(rows.get(key(row)).status)
   expect(reassessed.updatedAt).toBe(raw.updatedAt)
   expect(reassessed.reassessment.renderersInvoked).toBe(false)
 }, 30000)

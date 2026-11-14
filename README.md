@@ -71,13 +71,13 @@ are not run, the tables show them as n/a, and they are left out of the Fidelity
 ranking and out of the synthesis's Fidelity component.
 Only tests that the pinned Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control passes
 and whose file is under `packages/mermaid/src/diagrams/` or `packages/parser/`
-are scored: <!-- fact:fidelity-population -->7,346<!-- /fact --> tests. The other
-<!-- fact:fidelity-inventory -->0<!-- /fact --> tests the control passes cover rendering
+are scored: <!-- fact:fidelity-population -->4,844<!-- /fact --> tests. The other
+<!-- fact:fidelity-inventory -->2,502<!-- /fact --> tests the control passes cover rendering
 utilities, Mermaid's website and its top-level modules, which no reimplementation's
 parser can reach; they are executed and listed as inventory, not scored. An
 operation the implementation's side reports as unsupported, a missing Trident
 operation binding and a missing model translation all stay unassessed
-(<!-- fact:fidelity-gaps -->91,984<!-- /fact --> tests across all applicable
+(<!-- fact:fidelity-gaps -->67,466<!-- /fact --> tests across all applicable
 implementations), because no per-test review has separated each
 implementation's real limits from Trident's binding gaps. Result files scored
 this way declare `scoring.protocol: 'fidelity-scored-population-v2'`; a result file
@@ -90,18 +90,18 @@ and the range of ranks still possible once its unassessed cases are resolved.
 
 ## Current results
 
-Collected <!-- fact:campaign-collected -->9 November 2026 to 10 November 2026<!-- /fact -->. The
+Collected <!-- fact:campaign-collected -->14 November 2026<!-- /fact -->. The
 leaders are:
 
 - **DaveBench**, examples completed. SVG:
   <!-- fact:davebench-svg-leader -->Latias Merman with 1,338<!-- /fact -->. PNG:
   <!-- fact:davebench-png-leader -->Latias Merman with 1,338<!-- /fact -->. Terminal text:
-  <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,342<!-- /fact -->.
+  <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,338<!-- /fact -->.
 - **Drawing Correctness**, cases correct. SVG:
   <!-- fact:drawing-svg-leader -->Bezel and Pele with 125 each (not yet settled)<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
-  <!-- fact:fidelity-leader -->Pele with 3,263 (not yet settled)<!-- /fact -->.
+  <!-- fact:fidelity-leader -->Pele with 3,253 (not yet settled)<!-- /fact -->.
 
 Mermaid is ranked alongside the other implementations in DaveBench and Drawing
 Correctness. In Mermaid Fidelity it is the reference, so it passes every counted

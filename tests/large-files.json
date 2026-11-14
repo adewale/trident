@@ -2,8 +2,9 @@
   "about": "Tracked files larger than limitBytes require an explicit reason in this allowlist. Prefer compressed inputs; retain complete benchmark captures only when needed to reproduce published assessments.",
   "limitBytes": 2000000,
   "allow": {
-    "results/release/mermaid-fidelity.json": "Complete numeric accounting for all 352 files across the source control and 26 candidates, including per-file dispositions and adapter-gap reasons; the expanded source control replaces the smaller proxy population without retaining rendered outputs.",
-    "unified/mermaid-fidelity/dom-free-files.json": "Complete per-file callback and semantic-audit fingerprints for both profiles across all 26 frozen candidates; numeric evidence binds automatic DOM-free execution to the measured cohort without retaining rendered outputs.",
-    "results/release/captures/drawing-capture-2026-11-09.tar.gz": "Complete current Drawing capture: 4318 observations and all 3684 returned SVG/terminal outputs, compressed and deduplicated for reassessment without producer renderers. Earlier captures remain in Git history."
+    "results/release/mermaid-fidelity.json": "Complete numeric accounting for all 352 files across the source control and 23 applicable candidates, including per-file dispositions, scored and inventory populations and adapter-gap reasons, without retaining rendered outputs.",
+    "unified/mermaid-fidelity/dom-free-files.json": "Complete per-file callback and semantic-audit fingerprints for both profiles across all 23 frozen candidates; numeric evidence binds automatic DOM-free execution to the measured cohort without retaining rendered outputs.",
+    "results/release/captures/drawing-capture-2026-11-14.tar.gz": "Complete current Drawing capture: 4318 observations and all 3703 returned SVG/terminal outputs, compressed and deduplicated for reassessment without producer renderers. Earlier captures remain in Git history.",
+    "results/release/report.json": "DaveBench report: all 153 runs with each run's failed inputs and reasons, which RESULTS.md and docs/davebench-families.md are generated from; rendered outputs are not retained."
   }
 }

@@ -220,7 +220,7 @@ export function renderDavebenchFamilies(davebench: any, catalog: any, displayNam
 /** The release campaign lives at fixed paths: a file name never claims a collection date.
  * Published dates come from the timestamps each result file records (published-facts.ts).
  * The catalog is the version cutoff the campaign ran against, named for the day it was frozen. */
-export const currentBenchmarkResultFiles = ['results/release/report.json', 'results/release/drawing-correctness.json', 'results/release/mermaid-fidelity.json', 'docs/evidence/benchmark-campaign-2026-11-07/catalog.json']
+export const currentBenchmarkResultFiles = ['results/release/report.json', 'results/release/drawing-correctness.json', 'results/release/mermaid-fidelity.json', 'docs/evidence/benchmark-campaign-2026-11-14/catalog.json']
 
 /** Current campaign inputs already tracked in the repository; older snapshots
  * continue to support explicit historical exports to other directories. */

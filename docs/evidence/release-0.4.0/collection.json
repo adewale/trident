@@ -1,0 +1,89 @@
+{
+  "protocol": "trident-release-campaign-v1",
+  "version": "0.4.0",
+  "recordedAt": "2026-11-14T02:55:29.000Z",
+  "codeCommit": "e5217bf5eedc087d7df9ba902ec2a4d930b046ed",
+  "versionFreeze": {
+    "catalog": "docs/evidence/benchmark-campaign-2026-11-14/catalog.json",
+    "catalogSha256": "d90cea8d9732e0818c2703026f18e25ac41091d9550d806b53993b0aaf9511cb",
+    "versionsSha256": "3023ebf29b027bba2ab57bc47b416947db290b2da7d950cabaa3574b346488fa",
+    "checkedAt": "2026-11-14T00:14:18.895Z"
+  },
+  "collection": {
+    "davebench": {
+      "runs": 153,
+      "attemptedCalls": 205326,
+      "occurrencesPerRun": 1342,
+      "blocked": 0,
+      "admissionProfile": "davebench-public-api-admission-v3",
+      "windows": {
+        "nativePng": {
+          "startedAt": "2026-11-14T00:32:15.858Z",
+          "finishedAt": "2026-11-14T00:34:00.942Z"
+        },
+        "images": {
+          "startedAt": "2026-11-14T00:34:36.230Z",
+          "finishedAt": "2026-11-14T00:58:35.926Z"
+        },
+        "terminal": {
+          "startedAt": "2026-11-14T00:58:51.598Z",
+          "finishedAt": "2026-11-14T01:14:57.431Z"
+        }
+      }
+    },
+    "drawing": {
+      "startedAt": "2026-11-14T01:14:58.294Z",
+      "finishedAt": "2026-11-14T01:23:41.461Z",
+      "returnedOutputs": 3703,
+      "cases": 127,
+      "lanes": 34,
+      "observations": 4318,
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
+      "captureArchive": {
+        "path": "captures/drawing-capture-2026-11-14.tar.gz",
+        "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64",
+        "bytes": 4101285,
+        "root": "drawing-retained"
+      },
+      "fontsSha256": "939b326443704235f702db8599eb7f55a4203f238e7d9d0372b8228e2cb12588"
+    },
+    "fidelity": {
+      "scoring": "fidelity-scored-population-v2",
+      "scoredPopulation": 4844,
+      "inventoryCallbacks": 2502,
+      "candidates": 23,
+      "notApplicable": [
+        "spacedock-dev/mermaidtext",
+        "xai-org/grok-build",
+        "Yassimba/loom"
+      ],
+      "controlIdentity": "4de81d9eeab5c70354a88b8e41b64623ec0a9b8a09bc207f4a6596e71f7ce1d4",
+      "windows": {
+        "jsdom": {
+          "startedAt": "2026-11-14T01:23:41Z",
+          "finishedAt": "2026-11-14T02:19:13.485Z"
+        },
+        "node": {
+          "finishedAt": "2026-11-14T02:50:21.252Z",
+          "startedAt": "2026-11-14T02:19:14Z"
+        },
+        "automaticMerslim": {
+          "finishedAt": "2026-11-14T02:52:40.422Z",
+          "callbacks": 7099,
+          "differingFromJsdom": 0,
+          "startedAt": "2026-11-14T02:50:30Z"
+        },
+        "note": "JSDOM and Node start times are the campaign script's step timestamps; the automatic Merslim run was started by hand right after qualification finished, so its start is that time. Finish times are each result file's updatedAt. Commits made during collection changed only Markdown."
+      }
+    }
+  },
+  "method": "Every benchmark was recollected on one Linux x64 host (4 CPUs) after the review fixes were committed. Timing collectors ran serially before Drawing and Fidelity, with no other benchmark, build or test job running. A first attempt was interrupted by a container restart during native PNG collection; its partial output was discarded and the campaign restarted from the first step.",
+  "numericSha256": {
+    "images.json": "c3e2c26be839778f165cec3c1550618e212a4f3b20b00dd21c5e501973ba28a6",
+    "terminal.json": "ba533624790b8c24630e46206657a25a66cb62deb5ed1a372ee8711cb81d46e1",
+    "native-png.json": "9d8d70f36f200fde28694c0077b7d336161b8df8a25404d2b7a2a9e9d8a2cdd0",
+    "report.json": "03ac161ffc62e563281bb05ba74a4b37e0888d04e9b5974a0386a1157a805d67",
+    "drawing-correctness.json": "75c707b200da28e73296e37ff315952e21fb650c9742d739ca747d82b2995b76",
+    "mermaid-fidelity.json": "266e1b890dc078154ae6bb9f2a1c0a974274217c33ddf3524872b0a7a8159c34"
+  }
+}
