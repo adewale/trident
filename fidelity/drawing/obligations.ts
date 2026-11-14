@@ -10,7 +10,9 @@ export const obligationProfile = 'drawing-source-obligations-v1'
 export const obligationCategories = ['relationships', 'geometry', 'layout'] as const
 export type ObligationCategory = typeof obligationCategories[number]
 export type ObligationStatus = 'passed' | 'failed' | 'unassessed'
-export type ObligationFormat = 'svg' | 'terminal'
+/** PNG has no qualified relationship, geometry or layout observer: its applicable
+ * obligations are unassessed, except that a missing drawing is a known nonpass. */
+export type ObligationFormat = 'svg' | 'terminal' | 'png'
 export interface ObligationCheck { criterion: string; status: ObligationStatus; detail?: string }
 export interface SourceObligation { category: ObligationCategory; name: string; fact: string }
 export interface ObligationResult { name: string; status: ObligationStatus; detail: string; criteria: string[] }
@@ -74,6 +76,7 @@ const terminalPrerequisites = ['nodes', 'class-bodies', 'entity-bodies', 'states
 /** Which observer criteria decide an obligation in each format. Empty means no
  * qualified observer: the obligation remains explicitly unassessed. */
 export function obligationCriteria(obligation: SourceObligation, format: ObligationFormat, available: readonly string[]): { criteria: string[]; prerequisites: string[] } {
+  if (format === 'png') return { criteria: [], prerequisites: [] }
   const svg = format === 'svg'
   const has = (criterion: string) => available.includes(criterion)
   const pre = (svg ? svgPrerequisites : terminalPrerequisites).filter(has)

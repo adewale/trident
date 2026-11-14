@@ -1,4 +1,5 @@
 import { fidelityScoring } from './mermaid-fidelity/scoring.ts'
+import { pngDrawingLaneApplies } from '../fidelity/drawing/png-labels.ts'
 
 export interface BenchmarkScores { davebench: number | null; drawing: number | null; fidelity: number | null }
 
@@ -73,9 +74,11 @@ export function synthesiseBenchmarks(davebench: any, drawing: any, fidelity: any
       const score = 100 * row.completed / planned
       return { lower: score, upper: score }
     }))
-    // Drawing Correctness assesses only its own formats (SVG and terminal text).
+    // Drawing Correctness assesses SVG and terminal text, and PNG only where the project's
+    // own interface draws PNG and no SVG or terminal lane assesses the same drawing.
+    // (Results that list no formats predate that rule and are read as published.)
     // A project with none of them has no Drawing component: not applicable, not unknown.
-    const drawable = applicable.filter(format => drawingFormats.includes(format))
+    const drawable = applicable.filter(format => drawingFormats.includes(format) && (format !== 'png' || !drawing.formats || pngDrawingLaneApplies(declared)))
     const draw: ScoreBounds | null = drawable.length ? meanBounds(drawable.map(format => {
       const row = drawing.results.find((r: any) => r.project === project && r.format === format)
       return row ? caseBounds(row.counts.correct, row.counts.unknown + row.counts.unrun, drawing.corpus.cases) : unknownBounds()

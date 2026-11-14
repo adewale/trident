@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+### Drawing Correctness
+
+- Add a native PNG lane for projects whose own interface draws only PNG (in the
+  frozen catalog, Mermaid Flutter). A sealed release target,
+  `native-flutter/app/drawing/drawing_worker.dart` (`build-drawing.sh`), runs the
+  DaveBench boundary `renderToPng(source, pixelRatio: 1)` with the same admission
+  and returns the PNG. A label-blind OCR reader and the profile
+  `png-ocr-presence-only-v1` judge the reviewed label plan: a label read whole and
+  confidently passes, raw syntax read, a blank raster or ink on an empty diagram
+  fails, and every unread label is unknown. 14 Chromium-rendered controls run with
+  every collection. The synthesis gives such a project a Drawing component from
+  its PNG lane; an SVG or terminal project's own PNG still adds none. The
+  0.4.0 collection does not include the lane.
+
 ## 0.4.0 — 14 November 2026
 
 This release recollects all three benchmarks against a 14 November product

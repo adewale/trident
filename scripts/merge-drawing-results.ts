@@ -84,7 +84,9 @@ export function mergeDrawingResults(base: any, run: any, formats: string[]) {
   const { observerSources: _observerSources, assessmentPolicy: _policy, assessmentPolicies: _policies, ...metadata } = base
   // Each merged format is judged on the new run's machine, so it carries that run's font record.
   const environments = run.assessmentEnvironments ? { assessmentEnvironments: { ...base.assessmentEnvironments, ...Object.fromEntries(formats.filter(format => run.assessmentEnvironments[format]).map(format => [format, run.assessmentEnvironments[format]])) } } : {}
-  return { ...metadata, ...environments, ...commonPolicy(results), ...(base.runtimeBindings || run.runtimeBindings ? { runtimeBindings } : {}), ...(run.assessmentProfiles ? { assessmentProfiles: { ...base.assessmentProfiles, ...Object.fromEntries(formats.map(format => [format, run.assessmentProfiles[format]])) } } : {}), results, totals, blocked, updatedAt: collectedAt(run), recollectedFormats: { formats, at: collectedAt(run), reason: 'Replaced only the supplied project/format results from the same corpus and frozen versions; all other observations are preserved.' } }
+  // A newly collected format joins the published formats; none is dropped.
+  const mergedFormats = base.formats ? { formats: [...base.formats, ...formats.filter(format => !base.formats.includes(format))] } : {}
+  return { ...metadata, ...mergedFormats, ...environments, ...commonPolicy(results), ...(base.runtimeBindings || run.runtimeBindings ? { runtimeBindings } : {}), ...(run.assessmentProfiles ? { assessmentProfiles: { ...base.assessmentProfiles, ...Object.fromEntries(formats.map(format => [format, run.assessmentProfiles[format]])) } } : {}), results, totals, blocked, updatedAt: collectedAt(run), recollectedFormats: { formats, at: collectedAt(run), reason: 'Replaced only the supplied project/format results from the same corpus and frozen versions; all other observations are preserved.' } }
 }
 
 /** When a run finished collecting. A run from before runs recorded their times has none,

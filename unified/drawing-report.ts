@@ -22,10 +22,13 @@ export function withDrawingObligations(drawing: any, evidence: DrawingObligation
   if (evidence.profile !== obligationProfile) throw Error('Unsupported obligation profile ' + evidence.profile)
   if (evidence.corpus.contractSha256 !== drawing.corpus.contractSha256 || JSON.stringify(evidence.corpus.ids) !== JSON.stringify(drawing.corpus.ids)) throw Error('Obligation evidence uses a different Drawing corpus')
   const summaries = new Map(summarizeObligations(evidence.rows, drawing.corpus.ids).map(lane => [laneKey(lane), lane]))
-  if (summaries.size !== drawing.results.length) throw Error('Obligation evidence lanes differ from the published Drawing lanes')
+  if ([...summaries.keys()].some(key => !drawing.results.some((lane: any) => laneKey(lane) === key))) throw Error('Obligation evidence lanes differ from the published Drawing lanes')
   const results = drawing.results.map((lane: any) => {
     const summary = summaries.get(laneKey(lane))
-    if (!summary || summary.version !== lane.version) throw Error('No obligation evidence for ' + lane.project + ' ' + lane.format + ' ' + lane.version)
+    // A lane merged from an earlier publication keeps its obligations under the same profile.
+    if (!summary && lane.obligations?.profile === evidence.profile) return lane
+    if (!summary) throw Error('Obligation evidence lanes differ from the published Drawing lanes: none for ' + lane.project + ' ' + lane.format)
+    if (summary.version !== lane.version) throw Error('No obligation evidence for ' + lane.project + ' ' + lane.format + ' ' + lane.version)
     const missing = new Set(evidence.rows.filter(row => laneKey(row) === laneKey(lane) && row.noDrawing).map(row => row.caseId))
     const published = new Set<string>([...lane.caseOutcomes['renderer-failure'], ...lane.caseOutcomes['invalid-format']])
     if (missing.size !== published.size || [...missing].some(id => !published.has(id))) throw Error('Obligation evidence disagrees with published missing drawings: ' + lane.project + ' ' + lane.format)

@@ -3,6 +3,8 @@ import { evidenceBytesDigest, evidenceDigest } from '../../portable/evidence-con
 import type { DrawingCase } from './corpus.ts'
 import { assessSvgLabels, assessTerminalLabels, labelPolicy, terminalLabelWorkBudget } from './labels.ts'
 import { svgLabelProfile } from './svg-label-observer.ts'
+import { assessPngLabels, pngControlCanvas, pngControlCase, pngControls, pngLabelProfile, pngWordConfidence } from './png-labels.ts'
+import type { PngTextReader } from './png-reader.ts'
 
 const controls = [
   { name: 'visible-label', text: 'Alpha', status: 'correct' },
@@ -37,12 +39,31 @@ const fontControls = [
   { name: 'generic-font-clipping-fails', family: 'monospace', status: 'incorrect' },
 ] as const
 export function drawingAssessmentProfiles(formats: readonly string[]) {
-  return Object.fromEntries(formats.map(format => [format, evidenceDigest({ policy: labelPolicy, controls: format === 'svg' ? [...controls, ...htmlControls, ...fontControls] : [...controls, ...terminalControls], ...(format === 'svg' ? { profile: svgLabelProfile, svgControlLabels, visiblePaintRequired: true, glyphWitnessRequiredForOutlines: true } : { terminalRectangleWork: terminalLabelWorkBudget, displayCells: true }) })]))
+  return Object.fromEntries(formats.map(format => [format, format === 'png'
+    ? evidenceDigest({ policy: labelPolicy, profile: pngLabelProfile, wordConfidence: pngWordConfidence, controls: pngControls, canvas: pngControlCanvas, missingLabelsUnknown: true, rawSyntaxAbsenceProved: false })
+    : evidenceDigest({ policy: labelPolicy, controls: format === 'svg' ? [...controls, ...htmlControls, ...fontControls] : [...controls, ...terminalControls], ...(format === 'svg' ? { profile: svgLabelProfile, svgControlLabels, visiblePaintRequired: true, glyphWitnessRequiredForOutlines: true } : { terminalRectangleWork: terminalLabelWorkBudget, displayCells: true }) })]))
 }
 /** Producer bytes are provenance, separate from the observable assessment policy. */
 export function drawingObserverSources(formats: readonly string[]) {
   const common = ['labels.ts', 'observer-contract.ts']
-  return Object.fromEntries(formats.map(format => [format, Object.fromEntries([...common, ...(format === 'svg' ? ['svg-label-observer.ts', 'svg-glyph-witness.ts', 'empty.ts', '../paint.ts'] : ['../terminal-display.ts', '../terminal-rectangles.ts'])].map(file => [file, evidenceBytesDigest(readFileSync(new URL(file, import.meta.url)))]))]))
+  return Object.fromEntries(formats.map(format => [format, Object.fromEntries([...common, ...(format === 'svg' ? ['svg-label-observer.ts', 'svg-glyph-witness.ts', 'empty.ts', '../paint.ts'] : format === 'png' ? ['png-labels.ts', 'png-reader.ts', 'png_text_reader.py'] : ['../terminal-display.ts', '../terminal-rectangles.ts'])].map(file => [file, evidenceBytesDigest(readFileSync(new URL(file, import.meta.url)))]))]))
+}
+/** Every PNG control, read by the collection's own reader and judged by the
+ * collection's own judge. Rendered by Chromium from fixed SVG at 1x. */
+export async function verifyPngObserver(context: any, reader: PngTextReader) {
+  const observed = []
+  const page = await context.newPage()
+  try {
+    await page.setViewportSize({ width: pngControlCanvas.width, height: pngControlCanvas.height })
+    for (const control of pngControls) {
+      await page.setContent(`<!doctype html><style>html,body{margin:0;background:#fff}</style><svg xmlns="http://www.w3.org/2000/svg" width="${pngControlCanvas.width}" height="${pngControlCanvas.height}" style="display:block;font:${pngControlCanvas.font}">${control.svg}</svg>`)
+      const png = await page.screenshot({ type: 'png', clip: { x: 0, y: 0, width: pngControlCanvas.width, height: pngControlCanvas.height } })
+      const verdict = assessPngLabels(pngControlCase(control), await reader.read(png))
+      if (verdict.status !== control.status) throw Error('Drawing observer failed independent control: png ' + control.name + ' (' + verdict.status + ': ' + (verdict.reason ?? '') + ')')
+      observed.push({ name: control.name, status: verdict.status })
+    }
+  } finally { await page.close() }
+  return observed
 }
 export async function verifyDrawingObserver(format: string, context?: any) {
   // Independently authored source facts and counterexamples, not renderer output.

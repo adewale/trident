@@ -72,7 +72,10 @@ Drawing leaves <!-- fact:drawing-unassessed -->154<!-- /fact --> of
 <!-- fact:drawing-rows -->4,318<!-- /fact --> observations unassessed. Path/image
 glyphs, unsupported effects and other representations outside the qualified SVG
 profiles receive no correctness credit. Each remaining case and its reason are
-in the retained raw run. PNG remains outside Drawing Correctness's scope. The
+in the retained raw run. This collection has no PNG Drawing lane: Mermaid Flutter's
+native PNG lane (OCR profile `png-ocr-presence-only-v1`, see
+[benchmark methods](../../docs/benchmark-results-details.md)) was added after it,
+so Flutter's Drawing component remains n/a here. The
 [earlier SVG inventory](../../docs/evidence/benchmark-completion-2026-11-07/svg-label-review.json)
 describes the preceding collection; its output hashes are historical.
 

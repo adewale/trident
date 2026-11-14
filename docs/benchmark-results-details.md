@@ -69,7 +69,9 @@ The format is shared; the questions and input corpora differ:
   cases to native terminal text and check that every expected label is shown without
   raw syntax. Timing does not contribute to this rank.
 
-The same distinction applies to SVG. PNG appears only in DaveBench. A fast renderer may fail correctness
+The same distinction applies to SVG. PNG appears in Drawing Correctness only for a
+project that draws nothing else (Mermaid Flutter), under the weaker OCR profile
+described above. A fast renderer may fail correctness
 checks, and a correct renderer may be slow; both questions have useful answers.
 
 Terminal label wrapping uses a bounded frame search; exceeding its work budget
@@ -396,9 +398,45 @@ scored. The collection leaves <!-- fact:drawing-unassessed -->154<!-- /fact --> 
 <!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. A chart naming no
 labels is checked for raw-syntax leakage alone.
 
-PNG is not part of Drawing Correctness. OCR found every label in only 43 of 127
-Mermaid PNGs whose source SVGs pass 124, so a PNG score would mostly measure the
-OCR. Mermaid Flutter, which only outputs PNG, has no Drawing result.
+PNG is assessed only for a project whose own public interface draws PNG and that
+has no SVG or terminal output (`pngDrawingLaneApplies` in
+`fidelity/drawing/png-labels.ts`); in the frozen catalog that is Mermaid Flutter
+alone. A project with an SVG or terminal lane is assessed there, and Trident's own
+Chromium conversion of an SVG would only repeat that measurement. The PNG lane
+judges the same reviewed label plan with a weaker observer, and its profile name,
+`png-ocr-presence-only-v1`, says so. OCR found every label in only 43 of 127
+Mermaid PNGs whose source SVGs pass 124, so OCR cannot show that a label is
+missing. The lane therefore credits presence and never infers absence:
+
+- A label-blind reader (`fidelity/drawing/png_text_reader.py`) separates glyph-sized
+  ink from flat fills, frames and routes by measured contrast, groups glyphs into
+  lines and has Tesseract 5 (`eng`) read them at 3× scale. It receives no label,
+  source, SVG or renderer model; `png-labels.ts` judges its readings.
+- **Correct:** every label is read whole, in words of Tesseract confidence ≥ 90,
+  continuing only along a row or onto a directly following overlapping row, with
+  only punctuation adjoining it. A label made only of OCR-ambiguous glyphs
+  (`I`, `l`, `1`, `|`, `O`, `0` ...) earns no credit. Raw source syntax must not
+  be read, but its absence is observed, not proved: the SVG lanes prove it from
+  the text itself.
+- **Incorrect:** only from positive pixel evidence: raw source syntax read
+  confidently (for example `A[Alpha]`), a uniform raster where a drawing is
+  required, or differentiated ink where the correct drawing is empty (the same
+  uniform-pixels rule as the SVG empty case).
+- **Unknown:** any label not read, read weakly or read differently, and any raster
+  outside the reader's bounds. A missing label is never a failure in this lane.
+
+Every collection first runs 14 controls rendered by Chromium from fixed SVG through
+the same reader and judge: positive (plain, light-on-dark and wrapped labels;
+uniform empty canvas) and negative (a different, near-miss or truncated wrapped
+label, a hidden, camouflaged, clipped or OCR-ambiguous label must not be credited;
+glued and header source syntax, a uniform raster and ink on an empty diagram must
+fail). The near-miss control matters: Tesseract reads the drawn `Alpho` as `Alpha`,
+at confidence 30. Mermaid Flutter is driven through the DaveBench boundary,
+`renderToPng(source, pixelRatio: 1)` with the same in-app PNG admission, by the
+sealed release target `native-flutter/app/drawing/drawing_worker.dart` under a
+private Xvfb display; the run retains every admitted PNG and each row's OCR
+reading. PNG has no qualified relationship, geometry or layout observer, so its
+source obligations are unassessed except when no drawing was returned.
 
 Broad assessment and original-test operation coverage are still incomplete; calling
 the whole benchmark effort finished would be premature. Every project now has a
@@ -432,7 +470,7 @@ producer renderers. Older runs without outputs need recollection only if their
 specific observations must be reassessed.
 
 DaveBench discards rendered outputs after counting and timing. Drawing retains
-SVG and terminal outputs in its [capture archive](../results/release/README.md#retained-drawing-capture); PNG is outside Drawing Correctness. The 605 MB raw archive of the
+SVG and terminal outputs in its [capture archive](../results/release/README.md#retained-drawing-capture); a run with the native PNG lane also retains each admitted PNG. The 605 MB raw archive of the
 1 November campaign was discarded rather than published. That campaign measured the
 superseded benchmark set; its tables and report receipts remain on the
 [`evidence/full-campaign-2026-11-01`](https://github.com/adewale/trident/tree/evidence/full-campaign-2026-11-01)

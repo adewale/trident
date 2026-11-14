@@ -2,8 +2,9 @@
  * Drawing Correctness by labels: cheap, deterministic, and the same for every
  * output format. A case passes when every label its reviewed source facts name
  * appears in the output and no raw Mermaid syntax leaks into it. It does not
- * check edges, arrow direction, layout or styling. PNG is not assessed: OCR
- * misread too many diagram labels to measure renderers rather than the OCR.
+ * check edges, arrow direction, layout or styling. PNG is judged against the
+ * same plan by png-labels.ts, under a weaker OCR profile that never infers a
+ * missing label.
  */
 import type { DrawingCase } from './corpus.ts'
 import { isFontDependentClipping, observeSvgLabelEvidence, type SvgLabelEvidence } from './svg-label-observer.ts'
@@ -59,7 +60,7 @@ export function expectedLabels(test: DrawingCase) { return [...compileLabelPlan(
 
 const boxDrawing = /[─-▟⠀-⣿]/g
 const ansi = /\u001b\[[0-?]*[ -/]*[@-~]|\u001b\][^\u0007\u001b]*(?:\u0007|\u001b\\)/g
-const squash = (text: string) => text.normalize('NFKC').replace(/\s+/g, '')
+export const squash = (text: string) => text.normalize('NFKC').replace(/\s+/g, '')
 
 /** Visible text of a serialized SVG: text, tspans and HTML labels; styles,
  * scripts, accessibility metadata and definitions excluded. No browser. */
@@ -84,7 +85,7 @@ export const terminalLabelWorkBudget = 1_000_000
  * without the whole sequence ("X"); a renderer is not required to echo raw control
  * characters to pass. */
 const controls = /[\u0000-\u0008\u000b-\u001f\u007f]/g
-const visibleForms = (label: string) => [...new Set([label, label.replace(controls, ''), label.replace(ansi, '').replace(controls, '')])].filter(form => form.trim())
+export const visibleForms = (label: string) => [...new Set([label, label.replace(controls, ''), label.replace(ansi, '').replace(controls, '')])].filter(form => form.trim())
 
 /** Preserve label order. Terminal wrapping is joined within actual frames above. */
 export function labelFound(label: string, text: string) {

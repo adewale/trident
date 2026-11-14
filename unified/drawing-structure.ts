@@ -71,8 +71,10 @@ export async function main(args = process.argv.slice(2)) {
       else if (row.status === 'unrun') assessment = unavailableStructure(test, 'Renderer was not run')
       else {
         if (!output) throw Error('Missing captured output: ' + key(row))
-        const text = readDrawingOutput(root, output, test.source)
-        if (row.format === 'terminal') { evidence = observeTerminalObligations(test, text); assessment = evidence.structure! }
+        // A PNG drawing has no qualified structure, relationship or layout observer.
+        const text = row.format === 'png' ? '' : readDrawingOutput(root, output, test.source)
+        if (row.format === 'png') assessment = unavailableStructure(test, 'No qualified PNG structure observer')
+        else if (row.format === 'terminal') { evidence = observeTerminalObligations(test, text); assessment = evidence.structure! }
         else if (row.format === 'svg') {
           const page = await context.newPage()
           let timer: ReturnType<typeof setTimeout> | undefined, observed: Awaited<ReturnType<typeof observeSvgStructure>> | undefined
@@ -90,7 +92,7 @@ export async function main(args = process.argv.slice(2)) {
           finally { clearTimeout(timer); await page.close() }
         } else assessment = unavailableStructure(test, 'Unqualified output format')
       }
-      if (row.format === 'svg' || row.format === 'terminal') obligationRows.push({ project: row.project, version: row.version, format: row.format, caseId: row.caseId, producerStatus: row.status, ...(output ? { outputSha256: output.outputSha256 } : {}), ...classifyObligations(test, row.format, { producerStatus: row.status, ...(evidence ?? { structure: assessment }) }) })
+      if (row.format === 'svg' || row.format === 'terminal' || row.format === 'png') obligationRows.push({ project: row.project, version: row.version, format: row.format, caseId: row.caseId, producerStatus: row.status, ...(output ? { outputSha256: output.outputSha256 } : {}), ...classifyObligations(test, row.format, { producerStatus: row.status, ...(evidence ?? { structure: assessment }) }) })
       rows.push({ project: row.project, version: row.version, format: row.format, caseId: row.caseId, producerStatus: row.status, ...(output ? { sourceSha256: output.sourceSha256, outputSha256: output.outputSha256 } : {}), ...assessment })
       if (rows.length % 100 === 0) { save('running'); console.log(rows.length + '/' + selected.length) }
     }

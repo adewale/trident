@@ -101,11 +101,15 @@ finds, but whose words appear whole, in reading order, on successive rows at mos
 one apart with overlapping columns and no other letters or digits in that band, is
 unknown rather than missing: it is wrapped outside a frame and its owner cannot be
 established.
-**PNG is not part of Drawing Correctness.** OCR cannot read diagram labels
-reliably enough: on Mermaid PNGs rasterized from SVGs that pass 124 of 127 cases,
-Tesseract found every label in only 43. PNG production and speed remain in
-DaveBench. Mermaid Flutter has no SVG or terminal output, so Drawing is not
-applicable to it in the synthesis.
+**PNG is assessed only where nothing else is.** A project whose own interface
+draws PNG and that has no SVG or terminal output (Mermaid Flutter) gets a PNG lane
+under the weaker `png-ocr-presence-only-v1` profile. OCR cannot read diagram labels
+reliably enough to show a label missing: on Mermaid PNGs rasterized from SVGs that
+pass 124 of 127 cases, Tesseract found every label in only 43. So the lane credits a
+label only when OCR reads it whole and confidently, fails only on positive pixel
+evidence (raw syntax read, a blank raster, ink on an empty diagram), and leaves
+every unread label unknown; its lower bound mostly measures OCR coverage. See
+[benchmark methods](benchmark-results-details.md).
 
 **Current implementation:** `drawing:correctness` uses 127 unique inputs across
 20 families and 19 source projects. The 116 valid seed entries contain 115 unique

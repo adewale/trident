@@ -9,8 +9,8 @@ const artifact = { kind: 'node', version: '1' }, project = 'fixture/renderer'
 const page = { evaluate: async () => '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><text x="1" y="20">Alpha</text></svg>' }
 const context = { route: async () => {}, close: async () => {} }
 mock.module(repo + '/fidelity/drawing/corpus.ts', () => ({ drawingCases: () => [input] }))
-mock.module(repo + '/fidelity/drawing/labels.ts', () => ({ assessTerminalLabels: () => ({ status: 'correct' }), assessSvgLabels: () => ({ status: 'correct' }), expectsEmptyDrawing: () => false, terminalLabelWorkBudget: 100, compileLabelPlan: () => ({}), labelPolicy: 'fixture' }))
-mock.module(repo + '/fidelity/drawing/observer-contract.ts', () => ({ drawingAssessmentProfiles: () => ({ svg: 'fixture' }), drawingObserverSources: () => ({ svg: {} }), verifyDrawingObserver: async () => [] }))
+mock.module(repo + '/fidelity/drawing/labels.ts', () => ({ assessTerminalLabels: () => ({ status: 'correct' }), assessSvgLabels: () => ({ status: 'correct' }), expectsEmptyDrawing: () => false, terminalLabelWorkBudget: 100, compileLabelPlan: () => ({}), labelPolicy: 'fixture', squash: (text: string) => text, visibleForms: (label: string) => [label] }))
+mock.module(repo + '/fidelity/drawing/observer-contract.ts', () => ({ drawingAssessmentProfiles: () => ({ svg: 'fixture' }), drawingObserverSources: () => ({ svg: {} }), verifyDrawingObserver: async () => [], verifyPngObserver: async () => [] }))
 mock.module(repo + '/unified/benchmark-versions.ts', () => ({ latestBenchmarkRenderingArtifact: () => artifact, plannedBenchmarkVersion: () => artifact.version, verifiedBenchmarkBinding: () => artifact }))
 mock.module(repo + '/unified/community.ts', () => ({ communityDeclaresOutput: (_node: any, format: string) => format === 'svg', communityModuleOutputSupported: () => true }))
 mock.module(repo + '/unified/lineage.ts', () => ({ comparisonProjects: () => ({ included: [project] }) }))

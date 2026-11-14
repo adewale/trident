@@ -6,8 +6,8 @@ export class DrawingWorker {
   memoryExceeded = false
   private session: JsonLineSession
   private next = 0
-  constructor(args: string[], protocol: 'terminal' | 'raster' = 'terminal') {
-    this.session = new JsonLineSession(args, { reply: row => Number.isSafeInteger(row.id) && (protocol === 'terminal' ? typeof row.ok === 'boolean' && (row.ok || typeof row.error === 'string') : ['correct', 'incorrect', 'unknown'].includes(row.status) && typeof row.reason === 'string') })
+  constructor(args: string[], protocol: 'terminal' | 'raster' | 'reader' = 'terminal') {
+    this.session = new JsonLineSession(args, { reply: row => Number.isSafeInteger(row.id) && (protocol === 'terminal' ? typeof row.ok === 'boolean' && (row.ok || typeof row.error === 'string') : protocol === 'reader' ? ['observed', 'unknown', 'identity'].includes(row.status) : ['correct', 'incorrect', 'unknown'].includes(row.status) && typeof row.reason === 'string') })
     this.child = this.session.child
   }
   async call(input: any, timeoutMs = 20_000): Promise<any> {

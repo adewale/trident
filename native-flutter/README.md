@@ -51,6 +51,27 @@ requested software rendering and host shared-library resolution when applicable.
 Append its runs to the DaveBench image results before
 `campaign:results` builds the report.
 
+## Drawing output target
+
+Drawing Correctness needs the PNGs themselves, which the DaveBench counter
+discards. `app/drawing/drawing_worker.dart` makes the same public call,
+`renderToPng(source, pixelRatio: 1)`, with the same in-app PNG admission, reads no
+clock, and returns each admitted PNG base64-encoded. It lives outside `app/lib`,
+so the counter's compiled inputs and sealed bundles are unchanged.
+
+```sh
+bash native-flutter/build-drawing.sh   # seals app/build/drawing-bundle
+bun commands.ts drawing:correctness ... --formats png --native-png-bundle native-flutter/app/build/drawing-bundle --out FRESH_DIRECTORY
+```
+
+`build-drawing.sh` moves an existing DaveBench bundle aside for the build and
+restores it. Its receipts bind the drawing target as an additional compiled input
+(`bundle.py seal SDK BUNDLE drawing/drawing_worker.dart`); the smoke check requires
+the drawing identity (`target: drawing`, `pixelRatio: 1`) and a returned PNG. The
+collector verifies the bundle before and after collection and runs it under a
+private Xvfb display; stale `/tmp/.X*-lock` files from dead Xvfb processes can
+block `xvfb-run -a`.
+
 Mermaid Dart (`orestesgaolin/mermaid`) remains
 the distinct SVG product; both use the Dart core for parsing and layout.
 

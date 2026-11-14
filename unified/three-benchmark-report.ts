@@ -7,6 +7,7 @@ import { join, resolve } from 'node:path'
 import { boundaryKind, davebenchFailedInputs, davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
 import { acceptedRankings } from './davebench-report.ts'
 import { renderDrawingObligations, renderDrawingReviews } from './drawing-report.ts'
+import { pngLabelProfile } from '../fidelity/drawing/png-labels.ts'
 import { renderBindingCoverage } from './fidelity-report.ts'
 import { assertTimingCollection, campaignPlan } from './campaign-plan.ts'
 
@@ -142,7 +143,7 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   }
   if (davebench.credit) lines.push(`Completion counts only the ${davebench.credit.inputs.toLocaleString('en-GB')} of ${davebench.corpus.occurrences.toLocaleString('en-GB')} inputs the Mermaid reference accepts. [Reference-rejected inputs and failures by kind](docs/davebench-completion.md)`, '')
   if (davebench.corpus?.families) lines.push('[Completion by diagram family](docs/davebench-families.md)', '')
-  const caseTable = (entries: any[], population: number, blocks: any[], mode: 'svg' | 'terminal' | 'fidelity', blockedLabel = 'Not run', notApplicable: any[] = [], unsupportedLabel = 'Unsupported') => {
+  const caseTable = (entries: any[], population: number, blocks: any[], mode: 'svg' | 'terminal' | 'png' | 'fidelity', blockedLabel = 'Not run', notApplicable: any[] = [], unsupportedLabel = 'Unsupported') => {
     const measured = entries.map(r => ({ ...r, scored: r.passed + r.failed > 0 })).sort((a, b) => Number(b.scored) - Number(a.scored) || b.passed - a.passed || label(a).localeCompare(label(b)))
     // Every unassessed case could still pass or fail. The range is the best and
     // worst position reachable once those cases are resolved, for scored rows.
@@ -169,9 +170,10 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
     table(['Verified rank', 'Possible rank', 'Project', `Passed / ${population} ↑`, ...(mode === 'svg' ? ['Pass bounds'] : []), mode === 'fidelity' ? 'Assertion/fault nonpasses' : 'Failed', ...(mode === 'fidelity' ? [unsupportedLabel] : []), mode === 'fidelity' && fidelity.coverage ? `Unassessed${unsupportedLabel === 'Unsupported' ? '' : ', including unsupported'} (shared + additional)` : unsupportedLabel === 'Unsupported' ? 'Unassessed' : 'Unassessed, including unsupported'], rows)
   }
   lines.push('## Drawing Correctness', '')
-  lines.push('Required labels must be visible without leaked source syntax. Edges, arrow direction, layout and styling are outside this benchmark; PNG is not assessed.', '')
-  for (const format of drawing.formats ?? ['svg', 'png', 'terminal']) {
-    lines.push('### ' + (format === 'terminal' ? 'Terminal correctness' : format.toUpperCase() + ' correctness'), '')
+  const drawingFormats: ('svg' | 'png' | 'terminal')[] = drawing.formats ?? ['svg', 'png', 'terminal']
+  lines.push('Required labels must be visible without leaked source syntax. Edges, arrow direction, layout and styling are outside this benchmark; ' + (drawingFormats.includes('png') ? `PNG is assessed only for a project whose own interface draws PNG and that has no SVG or terminal output, under the weaker \`${pngLabelProfile}\` profile: OCR must read every label for a pass, a label it does not read is unassessed rather than failed, and absence of raw source syntax is observed, not proved.` : 'PNG is not assessed.'), '')
+  for (const format of drawingFormats) {
+    lines.push('### ' + (format === 'terminal' ? 'Terminal correctness' : format === 'png' ? `PNG correctness (OCR presence-only profile \`${pngLabelProfile}\`)` : format.toUpperCase() + ' correctness'), '')
     caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => String(r.format).split('/').includes(format)), format, 'Blocked')
     for (const r of drawing.results.filter((r: any) => r.format === format && r.caseOutcomes)) fingerprint(r.project, 'drawing:' + format, JSON.stringify(Object.fromEntries(Object.entries(r.caseOutcomes).map(([status, ids]: [string, any]) => [status, [...ids].sort()]))))
     lines.push(...renderCommonComparison(commonDrawingComparison(drawing, format), label))

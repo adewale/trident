@@ -12,7 +12,12 @@ ROOT = Path(__file__).resolve().parent
 MANIFEST = "trident-build.json"
 SMOKE = "trident-smoke.json"
 ADMISSION_CHECKS = ["valid", "null", "empty", "non-png", "truncated-ihdr", "zero-size", "excessive-pixels", "overflow-dimensions", "excessive-encoded-bytes"]
-VERIFICATION_SOURCES = ["env.sh", "build.sh", "bundle.py", "smoke.py"]
+VERIFICATION_SOURCES = ["env.sh", "build.sh", "build-drawing.sh", "bundle.py", "smoke.py"]
+# Drawing Correctness's output target: the same renderToPng(source, pixelRatio: 1)
+# call and PNG admission, returning admitted bytes instead of timing them. It lives
+# outside app/lib so the DaveBench counter's compiled inputs, and its sealed
+# bundles, are unchanged; its own bundle binds it as an additional compiled input.
+DRAWING_TARGET = "drawing/drawing_worker.dart"
 
 def digest(path):
     value = hashlib.sha256()
@@ -35,8 +40,10 @@ def check_sdk(sdk):
     if str(sdk.get("dartSdkVersion", "")).split()[:1] != [expected["dart"]]:
         raise ValueError("Pinned Dart SDK mismatch")
 
-def check_ready(ready):
+def check_ready(ready, target=None):
     expected = pin()
+    if (target or expected["target"]) == DRAWING_TARGET and (ready.get("target") != "drawing" or ready.get("pixelRatio") != 1):
+        raise ValueError("Drawing worker identity differs from the pinned output target")
     if ready.get("package") != expected["package"] or ready.get("version") != expected["packageVersion"] or ready.get("mode") != "release" or ready.get("runtime", {}).get("platform") != "linux" or str(ready.get("runtime", {}).get("dart", "")).split()[:1] != [expected["dart"]]:
         raise ValueError("Worker identity differs from the pinned release")
 
@@ -44,12 +51,16 @@ def check_admission(checks):
     if not isinstance(checks, list) or not all(isinstance(check, str) for check in checks) or len(checks) != len(ADMISSION_CHECKS) or set(checks) != set(ADMISSION_CHECKS):
         raise ValueError("Production PNG admission controls did not all pass exactly once")
 
-def sources():
+def sources(target=None):
     paths = [
         ROOT / name for name in ["toolchain.json", "app/pubspec.yaml", "app/pubspec.lock", "app/linux/CMakeLists.txt", "app/linux/flutter/CMakeLists.txt"]
     ]
     paths += list((ROOT / "app/lib").rglob("*.dart"))
     paths += [p for p in (ROOT / "app/linux/runner").iterdir() if p.is_file()]
+    if target is not None and target != pin()["target"]:
+        if target != DRAWING_TARGET:
+            raise ValueError("Unknown native target: " + str(target))
+        paths.append(ROOT / "app" / target)
     return {str(path.relative_to(ROOT)): digest(path) for path in sorted(paths)}
 
 def verification_sources():
@@ -83,28 +94,31 @@ def write(path, value):
     temporary.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
     os.replace(temporary, path)
 
-def verify(bundle, require_smoke=True):
+def verify(bundle, require_smoke=True, target=None):
     manifest = read(bundle / MANIFEST)
+    expected = pin()
+    target = target or expected["target"]
     if manifest.get("protocol") != "native-flutter-release-v1":
         raise ValueError("Missing native build receipt")
     check_sdk(manifest["sdk"])
     # Older receipts also recorded verification scripts in this map. Their
     # provenance is retained, but they are not compiled application inputs.
     compiled = {name: sha for name, sha in manifest["sources"].items() if name not in VERIFICATION_SOURCES}
-    if compiled != sources():
+    if compiled != sources(target):
         raise ValueError("Native build sources or lockfile changed")
     entries = files(bundle)
     if manifest["files"] != entries or manifest["bundleSha256"] != identity(entries):
         raise ValueError("Native bundle changed after build")
-    expected = pin()
-    if manifest.get("target") != expected["target"] or manifest["packageVersion"] != expected["packageVersion"] or any(locked_version(name) != expected["packageVersion"] for name in ["mermaid_flutter", "mermaid_core"]):
+    if manifest.get("target") != target or manifest["packageVersion"] != expected["packageVersion"] or any(locked_version(name) != expected["packageVersion"] for name in ["mermaid_flutter", "mermaid_core"]):
         raise ValueError("Native package lock differs from the pinned operand")
     if require_smoke:
         smoke = read(bundle / SMOKE)
         if smoke.get("protocol") != "native-flutter-smoke-v1" or smoke.get("bundleSha256") != manifest["bundleSha256"] or smoke.get("result") != "completed":
             raise ValueError("Bundle has no matching successful native smoke receipt")
         check_admission(smoke.get("admissionChecks"))
-        check_ready(smoke.get("ready", {}))
+        if (smoke.get("target") or expected["target"]) != target:
+            raise ValueError("Smoke receipt belongs to another native target")
+        check_ready(smoke.get("ready", {}), target)
     return manifest
 
 def main():
@@ -113,10 +127,11 @@ def main():
         check_sdk(sdk)
         print(json.dumps({"flutter": sdk["frameworkVersion"], "dart": sdk["dartSdkVersion"], "revision": sdk["frameworkRevision"]}))
         return
-    if len(sys.argv) == 4 and sys.argv[1] == "seal":
+    if len(sys.argv) in [4, 5] and sys.argv[1] == "seal":
         sdk, bundle = read(sys.argv[2]), Path(sys.argv[3]).resolve()
         check_sdk(sdk)
         expected = pin()
+        target = sys.argv[4] if len(sys.argv) == 5 else expected["target"]
         if platform.system() != "Linux" or platform.machine() not in ["x86_64", "amd64"]:
             raise ValueError("The pinned bundle targets Linux x64")
         if any(locked_version(name) != expected["packageVersion"] for name in ["mermaid_flutter", "mermaid_core"]):
@@ -124,14 +139,14 @@ def main():
         entries = files(bundle)
         record = {
             "protocol": "native-flutter-release-v1", "sdk": sdk,
-            "target": expected["target"], "packageVersion": expected["packageVersion"],
-            "sources": sources(), "verificationSources": verification_sources(), "files": entries, "bundleSha256": identity(entries),
+            "target": target, "packageVersion": expected["packageVersion"],
+            "sources": sources(target), "verificationSources": verification_sources(), "files": entries, "bundleSha256": identity(entries),
             "host": {"platform": platform.platform(), "gtk": subprocess.check_output(["pkg-config", "--modversion", "gtk+-3.0"], text=True).strip()},
         }
         write(bundle / MANIFEST, record)
         print("Sealed native GTK release bundle " + record["bundleSha256"])
         return
-    raise SystemExit("bundle.py check-sdk SDK.json | bundle.py seal SDK.json BUNDLE")
+    raise SystemExit("bundle.py check-sdk SDK.json | bundle.py seal SDK.json BUNDLE [TARGET]")
 
 if __name__ == "__main__":
     main()
