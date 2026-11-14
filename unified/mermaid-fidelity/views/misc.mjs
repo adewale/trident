@@ -886,6 +886,14 @@ const FLOW_MODELS = {
       absent: { dir: 'termaid records no direction for this subgraph', classes: "termaid's subgraph model keeps no classes", ...NO_MARKDOWN_TITLE('termaid') },
     },
   }),
+  // Latias94/merman (parse --meta, 0.10.0): classDefs map each name to its written style
+  // strings in order, the list Mermaid's flowDb.addClass keeps as styles. Only that getter is
+  // added; a model without such a list falls back to the reviewed view.
+  'Latias94/merman': raw => {
+    const defs = entriesOf(raw.classDefs)
+    if (!raw.classDefs || !defs.every(([, styles]) => Array.isArray(styles) && styles.every(style => typeof style === 'string'))) return undefined
+    return { getClasses: () => flowClasses(defs.map(([id, styles]) => [id, [...styles]])) }
+  },
   // Loom keeps classDefs in written property order; accTitle/accDescr are dropped.
   'Yassimba/loom': raw => ({
     getClasses: () => flowClasses(entriesOf(raw.classDefs).map(([id, style]) => [id, styleStrings(style)])),

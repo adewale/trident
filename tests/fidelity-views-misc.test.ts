@@ -376,3 +376,14 @@ test('ishikawa trees: agentic-mermaid parent ids, XMermaid depth and parent labe
   expect(xmermaid.getRoot()).toEqual(tree)
   expect(() => nativeSchemaView('evangwt/xmermaid', 'ishikawa', { type: 'ishikawa', effect: 'E', causes: [{ label: 'A', parent: null, depth: 0 }, { label: 'B', parent: 'Z', depth: 1 }] }, hooks).getRoot()).toThrow('gap')
 })
+
+test("Latias merman's flowchart classDefs read as Mermaid's classDef records", () => {
+  const { hooks } = verdicts()
+  // merman-cli 0.10.0 parse --meta for `graph TD;classDef first,second background:#bbb,color:#f00;`
+  const raw = { type: 'flowchart-v2', direction: 'TD', nodes: [], edges: [], subgraphs: [], classDefs: { first: ['background:#bbb', 'color:#f00'], second: ['background:#bbb', 'color:#f00'] } }
+  const view = nativeSchemaView('Latias94/merman', 'flowchart', raw, hooks)
+  const classes = view.getClasses()
+  expect(classes).toBeInstanceOf(Map)
+  expect(classes.get('first')).toEqual({ id: 'first', styles: ['background:#bbb', 'color:#f00'], textStyles: ['color:#f00'] })
+  expect([...classes.keys()]).toEqual(['first', 'second'])
+})
