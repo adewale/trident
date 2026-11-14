@@ -13,7 +13,7 @@ import { terminalRectangles, TerminalRectangleBudgetExceeded } from '../terminal
 import { observeGlyphWitness, type GlyphWitnessResult } from './svg-glyph-witness.ts'
 
 export type LabelVerdict = { status: 'correct' | 'incorrect' | 'unknown'; reason?: string; missing?: string[]; leaked?: string[]; labels: number; evidence?: { checks: SvgLabelEvidence[]; glyphWitness?: GlyphWitnessResult } }
-export const labelPolicy = 'drawing-reviewed-labels-v2'
+export const labelPolicy = 'drawing-reviewed-labels-v3'
 export interface LabelPlan {
   readonly caseId: string
   readonly source: string

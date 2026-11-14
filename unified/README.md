@@ -24,17 +24,21 @@ case identities. A complete collection accounts for every lane or records why it
 was blocked. An all-blocked collection has no measured score. Functional subsets
 remain labelled as subsets. Older published files remain readable.
 
-Drawing label policy `drawing-reviewed-labels-v2` includes reviewed group labels and the full reviewed label inventory.
+Drawing label policy `drawing-reviewed-labels-v3` includes reviewed group labels and the full reviewed label inventory. A terminal label whose words are drawn in reading order on successive rows outside a walled box is unknown, not missing.
 Its source/expectation digest is separate from the per-format observer digests.
 Changed common expectations require a new campaign; changed SVG observation does
 not invalidate terminal observation. A changed observer cannot be merged into
 only some projects of an existing format. Historical scores remain at their original commits. Current published results
 record the policy and observer profiles used for their collection.
 
-SVG label profile `svg-label-paint-v7` can qualify a flat opaque label against an
+SVG label profile `svg-label-paint-v8` can qualify a flat opaque label against an
 opaque static gradient with ordinary sRGB stops and sRGB/linearRGB interpolation
 when a colour channel separates that label
 from every stop's channel range. It retains canvas, clipping and occlusion checks.
+When every clipped label's declared primary font is not installed on the assessing
+machine, the clipping criterion is unavailable rather than failed, because the
+glyphs were measured in a fallback font; each run records the assessing machine's
+fontconfig family list and its SHA-256.
 Possible colour matches, wider colour spaces, transparent or animated gradients, inherited gradients,
 patterns, arbitrary filters and unmapped path/image glyphs require separate
 evidence; a positive text bounding box does not qualify them.
