@@ -27,9 +27,9 @@ change's effect is listed below.
 - Admit SVG the way a browser displays it. Strict XML first; if that fails, the
   SVG is parsed as a browser parses SVG embedded in HTML. Strict-XML failures
   are counted per run and shown in the SVG table, and do not affect completion.
-  Strict XML had rejected 34 of Mermaid's outputs (raw `&` in click tooltips,
-  `&nbsp;` and unbound xlink prefixes), which ranked Mermaid sixth at its own
-  documentation.
+  Strict XML had cost Mermaid 34 completions of outputs browsers display (raw
+  `&` in click tooltips, `&nbsp;` and unbound xlink prefixes), which ranked
+  Mermaid sixth at its own documentation.
 - Apply one empty-output rule to SVG and terminal text: output that draws
   nothing is admitted only for examples whose reviewed source draws nothing.
   Frankenmermaid loses 4 SVG and 4 terminal completions (blank SVGs and blank
@@ -116,7 +116,37 @@ change's effect is listed below.
   comparing native model output or source; Latias Merman's 0.9.3 and 0.10.0
   CLIs were built from crates.io source to compare model shapes.
 - The Mermaid Flutter row reads `mermaid_core`'s version from its lockfile and
-  says it shares Mermaid Dart's parser.
+  says it shares Mermaid Dart's parser. The Flutter bridge binds the
+  `mermaid_core` its native app resolved, byte-identical to Mermaid Dart's.
+- Record how each qualified callback ended: passed, native failure, native
+  unsupported (the candidate's own code refused or returned another diagram
+  kind), capability assessment (Trident's judgement, each with its basis) or
+  adapter limitation. RESULTS.md shows this per project as Binding coverage.
+  Scoring is unchanged: only passes and native failures are known outcomes.
+- A capability review (`docs/evidence/fidelity-capability-review-2026-11-14.json`,
+  33 entries with file:line or probe evidence) withdrew disproved "capability
+  absent" assessments:
+  - Pele's parser builds its model through its own database classes, which use
+    Mermaid's method names. The calls it makes are delivered to the test's
+    `yy` database or spy, so those tests now measure Pele. The mechanism
+    applies to any candidate built that way.
+  - MermaidTUI has one parser for every source, which refuses some sources
+    itself; the bridge calls it for every family, so 2,788 assessments become
+    MermaidTUI's own refusals.
+  - Timeline tests supply Mermaid's own database module, which Trident already
+    binds to each candidate; they are now measured for every candidate.
+  - Bezel's public crate implements most of Mermaid's database methods; 288
+    callbacks are adapter limitations until a stateful Rust bridge binds them.
+  - Zombie Mermaid's edges carry ids and animation.
+  A family parse reported against a shared test's non-family request is
+  Trident's mismatch, not a native refusal.
+- Effect on scored passes: Pele 3,253 → 3,388, Zombie Mermaid 983 → 1,053,
+  Latias Merman 2,962 → 3,007, Bezel 3,173 → 3,218, XMermaid 894 → 910, Ondine
+  305 → 320, Mermaid Dart and Mermaid Flutter 1,968 → 1,981, OpenCode Merman
+  126 → 129, Agentic Mermaid 2,239 → 2,240. Flowchart step
+  data that Mermaid's layout records do not carry is no longer read as
+  undefined, which removes false passes and failures: Frankenmermaid, Mermaid RS
+  Renderer, Mermaid ASCII and Termaid each lose 3 passes.
 - Earlier in this cycle, on the 0.3.0 product versions: recollect under one
   frozen worker with paired JSDOM and Node profiles (unused imports defer until
   used; missing exports, database members and worker failures are adapter gaps,

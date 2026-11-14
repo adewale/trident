@@ -4,7 +4,7 @@
   "version": "5.17.0",
   "capture": {
     "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
-    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+    "sha256": "70aa917d5abfb4f419787846b966366b39462456e575723018775530e9ae7d37"
   },
   "reviewedAt": "2026-11-14",
   "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
@@ -83,7 +83,7 @@
       "aspect": "labels",
       "mechanical": "unknown",
       "verdict": "drawn-correctly",
-      "reason": "The three labels sit line-broken inside a single circle, a nested double circle and a box drawn with ╭╱╲ outlines; the curved walls are not recognised as frames, so ownership was left unknown.",
+      "reason": "The three labels sit line-broken inside a single circle, a nested double circle and a box drawn with \u256d\u2571\u2572 outlines; the curved walls are not recognised as frames, so ownership was left unknown.",
       "method": "terminal-text"
     },
     {
@@ -105,7 +105,7 @@
       "aspect": "relationships",
       "mechanical": "unassessed",
       "verdict": "drawn-correctly",
-      "reason": "All five arrows are traceable: Cart -> Address -> Payment, 'approved' to Orders DB, 'declined' down to Retry, and Retry back up to Payment ending in ▲; the rounded ( ) bodies kept node ownership unassessed.",
+      "reason": "All five arrows are traceable: Cart -> Address -> Payment, 'approved' to Orders DB, 'declined' down to Retry, and Retry back up to Payment ending in \u25b2; the rounded ( ) bodies kept node ownership unassessed.",
       "method": "terminal-text"
     },
     {

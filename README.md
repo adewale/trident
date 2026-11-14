@@ -13,7 +13,7 @@ building a Mermaid renderer or parser and for people choosing one.
 Mermaid has been reimplemented in Rust, Go, Dart, Python and TypeScript, and the
 implementations are far apart: given Mermaid's own documentation examples, the
 <!-- fact:davebench-svg-renderers -->16<!-- /fact --> SVG renderers complete
-anywhere from <!-- fact:davebench-svg-range -->384 to 1,338<!-- /fact --> of them.
+anywhere from <!-- fact:davebench-svg-range -->382 to 1,338<!-- /fact --> of them.
 Trident runs <!-- fact:projects -->27<!-- /fact --> implementations, at frozen
 versions, through three benchmarks and records every case each one passes or
 fails, so a builder can see what to fix and a chooser can see which diagrams will
@@ -77,7 +77,7 @@ utilities, Mermaid's website and its top-level modules, which no reimplementatio
 parser can reach; they are executed and listed as inventory, not scored. An
 operation the implementation's side reports as unsupported, a missing Trident
 operation binding and a missing model translation all stay unassessed
-(<!-- fact:fidelity-gaps -->67,466<!-- /fact --> tests across all applicable
+(<!-- fact:fidelity-gaps -->66,987<!-- /fact --> tests across all applicable
 implementations), because no per-test review has separated each
 implementation's real limits from Trident's binding gaps. Result files scored
 this way declare `scoring.protocol: 'fidelity-scored-population-v2'`; a result file
@@ -96,12 +96,12 @@ leaders are:
 - **DaveBench**, examples completed. SVG:
   <!-- fact:davebench-svg-leader -->Latias Merman with 1,338<!-- /fact -->. PNG:
   <!-- fact:davebench-png-leader -->Latias Merman with 1,338<!-- /fact -->. Terminal text:
-  <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,338<!-- /fact -->.
+  <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,334<!-- /fact -->.
 - **Drawing Correctness**, cases correct. SVG:
   <!-- fact:drawing-svg-leader -->Bezel and Pele with 125 each (not yet settled)<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
-  <!-- fact:fidelity-leader -->Pele with 3,253 (not yet settled)<!-- /fact -->.
+  <!-- fact:fidelity-leader -->Pele with 3,388 (not yet settled)<!-- /fact -->.
 
 Mermaid is ranked alongside the other implementations in DaveBench and Drawing
 Correctness. In Mermaid Fidelity it is the reference, so it passes every counted

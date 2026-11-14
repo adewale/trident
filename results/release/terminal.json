@@ -1451,7 +1451,7 @@
     "platform": "linux",
     "architecture": "x64",
     "kernel": "6.18.44-fc-v470",
-    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
     "parallelism": 4,
     "memoryBytes": 16869146624,
     "cgroup": {},
@@ -1884,8 +1884,8 @@
       }
     }
   ],
-  "startedAt": "2026-11-14T00:58:51.598Z",
-  "updatedAt": "2026-11-14T01:14:57.431Z",
+  "startedAt": "2026-11-14T13:47:48.965Z",
+  "updatedAt": "2026-11-14T14:02:36.252Z",
   "corpus": {
     "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
     "occurrences": 1342,
@@ -3238,7 +3238,13 @@
       "docs/syntax/gantt.md:380",
       "docs/syntax/gantt.md:386"
     ],
-    "emptyOutputUnreviewed": 245
+    "emptyOutputUnreviewed": 245,
+    "referenceRejected": {
+      "docs/config/8.6.0_docs.md:82": "Parse error on line 10:",
+      "docs/config/8.6.0_docs.md:94": "Parse error on line 10:",
+      "docs/config/directives.md:100": "No diagram type detected matching given configuration for text: ",
+      "docs/config/directives.md:106": "No diagram type detected matching given configuration for text: "
+    }
   },
   "method": {
     "runs": 3,
@@ -3263,7 +3269,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 6630.694166000001,
+      "totalMs": 6614.405550000003,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3310,7 +3316,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 6649.236004999993,
+      "totalMs": 6068.942187000005,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3357,7 +3363,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 6744.074746000008,
+      "totalMs": 5718.771537999991,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3404,7 +3410,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 13969.88118500002,
+      "totalMs": 11899.026262000036,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3557,7 +3563,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 13675.787144000009,
+      "totalMs": 11833.163229999765,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3710,7 +3716,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 13618.592982999791,
+      "totalMs": 13086.819165000212,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3863,7 +3869,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 890.4189770000029,
+      "totalMs": 859.0480199999989,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3884,7 +3890,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 843.656469,
+      "totalMs": 858.0971949999996,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3905,7 +3911,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 911.9305589999974,
+      "totalMs": 848.995774,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -3926,7 +3932,7 @@
       "completed": 536,
       "failed": 806,
       "timeouts": 0,
-      "totalMs": 331.52847300000036,
+      "totalMs": 241.00312900000074,
       "invalid": 44,
       "invalidReasons": {
         "draws nothing": 42,
@@ -3998,7 +4004,7 @@
       "completed": 536,
       "failed": 806,
       "timeouts": 0,
-      "totalMs": 329.92720999999926,
+      "totalMs": 259.02268700000076,
       "invalid": 44,
       "invalidReasons": {
         "draws nothing": 42,
@@ -4070,7 +4076,7 @@
       "completed": 536,
       "failed": 806,
       "timeouts": 0,
-      "totalMs": 343.9751750000017,
+      "totalMs": 248.42640400000082,
       "invalid": 44,
       "invalidReasons": {
         "draws nothing": 42,
@@ -4142,7 +4148,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 2155.513935000004,
+      "totalMs": 1920.8320080000005,
       "invalid": 14,
       "invalidReasons": {
         "draws nothing": 14
@@ -4230,7 +4236,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 2296.407252000002,
+      "totalMs": 1976.6080270000139,
       "invalid": 14,
       "invalidReasons": {
         "draws nothing": 14
@@ -4318,7 +4324,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 2299.087292999993,
+      "totalMs": 1953.5497629999911,
       "invalid": 14,
       "invalidReasons": {
         "draws nothing": 14
@@ -4406,7 +4412,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3698.216134000162,
+      "totalMs": 3104.4053980001045,
       "invalid": 4,
       "invalidReasons": {
         "draws nothing": 4
@@ -4433,7 +4439,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3721.9365230000985,
+      "totalMs": 2992.303603999666,
       "invalid": 4,
       "invalidReasons": {
         "draws nothing": 4
@@ -4460,7 +4466,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3762.0990559997153,
+      "totalMs": 2968.172301000144,
       "invalid": 4,
       "invalidReasons": {
         "draws nothing": 4
@@ -4487,7 +4493,7 @@
       "completed": 540,
       "failed": 802,
       "timeouts": 0,
-      "totalMs": 738.022873999996,
+      "totalMs": 572.9756510000017,
       "invalid": 160,
       "invalidReasons": {
         "draws nothing": 160
@@ -4673,7 +4679,7 @@
       "completed": 540,
       "failed": 802,
       "timeouts": 0,
-      "totalMs": 702.3784579999967,
+      "totalMs": 532.6620660000021,
       "invalid": 160,
       "invalidReasons": {
         "draws nothing": 160
@@ -4859,7 +4865,7 @@
       "completed": 540,
       "failed": 802,
       "timeouts": 0,
-      "totalMs": 641.5376729999992,
+      "totalMs": 549.128741000003,
       "invalid": 160,
       "invalidReasons": {
         "draws nothing": 160
@@ -5042,27 +5048,33 @@
       "boundary": "persistent Python public terminal API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1288,
-      "failed": 54,
+      "completed": 1242,
+      "failed": 100,
       "timeouts": 0,
-      "totalMs": 2137.661243999446,
-      "invalid": 54,
+      "totalMs": 1674.6502220021284,
+      "invalid": 100,
       "invalidReasons": {
-        "draws nothing": 28,
-        "fallback render": 26
+        "fallback render": 72,
+        "draws nothing": 28
       },
       "errorReasons": {},
       "failures": {
-        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305",
-        "invalid: fallback render": "167-168,257-260,269-270,877-880,887-888,938-939,1212-1213,1250-1251,1254-1257,1326-1327"
+        "invalid: fallback render": "27-28,167-170,239-240,257-260,269-270,515-518,877-880,887-888,938-945,948-951,1212-1213,1216-1217,1250-1251,1254-1257,1310-1311,1314-1321,1324-1329,1332-1341",
+        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305"
       },
       "rejected": {
+        "docs/config/accessibility.md:322": "fallback render: source lines boxed",
+        "docs/config/accessibility.md:342": "fallback render: source lines boxed",
         "docs/config/directives.md:100": "draws nothing",
         "docs/config/directives.md:106": "draws nothing",
         "docs/intro/syntax-reference.md:91": "draws nothing",
         "docs/intro/syntax-reference.md:107": "draws nothing",
         "docs/syntax/all-examples.md:977": "fallback render: 4 of 4 source statements shown",
         "docs/syntax/all-examples.md:1003": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/all-examples.md:1034": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:1085": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2723": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2740": "fallback render: source lines boxed",
         "docs/syntax/all-examples.md:3084": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3120": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3157": "fallback render: 3 of 5 source statements shown",
@@ -5087,6 +5099,10 @@
         "docs/syntax/entityRelationshipDiagram.md:789": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:839": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:857": "draws nothing",
+        "docs/syntax/eventmodeling.md:311": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:319": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:331": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:341": "fallback render: source lines boxed",
         "docs/syntax/mindmap.md:185": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:202": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:225": "fallback render: 5 of 5 source statements shown",
@@ -5095,10 +5111,22 @@
         "docs/syntax/mindmap.md:381": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/railroad.md:373": "fallback render: 6 of 12 source statements shown",
         "docs/syntax/railroad.md:399": "fallback render: 6 of 12 source statements shown",
+        "docs/syntax/requirementDiagram.md:13": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:30": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:57": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:78": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:104": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:131": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:259": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:329": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:410": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:429": "fallback render: source lines boxed",
         "docs/syntax/stateDiagram.md:188": "draws nothing",
         "docs/syntax/stateDiagram.md:193": "draws nothing",
         "docs/syntax/usecase.md:385": "fallback render: 4 of 7 source statements shown",
         "docs/syntax/usecase.md:400": "fallback render: 4 of 7 source statements shown",
+        "docs/syntax/usecase.md:437": "fallback render: source lines boxed",
+        "docs/syntax/usecase.md:450": "fallback render: source lines boxed",
         "docs/syntax/venn.md:159": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:166": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:211": "fallback render: 3 of 5 source statements shown",
@@ -5109,8 +5137,32 @@
         "docs/syntax/xyChart.md:115": "draws nothing",
         "docs/syntax/xyChart.md:309": "draws nothing",
         "docs/syntax/xyChart.md:317": "draws nothing",
+        "docs/syntax/zenuml.md:14": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:22": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:61": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:70": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:86": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:95": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:117": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:126": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:140": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:146": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:172": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:190": "fallback render: source lines boxed",
         "docs/syntax/zenuml.md:210": "fallback render: 4 of 4 source statements shown",
-        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown"
+        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/zenuml.md:246": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:254": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:306": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:314": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:338": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:348": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:370": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:379": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:404": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:412": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:438": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:450": "fallback render: source lines boxed"
       }
     },
     {
@@ -5121,27 +5173,33 @@
       "boundary": "persistent Python public terminal API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1288,
-      "failed": 54,
+      "completed": 1242,
+      "failed": 100,
       "timeouts": 0,
-      "totalMs": 2165.307141000312,
-      "invalid": 54,
+      "totalMs": 1717.5238130000707,
+      "invalid": 100,
       "invalidReasons": {
-        "draws nothing": 28,
-        "fallback render": 26
+        "fallback render": 72,
+        "draws nothing": 28
       },
       "errorReasons": {},
       "failures": {
-        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305",
-        "invalid: fallback render": "167-168,257-260,269-270,877-880,887-888,938-939,1212-1213,1250-1251,1254-1257,1326-1327"
+        "invalid: fallback render": "27-28,167-170,239-240,257-260,269-270,515-518,877-880,887-888,938-945,948-951,1212-1213,1216-1217,1250-1251,1254-1257,1310-1311,1314-1321,1324-1329,1332-1341",
+        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305"
       },
       "rejected": {
+        "docs/config/accessibility.md:322": "fallback render: source lines boxed",
+        "docs/config/accessibility.md:342": "fallback render: source lines boxed",
         "docs/config/directives.md:100": "draws nothing",
         "docs/config/directives.md:106": "draws nothing",
         "docs/intro/syntax-reference.md:91": "draws nothing",
         "docs/intro/syntax-reference.md:107": "draws nothing",
         "docs/syntax/all-examples.md:977": "fallback render: 4 of 4 source statements shown",
         "docs/syntax/all-examples.md:1003": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/all-examples.md:1034": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:1085": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2723": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2740": "fallback render: source lines boxed",
         "docs/syntax/all-examples.md:3084": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3120": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3157": "fallback render: 3 of 5 source statements shown",
@@ -5166,6 +5224,10 @@
         "docs/syntax/entityRelationshipDiagram.md:789": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:839": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:857": "draws nothing",
+        "docs/syntax/eventmodeling.md:311": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:319": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:331": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:341": "fallback render: source lines boxed",
         "docs/syntax/mindmap.md:185": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:202": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:225": "fallback render: 5 of 5 source statements shown",
@@ -5174,10 +5236,22 @@
         "docs/syntax/mindmap.md:381": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/railroad.md:373": "fallback render: 6 of 12 source statements shown",
         "docs/syntax/railroad.md:399": "fallback render: 6 of 12 source statements shown",
+        "docs/syntax/requirementDiagram.md:13": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:30": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:57": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:78": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:104": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:131": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:259": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:329": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:410": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:429": "fallback render: source lines boxed",
         "docs/syntax/stateDiagram.md:188": "draws nothing",
         "docs/syntax/stateDiagram.md:193": "draws nothing",
         "docs/syntax/usecase.md:385": "fallback render: 4 of 7 source statements shown",
         "docs/syntax/usecase.md:400": "fallback render: 4 of 7 source statements shown",
+        "docs/syntax/usecase.md:437": "fallback render: source lines boxed",
+        "docs/syntax/usecase.md:450": "fallback render: source lines boxed",
         "docs/syntax/venn.md:159": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:166": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:211": "fallback render: 3 of 5 source statements shown",
@@ -5188,8 +5262,32 @@
         "docs/syntax/xyChart.md:115": "draws nothing",
         "docs/syntax/xyChart.md:309": "draws nothing",
         "docs/syntax/xyChart.md:317": "draws nothing",
+        "docs/syntax/zenuml.md:14": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:22": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:61": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:70": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:86": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:95": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:117": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:126": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:140": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:146": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:172": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:190": "fallback render: source lines boxed",
         "docs/syntax/zenuml.md:210": "fallback render: 4 of 4 source statements shown",
-        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown"
+        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/zenuml.md:246": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:254": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:306": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:314": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:338": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:348": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:370": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:379": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:404": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:412": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:438": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:450": "fallback render: source lines boxed"
       }
     },
     {
@@ -5200,27 +5298,33 @@
       "boundary": "persistent Python public terminal API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1288,
-      "failed": 54,
+      "completed": 1242,
+      "failed": 100,
       "timeouts": 0,
-      "totalMs": 2119.0005509934053,
-      "invalid": 54,
+      "totalMs": 1726.7095609950047,
+      "invalid": 100,
       "invalidReasons": {
-        "draws nothing": 28,
-        "fallback render": 26
+        "fallback render": 72,
+        "draws nothing": 28
       },
       "errorReasons": {},
       "failures": {
-        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305",
-        "invalid: fallback render": "167-168,257-260,269-270,877-880,887-888,938-939,1212-1213,1250-1251,1254-1257,1326-1327"
+        "invalid: fallback render": "27-28,167-170,239-240,257-260,269-270,515-518,877-880,887-888,938-945,948-951,1212-1213,1216-1217,1250-1251,1254-1257,1310-1311,1314-1321,1324-1329,1332-1341",
+        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305"
       },
       "rejected": {
+        "docs/config/accessibility.md:322": "fallback render: source lines boxed",
+        "docs/config/accessibility.md:342": "fallback render: source lines boxed",
         "docs/config/directives.md:100": "draws nothing",
         "docs/config/directives.md:106": "draws nothing",
         "docs/intro/syntax-reference.md:91": "draws nothing",
         "docs/intro/syntax-reference.md:107": "draws nothing",
         "docs/syntax/all-examples.md:977": "fallback render: 4 of 4 source statements shown",
         "docs/syntax/all-examples.md:1003": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/all-examples.md:1034": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:1085": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2723": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2740": "fallback render: source lines boxed",
         "docs/syntax/all-examples.md:3084": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3120": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3157": "fallback render: 3 of 5 source statements shown",
@@ -5245,6 +5349,10 @@
         "docs/syntax/entityRelationshipDiagram.md:789": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:839": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:857": "draws nothing",
+        "docs/syntax/eventmodeling.md:311": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:319": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:331": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:341": "fallback render: source lines boxed",
         "docs/syntax/mindmap.md:185": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:202": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:225": "fallback render: 5 of 5 source statements shown",
@@ -5253,10 +5361,22 @@
         "docs/syntax/mindmap.md:381": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/railroad.md:373": "fallback render: 6 of 12 source statements shown",
         "docs/syntax/railroad.md:399": "fallback render: 6 of 12 source statements shown",
+        "docs/syntax/requirementDiagram.md:13": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:30": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:57": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:78": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:104": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:131": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:259": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:329": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:410": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:429": "fallback render: source lines boxed",
         "docs/syntax/stateDiagram.md:188": "draws nothing",
         "docs/syntax/stateDiagram.md:193": "draws nothing",
         "docs/syntax/usecase.md:385": "fallback render: 4 of 7 source statements shown",
         "docs/syntax/usecase.md:400": "fallback render: 4 of 7 source statements shown",
+        "docs/syntax/usecase.md:437": "fallback render: source lines boxed",
+        "docs/syntax/usecase.md:450": "fallback render: source lines boxed",
         "docs/syntax/venn.md:159": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:166": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:211": "fallback render: 3 of 5 source statements shown",
@@ -5267,8 +5387,32 @@
         "docs/syntax/xyChart.md:115": "draws nothing",
         "docs/syntax/xyChart.md:309": "draws nothing",
         "docs/syntax/xyChart.md:317": "draws nothing",
+        "docs/syntax/zenuml.md:14": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:22": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:61": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:70": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:86": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:95": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:117": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:126": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:140": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:146": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:172": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:190": "fallback render: source lines boxed",
         "docs/syntax/zenuml.md:210": "fallback render: 4 of 4 source statements shown",
-        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown"
+        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/zenuml.md:246": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:254": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:306": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:314": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:338": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:348": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:370": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:379": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:404": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:412": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:438": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:450": "fallback render: source lines boxed"
       }
     },
     {
@@ -5282,7 +5426,7 @@
       "completed": 557,
       "failed": 785,
       "timeouts": 0,
-      "totalMs": 212.63436999999934,
+      "totalMs": 163.35330799999946,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -5418,7 +5562,7 @@
       "completed": 557,
       "failed": 785,
       "timeouts": 0,
-      "totalMs": 196.1518939999998,
+      "totalMs": 183.82258599999844,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -5554,7 +5698,7 @@
       "completed": 557,
       "failed": 785,
       "timeouts": 0,
-      "totalMs": 192.5362309999988,
+      "totalMs": 166.13740100000007,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -5690,7 +5834,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 155.09816499999965,
+      "totalMs": 155.71880100000016,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6013,7 +6157,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 161.55646599999918,
+      "totalMs": 135.3836469999997,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6336,7 +6480,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 168.11180100000038,
+      "totalMs": 141.60520799999966,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6659,7 +6803,7 @@
       "completed": 730,
       "failed": 612,
       "timeouts": 0,
-      "totalMs": 7444.6673080002365,
+      "totalMs": 5867.998477999732,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -6815,7 +6959,7 @@
       "completed": 730,
       "failed": 612,
       "timeouts": 0,
-      "totalMs": 7993.738210000069,
+      "totalMs": 6207.481383999286,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -6971,7 +7115,7 @@
       "completed": 730,
       "failed": 612,
       "timeouts": 0,
-      "totalMs": 7808.5589339991275,
+      "totalMs": 6488.19702799918,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -7127,7 +7271,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 244.96692799999897,
+      "totalMs": 222.11518299999886,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -7277,7 +7421,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 285.51693599999976,
+      "totalMs": 252.30512599999696,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -7427,7 +7571,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 281.0450109999999,
+      "totalMs": 225.4826859999998,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -7577,7 +7721,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 28630.109716000414,
+      "totalMs": 21060.30289500096,
       "invalid": 10,
       "invalidReasons": {
         "draws nothing": 10
@@ -7819,7 +7963,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 24117.000619000057,
+      "totalMs": 21807.10612200026,
       "invalid": 10,
       "invalidReasons": {
         "draws nothing": 10
@@ -8061,7 +8205,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 24635.49750500018,
+      "totalMs": 21333.788223999523,
       "invalid": 10,
       "invalidReasons": {
         "draws nothing": 10
@@ -8303,7 +8447,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2737.630285000283,
+      "totalMs": 2012.4672729997837,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -9195,7 +9339,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2727.799959999131,
+      "totalMs": 2008.1734620002098,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -10087,7 +10231,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2674.3881460012635,
+      "totalMs": 2265.051337999321,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -10979,7 +11123,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 34.02355199999929,
+      "totalMs": 23.78063300000067,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11086,7 +11230,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 37.07356200000055,
+      "totalMs": 26.697369000000208,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11193,7 +11337,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 43.10440300000069,
+      "totalMs": 21.136083999999556,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11300,7 +11444,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 234018.94090500067,
+      "totalMs": 204783.66034799945,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11323,7 +11467,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 235322.9555989987,
+      "totalMs": 216867.45239300083,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11346,7 +11490,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 226142.41847700241,
+      "totalMs": 224074.21921700507,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -11369,7 +11513,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2576.04944799887,
+      "totalMs": 2681.7284899982624,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -12261,7 +12405,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2542.3431930005318,
+      "totalMs": 2921.8603669974254,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -13153,7 +13297,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2565.674233000027,
+      "totalMs": 2788.830878998968,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -14045,7 +14189,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 453.30641799999944,
+      "totalMs": 632.995189999999,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -14066,7 +14210,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 517.5098220000002,
+      "totalMs": 548.991836000002,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -14087,7 +14231,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 434.1069269999988,
+      "totalMs": 438.9030019999974,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -14109,10 +14253,10 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 1338,
         "failed": 4,
-        "medianTotalMs": 3721.9365230000985,
+        "medianTotalMs": 2992.303603999666,
         "totalMsRange": [
-          3698.216134000162,
-          3762.0990559997153
+          2968.172301000144,
+          3104.4053980001045
         ],
         "rank": 1
       },
@@ -14123,10 +14267,10 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 234018.94090500067,
+        "medianTotalMs": 216867.45239300083,
         "totalMsRange": [
-          226142.41847700241,
-          235322.9555989987
+          204783.66034799945,
+          224074.21921700507
         ],
         "rank": 2
       },
@@ -14135,12 +14279,12 @@
         "version": "0.12.0",
         "format": "terminal",
         "boundary": "persistent Python public terminal API",
-        "completed": 1288,
-        "failed": 54,
-        "medianTotalMs": 2137.661243999446,
+        "completed": 1242,
+        "failed": 100,
+        "medianTotalMs": 1717.5238130000707,
         "totalMsRange": [
-          2119.0005509934053,
-          2165.307141000312
+          1674.6502220021284,
+          1726.7095609950047
         ],
         "rank": 3
       },
@@ -14151,10 +14295,10 @@
         "boundary": "persistent Node public terminal API",
         "completed": 1068,
         "failed": 274,
-        "medianTotalMs": 6649.236004999993,
+        "medianTotalMs": 6068.942187000005,
         "totalMsRange": [
-          6630.694166000001,
-          6744.074746000008
+          5718.771537999991,
+          6614.405550000003
         ],
         "rank": 4
       },
@@ -14165,10 +14309,10 @@
         "boundary": "persistent Node public terminal API",
         "completed": 908,
         "failed": 434,
-        "medianTotalMs": 2296.407252000002,
+        "medianTotalMs": 1953.5497629999911,
         "totalMsRange": [
-          2155.513935000004,
-          2299.087292999993
+          1920.8320080000005,
+          1976.6080270000139
         ],
         "rank": 5
       },
@@ -14179,10 +14323,10 @@
         "boundary": "persistent Bun public terminal API",
         "completed": 745,
         "failed": 597,
-        "medianTotalMs": 453.30641799999944,
+        "medianTotalMs": 548.991836000002,
         "totalMsRange": [
-          434.1069269999988,
-          517.5098220000002
+          438.9030019999974,
+          632.995189999999
         ],
         "rank": 6
       },
@@ -14193,10 +14337,10 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 730,
         "failed": 612,
-        "medianTotalMs": 7808.5589339991275,
+        "medianTotalMs": 6207.481383999286,
         "totalMsRange": [
-          7444.6673080002365,
-          7993.738210000069
+          5867.998477999732,
+          6488.19702799918
         ],
         "rank": 7
       },
@@ -14207,10 +14351,10 @@
         "boundary": "persistent Node public terminal API",
         "completed": 557,
         "failed": 785,
-        "medianTotalMs": 196.1518939999998,
+        "medianTotalMs": 166.13740100000007,
         "totalMsRange": [
-          192.5362309999988,
-          212.63436999999934
+          163.35330799999946,
+          183.82258599999844
         ],
         "rank": 8
       },
@@ -14221,10 +14365,10 @@
         "boundary": "persistent Node public terminal API",
         "completed": 540,
         "failed": 802,
-        "medianTotalMs": 702.3784579999967,
+        "medianTotalMs": 549.128741000003,
         "totalMsRange": [
-          641.5376729999992,
-          738.022873999996
+          532.6620660000021,
+          572.9756510000017
         ],
         "rank": 9
       },
@@ -14235,10 +14379,10 @@
         "boundary": "persistent Node public terminal API",
         "completed": 536,
         "failed": 806,
-        "medianTotalMs": 331.52847300000036,
+        "medianTotalMs": 248.42640400000082,
         "totalMsRange": [
-          329.92720999999926,
-          343.9751750000017
+          241.00312900000074,
+          259.02268700000076
         ],
         "rank": 10
       },
@@ -14249,26 +14393,12 @@
         "boundary": "persistent Node public terminal API",
         "completed": 509,
         "failed": 833,
-        "medianTotalMs": 281.0450109999999,
+        "medianTotalMs": 225.4826859999998,
         "totalMsRange": [
-          244.96692799999897,
-          285.51693599999976
+          222.11518299999886,
+          252.30512599999696
         ],
         "rank": 11
-      },
-      {
-        "project": "xai-org/grok-build",
-        "version": "git-2bdd1d6a6369",
-        "format": "terminal",
-        "boundary": "public CLI terminal; process startup included",
-        "completed": 475,
-        "failed": 867,
-        "medianTotalMs": 2565.674233000027,
-        "totalMsRange": [
-          2542.3431930005318,
-          2576.04944799887
-        ],
-        "rank": 12
       },
       {
         "project": "spacedock-dev/mermaidtext",
@@ -14277,10 +14407,24 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 475,
         "failed": 867,
-        "medianTotalMs": 2727.799959999131,
+        "medianTotalMs": 2012.4672729997837,
         "totalMsRange": [
-          2674.3881460012635,
-          2737.630285000283
+          2008.1734620002098,
+          2265.051337999321
+        ],
+        "rank": 12
+      },
+      {
+        "project": "xai-org/grok-build",
+        "version": "git-2bdd1d6a6369",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 475,
+        "failed": 867,
+        "medianTotalMs": 2788.830878998968,
+        "totalMsRange": [
+          2681.7284899982624,
+          2921.8603669974254
         ],
         "rank": 13
       },
@@ -14291,10 +14435,10 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 408,
         "failed": 934,
-        "medianTotalMs": 24635.49750500018,
+        "medianTotalMs": 21333.788223999523,
         "totalMsRange": [
-          24117.000619000057,
-          28630.109716000414
+          21060.30289500096,
+          21807.10612200026
         ],
         "rank": 14
       },
@@ -14305,10 +14449,10 @@
         "boundary": "public CLI terminal; process startup included",
         "completed": 401,
         "failed": 941,
-        "medianTotalMs": 13675.787144000009,
+        "medianTotalMs": 11899.026262000036,
         "totalMsRange": [
-          13618.592982999791,
-          13969.88118500002
+          11833.163229999765,
+          13086.819165000212
         ],
         "rank": 15
       },
@@ -14319,10 +14463,10 @@
         "boundary": "persistent Bun public terminal API",
         "completed": 254,
         "failed": 1088,
-        "medianTotalMs": 890.4189770000029,
+        "medianTotalMs": 858.0971949999996,
         "totalMsRange": [
-          843.656469,
-          911.9305589999974
+          848.995774,
+          859.0480199999989
         ],
         "rank": 16
       },
@@ -14333,10 +14477,10 @@
         "boundary": "persistent Bun public terminal API",
         "completed": 181,
         "failed": 1161,
-        "medianTotalMs": 161.55646599999918,
+        "medianTotalMs": 141.60520799999966,
         "totalMsRange": [
-          155.09816499999965,
-          168.11180100000038
+          135.3836469999997,
+          155.71880100000016
         ],
         "rank": 17
       },
@@ -14347,10 +14491,10 @@
         "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
         "completed": 23,
         "failed": 1319,
-        "medianTotalMs": 37.07356200000055,
+        "medianTotalMs": 23.78063300000067,
         "totalMsRange": [
-          34.02355199999929,
-          43.10440300000069
+          21.136083999999556,
+          26.697369000000208
         ],
         "rank": 18
       }

@@ -1519,8 +1519,8 @@
     "inputsSha256": "f1ef2d330c9f1bb7f2e609e8e1873fe61b15fbe0e4f13621e25cd3e571d78af6",
     "identity": "ab87d086aa4b7c74020b8dba19ca014fd15fff8db20fb98636503da70ccc03be"
   },
-  "startedAt": "2026-11-14T00:34:36.230Z",
-  "updatedAt": "2026-11-14T00:58:35.926Z",
+  "startedAt": "2026-11-14T13:25:10.955Z",
+  "updatedAt": "2026-11-14T13:47:29.596Z",
   "corpus": {
     "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
     "directory": "docs/",
@@ -2874,7 +2874,13 @@
       "docs/syntax/gantt.md:380",
       "docs/syntax/gantt.md:386"
     ],
-    "emptyOutputUnreviewed": 245
+    "emptyOutputUnreviewed": 245,
+    "referenceRejected": {
+      "docs/config/8.6.0_docs.md:82": "Parse error on line 10:",
+      "docs/config/8.6.0_docs.md:94": "Parse error on line 10:",
+      "docs/config/directives.md:100": "No diagram type detected matching given configuration for text: ",
+      "docs/config/directives.md:106": "No diagram type detected matching given configuration for text: "
+    }
   },
   "method": {
     "runs": 3,
@@ -2882,6 +2888,7 @@
     "timeoutMs": 15000,
     "outputsRetained": false,
     "outputsAssessed": false,
+    "externalRequests": "Offline: external image requests receive a fixed 1x1 transparent PNG; all other external requests are refused",
     "admission": "A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse the way a browser displays it (as an SVG document, or embedded in an HTML page, where the HTML parser must yield exactly one SVG element) to an SVG namespace root with finite positive size; strict-XML validity is reported separately and does not affect completion; PNG must contain complete decodable image data with positive dimensions; terminal text must be non-empty after removing control sequences. An output that draws nothing (SVG: no painted shape with geometry and no visible text; terminal: nothing left after removing whitespace, control sequences and blank braille U+2800) is admitted only when the reviewed source draws nothing (configuration-only), and rejected when the reviewed source draws something; for inputs whose source bytes have no review, an empty sized SVG stays admitted and empty terminal text stays rejected. Error placeholders (aria-roledescription=\"error\"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.",
     "admissionProfile": "davebench-public-api-admission-v3",
     "elapsed": "Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.",
@@ -2895,7 +2902,7 @@
     "platform": "linux",
     "architecture": "x64",
     "kernel": "6.18.44-fc-v470",
-    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
     "parallelism": 4,
     "memoryBytes": 16869146624,
     "cgroup": {},
@@ -2922,7 +2929,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 1208.8999999999069,
+      "totalMs": 1334.100000000355,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -3110,7 +3117,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 1195.2999999998137,
+      "totalMs": 1211.000000000553,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -3298,7 +3305,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 1230.5999999996275,
+      "totalMs": 1220.8999999999069,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -3487,7 +3494,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 18495.000000000204,
+      "totalMs": 16155.700000000623,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -3676,7 +3683,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 19087.900000000198,
+      "totalMs": 17491.099999998987,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -3865,7 +3872,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 19329.699999999837,
+      "totalMs": 15793.800000000396,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -4053,7 +4060,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 298.29999999905704,
+      "totalMs": 318.30000000068685,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4078,7 +4085,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 306.59999999939464,
+      "totalMs": 266.89999999984866,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4103,7 +4110,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 292.9999999992433,
+      "totalMs": 287.4999999993015,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4129,7 +4136,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7833.599999999453,
+      "totalMs": 7785.400000000198,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4155,7 +4162,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7536.899999999965,
+      "totalMs": 8024.600000000035,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4181,7 +4188,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7214.200000000885,
+      "totalMs": 7868.7999999997555,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4206,7 +4213,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 992.799999997369,
+      "totalMs": 911.2999999992317,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4267,7 +4274,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 991.3000000005122,
+      "totalMs": 963.5999999986379,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4328,7 +4335,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 986.9999999983702,
+      "totalMs": 1031.5999999999185,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4390,7 +4397,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 7901.999999999534,
+      "totalMs": 7896.2999999997555,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4452,7 +4459,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 7516.699999999604,
+      "totalMs": 8124.300000000221,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4514,7 +4521,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 7719.200000000594,
+      "totalMs": 8089.799999999523,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4575,7 +4582,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 6369.000000000931,
+      "totalMs": 5878.799999999988,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4626,7 +4633,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 5985.499999999825,
+      "totalMs": 5045.7999999994645,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4677,7 +4684,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 5559.599999999162,
+      "totalMs": 5887.600000000384,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4729,7 +4736,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 13518.900000000605,
+      "totalMs": 13365.799999999464,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4781,7 +4788,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 15447.400000000664,
+      "totalMs": 13181.599999999919,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4833,7 +4840,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 15130.799999998999,
+      "totalMs": 13815.999999999884,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -4884,7 +4891,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 1841.2000000008848,
+      "totalMs": 1959.5999999994528,
       "invalid": 14,
       "invalidReasons": {
         "zero-size SVG": 14
@@ -4974,7 +4981,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 1759.7999999981257,
+      "totalMs": 1876.2999999994063,
       "invalid": 14,
       "invalidReasons": {
         "zero-size SVG": 14
@@ -5064,7 +5071,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 1961.9999999998836,
+      "totalMs": 1971.1000000014901,
       "invalid": 14,
       "invalidReasons": {
         "zero-size SVG": 14
@@ -5155,7 +5162,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 8882.2999999983,
+      "totalMs": 8877.600000001607,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5229,7 +5236,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 7938.999999999534,
+      "totalMs": 8745.00000000163,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5303,7 +5310,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 9400.0999999973,
+      "totalMs": 8519.099999999278,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5376,7 +5383,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 13514.842465999653,
+      "totalMs": 12662.527424001426,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -5410,7 +5417,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 12600.780448000529,
+      "totalMs": 11910.942402999208,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -5444,7 +5451,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 12910.854651999893,
+      "totalMs": 12647.694963999907,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -5479,7 +5486,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 29375.23776900029,
+      "totalMs": 27341.541761999077,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5505,7 +5512,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 29527.500532999344,
+      "totalMs": 26393.784189999977,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5531,7 +5538,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 29851.2905019999,
+      "totalMs": 26908.48296299996,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5556,7 +5563,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 334.40000000118744,
+      "totalMs": 383.89999999909196,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -5612,7 +5619,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 347.40000000130385,
+      "totalMs": 391.30000000132713,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -5668,7 +5675,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 347.99999999895226,
+      "totalMs": 343.3999999995576,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -5725,7 +5732,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 4078.8999999986263,
+      "totalMs": 3775.299999998533,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -5782,7 +5789,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 4109.500000002212,
+      "totalMs": 4266.400000000955,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -5839,7 +5846,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 3974.9999999993015,
+      "totalMs": 4108.200000000303,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -5895,7 +5902,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 19877.499999998487,
+      "totalMs": 20493.900000000605,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5918,7 +5925,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 20085.800000000745,
+      "totalMs": 20935.49999999907,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5941,7 +5948,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 20246.50000000326,
+      "totalMs": 20616.40000000072,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5965,7 +5972,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 26604.10000000056,
+      "totalMs": 26277.600000000908,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5987,7 +5994,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 27081.599999998696,
+      "totalMs": 27161.999999998487,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6009,7 +6016,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 27214.100000002538,
+      "totalMs": 26793.39999999688,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6030,7 +6037,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 555.899999998277,
+      "totalMs": 582.7000000003027,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -6372,7 +6379,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 607.599999999511,
+      "totalMs": 607.9999999993015,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -6714,7 +6721,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 581.2999999978347,
+      "totalMs": 595.8000000010943,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -7057,7 +7064,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 4121.899999998743,
+      "totalMs": 4574.100000002421,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -7400,7 +7407,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 4035.6999999983236,
+      "totalMs": 3982.700000000652,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -7743,7 +7750,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 4243.000000000931,
+      "totalMs": 3686.600000000559,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -8085,7 +8092,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 107.90000000072177,
+      "totalMs": 132.1000000006752,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -8115,7 +8122,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 117.10000000218861,
+      "totalMs": 118.20000000076834,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -8145,7 +8152,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 118.80000000016298,
+      "totalMs": 117.10000000009313,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -8176,7 +8183,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 2164.000000001397,
+      "totalMs": 2112.9999999993015,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -8207,7 +8214,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 2128.2999999996973,
+      "totalMs": 2112.00000000163,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -8238,7 +8245,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 2209.3000000010943,
+      "totalMs": 2121.899999997462,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -8268,7 +8275,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 2901.099999998347,
+      "totalMs": 2611.7999999996973,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -8293,7 +8300,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3124.599999997765,
+      "totalMs": 2868.6999999993714,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -8318,7 +8325,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3103.399999992922,
+      "totalMs": 2941.199999998673,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -8344,7 +8351,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 16137.800000000745,
+      "totalMs": 13670.2000000017,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -8370,7 +8377,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 16255.40000000177,
+      "totalMs": 14001.70000000426,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -8396,7 +8403,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 16706.79999999539,
+      "totalMs": 15348.700000000652,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -8421,7 +8428,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1420.4000000036322,
+      "totalMs": 1332.6999999999534,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -8571,7 +8578,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1292.0999999998603,
+      "totalMs": 1397.3000000023749,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -8721,7 +8728,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1522.8000000019092,
+      "totalMs": 1343.0999999979977,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -8872,7 +8879,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3586.900000000838,
+      "totalMs": 3844.6000000026543,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -8996,7 +9003,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3561.400000002235,
+      "totalMs": 3680.3000000026077,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9120,7 +9127,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3834.799999997951,
+      "totalMs": 3654.9999999981374,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9243,7 +9250,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 702.9000000047963,
+      "totalMs": 655.999999997206,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9268,7 +9275,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 636.3999999985099,
+      "totalMs": 557.2999999970198,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9293,7 +9300,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 651.3000000030734,
+      "totalMs": 647.8000000026077,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9319,7 +9326,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7790.999999993946,
+      "totalMs": 7446.800000005169,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9345,7 +9352,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 8311.000000000931,
+      "totalMs": 8161.500000000233,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9371,7 +9378,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 8250.300000000047,
+      "totalMs": 7164.000000005122,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9396,7 +9403,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 249.2000000020489,
+      "totalMs": 253.80000000540167,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -10380,7 +10387,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 226.89999999827705,
+      "totalMs": 231.7000000064727,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -11364,7 +11371,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 237.20000000135042,
+      "totalMs": 243.00000000162981,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -12349,7 +12356,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 5624.399999997113,
+      "totalMs": 5518.99999999837,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -13334,7 +13341,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 5707.700000000186,
+      "totalMs": 6131.599999997998,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -14319,7 +14326,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 5621.100000003586,
+      "totalMs": 5466.099999997299,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -15300,21 +15307,19 @@
       "boundary": "Chromium public SVG API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 34037.60000000126,
+      "totalMs": 30405.89999999944,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -15331,21 +15336,19 @@
       "boundary": "Chromium public SVG API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 35602.19999999786,
+      "totalMs": 32287.09999999916,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -15362,21 +15365,19 @@
       "boundary": "Chromium public SVG API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 35190.79999999236,
+      "totalMs": 30743.99999999581,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -15394,21 +15395,19 @@
       "boundaryKind": "persistent-api",
       "pngPath": "trident-conversion",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 55388.40000000177,
+      "totalMs": 49352.89999999828,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -15426,21 +15425,19 @@
       "boundaryKind": "persistent-api",
       "pngPath": "trident-conversion",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 52891.89999999665,
+      "totalMs": 48806.69999999483,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -15458,21 +15455,19 @@
       "boundaryKind": "persistent-api",
       "pngPath": "trident-conversion",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 53963.29999999702,
+      "totalMs": 50085.400000001304,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -15492,7 +15487,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 369.2000000048429,
+      "totalMs": 370.3999999994412,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -15517,7 +15512,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 373.8000000012107,
+      "totalMs": 399.20000000530854,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -15542,7 +15537,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 380.40000000293367,
+      "totalMs": 411.7000000048429,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -15568,7 +15563,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7855.499999993015,
+      "totalMs": 7580.199999992736,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -15594,7 +15589,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7836.199999998556,
+      "totalMs": 7965.800000000745,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -15620,7 +15615,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7951,
+      "totalMs": 7884.499999995809,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -15646,7 +15641,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 23725.36500000001,
+      "totalMs": 22172.354999999978,
       "invalid": 0,
       "invalidReasons": {},
       "failures": {
@@ -15668,7 +15663,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 23369.481000000025,
+      "totalMs": 22972.369999999948,
       "invalid": 0,
       "invalidReasons": {},
       "failures": {
@@ -15690,7 +15685,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 23952.076000000012,
+      "totalMs": 22836.498,
       "invalid": 0,
       "invalidReasons": {},
       "failures": {
@@ -15718,11 +15713,11 @@
         161
       ],
       "totalMs": [
-        1208.8999999999069,
-        1195.2999999998137,
-        1230.5999999996275
+        1334.100000000355,
+        1211.000000000553,
+        1220.8999999999069
       ],
-      "medianTotalMs": 1208.8999999999069,
+      "medianTotalMs": 1220.8999999999069,
       "runs": 3
     },
     {
@@ -15741,11 +15736,11 @@
         161
       ],
       "totalMs": [
-        18495.000000000204,
-        19087.900000000198,
-        19329.699999999837
+        16155.700000000623,
+        17491.099999998987,
+        15793.800000000396
       ],
-      "medianTotalMs": 19087.900000000198,
+      "medianTotalMs": 16155.700000000623,
       "runs": 3
     },
     {
@@ -15764,11 +15759,11 @@
         36
       ],
       "totalMs": [
-        298.29999999905704,
-        306.59999999939464,
-        292.9999999992433
+        318.30000000068685,
+        266.89999999984866,
+        287.4999999993015
       ],
-      "medianTotalMs": 298.29999999905704,
+      "medianTotalMs": 287.4999999993015,
       "runs": 3
     },
     {
@@ -15787,11 +15782,11 @@
         36
       ],
       "totalMs": [
-        7833.599999999453,
-        7536.899999999965,
-        7214.200000000885
+        7785.400000000198,
+        8024.600000000035,
+        7868.7999999997555
       ],
-      "medianTotalMs": 7536.899999999965,
+      "medianTotalMs": 7868.7999999997555,
       "runs": 3
     },
     {
@@ -15810,11 +15805,11 @@
         228
       ],
       "totalMs": [
-        992.799999997369,
-        991.3000000005122,
-        986.9999999983702
+        911.2999999992317,
+        963.5999999986379,
+        1031.5999999999185
       ],
-      "medianTotalMs": 991.3000000005122,
+      "medianTotalMs": 963.5999999986379,
       "runs": 3
     },
     {
@@ -15833,11 +15828,11 @@
         228
       ],
       "totalMs": [
-        7901.999999999534,
-        7516.699999999604,
-        7719.200000000594
+        7896.2999999997555,
+        8124.300000000221,
+        8089.799999999523
       ],
-      "medianTotalMs": 7719.200000000594,
+      "medianTotalMs": 8089.799999999523,
       "runs": 3
     },
     {
@@ -15856,11 +15851,11 @@
         276
       ],
       "totalMs": [
-        6369.000000000931,
-        5985.499999999825,
-        5559.599999999162
+        5878.799999999988,
+        5045.7999999994645,
+        5887.600000000384
       ],
-      "medianTotalMs": 5985.499999999825,
+      "medianTotalMs": 5878.799999999988,
       "runs": 3
     },
     {
@@ -15879,11 +15874,11 @@
         276
       ],
       "totalMs": [
-        13518.900000000605,
-        15447.400000000664,
-        15130.799999998999
+        13365.799999999464,
+        13181.599999999919,
+        13815.999999999884
       ],
-      "medianTotalMs": 15130.799999998999,
+      "medianTotalMs": 13365.799999999464,
       "runs": 3
     },
     {
@@ -15902,11 +15897,11 @@
         434
       ],
       "totalMs": [
-        1841.2000000008848,
-        1759.7999999981257,
-        1961.9999999998836
+        1959.5999999994528,
+        1876.2999999994063,
+        1971.1000000014901
       ],
-      "medianTotalMs": 1841.2000000008848,
+      "medianTotalMs": 1959.5999999994528,
       "runs": 3
     },
     {
@@ -15925,11 +15920,11 @@
         434
       ],
       "totalMs": [
-        8882.2999999983,
-        7938.999999999534,
-        9400.0999999973
+        8877.600000001607,
+        8745.00000000163,
+        8519.099999999278
       ],
-      "medianTotalMs": 8882.2999999983,
+      "medianTotalMs": 8745.00000000163,
       "runs": 3
     },
     {
@@ -15948,11 +15943,11 @@
         38
       ],
       "totalMs": [
-        13514.842465999653,
-        12600.780448000529,
-        12910.854651999893
+        12662.527424001426,
+        11910.942402999208,
+        12647.694963999907
       ],
-      "medianTotalMs": 12910.854651999893,
+      "medianTotalMs": 12647.694963999907,
       "runs": 3
     },
     {
@@ -15971,11 +15966,11 @@
         36
       ],
       "totalMs": [
-        29375.23776900029,
-        29527.500532999344,
-        29851.2905019999
+        27341.541761999077,
+        26393.784189999977,
+        26908.48296299996
       ],
-      "medianTotalMs": 29527.500532999344,
+      "medianTotalMs": 26908.48296299996,
       "runs": 3
     },
     {
@@ -15994,11 +15989,11 @@
         832
       ],
       "totalMs": [
-        334.40000000118744,
-        347.40000000130385,
-        347.99999999895226
+        383.89999999909196,
+        391.30000000132713,
+        343.3999999995576
       ],
-      "medianTotalMs": 347.40000000130385,
+      "medianTotalMs": 383.89999999909196,
       "runs": 3
     },
     {
@@ -16017,11 +16012,11 @@
         832
       ],
       "totalMs": [
-        4078.8999999986263,
-        4109.500000002212,
-        3974.9999999993015
+        3775.299999998533,
+        4266.400000000955,
+        4108.200000000303
       ],
-      "medianTotalMs": 4078.8999999986263,
+      "medianTotalMs": 4108.200000000303,
       "runs": 3
     },
     {
@@ -16040,11 +16035,11 @@
         642
       ],
       "totalMs": [
-        19877.499999998487,
-        20085.800000000745,
-        20246.50000000326
+        20493.900000000605,
+        20935.49999999907,
+        20616.40000000072
       ],
-      "medianTotalMs": 20085.800000000745,
+      "medianTotalMs": 20616.40000000072,
       "runs": 3
     },
     {
@@ -16063,11 +16058,11 @@
         642
       ],
       "totalMs": [
-        26604.10000000056,
-        27081.599999998696,
-        27214.100000002538
+        26277.600000000908,
+        27161.999999998487,
+        26793.39999999688
       ],
-      "medianTotalMs": 27081.599999998696,
+      "medianTotalMs": 26793.39999999688,
       "runs": 3
     },
     {
@@ -16086,11 +16081,11 @@
         662
       ],
       "totalMs": [
-        555.899999998277,
-        607.599999999511,
-        581.2999999978347
+        582.7000000003027,
+        607.9999999993015,
+        595.8000000010943
       ],
-      "medianTotalMs": 581.2999999978347,
+      "medianTotalMs": 595.8000000010943,
       "runs": 3
     },
     {
@@ -16109,11 +16104,11 @@
         662
       ],
       "totalMs": [
-        4121.899999998743,
-        4035.6999999983236,
-        4243.000000000931
+        4574.100000002421,
+        3982.700000000652,
+        3686.600000000559
       ],
-      "medianTotalMs": 4121.899999998743,
+      "medianTotalMs": 3982.700000000652,
       "runs": 3
     },
     {
@@ -16132,11 +16127,11 @@
         946
       ],
       "totalMs": [
-        107.90000000072177,
-        117.10000000218861,
-        118.80000000016298
+        132.1000000006752,
+        118.20000000076834,
+        117.10000000009313
       ],
-      "medianTotalMs": 117.10000000218861,
+      "medianTotalMs": 118.20000000076834,
       "runs": 3
     },
     {
@@ -16155,11 +16150,11 @@
         946
       ],
       "totalMs": [
-        2164.000000001397,
-        2128.2999999996973,
-        2209.3000000010943
+        2112.9999999993015,
+        2112.00000000163,
+        2121.899999997462
       ],
-      "medianTotalMs": 2164.000000001397,
+      "medianTotalMs": 2112.9999999993015,
       "runs": 3
     },
     {
@@ -16178,11 +16173,11 @@
         4
       ],
       "totalMs": [
-        2901.099999998347,
-        3124.599999997765,
-        3103.399999992922
+        2611.7999999996973,
+        2868.6999999993714,
+        2941.199999998673
       ],
-      "medianTotalMs": 3103.399999992922,
+      "medianTotalMs": 2868.6999999993714,
       "runs": 3
     },
     {
@@ -16201,11 +16196,11 @@
         4
       ],
       "totalMs": [
-        16137.800000000745,
-        16255.40000000177,
-        16706.79999999539
+        13670.2000000017,
+        14001.70000000426,
+        15348.700000000652
       ],
-      "medianTotalMs": 16255.40000000177,
+      "medianTotalMs": 14001.70000000426,
       "runs": 3
     },
     {
@@ -16224,11 +16219,11 @@
         829
       ],
       "totalMs": [
-        1420.4000000036322,
-        1292.0999999998603,
-        1522.8000000019092
+        1332.6999999999534,
+        1397.3000000023749,
+        1343.0999999979977
       ],
-      "medianTotalMs": 1420.4000000036322,
+      "medianTotalMs": 1343.0999999979977,
       "runs": 3
     },
     {
@@ -16247,11 +16242,11 @@
         829
       ],
       "totalMs": [
-        3586.900000000838,
-        3561.400000002235,
-        3834.799999997951
+        3844.6000000026543,
+        3680.3000000026077,
+        3654.9999999981374
       ],
-      "medianTotalMs": 3586.900000000838,
+      "medianTotalMs": 3680.3000000026077,
       "runs": 3
     },
     {
@@ -16270,11 +16265,11 @@
         36
       ],
       "totalMs": [
-        702.9000000047963,
-        636.3999999985099,
-        651.3000000030734
+        655.999999997206,
+        557.2999999970198,
+        647.8000000026077
       ],
-      "medianTotalMs": 651.3000000030734,
+      "medianTotalMs": 647.8000000026077,
       "runs": 3
     },
     {
@@ -16293,11 +16288,11 @@
         36
       ],
       "totalMs": [
-        7790.999999993946,
-        8311.000000000931,
-        8250.300000000047
+        7446.800000005169,
+        8161.500000000233,
+        7164.000000005122
       ],
-      "medianTotalMs": 8250.300000000047,
+      "medianTotalMs": 7446.800000005169,
       "runs": 3
     },
     {
@@ -16316,11 +16311,11 @@
         958
       ],
       "totalMs": [
-        249.2000000020489,
-        226.89999999827705,
-        237.20000000135042
+        253.80000000540167,
+        231.7000000064727,
+        243.00000000162981
       ],
-      "medianTotalMs": 237.20000000135042,
+      "medianTotalMs": 243.00000000162981,
       "runs": 3
     },
     {
@@ -16339,11 +16334,11 @@
         958
       ],
       "totalMs": [
-        5624.399999997113,
-        5707.700000000186,
-        5621.100000003586
+        5518.99999999837,
+        6131.599999997998,
+        5466.099999997299
       ],
-      "medianTotalMs": 5624.399999997113,
+      "medianTotalMs": 5518.99999999837,
       "runs": 3
     },
     {
@@ -16352,21 +16347,21 @@
       "format": "svg",
       "boundary": "Chromium public SVG API",
       "completed": [
-        1336,
-        1336,
-        1336
+        1338,
+        1338,
+        1338
       ],
       "failed": [
-        6,
-        6,
-        6
+        4,
+        4,
+        4
       ],
       "totalMs": [
-        34037.60000000126,
-        35602.19999999786,
-        35190.79999999236
+        30405.89999999944,
+        32287.09999999916,
+        30743.99999999581
       ],
-      "medianTotalMs": 35190.79999999236,
+      "medianTotalMs": 30743.99999999581,
       "runs": 3
     },
     {
@@ -16375,21 +16370,21 @@
       "format": "png",
       "boundary": "Chromium SVG API + canvas PNG conversion",
       "completed": [
-        1336,
-        1336,
-        1336
+        1338,
+        1338,
+        1338
       ],
       "failed": [
-        6,
-        6,
-        6
+        4,
+        4,
+        4
       ],
       "totalMs": [
-        55388.40000000177,
-        52891.89999999665,
-        53963.29999999702
+        49352.89999999828,
+        48806.69999999483,
+        50085.400000001304
       ],
-      "medianTotalMs": 53963.29999999702,
+      "medianTotalMs": 49352.89999999828,
       "runs": 3
     },
     {
@@ -16408,11 +16403,11 @@
         36
       ],
       "totalMs": [
-        369.2000000048429,
-        373.8000000012107,
-        380.40000000293367
+        370.3999999994412,
+        399.20000000530854,
+        411.7000000048429
       ],
-      "medianTotalMs": 373.8000000012107,
+      "medianTotalMs": 399.20000000530854,
       "runs": 3
     },
     {
@@ -16431,11 +16426,11 @@
         36
       ],
       "totalMs": [
-        7855.499999993015,
-        7836.199999998556,
-        7951
+        7580.199999992736,
+        7965.800000000745,
+        7884.499999995809
       ],
-      "medianTotalMs": 7855.499999993015,
+      "medianTotalMs": 7884.499999995809,
       "runs": 3
     },
     {
@@ -16454,11 +16449,11 @@
         228
       ],
       "totalMs": [
-        23725.36500000001,
-        23369.481000000025,
-        23952.076000000012
+        22172.354999999978,
+        22972.369999999948,
+        22836.498
       ],
-      "medianTotalMs": 23725.36500000001,
+      "medianTotalMs": 22836.498,
       "runs": 3
     }
   ],
@@ -16478,10 +16473,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 1338,
         "failed": 4,
-        "medianTotalMs": 3103.399999992922,
+        "medianTotalMs": 2868.6999999993714,
         "totalMsRange": [
-          2901.099999998347,
-          3124.599999997765
+          2611.7999999996973,
+          2941.199999998673
         ],
         "rank": 1
       },
@@ -16490,12 +16485,12 @@
         "version": "12.3.0",
         "format": "svg",
         "boundary": "Chromium public SVG API",
-        "completed": 1336,
-        "failed": 6,
-        "medianTotalMs": 35190.79999999236,
+        "completed": 1338,
+        "failed": 4,
+        "medianTotalMs": 30743.99999999581,
         "totalMsRange": [
-          34037.60000000126,
-          35602.19999999786
+          30405.89999999944,
+          32287.09999999916
         ],
         "rank": 2
       },
@@ -16506,10 +16501,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 298.29999999905704,
+        "medianTotalMs": 287.4999999993015,
         "totalMsRange": [
-          292.9999999992433,
-          306.59999999939464
+          266.89999999984866,
+          318.30000000068685
         ],
         "rank": 3
       },
@@ -16520,10 +16515,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 373.8000000012107,
+        "medianTotalMs": 399.20000000530854,
         "totalMsRange": [
-          369.2000000048429,
-          380.40000000293367
+          370.3999999994412,
+          411.7000000048429
         ],
         "rank": 4
       },
@@ -16534,10 +16529,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 651.3000000030734,
+        "medianTotalMs": 647.8000000026077,
         "totalMsRange": [
-          636.3999999985099,
-          702.9000000047963
+          557.2999999970198,
+          655.999999997206
         ],
         "rank": 5
       },
@@ -16548,10 +16543,10 @@
         "boundary": "native CLI svg; process startup included",
         "completed": 1304,
         "failed": 38,
-        "medianTotalMs": 12910.854651999893,
+        "medianTotalMs": 12647.694963999907,
         "totalMsRange": [
-          12600.780448000529,
-          13514.842465999653
+          11910.942402999208,
+          12662.527424001426
         ],
         "rank": 6
       },
@@ -16562,10 +16557,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 1181,
         "failed": 161,
-        "medianTotalMs": 1208.8999999999069,
+        "medianTotalMs": 1220.8999999999069,
         "totalMsRange": [
-          1195.2999999998137,
-          1230.5999999996275
+          1211.000000000553,
+          1334.100000000355
         ],
         "rank": 7
       },
@@ -16576,10 +16571,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 991.3000000005122,
+        "medianTotalMs": 963.5999999986379,
         "totalMsRange": [
-          986.9999999983702,
-          992.799999997369
+          911.2999999992317,
+          1031.5999999999185
         ],
         "rank": 8
       },
@@ -16590,10 +16585,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 1066,
         "failed": 276,
-        "medianTotalMs": 5985.499999999825,
+        "medianTotalMs": 5878.799999999988,
         "totalMsRange": [
-          5559.599999999162,
-          6369.000000000931
+          5045.7999999994645,
+          5887.600000000384
         ],
         "rank": 9
       },
@@ -16604,10 +16599,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 908,
         "failed": 434,
-        "medianTotalMs": 1841.2000000008848,
+        "medianTotalMs": 1959.5999999994528,
         "totalMsRange": [
-          1759.7999999981257,
-          1961.9999999998836
+          1876.2999999994063,
+          1971.1000000014901
         ],
         "rank": 10
       },
@@ -16618,10 +16613,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 700,
         "failed": 642,
-        "medianTotalMs": 20085.800000000745,
+        "medianTotalMs": 20616.40000000072,
         "totalMsRange": [
-          19877.499999998487,
-          20246.50000000326
+          20493.900000000605,
+          20935.49999999907
         ],
         "rank": 11
       },
@@ -16632,10 +16627,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 680,
         "failed": 662,
-        "medianTotalMs": 581.2999999978347,
+        "medianTotalMs": 595.8000000010943,
         "totalMsRange": [
-          555.899999998277,
-          607.599999999511
+          582.7000000003027,
+          607.9999999993015
         ],
         "rank": 12
       },
@@ -16646,10 +16641,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 513,
         "failed": 829,
-        "medianTotalMs": 1420.4000000036322,
+        "medianTotalMs": 1343.0999999979977,
         "totalMsRange": [
-          1292.0999999998603,
-          1522.8000000019092
+          1332.6999999999534,
+          1397.3000000023749
         ],
         "rank": 13
       },
@@ -16660,10 +16655,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 510,
         "failed": 832,
-        "medianTotalMs": 347.40000000130385,
+        "medianTotalMs": 383.89999999909196,
         "totalMsRange": [
-          334.40000000118744,
-          347.99999999895226
+          343.3999999995576,
+          391.30000000132713
         ],
         "rank": 14
       },
@@ -16674,10 +16669,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 396,
         "failed": 946,
-        "medianTotalMs": 117.10000000218861,
+        "medianTotalMs": 118.20000000076834,
         "totalMsRange": [
-          107.90000000072177,
-          118.80000000016298
+          117.10000000009313,
+          132.1000000006752
         ],
         "rank": 15
       },
@@ -16688,10 +16683,10 @@
         "boundary": "Chromium public SVG API",
         "completed": 384,
         "failed": 958,
-        "medianTotalMs": 237.20000000135042,
+        "medianTotalMs": 243.00000000162981,
         "totalMsRange": [
-          226.89999999827705,
-          249.2000000020489
+          231.7000000064727,
+          253.80000000540167
         ],
         "rank": 16
       }
@@ -16704,10 +16699,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1338,
         "failed": 4,
-        "medianTotalMs": 16255.40000000177,
+        "medianTotalMs": 14001.70000000426,
         "totalMsRange": [
-          16137.800000000745,
-          16706.79999999539
+          13670.2000000017,
+          15348.700000000652
         ],
         "pngPath": "trident-conversion",
         "rank": 1
@@ -16717,12 +16712,12 @@
         "version": "12.3.0",
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 1336,
-        "failed": 6,
-        "medianTotalMs": 53963.29999999702,
+        "completed": 1338,
+        "failed": 4,
+        "medianTotalMs": 49352.89999999828,
         "totalMsRange": [
-          52891.89999999665,
-          55388.40000000177
+          48806.69999999483,
+          50085.400000001304
         ],
         "pngPath": "trident-conversion",
         "rank": 2
@@ -16734,12 +16729,27 @@
         "boundary": "native CLI png; process startup included",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 29527.500532999344,
+        "medianTotalMs": 26908.48296299996,
         "totalMsRange": [
-          29375.23776900029,
-          29851.2905019999
+          26393.784189999977,
+          27341.541761999077
         ],
         "pngPath": "native",
+        "rank": 3
+      },
+      {
+        "project": "obsidianmd/pele",
+        "version": "1.13.0",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1306,
+        "failed": 36,
+        "medianTotalMs": 7446.800000005169,
+        "totalMsRange": [
+          7164.000000005122,
+          8161.500000000233
+        ],
+        "pngPath": "trident-conversion",
         "rank": 3
       },
       {
@@ -16749,10 +16759,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 7536.899999999965,
+        "medianTotalMs": 7868.7999999997555,
         "totalMsRange": [
-          7214.200000000885,
-          7833.599999999453
+          7785.400000000198,
+          8024.600000000035
         ],
         "pngPath": "trident-conversion",
         "rank": 3
@@ -16764,25 +16774,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1306,
         "failed": 36,
-        "medianTotalMs": 7855.499999993015,
+        "medianTotalMs": 7884.499999995809,
         "totalMsRange": [
-          7836.199999998556,
-          7951
-        ],
-        "pngPath": "trident-conversion",
-        "rank": 3
-      },
-      {
-        "project": "obsidianmd/pele",
-        "version": "1.13.0",
-        "format": "png",
-        "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 8250.300000000047,
-        "totalMsRange": [
-          7790.999999993946,
-          8311.000000000931
+          7580.199999992736,
+          7965.800000000745
         ],
         "pngPath": "trident-conversion",
         "rank": 3
@@ -16794,10 +16789,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1181,
         "failed": 161,
-        "medianTotalMs": 19087.900000000198,
+        "medianTotalMs": 16155.700000000623,
         "totalMsRange": [
-          18495.000000000204,
-          19329.699999999837
+          15793.800000000396,
+          17491.099999998987
         ],
         "pngPath": "trident-conversion",
         "rank": 7
@@ -16809,10 +16804,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 7719.200000000594,
+        "medianTotalMs": 8089.799999999523,
         "totalMsRange": [
-          7516.699999999604,
-          7901.999999999534
+          7896.2999999997555,
+          8124.300000000221
         ],
         "pngPath": "trident-conversion",
         "rank": 8
@@ -16824,10 +16819,10 @@
         "boundary": "native Flutter renderToPng API; app startup excluded",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 23725.36500000001,
+        "medianTotalMs": 22836.498,
         "totalMsRange": [
-          23369.481000000025,
-          23952.076000000012
+          22172.354999999978,
+          22972.369999999948
         ],
         "pngPath": "native",
         "rank": 9
@@ -16839,10 +16834,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1066,
         "failed": 276,
-        "medianTotalMs": 15130.799999998999,
+        "medianTotalMs": 13365.799999999464,
         "totalMsRange": [
-          13518.900000000605,
-          15447.400000000664
+          13181.599999999919,
+          13815.999999999884
         ],
         "pngPath": "trident-conversion",
         "rank": 10
@@ -16854,10 +16849,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 908,
         "failed": 434,
-        "medianTotalMs": 8882.2999999983,
+        "medianTotalMs": 8745.00000000163,
         "totalMsRange": [
-          7938.999999999534,
-          9400.0999999973
+          8519.099999999278,
+          8877.600000001607
         ],
         "pngPath": "trident-conversion",
         "rank": 11
@@ -16869,10 +16864,10 @@
         "boundary": "Chromium public PNG API",
         "completed": 700,
         "failed": 642,
-        "medianTotalMs": 27081.599999998696,
+        "medianTotalMs": 26793.39999999688,
         "totalMsRange": [
-          26604.10000000056,
-          27214.100000002538
+          26277.600000000908,
+          27161.999999998487
         ],
         "pngPath": "native",
         "rank": 12
@@ -16884,10 +16879,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 680,
         "failed": 662,
-        "medianTotalMs": 4121.899999998743,
+        "medianTotalMs": 3982.700000000652,
         "totalMsRange": [
-          4035.6999999983236,
-          4243.000000000931
+          3686.600000000559,
+          4574.100000002421
         ],
         "pngPath": "trident-conversion",
         "rank": 13
@@ -16899,10 +16894,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 513,
         "failed": 829,
-        "medianTotalMs": 3586.900000000838,
+        "medianTotalMs": 3680.3000000026077,
         "totalMsRange": [
-          3561.400000002235,
-          3834.799999997951
+          3654.9999999981374,
+          3844.6000000026543
         ],
         "pngPath": "trident-conversion",
         "rank": 14
@@ -16914,10 +16909,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 510,
         "failed": 832,
-        "medianTotalMs": 4078.8999999986263,
+        "medianTotalMs": 4108.200000000303,
         "totalMsRange": [
-          3974.9999999993015,
-          4109.500000002212
+          3775.299999998533,
+          4266.400000000955
         ],
         "pngPath": "trident-conversion",
         "rank": 15
@@ -16929,10 +16924,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 396,
         "failed": 946,
-        "medianTotalMs": 2164.000000001397,
+        "medianTotalMs": 2112.9999999993015,
         "totalMsRange": [
-          2128.2999999996973,
-          2209.3000000010943
+          2112.00000000163,
+          2121.899999997462
         ],
         "pngPath": "trident-conversion",
         "rank": 16
@@ -16944,10 +16939,10 @@
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 384,
         "failed": 958,
-        "medianTotalMs": 5624.399999997113,
+        "medianTotalMs": 5518.99999999837,
         "totalMsRange": [
-          5621.100000003586,
-          5707.700000000186
+          5466.099999997299,
+          6131.599999997998
         ],
         "pngPath": "trident-conversion",
         "rank": 17

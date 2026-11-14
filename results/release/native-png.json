@@ -1366,7 +1366,7 @@
     "platform": "linux",
     "architecture": "x64",
     "kernel": "6.18.44-fc-v470",
-    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
     "parallelism": 4,
     "memoryBytes": 16869146624,
     "cgroup": {},
@@ -1412,8 +1412,8 @@
       "mode": "release"
     }
   ],
-  "startedAt": "2026-11-14T00:32:15.858Z",
-  "updatedAt": "2026-11-14T00:34:00.942Z",
+  "startedAt": "2026-11-14T13:22:54.541Z",
+  "updatedAt": "2026-11-14T13:24:32.149Z",
   "corpus": {
     "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
     "occurrences": 1342,
@@ -1517,7 +1517,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 23725.36500000001,
+      "totalMs": 22172.354999999978,
       "invalid": 0,
       "invalidReasons": {},
       "failures": {
@@ -1539,7 +1539,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 23369.481000000025,
+      "totalMs": 22972.369999999948,
       "invalid": 0,
       "invalidReasons": {},
       "failures": {
@@ -1561,7 +1561,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 23952.076000000012,
+      "totalMs": 22836.498,
       "invalid": 0,
       "invalidReasons": {},
       "failures": {
@@ -1582,10 +1582,10 @@
         "boundary": "native Flutter renderToPng API; app startup excluded",
         "completed": 1114,
         "failed": 228,
-        "medianTotalMs": 23725.36500000001,
+        "medianTotalMs": 22836.498,
         "totalMsRange": [
-          23369.481000000025,
-          23952.076000000012
+          22172.354999999978,
+          22972.369999999948
         ],
         "pngPath": "native",
         "rank": 1

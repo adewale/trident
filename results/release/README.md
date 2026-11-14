@@ -2,8 +2,8 @@
 
 All three benchmarks were recollected for Trident 0.4.0 against the
 [14 November product freeze](../../docs/evidence/benchmark-campaign-2026-11-14/catalog.json)
-and Mermaid 12.3.0, on the harness that includes the review fixes listed in
-[CHANGELOG.md](../../CHANGELOG.md). The
+and Mermaid 12.3.0, on the harness that includes the review fixes and the later DaveBench, Drawing
+and Fidelity changes listed in [CHANGELOG.md](../../CHANGELOG.md). The
 [release collection receipt](../../docs/evidence/release-0.4.0/collection.json)
 records the code commit, collection windows, populations, the assessing machine's
 font list and numeric-file hashes. DaveBench admission, Drawing's label and
@@ -19,9 +19,10 @@ remains at its tag.
 | Mermaid Fidelity, <!-- fact:fidelity-files -->352<!-- /fact --> original test files | [Results](mermaid-fidelity.json) | <!-- fact:fidelity-collected -->14 November 2026<!-- /fact --> |
 
 Timing collectors ran serially before Drawing and Fidelity on one Linux x64 host
-with 4 CPUs, with no other benchmark, build or test job running. A first attempt
-was interrupted by a container restart during native PNG collection; its partial
-output was discarded and the whole campaign restarted from the first step. Every format has three complete repeats;
+with 4 CPUs, with no other benchmark, build or test job running. Fidelity's Node
+run was stopped once by the session's background time limit; its partial output
+was set aside and Node collection restarted in a fresh directory. No timing
+collector was affected. Every format has three complete repeats;
 153 runs account for 205,326 measured calls, with no blocked lanes or missing API
 durations. Timings apply to the recorded machine, resource limits and API/CLI
 boundaries. Timing collectors discard rendered outputs; Drawing retains every
@@ -95,12 +96,13 @@ bun commands.ts davebench --catalog CATALOG --upstream UPSTREAM --prepared artif
 bun commands.ts davebench:terminal --catalog CATALOG --upstream UPSTREAM --prepared artifacts/community-prepared.json --out terminal
 # After all timings finish, collect drawing and parser evidence.
 bun commands.ts drawing:correctness --catalog CATALOG --prepared artifacts/community-browser-prepared.json --terminal-prepared artifacts/community-prepared.json --out drawing
+bun commands.ts drawing:structure --run drawing --out structure
 TRIDENT_FIDELITY_ENVIRONMENT=jsdom bun commands.ts mermaid:fidelity --upstream UPSTREAM --reference ORACLE --runtime RUNTIME --prepared artifacts/community-prepared.json --catalog CATALOG --workers 2 --out fidelity-jsdom
 TRIDENT_FIDELITY_ENVIRONMENT=node bun commands.ts mermaid:fidelity --upstream UPSTREAM --reference ORACLE --runtime RUNTIME --prepared artifacts/community-prepared.json --catalog CATALOG --reuse-reference fidelity-jsdom --workers 2 --out fidelity-node
 bun scripts/qualify-dom-free.ts fidelity-jsdom fidelity-node 2086904e76c692331e34a45d7cc3bc30860d040e dom-free-qualified.json
 cp dom-free-qualified.json unified/mermaid-fidelity/dom-free-files.json
 bun commands.ts mermaid:fidelity --upstream UPSTREAM --reference ORACLE --runtime RUNTIME --prepared artifacts/community-prepared.json --catalog CATALOG --reuse-reference fidelity-jsdom --projects emtyty/merslim --workers 2 --out fidelity-auto
-bun scripts/merge-drawing-results.ts --run drawing --out drawing-correctness.json
+bun scripts/merge-drawing-results.ts --run drawing --out drawing-correctness.json --obligations structure/obligations.json --reviews docs/evidence/drawing-reviews-2026-11-14
 bun scripts/merge-fidelity-runs.ts --catalog CATALOG --out mermaid-fidelity.json fidelity-jsdom
 bun commands.ts campaign:results --images images/results.json --terminal terminal/results.json --native-png native-png/results.json --out report
 # Publish the fresh numeric files, then regenerate tables and quoted facts.
@@ -110,7 +112,7 @@ bun commands.ts results:snapshot
 ## Retained Drawing capture
 
 The current [capture archive](captures/drawing-capture-2026-11-14.tar.gz?raw=true) is
-4,101,285 bytes, with SHA-256 `e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64`.
+4,101,006 bytes, with SHA-256 `70aa917d5abfb4f419787846b966366b39462456e575723018775530e9ae7d37`.
 It contains the complete raw run and all 3,703 returned SVG/terminal outputs,
 stored as 3,456 compressed objects. The other 615 calls returned renderer
 failures. The capture was assessed with label policy `drawing-reviewed-labels-v3`

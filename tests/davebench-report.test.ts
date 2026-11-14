@@ -88,13 +88,13 @@ test('the renderer lists reference-rejected inputs and tabulates each format by 
 test('the published 0.4.0 report: Mermaid rejects four inputs and no project is credited for them', () => {
   const report = JSON.parse(readFileSync(join(import.meta.dir, '../results/release/report.json'), 'utf8'))
   expect(referenceRejectedInputs(report)).toEqual([
-    { id: 'docs/config/8.6.0_docs.md:82', error: 'Parse error on line N:' },
-    { id: 'docs/config/8.6.0_docs.md:94', error: 'Parse error on line N:' },
+    { id: 'docs/config/8.6.0_docs.md:82', error: 'Parse error on line 10:' },
+    { id: 'docs/config/8.6.0_docs.md:94', error: 'Parse error on line 10:' },
     { id: 'docs/config/directives.md:100', error: 'No diagram type detected matching given configuration for text: ' },
     { id: 'docs/config/directives.md:106', error: 'No diagram type detected matching given configuration for text: ' },
   ])
   const svg = acceptedCompletion(report, 'svg')
-  expect(svg.rows.slice(0, 2).map(row => [row.project, row.completed, row.accepted])).toEqual([['Latias94/merman', 1338, 1338], ['mermaid-js/mermaid', 1336, 1338]])
+  expect(svg.rows.slice(0, 2).map(row => [row.project, row.completed, row.accepted])).toEqual([['Latias94/merman', 1338, 1338], ['mermaid-js/mermaid', 1338, 1338]])
   const franken = acceptedCompletion(report, 'terminal').rows.find(row => row.project === 'Dicklesworthstone/frankenmermaid')!
   expect([franken.completed, franken.currentCompleted, franken.referenceRejectedRendered.length]).toEqual([1334, 1338, 4])
 })

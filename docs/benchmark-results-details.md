@@ -99,7 +99,7 @@ candidate's module exposes no parser for a family (ER, class, C4, state or agent
 for Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH Mermaid
 GB SVG and MermaidTUI), those tests are recorded as unsupported, an operation the
 candidate does not offer; current scoring counts them as unassessed, like
-Trident gaps. Across all applicable candidates, <!-- fact:fidelity-gaps -->67,466<!-- /fact --> tests
+Trident gaps. Across all applicable candidates, <!-- fact:fidelity-gaps -->66,987<!-- /fact --> tests
 remain unassessed. Some candidates are called in-process through
 their JavaScript modules (generic native bindings, native model schema views and
 the Frankenmermaid WASM binding). The others run through parser bridges, one per

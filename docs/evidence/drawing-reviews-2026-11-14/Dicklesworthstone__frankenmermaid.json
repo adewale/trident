@@ -4,7 +4,7 @@
   "version": "0.5.0",
   "capture": {
     "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
-    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+    "sha256": "70aa917d5abfb4f419787846b966366b39462456e575723018775530e9ae7d37"
   },
   "reviewedAt": "2026-11-14",
   "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
@@ -17,11 +17,11 @@
       "aspect": "labels",
       "mechanical": "incorrect",
       "verdict": "drawn-correctly",
-      "reason": "Screenshot: the single node shows the ⚠️ emoji on one line and 'warn' on the next inside its box, so the whole label '⚠️ warn' is visible in reading order.",
+      "reason": "Screenshot: the single node shows the \u26a0\ufe0f emoji on one line and 'warn' on the next inside its box, so the whole label '\u26a0\ufe0f warn' is visible in reading order.",
       "method": "svg-screenshot",
       "candidateObserverDefect": {
         "observer": "svg-label-observer (visible-authored-labels)",
-        "evidence": "The node holds <text class=\"fm-node-icon-emoji\">⚠️</text> at y=72.77 and <text>warn</text> at y=111.62, both visible, and the observer counted 0 occurrences of '⚠️ warn' (failed). The identically structured 🎉 / Party node in drawing:48d7ff23dee1b343 from the same renderer was left unknown, not failed."
+        "evidence": "The node holds <text class=\"fm-node-icon-emoji\">\u26a0\ufe0f</text> at y=72.77 and <text>warn</text> at y=111.62, both visible, and the observer counted 0 occurrences of '\u26a0\ufe0f warn' (failed). The identically structured \ud83c\udf89 / Party node in drawing:48d7ff23dee1b343 from the same renderer was left unknown, not failed."
       }
     },
     {
@@ -32,7 +32,7 @@
       "aspect": "relationships",
       "mechanical": "unassessed",
       "verdict": "drawn-correctly",
-      "reason": "Screenshot: one arrow runs from Start down to End, with the caption '日本語ラベル' on it.",
+      "reason": "Screenshot: one arrow runs from Start down to End, with the caption '\u65e5\u672c\u8a9e\u30e9\u30d9\u30eb' on it.",
       "method": "svg-screenshot"
     },
     {
@@ -120,7 +120,7 @@
       "aspect": "labels",
       "mechanical": "unknown",
       "verdict": "drawn-correctly",
-      "reason": "Screenshot shows the five Japanese node labels and both edge captions ('支払い済み', '😀 emoji label'), with each caption on a white plate above the routes.",
+      "reason": "Screenshot shows the five Japanese node labels and both edge captions ('\u652f\u6255\u3044\u6e08\u307f', '\ud83d\ude00 emoji label'), with each caption on a white plate above the routes.",
       "method": "svg-screenshot"
     },
     {
@@ -142,7 +142,7 @@
       "aspect": "labels",
       "mechanical": "incorrect",
       "verdict": "confirmed-failure",
-      "reason": "Screenshot: only the journey title '私の一日の / 流れ' is drawn; no sections, tasks or actors appear.",
+      "reason": "Screenshot: only the journey title '\u79c1\u306e\u4e00\u65e5\u306e / \u6d41\u308c' is drawn; no sections, tasks or actors appear.",
       "method": "svg-screenshot"
     },
     {
@@ -164,7 +164,7 @@
       "aspect": "labels",
       "mechanical": "unknown",
       "verdict": "drawn-correctly",
-      "reason": "Screenshot shows CUSTOMER, ORDER with 'int id', and the caption 'places ❤️' (colour emoji) beside the relationship.",
+      "reason": "Screenshot shows CUSTOMER, ORDER with 'int id', and the caption 'places \u2764\ufe0f' (colour emoji) beside the relationship.",
       "method": "svg-screenshot"
     },
     {

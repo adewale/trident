@@ -1353,9 +1353,19 @@
       "docs/syntax/gantt.md:380",
       "docs/syntax/gantt.md:386"
     ],
-    "emptyOutputUnreviewed": 245
+    "emptyOutputUnreviewed": 245,
+    "referenceRejected": {
+      "docs/config/8.6.0_docs.md:82": "Parse error on line 10:",
+      "docs/config/8.6.0_docs.md:94": "Parse error on line 10:",
+      "docs/config/directives.md:100": "No diagram type detected matching given configuration for text: ",
+      "docs/config/directives.md:106": "No diagram type detected matching given configuration for text: "
+    }
   },
   "status": "davebench-only",
+  "credit": {
+    "basis": "reference-accepted",
+    "inputs": 1338
+  },
   "scope": "full",
   "plans": {
     "images": {
@@ -4322,8 +4332,8 @@
   },
   "collection": {
     "images": {
-      "startedAt": "2026-11-14T00:34:36.230Z",
-      "finishedAt": "2026-11-14T00:58:35.926Z",
+      "startedAt": "2026-11-14T13:25:10.955Z",
+      "finishedAt": "2026-11-14T13:47:29.596Z",
       "environment": {
         "engine": "bun",
         "version": "1.4.4",
@@ -4331,7 +4341,7 @@
         "platform": "linux",
         "architecture": "x64",
         "kernel": "6.18.44-fc-v470",
-        "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+        "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
         "parallelism": 4,
         "memoryBytes": 16869146624,
         "cgroup": {},
@@ -4352,6 +4362,7 @@
         "timeoutMs": 15000,
         "outputsRetained": false,
         "outputsAssessed": false,
+        "externalRequests": "Offline: external image requests receive a fixed 1x1 transparent PNG; all other external requests are refused",
         "admission": "A call completes only when it returns without error and its output passes mechanical admission after the clock stops: SVG must parse the way a browser displays it (as an SVG document, or embedded in an HTML page, where the HTML parser must yield exactly one SVG element) to an SVG namespace root with finite positive size; strict-XML validity is reported separately and does not affect completion; PNG must contain complete decodable image data with positive dimensions; terminal text must be non-empty after removing control sequences. An output that draws nothing (SVG: no painted shape with geometry and no visible text; terminal: nothing left after removing whitespace, control sequences and blank braille U+2800) is admitted only when the reviewed source draws nothing (configuration-only), and rejected when the reviewed source draws something; for inputs whose source bytes have no review, an empty sized SVG stays admitted and empty terminal text stays rejected. Error placeholders (aria-roledescription=\"error\"), outputs led by a renderer error phrase absent from the source, and terminal text that only echoes the source are failures. A cheap meaning check then rejects fallback renders: drawn SVG text or terminal text that shows the source header line verbatim, or at least three and at least half of its syntax-bearing statements (arrows, shape brackets, key: value fields), was drawn from the source text rather than from an understood diagram. Native PNG bytes are not read for text, so the check covers PNG only when it is converted from the candidate SVG. Whether the drawing is correct is judged by Drawing Correctness; outputs are not retained.",
         "admissionProfile": "davebench-public-api-admission-v3",
         "elapsed": "Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.",
@@ -4360,8 +4371,8 @@
       }
     },
     "terminal": {
-      "startedAt": "2026-11-14T00:58:51.598Z",
-      "finishedAt": "2026-11-14T01:14:57.431Z",
+      "startedAt": "2026-11-14T13:47:48.965Z",
+      "finishedAt": "2026-11-14T14:02:36.252Z",
       "environment": {
         "engine": "bun",
         "version": "1.4.4",
@@ -4369,7 +4380,7 @@
         "platform": "linux",
         "architecture": "x64",
         "kernel": "6.18.44-fc-v470",
-        "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+        "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
         "parallelism": 4,
         "memoryBytes": 16869146624,
         "cgroup": {},
@@ -4421,7 +4432,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 1208.8999999999069,
+      "totalMs": 1334.100000000355,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -4609,7 +4620,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 1195.2999999998137,
+      "totalMs": 1211.000000000553,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -4797,7 +4808,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 1230.5999999996275,
+      "totalMs": 1220.8999999999069,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -4986,7 +4997,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 18495.000000000204,
+      "totalMs": 16155.700000000623,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -5175,7 +5186,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 19087.900000000198,
+      "totalMs": 17491.099999998987,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -5364,7 +5375,7 @@
       "completed": 1181,
       "failed": 161,
       "timeouts": 0,
-      "totalMs": 19329.699999999837,
+      "totalMs": 15793.800000000396,
       "invalid": 161,
       "invalidReasons": {
         "fallback render": 157,
@@ -5552,7 +5563,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 298.29999999905704,
+      "totalMs": 318.30000000068685,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5577,7 +5588,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 306.59999999939464,
+      "totalMs": 266.89999999984866,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5602,7 +5613,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 292.9999999992433,
+      "totalMs": 287.4999999993015,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5628,7 +5639,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7833.599999999453,
+      "totalMs": 7785.400000000198,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5654,7 +5665,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7536.899999999965,
+      "totalMs": 8024.600000000035,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5680,7 +5691,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7214.200000000885,
+      "totalMs": 7868.7999999997555,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5705,7 +5716,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 992.799999997369,
+      "totalMs": 911.2999999992317,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5766,7 +5777,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 991.3000000005122,
+      "totalMs": 963.5999999986379,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5827,7 +5838,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 986.9999999983702,
+      "totalMs": 1031.5999999999185,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5889,7 +5900,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 7901.999999999534,
+      "totalMs": 7896.2999999997555,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -5951,7 +5962,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 7516.699999999604,
+      "totalMs": 8124.300000000221,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6013,7 +6024,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 7719.200000000594,
+      "totalMs": 8089.799999999523,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6074,7 +6085,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 6369.000000000931,
+      "totalMs": 5878.799999999988,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6125,7 +6136,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 5985.499999999825,
+      "totalMs": 5045.7999999994645,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6176,7 +6187,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 5559.599999999162,
+      "totalMs": 5887.600000000384,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6228,7 +6239,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 13518.900000000605,
+      "totalMs": 13365.799999999464,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6280,7 +6291,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 15447.400000000664,
+      "totalMs": 13181.599999999919,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6332,7 +6343,7 @@
       "completed": 1066,
       "failed": 276,
       "timeouts": 0,
-      "totalMs": 15130.799999998999,
+      "totalMs": 13815.999999999884,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6383,7 +6394,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 1841.2000000008848,
+      "totalMs": 1959.5999999994528,
       "invalid": 14,
       "invalidReasons": {
         "zero-size SVG": 14
@@ -6473,7 +6484,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 1759.7999999981257,
+      "totalMs": 1876.2999999994063,
       "invalid": 14,
       "invalidReasons": {
         "zero-size SVG": 14
@@ -6563,7 +6574,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 1961.9999999998836,
+      "totalMs": 1971.1000000014901,
       "invalid": 14,
       "invalidReasons": {
         "zero-size SVG": 14
@@ -6654,7 +6665,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 8882.2999999983,
+      "totalMs": 8877.600000001607,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6728,7 +6739,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 7938.999999999534,
+      "totalMs": 8745.00000000163,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6802,7 +6813,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 9400.0999999973,
+      "totalMs": 8519.099999999278,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -6875,7 +6886,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 13514.842465999653,
+      "totalMs": 12662.527424001426,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -6909,7 +6920,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 12600.780448000529,
+      "totalMs": 11910.942402999208,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -6943,7 +6954,7 @@
       "completed": 1304,
       "failed": 38,
       "timeouts": 0,
-      "totalMs": 12910.854651999893,
+      "totalMs": 12647.694963999907,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -6978,7 +6989,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 29375.23776900029,
+      "totalMs": 27341.541761999077,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -7004,7 +7015,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 29527.500532999344,
+      "totalMs": 26393.784189999977,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -7030,7 +7041,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 29851.2905019999,
+      "totalMs": 26908.48296299996,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -7055,7 +7066,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 334.40000000118744,
+      "totalMs": 383.89999999909196,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -7111,7 +7122,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 347.40000000130385,
+      "totalMs": 391.30000000132713,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -7167,7 +7178,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 347.99999999895226,
+      "totalMs": 343.3999999995576,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -7224,7 +7235,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 4078.8999999986263,
+      "totalMs": 3775.299999998533,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -7281,7 +7292,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 4109.500000002212,
+      "totalMs": 4266.400000000955,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -7338,7 +7349,7 @@
       "completed": 510,
       "failed": 832,
       "timeouts": 0,
-      "totalMs": 3974.9999999993015,
+      "totalMs": 4108.200000000303,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -7394,7 +7405,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 19877.499999998487,
+      "totalMs": 20493.900000000605,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -7417,7 +7428,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 20085.800000000745,
+      "totalMs": 20935.49999999907,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -7440,7 +7451,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 20246.50000000326,
+      "totalMs": 20616.40000000072,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -7464,7 +7475,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 26604.10000000056,
+      "totalMs": 26277.600000000908,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -7486,7 +7497,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 27081.599999998696,
+      "totalMs": 27161.999999998487,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -7508,7 +7519,7 @@
       "completed": 700,
       "failed": 642,
       "timeouts": 0,
-      "totalMs": 27214.100000002538,
+      "totalMs": 26793.39999999688,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -7529,7 +7540,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 555.899999998277,
+      "totalMs": 582.7000000003027,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -7871,7 +7882,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 607.599999999511,
+      "totalMs": 607.9999999993015,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -8213,7 +8224,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 581.2999999978347,
+      "totalMs": 595.8000000010943,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -8556,7 +8567,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 4121.899999998743,
+      "totalMs": 4574.100000002421,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -8899,7 +8910,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 4035.6999999983236,
+      "totalMs": 3982.700000000652,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -9242,7 +9253,7 @@
       "completed": 680,
       "failed": 662,
       "timeouts": 0,
-      "totalMs": 4243.000000000931,
+      "totalMs": 3686.600000000559,
       "invalid": 2,
       "invalidReasons": {
         "fallback render": 2
@@ -9584,7 +9595,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 107.90000000072177,
+      "totalMs": 132.1000000006752,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -9614,7 +9625,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 117.10000000218861,
+      "totalMs": 118.20000000076834,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -9644,7 +9655,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 118.80000000016298,
+      "totalMs": 117.10000000009313,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -9675,7 +9686,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 2164.000000001397,
+      "totalMs": 2112.9999999993015,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -9706,7 +9717,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 2128.2999999996973,
+      "totalMs": 2112.00000000163,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -9737,7 +9748,7 @@
       "completed": 396,
       "failed": 946,
       "timeouts": 0,
-      "totalMs": 2209.3000000010943,
+      "totalMs": 2121.899999997462,
       "invalid": 2,
       "invalidReasons": {
         "draws nothing": 2
@@ -9767,7 +9778,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 2901.099999998347,
+      "totalMs": 2611.7999999996973,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9792,7 +9803,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3124.599999997765,
+      "totalMs": 2868.6999999993714,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9817,7 +9828,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3103.399999992922,
+      "totalMs": 2941.199999998673,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9843,7 +9854,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 16137.800000000745,
+      "totalMs": 13670.2000000017,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9869,7 +9880,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 16255.40000000177,
+      "totalMs": 14001.70000000426,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9895,7 +9906,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 16706.79999999539,
+      "totalMs": 15348.700000000652,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -9920,7 +9931,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1420.4000000036322,
+      "totalMs": 1332.6999999999534,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -10070,7 +10081,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1292.0999999998603,
+      "totalMs": 1397.3000000023749,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -10220,7 +10231,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 1522.8000000019092,
+      "totalMs": 1343.0999999979977,
       "invalid": 24,
       "invalidReasons": {
         "zero-size SVG": 24
@@ -10371,7 +10382,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3586.900000000838,
+      "totalMs": 3844.6000000026543,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10495,7 +10506,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3561.400000002235,
+      "totalMs": 3680.3000000026077,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10619,7 +10630,7 @@
       "completed": 513,
       "failed": 829,
       "timeouts": 0,
-      "totalMs": 3834.799999997951,
+      "totalMs": 3654.9999999981374,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10742,7 +10753,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 702.9000000047963,
+      "totalMs": 655.999999997206,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10767,7 +10778,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 636.3999999985099,
+      "totalMs": 557.2999999970198,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10792,7 +10803,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 651.3000000030734,
+      "totalMs": 647.8000000026077,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10818,7 +10829,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7790.999999993946,
+      "totalMs": 7446.800000005169,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10844,7 +10855,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 8311.000000000931,
+      "totalMs": 8161.500000000233,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10870,7 +10881,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 8250.300000000047,
+      "totalMs": 7164.000000005122,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -10895,7 +10906,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 249.2000000020489,
+      "totalMs": 253.80000000540167,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -11879,7 +11890,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 226.89999999827705,
+      "totalMs": 231.7000000064727,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -12863,7 +12874,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 237.20000000135042,
+      "totalMs": 243.00000000162981,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -13848,7 +13859,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 5624.399999997113,
+      "totalMs": 5518.99999999837,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -14833,7 +14844,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 5707.700000000186,
+      "totalMs": 6131.599999997998,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -15818,7 +15829,7 @@
       "completed": 384,
       "failed": 958,
       "timeouts": 0,
-      "totalMs": 5621.100000003586,
+      "totalMs": 5466.099999997299,
       "invalid": 956,
       "invalidReasons": {
         "fallback render": 956
@@ -16799,21 +16810,19 @@
       "boundary": "Chromium public SVG API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 34037.60000000126,
+      "totalMs": 30405.89999999944,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -16830,21 +16839,19 @@
       "boundary": "Chromium public SVG API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 35602.19999999786,
+      "totalMs": 32287.09999999916,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -16861,21 +16868,19 @@
       "boundary": "Chromium public SVG API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 35190.79999999236,
+      "totalMs": 30743.99999999581,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -16893,21 +16898,19 @@
       "boundaryKind": "persistent-api",
       "pngPath": "trident-conversion",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 55388.40000000177,
+      "totalMs": 49352.89999999828,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -16925,21 +16928,19 @@
       "boundaryKind": "persistent-api",
       "pngPath": "trident-conversion",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 52891.89999999665,
+      "totalMs": 48806.69999999483,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -16957,21 +16958,19 @@
       "boundaryKind": "persistent-api",
       "pngPath": "trident-conversion",
       "attempted": 1342,
-      "completed": 1336,
-      "failed": 6,
+      "completed": 1338,
+      "failed": 4,
       "timeouts": 0,
-      "totalMs": 53963.29999999702,
+      "totalMs": 50085.400000001304,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
         "Parse error on line N:": 2,
-        "No diagram type detected matching given configuration for text: ": 2,
-        "The source image cannot be decoded.": 2
+        "No diagram type detected matching given configuration for text: ": 2
       },
       "failures": {
         "error: Parse error on line N:": "11-12",
-        "error: No diagram type detected matching given configuration for text: ": "41-42",
-        "error: The source image cannot be decoded.": "665-666"
+        "error: No diagram type detected matching given configuration for text: ": "41-42"
       },
       "strictXmlInvalid": 62,
       "strictXmlReasons": {
@@ -16991,7 +16990,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 369.2000000048429,
+      "totalMs": 370.3999999994412,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17016,7 +17015,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 373.8000000012107,
+      "totalMs": 399.20000000530854,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17041,7 +17040,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 380.40000000293367,
+      "totalMs": 411.7000000048429,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17067,7 +17066,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7855.499999993015,
+      "totalMs": 7580.199999992736,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17093,7 +17092,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7836.199999998556,
+      "totalMs": 7965.800000000745,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17119,7 +17118,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 7951,
+      "totalMs": 7884.499999995809,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17145,7 +17144,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 23725.36500000001,
+      "totalMs": 22172.354999999978,
       "invalid": 0,
       "invalidReasons": {},
       "failures": {
@@ -17167,7 +17166,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 23369.481000000025,
+      "totalMs": 22972.369999999948,
       "invalid": 0,
       "invalidReasons": {},
       "failures": {
@@ -17189,7 +17188,7 @@
       "completed": 1114,
       "failed": 228,
       "timeouts": 0,
-      "totalMs": 23952.076000000012,
+      "totalMs": 22836.498,
       "invalid": 0,
       "invalidReasons": {},
       "failures": {
@@ -17210,7 +17209,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 6630.694166000001,
+      "totalMs": 6614.405550000003,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17257,7 +17256,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 6649.236004999993,
+      "totalMs": 6068.942187000005,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17304,7 +17303,7 @@
       "completed": 1068,
       "failed": 274,
       "timeouts": 0,
-      "totalMs": 6744.074746000008,
+      "totalMs": 5718.771537999991,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17351,7 +17350,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 13969.88118500002,
+      "totalMs": 11899.026262000036,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17504,7 +17503,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 13675.787144000009,
+      "totalMs": 11833.163229999765,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17657,7 +17656,7 @@
       "completed": 401,
       "failed": 941,
       "timeouts": 0,
-      "totalMs": 13618.592982999791,
+      "totalMs": 13086.819165000212,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17810,7 +17809,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 890.4189770000029,
+      "totalMs": 859.0480199999989,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17831,7 +17830,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 843.656469,
+      "totalMs": 858.0971949999996,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17852,7 +17851,7 @@
       "completed": 254,
       "failed": 1088,
       "timeouts": 0,
-      "totalMs": 911.9305589999974,
+      "totalMs": 848.995774,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -17873,7 +17872,7 @@
       "completed": 536,
       "failed": 806,
       "timeouts": 0,
-      "totalMs": 331.52847300000036,
+      "totalMs": 241.00312900000074,
       "invalid": 44,
       "invalidReasons": {
         "draws nothing": 42,
@@ -17945,7 +17944,7 @@
       "completed": 536,
       "failed": 806,
       "timeouts": 0,
-      "totalMs": 329.92720999999926,
+      "totalMs": 259.02268700000076,
       "invalid": 44,
       "invalidReasons": {
         "draws nothing": 42,
@@ -18017,7 +18016,7 @@
       "completed": 536,
       "failed": 806,
       "timeouts": 0,
-      "totalMs": 343.9751750000017,
+      "totalMs": 248.42640400000082,
       "invalid": 44,
       "invalidReasons": {
         "draws nothing": 42,
@@ -18089,7 +18088,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 2155.513935000004,
+      "totalMs": 1920.8320080000005,
       "invalid": 14,
       "invalidReasons": {
         "draws nothing": 14
@@ -18177,7 +18176,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 2296.407252000002,
+      "totalMs": 1976.6080270000139,
       "invalid": 14,
       "invalidReasons": {
         "draws nothing": 14
@@ -18265,7 +18264,7 @@
       "completed": 908,
       "failed": 434,
       "timeouts": 0,
-      "totalMs": 2299.087292999993,
+      "totalMs": 1953.5497629999911,
       "invalid": 14,
       "invalidReasons": {
         "draws nothing": 14
@@ -18353,7 +18352,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3698.216134000162,
+      "totalMs": 3104.4053980001045,
       "invalid": 4,
       "invalidReasons": {
         "draws nothing": 4
@@ -18380,7 +18379,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3721.9365230000985,
+      "totalMs": 2992.303603999666,
       "invalid": 4,
       "invalidReasons": {
         "draws nothing": 4
@@ -18407,7 +18406,7 @@
       "completed": 1338,
       "failed": 4,
       "timeouts": 0,
-      "totalMs": 3762.0990559997153,
+      "totalMs": 2968.172301000144,
       "invalid": 4,
       "invalidReasons": {
         "draws nothing": 4
@@ -18434,7 +18433,7 @@
       "completed": 540,
       "failed": 802,
       "timeouts": 0,
-      "totalMs": 738.022873999996,
+      "totalMs": 572.9756510000017,
       "invalid": 160,
       "invalidReasons": {
         "draws nothing": 160
@@ -18620,7 +18619,7 @@
       "completed": 540,
       "failed": 802,
       "timeouts": 0,
-      "totalMs": 702.3784579999967,
+      "totalMs": 532.6620660000021,
       "invalid": 160,
       "invalidReasons": {
         "draws nothing": 160
@@ -18806,7 +18805,7 @@
       "completed": 540,
       "failed": 802,
       "timeouts": 0,
-      "totalMs": 641.5376729999992,
+      "totalMs": 549.128741000003,
       "invalid": 160,
       "invalidReasons": {
         "draws nothing": 160
@@ -18989,27 +18988,33 @@
       "boundary": "persistent Python public terminal API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1288,
-      "failed": 54,
+      "completed": 1242,
+      "failed": 100,
       "timeouts": 0,
-      "totalMs": 2137.661243999446,
-      "invalid": 54,
+      "totalMs": 1674.6502220021284,
+      "invalid": 100,
       "invalidReasons": {
-        "draws nothing": 28,
-        "fallback render": 26
+        "fallback render": 72,
+        "draws nothing": 28
       },
       "errorReasons": {},
       "failures": {
-        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305",
-        "invalid: fallback render": "167-168,257-260,269-270,877-880,887-888,938-939,1212-1213,1250-1251,1254-1257,1326-1327"
+        "invalid: fallback render": "27-28,167-170,239-240,257-260,269-270,515-518,877-880,887-888,938-945,948-951,1212-1213,1216-1217,1250-1251,1254-1257,1310-1311,1314-1321,1324-1329,1332-1341",
+        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305"
       },
       "rejected": {
+        "docs/config/accessibility.md:322": "fallback render: source lines boxed",
+        "docs/config/accessibility.md:342": "fallback render: source lines boxed",
         "docs/config/directives.md:100": "draws nothing",
         "docs/config/directives.md:106": "draws nothing",
         "docs/intro/syntax-reference.md:91": "draws nothing",
         "docs/intro/syntax-reference.md:107": "draws nothing",
         "docs/syntax/all-examples.md:977": "fallback render: 4 of 4 source statements shown",
         "docs/syntax/all-examples.md:1003": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/all-examples.md:1034": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:1085": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2723": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2740": "fallback render: source lines boxed",
         "docs/syntax/all-examples.md:3084": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3120": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3157": "fallback render: 3 of 5 source statements shown",
@@ -19034,6 +19039,10 @@
         "docs/syntax/entityRelationshipDiagram.md:789": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:839": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:857": "draws nothing",
+        "docs/syntax/eventmodeling.md:311": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:319": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:331": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:341": "fallback render: source lines boxed",
         "docs/syntax/mindmap.md:185": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:202": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:225": "fallback render: 5 of 5 source statements shown",
@@ -19042,10 +19051,22 @@
         "docs/syntax/mindmap.md:381": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/railroad.md:373": "fallback render: 6 of 12 source statements shown",
         "docs/syntax/railroad.md:399": "fallback render: 6 of 12 source statements shown",
+        "docs/syntax/requirementDiagram.md:13": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:30": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:57": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:78": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:104": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:131": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:259": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:329": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:410": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:429": "fallback render: source lines boxed",
         "docs/syntax/stateDiagram.md:188": "draws nothing",
         "docs/syntax/stateDiagram.md:193": "draws nothing",
         "docs/syntax/usecase.md:385": "fallback render: 4 of 7 source statements shown",
         "docs/syntax/usecase.md:400": "fallback render: 4 of 7 source statements shown",
+        "docs/syntax/usecase.md:437": "fallback render: source lines boxed",
+        "docs/syntax/usecase.md:450": "fallback render: source lines boxed",
         "docs/syntax/venn.md:159": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:166": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:211": "fallback render: 3 of 5 source statements shown",
@@ -19056,8 +19077,32 @@
         "docs/syntax/xyChart.md:115": "draws nothing",
         "docs/syntax/xyChart.md:309": "draws nothing",
         "docs/syntax/xyChart.md:317": "draws nothing",
+        "docs/syntax/zenuml.md:14": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:22": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:61": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:70": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:86": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:95": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:117": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:126": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:140": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:146": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:172": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:190": "fallback render: source lines boxed",
         "docs/syntax/zenuml.md:210": "fallback render: 4 of 4 source statements shown",
-        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown"
+        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/zenuml.md:246": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:254": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:306": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:314": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:338": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:348": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:370": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:379": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:404": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:412": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:438": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:450": "fallback render: source lines boxed"
       }
     },
     {
@@ -19068,27 +19113,33 @@
       "boundary": "persistent Python public terminal API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1288,
-      "failed": 54,
+      "completed": 1242,
+      "failed": 100,
       "timeouts": 0,
-      "totalMs": 2165.307141000312,
-      "invalid": 54,
+      "totalMs": 1717.5238130000707,
+      "invalid": 100,
       "invalidReasons": {
-        "draws nothing": 28,
-        "fallback render": 26
+        "fallback render": 72,
+        "draws nothing": 28
       },
       "errorReasons": {},
       "failures": {
-        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305",
-        "invalid: fallback render": "167-168,257-260,269-270,877-880,887-888,938-939,1212-1213,1250-1251,1254-1257,1326-1327"
+        "invalid: fallback render": "27-28,167-170,239-240,257-260,269-270,515-518,877-880,887-888,938-945,948-951,1212-1213,1216-1217,1250-1251,1254-1257,1310-1311,1314-1321,1324-1329,1332-1341",
+        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305"
       },
       "rejected": {
+        "docs/config/accessibility.md:322": "fallback render: source lines boxed",
+        "docs/config/accessibility.md:342": "fallback render: source lines boxed",
         "docs/config/directives.md:100": "draws nothing",
         "docs/config/directives.md:106": "draws nothing",
         "docs/intro/syntax-reference.md:91": "draws nothing",
         "docs/intro/syntax-reference.md:107": "draws nothing",
         "docs/syntax/all-examples.md:977": "fallback render: 4 of 4 source statements shown",
         "docs/syntax/all-examples.md:1003": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/all-examples.md:1034": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:1085": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2723": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2740": "fallback render: source lines boxed",
         "docs/syntax/all-examples.md:3084": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3120": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3157": "fallback render: 3 of 5 source statements shown",
@@ -19113,6 +19164,10 @@
         "docs/syntax/entityRelationshipDiagram.md:789": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:839": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:857": "draws nothing",
+        "docs/syntax/eventmodeling.md:311": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:319": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:331": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:341": "fallback render: source lines boxed",
         "docs/syntax/mindmap.md:185": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:202": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:225": "fallback render: 5 of 5 source statements shown",
@@ -19121,10 +19176,22 @@
         "docs/syntax/mindmap.md:381": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/railroad.md:373": "fallback render: 6 of 12 source statements shown",
         "docs/syntax/railroad.md:399": "fallback render: 6 of 12 source statements shown",
+        "docs/syntax/requirementDiagram.md:13": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:30": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:57": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:78": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:104": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:131": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:259": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:329": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:410": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:429": "fallback render: source lines boxed",
         "docs/syntax/stateDiagram.md:188": "draws nothing",
         "docs/syntax/stateDiagram.md:193": "draws nothing",
         "docs/syntax/usecase.md:385": "fallback render: 4 of 7 source statements shown",
         "docs/syntax/usecase.md:400": "fallback render: 4 of 7 source statements shown",
+        "docs/syntax/usecase.md:437": "fallback render: source lines boxed",
+        "docs/syntax/usecase.md:450": "fallback render: source lines boxed",
         "docs/syntax/venn.md:159": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:166": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:211": "fallback render: 3 of 5 source statements shown",
@@ -19135,8 +19202,32 @@
         "docs/syntax/xyChart.md:115": "draws nothing",
         "docs/syntax/xyChart.md:309": "draws nothing",
         "docs/syntax/xyChart.md:317": "draws nothing",
+        "docs/syntax/zenuml.md:14": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:22": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:61": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:70": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:86": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:95": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:117": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:126": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:140": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:146": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:172": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:190": "fallback render: source lines boxed",
         "docs/syntax/zenuml.md:210": "fallback render: 4 of 4 source statements shown",
-        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown"
+        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/zenuml.md:246": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:254": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:306": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:314": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:338": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:348": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:370": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:379": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:404": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:412": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:438": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:450": "fallback render: source lines boxed"
       }
     },
     {
@@ -19147,27 +19238,33 @@
       "boundary": "persistent Python public terminal API",
       "boundaryKind": "persistent-api",
       "attempted": 1342,
-      "completed": 1288,
-      "failed": 54,
+      "completed": 1242,
+      "failed": 100,
       "timeouts": 0,
-      "totalMs": 2119.0005509934053,
-      "invalid": 54,
+      "totalMs": 1726.7095609950047,
+      "invalid": 100,
       "invalidReasons": {
-        "draws nothing": 28,
-        "fallback render": 26
+        "fallback render": 72,
+        "draws nothing": 28
       },
       "errorReasons": {},
       "failures": {
-        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305",
-        "invalid: fallback render": "167-168,257-260,269-270,877-880,887-888,938-939,1212-1213,1250-1251,1254-1257,1326-1327"
+        "invalid: fallback render": "27-28,167-170,239-240,257-260,269-270,515-518,877-880,887-888,938-945,948-951,1212-1213,1216-1217,1250-1251,1254-1257,1310-1311,1314-1321,1324-1329,1332-1341",
+        "invalid: draws nothing": "41-42,97-98,381-382,399-400,435-438,441-442,459-462,491-494,1062-1063,1296-1297,1304-1305"
       },
       "rejected": {
+        "docs/config/accessibility.md:322": "fallback render: source lines boxed",
+        "docs/config/accessibility.md:342": "fallback render: source lines boxed",
         "docs/config/directives.md:100": "draws nothing",
         "docs/config/directives.md:106": "draws nothing",
         "docs/intro/syntax-reference.md:91": "draws nothing",
         "docs/intro/syntax-reference.md:107": "draws nothing",
         "docs/syntax/all-examples.md:977": "fallback render: 4 of 4 source statements shown",
         "docs/syntax/all-examples.md:1003": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/all-examples.md:1034": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:1085": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2723": "fallback render: source lines boxed",
+        "docs/syntax/all-examples.md:2740": "fallback render: source lines boxed",
         "docs/syntax/all-examples.md:3084": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3120": "fallback render: 6 of 8 source statements shown",
         "docs/syntax/all-examples.md:3157": "fallback render: 3 of 5 source statements shown",
@@ -19192,6 +19289,10 @@
         "docs/syntax/entityRelationshipDiagram.md:789": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:839": "draws nothing",
         "docs/syntax/entityRelationshipDiagram.md:857": "draws nothing",
+        "docs/syntax/eventmodeling.md:311": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:319": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:331": "fallback render: source lines boxed",
+        "docs/syntax/eventmodeling.md:341": "fallback render: source lines boxed",
         "docs/syntax/mindmap.md:185": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:202": "fallback render: 5 of 5 source statements shown",
         "docs/syntax/mindmap.md:225": "fallback render: 5 of 5 source statements shown",
@@ -19200,10 +19301,22 @@
         "docs/syntax/mindmap.md:381": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/railroad.md:373": "fallback render: 6 of 12 source statements shown",
         "docs/syntax/railroad.md:399": "fallback render: 6 of 12 source statements shown",
+        "docs/syntax/requirementDiagram.md:13": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:30": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:57": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:78": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:104": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:131": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:259": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:329": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:410": "fallback render: source lines boxed",
+        "docs/syntax/requirementDiagram.md:429": "fallback render: source lines boxed",
         "docs/syntax/stateDiagram.md:188": "draws nothing",
         "docs/syntax/stateDiagram.md:193": "draws nothing",
         "docs/syntax/usecase.md:385": "fallback render: 4 of 7 source statements shown",
         "docs/syntax/usecase.md:400": "fallback render: 4 of 7 source statements shown",
+        "docs/syntax/usecase.md:437": "fallback render: source lines boxed",
+        "docs/syntax/usecase.md:450": "fallback render: source lines boxed",
         "docs/syntax/venn.md:159": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:166": "fallback render: 3 of 3 source statements shown",
         "docs/syntax/venn.md:211": "fallback render: 3 of 5 source statements shown",
@@ -19214,8 +19327,32 @@
         "docs/syntax/xyChart.md:115": "draws nothing",
         "docs/syntax/xyChart.md:309": "draws nothing",
         "docs/syntax/xyChart.md:317": "draws nothing",
+        "docs/syntax/zenuml.md:14": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:22": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:61": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:70": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:86": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:95": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:117": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:126": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:140": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:146": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:172": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:190": "fallback render: source lines boxed",
         "docs/syntax/zenuml.md:210": "fallback render: 4 of 4 source statements shown",
-        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown"
+        "docs/syntax/zenuml.md:226": "fallback render: 4 of 4 source statements shown",
+        "docs/syntax/zenuml.md:246": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:254": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:306": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:314": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:338": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:348": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:370": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:379": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:404": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:412": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:438": "fallback render: source lines boxed",
+        "docs/syntax/zenuml.md:450": "fallback render: source lines boxed"
       }
     },
     {
@@ -19229,7 +19366,7 @@
       "completed": 557,
       "failed": 785,
       "timeouts": 0,
-      "totalMs": 212.63436999999934,
+      "totalMs": 163.35330799999946,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -19365,7 +19502,7 @@
       "completed": 557,
       "failed": 785,
       "timeouts": 0,
-      "totalMs": 196.1518939999998,
+      "totalMs": 183.82258599999844,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -19501,7 +19638,7 @@
       "completed": 557,
       "failed": 785,
       "timeouts": 0,
-      "totalMs": 192.5362309999988,
+      "totalMs": 166.13740100000007,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -19637,7 +19774,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 155.09816499999965,
+      "totalMs": 155.71880100000016,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -19960,7 +20097,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 161.55646599999918,
+      "totalMs": 135.3836469999997,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -20283,7 +20420,7 @@
       "completed": 181,
       "failed": 1161,
       "timeouts": 0,
-      "totalMs": 168.11180100000038,
+      "totalMs": 141.60520799999966,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -20606,7 +20743,7 @@
       "completed": 730,
       "failed": 612,
       "timeouts": 0,
-      "totalMs": 7444.6673080002365,
+      "totalMs": 5867.998477999732,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -20762,7 +20899,7 @@
       "completed": 730,
       "failed": 612,
       "timeouts": 0,
-      "totalMs": 7993.738210000069,
+      "totalMs": 6207.481383999286,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -20918,7 +21055,7 @@
       "completed": 730,
       "failed": 612,
       "timeouts": 0,
-      "totalMs": 7808.5589339991275,
+      "totalMs": 6488.19702799918,
       "invalid": 68,
       "invalidReasons": {
         "fallback render": 68
@@ -21074,7 +21211,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 244.96692799999897,
+      "totalMs": 222.11518299999886,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -21224,7 +21361,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 285.51693599999976,
+      "totalMs": 252.30512599999696,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -21374,7 +21511,7 @@
       "completed": 509,
       "failed": 833,
       "timeouts": 0,
-      "totalMs": 281.0450109999999,
+      "totalMs": 225.4826859999998,
       "invalid": 24,
       "invalidReasons": {
         "draws nothing": 24
@@ -21524,7 +21661,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 28630.109716000414,
+      "totalMs": 21060.30289500096,
       "invalid": 10,
       "invalidReasons": {
         "draws nothing": 10
@@ -21766,7 +21903,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 24117.000619000057,
+      "totalMs": 21807.10612200026,
       "invalid": 10,
       "invalidReasons": {
         "draws nothing": 10
@@ -22008,7 +22145,7 @@
       "completed": 408,
       "failed": 934,
       "timeouts": 0,
-      "totalMs": 24635.49750500018,
+      "totalMs": 21333.788223999523,
       "invalid": 10,
       "invalidReasons": {
         "draws nothing": 10
@@ -22250,7 +22387,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2737.630285000283,
+      "totalMs": 2012.4672729997837,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -23142,7 +23279,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2727.799959999131,
+      "totalMs": 2008.1734620002098,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -24034,7 +24171,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2674.3881460012635,
+      "totalMs": 2265.051337999321,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -24926,7 +25063,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 34.02355199999929,
+      "totalMs": 23.78063300000067,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -25033,7 +25170,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 37.07356200000055,
+      "totalMs": 26.697369000000208,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -25140,7 +25277,7 @@
       "completed": 23,
       "failed": 1319,
       "timeouts": 0,
-      "totalMs": 43.10440300000069,
+      "totalMs": 21.136083999999556,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -25247,7 +25384,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 234018.94090500067,
+      "totalMs": 204783.66034799945,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -25270,7 +25407,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 235322.9555989987,
+      "totalMs": 216867.45239300083,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -25293,7 +25430,7 @@
       "completed": 1306,
       "failed": 36,
       "timeouts": 0,
-      "totalMs": 226142.41847700241,
+      "totalMs": 224074.21921700507,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -25316,7 +25453,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2576.04944799887,
+      "totalMs": 2681.7284899982624,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -26208,7 +26345,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2542.3431930005318,
+      "totalMs": 2921.8603669974254,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -27100,7 +27237,7 @@
       "completed": 475,
       "failed": 867,
       "timeouts": 0,
-      "totalMs": 2565.674233000027,
+      "totalMs": 2788.830878998968,
       "invalid": 867,
       "invalidReasons": {
         "echoed source": 861,
@@ -27992,7 +28129,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 453.30641799999944,
+      "totalMs": 632.995189999999,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -28013,7 +28150,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 517.5098220000002,
+      "totalMs": 548.991836000002,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -28034,7 +28171,7 @@
       "completed": 745,
       "failed": 597,
       "timeouts": 0,
-      "totalMs": 434.1069269999988,
+      "totalMs": 438.9030019999974,
       "invalid": 0,
       "invalidReasons": {},
       "errorReasons": {
@@ -28053,11 +28190,11 @@
         "format": "svg",
         "boundary": "Chromium public SVG API",
         "completed": 1338,
-        "failed": 4,
-        "medianTotalMs": 3103.399999992922,
+        "failed": 0,
+        "medianTotalMs": 2868.6999999993714,
         "totalMsRange": [
-          2901.099999998347,
-          3124.599999997765
+          2611.7999999996973,
+          2941.199999998673
         ],
         "rank": 1
       },
@@ -28066,12 +28203,12 @@
         "version": "12.3.0",
         "format": "svg",
         "boundary": "Chromium public SVG API",
-        "completed": 1336,
-        "failed": 6,
-        "medianTotalMs": 35190.79999999236,
+        "completed": 1338,
+        "failed": 0,
+        "medianTotalMs": 30743.99999999581,
         "totalMsRange": [
-          34037.60000000126,
-          35602.19999999786
+          30405.89999999944,
+          32287.09999999916
         ],
         "rank": 2
       },
@@ -28081,11 +28218,11 @@
         "format": "svg",
         "boundary": "Chromium public SVG API",
         "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 298.29999999905704,
+        "failed": 32,
+        "medianTotalMs": 287.4999999993015,
         "totalMsRange": [
-          292.9999999992433,
-          306.59999999939464
+          266.89999999984866,
+          318.30000000068685
         ],
         "rank": 3
       },
@@ -28095,11 +28232,11 @@
         "format": "svg",
         "boundary": "Chromium public SVG API",
         "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 373.8000000012107,
+        "failed": 32,
+        "medianTotalMs": 399.20000000530854,
         "totalMsRange": [
-          369.2000000048429,
-          380.40000000293367
+          370.3999999994412,
+          411.7000000048429
         ],
         "rank": 4
       },
@@ -28109,11 +28246,11 @@
         "format": "svg",
         "boundary": "Chromium public SVG API",
         "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 651.3000000030734,
+        "failed": 32,
+        "medianTotalMs": 647.8000000026077,
         "totalMsRange": [
-          636.3999999985099,
-          702.9000000047963
+          557.2999999970198,
+          655.999999997206
         ],
         "rank": 5
       },
@@ -28123,11 +28260,11 @@
         "format": "svg",
         "boundary": "native CLI svg; process startup included",
         "completed": 1304,
-        "failed": 38,
-        "medianTotalMs": 12910.854651999893,
+        "failed": 34,
+        "medianTotalMs": 12647.694963999907,
         "totalMsRange": [
-          12600.780448000529,
-          13514.842465999653
+          11910.942402999208,
+          12662.527424001426
         ],
         "rank": 6
       },
@@ -28136,12 +28273,12 @@
         "version": "0.5.0",
         "format": "svg",
         "boundary": "Chromium public SVG API",
-        "completed": 1181,
+        "completed": 1177,
         "failed": 161,
-        "medianTotalMs": 1208.8999999999069,
+        "medianTotalMs": 1220.8999999999069,
         "totalMsRange": [
-          1195.2999999998137,
-          1230.5999999996275
+          1211.000000000553,
+          1334.100000000355
         ],
         "rank": 7
       },
@@ -28151,11 +28288,11 @@
         "format": "svg",
         "boundary": "Chromium public SVG API",
         "completed": 1114,
-        "failed": 228,
-        "medianTotalMs": 991.3000000005122,
+        "failed": 224,
+        "medianTotalMs": 963.5999999986379,
         "totalMsRange": [
-          986.9999999983702,
-          992.799999997369
+          911.2999999992317,
+          1031.5999999999185
         ],
         "rank": 8
       },
@@ -28165,11 +28302,11 @@
         "format": "svg",
         "boundary": "Chromium public SVG API",
         "completed": 1066,
-        "failed": 276,
-        "medianTotalMs": 5985.499999999825,
+        "failed": 272,
+        "medianTotalMs": 5878.799999999988,
         "totalMsRange": [
-          5559.599999999162,
-          6369.000000000931
+          5045.7999999994645,
+          5887.600000000384
         ],
         "rank": 9
       },
@@ -28178,12 +28315,12 @@
         "version": "5.17.0",
         "format": "svg",
         "boundary": "Chromium public SVG API",
-        "completed": 908,
-        "failed": 434,
-        "medianTotalMs": 1841.2000000008848,
+        "completed": 906,
+        "failed": 432,
+        "medianTotalMs": 1959.5999999994528,
         "totalMsRange": [
-          1759.7999999981257,
-          1961.9999999998836
+          1876.2999999994063,
+          1971.1000000014901
         ],
         "rank": 10
       },
@@ -28192,12 +28329,12 @@
         "version": "0.2.3",
         "format": "svg",
         "boundary": "Chromium public SVG API",
-        "completed": 700,
-        "failed": 642,
-        "medianTotalMs": 20085.800000000745,
+        "completed": 698,
+        "failed": 640,
+        "medianTotalMs": 20616.40000000072,
         "totalMsRange": [
-          19877.499999998487,
-          20246.50000000326
+          20493.900000000605,
+          20935.49999999907
         ],
         "rank": 11
       },
@@ -28207,11 +28344,11 @@
         "format": "svg",
         "boundary": "Chromium public SVG API",
         "completed": 680,
-        "failed": 662,
-        "medianTotalMs": 581.2999999978347,
+        "failed": 658,
+        "medianTotalMs": 595.8000000010943,
         "totalMsRange": [
-          555.899999998277,
-          607.599999999511
+          582.7000000003027,
+          607.9999999993015
         ],
         "rank": 12
       },
@@ -28220,12 +28357,12 @@
         "version": "1.1.3",
         "format": "svg",
         "boundary": "Chromium public SVG API",
-        "completed": 513,
-        "failed": 829,
-        "medianTotalMs": 1420.4000000036322,
+        "completed": 511,
+        "failed": 827,
+        "medianTotalMs": 1343.0999999979977,
         "totalMsRange": [
-          1292.0999999998603,
-          1522.8000000019092
+          1332.6999999999534,
+          1397.3000000023749
         ],
         "rank": 13
       },
@@ -28234,12 +28371,12 @@
         "version": "0.0.3",
         "format": "svg",
         "boundary": "Chromium public SVG API",
-        "completed": 510,
-        "failed": 832,
-        "medianTotalMs": 347.40000000130385,
+        "completed": 508,
+        "failed": 830,
+        "medianTotalMs": 383.89999999909196,
         "totalMsRange": [
-          334.40000000118744,
-          347.99999999895226
+          343.3999999995576,
+          391.30000000132713
         ],
         "rank": 14
       },
@@ -28249,11 +28386,11 @@
         "format": "svg",
         "boundary": "Chromium public SVG API",
         "completed": 396,
-        "failed": 946,
-        "medianTotalMs": 117.10000000218861,
+        "failed": 942,
+        "medianTotalMs": 118.20000000076834,
         "totalMsRange": [
-          107.90000000072177,
-          118.80000000016298
+          117.10000000009313,
+          132.1000000006752
         ],
         "rank": 15
       },
@@ -28262,12 +28399,12 @@
         "version": "0.1.5",
         "format": "svg",
         "boundary": "Chromium public SVG API",
-        "completed": 384,
-        "failed": 958,
-        "medianTotalMs": 237.20000000135042,
+        "completed": 382,
+        "failed": 956,
+        "medianTotalMs": 243.00000000162981,
         "totalMsRange": [
-          226.89999999827705,
-          249.2000000020489
+          231.7000000064727,
+          253.80000000540167
         ],
         "rank": 16
       }
@@ -28279,11 +28416,11 @@
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1338,
-        "failed": 4,
-        "medianTotalMs": 16255.40000000177,
+        "failed": 0,
+        "medianTotalMs": 14001.70000000426,
         "totalMsRange": [
-          16137.800000000745,
-          16706.79999999539
+          13670.2000000017,
+          15348.700000000652
         ],
         "pngPath": "trident-conversion",
         "rank": 1
@@ -28293,12 +28430,12 @@
         "version": "12.3.0",
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 1336,
-        "failed": 6,
-        "medianTotalMs": 53963.29999999702,
+        "completed": 1338,
+        "failed": 0,
+        "medianTotalMs": 49352.89999999828,
         "totalMsRange": [
-          52891.89999999665,
-          55388.40000000177
+          48806.69999999483,
+          50085.400000001304
         ],
         "pngPath": "trident-conversion",
         "rank": 2
@@ -28309,13 +28446,28 @@
         "format": "png",
         "boundary": "native CLI png; process startup included",
         "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 29527.500532999344,
+        "failed": 32,
+        "medianTotalMs": 26908.48296299996,
         "totalMsRange": [
-          29375.23776900029,
-          29851.2905019999
+          26393.784189999977,
+          27341.541761999077
         ],
         "pngPath": "native",
+        "rank": 3
+      },
+      {
+        "project": "obsidianmd/pele",
+        "version": "1.13.0",
+        "format": "png",
+        "boundary": "Chromium SVG API + canvas PNG conversion",
+        "completed": 1306,
+        "failed": 32,
+        "medianTotalMs": 7446.800000005169,
+        "totalMsRange": [
+          7164.000000005122,
+          8161.500000000233
+        ],
+        "pngPath": "trident-conversion",
         "rank": 3
       },
       {
@@ -28324,11 +28476,11 @@
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 7536.899999999965,
+        "failed": 32,
+        "medianTotalMs": 7868.7999999997555,
         "totalMsRange": [
-          7214.200000000885,
-          7833.599999999453
+          7785.400000000198,
+          8024.600000000035
         ],
         "pngPath": "trident-conversion",
         "rank": 3
@@ -28339,26 +28491,11 @@
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 7855.499999993015,
+        "failed": 32,
+        "medianTotalMs": 7884.499999995809,
         "totalMsRange": [
-          7836.199999998556,
-          7951
-        ],
-        "pngPath": "trident-conversion",
-        "rank": 3
-      },
-      {
-        "project": "obsidianmd/pele",
-        "version": "1.13.0",
-        "format": "png",
-        "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 8250.300000000047,
-        "totalMsRange": [
-          7790.999999993946,
-          8311.000000000931
+          7580.199999992736,
+          7965.800000000745
         ],
         "pngPath": "trident-conversion",
         "rank": 3
@@ -28368,12 +28505,12 @@
         "version": "0.5.0",
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 1181,
+        "completed": 1177,
         "failed": 161,
-        "medianTotalMs": 19087.900000000198,
+        "medianTotalMs": 16155.700000000623,
         "totalMsRange": [
-          18495.000000000204,
-          19329.699999999837
+          15793.800000000396,
+          17491.099999998987
         ],
         "pngPath": "trident-conversion",
         "rank": 7
@@ -28384,11 +28521,11 @@
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1114,
-        "failed": 228,
-        "medianTotalMs": 7719.200000000594,
+        "failed": 224,
+        "medianTotalMs": 8089.799999999523,
         "totalMsRange": [
-          7516.699999999604,
-          7901.999999999534
+          7896.2999999997555,
+          8124.300000000221
         ],
         "pngPath": "trident-conversion",
         "rank": 8
@@ -28399,11 +28536,11 @@
         "format": "png",
         "boundary": "native Flutter renderToPng API; app startup excluded",
         "completed": 1114,
-        "failed": 228,
-        "medianTotalMs": 23725.36500000001,
+        "failed": 224,
+        "medianTotalMs": 22836.498,
         "totalMsRange": [
-          23369.481000000025,
-          23952.076000000012
+          22172.354999999978,
+          22972.369999999948
         ],
         "pngPath": "native",
         "rank": 9
@@ -28414,11 +28551,11 @@
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 1066,
-        "failed": 276,
-        "medianTotalMs": 15130.799999998999,
+        "failed": 272,
+        "medianTotalMs": 13365.799999999464,
         "totalMsRange": [
-          13518.900000000605,
-          15447.400000000664
+          13181.599999999919,
+          13815.999999999884
         ],
         "pngPath": "trident-conversion",
         "rank": 10
@@ -28428,12 +28565,12 @@
         "version": "5.17.0",
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 908,
-        "failed": 434,
-        "medianTotalMs": 8882.2999999983,
+        "completed": 906,
+        "failed": 432,
+        "medianTotalMs": 8745.00000000163,
         "totalMsRange": [
-          7938.999999999534,
-          9400.0999999973
+          8519.099999999278,
+          8877.600000001607
         ],
         "pngPath": "trident-conversion",
         "rank": 11
@@ -28443,12 +28580,12 @@
         "version": "0.2.3",
         "format": "png",
         "boundary": "Chromium public PNG API",
-        "completed": 700,
-        "failed": 642,
-        "medianTotalMs": 27081.599999998696,
+        "completed": 698,
+        "failed": 640,
+        "medianTotalMs": 26793.39999999688,
         "totalMsRange": [
-          26604.10000000056,
-          27214.100000002538
+          26277.600000000908,
+          27161.999999998487
         ],
         "pngPath": "native",
         "rank": 12
@@ -28459,11 +28596,11 @@
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 680,
-        "failed": 662,
-        "medianTotalMs": 4121.899999998743,
+        "failed": 658,
+        "medianTotalMs": 3982.700000000652,
         "totalMsRange": [
-          4035.6999999983236,
-          4243.000000000931
+          3686.600000000559,
+          4574.100000002421
         ],
         "pngPath": "trident-conversion",
         "rank": 13
@@ -28473,12 +28610,12 @@
         "version": "1.1.3",
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 513,
-        "failed": 829,
-        "medianTotalMs": 3586.900000000838,
+        "completed": 511,
+        "failed": 827,
+        "medianTotalMs": 3680.3000000026077,
         "totalMsRange": [
-          3561.400000002235,
-          3834.799999997951
+          3654.9999999981374,
+          3844.6000000026543
         ],
         "pngPath": "trident-conversion",
         "rank": 14
@@ -28488,12 +28625,12 @@
         "version": "0.0.3",
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 510,
-        "failed": 832,
-        "medianTotalMs": 4078.8999999986263,
+        "completed": 508,
+        "failed": 830,
+        "medianTotalMs": 4108.200000000303,
         "totalMsRange": [
-          3974.9999999993015,
-          4109.500000002212
+          3775.299999998533,
+          4266.400000000955
         ],
         "pngPath": "trident-conversion",
         "rank": 15
@@ -28504,11 +28641,11 @@
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
         "completed": 396,
-        "failed": 946,
-        "medianTotalMs": 2164.000000001397,
+        "failed": 942,
+        "medianTotalMs": 2112.9999999993015,
         "totalMsRange": [
-          2128.2999999996973,
-          2209.3000000010943
+          2112.00000000163,
+          2121.899999997462
         ],
         "pngPath": "trident-conversion",
         "rank": 16
@@ -28518,12 +28655,12 @@
         "version": "0.1.5",
         "format": "png",
         "boundary": "Chromium SVG API + canvas PNG conversion",
-        "completed": 384,
-        "failed": 958,
-        "medianTotalMs": 5624.399999997113,
+        "completed": 382,
+        "failed": 956,
+        "medianTotalMs": 5518.99999999837,
         "totalMsRange": [
-          5621.100000003586,
-          5707.700000000186
+          5466.099999997299,
+          6131.599999997998
         ],
         "pngPath": "trident-conversion",
         "rank": 17
@@ -28535,12 +28672,12 @@
         "version": "0.5.0",
         "format": "terminal",
         "boundary": "public CLI terminal; process startup included",
-        "completed": 1338,
+        "completed": 1334,
         "failed": 4,
-        "medianTotalMs": 3721.9365230000985,
+        "medianTotalMs": 2992.303603999666,
         "totalMsRange": [
-          3698.216134000162,
-          3762.0990559997153
+          2968.172301000144,
+          3104.4053980001045
         ],
         "rank": 1
       },
@@ -28550,11 +28687,11 @@
         "format": "terminal",
         "boundary": "public CLI terminal; process startup included",
         "completed": 1306,
-        "failed": 36,
-        "medianTotalMs": 234018.94090500067,
+        "failed": 32,
+        "medianTotalMs": 216867.45239300083,
         "totalMsRange": [
-          226142.41847700241,
-          235322.9555989987
+          204783.66034799945,
+          224074.21921700507
         ],
         "rank": 2
       },
@@ -28563,12 +28700,12 @@
         "version": "0.12.0",
         "format": "terminal",
         "boundary": "persistent Python public terminal API",
-        "completed": 1288,
-        "failed": 54,
-        "medianTotalMs": 2137.661243999446,
+        "completed": 1240,
+        "failed": 98,
+        "medianTotalMs": 1717.5238130000707,
         "totalMsRange": [
-          2119.0005509934053,
-          2165.307141000312
+          1674.6502220021284,
+          1726.7095609950047
         ],
         "rank": 3
       },
@@ -28578,11 +28715,11 @@
         "format": "terminal",
         "boundary": "persistent Node public terminal API",
         "completed": 1068,
-        "failed": 274,
-        "medianTotalMs": 6649.236004999993,
+        "failed": 270,
+        "medianTotalMs": 6068.942187000005,
         "totalMsRange": [
-          6630.694166000001,
-          6744.074746000008
+          5718.771537999991,
+          6614.405550000003
         ],
         "rank": 4
       },
@@ -28591,12 +28728,12 @@
         "version": "5.17.0",
         "format": "terminal",
         "boundary": "persistent Node public terminal API",
-        "completed": 908,
-        "failed": 434,
-        "medianTotalMs": 2296.407252000002,
+        "completed": 906,
+        "failed": 432,
+        "medianTotalMs": 1953.5497629999911,
         "totalMsRange": [
-          2155.513935000004,
-          2299.087292999993
+          1920.8320080000005,
+          1976.6080270000139
         ],
         "rank": 5
       },
@@ -28605,12 +28742,12 @@
         "version": "0.10.0",
         "format": "terminal",
         "boundary": "persistent Bun public terminal API",
-        "completed": 745,
-        "failed": 597,
-        "medianTotalMs": 453.30641799999944,
+        "completed": 743,
+        "failed": 595,
+        "medianTotalMs": 548.991836000002,
         "totalMsRange": [
-          434.1069269999988,
-          517.5098220000002
+          438.9030019999974,
+          632.995189999999
         ],
         "rank": 6
       },
@@ -28620,11 +28757,11 @@
         "format": "terminal",
         "boundary": "public CLI terminal; process startup included",
         "completed": 730,
-        "failed": 612,
-        "medianTotalMs": 7808.5589339991275,
+        "failed": 608,
+        "medianTotalMs": 6207.481383999286,
         "totalMsRange": [
-          7444.6673080002365,
-          7993.738210000069
+          5867.998477999732,
+          6488.19702799918
         ],
         "rank": 7
       },
@@ -28633,12 +28770,12 @@
         "version": "0.1.0",
         "format": "terminal",
         "boundary": "persistent Node public terminal API",
-        "completed": 557,
-        "failed": 785,
-        "medianTotalMs": 196.1518939999998,
+        "completed": 555,
+        "failed": 783,
+        "medianTotalMs": 166.13740100000007,
         "totalMsRange": [
-          192.5362309999988,
-          212.63436999999934
+          163.35330799999946,
+          183.82258599999844
         ],
         "rank": 8
       },
@@ -28647,12 +28784,12 @@
         "version": "0.2.3",
         "format": "terminal",
         "boundary": "persistent Node public terminal API",
-        "completed": 540,
-        "failed": 802,
-        "medianTotalMs": 702.3784579999967,
+        "completed": 538,
+        "failed": 800,
+        "medianTotalMs": 549.128741000003,
         "totalMsRange": [
-          641.5376729999992,
-          738.022873999996
+          532.6620660000021,
+          572.9756510000017
         ],
         "rank": 9
       },
@@ -28661,12 +28798,12 @@
         "version": "0.0.3",
         "format": "terminal",
         "boundary": "persistent Node public terminal API",
-        "completed": 536,
-        "failed": 806,
-        "medianTotalMs": 331.52847300000036,
+        "completed": 534,
+        "failed": 804,
+        "medianTotalMs": 248.42640400000082,
         "totalMsRange": [
-          329.92720999999926,
-          343.9751750000017
+          241.00312900000074,
+          259.02268700000076
         ],
         "rank": 10
       },
@@ -28675,40 +28812,40 @@
         "version": "1.1.3",
         "format": "terminal",
         "boundary": "persistent Node public terminal API",
-        "completed": 509,
-        "failed": 833,
-        "medianTotalMs": 281.0450109999999,
+        "completed": 507,
+        "failed": 831,
+        "medianTotalMs": 225.4826859999998,
         "totalMsRange": [
-          244.96692799999897,
-          285.51693599999976
+          222.11518299999886,
+          252.30512599999696
         ],
         "rank": 11
-      },
-      {
-        "project": "xai-org/grok-build",
-        "version": "git-2bdd1d6a6369",
-        "format": "terminal",
-        "boundary": "public CLI terminal; process startup included",
-        "completed": 475,
-        "failed": 867,
-        "medianTotalMs": 2565.674233000027,
-        "totalMsRange": [
-          2542.3431930005318,
-          2576.04944799887
-        ],
-        "rank": 12
       },
       {
         "project": "spacedock-dev/mermaidtext",
         "version": "git-a6b0c7657b94",
         "format": "terminal",
         "boundary": "public CLI terminal; process startup included",
-        "completed": 475,
-        "failed": 867,
-        "medianTotalMs": 2727.799959999131,
+        "completed": 473,
+        "failed": 865,
+        "medianTotalMs": 2012.4672729997837,
         "totalMsRange": [
-          2674.3881460012635,
-          2737.630285000283
+          2008.1734620002098,
+          2265.051337999321
+        ],
+        "rank": 12
+      },
+      {
+        "project": "xai-org/grok-build",
+        "version": "git-2bdd1d6a6369",
+        "format": "terminal",
+        "boundary": "public CLI terminal; process startup included",
+        "completed": 473,
+        "failed": 865,
+        "medianTotalMs": 2788.830878998968,
+        "totalMsRange": [
+          2681.7284899982624,
+          2921.8603669974254
         ],
         "rank": 13
       },
@@ -28717,12 +28854,12 @@
         "version": "v0.4.3",
         "format": "terminal",
         "boundary": "public CLI terminal; process startup included",
-        "completed": 408,
-        "failed": 934,
-        "medianTotalMs": 24635.49750500018,
+        "completed": 406,
+        "failed": 932,
+        "medianTotalMs": 21333.788223999523,
         "totalMsRange": [
-          24117.000619000057,
-          28630.109716000414
+          21060.30289500096,
+          21807.10612200026
         ],
         "rank": 14
       },
@@ -28731,12 +28868,12 @@
         "version": "1.6.1",
         "format": "terminal",
         "boundary": "public CLI terminal; process startup included",
-        "completed": 401,
-        "failed": 941,
-        "medianTotalMs": 13675.787144000009,
+        "completed": 399,
+        "failed": 939,
+        "medianTotalMs": 11899.026262000036,
         "totalMsRange": [
-          13618.592982999791,
-          13969.88118500002
+          11833.163229999765,
+          13086.819165000212
         ],
         "rank": 15
       },
@@ -28745,12 +28882,12 @@
         "version": "2.3.0",
         "format": "terminal",
         "boundary": "persistent Bun public terminal API",
-        "completed": 254,
-        "failed": 1088,
-        "medianTotalMs": 890.4189770000029,
+        "completed": 252,
+        "failed": 1086,
+        "medianTotalMs": 858.0971949999996,
         "totalMsRange": [
-          843.656469,
-          911.9305589999974
+          848.995774,
+          859.0480199999989
         ],
         "rank": 16
       },
@@ -28760,11 +28897,11 @@
         "format": "terminal",
         "boundary": "persistent Bun public terminal API",
         "completed": 181,
-        "failed": 1161,
-        "medianTotalMs": 161.55646599999918,
+        "failed": 1157,
+        "medianTotalMs": 141.60520799999966,
         "totalMsRange": [
-          155.09816499999965,
-          168.11180100000038
+          135.3836469999997,
+          155.71880100000016
         ],
         "rank": 17
       },
@@ -28774,11 +28911,11 @@
         "format": "terminal",
         "boundary": "persistent Node public parseMermaid → computeLayout → renderGraph; errors propagate",
         "completed": 23,
-        "failed": 1319,
-        "medianTotalMs": 37.07356200000055,
+        "failed": 1315,
+        "medianTotalMs": 23.78063300000067,
         "totalMsRange": [
-          34.02355199999929,
-          43.10440300000069
+          21.136083999999556,
+          26.697369000000208
         ],
         "rank": 18
       }
