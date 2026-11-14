@@ -1,0 +1,352 @@
+{
+  "schema": "trident-drawing-reviews-v1",
+  "project": "wevm/ondine",
+  "version": "0.0.3",
+  "capture": {
+    "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
+    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+  },
+  "reviewedAt": "2026-11-14",
+  "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
+  "reviews": [
+    {
+      "format": "svg",
+      "caseId": "drawing:2295dae5ca33addf",
+      "outputSha256": "565ebb39a4749d5d73f515a9cd46fe312de3380276736adef4108b7f6cffbdcf",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows every commit id rotated beside its dot, both tag flags (v1.0.1, v1.1.0) and the three branch names; the rotated labels' boxes overlap, which blocks the glyph proof, but no glyph is covered.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "outputSha256": "36a51fc48688c586d173e971b79b1bf9a0cf4eb6930742c27d9fa51b5e4472c9",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot shows the eight Queue self-loops nested on one side with their captions overprinted as 'rrrrrrrretry 8'; 'retry 1' to 'retry 7' cannot be read.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:dbc553f665d05c10",
+      "outputSha256": "fd10c604c57b612e14b05b7a52040dcfaceee96da733a755eb0df0c57839fb00",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "undecidable",
+      "reason": "A 100-node, 198-edge lattice: the structural observer hit its deadline, and checking every edge's endpoints and direction by eye is beyond this bounded review.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:e54c4b6195e240be",
+      "outputSha256": "7153433a38bfa927b3715f1111e780280a41072b138c969a626e23bbd65000f0",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the solid double-headed arrow is correct, but the dotted 'Top <-.- Bot' line has no arrowhead at Top.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:0dbd28f2f1c494cc",
+      "outputSha256": "4e1a5c2d5aa43cccbeacf0e0b89037be0965045404f1c38628bb26c44dec9d42",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "All nine C4 labels are drawn; the caption 'Sends emails using' wraps over three rows on the Web App -> Email System arrow ('Sends' above, 'emails' on the arrow, 'using' below), still readable as that arrow's caption.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:11426c4cad392dc7",
+      "outputSha256": "b18b27c5a9f00b260bac17edb4e6eeffb4642591526b340773ea40c451e4d7d1",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "drawn-correctly",
+      "reason": "Both stems leave the bottom of their source boxes, carry their captions ('derivative', 'ASCII component port') inline, then turn into v heads on Beautiful Mermaid's top border: two captioned edges, as authored.",
+      "method": "terminal-text",
+      "candidateObserverDefect": {
+        "observer": "terminal structure (inspectTerminalFacts relationships)",
+        "evidence": "Failed with 'Arrow stem is disconnected from its source node'. In each vertical stem the only missing '|' cell (row 5, columns 7 and 27) is covered by that edge's own caption text, which then continues to a +---+ turn and a v head. The same inline-caption convention on horizontal routes (e.g. '----Uses --->' in drawing:0dbd28f2f1c494cc) is not treated as disconnected."
+      }
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:2295dae5ca33addf",
+      "outputSha256": "55b67856eba5bc487a29d61b191ebcefecb4c7b72d949e1c7e801b1786a9f607",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "No commit ids (init, scaffold, feature-api, ui-draft, ui-polish, hotfix) are drawn, and the tag boxes read 'o1.0.1' and 'o1.1.0': the commit glyph overwrote the 'v' of both tags.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:22e97a0fc1fff023",
+      "outputSha256": "ea6974f6813aecbb602516db23177df714d84d18008214b962b1078c8ae85882",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "The index.ts -> Parser Layer route breaks: its '-+' turn ends at column 22 while the v head on Parser Layer sits at column 20, so the stem never reaches the arrowhead. The other seven edges connect.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:25e166249d24378d",
+      "outputSha256": "07fe0237423c8906c4329cbe72d35c5c5e2152e77306bc95ac354f5d9e73b4d0",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "The y-axis labels 'Low value' and 'High value' are absent; only the x-axis labels 'Low cost' and 'High cost' are printed under the grid.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:29fc1dab07164509",
+      "outputSha256": "6b27f800ceb018437ac908fa2aa6ac949c31d11b9b883e097924641423ec1196",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Every node label is inside its box; the edge caption 'first pointerenter or / focus' wraps onto a second row centred on the B -> C arrow between the two boxes.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:29fc1dab07164509",
+      "outputSha256": "6b27f800ceb018437ac908fa2aa6ac949c31d11b9b883e097924641423ec1196",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "drawn-correctly",
+      "reason": "All three edges point the right way: 'row mounts ---->' B, B '+--  focus  -->' C with the wrapped caption 'first pointerenter or / focus' inline, and C '---->' D.",
+      "method": "terminal-text",
+      "candidateObserverDefect": {
+        "observer": "terminal structure (inspectTerminalFacts relationships)",
+        "evidence": "Failed with 'Arrow stem is disconnected from its source node'. B's '+--' stem is interrupted only by its own inline caption word 'focus' before resuming as '-->' into C; the caption is centred on the route row, which is the convention Ondine uses on every captioned edge."
+      }
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:4e4550d086c4e288",
+      "outputSha256": "1c444c67c463fea0413d04e32cbad8d8b913259d8879448398eabce13e6eb450",
+      "selection": "obligation-failed",
+      "aspect": "geometry",
+      "mechanical": "failed",
+      "verdict": "drawn-correctly",
+      "reason": "The Backend frame has its title 'Backend' and encloses Database, Cache Layer and API Gateway; the Load Dashboard -> Database route enters through the frame's top and runs down beside the title.",
+      "method": "terminal-text",
+      "candidateObserverDefect": {
+        "observer": "terminal structure (groups fact)",
+        "evidence": "Failed with 'No unique enclosing container has the exact authored group label: Backend; observed container labels: [\"Backend ----v----\"]'. The container's label text took in the route glyphs that cross its title rows (the '|' at column 11 and the '----v----' top of Database), so a route through the title area turned a correctly drawn group into a failure rather than an unassessed ownership."
+      }
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:53e2d239ed8df992",
+      "outputSha256": "04a53cde67d6b828aaa1b9da0d36d2c43c72b6529a88889d4d3294972b142638",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "The Loop Node -> Loop Node self-loop is only a '<' glyph on the node's right wall, with no loop route; the A -> B and B -> C -> D -> B edges are drawn.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:5eee7283ba095288",
+      "outputSha256": "5d8a64bc0178166ba26571e6b7c8434d11df2b1a9eb626f0765cb80c6ae12c98",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "The required A -> A self-loop is only a '<' glyph on A's right wall, with no loop route back to A.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:767a3f8c3e47e0bd",
+      "outputSha256": "3b39f9bb518a039e4a58196791c2a279d27f92072a2d174371ef98cc4ec2bac0",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "undecidable",
+      "reason": "The A -> B stem carries the caption 'First / Second' inline, but a fully blank row follows the caption, so the stem visibly breaks before the v head on B; whether that reads as one edge is a matter of convention.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:837336a6e0f8f27c",
+      "outputSha256": "f8955422222180194e88ef3a49da0ea36561f32ae2b346b4d1a9a9ce8d4d7f39",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "drawn-correctly",
+      "reason": "Two '+' staircase routes leave A's lower corners and end in v heads on the tops of B and C, giving exactly A -> B and A -> C.",
+      "method": "terminal-text",
+      "candidateObserverDefect": {
+        "observer": "terminal structure (inspectTerminalFacts relationships)",
+        "evidence": "Failed with 'Drawn directed relationships or their labels differ from the authored graph'. The recorded traced routes are A -> B and A -> C as authored, plus spurious B -> B and C -> C self-routes made from the staircase cells next to B's and C's top corners ((3,6)->(4,5) and (12,6)->(11,5)): the staircase routes are misread, not missing."
+      }
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:89e9eb6aebb72128",
+      "outputSha256": "e3a28a133980ed18123fb50786fb2d7618c1cfa43876ae4f38151ae6816899ae",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "'Small circle', 'Small double circle' and 'Small rectangle' each sit, line-broken as authored, inside their own ( )-walled or +--+ frame; the rounded frames are not recognised as walls, so ownership was left unknown.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "outputSha256": "168b87625dadf00c812be69caf465007a947d6d686c71b4570b0a1b314252c61",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "The eight Queue self-loops collapse into one tangle and their captions overprint as 'rrrrrrrretry 8': 'retry 1' to 'retry 7' are unreadable.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "outputSha256": "168b87625dadf00c812be69caf465007a947d6d686c71b4570b0a1b314252c61",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "The eight Queue self-loops collapse into one tangle of '+' and '<' glyphs whose captions overprint as 'rrrrrrrretry 8'; individual loops and their captions cannot be traced.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:9cdc849ecf29b4d2",
+      "outputSha256": "0741ab7de64414c75c77013ea950b21bdaf581424b57c683846372c4b48ed64c",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "The decision label 'Which path is / shorter?' wraps over two rows inside the /\\ diamond outline; all six labels are visible and the C and D arrows both enter the diamond.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:c64d9c102f509905",
+      "outputSha256": "f98908e32c6314f4c49bdbaeedf3841ba10eb6f74bf95436e7d49547063460e6",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Commit 'A' is not labelled, and the cherry-pick tag reads 'oherry-pick:B' because a commit glyph overwrote its first letter.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:cd771fca2659a460",
+      "outputSha256": "d3cbdec4a0aaba553c5b44d2c881b893757b8d4b4cce44d63ceafa7dda3a8300",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "All 13 state and transition labels are visible; 'Space up, focus lost / tap' wraps its last word 'tap' onto the row below, on the Recording -> Stopping route, with the neighbouring 'opened / tap' caption between the two rows.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:d3cc8b77d097ec56",
+      "outputSha256": "308c5c8ca53e8aca43ea1967c511b39f067b235575d2917425b6243557a51666",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "drawn-correctly",
+      "reason": "'Request' goes Alice -> Bob, then inside the alt frame '200 OK' ([Success]) and '500 Error' ([Failure]) go Bob -> Alice, in source order.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:de6e8bf0fd559efc",
+      "outputSha256": "82614c589be822bf19300b32e31c514d7a029317f9c465a50f1eb2c5747d9ca9",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Node a's box contains only the arrowhead 'v' where its label should be: the incoming G -> a arrow overwrote the single-letter label.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:e54c4b6195e240be",
+      "outputSha256": "b2904984b77a5b01d9cd136769fe7487b86c7e21d98a06346b15c697f3edcb31",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "'Top <--> Bot' is drawn with ^ and v heads, but the second, dotted 'Top <-.- Bot' edge is a plain solid line with no arrowhead at Top.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:ea7675b95cb763b3",
+      "outputSha256": "5ea11163d60be9c8a453f862c5df8dc08ef7004787759f11e7e1cc591d70fccb",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "The source's thick 'A ==> B' is drawn as an ordinary '|' stem with a v head; nothing distinguishes the thick stroke.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "regression:68230bdf498c2525",
+      "outputSha256": "a027ef1bcdf8dfc53228c0d0933accd58b51ee57ad0767284ddd138fbbcf1096",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "drawn-correctly",
+      "reason": "Inside the anonymous subgraph frame, a '|' stem leaves a's box and ends in a v head on b's box: the single a -> b edge as authored.",
+      "method": "terminal-text",
+      "candidateObserverDefect": {
+        "observer": "terminal structure (inspectTerminalFacts relationships)",
+        "evidence": "Failed with 'Drawn directed relationships or their labels differ from the authored graph', yet the recorded traced routes are exactly [{source: a, target: b}], matching the one authored edge (directed, end marker arrow). The nodes and anonymous-group checks passed. Nothing in the drawing differs from the contract, so the failure seems to come from the comparison, perhaps from the unnamed enclosing group."
+      }
+    },
+    {
+      "format": "terminal",
+      "caseId": "regression:aea8f60cfe1ecdeb",
+      "outputSha256": "051a89a1c7b1349297183ced47783cf308997b269067eacebaa19b75665dd23b",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "The thick 'A ==> B' edge is drawn as an ordinary '---->' arrow; the thick stroke is not shown.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "regression:b37bebe1a745f1d6",
+      "outputSha256": "051a89a1c7b1349297183ced47783cf308997b269067eacebaa19b75665dd23b",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "The dotted 'A -.-> B' edge is drawn as a solid '---->' arrow; the dotted stroke is not shown.",
+      "method": "terminal-text"
+    }
+  ]
+}

@@ -6,6 +6,8 @@
 //   bun scripts/merge-drawing-results.ts --run RUN_DIR --out FILE   (one complete run publishes every format)
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { gunzipSync } from 'node:zlib'
+import { loadDrawingReviews, withDrawingObligations, withDrawingReviews } from '../unified/drawing-report.ts'
 import { assertCampaignCoverage, planDigest } from '../unified/campaign-plan.ts'
 
 const statuses = ['correct', 'incorrect', 'renderer-failure', 'invalid-format', 'unknown', 'unrun'] as const
@@ -114,12 +116,17 @@ function validateDrawingCoverage(run: any) {
 
 if (import.meta.main) {
   const args = process.argv.slice(2), take = (flag: string) => { const i = args.indexOf(flag); return i < 0 ? undefined : args[i + 1] }
-  const base = take('--base'), run = take('--run'), formats = take('--formats')?.split(','), out = take('--out'), collected = take('--collected-at')
-  if (!run || !out || (base && !formats?.length)) throw Error('merge-drawing-results [--base PUBLISHED.json --formats FORMATS] --run RUN_DIR --out FILE [--collected-at ISO_TIME]')
+  const base = take('--base'), run = take('--run'), formats = take('--formats')?.split(','), out = take('--out'), collected = take('--collected-at'), obligations = take('--obligations'), reviews = take('--reviews')
+  if (!run || !out || (base && !formats?.length)) throw Error('merge-drawing-results [--base PUBLISHED.json --formats FORMATS] --run RUN_DIR --out FILE [--collected-at ISO_TIME] [--obligations OBLIGATIONS.json[.gz]] [--reviews REVIEW_DIR]')
   if (existsSync(out)) throw Error('Choose a fresh output file')
   const recorded = JSON.parse(readFileSync(join(run, 'results.json'), 'utf8'))
   if (collected && recorded.updatedAt) throw Error('The run records its own collection time; --collected-at is only for runs that do not')
   if (collected) recorded.updatedAt = new Date(collected).toISOString()
-  const merged = base ? mergeDrawingResults(JSON.parse(readFileSync(base, 'utf8')), recorded, formats!) : publishDrawingRun(recorded)
+  let merged = base ? mergeDrawingResults(JSON.parse(readFileSync(base, 'utf8')), recorded, formats!) : publishDrawingRun(recorded)
+  // The source-obligation axis and the bounded manual reviews are attached beside the
+  // label verdicts; neither changes a count or a rank.
+  const evidence = obligations ? JSON.parse((obligations.endsWith('.gz') ? gunzipSync(readFileSync(obligations)) : readFileSync(obligations)).toString('utf8')) : undefined
+  if (evidence) merged = withDrawingObligations(merged, evidence)
+  if (reviews) merged = withDrawingReviews(merged, loadDrawingReviews(reviews), evidence)
   writeFileSync(out, JSON.stringify(merged, null, 2) + '\n')
 }

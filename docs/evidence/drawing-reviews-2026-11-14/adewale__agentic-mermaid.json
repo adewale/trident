@@ -1,0 +1,57 @@
+{
+  "schema": "trident-drawing-reviews-v1",
+  "project": "adewale/agentic-mermaid",
+  "version": "0.5.6",
+  "capture": {
+    "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
+    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+  },
+  "reviewedAt": "2026-11-14",
+  "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
+  "reviews": [
+    {
+      "format": "svg",
+      "caseId": "drawing:25e166249d24378d",
+      "outputSha256": "eca886c8b639abc4975c8ee11c61bace3f30bd8bb2563eb995890e50bd66517b",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the Alpha and Delta point dots sit on the quadrant captions, so 'Do now' reads 'Do ●ow' and 'Drop' reads 'Dr●p'.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:64788fe4b88b1f1f",
+      "outputSha256": "8c586cf9573f24f07016171da91e2e2e62c8c83150537c8062ba9369c8e78fc2",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot: an arrow leaves the Outer frame's left border and ends with its head on the Inner frame's top, giving the single Outer -> Inner edge.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:89e9eb6aebb72128",
+      "outputSha256": "350a3526673b39302792e8ccc84419b265bffbe2ad81154d27b2fe1221dc2c53",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the rectangle label wraps as 'Small / rectangl- / e', adding a hyphen that is not in the authored 'Small rectangle'.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:7801c75b869778fe",
+      "outputSha256": "7a8a7f1b4aefe641db9d6948949fa8240d550e520a591cc0e156a70b1e66e61f",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "undecidable",
+      "reason": "Both inheritance triangles leave Animal and the dotted 'chases' route ends with ▼ on Cat, but the Kennel ◇ 'houses' route meets the Animal -> Cat stem at a ┼ crossing, and whether it ends at Dog cannot be traced with confidence.",
+      "method": "terminal-text"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "schema": "trident-drawing-reviews-v1",
+  "project": "orestesgaolin/mermaid",
+  "version": "0.3.2",
+  "capture": {
+    "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
+    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+  },
+  "reviewedAt": "2026-11-14",
+  "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
+  "reviews": [
+    {
+      "format": "svg",
+      "caseId": "drawing:22e97a0fc1fff023",
+      "outputSha256": "49f39a99d8032c1420df2be1eba25a9c3345ca0fd29df8b418e03bc1a7fe17c3",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows all eight node labels and both group titles; the render.lua -> index.ts edge passes over the left edge of the 'N' in the 'Node.js' title but the title stays legible.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:263ec71ab0c651b3",
+      "outputSha256": "5074c70ef6e2c0afc549f25e81fbadb77f36f8b976afa1ea7e00c275a96e5d99",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows all six treemap labels; 'CSS 15' is white text on the visibly blue leaf (a #8686ff rect at fill-opacity 0.3 over the blue Frontend section) and is legible.",
+      "method": "svg-screenshot",
+      "candidateObserverDefect": {
+        "observer": "svg-label-observer (visible-authored-labels camouflage check)",
+        "evidence": "The evidence marks 'CSS' camouflaged:true ('identical to its own opaque flat backdrop'). Its text fill is #ffffff and its backdrop is translucent: <rect fill=\"#8686ff\" fill-opacity=\"0.3\"> over the section rect, which composites to blue in the Chromium screenshot. The camouflage test appears to ignore translucent ancestor fills."
+      }
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:3f4b6bd0b23e6927",
+      "outputSha256": "ae0067607744676fec9f615a6a6a453946ee7ee637edca2015a686d33871ad46",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the node reads 'Tom &amp; Jerry'; the entity was escaped twice, so source markup leaks into the label.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:90e78c1ed707e7e4",
+      "outputSha256": "5c173dc1a3cc395986281acb70e9873a43228bdd3b59423a62fc553cd347b01c",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the self-loop captions overprint as 'rererere...retry 8'; 'retry 1' to 'retry 7' are unreadable.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:b1428b5b59888938",
+      "outputSha256": "46f088fbf9a3c758ed7bb0a69b931b21d2231c368792860136b10b47c4f0ebc8",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the title 'Accessibility i18n sample' is missing, and the edge strokes run through the 'read' and rotated 'write' captions.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:cd771fca2659a460",
+      "outputSha256": "d3cef5bb930985a4a39da9489e5da0b8824236d96b5a1d23681324d14ab1cee4",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot: all 12 transitions, including the initial arrow to Idle, run between the right states in the right direction, each with its caption.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:fbfb884b46380275",
+      "outputSha256": "075a8a7fef76b32f04417f7b1190adef8ec3b534216be030ef46a880f820f53a",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: node B reads 'Reconcile *all* ledgers / then archive' with the literal Markdown asterisks, so source syntax leaks into the label.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "regression:4e15c9b5403a9b04",
+      "outputSha256": "d92ff1f244c9ba094015981fdba7901dbced6192797335689a6a4ddb478d0578",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows one subgraph titled 'S' containing two separate boxes 'x' and 'y'; all three labels are clear.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "regression:d5156efceddb697a",
+      "outputSha256": "c199d568cb793a3c930b966b9baa553d9380d1730347264caf9630acaab9c975",
+      "selection": "obligation-failed",
+      "aspect": "geometry",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the curved Input -> Processor and Config -> Processor edges reach Processor's top side diagonally, with angled arrowheads, so the required orthogonal approach is not met.",
+      "method": "svg-screenshot"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "trident-drawing-reviews-v1",
+  "project": "mermaid-js/mermaid",
+  "version": "12.3.0",
+  "capture": {
+    "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
+    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+  },
+  "reviewedAt": "2026-11-14",
+  "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
+  "reviews": [
+    {
+      "format": "svg",
+      "caseId": "drawing:89be4f2885fb74a9",
+      "outputSha256": "452051e8f5971b644074cc30f59a6e1d03c3c34fe635097e9f864068b1e6b88d",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot shows CUSTOMER and ORDER with every attribute (string id PK, string name, string customer_id FK) and the 'places' caption on the crow's-foot relationship; the HTML decoration only blocked the glyph proof.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:94e514f9f375364c",
+      "outputSha256": "e2062d1e27d56fde42b32b0bd4dab91a02e2e3bf53ed7b66c3db6a9f6bc382d5",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "drawn-correctly",
+      "reason": "Screenshot: places (|| to o{), contains (|| to |{) and references (|| to o{) join the right entities with their captions.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:b1428b5b59888938",
+      "outputSha256": "aab4a123e4b485787dc8f080c59cbcd4b638afb4f34a6ff16bd2e51ef48d4f21",
+      "selection": "label-unknown",
+      "aspect": "labels",
+      "mechanical": "unknown",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: the authored title 'Accessibility i18n sample' is not drawn anywhere; the group, three services and the read/write captions are visible.",
+      "method": "svg-screenshot"
+    },
+    {
+      "format": "svg",
+      "caseId": "drawing:e54c4b6195e240be",
+      "outputSha256": "03dd9705597ee27a772f68860a338c320748d0878729818cd56fbc8c5f5db51f",
+      "selection": "obligation-failed",
+      "aspect": "relationships",
+      "mechanical": "failed",
+      "verdict": "confirmed-failure",
+      "reason": "Screenshot: 'Top <--> Bot' is a solid double-headed arrow, but the dotted 'Top <-.- Bot' line has no arrowhead at Top, so the source's start marker is missing.",
+      "method": "svg-screenshot"
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { boundaryKind, davebenchFailedInputs, davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
 import { acceptedRankings } from './davebench-report.ts'
+import { renderDrawingObligations, renderDrawingReviews } from './drawing-report.ts'
 import { assertTimingCollection, campaignPlan } from './campaign-plan.ts'
 
 function requireSameAdmission(left: any, right: any) {
@@ -173,6 +174,7 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
     caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => String(r.format).split('/').includes(format)), format, 'Blocked')
     for (const r of drawing.results.filter((r: any) => r.format === format && r.caseOutcomes)) fingerprint(r.project, 'drawing:' + format, JSON.stringify(Object.fromEntries(Object.entries(r.caseOutcomes).map(([status, ids]: [string, any]) => [status, [...ids].sort()]))))
     lines.push(...renderCommonComparison(commonDrawingComparison(drawing, format), label))
+    lines.push(...renderDrawingObligations(drawing, format, label), ...renderDrawingReviews(drawing, format, label))
   }
   // Only projects with recorded DaveBench per-case outcomes are compared, so a match rests
   // on every input of every lane, not on a nearly saturated Drawing table alone.

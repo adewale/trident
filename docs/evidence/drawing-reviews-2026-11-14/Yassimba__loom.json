@@ -1,0 +1,57 @@
+{
+  "schema": "trident-drawing-reviews-v1",
+  "project": "Yassimba/loom",
+  "version": "0.10.0",
+  "capture": {
+    "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
+    "sha256": "e53cd23fdb962eddfaff97e73e718ef67aa594e26c2b082ede64e312a7cbae64"
+  },
+  "reviewedAt": "2026-11-14",
+  "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
+  "reviews": [
+    {
+      "format": "terminal",
+      "caseId": "drawing:1b492a74df0fc4b6",
+      "outputSha256": "1323985e491c977983f9dc24f8afe9084416879232d41ac1243f5dd7494c7d48",
+      "selection": "obligation-unassessed",
+      "aspect": "relationships",
+      "mechanical": "unassessed",
+      "verdict": "undecidable",
+      "reason": "API -> DB is drawn inside the Backend frame, but the Client arrow's ▶ stops on the Backend frame wall one cell short of API's box, so whether it denotes Client -> API is a reading convention rather than something visible.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:3f4b6bd0b23e6927",
+      "outputSha256": "c02a83636c21df26316f6b538c287b661499f3072cef9071fd10b9a368944c81",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "The one node 'Tom & Jerry' is split at the entity into two boxes, 'Tom &amp' and 'Jerry', with the raw entity text leaking.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:89e9eb6aebb72128",
+      "outputSha256": "f7a16a748f10cbccd13116c1bc13917e2241e86ad459cc9c73f909d3bad0883b",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "Only two boxes are drawn, 'Small circle' and '(Small double circle', with a stray '(' from the shape syntax; the 'Small rectangle' node and the B -> R edge are missing.",
+      "method": "terminal-text"
+    },
+    {
+      "format": "terminal",
+      "caseId": "drawing:b1428b5b59888938",
+      "outputSha256": "35d3e8bbce014e765f810cf74db281830196140330b20a2ae54351172e76589c",
+      "selection": "label-incorrect",
+      "aspect": "labels",
+      "mechanical": "incorrect",
+      "verdict": "confirmed-failure",
+      "reason": "The group and three services are boxed, but the title and both read/write edges with their captions are missing.",
+      "method": "terminal-text"
+    }
+  ]
+}
