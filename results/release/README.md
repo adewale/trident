@@ -18,15 +18,15 @@ remains at its tag.
 | Drawing Correctness, <!-- fact:drawing-cases -->127<!-- /fact --> cases per project/format | [Results](drawing-correctness.json) | <!-- fact:drawing-collected -->14 November 2026<!-- /fact --> |
 | Mermaid Fidelity, <!-- fact:fidelity-files -->352<!-- /fact --> original test files | [Results](mermaid-fidelity.json) | <!-- fact:fidelity-collected -->14 November 2026<!-- /fact --> |
 
-Timing collectors ran serially before Drawing and Fidelity on one Linux x64 host
-with 4 CPUs, with no other benchmark, build or test job running. Fidelity's Node
-run was stopped once by the session's background time limit; its partial output
-was set aside and Node collection restarted in a fresh directory. No timing
-collector was affected. Every format has three complete repeats;
+Timing collectors ran serially on one Linux x64 host with 4 CPUs, with no other
+benchmark, build or test job running. Drawing Correctness (with the native PNG
+lane), its source obligations and Mermaid Fidelity were then recollected on the
+same host after the last harness changes; DaveBench's files are unchanged,
+because no DaveBench code changed after its collection. Every format has three complete repeats;
 153 runs account for 205,326 measured calls, with no blocked lanes or missing API
 durations. Timings apply to the recorded machine, resource limits and API/CLI
 boundaries. Timing collectors discard rendered outputs; Drawing retains every
-returned SVG and terminal output in the archive below.
+returned SVG, terminal and native PNG output in the archive below.
 
 ## Native Flutter PNG
 
@@ -68,14 +68,16 @@ Node environments and 31 actual JSDOM environments and reproduced all 7,099 of
 its JSDOM callback dispositions, reasons and operation counts. Changed executing
 source, installed bytes, runtime or candidate artifacts still invalidate reuse.
 
-Drawing leaves <!-- fact:drawing-unassessed -->154<!-- /fact --> of
-<!-- fact:drawing-rows -->4,318<!-- /fact --> observations unassessed. Path/image
+Drawing leaves <!-- fact:drawing-unassessed -->222<!-- /fact --> of
+<!-- fact:drawing-rows -->4,445<!-- /fact --> observations unassessed. Path/image
 glyphs, unsupported effects and other representations outside the qualified SVG
 profiles receive no correctness credit. Each remaining case and its reason are
-in the retained raw run. This collection has no PNG Drawing lane: Mermaid Flutter's
-native PNG lane (OCR profile `png-ocr-presence-only-v1`, see
-[benchmark methods](../../docs/benchmark-results-details.md)) was added after it,
-so Flutter's Drawing component remains n/a here. The
+in the retained raw run. Mermaid Flutter, whose public interface draws only PNG,
+is assessed in a native PNG lane under the weaker OCR profile
+`png-ocr-presence-only-v1` (see
+[benchmark methods](../../docs/benchmark-results-details.md)): a label the OCR
+reader does not read is unassessed, not failed, so 68 of its 127 rows are
+unassessed and its Drawing component is a wide range. The
 [earlier SVG inventory](../../docs/evidence/benchmark-completion-2026-11-07/svg-label-review.json)
 describes the preceding collection; its output hashes are historical.
 
@@ -98,7 +100,8 @@ bun commands.ts davebench:native-png --host-display --bundle VERIFIED_BUNDLE --o
 bun commands.ts davebench --catalog CATALOG --upstream UPSTREAM --prepared artifacts/community-browser-prepared.json --out images
 bun commands.ts davebench:terminal --catalog CATALOG --upstream UPSTREAM --prepared artifacts/community-prepared.json --out terminal
 # After all timings finish, collect drawing and parser evidence.
-bun commands.ts drawing:correctness --catalog CATALOG --prepared artifacts/community-browser-prepared.json --terminal-prepared artifacts/community-prepared.json --out drawing
+native-flutter/build-drawing.sh
+bun commands.ts drawing:correctness --catalog CATALOG --prepared artifacts/community-browser-prepared.json --terminal-prepared artifacts/community-prepared.json --native-png-bundle native-flutter/app/build/drawing-bundle --out drawing
 bun commands.ts drawing:structure --run drawing --out structure
 TRIDENT_FIDELITY_ENVIRONMENT=jsdom bun commands.ts mermaid:fidelity --upstream UPSTREAM --reference ORACLE --runtime RUNTIME --prepared artifacts/community-prepared.json --catalog CATALOG --workers 2 --out fidelity-jsdom
 TRIDENT_FIDELITY_ENVIRONMENT=node bun commands.ts mermaid:fidelity --upstream UPSTREAM --reference ORACLE --runtime RUNTIME --prepared artifacts/community-prepared.json --catalog CATALOG --reuse-reference fidelity-jsdom --workers 2 --out fidelity-node
@@ -115,10 +118,11 @@ bun commands.ts results:snapshot
 ## Retained Drawing capture
 
 The current [capture archive](captures/drawing-capture-2026-11-14.tar.gz?raw=true) is
-4,101,006 bytes, with SHA-256 `70aa917d5abfb4f419787846b966366b39462456e575723018775530e9ae7d37`.
-It contains the complete raw run and all 3,703 returned SVG/terminal outputs,
-stored as 3,456 compressed objects. The other 615 calls returned renderer
-failures. The capture was assessed with label policy `drawing-reviewed-labels-v3`
+5,183,299 bytes, with SHA-256 `b15da1ae8611b457aedd1beea38a9fd6d0dc68b98b380ccf7dcdaa241271852a`.
+It contains the complete raw run and all 3,826 returned SVG, terminal and PNG
+outputs, stored as 3,577 compressed objects. Of the other 619 calls, 618 returned
+renderer failures and one returned PNG bytes that failed admission, which are not
+retained. The capture was assessed with label policy `drawing-reviewed-labels-v3`
 and SVG profile `svg-label-paint-v8`, so reassessing it with the current observer
 reproduces every verdict.
 

@@ -4,7 +4,7 @@
   "version": "12.3.0",
   "capture": {
     "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
-    "sha256": "70aa917d5abfb4f419787846b966366b39462456e575723018775530e9ae7d37"
+    "sha256": "b15da1ae8611b457aedd1beea38a9fd6d0dc68b98b380ccf7dcdaa241271852a"
   },
   "reviewedAt": "2026-11-14",
   "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",
@@ -12,7 +12,7 @@
     {
       "format": "svg",
       "caseId": "drawing:89be4f2885fb74a9",
-      "outputSha256": "1a3846770a277cb3e12856ee4ca22ae088448af0c42fe29cace84faed6ecd8a5",
+      "outputSha256": "244c0c729ebd4c28d28f0252f19260f28e5e192b770e0ed339e31fc5e5192f3b",
       "selection": "label-unknown",
       "aspect": "labels",
       "mechanical": "unknown",
@@ -20,14 +20,17 @@
       "reason": "Screenshot shows CUSTOMER and ORDER with every attribute (string id PK, string name, string customer_id FK) and the 'places' caption on the crow's-foot relationship; the HTML decoration only blocked the glyph proof.",
       "method": "svg-screenshot",
       "recheck": {
-        "previousOutputSha256": "452051e8f5971b644074cc30f59a6e1d03c3c34fe635097e9f864068b1e6b88d",
-        "note": "Re-collected output differs from the reviewed one only in random control points of straight row-separator paths (same endpoints, every control point on the same horizontal line); the drawing is unchanged, so the verdict carries over."
+        "note": "Re-collected output differs from the reviewed one only in random control points of straight row-separator paths (same endpoints, every control point on the same horizontal line); the drawing is unchanged, so the verdict carries over.",
+        "previousOutputSha256s": [
+          "452051e8f5971b644074cc30f59a6e1d03c3c34fe635097e9f864068b1e6b88d",
+          "1a3846770a277cb3e12856ee4ca22ae088448af0c42fe29cace84faed6ecd8a5"
+        ]
       }
     },
     {
       "format": "svg",
       "caseId": "drawing:94e514f9f375364c",
-      "outputSha256": "532c21fbed1051367fee22291f25b1e3441caf987bdd4993fcf7eed6d41e3b9a",
+      "outputSha256": "e2ae47899e331f902baba02a4f07d479167894075947bddff6b6a71d5d18a989",
       "selection": "obligation-unassessed",
       "aspect": "relationships",
       "mechanical": "unassessed",
@@ -35,14 +38,17 @@
       "reason": "Screenshot: places (|| to o{), contains (|| to |{) and references (|| to o{) join the right entities with their captions.",
       "method": "svg-screenshot",
       "recheck": {
-        "previousOutputSha256": "e2062d1e27d56fde42b32b0bd4dab91a02e2e3bf53ed7b66c3db6a9f6bc382d5",
-        "note": "Re-collected output differs from the reviewed one only in random control points of straight row-separator paths (same endpoints, every control point on the same horizontal line); the drawing is unchanged, so the verdict carries over."
+        "note": "Re-collected output differs from the reviewed one only in random control points of straight row-separator paths (same endpoints, every control point on the same horizontal line); the drawing is unchanged, so the verdict carries over.",
+        "previousOutputSha256s": [
+          "e2062d1e27d56fde42b32b0bd4dab91a02e2e3bf53ed7b66c3db6a9f6bc382d5",
+          "532c21fbed1051367fee22291f25b1e3441caf987bdd4993fcf7eed6d41e3b9a"
+        ]
       }
     },
     {
       "format": "svg",
       "caseId": "drawing:b1428b5b59888938",
-      "outputSha256": "269221f70df2449e5f715141c11209df7be7608c2967351a4736e513ac65d88c",
+      "outputSha256": "1b5836902ae340ba88035393dbc0f988016725ea340a1fe10018f6a233c8899d",
       "selection": "label-unknown",
       "aspect": "labels",
       "mechanical": "unknown",
@@ -50,8 +56,11 @@
       "reason": "Screenshot: the authored title 'Accessibility i18n sample' is not drawn anywhere; the group, three services and the read/write captions are visible.",
       "method": "svg-screenshot",
       "recheck": {
-        "previousOutputSha256": "aab4a123e4b485787dc8f080c59cbcd4b638afb4f34a6ff16bd2e51ef48d4f21",
-        "note": "Re-collected output differs from the reviewed one only in randomly generated Iconify element ids; the drawing is unchanged, so the verdict carries over."
+        "note": "Re-collected output differs from the reviewed one only in randomly generated Iconify element ids; the drawing is unchanged, so the verdict carries over.",
+        "previousOutputSha256s": [
+          "aab4a123e4b485787dc8f080c59cbcd4b638afb4f34a6ff16bd2e51ef48d4f21",
+          "269221f70df2449e5f715141c11209df7be7608c2967351a4736e513ac65d88c"
+        ]
       }
     },
     {

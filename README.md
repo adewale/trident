@@ -77,7 +77,7 @@ utilities, Mermaid's website and its top-level modules, which no reimplementatio
 parser can reach; they are executed and listed as inventory, not scored. An
 operation the implementation's side reports as unsupported, a missing Trident
 operation binding and a missing model translation all stay unassessed
-(<!-- fact:fidelity-gaps -->66,987<!-- /fact --> tests across all applicable
+(<!-- fact:fidelity-gaps -->66,894<!-- /fact --> tests across all applicable
 implementations), because no per-test review has separated each
 implementation's real limits from Trident's binding gaps. Result files scored
 this way declare `scoring.protocol: 'fidelity-scored-population-v2'`; a result file

@@ -101,7 +101,7 @@ candidate's module exposes no parser for a family (ER, class, C4, state or agent
 for Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH Mermaid
 GB SVG and MermaidTUI), those tests are recorded as unsupported, an operation the
 candidate does not offer; current scoring counts them as unassessed, like
-Trident gaps. Across all applicable candidates, <!-- fact:fidelity-gaps -->66,987<!-- /fact --> tests
+Trident gaps. Across all applicable candidates, <!-- fact:fidelity-gaps -->66,894<!-- /fact --> tests
 remain unassessed. Some candidates are called in-process through
 their JavaScript modules (generic native bindings, native model schema views and
 the Frankenmermaid WASM binding). The others run through parser bridges, one per
@@ -394,8 +394,8 @@ two rules carry label policy `drawing-reviewed-labels-v3` and SVG label profile
 `svg-label-paint-v8`. Empty, error, echoed or zero-size
 outputs are nonpasses; the empty-diagram SVG case requires no painted ink.
 Edges, arrow direction, layout quality and authored style matching are not
-scored. The collection leaves <!-- fact:drawing-unassessed -->154<!-- /fact --> of
-<!-- fact:drawing-rows -->4,318<!-- /fact --> results unassessed. A chart naming no
+scored. The collection leaves <!-- fact:drawing-unassessed -->222<!-- /fact --> of
+<!-- fact:drawing-rows -->4,445<!-- /fact --> results unassessed. A chart naming no
 labels is checked for raw-syntax leakage alone.
 
 PNG is assessed only for a project whose own public interface draws PNG and that
@@ -492,6 +492,6 @@ results snapshot remain in Git history.
 The [league tables](../RESULTS.md) list measured projects and setup gaps for each
 format. A scored result can include failures. It does not mean every input passed,
 every output was assessable, or the project has complete benchmark coverage.
-Drawing has <!-- fact:drawing-unassessed -->154<!-- /fact --> unassessed cases.
+Drawing has <!-- fact:drawing-unassessed -->222<!-- /fact --> unassessed cases.
 Fidelity's unmapped operations and unqualified reference callbacks remain
 coverage work. The synthesis keeps missing measurements as score ranges.

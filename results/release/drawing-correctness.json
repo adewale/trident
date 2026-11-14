@@ -416,6 +416,14 @@
         }
       },
       {
+        "project": "pub:mermaid_flutter",
+        "version": "0.3.2",
+        "format": "png",
+        "operand": {
+          "bundleSha256": "1600dea3a02daeeb6115640221267523c5edcc90a195072a8f579c3d26964f31"
+        }
+      },
+      {
         "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
         "version": "0.1.5",
         "format": "svg",
@@ -488,12 +496,13 @@
       }
     ],
     "rounds": 1,
-    "inputsSha256": "9605c95925d598e7ead84040344b840a0ae7ea45c8d5be46b053e3e4d1d401a0",
-    "identity": "edb47ea6a410872943c66f1f6d55adfa48cab6fed8ecb7bd6fdd54722834bbc7"
+    "inputsSha256": "43ca22713d34c39228e713ebcf1de6ffa3ccf5fc67727dec500a3d3c0b22e48a",
+    "identity": "8801efa043e0a85b32386fb98feda1fa464672ff78aab1c07b1d88ac784c4de6"
   },
   "assessmentProfiles": {
     "svg": "9b0922732c8347551551ce4a9af2045c74b9d46d9e0e097e53bd507993153e23",
-    "terminal": "2c0e0910ff25ed93e385c41807b127139ac2be2dc0d697006ab348febff1c263"
+    "terminal": "2c0e0910ff25ed93e385c41807b127139ac2be2dc0d697006ab348febff1c263",
+    "png": "212ccc9848ace3c3923ac9154012b593fb48844b96655e88161745bee5954742"
   },
   "observerChecks": {
     "svg": [
@@ -585,6 +594,64 @@
       },
       {
         "name": "wrapped-label-word-absent",
+        "status": "incorrect"
+      }
+    ],
+    "png": [
+      {
+        "name": "visible-label",
+        "status": "correct"
+      },
+      {
+        "name": "light-label-on-dark-fill",
+        "status": "correct"
+      },
+      {
+        "name": "wrapped-label",
+        "status": "correct"
+      },
+      {
+        "name": "different-label-is-unread-not-missing",
+        "status": "unknown"
+      },
+      {
+        "name": "near-miss-label",
+        "status": "unknown"
+      },
+      {
+        "name": "wrapped-label-missing-letter",
+        "status": "unknown"
+      },
+      {
+        "name": "glued-source-syntax",
+        "status": "incorrect"
+      },
+      {
+        "name": "source-header-shown",
+        "status": "incorrect"
+      },
+      {
+        "name": "hidden-label-uniform-raster",
+        "status": "incorrect"
+      },
+      {
+        "name": "camouflaged-label",
+        "status": "unknown"
+      },
+      {
+        "name": "clipped-label",
+        "status": "unknown"
+      },
+      {
+        "name": "ocr-ambiguous-label",
+        "status": "unknown"
+      },
+      {
+        "name": "empty-uniform",
+        "status": "correct"
+      },
+      {
+        "name": "empty-with-ink",
         "status": "incorrect"
       }
     ]
@@ -703,6 +770,63 @@
         ],
         "sha256": "939b326443704235f702db8599eb7f55a4203f238e7d9d0372b8228e2cb12588"
       }
+    },
+    "png": {
+      "fonts": {
+        "source": "fc-list : family",
+        "families": [
+          "Bitstream Charter",
+          "Caladea",
+          "Carlito",
+          "Courier 10 Pitch",
+          "DejaVu Sans",
+          "DejaVu Sans Mono",
+          "DejaVu Serif",
+          "FreeMono",
+          "FreeSans",
+          "FreeSerif",
+          "IPAGothic,IPA\u30b4\u30b7\u30c3\u30af",
+          "IPAPGothic,IPA P\u30b4\u30b7\u30c3\u30af,\u4950\u4150\u476f\u7468\u6963",
+          "Inter",
+          "Inter Display",
+          "Inter Display,Inter Display Black",
+          "Inter Display,Inter Display ExtraBold",
+          "Inter Display,Inter Display ExtraLight",
+          "Inter Display,Inter Display Light",
+          "Inter Display,Inter Display Medium",
+          "Inter Display,Inter Display SemiBold",
+          "Inter Display,Inter Display Thin",
+          "Inter,Inter Black",
+          "Inter,Inter ExtraBold",
+          "Inter,Inter ExtraLight",
+          "Inter,Inter Light",
+          "Inter,Inter Medium",
+          "Inter,Inter SemiBold",
+          "Inter,Inter Thin",
+          "JetBrains Mono",
+          "JetBrains Mono,JetBrains Mono ExtraBold",
+          "JetBrains Mono,JetBrains Mono ExtraLight",
+          "JetBrains Mono,JetBrains Mono Light",
+          "JetBrains Mono,JetBrains Mono Medium",
+          "JetBrains Mono,JetBrains Mono SemiBold",
+          "JetBrains Mono,JetBrains Mono Thin",
+          "Liberation Mono",
+          "Liberation Sans",
+          "Liberation Serif",
+          "Loma",
+          "Noto Color Emoji",
+          "OpenSymbol",
+          "Unifont",
+          "Unifont CSUR",
+          "Unifont Sample",
+          "Unifont Upper",
+          "Unifont\\-JP",
+          "WenQuanYi Zen Hei Mono,\u6587\u6cc9\u9a5b\u7b49\u5bec\u6b63\u9ed1,\u6587\u6cc9\u9a7f\u7b49\u5bbd\u6b63\u9ed1",
+          "WenQuanYi Zen Hei Sharp,\u6587\u6cc9\u9a5b\u9ede\u9663\u6b63\u9ed1,\u6587\u6cc9\u9a7f\u70b9\u9635\u6b63\u9ed1",
+          "WenQuanYi Zen Hei,\u6587\u6cc9\u9a5b\u6b63\u9ed1,\u6587\u6cc9\u9a7f\u6b63\u9ed1"
+        ],
+        "sha256": "939b326443704235f702db8599eb7f55a4203f238e7d9d0372b8228e2cb12588"
+      }
     }
   },
   "runtimeBindings": [
@@ -731,6 +855,51 @@
           }
         ],
         "installedRuntimeSha256": "69be0b244877b6b12dab60c12d3aa5d170d866fbd4ec016c4ce98b4744c51fbb"
+      }
+    },
+    {
+      "project": "pub:mermaid_flutter",
+      "format": "png",
+      "binding": {
+        "bundleSha256": "1600dea3a02daeeb6115640221267523c5edcc90a195072a8f579c3d26964f31",
+        "target": "drawing/drawing_worker.dart",
+        "sdk": {
+          "channel": "stable",
+          "dartSdkVersion": "3.13.7",
+          "devToolsVersion": "2.60.0",
+          "engineBuildDate": "2026-10-22 20:34:48.330",
+          "engineCommitDate": "2026-10-23 02:13:38.000Z",
+          "engineContentHash": "dfd2e6cb7d319db05e3bf1503f3e2ac60f6288a2",
+          "engineRevision": "cf636b1dfb818dd6a3ff16e390e93b1a036969c8",
+          "flutterRoot": "/opt/flutter",
+          "flutterVersion": "3.47.8",
+          "frameworkCommitDate": "2026-10-22 21:37:31 -0700",
+          "frameworkRevision": "737ba8f885dc774b53b442759999a312c9461e4e",
+          "frameworkVersion": "3.47.8",
+          "repositoryUrl": "https://github.com/flutter/flutter.git"
+        },
+        "worker": {
+          "type": "ready",
+          "package": "mermaid_flutter",
+          "version": "0.3.2",
+          "runtime": {
+            "dart": "3.13.7 (stable) (Thu Oct 22 14:28:57 2026 -0700) on \"linux_x64\"",
+            "platform": "linux"
+          },
+          "mode": "release",
+          "target": "drawing",
+          "pixelRatio": 1
+        },
+        "boundary": "mermaid_flutter.renderToPng(source, pixelRatio: 1) in the sealed release drawing target under a private Xvfb display; in-app PNG admission as DaveBench",
+        "reader": {
+          "tesseract": "tesseract 5.3.4",
+          "engTraineddataSha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+          "numpy": "2.5.3",
+          "pillow": "12.3.0",
+          "scale": 3,
+          "inkContrast": 48,
+          "flatRadius": 4
+        }
       }
     }
   ],
@@ -871,8 +1040,10 @@
     "regressions": "corpus/drawing-regressions.json"
   },
   "versionsFrozenAt": "2026-11-14T00:14:18.895Z",
-  "method": "Label assessment: SVG labels must pass browser visibility, canvas and clipping checks, or a bounded pixel comparison proving the complete original glyphs remain visible against their actual backdrop. Unsupported observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames; a label found only as whole words wrapped across successive rows outside a frame has no established owner and is unknown, not missing. Clipping measured in a fallback face because the declared primary font is not installed is environment-dependent and unavailable, not failed; assessmentEnvironments records the fontconfig families that judged the run. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.",
+  "method": "Label assessment: SVG labels must pass browser visibility, canvas and clipping checks, or a bounded pixel comparison proving the complete original glyphs remain visible against their actual backdrop. Unsupported observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames; a label found only as whole words wrapped across successive rows outside a frame has no established owner and is unknown, not missing. Clipping measured in a fallback face because the declared primary font is not installed is environment-dependent and unavailable, not failed; assessmentEnvironments records the fontconfig families that judged the run. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is assessed only for a project whose own interface draws PNG and that has no SVG or terminal output, under the weaker png-ocr-presence-only-v1 profile: a label-blind OCR reader must read every label whole in confident words for a pass; an unread label is unknown, never missing; raw syntax read confidently, a uniform raster or ink on an empty diagram fail; absence of raw syntax is observed, not proved.",
   "assessmentLimits": {
+    "pngWorkerMs": 15000,
+    "pngReaderMs": 180000,
     "invocationMs": 15000,
     "svgObserverMs": 8000,
     "terminalWorkerMs": 20000,
@@ -880,26 +1051,27 @@
     "labelPolicy": "drawing-reviewed-labels-v3"
   },
   "blocked": [],
-  "assessmentPolicy": "drawing-reviewed-labels-v3",
   "state": "complete",
   "formats": [
     "svg",
-    "terminal"
+    "terminal",
+    "png"
   ],
   "collection": {
     "svg": {},
     "terminal": {},
+    "png": {},
     "outputsRetained": true,
-    "returnedOutputs": 3703,
-    "startedAt": "2026-11-14T14:02:37.268Z",
-    "finishedAt": "2026-11-14T14:11:46.155Z",
+    "returnedOutputs": 3826,
+    "startedAt": "2026-11-14T19:55:18.844Z",
+    "finishedAt": "2026-11-14T20:04:58.596Z",
     "captureArchive": {
       "path": "captures/drawing-capture-2026-11-14.tar.gz",
-      "sha256": "70aa917d5abfb4f419787846b966366b39462456e575723018775530e9ae7d37",
-      "bytes": 4101006,
+      "sha256": "b15da1ae8611b457aedd1beea38a9fd6d0dc68b98b380ccf7dcdaa241271852a",
+      "bytes": 5183299,
       "root": "drawing-retained"
     },
-    "previousPublishedSha256": "75c707b200da28e73296e37ff315952e21fb650c9742d739ca747d82b2995b76"
+    "previousPublishedSha256": "02828a34d5bcbbcdbc9f704cc5fea13ced32bda15a5f8b3e2dba6004f5e9d832"
   },
   "results": [
     {
@@ -1062,8 +1234,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -1444,8 +1616,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -1830,8 +2002,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -2215,8 +2387,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -2592,8 +2764,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -2971,8 +3143,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -3365,8 +3537,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -3747,8 +3919,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -4128,8 +4300,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -4520,8 +4692,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -4916,8 +5088,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -5313,8 +5485,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -5698,8 +5870,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -6080,8 +6252,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -6465,8 +6637,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -6845,8 +7017,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -7229,8 +7401,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -7610,8 +7782,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -7996,8 +8168,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -8386,8 +8558,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -8765,8 +8937,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -9144,8 +9316,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -9526,8 +9698,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -9909,8 +10081,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -10297,8 +10469,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -10676,8 +10848,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -11069,8 +11241,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -11312,6 +11484,441 @@
       }
     },
     {
+      "project": "pub:mermaid_flutter",
+      "version": "0.3.2",
+      "format": "png",
+      "counts": {
+        "correct": 55,
+        "incorrect": 0,
+        "renderer-failure": 3,
+        "invalid-format": 1,
+        "unknown": 68,
+        "unrun": 0
+      },
+      "caseOutcomes": {
+        "correct": [
+          "drawing:0dbd28f2f1c494cc",
+          "drawing:1468e1cf1186af65",
+          "drawing:1b492a74df0fc4b6",
+          "drawing:1c0f33b5035768f2",
+          "drawing:2091f6913743bcab",
+          "drawing:22775b7f44c796b6",
+          "drawing:2431a54dd231055c",
+          "drawing:25b4a684eb0b6e31",
+          "drawing:278dccc21dd27020",
+          "drawing:29fc1dab07164509",
+          "drawing:3c2f67b774f592f2",
+          "drawing:404189958f761756",
+          "drawing:435d2e71f8557532",
+          "drawing:46c4d04542ff7c8e",
+          "drawing:4ab6c5415bc7a24c",
+          "drawing:4ae5560b57ca0064",
+          "drawing:4f96b68984c54c5a",
+          "drawing:5d18804ad5e0e31f",
+          "drawing:5eee7283ba095288",
+          "drawing:663c83c9e855c6b5",
+          "drawing:684ec260a97cf7b6",
+          "drawing:6c29eb05c097760d",
+          "drawing:75a4be6507dd75fe",
+          "drawing:767a3f8c3e47e0bd",
+          "drawing:7801c75b869778fe",
+          "drawing:87325fd383c3b1af",
+          "drawing:898156db49cbe4e9",
+          "drawing:915784d6704949c2",
+          "drawing:9516272260e4c69d",
+          "drawing:a2118d0582abef57",
+          "drawing:a5204531005bef25",
+          "drawing:b29260d2c1b434d5",
+          "drawing:b4c60f465d6bcb5b",
+          "drawing:bf9642a4ab479973",
+          "drawing:c18237e0a535bdb7",
+          "drawing:cd2dd60c268497d1",
+          "drawing:d2896678981aedb8",
+          "drawing:d3cc8b77d097ec56",
+          "drawing:d98a600399ba3ce5",
+          "drawing:da9198e1adbc1c14",
+          "drawing:de6e8bf0fd559efc",
+          "drawing:e52b4b37f626102c",
+          "drawing:e920356ba6c73b52",
+          "drawing:e977db2dd4ba0536",
+          "drawing:ea7675b95cb763b3",
+          "drawing:f78157ede4e2d1ab",
+          "regression:68230bdf498c2525",
+          "regression:c707395491823d1f",
+          "regression:a1cbf1ae4b6a2b8a",
+          "regression:d2ca0121985b295d",
+          "regression:4e705c28aa5294b7",
+          "regression:0be4872941973688",
+          "regression:baf6f401f414d53b",
+          "regression:b37bebe1a745f1d6",
+          "regression:aea8f60cfe1ecdeb"
+        ],
+        "incorrect": [],
+        "renderer-failure": [
+          "drawing:478ab66bb4c7e4f5",
+          "drawing:d7362afef7c26051",
+          "drawing:e54c4b6195e240be"
+        ],
+        "invalid-format": [
+          "drawing:dbc553f665d05c10"
+        ],
+        "unknown": [
+          "drawing:03019928d457c65c",
+          "drawing:049722f83e7a31e0",
+          "drawing:11426c4cad392dc7",
+          "drawing:128500dada38a009",
+          "drawing:206a9307ba8592b1",
+          "drawing:2295dae5ca33addf",
+          "drawing:22e97a0fc1fff023",
+          "drawing:2598092a6e404821",
+          "drawing:25e166249d24378d",
+          "drawing:263ec71ab0c651b3",
+          "drawing:276c8474274911fa",
+          "drawing:27a0bf1eef1bdb6f",
+          "drawing:3042977d4e6d813b",
+          "drawing:32ad8ee06ab49562",
+          "drawing:383e68bb60ac3633",
+          "drawing:39d5de95eb42396b",
+          "drawing:3f4b6bd0b23e6927",
+          "drawing:43382cbc1379cf4c",
+          "drawing:46492176fc22b23d",
+          "drawing:48d7ff23dee1b343",
+          "drawing:4ab51e1e2963ef1c",
+          "drawing:4e4550d086c4e288",
+          "drawing:529e14e4d09b944a",
+          "drawing:53e2d239ed8df992",
+          "drawing:54f7237ee5ab1a85",
+          "drawing:570e13053d228e29",
+          "drawing:587429a5094fbb28",
+          "drawing:5b249b03683c12ec",
+          "drawing:5c9a50898b1e6ffe",
+          "drawing:61cc5e1150412252",
+          "drawing:64788fe4b88b1f1f",
+          "drawing:6f0f134c3b965095",
+          "drawing:6f83e372d7057526",
+          "drawing:704f69aae7273edd",
+          "drawing:75e652628bded0d8",
+          "drawing:837336a6e0f8f27c",
+          "drawing:867520b102964291",
+          "drawing:89be4f2885fb74a9",
+          "drawing:89e9eb6aebb72128",
+          "drawing:908bfa4128c34006",
+          "drawing:90e78c1ed707e7e4",
+          "drawing:94ac61fd1311d5bc",
+          "drawing:94e514f9f375364c",
+          "drawing:9972eaa8ca8692d8",
+          "drawing:9cdc849ecf29b4d2",
+          "drawing:9e4e5a5e072642e8",
+          "drawing:a181524246065697",
+          "drawing:a60c7e7b3b930353",
+          "drawing:aaf86b713c100b5a",
+          "drawing:b1428b5b59888938",
+          "drawing:b1c4dd60b314e8a1",
+          "drawing:b23c0856e157b1f2",
+          "drawing:bd36b029775eba8c",
+          "drawing:bfad6c5a05be093a",
+          "drawing:c2e297448b5388ba",
+          "drawing:c5455d2e2f5f8672",
+          "drawing:c64d9c102f509905",
+          "drawing:cd771fca2659a460",
+          "drawing:d04b45557e7b8f2e",
+          "drawing:ddef9c7af192e428",
+          "drawing:df5eb5c9968bbb86",
+          "drawing:e84af4bd39ddf3eb",
+          "drawing:ea02b4528ba4eb10",
+          "drawing:ef20265c9ef84973",
+          "drawing:fbfb884b46380275",
+          "regression:4e15c9b5403a9b04",
+          "regression:e4a085e0bd0b6697",
+          "regression:d5156efceddb697a"
+        ],
+        "unrun": []
+      },
+      "assessmentGapReasons": {
+        "Not read by OCR, so unassessed rather than missing: \u26a0\ufe0f warn": 1,
+        "Not read by OCR, so unassessed rather than missing: S": 1,
+        "Not read by OCR, so unassessed rather than missing: Mermaid ASCII, ASCII component port": 1,
+        "Not read by OCR, so unassessed rather than missing: \u65e5\u672c\u8a9e\u30e9\u30d9\u30eb": 1,
+        "Not read by OCR, so unassessed rather than missing: has\nmany": 1,
+        "Not read by OCR, so unassessed rather than missing: init, scaffold, feature-api, ui-draft, ui-polish, hotfix, v1.0.1, v1.1.0, main, develop, feature/ui": 1,
+        "Not read by OCR, so unassessed rather than missing: plugin/ascii-mermaid.lua, init.lua, render.lua, ASCII Renderer, Node.js": 1,
+        "Not read by OCR, so unassessed rather than missing: Branch1, Leaf1": 1,
+        "Not read by OCR, so unassessed rather than missing: Delta, Low value, High value": 1,
+        "Not read by OCR, so unassessed rather than missing: Frontend, Backend": 1,
+        "Not read by OCR, so unassessed rather than missing: Analyze, Prototype, Implement, Test, Ship": 1,
+        "Not read by OCR, so unassessed rather than missing: API": 1,
+        "Not read by OCR, so unassessed rather than missing: ok, hotfix": 1,
+        "Not read by OCR, so unassessed rather than missing: \u05d1\u05b0\u05e8\u05b5\u05d0 hebrew": 1,
+        "Not read by OCR, so unassessed rather than missing: \u65e5\u672c\n\u8a9e": 1,
+        "Not read by OCR, so unassessed rather than missing: A": 1,
+        "Not read by OCR, so unassessed rather than missing: Tom & Jerry": 1,
+        "Not read by OCR, so unassessed rather than missing: To Do, In Progress, Done, Test": 1,
+        "Not read by OCR, so unassessed rather than missing: C": 8,
+        "Not read by OCR, so unassessed rather than missing: \ud83c\udf89 Party": 1,
+        "Not read by OCR, so unassessed rather than missing: Hello \u2764 World, \u65e5\u672c\u8a9e": 1,
+        "Not read by OCR, so unassessed rather than missing: Backend": 1,
+        "Not read by OCR, so unassessed rather than missing: \u6ce8\u6587\u3092\u53d7\u3051\u53d6\u308b, \u652f\u6255\u3044\u3092\u78ba\u8a8d\u3059\u308b, \u5728\u5eab\u3092\u78ba\u4fdd\u3059\u308b, \u914d\u9001, \u901a\u77e5\u3059\u308b, \u652f\u6255\u3044\u6e08\u307f, \ud83d\ude00 emoji label": 1,
+        "Not read by OCR, so unassessed rather than missing: x": 2,
+        "Not read by OCR, so unassessed rather than missing: CLI Tool, Auth Service, Order Service, Search Service, Postgres, Redis": 1,
+        "Not read by OCR, so unassessed rather than missing: Cloud spend by team, ML, Mobile, QA, Docs, Misc": 1,
+        "Not read by OCR, so unassessed rather than missing: DB, API": 1,
+        "Not read by OCR, so unassessed rather than missing: \u001b[31mX": 1,
+        "Not read by OCR, so unassessed rather than missing: Pets \ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67, \u0644\u0627": 1,
+        "Not read by OCR, so unassessed rather than missing: \u732b cats \ud83d\udc31": 1,
+        "Not read by OCR, so unassessed rather than missing: places, contains, ordered in, billed by, stocks": 1,
+        "Not read by OCR, so unassessed rather than missing: contains, paid_by, appears_in": 1,
+        "Not read by OCR, so unassessed rather than missing: places": 1,
+        "Not read by OCR, so unassessed rather than missing: Small\ndouble\ncircle": 1,
+        "Not read by OCR, so unassessed rather than missing: retry 1, retry 2, retry 3, retry 4, retry 5, retry 6, retry 7, retry 8": 1,
+        "Not read by OCR, so unassessed rather than missing: \u65e5\u672c\u8a9e\u30c6\u30b9\u30c8, \u7d42\u4e86": 1,
+        "Not read by OCR, so unassessed rather than missing: places, contains, references": 1,
+        "Not read by OCR, so unassessed rather than missing: C, E": 1,
+        "Not read by OCR, so unassessed rather than missing: Try pair 1: preferred start \u2192 preferred end, Try pair 2: alternate start \u2192 alternate end": 1,
+        "Not read by OCR, so unassessed rather than missing: \u05e9\u05b8\u05dc\u05d5\u05b9\u05dd": 1,
+        "Not read by OCR, so unassessed rather than missing: C, D": 1,
+        "Not read by OCR, so unassessed rather than missing: \u79c1\u306e\u4e00\u65e5\u306e\u6d41\u308c, \u304a\u8336\u3092\u5165\u308c\u308b, \u51fa\u52e4\u524d\u306e\u6e96\u5099, \u30e1\u30fc\u30eb\u3092\u78ba\u8a8d\u3059\u308b, \u5915\u98df\u3092\u4f5c\u308b, \u5e30\u5b85, \u79c1, \u5bb6\u65cf": 1,
+        "Not read by OCR, so unassessed rather than missing: \u05d1\u05b0\u05e8\u05b5\u05d0 schedule \u26a0\ufe0f, Task": 1,
+        "Not read by OCR, so unassessed rather than missing: Gateway, DB Primary, read, write, City Cloud, Accessibility i18n sample": 1,
+        "Not read by OCR, so unassessed rather than missing: places \u2764\ufe0f": 1,
+        "Not read by OCR, so unassessed rather than missing: State1": 1,
+        "Not read by OCR, so unassessed rather than missing: joins, includes": 1,
+        "Not read by OCR, so unassessed rather than missing: Box": 1,
+        "Not read by OCR, so unassessed rather than missing: A, B, main, develop": 1,
+        "Not read by OCR, so unassessed rather than missing: quiet 1 s": 1,
+        "Not read by OCR, so unassessed rather than missing: owns, abstract, 1, 0.. (only OCR-ambiguous glyphs: 1, 0..)": 1,
+        "Not read by OCR, so unassessed rather than missing: Source Port, Destination Port": 1,
+        "Not read by OCR, so unassessed rather than missing: SELECT * FROM orders": 1,
+        "Not read by OCR, so unassessed rather than missing: \u7a7a\u95f2, \u5b8c\u6210": 1,
+        "Not read by OCR, so unassessed rather than missing: C, F": 1,
+        "Not read by OCR, so unassessed rather than missing: \u9867\u5ba2, \u6ce8\u6587, \u767a\u6ce8, \u756a\u53f7, \u72b6\u614b": 1,
+        "Not read by OCR, so unassessed rather than missing: Reconcile all ledgers\n  then archive": 1,
+        "Not read by OCR, so unassessed rather than missing: x, S": 1,
+        "Not read by OCR, so unassessed rather than missing: Line1\nLine2": 1,
+        "Not read by OCR, so unassessed rather than missing: Config": 1
+      },
+      "assessmentPolicy": "drawing-reviewed-labels-v3/png-ocr-presence-only-v1",
+      "observerSources": {
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
+        "png-labels.ts": "0b619516105e5fea784b686ace46662672776c9b8dfef090aec12708ee4fe29d",
+        "png-reader.ts": "911a2f8da4dcc8d26425be1746b636957d4a01161b60c812a396deec44223ac0",
+        "png_text_reader.py": "be0faf9e5fac3e8cef3623542dfc61e43e9130125f151abc351d92fc1efde2c4"
+      },
+      "operand": {
+        "bundleSha256": "1600dea3a02daeeb6115640221267523c5edcc90a195072a8f579c3d26964f31"
+      },
+      "obligations": {
+        "profile": "drawing-source-obligations-v1",
+        "cases": 127,
+        "categories": {
+          "relationships": {
+            "applicable": 98,
+            "assessed": 4,
+            "passed": 0,
+            "failed": 4,
+            "failedNoDrawing": 4,
+            "unassessed": 94,
+            "caseOutcomes": {
+              "passed": [],
+              "failed": [
+                "drawing:478ab66bb4c7e4f5",
+                "drawing:d7362afef7c26051",
+                "drawing:dbc553f665d05c10",
+                "drawing:e54c4b6195e240be"
+              ],
+              "unassessed": [
+                "drawing:0dbd28f2f1c494cc",
+                "drawing:11426c4cad392dc7",
+                "drawing:128500dada38a009",
+                "drawing:1b492a74df0fc4b6",
+                "drawing:1c0f33b5035768f2",
+                "drawing:206a9307ba8592b1",
+                "drawing:2091f6913743bcab",
+                "drawing:2295dae5ca33addf",
+                "drawing:22e97a0fc1fff023",
+                "drawing:2431a54dd231055c",
+                "drawing:2598092a6e404821",
+                "drawing:25b4a684eb0b6e31",
+                "drawing:278dccc21dd27020",
+                "drawing:27a0bf1eef1bdb6f",
+                "drawing:29fc1dab07164509",
+                "drawing:3042977d4e6d813b",
+                "drawing:32ad8ee06ab49562",
+                "drawing:3c2f67b774f592f2",
+                "drawing:404189958f761756",
+                "drawing:435d2e71f8557532",
+                "drawing:46492176fc22b23d",
+                "drawing:46c4d04542ff7c8e",
+                "drawing:48d7ff23dee1b343",
+                "drawing:4ab51e1e2963ef1c",
+                "drawing:4ab6c5415bc7a24c",
+                "drawing:4ae5560b57ca0064",
+                "drawing:4e4550d086c4e288",
+                "drawing:4f96b68984c54c5a",
+                "drawing:529e14e4d09b944a",
+                "drawing:53e2d239ed8df992",
+                "drawing:54f7237ee5ab1a85",
+                "drawing:5b249b03683c12ec",
+                "drawing:5c9a50898b1e6ffe",
+                "drawing:5d18804ad5e0e31f",
+                "drawing:5eee7283ba095288",
+                "drawing:64788fe4b88b1f1f",
+                "drawing:663c83c9e855c6b5",
+                "drawing:684ec260a97cf7b6",
+                "drawing:6f83e372d7057526",
+                "drawing:75a4be6507dd75fe",
+                "drawing:75e652628bded0d8",
+                "drawing:767a3f8c3e47e0bd",
+                "drawing:7801c75b869778fe",
+                "drawing:837336a6e0f8f27c",
+                "drawing:867520b102964291",
+                "drawing:87325fd383c3b1af",
+                "drawing:898156db49cbe4e9",
+                "drawing:89be4f2885fb74a9",
+                "drawing:89e9eb6aebb72128",
+                "drawing:908bfa4128c34006",
+                "drawing:90e78c1ed707e7e4",
+                "drawing:915784d6704949c2",
+                "drawing:94ac61fd1311d5bc",
+                "drawing:94e514f9f375364c",
+                "drawing:9516272260e4c69d",
+                "drawing:9972eaa8ca8692d8",
+                "drawing:9cdc849ecf29b4d2",
+                "drawing:9e4e5a5e072642e8",
+                "drawing:a2118d0582abef57",
+                "drawing:b1428b5b59888938",
+                "drawing:b1c4dd60b314e8a1",
+                "drawing:b23c0856e157b1f2",
+                "drawing:b29260d2c1b434d5",
+                "drawing:b4c60f465d6bcb5b",
+                "drawing:bd36b029775eba8c",
+                "drawing:bf9642a4ab479973",
+                "drawing:bfad6c5a05be093a",
+                "drawing:c18237e0a535bdb7",
+                "drawing:c2e297448b5388ba",
+                "drawing:c5455d2e2f5f8672",
+                "drawing:c64d9c102f509905",
+                "drawing:cd771fca2659a460",
+                "drawing:d04b45557e7b8f2e",
+                "drawing:d2896678981aedb8",
+                "drawing:d3cc8b77d097ec56",
+                "drawing:de6e8bf0fd559efc",
+                "drawing:df5eb5c9968bbb86",
+                "drawing:e52b4b37f626102c",
+                "drawing:e84af4bd39ddf3eb",
+                "drawing:e920356ba6c73b52",
+                "drawing:e977db2dd4ba0536",
+                "drawing:ea02b4528ba4eb10",
+                "drawing:ea7675b95cb763b3",
+                "drawing:ef20265c9ef84973",
+                "drawing:fbfb884b46380275",
+                "regression:68230bdf498c2525",
+                "regression:c707395491823d1f",
+                "regression:a1cbf1ae4b6a2b8a",
+                "regression:d2ca0121985b295d",
+                "regression:0be4872941973688",
+                "regression:d5156efceddb697a",
+                "regression:baf6f401f414d53b",
+                "regression:b37bebe1a745f1d6",
+                "regression:aea8f60cfe1ecdeb"
+              ]
+            }
+          },
+          "geometry": {
+            "applicable": 28,
+            "assessed": 0,
+            "passed": 0,
+            "failed": 0,
+            "failedNoDrawing": 0,
+            "unassessed": 28,
+            "caseOutcomes": {
+              "passed": [],
+              "failed": [],
+              "unassessed": [
+                "drawing:1b492a74df0fc4b6",
+                "drawing:22e97a0fc1fff023",
+                "drawing:25e166249d24378d",
+                "drawing:263ec71ab0c651b3",
+                "drawing:276c8474274911fa",
+                "drawing:27a0bf1eef1bdb6f",
+                "drawing:43382cbc1379cf4c",
+                "drawing:4e4550d086c4e288",
+                "drawing:587429a5094fbb28",
+                "drawing:5b249b03683c12ec",
+                "drawing:61cc5e1150412252",
+                "drawing:64788fe4b88b1f1f",
+                "drawing:6f0f134c3b965095",
+                "drawing:704f69aae7273edd",
+                "drawing:9972eaa8ca8692d8",
+                "drawing:a181524246065697",
+                "drawing:a60c7e7b3b930353",
+                "drawing:aaf86b713c100b5a",
+                "drawing:b1428b5b59888938",
+                "drawing:cd2dd60c268497d1",
+                "drawing:d98a600399ba3ce5",
+                "drawing:ddef9c7af192e428",
+                "drawing:de6e8bf0fd559efc",
+                "regression:4e15c9b5403a9b04",
+                "regression:68230bdf498c2525",
+                "regression:0be4872941973688",
+                "regression:d5156efceddb697a",
+                "regression:baf6f401f414d53b"
+              ]
+            }
+          },
+          "layout": {
+            "applicable": 34,
+            "assessed": 1,
+            "passed": 0,
+            "failed": 1,
+            "failedNoDrawing": 1,
+            "unassessed": 33,
+            "caseOutcomes": {
+              "passed": [],
+              "failed": [
+                "drawing:478ab66bb4c7e4f5"
+              ],
+              "unassessed": [
+                "drawing:128500dada38a009",
+                "drawing:1c0f33b5035768f2",
+                "drawing:2431a54dd231055c",
+                "drawing:29fc1dab07164509",
+                "drawing:32ad8ee06ab49562",
+                "drawing:39d5de95eb42396b",
+                "drawing:3c2f67b774f592f2",
+                "drawing:404189958f761756",
+                "drawing:46492176fc22b23d",
+                "drawing:48d7ff23dee1b343",
+                "drawing:4ab51e1e2963ef1c",
+                "drawing:4ab6c5415bc7a24c",
+                "drawing:570e13053d228e29",
+                "drawing:5c9a50898b1e6ffe",
+                "drawing:684ec260a97cf7b6",
+                "drawing:767a3f8c3e47e0bd",
+                "drawing:87325fd383c3b1af",
+                "drawing:898156db49cbe4e9",
+                "drawing:89e9eb6aebb72128",
+                "drawing:915784d6704949c2",
+                "drawing:94ac61fd1311d5bc",
+                "drawing:a181524246065697",
+                "drawing:b1c4dd60b314e8a1",
+                "drawing:b4c60f465d6bcb5b",
+                "drawing:c18237e0a535bdb7",
+                "drawing:e52b4b37f626102c",
+                "drawing:e977db2dd4ba0536",
+                "drawing:ea02b4528ba4eb10",
+                "drawing:ea7675b95cb763b3",
+                "drawing:fbfb884b46380275",
+                "regression:0be4872941973688",
+                "regression:b37bebe1a745f1d6",
+                "regression:aea8f60cfe1ecdeb"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
       "project": "sandyyst/dsh-plugin-mermaid-gb-svg",
       "version": "0.1.5",
       "format": "svg",
@@ -11470,8 +12077,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -11850,8 +12457,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -12226,8 +12833,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -12605,8 +13212,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "svg-label-observer.ts": "f208536638d05ba6b8e2a16e2ece63ac75741c257d50fc642f8481f9f395657a",
         "svg-glyph-witness.ts": "43c0831a1189c51e26381b84ba8f5525041de11d5cb8d12641b546b1c7aee556",
         "empty.ts": "29c633183ca456f43963f0a4b26e34fdf67e235415c32030a63cadf758261cb3",
@@ -12998,8 +13605,8 @@
       },
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -13422,8 +14029,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -13797,8 +14404,8 @@
       "assessmentGapReasons": {},
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "observerSources": {
-        "labels.ts": "ca772774162fff65b7860cefe6a47743d34cebe31e280bf462a603b809f2cb37",
-        "observer-contract.ts": "18b10c22e108d06bbb0e4fe93d51a9d2434d65c2222221e60d4eb90ae86f6efc",
+        "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
+        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
         "../terminal-display.ts": "894581041926234be746d0ad0c3a4ac07b49e5c26c8b54c84a2b80f76a059875",
         "../terminal-rectangles.ts": "6452ef058f5463411e8188a7631b85631d8d371e16dccc9dc29353b77b8789f2"
       },
@@ -14032,14 +14639,14 @@
     }
   ],
   "totals": {
-    "correct": 3112,
+    "correct": 3167,
     "incorrect": 351,
-    "renderer-failure": 615,
-    "invalid-format": 86,
-    "unknown": 154,
+    "renderer-failure": 618,
+    "invalid-format": 87,
+    "unknown": 222,
     "unrun": 0
   },
-  "updatedAt": "2026-11-14T14:11:46.155Z",
+  "updatedAt": "2026-11-14T20:04:58.596Z",
   "obligationAssessment": {
     "profile": "drawing-source-obligations-v1",
     "categories": [
@@ -14089,6 +14696,23 @@
           "applicable": 612,
           "assessed": 478,
           "failedNoDrawing": 98
+        }
+      },
+      "png": {
+        "relationships": {
+          "applicable": 98,
+          "assessed": 4,
+          "failedNoDrawing": 4
+        },
+        "geometry": {
+          "applicable": 28,
+          "assessed": 0,
+          "failedNoDrawing": 0
+        },
+        "layout": {
+          "applicable": 34,
+          "assessed": 1,
+          "failedNoDrawing": 1
         }
       }
     }

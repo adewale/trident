@@ -1,79 +1,5 @@
 # Changelog
 
-## Unreleased
-
-### Drawing Correctness
-
-- Add a native PNG lane for projects whose own interface draws only PNG (in the
-  frozen catalog, Mermaid Flutter). A sealed release target,
-  `native-flutter/app/drawing/drawing_worker.dart` (`build-drawing.sh`), runs the
-  DaveBench boundary `renderToPng(source, pixelRatio: 1)` with the same admission
-  and returns the PNG. A label-blind OCR reader and the profile
-  `png-ocr-presence-only-v1` judge the reviewed label plan: a label read whole and
-  confidently passes, raw syntax read, a blank raster or ink on an empty diagram
-  fails, and every unread label is unknown. 14 Chromium-rendered controls run with
-  every collection. The synthesis gives such a project a Drawing component from
-  its PNG lane; an SVG or terminal project's own PNG still adds none. The
-  0.4.0 collection does not include the lane.
-
-### Mermaid Fidelity
-
-- Bezel's bridge keeps a test's database. Tests that call Mermaid's database
-  methods directly now run Bezel's own public methods on Bezel's own model
-  (`bridges/bezel/src/database.rs`), and a spy on one of those members sees the
-  test's direct calls, the same way Pele's database classes are bound. Any
-  bridge can declare such a database (`bridges.ts` protocol). Measured on the
-  14 November jsdom selection, Bezel only, with no previously passing callback
-  changed: scored passes 3,218 → 3,265, native failures 90 → 96 (2 come from
-  the existing flowchart `getClasses` view returning a plain object), and
-  adapter limitations that name a native capability 288 → 160. The rest are
-  listed with their reasons in `native-capabilities.mjs`: arguments Bezel's
-  methods take in another shape, methods that take parsed statements, and
-  parsers that drive a concrete database type, so a test's spy or `yy`
-  database cannot observe their calls. treeview `addNode` was wrongly listed
-  as public: Bezel's tree view database is in a private module, so those 12
-  tests are capability assessments.
-- Bridged models arrive as JSON, which prints a native map as an object. The
-  generic projection now returns the native keys and records as a Map wherever
-  Mermaid's getter returns a Map: flowchart `getClasses`, er `getClasses`,
-  state `getStates` and `getClasses`, requirement `getRequirements`,
-  `getElements` and `getClasses`, and class `getNotes` and `getNamespaces`.
-  Bezel's flowchart class tests no longer fail on `classes.get is not a
-  function`: 14 native failures become passes (flow-style 11,
-  flow-vertice-chaining 1, flowDb 2). Pele's outcomes are unchanged. Latias
-  Merman's 12 flow-style and chaining failures stay failures, now reading the
-  style lists its classDefs hold.
-### Mermaid Fidelity
-
-- Probe every `model-concept` capability assessment (657 distinct reasons over
-  21 candidates) against the installed artifacts
-  (docs/evidence/fidelity-model-concept-review-2026-11-14.json): 631 confirmed,
-  26 disproved in 12 concepts. The views now read what the native models carry:
-  agentic-mermaid's accessibility descriptions (flowchart, ER, gantt, class,
-  radar), class style statements and written `animate: true`; subgraph class
-  assignments (Frankenmermaid, agentic-mermaid, Crafter, Zombie Mermaid,
-  beautiful-mermaid, ascii-mermaid); Zombie Mermaid's sequence title, `link` /
-  `dashed-link` / dashed class relations, ER aliases and state note sides;
-  mermaid_core's ER aliases. Bezel's agentflow `emitWarning` / `emitError` are a
-  Trident gap (its crate has them). Views now receive the measured version.
-  Measured: 31 capability assessments became passes (agentic-mermaid 25, Zombie
-  Mermaid 4 plus 4 native failures, Mermaid Dart and Flutter 1 each), 2 became
-  adapter limitations (Bezel); no pass was lost.
-- MMDR and termaid answer the families they draw as flowcharts with their own
-  public parse (`mmdr detected this source as Flowchart, not railroad`,
-  `termaid parsed this source as flowchart, not c4`, or MMDR's own missing-header
-  refusal) instead of Trident's family table: 608 MMDR and 930 termaid
-  callbacks move from capability assessment to native unsupported.
-- One namespace rule for every class model that records namespaces by their
-  written name: the views build Mermaid's hierarchy from the qualified name with
-  Mermaid's own algorithm (a shared helper, formerly agentic-mermaid's alone)
-  for agentic-mermaid, Mermaid Dart and Flutter, Zombie Mermaid,
-  beautiful-mermaid, ascii-mermaid, vitepress-plugin-mermaid-diagram, XMermaid
-  and Frankenmermaid's dotted keys; a brace-nested namespace recorded under its
-  bare name gets no guessed parent. Measured on the class specs: 11 callbacks
-  pass that had been a view-made native failure or a flat-list assessment; no
-  pass was lost.
-
 ## 0.4.0 — 14 November 2026
 
 This release recollects all three benchmarks against a 14 November product
@@ -159,6 +85,20 @@ change's effect is listed below.
   obligation-failure row: 49 confirmed failures, 40 drawn correctly, 6
   undecidable. Seven reviews contradict a mechanical verdict and are listed as
   candidate observer defects; verdicts are unchanged.
+- Add a native PNG lane for projects whose own interface draws only PNG (in the
+  frozen catalog, Mermaid Flutter). A sealed release target,
+  `native-flutter/app/drawing/drawing_worker.dart` (`build-drawing.sh`), runs the
+  DaveBench boundary `renderToPng(source, pixelRatio: 1)` with the same admission
+  and returns the PNG. A label-blind OCR reader and the profile
+  `png-ocr-presence-only-v1` judge the reviewed label plan: a label read whole and
+  confidently passes, raw syntax read, a blank raster or ink on an empty diagram
+  fails, and every unread label is unknown. 14 Chromium-rendered controls run with
+  every collection. The synthesis gives such a project a Drawing component from
+  its PNG lane; an SVG or terminal project's own PNG still adds none. Mermaid
+  Flutter: 55 correct, 3 renderer failures, 1 inadmissible PNG and 68 unknown of
+  127, so its Drawing component is 43.31–96.85 and its possible overall rank
+  2–19 (it had no Drawing component before). Every case it passes, Mermaid Dart
+  passes too.
 - Measure the glyph ink of plain, single-line HTML labels, separating unused
   font-box overflow from cropped letters, with positive and clipped admission
   controls, and record each unavailable SVG criterion and the glyph witness's
@@ -207,15 +147,64 @@ change's effect is listed below.
     MermaidTUI's own refusals.
   - Timeline tests supply Mermaid's own database module, which Trident already
     binds to each candidate; they are now measured for every candidate.
-  - Bezel's public crate implements most of Mermaid's database methods; 288
-    callbacks are adapter limitations until a stateful Rust bridge binds them.
+  - Bezel's public crate implements most of Mermaid's database methods; the
+    stateful bridge below binds them.
   - Zombie Mermaid's edges carry ids and animation.
   A family parse reported against a shared test's non-family request is
   Trident's mismatch, not a native refusal.
-- Effect on scored passes: Pele 3,253 → 3,388, Zombie Mermaid 983 → 1,053,
-  Latias Merman 2,962 → 3,007, Bezel 3,173 → 3,218, XMermaid 894 → 910, Ondine
-  305 → 320, Mermaid Dart and Mermaid Flutter 1,968 → 1,981, OpenCode Merman
-  126 → 129, Agentic Mermaid 2,239 → 2,240. Flowchart step
+- Bezel's bridge keeps a test's database. Tests that call Mermaid's database
+  methods directly now run Bezel's own public methods on Bezel's own model
+  (`bridges/bezel/src/database.rs`), and a spy on one of those members sees the
+  test's direct calls, the same way Pele's database classes are bound. Any
+  bridge can declare such a database (`bridges.ts` protocol). Adapter
+  limitations that name a native capability fall from 288 to 160; the rest are
+  listed with their reasons in `native-capabilities.mjs`: arguments Bezel's
+  methods take in another shape, methods that take parsed statements, and
+  parsers that drive a concrete database type, so a test's spy or `yy`
+  database cannot observe their calls. treeview `addNode` was wrongly listed
+  as public: Bezel's tree view database is in a private module, so those 12
+  tests are capability assessments.
+- Bridged models arrive as JSON, which prints a native map as an object. The
+  generic projection now returns the native keys and records as a Map wherever
+  Mermaid's getter returns a Map: flowchart `getClasses`, er `getClasses`,
+  state `getStates` and `getClasses`, requirement `getRequirements`,
+  `getElements` and `getClasses`, and class `getNotes` and `getNamespaces`.
+  Bezel's flowchart class tests no longer fail on `classes.get is not a
+  function`. Pele's outcomes are unchanged.
+- Latias Merman's flowchart view reads its classDefs' style lists as Mermaid's
+  class records, so its 12 flow-style and chaining failures pass.
+- Probe every `model-concept` capability assessment (657 distinct reasons over
+  21 candidates) against the installed artifacts
+  (`docs/evidence/fidelity-model-concept-review-2026-11-14.json`): 631
+  confirmed, 26 disproved in 12 concepts. The views now read what the native
+  models carry: Agentic Mermaid's accessibility descriptions (flowchart, ER,
+  gantt, class, radar), class style statements and written `animate: true`;
+  subgraph class assignments (Frankenmermaid, Agentic Mermaid, Crafter, Zombie
+  Mermaid, Beautiful Mermaid, ASCII Mermaid); Zombie Mermaid's sequence title,
+  `link` / `dashed-link` / dashed class relations, ER aliases and state note
+  sides; `mermaid_core`'s ER aliases. Bezel's agentflow `emitWarning` and
+  `emitError`, which its crate has, are bound by the database bridge above.
+  Views receive the measured version.
+- MMDR and Termaid answer the families they draw as flowcharts with their own
+  public parse (`mmdr detected this source as Flowchart, not railroad`,
+  `termaid parsed this source as flowchart, not c4`, or MMDR's own
+  missing-header refusal) instead of Trident's family table: 608 MMDR and 930
+  Termaid callbacks (605 and 927 scored) move from capability assessment to
+  native unsupported.
+- One namespace rule for every class model that records namespaces by their
+  written name: the views build Mermaid's hierarchy from the qualified name with
+  Mermaid's own algorithm (a shared helper, formerly Agentic Mermaid's alone)
+  for Agentic Mermaid, Mermaid Dart and Flutter, Zombie Mermaid, Beautiful
+  Mermaid, ASCII Mermaid, VitePress Plugin Diagram, XMermaid and
+  Frankenmermaid's dotted keys; a brace-nested namespace recorded under its
+  bare name gets no guessed parent. 11 class callbacks pass that had been a
+  view-made native failure or a flat-list assessment.
+- Effect of the capability review, bindings and views on scored passes: Pele
+  3,253 → 3,388, Bezel 3,173 → 3,279 (native failures 90 → 82), Latias Merman
+  2,962 → 3,019, Agentic Mermaid 2,239 → 2,265, Mermaid Dart and Mermaid
+  Flutter 1,968 → 1,984, Zombie Mermaid 983 → 1,059, XMermaid 894 → 910,
+  Ondine 305 → 320, OpenCode Merman 126 → 129; the namespace rule adds 2 each
+  to ASCII Mermaid and Beautiful Mermaid and 1 to Frankenmermaid. Flowchart step
   data that Mermaid's layout records do not carry is no longer read as
   undefined, which removes false passes and failures: Frankenmermaid, Mermaid RS
   Renderer, Mermaid ASCII and Termaid each lose 3 passes.

@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process'
 import { readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { drawingCases } from '../fidelity/drawing/corpus.ts'
-import { readDrawingOutput } from '../fidelity/drawing/retained-output.ts'
+import { readDrawingOutput, readDrawingOutputBytes } from '../fidelity/drawing/retained-output.ts'
 import { reassessDrawingRun } from '../scripts/reassess-drawing-results.ts'
 import { byteDigest } from '../portable/artifacts.ts'
 import { planDigest } from '../unified/campaign-plan.ts'
@@ -35,10 +35,13 @@ test('committed capture owns every returned output and reproduces terminal asses
     owned.add(key(record))
     expect(rows.has(key(record))).toBe(true)
     const input = cases.find(input => input.id === record.caseId)!
-    readDrawingOutput(root, record, input.source)
+    if (record.format === 'png') expect([...readDrawingOutputBytes(root, record, input.source).subarray(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10])
+    else readDrawingOutput(root, record, input.source)
   }
   expect(raw.outputs.length).toBe(published.collection.returnedOutputs)
-  for (const row of raw.rows) expect(owned.has(key(row))).toBe(!['renderer-failure', 'unrun'].includes(row.status))
+  // The native PNG worker's admission refuses an inadmissible PNG without returning its bytes.
+  const returnsNothing = (row: any) => ['renderer-failure', 'unrun'].includes(row.status) || (row.format === 'png' && row.status === 'invalid-format' && String(row.reason).startsWith('Inadmissible PNG output: '))
+  for (const row of raw.rows) expect(owned.has(key(row))).toBe(!returnsNothing(row))
   let accounted = 0
   for (const lane of published.results) for (const [status, ids] of Object.entries(lane.caseOutcomes)) for (const caseId of ids as string[]) {
     expect(rows.get(key({ ...lane, caseId }))?.status).toBe(status)
