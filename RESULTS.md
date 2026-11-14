@@ -97,6 +97,16 @@ Required labels must be visible without leaked source syntax. Edges, arrow direc
 | 15 | 14–16 | DSH Mermaid GB SVG 0.1.5 | 57 | 57–73 | 54 | 16 |
 | 16 | 15–16 | VitePress Plugin Diagram 0.3.2 | 41 | 41–65 | 62 | 24 |
 
+**Common population:** the 5 projects with the most correct SVG cases, compared on the 122 of 127 cases that every one of them has a verdict for. Outside this population their order is not decided.
+
+| Project | Passed / 122 |
+| --- | --- |
+| Bezel 0.2.26 | 121 |
+| Pele 1.13.0 | 121 |
+| Ondine 0.0.3 | 121 |
+| Mermaid 12.3.0 | 120 |
+| Agentic Mermaid 0.5.6 | 118 |
+
 ### Terminal correctness
 
 | Verified rank | Possible rank | Project | Passed / 127 ↑ | Failed | Unassessed |
@@ -119,6 +129,16 @@ Required labels must be visible without leaked source syntax. Edges, arrow direc
 | 16 | 16 | Crafter Mermaid 0.0.3 | 59 | 68 | 0 |
 | 17 | 17 | Figurehead v0.4.3 | 47 | 80 | 0 |
 | 18 | 18 | MermaidTUI 0.0.6 | 13 | 114 | 0 |
+
+**Common population:** the 5 projects with the most correct terminal cases, compared on the 121 of 127 cases that every one of them has a verdict for. Outside this population their order is not decided.
+
+| Project | Passed / 121 |
+| --- | --- |
+| Agentic Mermaid 0.5.6 | 118 |
+| Ondine 0.0.3 | 115 |
+| Zombie Mermaid 5.17.0 | 110 |
+| Termaid 0.12.0 | 105 |
+| Frankenmermaid 0.5.0 | 105 |
 
 ### Matching outcomes
 
@@ -160,6 +180,16 @@ Scores use the 4,844 reference-qualified callbacks of Mermaid's diagram and pars
 | — | — | Grok renderer git-2bdd1d6a6369 | n/a | n/a | n/a | n/a |
 | — | — | Loom renderer 0.10.0 | n/a | n/a | n/a | n/a |
 | — | — | MermaidText git-a6b0c7657b94 | n/a | n/a | n/a | n/a |
+
+**Common population:** the 5 candidates with the most verified passes, on the scored files in which none of them has an unassessed callback (12 files), compared on the 448 of 4,844 callbacks that every one of them has a verdict for. Outside this population their order is not decided.
+
+| Project | Passed / 448 |
+| --- | --- |
+| Pele 1.13.0 | 448 |
+| Bezel 0.2.26 | 447 |
+| Latias Merman 0.10.0 | 438 |
+| Agentic Mermaid 0.5.6 | 412 |
+| Mermaid Dart 0.3.2 | 401 |
 
 ## Equal-weight synthesis
 

@@ -1,6 +1,7 @@
 import { reserveResultDirectory } from './result-storage.ts'
 import { fidelityPopulation, synthesiseBenchmarks, type ScoreBounds } from './overall-score.ts'
 import { fidelityScoring } from './mermaid-fidelity/scoring.ts'
+import { commonDrawingComparison, commonFidelityComparison, renderCommonComparison } from './comparison-report.ts'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { boundaryKind, davebenchFailedInputs, davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
@@ -164,6 +165,7 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
     lines.push('### ' + (format === 'terminal' ? 'Terminal correctness' : format.toUpperCase() + ' correctness'), '')
     caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => String(r.format).split('/').includes(format)), format, 'Blocked')
     for (const r of drawing.results.filter((r: any) => r.format === format && r.caseOutcomes)) fingerprint(r.project, 'drawing:' + format, JSON.stringify(Object.fromEntries(Object.entries(r.caseOutcomes).map(([status, ids]: [string, any]) => [status, [...ids].sort()]))))
+    lines.push(...renderCommonComparison(commonDrawingComparison(drawing, format), label))
   }
   // Only projects with recorded DaveBench per-case outcomes are compared, so a match rests
   // on every input of every lane, not on a nearly saturated Drawing table alone.
@@ -178,6 +180,7 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   if (fidelity.coverage) lines.push(`${fidelity.coverage.commonUnassessedCallbacks} ${scoring.current ? 'scored' : 'reference-qualified'} callbacks are unassessed for every one of the ${fidelity.coverage.candidates} executed candidates; ${fidelity.coverage.commonUncollectedCallbacks} of them have no matching collected callback. Additional gaps vary by candidate. These gaps receive no verified pass credit.`, '')
   const notApplicable = [...scoring.notApplicable.keys()].map(project => ({ project }))
   caseTable(scoring.results.map((r: any) => { const score = scoring.score(r); return { ...r, passed: score.passed, failed: score.nonpasses, gaps: score.unassessed, assertionNonpasses: score.failed, unsupported: score.unsupported } }), population, fidelity.blocked.filter((r: any) => !scoring.notApplicable.has(r.project)), 'fidelity', 'Not run', notApplicable, scoring.current ? 'Unsupported (counted as unassessed)' : 'Unsupported')
+  lines.push(...renderCommonComparison(commonFidelityComparison(fidelity, catalog), label))
   lines.push('## Equal-weight synthesis', '')
   const bounds = (value: ScoreBounds | null) => value === null ? 'n/a' : Math.abs(value.upper - value.lower) < 1e-9 ? value.lower.toFixed(2) : value.lower.toFixed(2) + '–' + value.upper.toFixed(2)
   const rank = (row: { bestRank: number; worstRank: number }) => row.bestRank === row.worstRank ? String(row.bestRank) : row.bestRank + '–' + row.worstRank
