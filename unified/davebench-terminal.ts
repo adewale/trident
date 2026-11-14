@@ -2,7 +2,7 @@ import { executionEnvironment } from './execution-environment.ts'
 import { comparisonProjects } from './lineage.ts'
 import { campaignPlan, assertTimingCollection } from './campaign-plan.ts'
 import { atomicWrite, reserveResultDirectory, timingSession } from './result-storage.ts'
-import { davebenchInputs } from './davebench-inputs.ts'
+import { davebenchFamily, davebenchInputs } from './davebench-inputs.ts'
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
@@ -83,7 +83,7 @@ export async function main(args = process.argv.slice(2)) {
   const workerIdentities: any[] = [], emptyCorpus = davebenchEmptyOutputCorpus(inventory.cases, inventory.cases.map(input => davebenchEmptyOutputRule(input.source)))
   const startedAt = new Date().toISOString(), timeoutMs = 15_000
   const save = (state: string) => {
-    const report = { schema: 'davebench-terminal-v2', state, plan, environment: executionEnvironment(), workerIdentities, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files, ...emptyCorpus }, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup.', failures: 'Each run lists its failed inputs by reason as ranges of plan.cases positions (failures); completed inputs are implied.' }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
+    const report = { schema: 'davebench-terminal-v2', state, plan, environment: executionEnvironment(), workerIdentities, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files, families: inventory.cases.map(input => davebenchFamily(input.source)), ...emptyCorpus }, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup.', failures: 'Each run lists its failed inputs by reason as ranges of plan.cases positions (failures); completed inputs are implied.' }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
     if (state === 'complete') assertTimingCollection(report)
     atomicWrite(join(out, 'results.json'), JSON.stringify(report, null, 2) + '\n')
   }

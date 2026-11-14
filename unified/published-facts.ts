@@ -4,6 +4,7 @@
 // (run in CI) fails when a published number no longer matches them.
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { fidelityScoring } from './mermaid-fidelity/scoring.ts'
 
 /** Docs that may quote generated numbers. */
 export const factDocuments = ['README.md', 'docs/benchmark-portfolio.md', 'docs/benchmark-results-details.md', 'docs/davebench-definition.md', 'docs/overall-scoring.md', 'results/release/README.md']
@@ -25,7 +26,10 @@ function leader(rows: { project: string; score: number; gaps?: number }[], names
  * names maps project ids to display names for the leader facts. */
 export function publishedFacts(davebench: any, drawing: any, fidelity: any, names: Record<string, string> = {}): Record<string, string> {
   const control = fidelity.results.find((row: any) => row.project === 'mermaid-js/mermaid')
-  const candidates = fidelity.results.filter((row: any) => row.project !== 'mermaid-js/mermaid')
+  const scoring = fidelityScoring(fidelity)
+  // Candidates exclude the reference and every project Fidelity does not apply to.
+  const candidates = scoring.results.filter((row: any) => row.project !== 'mermaid-js/mermaid')
+  const scored = candidates.map((row: any) => ({ project: row.project, ...scoring.score(row) }))
   const assessed = drawing.results.reduce((sum: number, row: any) => sum + Object.values(row.counts as Record<string, number>).reduce((a, n) => a + n, 0), 0)
   const projects = new Set([...(davebench.runs ?? []).map((run: any) => run.project), ...drawing.results.map((row: any) => row.project), ...fidelity.results.map((row: any) => row.project)])
   return {
@@ -38,12 +42,13 @@ export function publishedFacts(davebench: any, drawing: any, fidelity: any, name
     'drawing-collected': day(drawing.updatedAt),
     'mermaid-reference': control.version,
     'fidelity-expanded': count(fidelity.expandedCallbacks),
-    'fidelity-population': count(control.counts.passed),
+    'fidelity-population': count(scoring.population),
+    'fidelity-inventory': count(scoring.inventory ?? 0),
     'fidelity-unqualified': count(control.counts['reference-unqualified']),
     'fidelity-skipped': count(control.counts['upstream-skipped']),
     'fidelity-files': count(fidelity.selectedFiles),
     'fidelity-candidates': count(candidates.length),
-    'fidelity-gaps': count(candidates.reduce((sum: number, row: any) => sum + row.counts['trident-blocked'], 0)),
+    'fidelity-gaps': count(scored.reduce((sum: number, row: any) => sum + row.unassessed, 0)),
     'fidelity-collected': day(fidelity.collectedThrough ?? fidelity.updatedAt),
     // One date, or the span from the first benchmark collected to the last.
     'campaign-collected': [...new Set([davebench.collection?.terminal?.finishedAt ?? davebench.collection?.images?.finishedAt, drawing.updatedAt, fidelity.collectedThrough ?? fidelity.updatedAt].filter(Boolean).sort().map(day))].filter((value, index, all) => index === 0 || index === all.length - 1).join(' to ') || 'unknown',
@@ -54,7 +59,7 @@ export function publishedFacts(davebench: any, drawing: any, fidelity: any, name
     // Drawing cases, and the candidate passing the most Fidelity tests.
     ...Object.fromEntries(['svg', 'png', 'terminal'].map(format => ['davebench-' + format + '-leader', leader(davebench.rankings[format].filter((row: any) => row.rank === 1).map((row: any) => ({ project: row.project, score: row.completed })), names)])),
     ...Object.fromEntries(['svg', 'terminal'].map(format => ['drawing-' + format + '-leader', leader(drawing.results.filter((row: any) => row.format === format).map((row: any) => ({ project: row.project, score: row.counts.correct, gaps: (row.counts.unknown ?? 0) + (row.counts.unrun ?? 0) })), names)])),
-    'fidelity-leader': leader(candidates.map((row: any) => ({ project: row.project, score: row.counts.passed, gaps: row.counts['trident-blocked'] })), names),
+    'fidelity-leader': leader(scored.map((row: any) => ({ project: row.project, score: row.passed, gaps: row.unassessed })), names),
   }
 }
 

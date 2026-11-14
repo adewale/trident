@@ -59,7 +59,10 @@ export function synthesiseBenchmarks(davebench: any, drawing: any, fidelity: any
   const drawingFormats: string[] = drawing.formats ?? formats
   const rows = [...ids].map(project => {
     const declared = catalog.nodes.find((n: any) => n.id === project)?.benchmark?.outputs ?? []
-    const applicable = formats.filter(format => declared.includes(format) || format === 'png' && declared.includes('svg') || drawing.results.some((r: any) => r.project === project && r.format === format) || davebench.rankings[format]?.some((r: any) => r.project === project))
+    // PNG made by Trident's own Chromium conversion of the project's SVG repeats the SVG
+    // measurement, so only a project's own PNG interface enters the synthesis.
+    const converted = davebench.rankings.png?.some((r: any) => r.project === project && r.pngPath === 'trident-conversion')
+    const applicable = formats.filter(format => !(format === 'png' && converted) && (declared.includes(format) || format === 'png' && declared.includes('svg') || drawing.results.some((r: any) => r.project === project && r.format === format) || davebench.rankings[format]?.some((r: any) => r.project === project)))
     if (!applicable.length) throw Error('No declared synthesis formats for ' + project)
     const observations = [...drawing.results, ...faithfulScoring.results, ...(davebench.runs ?? [])].filter((r: any) => r.project === project)
     if (new Set(observations.map((r: any) => r.version)).size > 1) throw Error('Cannot synthesise different project versions: ' + project)

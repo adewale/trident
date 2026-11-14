@@ -19,7 +19,7 @@ import { authoredDiagnosticSource, davebenchEmptyOutputCorpus, davebenchEmptyOut
 import { watchMemory } from './process-memory.ts'
 import { killCommunityProcess, spawnCommunityProcess } from './community-process.ts'
 
-import { davebenchInputs } from './davebench-inputs.ts'
+import { davebenchFamily, davebenchInputs } from './davebench-inputs.ts'
 export { davebenchInputs } from './davebench-inputs.ts'
 
 /** Runs in the renderer page. Returns counters and an admission reason only;
@@ -275,7 +275,7 @@ export async function main(args = process.argv.slice(2)) {
   const startedAt = new Date().toISOString(), runs: Run[] = [], blocked: { project: string; format?: string; reason: string }[] = [], timeoutMs = 15_000
   const emptyRules = inventory.cases.map(input => davebenchEmptyOutputRule(input.source))
   const save = (state: string) => {
-    const report = { schema: 'davebench-simple-v2', state, plan, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, directory: 'docs/', occurrences: inventory.cases.length, files: inventory.files, ...davebenchEmptyOutputCorpus(inventory.cases, emptyRules) },
+    const report = { schema: 'davebench-simple-v2', state, plan, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, directory: 'docs/', occurrences: inventory.cases.length, files: inventory.files, families: inventory.cases.map(input => davebenchFamily(input.source)), ...davebenchEmptyOutputCorpus(inventory.cases, emptyRules) },
       method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.', png: 'Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available (pngPath: native or trident-conversion). No image inspection.', failures: 'Each run lists its failed inputs by reason as ranges of plan.cases positions (failures); completed inputs are implied.' },
       environment: { ...executionEnvironment(), chromium: browser.version() },
       runs, summary: davebenchSummary(runs), rankingRule: davebenchRankingRule, rankings: davebenchRankings(runs, inventory.cases.length), blocked }

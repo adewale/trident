@@ -3,7 +3,7 @@ import { fidelityPopulation, synthesiseBenchmarks, type ScoreBounds } from './ov
 import { fidelityScoring } from './mermaid-fidelity/scoring.ts'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { boundaryKind, davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
+import { boundaryKind, davebenchFailedInputs, davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
 import { assertTimingCollection, campaignPlan } from './campaign-plan.ts'
 
 function requireSameAdmission(left: any, right: any) {
@@ -110,16 +110,28 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   const escape = (v: unknown) => String(v).replaceAll('|', '\\|').replaceAll('\n', ' ')
   const lines = ['# Benchmark league tables', '', '[Methods, scoring and coverage details](docs/benchmark-results-details.md)', '', '## DaveBench', '']
   const table = (columns: string[], rows: unknown[][]) => lines.push('| ' + columns.join(' | ') + ' |', '| ' + columns.map(() => '---').join(' | ') + ' |', ...rows.map(r => '| ' + r.map(escape).join(' | ') + ' |'), '')
+  // Per-case outcome fingerprints by lane, used to name projects whose outcomes match in
+  // every DaveBench and Drawing lane they both have. Matching outcomes are reported as a
+  // fact; they do not by themselves show that two projects share code.
+  const lanes = new Map<string, Map<string, string>>()
+  const fingerprint = (project: string, lane: string, key: string) => { if (!lanes.has(project)) lanes.set(project, new Map()); lanes.get(project)!.set(lane, key) }
   for (const format of ['svg', 'png', 'terminal']) {
     lines.push('### ' + (format === 'terminal' ? 'Terminal rendering' : format.toUpperCase() + ' rendering'), '')
     const ranked = [...davebench.rankings[format]].sort((a: any, b: any) => a.rank - b.rank || label(a).localeCompare(label(b)))
+    const own = (r: any) => (davebench.runs ?? []).filter((run: any) => run.project === r.project && run.format === format)
+    // Strict-XML validity and the PNG's origin are reported beside completion when the
+    // collection recorded them; neither changes a completion count.
+    const strict = format === 'svg' && ranked.some((r: any) => own(r).some((run: any) => Number.isInteger(run.strictXmlInvalid)))
+    const origin = format === 'png' && ranked.some((r: any) => r.pngPath)
     const rows: unknown[][] = ranked.map((r: any) => {
-      const kind = davebench.runs?.find((run: any) => run.project === r.project && run.format === format)?.boundaryKind ?? (r.boundary ? boundaryKind(r.boundary) : undefined)
-      return [r.rank, label(r), r.completed, (r.medianTotalMs === null ? '—' : (r.medianTotalMs / 1000).toFixed(3)), kind === 'fresh-process' ? 'CLI; startup included' : kind === 'persistent-api' ? 'API; initialization excluded' : 'Not recorded']
+      const kind = own(r)[0]?.boundaryKind ?? (r.boundary ? boundaryKind(r.boundary) : undefined)
+      return [r.rank, label(r), r.completed, ...(strict ? [Math.max(0, ...own(r).map((run: any) => run.strictXmlInvalid ?? 0))] : []), ...(origin ? [r.pngPath === 'native' ? 'Own PNG interface' : r.pngPath === 'trident-conversion' ? "Trident's Chromium conversion of its SVG" : 'Not recorded'] : []), (r.medianTotalMs === null ? '—' : (r.medianTotalMs / 1000).toFixed(3)), kind === 'fresh-process' ? 'CLI; startup included' : kind === 'persistent-api' ? 'API; initialization excluded' : 'Not recorded']
     })
-    for (const block of davebench.blocked ?? []) if (!ranked.some((r: any) => r.project === block.project) && catalog.nodes.find((n: any) => n.id === block.project)?.benchmark?.outputs.includes(format)) rows.push(['—', label(block), 'Blocked', '—', '—'])
-    table(['Rank', 'Project', `Completed / ${davebench.corpus.occurrences} ↑`, 'Median seconds ↓', 'Timing boundary'], rows)
+    for (const block of davebench.blocked ?? []) if (!ranked.some((r: any) => r.project === block.project) && catalog.nodes.find((n: any) => n.id === block.project)?.benchmark?.outputs.includes(format)) rows.push(['—', label(block), 'Blocked', ...(strict ? ['—'] : []), ...(origin ? ['—'] : []), '—', '—'])
+    table(['Rank', 'Project', `Completed / ${davebench.corpus.occurrences} ↑`, ...(strict ? ['Strict-XML invalid'] : []), ...(origin ? ['PNG source'] : []), 'Median seconds ↓', 'Timing boundary'], rows)
+    for (const r of ranked) { const recorded = own(r).sort((a: any, b: any) => a.run - b.run); if (recorded.length && recorded.every((run: any) => run.failures)) fingerprint(r.project, 'davebench:' + format, JSON.stringify(recorded.map((run: any) => run.failures))) }
   }
+  if (davebench.corpus?.families) lines.push('[Completion by diagram family](docs/davebench-families.md)', '')
   const caseTable = (entries: any[], population: number, blocks: any[], mode: 'svg' | 'terminal' | 'fidelity', blockedLabel = 'Not run', notApplicable: any[] = [], unsupportedLabel = 'Unsupported') => {
     const measured = entries.map(r => ({ ...r, scored: r.passed + r.failed > 0 })).sort((a, b) => Number(b.scored) - Number(a.scored) || b.passed - a.passed || label(a).localeCompare(label(b)))
     // Every unassessed case could still pass or fail. The range is the best and
@@ -151,7 +163,14 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   for (const format of drawing.formats ?? ['svg', 'png', 'terminal']) {
     lines.push('### ' + (format === 'terminal' ? 'Terminal correctness' : format.toUpperCase() + ' correctness'), '')
     caseTable(drawing.results.filter((r: any) => r.format === format).map((r: any) => ({ ...r, passed: r.counts.correct, failed: r.counts.incorrect + r.counts['renderer-failure'] + r.counts['invalid-format'], gaps: r.counts.unknown + r.counts.unrun })), drawing.corpus.cases, drawing.blocked.filter((r: any) => String(r.format).split('/').includes(format)), format, 'Blocked')
+    for (const r of drawing.results.filter((r: any) => r.format === format && r.caseOutcomes)) fingerprint(r.project, 'drawing:' + format, JSON.stringify(Object.fromEntries(Object.entries(r.caseOutcomes).map(([status, ids]: [string, any]) => [status, [...ids].sort()]))))
   }
+  // Only projects with recorded DaveBench per-case outcomes are compared, so a match rests
+  // on every input of every lane, not on a nearly saturated Drawing table alone.
+  const groups = new Map<string, string[]>()
+  for (const [project, byLane] of lanes) if ([...byLane.keys()].some(lane => lane.startsWith('davebench:'))) { const key = JSON.stringify([...byLane].sort()); groups.set(key, [...(groups.get(key) ?? []), project]) }
+  const matching = [...groups.values()].filter(group => group.length > 1)
+  if (matching.length) { lines.push('### Matching outcomes', ''); for (const group of matching) lines.push('- ' + group.map(project => label({ project })).sort().join(' and ') + ': identical per-case outcomes in every DaveBench and Drawing lane.'); lines.push('') }
   lines.push('## Mermaid Fidelity', '')
   const scoring = fidelityScoring(fidelity, catalog)
   const population = fidelityPopulation(fidelity, catalog)
@@ -163,6 +182,37 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   const bounds = (value: ScoreBounds | null) => value === null ? 'n/a' : Math.abs(value.upper - value.lower) < 1e-9 ? value.lower.toFixed(2) : value.lower.toFixed(2) + '–' + value.upper.toFixed(2)
   const rank = (row: { bestRank: number; worstRank: number }) => row.bestRank === row.worstRank ? String(row.bestRank) : row.bestRank + '–' + row.worstRank
   table(['Possible rank', 'Project', 'DaveBench / 100', 'Drawing / 100', 'Fidelity / 100', 'Overall / 100 ↑'], synthesiseBenchmarks(davebench, drawing, fidelity, catalog).map(row => [rank(row), label(row), bounds(row.davebench), bounds(row.drawing), bounds(row.fidelity), bounds(row.overall)]))
+  return lines.join('\n')
+}
+
+/** DaveBench completion per diagram family: which families each implementation renders.
+ * Each row uses the run with the fewest completions, the run its league-table count comes
+ * from, and the failures that run recorded. Undefined for collections that recorded no
+ * case families or no per-case failures. */
+export function renderDavebenchFamilies(davebench: any, catalog: any, displayNames: Record<string, string> = {}) {
+  const families: string[] | undefined = davebench.corpus?.families
+  if (!Array.isArray(families)) return undefined
+  const names = { ...Object.fromEntries(catalog.nodes.filter((n: any) => n.comparisonBranding?.name).map((n: any) => [n.id, n.comparisonBranding.name])), ...displayNames }
+  const counts = new Map<string, number>()
+  for (const family of families) counts.set(family, (counts.get(family) ?? 0) + 1)
+  const order = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([family]) => family)
+  const lines = ['# DaveBench completion by diagram family', '',
+    `Each cell is the percentage of a family's documentation occurrences that the implementation completed, in the run with the fewest completions (the run its DaveBench count comes from). Column headings give each family's occurrence count out of ${families.length}; repeated documentation examples count each time they appear. A family is the diagram type an example declares in its first statement. Generated by \`bun commands.ts results:snapshot\`.`, '']
+  for (const format of ['svg', 'png', 'terminal']) {
+    const cases: string[] | undefined = (format === 'terminal' ? davebench.plans?.terminal : davebench.plans?.images)?.cases
+    if (!cases || cases.length !== families.length) throw Error('DaveBench case families do not match the planned cases for ' + format)
+    const rows: string[][] = []
+    for (const ranked of [...(davebench.rankings[format] ?? [])].sort((a: any, b: any) => a.rank - b.rank || String(a.project).localeCompare(String(b.project)))) {
+      const runs = (davebench.runs ?? []).filter((run: any) => run.project === ranked.project && run.format === format).sort((a: any, b: any) => a.completed - b.completed || a.run - b.run)
+      const run = runs[0]
+      if (!run?.failures) return undefined
+      const failed = new Set(Object.keys(davebenchFailedInputs(run, cases)))
+      const done = new Map<string, number>()
+      cases.forEach((id, index) => { if (!failed.has(id)) done.set(families[index]!, (done.get(families[index]!) ?? 0) + 1) })
+      rows.push([projectVersion(ranked.project, ranked.version, names), ...order.map(family => String(Math.floor(100 * (done.get(family) ?? 0) / counts.get(family)!)))])
+    }
+    lines.push('## ' + (format === 'terminal' ? 'Terminal text' : format.toUpperCase()), '', '| Project | ' + order.map(family => `${family} (${counts.get(family)})`).join(' | ') + ' |', '| --- | ' + order.map(() => '---:').join(' | ') + ' |', ...rows.map(row => '| ' + row.join(' | ') + ' |'), '')
+  }
   return lines.join('\n')
 }
 
