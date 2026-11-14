@@ -4,8 +4,10 @@ import { join, resolve } from 'node:path'
 import { chromium } from 'playwright'
 import { drawingCases } from '../fidelity/drawing/corpus.ts'
 import { assessSvgLabels, assessTerminalLabels, expectsEmptyDrawing, labelPolicy } from '../fidelity/drawing/labels.ts'
-import { drawingAssessmentProfiles, drawingObserverSources, verifyDrawingObserver } from '../fidelity/drawing/observer-contract.ts'
-import { readDrawingOutput } from '../fidelity/drawing/retained-output.ts'
+import { drawingAssessmentProfiles, drawingObserverSources, verifyDrawingObserver, verifyPngObserver } from '../fidelity/drawing/observer-contract.ts'
+import { readDrawingOutput, readDrawingOutputBytes } from '../fidelity/drawing/retained-output.ts'
+import { assessPngLabels, pngLabelProfile, pngReadingRecord } from '../fidelity/drawing/png-labels.ts'
+import { PngTextReader } from '../fidelity/drawing/png-reader.ts'
 import { planDigest } from '../unified/campaign-plan.ts'
 import { qualifyOutputFormat } from '../unified/qualification.ts'
 import { svgTextValidity, terminalTextValidity } from '../unified/davebench-validity.ts'
@@ -13,7 +15,7 @@ import { defaultChromium } from '../unified/benchmark-context.ts'
 import { atomicWrite } from '../unified/result-storage.ts'
 import { assessmentFonts } from '../fidelity/drawing/assessment-fonts.ts'
 
-export async function reassessDrawingRun(run: any, root: string, formats: string[], context?: any) {
+export async function reassessDrawingRun(run: any, root: string, formats: string[], context?: any, reader?: PngTextReader) {
   if (run.state !== 'complete' || !Array.isArray(run.rows) || !run.outputs?.length) throw Error('Reassessment needs a completed raw run with retained outputs; recollect older runs without outputs')
   const cases = drawingCases().filter(test => run.corpus.ids.includes(test.id))
   if (cases.length !== run.corpus.ids.length || planDigest(cases.map(test => ({ id: test.id, source: test.source, expected: test.expected, sourceGaps: test.sourceGaps }))) !== run.corpus.contractSha256) throw Error('Retained run differs from the current reviewed source contract')
@@ -25,12 +27,21 @@ export async function reassessDrawingRun(run: any, root: string, formats: string
     outputs.set(id, record)
   }
   const observerChecks: Record<string, unknown> = { ...run.observerChecks }
-  for (const format of formats) observerChecks[format] = await verifyDrawingObserver(format, context)
+  for (const format of formats) observerChecks[format] = format === 'png' ? await verifyPngObserver(context, reader!) : await verifyDrawingObserver(format, context)
   const rows = []
   for (const row of run.rows) {
     if (!formats.includes(row.format) || ['renderer-failure', 'unrun'].includes(row.status)) { rows.push(row); continue }
     const test = cases.find(test => test.id === row.caseId)!, record = outputs.get(key(row))
+    // The native worker's admission refuses an inadmissible PNG without returning its bytes.
+    if (row.format === 'png' && row.status === 'invalid-format' && !record) { rows.push(row); continue }
     if (!test || !record) throw Error('Missing retained drawing output: ' + key(row))
+    if (row.format === 'png') {
+      // Retained PNGs passed the worker's admission; only the reader and judge run again.
+      const reading = await reader!.read(readDrawingOutputBytes(root, record, test.source)), verdict = assessPngLabels(test, reading)
+      const { status: _status, reason: _reason, leaked: _leaked, reading: _reading, ...identity } = row
+      rows.push({ ...identity, status: verdict.status, reason: verdict.reason, leaked: 'leaked' in verdict ? verdict.leaked : undefined, reading: pngReadingRecord(reading) })
+      continue
+    }
     const text = readDrawingOutput(root, record, test.source)
     const empty = expectsEmptyDrawing(test), format = empty && row.format === 'svg' ? qualifyOutputFormat(text, 'svg') : undefined
     const admission = row.format === 'svg' ? format ? { valid: format.ok, reason: format.findings.join('; ') } : svgTextValidity(text, test.source) : empty ? { valid: true, reason: '' } : terminalTextValidity(text, test.source)
@@ -51,23 +62,25 @@ export async function reassessDrawingRun(run: any, root: string, formats: string
   }
   // Reassessed formats were judged with this machine's fonts; others keep the original record.
   const fonts = assessmentFonts()
-  const assessmentPolicies = Object.fromEntries([...new Set<string>(run.rows.map((row: any) => row.format))].map(format => [format, formats.includes(format) ? labelPolicy : run.assessmentPolicies?.[format] ?? run.assessmentPolicy]))
+  const assessmentPolicies = Object.fromEntries([...new Set<string>(run.rows.map((row: any) => row.format))].map(format => [format, formats.includes(format) ? (format === 'png' ? labelPolicy + '/' + pngLabelProfile : labelPolicy) : run.assessmentPolicies?.[format] ?? run.assessmentPolicy]))
   const policies = Object.values(assessmentPolicies), common = policies.length && policies.every(policy => policy === policies[0]) ? policies[0] : undefined
   const { assessmentPolicy: _priorPolicy, ...metadata } = run
   return { ...metadata, ...(common ? { assessmentPolicy: common } : {}), assessmentPolicies, rows, assessmentProfiles: { ...run.assessmentProfiles, ...drawingAssessmentProfiles(formats) }, observerSources: { ...run.observerSources, ...drawingObserverSources(formats) }, observerChecks, assessmentEnvironments: { ...run.assessmentEnvironments, ...Object.fromEntries(formats.map(format => [format, { fonts }])) }, reassessedAt: new Date().toISOString(), reassessment: { sourceRun: root, scope: formats, renderersInvoked: false } }
 }
 if (import.meta.main) {
   const [input, destination, selection = 'svg,terminal'] = process.argv.slice(2)
-  if (!input || !destination || existsSync(destination)) throw Error('reassess-drawing-results RAW_RUN FRESH_OUTPUT [svg,terminal]')
+  if (!input || !destination || existsSync(destination)) throw Error('reassess-drawing-results RAW_RUN FRESH_OUTPUT [svg,terminal,png]')
   const formats = selection.split(',')
-  if (formats.some(format => !['svg', 'terminal'].includes(format))) throw Error('Unsupported drawing format')
+  if (formats.some(format => !['svg', 'terminal', 'png'].includes(format))) throw Error('Unsupported drawing format')
   const root = resolve(input), run = JSON.parse(readFileSync(join(root, 'results.json'), 'utf8'))
-  const browser = formats.includes('svg') ? await chromium.launch({ headless: true, executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium) }) : undefined
+  const browser = formats.includes('svg') || formats.includes('png') ? await chromium.launch({ headless: true, executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium) }) : undefined
   const context = await browser?.newContext({ javaScriptEnabled: false })
   await context?.route('**/*', route => route.abort())
+  const reader = formats.includes('png') ? new PngTextReader() : undefined
   try {
-    const result = await reassessDrawingRun(run, root, formats, context)
+    await reader?.start()
+    const result = await reassessDrawingRun(run, root, formats, context, reader)
     mkdirSync(destination, { recursive: true }); cpSync(join(root, 'outputs'), join(destination, 'outputs'), { recursive: true })
     atomicWrite(join(destination, 'results.json'), JSON.stringify(result, null, 2) + '\n')
-  } finally { await context?.close(); await browser?.close() }
+  } finally { await reader?.close(); await context?.close(); await browser?.close() }
 }

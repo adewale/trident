@@ -43,8 +43,8 @@
       "assessmentPolicy": "drawing-reviewed-labels-v3",
       "captureArchive": {
         "path": "captures/drawing-capture-2026-11-14.tar.gz",
-        "sha256": "b15da1ae8611b457aedd1beea38a9fd6d0dc68b98b380ccf7dcdaa241271852a",
-        "bytes": 5183299,
+        "sha256": "bc86ecf0c9d6df9eee25f91b01db7b99eb032542a0360c69dd952331e6087716",
+        "bytes": 5183493,
         "root": "drawing-retained"
       },
       "fontsSha256": "939b326443704235f702db8599eb7f55a4203f238e7d9d0372b8228e2cb12588",
@@ -60,7 +60,14 @@
         "profile": "png-ocr-presence-only-v1",
         "bundleSha256": "1600dea3a02daeeb6115640221267523c5edcc90a195072a8f579c3d26964f31",
         "target": "drawing/drawing_worker.dart",
-        "observations": 127
+        "observations": 127,
+        "reassessment": {
+          "reason": "The glued-syntax control admits unknown as well as incorrect, because bracketed syntax reads within a few points of the OCR confidence threshold depending on the machine's text rendering. The control set is part of the PNG profile, so the retained PNG outputs were reassessed under it; no renderer ran.",
+          "profile": "7c98ea89fd7610bd7800e4eb200f1ea4d1def9ad94df70f7e513281d50df75b0",
+          "previousProfile": "212ccc9848ace3c3923ac9154012b593fb48844b96655e88161745bee5954742",
+          "changedVerdicts": 0,
+          "changedReadings": 0
+        }
       }
     },
     "fidelity": {
@@ -99,7 +106,7 @@
     "terminal.json": "e0fae48c8e5efcf9ce49a15a2978892549f77600cf6798fbdcf6f098f26f0aa0",
     "native-png.json": "615238c9fdf5eda5bd12e8044a5f104c769db31953efac73d69b6767e87da472",
     "report.json": "1abc18b3ead1c859d6dc90843e39fe5ffcad0a46231d1efeb5a4ceb273769a79",
-    "drawing-correctness.json": "dbcf604d1f9ecb35f9698156a48cd751b6ac84b45f71b14a480ab72d1cc12b18",
+    "drawing-correctness.json": "4929d2c0d2f44952ad88f974e6638eebf64aa15618c7b04696c528d600b9641b",
     "mermaid-fidelity.json": "1be8c3fadfa06adb17358c34aa6fda2d338ea83258a9607c4c5b4188e02567eb"
   }
 }

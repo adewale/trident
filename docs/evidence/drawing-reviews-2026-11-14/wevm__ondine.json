@@ -4,7 +4,7 @@
   "version": "0.0.3",
   "capture": {
     "path": "results/release/captures/drawing-capture-2026-11-14.tar.gz",
-    "sha256": "b15da1ae8611b457aedd1beea38a9fd6d0dc68b98b380ccf7dcdaa241271852a"
+    "sha256": "bc86ecf0c9d6df9eee25f91b01db7b99eb032542a0360c69dd952331e6087716"
   },
   "reviewedAt": "2026-11-14",
   "selectionRule": "Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of \"project|format|caseId\". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category.",

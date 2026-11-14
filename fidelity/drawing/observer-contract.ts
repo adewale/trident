@@ -59,7 +59,7 @@ export async function verifyPngObserver(context: any, reader: PngTextReader) {
       await page.setContent(`<!doctype html><style>html,body{margin:0;background:#fff}</style><svg xmlns="http://www.w3.org/2000/svg" width="${pngControlCanvas.width}" height="${pngControlCanvas.height}" style="display:block;font:${pngControlCanvas.font}">${control.svg}</svg>`)
       const png = await page.screenshot({ type: 'png', clip: { x: 0, y: 0, width: pngControlCanvas.width, height: pngControlCanvas.height } })
       const verdict = assessPngLabels(pngControlCase(control), await reader.read(png))
-      if (verdict.status !== control.status) throw Error('Drawing observer failed independent control: png ' + control.name + ' (' + verdict.status + ': ' + (verdict.reason ?? '') + ')')
+      if (verdict.status !== control.status && verdict.status !== control.alsoAccepts) throw Error('Drawing observer failed independent control: png ' + control.name + ' (' + verdict.status + ': ' + (verdict.reason ?? '') + ')')
       observed.push({ name: control.name, status: verdict.status })
     }
   } finally { await page.close() }

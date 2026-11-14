@@ -98,7 +98,16 @@ change's effect is listed below.
   Flutter: 55 correct, 3 renderer failures, 1 inadmissible PNG and 68 unknown of
   127, so its Drawing component is 43.31–96.85 and its possible overall rank
   2–19 (it had no Drawing component before). Every case it passes, Mermaid Dart
-  passes too.
+  passes too. A Drawing run that includes PNG without `--native-png-bundle` is
+  refused rather than recording the lane as blocked, and the native Flutter CI
+  workflow builds, seals and smoke-tests the drawing target beside the DaveBench
+  one.
+  The glued-syntax control admits unknown as well as incorrect: its bracket
+  syntax reads at OCR confidence 79–91 depending on the machine's fonts and
+  Chromium build, so it failed on CI while leak detection is the source-header
+  control's job. The retained PNG outputs were reassessed under the changed
+  profile (`reassess-drawing-results.ts` now reads PNG) with every verdict and
+  OCR reading unchanged.
 - Measure the glyph ink of plain, single-line HTML labels, separating unused
   font-box overflow from cropped letters, with positive and clipped admission
   controls, and record each unavailable SVG criterion and the glyph witness's

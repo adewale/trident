@@ -502,7 +502,7 @@
   "assessmentProfiles": {
     "svg": "9b0922732c8347551551ce4a9af2045c74b9d46d9e0e097e53bd507993153e23",
     "terminal": "2c0e0910ff25ed93e385c41807b127139ac2be2dc0d697006ab348febff1c263",
-    "png": "212ccc9848ace3c3923ac9154012b593fb48844b96655e88161745bee5954742"
+    "png": "7c98ea89fd7610bd7800e4eb200f1ea4d1def9ad94df70f7e513281d50df75b0"
   },
   "observerChecks": {
     "svg": [
@@ -1051,6 +1051,14 @@
     "labelPolicy": "drawing-reviewed-labels-v3"
   },
   "blocked": [],
+  "reassessedAt": "2026-11-14T23:06:28.243Z",
+  "reassessment": {
+    "sourceRun": "/tmp/claude-0/-home-user-trident/f0426542-bf45-5262-8086-9e2d8762afaa/scratchpad/rebuild2/replay/drawing-retained",
+    "scope": [
+      "png"
+    ],
+    "renderersInvoked": false
+  },
   "state": "complete",
   "formats": [
     "svg",
@@ -1067,11 +1075,11 @@
     "finishedAt": "2026-11-14T20:04:58.596Z",
     "captureArchive": {
       "path": "captures/drawing-capture-2026-11-14.tar.gz",
-      "sha256": "b15da1ae8611b457aedd1beea38a9fd6d0dc68b98b380ccf7dcdaa241271852a",
-      "bytes": 5183299,
+      "sha256": "bc86ecf0c9d6df9eee25f91b01db7b99eb032542a0360c69dd952331e6087716",
+      "bytes": 5183493,
       "root": "drawing-retained"
     },
-    "previousPublishedSha256": "02828a34d5bcbbcdbc9f704cc5fea13ced32bda15a5f8b3e2dba6004f5e9d832"
+    "previousPublishedSha256": "dbcf604d1f9ecb35f9698156a48cd751b6ac84b45f71b14a480ab72d1cc12b18"
   },
   "results": [
     {
@@ -11699,8 +11707,8 @@
       "assessmentPolicy": "drawing-reviewed-labels-v3/png-ocr-presence-only-v1",
       "observerSources": {
         "labels.ts": "dc4414c22b7727c6fba8a6fb5cfe7b75fa6538b683a591a39aeabc2ef30314de",
-        "observer-contract.ts": "6eb698aa4095123b0b72783b3fe88be266074044a8af5b2a56261dbbb45e6a43",
-        "png-labels.ts": "0b619516105e5fea784b686ace46662672776c9b8dfef090aec12708ee4fe29d",
+        "observer-contract.ts": "57487ed9939a70645b476c3b46b13b7664a33126fcb490481e75af8ed9d9290d",
+        "png-labels.ts": "3f38460b23af138be8bc243d1a2ac459f38b44d1e519c3346b6baf9076400e8b",
         "png-reader.ts": "911a2f8da4dcc8d26425be1746b636957d4a01161b60c812a396deec44223ac0",
         "png_text_reader.py": "be0faf9e5fac3e8cef3623542dfc61e43e9130125f151abc351d92fc1efde2c4"
       },

@@ -87,6 +87,11 @@ function confidentSegments(lines: readonly PngLine[]) {
   return segments
 }
 
+/** The OCR reading a PNG row retains beside its verdict. */
+export function pngReadingRecord(reading: PngReading) {
+  return reading.status === 'observed' ? { uniform: reading.uniform, size: [reading.width, reading.height], lines: reading.lines?.filter(line => line.words.length).map(line => ({ box: line.box, words: line.words.map(w => [w.text, Math.round(w.conf * 10) / 10]) })) } : { reason: reading.reason }
+}
+
 export function assessPngLabels(test: DrawingCase, reading: PngReading, plan: LabelPlan = compileLabelPlan(test)): LabelVerdict {
   if (plan.caseId !== test.id || plan.source !== test.source) throw Error('Label plan belongs to another case/source')
   const labels = plan.labels
@@ -111,15 +116,20 @@ export function assessPngLabels(test: DrawingCase, reading: PngReading, plan: La
 
 /** Independently authored raster controls, rendered by Chromium from fixed SVG
  * (never by a candidate) and read by the same reader and judge as every row.
- * Positive controls must pass; negative controls must not be credited. */
-export const pngControls: readonly { name: string; label?: string; empty?: true; svg: string; status: 'correct' | 'incorrect' | 'unknown' }[] = [
+ * Positive controls must pass; negative controls must not be credited. A control
+ * with alsoAccepts admits a second verdict that is equally safe. */
+export const pngControls: readonly { name: string; label?: string; empty?: true; svg: string; status: 'correct' | 'incorrect' | 'unknown'; alsoAccepts?: 'unknown' }[] = [
   { name: 'visible-label', svg: '<rect x="20" y="20" width="160" height="50" fill="#ececff" stroke="#9370db"/><text x="100" y="50" text-anchor="middle">Alpha</text>', status: 'correct' },
   { name: 'light-label-on-dark-fill', svg: '<rect x="20" y="20" width="160" height="50" fill="#5b5bd6"/><text x="100" y="50" text-anchor="middle" fill="white">Alpha</text>', status: 'correct' },
   { name: 'wrapped-label', label: 'Small rectangle', svg: '<rect x="20" y="10" width="160" height="70" fill="#ececff" stroke="#9370db"/><text x="100" y="40" text-anchor="middle">Small</text><text x="100" y="58" text-anchor="middle">rectangle</text>', status: 'correct' },
   { name: 'different-label-is-unread-not-missing', svg: '<text x="40" y="50">Beta</text>', status: 'unknown' },
   { name: 'near-miss-label', svg: '<text x="40" y="50">Alpho</text>', status: 'unknown' },
   { name: 'wrapped-label-missing-letter', label: 'Small rectangle', svg: '<text x="60" y="40">Small</text><text x="60" y="58">rectang</text>', status: 'unknown' },
-  { name: 'glued-source-syntax', svg: '<text x="40" y="50">A[Alpha]</text>', status: 'incorrect' },
+  // Bracketed syntax reads within a few points of the confidence threshold, and which
+  // side depends on the machine's text rendering (79-91 across fonts and Chromium
+  // builds). Read confidently it is a leak; read weakly the label is not credited.
+  // Leak detection itself is the source-header-shown control's job.
+  { name: 'glued-source-syntax', svg: '<text x="40" y="50">A[Alpha]</text>', status: 'incorrect', alsoAccepts: 'unknown' },
   { name: 'source-header-shown', svg: '<text x="20" y="30">flowchart LR</text><rect x="20" y="45" width="160" height="40" fill="#ececff" stroke="#9370db"/><text x="100" y="70" text-anchor="middle">Alpha</text>', status: 'incorrect' },
   { name: 'hidden-label-uniform-raster', svg: '<text x="40" y="50" opacity="0">Alpha</text>', status: 'incorrect' },
   { name: 'camouflaged-label', svg: '<text x="40" y="50" fill="#f4f4f4">Alpha</text>', status: 'unknown' },

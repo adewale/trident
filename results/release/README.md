@@ -118,11 +118,14 @@ bun commands.ts results:snapshot
 ## Retained Drawing capture
 
 The current [capture archive](captures/drawing-capture-2026-11-14.tar.gz?raw=true) is
-5,183,299 bytes, with SHA-256 `b15da1ae8611b457aedd1beea38a9fd6d0dc68b98b380ccf7dcdaa241271852a`.
+5,183,493 bytes, with SHA-256 `bc86ecf0c9d6df9eee25f91b01db7b99eb032542a0360c69dd952331e6087716`.
 It contains the complete raw run and all 3,826 returned SVG, terminal and PNG
 outputs, stored as 3,577 compressed objects. Of the other 619 calls, 618 returned
 renderer failures and one returned PNG bytes that failed admission, which are not
-retained. The capture was assessed with label policy `drawing-reviewed-labels-v3`
+retained. The PNG rows were then reassessed from the retained outputs, because the
+glued-syntax control now also admits unknown (its bracket syntax reads near the
+OCR confidence threshold on some machines); every verdict and OCR reading was
+reproduced. The capture was assessed with label policy `drawing-reviewed-labels-v3`
 and SVG profile `svg-label-paint-v8`, so reassessing it with the current observer
 reproduces every verdict.
 
@@ -132,6 +135,7 @@ Reassessment needs no producer binaries or prepared artifact directories:
 mkdir -p .cache/drawing-replay
 tar -xzf results/release/captures/drawing-capture-2026-11-14.tar.gz -C .cache/drawing-replay
 bun scripts/reassess-drawing-results.ts .cache/drawing-replay/drawing-retained .cache/drawing-replay/fresh-assessment svg
+# PNG rows: the same command with png (needs python3 with numpy and Pillow, and tesseract-ocr)
 ```
 
 Glyph proofs compare actual pixels, so they depend on the assessing machine's

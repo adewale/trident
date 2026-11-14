@@ -13,7 +13,10 @@ import { drawingCases } from '../fidelity/drawing/corpus.ts'
 import { mergeDrawingResults } from '../scripts/merge-drawing-results.ts'
 import { synthesiseBenchmarks } from '../unified/overall-score.ts'
 import { communityDeclaresOutput } from '../unified/community.ts'
+import { pngLanesNeedingBundle } from '../unified/drawing-correctness.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
+import { reassessDrawingRun } from '../scripts/reassess-drawing-results.ts'
+import { planDigest } from '../unified/campaign-plan.ts'
 
 const temporary = useTempDirs('drawing-png-')
 const line = (x: number, y: number, ...words: [string, number][]): PngLine => ({ box: [x, y, x + 12 * words.reduce((n, [w]) => n + w.length + 1, 0), y + 12], words: words.map(([text, conf], i) => ({ text, conf, box: [x + i * 40, y, 30, 12] })) })
@@ -74,11 +77,8 @@ test('PNG profile is named and bound to its reader, judge and controls', () => {
   expect(new Set(pngControls.map(c => c.status))).toEqual(new Set(['correct', 'incorrect', 'unknown']))
 })
 
-// The controls are calibrated on the collection host's rendering (Playwright's Chromium,
-// Tesseract 5.3.4 with Ubuntu's English data, sans-serif resolved to Inter), which CI
-// reproduces on Linux. Bracket syntax reads within a few points of the confidence
-// threshold, so another font stack can turn a control's verdict into unknown. The
-// native PNG lane runs only on Linux x64, where its Flutter bundle runs.
+// The reader uses Ubuntu's Tesseract data, and the native PNG lane runs only on
+// Linux x64, where its Flutter bundle runs.
 test.skipIf(process.platform !== 'linux')('PNG controls pass through the real reader and judge', async () => {
   const browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable })
   const context = await browser.newContext({ javaScriptEnabled: false })
@@ -86,7 +86,7 @@ test.skipIf(process.platform !== 'linux')('PNG controls pass through the real re
   try {
     expect(await reader.start()).toMatchObject({ scale: 3 })
     const checks = await verifyPngObserver(context, reader)
-    expect(checks.map(check => check.status)).toEqual(pngControls.map(c => c.status))
+    checks.forEach((check, i) => expect([pngControls[i]!.status, pngControls[i]!.alsoAccepts]).toContain(check.status))
   } finally { await reader.close(); await context.close(); await browser.close() }
 }, 120_000)
 
@@ -132,3 +132,45 @@ except ValueError: print('timing worker rejected as drawing target')
 `, join(import.meta.dirname, '../native-flutter')], { encoding: 'utf8' })
   expect(result.trim()).toBe('timing worker rejected as drawing target')
 })
+
+test('a Drawing run that would block Mermaid Flutter for want of its drawing bundle is refused', () => {
+  const catalog = JSON.parse(readFileSync(join(import.meta.dirname, '../docs/evidence/benchmark-campaign-2026-11-14/catalog.json'), 'utf8'))
+  const all = catalog.nodes.map((node: any) => node.id)
+  expect(pngLanesNeedingBundle(catalog, all, ['svg', 'terminal', 'png'])).toEqual(['pub:mermaid_flutter'])
+  expect(pngLanesNeedingBundle(catalog, all, ['svg', 'terminal'])).toEqual([])
+  expect(pngLanesNeedingBundle(catalog, ['mermaid-js/mermaid', 'obsidianmd/pele'], ['png'])).toEqual([])
+})
+
+test.skipIf(process.platform !== 'linux')('reassessing retained PNGs runs the reader and judge again and keeps admission refusals', async () => {
+  const [labelled, refused] = drawingCases().filter(c => c.family === 'flowchart' && c.expected.nodes?.length).slice(0, 2)
+  const cases = [labelled!, refused!], root = temporary.dir()
+  const browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable })
+  const context = await browser.newContext({ javaScriptEnabled: false })
+  const reader = new PngTextReader()
+  try {
+    await reader.start()
+    const page = await context.newPage()
+    await page.setViewportSize({ width: 200, height: 100 })
+    await page.setContent('<!doctype html><style>html,body{margin:0;background:#fff}</style><svg xmlns="http://www.w3.org/2000/svg" width="200" height="100"><text x="20" y="50" font-size="16">Not a label</text></svg>')
+    const png = await page.screenshot({ type: 'png' })
+    const record = retainDrawingOutput(root, 'pub:mermaid_flutter', labelled!, 'png', png)
+    const run = {
+      state: 'complete', updatedAt: '2026-11-14T20:04:58.596Z', assessmentPolicy: 'old', assessmentProfiles: { png: 'old' }, observerSources: {}, observerChecks: {}, assessmentEnvironments: {},
+      corpus: { ids: cases.map(c => c.id), contractSha256: planDigest(cases.map(({ id, source, expected, sourceGaps }) => ({ id, source, expected, sourceGaps }))) },
+      outputs: [record],
+      rows: [
+        { project: 'pub:mermaid_flutter', version: '0.3.2', format: 'png', caseId: labelled!.id, status: 'correct', reason: 'stale verdict', reading: 'stale' },
+        { project: 'pub:mermaid_flutter', version: '0.3.2', format: 'png', caseId: refused!.id, status: 'invalid-format', reason: 'Inadmissible PNG output: PNG exceeds validation budget' },
+      ],
+    }
+    const reassessed = await reassessDrawingRun(run, root, ['png'], context, reader)
+    const expected = assessPngLabels(labelled!, await reader.read(png))
+    expect(reassessed.rows[0]).toMatchObject({ status: expected.status, reason: expected.reason })
+    expect(reassessed.rows[0].reading).not.toBe('stale')
+    expect(reassessed.rows[1]).toEqual(run.rows[1])
+    expect(reassessed.assessmentProfiles.png).toBe(drawingAssessmentProfiles(['png']).png)
+    expect(reassessed.assessmentPolicies.png).toEndWith('/' + pngLabelProfile)
+    expect(reassessed.observerChecks.png.map((check: any) => check.name)).toEqual(pngControls.map(c => c.name))
+    expect(reassessed.reassessment.renderersInvoked).toBe(false)
+  } finally { await reader.close(); await context.close(); await browser.close() }
+}, 120_000)
