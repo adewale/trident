@@ -4,6 +4,7 @@ import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { unboundNativeCapability } from '../unified/mermaid-fidelity/native-capabilities.mjs'
 import { useTempDirs } from './helpers/temp-dir.ts'
+import { bridgeBuiltFromCheckout } from './helpers/bridge-build.ts'
 
 const temporary = useTempDirs('fidelity-native-bindings-')
 
@@ -216,11 +217,11 @@ test('a stateful bridge replays the whole history of one database', () => {
 })
 
 // The Bezel bridge as a Fidelity run builds it (bridges/bezel/build.ts, from the
-// checksum-verified bezel-mermaid crate); skipped where no run has built it.
-const BEZEL_BRIDGE = resolve(import.meta.dirname, '../node_modules/.cache/fidelity-bridges/crabtalk-bezel/target/release/bezel-bridge')
-test.skipIf(!existsSync(BEZEL_BRIDGE))("Bezel's bridge runs its own public database methods on its own model", () => {
+// checksum-verified bezel-mermaid crate); skipped where no run has built it from this checkout's sources.
+const BEZEL_BRIDGE = bridgeBuiltFromCheckout('bezel', 'crabtalk-bezel', 'bezel-bridge')
+test.skipIf(!BEZEL_BRIDGE)("Bezel's bridge runs its own public database methods on its own model", () => {
   const ask = (request: unknown) => {
-    const child = spawnSync(BEZEL_BRIDGE, { input: JSON.stringify(request), encoding: 'utf8' })
+    const child = spawnSync(BEZEL_BRIDGE!, { input: JSON.stringify(request), encoding: 'utf8' })
     return JSON.parse(child.stdout.trim().split('\n').at(-1)!)
   }
   const members = ask({ describe: 'database' }).value

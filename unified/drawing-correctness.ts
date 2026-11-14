@@ -1,6 +1,6 @@
 import { campaignPlan, assertCampaignCoverage, planDigest } from './campaign-plan.ts'
 import { drawingAssessmentProfiles, drawingObserverSources, verifyDrawingObserver, verifyPngObserver } from '../fidelity/drawing/observer-contract.ts'
-import { assessPngLabels, pngDrawingLaneApplies, pngLabelProfile, type PngReading } from '../fidelity/drawing/png-labels.ts'
+import { assessPngLabels, pngDrawingLaneApplies, pngLabelProfile, pngReadingRecord, type PngReading } from '../fidelity/drawing/png-labels.ts'
 import { PngTextReader } from '../fidelity/drawing/png-reader.ts'
 import { NativePngDrawingWorker, verifiedDrawingBundle } from './drawing-native-png.ts'
 import { DrawingOutputStorageError, retainDrawingOutput, type RetainedDrawingOutput } from '../fidelity/drawing/retained-output.ts'
@@ -54,6 +54,13 @@ const nativeCall = async (artifact: any, source: string, format: string) => {
     if (temporary) rmSync(temporary, { recursive: true, force: true })
   }
 }
+const declaredFormats = (node: any) => ['svg', 'terminal', 'png'].filter(format => communityDeclaresOutput(node, format))
+const drawsFormat = (node: any, format: string) => format === 'png' ? pngDrawingLaneApplies(declaredFormats(node)) : communityDeclaresOutput(node, format)
+/** Selected projects whose PNG lane needs the sealed native drawing bundle. */
+export function pngLanesNeedingBundle(catalog: any, projects: readonly string[], formats: readonly string[]) {
+  if (!formats.includes('png')) return []
+  return projects.filter(project => { const node = catalog.nodes.find((node: any) => node.id === project); return node && node.benchmark?.adapter === 'native-flutter' && drawsFormat(node, 'png') })
+}
 export async function main(args = process.argv.slice(2)) {
   if (args.includes('--help')) {
     console.log('drawing:correctness --prepared IMAGE_ARTIFACTS --terminal-prepared TERMINAL_ARTIFACTS --catalog FROZEN_CATALOG --out FRESH_DIR [--projects IDS] [--case ID_FRAGMENTS] [--formats svg,terminal,png] [--native-png-bundle SEALED_DRAWING_BUNDLE]\nLabel assessment of SVG, terminal and native PNG outputs, one per case/output. PNG applies only to projects whose own interface draws PNG and that have no SVG or terminal output; it is read by OCR under the ' + pngLabelProfile + ' profile, where an unread label is unknown. The native Flutter drawing bundle (native-flutter/build-drawing.sh) runs under a private Xvfb display. No timing repeats.')
@@ -76,8 +83,10 @@ export async function main(args = process.argv.slice(2)) {
   // Verified before any directory is reserved: a changed or unsealed bundle collects nothing.
   const pngBundle = formats.includes('png') && opts.has('--native-png-bundle') ? resolve(opts.get('--native-png-bundle')!) : undefined
   const pngManifest = pngBundle ? verifiedDrawingBundle(pngBundle) : undefined
-  const declaredFormats = (node: any) => ['svg', 'terminal', 'png'].filter(format => communityDeclaresOutput(node, format))
-  const drawsFormat = (node: any, format: string) => format === 'png' ? pngDrawingLaneApplies(declaredFormats(node)) : communityDeclaresOutput(node, format)
+  // Refused before collecting: a run without the bundle would record the lane as blocked,
+  // and merging it would replace published PNG results with that block.
+  const needsBundle = pngBundle ? [] : pngLanesNeedingBundle(catalog, projects, formats)
+  if (needsBundle.length) throw Error('The native PNG lane of ' + needsBundle.join(', ') + ' needs its sealed drawing bundle: supply --native-png-bundle native-flutter/app/build/drawing-bundle (built by native-flutter/build-drawing.sh), or leave PNG out with --formats svg,terminal')
   const images = read(opts.get('--prepared')!),
     terminals = read(opts.get('--terminal-prepared')!)
   const cases = drawingCases().filter(
@@ -333,7 +342,7 @@ export async function main(args = process.argv.slice(2)) {
               outputs.push(retainDrawingOutput(out, project, test, 'png', result.png))
               const reading: PngReading = await pngReader!.read(result.png)
               const assessed = assessPngLabels(test, reading, labelPlans.get(test.id))
-              rows.push({ project, version, format: 'png', caseId: test.id, status: assessed.status, reason: assessed.reason, leaked: assessed.leaked, reading: reading.status === 'observed' ? { uniform: reading.uniform, size: [reading.width, reading.height], lines: reading.lines?.filter(line => line.words.length).map(line => ({ box: line.box, words: line.words.map(w => [w.text, Math.round(w.conf * 10) / 10]) })) } : { reason: reading.reason } })
+              rows.push({ project, version, format: 'png', caseId: test.id, status: assessed.status, reason: assessed.reason, leaked: assessed.leaked, reading: pngReadingRecord(reading) })
               save()
             }
             if (planDigest(verifiedDrawingBundle(pngBundle)) !== planDigest(pngManifest)) throw Error('Native drawing bundle changed during collection')

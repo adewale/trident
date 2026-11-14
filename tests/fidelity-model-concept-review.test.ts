@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { nativeAstView, nativeSchemaView } from '../unified/mermaid-fidelity/schema-views.mjs'
 import { unsupportedKind } from '../unified/mermaid-fidelity/outcome-kinds.ts'
+import { bridgeBuiltFromCheckout } from './helpers/bridge-build.ts'
 
 // Views fixed by the model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json).
 // Each native model below is the probe output of the installed candidate artifact for the
@@ -213,11 +214,9 @@ test.skipIf(!python)("the termaid bridge reports termaid.parse()'s own dispatch 
 })
 
 // 1jehuang/mermaid-rs-renderer: the bridge built from this source (bridges/mmdr/build.ts).
-const mmdrSource = resolve(import.meta.dirname, '../unified/mermaid-fidelity/bridges/mmdr/src/main.rs')
-const mmdrBridge = resolve(import.meta.dirname, '../node_modules/.cache/fidelity-bridges/1jehuang-mermaid-rs-renderer/target/release/mmdr-bridge')
-const mmdrBuilt = existsSync(mmdrBridge) && statSync(mmdrBridge).mtimeMs >= statSync(mmdrSource).mtimeMs
-test.skipIf(!mmdrBuilt)("the mmdr bridge reports parse_mermaid's own result for a family its DiagramKind has no variant for", () => {
-  const run = (family: string, source: string) => JSON.parse(spawnSync(mmdrBridge, [], { input: JSON.stringify({ family, source }), encoding: 'utf8', timeout: 10000 }).stdout)
+const mmdrBridge = bridgeBuiltFromCheckout('mmdr', '1jehuang-mermaid-rs-renderer', 'mmdr-bridge')
+test.skipIf(!mmdrBridge)("the mmdr bridge reports parse_mermaid's own result for a family its DiagramKind has no variant for", () => {
+  const run = (family: string, source: string) => JSON.parse(spawnSync(mmdrBridge!, [], { input: JSON.stringify({ family, source }), encoding: 'utf8', timeout: 10000 }).stdout)
   const railroad = run('railroad', 'railroad-beta\nexpression = terminal("a") ;')
   expect(railroad).toEqual({ unsupported: 'mmdr detected this source as Flowchart, not railroad' })
   expect(unsupportedKind(railroad.unsupported, 'bridge')).toBe('native')
