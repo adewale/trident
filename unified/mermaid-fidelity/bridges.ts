@@ -7,16 +7,27 @@
 // A bridge reports `error` with name "ParseError" only for the parser's own
 // syntax rejection, `unsupported` for a family or source the project does not
 // parse, and `adapterGap` for anything it cannot classify.
+//
+// A bridge with `database` also keeps a stateful database: the project's own model with
+// the public methods its parser builds it through. `{"describe": "database"}` answers
+// `{"value": {<family>: [Mermaid database member, ...]}}`, the members it binds; and
+// `{"family", "database": [op, ...]}` replays one database's history, where the first op is
+// `{"parse": source}` (the model of that parse) or `{"new": header}` (a fresh database:
+// the project's own constructor, or its parse of the header-only diagram where it has
+// none), and each later op is `{"call": member, "args"}`,
+// and answers `{"value": {"model", "result"?, "error"?: {"name", "message"}}}`: the model
+// after the last operation, and what that operation returned or the error the project's
+// own method raised. A member a bridge cannot call exactly is an `adapterGap`.
 import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readdirSync, statSync } from 'node:fs'
 import { dirname, isAbsolute, join, relative, sep } from 'node:path'
 import { byteDigest } from '../../portable/artifacts.ts'
 import { planDigest } from '../campaign-plan.ts'
-
-/** persistent: the bridge also answers one request per line under TRIDENT_BRIDGE_SERVE=1. */
+/** persistent: the bridge also answers one request per line under TRIDENT_BRIDGE_SERVE=1.
+ * database: the bridge also keeps a stateful database (see the protocol above). */
 /** sharedParserWith: another catalogued project whose parser this bridge calls unchanged
  * (parserVersion is that parser's version), so the two Fidelity rows are one parser. */
-export interface ParserBridge { command: string[]; version: string; description: string; persistent?: boolean; cwd?: string; runtimeFiles?: { path: string; sha256: string }[]; installedRuntimeSha256?: string; sharedParserWith?: string; parserVersion?: string }
+export interface ParserBridge { command: string[]; version: string; description: string; persistent?: boolean; database?: boolean; cwd?: string; runtimeFiles?: { path: string; sha256: string }[]; installedRuntimeSha256?: string; sharedParserWith?: string; parserVersion?: string }
 /** Returns the bridge for a prepared peer, building it into outDir if needed, or undefined when it does not apply. */
 export type Resolver = (peer: any, outDir: string) => Promise<ParserBridge | undefined>
 

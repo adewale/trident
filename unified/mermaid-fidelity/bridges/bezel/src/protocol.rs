@@ -16,29 +16,33 @@ pub enum Reply {
 
 /// Read `{"family", "source"}`, call `run`, and print exactly one reply line.
 pub fn serve(run: impl FnOnce(&str, &str) -> Reply + std::panic::UnwindSafe) {
+    serve_request(move |request| match (request["family"].as_str(), request["source"].as_str()) {
+        (Some(family), Some(source)) => run(family, source),
+        _ => Reply::AdapterGap("request lacks string family/source".into()),
+    })
+}
+
+/// Read one JSON request, call `handle` under catch_unwind, and print exactly one reply line.
+pub fn serve_request(handle: impl FnOnce(&Value) -> Reply + std::panic::UnwindSafe) {
     let mut input = String::new();
     let reply = match std::io::stdin().read_to_string(&mut input) {
         Err(error) => Reply::AdapterGap(format!("could not read stdin: {error}")),
         Ok(_) => match serde_json::from_str::<Value>(&input) {
             Err(error) => Reply::AdapterGap(format!("request is not JSON: {error}")),
-            Ok(request) => match (request["family"].as_str(), request["source"].as_str()) {
-                (Some(family), Some(source)) => {
-                    let (family, source) = (family.to_string(), source.to_string());
-                    std::panic::set_hook(Box::new(|_| {}));
-                    match std::panic::catch_unwind(move || run(&family, &source)) {
-                        Ok(reply) => reply,
-                        Err(payload) => {
-                            let message = payload
-                                .downcast_ref::<&str>()
-                                .map(|s| s.to_string())
-                                .or_else(|| payload.downcast_ref::<String>().cloned())
-                                .unwrap_or_else(|| "non-string panic payload".into());
-                            Reply::AdapterGap(format!("parser panicked: {message}"))
-                        }
+            Ok(request) => {
+                std::panic::set_hook(Box::new(|_| {}));
+                match std::panic::catch_unwind(move || handle(&request)) {
+                    Ok(reply) => reply,
+                    Err(payload) => {
+                        let message = payload
+                            .downcast_ref::<&str>()
+                            .map(|s| s.to_string())
+                            .or_else(|| payload.downcast_ref::<String>().cloned())
+                            .unwrap_or_else(|| "non-string panic payload".into());
+                        Reply::AdapterGap(format!("parser panicked: {message}"))
                     }
                 }
-                _ => Reply::AdapterGap("request lacks string family/source".into()),
-            },
+            }
         },
     };
     let line = match reply {

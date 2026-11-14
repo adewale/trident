@@ -11,93 +11,54 @@
 // Entries are per reviewed version, with file:line evidence in the version's published
 // source. Any candidate qualifies the same way; an entry only records what its source has.
 //
-// crabtalk/bezel: the bezel-mermaid crate's public API (src/lib.rs:20 `pub mod diagrams`;
-// every family module declares `pub mod db` and `pub mod parser`) exposes each family's
-// database type with the mutators its parser calls, and a parser that takes a database
-// argument (`pub fn parse_<family>(src, db: &mut <Model>)`). The bridge calls only
-// `mermaid::parse`, which returns the finished model, so neither is bound yet. A Rust
-// database is a concrete type (mindmap and kanban take `&mut dyn OutlineDb`), so a test's
-// own JavaScript database would need a binding that relays each call.
+// crabtalk/bezel: the bezel-mermaid crate's public API (src/lib.rs:20 `pub mod diagrams`)
+// exposes most families' database types with the mutators their parsers call. Its bridge
+// keeps a test's database and calls those methods (bridges/bezel/src/database.rs), so the
+// members it binds are measured and are not listed here. What remains is public but not
+// bound, each with its reason:
+// - a member whose argument is a Mermaid value Bezel's parameter does not take as written
+//   (a Text record where Bezel takes a string, Mermaid's Langium AST where Bezel takes its
+//   own AST, an expression object where Bezel takes a node of its arena): calling it would
+//   need Trident to translate the argument;
+// - a parser's calls on its database, which a spy or a test's own `yy` database observes:
+//   Bezel's parsers take a concrete database type (`pub fn parse_<family>(src, db: &mut
+//   <Model>)`), so their calls happen inside the crate and cannot reach a JavaScript spy or
+//   database (mindmap and kanban take `&mut dyn OutlineDb`, the one trait a relay could
+//   implement; no test observes their calls).
+// treeview addNode was listed here in error: TreeViewDb::add_node is in the private module
+// treeview::model (src/diagrams/treeview/mod.rs:5 `mod model`; the module re-exports only
+// NodeType, TreeNode and TreeViewModel), so it is not part of Bezel's public interface.
 const BEZEL_0_2_26 = {
   source: 'bezel-mermaid 0.2.26 (crates.io, .cargo_vcs_info 79a1913)',
   database: {
     flowchart: {
-      addVertex: 'src/diagrams/flowchart/store.rs:87 pub fn add_vertex',
-      setLink: 'src/diagrams/flowchart/store.rs:392 pub fn set_link',
-      setClickEvent: 'src/diagrams/flowchart/store.rs:405 pub fn set_click_event',
-      addClass: 'src/diagrams/flowchart/store.rs:354 pub fn add_class',
-      updateLinkInterpolate: 'src/diagrams/flowchart/store.rs:310 pub fn update_link_interpolate',
-      updateLink: 'src/diagrams/flowchart/store.rs:328 pub fn update_link',
+      addVertex: "src/diagrams/flowchart/store.rs:87 pub fn add_vertex(id, Vertex { label, shape, styles, prop }); Mermaid's addVertex(id, textObj, type, style, classes, dir, props, metadata) would need Trident to build Bezel's Vertex",
     },
     agentflow: {
-      emitWarning: 'src/diagrams/agentflow/db.rs:781 pub fn emit_warning',
-      addVertex: 'src/diagrams/agentflow/db.rs:294 pub store: FlowStore; src/diagrams/flowchart/store.rs:87 pub fn add_vertex',
-      updateLink: 'src/diagrams/agentflow/db.rs:294 pub store: FlowStore; src/diagrams/flowchart/store.rs:328 pub fn update_link',
-      updateLinkInterpolate: 'src/diagrams/agentflow/db.rs:294 pub store: FlowStore; src/diagrams/flowchart/store.rs:310 pub fn update_link_interpolate',
+      addVertex: "src/diagrams/agentflow/db.rs:294 pub store: FlowStore; src/diagrams/flowchart/store.rs:87 pub fn add_vertex(id, Vertex { label, shape, styles, prop }), which Mermaid's addVertex arguments would need translating into",
     },
     gantt: {
-      setDateFormat: 'src/diagrams/gantt/db.rs:237 pub fn set_date_format',
-      parseDuration: 'src/diagrams/gantt/db.rs:45 pub fn parse_duration',
-      setExcludes: 'src/diagrams/gantt/db.rs:267 pub fn set_excludes',
-      setIncludes: 'src/diagrams/gantt/db.rs:263 pub fn set_includes',
-      setTodayMarker: 'src/diagrams/gantt/db.rs:259 pub fn set_today_marker',
-      setClickEvent: 'src/diagrams/gantt/db.rs:374 pub fn set_click_event',
-      setAccTitle: 'src/diagrams/gantt/db.rs:95 pub titles: Titles; src/diagrams/common/db.rs:41 pub fn set_acc_title',
+      parseDuration: 'src/diagrams/gantt/db.rs:45 pub fn parse_duration, returning gantt::dates::Unit, which has no public name or serialization to report as Mermaid\'s unit string',
     },
     class: {
-      setClickEvent: 'src/diagrams/class/db.rs:260 pub fn set_click_event',
-      setLink: 'src/diagrams/class/db.rs:245 pub fn set_link',
-      addClass: 'src/diagrams/class/db.rs:77 pub fn add_class',
-      addNamespace: 'src/diagrams/class/db.rs:269 pub fn add_namespace',
-      addRelation: 'src/diagrams/class/db.rs:124 pub fn add_relation',
+      addRelation: "src/diagrams/class/db.rs:124 pub fn add_relation(ClassRelation), a struct built from Mermaid's relation record only by translating it",
     },
-    er: { addSubGraph: 'src/diagrams/er/db.rs:173 pub fn add_sub_graph' },
-    journey: {
-      addSection: 'src/diagrams/journey/db.rs:51 pub fn add_section',
-      setAccTitle: 'src/diagrams/journey/db.rs:28 pub titles: Titles; src/diagrams/common/db.rs:41 pub fn set_acc_title',
-    },
-    treeview: {
-      addNode: 'src/diagrams/treeview/model.rs:87 pub fn add_node',
-      setAccTitle: 'src/diagrams/treeview/model.rs:47 pub titles: Titles; src/diagrams/common/db.rs:41 pub fn set_acc_title',
-      setAccDescription: 'src/diagrams/treeview/model.rs:47 pub titles: Titles; src/diagrams/common/db.rs:45 pub fn set_acc_descr',
-      setDiagramTitle: 'src/diagrams/treeview/model.rs:47 pub titles: Titles; src/diagrams/common/db.rs:37 pub fn set_title',
-    },
-    mindmap: { addNode: 'src/diagrams/common/outline.rs:113 pub trait OutlineDb { fn add_node }, which the mindmap database implements' },
-    xychart: { setXAxisBand: 'src/diagrams/xychart/db.rs:154 pub fn set_x_axis_band' },
-    quadrant: { parseStyles: 'src/diagrams/quadrant/db.rs:116 pub fn parse (PointStyle::parse over the written styles)' },
+    er: { addSubGraph: 'src/diagrams/er/db.rs:173 pub fn add_sub_graph(id_text: &str, list: &[DocItem], title_text: &str); Mermaid passes {text} records for the id and title' },
+    xychart: { setXAxisBand: 'src/diagrams/xychart/db.rs:154 pub fn set_x_axis_band(categories: &[String]); Mermaid passes Text records' },
     cynefin: {
-      setDomains: 'src/diagrams/cynefin/model.rs:84 pub fn set_domains',
-      setTransitions: 'src/diagrams/cynefin/model.rs:101 pub fn set_transitions',
+      setDomains: 'src/diagrams/cynefin/model.rs:84 pub fn set_domains(Vec<DomainBlockAst>), on CynefinDb rather than the parsed CynefinModel; Mermaid passes its Langium AST blocks',
+      setTransitions: 'src/diagrams/cynefin/model.rs:101 pub fn set_transitions(Vec<TransitionAst>), on CynefinDb rather than the parsed CynefinModel; Mermaid passes its Langium AST transitions',
     },
-    requirement: {
-      addRequirement: 'src/diagrams/requirement/db.rs:87 pub fn add_requirement',
-      addElement: 'src/diagrams/requirement/db.rs:123 pub fn add_element',
-      addRelationship: 'src/diagrams/requirement/db.rs:146 pub fn add_relationship',
-      defineClass: 'src/diagrams/requirement/db.rs:205 pub fn define_class',
-    },
-    state: {
-      addState: 'src/diagrams/state/db.rs:166 pub fn add_state',
-      setRootDoc: 'src/diagrams/state/db.rs:36 pub fn set_root_doc',
-      addStyleClass: 'src/diagrams/state/db.rs:267 pub fn add_style_class',
-    },
-    architecture: {
-      addService: 'src/diagrams/architecture/db.rs:161 pub fn add_service',
-      addJunction: 'src/diagrams/architecture/db.rs:172 pub fn add_junction',
-      addGroup: 'src/diagrams/architecture/db.rs:188 pub fn add_group',
-      addLayoutHint: 'src/diagrams/architecture/db.rs:234 pub fn add_layout_hint',
-    },
-    railroad: {
-      addRule: 'src/diagrams/railroad/db.rs:45 pub fn add_rule',
-      setTitle: 'src/diagrams/railroad/db.rs:21 pub titles: Titles; src/diagrams/common/db.rs:37 pub fn set_title',
-      setDiagramTitle: 'src/diagrams/railroad/db.rs:21 pub titles: Titles; src/diagrams/common/db.rs:37 pub fn set_title',
-      setAccTitle: 'src/diagrams/railroad/db.rs:21 pub titles: Titles; src/diagrams/common/db.rs:41 pub fn set_acc_title',
-      setAccDescription: 'src/diagrams/railroad/db.rs:21 pub titles: Titles; src/diagrams/common/db.rs:45 pub fn set_acc_descr',
-    },
-    sequence: { apply: 'src/diagrams/sequence/db.rs:427 pub fn apply' },
+    state: { setRootDoc: 'src/diagrams/state/db.rs:36 pub fn set_root_doc(doc: Vec<Stmt>), which takes parsed statements' },
+    railroad: { addRule: "src/diagrams/railroad/db.rs:45 pub fn add_rule(RailroadRule { name, definition: NodeId }); Mermaid's rule carries an expression object, not a node of the database's arena" },
+    sequence: { apply: 'src/diagrams/sequence/db.rs:427 pub fn apply(statements: impl Iterator<Item = SeqStatement>), which takes parsed statements' },
   },
   callback: {
-    xychart: 'src/diagrams/xychart/parser.rs:11 pub fn parse_xy_chart(src, db: &mut XyChartModel), driving src/diagrams/xychart/db.rs set_* methods',
-    quadrant: 'src/diagrams/quadrant/parser.rs:13 pub fn parse_quadrant(src, db: &mut QuadrantModel), driving src/diagrams/quadrant/db.rs set_* and add_* methods',
+    xychart: 'src/diagrams/xychart/parser.rs:11 pub fn parse_xy_chart(src, db: &mut XyChartModel), driving src/diagrams/xychart/db.rs set_* methods on that concrete type',
+    quadrant: 'src/diagrams/quadrant/parser.rs:13 pub fn parse_quadrant(src, db: &mut QuadrantModel), driving src/diagrams/quadrant/db.rs set_* and add_* methods on that concrete type',
+    flowchart: 'src/diagrams/flowchart/parser.rs:163 pub fn parse_flowchart(source, db: &mut FlowDb), driving src/diagrams/flowchart/store.rs set_* methods on that concrete type',
+    class: 'src/diagrams/class/parser.rs:424 pub fn parse_class_diagram(src, db: &mut ClassModel), driving src/diagrams/class/db.rs set_* and add_* methods on that concrete type',
+    gantt: 'src/diagrams/gantt/parser.rs:18 pub fn parse_gantt(src, db: &mut GanttDb), driving src/diagrams/gantt/db.rs set_* and add_* methods on that concrete type',
   },
 }
 
@@ -108,7 +69,7 @@ export const UNBOUND_NATIVE_CAPABILITIES = {
 
 /** The Trident gap reason for a native capability that is not yet bound, or undefined.
  * `member` is a Mermaid database member, or undefined for the parser -> database callback
- * protocol (a test's own jison `yy`).
+ * protocol (a test's own jison `yy`, or a spy on the database during a parse).
  * @param {string} project @param {string} version @param {string} family @param {string | undefined} member
  * @param {Record<string, Record<string, any>>} [registry] */
 export function unboundNativeCapability(project, version, family, member, registry = UNBOUND_NATIVE_CAPABILITIES) {

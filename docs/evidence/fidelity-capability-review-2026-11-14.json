@@ -34,7 +34,7 @@
       "baselineCallbacks": 82,
       "verdict": "disproved",
       "evidence": "bezel-mermaid 0.2.26 crate as the bridge extracts it (node_modules/.cache/fidelity-bridges/crabtalk-bezel/source/bezel-mermaid-0.2.26): src/lib.rs:20 `pub mod diagrams`; src/diagrams/xychart/parser.rs:11 `pub fn parse_xy_chart(src: &str, db: &mut XyChartModel)` and src/diagrams/quadrant/parser.rs:13 `pub fn parse_quadrant(src: &str, db: &mut QuadrantModel)` drive a caller-supplied database through its set_*/add_* methods (src/diagrams/xychart/db.rs:133-224, src/diagrams/quadrant/db.rs:159-198).",
-      "action": "Adapter limitation: native-capabilities.mjs records the evidence; once the candidate's own parser accepts the source, the callback is a Trident gap ('implements a xychart parser that drives a caller-supplied database natively ...; Trident does not bind it yet'). A Rust database is a concrete type, so binding it needs a bridge that relays each call; not done here. Native-first parsing now measures the candidate's own rejections: 15 of the 82 pass, 1 fails natively, 1 is Bezel's own refusal, and 65 are adapter limitations."
+      "action": "Adapter limitation: native-capabilities.mjs records the evidence; once the candidate's own parser accepts the source, the callback is a Trident gap ('implements a xychart parser that drives a caller-supplied database natively ...; Trident does not bind it yet'). A Rust database is a concrete type, so binding it needs a bridge that relays each call; not done here. Native-first parsing now measures the candidate's own rejections: 15 of the 82 pass, 1 fails natively, 1 is Bezel's own refusal, and 65 are adapter limitations. Still unbound after the stateful bridge (see amendments): the parsers take a concrete database type, so their calls happen inside the crate and cannot reach a test's JavaScript database."
     },
     {
       "basis": "jison-callback",
@@ -108,7 +108,7 @@
       "baselineCallbacks": 35,
       "verdict": "disproved for the members Bezel implements; confirmed for flowchart setDirection",
       "evidence": "bezel-mermaid 0.2.26 crate as the bridge extracts it (node_modules/.cache/fidelity-bridges/crabtalk-bezel/source/bezel-mermaid-0.2.26): class/db.rs:260 set_click_event, :245 set_link, :124 add_relation; flowchart/store.rs:392 set_link, :405 set_click_event; gantt/db.rs:374 set_click_event, :259 set_today_marker; sequence/db.rs:427 apply; state/db.rs:36 set_root_doc (all `pub fn` in public modules). No set_direction on the flowchart store.",
-      "action": "Adapter limitation (native-capabilities.mjs) for the implemented members."
+      "action": "Adapter limitation (native-capabilities.mjs) for the implemented members. Amended the same day: the stateful Bezel bridge binds these members for direct calls (see amendments). A spy that expects the parser's calls on them stays an adapter limitation, now under the family's parser -> database callback evidence (native-capabilities.mjs callback: flowchart, class, gantt); state setRootDoc and sequence apply take parsed statements and stay unbound."
     },
     {
       "basis": "database-protocol",
@@ -233,7 +233,7 @@
         ]
       },
       "evidence": "bezel-mermaid 0.2.26 crate as the bridge extracts it (node_modules/.cache/fidelity-bridges/crabtalk-bezel/source/bezel-mermaid-0.2.26): each listed member is a `pub fn` on the family's public database type (file:line per member in native-capabilities.mjs), e.g. gantt/db.rs:237 set_date_format, flowchart/store.rs:87 add_vertex, treeview/model.rs:87 add_node, common/outline.rs:113 OutlineDb::add_node (mindmap), er/db.rs:173 add_sub_graph; titles through `pub titles: Titles` (common/db.rs:37-45). A grep of the crate finds no get_config, create_model, make_uniq, exists, set_direction, set_diagram_id or edge_str_to_* function.",
-      "action": "Adapter limitation: the runtime reports a test that needs one of these members as a Trident gap naming the evidence ('crabtalk/bezel 0.2.26 implements gantt database setDateFormat natively (...); Trident does not bind it yet'). Binding needs a stateful bridge that calls the crate's database methods; not done here."
+      "action": "Adapter limitation: the runtime reports a test that needs one of these members as a Trident gap naming the evidence ('crabtalk/bezel 0.2.26 implements gantt database setDateFormat natively (...); Trident does not bind it yet'). Binding needs a stateful bridge that calls the crate's database methods; not done here. Amended the same day: the stateful Bezel bridge binds most of these members (see amendments). treeview addNode is withdrawn from the disproved list: TreeViewDb is in the private module treeview::model (src/diagrams/treeview/mod.rs:5 `mod model`, re-exporting only NodeType, TreeNode and TreeViewModel), so a test that needs it is the candidate's unsupported operation."
     },
     {
       "basis": "database-api",
@@ -856,6 +856,58 @@
       "verdict": "not a capability claim",
       "evidence": "Diagram.fromText in a shared test drives Mermaid's own detection, type ids and registry; preserveCommentsWhenParsing is a Mermaid pipeline flag (5 November policy).",
       "action": "Kept."
+    }
+  ],
+  "amendments": [
+    {
+      "date": "2026-11-14",
+      "subject": "crabtalk/bezel 0.2.26 stateful database binding",
+      "binding": "unified/mermaid-fidelity/bridges/bezel/src/database.rs, built from the checksum-verified bezel-mermaid 0.2.26 crate. A test's database is Bezel's own model: a fresh database is the family database type's public constructor (as its Diagram::parse makes it) or, where it has none, Bezel's parse of the header-only diagram; a parse starts it from Bezel's model of that source. Each Mermaid database member call runs the model type's public method, replayed in order on each request, and the test reads the model Bezel returns through the reviewed views. Arguments are passed only when they convert exactly (a native enum by its own name or serialization, a struct only when it serializes back to the test's object); anything else is an adapter limitation. runtime.ts binds it the way it binds Pele's database class: members the candidate's database implements are callable and spyable, and a spy that expects the parser's calls is the parser -> database protocol.",
+      "bound": {
+        "gantt": "setDateFormat, enableInclusiveEndDates, setAxisFormat, setTickInterval, setTodayMarker, setIncludes, setExcludes, setWeekday (Weekday::from_name), addSection, addTask, setLink, setClickEvent, setClass, setDiagramTitle, setAccTitle, setAccDescription (gantt/db.rs:237-378; common/db.rs:37-45)",
+        "journey": "addSection, addTask, setDiagramTitle, setAccTitle, setAccDescription (journey/db.rs:51-58)",
+        "requirement": "addRequirement, setNewReqId, setNewReqText, setNewReqRisk, setNewReqVerifyMethod, addElement, setNewElementType, setNewElementDocRef, addRelationship, setCssStyle, setClass, defineClass, text setters (requirement/db.rs:87-205)",
+        "railroad": "setTitle, setDiagramTitle, setAccTitle, setAccDescription (railroad/db.rs:21 pub titles)",
+        "state": "addState (id and type only), addDescription, addStyleClass, setCssClass, addLink, text setters (state/db.rs:166-280)",
+        "mindmap": "addNode, decorateNode (common/outline.rs:113 OutlineDb, implemented by MindmapModel)",
+        "class": "addClass, setClassLabel, addAnnotation, addMember, addNote, setCssClass, defineClass, setTooltip, setLink, setClickEvent, addNamespace, addClassesToNamespace, setCssStyle, text setters (class/db.rs:77-371)",
+        "flowchart": "addClass, setClass, setTooltip, setLink, setClickEvent, updateLinkInterpolate, updateLink, text setters (flowchart/store.rs:310-405)",
+        "agentflow": "emitWarning and emitError (with the context nodeId Bezel requires), updateLinkInterpolate, updateLink (agentflow/db.rs:781-785; store)",
+        "quadrant": "parseStyles (PointStyle::parse), setXAxisLeftText, setXAxisRightText, setYAxisBottomText, setYAxisTopText, addClass, text setters (quadrant/db.rs:116-198)",
+        "architecture": "addService, addJunction, addGroup, addLayoutHint, text setters (architecture/db.rs:161-234)",
+        "treeview": "setDiagramTitle, setAccTitle, setAccDescription (TreeViewModel pub titles)"
+      },
+      "stillUnbound": "unified/mermaid-fidelity/native-capabilities.mjs lists each remaining member with its reason (argument translation, parsed-statement parameters, or a parser's calls on a concrete database type).",
+      "measured": {
+        "run": "jsdom, all 352 selected files, crabtalk/bezel only, against a fresh control (7,346 reference-qualified callbacks, unchanged)",
+        "scored": {
+          "before": {
+            "passed": 3218,
+            "failed": 90,
+            "unsupported": 174,
+            "trident-blocked": 1362
+          },
+          "after": {
+            "passed": 3265,
+            "failed": 96,
+            "unsupported": 209,
+            "trident-blocked": 1274
+          }
+        },
+        "adapterLimitationsNamingNativeCapability": {
+          "before": 288,
+          "after": 160
+        },
+        "moves": {
+          "adapter limitation -> passed": 46,
+          "adapter limitation -> unsupported (capability assessment)": 41,
+          "adapter limitation -> other Trident gap": 35,
+          "adapter limitation -> failed": 6,
+          "unsupported (capability assessment) -> passed": 1,
+          "unsupported (capability assessment) -> Trident gap": 1,
+          "passed -> anything else": 0
+        }
+      }
     }
   ]
 }

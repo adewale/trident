@@ -191,8 +191,6 @@ function agentflowState(raw, hooks, project) {
     },
     getData,
     getSemanticModel,
-    // Pele's model object offers its own emitWarning/emitError; Bezel's JSON does not.
-    ...(project === BEZEL ? { emitWarning: () => hooks.unsupported(EMIT), emitError: () => hooks.unsupported(EMIT) } : {}),
   }
 }
 

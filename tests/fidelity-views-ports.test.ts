@@ -100,7 +100,9 @@ test('Pele and Bezel agentflow views answer AgentFlowDB getters from its own sta
   expect(lost.get('1').text).toBe('1')
   expect(lost.size).toBe(2)
   expect(() => [...lost.keys()]).toThrow('gap')
-  expect(() => nativeSchemaView('crabtalk/bezel', 'agentflow', bezel, hooks).emitWarning('SHAPE_UNSUPPORTED', 'x')).toThrow('unsupported')
+  // Bezel's emitWarning/emitError are its own database methods, which its stateful bridge
+  // calls (bridges/bezel/src/database.rs); the view of its parsed model claims nothing for them.
+  expect('emitWarning' in nativeSchemaView('crabtalk/bezel', 'agentflow', bezel, hooks)).toBe(false)
 })
 
 test('Latias94/merman agentflow is the semantic model; what it drops is unsupported', () => {

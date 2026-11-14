@@ -16,6 +16,24 @@
   its PNG lane; an SVG or terminal project's own PNG still adds none. The
   0.4.0 collection does not include the lane.
 
+### Mermaid Fidelity
+
+- Bezel's bridge keeps a test's database. Tests that call Mermaid's database
+  methods directly now run Bezel's own public methods on Bezel's own model
+  (`bridges/bezel/src/database.rs`), and a spy on one of those members sees the
+  test's direct calls, the same way Pele's database classes are bound. Any
+  bridge can declare such a database (`bridges.ts` protocol). Measured on the
+  14 November jsdom selection, Bezel only, with no previously passing callback
+  changed: scored passes 3,218 → 3,265, native failures 90 → 96 (2 come from
+  the existing flowchart `getClasses` view returning a plain object), and
+  adapter limitations that name a native capability 288 → 160. The rest are
+  listed with their reasons in `native-capabilities.mjs`: arguments Bezel's
+  methods take in another shape, methods that take parsed statements, and
+  parsers that drive a concrete database type, so a test's spy or `yy`
+  database cannot observe their calls. treeview `addNode` was wrongly listed
+  as public: Bezel's tree view database is in a private module, so those 12
+  tests are capability assessments.
+
 ## 0.4.0 — 14 November 2026
 
 This release recollects all three benchmarks against a 14 November product

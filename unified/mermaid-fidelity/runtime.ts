@@ -371,24 +371,52 @@ function bridgeReply(stdout: string, family: string, label: string) {
   if (reply.value?.kind && reply.value.diagram && reply.value.kind !== family) return gap('Native generic parser returned ' + reply.value.kind + '; requested ' + family + ' parser operation is not available')
   return reply.value?.kind && reply.value.diagram ? reply.value.diagram : reply.value
 }
+/** One request to the target's out-of-process bridge: its reply output, or a gap. */
+function bridgeOutput(request: Record<string, unknown>): string {
+  const [command, ...args] = job.target.bridge.command
+  if (job.target.bridge.persistent) {
+    // The same bridge, loaded once per test file and answering one request per line.
+    bridgeClient ??= persistentBridge(command, args, job.target.bridge.cwd, 10_000)
+    const reply = bridgeClient.call(request)
+    if (reply.failure) return gap('Parser bridge failed: ' + reply.failure)
+    return reply.line
+  }
+  // The project's own parser, in its own language, behind a per-call process.
+  const child = spawnSync(command, args, { input: JSON.stringify(request), cwd: job.target.bridge.cwd, encoding: 'utf8', timeout: 10_000, maxBuffer: 16 * 1024 * 1024 })
+  if (child.error || child.status !== 0) return gap('Parser bridge failed: ' + (child.error?.message ?? child.stderr.slice(0, 400)))
+  return child.stdout
+}
+let bridgeDatabase: { members?: Record<string, string[]>; failure?: string } | undefined
+/** The Mermaid database members a stateful bridge (bridges.ts `database`) binds for a
+ * family, or undefined for a target without one. Asked once per test file. */
+function bridgedMembers(family: string): { members: Set<string>; failure?: string } | undefined {
+  if (job.target.tool !== 'bridge' || !job.target.bridge.database) return undefined
+  if (!bridgeDatabase) {
+    // Describing the bridge is setup, not an operation of whichever test asks first.
+    const caseAudit = active
+    active = undefined
+    try {
+      bridgeDatabase = { members: bridgeReply(bridgeOutput({ describe: 'database' }), family, 'Parser bridge database description') }
+    } catch (error) {
+      bridgeDatabase = { failure: 'Parser bridge database description failed: ' + String((error as Error)?.message ?? error) }
+    } finally {
+      active = caseAudit
+    }
+  }
+  return { members: new Set(bridgeDatabase.members?.[family] ?? []), failure: bridgeDatabase.failure }
+}
+/** Whether a test's argument reaches a bridge as itself: JSON's own values only, so that
+ * no Map, Set, function, NaN or class instance is silently changed on the way. */
+function transportable(value: unknown): boolean {
+  if (value === null || value === undefined || typeof value === 'string' || typeof value === 'boolean') return true
+  if (typeof value === 'number') return Number.isFinite(value)
+  if (Array.isArray(value)) return value.every(transportable)
+  return typeof value === 'object' && Object.getPrototypeOf(value) === Object.prototype && Object.values(value as object).every(transportable)
+}
 function nativeParse(family: string, source: string) {
   active && active.calls++
   const config = configuredCall()
-  if (job.target.tool === 'bridge' && job.target.bridge.persistent) {
-    // The same bridge, loaded once per test file and answering one request per line.
-    const [command, ...args] = job.target.bridge.command
-    bridgeClient ??= persistentBridge(command, args, job.target.bridge.cwd, 10_000)
-    const reply = bridgeClient.call({ family, source })
-    if (reply.failure) return gap('Parser bridge failed: ' + reply.failure)
-    return bridgeReply(reply.line, family, 'Parser bridge')
-  }
-  if (job.target.tool === 'bridge') {
-    // The project's own parser, in its own language, behind a per-call process.
-    const [command, ...args] = job.target.bridge.command
-    const child = spawnSync(command, args, { input: JSON.stringify({ family, source }), cwd: job.target.bridge.cwd, encoding: 'utf8', timeout: 10_000, maxBuffer: 16 * 1024 * 1024 })
-    if (child.error || child.status !== 0) return gap('Parser bridge failed: ' + (child.error?.message ?? child.stderr.slice(0, 400)))
-    return bridgeReply(child.stdout, family, 'Parser bridge')
-  }
+  if (job.target.tool === 'bridge') return bridgeReply(bridgeOutput({ family, source }), family, 'Parser bridge')
   if (job.target.tool === 'agentic') {
     try {
       const parsed = invokeParser(() => parseAgenticSource(api, family, source))
@@ -650,12 +678,19 @@ function context(family: string) {
       }
       return empty
     }
+    // A stateful bridge's database (bridges.ts `database`): the candidate's own model, changed
+    // only by its own public methods. `history` is what this database holds: the parse it
+    // starts from and the member calls made on it since, which the bridge replays.
+    const bridged = bridgedMembers(family)
+    let history: object[] = []
     const clear = () => {
       raw = Constructor ? new Constructor() : undefined
       view = raw ? projectView(family, raw) : {}
       parsed = Boolean(Constructor)
+      history = []
     }
     clear()
+    const spiedMembers = () => [...(bridged?.members ?? [])].filter(name => Object.hasOwn(target, name) && isMock(target[name]))
     const target: any = Object.assign(Object.create(null), {
       clear,
       parse(source: string) {
@@ -666,6 +701,12 @@ function context(family: string) {
           const spied = forwardNativeCalls(Constructor, name => (Object.hasOwn(target, name) && isMock(target[name]) ? target[name] : undefined), () => nativeParse(family, source))
           raw = spied.forwarded.length ? spied.value : nativeParse(family, source)
           view = projectView(family, raw)
+          if (bridged) history = [{ parse: source }]
+          // A bridge's parser calls its own database methods out of process, where no spy
+          // can observe them: once the candidate has accepted the source, the spy's
+          // expectations are the parser -> database protocol.
+          const unobserved = spiedMembers()
+          if (unobserved.length) absentDatabaseCapability(family, undefined, `${family} parser calls on its database observed by a spy (${unobserved.join(', ')}; Mermaid's parser -> database protocol)`)
         } catch (error) {
           // usecase.chevrotain.ts clears publication on rejection. Stateless
           // candidate source parsers likewise publish no failed model; do not
@@ -679,10 +720,33 @@ function context(family: string) {
     // A Mermaid database member the candidate's own database class implements. A test may
     // spy on it: the spy then sees the calls the candidate's parser makes (target.parse), and
     // a direct call reaches the candidate's method on this database.
-    const nativeMember = (key: unknown): boolean => typeof key === 'string' && mermaidDatabaseMember(key) && nativeMethods(Constructor).has(key)
+    const nativeMember = (key: unknown): boolean => typeof key === 'string' && mermaidDatabaseMember(key) && (nativeMethods(Constructor).has(key) || Boolean(bridged?.members.has(key)))
+    // A member call on a bridge's database: the bridge replays this database's history and
+    // then the call, on the candidate's own model. A database the test has not parsed into
+    // is a fresh one, which the bridge makes (bridges.ts `new`), unless the candidate does
+    // not parse the family at all.
+    const callBridged = (key: string, args: any[]) => {
+      if (!history.length) {
+        const model = emptyModel()
+        if (model?.unsupported) return unsupportedOperation(model.unsupported, model.native ? 'native' : 'trident')
+        history = [{ new: (examples[family] ?? '').split('\n')[0] }]
+      }
+      if (!transportable(args)) return gap(`${family} database ${key}: an argument is not a JSON value the bridge receives unchanged`)
+      active && active.calls++
+      const operation = { call: key, args }
+      const reply = bridgeReply(bridgeOutput({ family, database: [...history, operation] }), family, 'Parser bridge database')
+      history = [...history, operation]
+      raw = reply.model
+      view = projectView(family, raw)
+      parsed = true
+      // The candidate's own method raised this error; its database keeps what the method did.
+      if (reply.error) throw Error(String(reply.error.message))
+      return reply.result
+    }
     const memberOf = (key: string) => (...args: any[]) => {
       // While the candidate's parser drives its own database, the spy only observes the call.
       if (forwarding) return undefined
+      if (bridged?.members.has(key)) return callBridged(key, args)
       const value = view[key] ?? raw?.[key]
       if (typeof value !== 'function') return unsupportedOperation(`${family} database ${key} (the candidate exposes a parser, not Mermaid's database API)`)
       active && active.calls++
@@ -719,6 +783,7 @@ function context(family: string) {
         if (constants && key in constants && !(key in view)) return constants[key]
         const layout = job.target.tool === 'mermaid' ? undefined : RENDERER_LAYOUT[family]?.[key]
         if (layout) return unsupportedOperation(layout)
+        if (typeof key === 'string' && bridged?.members.has(key)) return (...args: any[]) => callBridged(key, args)
         if (!parsed && raw === undefined && !(key in view) && typeof key === 'string') {
           const model = emptyModel()
           if (model?.unsupported) return unsupportedOperation(model.unsupported, model.native ? 'native' : 'trident')
@@ -746,6 +811,7 @@ function context(family: string) {
         }
         // Reading Mermaid's database API (to call it, spy on it or check that it exists) is
         // an operation the candidate does not offer.
+        if (bridged?.failure && mermaidDatabaseMember(key)) return gap(bridged.failure)
         if (mermaidDatabaseMember(key)) return absentDatabaseCapability(family, key, `${family} database ${key} (the candidate exposes a parser, not Mermaid's database API)`)
         // typeof, truthiness and caught calls cannot prove a missing native member.
         // Reject the read itself, including during module setup.

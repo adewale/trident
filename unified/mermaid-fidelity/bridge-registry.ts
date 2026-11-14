@@ -63,7 +63,12 @@ registerBridge('Yassimba/loom', built('loom', 'module-private per-family parsers
 registerBridge('Mootikins/figurehead-rs', built('figurehead', 'figurehead::parse and per-family core::Parser implementations'))
 registerBridge('xai-org/grok-build', built('grok', 'private mermaid.rs parsers, compiled unchanged beside an export'))
 registerBridge('1jehuang/mermaid-rs-renderer', built('mmdr', 'mermaid_rs_renderer parse_mermaid'))
-registerBridge('crabtalk/bezel', built('bezel', 'bezel-mermaid mermaid::parse'))
+// Bezel's database types are public with the methods its parsers call, so its bridge also
+// keeps a test's database (bridges/bezel/src/database.rs).
+registerBridge('crabtalk/bezel', async (peer, outDir) => {
+  const bridge = await built('bezel', "bezel-mermaid mermaid::parse, and its model types' public database methods")(peer, outDir)
+  return bridge && { ...bridge, database: true }
+})
 registerBridge('AlexanderGrooff/mermaid-ascii', built('mermaid-ascii', 'pkg/graph, pkg/sequence and pkg/er Parse'))
 registerBridge('spacedock-dev/mermaidtext', built('mermaidtext', 'unexported Go parsers, reached through an overlay-injected export'))
 // Mermaid Dart is mermaid_core itself. Mermaid Flutter calls mermaid_core's parser
