@@ -27,14 +27,34 @@ change's effect is listed below.
 - Admit SVG the way a browser displays it. Strict XML first; if that fails, the
   SVG is parsed as a browser parses SVG embedded in HTML. Strict-XML failures
   are counted per run and shown in the SVG table, and do not affect completion.
-  Mermaid completes 1,336 of its own 1,342 documentation examples, up from
-  1,302, and moves from sixth to second in SVG: strict XML had rejected raw `&`
-  in click tooltips, `&nbsp;` and unbound xlink prefixes.
+  Strict XML had rejected 34 of Mermaid's outputs (raw `&` in click tooltips,
+  `&nbsp;` and unbound xlink prefixes), which ranked Mermaid sixth at its own
+  documentation.
 - Apply one empty-output rule to SVG and terminal text: output that draws
   nothing is admitted only for examples whose reviewed source draws nothing.
   Frankenmermaid loses 4 SVG and 4 terminal completions (blank SVGs and blank
   braille canvases), VitePress Plugin Diagram loses 2 SVG, and six terminal
   renderers gain 2 for the two Gantt examples that draw nothing.
+- Credit completion only over the inputs the Mermaid reference accepts. Mermaid
+  rejects 4 of the 1,342 documentation inputs with its own parser or detection
+  error; rendering one earns no completion credit, so league tables, ranks and
+  the synthesis count completions of 1,338 accepted inputs. Collections record
+  the pinned oracle's verdicts (`corpus.referenceRejected`).
+  `docs/davebench-completion.md` lists the rejected inputs and splits each
+  project's failures into execution, output admission and PNG conversion.
+- Serve a fixed 1x1 transparent PNG for external image requests during browser
+  renders; other external requests are still refused. Aborted image requests
+  had failed Mermaid's `flowchart.md:1129` for reasons unrelated to Mermaid,
+  which now completes all 1,338 accepted inputs.
+- Reject terminal output that prints the source's body lines in separate,
+  unconnected boxes, reading text box by box so lines wrapped inside a box stay
+  whole. Termaid loses 46 terminal completions (ZenUML, requirement, event
+  modeling and use-case examples drawn as boxed source lines); no other project
+  changes.
+- Spot-check 55 accepted renders by eye across the top projects
+  (`docs/evidence/davebench-spot-checks-2026-11-14/`): 39 draw the source, 10
+  partly, 6 draw something else. The spot-checks found the two harness defects
+  above.
 - Keep every run's failed inputs with their reasons, and record each example's
   diagram family. `results:snapshot` writes `docs/davebench-families.md`:
   completion per diagram family for every implementation and format.
@@ -57,6 +77,16 @@ change's effect is listed below.
   24 of Latias Merman's SVG failures and 6 others become unknown.
 - Both rules have admission controls that run with every collection. Together
   they move 39 rows from incorrect to unknown and none to correct.
+- Report source obligations beyond labels (`drawing-source-obligations-v1`):
+  relationships, geometry (containment, chart values, regression geometry) and
+  explicitly required layout, judged by qualified structure, layout and paint
+  observers and otherwise unassessed. Shown beside each format's league table,
+  alphabetically, not ranked; no label verdict or rank changes.
+- Publish 95 bounded manual reviews of retained drawings, selected by a
+  recorded rule, including every Ondine label-unknown, label-incorrect and
+  obligation-failure row: 49 confirmed failures, 40 drawn correctly, 6
+  undecidable. Seven reviews contradict a mechanical verdict and are listed as
+  candidate observer defects; verdicts are unchanged.
 - Measure the glyph ink of plain, single-line HTML labels, separating unused
   font-box overflow from cropped letters, with positive and clipped admission
   controls, and record each unavailable SVG criterion and the glyph witness's
@@ -82,8 +112,9 @@ change's effect is listed below.
 - Views are reviewed per native version and, where a project publishes one,
   source revision (`views/reviewed-versions.mjs`); an unreviewed version gets
   every callback as a Trident gap. Frankenmermaid 0.5.0, Bezel 0.2.26, Zombie
-  Mermaid 5.17.0 and OpenCode 2.3.0 were reviewed by comparing native model
-  output or source; Latias Merman 0.10.0 on result equivalence only.
+  Mermaid 5.17.0, OpenCode 2.3.0 and Latias Merman 0.10.0 were reviewed by
+  comparing native model output or source; Latias Merman's 0.9.3 and 0.10.0
+  CLIs were built from crates.io source to compare model shapes.
 - The Mermaid Flutter row reads `mermaid_core`'s version from its lockfile and
   says it shares Mermaid Dart's parser.
 - Earlier in this cycle, on the 0.3.0 product versions: recollect under one
