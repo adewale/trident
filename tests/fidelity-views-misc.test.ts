@@ -257,6 +257,31 @@ test('agentic-mermaid: a shape written as @{ shape: X } is the vertex type X', a
   expect(db.getData().nodes.map((n: any) => n.shape)).toEqual(['roundedRect', 'rounded', 'rect'])
 })
 
+// Bezel's bridge prints its classDef IndexMap as a JSON object (bezel-mermaid 0.2.26, for
+// `flowchart TD / A-->B / classDef foo fill:#f9f`); Mermaid's flowDb.getClasses() is a Map.
+test('a native map a bridge prints as a JSON object is the Map a Mermaid getter returns', async () => {
+  const { projectPublicDatabase } = await import('../unified/upstream-fidelity-projection.mjs')
+  const fail = (reason: string) => { throw Error('gap: ' + reason) }
+  const foo = { id: 'foo', styles: ['fill:#f9f'], textStyles: [] }
+  const raw = { type: 'flowchart', direction: 'TD', nodes: {}, edges: [], subgraphs: [], classes: { foo, bar: { id: 'bar', styles: [], textStyles: [] } } }
+  const db: any = projectPublicDatabase('bridge', 'flowchart', raw, fail, fail, 'crabtalk/bezel')
+  const classes = db.getClasses()
+  expect(classes).toBeInstanceOf(Map)
+  expect([...classes.keys()]).toEqual(['foo', 'bar'])
+  expect(classes.get('foo')).toEqual(foo)
+  // Getters Mermaid does not answer with a Map keep the native value as it came.
+  expect(Array.isArray(db.getSubGraphs())).toBe(true)
+  expect(db.getDirection()).toBe('TD')
+  // Integer-like keys lost their order in JSON: lookups and size answer, enumeration is a gap.
+  const numbered: any = projectPublicDatabase('bridge', 'flowchart', { ...raw, classes: { 2: { id: '2' }, 1: { id: '1' } } }, fail, fail, 'crabtalk/bezel').getClasses()
+  expect([numbered.get('1').id, numbered.size]).toEqual(['1', 2])
+  expect(() => [...numbered.keys()]).toThrow('loses the declaration order')
+  // The same rule for every family's Map getters, and only for them.
+  const state: any = projectPublicDatabase('bridge', 'state', { states: { A: { id: 'A' } }, relations: [], classes: {} }, fail, fail, 'example/json-bridge')
+  expect(state.getStates()).toBeInstanceOf(Map)
+  expect(state.getRelations()).toEqual([])
+})
+
 // merslim: flowchart LR / A[Square] --> B(Round) / B -.-> C{Diamond} / E -- text --> F[(Cyl)] /
 // I ~~~ J / subgraph sub1 [Sub title] K end
 test('merslim flowchart: shapes only where its kind names one; no arrowheads, subgraph members or classDefs', () => {

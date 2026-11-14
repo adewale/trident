@@ -14,6 +14,42 @@ const clone = (value, seen = new Map()) => {
   return out
 }
 
+// Mermaid database getters that return a Map, by family (the field each returns is declared
+// `new Map<...>()` or as a Map type in Mermaid's source): flowchart/flowDb.ts:60 classes,
+// er/erDb.ts:22 classes, state/stateDb.ts:137 states and :203 classes, requirement/
+// requirementDb.ts:29-32 requirements, elements and classes, class/classTypes.ts:200-202
+// notes and namespaces.
+const MERMAID_MAP_GETTERS = {
+  flowchart: ['getClasses'],
+  er: ['getClasses'],
+  state: ['getStates', 'getClasses'],
+  requirement: ['getRequirements', 'getElements', 'getClasses'],
+  class: ['getNotes', 'getNamespaces'],
+}
+/** A JSON object loses the insertion order of integer-like keys (JavaScript lists them first,
+ * ascending): such a map still answers lookups and its size; enumerating it is a gap. */
+class OrderLostMap extends Map {
+  constructor(entries, refuse) {
+    super(entries)
+    this.refuse = refuse
+  }
+  keys() { return this.refuse() }
+  values() { return this.refuse() }
+  entries() { return this.refuse() }
+  forEach() { return this.refuse() }
+  [Symbol.iterator]() { return this.refuse() }
+}
+/** A native map that reached Trident as a JSON object (a bridge prints a map that way), as
+ * the Map Mermaid's getter returns: the native keys and records, nothing added. Any other
+ * value is passed as it came. */
+function nativeMap(value, unavailable, label) {
+  if (!value || typeof value !== 'object' || value instanceof Map || Array.isArray(value) || Object.getPrototypeOf(value) !== Object.prototype) return clone(value)
+  const entries = Object.entries(clone(value))
+  if (entries.length < 2 || !entries.some(([key]) => /^(?:0|[1-9]\d*)$/.test(key))) return new Map(entries)
+  const reason = label + ': a JSON object from the bridge loses the declaration order of integer-like keys'
+  return new OrderLostMap(entries, () => (unavailable ? unavailable(reason) : (() => { throw Error(reason) })()))
+}
+
 /** Snapshot real getter returns immediately: several Mermaid diagram DBs are
  * shared singletons, and preparing a second source must not overwrite the first.
  * Mutation/internal helpers are never synthesized from original expectations. */
@@ -46,7 +82,8 @@ export function projectPublicDatabase(tool, family, raw, unavailable, unsupporte
   if (native) return withLayout({ ...constants, ...projectPublicDatabase(tool, family, raw, unavailable), ...native })
   if (project && unsupported) return withLayout({ ...constants, ...projectPublicDatabase(tool, family, raw, unavailable) })
   if (family === 'mindmap' || family === 'gitgraph') return publicDatabaseView(tool, raw, family)
-  const view = { ...clone(raw) }, field = (name, property, object = raw) => { if (object && property in object) view[name] = () => clone(object[property]) }
+  const mapGetters = MERMAID_MAP_GETTERS[family] ?? []
+  const view = { ...clone(raw) }, field = (name, property, object = raw) => { if (object && property in object) view[name] = mapGetters.includes(name) ? () => nativeMap(object[property], unavailable, `${family} ${name}`) : () => clone(object[property]) }
   field('getDiagramTitle', 'title'); field('getAccTitle', raw && 'accTitle' in raw ? 'accTitle' : 'accessibilityTitle'); field('getAccDescription', raw && 'accDescr' in raw ? 'accDescr' : 'accessibilityDescription'); field('getDirection', 'direction')
   if (family === 'flowchart') {
     const graph = tool === 'agentic' ? raw.graph : raw

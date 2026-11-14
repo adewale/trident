@@ -33,6 +33,16 @@
   database cannot observe their calls. treeview `addNode` was wrongly listed
   as public: Bezel's tree view database is in a private module, so those 12
   tests are capability assessments.
+- Bridged models arrive as JSON, which prints a native map as an object. The
+  generic projection now returns the native keys and records as a Map wherever
+  Mermaid's getter returns a Map: flowchart `getClasses`, er `getClasses`,
+  state `getStates` and `getClasses`, requirement `getRequirements`,
+  `getElements` and `getClasses`, and class `getNotes` and `getNamespaces`.
+  Bezel's flowchart class tests no longer fail on `classes.get is not a
+  function`: 14 native failures become passes (flow-style 11,
+  flow-vertice-chaining 1, flowDb 2). Pele's outcomes are unchanged. Latias
+  Merman's 12 flow-style and chaining failures stay failures, now reading the
+  style lists its classDefs hold.
 
 ## 0.4.0 — 14 November 2026
 
