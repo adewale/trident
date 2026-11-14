@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process'
 import { familyNames } from './docs-source-review.ts'
+import { assertMermaidOracle, mermaidVerdicts } from '../portable/mermaid-oracle.ts'
 
 const revision = '370c4af57f43cb0bda05f4a9fe2d99c912ba16dd'
 export function davebenchInputs(upstream: string, commit = revision) {
@@ -36,4 +37,12 @@ export function davebenchFamily(source: string) {
   if (/^c4/.test(header)) return 'c4'
   if (/^railroad/.test(header)) return 'railroad'
   return Object.hasOwn(familyNames, header) ? familyNames[header]! : /^[a-z][a-z0-9-]*$/.test(header) ? header.replace(/-beta$/, '').replace(/diagram$/, '') : 'other'
+}
+
+/** Inputs the pinned Mermaid oracle rejects (its parser or diagram detection fails), by input
+ * id with the oracle's error. Collectors record this as `corpus.referenceRejected` so the
+ * accepted/rejected split travels with the collection; completion is credited over the rest. */
+export async function davebenchReferenceRejected(cases: readonly { id: string; source: string }[]): Promise<Record<string, string>> {
+  const verdicts = await mermaidVerdicts(assertMermaidOracle(), cases.map(input => input.source))
+  return Object.fromEntries(cases.flatMap((input, index) => verdicts[index]!.accepted ? [] : [[input.id, verdicts[index]!.error ?? 'rejected']]))
 }

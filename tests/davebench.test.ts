@@ -130,6 +130,9 @@ test('the browser runner awaits completion, includes failed-call time and admits
     const complete = await call('drawn')
     expect(complete.outcome).toBe('completed'); expect(complete.ms).toBeGreaterThanOrEqual(15)
     expect(Object.keys(complete).sort()).toEqual(['ms', 'outcome'])
+    // Spot-checks ask for the SVG of the same call; measurement never does.
+    const kept = await page.evaluate(davebenchBrowserCall, { source: 'drawn', id: 'fixture', format: 'svg', errorPatterns: errorPatternSources, keepOutput: true })
+    expect(kept).toMatchObject({ outcome: 'completed', output: expect.stringContaining('<rect width="10"') })
     const failed = await call('reject')
     expect(failed.outcome).toBe('error'); expect(failed.ms).toBeGreaterThanOrEqual(15)
     // A returned value that is not a usable drawing is a failure, timed like any other call.

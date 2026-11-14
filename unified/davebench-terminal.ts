@@ -2,7 +2,7 @@ import { executionEnvironment } from './execution-environment.ts'
 import { comparisonProjects } from './lineage.ts'
 import { campaignPlan, assertTimingCollection } from './campaign-plan.ts'
 import { atomicWrite, reserveResultDirectory, timingSession } from './result-storage.ts'
-import { davebenchFamily, davebenchInputs } from './davebench-inputs.ts'
+import { davebenchFamily, davebenchInputs, davebenchReferenceRejected } from './davebench-inputs.ts'
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
@@ -22,8 +22,8 @@ import { TerminalCallWorker } from './terminal-call-worker.ts'
 export { TerminalCallWorker } from './terminal-call-worker.ts'
 
 /** Fresh terminal CLI process. Text goes to a regular scratch file and is read
- * for admission after the clock stops, then deleted. */
-export async function terminalCliCall(artifact: CommunityArtifact, source: string, directory: string, timeoutMs: number) {
+ * for admission after the clock stops, then deleted. Measurement passes no onOutput. */
+export async function terminalCliCall(artifact: CommunityArtifact, source: string, directory: string, timeoutMs: number, onOutput?: (text: string) => void) {
   const request = communityCliRequest(artifact, 'terminal', directory)
   if (request.inputMode === 'file') writeFileSync(request.input, source)
   const destination = join(directory, 'davebench-output.txt'), captured = join(directory, 'davebench-stdout.txt')
@@ -45,6 +45,7 @@ export async function terminalCliCall(artifact: CommunityArtifact, source: strin
   try {
     if (result.outcome !== 'completed') return result
     const text = args.some(arg => arg.includes(destination)) && existsSync(destination) ? readFileSync(destination, 'utf8') : readFileSync(captured, 'utf8')
+    onOutput?.(text)
     const validity = davebenchTerminalValidity(text, source)
     return validity.valid ? result : { ...result, outcome: 'invalid', invalid: validity.reason }
   } finally { rmSync(destination, { force: true }); rmSync(captured, { force: true }); if (request.inputMode === 'file') rmSync(request.input, { force: true }) }
@@ -81,9 +82,9 @@ export async function main(args = process.argv.slice(2)) {
   const inventory = davebenchInputs(resolve(options.get('--upstream') ?? join(tridentDirectory, '../mermaid'))), runs: DavebenchRun[] = [], blocked: { project: string; reason: string }[] = []
   const plan = campaignPlan(prepared.map(peer => ({ project: peer.node.id, version: plannedBenchmarkVersion(peer.node, peer.artifact?.kind === 'cli' ? peer.artifact : !communityModuleOutputSupported(peer.node, 'terminal') ? peer.artifact?.additionalCli?.find(cli => cli.outputs.includes('terminal'))?.artifact ?? peer.artifact : peer.artifact), format: 'terminal' })), inventory.cases.map(input => input.id), 3, { commit: inventory.commit, sources: inventory.cases, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile }, wanted ? 'subset' : 'full')
   const workerIdentities: any[] = [], emptyCorpus = davebenchEmptyOutputCorpus(inventory.cases, inventory.cases.map(input => davebenchEmptyOutputRule(input.source)))
-  const startedAt = new Date().toISOString(), timeoutMs = 15_000
+  const startedAt = new Date().toISOString(), timeoutMs = 15_000, referenceRejected = await davebenchReferenceRejected(inventory.cases)
   const save = (state: string) => {
-    const report = { schema: 'davebench-terminal-v2', state, plan, environment: executionEnvironment(), workerIdentities, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files, families: inventory.cases.map(input => davebenchFamily(input.source)), ...emptyCorpus }, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup.', failures: 'Each run lists its failed inputs by reason as ranges of plan.cases positions (failures); completed inputs are implied.' }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
+    const report = { schema: 'davebench-terminal-v2', state, plan, environment: executionEnvironment(), workerIdentities, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, occurrences: inventory.cases.length, files: inventory.files, families: inventory.cases.map(input => davebenchFamily(input.source)), ...emptyCorpus, referenceRejected }, method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited public render calls including failures; initialization, warm-ups, IPC and reporting excluded. Native CLI includes per-call process startup.', failures: 'Each run lists its failed inputs by reason as ranges of plan.cases positions (failures); completed inputs are implied.' }, runs, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
     if (state === 'complete') assertTimingCollection(report)
     atomicWrite(join(out, 'results.json'), JSON.stringify(report, null, 2) + '\n')
   }

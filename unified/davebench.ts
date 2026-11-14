@@ -19,13 +19,14 @@ import { authoredDiagnosticSource, davebenchEmptyOutputCorpus, davebenchEmptyOut
 import { watchMemory } from './process-memory.ts'
 import { killCommunityProcess, spawnCommunityProcess } from './community-process.ts'
 
-import { davebenchFamily, davebenchInputs } from './davebench-inputs.ts'
+import { davebenchFamily, davebenchInputs, davebenchReferenceRejected } from './davebench-inputs.ts'
 export { davebenchInputs } from './davebench-inputs.ts'
 
 /** Runs in the renderer page. Returns counters and an admission reason only;
- * outputs never leave the page. The clock stops before admission checks.
+ * outputs never leave the page (keepOutput, which only spot-checks set, returns the SVG).
+ * The clock stops before admission checks.
  * `drawsNothing` is the reviewed empty-output rule for this input (see EmptyOutputRule). */
-export async function davebenchBrowserCall(input: { source: string; id: string; format: string; errorPatterns?: [string, string][]; errorSource?: string; raw?: { header?: string; statements: string[] }; drawsNothing?: boolean }) {
+export async function davebenchBrowserCall(input: { source: string; id: string; format: string; errorPatterns?: [string, string][]; errorSource?: string; raw?: { header?: string; statements: string[] }; drawsNothing?: boolean; keepOutput?: boolean }) {
   const host = globalThis as any, state = host.__fidelityCommunity, started = performance.now()
   let outcome = 'completed', svgText: string | undefined, pngValue: unknown, pngBytes = 0, error: string | undefined, strictXmlInvalid: string | undefined
   /** Admit SVG the way a browser displays it: as an SVG document (strict XML), or else
@@ -139,7 +140,9 @@ export async function davebenchBrowserCall(input: { source: string; id: string; 
   }
   try { host.__communityAfterCall?.() } catch {}
   for (const node of document.querySelectorAll('body > div:not([data-community-host])')) node.remove()
-  return invalid ? { outcome, ms, invalid } : error ? { outcome, ms, error } : strictXmlInvalid ? { outcome, ms, strictXmlInvalid } : { outcome, ms }
+  const result = invalid ? { outcome, ms, invalid } : error ? { outcome, ms, error } : strictXmlInvalid ? { outcome, ms, strictXmlInvalid } : { outcome, ms }
+  // Measurement never sets keepOutput; spot-checks of completed inputs read the SVG this way.
+  return input.keepOutput && svgText !== undefined ? { ...result, output: svgText } : result
 }
 
 import { davebenchAdmissionProfile, davebenchAdmission, davebenchSummary, davebenchRankings, davebenchRankingRule, recordOutcome, type DavebenchRun } from './davebench-model.ts'
@@ -199,8 +202,8 @@ const scratchFile = (name: string) => join(cliScratch ??= mkdtempSync(join(tmpdi
 
 /** Fresh CLI process per call. Output goes to a regular scratch file so native
  * exporters that reopen stdout still work; it is read for admission after the
- * clock stops and then deleted. */
-export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: string, format: string, timeoutMs: number): Promise<{ outcome: string; ms: number; error?: string; invalid?: string; strictXmlInvalid?: string }> {
+ * clock stops and then deleted. Measurement passes no onOutput; spot-checks do. */
+export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: string, format: string, timeoutMs: number, onOutput?: (bytes: Buffer) => void): Promise<{ outcome: string; ms: number; error?: string; invalid?: string; strictXmlInvalid?: string }> {
   const artifact = peer.artifact!, binding = artifact.outputBindings![format]!
   const output = scratchFile('output.' + format), captured = scratchFile('stdout.' + format)
   rmSync(output, { force: true })
@@ -220,6 +223,7 @@ export async function davebenchCliCall(peer: PreparedCommunityBrowser, source: s
   try {
     if (result.outcome !== 'completed') return result
     const bytes = binding.args.some(arg => arg.includes('{output}')) && existsSync(output) ? readFileSync(output) : readFileSync(captured)
+    onOutput?.(bytes)
     const validity = format === 'png' ? pngBytesValidity(bytes) : davebenchSvgValidity(bytes.toString('utf8'), source)
     return validity.valid ? validity.strictXmlInvalid ? { ...result, strictXmlInvalid: validity.strictXmlInvalid } : result : { ...result, outcome: 'invalid', invalid: validity.reason }
   } finally { rmSync(output, { force: true }); rmSync(captured, { force: true }) }
@@ -273,9 +277,10 @@ export async function main(args = process.argv.slice(2)) {
   for (const node of nodes) if (!prepared.some(peer => peer.node.id === node.id)) prepared.push({ node, browserStatus: 'blocked', error: 'No prepared artifact supplied' })
   const plan = campaignPlan(nodes.flatMap((node: any) => (communityDeclaresOutput(node, 'svg') ? ['svg', 'png'] : ['png']).map(format => ({ project: node.id, version: plannedBenchmarkVersion(node, prepared.find(peer => peer.node.id === node.id)?.artifact), format }))), inventory.cases.map(input => input.id), 3, { commit: inventory.commit, sources: inventory.cases, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile }, options.has('--projects') ? 'subset' : 'full')
   const startedAt = new Date().toISOString(), runs: Run[] = [], blocked: { project: string; format?: string; reason: string }[] = [], timeoutMs = 15_000
+  const referenceRejected = await davebenchReferenceRejected(inventory.cases)
   const emptyRules = inventory.cases.map(input => davebenchEmptyOutputRule(input.source))
   const save = (state: string) => {
-    const report = { schema: 'davebench-simple-v2', state, plan, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, directory: 'docs/', occurrences: inventory.cases.length, files: inventory.files, families: inventory.cases.map(input => davebenchFamily(input.source)), ...davebenchEmptyOutputCorpus(inventory.cases, emptyRules) },
+    const report = { schema: 'davebench-simple-v2', state, plan, startedAt, updatedAt: new Date().toISOString(), corpus: { commit: inventory.commit, directory: 'docs/', occurrences: inventory.cases.length, files: inventory.files, families: inventory.cases.map(input => davebenchFamily(input.source)), ...davebenchEmptyOutputCorpus(inventory.cases, emptyRules), referenceRejected },
       method: { runs: 3, warmupsPerRun: 30, timeoutMs, outputsRetained: false, outputsAssessed: false, admission: davebenchAdmission, admissionProfile: davebenchAdmissionProfile, elapsed: 'Sum of awaited render/export calls, including failures; initialization, warm-up, reporting and cleanup excluded. Native CLI includes process startup.', png: 'Browser SVG + shared Chromium canvas PNG conversion unless a prepared native PNG path is available (pngPath: native or trident-conversion). No image inspection.', failures: 'Each run lists its failed inputs by reason as ranges of plan.cases positions (failures); completed inputs are implied.' },
       environment: { ...executionEnvironment(), chromium: browser.version() },
       runs, summary: davebenchSummary(runs), rankingRule: davebenchRankingRule, rankings: davebenchRankings(runs, inventory.cases.length), blocked }
