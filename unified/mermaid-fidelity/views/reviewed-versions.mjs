@@ -30,7 +30,7 @@ export const REVIEWED_VIEW_VERSIONS = {
   },
   'Latias94/merman': {
     '0.9.3': 'views written against the 0.9.3 CLI parse --meta output',
-    '0.10.0': 'not shape-diffed: neither the 0.9.3 release CLI nor a merman-cli 0.9.3 built from its crates.io source could be run in this review. Every gap reason and every per-file count matches the 0.3.0 run except passes replacing failures (flow-edges +16, classDiagram +6, flow-singlenode +3, packet +2), consistent with its Mermaid 12.1 to 12.3 parser update: no read produced a new gap or a new failure',
+    '0.10.0': 'merman-cli 0.9.3 and 0.10.0 built from crates.io source (--features all-diagrams) and run with `parse --meta` on 1,084 corpus sources (corpus/community-corpus.json). Removed paths: model.diagramId (4 sources) and themeVariables.nodeTextColor in host config; no view reads either. Added: host-config keys (flowchart/c4 stepNumbers and stepDuration, mindmap colorBy), which views treat as host configuration; nodes[].centerLabel, which views strip as a renderer field; edges[].thickness and pattern (12 sources) and an ER Group entity (1), passed through as native data. With config removed, 997 of 1,075 models are identical; the 78 that differ keep their shape (37 reorder state keys, the rest change values in edges, mindmap root, tasks, nodes or packet fields). One kanban source now fails to parse and one sequence par/and source now parses.',
   },
   'crabtalk/bezel': {
     '0.2.24': 'views written against bezel-mermaid 0.2.24',
