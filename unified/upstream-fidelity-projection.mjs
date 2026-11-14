@@ -115,7 +115,14 @@ export function projectPublicDatabase(tool, family, raw, unavailable, unsupporte
   } else if (family === 'gantt') {
     field('getTasks', 'tasks'); field('getSections', 'sections'); field('getDateFormat', 'dateFormat'); field('getAxisFormat', 'axisFormat'); field('getDisplayMode', 'displayMode')
   } else if (family === 'timeline') {
-    field('getTasks', 'periods'); field('getSections', 'sections')
+    // timelineDb.js keeps sections as the written names, tasks as {id, section, type, task,
+    // score, events} and direction as the written 'LR' or 'TD'. Without a reviewed view only
+    // values already in those shapes pass through; any other encoding (section records,
+    // period records, 'LeftRight', a lower-case direction) is a gap, never a comparison.
+    const unmapped = detail => (unavailable ? unavailable('Unmapped native timeline schema: ' + detail) : undefined)
+    if (Array.isArray(raw.periods)) view.getTasks = () => (raw.periods.every(period => period && typeof period.task === 'string') ? clone(raw.periods) : unmapped('period records'))
+    if (Array.isArray(raw.sections)) view.getSections = () => (raw.sections.every(section => typeof section === 'string') ? clone(raw.sections) : unmapped('section records'))
+    if ('direction' in (raw ?? {})) view.getDirection = () => (['LR', 'TD'].includes(raw.direction) ? raw.direction : unmapped('direction ' + JSON.stringify(raw.direction)))
   } else if (family === 'requirement') {
     field('getRequirements', 'requirements'); field('getElements', 'elements'); field('getRelationships', 'relations')
   }

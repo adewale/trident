@@ -12,7 +12,7 @@ import { homedir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { flutterLock } from './lock.ts'
+import { flutterLock, flutterLockFile } from './lock.ts'
 
 const peers = ['orestesgaolin/mermaid', 'pub:mermaid_flutter']
 const here = import.meta.dirname
@@ -33,15 +33,31 @@ function dartTool(): string {
   throw Error('Dart bridge: no Dart SDK >= 3.12 found (set AM_BENCH_DART, as the Dart community adapter does, or put dart on PATH)')
 }
 
-/** mermaid_core's directory: the prepared Mermaid Dart package config first, then the pub cache. */
-function locateCore(peer: any, CORE_VERSION: string): string {
+/** The mermaid_core directory a Dart package config resolves, if it names one. */
+function configuredCore(config: string): string | undefined {
+  if (!existsSync(config)) return undefined
+  const entry = JSON.parse(readFileSync(config, 'utf8')).packages?.find((p: any) => p.name === 'mermaid_core')
+  return entry && (entry.rootUri.startsWith('file:') ? fileURLToPath(entry.rootUri) : resolve(dirname(config), entry.rootUri))
+}
+/** The package config of Mermaid Flutter's native app: the mermaid_core its build used. */
+export const flutterPackageConfig = (lockFile = flutterLockFile) => join(dirname(lockFile), '.dart_tool/package_config.json')
+
+/** mermaid_core's directory. Mermaid Flutter's is the copy its native app resolved
+ * (native-flutter/app/.dart_tool/package_config.json, beside the pubspec.lock that names its
+ * version), never another project's. Mermaid Dart's is its prepared package config's, then
+ * the pub cache. */
+export function locateCore(peer: any, CORE_VERSION: string, flutterConfig = flutterPackageConfig()): string {
   const candidates: string[] = []
-  const config = peer.artifact?.root && join(peer.artifact.root, '.dart_tool/package_config.json')
-  if (config && existsSync(config)) {
-    const entry = JSON.parse(readFileSync(config, 'utf8')).packages?.find((p: any) => p.name === 'mermaid_core')
-    if (entry) candidates.push(entry.rootUri.startsWith('file:') ? fileURLToPath(entry.rootUri) : resolve(dirname(config), entry.rootUri))
+  if (peer?.node?.id === 'pub:mermaid_flutter') {
+    const core = configuredCore(flutterConfig)
+    if (!core) throw Error('Dart bridge: Mermaid Flutter\'s native app has no resolved mermaid_core (' + flutterConfig + '); run its pub get or build first')
+    candidates.push(core)
+  } else {
+    const config = peer.artifact?.root && join(peer.artifact.root, '.dart_tool/package_config.json')
+    const core = config && configuredCore(config)
+    if (core) candidates.push(core)
+    for (const cache of [process.env.PUB_CACHE, join(homedir(), '.pub-cache')]) if (cache) candidates.push(join(cache, 'hosted/pub.dev/mermaid_core-' + CORE_VERSION))
   }
-  for (const cache of [process.env.PUB_CACHE, join(homedir(), '.pub-cache')]) if (cache) candidates.push(join(cache, 'hosted/pub.dev/mermaid_core-' + CORE_VERSION))
   for (const dir of candidates) {
     const pubspec = join(dir, 'pubspec.yaml')
     if (!existsSync(pubspec)) continue

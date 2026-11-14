@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test'
 import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { mergeFidelityRuns } from '../scripts/merge-fidelity-runs.ts'
-import { gapsByCause, UNREVIEWED_UNSUPPORTED } from '../scripts/fidelity-gaps.ts'
+import { capabilityAssessmentCause, gapsByCause, UNREVIEWED_UNSUPPORTED } from '../scripts/fidelity-gaps.ts'
 import { fidelityOutcomes } from '../unified/mermaid-fidelity.ts'
 import { fidelityCoverage } from '../unified/fidelity-coverage.ts'
 import { fidelityPopulation, synthesiseBenchmarks } from '../unified/overall-score.ts'
@@ -43,7 +43,11 @@ test('an unsupported verdict is unassessed in scoring while its raw disposition 
   const a = merged.results.find(row => row.project === 'a')!
   expect(a.scored.unsupported).toBe(2)
   expect(a.unsupportedReasons).toEqual({ 'no such parser': 2 })
-  expect(gapsByCause(merged).a).toEqual({ [UNREVIEWED_UNSUPPORTED]: 2 })
+  // 'no such parser' is no candidate message: it is Trident's assessment, by its basis.
+  expect(gapsByCause(merged).a).toEqual({ [capabilityAssessmentCause('model-concept')]: 2 })
+  // A result merged before outcome kinds were recorded keeps the single unreviewed cause.
+  const { assessmentBases: _bases, ...legacy } = a
+  expect(gapsByCause({ results: [legacy] }).a).toEqual({ [UNREVIEWED_UNSUPPORTED]: 2 })
   const scoring = fidelityScoring(merged)
   expect(scoring.score(a)).toMatchObject({ passed: 1, nonpasses: 1, unassessed: 2 })
   const { davebench, drawing, catalog } = synthesisInputs(['a'])

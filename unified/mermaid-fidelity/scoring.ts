@@ -11,7 +11,9 @@
  *   coverage report, not scored. Only an assertion or candidate fault is a known nonpass;
  *   an operation the candidate's side reports as unsupported is unassessed, like a
  *   missing Trident binding, because no per-assertion review has separated the
- *   candidate's real limits from Trident binding gaps for every candidate.
+ *   candidate's real limits from Trident binding gaps for every candidate. Result rows
+ *   record which unsupported verdicts the candidate's own code reported and which are
+ *   Trident's capability assessments (outcome-kinds.ts); both stay unassessed here.
  * - legacy (results published before v2, which record no `scoring`): every
  *   reference-qualified callback is scored and an unsupported operation is a known
  *   nonpass. Those results are read under the definition they were published with.

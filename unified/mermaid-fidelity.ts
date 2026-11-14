@@ -17,6 +17,7 @@ import { environmentSummary } from './mermaid-fidelity/environments.ts'
 import { qualifyOriginalRuntime } from './upstream-runtime-qualification.ts'
 import { fidelityNotApplicableReason, fidelityPopulationSizes, fidelityScoringDefinition, scoredFidelityCounts } from './mermaid-fidelity/scoring.ts'
 import { unreviewedViewGap } from './mermaid-fidelity/views/reviewed-versions.mjs'
+import { callbackUnsupportedKind } from './mermaid-fidelity/outcome-kinds.ts'
 
 // The pinned Mermaid suite: one reviewed version and commit, shared with upstream:prepare.
 const PIN = currentReferencePin.commit
@@ -102,6 +103,11 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
     if (options.viewGap && ['passed', 'failed', 'unsupported', 'trident-blocked'].includes(status))
       return { file: control.file, name: control.fullName, status: 'trident-blocked', calls: evidence?.calls ?? 0, rejections: evidence?.rejections ?? 0, reason: options.viewGap }
     let unobservedReason: string | undefined
+    // Whether the candidate's own code reported the unsupported verdict or Trident assessed
+    // it (outcome-kinds.ts): the audit's recorded provenance, else the reason text.
+    const unsupportedKind = status !== 'unsupported' ? undefined
+      : result && evidence?.unsupported?.length ? callbackUnsupportedKind(evidence.unsupported, evidence.unsupportedKinds)
+        : callbackUnsupportedKind([unsupportedFiles.get(control.file) ?? ''])
     if (!result) unobservedReason = unsupportedFiles.get(control.file) ?? 'Candidate test not collected'
     else if (status === 'trident-blocked') {
       if (!evidence) unobservedReason = `Candidate callback has no native-operation audit (reported ${result.status})`
@@ -111,6 +117,7 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
       file: control.file,
       name: control.fullName,
       status,
+      ...(unsupportedKind ? { unsupportedKind } : {}),
       calls: evidence?.calls ?? 0,
       rejections: evidence?.rejections ?? 0,
       reason: referenceEvidence?.expectedFailure

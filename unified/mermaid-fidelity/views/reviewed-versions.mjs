@@ -30,20 +30,20 @@ export const REVIEWED_VIEW_VERSIONS = {
   },
   'Latias94/merman': {
     '0.9.3': 'views written against the 0.9.3 CLI parse --meta output',
-    '0.10.0': 'merman-cli 0.9.3 and 0.10.0 built from crates.io source (--features all-diagrams) and run with `parse --meta` on 1,084 corpus sources (corpus/community-corpus.json). Removed paths: model.diagramId (4 sources) and themeVariables.nodeTextColor in host config; no view reads either. Added: host-config keys (flowchart/c4 stepNumbers and stepDuration, mindmap colorBy), which views treat as host configuration; nodes[].centerLabel, which views strip as a renderer field; edges[].thickness and pattern (12 sources) and an ER Group entity (1), passed through as native data. With config removed, 997 of 1,075 models are identical; the 78 that differ keep their shape (37 reorder state keys, the rest change values in edges, mindmap root, tasks, nodes or packet fields). One kanban source now fails to parse and one sequence par/and source now parses.',
+    '0.10.0': '2026-11-14: block (blocks, blocksFlat columns and children, edges, classes) and timeline (tasks) records checked against parse --meta of written, unwritten and `auto` columns and of periods with and without sections and events, for the block getBlocks/getColumns/getEdges/getClasses and timeline getters. merman-cli 0.9.3 and 0.10.0 built from crates.io source (--features all-diagrams) and run with `parse --meta` on 1,084 corpus sources (corpus/community-corpus.json). Removed paths: model.diagramId (4 sources) and themeVariables.nodeTextColor in host config; no view reads either. Added: host-config keys (flowchart/c4 stepNumbers and stepDuration, mindmap colorBy), which views treat as host configuration; nodes[].centerLabel, which views strip as a renderer field; edges[].thickness and pattern (12 sources) and an ER Group entity (1), passed through as native data. With config removed, 997 of 1,075 models are identical; the 78 that differ keep their shape (37 reorder state keys, the rest change values in edges, mindmap root, tasks, nodes or packet fields). One kanban source now fails to parse and one sequence par/and source now parses.',
   },
   'crabtalk/bezel': {
     '0.2.24': 'views written against bezel-mermaid 0.2.24',
     '0.2.25': 'bezel-mermaid 0.2.25 crate source is byte-identical to 0.2.24 except the version in Cargo.toml and Cargo.lock; every per-file count and gap reason identical',
     '0.2.26': {
-      note: 'bezel-mermaid 0.2.26 crate (.cargo_vcs_info 79a1913) differs from 0.2.25 only in the version and in three renderer files (c4/layout.rs, quadrant/render.rs, xychart/render.rs: loop rewrites over the same data); no parser or model file changed',
+      note: '2026-11-14: block (root, byId, blocks, edges, classes) and timeline (periods {text, events, section}, sections) models checked against parses of written, unwritten and `auto` columns and of periods with and without sections and events, for the block getBlocks/getColumns/getEdges/getClasses and timeline getters. bezel-mermaid 0.2.26 crate (.cargo_vcs_info 79a1913) differs from 0.2.25 only in the version and in three renderer files (c4/layout.rs, quadrant/render.rs, xychart/render.rs: loop rewrites over the same data); no parser or model file changed',
       revisions: { '79a1913fdc479ad5628f32c7f233675992347c21': 'the published crate reviewed above' },
     },
   },
   'dfadler/zombie-mermaid': {
     '5.14.4': 'views written against the 5.14 MermaidGraph, class, sequence and ER types',
     '5.16.0': 'shared/index.d.ts of @zombie-mermaid/core and mermaid-parser 5.14.4 and 5.16.0 compared, and 1,080 corpus sources captured from both: no field removed. Changes the views read: a left-of state note is joined note -> state (the state view no longer reads that edge as a transition), messages and notes record a written wrap (now translated), a dotted lollipop records dashed (still declared absent: conservative). 5.16.0 also exports gantt, gitgraph, journey, kanban, mindmap, packet, radar, requirement, sankey and timeline parsers with no reviewed binding: the bridge reports those families as Trident gaps',
-    '5.17.0': 'shared/index.d.ts of @zombie-mermaid/core and mermaid-parser 5.16.0 and 5.17.0 compared: no field removed; a participant now records a written wrap:/nowrap: (and drops the prefix from its label), which the sequence view now translates; gantt gains config sizes and git graph gains positioned look fields, which no view reads. 1,080 corpus sources captured from both: 1,072 identical, the other 8 differ only in state note node ids, which no view reads (Mermaid note ids are declared absent)',
+    '5.17.0': '2026-11-14: MermaidEdge.id (written `A e1@--> B`) and .animate (written `e1@{ animate: true }`), declared in core dist/shared/index.d.ts since 5.16.0, are now read by the flowchart view (they were declared absent); checked against parses with and without both. shared/index.d.ts of @zombie-mermaid/core and mermaid-parser 5.16.0 and 5.17.0 compared: no field removed; a participant now records a written wrap:/nowrap: (and drops the prefix from its label), which the sequence view now translates; gantt gains config sizes and git graph gains positioned look fields, which no view reads. 1,080 corpus sources captured from both: 1,072 identical, the other 8 differ only in state note node ids, which no view reads (Mermaid note ids are declared absent)',
   },
   'anomalyco/opencode': {
     '2.2.5': 'views written against merman at 78e066c9 (opencode 2.2.5)',
@@ -63,7 +63,7 @@ export const REVIEWED_VIEW_VERSIONS = {
   'KlangHaus/vitepress-plugin-diagram': { '0.3.2': '0.3.0 release' },
   'lukilabs/beautiful-mermaid': { '1.1.3': '0.3.0 release' },
   'Mootikins/figurehead-rs': { 'v0.4.3': '0.3.0 release' },
-  'obsidianmd/pele': { '1.13.0': '0.3.0 release' },
+  'obsidianmd/pele': { '1.13.0': '0.3.0 release. 2026-11-14: block (root, byId, blocks, edges, classes Map) and timeline (periods {text, events, section}, sections) models checked against parses of written, unwritten and `auto` columns and of periods with and without sections and events, for the block getBlocks/getColumns/getEdges/getClasses and timeline getters' },
   'sandyyst/dsh-plugin-mermaid-gb-svg': { '0.1.5': '0.3.0 release' },
   'xai-org/grok-build': { 'git-2bdd1d6a6369': '0.3.0 release' },
   'Yassimba/loom': { '0.10.0': '0.3.0 release' },

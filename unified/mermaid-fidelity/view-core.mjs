@@ -85,8 +85,10 @@ function flowchartView(model, hooks) {
   view.getVertices = () => new Map(nodes().map(([id, fields]) => [id, vertex(id, fields)]))
   view.getEdges = () =>
     edges().map(fields => {
-      if (fields.type === undefined && !(absent.edge ?? {}).type) return hooks.unavailable('Unmapped native flowchart edge markers')
-      return record({ text: '', labelType: 'text', ...fields }, 'edge', EDGE_FIELDS, absent.edge ?? {}, hooks)
+      // An edge may name fields absent for that edge alone (VERTEX_ABSENT).
+      const { [VERTEX_ABSENT]: only, ...rest } = fields
+      if (rest.type === undefined && !(absent.edge ?? {}).type && !(only ?? {}).type) return hooks.unavailable('Unmapped native flowchart edge markers')
+      return record({ text: '', labelType: 'text', ...rest }, 'edge', EDGE_FIELDS, { ...(absent.edge ?? {}), ...(only ?? {}) }, hooks)
     })
   if (subgraphs) view.getSubGraphs = () => subgraphs().map(fields => record(fields, 'subgraph', SUBGRAPH_FIELDS, absent.subgraph ?? {}, hooks))
   else if (absent.getSubGraphs) view.getSubGraphs = () => hooks.unsupported(absent.getSubGraphs)
@@ -306,7 +308,13 @@ function frankenGraph(ir, _project, hooks) {
 // styles (from style statements), link styles and click interactions are separate maps.
 // Mermaid has no start-only edge type: such an edge keeps its own spelling, which no
 // Mermaid edge type equals.
-function mermaidGraphView(name) {
+// `edgeIds`: the model's MermaidEdge also keeps a written edge id (`A e1@--> B`) and a
+// written `e1@{ animate: true }` (zombie-mermaid 5.16.0 and 5.17.0, core
+// dist/shared/index.d.ts MermaidEdge.id and .animate, and parses of both). A written id
+// is Mermaid's user-defined id; without one Mermaid generates `L_<start>_<end>_<n>`, which
+// the model does not keep (absent for that edge), and records isUserDefinedId false. An
+// unwritten animate is undefined in both.
+function mermaidGraphView(name, { edgeIds = false } = {}) {
   return (graph, _project, hooks) => {
     const get = (map, key) => (map instanceof Map ? map.get(key) : undefined)
     const flat = []
@@ -336,7 +344,8 @@ function mermaidGraphView(name) {
           const start = edge.hasArrowStart ? headOf(edge.startMarker ?? 'arrow') : 'none', end = edge.hasArrowEnd ? headOf(edge.endMarker ?? 'arrow') : 'none'
           const type = edgeType(start, end) ?? (end === 'none' && start ? `${name}:start-only-${start}` : undefined)
           const style = graph.linkStyles instanceof Map ? styleStrings(get(graph.linkStyles, index)) : undefined
-          return { start: edge.source, end: edge.target, text: edge.label ?? '', type, stroke: strokeOf(edge.style), ...(graph.linkStyles instanceof Map ? { style: style.length ? style : undefined } : {}) }
+          const ids = !edgeIds ? {} : typeof edge.id === 'string' ? { id: edge.id, isUserDefinedId: true } : { isUserDefinedId: false, [VERTEX_ABSENT]: { id: `${name} keeps no generated edge id (Mermaid generates L_<start>_<end>_<n> for an edge written without one)` } }
+          return { start: edge.source, end: edge.target, text: edge.label ?? '', type, stroke: strokeOf(edge.style), ...(graph.linkStyles instanceof Map ? { style: style.length ? style : undefined } : {}), ...ids, ...(edgeIds ? { animate: typeof edge.animate === 'boolean' ? edge.animate : undefined } : {}) }
         }),
       subgraphs: () => flat,
       direction: directionOf(graph.direction),
@@ -345,7 +354,7 @@ function mermaidGraphView(name) {
           ...(graph.classAssignments instanceof Map ? {} : { classes: `${name}'s graph keeps no class assignments` }),
           ...(graph.interactions instanceof Map ? {} : { link: `${name}'s graph keeps no click links`, tooltip: `${name}'s graph keeps no tooltips` }),
         },
-        edge: { length: `${name}'s edge model keeps no link length`, id: `${name}'s edge model keeps no edge ids`, ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), interpolate: `${name}'s edge model keeps no curve`, animate: `${name}'s edge model keeps no animation` },
+        edge: { length: `${name}'s edge model keeps no link length`, ...(edgeIds ? {} : { id: `${name}'s edge model keeps no edge ids`, animate: `${name}'s edge model keeps no animation` }), ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), interpolate: `${name}'s edge model keeps no curve` },
         subgraph: { classes: `${name}'s subgraph model keeps no classes` },
       },
     }
@@ -432,7 +441,7 @@ const FLOWCHART = {
   'Latias94/merman': latiasGraph,
   'evangwt/xmermaid': xmermaidGraph,
   'Dicklesworthstone/frankenmermaid': frankenGraph,
-  'dfadler/zombie-mermaid': mermaidGraphView('zombie-mermaid'),
+  'dfadler/zombie-mermaid': mermaidGraphView('zombie-mermaid', { edgeIds: true }),
   'lukilabs/beautiful-mermaid': mermaidGraphView('beautiful-mermaid'),
   'kais-radwan/ascii-mermaid': mermaidGraphView('ascii-mermaid'),
 }
@@ -1310,9 +1319,13 @@ const AST_VIEWS = { 'crabtalk/bezel': PORT_AST, 'Latias94/merman': PORT_AST, 'ob
 // (padding, look, compiled styles, colour slots, curve defaults, minimum widths, edge CSS
 // and arrowhead styles, collapsed-subgraph metadata) are not the candidate's to supply, so
 // reading them is unsupported.
-const LAYOUT_RENDERER_ONLY = Object.fromEntries(['padding', 'look', 'cssCompiledStyles', 'labelStyle', 'colorIndex', 'minWidth', 'curve', 'arrowheadStyle', 'metadata', 'width', 'height', 'rx', 'ry'].map(field => [field, "Mermaid's renderer decides this layout field; it is not part of a parse result"]))
+const LAYOUT_RENDERER_ONLY = Object.fromEntries(['padding', 'look', 'cssCompiledStyles', 'labelStyle', 'colorIndex', 'minWidth', 'curve', 'arrowheadStyle', 'metadata', 'width', 'height', 'rx', 'ry', 'stepDuration', 'showStepNumber'].map(field => [field, "Mermaid's renderer decides this layout field; it is not part of a parse result"]))
 const LAYOUT_NODE_FIELDS = ['id', 'label', 'labelType', 'parentId', 'cssStyles', 'cssClasses', 'dir', 'domId', 'link', 'linkTarget', 'tooltip', 'icon', 'pos', 'img', 'assetWidth', 'assetHeight', 'constraint', 'isGroup', 'shape']
-const LAYOUT_EDGE_FIELDS = ['id', 'isUserDefinedId', 'start', 'end', 'type', 'label', 'labelType', 'labelpos', 'thickness', 'minlen', 'classes', 'arrowTypeStart', 'arrowTypeEnd', 'style', 'pattern', 'animate', 'animation']
+// A step edge's step and stepCount (FlowDB getData: the largest positive-integer step) come
+// from the written `e1@{ step: n }`; they are read only from an edge record that keeps a
+// step, so a model that drops steps leaves them unmapped rather than silently absent.
+const LAYOUT_EDGE_FIELDS = ['id', 'isUserDefinedId', 'start', 'end', 'type', 'label', 'labelType', 'labelpos', 'thickness', 'minlen', 'classes', 'arrowTypeStart', 'arrowTypeEnd', 'style', 'pattern', 'animate', 'animation', 'step', 'stepCount']
+const isStepEdge = edge => Number.isInteger(edge.step) && edge.step > 0
 // A port that keeps Mermaid's own vertex records leaves `type` out for an undeclared shape,
 // exactly as Mermaid does; for any other model a missing type stays unmapped.
 const layoutShape = (vertex, mermaidVocabulary) => {
@@ -1360,8 +1373,11 @@ export function flowchartLayoutData(view, hooks, project) {
         shape: () => (isGroup ? 'rect' : layoutShape(vertex, mermaidVocabulary)),
       })))
     }
+    const keptStep = edge => typeof edge === 'object' && edge !== null && Object.keys(edge).includes('step')
+    const stepCount = () => edges.reduce((max, edge) => (keptStep(edge) && isStepEdge(edge) ? Math.max(max, edge.step) : max), 0)
     const layoutEdges = edges.map((edge, index) =>
       record(lazy({ start: edge.start, end: edge.end, labelpos: 'c' }, {
+        ...(keptStep(edge) && isStepEdge(edge) ? { step: () => edge.step, stepCount } : {}),
         id: () => ('id' in edge && edge.id ? edge.id : `L_${edge.start}_${edge.end}_${index}`), isUserDefinedId: () => edge.isUserDefinedId, type: () => edge.type ?? 'normal',
         label: () => edge.text, labelType: () => edge.labelType, thickness: () => edge.stroke, minlen: () => edge.length,
         classes: () => (edge.stroke === 'invisible' ? '' : 'edge-thickness-normal edge-pattern-solid flowchart-link'),

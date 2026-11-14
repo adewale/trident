@@ -13,6 +13,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { fidelityNotApplicableReason, fidelityPopulationSizes, fidelityScoringDefinition, isScoredFidelityFile, scoredFidelityCounts } from '../unified/mermaid-fidelity/scoring.ts'
+import { assessmentBasis, outcomeKind, outcomeKindCounts } from '../unified/mermaid-fidelity/outcome-kinds.ts'
 
 /** Identity of one control run: every reference callback and its outcome. */
 export function referenceDigest(reference: any) {
@@ -95,6 +96,9 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
     if (row.cases?.length !== ownReference.cases.length) throw Error(row.project + ' must account for every reference callback')
     const counts: Record<string, number> = Object.fromEntries(statuses.map(status => [status, 0]))
     const perFile = new Map<string, Record<string, number>>(), gapReasons: Record<string, number> = {}, unsupportedReasons: Record<string, number> = {}
+    // Unsupported verdicts of the scored population by kind (outcome-kinds.ts): the
+    // candidate's own refusal, or Trident's capability assessment by its basis.
+    const nativeUnsupportedReasons: Record<string, number> = {}, assessmentReasons: Record<string, number> = {}, assessmentBases: Record<string, number> = {}
     for (const [index, c] of row.cases.entries()) {
       const control = ownReference.cases[index]
       if (c.file !== control.file || c.name !== control.name || !statuses.includes(c.status) || (control.status === 'passed' ? !statuses.slice(0, 4).includes(c.status) : c.status !== control.status)) throw Error(row.project + ' differs from its reference callback population')
@@ -111,12 +115,21 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
       if (c.status === 'unsupported' && isScoredFidelityFile(c.file)) {
         const reason = String(c.reason ?? 'unsupported').trim().split('\n')[0]!.replace(/\d+/g, 'N').slice(0, 160)
         unsupportedReasons[reason] = (unsupportedReasons[reason] ?? 0) + 1
+        if (outcomeKind(c) === 'native-unsupported') nativeUnsupportedReasons[reason] = (nativeUnsupportedReasons[reason] ?? 0) + 1
+        else {
+          assessmentReasons[reason] = (assessmentReasons[reason] ?? 0) + 1
+          const basis = assessmentBasis(String(c.reason ?? ''))
+          assessmentBases[basis] = (assessmentBases[basis] ?? 0) + 1
+        }
       }
     }
     const scored = scoredFidelityCounts(row.cases)
     if (Object.values(scored).reduce((sum, n) => sum + n, 0) !== sizes.scoredPopulation) throw Error(row.project + ' does not account for the scored population')
     const shared = row.sharedParserWith ? { sharedParserWith: row.sharedParserWith, parserVersion: row.parserVersion } : {}
-    return { project: row.project, version: row.version, ...(row.revision ? { revision: row.revision } : {}), ...shared, counts, scored, environments: row.environments, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts })), gapReasons, unsupportedReasons }
+    // Outcome kinds over the scored population and all qualified callbacks: what the
+    // candidate's own code decided against what Trident assessed or could not bind.
+    const outcomeKinds = outcomeKindCounts(row.cases, isScoredFidelityFile)
+    return { project: row.project, version: row.version, ...(row.revision ? { revision: row.revision } : {}), ...shared, counts, scored, outcomeKinds, environments: row.environments, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts })), gapReasons, unsupportedReasons, nativeUnsupportedReasons, assessmentReasons, assessmentBases }
   })
   for (const row of results) if (row.sharedParserWith) {
     const owner = results.find(other => other.project === row.sharedParserWith)

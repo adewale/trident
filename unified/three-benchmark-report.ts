@@ -7,6 +7,7 @@ import { join, resolve } from 'node:path'
 import { boundaryKind, davebenchFailedInputs, davebenchRankings, davebenchSummary, type DavebenchRun } from './davebench-model.ts'
 import { acceptedRankings } from './davebench-report.ts'
 import { renderDrawingObligations, renderDrawingReviews } from './drawing-report.ts'
+import { renderBindingCoverage } from './fidelity-report.ts'
 import { assertTimingCollection, campaignPlan } from './campaign-plan.ts'
 
 function requireSameAdmission(left: any, right: any) {
@@ -190,6 +191,8 @@ export function renderBenchmarkLeagues(davebench: any, drawing: any, fidelity: a
   const notApplicable = [...scoring.notApplicable.keys()].map(project => ({ project }))
   caseTable(scoring.results.map((r: any) => { const score = scoring.score(r); return { ...r, passed: score.passed, failed: score.nonpasses, gaps: score.unassessed, assertionNonpasses: score.failed, unsupported: score.unsupported } }), population, fidelity.blocked.filter((r: any) => !scoring.notApplicable.has(r.project)), 'fidelity', 'Not run', notApplicable, scoring.current ? 'Unsupported (counted as unassessed)' : 'Unsupported')
   lines.push(...renderCommonComparison(commonFidelityComparison(fidelity, catalog), label))
+  // Results merged with outcome kinds show how each callback ended; earlier merges record none.
+  if (fidelity.results?.length && fidelity.results.every((row: any) => row.project === 'mermaid-js/mermaid' || row.outcomeKinds)) lines.push(...renderBindingCoverage(fidelity, label, '### Binding coverage').split('\n'))
   lines.push('## Equal-weight synthesis', '')
   const bounds = (value: ScoreBounds | null) => value === null ? 'n/a' : Math.abs(value.upper - value.lower) < 1e-9 ? value.lower.toFixed(2) : value.lower.toFixed(2) + '–' + value.upper.toFixed(2)
   const rank = (row: { bestRank: number; worstRank: number }) => row.bestRank === row.worstRank ? String(row.bestRank) : row.bestRank + '–' + row.worstRank
