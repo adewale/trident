@@ -7,6 +7,7 @@ import { terminalCliCall } from '../unified/davebench-terminal.ts'
 import type { DavebenchRun } from '../unified/davebench-model.ts'
 import { assertMermaidOracle, mermaidVerdicts } from '../portable/mermaid-oracle.ts'
 import { useTempDirs } from './helpers/temp-dir.ts'
+import { pinnedOracle } from './pinned-oracle.ts'
 
 const temp = useTempDirs('davebench-report-')
 // Five inputs: 0-1 ordinary, 2 a Mermaid parse error, 3 a Mermaid render failure that is not a
@@ -99,7 +100,7 @@ test('the published 0.4.0 report: Mermaid rejects four inputs and no project is 
   expect([franken.completed, franken.currentCompleted, franken.referenceRejectedRendered.length]).toEqual([1334, 1338, 4])
 })
 
-test('the pinned Mermaid oracle rejects those sources and accepts the external-image source the reference failed to render', async () => {
+test.skipIf(!pinnedOracle)('the pinned Mermaid oracle rejects those sources and accepts the external-image source the reference failed to render', async () => {
   const sources = ['%%{init: {"theme": "default", "logLevel": 1 }}%%\n graph LR\n  a-->b\n  f-->g\n  g-->\n', "%%{init: { 'logLevel': 'debug', 'theme': 'forest' } }%%\n%%{initialize: { 'logLevel': 'fatal', \"theme\":'dark', 'startOnLoad': true } }%%\n...\n",
     'flowchart TD\n  A@{ img: "https://mermaid.js.org/favicon.svg", label: "My example image label", pos: "t", h: 60, constraint: "on" }\n']
   const verdicts = await mermaidVerdicts(assertMermaidOracle(), sources)

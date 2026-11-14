@@ -32,7 +32,21 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -r fidelity/drawing/requirements.txt
-      - run: sudo apt-get install -y tesseract-ocr
+      - run: sudo apt-get install -y tesseract-ocr fonts-inter
+      # The PNG Drawing controls are calibrated on the collection host, where fontconfig
+      # resolves sans-serif to Inter; reproduce that so the controls read the same raster.
+      - name: Resolve sans-serif to Inter, as on the collection host
+        run: |
+          sudo tee /etc/fonts/conf.d/56-prefer-inter.conf > /dev/null <<'XML'
+          <?xml version="1.0"?>
+          <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+          <fontconfig>
+            <alias><family>sans-serif</family><prefer><family>Inter</family></prefer></alias>
+          </fontconfig>
+          XML
+          sudo fc-cache -f
+          echo "sans-serif: $(fc-match sans-serif)"
+          test "$(fc-match -f '%{family[0]}' sans-serif)" = Inter
       # Chromium inspects checked-in fixtures; no project or benchmark runs.
       - run: bunx playwright install --with-deps chromium
       # GitHub's Ubuntu image links /usr/bin/chromium to a Chromium snapshot unrelated to

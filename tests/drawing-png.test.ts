@@ -74,7 +74,12 @@ test('PNG profile is named and bound to its reader, judge and controls', () => {
   expect(new Set(pngControls.map(c => c.status))).toEqual(new Set(['correct', 'incorrect', 'unknown']))
 })
 
-test('PNG controls pass through the real reader and judge', async () => {
+// The controls are calibrated on the collection host's rendering (Playwright's Chromium,
+// Tesseract 5.3.4 with Ubuntu's English data, sans-serif resolved to Inter), which CI
+// reproduces on Linux. Bracket syntax reads within a few points of the confidence
+// threshold, so another font stack can turn a control's verdict into unknown. The
+// native PNG lane runs only on Linux x64, where its Flutter bundle runs.
+test.skipIf(process.platform !== 'linux')('PNG controls pass through the real reader and judge', async () => {
   const browser = await chromium.launch({ headless: true, executablePath: chromiumExecutable })
   const context = await browser.newContext({ javaScriptEnabled: false })
   const reader = new PngTextReader()
