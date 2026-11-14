@@ -17,7 +17,7 @@ const recorded = (run: string, project: string) => {
   const directory = join(run, encodeURIComponent(project))
   const job = read(join(directory, 'job.json'))
   if (!job) throw Error('No recorded job for ' + project + ' in ' + run)
-  return { native: read(join(directory, 'vitest.json')), audit: audit(join(directory, 'audit.jsonl')), upstream: job.upstream as string }
+  return { native: read(join(directory, 'vitest.json')), audit: audit(join(directory, 'audit.jsonl')), upstream: job.upstream as string, revision: job.target?.peer?.artifact?.revision as string | undefined }
 }
 
 export function rescoreFidelityRun(run: string, referenceRun = run) {
@@ -27,12 +27,13 @@ export function rescoreFidelityRun(run: string, referenceRun = run) {
   let reference: ReturnType<typeof compileFidelityReference> | undefined
   results.results = results.results.map((row: any) => {
     const candidate = row.project === 'mermaid-js/mermaid' ? control : recorded(run, row.project)
-    const viewGap = row.project === 'mermaid-js/mermaid' ? undefined : unreviewedViewGap(row.project, row.version)
+    const revision = row.revision ?? candidate.revision
+    const viewGap = row.project === 'mermaid-js/mermaid' ? undefined : unreviewedViewGap(row.project, row.version, revision)
     const rows = fidelityOutcomes((reference ??= compileFidelityReference(control.native, control.audit)), candidate.native, candidate.audit, undefined, { viewGap })
     const counts: Record<string, number> = Object.fromEntries(STATUSES.map(status => [status, 0]))
     for (const r of rows as any[]) if (Object.hasOwn(counts, r.status)) counts[r.status]!++
     const cases = rows.map((r: any) => ({ ...r, file: relative(candidate.upstream, r.file) }))
-    return { ...row, counts, scored: scoredFidelityCounts(cases), cases }
+    return { ...row, ...(revision ? { revision } : {}), counts, scored: scoredFidelityCounts(cases), cases }
   })
   const controlRow = results.results.find((row: any) => row.project === 'mermaid-js/mermaid')
   Object.assign(results, { scoring: fidelityScoringDefinition, ...(controlRow ? fidelityPopulationSizes(controlRow.cases) : {}) })

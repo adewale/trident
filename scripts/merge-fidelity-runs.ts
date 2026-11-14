@@ -116,7 +116,7 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
     const scored = scoredFidelityCounts(row.cases)
     if (Object.values(scored).reduce((sum, n) => sum + n, 0) !== sizes.scoredPopulation) throw Error(row.project + ' does not account for the scored population')
     const shared = row.sharedParserWith ? { sharedParserWith: row.sharedParserWith, parserVersion: row.parserVersion } : {}
-    return { project: row.project, version: row.version, ...shared, counts, scored, environments: row.environments, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts })), gapReasons, unsupportedReasons }
+    return { project: row.project, version: row.version, ...(row.revision ? { revision: row.revision } : {}), ...shared, counts, scored, environments: row.environments, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts })), gapReasons, unsupportedReasons }
   })
   for (const row of results) if (row.sharedParserWith) {
     const owner = results.find(other => other.project === row.sharedParserWith)

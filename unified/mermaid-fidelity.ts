@@ -254,13 +254,15 @@ export async function main(args = process.argv.slice(2)) {
     }
     referenceRun ??= candidate
     indexedReference ??= compileFidelityReference(referenceRun.native, referenceRun.audit)
-    const rows = fidelityOutcomes(indexedReference, candidate.native, candidate.audit, undefined, { viewGap: unreviewedViewGap(candidate.target.project, candidate.target.version) })
+    // A source distribution can be rebuilt under one version: the artifact's revision is reviewed too.
+    const revision = candidate.target.peer?.artifact?.revision
+    const rows = fidelityOutcomes(indexedReference, candidate.native, candidate.audit, undefined, { viewGap: candidate.target.tool === 'mermaid' ? undefined : unreviewedViewGap(candidate.target.project, candidate.target.version, revision) })
     const counts = Object.fromEntries(['passed', 'failed', 'unsupported', 'trident-blocked', 'reference-unqualified', 'upstream-skipped', 'upstream-expected-failure'].map(status => [status, rows.filter((row: any) => row.status === status).length]))
     const byFile = new Map<string, any>((candidate.native?.testResults ?? []).map((row: any) => [row.name, row]))
     const missingFiles = files.filter(file => !byFile.get(file.absolute)?.assertionResults.length).map(file => ({ path: file.path, declaredTests: file.declarations.length, reason: byFile.get(file.absolute)?.message ?? 'No expanded test callbacks collected' }))
     const cases = rows.map((row: any) => ({ ...row, file: relative(upstream, row.file) }))
     const shared = candidate.target.bridge?.sharedParserWith ? { sharedParserWith: candidate.target.bridge.sharedParserWith, parserVersion: candidate.target.bridge.parserVersion } : {}
-    results.push({ project: candidate.target.project, version: candidate.target.version, ...shared, counts, scored: scoredFidelityCounts(cases), environments: candidate.environments, missingFiles, cases })
+    results.push({ project: candidate.target.project, version: candidate.target.version, ...(revision ? { revision } : {}), ...shared, counts, scored: scoredFidelityCounts(cases), environments: candidate.environments, missingFiles, cases })
   }
   const timeout = 60_000 * Number(opts.get('--timeout-minutes') ?? 60)
   if (!(timeout > 0)) throw Error('--timeout-minutes must be positive')

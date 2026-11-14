@@ -69,3 +69,12 @@ test('Agentic requirement direction is read as recorded, with no default filled 
   expect(view('LR').getDirection()).toBe('LR')
   expect(view().getDirection()).toBeUndefined()
 })
+
+test('zombie-mermaid 5.17 participants translate a recorded wrap: / nowrap:; an unrecorded one stays absent', () => {
+  const { hooks } = verdicts()
+  // Captured from 5.17.0: participant A as wrap:Alice / participant B as nowrap:Bob / participant C / A->>B: hi
+  const raw = { actors: [{ id: 'A', label: 'Alice', wrap: true, type: 'participant' }, { id: 'B', label: 'Bob', wrap: false, type: 'participant' }, { id: 'C', label: 'C', type: 'participant' }], messages: [{ from: 'A', to: 'B', label: 'hi', lineStyle: 'solid', arrowHead: 'filled' }], notes: [], blocks: [], boxes: [] }
+  const actors = nativeSchemaView('dfadler/zombie-mermaid', 'sequence', raw, hooks).getActors()
+  expect([actors.get('A').wrap, actors.get('B').wrap]).toEqual([true, false])
+  expect(() => actors.get('C').wrap).toThrow('unsupported')
+})

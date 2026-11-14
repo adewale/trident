@@ -139,3 +139,23 @@ test('a partial re-run cannot be merged into a result published under the earlie
   expect(() => mergeIntoPublished(legacy, [run([reference, candidate('a', ['passed', 'passed', 'failed', 'failed', 'failed', 'failed'])])])).toThrow('different Fidelity definition')
   expect(mergeIntoPublished(current, [run([reference, candidate('a', ['passed', 'passed', 'failed', 'failed', 'failed', 'failed'])])]).results.find((row: any) => row.project === 'a').scored.passed).toBe(2)
 })
+
+test('a source distribution rebuilt under the same version is reviewed per revision', () => {
+  const registry = { 'x/dist': { '1.0.0': { note: 'reviewed build', revisions: { aaa: 'first build' } } }, 'x/crate': { '1.0.0': 'any build' } }
+  expect(unreviewedViewGap('x/dist', '1.0.0', 'aaa', registry)).toBeUndefined()
+  expect(unreviewedViewGap('x/dist', '1.0.0', 'bbb', registry)).toBe('view not reviewed for x/dist 1.0.0 at revision bbb')
+  expect(unreviewedViewGap('x/dist', '1.0.0', undefined, registry)).toBe('view not reviewed for x/dist 1.0.0 at revision (none recorded)')
+  // An entry that names no revision accepts any build of its version.
+  expect(unreviewedViewGap('x/crate', '1.0.0', 'anything', registry)).toBeUndefined()
+  // Frankenmermaid 0.5.0: both reviewed builds pass, any other rebuild does not.
+  expect(unreviewedViewGap('Dicklesworthstone/frankenmermaid', '0.5.0', 'bf4fd10861bcc274a4558174c5228f1c3063bd2a')).toBeUndefined()
+  expect(unreviewedViewGap('Dicklesworthstone/frankenmermaid', '0.5.0', 'a5be33d9097af8b7c90fef7dd4a0c20a0bf55752')).toBeUndefined()
+  expect(unreviewedViewGap('Dicklesworthstone/frankenmermaid', '0.5.0', '0000000000000000000000000000000000000000')).toContain('at revision')
+  expect(unreviewedViewGap('crabtalk/bezel', '0.2.26', '79a1913fdc479ad5628f32c7f233675992347c21')).toBeUndefined()
+  expect(unreviewedViewGap('dfadler/zombie-mermaid', '5.17.0')).toBeUndefined()
+})
+
+test('a merged row keeps the source revision its view review was checked against', () => {
+  const merged = mergeFidelityRuns([run([reference, { ...candidate('a', ['passed', 'failed', 'failed', 'failed', 'failed', 'failed']), revision: 'abc123' }])])
+  expect(merged.results.find(row => row.project === 'a')!.revision).toBe('abc123')
+})

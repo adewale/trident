@@ -646,7 +646,8 @@ function beautifulFamily(project) {
     }
     const skipped = what => `${name}'s sequence parser skips ${what}`
     const boxes = () => (raw.boxes ?? []).map(box => boxRecord({ name: boxName(box.label), fill: box.color ?? 'transparent', actorKeys: box.actorIds }, { wrap: `${name} keeps no text wrapping per box` }, hooks))
-    const actors = () => raw.actors.map(a => ({ id: a.id, description: a.label, type: a.participantType ?? a.type, ...(zombie ? { box: boxes().find(box => box.actorKeys.includes(a.id)) } : {}) }))
+    // zombie-mermaid 5.17 records a written wrap: / nowrap: on a participant; an unrecorded one stays absent.
+    const actors = () => raw.actors.map(a => ({ id: a.id, description: a.label, type: a.participantType ?? a.type, ...(zombie ? { box: boxes().find(box => box.actorKeys.includes(a.id)) } : {}), ...(zombie && typeof a.wrap === 'boolean' ? { wrap: a.wrap } : {}) }))
     return {
       ...messageView(() => layout().list, { wrap: `${name}'s sequence model keeps no text wrapping` }, hooks),
       ...actorView(actors, { wrap: `${name} keeps no text wrapping per participant`, links: skipped('link statements'), properties: skipped('properties statements'), ...(zombie ? {} : { box: skipped('box blocks') }) }, hooks),
