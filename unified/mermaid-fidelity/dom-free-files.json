@@ -2,19 +2,19 @@
   "protocol": "dom-free-qualification-v3",
   "qualifierSha256": "1e751031a65ff8bad95a4d02ee473ea0a855adb5dc0a81167561c19121782b9a",
   "commit": "2086904e76c692331e34a45d7cc3bc30860d040e",
-  "controlIdentity": "11c90db1985aab1653512a2a4f7f1e527fb2d46e8898fe23dc51a3c9e3d9f97d",
+  "controlIdentity": "ad0dd88bc182beefed17abb1168492b18fb738ce312cdb6a16161566107ac13b",
   "targets": {
-    "1jehuang/mermaid-rs-renderer": "aed53b29384ae53ffdb6b1ad01b774bc7d0d2dbfe7b995857f33437015e9b1db",
+    "1jehuang/mermaid-rs-renderer": "23247d2ae374ff1552886e18ed12c5770b502c154a027afcb353361d44ca317b",
     "adewale/agentic-mermaid": "4537383bc77b93dfb7c6aac558be10aaa7df16cd69e7eab3980d74f5ff2acfa3",
     "AlexanderGrooff/mermaid-ascii": "a3174908c91753eeacaee6cd8404be4ecb0b15ed4ea4cda5dbae2e3e06b45b54",
     "anomalyco/opencode": "10483471d87348cd4073a1868dd37d573cc0fe273e09d498a241ee5d1f258f68",
-    "crabtalk/bezel": "83eba5b1ad77420a7c2544ff734ecf387a81a07818122cdb3b42dcf4cdd9411f",
+    "crabtalk/bezel": "ce52aea5b1a77124d9d7ea73a8db73fec3f0f184246356822796b24e603a3220",
     "crafter-station/mermaid": "5781fd60d07585395355951b2df7c50aa69394b49c0a88bfce6f689320a9b365",
     "dfadler/zombie-mermaid": "4dac67a59163274d3dc2af59e3b30da02ca67e0f38aaa9cf074055f7fbc6f7f9",
     "Dicklesworthstone/frankenmermaid": "c18d8c354287153324705b157dde33843a7918c37773581a40a464f7f940945b",
     "emtyty/merslim": "2f15d97f58687d6c53acc882bf3bcbb661912d5a61acaa3c1af2f833f328c9ac",
     "evangwt/xmermaid": "4f36b668f348c91ce629026ce184855d9c79d1d30cb3596bf878f5012834246e",
-    "fasouto/termaid": "e2145c169471c9cfcf6aedc047a0eed7fdbef391fcbbb4e5a8519b5590d9a116",
+    "fasouto/termaid": "2b29d0f7cc9519ae4979709247431c18e58eb5aed7aa70286a26e33e4abc8f14",
     "kais-radwan/ascii-mermaid": "9c93e753a4a54581c39bb5361d98b4dd52cdef72888490028ea35ed1dd015841",
     "kitlangton/merman": "497783d4c4625ecc1c0c74970c5aec8ca8660d53f8bb6d2010169351a6b83cd0",
     "KlangHaus/vitepress-plugin-diagram": "6d26c89bd5f2f713f6735b913dece116688d9ad8ed03efd66f5741d2bac428b9",
@@ -806,16 +806,16 @@
         "node": "f2ab5b6118fb63c18b69a771e0a00eeebcb09bc4dafe4c2253ba47978e42ad37"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts": {
-        "jsdom": "ec8ab5a7b7a10937cb58b62ab3de734fd080bc5cc755eea44de01682432ffb5e",
-        "node": "ec8ab5a7b7a10937cb58b62ab3de734fd080bc5cc755eea44de01682432ffb5e"
+        "jsdom": "431e342139143ab19a6778e50f7e652dfb63f37e6b1b295210bc209f59b18ab6",
+        "node": "431e342139143ab19a6778e50f7e652dfb63f37e6b1b295210bc209f59b18ab6"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "58c3977bf12072462dc290fef0934bd0f7d2e32d4120b9819b96fcf8e37f9ed5",
-        "node": "58c3977bf12072462dc290fef0934bd0f7d2e32d4120b9819b96fcf8e37f9ed5"
+        "jsdom": "6af2943ca6f8fe68d459307df02005d7759128900edff85179c15d1b170bfbb1",
+        "node": "6af2943ca6f8fe68d459307df02005d7759128900edff85179c15d1b170bfbb1"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
-        "jsdom": "af62322149815e45f8ae7a664e4251d8c28c091fcbb15d4f7951940b12a73eb6",
-        "node": "af62322149815e45f8ae7a664e4251d8c28c091fcbb15d4f7951940b12a73eb6"
+        "jsdom": "ffd6b0ab27e737ac4d1cd45fd5ee56241396a5a334907b516e896d15b3b330b6",
+        "node": "ffd6b0ab27e737ac4d1cd45fd5ee56241396a5a334907b516e896d15b3b330b6"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-max-text-size.spec.ts": {
         "jsdom": "c82bc73fb34cbd413e70cabd4bac0ac8c597552b717bd65e316bf18a1927c2c6",
@@ -826,12 +826,12 @@
         "node": "b0717fb3a98eb2b0b9a3f4615bdf95f38f73f543bcbfa64efc3e9541f9f014e2"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-semantic-model.spec.ts": {
-        "jsdom": "5f8ce147707de1097392a98ccad0acb01484a07b0e1b70218a3bc254e8acc85a",
-        "node": "5f8ce147707de1097392a98ccad0acb01484a07b0e1b70218a3bc254e8acc85a"
+        "jsdom": "b3fad9c8a1a68e4cf3c8885f14d43c5326306e708ffc67a1aa7450f9e2474b08",
+        "node": "b3fad9c8a1a68e4cf3c8885f14d43c5326306e708ffc67a1aa7450f9e2474b08"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-shape-catalogue.spec.ts": {
-        "jsdom": "866a44cc14a7d82a696abeeb2c77dd6dbe64b2dd405b4289a4f760843ea8d108",
-        "node": "866a44cc14a7d82a696abeeb2c77dd6dbe64b2dd405b4289a4f760843ea8d108"
+        "jsdom": "0964163c9ca813e0b9a6fc300773be67b785bed3b9b6c5ccc9d59f1c6dcef6d0",
+        "node": "0964163c9ca813e0b9a6fc300773be67b785bed3b9b6c5ccc9d59f1c6dcef6d0"
       },
       "packages/mermaid/src/diagrams/agentflow/colorSlots.spec.ts": {
         "jsdom": "9eb0ca20f956519f7894c9719c1e12b24fee3b50c900957499c94c589ab45326",
@@ -850,88 +850,88 @@
         "node": "dc6c555796ada20fb4af97b5ed40a3a8156a31eb644f872c3d5101d673714839"
       },
       "packages/mermaid/src/diagrams/agentflow/diagnostics.spec.ts": {
-        "jsdom": "42c5efbf089ed40fac88a6622fe591b3691640299ed1d47972b894aef09636c4",
-        "node": "42c5efbf089ed40fac88a6622fe591b3691640299ed1d47972b894aef09636c4"
+        "jsdom": "14b163b89ba62b25e0cc30ce6e3d7b2ca8fd1d52d75c8527d18e17963624365f",
+        "node": "14b163b89ba62b25e0cc30ce6e3d7b2ca8fd1d52d75c8527d18e17963624365f"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-attachment-mapping.spec.ts": {
-        "jsdom": "b069cf17d870612d670c986f4a1b12d0ef747a2525a4b2e9097b7065453ab693",
-        "node": "b069cf17d870612d670c986f4a1b12d0ef747a2525a4b2e9097b7065453ab693"
+        "jsdom": "496beea0741afbbb544df23c03b7b1286878a9c2814681522989dc730fba09de",
+        "node": "496beea0741afbbb544df23c03b7b1286878a9c2814681522989dc730fba09de"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-blank-line-fold.spec.ts": {
-        "jsdom": "44e421db8efb77697f5b43ef177ff75d27e8d2701f5fbeafc284ececca9a8905",
-        "node": "44e421db8efb77697f5b43ef177ff75d27e8d2701f5fbeafc284ececca9a8905"
+        "jsdom": "669266704728365ea1772f850f82013e4c3b6bc048320e3236e3c09023a581f1",
+        "node": "669266704728365ea1772f850f82013e4c3b6bc048320e3236e3c09023a581f1"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-comments.spec.ts": {
-        "jsdom": "7e88241bafe621cceb6bcbbd5ce3453f468a1b04a01ab448e2c78290c895c1ee",
-        "node": "7e88241bafe621cceb6bcbbd5ce3453f468a1b04a01ab448e2c78290c895c1ee"
+        "jsdom": "4b96f6a6ec6ca6c1d4f216956612c6671393984ff1fd2787f56d11fd4feaa8b7",
+        "node": "4b96f6a6ec6ca6c1d4f216956612c6671393984ff1fd2787f56d11fd4feaa8b7"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-containment-cycle.spec.ts": {
-        "jsdom": "9364d442a50e2649cd042dfb759b602ead5e9f4da9593b5975929880f86919db",
-        "node": "9364d442a50e2649cd042dfb759b602ead5e9f4da9593b5975929880f86919db"
+        "jsdom": "db8d66afe2498265cd9770d21c99336862b3c56f8cb3002db3bded28faec3716",
+        "node": "db8d66afe2498265cd9770d21c99336862b3c56f8cb3002db3bded28faec3716"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-edge-instruction.spec.ts": {
-        "jsdom": "543cf47af2f85361de78f02edbd589ca7fd7fc5c6942a86d80d9f3ee83a4da1a",
-        "node": "543cf47af2f85361de78f02edbd589ca7fd7fc5c6942a86d80d9f3ee83a4da1a"
+        "jsdom": "8a81fbca1813dc7ddaba0873d4d1918969036109c98c598ead75249aa52dd542",
+        "node": "8a81fbca1813dc7ddaba0873d4d1918969036109c98c598ead75249aa52dd542"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-edge-semantic.spec.ts": {
-        "jsdom": "c6a216715e6cb90ec58ec5e3c5ed468619e50e53640677c9ee8c15c25ef6e64b",
-        "node": "c6a216715e6cb90ec58ec5e3c5ed468619e50e53640677c9ee8c15c25ef6e64b"
+        "jsdom": "263b8d535d10712b1c4c24b6f688fa571411ba4a2e5acbeb440c24e2d18f4ef7",
+        "node": "263b8d535d10712b1c4c24b6f688fa571411ba4a2e5acbeb440c24e2d18f4ef7"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-empty-metadata.spec.ts": {
-        "jsdom": "a1ad27d307725a5b6b49995aa9f7f817fa5507da798a8670b6f556cdc9f13621",
-        "node": "a1ad27d307725a5b6b49995aa9f7f817fa5507da798a8670b6f556cdc9f13621"
+        "jsdom": "e437bf75b8e8b0d7ee7ad04b7d36da771101d6d980f3d1584f35282a9621aaf7",
+        "node": "e437bf75b8e8b0d7ee7ad04b7d36da771101d6d980f3d1584f35282a9621aaf7"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flow-metadata.spec.ts": {
-        "jsdom": "291afc42cbed66d4193ee81629c6f8019da3c7ab1e140cdb39cd70d72880bee4",
-        "node": "291afc42cbed66d4193ee81629c6f8019da3c7ab1e140cdb39cd70d72880bee4"
+        "jsdom": "de541c42449785f914001523835e3d334d35eca53898ad966be6ab6d82af4713",
+        "node": "de541c42449785f914001523835e3d334d35eca53898ad966be6ab6d82af4713"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flow-self-reference.spec.ts": {
-        "jsdom": "97c3472ee672312a93b14e3be59e0a49d217f984d4d573e4052cf466774b5d7e",
-        "node": "97c3472ee672312a93b14e3be59e0a49d217f984d4d573e4052cf466774b5d7e"
+        "jsdom": "a74adedeeadb5bf480089cceac230ebec900aa91ff9c8282338999a032a5870f",
+        "node": "a74adedeeadb5bf480089cceac230ebec900aa91ff9c8282338999a032a5870f"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flowchart-parity.spec.ts": {
-        "jsdom": "1e802a74d5941d23916c700b8ebc73f5e02eb7eb6e738fd27cef32e836251847",
-        "node": "1e802a74d5941d23916c700b8ebc73f5e02eb7eb6e738fd27cef32e836251847"
+        "jsdom": "45a7501f66fb37d4f192d78197f30c410488ddf524f7090b75c3388c6eec8667",
+        "node": "45a7501f66fb37d4f192d78197f30c410488ddf524f7090b75c3388c6eec8667"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-global.spec.ts": {
-        "jsdom": "d7b7313ef65186f561c891101f9b7cfea4d4640df367544cc160b6d611f50be3",
-        "node": "d7b7313ef65186f561c891101f9b7cfea4d4640df367544cc160b6d611f50be3"
+        "jsdom": "1a9667662e294cfd9fa7f63449136ef3cc4afe42f81285b33a103acd47f9729d",
+        "node": "1a9667662e294cfd9fa7f63449136ef3cc4afe42f81285b33a103acd47f9729d"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-inline-metadata-mapping.spec.ts": {
-        "jsdom": "04afeff20d4002128513f2f5173f5364b6491f7aed10c946a5f3feabe1f4bb91",
-        "node": "04afeff20d4002128513f2f5173f5364b6491f7aed10c946a5f3feabe1f4bb91"
+        "jsdom": "e40c8502f266e497cb847365496b825860f59b897395471f9d58eef631585731",
+        "node": "e40c8502f266e497cb847365496b825860f59b897395471f9d58eef631585731"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "3b6ba2caa3f5925a6e38edfbe532be70a747b8e743dc0a5055de86285ff4a5ba",
-        "node": "3b6ba2caa3f5925a6e38edfbe532be70a747b8e743dc0a5055de86285ff4a5ba"
+        "jsdom": "763ddcf7c3cbd8cd5ad7abebb371f283b1e53b5a8e08f89e1a1acb9f3d3cb047",
+        "node": "763ddcf7c3cbd8cd5ad7abebb371f283b1e53b5a8e08f89e1a1acb9f3d3cb047"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
-        "jsdom": "89981dac2b11bbc8ad75ed84bffdf66e85435f640fb5b783bc4643ca70ff2e9c",
-        "node": "89981dac2b11bbc8ad75ed84bffdf66e85435f640fb5b783bc4643ca70ff2e9c"
+        "jsdom": "f9b475dfcfa47cb021b361df64beaeb11eb6c92f88ede2570688f7e295aa2dff",
+        "node": "f9b475dfcfa47cb021b361df64beaeb11eb6c92f88ede2570688f7e295aa2dff"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-prototype-keys.spec.ts": {
-        "jsdom": "9a10c0e2a99945327dd4b35dfec5deb9b27f64238e5c5e0ce43e2fe4947aadab",
-        "node": "9a10c0e2a99945327dd4b35dfec5deb9b27f64238e5c5e0ce43e2fe4947aadab"
+        "jsdom": "9d4f779a7788eafcfaddf0c3b636d5b9d7a216f1f29f7d07f22250ced681e336",
+        "node": "9d4f779a7788eafcfaddf0c3b636d5b9d7a216f1f29f7d07f22250ced681e336"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-trailing-comma.spec.ts": {
-        "jsdom": "b6e2f4988698c9b3ca098f1876ac63a316f381bb2ce37fc1c211c7dece9b2a0c",
-        "node": "b6e2f4988698c9b3ca098f1876ac63a316f381bb2ce37fc1c211c7dece9b2a0c"
+        "jsdom": "c5392347c9b5b2a1459d07ad5159e45ac7a1bf9bed8619c995c1ac9c5b76dcc6",
+        "node": "c5392347c9b5b2a1459d07ad5159e45ac7a1bf9bed8619c995c1ac9c5b76dcc6"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-subgraph-span.spec.ts": {
-        "jsdom": "10162361c897a48169b27c23364f33457ecdeb2a9d42ff5d489d73d77a8de010",
-        "node": "10162361c897a48169b27c23364f33457ecdeb2a9d42ff5d489d73d77a8de010"
+        "jsdom": "b4ee044cef8854a25275bfc01068dd19472003c0df1df941365e44cde4d433f9",
+        "node": "b4ee044cef8854a25275bfc01068dd19472003c0df1df941365e44cde4d433f9"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-tool-validators.spec.ts": {
-        "jsdom": "6b39bbe17256ff5adb1f5d75e5b04658d5445d9f264ca9e37510f457e04b3b17",
-        "node": "6b39bbe17256ff5adb1f5d75e5b04658d5445d9f264ca9e37510f457e04b3b17"
+        "jsdom": "1a06fa49e0faa86c537e5aae88e88292b1733a8db5702b867d783a10f23c01d2",
+        "node": "1a06fa49e0faa86c537e5aae88e88292b1733a8db5702b867d783a10f23c01d2"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "9f60da204e810aec48720f6015389cd5c8f57e5719267eceaac11dd77ab617c6",
-        "node": "9f60da204e810aec48720f6015389cd5c8f57e5719267eceaac11dd77ab617c6"
+        "jsdom": "03da0930989b365a25eb10669bba3b40d594081e0ee3fcdd0510814e4012e958",
+        "node": "03da0930989b365a25eb10669bba3b40d594081e0ee3fcdd0510814e4012e958"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
-        "jsdom": "16069a5a2d4fd6dff15380c02f5804ebadb48aa5946f8732e52781076348e24e",
-        "node": "16069a5a2d4fd6dff15380c02f5804ebadb48aa5946f8732e52781076348e24e"
+        "jsdom": "4f100f2d6d6e14d86a987b58e5abdaa72e347e363db43044fe96660a6f5c4ca8",
+        "node": "4f100f2d6d6e14d86a987b58e5abdaa72e347e363db43044fe96660a6f5c4ca8"
       },
       "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts": {
         "jsdom": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a",
@@ -1030,12 +1030,12 @@
         "node": "338999b4552a513de1806887cb700fc97ce24683f08a88c7b2f6214bec12a9d9"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts": {
-        "jsdom": "cce584b24b21b9f58564127892b1a54a36a11487516e03be960b8d597c75def9",
-        "node": "cce584b24b21b9f58564127892b1a54a36a11487516e03be960b8d597c75def9"
+        "jsdom": "96d4d0232475643bea0a6b87995ae792a2c98aee173f704984205a9fc4008a4c",
+        "node": "96d4d0232475643bea0a6b87995ae792a2c98aee173f704984205a9fc4008a4c"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "0ccc011f7ccfbce6e3bcd7eff4290368c88d4f2f96430d68a41f524135b54b82",
-        "node": "0ccc011f7ccfbce6e3bcd7eff4290368c88d4f2f96430d68a41f524135b54b82"
+        "jsdom": "cb3cd86ddc630d174368badebe8f17f09f87a6ceb5ea9fc0f922f95ebeaa5d75",
+        "node": "cb3cd86ddc630d174368badebe8f17f09f87a6ceb5ea9fc0f922f95ebeaa5d75"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -1054,7 +1054,7 @@
         "node": "9fbbccf8e359cca4644d6a9faa9663e12e7a9027c05f81056806909788b4ac24"
       },
       "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts": {
-        "jsdom": "89447602bae5027546c54a40708f0faf89f7b47c47d1dda531c2030bac980e7a",
+        "jsdom": "4deb6486ce8b6a71fa126aed28f820833d05598da4d2aa70f5feda61d889c7e5",
         "node": "9f3f47a6cf092eb370c062958f8bec66dac2d322deedf2dbad422604cfd9ce48"
       },
       "packages/mermaid/src/diagrams/flowchart/flowChartShapes.spec.js": {
@@ -1158,12 +1158,12 @@
         "node": "66aacd3e03483a5690f5e6c5c825abe1d3b451ae41ab1602f38f2ee191180318"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
-        "jsdom": "f55ab4319b532156ad3f8ba4fb3ae5ccc2addff47e9c7f47b672364740180487",
-        "node": "f55ab4319b532156ad3f8ba4fb3ae5ccc2addff47e9c7f47b672364740180487"
+        "jsdom": "e2d03d84e172fccb80705d329ddf6de3c9775944fbba28fa51fc796b101e7ce1",
+        "node": "e2d03d84e172fccb80705d329ddf6de3c9775944fbba28fa51fc796b101e7ce1"
       },
       "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts": {
-        "jsdom": "dd4f56faf962b2946ca6222dcd1c5c4831be75f184d74bf4ee07d2cc7925ce1f",
-        "node": "dd4f56faf962b2946ca6222dcd1c5c4831be75f184d74bf4ee07d2cc7925ce1f"
+        "jsdom": "c3605a4d0bc3707a581edb1fd4fc094ef0eaa802aeab0d419203d3352afbd486",
+        "node": "c3605a4d0bc3707a581edb1fd4fc094ef0eaa802aeab0d419203d3352afbd486"
       },
       "packages/mermaid/src/diagrams/kanban/kanban.spec.ts": {
         "jsdom": "45b905160bb5ff79149a22e51ab564e6cd56f44be3120c6a9160d95826433b85",
@@ -1226,35 +1226,35 @@
         "node": "73cf8fdde6d66c901bf7c4545e2d033966dc199210a666fbcde5dd806e5d8c9f"
       },
       "packages/mermaid/src/diagrams/railroad/parser/abnfDiagram.spec.ts": {
-        "jsdom": "2f32b951656cf1a3e61513c3a7745156eb91f3a2fa90f4721a60049c051a6659",
-        "node": "2f32b951656cf1a3e61513c3a7745156eb91f3a2fa90f4721a60049c051a6659"
+        "jsdom": "bf8d4c4582d149ef28b5629558a8fd0c484111d0121f077fd96d1d47c631a165",
+        "node": "bf8d4c4582d149ef28b5629558a8fd0c484111d0121f077fd96d1d47c631a165"
       },
       "packages/mermaid/src/diagrams/railroad/parser/ebnfDiagram.spec.ts": {
-        "jsdom": "17fce9df764e474081c9a557b5f45bc1424dcb4173599bbc51f067b6c1a220da",
-        "node": "17fce9df764e474081c9a557b5f45bc1424dcb4173599bbc51f067b6c1a220da"
+        "jsdom": "9c3495060ce94135248d55966646e903603075b2df6a6d3748539aa6d2a2c23f",
+        "node": "9c3495060ce94135248d55966646e903603075b2df6a6d3748539aa6d2a2c23f"
       },
       "packages/mermaid/src/diagrams/railroad/parser/pegDiagram.spec.ts": {
-        "jsdom": "0c4b0b7c22479f1dd5daf1b3df04f8a03392dd7d525b32812c8ad4a4ee6b1d9e",
-        "node": "0c4b0b7c22479f1dd5daf1b3df04f8a03392dd7d525b32812c8ad4a4ee6b1d9e"
+        "jsdom": "18fb044d0e2c6aa67040e26acab2095f852aaacf1e18675f92346fa1fdc83657",
+        "node": "18fb044d0e2c6aa67040e26acab2095f852aaacf1e18675f92346fa1fdc83657"
       },
       "packages/mermaid/src/diagrams/railroad/parser/railroadDiagram.spec.ts": {
-        "jsdom": "c924b251849b9874444356b07d6b2793d92fb71812ab2ff522b1b5ac0d1ce9fe",
-        "node": "c924b251849b9874444356b07d6b2793d92fb71812ab2ff522b1b5ac0d1ce9fe"
+        "jsdom": "16d0222cfa7025892dcb12ea7f5e0327ea6a7fa4219afbe8615ed5ecedb8711c",
+        "node": "16d0222cfa7025892dcb12ea7f5e0327ea6a7fa4219afbe8615ed5ecedb8711c"
       },
       "packages/mermaid/src/diagrams/railroad/pegDetector.spec.ts": {
         "jsdom": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6",
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "01d2a9a91661549ceb9befbc41ffb952ba83febd6d6bfd9bdcea45d74f9e64a6",
-        "node": "01d2a9a91661549ceb9befbc41ffb952ba83febd6d6bfd9bdcea45d74f9e64a6"
+        "jsdom": "367a2c14df709edb6e23c3268d51d1e0eedad99ca544ce28249630de4b627f82",
+        "node": "367a2c14df709edb6e23c3268d51d1e0eedad99ca544ce28249630de4b627f82"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
         "node": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3"
       },
       "packages/mermaid/src/diagrams/railroad/railroadRenderer.spec.ts": {
-        "jsdom": "56f4a58126e93927b9fc0e69f7795f89386585ba8cd200b65a717d6b1848cebc",
+        "jsdom": "ee2bb90e8be8d2d1a5ef226f236795d2925cc6afb87afdd704a8f07e96d92877",
         "node": "af939ddd0cff6bdf46e20273833b026e66ae18e5251050dd2e748f2ea65b73b9"
       },
       "packages/mermaid/src/diagrams/railroad/styles.spec.ts": {
@@ -1370,16 +1370,16 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "97c61bf78b743956c8d873a4dd8760762b1e53664b2fb7c643e2bd12c718b232",
-        "node": "97c61bf78b743956c8d873a4dd8760762b1e53664b2fb7c643e2bd12c718b232"
+        "jsdom": "47da934487699c5e7de81e0fa4fb1e3ad8648ab13b8c4b53a7fc9af253e08a07",
+        "node": "47da934487699c5e7de81e0fa4fb1e3ad8648ab13b8c4b53a7fc9af253e08a07"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
         "node": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4"
       },
       "packages/mermaid/src/diagrams/treeView/parser.spec.ts": {
-        "jsdom": "ea34082b5e96b82f07206b14f8ca169d124f546d9f6b2e6f297a3e52a6581530",
-        "node": "ea34082b5e96b82f07206b14f8ca169d124f546d9f6b2e6f297a3e52a6581530"
+        "jsdom": "cd44e5abd617b2d16a65b2a9c4db3001d7b9075bb76ddd207aa3d2863041b850",
+        "node": "cd44e5abd617b2d16a65b2a9c4db3001d7b9075bb76ddd207aa3d2863041b850"
       },
       "packages/mermaid/src/diagrams/treemap/utils.test.ts": {
         "jsdom": "b2e1c318244d5c1052d4a983ee01d657f42ce1dc86750c758159411abbe3acfa",
@@ -1398,24 +1398,24 @@
         "node": "02d7d5721ff5bc087dd9be92e7c099185dd9334562a2e29e56010821615039e1"
       },
       "packages/mermaid/src/diagrams/usecase/usecase-colorIndex.spec.ts": {
-        "jsdom": "e0aa10457b5eb9efdc7cae7bb37557fb6bde813606dcd5e064df8d0ef3cde45b",
-        "node": "e0aa10457b5eb9efdc7cae7bb37557fb6bde813606dcd5e064df8d0ef3cde45b"
+        "jsdom": "f8cacd3435d1fee02e7dd86b2b6132168089ce02fb48f1212d3a43abb0fdd9f2",
+        "node": "f8cacd3435d1fee02e7dd86b2b6132168089ce02fb48f1212d3a43abb0fdd9f2"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts": {
         "jsdom": "cd581b6f3a636c0c324fcff1f11d7e2897afd5d248384e3968975347eab8886a",
         "node": "cd581b6f3a636c0c324fcff1f11d7e2897afd5d248384e3968975347eab8886a"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.parser.spec.ts": {
-        "jsdom": "322df846fcbb2c3baf8ef914af7513591b7c7e4855c047b5366999aab0125f7a",
-        "node": "322df846fcbb2c3baf8ef914af7513591b7c7e4855c047b5366999aab0125f7a"
+        "jsdom": "2317a39c01a9f033254dac8bbc3c410cad33d074d2fbb846bccc6896fe0a1e89",
+        "node": "2317a39c01a9f033254dac8bbc3c410cad33d074d2fbb846bccc6896fe0a1e89"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "951b2545cf191efc196f53f879745db646f5a5da226f4e7b6ade5df10c4c4f12",
-        "node": "951b2545cf191efc196f53f879745db646f5a5da226f4e7b6ade5df10c4c4f12"
+        "jsdom": "187840803b99ad4d71b3d27927d05d07fe37015790f4b7a9ca1eff6371a2b107",
+        "node": "187840803b99ad4d71b3d27927d05d07fe37015790f4b7a9ca1eff6371a2b107"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "5a962ef64af4978e07b8fc40e3fed744da39a3532fa988d1ae9b601062133145",
-        "node": "5a962ef64af4978e07b8fc40e3fed744da39a3532fa988d1ae9b601062133145"
+        "jsdom": "8da550dc5233a8b7b6e0073b64008aaca56522895e27c3b4ecea1a52bbfb2ac4",
+        "node": "8da550dc5233a8b7b6e0073b64008aaca56522895e27c3b4ecea1a52bbfb2ac4"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -1434,8 +1434,8 @@
         "node": "1d4a8ef30abb94097b3648098d49e3ffcefa5d645bdff4a73f670e2678fdde2b"
       },
       "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts": {
-        "jsdom": "7d168887f100e0ae48c717884da7211852f1bcab17a47524cab19417690dbd8d",
-        "node": "7d168887f100e0ae48c717884da7211852f1bcab17a47524cab19417690dbd8d"
+        "jsdom": "d2b60d2df308f962267d95471039d4da547d7867923e46fe9e120baea7d720fa",
+        "node": "d2b60d2df308f962267d95471039d4da547d7867923e46fe9e120baea7d720fa"
       },
       "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts": {
         "jsdom": "b5b024c785ed6664c15371c2693b26cd110cd066506f00e0db409263705f19e4",
@@ -1450,8 +1450,8 @@
         "node": "1af3ed9a0ff410f2702f9a2ddbe20919c6d4bfbc4eced5b24cdd625adc3ca9b3"
       },
       "packages/mermaid/src/diagrams/wardley/wardleyParser.spec.ts": {
-        "jsdom": "4af2333b2fa42c1b89bf9c27fcaf098743bf458f3fb3d091e51316d20bdd00e5",
-        "node": "4af2333b2fa42c1b89bf9c27fcaf098743bf458f3fb3d091e51316d20bdd00e5"
+        "jsdom": "d1407d64e96fcc311394f5a6a43f19a24167ff015ee28405e256bdc66905fb93",
+        "node": "d1407d64e96fcc311394f5a6a43f19a24167ff015ee28405e256bdc66905fb93"
       },
       "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts": {
         "jsdom": "1147def76c3f6e99ac118044c5aea83efac737b79db773ec2e28749e25013c04",
@@ -2046,8 +2046,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "ca1476039d26ab6bd3237ae752c613a692f9f5b3fd1a1e41f2e9f182dd57cfb2",
-        "node": "ca1476039d26ab6bd3237ae752c613a692f9f5b3fd1a1e41f2e9f182dd57cfb2"
+        "jsdom": "23f81e638e53e5afb4f037b02e14236bbdaa86c71385167d24f4d9206ef9e943",
+        "node": "23f81e638e53e5afb4f037b02e14236bbdaa86c71385167d24f4d9206ef9e943"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -2110,8 +2110,8 @@
         "node": "9bbf6da409a02e3ea695e403485721e2bb9f792e556ed86fe3ee8ac0662f2bc0"
       },
       "packages/parser/tests/info.test.ts": {
-        "jsdom": "d477d66e3a08c4c0e9fbf6373e5a0f1b6c12f2c4e2f0207f37879cb0b38e7b77",
-        "node": "d477d66e3a08c4c0e9fbf6373e5a0f1b6c12f2c4e2f0207f37879cb0b38e7b77"
+        "jsdom": "2a009507dfb2a76ca08959be38ad88c49ecdfd6aba5273ed41771c3a24e89c79",
+        "node": "2a009507dfb2a76ca08959be38ad88c49ecdfd6aba5273ed41771c3a24e89c79"
       },
       "packages/parser/tests/packet.test.ts": {
         "jsdom": "448d151b12d0e1b42590b2acd093bf635f11ede43cc25f098623c03faaef3d5e",
@@ -2126,12 +2126,12 @@
         "node": "6f057b73df63ff2df8067b222c1cc0f433e3283a356754e08da594eb9033e9b8"
       },
       "packages/parser/tests/railroad.test.ts": {
-        "jsdom": "ef22a0ff06cf2aaf28beb18d0597e1787e70cf20a004c3eedab3e37d1531bd09",
-        "node": "ef22a0ff06cf2aaf28beb18d0597e1787e70cf20a004c3eedab3e37d1531bd09"
+        "jsdom": "2e135105f00f4707627a2025c8dccfa22f4c8f81870f276c89d160ae7f19a39d",
+        "node": "2e135105f00f4707627a2025c8dccfa22f4c8f81870f276c89d160ae7f19a39d"
       },
       "packages/parser/tests/treeView.test.ts": {
-        "jsdom": "3384ceed8dd0852bc10188b509f4cebc93d7f3e69cc985c9a560367db8216879",
-        "node": "3384ceed8dd0852bc10188b509f4cebc93d7f3e69cc985c9a560367db8216879"
+        "jsdom": "14abec8a4c88c9150a5ed2fd5f1c1447b3931f4d9d1e9ecb93c1243f0454db57",
+        "node": "14abec8a4c88c9150a5ed2fd5f1c1447b3931f4d9d1e9ecb93c1243f0454db57"
       },
       "packages/parser/tests/treeViewValueConverter.test.ts": {
         "jsdom": "1ff8e43efea7a118e5ac4b1d331b900ec4bc428de6df1cc37af2463572688495",
@@ -2412,12 +2412,12 @@
         "node": "ed93536d54bb903d489cc628d025c58f5e712c7fca4746dca73d9ed41585369e"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-styles.spec.js": {
-        "jsdom": "ed96492f5b32633ddbb870497898b748906e25e1da1687fe42c276f36477bbae",
-        "node": "ed96492f5b32633ddbb870497898b748906e25e1da1687fe42c276f36477bbae"
+        "jsdom": "f7bf0d2afc6b305b5c39dd6c3b09911f2a28e3aab2de7da29656fd16b1086682",
+        "node": "f7bf0d2afc6b305b5c39dd6c3b09911f2a28e3aab2de7da29656fd16b1086682"
       },
       "packages/mermaid/src/diagrams/class/classDiagram.spec.ts": {
-        "jsdom": "0c873607a6e7d2142477978011512101859e28670ac3b63c0aca9294134ed4df",
-        "node": "0c873607a6e7d2142477978011512101859e28670ac3b63c0aca9294134ed4df"
+        "jsdom": "af34fbc425d9339f2db5697d310428b0901bf7864dfd7aaaef0ec9a4cf12204c",
+        "node": "af34fbc425d9339f2db5697d310428b0901bf7864dfd7aaaef0ec9a4cf12204c"
       },
       "packages/mermaid/src/diagrams/class/classTypes.spec.ts": {
         "jsdom": "a7d048c618f0b826867f64a6750f4b7b6bdf581c6b31c9a0b2df4c7dbebf5ef0",
@@ -2452,8 +2452,8 @@
         "node": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535"
       },
       "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js": {
-        "jsdom": "d246b4cc785b6197771f02a40dd5f4b3f4dcd23a1740ab8b62897512e6e80b3c",
-        "node": "d246b4cc785b6197771f02a40dd5f4b3f4dcd23a1740ab8b62897512e6e80b3c"
+        "jsdom": "b119f3557355de6f2ff7ed8072aa9393e8fc0e64acc75869641a6903ffe5ddc7",
+        "node": "b119f3557355de6f2ff7ed8072aa9393e8fc0e64acc75869641a6903ffe5ddc7"
       },
       "packages/mermaid/src/diagrams/er/parser/subgraph.spec.js": {
         "jsdom": "a66f54ae78bc65d5414ba2c44a1f9819dd65c3e620f5db9f21c60542016b3538",
@@ -2480,8 +2480,8 @@
         "node": "8ab83990efd815dafce20264d797c5bffc7b8c7bcd917374a14f5d52539c33db"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts": {
-        "jsdom": "03d4f2784e155992fe2ffd94939ce2538c60733a204515d46798d2dffab7a4c2",
-        "node": "03d4f2784e155992fe2ffd94939ce2538c60733a204515d46798d2dffab7a4c2"
+        "jsdom": "cb54f48dbcca9071187d37f59cd624785e26748f93be195fc3abddfbceb0fe9e",
+        "node": "cb54f48dbcca9071187d37f59cd624785e26748f93be195fc3abddfbceb0fe9e"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts": {
         "jsdom": "24b99696cc532944cd9147c3f6f64ed31d78a69ab334477bb66ebc7490475cfd",
@@ -2528,8 +2528,8 @@
         "node": "d115904e69fa2b379360e8f7f74a990962493adc664d879cd1663bbb80715a8a"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js": {
-        "jsdom": "79dff1e8a2580a96c52286fe8b7f4a152179a27b26b400a9f32eff416543df3b",
-        "node": "79dff1e8a2580a96c52286fe8b7f4a152179a27b26b400a9f32eff416543df3b"
+        "jsdom": "cd85d0a23f920b6a2e10c5054a3b813837f6dcd7fab473cbe098ccbbb4bba737",
+        "node": "cd85d0a23f920b6a2e10c5054a3b813837f6dcd7fab473cbe098ccbbb4bba737"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-singlenode.spec.js": {
         "jsdom": "1228cf7e83339685ad9be4a2a1938f2b7e4d014e6c87fda1069b107954112198",
@@ -2548,8 +2548,8 @@
         "node": "7204b083c5e9c0b3d6d0077f06fc847e170bbb431bdc006bb9febe68f8c251fe"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow.spec.js": {
-        "jsdom": "b0c439868410a74fca48772be32b0056b8b7b087c4976d3385018d429eb89437",
-        "node": "b0c439868410a74fca48772be32b0056b8b7b087c4976d3385018d429eb89437"
+        "jsdom": "7cf47818762f6322ee6869c8fbc76dda3ddefb66e3b91b29d88b417c4c1fdc09",
+        "node": "7cf47818762f6322ee6869c8fbc76dda3ddefb66e3b91b29d88b417c4c1fdc09"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js": {
         "jsdom": "a4fecff9233aa8ac3b39799867940214d3f7321aac015c66088c3693bf7f22f1",
@@ -2560,8 +2560,8 @@
         "node": "1de85316b57f6692cc89dd5f18d5efd0783af4af3ff7e98f24ee10109076da77"
       },
       "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js": {
-        "jsdom": "b004d733c599f6193f65e39c1bf5d461f4b18531a8f38e184fdfbafc97431cdb",
-        "node": "b004d733c599f6193f65e39c1bf5d461f4b18531a8f38e184fdfbafc97431cdb"
+        "jsdom": "4ad594692b36894c0fa64ba236c00885342f28dab5dced3f8b35f3e261c3589c",
+        "node": "4ad594692b36894c0fa64ba236c00885342f28dab5dced3f8b35f3e261c3589c"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
         "jsdom": "6418a075518234bd02c64deafd690887272981962183e821546832b3ec5ed4e2",
@@ -3532,8 +3532,8 @@
         "node": "e9f115d168c023e15dbaf67c31bb238fa5e7a5d5b1f92977ab1187b5fdd1f59a"
       },
       "packages/parser/tests/radar.test.ts": {
-        "jsdom": "fd178867fda3f3761d75f442daed32c14bc613c710c9e52c9c2bec6779819f49",
-        "node": "fd178867fda3f3761d75f442daed32c14bc613c710c9e52c9c2bec6779819f49"
+        "jsdom": "7883735a1865604fe77ad14d259089c75a9154dc16d95be5af505ffc5d8fdb27",
+        "node": "7883735a1865604fe77ad14d259089c75a9154dc16d95be5af505ffc5d8fdb27"
       },
       "packages/parser/tests/railroad.test.ts": {
         "jsdom": "530772e0b71d2f6ca4bdd41bc1634f677dfb9d0797443d9581ce8c0785a2529c",
@@ -6450,12 +6450,12 @@
         "node": "1f6c16633901f328ef4ce6101748e3e2f72d3d58dd3406c147f00e6185842150"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "c7c4c49e2dbda03d33d322edb0789059bc527fc56f81bad6a56164b96f0dbdbe",
-        "node": "c7c4c49e2dbda03d33d322edb0789059bc527fc56f81bad6a56164b96f0dbdbe"
+        "jsdom": "96e69b203b3e0c39ea6339ce043f1522624df00801c1ff91d694bdd207558053",
+        "node": "96e69b203b3e0c39ea6339ce043f1522624df00801c1ff91d694bdd207558053"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
-        "jsdom": "1b50d66d71ed7b591c99111ea59554318b753b8390617ebd0c7e785073038a72",
-        "node": "1b50d66d71ed7b591c99111ea59554318b753b8390617ebd0c7e785073038a72"
+        "jsdom": "ef0e558481c4a921523422197201f524a48112ef5a213d20ac243fbf17a1184e",
+        "node": "ef0e558481c4a921523422197201f524a48112ef5a213d20ac243fbf17a1184e"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-max-text-size.spec.ts": {
         "jsdom": "c82bc73fb34cbd413e70cabd4bac0ac8c597552b717bd65e316bf18a1927c2c6",
@@ -6466,8 +6466,8 @@
         "node": "b0717fb3a98eb2b0b9a3f4615bdf95f38f73f543bcbfa64efc3e9541f9f014e2"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-semantic-model.spec.ts": {
-        "jsdom": "70389a5b30766ca7e34122884ad3077301c192c34b14966926e0d513c8738b6e",
-        "node": "70389a5b30766ca7e34122884ad3077301c192c34b14966926e0d513c8738b6e"
+        "jsdom": "e67500fa0d774f50c226c8247f3b2c0942337acd0af70285777909b87dfea47e",
+        "node": "e67500fa0d774f50c226c8247f3b2c0942337acd0af70285777909b87dfea47e"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-shape-catalogue.spec.ts": {
         "jsdom": "d43d10d42647067b380956e43f2b67c458a01e94cd063e5454316c6eb8f019c5",
@@ -6578,8 +6578,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "7dd0543e741c0dc231c2fc218ef5d40196d1afdf639539f15f2bb8a45ebafc8f",
-        "node": "7dd0543e741c0dc231c2fc218ef5d40196d1afdf639539f15f2bb8a45ebafc8f"
+        "jsdom": "3cc912025969b492662e753e9020d3eaa4bd579609a5bc145e87ef9cfa1dd838",
+        "node": "3cc912025969b492662e753e9020d3eaa4bd579609a5bc145e87ef9cfa1dd838"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -6638,16 +6638,16 @@
         "node": "724e3f74ebc2e28f139ab5fbce92a15fc305d6ff0a6c5642e3e51aa1880bd908"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-colorIndex.spec.ts": {
-        "jsdom": "ee23ee6e73992bf6cce8478e8c9c431c8c6b2a9d6622aff08f8de0015de67873",
-        "node": "ee23ee6e73992bf6cce8478e8c9c431c8c6b2a9d6622aff08f8de0015de67873"
+        "jsdom": "49fe72828638980d25591be8424c2facafd83b59df35ea9adce20116c5b0078d",
+        "node": "49fe72828638980d25591be8424c2facafd83b59df35ea9adce20116c5b0078d"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-styles.spec.js": {
         "jsdom": "89935d9c361f417f0305f5d354edaa5fe265e1f0f3dc90caff017c2b11a80636",
         "node": "89935d9c361f417f0305f5d354edaa5fe265e1f0f3dc90caff017c2b11a80636"
       },
       "packages/mermaid/src/diagrams/class/classDiagram.spec.ts": {
-        "jsdom": "9c276ff1a29845339481d91dfe27bbc13c5a6bc4d1a0b1ae543f224038bdd7f7",
-        "node": "9c276ff1a29845339481d91dfe27bbc13c5a6bc4d1a0b1ae543f224038bdd7f7"
+        "jsdom": "add0823f7013f9f6754f19397c9e115add9872806e261c7b035ad427e332945b",
+        "node": "add0823f7013f9f6754f19397c9e115add9872806e261c7b035ad427e332945b"
       },
       "packages/mermaid/src/diagrams/class/classTypes.spec.ts": {
         "jsdom": "a7d048c618f0b826867f64a6750f4b7b6bdf581c6b31c9a0b2df4c7dbebf5ef0",
@@ -6674,12 +6674,12 @@
         "node": "43a43accc5c61a4a75bcf5996f33a0e96ee69ab5f17b1bd5ba58a33e4503ac4b"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "65e1aa54e94e317e702871fd59b757950576312e628ec39afa5a492664d872d1",
-        "node": "65e1aa54e94e317e702871fd59b757950576312e628ec39afa5a492664d872d1"
+        "jsdom": "4182433f32b8d2cbb2a2482a7ea12f6d72ad9833dc19f286b4b040e87f5d9038",
+        "node": "4182433f32b8d2cbb2a2482a7ea12f6d72ad9833dc19f286b4b040e87f5d9038"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
-        "jsdom": "3b0b08b6ae07491d149ecf65448d2aa0a51d2dd7d2f9b85dc734d1bc796c391d",
-        "node": "3b0b08b6ae07491d149ecf65448d2aa0a51d2dd7d2f9b85dc734d1bc796c391d"
+        "jsdom": "d9eef7f067f87fd8e199ff7916c2926c80a21fc3640050c114929cc66017227d",
+        "node": "d9eef7f067f87fd8e199ff7916c2926c80a21fc3640050c114929cc66017227d"
       },
       "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js": {
         "jsdom": "9193e9a86dc5500afe12833471fa5c0c4ee6e3da9a51a1c7142ab3c679d30fcc",
@@ -6710,8 +6710,8 @@
         "node": "3e48be266bf8d2804a98af76f8db459b528ef7db7177674eb8fc906bc1ff16a7"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts": {
-        "jsdom": "f2d3cc1b621f2c7d72486f6ebb104e9c036cf79fb2f183f57ed9a7aef3f4cb9d",
-        "node": "f2d3cc1b621f2c7d72486f6ebb104e9c036cf79fb2f183f57ed9a7aef3f4cb9d"
+        "jsdom": "c0626d7a29fb840e01ad50a502ea72f6dae182004632d54be39b2d955cb25b06",
+        "node": "c0626d7a29fb840e01ad50a502ea72f6dae182004632d54be39b2d955cb25b06"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts": {
         "jsdom": "24b99696cc532944cd9147c3f6f64ed31d78a69ab334477bb66ebc7490475cfd",
@@ -6746,8 +6746,8 @@
         "node": "391d6973dd654d1a08ea773219dd4132ddc5e1b986fa64cf043807dc9141ab71"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-interactions.spec.js": {
-        "jsdom": "3117ee4450f8be3c5c8662b6e79aed97d85d94afa67a66cadbb17e968060fdbe",
-        "node": "3117ee4450f8be3c5c8662b6e79aed97d85d94afa67a66cadbb17e968060fdbe"
+        "jsdom": "4a9a844bee73bf6ce1aec97e894a88c90c89ffa08ed1a1b3da76a9cf9ed5080e",
+        "node": "4a9a844bee73bf6ce1aec97e894a88c90c89ffa08ed1a1b3da76a9cf9ed5080e"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-lines.spec.js": {
         "jsdom": "f6eb443854db31d8aaa5cb3bb83c16874a8a6a3f722510dd754f30d0565c556b",
@@ -6766,16 +6766,16 @@
         "node": "19fe23803a75d7dc56bba2edfc47ec1b963fe2d06ca6997b87927319de8ed173"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js": {
-        "jsdom": "7fb5cbd323d9da1a711efeaf4b0577b88e627fb47383abf4c909752517312fae",
-        "node": "7fb5cbd323d9da1a711efeaf4b0577b88e627fb47383abf4c909752517312fae"
+        "jsdom": "e07e46e2f1deda082b4044b5e230ad957d49fa5eee88028b72a5a344792525e5",
+        "node": "e07e46e2f1deda082b4044b5e230ad957d49fa5eee88028b72a5a344792525e5"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js": {
         "jsdom": "d5011b98825234d651002c7261e226818c75d7a22924659fb346141fe15535cf",
         "node": "d5011b98825234d651002c7261e226818c75d7a22924659fb346141fe15535cf"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js": {
-        "jsdom": "b47689c468f8280e3a2c7eb4c21c5db0281ca67e1c844987b5ed4ebf62fc6125",
-        "node": "b47689c468f8280e3a2c7eb4c21c5db0281ca67e1c844987b5ed4ebf62fc6125"
+        "jsdom": "7204b083c5e9c0b3d6d0077f06fc847e170bbb431bdc006bb9febe68f8c251fe",
+        "node": "7204b083c5e9c0b3d6d0077f06fc847e170bbb431bdc006bb9febe68f8c251fe"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow.spec.js": {
         "jsdom": "c168cea64c175eb6ea59d7bc96e5f35a210f4ab42ccf0398f83cba240a2205a0",
@@ -6786,12 +6786,12 @@
         "node": "4ef837bcf35d63053882e876003d85c6924a34525346fb9448e7aa69fd7603b9"
       },
       "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts": {
-        "jsdom": "904fac9c3d1022b03ad747e6284bdeb908141c561e90145264a70a756e978fb3",
-        "node": "904fac9c3d1022b03ad747e6284bdeb908141c561e90145264a70a756e978fb3"
+        "jsdom": "9aafb719dd9bd03aeb19ba327a8afd0540fb139ded5867faf1828adde68bd6aa",
+        "node": "9aafb719dd9bd03aeb19ba327a8afd0540fb139ded5867faf1828adde68bd6aa"
       },
       "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js": {
-        "jsdom": "82eca2c53ca371a717c7703aa98fb42549adf5bdb805d17fe7e2bd856ce0195e",
-        "node": "82eca2c53ca371a717c7703aa98fb42549adf5bdb805d17fe7e2bd856ce0195e"
+        "jsdom": "d74567141265990d8223a76a81eadbfa862e1fecde76b2f63d34033bb639ba92",
+        "node": "d74567141265990d8223a76a81eadbfa862e1fecde76b2f63d34033bb639ba92"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
         "jsdom": "4864e9dcee2fa716c81aea41f2b14602133e19119ee712834bf44bc4638a9411",
@@ -6818,8 +6818,8 @@
         "node": "a17e0e7af929d07d6e58a5090d42dbb5ddd3971068743c946a9d447f420f241d"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts": {
-        "jsdom": "4c41cf0ffd9e3335edc01475dff2b68a154e2acf8b39c72ff8b44958bdb92848",
-        "node": "4c41cf0ffd9e3335edc01475dff2b68a154e2acf8b39c72ff8b44958bdb92848"
+        "jsdom": "088bb0238c6099f569083bb718c9705f0781154d5cb0c0fba40ebf0b33dc45de",
+        "node": "088bb0238c6099f569083bb718c9705f0781154d5cb0c0fba40ebf0b33dc45de"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts": {
         "jsdom": "02e9993c81fea2d3a522a73547f0ca3ac588866cb2a758cd098441ca10938246",
@@ -6846,12 +6846,12 @@
         "node": "2d6464e56629e8c8216c9fa51cd2f989bde60f60dd0989dfaecf5a70a1f55a29"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/parser/quadrant.jison.spec.ts": {
-        "jsdom": "f458dfb8ad67c4ba8cfa08d1c41d9aefcd37763254c1ba6bf26f3c0818a3ca92",
-        "node": "f458dfb8ad67c4ba8cfa08d1c41d9aefcd37763254c1ba6bf26f3c0818a3ca92"
+        "jsdom": "8d1a62c9eba4920711479b3f3675336eee50d46b39a86447c19f88b4bb00b41f",
+        "node": "8d1a62c9eba4920711479b3f3675336eee50d46b39a86447c19f88b4bb00b41f"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts": {
-        "jsdom": "e5f9e988245a72058cf43bcb18d16f72f24a3f83ec3a744e64aead2d4822b373",
-        "node": "e5f9e988245a72058cf43bcb18d16f72f24a3f83ec3a744e64aead2d4822b373"
+        "jsdom": "ebc6a319cf3f9e6219f9efb5f3e2f2e3fe66eace2eafbe455d67eae017553418",
+        "node": "ebc6a319cf3f9e6219f9efb5f3e2f2e3fe66eace2eafbe455d67eae017553418"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
         "jsdom": "af4b0b3bd29f34803fb24f2a705ead9b45903daa4ee1aa0e86b0bdeaa2674eb0",
@@ -6886,8 +6886,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "55a00e39ec74cd0f0580104097437047df9baf43ec9a270cb795d39214f07b35",
-        "node": "55a00e39ec74cd0f0580104097437047df9baf43ec9a270cb795d39214f07b35"
+        "jsdom": "81fc024a2a58dfb8b10f67a7fa0f84b8f8f2672f0b71b7cbac35984f072fdae2",
+        "node": "81fc024a2a58dfb8b10f67a7fa0f84b8f8f2672f0b71b7cbac35984f072fdae2"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -6906,8 +6906,8 @@
         "node": "793c31692b5dd6b8d45524deb1fe1cd51f30271f1fd8fa94196361bf78dff828"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "b25cfed526bee6c73daca61bcc76ff8995eb7986d001a830416f77d222b337b8",
-        "node": "b25cfed526bee6c73daca61bcc76ff8995eb7986d001a830416f77d222b337b8"
+        "jsdom": "06da32b9e58eb17a91afb6db043c68353fdb74e75d4664231807bf205e179c48",
+        "node": "06da32b9e58eb17a91afb6db043c68353fdb74e75d4664231807bf205e179c48"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -6942,8 +6942,8 @@
         "node": "d23b150b95a9d56722998282040034cf959ce568ed65b8123d52de328f7df4be"
       },
       "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js": {
-        "jsdom": "5d0ab7488959503a4df8d2e6c55095241e7bd0d9789ec441c1a3a129b8f2a434",
-        "node": "5d0ab7488959503a4df8d2e6c55095241e7bd0d9789ec441c1a3a129b8f2a434"
+        "jsdom": "8053b6b80df7767393925d20be3be573af97fe720492ae59892024fe265ca3e5",
+        "node": "8053b6b80df7767393925d20be3be573af97fe720492ae59892024fe265ca3e5"
       },
       "packages/mermaid/src/diagrams/sequence/sequenceRenderer.spec.js": {
         "jsdom": "d37322ca159f20c88be57928c478dbdac046c49c0f1ebf1c219defa83893795d",
@@ -6962,8 +6962,8 @@
         "node": "772df2e711e73468ae7c5af55ce9b005d7126c5f48bd9be04ab2d23e4105fffa"
       },
       "packages/mermaid/src/diagrams/state/stateDb.spec.js": {
-        "jsdom": "10f436f7e6c93e82fd58618bcbe846deb376a9604fff6c456f9f39786a30430a",
-        "node": "10f436f7e6c93e82fd58618bcbe846deb376a9604fff6c456f9f39786a30430a"
+        "jsdom": "f93c6e5b5f5f3188c8d99f3c33037ca6b08f8d345d11669452776385083e10ea",
+        "node": "f93c6e5b5f5f3188c8d99f3c33037ca6b08f8d345d11669452776385083e10ea"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram-colorIndex.spec.ts": {
         "jsdom": "810d76e2cea118600a7e5c08f9d6603d2c9b2786d9cf91a50ee328f6d0bb0146",
@@ -6974,8 +6974,8 @@
         "node": "311f54dbcbec0b62bc8b95c7ab79393f7a61c744b02b8e29ce126daabe7d2901"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram.spec.js": {
-        "jsdom": "2f3d9b3a2070e781819f4187b00e88eee46a5841623c5a5cb02adbf2162f0032",
-        "node": "2f3d9b3a2070e781819f4187b00e88eee46a5841623c5a5cb02adbf2162f0032"
+        "jsdom": "24d5a5056b8d623de17a424dfb74273e116ecf0a7c205664391a5dbba4971ae4",
+        "node": "24d5a5056b8d623de17a424dfb74273e116ecf0a7c205664391a5dbba4971ae4"
       },
       "packages/mermaid/src/diagrams/state/stateNoteEdge.spec.ts": {
         "jsdom": "e3e47960082fba00e7527361625c0aefa9b9a73fc2661a6cd0f7296fe68e9866",
@@ -6986,7 +6986,7 @@
         "node": "879aedf1683179c68198b4024f5faec47e9c3540442b57d5b719dc4313d3ed0b"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer-v3-unified.spec.js": {
-        "jsdom": "65fe51581a3bbc2dfc68bbc91cb668242e48aeabb5e783950af26c4da8ba6b54",
+        "jsdom": "c8cd036581870386c2ff28aa3840621d521f200624b2872ba1d54e587c920b3c",
         "node": "d7b86a2b8900decc0f518489575a7e1e58ccd8979b66ff6e1a123d9ffe8c70bc"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer.spec.js": {
@@ -7010,8 +7010,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "1f5dfdfdc17875503491316164c4b3ae5c649abe7985179ed9bd9977b04c531e",
-        "node": "1f5dfdfdc17875503491316164c4b3ae5c649abe7985179ed9bd9977b04c531e"
+        "jsdom": "dc8afa44ea016063f10cb7d158ade356939299d9eabba6e2cc5287ad3a9006e1",
+        "node": "dc8afa44ea016063f10cb7d158ade356939299d9eabba6e2cc5287ad3a9006e1"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -7066,8 +7066,8 @@
         "node": "5c5bcd8998970aad1e599e1d5245ae2e9c920a042b4e581e36d20a73c1a8bf8d"
       },
       "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js": {
-        "jsdom": "a2f560d12470ddd202846721b7ea557bd582a1b856f573a63254e30caa0375d0",
-        "node": "a2f560d12470ddd202846721b7ea557bd582a1b856f573a63254e30caa0375d0"
+        "jsdom": "fdf96e0ab1b094f7fa50b53a03ceba5c3747c4fa881ce12785af5095a5f67c1d",
+        "node": "fdf96e0ab1b094f7fa50b53a03ceba5c3747c4fa881ce12785af5095a5f67c1d"
       },
       "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js": {
         "jsdom": "b98763a6c1487240a14ba69e7c3af2349aaa848b743953f27136b46f63625c13",
@@ -7106,12 +7106,12 @@
         "node": "defa71735581d772c22a28f4bba05251b718d08b49060bca0c050c5628fef05b"
       },
       "packages/mermaid/src/diagrams/xychart/parser/xychart.jison.spec.ts": {
-        "jsdom": "41d0e7af3cf401903be0a272da8403386462c468f2b91ea438d48e00e1d75142",
-        "node": "41d0e7af3cf401903be0a272da8403386462c468f2b91ea438d48e00e1d75142"
+        "jsdom": "d2228ba7b883bc8b908d43967a6c08e4950c0e238c85b3bf8a72ae5b4b0414be",
+        "node": "d2228ba7b883bc8b908d43967a6c08e4950c0e238c85b3bf8a72ae5b4b0414be"
       },
       "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts": {
-        "jsdom": "6c6a552d6e7ccaf4a628e4ad71d00e0467ba1b5ca1fefbbf58d4608a146a1a41",
-        "node": "6c6a552d6e7ccaf4a628e4ad71d00e0467ba1b5ca1fefbbf58d4608a146a1a41"
+        "jsdom": "bbca26149f14dc206e18f5bef580e763d270332c6212a7d7e010905ca2169028",
+        "node": "bbca26149f14dc206e18f5bef580e763d270332c6212a7d7e010905ca2169028"
       },
       "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts": {
         "jsdom": "9b9d337e8e32bd8d1a661a36d1174750b59519d3c5e81d80ec1a85ac9985667d",
@@ -7686,8 +7686,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "fc7761d97b75e9cf343ea9824a7c03e66932746aa004b6ff95cd5091ee19b234",
-        "node": "fc7761d97b75e9cf343ea9824a7c03e66932746aa004b6ff95cd5091ee19b234"
+        "jsdom": "39878b3d4f7970dd9288f3155812f3411f18828ebefbcea2dd8dfd63de0a09a2",
+        "node": "39878b3d4f7970dd9288f3155812f3411f18828ebefbcea2dd8dfd63de0a09a2"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -8120,8 +8120,8 @@
         "node": "4a5a568aff06e4c7291ca335bb3f5957c460d117bc64c6ad58ac2fad51944ab7"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts": {
-        "jsdom": "f29a0c14278f53424d268224af59a73d8664ea6ecb00c481f78f67cfff587ef9",
-        "node": "f29a0c14278f53424d268224af59a73d8664ea6ecb00c481f78f67cfff587ef9"
+        "jsdom": "779164d8881ad8d529b55eee7cd847ae53aa04ba9e6a0632028bdbdbdc68b86d",
+        "node": "779164d8881ad8d529b55eee7cd847ae53aa04ba9e6a0632028bdbdbdc68b86d"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts": {
         "jsdom": "24b99696cc532944cd9147c3f6f64ed31d78a69ab334477bb66ebc7490475cfd",
@@ -9466,8 +9466,8 @@
         "node": "d2ad23724f6f5f526729cee049da5ffc0e01c19b3f90c31e331ed5d287be8726"
       },
       "packages/mermaid/src/diagrams/class/classDiagram.spec.ts": {
-        "jsdom": "abddaa1aa9eccbb76060fe96d340af2679fe9c0eecc3a9c23b949a3ca80a9b28",
-        "node": "abddaa1aa9eccbb76060fe96d340af2679fe9c0eecc3a9c23b949a3ca80a9b28"
+        "jsdom": "ad1c566ef45b9c9a87aadc0b49065e515f2beaf905ad257882c12e1374da67c6",
+        "node": "ad1c566ef45b9c9a87aadc0b49065e515f2beaf905ad257882c12e1374da67c6"
       },
       "packages/mermaid/src/diagrams/class/classTypes.spec.ts": {
         "jsdom": "a7d048c618f0b826867f64a6750f4b7b6bdf581c6b31c9a0b2df4c7dbebf5ef0",
@@ -9502,8 +9502,8 @@
         "node": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535"
       },
       "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js": {
-        "jsdom": "c9d452ac49f7ec03ebacbbc150f5ff6551c3c07d392381844bfccfab74f7a6d0",
-        "node": "56a68d5e173b44d5b6484982cc0cd3448b19cee015cee0c5539c4eae98f2ce3e"
+        "jsdom": "1e2bdaaf089346c9454ed76a3cc20d8c5c91cb1e30b300d059a3735d9eb18b34",
+        "node": "4b59cbfd32bd00322271d38af5e60e7ab2b7b5ab2f9730475b2d27e859009eab"
       },
       "packages/mermaid/src/diagrams/er/parser/subgraph.spec.js": {
         "jsdom": "c659919525aa5013401cc524b70e56a27a34e00b19a5659a90f0c57cc91f3d98",
@@ -9530,8 +9530,8 @@
         "node": "70ce470debec414ccc5942377df0f7432f35d8a9b841f5888e379ccb731a2861"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts": {
-        "jsdom": "c8d65a7009de3731982023b60dc28a29077cdcc471171d648f33b93514dc8b48",
-        "node": "c8d65a7009de3731982023b60dc28a29077cdcc471171d648f33b93514dc8b48"
+        "jsdom": "ec867c1bad52eb63b02dfe5be4dbc2c6bd95e43588b70eb8ac3c857373ce311f",
+        "node": "ec867c1bad52eb63b02dfe5be4dbc2c6bd95e43588b70eb8ac3c857373ce311f"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts": {
         "jsdom": "24b99696cc532944cd9147c3f6f64ed31d78a69ab334477bb66ebc7490475cfd",
@@ -9762,8 +9762,8 @@
         "node": "d23b150b95a9d56722998282040034cf959ce568ed65b8123d52de328f7df4be"
       },
       "packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js": {
-        "jsdom": "a526a097d1c928b2b6c4bcf3ba5d31cb541a4bfab13cc9fe0868c9d9994b1915",
-        "node": "a526a097d1c928b2b6c4bcf3ba5d31cb541a4bfab13cc9fe0868c9d9994b1915"
+        "jsdom": "e17030bdcd83f9cd84b09aae0f56fcd4c12c2b1a1caf9c1ee3bbb7cddad7e251",
+        "node": "e17030bdcd83f9cd84b09aae0f56fcd4c12c2b1a1caf9c1ee3bbb7cddad7e251"
       },
       "packages/mermaid/src/diagrams/sequence/sequenceRenderer.spec.js": {
         "jsdom": "d37322ca159f20c88be57928c478dbdac046c49c0f1ebf1c219defa83893795d",
@@ -9790,8 +9790,8 @@
         "node": "810d76e2cea118600a7e5c08f9d6603d2c9b2786d9cf91a50ee328f6d0bb0146"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram-v2.spec.js": {
-        "jsdom": "8549eb19ca43eaea4bdf7f83f897f59456ea189776a89afbe018509acdf6383a",
-        "node": "8549eb19ca43eaea4bdf7f83f897f59456ea189776a89afbe018509acdf6383a"
+        "jsdom": "a91328bf354a7f8be0017790919156ac5ad4f28797c6edd66860ef93af97ebd6",
+        "node": "a91328bf354a7f8be0017790919156ac5ad4f28797c6edd66860ef93af97ebd6"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram.spec.js": {
         "jsdom": "e1a8f8e432acd241d61e909371c32c8f9075a7cbc589cfb6f8f0311f286d42e5",
@@ -10876,8 +10876,8 @@
         "node": "8c94a378735ceed0140b4d836adbe7c2546ce58d608b9f300af128debf06d532"
       },
       "packages/mermaid/src/diagrams/class/classDiagram.spec.ts": {
-        "jsdom": "f4acbd9aa93f444ef933e8880d77cdeddb6afd992c67c415fb8f122fcfd22cf5",
-        "node": "f4acbd9aa93f444ef933e8880d77cdeddb6afd992c67c415fb8f122fcfd22cf5"
+        "jsdom": "490c534143935858384aff89acca41a63a1d1af640fb74c813777cb54097eb19",
+        "node": "490c534143935858384aff89acca41a63a1d1af640fb74c813777cb54097eb19"
       },
       "packages/mermaid/src/diagrams/class/classTypes.spec.ts": {
         "jsdom": "a7d048c618f0b826867f64a6750f4b7b6bdf581c6b31c9a0b2df4c7dbebf5ef0",
@@ -10940,8 +10940,8 @@
         "node": "d4b33d0034b2c9af665f8255a352f4280065d12f9f931aa614b24fde71b7cfd6"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts": {
-        "jsdom": "477eb626c74752fae940253298f76e4eb57f8c14072cb167b8fbbeeedb411e84",
-        "node": "477eb626c74752fae940253298f76e4eb57f8c14072cb167b8fbbeeedb411e84"
+        "jsdom": "7e1084241a86bf1957df3f5aba8fc20140f944a725fb96f61e8204f6427d8372",
+        "node": "7e1084241a86bf1957df3f5aba8fc20140f944a725fb96f61e8204f6427d8372"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts": {
         "jsdom": "24b99696cc532944cd9147c3f6f64ed31d78a69ab334477bb66ebc7490475cfd",
@@ -14906,16 +14906,16 @@
         "node": "f2ab5b6118fb63c18b69a771e0a00eeebcb09bc4dafe4c2253ba47978e42ad37"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts": {
-        "jsdom": "54a5b144eede5b7c71f6c40f40b9e351325a99b3d8b0ac2651762f150d9ea1d7",
-        "node": "54a5b144eede5b7c71f6c40f40b9e351325a99b3d8b0ac2651762f150d9ea1d7"
+        "jsdom": "97acc9fbdd62ff2889a34ad319e67f69ffe2047a4d05c1ced0d666017ce39577",
+        "node": "97acc9fbdd62ff2889a34ad319e67f69ffe2047a4d05c1ced0d666017ce39577"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "a9b5f679b6d5cc370dd4e536bac30451e4061d5c77db05a5344af01933a2cd83",
-        "node": "a9b5f679b6d5cc370dd4e536bac30451e4061d5c77db05a5344af01933a2cd83"
+        "jsdom": "ce61d4bd8a3d0f8b75d34f9e8a11ece746fb1fae6b067121abb1659f26a61f19",
+        "node": "ce61d4bd8a3d0f8b75d34f9e8a11ece746fb1fae6b067121abb1659f26a61f19"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
-        "jsdom": "eaedd7f406f845c629a2af62593888047da20c13df380fcbc3027eb66e4a094d",
-        "node": "eaedd7f406f845c629a2af62593888047da20c13df380fcbc3027eb66e4a094d"
+        "jsdom": "cbcb0b2595173c717af2dc385dd6cb6b117c88a05ea3fb8dd1a9ceae76f5b135",
+        "node": "cbcb0b2595173c717af2dc385dd6cb6b117c88a05ea3fb8dd1a9ceae76f5b135"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-max-text-size.spec.ts": {
         "jsdom": "c82bc73fb34cbd413e70cabd4bac0ac8c597552b717bd65e316bf18a1927c2c6",
@@ -14926,12 +14926,12 @@
         "node": "b0717fb3a98eb2b0b9a3f4615bdf95f38f73f543bcbfa64efc3e9541f9f014e2"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-semantic-model.spec.ts": {
-        "jsdom": "9dc37bd8f907fb4684f4d05dfc9a1fc8804bb51e1a99017c4f0131cccfcc14f6",
-        "node": "9dc37bd8f907fb4684f4d05dfc9a1fc8804bb51e1a99017c4f0131cccfcc14f6"
+        "jsdom": "27b41949bf20df1f776d5d9317bd715a7d7f9732cf115c20a1ca6e8d6527cac8",
+        "node": "27b41949bf20df1f776d5d9317bd715a7d7f9732cf115c20a1ca6e8d6527cac8"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-shape-catalogue.spec.ts": {
-        "jsdom": "1e70bc979dc64edd430d90c6329285a605512e146a81623773f637454422f6ad",
-        "node": "1e70bc979dc64edd430d90c6329285a605512e146a81623773f637454422f6ad"
+        "jsdom": "6692d3965e9086f1302b0389d4e733d09ae7626c28990291227fb232b9109993",
+        "node": "6692d3965e9086f1302b0389d4e733d09ae7626c28990291227fb232b9109993"
       },
       "packages/mermaid/src/diagrams/agentflow/colorSlots.spec.ts": {
         "jsdom": "9eb0ca20f956519f7894c9719c1e12b24fee3b50c900957499c94c589ab45326",
@@ -14950,88 +14950,88 @@
         "node": "dc6c555796ada20fb4af97b5ed40a3a8156a31eb644f872c3d5101d673714839"
       },
       "packages/mermaid/src/diagrams/agentflow/diagnostics.spec.ts": {
-        "jsdom": "86c2f74607188fcfbd9f2a9fb6c9720d67f4c143f63dba2c61ab287b3101681d",
-        "node": "86c2f74607188fcfbd9f2a9fb6c9720d67f4c143f63dba2c61ab287b3101681d"
+        "jsdom": "40c906f7db95579cbc6a67934e0da9e08f905efd0d53bc07db11b44b6200151d",
+        "node": "40c906f7db95579cbc6a67934e0da9e08f905efd0d53bc07db11b44b6200151d"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-attachment-mapping.spec.ts": {
-        "jsdom": "c340418a75c0950bc04ab19f18cd43dc22ac38c3b6ba5407f51c983efb6d6a03",
-        "node": "c340418a75c0950bc04ab19f18cd43dc22ac38c3b6ba5407f51c983efb6d6a03"
+        "jsdom": "e5833ce01eb3b5852e444a99ba52b8c07953880c2cece6753e80a428ceca6e77",
+        "node": "e5833ce01eb3b5852e444a99ba52b8c07953880c2cece6753e80a428ceca6e77"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-blank-line-fold.spec.ts": {
-        "jsdom": "fe1c068f57e3e9d4aadc89e125bddd777ffc90ac42ae72e3c1bb941af84d4fd7",
-        "node": "fe1c068f57e3e9d4aadc89e125bddd777ffc90ac42ae72e3c1bb941af84d4fd7"
+        "jsdom": "05889caaa34c2431f1a2a200e8e9d4f4ef6c058d310d1899e01ca1584d046c0e",
+        "node": "05889caaa34c2431f1a2a200e8e9d4f4ef6c058d310d1899e01ca1584d046c0e"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-comments.spec.ts": {
-        "jsdom": "d5fa54de66c6b49821044365987aff23a37b96978d8472307a0841b9356ef1b9",
-        "node": "d5fa54de66c6b49821044365987aff23a37b96978d8472307a0841b9356ef1b9"
+        "jsdom": "95ef41afcd44a8ad052b30087e55e6f2bbf84636812c86a0315770b754a235f7",
+        "node": "95ef41afcd44a8ad052b30087e55e6f2bbf84636812c86a0315770b754a235f7"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-containment-cycle.spec.ts": {
-        "jsdom": "1877de8ebc589653dca69606a6e97dbee3b67741f1828e68e4f05f96bfd4b86d",
-        "node": "1877de8ebc589653dca69606a6e97dbee3b67741f1828e68e4f05f96bfd4b86d"
+        "jsdom": "ed101425d17c8b8ad5d477a5ae9e23350a9c905eee2125232335c5971baad1c3",
+        "node": "ed101425d17c8b8ad5d477a5ae9e23350a9c905eee2125232335c5971baad1c3"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-edge-instruction.spec.ts": {
-        "jsdom": "03872bd3d08b547d04e29a51b6ef539d3e1b7ece02d1859e50c772c54678a193",
-        "node": "03872bd3d08b547d04e29a51b6ef539d3e1b7ece02d1859e50c772c54678a193"
+        "jsdom": "22fe8830ecdea7cfb252dbb4b864940ca850f82a3a5359974c6a93ded0252df7",
+        "node": "22fe8830ecdea7cfb252dbb4b864940ca850f82a3a5359974c6a93ded0252df7"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-edge-semantic.spec.ts": {
-        "jsdom": "46f91f93c7e406624d7bf2f07000af89fbe8b6af26ea53c74bab2d21b826458f",
-        "node": "46f91f93c7e406624d7bf2f07000af89fbe8b6af26ea53c74bab2d21b826458f"
+        "jsdom": "e5c73a3e1a76aaf40af9ffc54b1364b93883d0f4070c727659a4203a7c326fca",
+        "node": "e5c73a3e1a76aaf40af9ffc54b1364b93883d0f4070c727659a4203a7c326fca"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-empty-metadata.spec.ts": {
-        "jsdom": "8881db3fa8341f4131236ec19333a06355cc8337a3078e32b731d81129ea74a8",
-        "node": "8881db3fa8341f4131236ec19333a06355cc8337a3078e32b731d81129ea74a8"
+        "jsdom": "78c12461ddd5e45c6cf3d9140dabaff80e028a0acae803ed30198c83bf450c3d",
+        "node": "78c12461ddd5e45c6cf3d9140dabaff80e028a0acae803ed30198c83bf450c3d"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flow-metadata.spec.ts": {
-        "jsdom": "a87cd050a581c6c6be801c2171fa5cd0e92271046c03b273a3ce4e8a5ecb9d51",
-        "node": "a87cd050a581c6c6be801c2171fa5cd0e92271046c03b273a3ce4e8a5ecb9d51"
+        "jsdom": "0478e11d9bf7f4a4d8053d67dfcd3bd10486cd232860ca2be9e2b4f9332eb4e1",
+        "node": "0478e11d9bf7f4a4d8053d67dfcd3bd10486cd232860ca2be9e2b4f9332eb4e1"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flow-self-reference.spec.ts": {
-        "jsdom": "59be41b2f0d2fca2c3843673aa6afb6822e299ef125de1ec948abc908ea3a6c6",
-        "node": "59be41b2f0d2fca2c3843673aa6afb6822e299ef125de1ec948abc908ea3a6c6"
+        "jsdom": "6cfbc2fd08a85274a95f1c6d47a153fd0f48e68b96fd2582e91b029ce898dd55",
+        "node": "6cfbc2fd08a85274a95f1c6d47a153fd0f48e68b96fd2582e91b029ce898dd55"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-flowchart-parity.spec.ts": {
-        "jsdom": "bf6664b1a5c55ed482a0dfeadcf83339c9aff1f0d02a051bfcc7d4f682176a58",
-        "node": "bf6664b1a5c55ed482a0dfeadcf83339c9aff1f0d02a051bfcc7d4f682176a58"
+        "jsdom": "548f42bb2b8c87984044bea208e35320cd57b1a04e067d22f0c38f12f2dec907",
+        "node": "548f42bb2b8c87984044bea208e35320cd57b1a04e067d22f0c38f12f2dec907"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-global.spec.ts": {
-        "jsdom": "36c12cac4133a6eb0f559a196a652ba0c7b0e45ad3c8b407b504faaf61c427f2",
-        "node": "36c12cac4133a6eb0f559a196a652ba0c7b0e45ad3c8b407b504faaf61c427f2"
+        "jsdom": "fb3e5b9542cfd7b568eca6f6c00cebe0392101e6031a134dde699ab34577dc95",
+        "node": "fb3e5b9542cfd7b568eca6f6c00cebe0392101e6031a134dde699ab34577dc95"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-inline-metadata-mapping.spec.ts": {
-        "jsdom": "0dd9984fe73177d43dcf44efa9ede6422c58e3ea3483086917b66c375d89b402",
-        "node": "0dd9984fe73177d43dcf44efa9ede6422c58e3ea3483086917b66c375d89b402"
+        "jsdom": "5c3dd2f66a94bc491129247d69233ee378577336e5cd9337305270201de8bed0",
+        "node": "5c3dd2f66a94bc491129247d69233ee378577336e5cd9337305270201de8bed0"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "433dcc0eddde902df694bbeab8acd52543cf3653f1d0152a087cd42548dc74b5",
-        "node": "433dcc0eddde902df694bbeab8acd52543cf3653f1d0152a087cd42548dc74b5"
+        "jsdom": "9aa3cd5c3ebfcfb4c598cc7f01167da62e5c0d0b19c914f92d1413e3b8944629",
+        "node": "9aa3cd5c3ebfcfb4c598cc7f01167da62e5c0d0b19c914f92d1413e3b8944629"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
-        "jsdom": "7925aa5095c55ab047e9cdccc54388b3c4e4aaaacc85c958156100cbd8896d6c",
-        "node": "7925aa5095c55ab047e9cdccc54388b3c4e4aaaacc85c958156100cbd8896d6c"
+        "jsdom": "2c1be592ad80028ecba0aa6d8202237749a61d3bedda8125e0dce661a6a34010",
+        "node": "2c1be592ad80028ecba0aa6d8202237749a61d3bedda8125e0dce661a6a34010"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-prototype-keys.spec.ts": {
-        "jsdom": "703b13eb0774b75cb4096d155181f9ae09bb8e431ed66aea28bb38a67c0ec257",
-        "node": "703b13eb0774b75cb4096d155181f9ae09bb8e431ed66aea28bb38a67c0ec257"
+        "jsdom": "e17ec07db186233ac33c38c8e2455fbdf3f2fb2bd4f09d2d30b835395a48100f",
+        "node": "e17ec07db186233ac33c38c8e2455fbdf3f2fb2bd4f09d2d30b835395a48100f"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-trailing-comma.spec.ts": {
-        "jsdom": "5ffc62d83e07e55d4810d52648fe748e50419b4f9b03a51bc7876fe96d226baa",
-        "node": "5ffc62d83e07e55d4810d52648fe748e50419b4f9b03a51bc7876fe96d226baa"
+        "jsdom": "4d074271c32d8762c49d6c3d6456fa38e7f7870af9fab1cf31ff1e9e087e7616",
+        "node": "4d074271c32d8762c49d6c3d6456fa38e7f7870af9fab1cf31ff1e9e087e7616"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-subgraph-span.spec.ts": {
-        "jsdom": "8e27aeb38345ff562d6b2357fe3d4c804cf98736c3a7baf3150924bcecb42a2b",
-        "node": "8e27aeb38345ff562d6b2357fe3d4c804cf98736c3a7baf3150924bcecb42a2b"
+        "jsdom": "9bf4f2acd38f7408d48d95624af9ee4a3a281af2b842c0e5986790320b9c3d83",
+        "node": "9bf4f2acd38f7408d48d95624af9ee4a3a281af2b842c0e5986790320b9c3d83"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-tool-validators.spec.ts": {
-        "jsdom": "5b8cae32a562ba11e2ba3ce26dc0c2b04cd72ce3afd6eaf29c8bb5c77fd7587c",
-        "node": "5b8cae32a562ba11e2ba3ce26dc0c2b04cd72ce3afd6eaf29c8bb5c77fd7587c"
+        "jsdom": "addd17e643b1018405aa3b55d993b8c214e87818b8866c7d1f6dda0cb5bda4f3",
+        "node": "addd17e643b1018405aa3b55d993b8c214e87818b8866c7d1f6dda0cb5bda4f3"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "516c373bc6d346f89a4d6a7e125340debafea40d838bbbc167f54ee022f34e91",
-        "node": "516c373bc6d346f89a4d6a7e125340debafea40d838bbbc167f54ee022f34e91"
+        "jsdom": "c80115939a3c2ff99bd53aaedb9426bf9b7d6f719985df3a91b5b759050b37b7",
+        "node": "c80115939a3c2ff99bd53aaedb9426bf9b7d6f719985df3a91b5b759050b37b7"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
-        "jsdom": "0e30e55167fcd55ad25065c2348fab0569e931c984877971d98b54c1a91cfc26",
-        "node": "0e30e55167fcd55ad25065c2348fab0569e931c984877971d98b54c1a91cfc26"
+        "jsdom": "1f38b9ef5ad289d2e8fe780c0a179ce7b36a74657ff89dc9e9c0b2ebca28d7f9",
+        "node": "1f38b9ef5ad289d2e8fe780c0a179ce7b36a74657ff89dc9e9c0b2ebca28d7f9"
       },
       "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts": {
         "jsdom": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a",
@@ -15066,36 +15066,36 @@
         "node": "e5ba43d045b51cf3e7451c34af814adcad828a7089b7928357fb38e1450d1657"
       },
       "packages/mermaid/src/diagrams/c4/parser/c4Boundary.spec.ts": {
-        "jsdom": "117c725f54d939f7d26931a4fd3458eb37f0c65e084474557e481bdae5b3b9e9",
-        "node": "117c725f54d939f7d26931a4fd3458eb37f0c65e084474557e481bdae5b3b9e9"
+        "jsdom": "6ee2d0f2e48243f317a39033a3dfc7d5411f530758c0e2785f37602ffbfc8ac5",
+        "node": "6ee2d0f2e48243f317a39033a3dfc7d5411f530758c0e2785f37602ffbfc8ac5"
       },
       "packages/mermaid/src/diagrams/c4/parser/c4Component.spec.ts": {
-        "jsdom": "a855ffac973dfeb55025621fd946a46ea31fb76c0e8e753116295883b87b4d48",
-        "node": "a855ffac973dfeb55025621fd946a46ea31fb76c0e8e753116295883b87b4d48"
+        "jsdom": "d1bebd127849bef4660e344aafc577174f5ee41768c519b38904d5aecd4f7e47",
+        "node": "d1bebd127849bef4660e344aafc577174f5ee41768c519b38904d5aecd4f7e47"
       },
       "packages/mermaid/src/diagrams/c4/parser/c4Container.spec.ts": {
-        "jsdom": "1b1416581c76b7b44338ab634351b5bc79be03c9e5bd3799a2166ecf45997cf2",
-        "node": "1b1416581c76b7b44338ab634351b5bc79be03c9e5bd3799a2166ecf45997cf2"
+        "jsdom": "85d77027b79adb6f647e02452ef322d1ae55e1f6f83b6484f17e035bbd7114d2",
+        "node": "85d77027b79adb6f647e02452ef322d1ae55e1f6f83b6484f17e035bbd7114d2"
       },
       "packages/mermaid/src/diagrams/c4/parser/c4Diagram.spec.ts": {
-        "jsdom": "ed9102332dd11b9fef70f9333c3999f5327e2679c6b56c6d8cf2931681d3bb70",
-        "node": "ed9102332dd11b9fef70f9333c3999f5327e2679c6b56c6d8cf2931681d3bb70"
+        "jsdom": "8cf0ec83fdbefa18a08a3e154d338cb6d637714823b49e159085988bd4862033",
+        "node": "8cf0ec83fdbefa18a08a3e154d338cb6d637714823b49e159085988bd4862033"
       },
       "packages/mermaid/src/diagrams/c4/parser/c4NamedAttributes.spec.ts": {
-        "jsdom": "c1e2bf18ba6501b091722fa4c1f64f7c64aafcb39b21624f686078186726865c",
-        "node": "c1e2bf18ba6501b091722fa4c1f64f7c64aafcb39b21624f686078186726865c"
+        "jsdom": "8e8cb374d401faecd64698794bd026a4ef0730779a5ca2d776c090ad9087417d",
+        "node": "8e8cb374d401faecd64698794bd026a4ef0730779a5ca2d776c090ad9087417d"
       },
       "packages/mermaid/src/diagrams/c4/parser/c4Person.spec.ts": {
-        "jsdom": "c71ae26cc28f91ba135e0626786553f6c55802521f30c954cd9e37d5381c0798",
-        "node": "c71ae26cc28f91ba135e0626786553f6c55802521f30c954cd9e37d5381c0798"
+        "jsdom": "934a59f737ee89d3183c9f421552235d5a0678fabdbc920c1ea42319e2f3b12d",
+        "node": "934a59f737ee89d3183c9f421552235d5a0678fabdbc920c1ea42319e2f3b12d"
       },
       "packages/mermaid/src/diagrams/c4/parser/c4PersonExt.spec.ts": {
-        "jsdom": "92a2ee1bad877fbd5e5568dc138e8c2d4f90650e42ba9a2a8c318575c110c0e6",
-        "node": "92a2ee1bad877fbd5e5568dc138e8c2d4f90650e42ba9a2a8c318575c110c0e6"
+        "jsdom": "076f42d23df3fe901386569ddc5421a7511bb06a54a64fa41adb20992cf26138",
+        "node": "076f42d23df3fe901386569ddc5421a7511bb06a54a64fa41adb20992cf26138"
       },
       "packages/mermaid/src/diagrams/c4/parser/c4System.spec.ts": {
-        "jsdom": "dba8bdb3c72f58086fa899fb66831c7532733e0ea9273aaf96cc0763ea7b5f72",
-        "node": "dba8bdb3c72f58086fa899fb66831c7532733e0ea9273aaf96cc0763ea7b5f72"
+        "jsdom": "0c9bce018c63c58513fb7bff6bf91f635e18efc7d1ea6a319f1d69a3bf79280b",
+        "node": "0c9bce018c63c58513fb7bff6bf91f635e18efc7d1ea6a319f1d69a3bf79280b"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-colorIndex.spec.ts": {
         "jsdom": "ed93536d54bb903d489cc628d025c58f5e712c7fca4746dca73d9ed41585369e",
@@ -15130,12 +15130,12 @@
         "node": "338999b4552a513de1806887cb700fc97ce24683f08a88c7b2f6214bec12a9d9"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.integration.spec.ts": {
-        "jsdom": "4ee2782cb0a585cb8903eac157677bbae74cf4c121b8e1f5d60574fcc77eed33",
-        "node": "4ee2782cb0a585cb8903eac157677bbae74cf4c121b8e1f5d60574fcc77eed33"
+        "jsdom": "0cfd099189b01548e0d4a0a0e0257a62dcaed6699c51d11554297a92cb2f3f48",
+        "node": "0cfd099189b01548e0d4a0a0e0257a62dcaed6699c51d11554297a92cb2f3f48"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "7f4419b9fa9aacf78ddd46b96df88b44a3497ef16b20756d4d73af02430ef470",
-        "node": "7f4419b9fa9aacf78ddd46b96df88b44a3497ef16b20756d4d73af02430ef470"
+        "jsdom": "e4721da6ec3b6debee91a06ee1e7ba48d5a65b1f3068e7d6b4fe7d58b9d0abaa",
+        "node": "e4721da6ec3b6debee91a06ee1e7ba48d5a65b1f3068e7d6b4fe7d58b9d0abaa"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -15154,7 +15154,7 @@
         "node": "9fbbccf8e359cca4644d6a9faa9663e12e7a9027c05f81056806909788b4ac24"
       },
       "packages/mermaid/src/diagrams/eventmodeling/eventmodeling.spec.ts": {
-        "jsdom": "fcb1187302c2f89ac2b9252ce73bae04fb4e3a38360cd3a48685fb55ab94d379",
+        "jsdom": "3dc76b681de69f8fc518e4f83d2e28403d3ae2b0e5429c184b62a9ec273f87c0",
         "node": "9f3f47a6cf092eb370c062958f8bec66dac2d322deedf2dbad422604cfd9ce48"
       },
       "packages/mermaid/src/diagrams/flowchart/flowChartShapes.spec.js": {
@@ -15258,12 +15258,12 @@
         "node": "bd79c619f85aa2a3849619f6ef2c927024bb94f818483b401deb2546b4361252"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
-        "jsdom": "6468c1248942c8190fe212ac68d144cb57152a9c467dbf25f2088b3ee8123525",
-        "node": "6468c1248942c8190fe212ac68d144cb57152a9c467dbf25f2088b3ee8123525"
+        "jsdom": "8d663ad86f68127dbbe3f639b0ad5e0cd4f66261b1eb44dc0872f3ee9b09a08c",
+        "node": "8d663ad86f68127dbbe3f639b0ad5e0cd4f66261b1eb44dc0872f3ee9b09a08c"
       },
       "packages/mermaid/src/diagrams/ishikawa/ishikawa.spec.ts": {
-        "jsdom": "fda5bfad955be1db794705a6e17ed0be31d3031a0e651f8147467c09b5c85da3",
-        "node": "fda5bfad955be1db794705a6e17ed0be31d3031a0e651f8147467c09b5c85da3"
+        "jsdom": "9d34bacad67f8cb65e5fee808b4797bcba4d20f456472c407c281a7fce2ae9af",
+        "node": "9d34bacad67f8cb65e5fee808b4797bcba4d20f456472c407c281a7fce2ae9af"
       },
       "packages/mermaid/src/diagrams/kanban/kanban.spec.ts": {
         "jsdom": "3eb8517e20d45bda5bfce6617d27be2e41620692c65bc71cebdf735f71ff9936",
@@ -15314,8 +15314,8 @@
         "node": "a3939e3634e9841dcca55c0a879236c9a618cf51d83f5344a277fb23fbc194ec"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
-        "jsdom": "ebf3925e6331033332f42563811852a15a4cc4835eefb2f7cbd295a7694f2ac7",
-        "node": "ebf3925e6331033332f42563811852a15a4cc4835eefb2f7cbd295a7694f2ac7"
+        "jsdom": "19b1f76840c9eb93067c7b584b8ffd1e927ec3e97d6763c58d3e0f2799103715",
+        "node": "19b1f76840c9eb93067c7b584b8ffd1e927ec3e97d6763c58d3e0f2799103715"
       },
       "packages/mermaid/src/diagrams/railroad/abnfDetector.spec.ts": {
         "jsdom": "40553d1f85131a7210dcfba6fc55b00e9f2eec02cab2dea1a4947947c9fd400b",
@@ -15326,35 +15326,35 @@
         "node": "73cf8fdde6d66c901bf7c4545e2d033966dc199210a666fbcde5dd806e5d8c9f"
       },
       "packages/mermaid/src/diagrams/railroad/parser/abnfDiagram.spec.ts": {
-        "jsdom": "a20783186d2e1aef5bb0b2180abe7a40221b4355b10748de67fc5b17424c2e71",
-        "node": "a20783186d2e1aef5bb0b2180abe7a40221b4355b10748de67fc5b17424c2e71"
+        "jsdom": "ebb66c93a21f16c9754c98b4aceda803e36ade04fd9cc7d727b9602c2fa61e23",
+        "node": "ebb66c93a21f16c9754c98b4aceda803e36ade04fd9cc7d727b9602c2fa61e23"
       },
       "packages/mermaid/src/diagrams/railroad/parser/ebnfDiagram.spec.ts": {
-        "jsdom": "cf50bf2985d78f65b6107e736424bcf29200a4aa0292a0b936960b3b30f72d12",
-        "node": "cf50bf2985d78f65b6107e736424bcf29200a4aa0292a0b936960b3b30f72d12"
+        "jsdom": "8a656af815cc8d6a7e629ad1b8cd2f1109ee2541a6a3515daeda0527e62fef1a",
+        "node": "8a656af815cc8d6a7e629ad1b8cd2f1109ee2541a6a3515daeda0527e62fef1a"
       },
       "packages/mermaid/src/diagrams/railroad/parser/pegDiagram.spec.ts": {
-        "jsdom": "a36ae50543a33ac9f18d36de4e2cd2682a96eacccf5d2d891fb9e2334bbec99a",
-        "node": "a36ae50543a33ac9f18d36de4e2cd2682a96eacccf5d2d891fb9e2334bbec99a"
+        "jsdom": "94a6900c23b95ccb4cfad19cb5dcc5e895756804504dd36ca9c49ea26d4dc723",
+        "node": "94a6900c23b95ccb4cfad19cb5dcc5e895756804504dd36ca9c49ea26d4dc723"
       },
       "packages/mermaid/src/diagrams/railroad/parser/railroadDiagram.spec.ts": {
-        "jsdom": "1d8d8a5061980a110d5f7ccbb286443189d3b0a6b85a7e8328a45617562c6ec8",
-        "node": "1d8d8a5061980a110d5f7ccbb286443189d3b0a6b85a7e8328a45617562c6ec8"
+        "jsdom": "7ab890709936422aa0d6e953c4eac13e8e7779e9fe88faea63b816467c15ac60",
+        "node": "7ab890709936422aa0d6e953c4eac13e8e7779e9fe88faea63b816467c15ac60"
       },
       "packages/mermaid/src/diagrams/railroad/pegDetector.spec.ts": {
         "jsdom": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6",
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "9b6b3126aa3a868b7938b96421df8734e3d2ae05f4566e57fa7af78c03961d1b",
-        "node": "9b6b3126aa3a868b7938b96421df8734e3d2ae05f4566e57fa7af78c03961d1b"
+        "jsdom": "f6dc946bfdf55106b1a259e92368b16035cc48351c0c52fcf6847882b00cf7d8",
+        "node": "f6dc946bfdf55106b1a259e92368b16035cc48351c0c52fcf6847882b00cf7d8"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
         "node": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3"
       },
       "packages/mermaid/src/diagrams/railroad/railroadRenderer.spec.ts": {
-        "jsdom": "51834e3f05754fcec5b91d0698c9de8fc4c2531ebe3a672797c6793b29c9a864",
+        "jsdom": "7918ffc9f77b39b61baeca086eb23b1e0c5d7f5fb283f49b108a0d3e539420e5",
         "node": "af939ddd0cff6bdf46e20273833b026e66ae18e5251050dd2e748f2ea65b73b9"
       },
       "packages/mermaid/src/diagrams/railroad/styles.spec.ts": {
@@ -15362,12 +15362,12 @@
         "node": "cf810af322d13387f7e20b36dce5b1a29e634f5604f929ebb9a36b7e2311d905"
       },
       "packages/mermaid/src/diagrams/requirement/parser/requirementDiagram.spec.js": {
-        "jsdom": "6299ed82a372475169c75ddd46689b38ccc013a18aced5205a147eeb168b8b36",
-        "node": "6299ed82a372475169c75ddd46689b38ccc013a18aced5205a147eeb168b8b36"
+        "jsdom": "272874c85c8a02f65279219b67691ddeea834d015985a975a26f2844a8be6db4",
+        "node": "272874c85c8a02f65279219b67691ddeea834d015985a975a26f2844a8be6db4"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "4b468686ea47b793ddd9ceadb898c95a8e1c83625dc74fda37cbf4131083c837",
-        "node": "4b468686ea47b793ddd9ceadb898c95a8e1c83625dc74fda37cbf4131083c837"
+        "jsdom": "9c56b2afff63313364588b7b1c9f9abe69b2db57c5d20a9f1ec2064dbe70986e",
+        "node": "9c56b2afff63313364588b7b1c9f9abe69b2db57c5d20a9f1ec2064dbe70986e"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -15470,16 +15470,16 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "7a69327700b130805350862a6ee9e9a08ff7e0a6aa6180a233e987ec48012502",
-        "node": "7a69327700b130805350862a6ee9e9a08ff7e0a6aa6180a233e987ec48012502"
+        "jsdom": "09a9f28de1bcb5510d6f4c832f0a73830ae0a83da7a8e9e7761a5f8008e7b490",
+        "node": "09a9f28de1bcb5510d6f4c832f0a73830ae0a83da7a8e9e7761a5f8008e7b490"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
         "node": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4"
       },
       "packages/mermaid/src/diagrams/treeView/parser.spec.ts": {
-        "jsdom": "b7a11915e18a5167fcf728a170ec8f0e8020f2e0c89736733133dfff4b638e9b",
-        "node": "b7a11915e18a5167fcf728a170ec8f0e8020f2e0c89736733133dfff4b638e9b"
+        "jsdom": "788bf21beed941c707968ee2637b34a4b9bac629a6d3fd397b2a369651f74061",
+        "node": "788bf21beed941c707968ee2637b34a4b9bac629a6d3fd397b2a369651f74061"
       },
       "packages/mermaid/src/diagrams/treemap/utils.test.ts": {
         "jsdom": "b2e1c318244d5c1052d4a983ee01d657f42ce1dc86750c758159411abbe3acfa",
@@ -15498,24 +15498,24 @@
         "node": "02d7d5721ff5bc087dd9be92e7c099185dd9334562a2e29e56010821615039e1"
       },
       "packages/mermaid/src/diagrams/usecase/usecase-colorIndex.spec.ts": {
-        "jsdom": "1273eeaa2d4f05729490e4f1899455a1a3d1e3d9f30ef30fd70c9fbb7e01a959",
-        "node": "1273eeaa2d4f05729490e4f1899455a1a3d1e3d9f30ef30fd70c9fbb7e01a959"
+        "jsdom": "07f0fd5620fae990044fa869dbb0c2db44c3140819db76833d31504ff0bcbbfe",
+        "node": "07f0fd5620fae990044fa869dbb0c2db44c3140819db76833d31504ff0bcbbfe"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.docs.spec.ts": {
         "jsdom": "cd581b6f3a636c0c324fcff1f11d7e2897afd5d248384e3968975347eab8886a",
         "node": "cd581b6f3a636c0c324fcff1f11d7e2897afd5d248384e3968975347eab8886a"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.parser.spec.ts": {
-        "jsdom": "36c2e56382f3475c61e7473efbd9bd92fe2286bebb2bd882e507ea0c00832dbe",
-        "node": "36c2e56382f3475c61e7473efbd9bd92fe2286bebb2bd882e507ea0c00832dbe"
+        "jsdom": "6970d0e55fa5706903e6bc5838d3a453bfc49c2b62099df904094079412492ad",
+        "node": "6970d0e55fa5706903e6bc5838d3a453bfc49c2b62099df904094079412492ad"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "2752cee810c3fa477d7cc15d2ce65473b07019a5a03db945e84a69eacb4914eb",
-        "node": "2752cee810c3fa477d7cc15d2ce65473b07019a5a03db945e84a69eacb4914eb"
+        "jsdom": "5e29ad7c71cce2b97017210c9da436ac8ea332b1e53235eb3459e861e56456cf",
+        "node": "5e29ad7c71cce2b97017210c9da436ac8ea332b1e53235eb3459e861e56456cf"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "5f5d8c047e589d4978726205aefcab9066fde9b966a658ba05114736f0b94400",
-        "node": "5f5d8c047e589d4978726205aefcab9066fde9b966a658ba05114736f0b94400"
+        "jsdom": "21e24116af972631b880bb752db1eef167b5198d6f6459724819155a0c491fbf",
+        "node": "21e24116af972631b880bb752db1eef167b5198d6f6459724819155a0c491fbf"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -15534,8 +15534,8 @@
         "node": "f7289691552a31f8c4ecd0f42f4be7777b3e86d90e8f0049e39fa7db56aee114"
       },
       "packages/mermaid/src/diagrams/venn/parser/venn.spec.ts": {
-        "jsdom": "71eee4efb349587cc34496a8c77e81b1351ee7fc184f3731ef821a5a034ee9c0",
-        "node": "71eee4efb349587cc34496a8c77e81b1351ee7fc184f3731ef821a5a034ee9c0"
+        "jsdom": "6fb011c48890b33932cd3af24d92cd514fec284264ad8b9ca1ace95bb32662ef",
+        "node": "6fb011c48890b33932cd3af24d92cd514fec284264ad8b9ca1ace95bb32662ef"
       },
       "packages/mermaid/src/diagrams/venn/vennPalette.spec.ts": {
         "jsdom": "b5b024c785ed6664c15371c2693b26cd110cd066506f00e0db409263705f19e4",
@@ -15550,8 +15550,8 @@
         "node": "1af3ed9a0ff410f2702f9a2ddbe20919c6d4bfbc4eced5b24cdd625adc3ca9b3"
       },
       "packages/mermaid/src/diagrams/wardley/wardleyParser.spec.ts": {
-        "jsdom": "a1a9ef6062c0b4e9038280b7b6a46271b65f1caf1e08a202ef10369e176ba299",
-        "node": "a1a9ef6062c0b4e9038280b7b6a46271b65f1caf1e08a202ef10369e176ba299"
+        "jsdom": "7849610abd69bb631afd6bebcc881c270b23c07bc3c541de357a67d8486bc858",
+        "node": "7849610abd69bb631afd6bebcc881c270b23c07bc3c541de357a67d8486bc858"
       },
       "packages/mermaid/src/diagrams/xychart/chartBuilder/components/chartTitle.spec.ts": {
         "jsdom": "1147def76c3f6e99ac118044c5aea83efac737b79db773ec2e28749e25013c04",
@@ -16146,8 +16146,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "62c7f79c358ed4cddcc8998065d5967deb516b45903e97c7b2ed75a52ac855dd",
-        "node": "62c7f79c358ed4cddcc8998065d5967deb516b45903e97c7b2ed75a52ac855dd"
+        "jsdom": "0da5ba81a121791cd7d3ece9c5b3cb7aca9d8a9a8018b0764fe0bfdbddda88b6",
+        "node": "0da5ba81a121791cd7d3ece9c5b3cb7aca9d8a9a8018b0764fe0bfdbddda88b6"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -16210,8 +16210,8 @@
         "node": "742105ab511d89e380633ecbee77246e7a47cc5a7afa662a303ade2ffee32069"
       },
       "packages/parser/tests/info.test.ts": {
-        "jsdom": "6e137d2cc9e3c3491bb09be39e8008373fa9b835c7a024030b6d6861adf9d194",
-        "node": "6e137d2cc9e3c3491bb09be39e8008373fa9b835c7a024030b6d6861adf9d194"
+        "jsdom": "07b4c441e50d936211f87ae7c8684d22635e5a9b3c232f32153fd9435d569d2f",
+        "node": "07b4c441e50d936211f87ae7c8684d22635e5a9b3c232f32153fd9435d569d2f"
       },
       "packages/parser/tests/packet.test.ts": {
         "jsdom": "448d151b12d0e1b42590b2acd093bf635f11ede43cc25f098623c03faaef3d5e",
@@ -16222,16 +16222,16 @@
         "node": "8b2e08c5623da4a9c74148c89ae1760664aab559f7ff0c4711cb4e799eca098c"
       },
       "packages/parser/tests/radar.test.ts": {
-        "jsdom": "10ec5d8b7beab1e996e9a9ce16377b45f71844b34369ff1d93772ccca96757d3",
-        "node": "10ec5d8b7beab1e996e9a9ce16377b45f71844b34369ff1d93772ccca96757d3"
+        "jsdom": "f4e9e9c79efd109058b9f61d0162af310a460933a62a945cb5def3628d331925",
+        "node": "f4e9e9c79efd109058b9f61d0162af310a460933a62a945cb5def3628d331925"
       },
       "packages/parser/tests/railroad.test.ts": {
-        "jsdom": "f585800f717cb4ce7d1428259811dba85507959f540cdce834ac9ea9f5cddecb",
-        "node": "f585800f717cb4ce7d1428259811dba85507959f540cdce834ac9ea9f5cddecb"
+        "jsdom": "618205e1805fecb60c7acfc51794c386dcb83fce75221a367fc928428820e384",
+        "node": "618205e1805fecb60c7acfc51794c386dcb83fce75221a367fc928428820e384"
       },
       "packages/parser/tests/treeView.test.ts": {
-        "jsdom": "288711ad2be21301a286a3ab072ff5411df5b0be63756e10812c24bd60236a9c",
-        "node": "288711ad2be21301a286a3ab072ff5411df5b0be63756e10812c24bd60236a9c"
+        "jsdom": "3b9856d61087610b6173dccdcb65774fdf875e553b8e9031008f4c7944815aa7",
+        "node": "3b9856d61087610b6173dccdcb65774fdf875e553b8e9031008f4c7944815aa7"
       },
       "packages/parser/tests/treeViewValueConverter.test.ts": {
         "jsdom": "1ff8e43efea7a118e5ac4b1d331b900ec4bc428de6df1cc37af2463572688495",
@@ -16516,8 +16516,8 @@
         "node": "25ccdf1b4b90303771280bcf9eb2be3831082ebc3b63801cb6b89fa747d81ffc"
       },
       "packages/mermaid/src/diagrams/class/classDiagram.spec.ts": {
-        "jsdom": "cfc3d353e12dc2f0ce880561d19d8ed3a4b2d5362ff436ab2288c8926c1cb914",
-        "node": "cfc3d353e12dc2f0ce880561d19d8ed3a4b2d5362ff436ab2288c8926c1cb914"
+        "jsdom": "72c8b12eb4c35a05f5187187fdd2cd82db1523a9794dd511be53af8a56fee2ae",
+        "node": "72c8b12eb4c35a05f5187187fdd2cd82db1523a9794dd511be53af8a56fee2ae"
       },
       "packages/mermaid/src/diagrams/class/classTypes.spec.ts": {
         "jsdom": "a7d048c618f0b826867f64a6750f4b7b6bdf581c6b31c9a0b2df4c7dbebf5ef0",
@@ -16580,8 +16580,8 @@
         "node": "3a96890e79c58ae86d8897558cdf0ebd62460ce8eb8e67eb6c4c91f3b11d10b6"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts": {
-        "jsdom": "ffc87087c23388c72f80372a4f4eb2bac286f4dc819503976967c2fc9735ece6",
-        "node": "ffc87087c23388c72f80372a4f4eb2bac286f4dc819503976967c2fc9735ece6"
+        "jsdom": "26617b82ca59e53b815af7a51b90a8ef6332412250e1b881009e9471db3437ab",
+        "node": "26617b82ca59e53b815af7a51b90a8ef6332412250e1b881009e9471db3437ab"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts": {
         "jsdom": "24b99696cc532944cd9147c3f6f64ed31d78a69ab334477bb66ebc7490475cfd",
@@ -20866,16 +20866,16 @@
         "node": "ae8595770bd5b7838fbad0ebcf2f11d5645ee7832e9c9470db38f4b6a64b01d7"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js": {
-        "jsdom": "b9efd5a0d59823e29b5b51f6af89f88bef29ebccec2a190767a94ea0b096f754",
-        "node": "b9efd5a0d59823e29b5b51f6af89f88bef29ebccec2a190767a94ea0b096f754"
+        "jsdom": "de3d55f5e5ab73bcccae9a68627cddabf5a2bd66862d5771e964b9f52cb98aea",
+        "node": "de3d55f5e5ab73bcccae9a68627cddabf5a2bd66862d5771e964b9f52cb98aea"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js": {
         "jsdom": "962f58174fa23f3a0db3db16bafa6f71a133d1f6efca700738c0c2da97f81ee8",
         "node": "962f58174fa23f3a0db3db16bafa6f71a133d1f6efca700738c0c2da97f81ee8"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js": {
-        "jsdom": "b47689c468f8280e3a2c7eb4c21c5db0281ca67e1c844987b5ed4ebf62fc6125",
-        "node": "b47689c468f8280e3a2c7eb4c21c5db0281ca67e1c844987b5ed4ebf62fc6125"
+        "jsdom": "7204b083c5e9c0b3d6d0077f06fc847e170bbb431bdc006bb9febe68f8c251fe",
+        "node": "7204b083c5e9c0b3d6d0077f06fc847e170bbb431bdc006bb9febe68f8c251fe"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow.spec.js": {
         "jsdom": "5323be61c0eafcd8db1f4e643ee110b8be517e38774edb532dc646ee95ec54bc",
@@ -22156,8 +22156,8 @@
         "node": "b19ddb260b68cef3ff27082575ea2fbb8ad55bf8944c4966374462b99cb436fe"
       },
       "packages/mermaid/src/diagrams/class/classDiagram.spec.ts": {
-        "jsdom": "2a09d9dd76f442f7e2f53046bae25992d09b442cab9403ccc08a33a36b5dcd3e",
-        "node": "2a09d9dd76f442f7e2f53046bae25992d09b442cab9403ccc08a33a36b5dcd3e"
+        "jsdom": "9d4635271f28b50732e253d06c309e59ddceb986d1f7a7ee42d5212733bb5c00",
+        "node": "9d4635271f28b50732e253d06c309e59ddceb986d1f7a7ee42d5212733bb5c00"
       },
       "packages/mermaid/src/diagrams/class/classTypes.spec.ts": {
         "jsdom": "a7d048c618f0b826867f64a6750f4b7b6bdf581c6b31c9a0b2df4c7dbebf5ef0",
@@ -22220,8 +22220,8 @@
         "node": "66adbf6455495305fd18c4facf5927db1f760f2cfc02d5e823c4ca535d2306f6"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts": {
-        "jsdom": "ca608c8f0e98f49b76a483ec2dc70ef3e10e72c922515c7fdf42548f48018f05",
-        "node": "ca608c8f0e98f49b76a483ec2dc70ef3e10e72c922515c7fdf42548f48018f05"
+        "jsdom": "9dc99cf9ed3623ee70620bef33c2e939acaced2100b82dad931ad0975753bc6a",
+        "node": "9dc99cf9ed3623ee70620bef33c2e939acaced2100b82dad931ad0975753bc6a"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts": {
         "jsdom": "24b99696cc532944cd9147c3f6f64ed31d78a69ab334477bb66ebc7490475cfd",
@@ -26386,8 +26386,8 @@
         "node": "9b99af0cb58c0a33b61e2990eda99dcfa2debf6f25d492fa86568d4a78188e0e"
       },
       "packages/mermaid/src/diagrams/class/classDiagram.spec.ts": {
-        "jsdom": "ec4bc07a7a03cd38a0db622aa4a2000ff01581715a691647a23a13959eb5d772",
-        "node": "ec4bc07a7a03cd38a0db622aa4a2000ff01581715a691647a23a13959eb5d772"
+        "jsdom": "d0bfdf3915bf3a61785c8e1fd09557eb82099f9274dd6e6fc14eb919ccc939f1",
+        "node": "d0bfdf3915bf3a61785c8e1fd09557eb82099f9274dd6e6fc14eb919ccc939f1"
       },
       "packages/mermaid/src/diagrams/class/classTypes.spec.ts": {
         "jsdom": "a7d048c618f0b826867f64a6750f4b7b6bdf581c6b31c9a0b2df4c7dbebf5ef0",
@@ -26422,8 +26422,8 @@
         "node": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535"
       },
       "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js": {
-        "jsdom": "58fd2907f58513610d7a6567e550fa664452a6cf3f16f085e52b3ed5a2ba604a",
-        "node": "915bb115ebde14c6b99e22fa51698fa029bf9faba430ce4366398462e89c75b9"
+        "jsdom": "2261c96083bc91925a32b0d6984ac0ed2bc32f0b870f05f8f18f899e82980c81",
+        "node": "f91d1cb1314fd678cd7de6f8863408345451800e8a0b937bfa40cfb210451b00"
       },
       "packages/mermaid/src/diagrams/er/parser/subgraph.spec.js": {
         "jsdom": "1a76f2d0c906f28af35785d96185b509376f0b520c72758287355a20d1bf453c",
@@ -27796,8 +27796,8 @@
         "node": "9b99af0cb58c0a33b61e2990eda99dcfa2debf6f25d492fa86568d4a78188e0e"
       },
       "packages/mermaid/src/diagrams/class/classDiagram.spec.ts": {
-        "jsdom": "ec4bc07a7a03cd38a0db622aa4a2000ff01581715a691647a23a13959eb5d772",
-        "node": "ec4bc07a7a03cd38a0db622aa4a2000ff01581715a691647a23a13959eb5d772"
+        "jsdom": "d0bfdf3915bf3a61785c8e1fd09557eb82099f9274dd6e6fc14eb919ccc939f1",
+        "node": "d0bfdf3915bf3a61785c8e1fd09557eb82099f9274dd6e6fc14eb919ccc939f1"
       },
       "packages/mermaid/src/diagrams/class/classTypes.spec.ts": {
         "jsdom": "a7d048c618f0b826867f64a6750f4b7b6bdf581c6b31c9a0b2df4c7dbebf5ef0",
@@ -27832,8 +27832,8 @@
         "node": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535"
       },
       "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js": {
-        "jsdom": "58fd2907f58513610d7a6567e550fa664452a6cf3f16f085e52b3ed5a2ba604a",
-        "node": "915bb115ebde14c6b99e22fa51698fa029bf9faba430ce4366398462e89c75b9"
+        "jsdom": "2261c96083bc91925a32b0d6984ac0ed2bc32f0b870f05f8f18f899e82980c81",
+        "node": "f91d1cb1314fd678cd7de6f8863408345451800e8a0b937bfa40cfb210451b00"
       },
       "packages/mermaid/src/diagrams/er/parser/subgraph.spec.js": {
         "jsdom": "1a76f2d0c906f28af35785d96185b509376f0b520c72758287355a20d1bf453c",
