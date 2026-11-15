@@ -81,7 +81,7 @@ test('a project without a public parse interface is n/a: no Fidelity row, rank o
   const page = renderBenchmarkLeagues(davebench, drawing, merged, catalog)
   const league = page.split('## Mermaid Fidelity')[1]!.split('## Equal-weight synthesis')[0]!
   expect(league).toContain('| — | — | private 1 | n/a | n/a | n/a | n/a |')
-  expect(league).toContain('| 2 | 2 | a 1 | 2 | 2 | 0 / 0 | 0 + 0 |')
+  expect(league).toContain('| 2 | 2 | a 1 | 2 | 2 | 0 / 0 | 0 |')
   expect(page.split('## Equal-weight synthesis')[1]).toMatch(/\| private 1 \| [^|]+ \| [^|]+ \| n\/a \|/)
   // An older run that still holds a row for the project cannot bring it back.
   const fromCatalogOnly = fidelityScoring({ ...merged, notApplicable: [], results: [...merged.results, { project: 'private', version: '1', scored: { passed: 4, failed: 0, unsupported: 0, 'trident-blocked': 0 } }] }, catalog)
