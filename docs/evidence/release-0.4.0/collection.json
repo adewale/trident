@@ -1,7 +1,7 @@
 {
   "protocol": "trident-release-campaign-v1",
   "version": "0.4.0",
-  "recordedAt": "2026-11-15T09:45:00.000Z",
+  "recordedAt": "2026-11-15T19:30:00.000Z",
   "codeCommit": "e662752b7c8a2f75504086e4c2e7ec5116857f96",
   "versionFreeze": {
     "catalog": "docs/evidence/benchmark-campaign-2026-11-14/catalog.json",
@@ -80,30 +80,31 @@
         "xai-org/grok-build",
         "Yassimba/loom"
       ],
-      "controlIdentity": "01af674570275a5546f51884049ef395ea08439abc2d1e996b1b033a767a8e76",
+      "controlIdentity": "8b94c86d8f0b818dee7a277a96d5b1ab5a0a8f818ff96936a32bce12b86cc391",
       "windows": {
         "jsdom": {
-          "startedAt": "2026-11-15T08:05:17Z",
-          "finishedAt": "2026-11-15T08:59:56.926Z"
+          "startedAt": "2026-11-15T16:08:04Z",
+          "finishedAt": "2026-11-15T17:04:20.396Z"
         },
         "node": {
-          "startedAt": "2026-11-15T08:59:57Z",
-          "finishedAt": "2026-11-15T09:32:52.824Z"
+          "startedAt": "2026-11-15T17:04:21Z",
+          "finishedAt": "2026-11-15T17:37:07.633Z"
         },
         "automaticMerslim": {
-          "startedAt": "2026-11-15T09:33:55Z",
-          "finishedAt": "2026-11-15T09:35:44.767Z",
+          "startedAt": "2026-11-15T18:58:46Z",
+          "finishedAt": "2026-11-15T19:02:06.158Z",
           "callbacks": 7099,
           "differingFromJsdom": 0
         },
-        "note": "Start times are the campaign scripts' step timestamps; finish times are each result file's updatedAt. Fidelity was recollected after the runtime began keeping the source of refusals on the empty-database and setup paths; every one of the 176,736 callback outcomes and recorded surfaces matches the previous collection, and 1,491 refusals gained a source. The qualified DOM-free list was committed (c313a67) before the automatic Merslim run, which reproduced its JSDOM outcomes, surfaces and refused sources."
+        "note": "Start times are the campaign scripts' step timestamps; finish times are each result file's updatedAt. Fidelity was recollected after the gap work: Zombie Mermaid's text parsers bound, radar database views for seven candidates, database members destructured at module setup bound at their call, flowchart edge steps and layout data's dropped subgraph members read or declared absent, and three Trident errors fixed. Of the 176,736 callback outcomes, 598 changed status (176 Zombie Mermaid callbacks now pass, 51 radar callbacks pass across seven candidates); every other outcome matches the previous collection. The qualified DOM-free list was committed (036f07d) before the automatic Merslim run, which reproduced its JSDOM outcomes, surfaces and refused sources."
       },
       "scopedOutInternals": 1517,
-      "codeCommit": "bee83c58ac76351a5b9577f8eb6c1e245b6a0b63",
+      "codeCommit": "b7a786118be8f264fc6454e4689b7603194a06c4",
       "verification": {
         "refusals": {
           "path": "docs/evidence/fidelity-refusal-verification-2026-11-15.json",
-          "sha256": "4c4fcf3401931e6f62ae67d4f8f9295d832ee9b50d9c2c7e361a86cd0e516c23"
+          "sha256": "32079d278c7dd46a64c6d68eeac1a23797337f9cf33634b071b36c634392b3f8",
+          "protocol": "fidelity-refusal-verification-v2"
         },
         "assessmentReviews": [
           {
@@ -113,6 +114,10 @@
           {
             "path": "docs/evidence/fidelity-model-concept-review-2026-11-14.json",
             "sha256": "881c3002cf5ae14481cebb2f5bdb9d6f5738467d900fb47899f066c6570aba99"
+          },
+          {
+            "path": "docs/evidence/fidelity-model-concept-review-2026-11-15.json",
+            "sha256": "79fa33235adfbbb64704217d9541ffbc7453331801f66a10a0d9b7ddee0c9077"
           }
         ]
       }
@@ -125,6 +130,6 @@
     "native-png.json": "615238c9fdf5eda5bd12e8044a5f104c769db31953efac73d69b6767e87da472",
     "report.json": "1abc18b3ead1c859d6dc90843e39fe5ffcad0a46231d1efeb5a4ceb273769a79",
     "drawing-correctness.json": "4929d2c0d2f44952ad88f974e6638eebf64aa15618c7b04696c528d600b9641b",
-    "mermaid-fidelity.json": "62fd7a617f6d036f5a2e837273ce0a40ec47d6dec539c93094fd5279c87b64b2"
+    "mermaid-fidelity.json": "06bd86dc3605d04a882b65ace51849c39fd201c8c85ca99394bced1294984090"
   }
 }

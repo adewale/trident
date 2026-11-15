@@ -34,7 +34,8 @@ public contract (source text in, parsed model out) are scored. Callbacks that te
 Mermaid's internals (its database methods called or spied on directly, the parser →
 database protocol, helper exports, host configuration outside the source, renderers,
 its detection pipeline) and callbacks in other folders are inventory. A native
-refusal of a source the pinned Mermaid oracle accepts, and a capability assessment a
+refusal of a source Mermaid recognises as a diagram (its parse accepts it, or its
+detector classifies it), and a capability assessment a
 recorded review confirmed, are known nonpasses; other unsupported verdicts are
 unassessed. Result files scored this way declare `scoring.protocol:
 'fidelity-scored-population-v3'`. Earlier result files are read under the rules

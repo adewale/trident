@@ -1,11 +1,16 @@
 /** Evidence that turns an unsupported verdict into a known nonpass under Fidelity scoring
  * v3 (scoring.ts). Without evidence a verdict stays unassessed.
  *
- * - A native refusal (outcome-kinds.ts `native-unsupported`) is verified when the pinned
- *   Mermaid oracle accepts every source the candidate refused in that callback: the
- *   candidate refused valid Mermaid. A source the oracle also rejects was never valid
- *   Mermaid input (a test fragment, a deliberately invalid diagram), so that refusal is
- *   not evidence against the candidate.
+ * - A native refusal (outcome-kinds.ts `native-unsupported`) is the candidate's own code
+ *   saying it does not recognise or model the diagram. It is verified when Mermaid
+ *   recognises every source the candidate refused in that callback as a diagram: the
+ *   pinned oracle's parse accepts it, or Mermaid's own detector (`mermaid.detectType`)
+ *   classifies it even though Mermaid then rejects its content. Either way the candidate
+ *   did not recognise what Mermaid recognises; a test that expects Mermaid to reject the
+ *   content cannot be satisfied by a candidate that never got as far as the content. A
+ *   source Mermaid's detector does not recognise either (a fragment, text that is no
+ *   diagram) is not evidence against the candidate. Verification files written before
+ *   the detector was recorded (v1) verify accepted sources only.
  * - A capability assessment is confirmed when a recorded review confirmed every reason
  *   it gives: a model concept by its exact reason for that project
  *   (docs/evidence/fidelity-model-concept-review-*.json), any other basis by basis and
@@ -13,21 +18,25 @@
 import { createHash } from 'node:crypto'
 import { assessmentBasis, outcomeKind } from './outcome-kinds.ts'
 
-export const REFUSAL_VERIFICATION_PROTOCOL = 'fidelity-refusal-verification-v1'
+export const REFUSAL_VERIFICATION_PROTOCOL = 'fidelity-refusal-verification-v2'
+const READABLE_REFUSAL_PROTOCOLS = ['fidelity-refusal-verification-v1', REFUSAL_VERIFICATION_PROTOCOL]
 export const sourceDigest = (source: string) => createHash('sha256').update(source).digest('hex')
 
-export interface OracleVerdict { accepted: boolean; diagramType?: string; error?: string }
+export interface OracleVerdict { accepted: boolean; diagramType?: string; error?: string; detectedType?: string | null }
 export interface RefusalVerification { protocol: string; oracle: Record<string, string>; verdicts: Record<string, OracleVerdict> }
 
 export function checkRefusalVerification(value: any): RefusalVerification {
-  if (value?.protocol !== REFUSAL_VERIFICATION_PROTOCOL || !value.verdicts || typeof value.verdicts !== 'object') throw Error('Not a Fidelity refusal verification file')
+  if (!READABLE_REFUSAL_PROTOCOLS.includes(value?.protocol) || !value.verdicts || typeof value.verdicts !== 'object') throw Error('Not a Fidelity refusal verification file')
   return value
 }
 
-/** Whether a case row is a native refusal of valid Mermaid. */
+/** Whether Mermaid recognises a refused source as a diagram: its parse accepts it, or its detector classifies it. */
+export const mermaidRecognises = (verdict: OracleVerdict | undefined) => verdict?.accepted === true || (typeof verdict?.detectedType === 'string' && verdict.detectedType.length > 0)
+
+/** Whether a case row is a native refusal of a source Mermaid recognises as a diagram. */
 export function verifiedRefusal(row: { status: string; reason?: unknown; unsupportedKind?: any; refusedSources?: string[] }, verification: RefusalVerification | undefined) {
   if (!verification || outcomeKind(row) !== 'native-unsupported' || !row.refusedSources?.length) return false
-  return row.refusedSources.every(source => verification.verdicts[sourceDigest(source)]?.accepted === true)
+  return row.refusedSources.every(source => mermaidRecognises(verification.verdicts[sourceDigest(source)]))
 }
 
 /** A callback's distinct unsupported verdicts. Case rows carry them as an array; rows

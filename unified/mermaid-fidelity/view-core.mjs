@@ -77,6 +77,10 @@ const styleStrings = styles => entriesOf(styles).filter(([, value]) => value !==
 
 /** A vertex may name fields absent for that vertex alone. */
 const VERTEX_ABSENT = Symbol('absent for this vertex')
+/** The members a model records as lost by a later subgraph to an earlier one (FlowDB's
+ * droppedSubGraphMembers, which getData reports in `other`), where the model records them.
+ * A symbol: it is a reading for the layout data, not a Mermaid database getter. */
+const DROPPED_SUBGRAPH_MEMBERS = Symbol('dropped subgraph members')
 /** One flowchart view from a project-specific reading of nodes, edges and groups. */
 function flowchartView(model, hooks) {
   const { nodes, edges, subgraphs, direction, absent } = model
@@ -93,6 +97,7 @@ function flowchartView(model, hooks) {
   if (subgraphs) view.getSubGraphs = () => subgraphs().map(fields => record(fields, 'subgraph', SUBGRAPH_FIELDS, absent.subgraph ?? {}, hooks))
   else if (absent.getSubGraphs) view.getSubGraphs = () => hooks.unsupported(absent.getSubGraphs)
   if (direction !== undefined) view.getDirection = () => direction
+  if (model.droppedSubGraphMembers) view[DROPPED_SUBGRAPH_MEMBERS] = model.droppedSubGraphMembers
   return view
 }
 
@@ -185,12 +190,17 @@ function termaidGraph(graph) {
 // Latias94/merman mirrors Mermaid's own field names; Rust's None arrives as null where
 // Mermaid leaves the field undefined, and a plain node carries shape null.
 const unset = object => Object.fromEntries(Object.entries(object).map(([key, value]) => [key, value === null ? undefined : value]))
+// It also records the members a later subgraph lost to an earlier one, as Mermaid's FlowDB
+// does: merman-model 0.10.0 FlowchartModel.dropped_subgraph_members ({ node, keptBy,
+// droppedFrom }), projected to `other.droppedSubGraphMembers` only when not empty
+// (families/flowchart/compat.rs).
 function latiasGraph(graph) {
   return {
     nodes: () => graph.nodes.map(node => [node.id, { ...unset(node), text: node.label, type: node.shape ?? undefined }]),
     edges: () => graph.edges.map(edge => ({ ...unset(edge), start: edge.from, end: edge.to, text: edge.label ?? '' })),
     subgraphs: () => graph.subgraphs.map(group => unset(group)),
     direction: graph.direction,
+    droppedSubGraphMembers: () => (graph.other?.droppedSubGraphMembers ?? []).map(({ node, keptBy, droppedFrom }) => ({ node, keptBy, droppedFrom })),
     absent: {},
   }
 }
@@ -1342,10 +1352,63 @@ const AST_VIEWS = { 'crabtalk/bezel': PORT_AST, 'Latias94/merman': PORT_AST, 'ob
 const LAYOUT_RENDERER_ONLY = Object.fromEntries(['padding', 'look', 'cssCompiledStyles', 'labelStyle', 'colorIndex', 'minWidth', 'curve', 'arrowheadStyle', 'metadata', 'width', 'height', 'rx', 'ry', 'stepDuration', 'showStepNumber'].map(field => [field, "Mermaid's renderer decides this layout field; it is not part of a parse result"]))
 const LAYOUT_NODE_FIELDS = ['id', 'label', 'labelType', 'parentId', 'cssStyles', 'cssClasses', 'dir', 'domId', 'link', 'linkTarget', 'tooltip', 'icon', 'pos', 'img', 'assetWidth', 'assetHeight', 'constraint', 'isGroup', 'shape']
 // A step edge's step and stepCount (FlowDB getData: the largest positive-integer step) come
-// from the written `e1@{ step: n }`; they are read only from an edge record that keeps a
-// step, so a model that drops steps leaves them unmapped rather than silently absent.
+// from the written `e1@{ step: n }`: FlowDB.setMetadata stores a positive-integer step on the
+// parsed edge and getData copies it, so `step` is a parse-model field, not a value the
+// renderer decides (only stepDuration and showStepNumber come from host configuration).
+// They are read only from an edge record that keeps a step. Without one, the edge has no
+// step only where the model is known to omit an unset step (FLOWCHART_EDGE_STEP); a model
+// reviewed to keep no step at all declares it absent; any other model leaves them unmapped.
 const LAYOUT_EDGE_FIELDS = ['id', 'isUserDefinedId', 'start', 'end', 'type', 'label', 'labelType', 'labelpos', 'thickness', 'minlen', 'classes', 'arrowTypeStart', 'arrowTypeEnd', 'style', 'pattern', 'animate', 'animation', 'step', 'stepCount']
+const STEPLESS_EDGE_FIELDS = LAYOUT_EDGE_FIELDS.filter(field => field !== 'step' && field !== 'stepCount')
 const isStepEdge = edge => Number.isInteger(edge.step) && edge.step > 0
+/** How each reviewed flowchart model records an edge's written step: STEP_OMITTED_WHEN_UNSET
+ * where the model keeps a step only when one was written (so an edge record without one has
+ * none, exactly as Mermaid's), or the reason the model keeps no step at all. */
+const STEP_OMITTED_WHEN_UNSET = Symbol('step omitted when unset')
+const FLOWCHART_EDGE_STEP = {
+  // merman-core 0.10.0 diagrams/flowchart/semantic.rs stores `step` only for a valid
+  // positive integer (FlowEdge::is_valid_step) and the serialized FlowEdge skips a None
+  // step (mermaid_12_3_tests.rs step_count_uses_the_maximum_with_repeated_steps_and_gaps).
+  'Latias94/merman': STEP_OMITTED_WHEN_UNSET,
+  // Each edge type below has no step field, and its parser drops or misreads `e1@{ step: n }`.
+  'Dicklesworthstone/frankenmermaid': "Frankenmermaid's edge model keeps no step", // 0.5.0 IR edge: from, to, arrow, label, span
+  'dfadler/zombie-mermaid': "zombie-mermaid's edge model keeps no step", // 5.17.0 MermaidEdge: source, target, label, style, arrow flags and markers, id, animate
+  '1jehuang/mermaid-rs-renderer': "mermaid-rs-renderer's edge model keeps no step", // 0.3.1 ir.rs Edge
+  'AlexanderGrooff/mermaid-ascii': "mermaid-ascii's edge model keeps no step", // 1.6.1 pkg/graph edge
+  'fasouto/termaid': "termaid's edge model keeps no step", // 0.12.0 graph/model.py Edge
+  'obsidianmd/pele': "Pele's edge model keeps no step; its edge metadata takes animate, animation and curve only", // 1.13.0 FlowDB setMetadata
+  'crabtalk/bezel': "Bezel's edge model keeps no step; its edge metadata takes animate, animation and curve only", // 0.2.26 flowchart/types.rs Edge::apply_animation
+  'adewale/agentic-mermaid': "agentic-mermaid's MermaidEdge keeps no step", // 0.5.6 types MermaidEdge
+}
+// Mermaid's getData `other` (flowDb.ts getData): `{}` when no subgraph lost a member to an
+// earlier one, else `{ droppedSubGraphMembers: [{ node, keptBy, droppedFrom }] }`. It is
+// parse state (FlowDB.addSubGraph records each drop), so it is read from a model that
+// records the drops (DROPPED_SUBGRAPH_MEMBERS). The models below record none: their
+// installed artifacts (sources, bundles, types or WASM) carry no dropped-member record at
+// all, so whether a member was dropped, and that none was, are both unknown to them.
+const NO_DROPPED_MEMBERS = {
+  'Dicklesworthstone/frankenmermaid': 'Frankenmermaid', 'dfadler/zombie-mermaid': 'zombie-mermaid', 'lukilabs/beautiful-mermaid': 'beautiful-mermaid',
+  'kais-radwan/ascii-mermaid': 'ascii-mermaid', '1jehuang/mermaid-rs-renderer': 'mermaid-rs-renderer', 'AlexanderGrooff/mermaid-ascii': 'mermaid-ascii',
+  'fasouto/termaid': 'termaid', 'obsidianmd/pele': 'Pele', 'crabtalk/bezel': 'Bezel', 'adewale/agentic-mermaid': 'agentic-mermaid',
+  'KlangHaus/vitepress-plugin-diagram': 'vitepress-plugin-mermaid-diagram', 'evangwt/xmermaid': 'XMermaid', 'kitlangton/merman': 'merman',
+  'anomalyco/opencode': 'merman (OpenCode)', 'emtyty/merslim': 'merslim', 'sandyyst/dsh-plugin-mermaid-gb-svg': 'dsh-plugin-mermaid-gb-svg',
+  'crafter-station/mermaid': 'Crafter', 'Mootikins/figurehead-rs': 'figurehead', 'orestesgaolin/mermaid': 'mermaid_core', 'pub:mermaid_flutter': 'mermaid_core',
+}
+/** The layout data's `other` for a model that does not record dropped members: inspecting
+ * it, or reading droppedSubGraphMembers, is that model's unsupported operation where it is
+ * reviewed to record none, and a Trident gap otherwise; never Mermaid's `{}`. */
+function unknownLayoutOther(project, hooks) {
+  const name = NO_DROPPED_MEMBERS[project]
+  const unknown = () => (name ? hooks.unsupported(`${name}'s flowchart model records no subgraph member lost to an earlier subgraph, so neither a dropped member nor its absence is known`) : hooks.unavailable('layout other.droppedSubGraphMembers'))
+  const key = 'droppedSubGraphMembers'
+  return new Proxy({}, {
+    get: (target, property) => (property === key ? unknown() : target[property]),
+    has: (target, property) => (property === key ? unknown() : property in target),
+    getOwnPropertyDescriptor: (target, property) => (property === key ? unknown() : Reflect.getOwnPropertyDescriptor(target, property)),
+    // Listed, so a whole-record comparison (toEqual({})) reads it rather than passing.
+    ownKeys: target => [...Reflect.ownKeys(target), key],
+  })
+}
 // A port that keeps Mermaid's own vertex records leaves `type` out for an undeclared shape,
 // exactly as Mermaid does; for any other model a missing type stays unmapped.
 const layoutShape = (vertex, mermaidVocabulary) => {
@@ -1365,10 +1428,13 @@ export function flowchartLayoutData(view, hooks, project) {
     const subGraphs = view.getSubGraphs ? view.getSubGraphs() : []
     const vertices = view.getVertices(), edges = view.getEdges ? view.getEdges() : []
     const parentOf = new Map(), groups = new Set(), nodes = []
+    // A subgraph record that names no member list (a generic projection of a model that
+    // keeps its members under another field) is unmapped, not a subgraph without members.
+    const members = sg => (Array.isArray(sg?.nodes) ? sg.nodes : hooks.unavailable('Unmapped native flowchart schema: subgraph members'))
     for (let i = subGraphs.length - 1; i >= 0; i--) {
       const sg = subGraphs[i]
-      if (sg.nodes.length) groups.add(sg.id)
-      for (const id of sg.nodes) parentOf.set(id, sg.id)
+      if (members(sg).length) groups.add(sg.id)
+      for (const id of members(sg)) parentOf.set(id, sg.id)
     }
     const node = fields => record(fields, 'layout node', LAYOUT_NODE_FIELDS, LAYOUT_RENDERER_ONLY, hooks)
     const lazy = (fields, getters) => {
@@ -1395,17 +1461,29 @@ export function flowchartLayoutData(view, hooks, project) {
     }
     const keptStep = edge => typeof edge === 'object' && edge !== null && Object.keys(edge).includes('step')
     const stepCount = () => edges.reduce((max, edge) => (keptStep(edge) && isStepEdge(edge) ? Math.max(max, edge.step) : max), 0)
-    const layoutEdges = edges.map((edge, index) =>
-      record(lazy({ start: edge.start, end: edge.end, labelpos: 'c' }, {
-        ...(keptStep(edge) && isStepEdge(edge) ? { step: () => edge.step, stepCount } : {}),
+    const stepModel = FLOWCHART_EDGE_STEP[project]
+    const layoutEdges = edges.map((edge, index) => {
+      const stepped = keptStep(edge) && isStepEdge(edge)
+      // Mermaid's getData leaves step and stepCount off an edge without a positive-integer
+      // step: one whose record keeps another step value, or one of a model that omits an
+      // unset step. A model that keeps no step at all cannot say, so reading it is that
+      // model's unsupported operation.
+      const stepless = !stepped && (keptStep(edge) || stepModel === STEP_OMITTED_WHEN_UNSET)
+      const absent = !stepped && typeof stepModel === 'string' ? { ...LAYOUT_RENDERER_ONLY, step: stepModel, stepCount: stepModel } : LAYOUT_RENDERER_ONLY
+      return record(lazy({ start: edge.start, end: edge.end, labelpos: 'c' }, {
+        ...(stepped ? { step: () => edge.step, stepCount } : {}),
         id: () => ('id' in edge && edge.id ? edge.id : `L_${edge.start}_${edge.end}_${index}`), isUserDefinedId: () => edge.isUserDefinedId, type: () => edge.type ?? 'normal',
         label: () => edge.text, labelType: () => edge.labelType, thickness: () => edge.stroke, minlen: () => edge.length,
         classes: () => (edge.stroke === 'invisible' ? '' : 'edge-thickness-normal edge-pattern-solid flowchart-link'),
         arrowTypeStart: () => (edge.stroke === 'invisible' || edge.type === 'arrow_open' ? 'none' : arrowEnds(edge.type)[0]),
         arrowTypeEnd: () => (edge.stroke === 'invisible' || edge.type === 'arrow_open' ? 'none' : arrowEnds(edge.type)[1]),
         style: () => edge.style ?? [], pattern: () => edge.stroke, animate: () => edge.animate, animation: () => edge.animation,
-      }), 'layout edge', LAYOUT_EDGE_FIELDS, LAYOUT_RENDERER_ONLY, hooks))
-    return record({ nodes, edges: layoutEdges, other: {} }, 'layout data', ['nodes', 'edges', 'other', 'config'], { config: "Mermaid's host configuration is not part of a parse result" }, hooks)
+      }), 'layout edge', stepless ? STEPLESS_EDGE_FIELDS : LAYOUT_EDGE_FIELDS, absent, hooks)
+    })
+    const recorded = view[DROPPED_SUBGRAPH_MEMBERS]
+    const dropped = typeof recorded === 'function' ? recorded() : undefined
+    const other = dropped ? (dropped.length ? { droppedSubGraphMembers: dropped } : {}) : unknownLayoutOther(project, hooks)
+    return record({ nodes, edges: layoutEdges, other }, 'layout data', ['nodes', 'edges', 'other', 'config'], { config: "Mermaid's host configuration is not part of a parse result" }, hooks)
   }
 }
 

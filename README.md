@@ -84,13 +84,15 @@ renderer or styles, or ask for Mermaid's own detection pipeline. The runtime rec
 which of these a test reaches, whichever implementation runs it, and a test that
 reaches one for any implementation is inventory for all.
 
-A refusal by the implementation's own code counts as a failure when the pinned
-Mermaid oracle accepts the source it refused (<!-- fact:fidelity-verified-refusals -->9,516<!-- /fact -->
+A refusal by the implementation's own code counts as a failure when Mermaid
+recognises the source it refused as a diagram: the pinned Mermaid oracle accepts it, or
+Mermaid's own detector classifies it before rejecting its content, so the
+implementation did not recognise what Mermaid recognises (<!-- fact:fidelity-verified-refusals -->10,234<!-- /fact -->
 across all applicable implementations), and Trident's judgement that a capability is
 absent counts as one when a recorded review confirmed it
-(<!-- fact:fidelity-confirmed-absences -->21,834<!-- /fact -->). Any other unsupported
+(<!-- fact:fidelity-confirmed-absences -->21,866<!-- /fact -->). Any other unsupported
 verdict, missing Trident binding or missing model translation stays unassessed
-(<!-- fact:fidelity-gaps -->1,495<!-- /fact --> tests). Result files scored this way declare
+(<!-- fact:fidelity-gaps -->514<!-- /fact --> tests). Result files scored this way declare
 `scoring.protocol: 'fidelity-scored-population-v3'`; an earlier result file is read
 under the rules it was published with.
 
@@ -110,7 +112,7 @@ leaders are:
   <!-- fact:drawing-svg-leader -->Bezel and Pele with 125 each (not yet settled)<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
-  <!-- fact:fidelity-leader -->Bezel with 3,137 (not yet settled)<!-- /fact -->.
+  <!-- fact:fidelity-leader -->Bezel with 3,141 (not yet settled)<!-- /fact -->.
 
 Mermaid is ranked alongside the other implementations in DaveBench and Drawing
 Correctness. In Mermaid Fidelity it is the reference, so it passes every counted

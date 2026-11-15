@@ -106,6 +106,41 @@ test('shared Fidelity gaps remain distinct from additional gaps and unsupported 
   expect(() => renderBenchmarkLeagues(model.davebench, model.drawing, { ...fidelity, coverage: { ...fidelity.coverage, commonUnassessedCallbacks: 2 } }, model.catalog)).toThrow('shared Fidelity gap')
 })
 
+test('with no shared Fidelity gap the unassessed column is one number, and the owner page is linked when recorded', () => {
+  const model = leaguesFixture(), row = model.fidelity.results[0]!
+  row.counts = { passed: 0, failed: 0, unsupported: 1, 'trident-blocked': 1 }
+  const fidelity: any = { ...model.fidelity, coverage: { candidates: 1, commonUnassessedCallbacks: 0, commonUncollectedCallbacks: 0 } }
+  const page = renderBenchmarkLeagues(model.davebench, model.drawing, fidelity, model.catalog)
+  const league = page.split('## Mermaid Fidelity')[1]!.split('## Equal-weight synthesis')[0]!
+  expect(league).not.toContain('shared + additional')
+  expect(league).not.toContain(' + ')
+  expect(league).toContain('| Unassessed |')
+  expect(league).toContain('| 1 | 1 | a 1.0.0 | 0 | 0 | 1 | 1 |')
+  expect(league).toContain('No reference-qualified callback is unassessed for every one of the 1 executed candidates')
+  // Legacy results carry no owner breakdown, so there is no page to link.
+  expect(league).not.toContain('docs/fidelity-unassessed.md')
+  expect(() => renderBenchmarkLeagues(model.davebench, model.drawing, { ...fidelity, coverage: { ...fidelity.coverage, commonUnassessedCallbacks: -1 } }, model.catalog)).toThrow('shared Fidelity gap')
+})
+
+test('a v3 Fidelity result with an owner breakdown links the unassessed page and keeps the split only for shared gaps', () => {
+  const model = leaguesFixture()
+  const breakdown = { 'trident-binding': { 'block.db.getBlocks': 1 }, 'trident-collection': {}, 'trident-defect': {}, 'evidence-assessment': {}, 'evidence-refusal': {} }
+  const fidelity: any = { ...model.fidelity, scoring: { protocol: 'fidelity-scored-population-v3', scoredAreas: ['packages/mermaid/src/diagrams/'] }, scoredPopulation: 2, inventoryCallbacks: 0, scopedOut: { internals: 0 },
+    results: [{ project: 'a', version: '1.0.0', scored: { passed: 1, failed: 0, unsupported: 0, 'trident-blocked': 1 }, known: { verifiedRefusals: 0, confirmedAbsences: 0 }, unassessed: breakdown }],
+    coverage: { candidates: 1, commonUnassessedCallbacks: 0, commonUncollectedCallbacks: 0 } }
+  const league = (value: any) => renderBenchmarkLeagues(model.davebench, model.drawing, value, model.catalog).split('## Mermaid Fidelity')[1]!.split('## Equal-weight synthesis')[0]!
+  const unshared = league(fidelity)
+  expect(unshared).toContain('[Unassessed callbacks by who can close them](docs/fidelity-unassessed.md)')
+  expect(unshared).toContain('| Verified refusals / confirmed absences | Unassessed |')
+  expect(unshared).toContain('| 1 | 1 | a 1.0.0 | 1 | 0 | 0 / 0 | 1 |')
+  const shared = league({ ...fidelity, coverage: { ...fidelity.coverage, commonUnassessedCallbacks: 1, commonUncollectedCallbacks: 0 } })
+  expect(shared).toContain('| Verified refusals / confirmed absences | Unassessed (shared + additional) |')
+  expect(shared).toContain('| 1 | 1 | a 1.0.0 | 1 | 0 | 0 / 0 | 1 + 0 |')
+  expect(shared).toContain('1 scored callbacks are unassessed for every one of the 1 executed candidates')
+  const { unassessed: _breakdown, ...older } = fidelity.results[0]
+  expect(league({ ...fidelity, results: [older] })).not.toContain('docs/fidelity-unassessed.md')
+})
+
 test('current result files carry no hand-chosen collection date in their names', () => {
   // A dated name once claimed 4 November for Fidelity collected on 5 November. Dates are
   // published from the timestamps inside each file; only the frozen catalog is named for its cutoff.

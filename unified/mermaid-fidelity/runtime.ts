@@ -58,6 +58,10 @@ const contexts = new Map<string, any>(),
   databaseModules = new WeakMap<object, any>()
 /** Nesting of parser -> database calls being delivered to a test's database or spy. */
 let forwarding = 0
+/** Nesting of named imports from a database module being bound: such an import is checked
+ * against the model at import (its own unavailable-import audit records a later use), so
+ * it reads the member at once rather than binding it for a later call. */
+let bindingNamedImport = 0
 /** The methods of a candidate's own database class along its prototype chain, each with
  * the prototype that defines it. */
 function nativeMethods(nativeClass: any) {
@@ -811,58 +815,18 @@ function context(family: string) {
       },
       deleteProperty: inspectDatabase,
       get(t, key: string) {
-        if (key !== 'setGen' && mermaidDatabaseMember(key)) touch('database-api')
-        if (Object.hasOwn(t, key)) return t[key]
-        if (Object.hasOwn(Object.prototype, key)) return gap(family + '.db.' + key)
-        if (key === 'then') return undefined
-        if (key === 'getLogger') return gap('Native logger observations are not bound')
-        // Re-selecting FlowDB's default generation is configuration, not an observation, for
-        // the control and candidates alike: counting it for the control alone qualified a
-        // test that observes nothing (flow-style's matcher-less expect) and left it a gap
-        // for every candidate.
-        if (key === 'setGen') return (version?: string) => ((version || 'gen-2') === 'gen-2' ? undefined : job.target.tool === 'mermaid' ? raw?.setGen?.(version) : gap('Native flowchart generation selector: ' + version))
-        // Mermaid's enum constants a test reads before parsing (requirementDb.RiskLevel),
-        // where this target receives them at all.
-        const constants = job.target.tool === 'mermaid' ? undefined : mermaidConstants(job.target.project, family, false)
-        if (constants && key in constants && !(key in view)) return constants[key]
-        const layout = job.target.tool === 'mermaid' ? undefined : RENDERER_LAYOUT[family]?.[key]
-        if (layout) {
-          touch('renderer')
-          return unsupportedOperation(layout)
-        }
-        if (typeof key === 'string' && bridged?.members.has(key)) return (...args: any[]) => callBridged(key, args)
-        if (!parsed && raw === undefined && !(key in view) && typeof key === 'string') {
-          const model = emptyModel()
-          if (model?.unsupported) return emptyRefusal(model)
-          if (model && /^get[A-Z]/.test(key)) {
-            raw = model.raw
-            try {
-              // The header-only parse stands in for the empty database, which has published
-              // no AST (Mermaid's usecaseDb.getAST() is undefined until a parse succeeds).
-              view = projectView(family, raw)
-              if ('getAST' in view) view = { ...view, getAST: () => undefined }
-            } catch {
-              raw = undefined
-            }
+        // Module setup that destructures the database (`const { getAxes, getConfig } = db`)
+        // reads its members once, before any test has parsed; Mermaid's database methods
+        // read the database's state at each call. Such a read binds the member by name, so
+        // the call a test makes meets the candidate's model (or its absence, or Mermaid's
+        // database API) inside that test, with that test's audit, and a member no test calls
+        // decides nothing. Reads inside a test still resolve at once.
+        if (!active && !bindingNamedImport && typeof key === 'string' && !Object.hasOwn(t, key) && (/^get[A-Z]\w*$/.test(key) || mermaidDatabaseMember(key)))
+          return (...args: any[]) => {
+            const value = member(t, key)
+            return typeof value === 'function' ? value(...args) : gap(family + '.db.' + key + ' is not a database method')
           }
-        }
-        const value = view[key] ?? raw?.[key]
-        if (typeof value === 'function')
-          return (...a: any[]) => {
-            active && active.calls++
-            return value.apply(raw, a)
-          }
-        if (value !== undefined) {
-          active && active.calls++
-          return value
-        }
-        // Reading Mermaid's database API (to call it, spy on it or check that it exists) is
-        // an operation the candidate does not offer.
-        if (bridged?.failure && mermaidDatabaseMember(key)) return gap(bridged.failure)
-        if (mermaidDatabaseMember(key)) return absentDatabaseCapability(family, key, `${family} database ${key} (the candidate exposes a parser, not Mermaid's database API)`)
-        // typeof, truthiness and caught calls cannot prove a missing native member.
-        // Reject the read itself, including during module setup.
-        return gap(family + '.db.' + String(key))
+        return member(t, key)
       },
       // vi.spyOn looks a member up by descriptor (or `in`) before spying on it. A spy on a
       // Mermaid database member checks the parser -> database call protocol, which a
@@ -881,6 +845,61 @@ function context(family: string) {
         return inspectDatabase()
       },
     })
+    /** One read of a database member, as a test makes it. */
+    function member(t: any, key: string): any {
+      if (key !== 'setGen' && mermaidDatabaseMember(key)) touch('database-api')
+      if (Object.hasOwn(t, key)) return t[key]
+      if (Object.hasOwn(Object.prototype, key)) return gap(family + '.db.' + key)
+      if (key === 'then') return undefined
+      if (key === 'getLogger') return gap('Native logger observations are not bound')
+      // Re-selecting FlowDB's default generation is configuration, not an observation, for
+      // the control and candidates alike: counting it for the control alone qualified a
+      // test that observes nothing (flow-style's matcher-less expect) and left it a gap
+      // for every candidate.
+      if (key === 'setGen') return (version?: string) => ((version || 'gen-2') === 'gen-2' ? undefined : job.target.tool === 'mermaid' ? raw?.setGen?.(version) : gap('Native flowchart generation selector: ' + version))
+      // Mermaid's enum constants a test reads before parsing (requirementDb.RiskLevel),
+      // where this target receives them at all.
+      const constants = job.target.tool === 'mermaid' ? undefined : mermaidConstants(job.target.project, family, false)
+      if (constants && key in constants && !(key in view)) return constants[key]
+      const layout = job.target.tool === 'mermaid' ? undefined : RENDERER_LAYOUT[family]?.[key]
+      if (layout) {
+        touch('renderer')
+        return unsupportedOperation(layout)
+      }
+      if (typeof key === 'string' && bridged?.members.has(key)) return (...args: any[]) => callBridged(key, args)
+      if (!parsed && raw === undefined && !(key in view) && typeof key === 'string') {
+        const model = emptyModel()
+        if (model?.unsupported) return emptyRefusal(model)
+        if (model && /^get[A-Z]/.test(key)) {
+          raw = model.raw
+          try {
+            // The header-only parse stands in for the empty database, which has published
+            // no AST (Mermaid's usecaseDb.getAST() is undefined until a parse succeeds).
+            view = projectView(family, raw)
+            if ('getAST' in view) view = { ...view, getAST: () => undefined }
+          } catch {
+            raw = undefined
+          }
+        }
+      }
+      const value = view[key] ?? raw?.[key]
+      if (typeof value === 'function')
+        return (...a: any[]) => {
+          active && active.calls++
+          return value.apply(raw, a)
+        }
+      if (value !== undefined) {
+        active && active.calls++
+        return value
+      }
+      // Reading Mermaid's database API (to call it, spy on it or check that it exists) is
+      // an operation the candidate does not offer.
+      if (bridged?.failure && mermaidDatabaseMember(key)) return gap(bridged.failure)
+      if (mermaidDatabaseMember(key)) return absentDatabaseCapability(family, key, `${family} database ${key} (the candidate exposes a parser, not Mermaid's database API)`)
+      // typeof, truthiness and caught calls cannot prove a missing native member.
+      // Reject the read itself; a member destructured at module setup is read at its call.
+      return gap(family + '.db.' + String(key))
+    }
     ownDatabases.add(proxy)
     return proxy
   }
@@ -1130,7 +1149,13 @@ export function moduleFor(family: string, source: string, file: string, locals: 
           }
         }
       try {
-        const value = c.db[key]
+        bindingNamedImport++
+        let value: any
+        try {
+          value = c.db[key]
+        } finally {
+          bindingNamedImport--
+        }
         // Bind only an observed getter, while reading the current parse on each call.
         if (job.target.tool !== 'mermaid' && /^get[A-Z]\w*$/.test(key) && typeof value === 'function') return (...args: any[]) => c.db[key](...args)
         // An imported database operation is read once at import; its calls are what the test touches.

@@ -25,6 +25,8 @@ export interface MermaidVerdict {
   accepted: boolean
   diagramType: string | null
   error: string | null
+  /** The type Mermaid's own detector recognises the source as, whether or not its parser then accepts the content. */
+  detectedType?: string | null
 }
 
 const here = dirname(fileURLToPath(import.meta.url))

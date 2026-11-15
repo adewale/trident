@@ -542,3 +542,40 @@ test('gantt weekday from its day index; block composites answer getBlock with no
   expect(block.getBlock('zzz')).toBeUndefined()
   expect(() => block.getBlock('first').colorIndex).toThrow('unsupported')
 })
+
+test('a 0.5.0 gantt task without flags is untagged: fm-core serializes flags only when a tag was written', () => {
+  const { hooks, log } = verdicts()
+  // gantt / dateFormat YYYY-MM-DD / section Documentation / task A: a, 2024-01-27, 2024-01-28 /
+  // task C: active, crit, c, 2024-01-20, until a (Frankenmermaid 0.5.0 parse, trimmed)
+  const ir = {
+    diagram_type: 'Gantt', nodes: [{ id: 'a', label: 0 }, { id: 'c', label: 1 }], edges: [], labels: labels('task A', 'task C'),
+    gantt_meta: {
+      date_format: 'YYYY-MM-DD', sections: [{ name: 'Documentation' }],
+      tasks: [
+        { node: 0, section_idx: 0, meta: 'a, 2024-01-27, 2024-01-28', task_id: 'a', start: { Absolute: '2024-01-27' }, end: { Absolute: '2024-01-28' } },
+        { node: 1, section_idx: 0, meta: 'active, crit, c, 2024-01-20, until a', task_id: 'c', start: { Absolute: '2024-01-20' }, end: { UntilTasks: ['a'] }, flags: { crit: true, done: false, active: true, milestone: false } },
+      ],
+    },
+  }
+  const tasks = nativeSchemaView(PROJECT, 'gantt', ir, hooks).getTasks()
+  expect(tasks.map((task: any) => [task.id, task.task, task.section, task.active, task.done, task.crit, task.milestone])).toEqual([
+    ['a', 'task A', 'Documentation', false, false, false, false],
+    ['c', 'task C', 'Documentation', true, false, true, false],
+  ])
+  // The computed start is Mermaid's, not the model's: reading it is unsupported, never a Trident error.
+  expect(() => tasks[0].startTime).toThrow('unsupported')
+  expect(log).toEqual(["unsupported: Frankenmermaid keeps a task's start specification, not its computed Date"])
+})
+
+test("the radar database from 0.5.0 radar_meta: unwritten labels and options read as Mermaid's defaults; keyed entries keep no values", () => {
+  const { hooks, log } = verdicts()
+  const radar = (meta: unknown) => nativeSchemaView(PROJECT, 'radar', { diagram_type: 'Radar', nodes: [], edges: [], labels: [], meta: { title: 'Radar diagram' }, radar_meta: meta }, hooks)
+  // radar-beta / axis A,B,C / curve mycurve{1,2,3}
+  const plain = radar({ axes: [{ id: 'A' }, { id: 'B' }, { id: 'C' }], curves: [{ id: 'mycurve', values: [1, 2, 3] }], graticule: 'circle', show_legend: true })
+  expect([plain.getDiagramTitle(), plain.getAxes(), plain.getCurves(), plain.getOptions()]).toEqual(['Radar diagram', [{ name: 'A', label: 'A' }, { name: 'B', label: 'B' }, { name: 'C', label: 'C' }], [{ name: 'mycurve', label: 'mycurve', entries: [1, 2, 3] }], { showLegend: true, ticks: 5, max: null, min: 0, graticule: 'circle' }])
+  // ... ticks 10 / showLegend false / graticule polygon / min 1 / max 10 / axis A["Axis A"], B / curve c["C"]{ B: 2, A: 1 }
+  const written = radar({ axes: [{ id: 'A', label: 'Axis A' }, { id: 'B' }], curves: [{ id: 'c', label: 'C', values: [] }], min: 1, max: 10, ticks: 10, graticule: 'polygon', show_legend: false })
+  expect([written.getAxes(), written.getOptions()]).toEqual([[{ name: 'A', label: 'Axis A' }, { name: 'B', label: 'B' }], { showLegend: false, ticks: 10, max: 10, min: 1, graticule: 'polygon' }])
+  expect(() => expect(written.getCurves()).toEqual([{ name: 'c', label: 'C', entries: [1, 2] }])).toThrow('unsupported')
+  expect(log).toEqual(['unsupported: Frankenmermaid keeps no values for a radar curve whose entries name their axes'])
+})

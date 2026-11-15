@@ -101,6 +101,9 @@ for await (const line of createInterface({ input: process.stdin })) {
   } catch (error) {
     reply = { accepted: false, diagramType: null, error: String(error?.message ?? error).split('\n')[0] }
   }
+  // Mermaid's own detector, separately from whether its parser then accepts the content:
+  // the diagram type it recognises the source as, or null when it recognises none.
+  try { reply.detectedType = mermaid.detectType(request.source) ?? null } catch { reply.detectedType = null }
   write(JSON.stringify(reply).replace(/[\u2028\u2029]/g, c => `\\u${c.charCodeAt(0).toString(16)}`) + '\n')
 }
 dom.window.close()

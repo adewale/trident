@@ -7,7 +7,7 @@
 // not carry is declared absent with its reason, and nothing is parsed from source text or
 // re-split from a display string. Every mapping was checked against the project's parser
 // source where it is cited, and against probe output (scripts/fidelity-probe.ts).
-import { entriesOf, record, styleList, CLASS_ALWAYS, styleStrings, classView, card, headOf, shapeOf, edgeType, strokeOf, c4View, C4_MACRO, C4_BOUNDARY_MACRO, text, WRAP, flowchartView, VERTEX_ABSENT, erView, identifying } from '../view-core.mjs'
+import { entriesOf, record, styleList, SUBGRAPH_FIELDS, CLASS_ALWAYS, styleStrings, classView, card, headOf, shapeOf, edgeType, strokeOf, c4View, C4_MACRO, C4_BOUNDARY_MACRO, text, WRAP, flowchartView, VERTEX_ABSENT, erView, identifying } from '../view-core.mjs'
 
 // ---------------------------------------------------------------------------------------
 // Class diagrams.
@@ -967,7 +967,14 @@ const FLOW_MODELS = {
   'xai-org/grok-build': (raw, hooks) => ({ getEdges: indexEdges(raw, 'Grok', hooks), absent: { getClasses: "Grok's graph model keeps no classDef styles", ...flowAcc('Grok') }, subgraph: { absent: NO_MARKDOWN_TITLE('Grok') } }),
   'spacedock-dev/mermaidtext': (raw, hooks) => ({ getEdges: indexEdges(raw, 'MermaidText', hooks), absent: { getClasses: "MermaidText's graph model keeps no classDef styles", ...flowAcc('MermaidText') }, subgraph: { absent: NO_MARKDOWN_TITLE('MermaidText') } }),
   // vitepress-plugin-mermaid-diagram keeps no classDefs; acc lines are read as nodes.
-  'KlangHaus/vitepress-plugin-diagram': () => ({ absent: { getClasses: "vitepress-plugin-mermaid-diagram's flowchart model keeps no classDef styles", ...flowAcc('vitepress-plugin-mermaid-diagram') } }),
+  // 0.3.2 src/parse/flowchart.ts (dist/index.js parseFlowchart, index.d.ts Subgraph): a
+  // subgraph keeps its id, its title (the bracketed or trailing text as written, else the
+  // id) and its members as nodeIds, a nested subgraph's id appended when that subgraph
+  // closes; direction, class and style lines are skipped.
+  'KlangHaus/vitepress-plugin-diagram': (raw, hooks) => ({
+    absent: { getClasses: "vitepress-plugin-mermaid-diagram's flowchart model keeps no classDef styles", ...flowAcc('vitepress-plugin-mermaid-diagram') },
+    ...(Array.isArray(raw.subgraphs) ? { getSubGraphs: () => raw.subgraphs.map(group => record({ id: group.id, title: group.title, nodes: [...group.nodeIds] }, 'subgraph', SUBGRAPH_FIELDS, { dir: 'vitepress-plugin-mermaid-diagram skips direction lines', classes: 'vitepress-plugin-mermaid-diagram skips class lines', ...NO_MARKDOWN_TITLE('vitepress-plugin-mermaid-diagram') }, hooks)) } : {}),
+  }),
   // XMermaid drops accTitle/accDescr.
   'evangwt/xmermaid': () => ({ absent: flowAcc('XMermaid'), subgraph: { absent: NO_MARKDOWN_TITLE('XMermaid') } }),
   // zombie-mermaid, beautiful-mermaid and ascii-mermaid keep classDefs as property maps in
@@ -1064,7 +1071,7 @@ const flowchartSchema = Object.fromEntries(Object.entries(FLOW_MODELS).map(([pro
   const more = model(raw, hooks)
   if (!more) return undefined
   const view = refineFlowchart(baseView(project, 'flowchart', raw, hooks), more, hooks)
-  for (const key of ['getClasses', 'getEdges', 'getAccTitle', 'getAccDescription']) if (more[key]) view[key] = more[key]
+  for (const key of ['getClasses', 'getEdges', 'getSubGraphs', 'getAccTitle', 'getAccDescription']) if (more[key]) view[key] = more[key]
   for (const [key, reason] of Object.entries(more.absent ?? {})) if (!view[key]) view[key] = () => hooks.unsupported(reason)
   return view
 }]))
@@ -1087,14 +1094,17 @@ function kanbanBoard(model, hooks) {
   const SECTION_META = ['icon', 'cssClasses', 'ticket', 'priority', 'assigned']
   const sectionAbsent = Object.fromEntries(SECTION_META.filter(key => !(key in (model.sectionMeta ?? {}))).map(key => [key, model.absentSectionMeta ?? `${model.name} keeps no kanban section metadata or decorations`]))
   const sectionRecord = section => record({ ...('id' in section ? { id: section.id } : {}), label: section.label, isGroup: false, ...Object.fromEntries(SECTION_META.filter(key => !sectionAbsent[key]).map(key => [key, section[key] ?? undefined])) }, 'kanban section', [...KANBAN_SECTION_FIELDS, ...SECTION_META], { ...absent, ...sectionAbsent }, hooks)
-  const node = fields => record(fields, 'kanban node', KANBAN_NODE_FIELDS, absent, hooks)
+  const node = (fields, only = {}) => record(fields, 'kanban node', KANBAN_NODE_FIELDS, { ...absent, ...only }, hooks)
+  // A model that lists the section metadata it keeps (sectionMeta) and keeps no ticket has
+  // none on the section node either.
+  const sectionTicket = absent.ticket ? {} : model.sectionMeta && sectionAbsent.ticket ? { ticket: sectionAbsent.ticket } : undefined
   const meta = item => Object.fromEntries(['ticket', 'priority', 'assigned', 'icon'].filter(key => !absent[key]).map(key => [key, item[key] ?? undefined]))
   return {
     getSections: () => model.sections().map(sectionRecord),
     getData: () => ({
       nodes: model.sections().flatMap(section => [
         // A section node has no parent (Mermaid leaves parentId undefined).
-        node({ ...('id' in section ? { id: section.id } : {}), parentId: undefined, label: section.label, labelType: 'markdown', isGroup: true, ...(absent.ticket ? {} : { ticket: section.ticket ?? undefined }), shape: 'kanbanSection' }),
+        node({ ...('id' in section ? { id: section.id } : {}), parentId: undefined, label: section.label, labelType: 'markdown', isGroup: true, ...(sectionTicket ? {} : { ticket: section.ticket ?? undefined }), shape: 'kanbanSection' }, sectionTicket),
         ...section.items.map(item => node({ ...('id' in item ? { id: item.id } : {}), ...('id' in section ? { parentId: section.id } : {}), label: item.label, labelType: 'markdown', isGroup: false, ...meta(item), shape: 'kanbanItem' })),
       ]),
       edges: [],
@@ -1131,6 +1141,16 @@ const KANBAN_MODELS = {
   // priority, assigned and icon.
   'orestesgaolin/mermaid': raw => dartKanban(raw),
   'pub:mermaid_flutter': raw => dartKanban(raw),
+  // zombie-mermaid 5.17.0 Kanban: columns { id, text, cards, className (:::classes) } and
+  // cards { id (the text when none is written), text, ticket, assigned, priority, icon,
+  // className }. A column's @{ ... } metadata and ::icon decoration are accepted and dropped.
+  'dfadler/zombie-mermaid': raw => ({
+    name: 'zombie-mermaid',
+    sections: () => raw.columns.map(column => ({ id: column.id, label: column.text, cssClasses: column.className, items: column.cards.map(card => ({ id: card.id, label: card.text, ticket: card.ticket, priority: card.priority, assigned: card.assigned, icon: card.icon })) })),
+    sectionMeta: { cssClasses: true },
+    absentSectionMeta: 'zombie-mermaid keeps no @{ ... } metadata or ::icon decoration on a kanban column',
+    absent: {},
+  }),
   // XMermaid 0.4.2 kanban: columns and tasks keep id (generated when none is written),
   // label and ticket; assigned is accepted and dropped, priority and icon are rejected.
   'evangwt/xmermaid': raw => ({
@@ -1246,6 +1266,19 @@ function ganttTasks(project, raw, hooks) {
     case '1jehuang/mermaid-rs-renderer':
       // One status per task.
       return () => (raw.gantt_tasks ?? []).map(item => task({ id: item.id, task: item.label, section: item.section ?? undefined, ...tagFlags(item.status ? [String(item.status).toLowerCase()] : []) }, asWritten('mermaid-rs-renderer')))
+    case 'dfadler/zombie-mermaid': {
+      // zombie-mermaid 5.17.0 GanttTask: start and end scheduled (after / until and
+      // durations resolved, end moved past excluded days) as the written wall-clock time
+      // encoded in UTC (parseDayjs: "a UTC timestamp"), which is Mermaid's local Date.
+      const local = ms => {
+        if (typeof ms !== 'number' || !Number.isFinite(ms)) return hooks.unavailable('Unmapped native gantt time ' + ms)
+        const utc = new Date(ms), date = new Date(0)
+        date.setFullYear(utc.getUTCFullYear(), utc.getUTCMonth(), utc.getUTCDate())
+        date.setHours(utc.getUTCHours(), utc.getUTCMinutes(), utc.getUTCSeconds(), utc.getUTCMilliseconds())
+        return date
+      }
+      return () => raw.tasks.map(item => task({ id: item.id, task: item.label, section: item.section, startTime: local(item.start), endTime: local(item.end), active: item.active, done: item.done, crit: item.crit, milestone: item.milestone }))
+    }
     default:
       return undefined
   }
@@ -1267,6 +1300,9 @@ const GANTT_NAMES = {
   'evangwt/xmermaid': 'XMermaid', 'anomalyco/opencode': 'opencode merman',
 }
 const ganttSchema = Object.fromEntries(Object.entries(GANTT_NAMES).map(([project, name]) => [project, (raw, hooks) => ganttGetters(name, { excludes: project === 'kais-radwan/ascii-mermaid', acc: project === 'adewale/agentic-mermaid' }, raw, hooks, project)]))
+// zombie-mermaid 5.17.0 GanttChart keeps the weekday setting and the excludes tokens of
+// every line, lower-cased as Mermaid's getExcludes() lists them; it drops acc statements.
+ganttSchema['dfadler/zombie-mermaid'] = (raw, hooks) => ({ ...ganttGetters('zombie-mermaid', { excludes: true }, raw, hooks, 'dfadler/zombie-mermaid'), getWeekday: () => raw.weekday })
 
 // ---------------------------------------------------------------------------------------
 // Requirement diagrams. Mermaid's requirementDb keeps requirements and elements as Maps
@@ -1312,7 +1348,31 @@ function dartRequirement(raw, hooks) {
     getAccDescription: () => hooks.unsupported("mermaid_core's requirement model keeps no accessibility description"),
   }
 }
+// zombie-mermaid 5.17.0 RequirementDiagram: nodes { id (the name), kind requirement|element,
+// typeLabel (Mermaid's RequirementType text, 'Element' for an element), requirementId,
+// text, risk and verifyMethod in Mermaid's words, elementType, docRef }, relationships
+// { type, src, dst } in Mermaid's vocabulary, classDefs (name -> properties of its last
+// definition), nodeClasses (every class a box carries, in source order), styleLayers (a
+// box's style statements and the properties of each class applied to it, in the order
+// Mermaid applies them) and the direction when written. It drops acc statements.
+function zombieRequirement(raw, hooks) {
+  const layers = new Map(entriesOf(raw.styleLayers)), classes = new Map(entriesOf(raw.nodeClasses))
+  const css = id => (layers.get(id) ?? []).flatMap(styleStrings)
+  const assigned = id => ['default', ...(classes.get(id) ?? [])]
+  const of = kind => (raw.nodes ?? []).filter(node => node.kind === kind)
+  return {
+    getRequirements: () => new Map(of('requirement').map(node => [node.id, record({ name: node.id, type: node.typeLabel, requirementId: node.requirementId, text: node.text, risk: node.risk, verifyMethod: node.verifyMethod, cssStyles: css(node.id), classes: assigned(node.id) }, 'requirement', REQUIREMENT_FIELDS, {}, hooks)])),
+    getElements: () => new Map(of('element').map(node => [node.id, record({ name: node.id, type: node.elementType, docRef: node.docRef, cssStyles: css(node.id), classes: assigned(node.id) }, 'element', ELEMENT_FIELDS, {}, hooks)])),
+    getRelationships: () => (raw.relationships ?? []).map(rel => ({ type: rel.type, src: rel.src, dst: rel.dst })),
+    getClasses: () => requirementClasses(entriesOf(raw.classDefs).map(([id, style]) => [id, styleStrings(style)])),
+    // An unwritten direction is unset; Mermaid's parser stores 'TB'.
+    getDirection: () => raw.direction ?? 'TB',
+    getAccTitle: () => hooks.unsupported("zombie-mermaid's requirement parser reads no accessibility title"),
+    getAccDescription: () => hooks.unsupported("zombie-mermaid's requirement parser reads no accessibility description"),
+  }
+}
 const requirementSchema = {
+  'dfadler/zombie-mermaid': zombieRequirement,
   'orestesgaolin/mermaid': dartRequirement,
   'pub:mermaid_flutter': dartRequirement,
   // agentic-mermaid 0.5.6 requirement: requirements, elements, relations and classDefs in
@@ -1498,6 +1558,47 @@ const smallSchema = models => Object.fromEntries(Object.entries(models).map(([pr
 const pieSchema = smallSchema(PIE_MODELS)
 const packetSchema = smallSchema(PACKET_MODELS)
 const journeySchema = smallSchema(JOURNEY_MODELS)
+// zombie-mermaid 5.17.0 Packet: the fields as { start, end, label }, its own cut of them
+// into rows (words), and the title; acc statements are dropped. Mermaid's row block also
+// records a bit count its parser computes (for a block cut at a row end, from the cut);
+// zombie-mermaid's rows keep none.
+packetSchema['dfadler/zombie-mermaid'] = (raw, hooks) => ({
+  ...unsupportedGetters(accNone('zombie-mermaid', 'packet'), hooks),
+  getDiagramTitle: () => raw.title ?? '',
+  getPacket: () => raw.words.map(row => row.map(block => record({ start: block.start, end: block.end, label: block.label }, 'packet block', ['start', 'end', 'label', 'bits'], { bits: "zombie-mermaid's packet rows keep each block's start, end and label, not a bit count" }, hooks, ['bits']))),
+})
+// zombie-mermaid 5.17.0 Journey: tasks { section ('' before any), name, score (Number() of
+// the written score), actors as written }, section names, the sorted actors and the title;
+// acc statements are dropped. The bridge's JSON carries a NaN or infinite score as null.
+journeySchema['dfadler/zombie-mermaid'] = (raw, hooks) => ({
+  ...unsupportedGetters(accNone('zombie-mermaid', 'journey'), hooks),
+  getTasks: () => raw.tasks.map(item => ({ score: item.score === null ? hooks.unavailable('zombie-mermaid journey score that JSON carries as null (NaN or infinite)') : item.score, people: [...item.actors], section: item.section, task: item.name, type: item.section })),
+  getSections: () => [...raw.sections],
+  getActors: () => [...raw.actors],
+  getDiagramTitle: () => raw.title ?? '',
+})
+
+// ---------------------------------------------------------------------------------------
+// Timeline. timelineDb.js keeps sections as written, tasks { id, section, type (its
+// section), task, score, events } and the direction ('LR' unless TD is written). Mermaid's
+// id is a counter its database keeps across diagrams and its score the 0 its grammar
+// always stores. zombie-mermaid 5.17.0 Timeline: periods { section ('' before any), label,
+// events }, section names, direction 'LR' | 'TD' and the title; it keeps no id or score.
+const TIMELINE_TASK_FIELDS = ['id', 'section', 'type', 'task', 'score', 'events']
+const timelineSchema = {
+  'dfadler/zombie-mermaid': (raw, hooks) => {
+    const absent = {
+      id: "zombie-mermaid keeps no timeline task id (Mermaid's database numbers tasks with a counter it keeps across diagrams)",
+      score: "zombie-mermaid keeps no timeline task score (Mermaid's grammar always stores 0)",
+    }
+    return {
+      getSections: () => [...raw.sections],
+      getTasks: () => raw.periods.map(period => record({ section: period.section, type: period.section, task: period.label, events: [...period.events] }, 'timeline task', TIMELINE_TASK_FIELDS, absent, hooks)),
+      getDirection: () => raw.direction,
+      getDiagramTitle: () => raw.title ?? '',
+    }
+  },
+}
 
 // ---------------------------------------------------------------------------------------
 // Mindmap. Mermaid's getMindmap() is the root node { nodeId, descr, type, children, icon,
@@ -1533,6 +1634,16 @@ const MINDMAP_MODELS = {
   // Loom: a list of root trees, each node its text and children. Only the text and the
   // nesting are mapped; a node's written id, shape, icon and classes are not.
   'Yassimba/loom': raw => ({ name: 'Loom', root: Array.isArray(raw.roots) ? raw.roots[0] : undefined, node: item => ({ descr: item.text }), absent: {} }),
+  // zombie-mermaid 5.17.0 Mindmap: nested nodes { id (source order), text, shape (default
+  // for bare text, rect, rounded, circle, cloud, bang, hexagon), level (indentation relative
+  // to the root's, Mermaid's level), icon, className }. The id written before a delimited
+  // label is not kept; bare text is Mermaid's id and label alike (mindmap.jison nodeWithId).
+  'dfadler/zombie-mermaid': raw => ({
+    name: 'zombie-mermaid',
+    root: raw.root,
+    node: item => ({ ...(item.shape === 'default' ? { nodeId: item.text } : {}), descr: item.text, shape: item.shape, level: item.level, icon: item.icon, class: item.className }),
+    absent: { nodeId: "zombie-mermaid keeps a delimited mindmap node's label, not the id written before it" },
+  }),
 }
 function dartMindmap(raw) {
   return { name: 'mermaid_core', root: raw.root, node: item => ({ descr: item.label, shape: item.shape, icon: item.icon ?? undefined, class: (item.cssClasses ?? []).length ? item.cssClasses.join(' ') : undefined }), absent: { nodeId: "mermaid_core's mindmap node keeps no written id" } }
@@ -1730,6 +1841,36 @@ function xmermaidIshikawa(raw, hooks) {
 }
 const ishikawaSchema = { 'adewale/agentic-mermaid': agenticIshikawa, 'evangwt/xmermaid': xmermaidIshikawa }
 
+// ---------------------------------------------------------------------------------------
+// Radar database (radar/db.ts): getAxes() lists { name, label } with the label defaulted to
+// the name, getCurves() { name, label, entries } with entries in axis order, getOptions()
+// { showLegend, ticks, max, min, graticule } with defaults true, 5, null, 0, 'circle' and
+// ticks capped at 32 by the database. Pele 1.13.0, Bezel 0.2.26 and Latias94/merman 0.10.0
+// return that resolved database itself (axes, curves, options), so its records are read as
+// they come. agentic-mermaid 0.5.6 RadarBody: axes and curves { id, label (the id when no
+// label was written) }, a curve's values one per axis in axis order, min, ticks, graticule
+// and showLegend with their defaults merged, and max only when written (undefined: auto,
+// Mermaid's null); it does not cap ticks. mermaid-rs-renderer 0.3.1 keeps each curve as a
+// node whose label folds its name and entries, and skips title, axis and option lines.
+const portRadar = raw => (Array.isArray(raw.axes) && Array.isArray(raw.curves) && raw.options && typeof raw.options === 'object' ? { getAxes: () => structuredClone(raw.axes), getCurves: () => structuredClone(raw.curves), getOptions: () => structuredClone(raw.options) } : undefined)
+function agenticRadarDb(raw) {
+  if (raw.kind !== 'radar') return undefined
+  return {
+    getAxes: () => raw.axes.map(axis => ({ name: axis.id, label: axis.label })),
+    getCurves: () => raw.curves.map(curve => ({ name: curve.id, label: curve.label, entries: [...curve.values] })),
+    getOptions: () => ({ showLegend: raw.showLegend, ticks: raw.ticks, max: raw.max ?? null, min: raw.min, graticule: raw.graticule }),
+  }
+}
+const mmdrRadar = (raw, hooks) => (raw.kind !== 'Radar' ? undefined : unsupportedGetters({
+  getDiagramTitle: 'mermaid-rs-renderer skips radar titles',
+  getAccTitle: 'mermaid-rs-renderer skips radar accessibility titles',
+  getAccDescription: 'mermaid-rs-renderer skips radar accessibility descriptions',
+  getAxes: 'mermaid-rs-renderer keeps no radar axes (they only label curve entries)',
+  getCurves: 'mermaid-rs-renderer keeps a radar curve only as a node whose display label folds its name and entries',
+  getOptions: 'mermaid-rs-renderer skips radar options',
+}, hooks))
+const radarSchema = { 'obsidianmd/pele': portRadar, 'crabtalk/bezel': portRadar, 'Latias94/merman': portRadar, 'adewale/agentic-mermaid': agenticRadarDb, '1jehuang/mermaid-rs-renderer': mmdrRadar }
+
 export default {
   schema: {
     class: classSchema,
@@ -1747,6 +1888,8 @@ export default {
     flowchart: flowchartSchema,
     er: erSchema,
     ishikawa: ishikawaSchema,
+    timeline: timelineSchema,
+    radar: radarSchema,
   },
   ast: {},
 }

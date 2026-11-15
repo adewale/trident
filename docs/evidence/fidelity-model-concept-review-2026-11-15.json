@@ -1,0 +1,425 @@
+{
+ "protocol": "fidelity-model-concept-review-v1",
+ "reviewed": "2026-11-15",
+ "subject": "The 28 in-scope Mermaid Fidelity capability assessments (basis `model-concept`) that no recorded review confirmed under scoring v3's exact-reason matching (unified/mermaid-fidelity/verification.ts): after the 2026-11-14 capability and model-concept reviews, these callbacks' reasons matched no `confirmed` entry. Projects: Dicklesworthstone/frankenmermaid 0.5.0 (3), Latias94/merman 0.10.0 (9), adewale/agentic-mermaid 0.5.6 (13), evangwt/xmermaid 0.4.2 (1), lukilabs/beautiful-mermaid 1.1.3 (1), kais-radwan/ascii-mermaid 0.1.0 (1).",
+ "baseline": "The 2026-11-15 jsdom Fidelity run (prepared artifacts of the 2026-11-14 campaign, community-prepared.json) recounted under scoring v3 with fidelity-capability-review-2026-11-14.json and fidelity-model-concept-review-2026-11-14.json: baselineCallbacks counts, per project, the in-scope reference-passing callbacks whose capability assessment carried that reason and was unconfirmed.",
+ "method": "Each concept was probed again by running the candidate's own installed parser through the runtime's native parse path exactly as the views receive it (runtime.ts probeNative, as scripts/fidelity-probe.ts does; several sources per runtime), on the test's own source and on sources that differ only in the concept (probeSources below), then comparing the models; installed type declarations and Mermaid's own database code were read where a verdict depends on them (cited file:line). Confirmed: the native model does not carry what the test reads (dropped, folded, merged with another written form, or kept only as raw source text). Disproved: the native model carries it, so the view must read it. Not decidable: the probe cannot settle the claim. Reasons are keyed by the verdict text exactly as the run records it, every number written as N.",
+ "finding": "All eight concepts had already been probed and confirmed or narrowed by the 2026-11-14 review; their callbacks stayed unconfirmed because that review keyed reasons cut at 160 characters (Frankenmermaid activations, Latias94/merman railroad and agentflow, agentic-mermaid opaque blocks, XMermaid cross-document transitions), keyed them under another project's name (beautiful-mermaid and ascii-mermaid under zombie-mermaid) or measured a narrowed reason without keying it (agentic-mermaid class-style merge and animate: false). Every concept was re-probed here rather than carried over.",
+ "measured": "No view changed: no concept was disproved. With this file added to the two 2026-11-14 review files, the recount of the same run leaves 0 in-scope capability assessments unconfirmed (28 before).",
+ "summary": {
+  "Dicklesworthstone/frankenmermaid": {
+   "confirmed": 1,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 1,
+   "callbacks": {
+    "confirmed": 3,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "Latias94/merman": {
+   "confirmed": 2,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 2,
+   "callbacks": {
+    "confirmed": 9,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "adewale/agentic-mermaid": {
+   "confirmed": 12,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 12,
+   "callbacks": {
+    "confirmed": 13,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "evangwt/xmermaid": {
+   "confirmed": 1,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 1,
+   "callbacks": {
+    "confirmed": 1,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "lukilabs/beautiful-mermaid": {
+   "confirmed": 1,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 1,
+   "callbacks": {
+    "confirmed": 1,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  },
+  "kais-radwan/ascii-mermaid": {
+   "confirmed": 1,
+   "disproved": 0,
+   "not decidable": 0,
+   "reasons": 1,
+   "callbacks": {
+    "confirmed": 1,
+    "disproved": 0,
+    "not decidable": 0
+   }
+  }
+ },
+ "concepts": [
+  {
+   "basis": "model-concept",
+   "concept": "franken-activation-ranges",
+   "verdict": "confirmed",
+   "projects": {
+    "Dicklesworthstone/frankenmermaid": {
+     "Frankenmermaid keeps activations as edge ranges: it records neither where an activate / deactivate line or a +/- marker was written nor deactivations by a - marker": 3
+    }
+   },
+   "baselineCallbacks": {
+    "Dicklesworthstone/frankenmermaid": 3
+   },
+   "probes": [
+    "fs-act-line",
+    "fs-act-marker",
+    "fs-act-stacked",
+    "fs-act-first",
+    "fs-deact-line",
+    "fs-deact-marker",
+    "fs-act-open",
+    "fs-act-closed-last",
+    "fs-act-open-two"
+   ],
+   "evidence": "Frankenmermaid 0.5.0 (WASM IR, sequence_meta.activations) keeps only { participant, start_edge, end_edge, depth }. `Alice-->>Bob / activate Bob / Bob-->>Alice / deactivate Bob` and `Alice-->>+Bob / Bob-->>-Alice` give identical IRs apart from edge spans ({ participant: 1, start_edge: 0, end_edge: 1 }), so no message records the +/- marker Mermaid stores as message.activate (read by 'one line notation activation'). An activation never closed ends at the last edge: `A->>+B / B->>A / A->>B` and the same with a trailing `deactivate B` both give end_edge 2, and `Alice-->>+Bob / Bob-->>Alice` gives the same range as the closed `Bob-->>-Alice`, so whether Mermaid's ACTIVE_END after the last message exists (read by 'actor activation' and 'stacked activations', whose activations all close on the last message) is not recorded. An `activate Bob` written before the first message leaves no activation at all. Only edge span line numbers differ, which is source layout, not an activation record (and `;` separators break even that).",
+   "action": "Kept (frankenmermaid.mjs sequence view). The 2026-11-14 review (seq-activation) confirmed this concept but keyed the reason cut at 160 characters, so no callback matched it under exact-text matching."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "railroad-fold-latias",
+   "verdict": "confirmed",
+   "projects": {
+    "Latias94/merman": {
+     "LatiasN/merman keeps Mermaid's railroad database record, which folds a one-element sequence or choice into its element, so a rule's written expression is not kept": 4
+    }
+   },
+   "baselineCallbacks": {
+    "Latias94/merman": 4
+   },
+   "probes": [
+    "rr5-forms",
+    "rr5-wrapped"
+   ],
+   "evidence": "merman-cli 0.10.0 `parse` keeps Mermaid's railroad database record (railroadParser.ts transformExpression: a one-element sequence(...) or choice(...) returns its element). `one = sequence(terminal(\"a\"))` and `bare = terminal(\"a\")` both give { type: 'terminal', value: 'a' }; `choice(special(\"x\"))` gives { type: 'special' }; `sequence(optional(terminal(\"a\")))` gives the same optional record as `optional(terminal(\"a\"))`. A sequence or choice record does not settle the written type either: `w = choice(sequence(terminal(\"a\"), nonterminal(\"b\")))` gives the same { type: 'sequence', elements: [terminal, nonterminal] } as `sequence(terminal(\"a\"), nonterminal(\"b\"))`, and `sequence(choice(a, b, c))` the same choice record as `choice(a, b, c)`. So no record node determines the Langium $type the four tests read (RailroadSequenceExpr / ChoiceExpr / OptionalExpr / OneOrMoreExpr / ZeroOrMoreExpr / SpecialExpr, and element $types). Pele 1.13.0 and Bezel 0.2.26 give the same records for both probes.",
+   "action": "Kept (ports.mjs railroadAst). The 2026-11-14 review (railroad-fold) confirmed it, but its Latias94/merman key was cut at 160 characters and did not match."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "agentflow-presentation-metadata-latias",
+   "verdict": "confirmed",
+   "projects": {
+    "Latias94/merman": {
+     "LatiasN/merman's agentflow model is the semantic model, which drops presentation-only metadata (shape, view, icon, img, form, pos, w, h, class, style, labelType)": 5
+    }
+   },
+   "baselineCallbacks": {
+    "Latias94/merman": 5
+   },
+   "probes": [
+    "af5-meta",
+    "af5-proto"
+   ],
+   "evidence": "merman-cli 0.10.0 `parse --meta` (the bridge's interface) for `a[\"A\"]@{ icon: \"fa:bell\", form: circle, description: \"DESCX\" }`, `c[\"C\"]@{ img: \"https://example.com/x.png\", w: 40, h: 40 }`, `b[\"B\"]@{}` and `pipeline@{ view: \"collapsed\" }`: vertex a has metadata { description: 'DESCX' } only, c and b have no metadata key, the subgraph record { id, title, nodes, type } has no metadata; none of fa:bell, circle, example.com, 40-sized w/h or collapsed occurs anywhere in the model. `a@{ __proto__: ... }` leaves a with no metadata key, the same as a vertex with presentation keys or with none, so neither the metadata objects the four vertex tests compare nor the subgraph's metadata.view is recoverable. merman-cli `layout` output for the same source also carries none of these values.",
+   "action": "Kept (ports.mjs agentflow view). The 2026-11-14 review (agentflow-latias) confirmed it, but its key was cut at 160 characters and did not match."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "agentic-class-style-merge",
+   "verdict": "confirmed",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps a class's style statements, its class and the classDefs apart, not the styles list Mermaid merges from them in statement order": 2
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 2
+   },
+   "probes": [
+    "c5-classdef-after",
+    "c5-classdef-before",
+    "c5-two-classes"
+   ],
+   "evidence": "agentic-mermaid 0.5.6 class model: `class Class01:::pink / classDef pink fill:#f9f,stroke:#333,stroke-width:6px` and the same two statements in the other order give identical models (classes[0].className 'pink', classDefs.pink { fill, stroke, stroke-width }), but Mermaid's styles differ: classDb.ts defineClass (lines 363-367) appends a classDef's styles only to classes that already carry the class, and setCssClass (331-342) appends the class name without styles, so the first gives ['fill:#f9f', 'stroke:#333', 'stroke-width:6px'] and the second []. With `cssClass \"Class01\" bold` added the model keeps className 'bold' alone (pink is lost), so neither the merged styles nor cssClasses 'default pink bold' are recorded.",
+   "action": "Kept (misc.mjs agenticClassModel). The 2026-11-14 review (agentic-class-styles) disproved the older reason (no per-class styles) and narrowed the reading to this reason, which it measured but did not key."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "agentic-opaque-blocks",
+   "verdict": "confirmed",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"        %% Comment\", \"        rect rgb(N, N, N)\", \"        Note right of Bob: Bob thinks\", \"        Bob-->Alice: I am good thanks\", \"        end\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"        %% Comment\", \"        rect rgb(N, N, N)\", \"        rect rgb(N, N, N)\", \"        Note right of Bob: Bob thinks\", \"        end\", \"        Bob-->Ali": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"    critical Establish a connection to the DB\", \"        Service-->DB: connect\", \"    end\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"    critical Establish a connection to the DB\", \"        Service-->DB: connect\", \"    option Network timeout\", \"        Service-->Service: Log error\", \"    opt": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"    break when the booking process fails\", \"        API-->Consumer: show failure\", \"    end\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"par_over Parallel overlap\", \"Alice ->> Bob: Message\", \"Note left of Alice: Alice note\", \"Note right of Bob: Bob note\", \"end\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"alt -:<>,\", \"# comment\", \"Bob-->Alice: I am good thanks!\", \"else ,<>:-\", \"#; comment\", \"Bob-->Alice: I am good thanks!\", \"end\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"par -:<>,\", \"# comment\", \"Bob-->Alice: I am good thanks!\", \"and ,<>:-\", \"#; comment\", \"Bob-->Alice: I am good thanks!\", \"end\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"alt\", \"Bob-->Alice: I am good thanks!\", \"else \", \"# comment\", \"Bob-->Alice: I am good thanks!\", \"end\"": 1,
+     "agentic-mermaid keeps these statements only as unparsed source lines: \"par\", \"Bob-->Alice: I am good thanks!\", \"and \", \"# comment\", \"Bob-->Alice: I am good thanks!\", \"end\"": 1
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 10
+   },
+   "probes": [
+    "s5-rect",
+    "s5-rect-nested",
+    "s5-critical",
+    "s5-critical-options",
+    "s5-break",
+    "s5-par_over",
+    "s5-alt-special",
+    "s5-par-special",
+    "s5-alt-nolabel",
+    "s5-par-nolabel",
+    "s5-alt-plain",
+    "s5-par-plain"
+   ],
+   "evidence": "agentic-mermaid 0.5.6 SequenceBody (dist/paint-certification-aIPtFDcn.d.ts:3481-3520): statements are participant, message, fragment or { kind: 'opaque-block', lines }. Each of the ten test sources parses with the listed lines as one opaque-block of raw source text: rect and nested rects, critical with and without options, break, par_over holding notes (SequenceFragment branches hold messages only), and alt / par whose labels carry `;` separators and `#` comments or no label. The messages inside those blocks are not in messages[]. Plain `alt is sick / else is well` and `par Alice to Bob / and Alice to John` do parse as typed fragments, so the opaque blocks are the model's own choice for these statements; reading them would mean parsing source text.",
+   "action": "Kept (agentic.mjs sequence view). The 2026-11-14 review (agentic-opaque) confirmed the concept but keyed reasons cut at 160 characters or drawn from an earlier statement listing (without the block's closing lines), so these ten did not match."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "agentic-animate-false",
+   "verdict": "confirmed",
+   "projects": {
+    "adewale/agentic-mermaid": {
+     "agentic-mermaid records a written animate: false and an unwritten animate the same way": 1
+    }
+   },
+   "baselineCallbacks": {
+    "adewale/agentic-mermaid": 1
+   },
+   "probes": [
+    "f5-animate",
+    "f5-animate-unwritten",
+    "f5-animate-false",
+    "f5-animate-none"
+   ],
+   "evidence": "agentic-mermaid 0.5.6 graph.edges for the test source: e1 { animate: true }, e2 (written `animate: false`) with no animate key, e3 (`animate: true` then `animate: false`) { animate: true }. The edge e2 is identical to an edge with no attachment (`A e1@--> B` alone, and `e1@{ animate: false }` alone), while Mermaid's getData gives false for a written false. The test reads edges[1].animate === false, which the model does not record (and the model's e3 keeps true where Mermaid has false).",
+   "action": "Kept (misc.mjs beautifulGraph keeps.animate). The 2026-11-14 review (agentic-edge-animation) disproved the older 'keeps no animation' reason and introduced this one without keying it."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "xmermaid-state-crossdoc",
+   "verdict": "confirmed",
+   "projects": {
+    "evangwt/xmermaid": {
+     "XMermaid records transitions globally; a transition between states of different documents (\"Not Shooting State\" as NotShooting_start -> NotShooting) has no recorded document": 1
+    }
+   },
+   "baselineCallbacks": {
+    "evangwt/xmermaid": 1
+   },
+   "probes": [
+    "st5-composite-alias",
+    "st5-composite-plain",
+    "st5-composite-start"
+   ],
+   "evidence": "XMermaid 0.4.2 state model: transitions are a flat list of { from, to, label } with no document. Every [*] is the one state `__start__`, placed in the composite that writes a [*]: in the test source the root's `[*] --> NotShooting` and the composite's `[*] --> Idle` both start at __start__ (parent '\"Not Shooting State\" as NotShooting', which XMermaid keeps as the composite's id, apart from a plain state NotShooting). So the root transition is recorded between a composite member and a root state, and which document it was written in is not recorded; the root document's states (getState('NotShooting'), read by the test) depend on it. Where only the root writes a [*], __start__ is root-level (st5-composite-plain); where only the composite does, it is the composite's (st5-composite-start).",
+   "action": "Kept (state.mjs stateView). The 2026-11-14 review (state-crossdoc) confirmed it, but the XMermaid key was cut at 160 characters and did not match."
+  },
+  {
+   "basis": "model-concept",
+   "concept": "class-relation-association",
+   "verdict": "confirmed",
+   "projects": {
+    "lukilabs/beautiful-mermaid": {
+     "beautiful-mermaid records a plain link (--) and an arrow (-->) as the same 'association'": 1
+    },
+    "kais-radwan/ascii-mermaid": {
+     "ascii-mermaid records a plain link (--) and an arrow (-->) as the same 'association'": 1
+    }
+   },
+   "baselineCallbacks": {
+    "lukilabs/beautiful-mermaid": 1,
+    "kais-radwan/ascii-mermaid": 1
+   },
+   "probes": [
+    "c5-rel-link",
+    "c5-rel-arrow",
+    "c5-rel-dotted-link",
+    "c5-rel-mixed"
+   ],
+   "evidence": "beautiful-mermaid 1.1.3 and ascii-mermaid 0.1.0: `Class1 -- Class02` and `Class1 --> Class02` both give { from: 'Class1', to: 'Class02', type: 'association', markerAt: 'to' } (no line or link type, no dashed flag), so the test's type1 / type2 'none' and lineType LINE are not recorded. `Class1 .. Class02` gives no relationship at all.",
+   "action": "Kept (view-core.mjs zombieClasses). The 2026-11-14 review (class-relation-assoc-others) confirmed it, but keyed both projects with zombie-mermaid's name, which the reason no longer carries."
+  }
+ ],
+ "probeSources": {
+  "fs-act-line": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nAlice-->>Bob:Hello Bob, how are you?\nactivate Bob\nBob-->>Alice:Hello Alice\ndeactivate Bob\n"
+  },
+  "fs-act-marker": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nAlice-->>+Bob:Hello Bob, how are you?\nBob-->>-Alice:Hello Alice\n"
+  },
+  "fs-act-stacked": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nAlice-->>+Bob:Hello Bob\nBob-->>+Carol:Carol\nBob-->>-Alice:Hello Alice\nCarol->>-Bob:Oh Bob\n"
+  },
+  "fs-act-first": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nactivate Bob\nAlice-->>Bob:Hello Bob, how are you?\nBob-->>Alice:Hello Alice\ndeactivate Bob\n"
+  },
+  "fs-deact-line": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>+B: m0\ndeactivate B\nB->>A: m1\nA->>B: m2\n"
+  },
+  "fs-deact-marker": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>+B: m0\nB-->>-A: m1\nA->>B: m2\n"
+  },
+  "fs-act-open": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>+B: m0\nB->>A: m1\nA->>B: m2\n"
+  },
+  "fs-act-closed-last": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nA->>+B: m0\nB->>A: m1\nA->>B: m2\ndeactivate B\n"
+  },
+  "fs-act-open-two": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nAlice-->>+Bob:Hello Bob\nBob-->>Alice:Hello Alice\n"
+  },
+  "rr5-forms": {
+   "family": "railroad",
+   "source": "railroad-beta\nrule = sequence(terminal(\"a\"), nonterminal(\"b\")) ;\none = sequence(terminal(\"a\")) ;\nbare = terminal(\"a\") ;\nch = choice(terminal(\"a\"), terminal(\"b\"), terminal(\"c\")) ;\nch1 = choice(special(\"x\")) ;\nr1 = optional(terminal(\"a\")) ;\nr1s = sequence(optional(terminal(\"a\"))) ;\nsp = special(\"any character\") ;\n"
+  },
+  "rr5-wrapped": {
+   "family": "railroad",
+   "source": "railroad-beta\nrule = sequence(terminal(\"a\"), nonterminal(\"b\")) ;\nw = choice(sequence(terminal(\"a\"), nonterminal(\"b\"))) ;\nch = choice(terminal(\"a\"), terminal(\"b\"), terminal(\"c\")) ;\nwc = sequence(choice(terminal(\"a\"), terminal(\"b\"), terminal(\"c\"))) ;\n"
+  },
+  "af5-meta": {
+   "family": "agentflow",
+   "source": "agentflow-beta TB\n  a[\"A\"]@{ icon: \"fa:bell\", form: circle, description: \"DESCX\" }\n  c[\"C\"]@{ img: \"https://example.com/x.png\", w: 40, h: 40 }\n  b[\"B\"]@{}\n  a --> b\n  flow pipeline[\"P\"]\n    x --> y\n  end\n  pipeline@{ view: \"collapsed\" }\n"
+  },
+  "af5-proto": {
+   "family": "agentflow",
+   "source": "agentflow-beta TB\n  a[\"A\"]\n  a@{\n    __proto__:\n      polluted: true\n  }\n"
+  },
+  "c5-classdef-after": {
+   "family": "class",
+   "source": "classDiagram\nclass Class01:::pink\n classDef pink fill:#f9f,stroke:#333,stroke-width:6px"
+  },
+  "c5-classdef-before": {
+   "family": "class",
+   "source": "classDiagram\n classDef pink fill:#f9f,stroke:#333,stroke-width:6px\nclass Class01:::pink\n"
+  },
+  "c5-two-classes": {
+   "family": "class",
+   "source": "classDiagram\nclass Class01:::pink\n cssClass \"Class01\" bold\n classDef pink fill:#f9f\n classDef bold stroke:#333,stroke-width:6px"
+  },
+  "s5-rect": {
+   "family": "sequence",
+   "source": "\n      sequenceDiagram\n        Alice->Bob: Hello Bob, how are you?\n        %% Comment\n        rect rgb(200, 255, 200)\n        Note right of Bob: Bob thinks\n        Bob-->Alice: I am good thanks\n        end\n    "
+  },
+  "s5-rect-nested": {
+   "family": "sequence",
+   "source": "\n      sequenceDiagram\n        Alice->Bob: Hello Bob, how are you?\n        %% Comment\n        rect rgb(200, 255, 200)\n        rect rgb(0, 0, 0)\n        Note right of Bob: Bob thinks\n        end\n        Bob-->Alice: I am good thanks\n        end\n    "
+  },
+  "s5-critical": {
+   "family": "sequence",
+   "source": "\nsequenceDiagram\n    critical Establish a connection to the DB\n        Service-->DB: connect\n    end"
+  },
+  "s5-critical-options": {
+   "family": "sequence",
+   "source": "\nsequenceDiagram\n    critical Establish a connection to the DB\n        Service-->DB: connect\n    option Network timeout\n        Service-->Service: Log error\n    option Credentials rejected\n        Service-->Service: Log different error\n    end"
+  },
+  "s5-break": {
+   "family": "sequence",
+   "source": "\nsequenceDiagram\n    Consumer-->API: Book something\n    API-->BookingService: Start booking process\n    break when the booking process fails\n        API-->Consumer: show failure\n    end\n    API-->BillingService: Start billing process"
+  },
+  "s5-par_over": {
+   "family": "sequence",
+   "source": "\nsequenceDiagram\npar_over Parallel overlap\nAlice ->> Bob: Message\nNote left of Alice: Alice note\nNote right of Bob: Bob note\nend"
+  },
+  "s5-alt-special": {
+   "family": "sequence",
+   "source": "\nsequenceDiagram\nAlice->Bob: Hello Bob, how are you?\nalt -:<>,;# comment\nBob-->Alice: I am good thanks!\nelse ,<>:-#; comment\nBob-->Alice: I am good thanks!\nend"
+  },
+  "s5-par-special": {
+   "family": "sequence",
+   "source": "\nsequenceDiagram\nAlice->Bob: Hello Bob, how are you?\npar -:<>,;# comment\nBob-->Alice: I am good thanks!\nand ,<>:-#; comment\nBob-->Alice: I am good thanks!\nend"
+  },
+  "s5-alt-nolabel": {
+   "family": "sequence",
+   "source": "\nsequenceDiagram\nAlice->Bob: Hello Bob, how are you?\nalt;Bob-->Alice: I am good thanks!\nelse # comment\nBob-->Alice: I am good thanks!\nend"
+  },
+  "s5-par-nolabel": {
+   "family": "sequence",
+   "source": "\nsequenceDiagram\nAlice->Bob: Hello Bob, how are you?\npar;Bob-->Alice: I am good thanks!\nand # comment\nBob-->Alice: I am good thanks!\nend"
+  },
+  "s5-alt-plain": {
+   "family": "sequence",
+   "source": "sequenceDiagram\nAlice->Bob: Hello\nalt is sick\nBob-->Alice: Not so good\nelse is well\nBob-->Alice: Feeling fresh\nend"
+  },
+  "s5-par-plain": {
+   "family": "sequence",
+   "source": "sequenceDiagram\npar Alice to Bob\nAlice->>Bob: Hi\nand Alice to John\nAlice->>John: Hi\nend"
+  },
+  "f5-animate": {
+   "family": "flowchart",
+   "source": "flowchart TD\n     A e1@--> B\n     C e2@--> D\n     E e3@--> F\n    e1@{ animate: true }\n    e2@{ animate: false }\n    e3@{ animate: true }\n    e3@{ animate: false }\n      "
+  },
+  "f5-animate-unwritten": {
+   "family": "flowchart",
+   "source": "flowchart TD\n     A e1@--> B\n     C e2@--> D\n     E e3@--> F\n    e1@{ animate: true }\n      "
+  },
+  "f5-animate-false": {
+   "family": "flowchart",
+   "source": "flowchart TD\n     A e1@--> B\n    e1@{ animate: false }\n      "
+  },
+  "f5-animate-none": {
+   "family": "flowchart",
+   "source": "flowchart TD\n     A e1@--> B\n      "
+  },
+  "st5-composite-alias": {
+   "family": "state",
+   "source": "stateDiagram-v2\n      [*] --> NotShooting\n\n      state \"Not Shooting State\" as NotShooting {\n        state \"Idle mode\" as Idle\n        state \"Configuring mode\" as Configuring\n        [*] --> Idle\n        Idle --> Configuring : EvConfig\n        Configuring --> Idle : EvConfig\n      }\n\n      note right of NotShooting : This is a note on a composite state\n      "
+  },
+  "st5-composite-plain": {
+   "family": "state",
+   "source": "stateDiagram-v2\n      [*] --> NotShooting\n\n      state NotShooting {\n        Idle --> Configuring : EvConfig\n      }\n\n      note right of NotShooting : This is a note on a composite state\n      "
+  },
+  "st5-composite-start": {
+   "family": "state",
+   "source": "stateDiagram-v2\n      state \"Not Shooting State\" as NotShooting {\n        state \"Idle mode\" as Idle\n        [*] --> Idle\n      }\n      note right of NotShooting : note\n      "
+  },
+  "c5-rel-link": {
+   "family": "class",
+   "source": "classDiagram\nClass1 -- Class02"
+  },
+  "c5-rel-arrow": {
+   "family": "class",
+   "source": "classDiagram\nClass1 --> Class02"
+  },
+  "c5-rel-dotted-link": {
+   "family": "class",
+   "source": "classDiagram\nClass1 .. Class02"
+  },
+  "c5-rel-mixed": {
+   "family": "class",
+   "source": "classDiagram\nR2A -- R2B\nR3A --> R3B\nR4A <-- R4B\nR5A <--> R5B"
+  }
+ }
+}

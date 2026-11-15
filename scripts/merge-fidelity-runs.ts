@@ -13,9 +13,10 @@
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { callbackKeys, fidelityNotApplicableReason, fidelityPopulationSizes, fidelityScope, fidelityScoringDefinition, isScoredFidelityFile } from '../unified/mermaid-fidelity/scoring.ts'
+import { callbackKeys, fidelityNotApplicableReason, fidelityPopulationSizes, fidelityScope, fidelityScoring, fidelityScoringDefinition, isScoredFidelityFile } from '../unified/mermaid-fidelity/scoring.ts'
 import { assessmentBasis, OUTCOME_KINDS, outcomeKind, type OutcomeCounts } from '../unified/mermaid-fidelity/outcome-kinds.ts'
 import { assessmentConfirmations, checkRefusalVerification, confirmedAbsence, verifiedRefusal, type AssessmentConfirmations, type RefusalVerification } from '../unified/mermaid-fidelity/verification.ts'
+import { emptyUnassessedBreakdown, normaliseReason, unassessedOwner, unassessedTotals } from '../unified/mermaid-fidelity/unassessed.ts'
 
 /** Identity of one control run: every reference callback and its outcome. */
 export function referenceDigest(reference: any) {
@@ -54,7 +55,7 @@ export function mergeIntoPublished(published: any, runs: any[], extras: { catalo
   // Aggregated old rows cannot reconstruct callback intersections after a
   // replacement. Keep totals; recompute the shared breakdown from full raw runs.
   const { coverage: _coverage, ...prior } = published
-  return {
+  const merged = {
     ...prior,
     blocked: [...published.blocked.filter(keep), ...fresh.blocked],
     notApplicable: [...(published.notApplicable ?? []).filter(keep), ...fresh.notApplicable],
@@ -63,6 +64,8 @@ export function mergeIntoPublished(published: any, runs: any[], extras: { catalo
     collectedThrough: [published.collectedThrough, fresh.collectedThrough].sort().at(-1),
     partialReruns: [...(published.partialReruns ?? []), { projects: [...replaced].sort(), collectedThrough: fresh.collectedThrough }],
   }
+  checkUnassessedBreakdowns(merged)
+  return merged
 }
 
 export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?: any[]; refusals?: RefusalVerification; reviews?: AssessmentConfirmations; evidence?: Record<string, unknown> } = {}) {
@@ -110,6 +113,8 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
     const keys = callbackKeys(row.cases), zero = (): OutcomeCounts => Object.fromEntries(OUTCOME_KINDS.map(kind => [kind, 0])) as OutcomeCounts
     const scored = { passed: 0, failed: 0, unsupported: 0, 'trident-blocked': 0 }, known = { verifiedRefusals: 0, confirmedAbsences: 0 }, outcomeKinds = { scored: zero(), qualified: zero() }
     const scoredPerFile = new Map<string, { passed: number; nonpass: number; unassessed: number }>()
+    // Each unassessed in-scope callback by who can close it (unassessed.ts) and its reason.
+    const unassessedReasons = emptyUnassessedBreakdown()
     for (const [index, c] of row.cases.entries()) {
       const control = ownReference.cases[index]
       if (c.file !== control.file || c.name !== control.name || !statuses.includes(c.status) || (control.status === 'passed' ? !statuses.slice(0, 4).includes(c.status) : c.status !== control.status)) throw Error(row.project + ' differs from its reference callback population')
@@ -125,7 +130,11 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
         const file = scoredPerFile.get(c.file) ?? { passed: 0, nonpass: 0, unassessed: 0 }
         if (c.status === 'passed') file.passed++
         else if (c.status === 'failed' || refusal || absence) file.nonpass++
-        else file.unassessed++
+        else {
+          file.unassessed++
+          const owner = unassessedOwner(c), reason = normaliseReason(String(c.reason ?? c.status))
+          unassessedReasons[owner][reason] = (unassessedReasons[owner][reason] ?? 0) + 1
+        }
         scoredPerFile.set(c.file, file)
       }
       const fileCounts = perFile.get(c.file) ?? {}
@@ -133,12 +142,12 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
       perFile.set(c.file, fileCounts)
       if (c.status === 'trident-blocked') {
         if (typeof c.reason !== 'string' || !c.reason.trim()) throw Error(row.project + ' has an unassessed callback without a reason: ' + c.file + ' ' + c.name)
-        const reason = c.reason.trim().split('\n')[0]!.replace(/\d+/g, 'N').slice(0, 160)
+        const reason = normaliseReason(c.reason)
         gapReasons[reason] = (gapReasons[reason] ?? 0) + 1
       }
       // Unreviewed unsupported verdicts are unassessed in scoring; keep their reasons beside the gaps.
       if (c.status === 'unsupported' && inScope) {
-        const reason = String(c.reason ?? 'unsupported').trim().split('\n')[0]!.replace(/\d+/g, 'N').slice(0, 160)
+        const reason = normaliseReason(String(c.reason ?? 'unsupported'))
         unsupportedReasons[reason] = (unsupportedReasons[reason] ?? 0) + 1
         if (outcomeKind(c) === 'native-unsupported') nativeUnsupportedReasons[reason] = (nativeUnsupportedReasons[reason] ?? 0) + 1
         else {
@@ -152,7 +161,7 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
     const shared = row.sharedParserWith ? { sharedParserWith: row.sharedParserWith, parserVersion: row.parserVersion } : {}
     // Outcome kinds over the scored population and all qualified callbacks: what the
     // candidate's own code decided against what Trident assessed or could not bind.
-    return { project: row.project, version: row.version, ...(row.revision ? { revision: row.revision } : {}), ...shared, counts, scored, known, outcomeKinds, environments: row.environments, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts, ...(scoredPerFile.has(path) ? { scored: scoredPerFile.get(path) } : {}) })), gapReasons, unsupportedReasons, nativeUnsupportedReasons, assessmentReasons, assessmentBases }
+    return { project: row.project, version: row.version, ...(row.revision ? { revision: row.revision } : {}), ...shared, counts, scored, known, outcomeKinds, environments: row.environments, missingFiles: row.missingFiles, perFile: [...perFile].map(([path, counts]) => ({ path, counts, ...(scoredPerFile.has(path) ? { scored: scoredPerFile.get(path) } : {}) })), gapReasons, unsupportedReasons, nativeUnsupportedReasons, assessmentReasons, assessmentBases, unassessed: unassessedReasons }
   })
   for (const row of results) if (row.sharedParserWith) {
     const owner = results.find(other => other.project === row.sharedParserWith)
@@ -185,7 +194,7 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
   const dominant = (r: any) => Object.entries(r.gapReasons as Record<string, number>).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'no callback reached a candidate operation'
   const blocked = [...unbound.map(r => ({ project: r.project, reason: 'No original test reached a candidate operation: ' + dominant(r) })), ...runs.flatMap(run => run.blocked ?? []), ...(extras.blocked ?? [])].filter((row, index, all) => !measured.has(row.project) && !notApplicable.has(row.project) && all.findIndex(other => other.project === row.project) === index)
   const expanded = reference.cases.length
-  return {
+  const merged = {
     benchmark: 'Mermaid Fidelity',
     referenceMode: base.referenceMode,
     controlIdentity: base.controlIdentity,
@@ -212,6 +221,18 @@ export function mergeFidelityRuns(runs: any[], extras: { catalog?: any; blocked?
     results: scored,
     updatedAt: runs.map(run => run.updatedAt).sort().at(-1),
     collectedThrough: runs.map(run => run.collectedThrough).sort().at(-1),
+  }
+  checkUnassessedBreakdowns(merged)
+  return merged
+}
+
+/** Every row's owner breakdown accounts for exactly the callbacks scoring calls unassessed. */
+export function checkUnassessedBreakdowns(fidelity: any) {
+  const scoring = fidelityScoring(fidelity)
+  for (const row of scoring.results) {
+    if (!row.unassessed) continue
+    const total = unassessedTotals(row.unassessed).total, expected = scoring.score(row).unassessed
+    if (total !== expected) throw Error(`${row.project}'s unassessed breakdown covers ${total} callbacks, not the ${expected} scoring leaves unassessed`)
   }
 }
 

@@ -525,6 +525,7 @@ function mindmap(ir, hooks) {
 // dates, normalised to ISO) and each task's start/end specification; Mermaid's task
 // records carry dates its database computes, which are not mapped here.
 const WEEKDAY = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+const UNTAGGED_TASK = Object.freeze({ crit: false, done: false, active: false, milestone: false })
 function gantt(ir, hooks) {
   if (!isType(ir, 'Gantt')) return undefined
   const meta = ir.gantt_meta ?? {}
@@ -533,14 +534,20 @@ function gantt(ir, hooks) {
     // Captured from the pinned parser: each task binds its IR node, section,
     // written task_id and four independent flags. Absolute/AfterTask and
     // DurationDays are specifications, not the renderer's computed Dates.
-    getTasks: () => (meta.tasks ?? []).map(item => record({
-      id: item.task_id, task: labelOf(ir, ir.nodes[item.node]?.label),
-      section: meta.sections?.[item.section_idx]?.name,
-      active: item.flags.active, done: item.flags.done, crit: item.flags.crit, milestone: item.flags.milestone,
-    }, 'gantt task', ['id', 'task', 'section', 'startTime', 'endTime', 'active', 'done', 'crit', 'milestone'], {
-      startTime: `${NAME} keeps a task's start specification, not its computed Date`,
-      endTime: `${NAME} keeps a task's end specification, not its computed Date`,
-    }, hooks)),
+    // 0.5.0 fm-core IrGanttTask serializes `flags` only when a tag was written
+    // (skip_serializing_if = "is_default_gantt_task_flags"; GanttTaskFlags::default() is
+    // all four false), so a task without flags is untagged, as Mermaid's.
+    getTasks: () => (meta.tasks ?? []).map(item => {
+      const flags = item.flags ?? UNTAGGED_TASK
+      return record({
+        id: item.task_id, task: labelOf(ir, ir.nodes[item.node]?.label),
+        section: meta.sections?.[item.section_idx]?.name,
+        active: flags.active, done: flags.done, crit: flags.crit, milestone: flags.milestone,
+      }, 'gantt task', ['id', 'task', 'section', 'startTime', 'endTime', 'active', 'done', 'crit', 'milestone'], {
+        startTime: `${NAME} keeps a task's start specification, not its computed Date`,
+        endTime: `${NAME} keeps a task's end specification, not its computed Date`,
+      }, hooks)
+    }),
     getDiagramTitle: () => meta.title ?? ir.meta?.title ?? '',
     getDateFormat: () => meta.date_format ?? '',
     // gantt_meta.weekday_start is the weekday statement's day as an index from Sunday (0);
@@ -709,6 +716,23 @@ function radarAst(ir, hooks) {
   }, ['title', 'accTitle', 'accDescr', 'axes', 'curves', 'options'], { options: `${NAME} fills radar graticule and showLegend defaults into its model, so which options were written, and their order, is not recorded` }, hooks)
 }
 
+// Radar database (radar/db.ts getAxes, getCurves, getOptions). fm-core IrRadarMeta: an
+// axis or curve label only when one was written (the database's label is the label, else
+// the name); min, max and ticks only when written ("Absent means 0", the largest value and
+// 5: Mermaid's database stores 0, null and 5 for the same unwritten options); graticule and
+// show_legend always. A curve whose entries name their axes keeps no values.
+function radar(ir, hooks) {
+  if (!isType(ir, 'Radar')) return undefined
+  const meta = ir.radar_meta ?? {}
+  const curve = item => record({ name: item.id, label: item.label ?? item.id, ...(item.values?.length ? { entries: [...item.values] } : {}) }, 'radar curve', ['name', 'label', 'entries'], item.values?.length ? {} : { entries: `${NAME} keeps no values for a radar curve whose entries name their axes` }, hooks, ['entries'])
+  return {
+    ...commonText(ir),
+    getAxes: () => (meta.axes ?? []).map(axis => ({ name: axis.id, label: axis.label ?? axis.id })),
+    getCurves: () => (meta.curves ?? []).map(curve),
+    getOptions: () => ({ showLegend: meta.show_legend, ticks: meta.ticks ?? 5, max: meta.max ?? null, min: meta.min ?? 0, graticule: meta.graticule }),
+  }
+}
+
 // Info: the AST has no properties the tests read beyond its type.
 const infoAst = (ir, hooks) => (isType(ir, 'Info') ? astRecord('Info', {}, [], {}, hooks) : undefined)
 // Packet: the AST's blocks are not claimed (a `+<bits>` block is read as a start bit).
@@ -845,6 +869,7 @@ export default {
     requirement: { [PROJECT]: requirement },
     venn: { [PROJECT]: venn },
     wardley: { [PROJECT]: wardley },
+    radar: { [PROJECT]: radar },
     packet: { [PROJECT]: titled('PacketBeta') },
     block: { [PROJECT]: titled('BlockBeta') },
     eventmodeling: { [PROJECT]: titled('EventModeling') },

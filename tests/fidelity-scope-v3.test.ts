@@ -75,3 +75,18 @@ test('a reviewed reason recorded with numbers as N confirms the verdict that nam
   expect(reviews.confirmed('z', 'z keeps text wrapping as a renderer setting, not per CN element')).toBe(true)
   expect(reviews.confirmed('y', 'z keeps text wrapping as a renderer setting, not per C4 element')).toBe(false)
 })
+
+test('a refusal counts when Mermaid recognises the refused source as a diagram, even if it then rejects the content', async () => {
+  const { verifiedRefusal } = await import('../unified/mermaid-fidelity/verification.ts')
+  const row = (source: string) => ({ status: 'unsupported', unsupportedKind: 'native' as const, reason: 'Unrecognized diagram type', refusedSources: [source] })
+  const verdicts = {
+    [sourceDigest('packet\n0-10: "a"\n12-20: "b"')]: { accepted: false, detectedType: 'packet', error: 'Packet block 12 - 20 is not contiguous. It should start from 11.' },
+    [sourceDigest('this is not a mermaid diagram definition')]: { accepted: false, detectedType: null, error: 'No diagram type detected matching given configuration' },
+  }
+  const v2 = { protocol: REFUSAL_VERIFICATION_PROTOCOL, oracle: {}, verdicts }
+  expect(verifiedRefusal(row('packet\n0-10: "a"\n12-20: "b"'), v2)).toBe(true)
+  // Mermaid does not recognise it either: no evidence against the candidate.
+  expect(verifiedRefusal(row('this is not a mermaid diagram definition'), v2)).toBe(false)
+  // A v1 file records no detector result, so only accepted sources verify.
+  expect(verifiedRefusal(row('packet\n0-10: "a"\n12-20: "b"'), { ...v2, protocol: 'fidelity-refusal-verification-v1', verdicts: { [sourceDigest('packet\n0-10: "a"\n12-20: "b"')]: { accepted: false } } })).toBe(false)
+})
