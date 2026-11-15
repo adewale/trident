@@ -2,7 +2,7 @@
   "protocol": "dom-free-qualification-v3",
   "qualifierSha256": "1e751031a65ff8bad95a4d02ee473ea0a855adb5dc0a81167561c19121782b9a",
   "commit": "2086904e76c692331e34a45d7cc3bc30860d040e",
-  "controlIdentity": "ad0dd88bc182beefed17abb1168492b18fb738ce312cdb6a16161566107ac13b",
+  "controlIdentity": "bdd4e7db62b641044553a9204a8932395420f9e2648123f1a0f75b2c7d4a5c21",
   "targets": {
     "1jehuang/mermaid-rs-renderer": "23247d2ae374ff1552886e18ed12c5770b502c154a027afcb353361d44ca317b",
     "adewale/agentic-mermaid": "4537383bc77b93dfb7c6aac558be10aaa7df16cd69e7eab3980d74f5ff2acfa3",
