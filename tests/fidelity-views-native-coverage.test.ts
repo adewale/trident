@@ -116,18 +116,38 @@ test("Mermaid Flutter's mermaid_core is the copy its native app resolved, never 
   expect(() => locateCore(flutter, '0.3.3', config)).toThrow('is mermaid_core 0.3.2, not 0.3.3')
 })
 
-test('layout step fields come only from an edge record that keeps a step; otherwise they are unmapped, never absent', () => {
+test('layout step fields come only from an edge record that keeps a step; otherwise they are unmapped unless the model is reviewed', () => {
   const graph = (edges: any[]) => ({
     direction: 'LR',
     nodes: new Map([['A', { id: 'A', label: 'A', shape: 'rectangle' }], ['B', { id: 'B', label: 'B', shape: 'rectangle' }], ['C', { id: 'C', label: 'C', shape: 'rectangle' }]]),
     edges, subgraphs: [], classDefs: new Map(), classAssignments: new Map(), nodeStyles: new Map(), linkStyles: new Map(), interactions: new Map(),
   })
-  // zombie-mermaid keeps written edge ids but no step: a test reading step is a gap, not a failure or a pass.
-  const { hooks, log } = verdicts()
-  const data = projectPublicDatabase('bridge', 'flowchart', graph([{ source: 'A', target: 'B', style: 'solid', hasArrowStart: false, hasArrowEnd: true, id: 'e1' }]), hooks.unavailable, hooks.unsupported, 'dfadler/zombie-mermaid').getData()
+  const edge = { source: 'A', target: 'B', style: 'solid', hasArrowStart: false, hasArrowEnd: true, id: 'e1' }
+  // A model with no review of how it records a step: reading step is a gap, not a failure or a pass.
+  const unreviewed = verdicts()
+  const data = projectPublicDatabase('bridge', 'flowchart', graph([edge]), unreviewed.hooks.unavailable, unreviewed.hooks.unsupported, 'kais-radwan/ascii-mermaid').getData()
   expect(() => data.edges[0].step).toThrow('gap')
   expect(() => 'step' in data.edges[0]).toThrow('gap')
-  expect(log.at(-1)).toBe('gap: layout edge.step')
+  expect(unreviewed.log.at(-1)).toBe('gap: layout edge.step')
   // Mermaid's renderer decides a step edge's duration and number badge.
   expect(() => data.edges[0].stepDuration).toThrow('unsupported')
+  // zombie-mermaid 5.17.0's MermaidEdge has no step field: reading one is its unsupported operation.
+  const zombie = verdicts()
+  const zombieData = projectPublicDatabase('bridge', 'flowchart', graph([edge]), zombie.hooks.unavailable, zombie.hooks.unsupported, 'dfadler/zombie-mermaid').getData()
+  expect(() => 'step' in zombieData.edges[0]).toThrow('unsupported')
+  expect(() => zombieData.edges[0].stepCount).toThrow('unsupported')
+  expect(zombie.log).toEqual(["unsupported: zombie-mermaid's edge model keeps no step", "unsupported: zombie-mermaid's edge model keeps no step"])
+})
+
+test("Latias94/merman keeps a written step and omits an unset one, so its stepless edges have no step, as Mermaid's getData", () => {
+  // flowchart LR / A e1@--> B / B e2@--> C / B e3@--> D / C e4@--> E / e1@{ step: 1 } / e2@{ step: 2 } / e3@{ step: 2 }
+  // as merman-cli 0.10.0 parse prints it (scripts/fidelity-probe.ts), trimmed.
+  const edge = (id: string, from: string, to: string, step?: number) => ({ id, from, to, label: null, labelType: 'text', type: 'arrow_point', length: 1, isUserDefinedId: true, stroke: 'normal', animation: null, animate: null, interpolate: null, classes: [], style: [], ...(step ? { step, stepCount: 2, stepDuration: 1 } : {}) })
+  const node = (id: string) => ({ id, label: id, labelType: 'text', shape: null, classes: [], styles: [] })
+  const raw = { type: 'flowchart-v2', direction: 'LR', nodes: ['A', 'B', 'C', 'D', 'E'].map(node), edges: [edge('e1', 'A', 'B', 1), edge('e2', 'B', 'C', 2), edge('e3', 'B', 'D', 2), edge('e4', 'C', 'E')], subgraphs: [], classDefs: {}, tooltips: {} }
+  const { hooks, log } = verdicts()
+  const data = projectPublicDatabase('bridge', 'flowchart', raw, hooks.unavailable, hooks.unsupported, 'Latias94/merman').getData()
+  expect(data.edges.map((item: any) => [item.id, item.step, item.stepCount])).toEqual([['e1', 1, 2], ['e2', 2, 2], ['e3', 2, 2], ['e4', undefined, undefined]])
+  expect(['step' in data.edges[3], 'stepCount' in data.edges[3]]).toEqual([false, false])
+  expect(log).toEqual([])
 })

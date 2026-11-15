@@ -1342,10 +1342,34 @@ const AST_VIEWS = { 'crabtalk/bezel': PORT_AST, 'Latias94/merman': PORT_AST, 'ob
 const LAYOUT_RENDERER_ONLY = Object.fromEntries(['padding', 'look', 'cssCompiledStyles', 'labelStyle', 'colorIndex', 'minWidth', 'curve', 'arrowheadStyle', 'metadata', 'width', 'height', 'rx', 'ry', 'stepDuration', 'showStepNumber'].map(field => [field, "Mermaid's renderer decides this layout field; it is not part of a parse result"]))
 const LAYOUT_NODE_FIELDS = ['id', 'label', 'labelType', 'parentId', 'cssStyles', 'cssClasses', 'dir', 'domId', 'link', 'linkTarget', 'tooltip', 'icon', 'pos', 'img', 'assetWidth', 'assetHeight', 'constraint', 'isGroup', 'shape']
 // A step edge's step and stepCount (FlowDB getData: the largest positive-integer step) come
-// from the written `e1@{ step: n }`; they are read only from an edge record that keeps a
-// step, so a model that drops steps leaves them unmapped rather than silently absent.
+// from the written `e1@{ step: n }`: FlowDB.setMetadata stores a positive-integer step on the
+// parsed edge and getData copies it, so `step` is a parse-model field, not a value the
+// renderer decides (only stepDuration and showStepNumber come from host configuration).
+// They are read only from an edge record that keeps a step. Without one, the edge has no
+// step only where the model is known to omit an unset step (FLOWCHART_EDGE_STEP); a model
+// reviewed to keep no step at all declares it absent; any other model leaves them unmapped.
 const LAYOUT_EDGE_FIELDS = ['id', 'isUserDefinedId', 'start', 'end', 'type', 'label', 'labelType', 'labelpos', 'thickness', 'minlen', 'classes', 'arrowTypeStart', 'arrowTypeEnd', 'style', 'pattern', 'animate', 'animation', 'step', 'stepCount']
+const STEPLESS_EDGE_FIELDS = LAYOUT_EDGE_FIELDS.filter(field => field !== 'step' && field !== 'stepCount')
 const isStepEdge = edge => Number.isInteger(edge.step) && edge.step > 0
+/** How each reviewed flowchart model records an edge's written step: STEP_OMITTED_WHEN_UNSET
+ * where the model keeps a step only when one was written (so an edge record without one has
+ * none, exactly as Mermaid's), or the reason the model keeps no step at all. */
+const STEP_OMITTED_WHEN_UNSET = Symbol('step omitted when unset')
+const FLOWCHART_EDGE_STEP = {
+  // merman-core 0.10.0 diagrams/flowchart/semantic.rs stores `step` only for a valid
+  // positive integer (FlowEdge::is_valid_step) and the serialized FlowEdge skips a None
+  // step (mermaid_12_3_tests.rs step_count_uses_the_maximum_with_repeated_steps_and_gaps).
+  'Latias94/merman': STEP_OMITTED_WHEN_UNSET,
+  // Each edge type below has no step field, and its parser drops or misreads `e1@{ step: n }`.
+  'Dicklesworthstone/frankenmermaid': "Frankenmermaid's edge model keeps no step", // 0.5.0 IR edge: from, to, arrow, label, span
+  'dfadler/zombie-mermaid': "zombie-mermaid's edge model keeps no step", // 5.17.0 MermaidEdge: source, target, label, style, arrow flags and markers, id, animate
+  '1jehuang/mermaid-rs-renderer': "mermaid-rs-renderer's edge model keeps no step", // 0.3.1 ir.rs Edge
+  'AlexanderGrooff/mermaid-ascii': "mermaid-ascii's edge model keeps no step", // 1.6.1 pkg/graph edge
+  'fasouto/termaid': "termaid's edge model keeps no step", // 0.12.0 graph/model.py Edge
+  'obsidianmd/pele': "Pele's edge model keeps no step; its edge metadata takes animate, animation and curve only", // 1.13.0 FlowDB setMetadata
+  'crabtalk/bezel': "Bezel's edge model keeps no step; its edge metadata takes animate, animation and curve only", // 0.2.26 flowchart/types.rs Edge::apply_animation
+  'adewale/agentic-mermaid': "agentic-mermaid's MermaidEdge keeps no step", // 0.5.6 types MermaidEdge
+}
 // A port that keeps Mermaid's own vertex records leaves `type` out for an undeclared shape,
 // exactly as Mermaid does; for any other model a missing type stays unmapped.
 const layoutShape = (vertex, mermaidVocabulary) => {
@@ -1395,16 +1419,25 @@ export function flowchartLayoutData(view, hooks, project) {
     }
     const keptStep = edge => typeof edge === 'object' && edge !== null && Object.keys(edge).includes('step')
     const stepCount = () => edges.reduce((max, edge) => (keptStep(edge) && isStepEdge(edge) ? Math.max(max, edge.step) : max), 0)
-    const layoutEdges = edges.map((edge, index) =>
-      record(lazy({ start: edge.start, end: edge.end, labelpos: 'c' }, {
-        ...(keptStep(edge) && isStepEdge(edge) ? { step: () => edge.step, stepCount } : {}),
+    const stepModel = FLOWCHART_EDGE_STEP[project]
+    const layoutEdges = edges.map((edge, index) => {
+      const stepped = keptStep(edge) && isStepEdge(edge)
+      // Mermaid's getData leaves step and stepCount off an edge without a positive-integer
+      // step: one whose record keeps another step value, or one of a model that omits an
+      // unset step. A model that keeps no step at all cannot say, so reading it is that
+      // model's unsupported operation.
+      const stepless = !stepped && (keptStep(edge) || stepModel === STEP_OMITTED_WHEN_UNSET)
+      const absent = !stepped && typeof stepModel === 'string' ? { ...LAYOUT_RENDERER_ONLY, step: stepModel, stepCount: stepModel } : LAYOUT_RENDERER_ONLY
+      return record(lazy({ start: edge.start, end: edge.end, labelpos: 'c' }, {
+        ...(stepped ? { step: () => edge.step, stepCount } : {}),
         id: () => ('id' in edge && edge.id ? edge.id : `L_${edge.start}_${edge.end}_${index}`), isUserDefinedId: () => edge.isUserDefinedId, type: () => edge.type ?? 'normal',
         label: () => edge.text, labelType: () => edge.labelType, thickness: () => edge.stroke, minlen: () => edge.length,
         classes: () => (edge.stroke === 'invisible' ? '' : 'edge-thickness-normal edge-pattern-solid flowchart-link'),
         arrowTypeStart: () => (edge.stroke === 'invisible' || edge.type === 'arrow_open' ? 'none' : arrowEnds(edge.type)[0]),
         arrowTypeEnd: () => (edge.stroke === 'invisible' || edge.type === 'arrow_open' ? 'none' : arrowEnds(edge.type)[1]),
         style: () => edge.style ?? [], pattern: () => edge.stroke, animate: () => edge.animate, animation: () => edge.animation,
-      }), 'layout edge', LAYOUT_EDGE_FIELDS, LAYOUT_RENDERER_ONLY, hooks))
+      }), 'layout edge', stepless ? STEPLESS_EDGE_FIELDS : LAYOUT_EDGE_FIELDS, absent, hooks)
+    })
     return record({ nodes, edges: layoutEdges, other: {} }, 'layout data', ['nodes', 'edges', 'other', 'config'], { config: "Mermaid's host configuration is not part of a parse result" }, hooks)
   }
 }
