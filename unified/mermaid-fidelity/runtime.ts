@@ -25,6 +25,7 @@ const configKeys = (value: any) => Object.keys(value ?? {}).filter(key => key !=
 /** Candidate parse calls see the configuration in effect; one without a configuration interface is a gap. */
 function configuredCall() {
   if (!hostConfig || !configKeys(hostConfig).length) return undefined
+  touch('host-config')
   if (job.target.configInterface) return hostConfig
   return gap(`Host configuration in effect for this parse (${configKeys(hostConfig).join(', ')}); the candidate's interface takes source text only`)
 }
@@ -34,7 +35,17 @@ let api: any,
   definitions = new Map<string, any>(),
   configurations: any,
   language: any
-let active: { protocol: string; expectedFailure: boolean; id: string; file: string; name: string; fullName: string; index: number; gaps: Set<string>; calls: number; rejections: number; unsupported: string[]; unsupportedKinds: UnsupportedKind[]; faults: string[] } | undefined
+let active: { protocol: string; expectedFailure: boolean; id: string; file: string; name: string; fullName: string; index: number; gaps: Set<string>; calls: number; rejections: number; unsupported: string[]; unsupportedKinds: UnsupportedKind[]; faults: string[]; surfaces?: Set<Surface>; source?: string; refusedSources?: string[] } | undefined
+/** Mermaid surfaces other than parsing a source and reading its model that a test touched
+ * (scoring.ts scopes them out): its database methods called, spied on or inspected
+ * directly; the parser -> database call protocol; helper and module exports; host
+ * configuration supplied outside the source; renderers and styles; Mermaid's own
+ * detection pipeline. Recorded where the binding is reached, whether or not this
+ * candidate binds it, so the record describes the test rather than the candidate. */
+export type Surface = 'database-api' | 'parser-protocol' | 'helper-import' | 'host-config' | 'renderer' | 'pipeline'
+function touch(surface: Surface | undefined) {
+  if (surface && active?.surfaces && !failureReport()) active.surfaces.add(surface)
+}
 const contexts = new Map<string, any>(),
   deferredValues = new WeakMap<object, string>(),
   ownDatabases = new WeakSet<object>(),
@@ -96,13 +107,16 @@ const isMock = (value: any) => typeof value === 'function' && value._isMockFunct
  * candidate's own refusal or result, a bridge's reply, or Trident's own assessment. */
 function recordUnsupported(reason: string, provenance: UnsupportedProvenance, audit = active) {
   if (!audit) return
+  const kind = unsupportedKind(reason, provenance)
   audit.unsupported.push(reason)
-  audit.unsupportedKinds.push(unsupportedKind(reason, provenance))
+  audit.unsupportedKinds.push(kind)
+  // The source the candidate refused, so the refusal can be checked against Mermaid's own parse.
+  if (kind === 'native' && audit.source !== undefined && audit.refusedSources && !audit.refusedSources.includes(audit.source)) audit.refusedSources.push(audit.source)
 }
 /** An operation the candidate's real interface does not offer. The candidate's
  * interface is parse(source) -> its own model; Mermaid's mutable database API and
  * jison callback protocol are not part of it. Recorded as the raw 'unsupported'
- * disposition; scoring counts it as unassessed (scoring.ts). Trident's judgement is a
+ * disposition; scoring leaves it unassessed unless evidence verifies it (verification.ts). Trident's judgement is a
  * capability assessment unless `provenance` says the candidate's own code reported it. */
 function unsupportedOperation(reason: string, provenance: UnsupportedProvenance = 'trident'): never {
   // The verdict comes from the candidate's own interface, so it counts as exercised.
@@ -145,6 +159,7 @@ const mermaidDatabaseMember = (key: unknown) => typeof key === 'string' && (DATA
  * candidate's unsupported operation, unless the capability review found that its public
  * interface implements it natively: then it is a Trident gap until a binding calls it. */
 function absentDatabaseCapability(family: string, member: string | undefined, reason: string): never {
+  touch(member === undefined ? 'parser-protocol' : 'database-api')
   const native = job.target.tool === 'mermaid' ? undefined : unboundNativeCapability(job.target.project, job.target.version, family, member)
   if (native) return gap(native)
   return unsupportedOperation(reason)
@@ -165,12 +180,13 @@ function invokeParser(call: () => any) {
     throw error
   }
 }
-function deferred(reason: string): any {
+function deferred(reason: string, surface?: Surface): any {
   if (active && !failureReport()) active.gaps.add(reason)
+  touch(surface)
   const value = new Proxy(function () {}, {
     get(_t, key) {
       if (key === 'then' || key === 'asymmetricMatch' || key === 'toJSON') return undefined
-      return deferred(reason + '.' + String(key))
+      return deferred(reason + '.' + String(key), surface)
     },
     apply() {
       return gap(reason)
@@ -186,7 +202,7 @@ function deferred(reason: string): any {
  * Only the unbound Mermaid Diagram renderer uses it; database and module namespace
  * reads are rejected outright. */
 function untilUsed(reason: string): any {
-  const use = (key: unknown) => deferred(reason + (key === undefined ? '' : '.' + String(key)))
+  const use = (key: unknown) => deferred(reason + (key === undefined ? '' : '.' + String(key)), 'renderer')
   const value: any = new Proxy(function () {}, {
     get(_t, key) {
       if (key === 'then' || key === 'asymmetricMatch' || key === 'toJSON') return undefined
@@ -316,7 +332,7 @@ export function begin(task: any) {
   if (index === undefined) throw new AdapterGap('TRIDENT_ADAPTER_GAP: Callback is absent from the collected file')
   const names = [task.name]
   for (let suite = task.suite; suite; suite = suite.suite) if (suite.name) names.unshift(suite.name)
-  active = { protocol: job.target.tool === 'mermaid' ? 'pinned-source-control-v1' : 'native-operations-v2', expectedFailure: !!task.fails, id: task.id, file: task.file.filepath, index, name: names.join(' > '), fullName: names.join(' '), gaps: new Set(), calls: 0, rejections: 0, unsupported: [], unsupportedKinds: [], faults: [] }
+  active = { protocol: job.target.tool === 'mermaid' ? 'pinned-source-control-v1' : 'native-operations-v2', expectedFailure: !!task.fails, id: task.id, file: task.file.filepath, index, name: names.join(' > '), fullName: names.join(' '), gaps: new Set(), calls: 0, rejections: 0, unsupported: [], unsupportedKinds: [], faults: [], surfaces: new Set(), refusedSources: [] }
   if (job.target.tool === 'mermaid') configurations?.reset?.()
   hostConfig = undefined
   const c = contexts.get(task.file.filepath)
@@ -327,14 +343,19 @@ export function begin(task: any) {
     const title = String(task.name)
     const selected = file.declarations.filter((d: any) => d.name === title || title.startsWith(d.name.split(/%[sdifjo#]|\$\w+/)[0]))
     const used = new Set<string>(selected.length ? [...selected.flatMap((d: any) => d.identifiers ?? []), ...(file.helperIdentifiers ?? [])] : (file.fileIdentifiers ?? []))
-    for (const [name, reason] of c.unavailableImports) if (used.has(name)) active.gaps.add('Unavailable imported value used by original test: ' + name + ' (' + reason + ')')
+    for (const [name, reason] of c.unavailableImports)
+      if (used.has(name)) {
+        active.gaps.add('Unavailable imported value used by original test: ' + name + ' (' + reason + ')')
+        touch(/^Native host configuration/.test(reason) ? 'host-config' : 'helper-import')
+      }
   }
 }
 export function finish(task: any) {
   if (!active || active.id !== task.id) throw new AdapterGap('TRIDENT_ADAPTER_GAP: Unbalanced test audit ownership')
   if (job.target.tool !== 'mermaid' && !active.calls && !active.unsupported.length) active.gaps.add('No candidate operation was exercised by this test')
-  const gaps = [...active.gaps]
-  appendFileSync(auditFile, JSON.stringify({ ...active, gaps }) + '\n')
+  const gaps = [...active.gaps], surfaces = [...(active.surfaces ?? [])].sort()
+  const { source: _source, ...record } = active
+  appendFileSync(auditFile, JSON.stringify({ ...record, gaps, surfaces }) + '\n')
   const reason = gaps.join('; ')
   active = undefined
   if (reason && task.result?.state !== 'skip') throw new AdapterGap('TRIDENT_ADAPTER_GAP: ' + reason)
@@ -415,6 +436,9 @@ function transportable(value: unknown): boolean {
 }
 function nativeParse(family: string, source: string) {
   active && active.calls++
+  if (active) active.source = source
+  // A shared test asks for Mermaid's cross-family detection, not a family parser.
+  if (family === '<shared>') touch('pipeline')
   const config = configuredCall()
   if (job.target.tool === 'bridge') return bridgeReply(bridgeOutput({ family, source }), family, 'Parser bridge')
   if (job.target.tool === 'agentic') {
@@ -762,12 +786,14 @@ function context(family: string) {
         return inspectDatabase()
       },
       defineProperty(t, key, descriptor) {
+        if (mermaidDatabaseMember(key)) touch('parser-protocol')
         // vi.spyOn installs its spy (and later restores the member) by defining it.
         if (nativeMember(key) && typeof descriptor.value === 'function') return Reflect.defineProperty(t, key, { configurable: true, enumerable: true, writable: true, value: descriptor.value })
         return inspectDatabase()
       },
       deleteProperty: inspectDatabase,
       get(t, key: string) {
+        if (key !== 'setGen' && mermaidDatabaseMember(key)) touch('database-api')
         if (Object.hasOwn(t, key)) return t[key]
         if (Object.hasOwn(Object.prototype, key)) return gap(family + '.db.' + key)
         if (key === 'then') return undefined
@@ -782,7 +808,10 @@ function context(family: string) {
         const constants = job.target.tool === 'mermaid' ? undefined : mermaidConstants(job.target.project, family, false)
         if (constants && key in constants && !(key in view)) return constants[key]
         const layout = job.target.tool === 'mermaid' ? undefined : RENDERER_LAYOUT[family]?.[key]
-        if (layout) return unsupportedOperation(layout)
+        if (layout) {
+          touch('renderer')
+          return unsupportedOperation(layout)
+        }
         if (typeof key === 'string' && bridged?.members.has(key)) return (...args: any[]) => callBridged(key, args)
         if (!parsed && raw === undefined && !(key in view) && typeof key === 'string') {
           const model = emptyModel()
@@ -821,12 +850,14 @@ function context(family: string) {
       // Mermaid database member checks the parser -> database call protocol, which a
       // candidate parser never drives, even when its own model has a same-named method.
       getOwnPropertyDescriptor(t, key) {
+        if (key !== 'setGen' && mermaidDatabaseMember(key)) touch('parser-protocol')
         if (Object.hasOwn(t, key) && nativeMember(key)) return Reflect.getOwnPropertyDescriptor(t, key)
         if (!(key in t) && nativeMember(key)) return { configurable: true, enumerable: true, writable: true, value: memberOf(String(key)) }
         if (!(key in t) && key !== 'setGen' && mermaidDatabaseMember(key)) return absentDatabaseCapability(family, String(key), `${family} database ${String(key)} spied on or inspected (Mermaid's parser -> database protocol)`)
         return inspectDatabase()
       },
       has(t, key) {
+        if (key !== 'setGen' && mermaidDatabaseMember(key)) touch('database-api')
         if (nativeMember(key)) return true
         if (!(key in t) && key !== 'setGen' && mermaidDatabaseMember(key)) return absentDatabaseCapability(family, String(key), `${family} database ${String(key)} spied on or inspected (Mermaid's parser -> database protocol)`)
         return inspectDatabase()
@@ -888,7 +919,7 @@ function boundModule(read: (key: string | symbol) => any, c: any, locals: Record
     set: inspectUnbound, defineProperty: inspectUnbound, deleteProperty: inspectUnbound,
     get(_target, key) {
       if (namespace && key === 'then') return undefined
-      const resolved = read(key), result = resolved === missingExport ? deferred(source + '.' + String(key)) : resolved
+      const resolved = read(key), result = resolved === missingExport ? deferred(source + '.' + String(key), 'helper-import') : resolved
       const reason = (typeof result === 'object' && result) || typeof result === 'function' ? deferredValues.get(result) : undefined
       if (reason) {
         if (Object.hasOwn(locals, key)) c.unavailableImports.set(locals[String(key)], reason)
@@ -936,10 +967,12 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       configurations?.setSiteConfig?.(value)
     },
     getConfig() {
+      touch('host-config')
       if (job.target.tool !== 'mermaid' && active) return gap('Native host configuration getter is not bound')
       return configurations?.getConfig?.() ?? c.config
     },
     getSiteConfig() {
+      touch('host-config')
       if (job.target.tool !== 'mermaid' && active) return gap('Native site configuration getter is not bound')
       return configurations?.getSiteConfig?.() ?? c.config
     },
@@ -952,9 +985,9 @@ export function moduleFor(family: string, source: string, file: string, locals: 
   const setLogLevel = () => undefined
   if (/config\.js$/.test(source)) {
     const exports: Record<PropertyKey, any> = { ...config, default: config }
-    return bindDynamic(key => Object.hasOwn(exports, key) ? exports[key] : deferred('Native host configuration export is not bound: ' + String(key)))
+    return bindDynamic(key => Object.hasOwn(exports, key) ? exports[key] : deferred('Native host configuration export is not bound: ' + String(key), 'host-config'))
   }
-  if (/diagramAPI\.js$/.test(source)) return bind({ ...config, setLogLevel, get log() { return deferred('Logger side effects are not bound to the candidate') }, default: config })
+  if (/diagramAPI\.js$/.test(source)) return bind({ ...config, setLogLevel, get log() { return deferred('Logger side effects are not bound to the candidate', 'helper-import') }, default: config })
   // The public package registers every diagram at import; candidates need no registry.
   if (/diagram-orchestration\.js$/.test(source)) return bind({ addDiagrams: () => undefined })
   // A diagram module's `diagram` definition: the family's parser and database.
@@ -963,7 +996,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       const definition = definitions.get(family)
       return bind({ diagram: definition ? { ...definition, parser: c.parser, db: c.db } : deferred(family + ': reference diagram unavailable') })
     }
-    return bind({ diagram: { parser: c.parser, db: c.db, get renderer() { return gap('Mermaid renderer module') }, get styles() { return gap('Mermaid diagram styles') } } })
+    return bind({ diagram: { parser: c.parser, db: c.db, get renderer() { touch('renderer'); return gap('Mermaid renderer module') }, get styles() { touch('renderer'); return gap('Mermaid diagram styles') } } })
   }
   if (/(?:^|\/)Diagram\.js$/.test(source)) {
     if (job.target.tool === 'mermaid')
@@ -982,7 +1015,10 @@ export function moduleFor(family: string, source: string, file: string, locals: 
     if (family === '<shared>')
       return bind({
         Diagram: {
-          fromText: () => unsupportedOperation("Diagram.fromText in a shared test (Mermaid's diagram detection, type ids and registry)"),
+          fromText: () => {
+            touch('pipeline')
+            return unsupportedOperation("Diagram.fromText in a shared test (Mermaid's diagram detection, type ids and registry)")
+          },
         },
       })
     return bind({
@@ -1005,7 +1041,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       },
     })
   }
-  if (/logger/.test(source)) return bind({ get log() { return deferred('Logger side effects are not bound to the candidate') }, setLogLevel })
+  if (/logger/.test(source)) return bind({ get log() { return deferred('Logger side effects are not bound to the candidate', 'helper-import') }, setLogLevel })
   if (/language\/index|language\/generated|language\/\w+\/module\.js$/.test(source)) {
     if (job.target.tool === 'mermaid')
       return bindDynamic(key => {
@@ -1078,6 +1114,12 @@ export function moduleFor(family: string, source: string, file: string, locals: 
         const value = c.db[key]
         // Bind only an observed getter, while reading the current parse on each call.
         if (job.target.tool !== 'mermaid' && /^get[A-Z]\w*$/.test(key) && typeof value === 'function') return (...args: any[]) => c.db[key](...args)
+        // An imported database operation is read once at import; its calls are what the test touches.
+        if (job.target.tool !== 'mermaid' && key !== 'setGen' && mermaidDatabaseMember(key) && typeof value === 'function')
+          return (...args: any[]) => {
+            touch('database-api')
+            return value(...args)
+          }
         return value
       } catch (error) {
         // Missing named imports can remain unused; direct database reads cannot.

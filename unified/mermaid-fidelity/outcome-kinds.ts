@@ -18,8 +18,10 @@
  * - `adapter-limitation`: Trident has no binding, view or value for what the test needs
  *   (raw `trident-blocked`).
  *
- * Scoring is unchanged (scoring.ts): a native failure is a known nonpass; native
- * unsupported, capability assessments and adapter limitations are unassessed.
+ * Scoring (scoring.ts) reads these kinds with evidence (verification.ts): a native failure
+ * is a known nonpass; under v3, so is a native refusal of a source the pinned Mermaid
+ * oracle accepts and a capability assessment a recorded review confirmed. Other native
+ * unsupported verdicts, capability assessments and adapter limitations are unassessed.
  *
  * The runtime records each unsupported verdict with its provenance (`unsupportedKinds` in
  * the audit, aligned with `unsupported`), and case rows carry the result as

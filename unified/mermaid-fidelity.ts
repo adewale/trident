@@ -92,7 +92,7 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
             ? 'failed'
           : // A refused parse, an operation the candidate does not offer or a concept its
             // model does not carry outranks any Trident gap in the same test. The raw
-            // disposition is kept; scoring counts it as unassessed (mermaid-fidelity/scoring.ts).
+            // disposition is kept; scoring leaves it unassessed unless evidence verifies it (mermaid-fidelity/verification.ts).
             (result && evidence?.unsupported?.length) || (!result && unsupportedFiles.has(control.file))
             ? 'unsupported'
             : !result || !evidence || evidence.gaps.length || !evidence.calls && !(candidate === compiled.native && evidence.protocol === 'pinned-source-control-v1') || unmappedMemberCall || tridentError
@@ -100,8 +100,11 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
               : result.status === 'passed'
                 ? 'passed'
                 : 'failed'
+    // Mermaid surfaces besides parse-and-read the test touched (runtime.ts touch), and the
+    // sources behind the candidate's own refusals; scoring.ts reads both.
+    const surfaces = evidence?.surfaces?.length ? { surfaces: evidence.surfaces } : {}
     if (options.viewGap && ['passed', 'failed', 'unsupported', 'trident-blocked'].includes(status))
-      return { file: control.file, name: control.fullName, status: 'trident-blocked', calls: evidence?.calls ?? 0, rejections: evidence?.rejections ?? 0, reason: options.viewGap }
+      return { file: control.file, name: control.fullName, status: 'trident-blocked', calls: evidence?.calls ?? 0, rejections: evidence?.rejections ?? 0, reason: options.viewGap, ...surfaces }
     let unobservedReason: string | undefined
     // Whether the candidate's own code reported the unsupported verdict or Trident assessed
     // it (outcome-kinds.ts): the audit's recorded provenance, else the reason text.
@@ -118,6 +121,8 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
       name: control.fullName,
       status,
       ...(unsupportedKind ? { unsupportedKind } : {}),
+      ...surfaces,
+      ...(unsupportedKind === 'native' && evidence?.refusedSources?.length ? { refusedSources: evidence.refusedSources } : {}),
       calls: evidence?.calls ?? 0,
       rejections: evidence?.rejections ?? 0,
       reason: referenceEvidence?.expectedFailure
