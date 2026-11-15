@@ -1,7 +1,7 @@
 {
   "protocol": "trident-release-campaign-v1",
   "version": "0.4.0",
-  "recordedAt": "2026-11-15T02:45:00.000Z",
+  "recordedAt": "2026-11-15T09:45:00.000Z",
   "codeCommit": "e662752b7c8a2f75504086e4c2e7ec5116857f96",
   "versionFreeze": {
     "catalog": "docs/evidence/benchmark-campaign-2026-11-14/catalog.json",
@@ -80,30 +80,30 @@
         "xai-org/grok-build",
         "Yassimba/loom"
       ],
-      "controlIdentity": "bdd4e7db62b641044553a9204a8932395420f9e2648123f1a0f75b2c7d4a5c21",
+      "controlIdentity": "01af674570275a5546f51884049ef395ea08439abc2d1e996b1b033a767a8e76",
       "windows": {
         "jsdom": {
-          "startedAt": "2026-11-15T01:20:35Z",
-          "finishedAt": "2026-11-15T02:06:59.758Z"
+          "startedAt": "2026-11-15T08:05:17Z",
+          "finishedAt": "2026-11-15T08:59:56.926Z"
         },
         "node": {
-          "startedAt": "2026-11-15T02:07:00Z",
-          "finishedAt": "2026-11-15T02:33:09.887Z"
+          "startedAt": "2026-11-15T08:59:57Z",
+          "finishedAt": "2026-11-15T09:32:52.824Z"
         },
         "automaticMerslim": {
-          "startedAt": "2026-11-15T02:33:47Z",
-          "finishedAt": "2026-11-15T02:35:18.641Z",
+          "startedAt": "2026-11-15T09:33:55Z",
+          "finishedAt": "2026-11-15T09:35:44.767Z",
           "callbacks": 7099,
           "differingFromJsdom": 0
         },
-        "note": "Start times are the campaign scripts' step timestamps; finish times are each result file's updatedAt. Fidelity was recollected after the runtime began recording the Mermaid surfaces each test touches and the sources candidates refuse; every one of the 176,736 candidate callback outcomes matches the previous collection. The qualified DOM-free list was committed (f6bb56c) before the automatic Merslim run, which reproduced its JSDOM outcomes, recorded surfaces and refused sources."
+        "note": "Start times are the campaign scripts' step timestamps; finish times are each result file's updatedAt. Fidelity was recollected after the runtime began keeping the source of refusals on the empty-database and setup paths; every one of the 176,736 callback outcomes and recorded surfaces matches the previous collection, and 1,491 refusals gained a source. The qualified DOM-free list was committed (c313a67) before the automatic Merslim run, which reproduced its JSDOM outcomes, surfaces and refused sources."
       },
       "scopedOutInternals": 1517,
-      "codeCommit": "3f9460415dfa5ac0f6cd1538599c0190fe10a11f",
+      "codeCommit": "bee83c58ac76351a5b9577f8eb6c1e245b6a0b63",
       "verification": {
         "refusals": {
           "path": "docs/evidence/fidelity-refusal-verification-2026-11-15.json",
-          "sha256": "2bb9444a33b350c1d0091af6133b07cd02b4a5dfa55f34127c5c810b3f6d5cdb"
+          "sha256": "4c4fcf3401931e6f62ae67d4f8f9295d832ee9b50d9c2c7e361a86cd0e516c23"
         },
         "assessmentReviews": [
           {
@@ -125,6 +125,6 @@
     "native-png.json": "615238c9fdf5eda5bd12e8044a5f104c769db31953efac73d69b6767e87da472",
     "report.json": "1abc18b3ead1c859d6dc90843e39fe5ffcad0a46231d1efeb5a4ceb273769a79",
     "drawing-correctness.json": "4929d2c0d2f44952ad88f974e6638eebf64aa15618c7b04696c528d600b9641b",
-    "mermaid-fidelity.json": "d415821898aecc21c9d4ffdc91764d6a233e6d300013cb97c4281468ffe8a549"
+    "mermaid-fidelity.json": "62fd7a617f6d036f5a2e837273ce0a40ec47d6dec539c93094fd5279c87b64b2"
   }
 }
